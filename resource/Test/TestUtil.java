@@ -58,7 +58,7 @@ public class TestUtil {
     public static void main(String[] args) {
     	new TestUtil().updateFcContent();
     	//new TestUtil().test1();
-    	System.out.println("我是世界第一zhaowei");
+    	System.out.println("我是世界第一招人");
 	}
     
 }
