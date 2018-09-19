@@ -1264,6 +1264,66 @@ public class FlowHistroyExample {
             addCriterion("ActorResult not between", value1, value2, "actorresult");
             return (Criteria) this;
         }
+
+        public Criteria andDoDateIsNull() {
+            addCriterion("do_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateIsNotNull() {
+            addCriterion("do_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateEqualTo(Date value) {
+            addCriterion("do_date =", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateNotEqualTo(Date value) {
+            addCriterion("do_date <>", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateGreaterThan(Date value) {
+            addCriterion("do_date >", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("do_date >=", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateLessThan(Date value) {
+            addCriterion("do_date <", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateLessThanOrEqualTo(Date value) {
+            addCriterion("do_date <=", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateIn(List<Date> values) {
+            addCriterion("do_date in", values, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateNotIn(List<Date> values) {
+            addCriterion("do_date not in", values, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateBetween(Date value1, Date value2) {
+            addCriterion("do_date between", value1, value2, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateNotBetween(Date value1, Date value2) {
+            addCriterion("do_date not between", value1, value2, "doDate");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

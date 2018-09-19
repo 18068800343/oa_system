@@ -37,6 +37,8 @@ public class FlowHistroy {
 
     private Integer actorresult;
 
+    private Date doDate;
+
     private String view;
 
     public String getId() {
@@ -173,6 +175,14 @@ public class FlowHistroy {
 
     public void setActorresult(Integer actorresult) {
         this.actorresult = actorresult;
+    }
+
+    public Date getDoDate() {
+        return doDate;
+    }
+
+    public void setDoDate(Date doDate) {
+        this.doDate = doDate;
     }
 
     public String getView() {
