@@ -49,6 +49,8 @@ public class CurrentFlow {
 
     private Integer readreceipts;
 
+    private Date doDate;
+
     public String getId() {
         return id;
     }
@@ -231,5 +233,13 @@ public class CurrentFlow {
 
     public void setReadreceipts(Integer readreceipts) {
         this.readreceipts = readreceipts;
+    }
+
+    public Date getDoDate() {
+        return doDate;
+    }
+
+    public void setDoDate(Date doDate) {
+        this.doDate = doDate;
     }
 }
