@@ -84,6 +84,7 @@ public class FlowUtill {
 		 * 1：流程刚发起,提交状态
 		 */
 		currentFlow.setWfstate(0);
+		currentFlow.setDoDate(new Date());
 		BusinessExample example = new BusinessExample();
 		String url = currentFlow.getUrl();
 		if(null!=url&&url.contains("-")){
@@ -162,6 +163,116 @@ public class FlowUtill {
 			try {
 				if(null!=currentFlows&&currentFlows.size()>0){
 					currentFlow = currentFlows.get(0);
+					currentFlow.setDoDate(new Date());
+					flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
+					if(!"end".equals(currentFlow.getFloNodeId())){
+						currentFlow.setActor(next_user_id);
+						currentFlow.setActorname(next_name);
+						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
+						modeStatus.setModeId(modeId);
+						//1：流程运转中
+						modeStatus.setStatus("1");
+						ModeStatus modeStatus2 = INSTANCE.modeStatusMapper.selectByPrimaryKey(modeId);
+						if(null!=modeStatus2){
+							INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus);
+						}else{
+							INSTANCE.modeStatusMapper.insert(modeStatus);
+						}
+					}else{
+						INSTANCE.currentFlowMapper.deleteByExample(example2);
+						modeStatus.setModeId(modeId);
+						//5:流程结束
+						modeStatus.setStatus("5");
+						ModeStatus modeStatus2 = INSTANCE.modeStatusMapper.selectByPrimaryKey(modeId);
+						if(null!=modeStatus2){
+							INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus);
+						}else{
+							INSTANCE.modeStatusMapper.insert(modeStatus);
+						}
+					}
+				}else{
+					log.error("查找currentFlow出错");
+					throw new FlowException("find currentFlow error");
+				}
+				flowHistroy.setDoDate(new Date());
+				INSTANCE.flowHistroyMapper.insert(flowHistroy);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.error("数据库插入错误");
+				throw new FlowException("database do error");
+			}
+		return "success";
+	}
+	
+	
+	/**
+	 * 新流程发起，初始提交
+	 * @param currentFlow url,Title,Starter,StartName,Sender,SenderName,FK_Dept,DeptName,NodeName,PRI,SDTOfNode,SDTOfFlow,Actor,ActorType,Memo
+	 *        flowHistroy Actor ActorName ActorResult view
+	 * @author xianing
+	 */
+	@Transactional
+	public String shenpiGetReceiver(CurrentFlow currentFlow) throws Exception{
+		currentFlow.setRdt(new Date());
+		INSTANCE.init();
+		
+		String floNodeId = "";
+	    floNodeId = currentFlow.getFloNodeId();
+	    FlowNode flowNode = INSTANCE.flowNodeMapper.selectByPrimaryKey(floNodeId);
+		try {
+			floNodeId = deque(flowNode, currentFlow);
+		} catch (Exception e1) {
+			log.error("递归获取下一步floNodeId出错");
+			
+			throw new FlowException("deque do error");
+		}
+		currentFlow.setFloNodeId(floNodeId);
+		JSONObject jsonObject = new JSONObject();
+		JSONArray arrays = new JSONArray();
+		if("end".equals(floNodeId)){
+			arrays=null;
+		}else{
+			List<NodeActorsVo> nodeActorsVos = INSTANCE.nodeActorsMapper.getNextNodeActors(floNodeId,currentFlow.getActor());
+			arrays = JSONArray.fromObject(nodeActorsVos);
+		}
+		jsonObject.put("receiver", arrays);
+		jsonObject.put("url", currentFlow.getUrl());
+		return jsonObject.toString();
+	}
+	
+	/**
+	 * 新流程发起，初始提交
+	 * @param currentFlow url,Title,Starter,StartName,Sender,SenderName,FK_Dept,DeptName,NodeName,PRI,SDTOfNode,SDTOfFlow,Actor,ActorType,Memo
+	 *        flowHistroy Actor ActorName ActorResult view
+	 * @author xianing
+	 */
+	
+	@Transactional
+	public String shenpiSubmitFlow(CurrentFlow currentFlow,FlowHistroy flowHistroy,String next_user_id,String next_name) throws Exception{
+			currentFlow.setRdt(new Date());
+			ModeStatus modeStatus = new ModeStatus(); 	
+			INSTANCE.init();
+			/**0：流程刚发起,暂存状态
+			 * 1：流程刚发起,提交状态
+			 */
+			currentFlow.setWfstate(1);
+			String url = currentFlow.getUrl();
+			String modeId = "";
+			if(null!=url&&url.contains("-")){
+				String urls[] = url.split("-");
+				url=urls[0];
+				modeId =urls[1];
+			}else{
+				log.error("url为null或者url格式有误");
+				throw new FlowException("url format error");
+			}
+			CurrentFlowExample example2 = new CurrentFlowExample();
+			example2.createCriteria().andUrlEqualTo(currentFlow.getUrl());
+			List<CurrentFlow> currentFlows = INSTANCE.currentFlowMapper.selectByExample(example2);
+			try {
+				if(null!=currentFlows&&currentFlows.size()>0){
+					currentFlow = currentFlows.get(0);
 					flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 					if(!"end".equals(currentFlow.getFloNodeId())){
 						currentFlow.setActor(next_user_id);
@@ -201,76 +312,7 @@ public class FlowUtill {
 			}
 		return "success";
 	}
-	/**
-	 * 新流程发起，初始提交
-	 * @param currentFlow url,Title,Starter,StartName,Sender,SenderName,FK_Dept,DeptName,NodeName,PRI,SDTOfNode,SDTOfFlow,Actor,ActorType,Memo
-	 *        flowHistroy Actor ActorName ActorResult view
-	 * @author xianing
-	 */
 	
-	@Transactional
-	public String shenpiSubmitFlow(String currentFlowId,FlowHistroy flowHistroy,String next_user_id,String next_name) throws Exception{
-		    CurrentFlow currentFlow = INSTANCE.currentFlowMapper.selectByPrimaryKey(currentFlowId);
-		    currentFlow.setRdt(new Date());
-			ModeStatus modeStatus = new ModeStatus();
-			INSTANCE.init();
-			/**0：流程刚发起,暂存状态
-			 * 1：流程刚发起,提交状态
-			 */
-			currentFlow.setWfstate(1);
-			String url = currentFlow.getUrl();
-			String modeId = "";
-			if(null!=url&&url.contains("-")){
-				String urls[] = url.split("-");
-				url=urls[0];
-				modeId =urls[1];
-			}else{
-				log.error("url为null或者url格式有误");
-				throw new FlowException("url format error");
-			}
-			CurrentFlowExample example2 = new CurrentFlowExample();
-			example2.createCriteria().andUrlEqualTo(currentFlow.getUrl());
-			try {
-				if(null!=currentFlow){
-					flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
-					if(!"end".equals(currentFlow.getFloNodeId())){
-						currentFlow.setActor(next_user_id);
-						currentFlow.setActorname(next_name);
-						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
-						modeStatus.setModeId(modeId);
-						//1：流程运转中
-						modeStatus.setStatus("1");
-						ModeStatus modeStatus2 = INSTANCE.modeStatusMapper.selectByPrimaryKey(modeId);
-						if(null!=modeStatus2){
-							INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus);
-						}else{
-							INSTANCE.modeStatusMapper.insert(modeStatus);
-						}
-					}else{
-						INSTANCE.currentFlowMapper.deleteByExample(example2);
-						modeStatus.setModeId(modeId);
-						//5:流程结束
-						modeStatus.setStatus("5");
-						ModeStatus modeStatus2 = INSTANCE.modeStatusMapper.selectByPrimaryKey(modeId);
-						if(null!=modeStatus2){
-							INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus);
-						}else{
-							INSTANCE.modeStatusMapper.insert(modeStatus);
-						}
-					}
-				}else{
-					log.error("查找currentFlow出错");
-					throw new FlowException("find currentFlow error");
-				}
-				INSTANCE.flowHistroyMapper.insert(flowHistroy);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				log.error("数据库插入错误");
-				throw new FlowException("database do error");
-			}
-		return "success";
-	}	
 	@Transactional
 	public String zancunFlow(CurrentFlow currentFlow,FlowHistroy flowHistroy) throws Exception{
 		currentFlow.setRdt(new Date());
