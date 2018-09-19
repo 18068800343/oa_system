@@ -8,6 +8,8 @@ public class DataArchive {
     private String daName;
 
     private String attendees;
+    
+    private String uName;
 
     private String trainingLocation;
 
@@ -25,6 +27,15 @@ public class DataArchive {
 
 	public void setDaId(String daId) {
 		this.daId = daId;
+	}
+
+	
+	public String getuName() {
+		return uName;
+	}
+
+	public void setuName(String uName) {
+		this.uName = uName;
 	}
 
 	public String getDaName() {
