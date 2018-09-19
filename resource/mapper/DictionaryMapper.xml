@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.DictionaryMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.Dictionary" >
+    <id column="d_id" property="dId" jdbcType="VARCHAR" />
+    <result column="id_first" property="idFirst" jdbcType="VARCHAR" />
+    <result column="name_second" property="nameSecond" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    d_id, id_first, name_second
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.DictionaryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dictionary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from dictionary
+    where d_id = #{dId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from dictionary
+    where d_id = #{dId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.DictionaryExample" >
+    delete from dictionary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.Dictionary" >
+    <selectKey resultType="java.lang.String" keyProperty="dId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dictionary (id_first, name_second)
+    values (#{idFirst,jdbcType=VARCHAR}, #{nameSecond,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.Dictionary" >
+    <selectKey resultType="java.lang.String" keyProperty="dId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dictionary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idFirst != null" >
+        id_first,
+      </if>
+      <if test="nameSecond != null" >
+        name_second,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idFirst != null" >
+        #{idFirst,jdbcType=VARCHAR},
+      </if>
+      <if test="nameSecond != null" >
+        #{nameSecond,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.DictionaryExample" resultType="java.lang.Integer" >
+    select count(*) from dictionary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dictionary
+    <set >
+      <if test="record.dId != null" >
+        d_id = #{record.dId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idFirst != null" >
+        id_first = #{record.idFirst,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameSecond != null" >
+        name_second = #{record.nameSecond,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dictionary
+    set d_id = #{record.dId,jdbcType=VARCHAR},
+      id_first = #{record.idFirst,jdbcType=VARCHAR},
+      name_second = #{record.nameSecond,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.Dictionary" >
+    update dictionary
+    <set >
+      <if test="idFirst != null" >
+        id_first = #{idFirst,jdbcType=VARCHAR},
+      </if>
+      <if test="nameSecond != null" >
+        name_second = #{nameSecond,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where d_id = #{dId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.Dictionary" >
+    update dictionary
+    set id_first = #{idFirst,jdbcType=VARCHAR},
+      name_second = #{nameSecond,jdbcType=VARCHAR}
+    where d_id = #{dId,jdbcType=VARCHAR}
+  </update>
+</mapper>

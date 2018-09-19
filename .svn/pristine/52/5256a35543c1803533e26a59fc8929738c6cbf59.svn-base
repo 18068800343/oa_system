@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.ProjectTypeDao" >
+  <!-- 新建一级项目类型 -->
+  <insert id="addOneProjectType" parameterType="org.ldxx.bean.DictionaryFirst">
+  	insert into 
+  	dictionary_first(id_first,name_first,type) 
+  	values(#{dictionaryFirst.idFirst},#{dictionaryFirst.nameFirst},#{dictionaryFirst.type})
+  </insert>
+ <!-- 删除一级项目类型下的所有二级项目类型 -->
+  <delete id="deleteOne_TwoPrj" parameterType="String">
+  	delete from dictionary where id_First=#{idFirst}
+  </delete> 
+<!-- 删除一级项目类型 -->
+  <delete id="deleteOnePrj" parameterType="String">
+  	delete from dictionary_first where id_First=#{idFirst}
+  </delete>
+
+<!-- 修改一级项目类型 -->
+  <update id="updateFirstPrj" parameterType="org.ldxx.bean.DictionaryFirst">
+  	update dictionary_first
+  	set name_first=#{dictionaryFirst.nameFirst}
+  	where id_first=#{dictionaryFirst.idFirst}
+  </update> 
+
+<!-- 获取所有一级项目类型 -->
+  <select id="selectAllFirstPrj" resultType="org.ldxx.bean.DictionaryFirst" >
+  	select * from dictionary_first where type=1
+  </select>
+
+<!-- 添加二级项目类型 -->
+  <insert id="addTwoPrj" parameterType="org.ldxx.bean.Dictionary">
+    insert into
+    dictionary(d_Id,id_First,name_Second)
+    values(#{dictionary.dId},#{dictionary.idFirst},#{dictionary.nameSecond})
+  </insert>
+
+<!-- 删除二级项目类型 -->
+  <delete id="deleteTwoPrj" parameterType="String">
+  	delete from dictionary where d_id=#{dId}
+  </delete> 
+
+<!-- 修改二级项目类型 -->
+  <update id="updateTwoPrj" parameterType="org.ldxx.bean.Dictionary">
+  	update dictionary
+  	set name_Second=#{dictionary.nameSecond}
+  	where d_id=#{dictionary.dId}
+  </update>
+
+  <!-- 获取所有二级项目类型 -->
+  <select id="selectAllTwoPrj" resultType="org.ldxx.bean.Dictionary" >
+  		select * from dictionary
+  </select>
+  
+  <!-- 查看一级项目类型下的所有二级项目 -->
+  <select id="selectOne_TwoPrj" parameterType="String" resultType="Dictionary">
+  	select * from dictionary where id_First=#{idFirst}
+  </select>
+  
+  <!-- 获取所有一级成本科目 -->
+  <select id="selectAllFirstcostSubjects" resultType="org.ldxx.bean.DictionaryFirst" >
+  	select * from dictionary_first where type=2
+  </select>
+  
+  <select id="selectOneIdByName" parameterType="String" resultType="org.ldxx.bean.DictionaryFirst">
+  	select id_First from dictionary_first where name_first=#{nameFirst} and type=1
+  </select>
+</mapper>

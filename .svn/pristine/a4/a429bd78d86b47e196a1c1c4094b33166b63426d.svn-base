@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.DepartmentTargetDao" >
+  		<insert id="addDepartmentTarget" parameterType="java.util.List">
+  			insert into department_target(t_id,ot_id,om_id,contract_amount,revenue_target,collection_target)  values
+	  			<foreach collection="dTarget" item="item" separator=",">
+	  				(#{item.tId},#{item.otId},#{item.omId},#{item.contractAmount},#{item.revenueTarget},#{item.collectionTarget})
+	  			</foreach>
+  		</insert>
+  		
+  		<update id="updateDepartmentTarget" parameterType="java.util.List">
+  			<foreach collection="dTarget" item="item" separator=";">
+  				update department_target set contract_amount=#{item.contractAmount},revenue_target=#{item.revenueTarget},
+  						   collection_target=#{item.collectionTarget} where ot_id=#{item.otId} and om_id=#{item.omId}
+  			</foreach>
+  		</update>
+  		
+  		<select id="selectDepartmentTarget" resultType="DepartmentTarget">
+  			SELECT a.*,b.om_name FROM department_target as a LEFT JOIN organization_management as b on a.om_id=b.om_id 
+  			where a.ot_id=#{id}
+  		</select>
+  		
+  		<select id="orNotSplit" resultType="int">
+  			select count(t_id) from department_target where ot_id=#{id}
+  		</select>
+</mapper>

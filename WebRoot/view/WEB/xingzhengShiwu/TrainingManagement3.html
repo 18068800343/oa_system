@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+			<li>行政事务</li>
+            <li>培训管理</li>
+            <li class="active">内部培训申请</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+
+        <div>
+                <div class="UpperPart">
+                    <div class="UpperPartL">
+                        
+                    </div>
+                    <div class="UpperPartR">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报内部培训申请</button>
+                    </div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报内部培训申请</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" id="new_form" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                            	<td>课程名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="new_className"></td>
+                                <td style="width:100px;">所属部门</td>
+                                <td>
+                                    <select id="new_department" class="form-control" style="width:180px;">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;">培训主讲人<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select id="new_user" class="form-control" style="width:180px;">
+                                    </select>
+                                </td>
+                                <td>职务</td>
+                                <td>
+                                    <select id="new_duty" class="form-control" style="width:180px;">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>培训时间</td>
+                                <td><input type="text" class="form-control" id="year"></td>
+                                <td>培训地点</td>
+                                <td><input type="text" class="form-control" id="new_addr"></td>
+                            </tr>
+                            <tr>
+                                <td>培训费用</td>
+                                <td><input type="text" class="form-control" id="new_money"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>课程内容</td>
+                                <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="new_class_info"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>培训目标</td>
+                                <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="new_target"></textarea></td>
+                            </tr>
+                           <tr>
+                            <td>附件</td>
+                            <td colspan="3">
+                                <button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
+                            </td>
+                        </tr>
+                        </table> 
+                        <table class="table table-bordered table-condensed" id="new_table">
+                    	
+                    	</table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="new_save()">保存</button>
+            <button type="button" class="btn btn-success" onclick="new_submit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>提交给:</span>
+                            <select style="width:180px;" class="form-control" id="editable-selectT">
+                                <option value="">123123</option>
+                                <option value="">456456</option>
+                            </select>
+                        </div>
+                        <div style="display:flex;margin-top:5px;">
+                            <div style="margin-top:5px;">
+                                <textarea cols="70" rows="5" class="form-control" placeholder="请输入内容"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 --> 
+<!-- 修改Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel_edit"><b>修改内部培训申请</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" id="edit_form" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                            	<td>课程名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="edit_className"></td>
+                                <td style="width:100px;">所属部门</td>
+                                <td>
+                                    <select  id="edit_department" class="form-control" style="width:180px;">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;">培训主讲人<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select id="edit_user" class="form-control" style="width:180px;">
+                                    </select>
+                                </td>
+                                <td>职务</td>
+                                <td>
+                                    <select id="edit_duty" class="form-control" style="width:180px;">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>培训时间</td>
+                                <td><input type="text" class="form-control" id="edit_year"></td>
+                                <td>培训地点</td>
+                                <td><input type="text" class="form-control" id="edit_addr"></td>
+                            </tr>
+                            <tr>
+                                <td>培训费用</td>
+                                <td><input type="text" class="form-control" id="edit_money"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>课程内容</td>
+                                <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="edit_class_info"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>培训目标</td>
+                                <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="edit_target"></textarea></td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_table">
+                    	</table>  
+                    </form> 
+                </div>
+        </div>
+        <div class="modal-footer" id="edit_button">
+            
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改model结束 -->
+            
+                </div>
+                <div class="LowerPart" style="margin-top:3px;">
+                    <table class="table table-bordered table-condensed" id="mainContent">
+                        <thead>
+                            <tr>
+                                <th>课程名称</th>
+                                <th>培训主讲人</th>
+                                <th>职务</th>
+                                <th>培训地点</th>
+                                <th>培训费用</th>
+                                <th>培训时间</th>
+                                <th style="width:100px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>   
+                    </table>
+                </div>
+        </div>
+<!-- allMsg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:100px;">培训主讲人</td>
+                                <td>萨芬萨芬</td>
+                                <td style="width:100px;">所属部门</td>
+                                <td>白色的 </td>
+                            </tr>
+                            <tr>
+                                <td>职务</td>
+                                <td>每幅画</td>
+                                <td>课程名称</td>
+                                <td>果然</td>
+                            </tr>
+                            <tr>
+                                <td>培训时间</td>
+                                <td>好的好的</td>
+                                <td>培训地点</td>
+                                <td>额么</td>
+                            </tr>
+                            <tr>
+                                <td>培训费用</td>
+                                <td>50000</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>课程内容</td>
+                                <td colspan="3">1515125125125</td>
+                            </tr>
+                            <tr>
+                                <td>课程附件</td>
+                                <td colspan="3">xxxxxx</td> 
+                            </tr>
+                            <tr>
+                                <td>培训目标</td>
+                                <td colspan="3">214161617</td>
+                            </tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg结束 --> 
+        
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script>
+    $(document).ready( function () {
+    	laydate.render({
+            elem: '#year' //指定元素
+        });
+    	laydate.render({
+            elem: '#edit_year' //指定元素
+        });
+        $('#editable-select').editableSelect({ 
+            effects: 'slide' 
+        });
+        initTable();
+        initDepartment();
+	});
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "courseName"}, 
+		            { "data": "uName"}, 
+		            { "data": "dutyName"}, 
+		            { "data": "trainingLocation"}, 
+		            { "data": "trainingMoney"}, 
+		            { "data": "trainingDate"}, 
+		            { "data": null},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 6,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="lookAll(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="updateAll(this)"></i>';
+										        }
+										  }
+								],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/InternalTraining/selectInternalTraining',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	
+	function initDepartment(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $("#new_department").html('');
+                $("#edit_department").html('');
+                for(var i=0;i<json.length;i++){
+                	$("#new_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
+                	$("#edit_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
+                }
+                $("#new_department").trigger("change");
+                $("#edit_department").trigger("change");
+            }
+        });
+	}
+	
+	
+	 $("#new_department").on("change",function(){
+		 var omId=$("#new_department").val();
+			$.ajax({
+				type: 'POST',
+				url: getContextPath()+'/user/selectUserByomId',
+	            dataType: 'json',
+	            data: {
+	            	omId:omId
+	            },
+	            success: function (json) {
+	            	$("#new_user").html('');
+	            	for(var i=0;i<json.length;i++){
+	            		$("#new_user").append("<option value="+json[i].userId+">"+json[i].uName+"</option>")
+	            	}
+	            	$("#new_user").trigger("change");
+	            }
+			});
+	 })
+	 
+	 
+	 $("#edit_department").on("change",function(){
+		 var omId=$("#edit_department").val();
+			$.ajax({
+				type: 'POST',
+				url: getContextPath()+'/user/selectUserByomId',
+	            dataType: 'json',
+	            data: {
+	            	omId:omId
+	            },
+	            success: function (json) {
+	            	$("#edit_user").html('');
+	            	for(var i=0;i<json.length;i++){
+	            		$("#edit_user").append("<option value="+json[i].userId+">"+json[i].uName+"</option>")
+	            	}
+	            	$("#edit_user").trigger("change");
+	            }
+			});
+	 })
+	
+	 function initEditUser(obj){
+		 var omId=$("#edit_department").val();
+			$.ajax({
+				type: 'POST',
+				url: getContextPath()+'/user/selectUserByomId',
+	            dataType: 'json',
+	            data: {
+	            	omId:omId
+	            },
+	            success: function (json) {
+	            	$("#edit_user").html('');
+	            	for(var i=0;i<json.length;i++){
+	            		$("#edit_user").append("<option value="+json[i].userId+">"+json[i].uName+"</option>")
+	            	}
+	            	$("#edit_user").val(obj).trigger("change");
+	            }
+			});
+	 }
+	 
+	 
+	 
+	 $("#new_user").on("change",function(){
+		var id=$("#new_user").val();
+		$.ajax({
+			type: 'POST',
+			url: getContextPath()+'/duty/selectDutyByUserId',
+            dataType: 'json',
+            data: {
+            	id:id
+            },
+            success: function (json) {
+            	$("#new_duty").html('');
+            	for(var i=0;i<json.length;i++){
+            		$("#new_duty").append("<option value="+json[i].dutyId+">"+json[i].dutyName+"</option>")
+            	}
+            }
+		});
+	})
+	
+	
+	$("#edit_user").on("change",function(){
+		var id=$("#edit_user").val();
+		$.ajax({
+			type: 'POST',
+			url: getContextPath()+'/duty/selectDutyByUserId',
+            dataType: 'json',
+            data: {
+            	id:id
+            },
+            success: function (json) {
+            	$("#edit_duty").html('');
+            	for(var i=0;i<json.length;i++){
+            		$("#edit_duty").append("<option value="+json[i].dutyId+">"+json[i].dutyName+"</option>")
+            	}
+            }
+		});
+	})
+
+	
+	function new_save(){
+		 var trainingMan=$("#new_user").val();
+		 var department=$("#new_department").val();
+		 var duty=$("#new_duty").val();
+		 var courseName=$("#new_className").val();
+		 var trainingDate=$("#year").val();
+		 var trainingLocation=$("#new_addr").val();
+		 var trainingMoney=$("#new_money").val();
+		 var trainingDesc=$("#new_class_info").val();
+		 var trainingReason=$("#new_target").val();
+		 
+		 var options={
+				 type: 'POST',
+					url: getContextPath()+'/InternalTraining/addInternalTrainingBySave',
+		            dataType: 'json',
+		            data: {
+		            	trainingMan:trainingMan,
+		            	department:department,
+		            	duty:duty,
+		            	courseName:courseName,
+		            	trainingDate:trainingDate,
+		            	trainingLocation:trainingLocation,
+		            	trainingMoney:trainingMoney,
+		            	trainingDesc:trainingDesc,
+		            	trainingReason:trainingReason
+		            },
+		            success: function (json) {
+		            	if(json==0){
+		            	    toastr.error("填报保存失败");
+		            	}else{
+		            		$("#myModal").modal("hide");
+		            		toastr.success("填报保存成功");
+		            	}
+		            }
+		 		}
+			 $("#new_form").ajaxSubmit(options);
+	 }
+	
+	 
+	 function new_submit(){
+		 var trainingMan=$("#new_user").val();
+		 var department=$("#new_department").val();
+		 var duty=$("#new_duty").val();
+		 var courseName=$("#new_className").val();
+		 var trainingDate=$("#year").val();
+		 var trainingLocation=$("#new_addr").val();
+		 var trainingMoney=$("#new_money").val();
+		 var trainingDesc=$("#new_class_info").val();
+		 var trainingReason=$("#new_target").val();
+		 
+		 var options={
+				 type: 'POST',
+					url: getContextPath()+'/InternalTraining/addInternalTrainingBySubmit',
+		            dataType: 'json',
+		            data: {
+		            	trainingMan:trainingMan,
+		            	department:department,
+		            	duty:duty,
+		            	courseName:courseName,
+		            	trainingDate:trainingDate,
+		            	trainingLocation:trainingLocation,
+		            	trainingMoney:trainingMoney,
+		            	trainingDesc:trainingDesc,
+		            	trainingReason:trainingReason
+		            },
+		            success: function (json) {
+		            	if(json==0){
+		            	    toastr.error("填报提交失败");
+		            	}else{
+		            		$("#myModal").modal("hide");
+		            		toastr.success("填报提交成功");
+		            	}
+		            }
+		 		}
+			 $("#new_form").ajaxSubmit(options);
+	 }
+	 
+	 function lookAll(obj){
+		 var dom=$(obj).parents("tr");
+		 var data=$('#mainContent').DataTable().row(dom).data();
+		 
+		 $("#myModalLabel_edit").text("查看内部培训申请")
+		 $("#edit_department").val(data.department).attr("disabled",true);
+		 $("#edit_className").val(data.courseName).attr("disabled",true);
+		 $("#edit_year").val(data.trainingDate).attr("disabled",true);
+		 $("#edit_addr").val(data.trainingLocation).attr("disabled",true);
+		 $("#edit_money").val(data.trainingMoney).attr("disabled",true);
+		 $("#edit_class_info").val(data.trainingDesc).attr("disabled",true);
+		 $("#edit_target").val(data.trainingReason).attr("disabled",true);
+		 initEditUser(data.trainingMan);
+		 $("#edit_user").attr("disabled",true);
+		 $("#edit_duty").attr("disabled",true);
+		 
+		 $("#edit_table").html('');
+		 var acc=data.accessory;
+		 for(var i=0;i<acc.length;i++){
+			 $("#edit_table").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+		 }
+		 
+		 $("#change").modal("show");
+	 }
+	 
+	 function downloadFile(obj){
+		 var filePath=$(obj).attr("data2");
+		var fileName=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
+	 }
+	 
+	 
+	 var edit_id;
+	 function updateAll(obj){
+		 var dom=$(obj).parents("tr");
+		 var data=$('#mainContent').DataTable().row(dom).data();
+		 edit_id=data.itId;
+		 
+		 $("#myModalLabel_edit").text("修改内部培训申请")
+		 $("#edit_department").val(data.department).attr("disabled",false);
+		 $("#edit_className").val(data.courseName).attr("disabled",false);
+		 $("#edit_year").val(data.trainingDate).attr("disabled",false);
+		 $("#edit_addr").val(data.trainingLocation).attr("disabled",false);
+		 $("#edit_money").val(data.trainingMoney).attr("disabled",false);
+		 $("#edit_class_info").val(data.trainingDesc).attr("disabled",false);
+		 $("#edit_target").val(data.trainingReason).attr("disabled",false);
+		 initEditUser(data.trainingMan);
+		 $("#edit_user").attr("disabled",false);
+		 $("#edit_duty").attr("disabled",false);
+		 
+         $("#edit_button").html('');
+         $("#edit_button").append(' <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
+					            			 '<button type="button" class="btn btn-success" onclick="edit_save()">保存</button>'+
+					            			 '<button type="button" class="btn btn-success" onclick="edit_submit()">提交</button>');
+         $("#edit_table").html('');
+		 $("#edit_table").append('<thead>'+
+	     			'<tr><td style="width:30%;">附件</td>'+
+	     			'<td><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_uploaderBox()">添加附件</button></td>'+
+	                '<td style="width:20%;">&nbsp</td></tr>'+
+				'</thead><tbody></tbody>');
+         var acc=data.accessory;
+		 for(var i=0;i<acc.length;i++){
+			 $("#edit_table tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc[i].aId+" data2="+acc[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
+		 }   
+         
+		 $("#change").modal("show");
+	 }
+	
+	 function deleteFile(obj){
+			var aId=$(obj).attr("data");
+			var acUrl=$(obj).attr("data2");
+			var acName=$(obj).parents("tr").find("td").eq(1).find("input").val();
+			$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/InternalTraining/deleteAccessory',
+	            dataType: 'json',
+	            data: {
+	            	aId:aId,
+	            	acUrl:acUrl,
+	            	acName:acName
+	            },
+	            success: function (json) {
+	                if(json==0){
+	                	toastr.error("删除失败");
+	                }else{
+	                	$(obj).parents("tr").remove();
+	                	toastr.success("删除成功");
+	                }
+	            }
+	        });
+		}
+	 
+	 
+	 function edit_save(){
+		 var trainingMan=$("#edit_user").val();
+		 var department=$("#edit_department").val();
+		 var duty=$("#edit_duty").val();
+		 var courseName=$("#edit_className").val();
+		 var trainingDate=$("#edit_year").val();
+		 var trainingLocation=$("#edit_addr").val();
+		 var trainingMoney=$("#edit_money").val();
+		 var trainingDesc=$("#edit_class_info").val();
+		 var trainingReason=$("#edit_target").val();
+		 
+		 var options={
+				 type: 'POST',
+					url: getContextPath()+'/InternalTraining/updateInternalTrainingBySave',
+		            dataType: 'json',
+		            data: {
+						itId:edit_id,		            	
+		            	trainingMan:trainingMan,
+		            	department:department,
+		            	duty:duty,
+		            	courseName:courseName,
+		            	trainingDate:trainingDate,
+		            	trainingLocation:trainingLocation,
+		            	trainingMoney:trainingMoney,
+		            	trainingDesc:trainingDesc,
+		            	trainingReason:trainingReason
+		            },
+		            success: function (json) {
+		            	if(json==0){
+		            	    toastr.error("保存失败");
+		            	}else{
+		            		$("#change").modal("hide");
+		            		toastr.success("保存成功");
+		            	}
+		            }
+		 }
+		 $("#edit_form").ajaxSubmit(options);
+	 }
+	 
+	 
+	 function edit_submit(){
+		 var trainingMan=$("#edit_user").val();
+		 var department=$("#edit_department").val();
+		 var duty=$("#edit_duty").val();
+		 var courseName=$("#edit_className").val();
+		 var trainingDate=$("#edit_year").val();
+		 var trainingLocation=$("#edit_addr").val();
+		 var trainingMoney=$("#edit_money").val();
+		 var trainingDesc=$("#edit_class_info").val();
+		 var trainingReason=$("#edit_target").val();
+		 
+		 var options={
+				 type: 'POST',
+					url: getContextPath()+'/InternalTraining/updateInternalTrainingBySubmit',
+		            dataType: 'json',
+		            data: {
+						itId:edit_id,		            	
+		            	trainingMan:trainingMan,
+		            	department:department,
+		            	duty:duty,
+		            	courseName:courseName,
+		            	trainingDate:trainingDate,
+		            	trainingLocation:trainingLocation,
+		            	trainingMoney:trainingMoney,
+		            	trainingDesc:trainingDesc,
+		            	trainingReason:trainingReason
+		            },
+		            success: function (json) {
+		            	if(json==0){
+		            	    toastr.error("保存失败");
+		            	}else{
+		            		$("#change").modal("hide");
+		            		toastr.success("保存成功");
+		            	}
+		            }
+		 }
+		 $("#edit_form").ajaxSubmit(options);
+	 }
+	 
+	 
+    function getCreat(bb){
+        var EnterpriseRating= $(bb).parent().prev().text();
+        var Remarks= $(bb).parent().prev().prev().text();
+        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
+        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
+        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
+        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
+        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
+        $("#CEnterprise-rating").val(EnterpriseRating);
+        $("#CRemarks").val(Remarks);
+        $("#CContact-phone1").val(ContactPhone1);
+        $("#CContacts").val(Contacts);
+        $("#Caddress").val(address);
+        $("#CProprietor-unit").val(ProprietorUnit);
+        $("#CCode").val(Code);
+        rowIndex = bb.parentNode.parentNode.rowIndex; 
+    }
+    
+    $("#uploaderBox").on("click", function(e) {
+        var newFileInput = "<tr><td>新附件</td><td><input  type='file' name='file' class='form-control' /></td></tr>";
+        $("#new_table").append($(newFileInput));
+    });
+    
+    function edit_uploaderBox(){
+        var newFileInput = "<tr><td>新附件</td><td><input  type='file' name='file' class='form-control' /></td><td></td></tr>";
+        $("#edit_table tbody").append($(newFileInput));
+    }
+
+    // $("#mainContent tbody tr").click(function (){
+    //     $(this).addClass('selected')
+    //     .siblings().removeClass('selected')
+    //     .end();
+    // })
+//数组去重
+Array.prototype.unique3 = function(){
+ var res = [];
+ var json = {};
+ for(var i = 0; i < this.length; i++){
+  if(!json[this[i]]){
+   res.push(this[i]);
+   json[this[i]] = 1;
+  }
+ }
+ return res;
+}
+
+    var arr=[];
+    //$('#renwuDanhao')[0].selectedIndex = -1;
+    $("#renwuDanhao").change(function(){
+        arr.push($("#renwuDanhao").val())
+        $("#rwdh").text(arr.unique3())
+    })
+    var arr2=[];
+    //$('#renwuDanhao2')[0].selectedIndex = -1;
+    $("#renwuDanhao2").change(function(){
+        arr2.push($("#renwuDanhao2").val())
+        $("#rwdh2").text(arr2.unique3())
+    })
+    
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+
+</script>
+</html>

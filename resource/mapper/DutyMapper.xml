@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.DutyDao" >
+  	<insert id="addDuty" parameterType="duty">
+  		insert into duty(duty_id,om_id,duty_name,job_type,job_id,duty_desc) 
+  		values(#{duty.dutyId},#{duty.omId},#{duty.dutyName},#{duty.jobType},#{duty.jobId},#{duty.dutyDesc})
+  	</insert>
+  	
+  	<delete id="deleteDutyById" parameterType="String">
+  		delete from duty where duty_id=#{id}
+  	</delete>
+  	
+  	<update id="updateDutyById" parameterType="duty">
+  		update duty set om_id=#{duty.omId},duty_name=#{duty.dutyName},job_type=#{duty.jobType},job_id=#{duty.jobId},duty_desc=#{duty.dutyDesc}
+  		where duty_id=#{duty.dutyId}
+  	</update>
+  	
+  	<select id="selectDutyByOmId" resultType="duty">
+  		SELECT a.duty_id,a.om_id,a.duty_name,a.job_type,a.job_id,a.duty_desc,b.job_second FROM duty as a LEFT JOIN job as b on a.job_id=b.job_id where a.om_id=#{omId}
+  	</select>
+  	
+  	<select id="countOfDutyName" resultType="int">
+  		select count(duty_id) from duty where om_id=#{omId} and duty_name=#{name}
+  	</select>
+  	
+  	<select id="countOfDutyNameToEdit" resultType="int">
+  		select count(duty_id) from duty where om_id=#{omId} and duty_name=#{name} and duty_id !=#{dutyId}
+  	</select>
+  	
+  	<select id="selectDutyByOmIdAndJobType" resultType="duty">
+  		select duty_id,duty_name from duty where om_id=#{omId} and job_type=#{jobType}
+  	</select>
+  	
+  	<select id="selectDutyBydutyId" parameterType="String" resultType="duty">
+  		select duty_name from duty where duty_id=#{dutyId}
+  	</select>
+  	
+  	<select id="selectDutyByUserId" resultType="duty">
+  		SELECT a.duty_id,b.duty_name FROM user as a LEFT JOIN duty as b on a.duty_id=b.duty_id where a.user_id=#{id}
+  	</select>
+</mapper>

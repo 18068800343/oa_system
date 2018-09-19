@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+			<li>行政事务</li>
+			<li class="active">项目印章管理</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">刻制申请</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">使用管理</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="UpperPart">
+                            <div class="UpperPartL">
+                                
+                            </div>
+                            <div class="UpperPartR">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报刻制申请</button>
+                            </div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报刻制申请</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:100px;">申请项目  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="xiangmu">
+                                    </select>
+                                </td>
+                                <td>申请部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="bumen">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                            	<td>项目印章  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></br>拟授权人</td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="yinzhangshouquanren">
+                                    </select>
+                                </td>
+                                <td style="width:100px;">申请日期</td>
+                                <td><input type="text" class="form-control" id="year"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;">编&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp号</td>
+                                <td><input type="text" class="form-control" id="bianhao"></td>
+                                <td style="width:100px;">专用章全称<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="quancheng"></td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="addPrjSeal()">保存</button>
+            <button type="button" class="btn btn-success" onclick="addPrjSealSubmit()" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+
+<!-- 修改Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:100px;">申请项目  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="xgxiangmu">
+                                    </select>
+                                </td>
+                                <td>申请部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="xgbumen">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>项目印章  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></br>拟授权人</td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="xgyinzhangshouquanren">
+                                    </select>
+                                </td>
+                                <td style="width:100px;">申请日期</td>
+                                <td><input type="text" class="form-control" id="xgyear"></td>
+                            </tr>
+                            <tr>
+                            	<td style="width:100px;">编&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp号</td>
+                                <td><input type="text" class="form-control" id="xgbianhao"></td>
+                                <td style="width:100px;">专用章全称<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="xgquancheng"></td>
+                            </tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="checkxiugai()">保存</button>
+            <button type="button" class="btn btn-success" onclick="checkSubmit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改model结束 -->
+<!-- Modalxg -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModalxg">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- modelxg结束 -->
+                        <div class="LowerPart" style="margin-top:3px;">
+                            <table class="table table-bordered table-condensed" id="mainContent">
+                                <thead>
+                                    <tr>
+                                        <th>申请项目</th>
+                                        <th>申请日期</th>
+                                        <th>申请部门</th>
+                                        <th>编号</th>
+                                        <th>项目专用章全称</th>
+                                        <th>项目印章拟授权人</th>
+                                        <th style="width:70px;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>   
+                            </table>
+                        </div>
+                </div>
+<!-- Modal look -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModallook">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>任务单</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed lookhetong">
+                            <tr>
+                                <td><a href="../shengchanGuanli/TaskManagement.html">项目名称</a></td>
+                                <td>
+                                    项目名称1
+                                </td>
+                                <td style="width:100px;">编号</td>
+                                <td>编号1</td>
+                            </tr>
+                            <tr>
+                                <td>项目经营模式</td>
+                                <td>
+                                    项目经营模式1
+                                </td>
+                                <td>项目所属公司</td>
+                                <td>
+                                    项目所属公司1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;"><a href="../jichuShuju/ProjectType.html">项目类型</a></td>
+                                <td>
+                                    项目类型1
+                                </td>
+                                <td>项目业主单位</td>
+                                <td>
+                                    项目业主单位1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>预估合同额(不含暂定金)</td>
+                                <td>预估合同额1</td>
+                                <td>预估项目金额</td>
+                                <td>预估项目金额1</td>
+                            </tr>
+                            <tr>
+                                <td>暂定金</td>
+                                <td>暂定金1</td>
+                                <td>项目开始时间</td>
+                                <td>项目开始时间1</td>
+                            </tr>
+                            <tr>
+                                <td>项目结束时间</td>
+                                <td>项目结束时间1</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>项目概况及工作内容</td>
+                                <td colspan="3">123</td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">添加的联系人,联系方式</th>
+                                </tr>
+                                <tr>
+                                    <th>联系人</th>
+                                    <th>联系方式</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>111</td>
+                                    <td>222</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-condensed" id="xieban">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">部门</th>
+                                    <th colspan="2">金额</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门</td>
+                                    <td>
+                                        主办部门1
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1</td>
+                                    <td>
+                                        协办部门1
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2</td>
+                                    <td>
+                                        协办部门2
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3</td>
+                                    <td>
+                                        协办部门3
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- modellook结束 -->
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <div class="UpperPart" style="margin-top:12px;">
+                    		<div class="UpperPartL" style="font-size:18px;">
+	                            
+	                        </div>
+	                        <div class="UpperPartR">
+	                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#shiyonggl">填报使用管理</button>
+	                        </div>
+                            
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="shiyonggl">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报使用管理</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                                <tr>
+                                	<td>开始时间: </td>
+                                    <td>
+                                           	  <input type="text" class="form-control" style="width:180px;" id="beginTime">
+                                    </td>
+                                    <td> 结束时间: </td>
+                                    <td>
+                                           	 <input type="text" class="form-control" style="width:180px;" id="endTime">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                      	保管人:  
+                                    </td>
+                                    <td>
+                                    	<input type="text" class="form-control" disabled id="baoguanren">
+                                    	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择用章管理人</button>
+                                    </td>
+                                            
+                                    <td> 使用的项目:</td>
+                                    <td> 
+                                         <select class="form-control" style="width:180px;" id="usePrj">
+                                         </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                	<td>销毁时间:</td>
+                                    <td>
+                                         <input type="text" class="form-control" style="width:180px;" id="xiaohuiTime">
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="addSUsers()">保存</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addsUsersSubmit()" data-toggle="modal" data-target="#tijiaogei">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+  <!--选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择保管人</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>部门:</span>
+                            <select style="width:180px;"id="bumen2" class="form-control" >
+                                
+                            </select>
+                            <span>保管人:</span>
+                            <select style="width:180px;"id="baoguan" class="form-control" >
+                                
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveBaoguan()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 选人 modal结束 -->                      
+                <!-- Modal -->
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><b>修改使用管理</b></h4>
+                        </div>
+                        <div class="modal-body">
+                                <div>     
+                                    <form class="form-inline">
+                                        <table class="table table-bordered table-condensed">
+                                            <tr>
+                                                <td>开始时间</td>
+                                                <td><input type="text" class="form-control" id="xgbeginTime"></td>
+                                                <td>结束时间</td>
+                                                <td><input type="text" class="form-control" id="xgendTime"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>保管人</td>
+                                                <td>
+                                           			 <input type="text" class="form-control" disabled id="xgbaoguanren">
+                                    				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren">选择用章管理人</button>
+                                           		</td>
+                                                <td>使用的项目</td>
+                                                <td>
+                                                	<select class="form-control" style="width:180px;" id="xgusePrj">
+                                          			</select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>销毁时间</td>
+                                                <td><input type="text" class="form-control" id="xgxiaohuiTime"></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </table> 
+                                    </form>  
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-default" onclick="checksUserSave()">保存</button>
+                            <button type="button" class="btn btn-success" onclick="checksUserSubmit()" data-dismiss="modal">提交</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- model结束 -->
+ <!--修改选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgaddGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">修改保管人</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>部门:</span>
+                            <select style="width:180px;" id="xgbumen2" class="form-control" >
+                                
+                            </select>
+                            <span>保管人:</span>
+                            <select style="width:180px;" id="xgbaoguan" class="form-control" >
+                                
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="xgsaveBaoguan()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改选人 modal结束 -->               
+                    </div>
+                    <div class="LowerPart" style="margin-top:3px;">
+                        <table class="table table-bordered table-condensed" id="mainContent2">
+                            <thead>
+                                <tr>
+                                    <th>使用的项目</th>
+                                    <th>保管人</th>
+                                    <th>开始时间</th>
+                                    <th>结束时间</th>
+                                    <th>销毁时间</th>
+                                    <th style="width:50px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>   
+                        </table>
+                    </div>
+                </div>
+                
+            </div>   
+        </div>
+
+ <!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->        
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+    	initTable2();
+    	xiangmuSelect();
+    	bumenSelect();
+    	initBaoGuanRen();
+    	laydate.render({
+            elem: '#year' //指定元素
+        });
+        laydate.render({
+            elem: '#beginTime' //指定元素
+        });
+        laydate.render({
+            elem: '#endTime' //指定元素
+        });
+        laydate.render({
+            elem: '#xiaohuiTime' //指定元素
+        });
+        laydate.render({
+            elem: '#xgbeginTime' //指定元素
+        });
+        laydate.render({
+            elem: '#xgendTime' //指定元素
+        });
+        laydate.render({
+            elem: '#xgxiaohuiTime' //指定元素
+        });
+        $('#editable-select').editableSelect({ 
+            effects: 'slide' 
+        });
+        $('#editable-selectT').editableSelect({ 
+            effects: 'slide' 
+        });
+	});
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": "prjName"},
+            { "data": "applicationDate"}, 
+            { "data": "omName"}, 
+            { "data": "smNo"}, 
+            { "data": "signetName"}, 
+            { "data": "uName"}, 
+        ],
+        "columnDefs": [
+						{	
+								 "class": "tcenter",
+								    "targets": 6,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle="modal" data-target="#change" id="Changedanwei"></i>'
+								        }
+								  }
+						],
+						
+						
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table2=$('#mainContent2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": "prjName"},
+            { "data": "uName"}, 
+            { "data": "beginTime"}, 
+            { "data": "endTime"}, 
+            { "data": "destroyTime"}, 
+        ],
+        "columnDefs": [
+						{	
+								 "class": "tcenter",
+								    "targets": 5,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="checksUsers(this)" data-toggle="modal" data-target="#myModal2" id="Changedanwei"></i>'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    //初始化项目印章管理
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/prjSeal/selectPrjSeal',
+            dataType: 'json',
+            data: {
+            },
+            error: function (msg) {
+                errMessage("请求UserController失败");
+            },
+            success: function (json) {
+            	//console.log(json)
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	
+	//初始化使用管理
+	function initTable2(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/signetUsers/selectsUser',
+            dataType: 'json',
+            data: {
+            },
+            error: function (msg) {
+                errMessage("请求UserController失败");
+            },
+            success: function (json) {
+            	//console.log(json)
+                $('#mainContent2').dataTable().fnClearTable();
+                $('#mainContent2').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	
+	//初始化保管人
+	function initBaoGuanRen(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#bumen2").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>");
+	        		$("#xgbumen2").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>"); 
+	        	} 
+	        	$("#bumen2").trigger('change');
+	        	$("#xgbumen2").trigger('change');
+	        }
+	    });
+	}
+	$("#bumen2").change(function(){
+		var bumen=$("#bumen2").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$("#baoguan").empty();
+				for(var i=0;i<json.length;i++){
+					$("#baoguan").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+				}
+			}
+		})
+	})
+	//保存添加保管人
+	function saveBaoguan(){
+		var bumen=$("#bumen2").val();
+		var guanliren=$("#baoguan").val();
+		if(guanliren==''){
+			toastr.error("保管人为空");
+			return;
+		}
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserById",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				userId:guanliren 
+				},
+			success:function(json){
+				//console.log(json)
+				$("#baoguanren").empty('');
+				$("#baoguanren").val(json.uName)
+			}
+		})
+	}
+	
+	$("#xgbumen2").change(function(){
+		var bumen=$("#xgbumen2").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$("#xgbaoguan").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xgbaoguan").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+				}
+			}
+		})
+	})
+	//修改添加保管人
+	function xgsaveBaoguan(){
+		var bumen=$("#xgbumen2").val();
+		var guanliren=$("#xgbaoguan").val();
+		if(guanliren==''){
+			toastr.error("保管人为空");
+			return;
+		}
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserById",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				userId:guanliren 
+				},
+			success:function(json){
+				//console.log(json)
+				$("#xgbaoguanren").empty('');
+				$("#xgbaoguanren").val(json.uName)
+			}
+		})
+	}
+	
+	function initSelectEdit(obj){
+		var bumen=$("#xgbumen2").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$("#xgbaoguan").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xgbaoguan").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+				}
+				$("#xgbaoguan").val(obj)
+			}
+		})
+	}
+	
+	
+	
+	
+	
+	//初始化申请项目
+	function xiangmuSelect(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/task/selectIdAndNameByStatus',
+	        dataType: 'json',
+	        data: {
+	        	status:2
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#xiangmu").append( "<option value='" + json[i].prjId + "'>"
+		                    + json[i].prjName + "</option>");
+	        		$("#xgxiangmu").append( "<option value='" + json[i].prjId + "'>"
+		                    + json[i].prjName + "</option>"); 
+	        		$("#usePrj").append( "<option value='" + json[i].prjId + "'>"
+		                    + json[i].prjName + "</option>");
+	        		$("#xgusePrj").append( "<option value='" + json[i].prjId + "'>"
+		                    + json[i].prjName + "</option>");
+	        	} 
+	        }
+	    });
+	}
+	
+	//初始化申请部门
+	function bumenSelect(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#bumen").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>");
+	        		$("#xgbumen").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>"); 
+	        	} 
+	        	$("#bumen").trigger('change');
+	        	$("#xgbumen").trigger('change');
+	        }
+	    });
+	}
+	
+	$("#bumen").change(function(){
+		var bumen=$("#bumen").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			 async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$("#yinzhangshouquanren").empty();
+				for(var i=0;i<json.length;i++){
+					$("#yinzhangshouquanren").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+				}
+			}
+		})
+	})
+	
+	$("#xgbumen").change(function(){
+		var bumen=$("#xgbumen").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			 async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$("#xgyinzhangshouquanren").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xgyinzhangshouquanren").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+				}
+			}
+		})
+	})
+	
+	
+	
+	function initSelectOnEdit(obj){
+        var bumen=$("#xgbumen").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			 async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$("#xgyinzhangshouquanren").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xgyinzhangshouquanren").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+				}
+				$("#xgyinzhangshouquanren").val(obj);
+			}
+		})
+	}
+	
+	//添加使用管理保存
+	function addSUsers(){
+		var beginTime=$("#beginTime").val();
+		var endTime=$("#endTime").val();
+		var bumen2=$("#bumen2").val();
+		var baoguanren=$("#baoguan").val();
+		var usePrj=$("#usePrj").val();
+		var xiaohuiTime=$("#xiaohuiTime").val();
+		
+		if($("#baoguanren").val()==''){
+			toastr.error("保管人为空");
+    		return;
+		}
+		if(beginTime==''){
+    		toastr.error("开始时间为空");
+    		return;
+    	}
+		if(endTime==''){
+    		toastr.error("结束时间为空");
+    		return;
+    	}
+		if(xiaohuiTime==''){
+    		toastr.error("销毁时间为空");
+    		return;
+    	}
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/signetUsers/addsUser",
+			dataType:"json",
+			data:{
+				beginTime:beginTime,
+				endTime:endTime,
+				departId:bumen2,
+				custodyMan:baoguanren,
+				useProject:usePrj,
+				destroyTime:xiaohuiTime,
+			},
+			success:function(json){
+				//console.log(json);
+				if(json.result==0){
+					toastr.error("添加失败")
+				}else if(json.result==1){
+					//location.reload([true]);
+					toastr.success("添加成功")
+					$("#shiyonggl").modal("hide")
+					initTable2();
+				}
+			}
+		})
+	}
+	//添加使用管理提交
+	function addsUsersSubmit(){
+		var beginTime=$("#beginTime").val();
+		var endTime=$("#endTime").val();
+		var bumen2=$("#bumen2").val();
+		var baoguanren=$("#baoguan").val();
+		var usePrj=$("#usePrj").val();
+		var xiaohuiTime=$("#xiaohuiTime").val();
+		
+		if($("#baoguanren").val()==''){
+			toastr.error("保管人为空");
+    		return;
+		}
+		if(beginTime==''){
+    		toastr.error("开始时间为空");
+    		return;
+    	}
+		if(endTime==''){
+    		toastr.error("结束时间为空");
+    		return;
+    	}
+		if(xiaohuiTime==''){
+    		toastr.error("销毁时间为空");
+    		return;
+    	}
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/signetUsers/submitsUser",
+			dataType:"json",
+			data:{
+				beginTime:beginTime,
+				endTime:endTime,
+				departId:bumen2,
+				custodyMan:baoguanren,
+				useProject:usePrj,
+				destroyTime:xiaohuiTime,
+			},
+			success:function(json){
+				//console.log(json);
+				if(json.result==0){
+					toastr.error("提交失败")
+				}else if(json.result==1){
+					//location.reload([true]);
+					toastr.success("提交成功")
+					$("#shiyonggl").modal("hide")
+					initTable2();
+				}
+			}
+		})
+	}
+	
+	
+	//删除使用管理
+	/* function deletesUser(obj){
+		var dom=$(obj).parents("tr");
+		var data=$('#mainContent2').DataTable().row(dom).data();
+		console.log(data)
+		var statu = confirm("确认删除吗?");
+		if(!statu){
+		  return false;
+		}
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/signetUsers/deletesUserById",
+			dataType:"json",
+			data:{
+				suId:data.suId,
+			},
+			success:function(json){
+				if(json==0){
+					toastr.error("删除失败")
+				}else if(json==1){
+					//location.reload([true]);
+					toastr.success("删除成功")
+					initTable2();
+				}
+			}
+		})
+	} */
+	
+	//修改回显使用管理
+	var suId;
+	function checksUsers(obj){
+		var dom=$(obj).parents("tr");
+		var data=$('#mainContent2').DataTable().row(dom).data();
+		console.log(data)
+		suId=data.suId;
+		
+		$("#xgbeginTime").val(data.beginTime);
+		$("#xgendTime").val(data.endTime);
+		$("#xgbaoguanren").val(data.uName);
+		$("#xgbumen2").val(data.departId);
+		//$("#xgbaoguan").val(data.custodyMan);
+		initSelectEdit(data.custodyMan);
+		
+		$("#xgusePrj").val(data.useProject);
+		$("#xgxiaohuiTime").val(data.destroyTime);
+	}
+	//修改保存使用管理
+	function checksUserSave(){
+		var xgbeginTime=$("#xgbeginTime").val();
+		var xgendTime=$("#xgendTime").val();
+		var xgusePrj=$("#xgusePrj").val();
+		var xgxiaohuiTime=$("#xgxiaohuiTime").val();
+		var xgbumen2=$("#xgbumen2").val();
+		var xgbaoguanren=$("#xgbaoguan").val();
+		/* var xgbaoguanren=$("#xgbaoguanren").val(); */
+		if($("#xgbaoguanren").val()==''){
+			toastr.error("保管人为空");
+    		return;
+		}
+		if(beginTime==''){
+    		toastr.error("开始时间为空");
+    		return;
+    	}
+		if(endTime==''){
+    		toastr.error("结束时间为空");
+    		return;
+    	}
+		if(xiaohuiTime==''){
+    		toastr.error("销毁时间为空");
+    		return;
+    	}
+		$.ajax({
+			type:'post',
+			url:getContextPath()+'/signetUsers/updatesUser',
+			dataType:"json",
+			data:{
+				suId:suId,
+				beginTime:xgbeginTime,
+				endTime:xgendTime,
+				departId:xgbumen2,
+				custodyMan:xgbaoguanren,
+				useProject:xgusePrj,
+				destroyTime:xgxiaohuiTime,
+			},
+			success:function(json){
+				console.log(json)
+				if(json.result==0){
+					toastr.error("修改失败")
+				}else{
+					toastr.success("修改成功");
+					$("#myModal2").modal("hide");
+					initTable2();
+				}
+			}
+		})
+	}
+	//修改提交使用管理
+	function checksUserSubmit(){
+		var xgbeginTime=$("#xgbeginTime").val();
+		var xgendTime=$("#xgendTime").val();
+		var xgusePrj=$("#xgusePrj").val();
+		var xgxiaohuiTime=$("#xgxiaohuiTime").val();
+		var xgbumen2=$("#xgbumen2").val();
+		var xgbaoguanren=$("#xgbaoguan").val();
+		/* var xgbaoguanren=$("#xgbaoguanren").val(); */
+		if($("#xgbaoguanren").val()==''){
+			toastr.error("保管人为空");
+    		return;
+		}
+		if(beginTime==''){
+    		toastr.error("开始时间为空");
+    		return;
+    	}
+		if(endTime==''){
+    		toastr.error("结束时间为空");
+    		return;
+    	}
+		if(xiaohuiTime==''){
+    		toastr.error("销毁时间为空");
+    		return;
+    	}
+		$.ajax({
+			type:'post',
+			url:getContextPath()+'/signetUsers/updatesUser',
+			dataType:"json",
+			data:{
+				suId:suId,
+				beginTime:xgbeginTime,
+				endTime:xgendTime,
+				departId:xgbumen2,
+				custodyMan:xgbaoguanren,
+				useProject:xgusePrj,
+				destroyTime:xgxiaohuiTime,
+			},
+			success:function(json){
+				console.log(json)
+				if(json.result==0){
+					toastr.error("修改失败")
+				}else{
+					toastr.success("修改成功");
+					$("#myModal2").modal("hide");
+					initTable2();
+				}
+			}
+		})
+	}
+	
+	
+	
+	
+	//添加项目印章刻制申请保存
+	function addPrjSeal(){
+		var xiangmu=$("#xiangmu").val();
+		var bumen=$("#bumen").val();
+		var yinzhangshouquanren=$("#yinzhangshouquanren").val();
+		var year=$("#year").val();
+		var bianhao=$("#bianhao").val();
+		var quancheng=$("#quancheng").val();
+		if(quancheng==''){
+			toastr.error("专用章全称为空");
+			return;
+		}
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/prjSeal/addPrjSea",
+			dataType:"json",
+			data:{
+				prjId:xiangmu,
+				omId:bumen,
+				signetMan:yinzhangshouquanren,
+				applicationDate:year,
+				smNo:bianhao,
+				signetName:quancheng
+			},
+			success:function(json){
+				if(json.result==0){
+					toastr.error("添加失败")
+				}else if(json.result==1){
+					//location.reload([true]);
+					//$('#mainContent').DataTable().row.add(json.signetManage).draw(false);
+					$('#myModal').modal('hide');
+					toastr.success("添加成功")
+					initTable();
+				}
+			}
+		})
+	}
+	//添加印章申请提交
+	function addPrjSealSubmit(){
+		var xiangmu=$("#xiangmu").val();
+		var bumen=$("#bumen").val();
+		var yinzhangshouquanren=$("#yinzhangshouquanren").val();
+		var year=$("#year").val();
+		var bianhao=$("#bianhao").val();
+		var quancheng=$("#quancheng").val();
+		if(quancheng==''){
+			toastr.error("专用章全称为空");
+			return;
+		}
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/prjSeal/addPrjSealSubmit",
+			dataType:"json",
+			data:{
+				prjId:xiangmu,
+				omId:bumen,
+				signetMan:yinzhangshouquanren,
+				applicationDate:year,
+				smNo:bianhao,
+				signetName:quancheng
+			},
+			success:function(json){
+				if(json.result==0){
+					toastr.error("提交失败")
+				}else if(json.result==1){
+					//location.reload([true]);
+					//$('#mainContent').DataTable().row.add(json.signetManage).draw(false);
+					$('#myModal').modal('hide');
+					toastr.success("提交成功")
+					initTable();
+				}
+			}
+		})
+	}
+	
+	
+	
+	//删除项目印章刻制申请
+	var smId;
+	var dom;
+	$("#mainContent").delegate("#delOrg","click",function(){
+		dom=$(this).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data)
+		var statu = confirm("确认删除吗?");
+		  if(!statu){
+		   return false;
+		  }
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/prjSeal/deletePrjSealById",
+			dataType:"json",
+			data:{
+				smId:data.smId
+			},
+			success:function(json){
+				console.log(json)
+				if(json>0){
+					$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
+					toastr.success("删除成功")
+				}else{
+					toastr.error("删除失败")
+				}
+			}
+		})
+	})
+	
+	//修改项目印章刻制申请回显
+	var xiugaiId;
+	$("#mainContent").delegate("#Changedanwei","click",function(){
+		dom=$(this).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		xiugaiId=data.smId;
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/prjSeal/selectPrjSealById",
+			dataType:"json",
+			async:false,
+			data:{
+				smId:data.smId
+			},
+			success:function(json){
+				//console.log(json);
+				$("#xgxiangmu").val(json.prjId);
+				$("#xgbumen").val(json.omId);
+				//$("#xgyinzhangshouquanren").val(data.uName);
+				
+				initSelectOnEdit(json.signetMan)
+				
+				$("#xgyear").val(json.applicationDate);
+				$("#xgbianhao").val(json.smNo);
+				$("#xgquancheng").val(json.signetName);
+			}
+		})
+	})
+	//保存修改
+	function checkxiugai(){
+		var xgxiangmu=$("#xgxiangmu").val();
+		var xgbumen=$("#xgbumen").val();
+		var xgyinzhangshouquanren=$("#xgyinzhangshouquanren").val();
+		var xgyear=$("#xgyear").val();
+		var xgbianhao=$("#xgbianhao").val();
+		var xgquancheng=$("#xgquancheng").val();
+		if(xgquancheng==''){
+			toastr.error("专用章全称为空");
+			return;
+		}
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/prjSeal/updatePrjSealById",
+			dataType:"json",
+			data:{
+				smId:xiugaiId,
+				prjId:xgxiangmu,
+				omId:xgbumen,
+				signetMan:xgyinzhangshouquanren,
+				applicationDate:xgyear,
+				smNo:xgbianhao,
+				signetName:xgquancheng
+			},
+			success:function(json){
+				if(json.result==0){
+					toastr.error("修改失败")
+				}else if(json.result==1){
+					//location.reload([true]);
+					$('#change').modal('hide');
+					toastr.success("修改成功")
+					initTable();
+				}
+			}
+		})
+	}
+	
+	//提交修改
+	function checkSubmit(){
+		var xgxiangmu=$("#xgxiangmu").val();
+		var xgbumen=$("#xgbumen").val();
+		var xgyinzhangshouquanren=$("#xgyinzhangshouquanren").val();
+		var xgyear=$("#xgyear").val();
+		var xgbianhao=$("#xgbianhao").val();
+		var xgquancheng=$("#xgquancheng").val();
+		if(xgquancheng==''){
+			toastr.error("专用章全称为空");
+			return;
+		}
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/prjSeal/updatePrjSealByIdSubmit",
+			dataType:"json",
+			data:{
+				smId:xiugaiId,
+				prjId:xgxiangmu,
+				omId:xgbumen,
+				signetMan:xgyinzhangshouquanren,
+				applicationDate:xgyear,
+				smNo:xgbianhao,
+				signetName:xgquancheng
+			},
+			success:function(json){
+				if(json.result==0){
+					toastr.error("修改失败")
+				}else if(json.result==1){
+					//location.reload([true]);
+					$('#change').modal('hide');
+					toastr.success("修改成功")
+					initTable();
+				}
+			}
+		})
+	}
+	
+	
+	
+	
+    $("#uploaderBox").on("click", function(e) {
+        var newFileInput = "<input id='uploaderInput' type='file' name='name' accept='image/*' multiple />";
+        $(this).parent().append($(newFileInput));
+        $("#uploaderInput").bind("change", function(e){
+              //onFileUploaded(e);预览等操作
+              $(this).removeAttr("id");
+        });
+        $("#uploaderInput").click();
+    });
+
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+
+</script>
+</html>

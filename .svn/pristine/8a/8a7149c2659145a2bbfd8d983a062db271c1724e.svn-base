@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.MessageQueryMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.MessageQuery" >
+    <id column="mq_id" property="mqId" jdbcType="VARCHAR" />
+    <result column="applicant" property="applicant" jdbcType="VARCHAR" />
+    <result column="recipient" property="recipient" jdbcType="VARCHAR" />
+    <result column="send_time" property="sendTime" jdbcType="VARCHAR" />
+    <result column="mq_desc" property="mqDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    mq_id, applicant, recipient, send_time, mq_desc
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.MessageQueryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from message_query
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from message_query
+    where mq_id = #{mqId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from message_query
+    where mq_id = #{mqId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.MessageQueryExample" >
+    delete from message_query
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.MessageQuery" >
+    <selectKey resultType="java.lang.String" keyProperty="mqId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into message_query (applicant, recipient, send_time, 
+      mq_desc)
+    values (#{applicant,jdbcType=VARCHAR}, #{recipient,jdbcType=VARCHAR}, #{sendTime,jdbcType=VARCHAR}, 
+      #{mqDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.MessageQuery" >
+    <selectKey resultType="java.lang.String" keyProperty="mqId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into message_query
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="applicant != null" >
+        applicant,
+      </if>
+      <if test="recipient != null" >
+        recipient,
+      </if>
+      <if test="sendTime != null" >
+        send_time,
+      </if>
+      <if test="mqDesc != null" >
+        mq_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="applicant != null" >
+        #{applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="recipient != null" >
+        #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="mqDesc != null" >
+        #{mqDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.MessageQueryExample" resultType="java.lang.Integer" >
+    select count(*) from message_query
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update message_query
+    <set >
+      <if test="record.mqId != null" >
+        mq_id = #{record.mqId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applicant != null" >
+        applicant = #{record.applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recipient != null" >
+        recipient = #{record.recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendTime != null" >
+        send_time = #{record.sendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mqDesc != null" >
+        mq_desc = #{record.mqDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update message_query
+    set mq_id = #{record.mqId,jdbcType=VARCHAR},
+      applicant = #{record.applicant,jdbcType=VARCHAR},
+      recipient = #{record.recipient,jdbcType=VARCHAR},
+      send_time = #{record.sendTime,jdbcType=VARCHAR},
+      mq_desc = #{record.mqDesc,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.MessageQuery" >
+    update message_query
+    <set >
+      <if test="applicant != null" >
+        applicant = #{applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="recipient != null" >
+        recipient = #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        send_time = #{sendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="mqDesc != null" >
+        mq_desc = #{mqDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mq_id = #{mqId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.MessageQuery" >
+    update message_query
+    set applicant = #{applicant,jdbcType=VARCHAR},
+      recipient = #{recipient,jdbcType=VARCHAR},
+      send_time = #{sendTime,jdbcType=VARCHAR},
+      mq_desc = #{mqDesc,jdbcType=VARCHAR}
+    where mq_id = #{mqId,jdbcType=VARCHAR}
+  </update>
+</mapper>

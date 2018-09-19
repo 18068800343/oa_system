@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.MonthTargetDao" >
+  		<insert id="addMonthTarget" parameterType="java.util.List">
+  			insert into month_target(ot_id,month,contract_amount,revenue_target,collection_target,type)  values
+	  			<foreach collection="target" item="item" separator=",">
+	  				(#{item.otId},#{item.month},#{item.contractAmount},#{item.revenueTarget},#{item.collectionTarget},#{item.type})
+	  			</foreach>
+  		</insert>
+  		
+  		<update id="updateMonthTarget" parameterType="java.util.List">
+  			<foreach collection="target" item="item" separator=";">
+  				update month_target set contract_amount=#{item.contractAmount},revenue_target=#{item.revenueTarget},
+  						   collection_target=#{item.collectionTarget} where ot_id=#{item.otId} and month=#{item.month}
+  			</foreach>
+  		</update>
+  		
+  		<select id="selectMonthTargetById" resultType="DepartmentTarget">
+  			select ot_id,month,contract_amount,revenue_target,collection_target,type from month_target where ot_id=#{id}
+  		</select>
+  		
+  		<select id="orNotSplit" resultType="int">
+  			select count(t_id) from department_target where ot_id=#{id}
+  		</select>
+</mapper>

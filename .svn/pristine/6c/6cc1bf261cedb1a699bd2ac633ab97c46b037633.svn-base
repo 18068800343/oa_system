@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+        body{
+        	overflow-y: auto;
+        	background: #fff;
+        }
+        @media screen and (max-width: 1366px) {
+		    body {
+		        margin-bottom:300px !important;
+		    }
+		}
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>系统管理</li>
+			<li class="active">职务等级管理</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        <div>
+        
+        	<ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">职务等级</a></li>
+                <li role="presentation" onclick="changeSelect()"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">职务</a></li>
+            </ul>
+         <div class="tab-content">
+        	<div role="tabpanel" class="tab-pane active"  id="home">
+                    <div class="UpperPart">
+                        <div class="UpperPartL">
+                            
+                        </div>
+                        <div class="UpperPartR">
+                            <button type="button" style="margin-top: 8px;" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建职务等级</button>
+                        </div>
+                        
+                        <!--新增职位等级 Modal -->
+					<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+			    		<div class="modal-dialog" role="document">
+			        		<div class="modal-content">
+						        <div class="modal-header">
+						            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						            <h4 class="modal-title" id="myModalLabel"><b>新建职位等级</b></h4>
+						        </div>
+			        				<div class="modal-body">
+						                <div>
+						                	<table class="table table-bordered">
+						                		<tr>
+						                			<td>
+						                				<span>职务等级:</span>   
+						                			</td>
+						                			<td>
+						                			 	 <input type="text" class="form-control" id="job_lv">
+						                			</td>
+						                			<td>
+						                				<span>等级权重:</span>   
+						                			</td>
+						                			<td>
+						                			 	<input type="text" class="form-control" id="job_size">
+						                			</td>
+						                		</tr>
+						                	</table>
+						                </div>
+			        				</div>
+				        			<div class="modal-footer">
+				            			 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				           				 <button type="button" class="btn btn-success"  onclick="sava_job_lv()">保存</button>
+				       			 	</div>
+			        		</div>
+			    		</div>
+					</div>
+					<!-- model结束 -->
+					
+					  <!--修改职位等级 Modal -->
+					<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="editMyModal">
+			    		<div class="modal-dialog" role="document">
+			        		<div class="modal-content">
+						        <div class="modal-header">
+						            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						            <h4 class="modal-title" id="myModalLabel"><b>新建职位等级</b></h4>
+						        </div>
+			        				<div class="modal-body">
+						                <div>
+						                	<table class="table table-bordered">
+						                		<tr>
+						                			<td>
+						                				<span>职务等级:</span>   
+						                			</td>
+						                			<td>
+						                			 	 <input type="text" class="form-control" id="edit_job_lv">
+						                			</td>
+						                			<td>
+						                				<span>等级权重:</span>   
+						                			</td>
+						                			<td>
+						                			 	<input type="text" class="form-control" id="edit_job_size">
+						                			</td>
+						                		</tr>
+						                	</table>
+						                </div>
+			        				</div>
+				        			<div class="modal-footer">
+				            			 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				           				 <button type="button" class="btn btn-success"  onclick="edit_job_lv()">保存</button>
+				       			 	</div>
+			        		</div>
+			    		</div>
+					</div>
+					<!-- model结束 -->
+					
+					
+                  </div> 
+                  
+                     <div class="LowerPart" style="margin-top:3px;">
+                            <table class="table table-bordered table-condensed" id="mainContent">
+                                <thead>
+                                    <tr>
+                                        <th>职务等级</th>
+                                        <th>等级权重</th>
+                                        <th style="width:20%;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>   
+                            </table>
+                    </div>      
+         	</div>
+         	
+         	<div role="tabpanel" class="tab-pane" id="profile">
+                    <div class="UpperPart">
+                        <div class="UpperPartL">
+                            <form class="form-inline">
+			                    <div class="form-group" style="margin-top: 8px;">
+			                        <span>职位标准:</span>
+			                        <select id="duty_norm" style="width:150px;font-size:16px;" class="form-control">
+			                            			<option value="职能岗">职能岗</option>
+						                            <option value="技术岗">技术岗</option>
+						                            <option value="工程岗">工程岗</option>
+						                            <option value="营销岗">营销岗</option>
+						                            <option value="管理岗">管理岗</option>
+			                        </select>
+			                    </div>
+                			</form>
+                        </div>
+                        <div class="UpperPartR">
+                            <button type="button" style="margin-top: 8px;" class="btn btn-primary" onclick="newJob()">新建职务</button>
+                        </div>
+                        
+                        <!-- 新增职务Modal2 -->
+						<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
+				    		<div class="modal-dialog" role="document">
+				        		<div class="modal-content">
+							        <div class="modal-header">
+							            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							            <h4 class="modal-title" id="myModalLabel"><b>新建职务</b></h4>
+							        </div>
+				        				<div class="modal-body">
+							                <div>
+							                	<table class="table table-bordered">
+							                		<tr>
+							                			<td>
+							                				<span>一级职务:</span> 
+							                			</td>
+							                			<td>
+							                				<input type="text" class="form-control" id="job_first">
+							                			</td>
+							                			<td>
+							                				<span>二级职务:</span> 
+							                			</td>
+							                			<td>
+							                				<input type="text" class="form-control" id="job_second">
+							                			</td>
+							                		</tr>
+							                		<tr>
+							                			<td>
+							                				<span>职务等级:</span>   
+							                			</td>
+							                			<td>
+							                				<select id="job_lv_select"  class="form-control">
+				                        					</select>
+							                			</td>
+							                			<td>
+							                				<span>职位标准:</span>
+							                			</td>
+							                			<td>
+							                				<select id="duty_norm2"  class="form-control">
+							                					<option value="职能岗">职能岗</option>
+						                            			<option value="技术岗">技术岗</option>
+						                            			<option value="工程岗">工程岗</option>
+						                            			<option value="营销岗">营销岗</option>
+						                            			<option value="管理岗">管理岗</option>
+				                        					</select>
+							                			</td>
+							                		</tr>
+							                	</table>
+							                </div>
+				        				</div>
+					        			<div class="modal-footer">
+					            			 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					           				 <button type="button" class="btn btn-success"  onclick="sava_job()">保存</button>
+					       			 	</div>
+				        		</div>
+				    		</div>
+						</div>
+						<!-- model2结束 -->
+						
+						<!-- 修改职务Modal2 -->
+						<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="editMyModal2">
+				    		<div class="modal-dialog" role="document">
+				        		<div class="modal-content">
+							        <div class="modal-header">
+							            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							            <h4 class="modal-title" id="myModalLabel"><b>修改职务</b></h4>
+							        </div>
+				        				<div class="modal-body">
+							                <div>
+							                	<table class="table table-bordered">
+							                		<tr>
+							                			<td>
+							                				<span>一级职务:</span> 
+							                			</td>
+							                			<td>
+							                				<input type="text" class="form-control" id="edit_job_first">
+							                			</td>
+							                			<td>
+							                				<span>二级职务:</span> 
+							                			</td>
+							                			<td>
+							                				<input type="text" class="form-control" id="edit_job_second">
+							                			</td>
+							                		</tr>
+							                		<tr>
+							                			<td>
+							                				<span>职务等级:</span>   
+							                			</td>
+							                			<td>
+							                				<select id="edit_job_lv_select"  class="form-control">
+				                        					</select>
+							                			</td>
+							                			<td>
+							                				<span>职位标准:</span>
+							                			</td>
+							                			<td>
+							                				<select id="edit_duty_norm2"  class="form-control">
+							                					<option value="职能岗">职能岗</option>
+						                            			<option value="技术岗">技术岗</option>
+						                            			<option value="工程岗">工程岗</option>
+						                            			<option value="营销岗">营销岗</option>
+						                            			<option value="管理岗">管理岗</option>
+				                        					</select>
+							                			</td>
+							                		</tr>
+							                	</table>
+							                </div>
+				        				</div>
+					        			<div class="modal-footer">
+					            			 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					           				 <button type="button" class="btn btn-success"  onclick="edit_sava_job()">保存</button>
+					       			 	</div>
+				        		</div>
+				    		</div>
+						</div>
+						<!-- model2结束 -->
+                  </div>
+                  
+                  <div class="LowerPart" style="margin-top:3px;">
+                            <table class="table table-bordered table-condensed" id="mainContent2">
+                                <thead>
+                                    <tr>
+                                        <th>一级职务</th>
+                                        <th>二级职务</th>
+                                        <th>职务等级</th>
+                                        <th style="width:100px;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>   
+                            </table>
+                    </div>            
+         	</div>
+          </div>
+        </div>
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+    	initTable2();
+	});
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "jobLvName"}, 
+		            { "data": "jobLvSize"}, 
+		            { "data": null}
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 2,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="editDuty(this)"></i>&nbsp<i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" onclick="deleteDuty(this)" title="删除"></i>';
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    
+    
+    var table2=$('#mainContent2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "jobFirst"}, 
+		            { "data": "jobSecond"}, 
+		            { "data": "jobLvName"}, 
+		            { "data": null}
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 3,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="editDutyJob(this)"></i>&nbsp<i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" onclick="deleteDutyJob(this)" title="删除"></i>';
+										        }
+										  }
+								],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    
+	function initSelect(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/job/selectJobLv',
+            dataType: 'json',
+            data: {
+            	
+            },
+            error: function (msg) {
+            	toastr.error('请求失败');
+            },
+            success: function (json) {
+            	$("#job_lv_select").html('');
+            	$("#edit_job_lv_select").html('');
+                for(var i=0;i<json.length;i++){
+                	$("#job_lv_select").append("<option value='"+json[i].jobLvId+"'>"+json[i].jobLvName+"</option>");
+                	$("#edit_job_lv_select").append("<option value='"+json[i].jobLvId+"'>"+json[i].jobLvName+"</option>");
+                }
+            }
+        });
+    }
+	
+    
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/job/selectJobLv',
+            dataType: 'json',
+            data: {
+            	
+            },
+            error: function (msg) {
+            	toastr.error('请求失败');
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	
+	
+	function initTable2(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/jobc/selectJobByType',
+            dataType: 'json',
+            data: {
+            	type:$("#duty_norm").val()
+            },
+            error: function (msg) {
+            	toastr.error('请求失败');
+            },
+            success: function (json) {
+                $('#mainContent2').dataTable().fnClearTable();
+                $('#mainContent2').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+
+	
+	function changeSelect(){
+		initSelect();
+	}
+	
+	$("#duty_norm").on("change",function(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/jobc/selectJobByType',
+            dataType: 'json',
+            data: {
+            	type:$("#duty_norm").val()
+            },
+            error: function (msg) {
+            	toastr.error('请求失败');
+            },
+            success: function (json) {
+                $('#mainContent2').dataTable().fnClearTable();
+                $('#mainContent2').DataTable().rows.add(json).draw(false);
+            }
+        });
+	});
+	
+	
+	function newJob(){
+		$("#myModal2").modal("show");
+	}
+	
+	
+	function sava_job_lv(){
+		var job_lv_name=$("#job_lv").val().trim();
+		var job_size=$("#job_size").val().trim();
+		var reg =/^\+?[1-9][0-9]*$/;
+		if(job_lv_name==''){
+			toastr.error("职务等级为空");
+			return;
+		}
+		if(job_size==''){
+			toastr.error("等级权重为空");
+			return;
+		}
+		if(!reg.test(job_size)){
+			toastr.error("等级权重必须为正整数");
+			return;
+		}
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/job/addJobLv',
+            dataType: 'json',
+            data: {
+				jobLvName:job_lv_name,
+				jobLvSize:job_size
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	if(json.result==0){
+            		toastr.error("添加失败");
+            	}else if(json.result==1){
+            		$('#mainContent').DataTable().row.add(json.job).draw(false);     //新增行立即显示
+            		toastr.success("添加成功");
+            		$("#myModal").modal("hide");
+            	}else if(json.result==2){
+            		toastr.error("职务等级重复");
+            	}else if(json.result==3){
+            		toastr.error("等级权重重复");
+            	}
+            }
+		});
+	}
+	
+	var jobId;
+	var dom;
+	function editDuty(obj){
+		dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		jobId=data.jobLvId;
+		
+		$("#edit_job_lv").val(data.jobLvName);
+		$("#edit_job_size").val(data.jobLvSize);
+		
+		$("#editMyModal").modal("show");
+	}
+	
+	var dom2;
+	var jobId2;
+	function editDutyJob(obj){
+		dom2=$(obj).parents("tr");
+		var data=$('#mainContent2').DataTable().row(dom2).data();
+		jobId2=data.jobId;
+		
+		$("#edit_job_first").val(data.jobFirst);
+		$("#edit_job_second").val(data.jobSecond);
+		$("#edit_job_lv_select").val(data.jobLvId);
+		$("#edit_duty_norm2").val(data.jobType);
+		
+		$("#editMyModal2").modal("show");
+	}
+	
+	
+	function edit_sava_job(){
+		var jobFirst=$("#edit_job_first").val().trim();
+		var jobSecond=$("#edit_job_second").val().trim();
+		var jobLvId=$("#edit_job_lv_select").val();
+		var jobLvName=$("#edit_job_lv_select option:selected").text();
+		var jobType=$("#edit_duty_norm2").val();
+		if(jobFirst==''||jobSecond==''){
+			toastr.error("输出框不能为空");
+			return;
+		}
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/jobc/updateJob',
+            dataType: 'json',
+            data: {
+            	jobFirst:jobFirst,
+            	jobSecond:jobSecond,
+            	jobLvId:jobLvId,
+            	jobType:jobType,
+            	jobLvName:jobLvName,
+            	jobId:jobId2
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	if(json.result==0){
+            		toastr.error("修改失败");
+            	}else if(json.result==1){
+            		$('#mainContent2').DataTable().row(dom2).data(json.job).draw(true);
+            		toastr.success("修改成功");
+            		$("#editMyModal2").modal("hide");
+            	}else if(json.result==2){
+            		toastr.error("二级职务重复");
+            	}
+            }
+        });
+	}
+	
+	function deleteDutyJob(obj){
+		var dom=$(obj).parents("tr");
+		var data=$('#mainContent2').DataTable().row(dom).data();
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/jobc/deleteJob',
+            dataType: 'json',
+            data: {
+				id:data.jobId
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	if(json==0){
+            		toastr.error("删除失败");
+            	}else{
+            		$('#mainContent2').DataTable().row(dom).remove().draw(false);
+            		toastr.success("删除成功");
+            	}
+            }
+        });
+	}
+	
+	function edit_job_lv(){
+		var job_lv_name=$("#edit_job_lv").val().trim();
+		var job_size=$("#edit_job_size").val().trim();
+		var reg =/^\+?[1-9][0-9]*$/;
+		if(job_lv_name==''){
+			toastr.error("职务等级为空");
+			return;
+		}
+		if(job_size==''){
+			toastr.error("等级权重为空");
+			return;
+		}
+		if(!reg.test(job_size)){
+			toastr.error("等级权重必须为正整数");
+			return;
+		}
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/job/updateJobLv',
+            dataType: 'json',
+            data: {
+            	jobLvId:jobId,            	
+				jobLvName:job_lv_name,
+				jobLvSize:job_size
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	if(json.result==0){
+            		toastr.error("修改失败");
+            	}else if(json.result==1){
+            		$('#mainContent').DataTable().row(dom).data(json.job).draw(true);;     //修改行立即显示
+            		toastr.success("修改成功");
+            		$("#editMyModal").modal("hide");
+            	}else if(json.result==2){
+            		toastr.error("职务等级重复");
+            	}else if(json.result==3){
+            		toastr.error("等级权重重复");
+            	}
+            }
+		});
+	}
+	
+	
+	function deleteDuty(obj){
+		var dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/job/deleteJobLv',
+            dataType: 'json',
+            data: {
+            	id:data.jobLvId
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	if(json==0){
+            		toastr.error("删除失败");
+            	}else{
+            		$('#mainContent').DataTable().row(dom).remove().draw(false);
+            		toastr.success("删除成功");
+            	}
+            }
+		});
+	}
+	
+	function sava_job(){
+		var jobFirst=$("#job_first").val().trim();
+		var jobSecond=$("#job_second").val().trim();
+		var jobLvId=$("#job_lv_select").val();
+		var jobLvName=$("#job_lv_select option:selected").text();
+		var jobType=$("#duty_norm2").val();
+		if(jobFirst==''||jobSecond==''){
+			toastr.error("输出框不能为空");
+			return;
+		}
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/jobc/addJob',
+            dataType: 'json',
+            data: {
+            	jobFirst:jobFirst,
+            	jobSecond:jobSecond,
+            	jobLvId:jobLvId,
+            	jobType:jobType,
+            	jobLvName:jobLvName
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	if(json.result==0){
+            		toastr.error("添加失败");
+            	}else if(json.result==1){
+            		$('#mainContent2').DataTable().row.add(json.job).draw(false);
+            		toastr.success("添加成功");
+            		$("#myModal2").modal("hide");
+            	}else if(json.result==2){
+            		toastr.error("二级职务重复");
+            	}
+            }
+		});
+	}
+	
+    function getCreat(bb){
+        var EnterpriseRating= $(bb).parent().prev().text();
+        var Remarks= $(bb).parent().prev().prev().text();
+        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
+        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
+        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
+        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
+        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
+        $("#CEnterprise-rating").val(EnterpriseRating);
+        $("#CRemarks").val(Remarks);
+        $("#CContact-phone1").val(ContactPhone1);
+        $("#CContacts").val(Contacts);
+        $("#Caddress").val(address);
+        $("#CProprietor-unit").val(ProprietorUnit);
+        $("#CCode").val(Code);
+        rowIndex = bb.parentNode.parentNode.rowIndex; 
+    }
+</script>
+</html>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.FbContractReopenMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.FbContractReopen" >
+    <id column="fbr_id" property="fbrId" jdbcType="VARCHAR" />
+    <result column="fb_id" property="fbId" jdbcType="VARCHAR" />
+    <result column="fb_contract_code" property="fbContractCode" jdbcType="VARCHAR" />
+    <result column="fb_contract_reopen_reason" property="fbContractReopenReason" jdbcType="VARCHAR" />
+    <result column="reopen_time" property="reopenTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    fbr_id, fb_id, fb_contract_code, fb_contract_reopen_reason, reopen_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.FbContractReopenExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from fb_contract_reopen
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fb_contract_reopen
+    where fbr_id = #{fbrId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fb_contract_reopen
+    where fbr_id = #{fbrId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.FbContractReopenExample" >
+    delete from fb_contract_reopen
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.FbContractReopen" >
+    <selectKey resultType="java.lang.String" keyProperty="fbrId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into fb_contract_reopen (fb_id, fb_contract_code, fb_contract_reopen_reason, 
+      reopen_time)
+    values (#{fbId,jdbcType=VARCHAR}, #{fbContractCode,jdbcType=VARCHAR}, #{fbContractReopenReason,jdbcType=VARCHAR}, 
+      #{reopenTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.FbContractReopen" >
+    <selectKey resultType="java.lang.String" keyProperty="fbrId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into fb_contract_reopen
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fbId != null" >
+        fb_id,
+      </if>
+      <if test="fbContractCode != null" >
+        fb_contract_code,
+      </if>
+      <if test="fbContractReopenReason != null" >
+        fb_contract_reopen_reason,
+      </if>
+      <if test="reopenTime != null" >
+        reopen_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fbId != null" >
+        #{fbId,jdbcType=VARCHAR},
+      </if>
+      <if test="fbContractCode != null" >
+        #{fbContractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fbContractReopenReason != null" >
+        #{fbContractReopenReason,jdbcType=VARCHAR},
+      </if>
+      <if test="reopenTime != null" >
+        #{reopenTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.FbContractReopenExample" resultType="java.lang.Integer" >
+    select count(*) from fb_contract_reopen
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update fb_contract_reopen
+    <set >
+      <if test="record.fbrId != null" >
+        fbr_id = #{record.fbrId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fbId != null" >
+        fb_id = #{record.fbId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fbContractCode != null" >
+        fb_contract_code = #{record.fbContractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fbContractReopenReason != null" >
+        fb_contract_reopen_reason = #{record.fbContractReopenReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reopenTime != null" >
+        reopen_time = #{record.reopenTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update fb_contract_reopen
+    set fbr_id = #{record.fbrId,jdbcType=VARCHAR},
+      fb_id = #{record.fbId,jdbcType=VARCHAR},
+      fb_contract_code = #{record.fbContractCode,jdbcType=VARCHAR},
+      fb_contract_reopen_reason = #{record.fbContractReopenReason,jdbcType=VARCHAR},
+      reopen_time = #{record.reopenTime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.FbContractReopen" >
+    update fb_contract_reopen
+    <set >
+      <if test="fbId != null" >
+        fb_id = #{fbId,jdbcType=VARCHAR},
+      </if>
+      <if test="fbContractCode != null" >
+        fb_contract_code = #{fbContractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fbContractReopenReason != null" >
+        fb_contract_reopen_reason = #{fbContractReopenReason,jdbcType=VARCHAR},
+      </if>
+      <if test="reopenTime != null" >
+        reopen_time = #{reopenTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fbr_id = #{fbrId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.FbContractReopen" >
+    update fb_contract_reopen
+    set fb_id = #{fbId,jdbcType=VARCHAR},
+      fb_contract_code = #{fbContractCode,jdbcType=VARCHAR},
+      fb_contract_reopen_reason = #{fbContractReopenReason,jdbcType=VARCHAR},
+      reopen_time = #{reopenTime,jdbcType=VARCHAR}
+    where fbr_id = #{fbrId,jdbcType=VARCHAR}
+  </update>
+</mapper>

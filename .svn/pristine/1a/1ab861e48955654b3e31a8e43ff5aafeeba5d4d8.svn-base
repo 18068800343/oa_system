@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.ProjectScaleMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.ProjectScale" >
+    <id column="ps_id" property="psId" jdbcType="VARCHAR" />
+    <result column="prj_type" property="prjType" jdbcType="VARCHAR" />
+    <result column="prj_scale" property="prjScale" jdbcType="VARCHAR" />
+    <result column="contract_amount_big" property="contractAmountBig" jdbcType="INTEGER" />
+    <result column="contract_amount_small" property="contractAmountSmall" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ps_id, prj_type, prj_scale, contract_amount_big, contract_amount_small
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.ProjectScaleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from project_scale
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from project_scale
+    where ps_id = #{psId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from project_scale
+    where ps_id = #{psId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.ProjectScaleExample" >
+    delete from project_scale
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.ProjectScale" >
+    <selectKey resultType="java.lang.String" keyProperty="psId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into project_scale (prj_type, prj_scale, contract_amount_big, 
+      contract_amount_small)
+    values (#{prjType,jdbcType=VARCHAR}, #{prjScale,jdbcType=VARCHAR}, #{contractAmountBig,jdbcType=INTEGER}, 
+      #{contractAmountSmall,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.ProjectScale" >
+    <selectKey resultType="java.lang.String" keyProperty="psId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into project_scale
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="prjType != null" >
+        prj_type,
+      </if>
+      <if test="prjScale != null" >
+        prj_scale,
+      </if>
+      <if test="contractAmountBig != null" >
+        contract_amount_big,
+      </if>
+      <if test="contractAmountSmall != null" >
+        contract_amount_small,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="prjType != null" >
+        #{prjType,jdbcType=VARCHAR},
+      </if>
+      <if test="prjScale != null" >
+        #{prjScale,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAmountBig != null" >
+        #{contractAmountBig,jdbcType=INTEGER},
+      </if>
+      <if test="contractAmountSmall != null" >
+        #{contractAmountSmall,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.ProjectScaleExample" resultType="java.lang.Integer" >
+    select count(*) from project_scale
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update project_scale
+    <set >
+      <if test="record.psId != null" >
+        ps_id = #{record.psId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjType != null" >
+        prj_type = #{record.prjType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjScale != null" >
+        prj_scale = #{record.prjScale,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractAmountBig != null" >
+        contract_amount_big = #{record.contractAmountBig,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractAmountSmall != null" >
+        contract_amount_small = #{record.contractAmountSmall,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update project_scale
+    set ps_id = #{record.psId,jdbcType=VARCHAR},
+      prj_type = #{record.prjType,jdbcType=VARCHAR},
+      prj_scale = #{record.prjScale,jdbcType=VARCHAR},
+      contract_amount_big = #{record.contractAmountBig,jdbcType=INTEGER},
+      contract_amount_small = #{record.contractAmountSmall,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.ProjectScale" >
+    update project_scale
+    <set >
+      <if test="prjType != null" >
+        prj_type = #{prjType,jdbcType=VARCHAR},
+      </if>
+      <if test="prjScale != null" >
+        prj_scale = #{prjScale,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAmountBig != null" >
+        contract_amount_big = #{contractAmountBig,jdbcType=INTEGER},
+      </if>
+      <if test="contractAmountSmall != null" >
+        contract_amount_small = #{contractAmountSmall,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ps_id = #{psId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.ProjectScale" >
+    update project_scale
+    set prj_type = #{prjType,jdbcType=VARCHAR},
+      prj_scale = #{prjScale,jdbcType=VARCHAR},
+      contract_amount_big = #{contractAmountBig,jdbcType=INTEGER},
+      contract_amount_small = #{contractAmountSmall,jdbcType=INTEGER}
+    where ps_id = #{psId,jdbcType=VARCHAR}
+  </update>
+</mapper>

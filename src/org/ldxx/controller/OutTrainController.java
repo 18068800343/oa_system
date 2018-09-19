@@ -1,0 +1,170 @@
+package org.ldxx.controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.ldxx.bean.Accessory;
+import org.ldxx.bean.OutTrain;
+import org.ldxx.service.AnnouncementService;
+import org.ldxx.service.OutTrainService;
+import org.ldxx.util.TimeUUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+@Controller
+@RequestMapping("outTrain")
+public class OutTrainController {
+
+	@Autowired
+	private OutTrainService oservice;
+	
+	@Autowired 
+	private AnnouncementService aservice;
+	
+	@RequestMapping("/addOutTrainBySave")
+	@ResponseBody
+	public int addOutTrainBySave(OutTrain outTrain,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		String path="D:"+File.separator+"oa"+File.separator+"OutTrain"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		List<Accessory> accList=new ArrayList<>();
+		if(file.length>0){
+			for(int i=0;i<file.length;i++){
+				Accessory acc=new Accessory();
+				String fileName=file[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[i].transferTo(f2);
+				acc.setaId(id);
+				acc.setAcName(fileName);
+				acc.setAcUrl(filePath);
+				accList.add(acc);
+			}
+		}
+		outTrain.setOtId(id);
+		outTrain.setAccessory(accList);
+		int i=oservice.addOutTrain(outTrain);
+		return i;
+	}
+	
+	@RequestMapping("/addOutTrainBySubmit")
+	@ResponseBody
+	public int addOutTrainBySubmit(OutTrain outTrain,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		String path="D:"+File.separator+"oa"+File.separator+"OutTrain"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		List<Accessory> accList=new ArrayList<>();
+		if(file.length>0){
+			for(int i=0;i<file.length;i++){
+				Accessory acc=new Accessory();
+				String fileName=file[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[i].transferTo(f2);
+				acc.setaId(id);
+				acc.setAcName(fileName);
+				acc.setAcUrl(filePath);
+				accList.add(acc);
+			}
+		}
+		outTrain.setOtId(id);
+		outTrain.setAccessory(accList);
+		int i=oservice.addOutTrain(outTrain);
+		return i;
+	}
+	
+	
+	@RequestMapping("/deleteOutTrain")
+	@ResponseBody
+	public int deleteOutTrain(String id){
+		return oservice.deleteOutTrain(id);
+	}
+	
+	@RequestMapping("/deleteAccessory")
+	@ResponseBody
+	public int deleteAccessory(Accessory accessory){
+		int i=aservice.deleteAccessoryByIdAndName(accessory);
+		if(i>0){
+			File f=new File(accessory.getAcUrl());
+			f.delete();
+		}
+		return i;
+	}
+	
+	@RequestMapping("/updateOutTrainBySave")
+	@ResponseBody
+	public int updateOutTrainBySave(OutTrain outTrain,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		String id=outTrain.getOtId();
+		String path="D:"+File.separator+"oa"+File.separator+"OutTrain"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		List<Accessory> accList=new ArrayList<>();
+		if(file.length>0){
+			for(int i=0;i<file.length;i++){
+				Accessory acc=new Accessory();
+				String fileName=file[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[i].transferTo(f2);
+				acc.setaId(id);
+				acc.setAcName(fileName);
+				acc.setAcUrl(filePath);
+				accList.add(acc);
+			}
+		}
+		outTrain.setAccessory(accList);
+		int i=oservice.updateOutTrain(outTrain);
+		return i;
+	}
+	
+	@RequestMapping("/updateOutTrainBySubmit")
+	@ResponseBody
+	public int updateOutTrainBySubmit(OutTrain outTrain,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		String id=outTrain.getOtId();
+		String path="D:"+File.separator+"oa"+File.separator+"OutTrain"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		List<Accessory> accList=new ArrayList<>();
+		if(file.length>0){
+			for(int i=0;i<file.length;i++){
+				Accessory acc=new Accessory();
+				String fileName=file[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[i].transferTo(f2);
+				acc.setaId(id);
+				acc.setAcName(fileName);
+				acc.setAcUrl(filePath);
+				accList.add(acc);
+			}
+		}
+		outTrain.setAccessory(accList);
+		int i=oservice.updateOutTrain(outTrain);
+		return i;
+	}
+	
+	
+	@RequestMapping("/selectOutTrain")
+	@ResponseBody
+	public List<OutTrain> selectOutTrain(){
+		return oservice.selectOutTrain();
+	}
+}

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.FbCancelContractMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.FbCancelContract" >
+    <id column="fbc_id" property="fbcId" jdbcType="VARCHAR" />
+    <result column="fb_id" property="fbId" jdbcType="VARCHAR" />
+    <result column="prj_name" property="prjName" jdbcType="VARCHAR" />
+    <result column="cj_contract_name" property="cjContractName" jdbcType="VARCHAR" />
+    <result column="fb_contract_cancel_idea" property="fbContractCancelIdea" jdbcType="VARCHAR" />
+    <result column="cantel_time" property="cantelTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    fbc_id, fb_id, prj_name, cj_contract_name, fb_contract_cancel_idea, cantel_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.FbCancelContractExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from fb_cancel_contract
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fb_cancel_contract
+    where fbc_id = #{fbcId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fb_cancel_contract
+    where fbc_id = #{fbcId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.FbCancelContractExample" >
+    delete from fb_cancel_contract
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.FbCancelContract" >
+    <selectKey resultType="java.lang.String" keyProperty="fbcId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into fb_cancel_contract (fb_id, prj_name, cj_contract_name, 
+      fb_contract_cancel_idea, cantel_time)
+    values (#{fbId,jdbcType=VARCHAR}, #{prjName,jdbcType=VARCHAR}, #{cjContractName,jdbcType=VARCHAR}, 
+      #{fbContractCancelIdea,jdbcType=VARCHAR}, #{cantelTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.FbCancelContract" >
+    <selectKey resultType="java.lang.String" keyProperty="fbcId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into fb_cancel_contract
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fbId != null" >
+        fb_id,
+      </if>
+      <if test="prjName != null" >
+        prj_name,
+      </if>
+      <if test="cjContractName != null" >
+        cj_contract_name,
+      </if>
+      <if test="fbContractCancelIdea != null" >
+        fb_contract_cancel_idea,
+      </if>
+      <if test="cantelTime != null" >
+        cantel_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fbId != null" >
+        #{fbId,jdbcType=VARCHAR},
+      </if>
+      <if test="prjName != null" >
+        #{prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="cjContractName != null" >
+        #{cjContractName,jdbcType=VARCHAR},
+      </if>
+      <if test="fbContractCancelIdea != null" >
+        #{fbContractCancelIdea,jdbcType=VARCHAR},
+      </if>
+      <if test="cantelTime != null" >
+        #{cantelTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.FbCancelContractExample" resultType="java.lang.Integer" >
+    select count(*) from fb_cancel_contract
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update fb_cancel_contract
+    <set >
+      <if test="record.fbcId != null" >
+        fbc_id = #{record.fbcId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fbId != null" >
+        fb_id = #{record.fbId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjName != null" >
+        prj_name = #{record.prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cjContractName != null" >
+        cj_contract_name = #{record.cjContractName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fbContractCancelIdea != null" >
+        fb_contract_cancel_idea = #{record.fbContractCancelIdea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cantelTime != null" >
+        cantel_time = #{record.cantelTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update fb_cancel_contract
+    set fbc_id = #{record.fbcId,jdbcType=VARCHAR},
+      fb_id = #{record.fbId,jdbcType=VARCHAR},
+      prj_name = #{record.prjName,jdbcType=VARCHAR},
+      cj_contract_name = #{record.cjContractName,jdbcType=VARCHAR},
+      fb_contract_cancel_idea = #{record.fbContractCancelIdea,jdbcType=VARCHAR},
+      cantel_time = #{record.cantelTime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.FbCancelContract" >
+    update fb_cancel_contract
+    <set >
+      <if test="fbId != null" >
+        fb_id = #{fbId,jdbcType=VARCHAR},
+      </if>
+      <if test="prjName != null" >
+        prj_name = #{prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="cjContractName != null" >
+        cj_contract_name = #{cjContractName,jdbcType=VARCHAR},
+      </if>
+      <if test="fbContractCancelIdea != null" >
+        fb_contract_cancel_idea = #{fbContractCancelIdea,jdbcType=VARCHAR},
+      </if>
+      <if test="cantelTime != null" >
+        cantel_time = #{cantelTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fbc_id = #{fbcId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.FbCancelContract" >
+    update fb_cancel_contract
+    set fb_id = #{fbId,jdbcType=VARCHAR},
+      prj_name = #{prjName,jdbcType=VARCHAR},
+      cj_contract_name = #{cjContractName,jdbcType=VARCHAR},
+      fb_contract_cancel_idea = #{fbContractCancelIdea,jdbcType=VARCHAR},
+      cantel_time = #{cantelTime,jdbcType=VARCHAR}
+    where fbc_id = #{fbcId,jdbcType=VARCHAR}
+  </update>
+</mapper>

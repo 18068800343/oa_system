@@ -1,0 +1,96 @@
+package org.ldxx.bean;
+
+import java.util.List;
+
+public class Announcement {
+	
+	private String aId;
+	private String aTitle;
+	private String aType;
+	private String aImportance;
+	private String issuer;
+	private String uName;
+	private String aDesc;
+	private String aDepartment;
+	private String omName;
+	private String type;
+	private String time;
+	
+	
+	public String getuName() {
+		return uName;
+	}
+	public void setuName(String uName) {
+		this.uName = uName;
+	}
+	public String getOmName() {
+		return omName;
+	}
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
+	private List<Accessory> accessory;
+	
+	public String getaId() {
+		return aId;
+	}
+	public void setaId(String aId) {
+		this.aId = aId;
+	}
+	public String getaTitle() {
+		return aTitle;
+	}
+	public void setaTitle(String aTitle) {
+		this.aTitle = aTitle;
+	}
+	public String getaType() {
+		return aType;
+	}
+	public void setaType(String aType) {
+		this.aType = aType;
+	}
+	public String getaImportance() {
+		return aImportance;
+	}
+	public void setaImportance(String aImportance) {
+		this.aImportance = aImportance;
+	}
+	public String getIssuer() {
+		return issuer;
+	}
+	public void setIssuer(String issuer) {
+		this.issuer = issuer;
+	}
+	public String getaDesc() {
+		return aDesc;
+	}
+	public void setaDesc(String aDesc) {
+		this.aDesc = aDesc;
+	}
+	public String getaDepartment() {
+		return aDepartment;
+	}
+	public void setaDepartment(String aDepartment) {
+		this.aDepartment = aDepartment;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public List<Accessory> getAccessory() {
+		return accessory;
+	}
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
+	
+	
+}

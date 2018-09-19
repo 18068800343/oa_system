@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.FlowHistroyMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.FlowHistroy" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="Flo_Tmp_ID" property="floTmpId" jdbcType="VARCHAR" />
+    <result column="Flo_Node_ID" property="floNodeId" jdbcType="VARCHAR" />
+    <result column="Bus_ID" property="busId" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="Params" property="params" jdbcType="VARCHAR" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="Starter" property="starter" jdbcType="VARCHAR" />
+    <result column="StarterName" property="startername" jdbcType="VARCHAR" />
+    <result column="RDT" property="rdt" jdbcType="TIMESTAMP" />
+    <result column="FK_Dept" property="fkDept" jdbcType="VARCHAR" />
+    <result column="DeptName" property="deptname" jdbcType="VARCHAR" />
+    <result column="NodeName" property="nodename" jdbcType="VARCHAR" />
+    <result column="PRI" property="pri" jdbcType="INTEGER" />
+    <result column="Actor" property="actor" jdbcType="VARCHAR" />
+    <result column="ActorName" property="actorname" jdbcType="VARCHAR" />
+    <result column="ActorResult" property="actorresult" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.ldxx.bean.FlowHistroy" extends="BaseResultMap" >
+    <result column="view" property="view" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Flo_Tmp_ID, Flo_Node_ID, Bus_ID, URL, Params, Title, Starter, StarterName, RDT, 
+    FK_Dept, DeptName, NodeName, PRI, Actor, ActorName, ActorResult
+  </sql>
+  <sql id="Blob_Column_List" >
+    view
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="org.ldxx.bean.FlowHistroyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from flowhistroy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.FlowHistroyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from flowhistroy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from flowhistroy
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from flowhistroy
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.FlowHistroyExample" >
+    delete from flowhistroy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.FlowHistroy" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into flowhistroy (Flo_Tmp_ID, Flo_Node_ID, Bus_ID, 
+      URL, Params, Title, 
+      Starter, StarterName, RDT, 
+      FK_Dept, DeptName, NodeName, 
+      PRI, Actor, ActorName, 
+      ActorResult, view)
+    values (#{floTmpId,jdbcType=VARCHAR}, #{floNodeId,jdbcType=VARCHAR}, #{busId,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{starter,jdbcType=VARCHAR}, #{startername,jdbcType=VARCHAR}, #{rdt,jdbcType=TIMESTAMP}, 
+      #{fkDept,jdbcType=VARCHAR}, #{deptname,jdbcType=VARCHAR}, #{nodename,jdbcType=VARCHAR}, 
+      #{pri,jdbcType=INTEGER}, #{actor,jdbcType=VARCHAR}, #{actorname,jdbcType=VARCHAR}, 
+      #{actorresult,jdbcType=INTEGER}, #{view,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.FlowHistroy" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into flowhistroy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="floTmpId != null" >
+        Flo_Tmp_ID,
+      </if>
+      <if test="floNodeId != null" >
+        Flo_Node_ID,
+      </if>
+      <if test="busId != null" >
+        Bus_ID,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="params != null" >
+        Params,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="starter != null" >
+        Starter,
+      </if>
+      <if test="startername != null" >
+        StarterName,
+      </if>
+      <if test="rdt != null" >
+        RDT,
+      </if>
+      <if test="fkDept != null" >
+        FK_Dept,
+      </if>
+      <if test="deptname != null" >
+        DeptName,
+      </if>
+      <if test="nodename != null" >
+        NodeName,
+      </if>
+      <if test="pri != null" >
+        PRI,
+      </if>
+      <if test="actor != null" >
+        Actor,
+      </if>
+      <if test="actorname != null" >
+        ActorName,
+      </if>
+      <if test="actorresult != null" >
+        ActorResult,
+      </if>
+      <if test="view != null" >
+        view,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="floTmpId != null" >
+        #{floTmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="floNodeId != null" >
+        #{floNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="busId != null" >
+        #{busId,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null" >
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="starter != null" >
+        #{starter,jdbcType=VARCHAR},
+      </if>
+      <if test="startername != null" >
+        #{startername,jdbcType=VARCHAR},
+      </if>
+      <if test="rdt != null" >
+        #{rdt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkDept != null" >
+        #{fkDept,jdbcType=VARCHAR},
+      </if>
+      <if test="deptname != null" >
+        #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="nodename != null" >
+        #{nodename,jdbcType=VARCHAR},
+      </if>
+      <if test="pri != null" >
+        #{pri,jdbcType=INTEGER},
+      </if>
+      <if test="actor != null" >
+        #{actor,jdbcType=VARCHAR},
+      </if>
+      <if test="actorname != null" >
+        #{actorname,jdbcType=VARCHAR},
+      </if>
+      <if test="actorresult != null" >
+        #{actorresult,jdbcType=INTEGER},
+      </if>
+      <if test="view != null" >
+        #{view,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.FlowHistroyExample" resultType="java.lang.Integer" >
+    select count(*) from flowhistroy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update flowhistroy
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.floTmpId != null" >
+        Flo_Tmp_ID = #{record.floTmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.floNodeId != null" >
+        Flo_Node_ID = #{record.floNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busId != null" >
+        Bus_ID = #{record.busId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        URL = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.params != null" >
+        Params = #{record.params,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        Title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starter != null" >
+        Starter = #{record.starter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startername != null" >
+        StarterName = #{record.startername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rdt != null" >
+        RDT = #{record.rdt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fkDept != null" >
+        FK_Dept = #{record.fkDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptname != null" >
+        DeptName = #{record.deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nodename != null" >
+        NodeName = #{record.nodename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pri != null" >
+        PRI = #{record.pri,jdbcType=INTEGER},
+      </if>
+      <if test="record.actor != null" >
+        Actor = #{record.actor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actorname != null" >
+        ActorName = #{record.actorname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actorresult != null" >
+        ActorResult = #{record.actorresult,jdbcType=INTEGER},
+      </if>
+      <if test="record.view != null" >
+        view = #{record.view,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update flowhistroy
+    set ID = #{record.id,jdbcType=VARCHAR},
+      Flo_Tmp_ID = #{record.floTmpId,jdbcType=VARCHAR},
+      Flo_Node_ID = #{record.floNodeId,jdbcType=VARCHAR},
+      Bus_ID = #{record.busId,jdbcType=VARCHAR},
+      URL = #{record.url,jdbcType=VARCHAR},
+      Params = #{record.params,jdbcType=VARCHAR},
+      Title = #{record.title,jdbcType=VARCHAR},
+      Starter = #{record.starter,jdbcType=VARCHAR},
+      StarterName = #{record.startername,jdbcType=VARCHAR},
+      RDT = #{record.rdt,jdbcType=TIMESTAMP},
+      FK_Dept = #{record.fkDept,jdbcType=VARCHAR},
+      DeptName = #{record.deptname,jdbcType=VARCHAR},
+      NodeName = #{record.nodename,jdbcType=VARCHAR},
+      PRI = #{record.pri,jdbcType=INTEGER},
+      Actor = #{record.actor,jdbcType=VARCHAR},
+      ActorName = #{record.actorname,jdbcType=VARCHAR},
+      ActorResult = #{record.actorresult,jdbcType=INTEGER},
+      view = #{record.view,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update flowhistroy
+    set ID = #{record.id,jdbcType=VARCHAR},
+      Flo_Tmp_ID = #{record.floTmpId,jdbcType=VARCHAR},
+      Flo_Node_ID = #{record.floNodeId,jdbcType=VARCHAR},
+      Bus_ID = #{record.busId,jdbcType=VARCHAR},
+      URL = #{record.url,jdbcType=VARCHAR},
+      Params = #{record.params,jdbcType=VARCHAR},
+      Title = #{record.title,jdbcType=VARCHAR},
+      Starter = #{record.starter,jdbcType=VARCHAR},
+      StarterName = #{record.startername,jdbcType=VARCHAR},
+      RDT = #{record.rdt,jdbcType=TIMESTAMP},
+      FK_Dept = #{record.fkDept,jdbcType=VARCHAR},
+      DeptName = #{record.deptname,jdbcType=VARCHAR},
+      NodeName = #{record.nodename,jdbcType=VARCHAR},
+      PRI = #{record.pri,jdbcType=INTEGER},
+      Actor = #{record.actor,jdbcType=VARCHAR},
+      ActorName = #{record.actorname,jdbcType=VARCHAR},
+      ActorResult = #{record.actorresult,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.FlowHistroy" >
+    update flowhistroy
+    <set >
+      <if test="floTmpId != null" >
+        Flo_Tmp_ID = #{floTmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="floNodeId != null" >
+        Flo_Node_ID = #{floNodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="busId != null" >
+        Bus_ID = #{busId,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null" >
+        Params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="starter != null" >
+        Starter = #{starter,jdbcType=VARCHAR},
+      </if>
+      <if test="startername != null" >
+        StarterName = #{startername,jdbcType=VARCHAR},
+      </if>
+      <if test="rdt != null" >
+        RDT = #{rdt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkDept != null" >
+        FK_Dept = #{fkDept,jdbcType=VARCHAR},
+      </if>
+      <if test="deptname != null" >
+        DeptName = #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="nodename != null" >
+        NodeName = #{nodename,jdbcType=VARCHAR},
+      </if>
+      <if test="pri != null" >
+        PRI = #{pri,jdbcType=INTEGER},
+      </if>
+      <if test="actor != null" >
+        Actor = #{actor,jdbcType=VARCHAR},
+      </if>
+      <if test="actorname != null" >
+        ActorName = #{actorname,jdbcType=VARCHAR},
+      </if>
+      <if test="actorresult != null" >
+        ActorResult = #{actorresult,jdbcType=INTEGER},
+      </if>
+      <if test="view != null" >
+        view = #{view,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.ldxx.bean.FlowHistroy" >
+    update flowhistroy
+    set Flo_Tmp_ID = #{floTmpId,jdbcType=VARCHAR},
+      Flo_Node_ID = #{floNodeId,jdbcType=VARCHAR},
+      Bus_ID = #{busId,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      Params = #{params,jdbcType=VARCHAR},
+      Title = #{title,jdbcType=VARCHAR},
+      Starter = #{starter,jdbcType=VARCHAR},
+      StarterName = #{startername,jdbcType=VARCHAR},
+      RDT = #{rdt,jdbcType=TIMESTAMP},
+      FK_Dept = #{fkDept,jdbcType=VARCHAR},
+      DeptName = #{deptname,jdbcType=VARCHAR},
+      NodeName = #{nodename,jdbcType=VARCHAR},
+      PRI = #{pri,jdbcType=INTEGER},
+      Actor = #{actor,jdbcType=VARCHAR},
+      ActorName = #{actorname,jdbcType=VARCHAR},
+      ActorResult = #{actorresult,jdbcType=INTEGER},
+      view = #{view,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.FlowHistroy" >
+    update flowhistroy
+    set Flo_Tmp_ID = #{floTmpId,jdbcType=VARCHAR},
+      Flo_Node_ID = #{floNodeId,jdbcType=VARCHAR},
+      Bus_ID = #{busId,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      Params = #{params,jdbcType=VARCHAR},
+      Title = #{title,jdbcType=VARCHAR},
+      Starter = #{starter,jdbcType=VARCHAR},
+      StarterName = #{startername,jdbcType=VARCHAR},
+      RDT = #{rdt,jdbcType=TIMESTAMP},
+      FK_Dept = #{fkDept,jdbcType=VARCHAR},
+      DeptName = #{deptname,jdbcType=VARCHAR},
+      NodeName = #{nodename,jdbcType=VARCHAR},
+      PRI = #{pri,jdbcType=INTEGER},
+      Actor = #{actor,jdbcType=VARCHAR},
+      ActorName = #{actorname,jdbcType=VARCHAR},
+      ActorResult = #{actorresult,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

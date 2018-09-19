@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.User" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="work_id" property="workId" jdbcType="VARCHAR" />
+    <result column="record_no" property="recordNo" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
+    <result column="marriage" property="marriage" jdbcType="VARCHAR" />
+    <result column="political_status" property="politicalStatus" jdbcType="VARCHAR" />
+    <result column="entry_time" property="entryTime" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="card_id" property="cardId" jdbcType="VARCHAR" />
+    <result column="postal_code" property="postalCode" jdbcType="VARCHAR" />
+    <result column="fix_phone" property="fixPhone" jdbcType="VARCHAR" />
+    <result column="phone_no" property="phoneNo" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="diploma" property="diploma" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="specialty" property="specialty" jdbcType="VARCHAR" />
+    <result column="graduation_time" property="graduationTime" jdbcType="VARCHAR" />
+    <result column="om_id" property="omId" jdbcType="VARCHAR" />
+    <result column="duty_id" property="dutyId" jdbcType="VARCHAR" />
+    <result column="duty_name" property="dutyName" jdbcType="VARCHAR" />
+    <result column="certificate" property="certificate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, username, password, work_id, record_no, user_name, sex, birthday, nation, 
+    marriage, political_status, entry_time, address, card_id, postal_code, fix_phone, 
+    phone_no, email, diploma, school, specialty, graduation_time, om_id, duty_id, duty_name, 
+    certificate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.User" >
+    <selectKey resultType="java.lang.String" keyProperty="userId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user (username, password, work_id, 
+      record_no, user_name, sex, 
+      birthday, nation, marriage, 
+      political_status, entry_time, address, 
+      card_id, postal_code, fix_phone, 
+      phone_no, email, diploma, 
+      school, specialty, graduation_time, 
+      om_id, duty_id, duty_name, 
+      certificate)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{workId,jdbcType=VARCHAR}, 
+      #{recordNo,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{marriage,jdbcType=VARCHAR}, 
+      #{politicalStatus,jdbcType=VARCHAR}, #{entryTime,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{cardId,jdbcType=VARCHAR}, #{postalCode,jdbcType=VARCHAR}, #{fixPhone,jdbcType=VARCHAR}, 
+      #{phoneNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{diploma,jdbcType=VARCHAR}, 
+      #{school,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, #{graduationTime,jdbcType=VARCHAR}, 
+      #{omId,jdbcType=VARCHAR}, #{dutyId,jdbcType=VARCHAR}, #{dutyName,jdbcType=VARCHAR}, 
+      #{certificate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.User" >
+    <selectKey resultType="java.lang.String" keyProperty="userId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="workId != null" >
+        work_id,
+      </if>
+      <if test="recordNo != null" >
+        record_no,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="nation != null" >
+        nation,
+      </if>
+      <if test="marriage != null" >
+        marriage,
+      </if>
+      <if test="politicalStatus != null" >
+        political_status,
+      </if>
+      <if test="entryTime != null" >
+        entry_time,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="cardId != null" >
+        card_id,
+      </if>
+      <if test="postalCode != null" >
+        postal_code,
+      </if>
+      <if test="fixPhone != null" >
+        fix_phone,
+      </if>
+      <if test="phoneNo != null" >
+        phone_no,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="diploma != null" >
+        diploma,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="specialty != null" >
+        specialty,
+      </if>
+      <if test="graduationTime != null" >
+        graduation_time,
+      </if>
+      <if test="omId != null" >
+        om_id,
+      </if>
+      <if test="dutyId != null" >
+        duty_id,
+      </if>
+      <if test="dutyName != null" >
+        duty_name,
+      </if>
+      <if test="certificate != null" >
+        certificate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="workId != null" >
+        #{workId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordNo != null" >
+        #{recordNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="marriage != null" >
+        #{marriage,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalStatus != null" >
+        #{politicalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        #{entryTime,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null" >
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null" >
+        #{postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fixPhone != null" >
+        #{fixPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNo != null" >
+        #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="diploma != null" >
+        #{diploma,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="specialty != null" >
+        #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="graduationTime != null" >
+        #{graduationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="omId != null" >
+        #{omId,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyId != null" >
+        #{dutyId,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyName != null" >
+        #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null" >
+        #{certificate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workId != null" >
+        work_id = #{record.workId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordNo != null" >
+        record_no = #{record.recordNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nation != null" >
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marriage != null" >
+        marriage = #{record.marriage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.politicalStatus != null" >
+        political_status = #{record.politicalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entryTime != null" >
+        entry_time = #{record.entryTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardId != null" >
+        card_id = #{record.cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postalCode != null" >
+        postal_code = #{record.postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fixPhone != null" >
+        fix_phone = #{record.fixPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneNo != null" >
+        phone_no = #{record.phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.diploma != null" >
+        diploma = #{record.diploma,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null" >
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specialty != null" >
+        specialty = #{record.specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.graduationTime != null" >
+        graduation_time = #{record.graduationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.omId != null" >
+        om_id = #{record.omId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dutyId != null" >
+        duty_id = #{record.dutyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dutyName != null" >
+        duty_name = #{record.dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.certificate != null" >
+        certificate = #{record.certificate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set user_id = #{record.userId,jdbcType=VARCHAR},
+      username = #{record.username,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      work_id = #{record.workId,jdbcType=VARCHAR},
+      record_no = #{record.recordNo,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=VARCHAR},
+      nation = #{record.nation,jdbcType=VARCHAR},
+      marriage = #{record.marriage,jdbcType=VARCHAR},
+      political_status = #{record.politicalStatus,jdbcType=VARCHAR},
+      entry_time = #{record.entryTime,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      card_id = #{record.cardId,jdbcType=VARCHAR},
+      postal_code = #{record.postalCode,jdbcType=VARCHAR},
+      fix_phone = #{record.fixPhone,jdbcType=VARCHAR},
+      phone_no = #{record.phoneNo,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      diploma = #{record.diploma,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      specialty = #{record.specialty,jdbcType=VARCHAR},
+      graduation_time = #{record.graduationTime,jdbcType=VARCHAR},
+      om_id = #{record.omId,jdbcType=VARCHAR},
+      duty_id = #{record.dutyId,jdbcType=VARCHAR},
+      duty_name = #{record.dutyName,jdbcType=VARCHAR},
+      certificate = #{record.certificate,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.User" >
+    update user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="workId != null" >
+        work_id = #{workId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordNo != null" >
+        record_no = #{recordNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="marriage != null" >
+        marriage = #{marriage,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalStatus != null" >
+        political_status = #{politicalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        entry_time = #{entryTime,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null" >
+        card_id = #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null" >
+        postal_code = #{postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fixPhone != null" >
+        fix_phone = #{fixPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNo != null" >
+        phone_no = #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="diploma != null" >
+        diploma = #{diploma,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="specialty != null" >
+        specialty = #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="graduationTime != null" >
+        graduation_time = #{graduationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="omId != null" >
+        om_id = #{omId,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyId != null" >
+        duty_id = #{dutyId,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyName != null" >
+        duty_name = #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null" >
+        certificate = #{certificate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.User" >
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      work_id = #{workId,jdbcType=VARCHAR},
+      record_no = #{recordNo,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      marriage = #{marriage,jdbcType=VARCHAR},
+      political_status = #{politicalStatus,jdbcType=VARCHAR},
+      entry_time = #{entryTime,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      card_id = #{cardId,jdbcType=VARCHAR},
+      postal_code = #{postalCode,jdbcType=VARCHAR},
+      fix_phone = #{fixPhone,jdbcType=VARCHAR},
+      phone_no = #{phoneNo,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      diploma = #{diploma,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      specialty = #{specialty,jdbcType=VARCHAR},
+      graduation_time = #{graduationTime,jdbcType=VARCHAR},
+      om_id = #{omId,jdbcType=VARCHAR},
+      duty_id = #{dutyId,jdbcType=VARCHAR},
+      duty_name = #{dutyName,jdbcType=VARCHAR},
+      certificate = #{certificate,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>

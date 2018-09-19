@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.ConstructionProjectDao" >
+	<select id="selectAllcPrj" resultType="org.ldxx.bean.BidProject">
+		select b.*,r.prj_id from bid_project b left join risk_assessment r on b.prj_name=r.ra_id
+	</select>
+	<insert id="addcPrj" parameterType="bidProject">
+		insert into bid_project
+			(bp_id,prj_name,owner_unit,proxy_unit,bid_unit,prj_type,prequalification_time,
+			site_inspection_time,before_time,submit_time,participants,purchaser,isbidding)
+		values(
+			#{bidProject.bpId},
+			#{bidProject.prjName},
+			#{bidProject.ownerUnit},
+			#{bidProject.proxyUnit},
+			#{bidProject.bidUnit},
+			#{bidProject.prjType},
+			#{bidProject.prequalificationTime},
+			#{bidProject.siteInspectionTime},
+			#{bidProject.beforeTime},
+			#{bidProject.submitTime},
+			#{bidProject.participants},
+			#{bidProject.purchaser},
+			#{bidProject.isbidding})
+	</insert>
+	<delete id="deletecPrj" parameterType="String">
+		delete from bid_project where bp_id=#{bpId}
+	</delete>
+	<update id="updatecPrj" parameterType="bidProject">
+		update bid_project
+		set prj_name=#{bidProject.prjName},
+			owner_unit=#{bidProject.ownerUnit},
+			proxy_unit=#{bidProject.proxyUnit},
+			bid_unit=#{bidProject.bidUnit},
+			prj_type=#{bidProject.prjType},
+			prequalification_time=#{bidProject.prequalificationTime},
+			site_inspection_time=#{bidProject.siteInspectionTime},
+			before_time=#{bidProject.beforeTime},
+			submit_time=#{bidProject.submitTime},
+			participants=#{bidProject.participants},
+			purchaser=#{bidProject.purchaser}
+		where bp_id=#{bidProject.bpId}
+	</update>
+	<update id="updatecPrjBidById" parameterType="String">
+		update bid_project set isbidding=#{bidProject.isbidding} where bp_id=#{bidProject.bpId}
+	</update>
+</mapper>

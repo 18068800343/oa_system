@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.SignetUsersMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.SignetUsers" >
+    <id column="su_id" property="suId" jdbcType="VARCHAR" />
+    <result column="begin_time" property="beginTime" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <result column="custody_man" property="custodyMan" jdbcType="VARCHAR" />
+    <result column="use_project" property="useProject" jdbcType="VARCHAR" />
+    <result column="destroy_time" property="destroyTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    su_id, begin_time, end_time, custody_man, use_project, destroy_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.SignetUsersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from signet_users
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from signet_users
+    where su_id = #{suId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from signet_users
+    where su_id = #{suId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.SignetUsersExample" >
+    delete from signet_users
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.SignetUsers" >
+    <selectKey resultType="java.lang.String" keyProperty="suId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into signet_users (begin_time, end_time, custody_man, 
+      use_project, destroy_time)
+    values (#{beginTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{custodyMan,jdbcType=VARCHAR}, 
+      #{useProject,jdbcType=VARCHAR}, #{destroyTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.SignetUsers" >
+    <selectKey resultType="java.lang.String" keyProperty="suId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into signet_users
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="beginTime != null" >
+        begin_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="custodyMan != null" >
+        custody_man,
+      </if>
+      <if test="useProject != null" >
+        use_project,
+      </if>
+      <if test="destroyTime != null" >
+        destroy_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="custodyMan != null" >
+        #{custodyMan,jdbcType=VARCHAR},
+      </if>
+      <if test="useProject != null" >
+        #{useProject,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyTime != null" >
+        #{destroyTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.SignetUsersExample" resultType="java.lang.Integer" >
+    select count(*) from signet_users
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update signet_users
+    <set >
+      <if test="record.suId != null" >
+        su_id = #{record.suId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginTime != null" >
+        begin_time = #{record.beginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custodyMan != null" >
+        custody_man = #{record.custodyMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useProject != null" >
+        use_project = #{record.useProject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.destroyTime != null" >
+        destroy_time = #{record.destroyTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update signet_users
+    set su_id = #{record.suId,jdbcType=VARCHAR},
+      begin_time = #{record.beginTime,jdbcType=VARCHAR},
+      end_time = #{record.endTime,jdbcType=VARCHAR},
+      custody_man = #{record.custodyMan,jdbcType=VARCHAR},
+      use_project = #{record.useProject,jdbcType=VARCHAR},
+      destroy_time = #{record.destroyTime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.SignetUsers" >
+    update signet_users
+    <set >
+      <if test="beginTime != null" >
+        begin_time = #{beginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="custodyMan != null" >
+        custody_man = #{custodyMan,jdbcType=VARCHAR},
+      </if>
+      <if test="useProject != null" >
+        use_project = #{useProject,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyTime != null" >
+        destroy_time = #{destroyTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where su_id = #{suId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.SignetUsers" >
+    update signet_users
+    set begin_time = #{beginTime,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR},
+      custody_man = #{custodyMan,jdbcType=VARCHAR},
+      use_project = #{useProject,jdbcType=VARCHAR},
+      destroy_time = #{destroyTime,jdbcType=VARCHAR}
+    where su_id = #{suId,jdbcType=VARCHAR}
+  </update>
+</mapper>

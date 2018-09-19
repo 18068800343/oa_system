@@ -1,0 +1,82 @@
+package org.ldxx.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.ldxx.bean.ProjectScale;
+import org.ldxx.bean.Scale;
+import org.ldxx.service.ProjectScaleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ * 项目规模管理
+ * @author hp
+ *
+ */
+@Controller
+@RequestMapping("scale")
+public class ProjectScaleController {
+
+	@Autowired
+	private ProjectScaleService sservice;
+	
+	
+	@RequestMapping("/getScale")
+	@ResponseBody
+	public Map<String,Object> getScale(){
+		Map<String,Object> map=new HashMap<>();
+		ProjectScale list1=sservice.getProjectScale("设计项目", "大型项目");
+		ProjectScale list2=sservice.getProjectScale("设计项目", "中型项目");
+		ProjectScale list3=sservice.getProjectScale("设计项目", "小型项目");
+		ProjectScale list4=sservice.getProjectScale("检测项目", "大型项目");
+		ProjectScale list5=sservice.getProjectScale("检测项目", "中型项目");
+		ProjectScale list6=sservice.getProjectScale("检测项目", "小型项目");
+		ProjectScale list7=sservice.getProjectScale("新建施工", "大型项目");
+		ProjectScale list8=sservice.getProjectScale("新建施工", "中型项目");
+		ProjectScale list9=sservice.getProjectScale("新建施工", "小型项目");
+		ProjectScale list10=sservice.getProjectScale("加固施工", "大型项目");
+		ProjectScale list11=sservice.getProjectScale("加固施工", "中型项目");
+		ProjectScale list12=sservice.getProjectScale("加固施工", "小型项目");
+		ProjectScale list13=sservice.getProjectScale("信息化项目", "大型项目");
+		ProjectScale list14=sservice.getProjectScale("信息化项目", "中型项目");
+		ProjectScale list15=sservice.getProjectScale("信息化项目", "小型项目");
+		
+		map.put("sjdx",list1.getContractAmountSmall());
+		map.put("sjzd",list2.getContractAmountBig());
+		map.put("sjzx",list2.getContractAmountSmall());
+		map.put("sjxd",list3.getContractAmountBig());
+		
+		map.put("jcdx",list4.getContractAmountSmall());
+		map.put("jczd",list5.getContractAmountBig());
+		map.put("jczx",list5.getContractAmountSmall());
+		map.put("jcxd",list6.getContractAmountBig());
+		
+		map.put("xjdx",list7.getContractAmountSmall());
+		map.put("xjzd",list8.getContractAmountBig());
+		map.put("xjzx",list8.getContractAmountSmall());
+		map.put("xjxd",list9.getContractAmountBig());
+		
+		map.put("jgdx",list10.getContractAmountSmall());
+		map.put("jgzd",list11.getContractAmountBig());
+		map.put("jgzx",list11.getContractAmountSmall());
+		map.put("jgxd",list12.getContractAmountBig());
+		
+		map.put("xxhdx",list13.getContractAmountSmall());
+		map.put("xxhzd",list14.getContractAmountBig());
+		map.put("xxhzx",list14.getContractAmountSmall());
+		map.put("xxhxd",list15.getContractAmountBig());
+		return map;
+	}
+	
+	
+	@RequestMapping("/updateScale")
+	@ResponseBody
+	public int updateScale(Scale scale){
+		int i=sservice.updateScale(scale);
+		return i;
+	}
+}

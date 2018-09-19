@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="  
+           http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-4.1.xsd  
+           http://www.springframework.org/schema/aop  
+           http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+	
+	<!-- 自动扫描注解的bean -->
+	<context:component-scan base-package="org.ldxx"/>
+	
+	<!-- 
+	这里实际上扫描了org.ldxx 这个包下面的所有bean，会与spring-mvc中扫描的内容发生重复
+	更合理的方法是将spring.xml文件进行拆分
+	spring-dao   只扫描dao相关的bean
+	spring-service   只扫描service相关的bean
+	spring-trans   设置事务相关的信息
+	最后在xml中采用spring-*的形式包括进来
+	 -->
+	
+	<!-- 引入配置文件 -->    
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">    
+        <property name="locations">    
+            <list>    
+                <value>classpath*:db.properties</value>
+            </list>    
+        </property>    
+    </bean>    
+    
+	<!-- 配置数据源 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${driverClassName}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+	</bean>
+
+	<!-- 引用Mapper文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- mybatis全局配置文件 -->
+		<property name="configLocation" value="classpath:mybatis.xml"></property>
+		
+		<!-- 扫描mybatis表对应的文件 -->
+		<property name="mapperLocations" value="classpath*:mapper/*Mapper.xml" />
+	</bean>
+
+	<!-- 配置接口与mapper.xml的对应关系 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName"  value="sqlSessionFactory"/>
+		<!-- 
+		如果使用
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		会发生错误，因为db.propertites加载在sqlSessionFactory之后，所以使用sqlSessionFactoryBeanName代替
+		 -->
+		<!-- 配置mapper对应的接口，指定所在的包 -->
+		<property name="basePackage" value="org.ldxx.mapper" />
+	</bean>
+	
+	<!-- 文件上传的配置 -->  
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">     
+       <!-- 指定所上传文件的总大小不能超过200KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->     
+       <property name="maxUploadSize" value="2000000"/>     
+   </bean>
+   <!-- 该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 -->     
+   <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">     
+       <property name="exceptionMappings">     
+           <props>     
+               <!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到WebContent目录下的error.jsp页面 -->     
+               <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">error</prop>     
+           </props>     
+       </property>     
+   </bean> 
+</beans>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.CancelTaskMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.CancelTask" >
+    <result column="ct_id" property="ctId" jdbcType="VARCHAR" />
+    <result column="prj_id" property="prjId" jdbcType="VARCHAR" />
+    <result column="cancel_reason" property="cancelReason" jdbcType="VARCHAR" />
+    <result column="cancel_time" property="cancelTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ct_id, prj_id, cancel_reason, cancel_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.CancelTaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cancel_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.CancelTaskExample" >
+    delete from cancel_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.CancelTask" >
+    <selectKey resultType="java.lang.String" keyProperty="ctId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cancel_task (prj_id, cancel_reason, cancel_time
+      )
+    values (#{prjId,jdbcType=VARCHAR}, #{cancelReason,jdbcType=VARCHAR}, #{cancelTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.CancelTask" >
+    <selectKey resultType="java.lang.String" keyProperty="ctId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cancel_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="prjId != null" >
+        prj_id,
+      </if>
+      <if test="cancelReason != null" >
+        cancel_reason,
+      </if>
+      <if test="cancelTime != null" >
+        cancel_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="prjId != null" >
+        #{prjId,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelReason != null" >
+        #{cancelReason,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelTime != null" >
+        #{cancelTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.CancelTaskExample" resultType="java.lang.Integer" >
+    select count(*) from cancel_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cancel_task
+    <set >
+      <if test="record.ctId != null" >
+        ct_id = #{record.ctId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjId != null" >
+        prj_id = #{record.prjId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cancelReason != null" >
+        cancel_reason = #{record.cancelReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cancelTime != null" >
+        cancel_time = #{record.cancelTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cancel_task
+    set ct_id = #{record.ctId,jdbcType=VARCHAR},
+      prj_id = #{record.prjId,jdbcType=VARCHAR},
+      cancel_reason = #{record.cancelReason,jdbcType=VARCHAR},
+      cancel_time = #{record.cancelTime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

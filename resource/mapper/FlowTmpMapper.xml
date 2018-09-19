@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.FlowTmpMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.FlowTmp" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="FlowName" property="flowname" jdbcType="VARCHAR" />
+    <result column="FlowMemo" property="flowmemo" jdbcType="VARCHAR" />
+    <result column="FlowEventEntity" property="flowevententity" jdbcType="VARCHAR" />
+    <result column="FlowRunWay" property="flowrunway" jdbcType="INTEGER" />
+    <result column="PMyDept" property="pmydept" jdbcType="INTEGER" />
+    <result column="PPMyDept" property="ppmydept" jdbcType="INTEGER" />
+    <result column="PPDept" property="ppdept" jdbcType="INTEGER" />
+    <result column="PSameDept" property="psamedept" jdbcType="INTEGER" />
+    <result column="PSpecDept" property="pspecdept" jdbcType="INTEGER" />
+    <result column="PSpecDeptExt" property="pspecdeptext" jdbcType="VARCHAR" />
+    <result column="PSpecStaExt" property="pspecstaext" jdbcType="VARCHAR" />
+    <result column="PSpecEmpExt" property="pspecempext" jdbcType="VARCHAR" />
+    <result column="PSpecLevel" property="pspeclevel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, FlowName, FlowMemo, FlowEventEntity, FlowRunWay, PMyDept, PPMyDept, PPDept, PSameDept, 
+    PSpecDept, PSpecDeptExt, PSpecStaExt, PSpecEmpExt, PSpecLevel
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.FlowTmpExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from flowtmp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from flowtmp
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from flowtmp
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.FlowTmpExample" >
+    delete from flowtmp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.FlowTmp" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into flowtmp (FlowName, FlowMemo, FlowEventEntity, 
+      FlowRunWay, PMyDept, PPMyDept, 
+      PPDept, PSameDept, PSpecDept, 
+      PSpecDeptExt, PSpecStaExt, PSpecEmpExt, 
+      PSpecLevel)
+    values (#{flowname,jdbcType=VARCHAR}, #{flowmemo,jdbcType=VARCHAR}, #{flowevententity,jdbcType=VARCHAR}, 
+      #{flowrunway,jdbcType=INTEGER}, #{pmydept,jdbcType=INTEGER}, #{ppmydept,jdbcType=INTEGER}, 
+      #{ppdept,jdbcType=INTEGER}, #{psamedept,jdbcType=INTEGER}, #{pspecdept,jdbcType=INTEGER}, 
+      #{pspecdeptext,jdbcType=VARCHAR}, #{pspecstaext,jdbcType=VARCHAR}, #{pspecempext,jdbcType=VARCHAR}, 
+      #{pspeclevel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.FlowTmp" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into flowtmp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="flowname != null" >
+        FlowName,
+      </if>
+      <if test="flowmemo != null" >
+        FlowMemo,
+      </if>
+      <if test="flowevententity != null" >
+        FlowEventEntity,
+      </if>
+      <if test="flowrunway != null" >
+        FlowRunWay,
+      </if>
+      <if test="pmydept != null" >
+        PMyDept,
+      </if>
+      <if test="ppmydept != null" >
+        PPMyDept,
+      </if>
+      <if test="ppdept != null" >
+        PPDept,
+      </if>
+      <if test="psamedept != null" >
+        PSameDept,
+      </if>
+      <if test="pspecdept != null" >
+        PSpecDept,
+      </if>
+      <if test="pspecdeptext != null" >
+        PSpecDeptExt,
+      </if>
+      <if test="pspecstaext != null" >
+        PSpecStaExt,
+      </if>
+      <if test="pspecempext != null" >
+        PSpecEmpExt,
+      </if>
+      <if test="pspeclevel != null" >
+        PSpecLevel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="flowname != null" >
+        #{flowname,jdbcType=VARCHAR},
+      </if>
+      <if test="flowmemo != null" >
+        #{flowmemo,jdbcType=VARCHAR},
+      </if>
+      <if test="flowevententity != null" >
+        #{flowevententity,jdbcType=VARCHAR},
+      </if>
+      <if test="flowrunway != null" >
+        #{flowrunway,jdbcType=INTEGER},
+      </if>
+      <if test="pmydept != null" >
+        #{pmydept,jdbcType=INTEGER},
+      </if>
+      <if test="ppmydept != null" >
+        #{ppmydept,jdbcType=INTEGER},
+      </if>
+      <if test="ppdept != null" >
+        #{ppdept,jdbcType=INTEGER},
+      </if>
+      <if test="psamedept != null" >
+        #{psamedept,jdbcType=INTEGER},
+      </if>
+      <if test="pspecdept != null" >
+        #{pspecdept,jdbcType=INTEGER},
+      </if>
+      <if test="pspecdeptext != null" >
+        #{pspecdeptext,jdbcType=VARCHAR},
+      </if>
+      <if test="pspecstaext != null" >
+        #{pspecstaext,jdbcType=VARCHAR},
+      </if>
+      <if test="pspecempext != null" >
+        #{pspecempext,jdbcType=VARCHAR},
+      </if>
+      <if test="pspeclevel != null" >
+        #{pspeclevel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.FlowTmpExample" resultType="java.lang.Integer" >
+    select count(*) from flowtmp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update flowtmp
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowname != null" >
+        FlowName = #{record.flowname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowmemo != null" >
+        FlowMemo = #{record.flowmemo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowevententity != null" >
+        FlowEventEntity = #{record.flowevententity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowrunway != null" >
+        FlowRunWay = #{record.flowrunway,jdbcType=INTEGER},
+      </if>
+      <if test="record.pmydept != null" >
+        PMyDept = #{record.pmydept,jdbcType=INTEGER},
+      </if>
+      <if test="record.ppmydept != null" >
+        PPMyDept = #{record.ppmydept,jdbcType=INTEGER},
+      </if>
+      <if test="record.ppdept != null" >
+        PPDept = #{record.ppdept,jdbcType=INTEGER},
+      </if>
+      <if test="record.psamedept != null" >
+        PSameDept = #{record.psamedept,jdbcType=INTEGER},
+      </if>
+      <if test="record.pspecdept != null" >
+        PSpecDept = #{record.pspecdept,jdbcType=INTEGER},
+      </if>
+      <if test="record.pspecdeptext != null" >
+        PSpecDeptExt = #{record.pspecdeptext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pspecstaext != null" >
+        PSpecStaExt = #{record.pspecstaext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pspecempext != null" >
+        PSpecEmpExt = #{record.pspecempext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pspeclevel != null" >
+        PSpecLevel = #{record.pspeclevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update flowtmp
+    set ID = #{record.id,jdbcType=VARCHAR},
+      FlowName = #{record.flowname,jdbcType=VARCHAR},
+      FlowMemo = #{record.flowmemo,jdbcType=VARCHAR},
+      FlowEventEntity = #{record.flowevententity,jdbcType=VARCHAR},
+      FlowRunWay = #{record.flowrunway,jdbcType=INTEGER},
+      PMyDept = #{record.pmydept,jdbcType=INTEGER},
+      PPMyDept = #{record.ppmydept,jdbcType=INTEGER},
+      PPDept = #{record.ppdept,jdbcType=INTEGER},
+      PSameDept = #{record.psamedept,jdbcType=INTEGER},
+      PSpecDept = #{record.pspecdept,jdbcType=INTEGER},
+      PSpecDeptExt = #{record.pspecdeptext,jdbcType=VARCHAR},
+      PSpecStaExt = #{record.pspecstaext,jdbcType=VARCHAR},
+      PSpecEmpExt = #{record.pspecempext,jdbcType=VARCHAR},
+      PSpecLevel = #{record.pspeclevel,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.FlowTmp" >
+    update flowtmp
+    <set >
+      <if test="flowname != null" >
+        FlowName = #{flowname,jdbcType=VARCHAR},
+      </if>
+      <if test="flowmemo != null" >
+        FlowMemo = #{flowmemo,jdbcType=VARCHAR},
+      </if>
+      <if test="flowevententity != null" >
+        FlowEventEntity = #{flowevententity,jdbcType=VARCHAR},
+      </if>
+      <if test="flowrunway != null" >
+        FlowRunWay = #{flowrunway,jdbcType=INTEGER},
+      </if>
+      <if test="pmydept != null" >
+        PMyDept = #{pmydept,jdbcType=INTEGER},
+      </if>
+      <if test="ppmydept != null" >
+        PPMyDept = #{ppmydept,jdbcType=INTEGER},
+      </if>
+      <if test="ppdept != null" >
+        PPDept = #{ppdept,jdbcType=INTEGER},
+      </if>
+      <if test="psamedept != null" >
+        PSameDept = #{psamedept,jdbcType=INTEGER},
+      </if>
+      <if test="pspecdept != null" >
+        PSpecDept = #{pspecdept,jdbcType=INTEGER},
+      </if>
+      <if test="pspecdeptext != null" >
+        PSpecDeptExt = #{pspecdeptext,jdbcType=VARCHAR},
+      </if>
+      <if test="pspecstaext != null" >
+        PSpecStaExt = #{pspecstaext,jdbcType=VARCHAR},
+      </if>
+      <if test="pspecempext != null" >
+        PSpecEmpExt = #{pspecempext,jdbcType=VARCHAR},
+      </if>
+      <if test="pspeclevel != null" >
+        PSpecLevel = #{pspeclevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.FlowTmp" >
+    update flowtmp
+    set FlowName = #{flowname,jdbcType=VARCHAR},
+      FlowMemo = #{flowmemo,jdbcType=VARCHAR},
+      FlowEventEntity = #{flowevententity,jdbcType=VARCHAR},
+      FlowRunWay = #{flowrunway,jdbcType=INTEGER},
+      PMyDept = #{pmydept,jdbcType=INTEGER},
+      PPMyDept = #{ppmydept,jdbcType=INTEGER},
+      PPDept = #{ppdept,jdbcType=INTEGER},
+      PSameDept = #{psamedept,jdbcType=INTEGER},
+      PSpecDept = #{pspecdept,jdbcType=INTEGER},
+      PSpecDeptExt = #{pspecdeptext,jdbcType=VARCHAR},
+      PSpecStaExt = #{pspecstaext,jdbcType=VARCHAR},
+      PSpecEmpExt = #{pspecempext,jdbcType=VARCHAR},
+      PSpecLevel = #{pspeclevel,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

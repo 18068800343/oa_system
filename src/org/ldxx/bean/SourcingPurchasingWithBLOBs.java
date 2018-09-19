@@ -1,0 +1,33 @@
+package org.ldxx.bean;
+
+public class SourcingPurchasingWithBLOBs extends Supplier {
+    private String businessScope;
+
+    private String enterpriseDesc;
+
+    private String importantEvent;
+
+    public String getBusinessScope() {
+        return businessScope;
+    }
+
+    public void setBusinessScope(String businessScope) {
+        this.businessScope = businessScope == null ? null : businessScope.trim();
+    }
+
+    public String getEnterpriseDesc() {
+        return enterpriseDesc;
+    }
+
+    public void setEnterpriseDesc(String enterpriseDesc) {
+        this.enterpriseDesc = enterpriseDesc == null ? null : enterpriseDesc.trim();
+    }
+
+    public String getImportantEvent() {
+        return importantEvent;
+    }
+
+    public void setImportantEvent(String importantEvent) {
+        this.importantEvent = importantEvent == null ? null : importantEvent.trim();
+    }
+}

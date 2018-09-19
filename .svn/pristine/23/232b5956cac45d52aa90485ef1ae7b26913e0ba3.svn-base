@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.ProjectSealDao" >
+  <select id="selectPrjSeal" resultType="SignetManage">
+  	select s.*,t.prj_name,o.om_name,u.u_name from 
+  		signet_manage s,task t,organization_management o,user u 
+  	where 
+  		s.prj_id=t.prj_id and s.om_id=o.om_id and s.signet_man=u.user_id
+  </select>
+  
+  <insert id="addPrjSeal" parameterType="SignetManage" >
+    insert into signet_manage (sm_id,prj_id, sm_no, om_id, application_date, signet_name, signet_man, sm_desc)
+    values (
+    	#{signetManage.smId,jdbcType=VARCHAR},
+    	#{signetManage.prjId,jdbcType=VARCHAR}, 
+		#{signetManage.smNo,jdbcType=VARCHAR}, 
+		#{signetManage.omId,jdbcType=VARCHAR}, 
+		#{signetManage.applicationDate,jdbcType=VARCHAR},
+		#{signetManage.signetName,jdbcType=VARCHAR}, 
+		#{signetManage.signetMan,jdbcType=VARCHAR}, 
+		#{signetManage.smDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <delete id="deletePrjSealById" parameterType="java.lang.String" >
+    delete from signet_manage
+    where sm_id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="updatePrjSealById" parameterType="org.ldxx.bean.SignetManage" >
+    update signet_manage
+    set prj_id = #{signetManage.prjId,jdbcType=VARCHAR},
+      sm_no = #{signetManage.smNo,jdbcType=VARCHAR},
+      om_id = #{signetManage.omId,jdbcType=VARCHAR},
+      application_date = #{signetManage.applicationDate,jdbcType=VARCHAR},
+      signet_name = #{signetManage.signetName,jdbcType=VARCHAR},
+      signet_man = #{signetManage.signetMan,jdbcType=VARCHAR},
+      sm_desc = #{signetManage.smDesc,jdbcType=VARCHAR}
+    where sm_id = #{signetManage.smId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectPrjSealById" parameterType="String" resultType="SignetManage">
+  	select * from signet_manage where sm_id=#{smId}
+  </select>
+</mapper>

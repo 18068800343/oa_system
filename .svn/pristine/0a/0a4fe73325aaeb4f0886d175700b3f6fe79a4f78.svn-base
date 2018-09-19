@@ -1,0 +1,109 @@
+package org.ldxx.controller;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.ldxx.bean.Dictionary;
+import org.ldxx.bean.DictionaryFirst;
+import org.ldxx.service.ProjectTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping("projectType")
+public class ProjectTypeController {
+	
+	@Autowired
+	private ProjectTypeService projectTypeService;
+	
+	
+	@RequestMapping("/addFirstPrj")
+	@ResponseBody
+	public int addFirstPrj(@RequestBody DictionaryFirst dictionaryFirst){
+		int i=projectTypeService.addOneProjectType(dictionaryFirst);
+		return i;
+	}
+	
+	@RequestMapping("/deleteFirstPrj")
+	@ResponseBody
+	public int deleteFirstPrj(String idFirst){
+		return projectTypeService.deleteFirstPrj(idFirst);
+	}
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value="/getAllProjectTypeList")
+	public String getAllProjectTypeList(Model model){
+		List<DictionaryFirst> dictionaryFirstList = projectTypeService.getOneProjectTypeList();
+		List<Dictionary> dictionaryList = projectTypeService.getSecondProjectTypeList();
+		
+		model.addAttribute("dictionaryFirstList", dictionaryFirstList);
+		model.addAttribute("dictionaryList", dictionaryList);
+		return "/jichuShuju/ProjectType";
+	}
+	
+	@RequestMapping(value="/addOneProjectType")
+	public String addOneProjectType(String nameFirst,Model model){
+		if(nameFirst!=null){
+			DictionaryFirst dictionaryFirst = new DictionaryFirst();
+			dictionaryFirst.setIdFirst(UUID.randomUUID().toString());
+			dictionaryFirst.setNameFirst(nameFirst);
+			
+			int row = projectTypeService.addOneProjectType(dictionaryFirst);
+			System.out.println(row);
+			if(row>0){
+				model.addAttribute("result", "添加成功");
+			}else{
+				model.addAttribute("result", "添加失败");
+			}
+		}
+		return "/jichuShuju/ProjectType";
+	}
+	
+	@RequestMapping(value="/addSecondProjectType")
+	public String addSecondProjectType(String nameFirst,String nameSecond,Model model){
+		if(nameFirst!=null && nameSecond!=null){
+			String idFirst = projectTypeService.getIdFirst(nameFirst);
+			Dictionary dictionary = new Dictionary();
+			dictionary.setdId(UUID.randomUUID().toString());
+			dictionary.setIdFirst(idFirst);
+			dictionary.setNameSecond(nameSecond);
+			
+			int row = projectTypeService.addSecondProjectType(dictionary);
+			if(row>0){
+				model.addAttribute("result", "添加成功");
+			}else{
+				model.addAttribute("result", "添加失败");
+			}
+		}
+		return "/jichuShuju/ProjectType";
+	}
+
+	
+	@RequestMapping(value="/updateProjectType")
+	public String updateProjectType(String type,String idFirst,String nameFirst,String nameSecond){
+		if(type=="1"){
+			DictionaryFirst dictionaryFirst = new DictionaryFirst();
+			dictionaryFirst.setIdFirst(idFirst);
+			dictionaryFirst.setNameFirst(nameFirst);
+			//修改一级项目类型
+			projectTypeService.updateOneProjectType(dictionaryFirst);
+		}else{
+			//修改二级项目类型
+			Dictionary dictionary = new Dictionary();
+			dictionary.setIdFirst(idFirst);
+			dictionary.setNameSecond(nameSecond);
+			projectTypeService.updateSecondProjectType(dictionary);
+		}
+		
+		return "ok";
+	}
+}

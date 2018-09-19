@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.SignetUsersDao" >
+  <insert id="addsUser" parameterType="org.ldxx.bean.SignetUsers" >
+    insert into signet_users 
+    	(su_id,depart_id,begin_time, end_time, custody_man,use_project, destroy_time)
+    values 
+    	(#{sUser.suId,jdbcType=VARCHAR},
+    	#{sUser.departId,jdbcType=VARCHAR},
+  		#{sUser.beginTime,jdbcType=VARCHAR},
+  		#{sUser.endTime,jdbcType=VARCHAR}, 
+  		#{sUser.custodyMan,jdbcType=VARCHAR}, 
+    	#{sUser.useProject,jdbcType=VARCHAR}, 
+    	#{sUser.destroyTime,jdbcType=VARCHAR})
+  </insert>
+  <delete id="deletesUserById" parameterType="String">
+  	delete from signet_users where su_id=#{suId}
+  </delete>
+  
+  <update id="updatesUser" parameterType="org.ldxx.bean.SignetUsers" >
+    update signet_users
+    set 
+    	depart_id = #{sUser.departId,jdbcType=VARCHAR},
+      	begin_time = #{sUser.beginTime,jdbcType=VARCHAR},
+      	end_time = #{sUser.endTime,jdbcType=VARCHAR},
+      	custody_man = #{sUser.custodyMan,jdbcType=VARCHAR},
+      	use_project = #{sUser.useProject,jdbcType=VARCHAR},
+      	destroy_time = #{sUser.destroyTime,jdbcType=VARCHAR}
+    where su_id = #{sUser.suId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectUser" resultType="org.ldxx.bean.SignetUsers">
+  	select a.*,b.u_name,c.prj_name,d.om_name from signet_users a 
+  		left join user b on a.custody_man=b.user_id 
+  		left join task c on a.use_project=c.prj_id
+  		left join organization_management d on a.depart_id=d.om_id
+  </select>
+</mapper>

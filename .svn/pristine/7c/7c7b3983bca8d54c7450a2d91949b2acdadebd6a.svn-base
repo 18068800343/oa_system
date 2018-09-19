@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.ProjectTraceLogMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.ProjectTraceLog" >
+    <id column="ptl_id" property="ptlId" jdbcType="VARCHAR" />
+    <result column="prj_id" property="prjId" jdbcType="VARCHAR" />
+    <result column="manage_no" property="manageNo" jdbcType="VARCHAR" />
+    <result column="client_name" property="clientName" jdbcType="VARCHAR" />
+    <result column="sponsor_department" property="sponsorDepartment" jdbcType="VARCHAR" />
+    <result column="ptl_state" property="ptlState" jdbcType="INTEGER" />
+    <result column="ptl_name" property="ptlName" jdbcType="VARCHAR" />
+    <result column="ptl_time" property="ptlTime" jdbcType="VARCHAR" />
+    <result column="business_department" property="businessDepartment" jdbcType="VARCHAR" />
+    <result column="business_department_opinion" property="businessDepartmentOpinion" jdbcType="VARCHAR" />
+    <result column="business_department_date" property="businessDepartmentDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.ldxx.bean.ProjectTraceLog" extends="BaseResultMap" >
+    <result column="ptl_log" property="ptlLog" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ptl_id, prj_id, manage_no, client_name, sponsor_department, ptl_state, ptl_name, 
+    ptl_time, business_department, business_department_opinion, business_department_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    ptl_log
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="org.ldxx.bean.ProjectTraceLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from project_trace_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.ProjectTraceLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from project_trace_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from project_trace_log
+    where ptl_id = #{ptlId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from project_trace_log
+    where ptl_id = #{ptlId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.ProjectTraceLogExample" >
+    delete from project_trace_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.ProjectTraceLog" >
+    <selectKey resultType="java.lang.String" keyProperty="ptlId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into project_trace_log (prj_id, manage_no, client_name, 
+      sponsor_department, ptl_state, ptl_name, 
+      ptl_time, business_department, business_department_opinion, 
+      business_department_date, ptl_log)
+    values (#{prjId,jdbcType=VARCHAR}, #{manageNo,jdbcType=VARCHAR}, #{clientName,jdbcType=VARCHAR}, 
+      #{sponsorDepartment,jdbcType=VARCHAR}, #{ptlState,jdbcType=INTEGER}, #{ptlName,jdbcType=VARCHAR}, 
+      #{ptlTime,jdbcType=VARCHAR}, #{businessDepartment,jdbcType=VARCHAR}, #{businessDepartmentOpinion,jdbcType=VARCHAR}, 
+      #{businessDepartmentDate,jdbcType=VARCHAR}, #{ptlLog,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.ProjectTraceLog" >
+    <selectKey resultType="java.lang.String" keyProperty="ptlId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into project_trace_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="prjId != null" >
+        prj_id,
+      </if>
+      <if test="manageNo != null" >
+        manage_no,
+      </if>
+      <if test="clientName != null" >
+        client_name,
+      </if>
+      <if test="sponsorDepartment != null" >
+        sponsor_department,
+      </if>
+      <if test="ptlState != null" >
+        ptl_state,
+      </if>
+      <if test="ptlName != null" >
+        ptl_name,
+      </if>
+      <if test="ptlTime != null" >
+        ptl_time,
+      </if>
+      <if test="businessDepartment != null" >
+        business_department,
+      </if>
+      <if test="businessDepartmentOpinion != null" >
+        business_department_opinion,
+      </if>
+      <if test="businessDepartmentDate != null" >
+        business_department_date,
+      </if>
+      <if test="ptlLog != null" >
+        ptl_log,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="prjId != null" >
+        #{prjId,jdbcType=VARCHAR},
+      </if>
+      <if test="manageNo != null" >
+        #{manageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null" >
+        #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsorDepartment != null" >
+        #{sponsorDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="ptlState != null" >
+        #{ptlState,jdbcType=INTEGER},
+      </if>
+      <if test="ptlName != null" >
+        #{ptlName,jdbcType=VARCHAR},
+      </if>
+      <if test="ptlTime != null" >
+        #{ptlTime,jdbcType=VARCHAR},
+      </if>
+      <if test="businessDepartment != null" >
+        #{businessDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="businessDepartmentOpinion != null" >
+        #{businessDepartmentOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="businessDepartmentDate != null" >
+        #{businessDepartmentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="ptlLog != null" >
+        #{ptlLog,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.ProjectTraceLogExample" resultType="java.lang.Integer" >
+    select count(*) from project_trace_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update project_trace_log
+    <set >
+      <if test="record.ptlId != null" >
+        ptl_id = #{record.ptlId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjId != null" >
+        prj_id = #{record.prjId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manageNo != null" >
+        manage_no = #{record.manageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientName != null" >
+        client_name = #{record.clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sponsorDepartment != null" >
+        sponsor_department = #{record.sponsorDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptlState != null" >
+        ptl_state = #{record.ptlState,jdbcType=INTEGER},
+      </if>
+      <if test="record.ptlName != null" >
+        ptl_name = #{record.ptlName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptlTime != null" >
+        ptl_time = #{record.ptlTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessDepartment != null" >
+        business_department = #{record.businessDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessDepartmentOpinion != null" >
+        business_department_opinion = #{record.businessDepartmentOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessDepartmentDate != null" >
+        business_department_date = #{record.businessDepartmentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptlLog != null" >
+        ptl_log = #{record.ptlLog,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update project_trace_log
+    set ptl_id = #{record.ptlId,jdbcType=VARCHAR},
+      prj_id = #{record.prjId,jdbcType=VARCHAR},
+      manage_no = #{record.manageNo,jdbcType=VARCHAR},
+      client_name = #{record.clientName,jdbcType=VARCHAR},
+      sponsor_department = #{record.sponsorDepartment,jdbcType=VARCHAR},
+      ptl_state = #{record.ptlState,jdbcType=INTEGER},
+      ptl_name = #{record.ptlName,jdbcType=VARCHAR},
+      ptl_time = #{record.ptlTime,jdbcType=VARCHAR},
+      business_department = #{record.businessDepartment,jdbcType=VARCHAR},
+      business_department_opinion = #{record.businessDepartmentOpinion,jdbcType=VARCHAR},
+      business_department_date = #{record.businessDepartmentDate,jdbcType=VARCHAR},
+      ptl_log = #{record.ptlLog,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update project_trace_log
+    set ptl_id = #{record.ptlId,jdbcType=VARCHAR},
+      prj_id = #{record.prjId,jdbcType=VARCHAR},
+      manage_no = #{record.manageNo,jdbcType=VARCHAR},
+      client_name = #{record.clientName,jdbcType=VARCHAR},
+      sponsor_department = #{record.sponsorDepartment,jdbcType=VARCHAR},
+      ptl_state = #{record.ptlState,jdbcType=INTEGER},
+      ptl_name = #{record.ptlName,jdbcType=VARCHAR},
+      ptl_time = #{record.ptlTime,jdbcType=VARCHAR},
+      business_department = #{record.businessDepartment,jdbcType=VARCHAR},
+      business_department_opinion = #{record.businessDepartmentOpinion,jdbcType=VARCHAR},
+      business_department_date = #{record.businessDepartmentDate,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.ProjectTraceLog" >
+    update project_trace_log
+    <set >
+      <if test="prjId != null" >
+        prj_id = #{prjId,jdbcType=VARCHAR},
+      </if>
+      <if test="manageNo != null" >
+        manage_no = #{manageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null" >
+        client_name = #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsorDepartment != null" >
+        sponsor_department = #{sponsorDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="ptlState != null" >
+        ptl_state = #{ptlState,jdbcType=INTEGER},
+      </if>
+      <if test="ptlName != null" >
+        ptl_name = #{ptlName,jdbcType=VARCHAR},
+      </if>
+      <if test="ptlTime != null" >
+        ptl_time = #{ptlTime,jdbcType=VARCHAR},
+      </if>
+      <if test="businessDepartment != null" >
+        business_department = #{businessDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="businessDepartmentOpinion != null" >
+        business_department_opinion = #{businessDepartmentOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="businessDepartmentDate != null" >
+        business_department_date = #{businessDepartmentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="ptlLog != null" >
+        ptl_log = #{ptlLog,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ptl_id = #{ptlId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.ldxx.bean.ProjectTraceLog" >
+    update project_trace_log
+    set prj_id = #{prjId,jdbcType=VARCHAR},
+      manage_no = #{manageNo,jdbcType=VARCHAR},
+      client_name = #{clientName,jdbcType=VARCHAR},
+      sponsor_department = #{sponsorDepartment,jdbcType=VARCHAR},
+      ptl_state = #{ptlState,jdbcType=INTEGER},
+      ptl_name = #{ptlName,jdbcType=VARCHAR},
+      ptl_time = #{ptlTime,jdbcType=VARCHAR},
+      business_department = #{businessDepartment,jdbcType=VARCHAR},
+      business_department_opinion = #{businessDepartmentOpinion,jdbcType=VARCHAR},
+      business_department_date = #{businessDepartmentDate,jdbcType=VARCHAR},
+      ptl_log = #{ptlLog,jdbcType=LONGVARCHAR}
+    where ptl_id = #{ptlId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.ProjectTraceLog" >
+    update project_trace_log
+    set prj_id = #{prjId,jdbcType=VARCHAR},
+      manage_no = #{manageNo,jdbcType=VARCHAR},
+      client_name = #{clientName,jdbcType=VARCHAR},
+      sponsor_department = #{sponsorDepartment,jdbcType=VARCHAR},
+      ptl_state = #{ptlState,jdbcType=INTEGER},
+      ptl_name = #{ptlName,jdbcType=VARCHAR},
+      ptl_time = #{ptlTime,jdbcType=VARCHAR},
+      business_department = #{businessDepartment,jdbcType=VARCHAR},
+      business_department_opinion = #{businessDepartmentOpinion,jdbcType=VARCHAR},
+      business_department_date = #{businessDepartmentDate,jdbcType=VARCHAR}
+    where ptl_id = #{ptlId,jdbcType=VARCHAR}
+  </update>
+</mapper>

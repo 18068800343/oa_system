@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>生产管理</li>
+			<li class="active">进度管理</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        <div class="UpperPart">
+            <div class="UpperPartL">
+                
+            </div>
+            <div class="UpperPartR">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报进度</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalHTCF">填报合同进度拆分表</button>
+            </div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报进度</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td>项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;">
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </td>
+                                <td>项目类型</td>
+                                <td><input type="text" class="form-control" disabled></td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;">生产任务单编号</td>
+                                <td>
+                                    <input type="text" class="form-control" disabled>
+                                </td>
+                                <td style="width:100px;">合同金额</td>
+                                <td><input type="text" class="form-control" disabled></td>
+                            </tr>
+                            <tr>
+                                <td>项目负责人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;">
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </td>
+                                <td>暂列金</td>
+                                <td><input type="text" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td>项目开始时间</td>
+                                <td><input type="text" class="form-control" id="year"></td>
+                                <td>项目预计结束时间</td>
+                                <td><input type="text" class="form-control" id="year2"></td>
+                            </tr>
+                            <tr>
+                                <td>预算总费用</td>
+                                <td><input type="text" class="form-control"></td>
+                                <td>本期</td>
+                                <td><input type="text" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td>项目本期收入</td>
+                                <td><input type="text" class="form-control"></td>
+                                <td>总累计成本</td>
+                                <td><input type="text" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td>总累计收入</td>
+                                <td><input type="text" class="form-control"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>进度附件</td>
+                                <td colspan="3"><input type="file" class="form-control"></td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered table-condensed" id="xieban">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门本期收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1本期收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2本期收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3本期收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="xieban2">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen2()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门累计收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1累计收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2累计收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3累计收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="xieban3">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen3()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门本期收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1本期收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2本期收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3本期收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="xieban4">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen4()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门累计收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1累计收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2累计收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3累计收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="xieban5">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen5()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr> 
+                                    <td>主办部门本期成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1本期成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2本期成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3本期成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="xieban6">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen6()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门累计成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1累计成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2累计成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3累计成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default">保存</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+
+<!-- 修改Modal -->
+<div class="modal fade bs-example-modal-lg" id="change" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改进度</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td>项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;">
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </td>
+                                <td>项目类型</td>
+                                <td><input type="text" class="form-control" disabled></td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;">生产任务单编号</td>
+                                <td>
+                                    <input type="text" class="form-control" disabled>
+                                </td>
+                                <td style="width:100px;">合同金额</td>
+                                <td><input type="text" class="form-control" disabled></td>
+                            </tr>
+                            <tr>
+                                <td>项目负责人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;">
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </td>
+                                <td>暂列金</td>
+                                <td><input type="text" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td>项目开始时间</td>
+                                <td><input type="text" class="form-control" id="year"></td>
+                                <td>项目预计结束时间</td>
+                                <td><input type="text" class="form-control" id="year2"></td>
+                            </tr>
+                            <tr>
+                                <td>预算总费用</td>
+                                <td><input type="text" class="form-control"></td>
+                                <td>本期</td>
+                                <td><input type="text" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td>项目本期收入</td>
+                                <td><input type="text" class="form-control"></td>
+                                <td>总累计成本</td>
+                                <td><input type="text" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td>总累计收入</td>
+                                <td><input type="text" class="form-control"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>进度附件</td>
+                                <td colspan="3"><input type="file" class="form-control"></td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered table-condensed" id="xieban">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门本期收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1本期收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2本期收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3本期收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="xieban2">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen2()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门累计收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1累计收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2累计收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3累计收入</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收入">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="xieban3">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen3()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门本期收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1本期收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2本期收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3本期收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="xieban4">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen4()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门累计收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1累计收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2累计收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3累计收款</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="收款">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="xieban5">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen5()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr> 
+                                    <td>主办部门本期成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1本期成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2本期成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3本期成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="xieban6">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen6()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门累计成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1累计成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2累计成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3累计成本</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;">
+                                                <option>无</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                                <option>工程建设一部</option>
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="成本">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改model结束 -->
+<!-- Modal进度拆分表 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModalHTCF">
+    <div class="modal-dialog modal-lg" role="document" style="width:1200px;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>新建合同进度拆分表</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td>项目名称</td>
+                                <td>
+                                    <select class="form-control" style="width:180px;">
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </td>
+                                <td>项目类型</td>
+                                <td><input type="text" class="form-control" disabled></td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;">生产任务单编号</td>
+                                <td>
+                                    <input type="text" class="form-control" disabled>
+                                </td>
+                                <td>本期</td>
+                                <td><input type="text" class="form-control"></td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th colspan="6">拆分表</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>合同名称</td>
+                                    <td>合同金额</td>
+                                    <td>暂列金</td>
+                                    <td>合同本期收入</td>
+                                    <td>总累计收入</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="form-control" style="width:180px;">
+                                            <option>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control"></td>
+                                    <td><input type="text" class="form-control"></td>
+                                    <td><input type="text" class="form-control"></td>
+                                    <td><input type="text" class="form-control"></td>
+                                    <td><button type="button" class="btn btn-primary">添加</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>合同名称</th>
+                                    <th>合同金额</th>
+                                    <th>暂列金</th>
+                                    <th>合同本期收入</th>
+                                    <th>总累计收入</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>合同名称A</td>
+                                    <td>100</td>
+                                    <td>50</td>
+                                    <td>10</td>
+                                    <td>60</td>
+                                    <td>
+                                        <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#changecfb'></i>
+                                        <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default">保存</button>
+            <!-- <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button> -->
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model进度拆分表结束 -->
+<!-- 修改拆分修改表Modal -->
+<div class="modal fade bs-example-modal-lg" id="changecfb" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document" style="width:1200px;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改拆分表</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            <td>合同名称</td>
+                            <td>合同金额</td>
+                            <td>暂列金</td>
+                            <td>合同本期收入</td>
+                            <td>总累计收入</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="form-control" style="width:180px;">
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                            </td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                        </tr>
+                    </table>
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改拆分表model结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>提交给:</span>
+                            <select style="width:180px;" class="form-control" id="editable-selectT">
+                                <option value="">123123</option>
+                                <option value="">456456</option>
+                            </select>
+                        </div>
+                        <div style="display:flex;margin-top:5px;">
+                            <div style="margin-top:5px;">
+                                <textarea cols="70" rows="5" class="form-control" placeholder="请输入内容"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
+        </div>
+        <div class="LowerPart" style="margin-top:3px;">
+            <table class="table table-bordered table-condensed" id="mainContent">
+                <thead>
+                    <tr>
+                        <th>任务单号</th>
+                        <th>项目类型</th>
+                        <th>项目名称</th>
+                        <th>承接合同号</th>
+                        <th>填报日期</th>
+                        <th>总预算费用</th>
+                        <th>本期支出</th>
+                        <th>进度(%)</th>
+                        <th>编制时间</th>
+                        <th>附件</th>
+                        <th>进度单</th>
+                        <th style="width:95px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>检测</td>
+                        <td><span data-toggle="modal" data-target="#myModallook" style="cursor: pointer;" class="allLook">G104秦淮河大桥检查</span></td>
+                        <td>64158441</td>
+                        <td>20180101</td>
+                        <td>100</td>
+                        <td>10</td>
+                        <td>10%</td>
+                        <td>20180101</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>
+                            <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1"></i>
+                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change'></i>
+                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
+                            <i class="iconfont icon-xiazai" style="font-size:20px;cursor:pointer;" title="下载附件"></i>
+                            <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>检测</td>
+                        <td><span data-toggle="modal" data-target="#myModallook" style="cursor: pointer;" class="allLook">G104秦淮河大桥检查</span></td>
+                        <td>64158441</td>
+                        <td>20180101</td>
+                        <td>100</td>
+                        <td>10</td>
+                        <td>10%</td>
+                        <td>20180101</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>
+                            <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1"></i>
+                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change'></i>
+                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
+                            <i class="iconfont icon-xiazai" style="font-size:20px;cursor:pointer;" title="下载附件"></i>
+                            <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>检测</td>
+                        <td><span data-toggle="modal" data-target="#myModallook" style="cursor: pointer;" class="allLook">G104秦淮河大桥检查</span></td>
+                        <td>64158441</td>
+                        <td>20180101</td>
+                        <td>100</td>
+                        <td>10</td>
+                        <td>10%</td>
+                        <td>20180101</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>
+                            <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1"></i>
+                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change'></i>
+                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
+                            <i class="iconfont icon-xiazai" style="font-size:20px;cursor:pointer;" title="下载附件"></i>
+                            <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
+                        </td>
+                    </tr>
+                </tbody>   
+            </table>
+        </div>
+    </div>
+<!-- allMsg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            <td>项目名称</td>
+                            <td>hgshsh</td>
+                            <td>项目类型</td>
+                            <td>shhsfdhbshbs</td>
+                        </tr>
+                        <tr>
+                            <td style="width:100px;">生产任务单编号</td>
+                            <td>hsfhbsbfx</td>
+                            <td style="width:100px;">合同金额</td>
+                            <td>shdberujsdz</td>
+                        </tr>
+                        <tr>
+                            <td>项目负责人</td>
+                            <td>hsdftsssssss</td>
+                            <td>暂列金</td>
+                            <td>hsfdbrsz</td>
+                        </tr>
+                        <tr>
+                            <td>项目开始时间</td>
+                            <td>hfshzyza</td>
+                            <td>项目预计结束时间</td>
+                            <td>jdfzigwsr</td>
+                        </tr>
+                        <tr>
+                            <td>预算总费用</td>
+                            <td>shf</td>
+                            <td>本期</td>
+                            <td>shFDUDX</td>
+                        </tr>
+                        <tr>
+                            <td>项目本期收入</td>
+                            <td>shFDfgjd</td>
+                            <td>总累计成本</td>
+                            <td>jgfjggg</td>
+                        </tr>
+                        <tr>
+                            <td>总累计收入</td>
+                            <td>dfzhdaya</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>进度附件</td>
+                            <td colspan="3">ietsuj46e</td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-bordered table-condensed" id="xieban">
+                        <thead>
+                            <tr>
+                                <th colspan="2">部门</th>
+                                <th colspan="2">金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>主办部门本期收入</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门1本期收入</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门2本期收入</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门3本期收入</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="xieban2">
+                        <thead>
+                            <tr>
+                                <th colspan="2">部门</th>
+                                <th colspan="2">金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>主办部门累计收入</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门1累计收入</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门2累计收入</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门3累计收入</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="xieban3">
+                        <thead>
+                            <tr>
+                                <th colspan="2">部门</th>
+                                <th colspan="2">金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>主办部门本期收款</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门1本期收款</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门2本期收款</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门3本期收款</td>
+                                <td>工程建设一部</tr>
+                                    <td>金额</td>
+                                <td>100</td>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="xieban4">
+                        <thead>
+                            <tr>
+                                <th colspan="2">部门</th>
+                                <th colspan="2">金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>主办部门累计收款</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门1累计收款</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门2累计收款</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门3累计收款</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="xieban5"> 
+                        <thead>
+                            <tr>
+                                <th colspan="2">部门</th>
+                                <th colspan="2">金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> 
+                                <td>主办部门本期成本</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门1本期成本</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门2本期成本</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门3本期成本</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="xieban6">
+                        <thead>
+                            <tr>
+                                <th colspan="2">部门</th>
+                                <th colspan="2">金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>主办部门累计成本</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门1累计成本</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门2累计成本</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td>协办部门3累计成本</td>
+                                <td>工程建设一部</td>
+                                <td>金额</td>
+                                <td>100</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg结束 -->
+<!-- Modal look项目名称 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModallook">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>任务单</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed lookhetong">
+                            <tr>
+                                <td><a href="../shengchanGuanli/TaskManagement.html">项目名称</a></td>
+                                <td>
+                                    项目名称1
+                                </td>
+                                <td style="width:100px;">编号</td>
+                                <td>编号1</td>
+                            </tr>
+                            <tr>
+                                <td>项目经营模式</td>
+                                <td>
+                                    项目经营模式1
+                                </td>
+                                <td>项目所属公司</td>
+                                <td>
+                                    项目所属公司1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;"><a href="../jichuShuju/ProjectType.html">项目类型</a></td>
+                                <td>
+                                    项目类型1
+                                </td>
+                                <td>项目业主单位</td>
+                                <td>
+                                    项目业主单位1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>预估合同额(不含暂定金)</td>
+                                <td>预估合同额1</td>
+                                <td>预估项目金额</td>
+                                <td>预估项目金额1</td>
+                            </tr>
+                            <tr>
+                                <td>暂定金</td>
+                                <td>暂定金1</td>
+                                <td>项目开始时间</td>
+                                <td>项目开始时间1</td>
+                            </tr>
+                            <tr>
+                                <td>项目结束时间</td>
+                                <td>项目结束时间1</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>项目概况及工作内容</td>
+                                <td colspan="3">123</td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">添加的联系人,联系方式</th>
+                                </tr>
+                                <tr>
+                                    <th>联系人</th>
+                                    <th>联系方式</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>111</td>
+                                    <td>222</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-condensed" id="xieban">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">部门</th>
+                                    <th colspan="2">金额</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门</td>
+                                    <td>
+                                        主办部门1
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1</td>
+                                    <td>
+                                        协办部门1
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2</td>
+                                    <td>
+                                        协办部门2
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3</td>
+                                    <td>
+                                        协办部门3
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- modellook结束 -->
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script>
+    $(document).ready( function () {
+    	laydate.render({
+            elem: '#year' //指定元素
+        });
+        laydate.render({
+            elem: '#year2' //指定元素
+        });
+        $('#editable-selectT').editableSelect({ 
+            effects: 'slide' 
+        });
+	});
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: '',
+            dataType: 'json',
+            data: {
+            },
+            error: function (msg) {
+                errMessage("请求UserController失败");
+            },
+            success: function (json) {
+                $('#').dataTable().fnClearTable();
+                $('#').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+
+    function getCreat(bb){
+        var EnterpriseRating= $(bb).parent().prev().text();
+        var Remarks= $(bb).parent().prev().prev().text();
+        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
+        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
+        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
+        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
+        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
+        $("#CEnterprise-rating").val(EnterpriseRating);
+        $("#CRemarks").val(Remarks);
+        $("#CContact-phone1").val(ContactPhone1);
+        $("#CContacts").val(Contacts);
+        $("#Caddress").val(address);
+        $("#CProprietor-unit").val(ProprietorUnit);
+        $("#CCode").val(Code);
+        rowIndex = bb.parentNode.parentNode.rowIndex; 
+    }
+
+    // $("#mainContent tbody tr").click(function (){
+    //     $(this).addClass('selected')
+    //     .siblings().removeClass('selected')
+    //     .end();
+    // })
+
+    function addBumen(){
+        $("#xieban").append("<tr><td>"+"协办部门"+($("#xieban tr").length-1)+"</td><td>2</td></tr>")
+    }
+
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+
+</script>
+</html>

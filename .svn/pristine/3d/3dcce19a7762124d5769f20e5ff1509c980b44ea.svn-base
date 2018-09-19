@@ -1,0 +1,19 @@
+package org.ldxx.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.ldxx.bean.ProjectTrace;
+
+public interface ProjectTraceDao {
+
+	public int addProjectTrace(@Param("trace")ProjectTrace trace);
+	
+	public int deleteProjectTrace(@Param("id")String id);
+	
+	public int updateProjectTrace(@Param("trace")ProjectTrace trace);
+	
+	public List<ProjectTrace> selectProjectTrace(@Param("status")String status);
+	
+	public ProjectTrace selectProjectTraceById(@Param("id")String id,@Param("status")String status);
+}

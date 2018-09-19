@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.DataArchiveMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.DataArchive" >
+    <id column="da_id" property="daId" jdbcType="VARCHAR" />
+    <result column="da_name" property="daName" jdbcType="VARCHAR" />
+    <result column="attendees" property="attendees" jdbcType="VARCHAR" />
+    <result column="training_location" property="trainingLocation" jdbcType="VARCHAR" />
+    <result column="training_time" property="trainingTime" jdbcType="VARCHAR" />
+    <result column="training_data" property="trainingData" jdbcType="VARCHAR" />
+    <result column="training_credential" property="trainingCredential" jdbcType="VARCHAR" />
+    <result column="da_status" property="daStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.ldxx.bean.DataArchive" extends="BaseResultMap" >
+    <result column="credential_desc" property="credentialDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    da_id, da_name, attendees, training_location, training_time, training_data, training_credential, 
+    da_status
+  </sql>
+  <sql id="Blob_Column_List" >
+    credential_desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="org.ldxx.bean.DataArchiveExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from data_archive
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.DataArchiveExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from data_archive
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from data_archive
+    where da_id = #{daId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from data_archive
+    where da_id = #{daId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.DataArchiveExample" >
+    delete from data_archive
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.DataArchive" >
+    <selectKey resultType="java.lang.String" keyProperty="daId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into data_archive (da_name, attendees, training_location, 
+      training_time, training_data, training_credential, 
+      da_status, credential_desc)
+    values (#{daName,jdbcType=VARCHAR}, #{attendees,jdbcType=VARCHAR}, #{trainingLocation,jdbcType=VARCHAR}, 
+      #{trainingTime,jdbcType=VARCHAR}, #{trainingData,jdbcType=VARCHAR}, #{trainingCredential,jdbcType=VARCHAR}, 
+      #{daStatus,jdbcType=INTEGER}, #{credentialDesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.DataArchive" >
+    <selectKey resultType="java.lang.String" keyProperty="daId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into data_archive
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="daName != null" >
+        da_name,
+      </if>
+      <if test="attendees != null" >
+        attendees,
+      </if>
+      <if test="trainingLocation != null" >
+        training_location,
+      </if>
+      <if test="trainingTime != null" >
+        training_time,
+      </if>
+      <if test="trainingData != null" >
+        training_data,
+      </if>
+      <if test="trainingCredential != null" >
+        training_credential,
+      </if>
+      <if test="daStatus != null" >
+        da_status,
+      </if>
+      <if test="credentialDesc != null" >
+        credential_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="daName != null" >
+        #{daName,jdbcType=VARCHAR},
+      </if>
+      <if test="attendees != null" >
+        #{attendees,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingLocation != null" >
+        #{trainingLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingTime != null" >
+        #{trainingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingData != null" >
+        #{trainingData,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingCredential != null" >
+        #{trainingCredential,jdbcType=VARCHAR},
+      </if>
+      <if test="daStatus != null" >
+        #{daStatus,jdbcType=INTEGER},
+      </if>
+      <if test="credentialDesc != null" >
+        #{credentialDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.DataArchiveExample" resultType="java.lang.Integer" >
+    select count(*) from data_archive
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update data_archive
+    <set >
+      <if test="record.daId != null" >
+        da_id = #{record.daId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daName != null" >
+        da_name = #{record.daName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attendees != null" >
+        attendees = #{record.attendees,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingLocation != null" >
+        training_location = #{record.trainingLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingTime != null" >
+        training_time = #{record.trainingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingData != null" >
+        training_data = #{record.trainingData,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingCredential != null" >
+        training_credential = #{record.trainingCredential,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daStatus != null" >
+        da_status = #{record.daStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.credentialDesc != null" >
+        credential_desc = #{record.credentialDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update data_archive
+    set da_id = #{record.daId,jdbcType=VARCHAR},
+      da_name = #{record.daName,jdbcType=VARCHAR},
+      attendees = #{record.attendees,jdbcType=VARCHAR},
+      training_location = #{record.trainingLocation,jdbcType=VARCHAR},
+      training_time = #{record.trainingTime,jdbcType=VARCHAR},
+      training_data = #{record.trainingData,jdbcType=VARCHAR},
+      training_credential = #{record.trainingCredential,jdbcType=VARCHAR},
+      da_status = #{record.daStatus,jdbcType=INTEGER},
+      credential_desc = #{record.credentialDesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update data_archive
+    set da_id = #{record.daId,jdbcType=VARCHAR},
+      da_name = #{record.daName,jdbcType=VARCHAR},
+      attendees = #{record.attendees,jdbcType=VARCHAR},
+      training_location = #{record.trainingLocation,jdbcType=VARCHAR},
+      training_time = #{record.trainingTime,jdbcType=VARCHAR},
+      training_data = #{record.trainingData,jdbcType=VARCHAR},
+      training_credential = #{record.trainingCredential,jdbcType=VARCHAR},
+      da_status = #{record.daStatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.DataArchive" >
+    update data_archive
+    <set >
+      <if test="daName != null" >
+        da_name = #{daName,jdbcType=VARCHAR},
+      </if>
+      <if test="attendees != null" >
+        attendees = #{attendees,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingLocation != null" >
+        training_location = #{trainingLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingTime != null" >
+        training_time = #{trainingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingData != null" >
+        training_data = #{trainingData,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingCredential != null" >
+        training_credential = #{trainingCredential,jdbcType=VARCHAR},
+      </if>
+      <if test="daStatus != null" >
+        da_status = #{daStatus,jdbcType=INTEGER},
+      </if>
+      <if test="credentialDesc != null" >
+        credential_desc = #{credentialDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where da_id = #{daId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.ldxx.bean.DataArchive" >
+    update data_archive
+    set da_name = #{daName,jdbcType=VARCHAR},
+      attendees = #{attendees,jdbcType=VARCHAR},
+      training_location = #{trainingLocation,jdbcType=VARCHAR},
+      training_time = #{trainingTime,jdbcType=VARCHAR},
+      training_data = #{trainingData,jdbcType=VARCHAR},
+      training_credential = #{trainingCredential,jdbcType=VARCHAR},
+      da_status = #{daStatus,jdbcType=INTEGER},
+      credential_desc = #{credentialDesc,jdbcType=LONGVARCHAR}
+    where da_id = #{daId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.DataArchive" >
+    update data_archive
+    set da_name = #{daName,jdbcType=VARCHAR},
+      attendees = #{attendees,jdbcType=VARCHAR},
+      training_location = #{trainingLocation,jdbcType=VARCHAR},
+      training_time = #{trainingTime,jdbcType=VARCHAR},
+      training_data = #{trainingData,jdbcType=VARCHAR},
+      training_credential = #{trainingCredential,jdbcType=VARCHAR},
+      da_status = #{daStatus,jdbcType=INTEGER}
+    where da_id = #{daId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.FinancialReceivablesMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.FinancialReceivables" >
+    <id column="fr_id" property="frId" jdbcType="VARCHAR" />
+    <result column="year" property="year" jdbcType="VARCHAR" />
+    <result column="work_no" property="workNo" jdbcType="VARCHAR" />
+    <result column="prj_name" property="prjName" jdbcType="VARCHAR" />
+    <result column="product_owners" property="productOwners" jdbcType="VARCHAR" />
+    <result column="prj_stratAndEnd_time" property="prjStratandendTime" jdbcType="VARCHAR" />
+    <result column="project_leader" property="projectLeader" jdbcType="VARCHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="contract_amount" property="contractAmount" jdbcType="REAL" />
+    <result column="contract_amount2" property="contractAmount2" jdbcType="REAL" />
+    <result column="cumulative_collection" property="cumulativeCollection" jdbcType="REAL" />
+    <result column="extended_amount" property="extendedAmount" jdbcType="REAL" />
+    <result column="extended_amount2" property="extendedAmount2" jdbcType="REAL" />
+    <result column="invoice_no" property="invoiceNo" jdbcType="VARCHAR" />
+    <result column="collection_terms" property="collectionTerms" jdbcType="VARCHAR" />
+    <result column="prj_finish" property="prjFinish" jdbcType="VARCHAR" />
+    <result column="receiving_node" property="receivingNode" jdbcType="VARCHAR" />
+    <result column="receiving_node_money" property="receivingNodeMoney" jdbcType="REAL" />
+    <result column="actual_payment" property="actualPayment" jdbcType="REAL" />
+    <result column="Department_feedback" property="departmentFeedback" jdbcType="VARCHAR" />
+    <result column="financial_notes" property="financialNotes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    fr_id, year, work_no, prj_name, product_owners, prj_stratAndEnd_time, project_leader, 
+    contract_no, contract_amount, contract_amount2, cumulative_collection, extended_amount, 
+    extended_amount2, invoice_no, collection_terms, prj_finish, receiving_node, receiving_node_money, 
+    actual_payment, Department_feedback, financial_notes
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.FinancialReceivablesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from financial_receivables
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from financial_receivables
+    where fr_id = #{frId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from financial_receivables
+    where fr_id = #{frId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.FinancialReceivablesExample" >
+    delete from financial_receivables
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.FinancialReceivables" >
+    <selectKey resultType="java.lang.String" keyProperty="frId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into financial_receivables (year, work_no, prj_name, 
+      product_owners, prj_stratAndEnd_time, project_leader, 
+      contract_no, contract_amount, contract_amount2, 
+      cumulative_collection, extended_amount, extended_amount2, 
+      invoice_no, collection_terms, prj_finish, 
+      receiving_node, receiving_node_money, actual_payment, 
+      Department_feedback, financial_notes)
+    values (#{year,jdbcType=VARCHAR}, #{workNo,jdbcType=VARCHAR}, #{prjName,jdbcType=VARCHAR}, 
+      #{productOwners,jdbcType=VARCHAR}, #{prjStratandendTime,jdbcType=VARCHAR}, #{projectLeader,jdbcType=VARCHAR}, 
+      #{contractNo,jdbcType=VARCHAR}, #{contractAmount,jdbcType=REAL}, #{contractAmount2,jdbcType=REAL}, 
+      #{cumulativeCollection,jdbcType=REAL}, #{extendedAmount,jdbcType=REAL}, #{extendedAmount2,jdbcType=REAL}, 
+      #{invoiceNo,jdbcType=VARCHAR}, #{collectionTerms,jdbcType=VARCHAR}, #{prjFinish,jdbcType=VARCHAR}, 
+      #{receivingNode,jdbcType=VARCHAR}, #{receivingNodeMoney,jdbcType=REAL}, #{actualPayment,jdbcType=REAL}, 
+      #{departmentFeedback,jdbcType=VARCHAR}, #{financialNotes,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.FinancialReceivables" >
+    <selectKey resultType="java.lang.String" keyProperty="frId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into financial_receivables
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="workNo != null" >
+        work_no,
+      </if>
+      <if test="prjName != null" >
+        prj_name,
+      </if>
+      <if test="productOwners != null" >
+        product_owners,
+      </if>
+      <if test="prjStratandendTime != null" >
+        prj_stratAndEnd_time,
+      </if>
+      <if test="projectLeader != null" >
+        project_leader,
+      </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="contractAmount != null" >
+        contract_amount,
+      </if>
+      <if test="contractAmount2 != null" >
+        contract_amount2,
+      </if>
+      <if test="cumulativeCollection != null" >
+        cumulative_collection,
+      </if>
+      <if test="extendedAmount != null" >
+        extended_amount,
+      </if>
+      <if test="extendedAmount2 != null" >
+        extended_amount2,
+      </if>
+      <if test="invoiceNo != null" >
+        invoice_no,
+      </if>
+      <if test="collectionTerms != null" >
+        collection_terms,
+      </if>
+      <if test="prjFinish != null" >
+        prj_finish,
+      </if>
+      <if test="receivingNode != null" >
+        receiving_node,
+      </if>
+      <if test="receivingNodeMoney != null" >
+        receiving_node_money,
+      </if>
+      <if test="actualPayment != null" >
+        actual_payment,
+      </if>
+      <if test="departmentFeedback != null" >
+        Department_feedback,
+      </if>
+      <if test="financialNotes != null" >
+        financial_notes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="year != null" >
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="workNo != null" >
+        #{workNo,jdbcType=VARCHAR},
+      </if>
+      <if test="prjName != null" >
+        #{prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="productOwners != null" >
+        #{productOwners,jdbcType=VARCHAR},
+      </if>
+      <if test="prjStratandendTime != null" >
+        #{prjStratandendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeader != null" >
+        #{projectLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAmount != null" >
+        #{contractAmount,jdbcType=REAL},
+      </if>
+      <if test="contractAmount2 != null" >
+        #{contractAmount2,jdbcType=REAL},
+      </if>
+      <if test="cumulativeCollection != null" >
+        #{cumulativeCollection,jdbcType=REAL},
+      </if>
+      <if test="extendedAmount != null" >
+        #{extendedAmount,jdbcType=REAL},
+      </if>
+      <if test="extendedAmount2 != null" >
+        #{extendedAmount2,jdbcType=REAL},
+      </if>
+      <if test="invoiceNo != null" >
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="collectionTerms != null" >
+        #{collectionTerms,jdbcType=VARCHAR},
+      </if>
+      <if test="prjFinish != null" >
+        #{prjFinish,jdbcType=VARCHAR},
+      </if>
+      <if test="receivingNode != null" >
+        #{receivingNode,jdbcType=VARCHAR},
+      </if>
+      <if test="receivingNodeMoney != null" >
+        #{receivingNodeMoney,jdbcType=REAL},
+      </if>
+      <if test="actualPayment != null" >
+        #{actualPayment,jdbcType=REAL},
+      </if>
+      <if test="departmentFeedback != null" >
+        #{departmentFeedback,jdbcType=VARCHAR},
+      </if>
+      <if test="financialNotes != null" >
+        #{financialNotes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.FinancialReceivablesExample" resultType="java.lang.Integer" >
+    select count(*) from financial_receivables
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update financial_receivables
+    <set >
+      <if test="record.frId != null" >
+        fr_id = #{record.frId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.year != null" >
+        year = #{record.year,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workNo != null" >
+        work_no = #{record.workNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjName != null" >
+        prj_name = #{record.prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productOwners != null" >
+        product_owners = #{record.productOwners,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjStratandendTime != null" >
+        prj_stratAndEnd_time = #{record.prjStratandendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectLeader != null" >
+        project_leader = #{record.projectLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractNo != null" >
+        contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractAmount != null" >
+        contract_amount = #{record.contractAmount,jdbcType=REAL},
+      </if>
+      <if test="record.contractAmount2 != null" >
+        contract_amount2 = #{record.contractAmount2,jdbcType=REAL},
+      </if>
+      <if test="record.cumulativeCollection != null" >
+        cumulative_collection = #{record.cumulativeCollection,jdbcType=REAL},
+      </if>
+      <if test="record.extendedAmount != null" >
+        extended_amount = #{record.extendedAmount,jdbcType=REAL},
+      </if>
+      <if test="record.extendedAmount2 != null" >
+        extended_amount2 = #{record.extendedAmount2,jdbcType=REAL},
+      </if>
+      <if test="record.invoiceNo != null" >
+        invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collectionTerms != null" >
+        collection_terms = #{record.collectionTerms,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjFinish != null" >
+        prj_finish = #{record.prjFinish,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receivingNode != null" >
+        receiving_node = #{record.receivingNode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receivingNodeMoney != null" >
+        receiving_node_money = #{record.receivingNodeMoney,jdbcType=REAL},
+      </if>
+      <if test="record.actualPayment != null" >
+        actual_payment = #{record.actualPayment,jdbcType=REAL},
+      </if>
+      <if test="record.departmentFeedback != null" >
+        Department_feedback = #{record.departmentFeedback,jdbcType=VARCHAR},
+      </if>
+      <if test="record.financialNotes != null" >
+        financial_notes = #{record.financialNotes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update financial_receivables
+    set fr_id = #{record.frId,jdbcType=VARCHAR},
+      year = #{record.year,jdbcType=VARCHAR},
+      work_no = #{record.workNo,jdbcType=VARCHAR},
+      prj_name = #{record.prjName,jdbcType=VARCHAR},
+      product_owners = #{record.productOwners,jdbcType=VARCHAR},
+      prj_stratAndEnd_time = #{record.prjStratandendTime,jdbcType=VARCHAR},
+      project_leader = #{record.projectLeader,jdbcType=VARCHAR},
+      contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      contract_amount = #{record.contractAmount,jdbcType=REAL},
+      contract_amount2 = #{record.contractAmount2,jdbcType=REAL},
+      cumulative_collection = #{record.cumulativeCollection,jdbcType=REAL},
+      extended_amount = #{record.extendedAmount,jdbcType=REAL},
+      extended_amount2 = #{record.extendedAmount2,jdbcType=REAL},
+      invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      collection_terms = #{record.collectionTerms,jdbcType=VARCHAR},
+      prj_finish = #{record.prjFinish,jdbcType=VARCHAR},
+      receiving_node = #{record.receivingNode,jdbcType=VARCHAR},
+      receiving_node_money = #{record.receivingNodeMoney,jdbcType=REAL},
+      actual_payment = #{record.actualPayment,jdbcType=REAL},
+      Department_feedback = #{record.departmentFeedback,jdbcType=VARCHAR},
+      financial_notes = #{record.financialNotes,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.FinancialReceivables" >
+    update financial_receivables
+    <set >
+      <if test="year != null" >
+        year = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="workNo != null" >
+        work_no = #{workNo,jdbcType=VARCHAR},
+      </if>
+      <if test="prjName != null" >
+        prj_name = #{prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="productOwners != null" >
+        product_owners = #{productOwners,jdbcType=VARCHAR},
+      </if>
+      <if test="prjStratandendTime != null" >
+        prj_stratAndEnd_time = #{prjStratandendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeader != null" >
+        project_leader = #{projectLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        contract_no = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAmount != null" >
+        contract_amount = #{contractAmount,jdbcType=REAL},
+      </if>
+      <if test="contractAmount2 != null" >
+        contract_amount2 = #{contractAmount2,jdbcType=REAL},
+      </if>
+      <if test="cumulativeCollection != null" >
+        cumulative_collection = #{cumulativeCollection,jdbcType=REAL},
+      </if>
+      <if test="extendedAmount != null" >
+        extended_amount = #{extendedAmount,jdbcType=REAL},
+      </if>
+      <if test="extendedAmount2 != null" >
+        extended_amount2 = #{extendedAmount2,jdbcType=REAL},
+      </if>
+      <if test="invoiceNo != null" >
+        invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="collectionTerms != null" >
+        collection_terms = #{collectionTerms,jdbcType=VARCHAR},
+      </if>
+      <if test="prjFinish != null" >
+        prj_finish = #{prjFinish,jdbcType=VARCHAR},
+      </if>
+      <if test="receivingNode != null" >
+        receiving_node = #{receivingNode,jdbcType=VARCHAR},
+      </if>
+      <if test="receivingNodeMoney != null" >
+        receiving_node_money = #{receivingNodeMoney,jdbcType=REAL},
+      </if>
+      <if test="actualPayment != null" >
+        actual_payment = #{actualPayment,jdbcType=REAL},
+      </if>
+      <if test="departmentFeedback != null" >
+        Department_feedback = #{departmentFeedback,jdbcType=VARCHAR},
+      </if>
+      <if test="financialNotes != null" >
+        financial_notes = #{financialNotes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fr_id = #{frId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.FinancialReceivables" >
+    update financial_receivables
+    set year = #{year,jdbcType=VARCHAR},
+      work_no = #{workNo,jdbcType=VARCHAR},
+      prj_name = #{prjName,jdbcType=VARCHAR},
+      product_owners = #{productOwners,jdbcType=VARCHAR},
+      prj_stratAndEnd_time = #{prjStratandendTime,jdbcType=VARCHAR},
+      project_leader = #{projectLeader,jdbcType=VARCHAR},
+      contract_no = #{contractNo,jdbcType=VARCHAR},
+      contract_amount = #{contractAmount,jdbcType=REAL},
+      contract_amount2 = #{contractAmount2,jdbcType=REAL},
+      cumulative_collection = #{cumulativeCollection,jdbcType=REAL},
+      extended_amount = #{extendedAmount,jdbcType=REAL},
+      extended_amount2 = #{extendedAmount2,jdbcType=REAL},
+      invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      collection_terms = #{collectionTerms,jdbcType=VARCHAR},
+      prj_finish = #{prjFinish,jdbcType=VARCHAR},
+      receiving_node = #{receivingNode,jdbcType=VARCHAR},
+      receiving_node_money = #{receivingNodeMoney,jdbcType=REAL},
+      actual_payment = #{actualPayment,jdbcType=REAL},
+      Department_feedback = #{departmentFeedback,jdbcType=VARCHAR},
+      financial_notes = #{financialNotes,jdbcType=VARCHAR}
+    where fr_id = #{frId,jdbcType=VARCHAR}
+  </update>
+</mapper>

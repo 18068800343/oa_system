@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.InternalTrainingMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.InternalTraining" >
+    <id column="it_id" property="itId" jdbcType="VARCHAR" />
+    <result column="training_man" property="trainingMan" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="INTEGER" />
+    <result column="duty" property="duty" jdbcType="INTEGER" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="training_date" property="trainingDate" jdbcType="VARCHAR" />
+    <result column="training_location" property="trainingLocation" jdbcType="VARCHAR" />
+    <result column="training_money" property="trainingMoney" jdbcType="DOUBLE" />
+    <result column="it_accessory" property="itAccessory" jdbcType="VARCHAR" />
+    <result column="it_status" property="itStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.ldxx.bean.InternalTrainingWithBLOBs" extends="BaseResultMap" >
+    <result column="training_desc" property="trainingDesc" jdbcType="LONGVARCHAR" />
+    <result column="training_reason" property="trainingReason" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    it_id, training_man, department, duty, course_name, training_date, training_location, 
+    training_money, it_accessory, it_status
+  </sql>
+  <sql id="Blob_Column_List" >
+    training_desc, training_reason
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="org.ldxx.bean.InternalTrainingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from internal_training
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.InternalTrainingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from internal_training
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from internal_training
+    where it_id = #{itId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from internal_training
+    where it_id = #{itId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.InternalTrainingExample" >
+    delete from internal_training
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.InternalTrainingWithBLOBs" >
+    <selectKey resultType="java.lang.String" keyProperty="itId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into internal_training (training_man, department, duty, 
+      course_name, training_date, training_location, 
+      training_money, it_accessory, it_status, 
+      training_desc, training_reason)
+    values (#{trainingMan,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER}, #{duty,jdbcType=INTEGER}, 
+      #{courseName,jdbcType=VARCHAR}, #{trainingDate,jdbcType=VARCHAR}, #{trainingLocation,jdbcType=VARCHAR}, 
+      #{trainingMoney,jdbcType=DOUBLE}, #{itAccessory,jdbcType=VARCHAR}, #{itStatus,jdbcType=INTEGER}, 
+      #{trainingDesc,jdbcType=LONGVARCHAR}, #{trainingReason,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.InternalTrainingWithBLOBs" >
+    <selectKey resultType="java.lang.String" keyProperty="itId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into internal_training
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="trainingMan != null" >
+        training_man,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="duty != null" >
+        duty,
+      </if>
+      <if test="courseName != null" >
+        course_name,
+      </if>
+      <if test="trainingDate != null" >
+        training_date,
+      </if>
+      <if test="trainingLocation != null" >
+        training_location,
+      </if>
+      <if test="trainingMoney != null" >
+        training_money,
+      </if>
+      <if test="itAccessory != null" >
+        it_accessory,
+      </if>
+      <if test="itStatus != null" >
+        it_status,
+      </if>
+      <if test="trainingDesc != null" >
+        training_desc,
+      </if>
+      <if test="trainingReason != null" >
+        training_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="trainingMan != null" >
+        #{trainingMan,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=INTEGER},
+      </if>
+      <if test="duty != null" >
+        #{duty,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null" >
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingDate != null" >
+        #{trainingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingLocation != null" >
+        #{trainingLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingMoney != null" >
+        #{trainingMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="itAccessory != null" >
+        #{itAccessory,jdbcType=VARCHAR},
+      </if>
+      <if test="itStatus != null" >
+        #{itStatus,jdbcType=INTEGER},
+      </if>
+      <if test="trainingDesc != null" >
+        #{trainingDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="trainingReason != null" >
+        #{trainingReason,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.InternalTrainingExample" resultType="java.lang.Integer" >
+    select count(*) from internal_training
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update internal_training
+    <set >
+      <if test="record.itId != null" >
+        it_id = #{record.itId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingMan != null" >
+        training_man = #{record.trainingMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.department != null" >
+        department = #{record.department,jdbcType=INTEGER},
+      </if>
+      <if test="record.duty != null" >
+        duty = #{record.duty,jdbcType=INTEGER},
+      </if>
+      <if test="record.courseName != null" >
+        course_name = #{record.courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingDate != null" >
+        training_date = #{record.trainingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingLocation != null" >
+        training_location = #{record.trainingLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingMoney != null" >
+        training_money = #{record.trainingMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="record.itAccessory != null" >
+        it_accessory = #{record.itAccessory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itStatus != null" >
+        it_status = #{record.itStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.trainingDesc != null" >
+        training_desc = #{record.trainingDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.trainingReason != null" >
+        training_reason = #{record.trainingReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update internal_training
+    set it_id = #{record.itId,jdbcType=VARCHAR},
+      training_man = #{record.trainingMan,jdbcType=VARCHAR},
+      department = #{record.department,jdbcType=INTEGER},
+      duty = #{record.duty,jdbcType=INTEGER},
+      course_name = #{record.courseName,jdbcType=VARCHAR},
+      training_date = #{record.trainingDate,jdbcType=VARCHAR},
+      training_location = #{record.trainingLocation,jdbcType=VARCHAR},
+      training_money = #{record.trainingMoney,jdbcType=DOUBLE},
+      it_accessory = #{record.itAccessory,jdbcType=VARCHAR},
+      it_status = #{record.itStatus,jdbcType=INTEGER},
+      training_desc = #{record.trainingDesc,jdbcType=LONGVARCHAR},
+      training_reason = #{record.trainingReason,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update internal_training
+    set it_id = #{record.itId,jdbcType=VARCHAR},
+      training_man = #{record.trainingMan,jdbcType=VARCHAR},
+      department = #{record.department,jdbcType=INTEGER},
+      duty = #{record.duty,jdbcType=INTEGER},
+      course_name = #{record.courseName,jdbcType=VARCHAR},
+      training_date = #{record.trainingDate,jdbcType=VARCHAR},
+      training_location = #{record.trainingLocation,jdbcType=VARCHAR},
+      training_money = #{record.trainingMoney,jdbcType=DOUBLE},
+      it_accessory = #{record.itAccessory,jdbcType=VARCHAR},
+      it_status = #{record.itStatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.InternalTrainingWithBLOBs" >
+    update internal_training
+    <set >
+      <if test="trainingMan != null" >
+        training_man = #{trainingMan,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=INTEGER},
+      </if>
+      <if test="duty != null" >
+        duty = #{duty,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null" >
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingDate != null" >
+        training_date = #{trainingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingLocation != null" >
+        training_location = #{trainingLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingMoney != null" >
+        training_money = #{trainingMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="itAccessory != null" >
+        it_accessory = #{itAccessory,jdbcType=VARCHAR},
+      </if>
+      <if test="itStatus != null" >
+        it_status = #{itStatus,jdbcType=INTEGER},
+      </if>
+      <if test="trainingDesc != null" >
+        training_desc = #{trainingDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="trainingReason != null" >
+        training_reason = #{trainingReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where it_id = #{itId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.ldxx.bean.InternalTrainingWithBLOBs" >
+    update internal_training
+    set training_man = #{trainingMan,jdbcType=VARCHAR},
+      department = #{department,jdbcType=INTEGER},
+      duty = #{duty,jdbcType=INTEGER},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      training_date = #{trainingDate,jdbcType=VARCHAR},
+      training_location = #{trainingLocation,jdbcType=VARCHAR},
+      training_money = #{trainingMoney,jdbcType=DOUBLE},
+      it_accessory = #{itAccessory,jdbcType=VARCHAR},
+      it_status = #{itStatus,jdbcType=INTEGER},
+      training_desc = #{trainingDesc,jdbcType=LONGVARCHAR},
+      training_reason = #{trainingReason,jdbcType=LONGVARCHAR}
+    where it_id = #{itId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.InternalTraining" >
+    update internal_training
+    set training_man = #{trainingMan,jdbcType=VARCHAR},
+      department = #{department,jdbcType=INTEGER},
+      duty = #{duty,jdbcType=INTEGER},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      training_date = #{trainingDate,jdbcType=VARCHAR},
+      training_location = #{trainingLocation,jdbcType=VARCHAR},
+      training_money = #{trainingMoney,jdbcType=DOUBLE},
+      it_accessory = #{itAccessory,jdbcType=VARCHAR},
+      it_status = #{itStatus,jdbcType=INTEGER}
+    where it_id = #{itId,jdbcType=VARCHAR}
+  </update>
+</mapper>

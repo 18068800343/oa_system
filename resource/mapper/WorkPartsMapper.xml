@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.WorkPartsMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.WorkParts" >
+    <id column="wp_id" property="wpId" jdbcType="VARCHAR" />
+    <result column="prj_construction_log_id" property="prjConstructionLogId" jdbcType="VARCHAR" />
+    <result column="work_part_name" property="workPartName" jdbcType="VARCHAR" />
+    <result column="work_part_text" property="workPartText" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    wp_id, prj_construction_log_id, work_part_name, work_part_text
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.WorkPartsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from work_parts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from work_parts
+    where wp_id = #{wpId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from work_parts
+    where wp_id = #{wpId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.WorkPartsExample" >
+    delete from work_parts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.WorkParts" >
+    <selectKey resultType="java.lang.String" keyProperty="wpId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into work_parts (prj_construction_log_id, work_part_name, 
+      work_part_text)
+    values (#{prjConstructionLogId,jdbcType=VARCHAR}, #{workPartName,jdbcType=VARCHAR}, 
+      #{workPartText,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.WorkParts" >
+    <selectKey resultType="java.lang.String" keyProperty="wpId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into work_parts
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="prjConstructionLogId != null" >
+        prj_construction_log_id,
+      </if>
+      <if test="workPartName != null" >
+        work_part_name,
+      </if>
+      <if test="workPartText != null" >
+        work_part_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="prjConstructionLogId != null" >
+        #{prjConstructionLogId,jdbcType=VARCHAR},
+      </if>
+      <if test="workPartName != null" >
+        #{workPartName,jdbcType=VARCHAR},
+      </if>
+      <if test="workPartText != null" >
+        #{workPartText,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.WorkPartsExample" resultType="java.lang.Integer" >
+    select count(*) from work_parts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update work_parts
+    <set >
+      <if test="record.wpId != null" >
+        wp_id = #{record.wpId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjConstructionLogId != null" >
+        prj_construction_log_id = #{record.prjConstructionLogId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workPartName != null" >
+        work_part_name = #{record.workPartName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workPartText != null" >
+        work_part_text = #{record.workPartText,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update work_parts
+    set wp_id = #{record.wpId,jdbcType=VARCHAR},
+      prj_construction_log_id = #{record.prjConstructionLogId,jdbcType=VARCHAR},
+      work_part_name = #{record.workPartName,jdbcType=VARCHAR},
+      work_part_text = #{record.workPartText,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.WorkParts" >
+    update work_parts
+    <set >
+      <if test="prjConstructionLogId != null" >
+        prj_construction_log_id = #{prjConstructionLogId,jdbcType=VARCHAR},
+      </if>
+      <if test="workPartName != null" >
+        work_part_name = #{workPartName,jdbcType=VARCHAR},
+      </if>
+      <if test="workPartText != null" >
+        work_part_text = #{workPartText,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where wp_id = #{wpId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.WorkParts" >
+    update work_parts
+    set prj_construction_log_id = #{prjConstructionLogId,jdbcType=VARCHAR},
+      work_part_name = #{workPartName,jdbcType=VARCHAR},
+      work_part_text = #{workPartText,jdbcType=VARCHAR}
+    where wp_id = #{wpId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,68 @@
+package org.ldxx.controller;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.ldxx.bean.Business;
+import org.ldxx.bean.BusinessExample;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.CurrentFlowExample;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.FlowNode;
+import org.ldxx.exception.FlowException;
+import org.ldxx.mapper.BusinessMapper;
+import org.ldxx.mapper.CurrentFlowMapper;
+import org.ldxx.mapper.FlowHistroyMapper;
+import org.ldxx.mapper.FlowNodeMapper;
+import org.ldxx.util.FlowUtill;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("flow")
+@Controller
+public class FlowController {
+	private static final Logger log = Logger.getLogger("myLog");  
+	@Autowired
+	BusinessMapper businessMapper;
+	@Autowired
+	FlowNodeMapper flowNodeMapper;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	FlowHistroyMapper flowHistroyMapper;
+	@Autowired
+	FlowUtill flowUtill;
+	
+	@RequestMapping("/submitFlow")
+	public String submitFlow(HttpServletRequest request){
+		FlowUtill flowUtill = new FlowUtill();
+		CurrentFlow currentFlow = new CurrentFlow();
+		currentFlow.setActor("夏天");
+		currentFlow.setActortype("1");
+		currentFlow.setMemo("流程发起");
+		currentFlow.setFloTmpId("1");
+		currentFlow.setUrl("submitFlow-1");
+		currentFlow.setParams("{'cs':'1'}");
+		currentFlow.setStarter("1");
+		currentFlow.setStartername("张三");
+		currentFlow.setSender("2");
+		currentFlow.setSendername("李四");
+		currentFlow.setSdtofflow(new Date());
+		currentFlow.setSdtofnode(new Date());
+		
+		FlowHistroy flowHistroy = new FlowHistroy();
+		try {
+			flowUtill.submitFlow(currentFlow, flowHistroy);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	
+}

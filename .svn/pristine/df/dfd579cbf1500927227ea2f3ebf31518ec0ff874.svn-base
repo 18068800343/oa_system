@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.OutTrainAllMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.OutTrainAll" >
+    <id column="ota_id" property="otaId" jdbcType="VARCHAR" />
+    <result column="ota_title" property="otaTitle" jdbcType="VARCHAR" />
+    <result column="training_name" property="trainingName" jdbcType="VARCHAR" />
+    <result column="training_lv" property="trainingLv" jdbcType="VARCHAR" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="training_location" property="trainingLocation" jdbcType="VARCHAR" />
+    <result column="training_money" property="trainingMoney" jdbcType="DOUBLE" />
+    <result column="training_date" property="trainingDate" jdbcType="VARCHAR" />
+    <result column="attendees" property="attendees" jdbcType="VARCHAR" />
+    <result column="ota_status" property="otaStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.ldxx.bean.OutTrainAllWithBLOBs" extends="BaseResultMap" >
+    <result column="course_desc" property="courseDesc" jdbcType="LONGVARCHAR" />
+    <result column="training_reason" property="trainingReason" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ota_id, ota_title, training_name, training_lv, course_name, training_location, training_money, 
+    training_date, attendees, ota_status
+  </sql>
+  <sql id="Blob_Column_List" >
+    course_desc, training_reason
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="org.ldxx.bean.OutTrainAllExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from out_train_all
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.OutTrainAllExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from out_train_all
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from out_train_all
+    where ota_id = #{otaId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from out_train_all
+    where ota_id = #{otaId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.OutTrainAllExample" >
+    delete from out_train_all
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.OutTrainAllWithBLOBs" >
+    <selectKey resultType="java.lang.String" keyProperty="otaId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into out_train_all (ota_title, training_name, training_lv, 
+      course_name, training_location, training_money, 
+      training_date, attendees, ota_status, 
+      course_desc, training_reason)
+    values (#{otaTitle,jdbcType=VARCHAR}, #{trainingName,jdbcType=VARCHAR}, #{trainingLv,jdbcType=VARCHAR}, 
+      #{courseName,jdbcType=VARCHAR}, #{trainingLocation,jdbcType=VARCHAR}, #{trainingMoney,jdbcType=DOUBLE}, 
+      #{trainingDate,jdbcType=VARCHAR}, #{attendees,jdbcType=VARCHAR}, #{otaStatus,jdbcType=INTEGER}, 
+      #{courseDesc,jdbcType=LONGVARCHAR}, #{trainingReason,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.OutTrainAllWithBLOBs" >
+    <selectKey resultType="java.lang.String" keyProperty="otaId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into out_train_all
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="otaTitle != null" >
+        ota_title,
+      </if>
+      <if test="trainingName != null" >
+        training_name,
+      </if>
+      <if test="trainingLv != null" >
+        training_lv,
+      </if>
+      <if test="courseName != null" >
+        course_name,
+      </if>
+      <if test="trainingLocation != null" >
+        training_location,
+      </if>
+      <if test="trainingMoney != null" >
+        training_money,
+      </if>
+      <if test="trainingDate != null" >
+        training_date,
+      </if>
+      <if test="attendees != null" >
+        attendees,
+      </if>
+      <if test="otaStatus != null" >
+        ota_status,
+      </if>
+      <if test="courseDesc != null" >
+        course_desc,
+      </if>
+      <if test="trainingReason != null" >
+        training_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="otaTitle != null" >
+        #{otaTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingName != null" >
+        #{trainingName,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingLv != null" >
+        #{trainingLv,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null" >
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingLocation != null" >
+        #{trainingLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingMoney != null" >
+        #{trainingMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="trainingDate != null" >
+        #{trainingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="attendees != null" >
+        #{attendees,jdbcType=VARCHAR},
+      </if>
+      <if test="otaStatus != null" >
+        #{otaStatus,jdbcType=INTEGER},
+      </if>
+      <if test="courseDesc != null" >
+        #{courseDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="trainingReason != null" >
+        #{trainingReason,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.OutTrainAllExample" resultType="java.lang.Integer" >
+    select count(*) from out_train_all
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update out_train_all
+    <set >
+      <if test="record.otaId != null" >
+        ota_id = #{record.otaId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otaTitle != null" >
+        ota_title = #{record.otaTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingName != null" >
+        training_name = #{record.trainingName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingLv != null" >
+        training_lv = #{record.trainingLv,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseName != null" >
+        course_name = #{record.courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingLocation != null" >
+        training_location = #{record.trainingLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingMoney != null" >
+        training_money = #{record.trainingMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="record.trainingDate != null" >
+        training_date = #{record.trainingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attendees != null" >
+        attendees = #{record.attendees,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otaStatus != null" >
+        ota_status = #{record.otaStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.courseDesc != null" >
+        course_desc = #{record.courseDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.trainingReason != null" >
+        training_reason = #{record.trainingReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update out_train_all
+    set ota_id = #{record.otaId,jdbcType=VARCHAR},
+      ota_title = #{record.otaTitle,jdbcType=VARCHAR},
+      training_name = #{record.trainingName,jdbcType=VARCHAR},
+      training_lv = #{record.trainingLv,jdbcType=VARCHAR},
+      course_name = #{record.courseName,jdbcType=VARCHAR},
+      training_location = #{record.trainingLocation,jdbcType=VARCHAR},
+      training_money = #{record.trainingMoney,jdbcType=DOUBLE},
+      training_date = #{record.trainingDate,jdbcType=VARCHAR},
+      attendees = #{record.attendees,jdbcType=VARCHAR},
+      ota_status = #{record.otaStatus,jdbcType=INTEGER},
+      course_desc = #{record.courseDesc,jdbcType=LONGVARCHAR},
+      training_reason = #{record.trainingReason,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update out_train_all
+    set ota_id = #{record.otaId,jdbcType=VARCHAR},
+      ota_title = #{record.otaTitle,jdbcType=VARCHAR},
+      training_name = #{record.trainingName,jdbcType=VARCHAR},
+      training_lv = #{record.trainingLv,jdbcType=VARCHAR},
+      course_name = #{record.courseName,jdbcType=VARCHAR},
+      training_location = #{record.trainingLocation,jdbcType=VARCHAR},
+      training_money = #{record.trainingMoney,jdbcType=DOUBLE},
+      training_date = #{record.trainingDate,jdbcType=VARCHAR},
+      attendees = #{record.attendees,jdbcType=VARCHAR},
+      ota_status = #{record.otaStatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.OutTrainAllWithBLOBs" >
+    update out_train_all
+    <set >
+      <if test="otaTitle != null" >
+        ota_title = #{otaTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingName != null" >
+        training_name = #{trainingName,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingLv != null" >
+        training_lv = #{trainingLv,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null" >
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingLocation != null" >
+        training_location = #{trainingLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingMoney != null" >
+        training_money = #{trainingMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="trainingDate != null" >
+        training_date = #{trainingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="attendees != null" >
+        attendees = #{attendees,jdbcType=VARCHAR},
+      </if>
+      <if test="otaStatus != null" >
+        ota_status = #{otaStatus,jdbcType=INTEGER},
+      </if>
+      <if test="courseDesc != null" >
+        course_desc = #{courseDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="trainingReason != null" >
+        training_reason = #{trainingReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ota_id = #{otaId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.ldxx.bean.OutTrainAllWithBLOBs" >
+    update out_train_all
+    set ota_title = #{otaTitle,jdbcType=VARCHAR},
+      training_name = #{trainingName,jdbcType=VARCHAR},
+      training_lv = #{trainingLv,jdbcType=VARCHAR},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      training_location = #{trainingLocation,jdbcType=VARCHAR},
+      training_money = #{trainingMoney,jdbcType=DOUBLE},
+      training_date = #{trainingDate,jdbcType=VARCHAR},
+      attendees = #{attendees,jdbcType=VARCHAR},
+      ota_status = #{otaStatus,jdbcType=INTEGER},
+      course_desc = #{courseDesc,jdbcType=LONGVARCHAR},
+      training_reason = #{trainingReason,jdbcType=LONGVARCHAR}
+    where ota_id = #{otaId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.OutTrainAll" >
+    update out_train_all
+    set ota_title = #{otaTitle,jdbcType=VARCHAR},
+      training_name = #{trainingName,jdbcType=VARCHAR},
+      training_lv = #{trainingLv,jdbcType=VARCHAR},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      training_location = #{trainingLocation,jdbcType=VARCHAR},
+      training_money = #{trainingMoney,jdbcType=DOUBLE},
+      training_date = #{trainingDate,jdbcType=VARCHAR},
+      attendees = #{attendees,jdbcType=VARCHAR},
+      ota_status = #{otaStatus,jdbcType=INTEGER}
+    where ota_id = #{otaId,jdbcType=VARCHAR}
+  </update>
+</mapper>

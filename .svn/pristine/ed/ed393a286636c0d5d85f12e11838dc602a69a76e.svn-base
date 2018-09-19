@@ -1,0 +1,107 @@
+package org.ldxx.controller;
+
+import java.util.List;
+
+import org.ldxx.bean.DepartmentTarget;
+import org.ldxx.bean.OperationTarget;
+import org.ldxx.service.DepartmentTargetService;
+import org.ldxx.service.OperationTargetService;
+import org.ldxx.util.TimeUUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping("operationTarget")
+public class OperationTargetController {
+
+	@Autowired
+	private OperationTargetService oservice;
+	
+	@Autowired
+	private DepartmentTargetService dservice;
+	
+	@RequestMapping("/addOperationTargetBySave")
+	@ResponseBody
+	public int addOperationTargetBySave(OperationTarget target){
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		target.setOtId(id);
+		int i=oservice.addOperationTarget(target);
+		return i;
+	}
+	
+	@RequestMapping("/addOperationTargetBySubmit")
+	@ResponseBody
+	public int addOperationTargetBySubmit(OperationTarget target){
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		target.setOtId(id);
+		int i=oservice.addOperationTarget(target);
+		return i;
+	}
+	
+	@RequestMapping("/deleteOperationTarget")
+	@ResponseBody
+	public int deleteOperationTarget(String id){
+		int i=oservice.deleteOperationTargetById(id);
+		return i;
+	}
+	
+	@RequestMapping("/updateOperationTargetBySave")
+	@ResponseBody
+	public int updateOperationTargetBySave(OperationTarget target){
+		int i=oservice.updateOperationTarget(target);
+		return i;
+	}
+	
+	@RequestMapping("/updateOperationTargetBySubmit")
+	@ResponseBody
+	public int updateOperationTargetBySubmit(OperationTarget target){
+		int i=oservice.updateOperationTarget(target);
+		return i;
+	}
+	
+	@RequestMapping("/selectOperationTarget")
+	@ResponseBody
+	public List<OperationTarget> selectOperationTarget(){
+		List<OperationTarget> list=oservice.selectOperationTarget();
+		return list;
+	}
+	
+	/***********************************************部门指标**************************************************/
+	@RequestMapping("/orNotSplit")
+	@ResponseBody
+	public int orNotSplit(String id){
+		int i=dservice.orNotSplit(id);
+		return i;
+	}
+	
+	@RequestMapping("/addDepartmentTargetBySave")
+	@ResponseBody
+	public int addDepartmentTargetBySave(@RequestBody List<DepartmentTarget> dTarget){
+		String otId=dTarget.get(0).getOtId();
+		int a=dservice.orNotSplit(otId);
+		if(a==0){
+			TimeUUID uuid=new TimeUUID();
+			for(int i=0;i<dTarget.size();i++){
+				String id=uuid.getTimeUUID();
+				dTarget.get(i).settId(id);
+			}
+			a=dservice.addDepartmentTarget(dTarget);
+		}else{
+			a=dservice.updateDepartmentTarget(dTarget);
+		}
+		return a;
+	}
+	
+	
+	@RequestMapping("/selectDepartmentTarget")
+	@ResponseBody
+	public List<DepartmentTarget> selectDepartmentTarget(String id){
+		List<DepartmentTarget> list=dservice.selectDepartmentTarget(id);
+		return list;
+	}
+}

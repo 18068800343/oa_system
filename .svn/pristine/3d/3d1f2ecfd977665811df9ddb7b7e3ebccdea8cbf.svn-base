@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.EnterpriseMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.Enterprise" >
+    <id column="e_id" property="eId" jdbcType="VARCHAR" />
+    <result column="e_man" property="eMan" jdbcType="VARCHAR" />
+    <result column="e_tel" property="eTel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    e_id, e_man, e_tel
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.EnterpriseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from enterprise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from enterprise
+    where e_id = #{eId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from enterprise
+    where e_id = #{eId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.EnterpriseExample" >
+    delete from enterprise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.Enterprise" >
+    <selectKey resultType="java.lang.String" keyProperty="eId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into enterprise (e_man, e_tel)
+    values (#{eMan,jdbcType=VARCHAR}, #{eTel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.Enterprise" >
+    <selectKey resultType="java.lang.String" keyProperty="eId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into enterprise
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="eMan != null" >
+        e_man,
+      </if>
+      <if test="eTel != null" >
+        e_tel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="eMan != null" >
+        #{eMan,jdbcType=VARCHAR},
+      </if>
+      <if test="eTel != null" >
+        #{eTel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.EnterpriseExample" resultType="java.lang.Integer" >
+    select count(*) from enterprise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update enterprise
+    <set >
+      <if test="record.eId != null" >
+        e_id = #{record.eId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eMan != null" >
+        e_man = #{record.eMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eTel != null" >
+        e_tel = #{record.eTel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update enterprise
+    set e_id = #{record.eId,jdbcType=VARCHAR},
+      e_man = #{record.eMan,jdbcType=VARCHAR},
+      e_tel = #{record.eTel,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.Enterprise" >
+    update enterprise
+    <set >
+      <if test="eMan != null" >
+        e_man = #{eMan,jdbcType=VARCHAR},
+      </if>
+      <if test="eTel != null" >
+        e_tel = #{eTel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where e_id = #{eId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.Enterprise" >
+    update enterprise
+    set e_man = #{eMan,jdbcType=VARCHAR},
+      e_tel = #{eTel,jdbcType=VARCHAR}
+    where e_id = #{eId,jdbcType=VARCHAR}
+  </update>
+</mapper>

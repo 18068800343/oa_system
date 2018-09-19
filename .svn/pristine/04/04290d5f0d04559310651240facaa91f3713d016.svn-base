@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.ResultManagementSignetMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.ResultManagementSignet" >
+    <id column="us_id" property="usId" jdbcType="VARCHAR" />
+    <result column="prj_id" property="prjId" jdbcType="VARCHAR" />
+    <result column="project_phase" property="projectPhase" jdbcType="VARCHAR" />
+    <result column="division_engineer" property="divisionEngineer" jdbcType="VARCHAR" />
+    <result column="head_engineer" property="headEngineer" jdbcType="VARCHAR" />
+    <result column="user_signet_man" property="userSignetMan" jdbcType="VARCHAR" />
+    <result column="us_status" property="usStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.ldxx.bean.ResultManagementSignet" extends="BaseResultMap" >
+    <result column="project_desc" property="projectDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    us_id, prj_id, project_phase, division_engineer, head_engineer, user_signet_man, 
+    us_status
+  </sql>
+  <sql id="Blob_Column_List" >
+    project_desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="org.ldxx.bean.ResultManagementSignetExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from result_management_signet
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.ResultManagementSignetExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from result_management_signet
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from result_management_signet
+    where us_id = #{usId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from result_management_signet
+    where us_id = #{usId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.ResultManagementSignetExample" >
+    delete from result_management_signet
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.ResultManagementSignet" >
+    <selectKey resultType="java.lang.String" keyProperty="usId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into result_management_signet (prj_id, project_phase, division_engineer, 
+      head_engineer, user_signet_man, us_status, 
+      project_desc)
+    values (#{prjId,jdbcType=VARCHAR}, #{projectPhase,jdbcType=VARCHAR}, #{divisionEngineer,jdbcType=VARCHAR}, 
+      #{headEngineer,jdbcType=VARCHAR}, #{userSignetMan,jdbcType=VARCHAR}, #{usStatus,jdbcType=INTEGER}, 
+      #{projectDesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.ResultManagementSignet" >
+    <selectKey resultType="java.lang.String" keyProperty="usId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into result_management_signet
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="prjId != null" >
+        prj_id,
+      </if>
+      <if test="projectPhase != null" >
+        project_phase,
+      </if>
+      <if test="divisionEngineer != null" >
+        division_engineer,
+      </if>
+      <if test="headEngineer != null" >
+        head_engineer,
+      </if>
+      <if test="userSignetMan != null" >
+        user_signet_man,
+      </if>
+      <if test="usStatus != null" >
+        us_status,
+      </if>
+      <if test="projectDesc != null" >
+        project_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="prjId != null" >
+        #{prjId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectPhase != null" >
+        #{projectPhase,jdbcType=VARCHAR},
+      </if>
+      <if test="divisionEngineer != null" >
+        #{divisionEngineer,jdbcType=VARCHAR},
+      </if>
+      <if test="headEngineer != null" >
+        #{headEngineer,jdbcType=VARCHAR},
+      </if>
+      <if test="userSignetMan != null" >
+        #{userSignetMan,jdbcType=VARCHAR},
+      </if>
+      <if test="usStatus != null" >
+        #{usStatus,jdbcType=INTEGER},
+      </if>
+      <if test="projectDesc != null" >
+        #{projectDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.ResultManagementSignetExample" resultType="java.lang.Integer" >
+    select count(*) from result_management_signet
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update result_management_signet
+    <set >
+      <if test="record.usId != null" >
+        us_id = #{record.usId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjId != null" >
+        prj_id = #{record.prjId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectPhase != null" >
+        project_phase = #{record.projectPhase,jdbcType=VARCHAR},
+      </if>
+      <if test="record.divisionEngineer != null" >
+        division_engineer = #{record.divisionEngineer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.headEngineer != null" >
+        head_engineer = #{record.headEngineer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userSignetMan != null" >
+        user_signet_man = #{record.userSignetMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usStatus != null" >
+        us_status = #{record.usStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectDesc != null" >
+        project_desc = #{record.projectDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update result_management_signet
+    set us_id = #{record.usId,jdbcType=VARCHAR},
+      prj_id = #{record.prjId,jdbcType=VARCHAR},
+      project_phase = #{record.projectPhase,jdbcType=VARCHAR},
+      division_engineer = #{record.divisionEngineer,jdbcType=VARCHAR},
+      head_engineer = #{record.headEngineer,jdbcType=VARCHAR},
+      user_signet_man = #{record.userSignetMan,jdbcType=VARCHAR},
+      us_status = #{record.usStatus,jdbcType=INTEGER},
+      project_desc = #{record.projectDesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update result_management_signet
+    set us_id = #{record.usId,jdbcType=VARCHAR},
+      prj_id = #{record.prjId,jdbcType=VARCHAR},
+      project_phase = #{record.projectPhase,jdbcType=VARCHAR},
+      division_engineer = #{record.divisionEngineer,jdbcType=VARCHAR},
+      head_engineer = #{record.headEngineer,jdbcType=VARCHAR},
+      user_signet_man = #{record.userSignetMan,jdbcType=VARCHAR},
+      us_status = #{record.usStatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.ResultManagementSignet" >
+    update result_management_signet
+    <set >
+      <if test="prjId != null" >
+        prj_id = #{prjId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectPhase != null" >
+        project_phase = #{projectPhase,jdbcType=VARCHAR},
+      </if>
+      <if test="divisionEngineer != null" >
+        division_engineer = #{divisionEngineer,jdbcType=VARCHAR},
+      </if>
+      <if test="headEngineer != null" >
+        head_engineer = #{headEngineer,jdbcType=VARCHAR},
+      </if>
+      <if test="userSignetMan != null" >
+        user_signet_man = #{userSignetMan,jdbcType=VARCHAR},
+      </if>
+      <if test="usStatus != null" >
+        us_status = #{usStatus,jdbcType=INTEGER},
+      </if>
+      <if test="projectDesc != null" >
+        project_desc = #{projectDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where us_id = #{usId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.ldxx.bean.ResultManagementSignet" >
+    update result_management_signet
+    set prj_id = #{prjId,jdbcType=VARCHAR},
+      project_phase = #{projectPhase,jdbcType=VARCHAR},
+      division_engineer = #{divisionEngineer,jdbcType=VARCHAR},
+      head_engineer = #{headEngineer,jdbcType=VARCHAR},
+      user_signet_man = #{userSignetMan,jdbcType=VARCHAR},
+      us_status = #{usStatus,jdbcType=INTEGER},
+      project_desc = #{projectDesc,jdbcType=LONGVARCHAR}
+    where us_id = #{usId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.ResultManagementSignet" >
+    update result_management_signet
+    set prj_id = #{prjId,jdbcType=VARCHAR},
+      project_phase = #{projectPhase,jdbcType=VARCHAR},
+      division_engineer = #{divisionEngineer,jdbcType=VARCHAR},
+      head_engineer = #{headEngineer,jdbcType=VARCHAR},
+      user_signet_man = #{userSignetMan,jdbcType=VARCHAR},
+      us_status = #{usStatus,jdbcType=INTEGER}
+    where us_id = #{usId,jdbcType=VARCHAR}
+  </update>
+</mapper>

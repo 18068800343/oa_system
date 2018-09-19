@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.TaskTableMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.TaskTable" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="task_list_id" property="taskListId" jdbcType="VARCHAR" />
+    <result column="prj_type" property="prjType" jdbcType="VARCHAR" />
+    <result column="prj_name" property="prjName" jdbcType="VARCHAR" />
+    <result column="contract_code" property="contractCode" jdbcType="VARCHAR" />
+    <result column="prj_operate_mode" property="prjOperateMode" jdbcType="VARCHAR" />
+    <result column="prj_money" property="prjMoney" jdbcType="VARCHAR" />
+    <result column="contract_money" property="contractMoney" jdbcType="VARCHAR" />
+    <result column="main_department" property="mainDepartment" jdbcType="VARCHAR" />
+    <result column="cooperation_department" property="cooperationDepartment" jdbcType="VARCHAR" />
+    <result column="prj_charge_person" property="prjChargePerson" jdbcType="VARCHAR" />
+    <result column="prj_long_time" property="prjLongTime" jdbcType="VARCHAR" />
+    <result column="owner_department" property="ownerDepartment" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, task_list_id, prj_type, prj_name, contract_code, prj_operate_mode, prj_money, 
+    contract_money, main_department, cooperation_department, prj_charge_person, prj_long_time, 
+    owner_department, state
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.TaskTableExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from task_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from task_table
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from task_table
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.TaskTableExample" >
+    delete from task_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.TaskTable" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into task_table (task_list_id, prj_type, prj_name, 
+      contract_code, prj_operate_mode, prj_money, 
+      contract_money, main_department, cooperation_department, 
+      prj_charge_person, prj_long_time, owner_department, 
+      state)
+    values (#{taskListId,jdbcType=VARCHAR}, #{prjType,jdbcType=VARCHAR}, #{prjName,jdbcType=VARCHAR}, 
+      #{contractCode,jdbcType=VARCHAR}, #{prjOperateMode,jdbcType=VARCHAR}, #{prjMoney,jdbcType=VARCHAR}, 
+      #{contractMoney,jdbcType=VARCHAR}, #{mainDepartment,jdbcType=VARCHAR}, #{cooperationDepartment,jdbcType=VARCHAR}, 
+      #{prjChargePerson,jdbcType=VARCHAR}, #{prjLongTime,jdbcType=VARCHAR}, #{ownerDepartment,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.TaskTable" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into task_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskListId != null" >
+        task_list_id,
+      </if>
+      <if test="prjType != null" >
+        prj_type,
+      </if>
+      <if test="prjName != null" >
+        prj_name,
+      </if>
+      <if test="contractCode != null" >
+        contract_code,
+      </if>
+      <if test="prjOperateMode != null" >
+        prj_operate_mode,
+      </if>
+      <if test="prjMoney != null" >
+        prj_money,
+      </if>
+      <if test="contractMoney != null" >
+        contract_money,
+      </if>
+      <if test="mainDepartment != null" >
+        main_department,
+      </if>
+      <if test="cooperationDepartment != null" >
+        cooperation_department,
+      </if>
+      <if test="prjChargePerson != null" >
+        prj_charge_person,
+      </if>
+      <if test="prjLongTime != null" >
+        prj_long_time,
+      </if>
+      <if test="ownerDepartment != null" >
+        owner_department,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskListId != null" >
+        #{taskListId,jdbcType=VARCHAR},
+      </if>
+      <if test="prjType != null" >
+        #{prjType,jdbcType=VARCHAR},
+      </if>
+      <if test="prjName != null" >
+        #{prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractCode != null" >
+        #{contractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prjOperateMode != null" >
+        #{prjOperateMode,jdbcType=VARCHAR},
+      </if>
+      <if test="prjMoney != null" >
+        #{prjMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="contractMoney != null" >
+        #{contractMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="mainDepartment != null" >
+        #{mainDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperationDepartment != null" >
+        #{cooperationDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="prjChargePerson != null" >
+        #{prjChargePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="prjLongTime != null" >
+        #{prjLongTime,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerDepartment != null" >
+        #{ownerDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.TaskTableExample" resultType="java.lang.Integer" >
+    select count(*) from task_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update task_table
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskListId != null" >
+        task_list_id = #{record.taskListId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjType != null" >
+        prj_type = #{record.prjType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjName != null" >
+        prj_name = #{record.prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractCode != null" >
+        contract_code = #{record.contractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjOperateMode != null" >
+        prj_operate_mode = #{record.prjOperateMode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjMoney != null" >
+        prj_money = #{record.prjMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractMoney != null" >
+        contract_money = #{record.contractMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainDepartment != null" >
+        main_department = #{record.mainDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cooperationDepartment != null" >
+        cooperation_department = #{record.cooperationDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjChargePerson != null" >
+        prj_charge_person = #{record.prjChargePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjLongTime != null" >
+        prj_long_time = #{record.prjLongTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownerDepartment != null" >
+        owner_department = #{record.ownerDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update task_table
+    set id = #{record.id,jdbcType=VARCHAR},
+      task_list_id = #{record.taskListId,jdbcType=VARCHAR},
+      prj_type = #{record.prjType,jdbcType=VARCHAR},
+      prj_name = #{record.prjName,jdbcType=VARCHAR},
+      contract_code = #{record.contractCode,jdbcType=VARCHAR},
+      prj_operate_mode = #{record.prjOperateMode,jdbcType=VARCHAR},
+      prj_money = #{record.prjMoney,jdbcType=VARCHAR},
+      contract_money = #{record.contractMoney,jdbcType=VARCHAR},
+      main_department = #{record.mainDepartment,jdbcType=VARCHAR},
+      cooperation_department = #{record.cooperationDepartment,jdbcType=VARCHAR},
+      prj_charge_person = #{record.prjChargePerson,jdbcType=VARCHAR},
+      prj_long_time = #{record.prjLongTime,jdbcType=VARCHAR},
+      owner_department = #{record.ownerDepartment,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.TaskTable" >
+    update task_table
+    <set >
+      <if test="taskListId != null" >
+        task_list_id = #{taskListId,jdbcType=VARCHAR},
+      </if>
+      <if test="prjType != null" >
+        prj_type = #{prjType,jdbcType=VARCHAR},
+      </if>
+      <if test="prjName != null" >
+        prj_name = #{prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractCode != null" >
+        contract_code = #{contractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prjOperateMode != null" >
+        prj_operate_mode = #{prjOperateMode,jdbcType=VARCHAR},
+      </if>
+      <if test="prjMoney != null" >
+        prj_money = #{prjMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="contractMoney != null" >
+        contract_money = #{contractMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="mainDepartment != null" >
+        main_department = #{mainDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperationDepartment != null" >
+        cooperation_department = #{cooperationDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="prjChargePerson != null" >
+        prj_charge_person = #{prjChargePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="prjLongTime != null" >
+        prj_long_time = #{prjLongTime,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerDepartment != null" >
+        owner_department = #{ownerDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.TaskTable" >
+    update task_table
+    set task_list_id = #{taskListId,jdbcType=VARCHAR},
+      prj_type = #{prjType,jdbcType=VARCHAR},
+      prj_name = #{prjName,jdbcType=VARCHAR},
+      contract_code = #{contractCode,jdbcType=VARCHAR},
+      prj_operate_mode = #{prjOperateMode,jdbcType=VARCHAR},
+      prj_money = #{prjMoney,jdbcType=VARCHAR},
+      contract_money = #{contractMoney,jdbcType=VARCHAR},
+      main_department = #{mainDepartment,jdbcType=VARCHAR},
+      cooperation_department = #{cooperationDepartment,jdbcType=VARCHAR},
+      prj_charge_person = #{prjChargePerson,jdbcType=VARCHAR},
+      prj_long_time = #{prjLongTime,jdbcType=VARCHAR},
+      owner_department = #{ownerDepartment,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

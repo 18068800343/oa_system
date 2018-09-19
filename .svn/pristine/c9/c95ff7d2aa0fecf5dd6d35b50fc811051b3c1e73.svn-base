@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.SignetManageMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.SignetManage" >
+    <id column="sm_id" property="smId" jdbcType="VARCHAR" />
+    <result column="prj_id" property="prjId" jdbcType="VARCHAR" />
+    <result column="work_no" property="workNo" jdbcType="VARCHAR" />
+    <result column="sm_no" property="smNo" jdbcType="VARCHAR" />
+    <result column="om_id" property="omId" jdbcType="INTEGER" />
+    <result column="application_date" property="applicationDate" jdbcType="VARCHAR" />
+    <result column="signet_name" property="signetName" jdbcType="VARCHAR" />
+    <result column="signet_man" property="signetMan" jdbcType="VARCHAR" />
+    <result column="sm_status" property="smStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.ldxx.bean.SignetManage" extends="BaseResultMap" >
+    <result column="sm_desc" property="smDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sm_id, prj_id, work_no, sm_no, om_id, application_date, signet_name, signet_man, 
+    sm_status
+  </sql>
+  <sql id="Blob_Column_List" >
+    sm_desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="org.ldxx.bean.SignetManageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from signet_manage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.SignetManageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from signet_manage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from signet_manage
+    where sm_id = #{smId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from signet_manage
+    where sm_id = #{smId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.SignetManageExample" >
+    delete from signet_manage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.SignetManage" >
+    <selectKey resultType="java.lang.String" keyProperty="smId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into signet_manage (prj_id, work_no, sm_no, 
+      om_id, application_date, signet_name, 
+      signet_man, sm_status, sm_desc
+      )
+    values (#{prjId,jdbcType=VARCHAR}, #{workNo,jdbcType=VARCHAR}, #{smNo,jdbcType=VARCHAR}, 
+      #{omId,jdbcType=INTEGER}, #{applicationDate,jdbcType=VARCHAR}, #{signetName,jdbcType=VARCHAR}, 
+      #{signetMan,jdbcType=VARCHAR}, #{smStatus,jdbcType=INTEGER}, #{smDesc,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.SignetManage" >
+    <selectKey resultType="java.lang.String" keyProperty="smId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into signet_manage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="prjId != null" >
+        prj_id,
+      </if>
+      <if test="workNo != null" >
+        work_no,
+      </if>
+      <if test="smNo != null" >
+        sm_no,
+      </if>
+      <if test="omId != null" >
+        om_id,
+      </if>
+      <if test="applicationDate != null" >
+        application_date,
+      </if>
+      <if test="signetName != null" >
+        signet_name,
+      </if>
+      <if test="signetMan != null" >
+        signet_man,
+      </if>
+      <if test="smStatus != null" >
+        sm_status,
+      </if>
+      <if test="smDesc != null" >
+        sm_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="prjId != null" >
+        #{prjId,jdbcType=VARCHAR},
+      </if>
+      <if test="workNo != null" >
+        #{workNo,jdbcType=VARCHAR},
+      </if>
+      <if test="smNo != null" >
+        #{smNo,jdbcType=VARCHAR},
+      </if>
+      <if test="omId != null" >
+        #{omId,jdbcType=INTEGER},
+      </if>
+      <if test="applicationDate != null" >
+        #{applicationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="signetName != null" >
+        #{signetName,jdbcType=VARCHAR},
+      </if>
+      <if test="signetMan != null" >
+        #{signetMan,jdbcType=VARCHAR},
+      </if>
+      <if test="smStatus != null" >
+        #{smStatus,jdbcType=INTEGER},
+      </if>
+      <if test="smDesc != null" >
+        #{smDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.SignetManageExample" resultType="java.lang.Integer" >
+    select count(*) from signet_manage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update signet_manage
+    <set >
+      <if test="record.smId != null" >
+        sm_id = #{record.smId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjId != null" >
+        prj_id = #{record.prjId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workNo != null" >
+        work_no = #{record.workNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smNo != null" >
+        sm_no = #{record.smNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.omId != null" >
+        om_id = #{record.omId,jdbcType=INTEGER},
+      </if>
+      <if test="record.applicationDate != null" >
+        application_date = #{record.applicationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signetName != null" >
+        signet_name = #{record.signetName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signetMan != null" >
+        signet_man = #{record.signetMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smStatus != null" >
+        sm_status = #{record.smStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.smDesc != null" >
+        sm_desc = #{record.smDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update signet_manage
+    set sm_id = #{record.smId,jdbcType=VARCHAR},
+      prj_id = #{record.prjId,jdbcType=VARCHAR},
+      work_no = #{record.workNo,jdbcType=VARCHAR},
+      sm_no = #{record.smNo,jdbcType=VARCHAR},
+      om_id = #{record.omId,jdbcType=INTEGER},
+      application_date = #{record.applicationDate,jdbcType=VARCHAR},
+      signet_name = #{record.signetName,jdbcType=VARCHAR},
+      signet_man = #{record.signetMan,jdbcType=VARCHAR},
+      sm_status = #{record.smStatus,jdbcType=INTEGER},
+      sm_desc = #{record.smDesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update signet_manage
+    set sm_id = #{record.smId,jdbcType=VARCHAR},
+      prj_id = #{record.prjId,jdbcType=VARCHAR},
+      work_no = #{record.workNo,jdbcType=VARCHAR},
+      sm_no = #{record.smNo,jdbcType=VARCHAR},
+      om_id = #{record.omId,jdbcType=INTEGER},
+      application_date = #{record.applicationDate,jdbcType=VARCHAR},
+      signet_name = #{record.signetName,jdbcType=VARCHAR},
+      signet_man = #{record.signetMan,jdbcType=VARCHAR},
+      sm_status = #{record.smStatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.SignetManage" >
+    update signet_manage
+    <set >
+      <if test="prjId != null" >
+        prj_id = #{prjId,jdbcType=VARCHAR},
+      </if>
+      <if test="workNo != null" >
+        work_no = #{workNo,jdbcType=VARCHAR},
+      </if>
+      <if test="smNo != null" >
+        sm_no = #{smNo,jdbcType=VARCHAR},
+      </if>
+      <if test="omId != null" >
+        om_id = #{omId,jdbcType=INTEGER},
+      </if>
+      <if test="applicationDate != null" >
+        application_date = #{applicationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="signetName != null" >
+        signet_name = #{signetName,jdbcType=VARCHAR},
+      </if>
+      <if test="signetMan != null" >
+        signet_man = #{signetMan,jdbcType=VARCHAR},
+      </if>
+      <if test="smStatus != null" >
+        sm_status = #{smStatus,jdbcType=INTEGER},
+      </if>
+      <if test="smDesc != null" >
+        sm_desc = #{smDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where sm_id = #{smId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.ldxx.bean.SignetManage" >
+    update signet_manage
+    set prj_id = #{prjId,jdbcType=VARCHAR},
+      work_no = #{workNo,jdbcType=VARCHAR},
+      sm_no = #{smNo,jdbcType=VARCHAR},
+      om_id = #{omId,jdbcType=INTEGER},
+      application_date = #{applicationDate,jdbcType=VARCHAR},
+      signet_name = #{signetName,jdbcType=VARCHAR},
+      signet_man = #{signetMan,jdbcType=VARCHAR},
+      sm_status = #{smStatus,jdbcType=INTEGER},
+      sm_desc = #{smDesc,jdbcType=LONGVARCHAR}
+    where sm_id = #{smId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.SignetManage" >
+    update signet_manage
+    set prj_id = #{prjId,jdbcType=VARCHAR},
+      work_no = #{workNo,jdbcType=VARCHAR},
+      sm_no = #{smNo,jdbcType=VARCHAR},
+      om_id = #{omId,jdbcType=INTEGER},
+      application_date = #{applicationDate,jdbcType=VARCHAR},
+      signet_name = #{signetName,jdbcType=VARCHAR},
+      signet_man = #{signetMan,jdbcType=VARCHAR},
+      sm_status = #{smStatus,jdbcType=INTEGER}
+    where sm_id = #{smId,jdbcType=VARCHAR}
+  </update>
+</mapper>

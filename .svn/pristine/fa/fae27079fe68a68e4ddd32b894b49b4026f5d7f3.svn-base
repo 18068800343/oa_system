@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.impl.ProjectTypeDao" >
+  <!-- 新建一级项目类型 -->
+  <insert id="addOneProjectType" parameterType="org.ldxx.bean.DictionaryFirst">
+  	insert into 
+  	dictionary_first(id_first,name_first) 
+  	values(#{dictionaryFirst.id_First},#{dictionaryFirst.name_First})
+  </insert>
+ <!-- 删除二级项目类型 -->
+  <delete id="deleteTwoPrj" parameterType="String">
+  	delete from dictionary where id_First=#{idFirst}
+  </delete> 
+<!-- 删除一级项目类型 -->
+  <delete id="deleteOnePrj" parameterType="String">
+  	delete from dictionary_first where id_First=#{idFirst}
+  </delete>
+
+
+<!-- 获取所有一级项目类型 -->
+  <select id="getOneProjectTypeList" resultType="org.ldxx.bean.DictionaryFirst" >
+  	select * from 
+  	dictionary_first
+  </select>
+  <!-- 获取所有二级项目类型 -->
+  <select id="getSecondProjectTypeList" resultType="org.ldxx.bean.Dictionary" >
+  		select * from 
+  		dictionary
+  </select>
+  <!-- 添加二级项目类型 -->
+  <insert id="addSecondProjectType" parameterType="org.ldxx.bean.Dictionary">
+  	<selectKey resultType="java.lang.String" keyProperty="dId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into
+    dictionary(d_Id,id_First,name_Second)
+    values(#{d_Id},#{id_First},#{name_Second})
+  </insert>
+  <!-- 获取一级项目类型id -->
+  <select id="getIdFirst" parameterType="String" resultType="String">
+  	select d.id_First 
+  	from dictionary_first d
+  	where d.name_First=#{nameFirst}
+  </select>
+  
+  
+  <!-- 修改一级项目类型 -->
+  <update id="updateOneProjectType" parameterType="org.ldxx.bean.DictionaryFirst">
+  	update dictionary_first
+  	set
+  		<if test="name_First!=null and name_First!='' ">
+  			name_First=#{nameFirst}
+  		</if>
+  	where
+  		id_First=#{idFirst}
+  </update> 
+  <!-- 修改二级项目类型 -->
+  <update id="updateSecondProjectType" parameterType="org.ldxx.bean.Dictionary">
+  	update dictionary
+  	set
+  		<if test="name_Second!=null and name_Second!='' ">
+  			name_Second=#{nameSecond}
+  		</if>
+  	where
+  		id_First=#{idFirst}
+  </update>
+</mapper>

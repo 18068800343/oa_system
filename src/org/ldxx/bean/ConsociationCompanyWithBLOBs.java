@@ -1,0 +1,23 @@
+package org.ldxx.bean;
+
+public class ConsociationCompanyWithBLOBs extends Cooperator {
+    private String enterpriseDesc;
+
+    private String importantEvent;
+
+    public String getEnterpriseDesc() {
+        return enterpriseDesc;
+    }
+
+    public void setEnterpriseDesc(String enterpriseDesc) {
+        this.enterpriseDesc = enterpriseDesc == null ? null : enterpriseDesc.trim();
+    }
+
+    public String getImportantEvent() {
+        return importantEvent;
+    }
+
+    public void setImportantEvent(String importantEvent) {
+        this.importantEvent = importantEvent == null ? null : importantEvent.trim();
+    }
+}

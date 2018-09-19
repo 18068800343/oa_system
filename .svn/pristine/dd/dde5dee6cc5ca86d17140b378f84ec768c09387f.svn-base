@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.ResultsUsingDao" >
+  <select id="selectResultsUsing" resultType="org.ldxx.bean.ResultManagementSignet">
+  	select a.*,b.prj_name,b.prj_no,b.prj_owner_unit,b.js_phases,b.main_department,c.om_name 
+  		from result_management_signet a 
+  			left join task b on a.prj_id=b.prj_id
+  			left join organization_management c on b.main_department=c.om_id
+  </select>
+  <insert id="addResultsUsing" parameterType="org.ldxx.bean.ResultManagementSignet" >
+    insert into result_management_signet (us_id,prj_id,task_no,prj_head,om_id, project_phase, division_engineer, 
+      head_engineer, user_signet_man, us_status, 
+      project_desc)
+    values (#{rs.usId,jdbcType=VARCHAR},#{rs.prjId,jdbcType=VARCHAR},#{rs.taskNo,jdbcType=VARCHAR},#{rs.prjHead,jdbcType=VARCHAR},#{rs.omId,jdbcType=VARCHAR}, #{rs.projectPhase,jdbcType=VARCHAR}, #{rs.divisionEngineer,jdbcType=VARCHAR}, 
+      #{rs.headEngineer,jdbcType=VARCHAR}, #{rs.userSignetMan,jdbcType=VARCHAR}, #{rs.usStatus,jdbcType=INTEGER}, 
+      #{rs.projectDesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <delete id="deleteResultsUsingById" parameterType="String">
+  	delete from result_management_signet where us_id=#{usId}
+  </delete>
+  <update id="updateResultsUsingByIdSave" parameterType="org.ldxx.bean.ResultManagementSignet" >
+    update result_management_signet
+    set prj_id = #{rs.prjId,jdbcType=VARCHAR},
+      task_no=#{rs.taskNo,jdbcType=VARCHAR},
+      prj_head=#{rs.prjHead,jdbcType=VARCHAR},
+   	  om_id = #{rs.omId,jdbcType=VARCHAR},
+      project_phase = #{rs.projectPhase,jdbcType=VARCHAR},
+      division_engineer = #{rs.divisionEngineer,jdbcType=VARCHAR},
+      head_engineer = #{rs.headEngineer,jdbcType=VARCHAR},
+      user_signet_man = #{rs.userSignetMan,jdbcType=VARCHAR},
+      us_status = #{rs.usStatus,jdbcType=INTEGER},
+      project_desc = #{rs.projectDesc,jdbcType=LONGVARCHAR}
+    where us_id = #{rs.usId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectResultsUsingById" parameterType="String" resultType="org.ldxx.bean.ResultManagementSignet">
+  	select a.*,b.u_name,c.prj_name from result_management_signet a
+  		left join user b on a.user_signet_man=b.user_id 
+  		left join task c on a.prj_id=c.prj_id
+  	 where us_id = #{usId}
+  </select>
+</mapper>

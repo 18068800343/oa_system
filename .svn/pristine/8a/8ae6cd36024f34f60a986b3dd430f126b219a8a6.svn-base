@@ -1,0 +1,116 @@
+package org.ldxx.util;
+
+import java.util.Date;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.ldxx.bean.Business;
+import org.ldxx.bean.BusinessExample;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.FlowNode;
+import org.ldxx.bean.FlowNodeExample;
+import org.ldxx.exception.FlowException;
+import org.ldxx.mapper.BusinessMapper;
+import org.ldxx.mapper.CurrentFlowMapper;
+import org.ldxx.mapper.FlowHistroyMapper;
+import org.ldxx.mapper.FlowNodeMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class FlowUtill {
+
+	private static final Logger log = Logger.getLogger("myLog");  
+	
+	@Autowired
+	BusinessMapper businessMapper;
+	@Autowired
+	FlowNodeMapper flowNodeMapper;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	FlowHistroyMapper flowHistroyMapper;
+	@Autowired
+	TimeUUID timeUUID;
+	/**
+	 * @param currentFlow url,Title,Starter,StartName,Sender,SenderName,FK_Dept,DeptName,NodeName,PRI,SDTOfNode,SDTOfFlow,Actor,ActorType,Memo
+	 *        flowHistroy Actor ActorName ActorResult view
+	 * @author xianing
+	 */
+	public String submitFlow(CurrentFlow currentFlow,FlowHistroy flowHistroy) throws Exception{
+		currentFlow.setRdt(new Date());
+		/**0：流程刚发起,提交状态
+		 * 
+		 */
+		currentFlow.setWfstate(0);
+		BusinessExample example = new BusinessExample();
+		String url = currentFlow.getUrl();
+		if(null!=url&&url.contains("-")){
+			url = url.split("-")[0];
+			currentFlow.setUrl(url);
+		}else{
+			log.error("url为null或者url格式有误");
+			throw new FlowException("url format error");
+		}
+		example.createCriteria().andBusinessurlEqualTo(currentFlow.getUrl());
+		List<Business> list = businessMapper.selectByExample(example);
+		Business business = null;
+		if(null!=list&&list.size()==1){
+			business = list.get(1);
+		}else{
+			log.error("业务流中不存在该URL:"+currentFlow.getUrl());
+			throw new FlowException("url not found");
+		}
+		currentFlow.setFloTmpId(business.getFloTmpId());
+		FlowNode flowNode = flowNodeMapper.selectStartFlowNode(business.getFloTmpId());
+		currentFlow.setFloNodeId(flowNode.getId());
+		currentFlow.setId(timeUUID.getTimeUUID());
+		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
+		currentFlowMapper.insert(currentFlow);
+		flowHistroyMapper.insert(flowHistroy);
+		return "";
+	}
+	
+	/**
+	 * @param currentFlow url,Title,Starter,StartName,Sender,SenderName,FK_Dept,DeptName,NodeName,PRI,SDTOfNode,SDTOfFlow,Actor,ActorType,Memo
+	 *        flowHistroy Actor ActorName ActorResult view
+	 * @author xianing
+	 */
+	public String cancelFlow(CurrentFlow currentFlow,FlowHistroy flowHistroy) throws Exception{
+		currentFlow.setRdt(new Date());
+		/**0：流程刚发起,提交状态
+		 * 
+		 */
+		currentFlow.setWfstate(0);
+		BusinessExample example = new BusinessExample();
+		String url = currentFlow.getUrl();
+		if(null!=url&&url.contains("-")){
+			url = url.split("-")[0];
+			currentFlow.setUrl(url);
+		}else{
+			log.error("url为null或者url格式有误");
+			throw new FlowException("url format error");
+		}
+		example.createCriteria().andBusinessurlEqualTo(currentFlow.getUrl());
+		List<Business> list = businessMapper.selectByExample(example);
+		Business business = null;
+		if(null!=list&&list.size()==1){
+			business = list.get(1);
+		}else{
+			log.error("业务流中不存在该URL:"+currentFlow.getUrl());
+			throw new FlowException("url not found");
+		}
+		currentFlow.setFloTmpId(business.getFloTmpId());
+		FlowNode flowNode = flowNodeMapper.selectStartFlowNode(business.getFloTmpId());
+		currentFlow.setFloNodeId(flowNode.getId());
+		currentFlow.setId(timeUUID.getTimeUUID());
+		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
+		currentFlowMapper.insert(currentFlow);
+		flowHistroyMapper.insert(flowHistroy);
+		return "";
+	}
+	
+	public static void main(String[] args) {
+		log.error("我是错误啊啊啊啊啊啊啊");
+		log.info("我是日志内容啊啊啊啊啊");
+	}
+}

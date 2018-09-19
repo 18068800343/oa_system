@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.PrjConstructionLogMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.PrjConstructionLog" >
+    <id column="pcl_id" property="pclId" jdbcType="VARCHAR" />
+    <result column="prj_code" property="prjCode" jdbcType="VARCHAR" />
+    <result column="prj_name" property="prjName" jdbcType="VARCHAR" />
+    <result column="prj_long_time" property="prjLongTime" jdbcType="VARCHAR" />
+    <result column="material_condition" property="materialCondition" jdbcType="VARCHAR" />
+    <result column="construction_content" property="constructionContent" jdbcType="VARCHAR" />
+    <result column="safety_situation" property="safetySituation" jdbcType="VARCHAR" />
+    <result column="quality_condition" property="qualityCondition" jdbcType="VARCHAR" />
+    <result column="weather" property="weather" jdbcType="VARCHAR" />
+    <result column="temperature" property="temperature" jdbcType="VARCHAR" />
+    <result column="fill_time" property="fillTime" jdbcType="VARCHAR" />
+    <result column="tomorrow_plan" property="tomorrowPlan" jdbcType="VARCHAR" />
+    <result column="other_things" property="otherThings" jdbcType="VARCHAR" />
+    <result column="importent_things" property="importentThings" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    pcl_id, prj_code, prj_name, prj_long_time, material_condition, construction_content, 
+    safety_situation, quality_condition, weather, temperature, fill_time, tomorrow_plan, 
+    other_things, importent_things
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.PrjConstructionLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from prj_construction_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from prj_construction_log
+    where pcl_id = #{pclId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from prj_construction_log
+    where pcl_id = #{pclId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.PrjConstructionLogExample" >
+    delete from prj_construction_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.PrjConstructionLog" >
+    <selectKey resultType="java.lang.String" keyProperty="pclId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into prj_construction_log (prj_code, prj_name, prj_long_time, 
+      material_condition, construction_content, 
+      safety_situation, quality_condition, weather, 
+      temperature, fill_time, tomorrow_plan, 
+      other_things, importent_things)
+    values (#{prjCode,jdbcType=VARCHAR}, #{prjName,jdbcType=VARCHAR}, #{prjLongTime,jdbcType=VARCHAR}, 
+      #{materialCondition,jdbcType=VARCHAR}, #{constructionContent,jdbcType=VARCHAR}, 
+      #{safetySituation,jdbcType=VARCHAR}, #{qualityCondition,jdbcType=VARCHAR}, #{weather,jdbcType=VARCHAR}, 
+      #{temperature,jdbcType=VARCHAR}, #{fillTime,jdbcType=VARCHAR}, #{tomorrowPlan,jdbcType=VARCHAR}, 
+      #{otherThings,jdbcType=VARCHAR}, #{importentThings,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.PrjConstructionLog" >
+    <selectKey resultType="java.lang.String" keyProperty="pclId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into prj_construction_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="prjCode != null" >
+        prj_code,
+      </if>
+      <if test="prjName != null" >
+        prj_name,
+      </if>
+      <if test="prjLongTime != null" >
+        prj_long_time,
+      </if>
+      <if test="materialCondition != null" >
+        material_condition,
+      </if>
+      <if test="constructionContent != null" >
+        construction_content,
+      </if>
+      <if test="safetySituation != null" >
+        safety_situation,
+      </if>
+      <if test="qualityCondition != null" >
+        quality_condition,
+      </if>
+      <if test="weather != null" >
+        weather,
+      </if>
+      <if test="temperature != null" >
+        temperature,
+      </if>
+      <if test="fillTime != null" >
+        fill_time,
+      </if>
+      <if test="tomorrowPlan != null" >
+        tomorrow_plan,
+      </if>
+      <if test="otherThings != null" >
+        other_things,
+      </if>
+      <if test="importentThings != null" >
+        importent_things,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="prjCode != null" >
+        #{prjCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prjName != null" >
+        #{prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="prjLongTime != null" >
+        #{prjLongTime,jdbcType=VARCHAR},
+      </if>
+      <if test="materialCondition != null" >
+        #{materialCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionContent != null" >
+        #{constructionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="safetySituation != null" >
+        #{safetySituation,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityCondition != null" >
+        #{qualityCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="weather != null" >
+        #{weather,jdbcType=VARCHAR},
+      </if>
+      <if test="temperature != null" >
+        #{temperature,jdbcType=VARCHAR},
+      </if>
+      <if test="fillTime != null" >
+        #{fillTime,jdbcType=VARCHAR},
+      </if>
+      <if test="tomorrowPlan != null" >
+        #{tomorrowPlan,jdbcType=VARCHAR},
+      </if>
+      <if test="otherThings != null" >
+        #{otherThings,jdbcType=VARCHAR},
+      </if>
+      <if test="importentThings != null" >
+        #{importentThings,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.PrjConstructionLogExample" resultType="java.lang.Integer" >
+    select count(*) from prj_construction_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update prj_construction_log
+    <set >
+      <if test="record.pclId != null" >
+        pcl_id = #{record.pclId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjCode != null" >
+        prj_code = #{record.prjCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjName != null" >
+        prj_name = #{record.prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prjLongTime != null" >
+        prj_long_time = #{record.prjLongTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialCondition != null" >
+        material_condition = #{record.materialCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.constructionContent != null" >
+        construction_content = #{record.constructionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.safetySituation != null" >
+        safety_situation = #{record.safetySituation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qualityCondition != null" >
+        quality_condition = #{record.qualityCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weather != null" >
+        weather = #{record.weather,jdbcType=VARCHAR},
+      </if>
+      <if test="record.temperature != null" >
+        temperature = #{record.temperature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fillTime != null" >
+        fill_time = #{record.fillTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tomorrowPlan != null" >
+        tomorrow_plan = #{record.tomorrowPlan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherThings != null" >
+        other_things = #{record.otherThings,jdbcType=VARCHAR},
+      </if>
+      <if test="record.importentThings != null" >
+        importent_things = #{record.importentThings,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update prj_construction_log
+    set pcl_id = #{record.pclId,jdbcType=VARCHAR},
+      prj_code = #{record.prjCode,jdbcType=VARCHAR},
+      prj_name = #{record.prjName,jdbcType=VARCHAR},
+      prj_long_time = #{record.prjLongTime,jdbcType=VARCHAR},
+      material_condition = #{record.materialCondition,jdbcType=VARCHAR},
+      construction_content = #{record.constructionContent,jdbcType=VARCHAR},
+      safety_situation = #{record.safetySituation,jdbcType=VARCHAR},
+      quality_condition = #{record.qualityCondition,jdbcType=VARCHAR},
+      weather = #{record.weather,jdbcType=VARCHAR},
+      temperature = #{record.temperature,jdbcType=VARCHAR},
+      fill_time = #{record.fillTime,jdbcType=VARCHAR},
+      tomorrow_plan = #{record.tomorrowPlan,jdbcType=VARCHAR},
+      other_things = #{record.otherThings,jdbcType=VARCHAR},
+      importent_things = #{record.importentThings,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.PrjConstructionLog" >
+    update prj_construction_log
+    <set >
+      <if test="prjCode != null" >
+        prj_code = #{prjCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prjName != null" >
+        prj_name = #{prjName,jdbcType=VARCHAR},
+      </if>
+      <if test="prjLongTime != null" >
+        prj_long_time = #{prjLongTime,jdbcType=VARCHAR},
+      </if>
+      <if test="materialCondition != null" >
+        material_condition = #{materialCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="constructionContent != null" >
+        construction_content = #{constructionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="safetySituation != null" >
+        safety_situation = #{safetySituation,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityCondition != null" >
+        quality_condition = #{qualityCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="weather != null" >
+        weather = #{weather,jdbcType=VARCHAR},
+      </if>
+      <if test="temperature != null" >
+        temperature = #{temperature,jdbcType=VARCHAR},
+      </if>
+      <if test="fillTime != null" >
+        fill_time = #{fillTime,jdbcType=VARCHAR},
+      </if>
+      <if test="tomorrowPlan != null" >
+        tomorrow_plan = #{tomorrowPlan,jdbcType=VARCHAR},
+      </if>
+      <if test="otherThings != null" >
+        other_things = #{otherThings,jdbcType=VARCHAR},
+      </if>
+      <if test="importentThings != null" >
+        importent_things = #{importentThings,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pcl_id = #{pclId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.PrjConstructionLog" >
+    update prj_construction_log
+    set prj_code = #{prjCode,jdbcType=VARCHAR},
+      prj_name = #{prjName,jdbcType=VARCHAR},
+      prj_long_time = #{prjLongTime,jdbcType=VARCHAR},
+      material_condition = #{materialCondition,jdbcType=VARCHAR},
+      construction_content = #{constructionContent,jdbcType=VARCHAR},
+      safety_situation = #{safetySituation,jdbcType=VARCHAR},
+      quality_condition = #{qualityCondition,jdbcType=VARCHAR},
+      weather = #{weather,jdbcType=VARCHAR},
+      temperature = #{temperature,jdbcType=VARCHAR},
+      fill_time = #{fillTime,jdbcType=VARCHAR},
+      tomorrow_plan = #{tomorrowPlan,jdbcType=VARCHAR},
+      other_things = #{otherThings,jdbcType=VARCHAR},
+      importent_things = #{importentThings,jdbcType=VARCHAR}
+    where pcl_id = #{pclId,jdbcType=VARCHAR}
+  </update>
+</mapper>

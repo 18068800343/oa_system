@@ -1,0 +1,106 @@
+package org.ldxx.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.ldxx.bean.ResultManagementSignet;
+import org.ldxx.service.ResultsUsingService;
+import org.ldxx.util.TimeUUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ * 成果文件用印管理
+ * @author hp
+ *
+ */
+
+@RequestMapping("ResultsUsing")
+@Controller
+public class ResultsUsingController {
+	
+	@Autowired
+	private ResultsUsingService rUsingService;
+	
+	@RequestMapping("/selectResultsUsing")
+	@ResponseBody
+	public List<ResultManagementSignet> selectResultsUsing(){
+		return rUsingService.selectResultsUsing();
+	}
+	
+	@RequestMapping("/addResultsUsingSave")/*添加保存*/
+	@ResponseBody
+	public Map<String, Object> addResultsUsingSave(ResultManagementSignet rs) {
+		Map<String, Object> map = new HashMap<>();
+		String id=new TimeUUID().getTimeUUID();
+		rs.setUsId(id);
+		int i = rUsingService.addResultsUsing(rs);
+		if (i>0) {
+			map.put("result", i);
+			map.put("ResultManagementSignet", rs);
+		}else{
+			map.put("result", 0);
+		}
+		return map;
+	}
+	
+	@RequestMapping("/addResultsUsingSubmit")/*添加提交*/
+	@ResponseBody
+	public Map<String, Object> addResultsUsingSubmit(ResultManagementSignet rs) {
+		Map<String, Object> map = new HashMap<>();
+		String id=new TimeUUID().getTimeUUID();
+		rs.setUsId(id);
+		int i = rUsingService.addResultsUsing(rs);
+		if (i>0) {
+			map.put("result", i);
+			map.put("ResultManagementSignet", rs);
+		}else{
+			map.put("result", 0);
+		}
+		return map;
+	}
+	
+	
+	@RequestMapping("/deleteResultsUsingById")
+	@ResponseBody
+	public int deleteResultsUsingById(String usId){
+		return rUsingService.deleteResultsUsingById(usId);
+	}
+	
+	@RequestMapping("/updateResultsUsingByIdSave")/*修改保存*/
+	@ResponseBody
+	public Map<String, Object> updateResultsUsingByIdSave(ResultManagementSignet rs) {
+		Map<String, Object> map = new HashMap<>();
+		int i = rUsingService.updateResultsUsingByIdSave(rs);
+		if (i>0) {
+			map.put("result", i);
+			map.put("ResultManagementSignet", rs);
+		}else{
+			map.put("result", 0);
+		}
+		return map;
+	}
+	
+	@RequestMapping("/updateResultsUsingByIdSubmit")/*修改提交*/
+	@ResponseBody
+	public Map<String, Object> updateResultsUsingByIdSubmit(ResultManagementSignet rs) {
+		Map<String, Object> map = new HashMap<>();
+		int i = rUsingService.updateResultsUsingByIdSave(rs);
+		if (i>0) {
+			map.put("result", i);
+			map.put("ResultManagementSignet", rs);
+		}else{
+			map.put("result", 0);
+		}
+		return map;
+	}
+
+	@RequestMapping("/selectResultsUsingById")
+	@ResponseBody
+	public ResultManagementSignet selectResultsUsingById(String usId){
+		return rUsingService.selectResultsUsingById(usId);
+	}
+}

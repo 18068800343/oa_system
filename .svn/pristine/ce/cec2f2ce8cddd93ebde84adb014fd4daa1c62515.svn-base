@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+        .lookhetong a{
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>经营管理</li>
+			<li class="active">项目跟踪</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">项目跟踪单</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">项目跟踪日志</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="UpperPart">
+                            <div class="UpperPartL">
+                                
+                            </div>
+                            <div class="UpperPartR">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建项目跟踪单</button>
+                            </div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>新建项目跟踪单</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form id="new_form" class="form-inline" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:100px;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="new_prj_name"></td>
+                                <td style="width:100px;">项目编号</td>
+                                <td><input type="text" class="form-control" id="new_prj_no"></td>
+                            </tr>
+                            <tr>
+                                <td>项目状态  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select id="new_prj_status" class="form-control" style="width:180px;">
+                                        <option value="跟踪">跟踪</option>
+                                        <option value="投标">投标</option>
+                                        <option value="立项">立项</option>
+                                    </select>
+                                </td>
+                                <td>项目级别</td>
+                                <td>
+                                    <select  id="new_prj_lv" class="form-control" style="width:180px;">
+                                        <option value="大型">大型</option>
+                                        <option value="中型">中型</option>
+                                        <option value="小型">小型</option>
+                                        <option value="其它">其它</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>业务类型</td>
+                                <td>
+                                    <select id="new_business_type" class="form-control" style="width:180px;">
+                                        <option value="试验检测">试验检测</option>
+                                        <option value="设计">设计</option>
+                                        <option value="施工">施工</option>
+                                        <option value="科研开发">科研开发</option>
+                                        <option value="总承包项目">总承包项目</option>
+                                        <option value="其他业务">其他业务</option>
+                                    </select>
+                                </td>
+                                <td>项目地址</td>
+                                <td>
+                                    <input type="text" class="form-control" id="new_prj_addr">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>预估项目规模</td>
+                                <td><input type="text" class="form-control" id="new_prj_scale"></td>
+                                <td>填报时间</td>
+                                <td><input type="text" class="form-control" id="year"></td>
+                            </tr>
+                            <tr>
+                                <td>是否投标</td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="new_isbid">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                </td>
+                                <td>跟踪部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="new_department">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>项目概况  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td colspan="3"><textarea class="form-control" rows="3" cols="40" id="new_prj_desc"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>备注</td>
+                                <td colspan="3"><textarea class="form-control" rows="3" cols="40" id="new_desc"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>业务附件</td>
+                                <td colspan="3"><input name="file" type="file" class="form-control"></td>
+                            </tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="new_save()">保存</button>
+            <button type="button" class="btn btn-success" onclick="new_submit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>提交给:</span>
+                            <select style="width:180px;" class="form-control" id="editable-selectT">
+                                <option value="">123123</option>
+                                <option value="">456456</option>
+                            </select>
+                        </div>
+                        <div style="display:flex;margin-top:5px;">
+                            <div style="margin-top:5px;">
+                                <textarea cols="70" rows="5" class="form-control" placeholder="请输入内容"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
+
+
+<!-- 修改Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改项目跟踪单</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" method="post" enctype="multipart/form-data"  id="edit_form">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:100px;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="edit_prj_name"></td>
+                                <td style="width:100px;">项目编号</td>
+                                <td><input type="text" class="form-control" id="edit_prj_no"></td>
+                            </tr>
+                            <tr>
+                                <td>项目状态  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select id="edit_prj_status" class="form-control" style="width:180px;">
+                                        <option value="跟踪">跟踪</option>
+                                        <option value="投标">投标</option>
+                                        <option value="立项">立项</option>
+                                    </select>
+                                </td>
+                                <td>项目级别</td>
+                                <td>
+                                    <select id="edit_prj_lv" class="form-control" style="width:180px;">
+                                        <option value="大型">大型</option>
+                                        <option value="中型">中型</option>
+                                        <option value="小型">小型</option>
+                                        <option value="其它">其它</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>业务类型</td>
+                                <td>
+                                    <select id="edit_business_type" class="form-control" style="width:180px;">
+                                        <option value="试验检测">试验检测</option>
+                                        <option value="设计">设计</option>
+                                        <option value="施工">施工</option>
+                                        <option value="科研开发">科研开发</option>
+                                        <option value="总承包项目">总承包项目</option>
+                                        <option value="其他业务">其他业务</option>
+                                    </select>
+                                </td>
+                                <td>项目地址</td>
+                                <td>
+                                    <input type="text" class="form-control" id="edit_prj_addr">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>预估项目规模</td>
+                                <td><input type="text" class="form-control" id="edit_prj_scale"></td>
+                                <td>填报时间</td>
+                                <td><input type="text" class="form-control" id="edit_year"></td>
+                            </tr>
+                            <tr>
+                                <td>是否投标</td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="edit_isbid">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                </td>
+                                <td>跟踪部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="edit_department">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>项目概况  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td colspan="3"><textarea class="form-control" rows="3" cols="40" id="edit_prj_desc"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>备注</td>
+                                <td colspan="3"><textarea class="form-control" rows="3" cols="40" id="edit_desc"></textarea></td>
+                            </tr>
+                            <tr id="file_tr">
+                                <td>业务附件</td>
+                                <td id="file_tr_td" colspan="2"><input type="text" style="width:100%;" class="form-control" id="edit_fileName"></td>
+                                <td id="file_tr_td2"><button type="button" class="btn btn-primary" onclick="deleteFile()">删除附件</button></td>
+                            </tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="edit_save()">保存</button>
+            <button type="button" class="btn btn-success" onclick="edit_submit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改model结束 -->
+
+
+<!-- 查看Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="look">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>查看项目跟踪单</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:100px;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="look_prj_name"></td>
+                                <td style="width:100px;">项目编号</td>
+                                <td><input type="text" class="form-control" id="look_prj_no"></td>
+                            </tr>
+                            <tr>
+                                <td>项目状态  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select id="look_prj_status" class="form-control" style="width:180px;">
+                                        <option value="跟踪">跟踪</option>
+                                        <option value="投标">投标</option>
+                                        <option value="立项">立项</option>
+                                    </select>
+                                </td>
+                                <td>项目级别</td>
+                                <td>
+                                    <select id="look_prj_lv" class="form-control" style="width:180px;">
+                                        <option value="大型">大型</option>
+                                        <option value="中型">中型</option>
+                                        <option value="小型">小型</option>
+                                        <option value="其它">其它</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>业务类型</td>
+                                <td>
+                                    <select id="look_business_type" class="form-control" style="width:180px;">
+                                        <option value="试验检测">试验检测</option>
+                                        <option value="设计">设计</option>
+                                        <option value="施工">施工</option>
+                                        <option value="科研开发">科研开发</option>
+                                        <option value="总承包项目">总承包项目</option>
+                                        <option value="其他业务">其他业务</option>
+                                    </select>
+                                </td>
+                                <td>项目地址</td>
+                                <td>
+                                    <input type="text" class="form-control" id="look_prj_addr">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>预估项目规模</td>
+                                <td><input type="text" class="form-control" id="look_prj_scale"></td>
+                                <td>填报时间</td>
+                                <td><input type="text" class="form-control" id="look_year"></td>
+                            </tr>
+                            <tr>
+                                <td>是否投标</td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="look_isbid">
+                                        <option value="是">是</option>
+                                        <option value="否">否</option>
+                                    </select>
+                                </td>
+                                <td>跟踪部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="look_department">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>项目概况  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td colspan="3"><textarea class="form-control" rows="3" cols="40" id="look_prj_desc"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>备注</td>
+                                <td colspan="3"><textarea class="form-control" rows="3" cols="40" id="look_desc"></textarea></td>
+                            </tr>
+                            <tr id="look_tr">
+                                <td>业务附件</td>
+                                <td colspan="2"><input type="text" style="width:100%;" class="form-control" id="look_url"></td>
+                                <td id="download_td"></td>
+                            </tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 查看model结束 -->
+                
+                        </div>
+                        <div class="LowerPart" style="margin-top:3px;">
+                            <table class="table table-bordered table-condensed" id="mainContent">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10%;">项目编号</th>
+                                        <th style="width:25%;">项目名称</th>
+                                        <th style="width:10%;">项目状态</th>
+                                       <!--  <th>项目级别</th>
+                                        <th>业务类型</th>
+                                        <th>项目地址</th> -->
+                                        <th style="width:10%;">填报时间</th>
+                                        <!-- <th>是否投标</th> -->
+                                        <th style="width:10%;">跟踪部门</th>
+                                        <th style="width:25%;">预估项目规模（金额）</th>
+                                        <th style="width:10%;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                           
+                                </tbody>   
+                            </table>
+                        </div>
+                </div>
+<!-- allMsg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:100px;">项目名称</td>
+                                <td>发发生</td>
+                                <td style="width:100px;">项目编号</td>
+                                <td>14215</td>
+                            </tr>
+                            <tr>
+                                <td>项目状态</td>
+                                <td>xbcxnxn</td>
+                                <td>项目级别</td>
+                                <td>sdgdshsadad</td>
+                            </tr>
+                            <tr>
+                                <td>业务类型</td>
+                                <td>试验检测</td>
+                                <td>项目地址</td>
+                                <td>hdsaygatea</td>
+                            </tr>
+                            <tr>
+                                <td>预估项目规模(金额)</td>
+                                <td>132156</td>
+                                <td>填报时间</td>
+                                <td>3212151614</td>
+                            </tr>
+                            <tr>
+                                <td>是否投标</td>
+                                <td>是</td>
+                                <td>跟踪部门</td>
+                                <td>sdgsdgdsgsd</td>
+                            </tr>
+                            <tr>
+                                <td>项目概况</td>
+                                <td colspan="3">dsagasdsa</td>
+                            </tr>
+                            <tr>
+                                <td>备注</td>
+                                <td colspan="3">qewgafsdads</td>
+                            </tr>
+                            <tr>
+                                <td>业务附件</td>
+                                <td colspan="3">dasgdassad</td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg结束 -->
+<!-- Modal look项目名称 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModallook">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>任务单</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed lookhetong">
+                            <tr>
+                                <td><a href="../shengchanGuanli/TaskManagement.html">项目名称</a></td>
+                                <td>
+                                    项目名称1
+                                </td>
+                                <td style="width:100px;">编号</td>
+                                <td>编号1</td>
+                            </tr>
+                            <tr>
+                                <td>项目经营模式</td>
+                                <td>
+                                    项目经营模式1
+                                </td>
+                                <td>项目所属公司</td>
+                                <td>
+                                    项目所属公司1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;"><a href="../jichuShuju/ProjectType.html">项目类型</a></td>
+                                <td>
+                                    项目类型1
+                                </td>
+                                <td>项目业主单位</td>
+                                <td>
+                                    项目业主单位1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>预估合同额(不含暂定金)</td>
+                                <td>预估合同额1</td>
+                                <td>预估项目金额</td>
+                                <td>预估项目金额1</td>
+                            </tr>
+                            <tr>
+                                <td>暂定金</td>
+                                <td>暂定金1</td>
+                                <td>项目开始时间</td>
+                                <td>项目开始时间1</td>
+                            </tr>
+                            <tr>
+                                <td>项目结束时间</td>
+                                <td>项目结束时间1</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>项目概况及工作内容</td>
+                                <td colspan="3">123</td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">添加的联系人,联系方式</th>
+                                </tr>
+                                <tr>
+                                    <th>联系人</th>
+                                    <th>联系方式</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>111</td>
+                                    <td>222</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-condensed" id="xieban">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">部门</th>
+                                    <th colspan="2">金额</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>主办部门</td>
+                                    <td>
+                                        主办部门1
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门1</td>
+                                    <td>
+                                        协办部门1
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门2</td>
+                                    <td>
+                                        协办部门2
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                                <tr>
+                                    <td>协办部门3</td>
+                                    <td>
+                                        协办部门3
+                                    </td>
+                                    <td>金额</td>
+                                    <td>100</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- modellook结束 -->
+ <div role="tabpanel" class="tab-pane" id="profile">
+        <div class="UpperPart">
+               <div class="UpperPartL">
+                            
+               </div>
+               <div class="UpperPartR">
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">新建项目跟踪日志</button>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><b>新建项目跟踪日志</b></h4>
+                        </div>
+                        <div class="modal-body">
+                                <div>     
+                                    <form class="form-inline">
+                                        <table class="table table-bordered table-condensed">
+                                            <tr>
+                                                <td style="width:100px;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                                <td><input type="text" class="form-control"  id="new_prj_name_log"></td>
+                                                <td style="width:100px;">经营编号</td>
+                                                <td><input type="text" class="form-control" id="new_business_no_log"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>客户名称</td>
+                                                <td><input type="text" class="form-control" id="new_client_name"></td>
+                                                <td>主办部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                                <td>
+                                                    <select class="form-control" style="width:180px;" id="new_main_department">
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>日志</td>
+                                                <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="new_log"></textarea></td>
+                                            </tr>
+                                        </table> 
+                                    </form>  
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-default" onclick="new_save_log()">保存</button>
+                            <button type="button" class="btn btn-success" onclick="new_submit_log()">提交</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- model结束 -->
+                
+                <!-- 修改Modal -->
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="edit_modal">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><b>修改项目跟踪日志</b></h4>
+                        </div>
+                        <div class="modal-body">
+                                <div>     
+                                    <form class="form-inline">
+                                        <table class="table table-bordered table-condensed">
+                                            <tr>
+                                                <td style="width:100px;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                                <td><input type="text" class="form-control" id="edit_prj_name_log"></td>
+                                                <td style="width:100px;">经营编号</td>
+                                                <td><input type="text" class="form-control" id="edit_business_no_log"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>客户名称</td>
+                                                <td><input type="text" class="form-control" id="edit_client_name"></td>
+                                                <td>主办部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                                <td>
+                                                    <select class="form-control" style="width:180px;" id="edit_main_department">
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>日志</td>
+                                                <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="edit_log"></textarea></td>
+                                            </tr>
+                                        </table> 
+                                    </form>  
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-default" onclick="edit_save_log()">保存</button>
+                            <button type="button" class="btn btn-success" onclick="edit_submit_log()">提交</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 修改model结束 -->
+                
+                
+                 <!-- 查看Modal -->
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="look_modal">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><b>查看项目跟踪日志</b></h4>
+                        </div>
+                        <div class="modal-body">
+                                <div>     
+                                    <form class="form-inline">
+                                        <table class="table table-bordered table-condensed">
+                                            <tr>
+                                                <td style="width:100px;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                                <td><input type="text" class="form-control" id="look_prj_name_log"></td>
+                                                <td style="width:100px;">经营编号</td>
+                                                <td><input type="text" class="form-control" id="look_business_no_log"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>客户名称</td>
+                                                <td><input type="text" class="form-control" id="look_client_name"></td>
+                                                <td>主办部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                                <td>
+                                                    <select class="form-control" style="width:180px;" id="look_main_department">
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>日志</td>
+                                                <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="look_log"></textarea></td>
+                                            </tr>
+                                        </table> 
+                                    </form>  
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 查看model结束 -->
+                
+                    </div>
+                    <div class="LowerPart" style="margin-top:3px;">
+                        <table class="table table-bordered table-condensed" id="mainContent2">
+                            <thead>
+                                <tr>
+                                    <th>经营编号</th>
+                                    <th>项目名称</th>
+                                    <th>客户名称</th>
+                                    <th>主办部门</th>
+                                    <th>时间</th>
+                                    <th style="width:100px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>   
+                        </table>
+                    </div>
+                </div>
+                
+            </div>   
+        </div>
+
+        
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	laydate.render({
+            elem: '#year' //指定元素
+        });
+        $('#editable-select').editableSelect({ 
+            effects: 'slide' 
+        });
+        initTable();
+        initTable2();
+        initDepartment();
+	});
+    
+    
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "prjNo"}, 
+		            { "data": "prjName"}, 
+		            { "data": "prjStates"}, 
+		            { "data": "fillTime"}, 
+		            { "data": "omName"}, 
+		            { "data": "predictPrjScale"}, 
+		            { "data": null},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 6,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="lookThis(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="updateThis(this)"></i>';
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table2=$('#mainContent2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "manageNo"}, 
+		            { "data": "prjName"}, 
+		            { "data": "clientName"}, 
+		            { "data": "omName"}, 
+		            { "data": "ptlTime"},
+		            { "data": null},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 5,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="lookThisLog(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="updateThisLog(this)"></i>';
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    
+    
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/trace/selectProjectTrace',
+            dataType: 'json',
+            data: {
+            	status:1
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	
+	function initTable2(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/traceLog/selectProjectTraceLog',
+            dataType: 'json',
+            data: {
+            	status:1
+            },
+            success: function (json) {
+                $('#mainContent2').dataTable().fnClearTable();
+                $('#mainContent2').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+
+	function initDepartment(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
+	        dataType: 'json',
+	        data: {
+	           
+	        },
+	        success: function (json) {
+	        	$("#new_department").html('');
+	        	$("#edit_department").html('');
+	        	$("#look_department").html('');
+	        	$("#new_main_department").html('');
+	        	$("#edit_main_department").html('');
+	        	$("#look_main_department").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		$("#new_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		$("#edit_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		$("#look_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		$("#new_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		$("#edit_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		$("#look_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        	}
+	        }
+		});
+	}
+	
+	
+	function new_save(){
+		var new_prj_name=$("#new_prj_name").val();
+		var new_prj_no=$("#new_prj_no").val();
+		var new_prj_status=$("#new_prj_status").val();
+		var new_prj_lv=$("#new_prj_lv").val();
+		var new_business_type=$("#new_business_type").val();
+		var new_prj_addr=$("#new_prj_addr").val();
+		var new_prj_scale=$("#new_prj_scale").val();
+		var year=$("#year").val();
+		var new_isbid=$("#new_isbid").val();
+		var new_department=$("#new_department").val();
+		var omName=$("#new_department").text();
+		var new_prj_desc=$("#new_prj_desc").val();
+		var new_desc=$("#new_desc").val();
+		
+		
+		var options={
+				type: 'POST',
+		        url: getContextPath()+'/trace/addProjectTraceOfSave',
+		        dataType: 'json',
+		        data: {
+		        	prjName:new_prj_name,
+		        	prjNo:new_prj_no,
+		        	prjStates:new_prj_status,
+		        	prjLv:new_prj_lv,
+		        	businessType:new_business_type,
+		        	prjAddr:new_prj_addr,
+		        	predictPrjScale:new_prj_scale,
+		        	fillTime:year,
+		        	isbid:new_isbid,
+		        	traceDepartment:new_department,
+		        	omName:omName,
+		        	prjDesc:new_prj_desc,
+		        	ptInfo:new_desc
+		        },
+		        success: function (json) {
+		        	if(json.result==0){
+		        		toastr.error("保存失败");
+		        	}else{
+		        		/*$('#mainContent').DataTable().row.add(json.trace).draw(false); */
+		        		toastr.success("保存成功");
+		        		$("#myModal").modal("hide");
+		        	}
+		        }
+		}
+		$("#new_form").ajaxSubmit(options);
+	}
+	
+	
+	function new_submit(){
+		var new_prj_name=$("#new_prj_name").val();
+		var new_prj_no=$("#new_prj_no").val();
+		var new_prj_status=$("#new_prj_status").val();
+		var new_prj_lv=$("#new_prj_lv").val();
+		var new_business_type=$("#new_business_type").val();
+		var new_prj_addr=$("#new_prj_addr").val();
+		var new_prj_scale=$("#new_prj_scale").val();
+		var year=$("#year").val();
+		var new_isbid=$("#new_isbid").val();
+		var new_department=$("#new_department").val();
+		var omName=$("#new_department").text();
+		var new_prj_desc=$("#new_prj_desc").val();
+		var new_desc=$("#new_desc").val();
+		
+		
+		var options={
+				type: 'POST',
+		        url: getContextPath()+'/trace/addProjectTraceOfSubmit',
+		        dataType: 'json',
+		        data: {
+		        	prjName:new_prj_name,
+		        	prjNo:new_prj_no,
+		        	prjStates:new_prj_status,
+		        	prjLv:new_prj_lv,
+		        	businessType:new_business_type,
+		        	prjAddr:new_prj_addr,
+		        	predictPrjScale:new_prj_scale,
+		        	fillTime:year,
+		        	isbid:new_isbid,
+		        	traceDepartment:new_department,
+		        	omName:omName,
+		        	prjDesc:new_prj_desc,
+		        	ptInfo:new_desc
+		        },
+		        success: function (json) {
+		        	if(json.result==0){
+		        		toastr.error("提交失败");
+		        	}else{
+		        		/* $('#mainContent').DataTable().row.add(json.trace).draw(false); */
+		        		toastr.success("提交成功");
+		        		$("#myModal").modal("hide");
+		        	}
+		        }
+		}
+		$("#new_form").ajaxSubmit(options);
+	}
+	
+	var edit_id;
+	var edit_dom;
+	var aId;
+	var acName;
+	var acUrl;
+	function updateThis(obj){
+		edit_dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(edit_dom).data();
+		edit_id=data.ptId;
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/trace/selectProjectTraceById',
+	        dataType: 'json',
+	        data: {
+	           id:edit_id,
+	           status:1
+	        },
+	        success: function (json) {
+	        	$("#edit_prj_name").val(json.prjName);
+	    		$("#edit_prj_no").val(json.prjNo);
+	    		$("#edit_prj_status").val(json.prjStates);
+	    		$("#edit_prj_lv").val(json.prjLv);
+	    		$("#edit_business_type").val(json.businessType);
+	    		$("#edit_prj_addr").val(json.prjAddr);
+	    		$("#edit_prj_scale").val(json.predictPrjScale);
+	    		$("#edit_year").val(json.fillTime);
+	    		$("#edit_isbid").val(json.isbid);
+	    		$("#edit_department").val(json.traceDepartment);
+	    		$("#edit_prj_desc").val(json.prjDesc);
+	    		$("#edit_desc").val(json.ptInfo);
+				var accessory=json.accessory;
+				if(accessory.length!=0){
+					var acc=accessory[0];
+					aId=acc.aId;
+					acName=acc.acName;
+					acUrl=acc.acUrl;
+					$("#file_tr_td").empty();
+					$("#file_tr_td2").empty();
+					$("#file_tr_td").append("<input type='text' style='width:100%;' class='form-control' id='edit_fileName'>");
+					$("#file_tr_td2").append("<button type='button' class='btn btn-primary' onclick='deleteFile()'>删除附件</button>");
+		    		$("#edit_fileName").val(acc.acName).attr("disabled",true);
+				}else{
+					initFileInput();
+				}
+	    		
+	    		$("#change").modal("show");
+	        }
+		});
+	}
+	
+	function initFileInput(){
+		$("#file_tr_td").empty();
+		$("#file_tr_td2").empty();
+		$("#file_tr_td").append("<input name='file' type='file' class='form-control'>");
+	}
+	
+	function deleteFile(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/trace/deleteAccessory',
+	        dataType: 'json',
+	        data: {
+	        	aId:aId,
+	        	acName:acName,
+	        	acUrl:acUrl
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("删除失败");
+	        	}else{
+	        		toastr.success("删除成功");
+	        		initFileInput();
+	        	}
+	        }
+		});
+	}
+	
+	
+	var look_dom;
+	var look_id;
+	var url;
+	var fileName;
+	function lookThis(obj){
+		look_dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(look_dom).data();
+		look_id=data.ptId;
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/trace/selectProjectTraceById',
+	        dataType: 'json',
+	        data: {
+	           id:look_id,
+	           status:1
+	        },
+	        success: function (json) {
+	        	$("#download_td").html('');
+	        	var accessory=json.accessory;
+	        	$("#look_prj_name").val(json.prjName).attr("disabled",true);
+	    		$("#look_prj_no").val(json.prjNo).attr("disabled",true);
+	    		$("#look_prj_status").val(json.prjStates).attr("disabled",true);
+	    		$("#look_prj_lv").val(json.prjLv).attr("disabled",true);
+	    		$("#look_business_type").val(json.businessType).attr("disabled",true);
+	    		$("#look_prj_addr").val(json.prjAddr).attr("disabled",true);
+	    		$("#look_prj_scale").val(json.predictPrjScale).attr("disabled",true);
+	    		$("#look_year").val(json.fillTime).attr("disabled",true);
+	    		$("#look_isbid").val(json.isbid).attr("disabled",true);
+	    		$("#look_department").val(json.traceDepartment).attr("disabled",true);
+	    		$("#look_prj_desc").val(json.prjDesc).attr("disabled",true);
+	    		$("#look_desc").val(json.ptInfo).attr("disabled",true);
+	    		if(accessory.length==0){
+	    			$("#look_url").val("无").attr("disabled",true);
+	    			$("#download_td").html('');
+	    		}else{
+	    			fileName=accessory[0].acName;
+		    		$("#look_url").val(fileName).attr("disabled",true);
+		    		url=accessory[0].acUrl;
+		    		$("#download_td").append("<button type='button' class='btn btn-primary' onclick='download()'>下载附件</button>");	
+	    		}
+	    		
+	    		$("#look").modal("show");
+	        }
+		});
+	}
+	
+
+	function download(){
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+url);
+	}
+	
+	
+	function edit_save(){
+		var edit_prj_name=$("#edit_prj_name").val();
+		var edit_prj_no=$("#edit_prj_no").val();
+		var edit_prj_status=$("#edit_prj_status").val();
+		var edit_prj_lv=$("#edit_prj_lv").val();
+		var edit_business_type=$("#edit_business_type").val();
+		var edit_prj_addr=$("#edit_prj_addr").val();
+		var edit_prj_scale=$("#edit_prj_scale").val();
+		var edit_year=$("#edit_year").val();
+		var edit_isbid=$("#edit_isbid").val();
+		var edit_department=$("#edit_department").val();
+		var edit_prj_desc=$("#edit_prj_desc").val();
+		var edit_desc=$("#edit_desc").val();
+		
+		
+		var options={
+				type: 'POST',
+		        url: getContextPath()+'/trace/updateProjectTraceOfSave',
+		        dataType: 'json',
+		        data: {
+					ptId:edit_id,		        	
+		        	prjName:edit_prj_name,
+		        	prjNo:edit_prj_no,
+		        	prjStates:edit_prj_status,
+		        	prjLv:edit_prj_lv,
+		        	businessType:edit_business_type,
+		        	prjAddr:edit_prj_addr,
+		        	predictPrjScale:edit_prj_scale,
+		        	fillTime:edit_year,
+		        	isbid:edit_isbid,
+		        	traceDepartment:edit_department,
+		        	prjDesc:edit_prj_desc,
+		        	ptInfo:edit_desc
+		        },
+		        success: function (json) {
+		        	if(json.result==0){
+		        		toastr.error("修改保存失败");
+		        	}else{
+		        		/* $('#mainContent').DataTable().row.add(json.trace).draw(false); */
+		        		toastr.success("修改保存成功");
+		        		$("#change").modal("hide");
+		        	}
+		        }
+		}
+		$("#edit_form").ajaxSubmit(options);
+	}
+	
+	
+	function edit_submit(){
+		var edit_prj_name=$("#edit_prj_name").val();
+		var edit_prj_no=$("#edit_prj_no").val();
+		var edit_prj_status=$("#edit_prj_status").val();
+		var edit_prj_lv=$("#edit_prj_lv").val();
+		var edit_business_type=$("#edit_business_type").val();
+		var edit_prj_addr=$("#edit_prj_addr").val();
+		var edit_prj_scale=$("#edit_prj_scale").val();
+		var edit_year=$("#edit_year").val();
+		var edit_isbid=$("#edit_isbid").val();
+		var edit_department=$("#edit_department").val();
+		var edit_prj_desc=$("#edit_prj_desc").val();
+		var edit_desc=$("#edit_desc").val();
+		
+		var options={
+				type: 'POST',
+		        url: getContextPath()+'/trace/updateProjectTraceOfSubmit',
+		        dataType: 'json',
+		        data: {
+		        	ptId:edit_id,
+		        	prjName:edit_prj_name,
+		        	prjNo:edit_prj_no,
+		        	prjStates:edit_prj_status,
+		        	prjLv:edit_prj_lv,
+		        	businessType:edit_business_type,
+		        	prjAddr:edit_prj_addr,
+		        	predictPrjScale:edit_prj_scale,
+		        	fillTime:edit_year,
+		        	isbid:edit_isbid,
+		        	traceDepartment:edit_department,
+		        	prjDesc:edit_prj_desc,
+		        	ptInfo:edit_desc
+		        },
+		        success: function (json) {
+		        	if(json.result==0){
+		        		toastr.error("添加提交失败");
+		        	}else{
+		        		toastr.success("添加提交成功");
+		        		$("#change").modal("hide");
+		        	}
+		        }
+		}
+		$("#edit_form").ajaxSubmit(options);
+	}
+	
+	
+	/***************************************************** 项目跟踪日志 ***********************************************/
+	
+	function new_save_log(){
+		var new_prj_name_log=$("#new_prj_name_log").val();
+		var new_business_no_log=$("#new_business_no_log").val();
+		var new_client_name=$("#new_client_name").val();
+		var new_main_department=$("#new_main_department").val();
+		var new_log=$("#new_log").val();
+		
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/traceLog/addProjectTraceLogBySave',
+	        dataType: 'json',
+	        data: {
+	        	manageNo:new_business_no_log,
+	        	prjName:new_prj_name_log,
+	        	clientName:new_client_name,
+	        	sponsorDepartment:new_main_department,
+	        	ptlLog:new_log
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("添加保存失败");
+	        	}else{
+	        		toastr.success("添加保存成功");
+					$("#myModal2").modal("hide");
+	        	}
+	        }
+		});
+	}
+	
+	
+	function new_submit_log(){
+		var new_prj_name_log=$("#new_prj_name_log").val();
+		var new_business_no_log=$("#new_business_no_log").val();
+		var new_client_name=$("#new_client_name").val();
+		var new_main_department=$("#new_main_department").val();
+		var new_log=$("#new_log").val();
+		
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/traceLog/addProjectTraceLogBySubmit',
+	        dataType: 'json',
+	        data: {
+	        	manageNo:new_business_no_log,
+	        	prjName:new_prj_name_log,
+	        	clientName:new_client_name,
+	        	sponsorDepartment:new_main_department,
+	        	ptlLog:new_log
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("添加提交失败");
+	        	}else{
+	        		toastr.success("添加提交成功");
+					$("#myModal2").modal("hide");
+	        	}
+	        }
+		});
+	}
+	
+	
+	function lookThisLog(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent2").DataTable().row(dom).data();
+		
+		$("#look_prj_name_log").val(data.prjName).attr("disabled",true);
+		$("#look_business_no_log").val(data.manageNo).attr("disabled",true);
+		$("#look_client_name").val(data.clientName).attr("disabled",true);
+		$("#look_main_department").val(data.sponsorDepartment).attr("disabled",true);
+		$("#look_log").val(data.ptlLog).attr("disabled",true);
+		
+		$("#look_modal").modal("show");
+	}
+	
+	var ptlId;
+	function  updateThisLog(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent2").DataTable().row(dom).data();
+		ptlId=data.ptlId;
+		
+		$("#edit_prj_name_log").val(data.prjName);
+		$("#edit_business_no_log").val(data.manageNo);
+		$("#edit_client_name").val(data.clientName);
+		$("#edit_main_department").val(data.sponsorDepartment);
+		$("#edit_log").val(data.ptlLog);
+		
+		$("#edit_modal").modal("show");
+	}
+	
+	
+	function edit_save_log(){
+		var prjName=$("#edit_prj_name_log").val();
+		var manageNo=$("#edit_business_no_log").val();
+		var clientName=$("#edit_client_name").val();
+		var sponsorDepartment=$("#edit_main_department").val();
+		var ptlLog=$("#edit_log").val();
+		
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/traceLog/updateProjectTraceLogBySave',
+	        dataType: 'json',
+	        data: {
+	        	manageNo:manageNo,
+	        	prjName:prjName,
+	        	clientName:clientName,
+	        	sponsorDepartment:sponsorDepartment,
+	        	ptlLog:ptlLog,
+	        	ptlId:ptlId
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("修改保存失败");
+	        	}else{
+	        		toastr.success("修改保存成功");
+					$("#edit_modal").modal("hide");
+	        	}
+	        }
+		});
+	}
+	
+	
+	function edit_submit_log(){
+		var prjName=$("#edit_prj_name_log").val();
+		var manageNo=$("#edit_business_no_log").val();
+		var clientName=$("#edit_client_name").val();
+		var sponsorDepartment=$("#edit_main_department").val();
+		var ptlLog=$("#edit_log").val();
+		
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/traceLog/updateProjectTraceLogBySubmit',
+	        dataType: 'json',
+	        data: {
+	        	manageNo:manageNo,
+	        	prjName:prjName,
+	        	clientName:clientName,
+	        	sponsorDepartment:sponsorDepartment,
+	        	ptlLog:ptlLog,
+	        	ptlId:ptlId
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("修改提交失败");
+	        	}else{
+	        		toastr.success("修改提交成功");
+					$("#edit_modal").modal("hide");
+	        	}
+	        }
+		});
+	}
+	
+    function getCreat(bb){
+        var EnterpriseRating= $(bb).parent().prev().text();
+        var Remarks= $(bb).parent().prev().prev().text();
+        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
+        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
+        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
+        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
+        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
+        $("#CEnterprise-rating").val(EnterpriseRating);
+        $("#CRemarks").val(Remarks);
+        $("#CContact-phone1").val(ContactPhone1);
+        $("#CContacts").val(Contacts);
+        $("#Caddress").val(address);
+        $("#CProprietor-unit").val(ProprietorUnit);
+        $("#CCode").val(Code);
+        rowIndex = bb.parentNode.parentNode.rowIndex; 
+    }
+
+    // $("#mainContent tbody tr").click(function (){
+    //     $(this).addClass('selected')
+    //     .siblings().removeClass('selected')
+    //     .end();
+    // })
+
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+
+</script>
+</html>

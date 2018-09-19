@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+			<li>行政事务</li>
+			<li class="active">通知公告</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">公司通知公告</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">部门通知公告</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="UpperPart">
+                            <div class="UpperPartL">
+                                
+                            </div>
+                            <div class="UpperPartR">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报公司通知公告</button>
+                            </div>
+				<!-- Modal -->
+				<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+				    <div class="modal-dialog modal-lg" role="document">
+				        <div class="modal-content">
+				        <div class="modal-header">
+				            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				            <h4 class="modal-title" id="myModalLabel"><b>新建公司通知公告</b></h4>
+				        </div>
+				        <div class="modal-body">
+				                <div>     
+				                    <form class="form-inline" id="new_form_all" method="post" enctype="multipart/form-data">
+				                        <table class="table table-bordered table-condensed" id="all_table">
+				                            <tr>
+				                                <td style="width:100px;">标题  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+				                                <td>
+				                                    <input type="text" class="form-control" id="title_all">
+				                                </td>
+				                                <td style="width:100px;">类型</td>
+				                                <td>
+				                                    <select class="form-control" style="width:180px;" id="type_all">
+				                                        <option value="生产管理">生产管理</option>
+				                                        <option value="行政管理">行政管理</option>
+				                                        <option value="会议通知">会议通知</option>
+				                                        <option value="聘用公示">聘用公示</option>
+				                                        <option value="上级发文">上级发文</option>
+				                                    </select>
+				                                </td>
+				                            </tr>
+				                            <tr>
+				                                <td>重要程度</td>
+				                                <td>
+				                                    <select class="form-control" style="width:180px;" id="importance_all">
+				                                        <option value="重要">重要</option>
+				                                        <option value="普通">普通</option>
+				                                    </select>
+				                                </td>
+				                                <td>发布人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+				                                <td>
+				                                    <select class="form-control" style="width:180px;" id="user_all">
+				                                        <option value="小明">小明</option>
+				                                        <option value="小王">小王</option>
+				                                        <option value="小张">小张</option>
+				                                    </select>
+				                                </td>
+				                            </tr>
+				                            <tr>
+				                                <td>内容  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+				                                <td colspan="3">
+				                                    <textarea style="width:100%;" rows="4" class="form-control" id="info_all"></textarea>
+				                                </td>
+				                            </tr>
+				                            <tr>
+				                                <td>附件</td>
+				                                <td colspan="3">
+				                                    <button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
+				                                </td>
+				                            </tr>
+				                        </table> 
+				                    </form>  
+				                </div>
+				        </div>
+				        <div class="modal-footer">
+				            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				            <button type="button" class="btn btn-default" onclick="save_all()">保存</button>
+				            <button type="button" class="btn btn-success" onclick="submit_all()">提交</button>
+				        </div>
+				        </div>
+				    </div>
+				</div>
+				<!-- model结束 -->
+
+				<!-- 提交 modal -->
+				<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+				    <div class="modal-dialog" role="document">
+				        <div class="modal-content">
+				            <div class="modal-header">
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+				            </div>
+				            <div class="modal-body">
+				                <form class="form-inline">
+				                    <div class="form-group">
+				                        <div>
+				                            <span>提交给:</span>
+				                            <select style="width:180px;" class="form-control" id="editable-select">
+				                                <option value="">123123</option>
+				                                <option value="">456456</option>
+				                            </select>
+				                        </div>
+				                        <div style="display:flex;margin-top:5px;">
+				                            <div style="margin-top:5px;">
+				                                <textarea style="width:100%;" rows="5" class="form-control" placeholder="请输入内容"></textarea>
+				                            </div>
+				                        </div>
+				                    </div>
+				                </form>
+				            </div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				<!-- 提交 modal结束 -->
+
+			<!-- 修改Modal -->
+			<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change_all">
+			    <div class="modal-dialog modal-lg" role="document">
+			        <div class="modal-content">
+			        <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			            <h4 class="modal-title" id="myModalLabel"><b>修改公司通告</b></h4>
+			        </div>
+			        <div class="modal-body">
+			                <div>     
+			                    <form class="form-inline" id="edit_form_all" method="post" enctype="multipart/form-data">
+			                        <table class="table table-bordered table-condensed">
+			                            <tr>
+			                                <td style="width:100px;">标题  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+			                                <td>
+			                                    <input type="text" class="form-control" id="edit_title_all">
+			                                </td>
+			                                <td style="width:100px;">类型</td>
+			                                <td>
+			                                    <select class="form-control" style="width:180px;" id="edit_type_all">
+			                                        <option value="生产管理">生产管理</option>
+			                                        <option value="行政管理">行政管理</option>
+			                                        <option value="会议通知">会议通知</option>
+			                                        <option value="聘用公示">聘用公示</option>
+			                                        <option value="上级发文">上级发文</option>
+			                                    </select>
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td>重要程度</td>
+			                                <td>
+			                                    <select class="form-control" style="width:180px;" id="edit_importance_all">
+			                                        <option value="重要">重要</option>
+			                                        <option value="普通">普通</option>
+			                                    </select>
+			                                </td>
+			                                <td>发布人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+			                                <td>
+			                                    <select class="form-control" style="width:180px;" id="edit_user_all">
+			                                        <option value="小明">小明</option>
+			                                        <option value="小王">小王</option>
+			                                        <option value="小张">小张</option>
+			                                    </select>
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td>内容  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+			                                <td colspan="3">
+			                                    <textarea style="width:100%;" rows="4" class="form-control" id="edit_info_all"></textarea>
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td>附件</td>
+			                                <td colspan="3">
+			                                    <button type="button" class="btn btn-primary weui-uploader__input" id="xguploaderBox">添加附件</button>
+			                                </td>
+			                            </tr>
+			                        </table>
+			                        <table class="table table-bordered table-condensed"  id="edit_all_table">
+				                        		
+				                    </table> 
+			                    </form>  
+			                </div>
+			        </div>
+			        <div class="modal-footer">
+			            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			            <button type="button" class="btn btn-default" onclick="edit_save_all()">保存</button>
+			            <button type="button" class="btn btn-success" onclick="edit_submit_all()">提交</button>
+			        </div>
+			        </div>
+			    </div>
+			</div>
+			<!-- 修改model结束 -->
+				
+			<!-- 查看Modal -->
+				<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="look_modal_all">
+				    <div class="modal-dialog modal-lg" role="document">
+				        <div class="modal-content">
+				        <div class="modal-header">
+				            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				            <h4 class="modal-title" id="myModalLabel"><b>查看公司通知公告</b></h4>
+				        </div>
+				        <div class="modal-body">
+				                <div>     
+				                    <form class="form-inline">
+				                        <table class="table table-bordered table-condensed">
+				                            <tr>
+				                                <td style="width:100px;">标题  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+				                                <td>
+				                                    <input type="text" class="form-control" id="look_title_all">
+				                                </td>
+				                                <td style="width:100px;">类型</td>
+				                                <td>
+				                                    <select class="form-control" style="width:180px;" id="look_type_all">
+				                                        <option value="生产管理">生产管理</option>
+				                                        <option value="行政管理">行政管理</option>
+				                                        <option value="会议通知">会议通知</option>
+				                                        <option value="聘用公示">聘用公示</option>
+				                                        <option value="上级发文">上级发文</option>
+				                                    </select>
+				                                </td>
+				                            </tr>
+				                            <tr>
+				                                <td>重要程度</td>
+				                                <td>
+				                                    <select class="form-control" style="width:180px;" id="look_importance_all">
+				                                        <option value="重要">重要</option>
+				                                        <option value="普通">普通</option>
+				                                    </select>
+				                                </td>
+				                                <td>发布人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+				                                <td>
+				                                    <select class="form-control" style="width:180px;" id="look_user_all">
+				                                        <option value="小明">小明</option>
+				                                        <option value="小王">小王</option>
+				                                        <option value="小张">小张</option>
+				                                    </select>
+				                                </td>
+				                            </tr>
+				                            <tr>
+				                                <td>内容  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+				                                <td colspan="3">
+				                                    <textarea style="width:100%;" rows="4" class="form-control" id="look_info_all"></textarea>
+				                                </td>
+				                            </tr>
+				                        </table>
+				                        <br/>
+				                        <table class="table table-bordered table-condensed"  id="look_all_table">
+				                        		
+				                        </table> 
+				                    </form>  
+				                </div>
+				        </div>
+				        <div class="modal-footer">
+				            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				        </div>
+				        </div>
+				    </div>
+				</div>
+				<!-- 查看model结束 -->
+				
+				
+                        </div>
+                        <div class="LowerPart" style="margin-top:3px;">
+                            <table class="table table-bordered table-condensed" id="mainContent">
+                                <thead>
+                                    <tr>
+                                        <th>标题</th>
+                                        <th>类型</th>
+                                        <th>内容</th>
+                                        <th>发布人</th>
+                                        <th>发布时间</th>
+                                        <th style="width:80px;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>   
+                            </table>
+                        </div>
+                </div>
+                
+
+
+<!-- ***************************************************************部门通知公告******************************************* -->
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <div class="UpperPart">
+                        <div class="UpperPartL">
+                            
+                        </div>
+                        <div class="UpperPartR">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">填报部门通知公告</button>
+                        </div>
+<!-- 新建Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报公司通知公告</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" id="new_form_this" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed" id="add_this_table">
+                            <tr>
+                                <td style="width:100px;">标题  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <input type="text" class="form-control" id="new_title_this">
+                                </td>
+                                <td style="width:100px;">类型</td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="new_type_this">
+                                        <option value="生产管理">生产管理</option>
+                                        <option value="行政管理">行政管理</option>
+                                        <option value="会议通知">会议通知</option>
+                                        <option value="聘用公示">聘用公示</option>
+                                        <option value="上级发文">上级发文</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>重要程度</td>
+                                <td>
+                                	<select class="form-control" style="width:180px;" id="new_this_importance">
+                                        <option value="重要">重要</option>
+                                        <option value="普通">普通</option>
+                                    </select>
+                                </td>
+                                <td>发布人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="new_this_isuser">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>发布部门</td>
+                                <td>
+                                	<select class="form-control" style="width:180px;" id="new_this_department">
+                                    </select>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>内容  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td colspan="3">
+                                    <textarea style="width:100%;" rows="4" id="new_this_info"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>附件</td>
+                                <td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox2">添加附件</button></td>
+                            </tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="new_save_this()">保存</button>
+            <button type="button" class="btn btn-success"  onclick="new_submit_this()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+
+<!-- 查看Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="look_myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>查看部门通知公告</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" >
+                        <table class="table table-bordered table-condensed" >
+                            <tr>
+                                <td style="width:100px;">标题  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <input type="text" class="form-control" id="look_title_this">
+                                </td>
+                                <td style="width:100px;">类型</td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="look_type_this">
+                                        <option value="生产管理">生产管理</option>
+                                        <option value="行政管理">行政管理</option>
+                                        <option value="会议通知">会议通知</option>
+                                        <option value="聘用公示">聘用公示</option>
+                                        <option value="上级发文">上级发文</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>重要程度</td>
+                                <td>
+                                	<select class="form-control" style="width:180px;" id="look_this_importance">
+                                        <option value="重要">重要</option>
+                                        <option value="普通">普通</option>
+                                    </select>
+                                </td>
+                                <td>发布人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;" id="look_this_isuser">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>发布部门</td>
+                                <td>
+                                	<select class="form-control" style="width:180px;" id="look_this_department"></select>
+                                </td>
+                                <td style="width:50px;">
+                                		<i class="iconfont icon-shanchu" style="font-size:20px;cursor:pointer;" title="删除"></i>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default">保存</button>
+            <button type="button" class="btn btn-success">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改model结束 -->
+<!-- 下载 modal -->
+<div class="modal fade  bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="download">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        123
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 下载 modal结束 -->           
+                        </div>
+                        <div class="LowerPart" style="margin-top:3px;">
+                            <table class="table table-bordered table-condensed" id="mainContent2">
+                                <thead>
+                                    <tr>
+                                        <th>标题</th>
+                                        <th>类型</th>
+                                        <th>内容</th>
+                                        <th>发布人</th>
+                                        <th>发布时间</th>
+                                        <th style="width:80px;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                            </table>
+                        </div>
+                </div>       
+            </div>   
+        </div>
+
+        
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	$('#editable-select').editableSelect({ 
+            effects: 'slide' 
+        });
+        $('#editable-select2').editableSelect({ 
+            effects: 'slide' 
+        });
+        initTable();
+        initTable2();
+        initDepartment();
+        initUser();
+	});
+    
+    
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "aTitle"}, 
+		            { "data": "aType"}, 
+		            { "data": "aDesc"}, 
+		            { "data": "issuer"}, 
+		            { "data": "time"}, 
+		            { "data": null},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 5,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="lookAll(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="updateAll(this)"></i>';
+										        }
+										  },{	
+												 "class": "tcenter",
+												    "targets": 1,
+												    "searchable": true,
+												    "render": function(data, type, full) {
+													    	if(full.aImportance=='重要'){
+													    		return '<span style="color:red;">'+data+'</span>'
+													    	}else{
+													    		return '<span>'+data+'</span>'
+													    	}
+												        }
+												  },{	
+														 "class": "tcenter",
+														    "targets": 2,
+														    "searchable": true,
+														    "render": function(data, type, full) {
+															    	if(full.aImportance=='重要'){
+															    		return '<span style="color:red;">'+data+'</span>'
+															    	}else{
+															    		return '<span>'+data+'</span>'
+															    	}
+														        }
+														  },{	
+																 "class": "tcenter",
+																    "targets": 3,
+																    "searchable": true,
+																    "render": function(data, type, full) {
+																	    	if(full.aImportance=='重要'){
+																	    		return '<span style="color:red;">'+data+'</span>'
+																	    	}else{
+																	    		return '<span>'+data+'</span>'
+																	    	}
+																        }
+																  },{	
+																		 "class": "tcenter",
+																		    "targets": 4,
+																		    "searchable": true,
+																		    "render": function(data, type, full) {
+																			    	if(full.aImportance=='重要'){
+																			    		return '<span style="color:red;">'+data+'</span>'
+																			    	}else{
+																			    		return '<span>'+data+'</span>'
+																			    	}
+																		        }
+																		  },{	
+																				 "class": "tcenter",
+																				    "targets": 0,
+																				    "searchable": true,
+																				    "render": function(data, type, full) {
+																					    	if(full.aImportance=='重要'){
+																					    		return '<span style="color:red;">'+data+'</span>'
+																					    	}else{
+																					    		return '<span>'+data+'</span>'
+																					    	}
+																				        }
+																				  }
+								],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table2=$('#mainContent2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "aTitle"}, 
+		            { "data": "aType"}, 
+		            { "data": "aDesc"}, 
+		            { "data": "issuer"}, 
+		            { "data": "time"}, 
+		            { "data": null},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 5,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="lookThis(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="updateThis(this)"></i>';
+										        }
+										  },{	
+												 "class": "tcenter",
+												    "targets": 1,
+												    "searchable": true,
+												    "render": function(data, type, full) {
+													    	if(full.aImportance=='重要'){
+													    		return '<span style="color:red;">'+data+'</span>'
+													    	}else{
+													    		return '<span>'+data+'</span>'
+													    	}
+												        }
+												  },{	
+														 "class": "tcenter",
+														    "targets": 2,
+														    "searchable": true,
+														    "render": function(data, type, full) {
+															    	if(full.aImportance=='重要'){
+															    		return '<span style="color:red;">'+data+'</span>'
+															    	}else{
+															    		return '<span>'+data+'</span>'
+															    	}
+														        }
+														  },{	
+																 "class": "tcenter",
+																    "targets": 3,
+																    "searchable": true,
+																    "render": function(data, type, full) {
+																	    	if(full.aImportance=='重要'){
+																	    		return '<span style="color:red;">'+data+'</span>'
+																	    	}else{
+																	    		return '<span>'+data+'</span>'
+																	    	}
+																        }
+																  },{	
+																		 "class": "tcenter",
+																		    "targets": 4,
+																		    "searchable": true,
+																		    "render": function(data, type, full) {
+																			    	if(full.aImportance=='重要'){
+																			    		return '<span style="color:red;">'+data+'</span>'
+																			    	}else{
+																			    		return '<span>'+data+'</span>'
+																			    	}
+																		        }
+																		  },{	
+																				 "class": "tcenter",
+																				    "targets": 0,
+																				    "searchable": true,
+																				    "render": function(data, type, full) {
+																					    	if(full.aImportance=='重要'){
+																					    		return '<span style="color:red;">'+data+'</span>'
+																					    	}else{
+																					    		return '<span>'+data+'</span>'
+																					    	}
+																				        }
+																				  }
+								],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    
+    
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/announcement/selectAnnouncement',
+            dataType: 'json',
+            data: {
+            	type:1,
+            	status:1
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	
+	function initTable2(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/announcement/selectAnnouncement',
+            dataType: 'json',
+            data: {
+            	type:2,
+            	status:1
+            },
+            success: function (json) {
+                $('#mainContent2').dataTable().fnClearTable();
+                $('#mainContent2').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	
+	/* *****************************************************公司通告********************************************** */
+	
+	function save_all(){
+		var title=$("#title_all").val();
+		var type=$("#type_all").val();
+		var importance=$("#importance_all").val();
+		var user=$("#user_all").val();
+		var info=$("#info_all").val();
+		
+		var options={
+				type: 'POST',
+	            url: getContextPath()+'/announcement/addAnnouncementByAllAndSave',
+	            dataType: 'json',
+	            data: {
+	            	aTitle:title,
+	            	aType:type,
+	            	aImportance:importance,
+	            	issuer:user,
+	            	aDesc:info,
+	            	type:1
+	            },
+	            success: function (json) {
+	            		if(json==0){
+		            	   toastr.error("保存失败");
+		               }else{
+		            	   toastr.success("保存成功");
+		            	   $("#myModal").modal("hide");
+		               }
+	            }
+			}
+		 
+		 	$("#new_form_all").ajaxSubmit(options);
+	}
+		
+	
+	function submit_all(){
+		var title=$("#title_all").val();
+		var type=$("#type_all").val();
+		var importance=$("#importance_all").val();
+		var user=$("#user_all").val();
+		var info=$("#info_all").val();
+		
+		var options={
+				 	type: 'POST',
+		            url: getContextPath()+'/announcement/addAnnouncementByAllAndSubmit',
+		            dataType: 'json',
+		            data: {
+		            	aTitle:title,
+		            	aType:type,
+		            	aImportance:importance,
+		            	issuer:user,
+		            	aDesc:info,
+		            	type:1
+		            },
+		            success: function (json) {
+		               if(json==0){
+		            	   toastr.error("提交失败");
+		               }else{
+		            	   toastr.success("提交成功");
+		            	   $("#myModal").modal("hide");
+		               }
+		            }
+			}
+		
+		 	$("#new_form_all").ajaxSubmit(options);
+	}
+	
+	
+	function lookAll(obj){
+		var dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		
+		$("#look_title_all").val(data.aTitle).attr("disabled",true);
+		$("#look_type_all").val(data.aType).attr("disabled",true);
+		$("#look_importance_all").val(data.aImportance).attr("disabled",true);
+		$("#look_user_all").val(data.issuer).attr("disabled",true);
+		$("#look_info_all").val(data.aDesc).attr("disabled",true);
+		
+		var id=data.aId;
+		$.ajax({
+			type: 'POST',
+            url: getContextPath()+'/announcement/selectAccessoryById',
+            dataType: 'json',
+            data: {
+            	id:id
+            },
+            success: function (json) {
+            	$("#look_all_table").empty();
+               for(var i=0;i<json.length;i++){
+            	   $("#look_all_table").append("<tr>"+
+            	   														"<td>附件"+(i+1)+"</td>"+
+												            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+												            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+												            	    "</tr>");
+               }
+            }
+		})
+		
+		$("#look_modal_all").modal("show");
+	}
+	
+	
+	function download_all(obj){
+		var url=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+	
+	var all_id;
+	function updateAll(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		
+		$("#edit_title_all").val(data.aTitle);
+		$("#edit_type_all").val(data.aType);
+		$("#edit_importance_all").val(data.aImportance);
+		$("#edit_user_all").val(data.issuer);
+		$("#edit_info_all").val(data.aDesc);
+		
+		all_id=data.aId;
+		$.ajax({
+			type: 'POST',
+            url: getContextPath()+'/announcement/selectAccessoryById',
+            dataType: 'json',
+            data: {
+            	id:all_id
+            },
+            success: function (json) {
+            	$("#edit_all_table").empty();
+               for(var i=0;i<json.length;i++){
+            	   $("#edit_all_table").append("<tr>"+
+            	   														"<td>附件"+(i+1)+"</td>"+
+												            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+												            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='delete_all(this)'>删除附件</button></td>"+
+												            	    "</tr>");
+               }
+            }
+		});
+		
+		$("#change_all").modal("show");
+	}
+	
+	
+	function delete_all(obj){
+		var id=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var url=$(obj).attr("data2");
+		
+		$.ajax({
+			type: 'POST',
+            url: getContextPath()+'/announcement/deleteAccessory',
+            dataType: 'json',
+            data: {
+            	aId:id,
+            	acName:name,
+            	acUrl:url
+            },
+            success: function (json) {
+            	if(json==0){
+            		toastr.error("删除附件失败");
+            	}else{
+            		$(obj).parents("tr").remove();
+            		toastr.success("删除附件成功");
+            	}
+            }
+		});
+	}
+	
+	
+	function edit_save_all(){
+		var aTitle=$("#edit_title_all").val();
+		var aType=$("#edit_type_all").val();
+		var aImportance=$("#edit_importance_all").val();
+		var issuer=$("#edit_user_all").val();
+		var aDesc=$("#edit_info_all").val();
+		
+		var options={
+				type: 'POST',
+	            url: getContextPath()+'/announcement/updateAnnouncementByAllAndSave',
+	            dataType: 'json',
+	            data: {
+	            	aId:all_id,
+	            	aTitle:aTitle,
+	            	aType:aType,
+	            	aImportance:aImportance,
+	            	issuer:issuer,
+	            	aDesc:aDesc
+	            },
+	            success: function (json) {
+	            	if(json==0){
+	            		toastr.error("修改保存失败");
+	            	}else{
+	            		$("#change_all").modal("hide");
+	            		toastr.success("修改保存成功");
+	            	}
+	            }
+		}
+		$("#edit_form_all").ajaxSubmit(options);
+	}
+	
+	
+	function edit_submit_all(){
+		var aTitle=$("#edit_title_all").val();
+		var aType=$("#edit_type_all").val();
+		var aImportance=$("#edit_importance_all").val();
+		var issuer=$("#edit_user_all").val();
+		var aDesc=$("#edit_info_all").val();
+		
+		var options={
+				type: 'POST',
+	            url: getContextPath()+'/announcement/updateAnnouncementByAllAndSubmit',
+	            dataType: 'json',
+	            data: {
+	            	aId:all_id,
+	            	aTitle:aTitle,
+	            	aType:aType,
+	            	aImportance:aImportance,
+	            	issuer:issuer,
+	            	aDesc:aDesc
+	            },
+	            success: function (json) {
+	            	if(json==0){
+	            		toastr.error("修改保存失败");
+	            	}else{
+	            		$("#change_all").modal("hide");
+	            		toastr.success("修改保存成功");
+	            	}
+	            }
+		}
+		$("#edit_form_all").ajaxSubmit(options);
+	}
+	
+	/* *****************************************************部门通告********************************************** */
+	
+	function initDepartment(){
+		$.ajax({
+			type: 'POST',
+			url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
+            dataType: 'json',
+            data: {
+            	
+            },
+            success: function (json) {
+            	$("#new_this_department").html('');
+            	$("#look_this_department").html('');
+            	$("#edit_department_this").html('');
+            	for(var i=0;i<json.length;i++){
+            		$("#new_this_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
+            		$("#look_this_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
+            		$("#edit_department_this").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
+            	}
+            	initUser();
+            	initUser3();
+            }
+		});
+	}
+	
+	
+	$("#new_this_department").on("change",function(){
+		initUser();
+	})
+	
+	$("#edit_department_this").on("change",function(){
+		initUser3();
+	})
+	
+	function initUser(){
+		var omId=$("#new_this_department").val()
+		$.ajax({
+			type: 'POST',
+			url: getContextPath()+'/user/selectUserByomId',
+            dataType: 'json',
+            data: {
+            	omId:omId
+            },
+            success: function (json) {
+            	$("#new_this_isuser").html('');
+            	for(var i=0;i<json.length;i++){
+            		$("#new_this_isuser").append("<option value="+json[i].userId+">"+json[i].uName+"</option>")
+            	}
+            }
+		});
+	}
+	
+	function initUser2(obj){
+		var omId=$("#look_this_department").val()
+		$.ajax({
+			type: 'POST',
+			url: getContextPath()+'/user/selectUserByomId',
+            dataType: 'json',
+            data: {
+            	omId:omId
+            },
+            success: function (json) {
+            	$("#look_this_isuser").html('');
+            	for(var i=0;i<json.length;i++){
+            		$("#look_this_isuser").append("<option value="+json[i].userId+">"+json[i].uName+"</option>")
+            	}
+            	$("#look_this_isuser").val(obj).attr("disabled",true);
+            }
+		});
+	}
+	
+	
+	function initUser3(obj){
+		var omId=$("#edit_department_this").val()
+		$.ajax({
+			type: 'POST',
+			url: getContextPath()+'/user/selectUserByomId',
+            dataType: 'json',
+            data: {
+            	omId:omId
+            },
+            success: function (json) {
+            	$("#edit_isuser_this").html('');
+            	for(var i=0;i<json.length;i++){
+            		$("#edit_isuser_this").append("<option value="+json[i].userId+">"+json[i].uName+"</option>")
+            	}
+            	if(obj!=null){
+            		$("#edit_isuser_this").val(obj);
+            	}
+            }
+		});
+	}
+	
+	function new_save_this(){
+		var aTitle=$("#new_title_this").val();
+		var aType=$("#new_type_this").val();
+		var aImportance=$("#new_this_importance").val();
+		var isuser=$("#new_this_isuser").val();
+		var aDepartment=$("#new_this_department").val();
+		var aDesc=$("#new_this_info").val();
+		
+		
+		var options={
+				type: 'POST',
+				url: getContextPath()+'/announcement/addAnnouncementByThisAndSave',
+	            dataType: 'json',
+	            data: {
+	            	aTitle:aTitle,
+	            	aType:aType,
+	            	aImportance:aImportance,
+	            	issuer:isuser,
+	            	aDepartment:aDepartment,
+	            	aDesc:aDesc,
+	            	type:2
+	            },
+	            success: function (json) {
+	            	if(json==0){
+	            		toastr.error("保存失败");
+	            	}else{
+	            		$("#myModal2").modal("hide");
+	            		toastr.success("保存成功");
+	            	}
+	            }
+		}
+		
+		$("#new_form_this").ajaxSubmit(options);
+	}
+	
+	
+	function new_submit_this(){
+		var aTitle=$("#look_title_this").val();
+		var aType=$("#look_type_this").val();
+		var aImportance=$("#look_this_importance").val();
+		var isuser=$("#look_this_isuser").val();
+		var aDepartment=$("#look_this_department").val();
+		var aDesc=$("#look_this_info").val();
+		
+		
+		var options={
+				type: 'POST',
+				url: getContextPath()+'/announcement/addAnnouncementByThisAndSubmit',
+	            dataType: 'json',
+	            data: {
+	            	aTitle:aTitle,
+	            	aType:aType,
+	            	aImportance:aImportance,
+	            	issuer:isuser,
+	            	aDepartment:aDepartment,
+	            	aDesc:aDesc,
+	            	type:2
+	            },
+	            success: function (json) {
+	            	if(json==0){
+	            		toastr.error("保存失败");
+	            	}else{
+	            		$("#myModal2").modal("hide");
+	            		toastr.success("保存成功");
+	            	}
+	            }
+		}
+		
+		$("#new_form_this").ajaxSubmit(options);
+	}
+	
+	
+	function lookThis(obj){
+		var dom=$(obj).parents("tr");
+		var data=$('#mainContent2').DataTable().row(dom).data();
+		
+		$("#look_title_this").val(data.aTitle).attr("disabled",true);
+		$("#look_type_this").val(data.aType).attr("disabled",true);
+		$("#look_this_importance").val(data.aImportance).attr("disabled",true);
+		$("#look_this_department").val(data.aDepartment).attr("disabled",true);
+		initUser2(data.issuer);
+		$("#look_this_info").val(data.aDesc).attr("disabled",true);
+		
+		var id=data.aId;
+		$.ajax({
+			type: 'POST',
+            url: getContextPath()+'/announcement/selectAccessoryById',
+            dataType: 'json',
+            data: {
+            	id:id
+            },
+            success: function (json) {
+            	$("#look_table").empty();
+               for(var i=0;i<json.length;i++){
+            	   $("#look_table").append("<tr>"+
+            	   														"<td>附件"+(i+1)+"</td>"+
+												            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+												            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_this(this)'>下载附件</button></td>"+
+												            	    "</tr>");
+               }
+            }
+		})
+		
+		$("#look_myModal").modal("show");
+		
+	}
+	
+	
+	function download_this(obj){
+		var url=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+	var id_this;
+	function updateThis(obj){
+		var dom=$(obj).parents("tr");
+		var data=$('#mainContent2').DataTable().row(dom).data();
+		
+		$("#edit_title_this").val(data.aTitle);
+		$("#edit_type_this").val(data.aType);
+		$("#edit_importance_this").val(data.aImportance);
+		$("#edit_department_this").val(data.aDepartment);
+		initUser3(data.issuer);
+		$("#edit_info_this").val(data.aDesc);
+		
+		id_this=data.aId;
+		$.ajax({
+			type: 'POST',
+            url: getContextPath()+'/announcement/selectAccessoryById',
+            dataType: 'json',
+            data: {
+            	id:id_this
+            },
+            success: function (json) {
+            	$("#edit_table").empty();
+               for(var i=0;i<json.length;i++){
+            	   $("#edit_table").append("<tr>"+
+            	   														"<td>附件"+(i+1)+"</td>"+
+												            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+												            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_this(this)'>删除附件</button></td>"+
+												            	    "</tr>");
+               }
+            }
+		})
+		
+		$("#change_myModal").modal("show");
+	}
+	
+	
+	function delete_this(obj){
+		var url=$(obj).attr("data1");
+		var id=$(obj).attr("data2");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		
+		$.ajax({
+			type: 'POST',
+            url: getContextPath()+'/announcement/deleteAccessory',
+            dataType: 'json',
+            data: {
+            	aId:id,
+            	acName:name,
+            	acUrl:url
+            },
+            success: function (json) {
+            	if(json==0){
+            		toastr.error("删除附件失败");
+            	}else{
+            		$(obj).parents("tr").remove();
+            		toastr.success("删除附件成功");
+            	}
+            }
+		});
+	}
+	
+	
+	function edit_save_this(){
+		var aTitle=$("#edit_title_this").val();
+		var aType=$("#edit_type_this").val();
+		var aImportance=$("#edit_importance_this").val();
+		var aDepartment=$("#edit_department_this").val();
+		var aDesc=$("#edit_info_this").val();
+		var issuer=$("#edit_isuser_this").val();
+		
+		var options={
+				type: 'POST',
+	            url: getContextPath()+'/announcement/updateAnnouncementByThisAndSave',
+	            dataType: 'json',
+	            data: {
+	            	aId:id_this,
+	            	aTitle:aTitle,
+	            	aType:aType,
+	            	aImportance:aImportance,
+	            	aDepartment:aDepartment,
+	            	aDesc:aDesc,
+	            	issuer:issuer
+	            },
+	            success: function (json) {
+	            	if(json==0){
+	            		toastr.error("修改保存失败");
+	            	}else{
+	            		$("#change_myModal").modal("hide");
+	            		toastr.success("修改保存成功");
+	            	}
+	            }
+		}
+		
+		$("#edit_form_this").ajaxSubmit(options);
+	}
+	
+	
+	function edit_submit_this(){
+		var aTitle=$("#edit_title_this").val();
+		var aType=$("#edit_type_this").val();
+		var aImportance=$("#edit_importance_this").val();
+		var aDepartment=$("#edit_department_this").val();
+		var aDesc=$("#edit_info_this").val();
+		var issuer=$("#edit_isuser_this").val();
+		
+		var options={
+				type: 'POST',
+	            url: getContextPath()+'/announcement/updateAnnouncementByThisAndSubmit',
+	            dataType: 'json',
+	            data: {
+	            	aId:id_this,
+	            	aTitle:aTitle,
+	            	aType:aType,
+	            	aImportance:aImportance,
+	            	aDepartment:aDepartment,
+	            	aDesc:aDesc,
+	            	issuer:issuer
+	            },
+	            success: function (json) {
+	            	if(json==0){
+	            		toastr.error("修改保存失败");
+	            	}else{
+	            		$("#change_myModal").modal("hide");
+	            		toastr.success("修改保存成功");
+	            	}
+	            }
+		}
+		
+		$("#edit_form_this").ajaxSubmit(options);
+	}
+	
+	
+    $("#uploaderBox").on("click", function(e) {
+        $("#all_table").append("<tr>"+
+        											"<td> </td>"+
+        											"<td colspan='3'><input name='file' type='file'/></td>"+
+        								      "</tr>");
+        
+    });
+    
+    $("#xguploaderBox").on("click", function(e) {
+    	$("#edit_all_table").append("<tr>"+
+															"<td>新附件</td>"+
+															"<td colspan='3'><input name='file' type='file'/></td>"+
+	     											  "</tr>");
+    });
+    
+    $("#uploaderBox2").on("click", function(e) {
+        $("#add_this_table").append("<tr>"+
+															"<td> </td>"+
+															"<td colspan='3'><input name='file' type='file'/></td>"+
+													  "</tr>")
+        
+    });
+
+    $("#xguploaderBox2").on("click",function(){
+    	$("#edit_table").append("<tr>"+
+													"<td>新附件</td>"+
+													"<td colspan='3'><input name='file' type='file'/></td>"+
+												 "</tr>");
+    });
+    
+    
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+</script>
+</html>

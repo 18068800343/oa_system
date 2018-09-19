@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.ConsociationCompanyMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.ConsociationCompany" >
+    <id column="cc_id" property="ccId" jdbcType="VARCHAR" />
+    <result column="cc_name" property="ccName" jdbcType="VARCHAR" />
+    <result column="cc_type" property="ccType" jdbcType="VARCHAR" />
+    <result column="credit_code" property="creditCode" jdbcType="VARCHAR" />
+    <result column="bank_no" property="bankNo" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="business_license" property="businessLicense" jdbcType="VARCHAR" />
+    <result column="business_license_time" property="businessLicenseTime" jdbcType="VARCHAR" />
+    <result column="legal_person_name" property="legalPersonName" jdbcType="VARCHAR" />
+    <result column="enterprise_type" property="enterpriseType" jdbcType="VARCHAR" />
+    <result column="enterprise_addr" property="enterpriseAddr" jdbcType="VARCHAR" />
+    <result column="enterprise_fax" property="enterpriseFax" jdbcType="VARCHAR" />
+    <result column="enterprise_email" property="enterpriseEmail" jdbcType="VARCHAR" />
+    <result column="enterprise_lv" property="enterpriseLv" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.ldxx.bean.ConsociationCompanyWithBLOBs" extends="BaseResultMap" >
+    <result column="enterprise_desc" property="enterpriseDesc" jdbcType="LONGVARCHAR" />
+    <result column="important_event" property="importantEvent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cc_id, cc_name, cc_type, credit_code, bank_no, bank_name, business_license, business_license_time, 
+    legal_person_name, enterprise_type, enterprise_addr, enterprise_fax, enterprise_email, 
+    enterprise_lv
+  </sql>
+  <sql id="Blob_Column_List" >
+    enterprise_desc, important_event
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="org.ldxx.bean.ConsociationCompanyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from consociation_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.ConsociationCompanyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from consociation_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from consociation_company
+    where cc_id = #{ccId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from consociation_company
+    where cc_id = #{ccId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.ConsociationCompanyExample" >
+    delete from consociation_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.ConsociationCompanyWithBLOBs" >
+    <selectKey resultType="java.lang.String" keyProperty="ccId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into consociation_company (cc_name, cc_type, credit_code, 
+      bank_no, bank_name, business_license, 
+      business_license_time, legal_person_name, enterprise_type, 
+      enterprise_addr, enterprise_fax, enterprise_email, 
+      enterprise_lv, enterprise_desc, important_event
+      )
+    values (#{ccName,jdbcType=VARCHAR}, #{ccType,jdbcType=VARCHAR}, #{creditCode,jdbcType=VARCHAR}, 
+      #{bankNo,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, 
+      #{businessLicenseTime,jdbcType=VARCHAR}, #{legalPersonName,jdbcType=VARCHAR}, #{enterpriseType,jdbcType=VARCHAR}, 
+      #{enterpriseAddr,jdbcType=VARCHAR}, #{enterpriseFax,jdbcType=VARCHAR}, #{enterpriseEmail,jdbcType=VARCHAR}, 
+      #{enterpriseLv,jdbcType=VARCHAR}, #{enterpriseDesc,jdbcType=LONGVARCHAR}, #{importantEvent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.ConsociationCompanyWithBLOBs" >
+    <selectKey resultType="java.lang.String" keyProperty="ccId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into consociation_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ccName != null" >
+        cc_name,
+      </if>
+      <if test="ccType != null" >
+        cc_type,
+      </if>
+      <if test="creditCode != null" >
+        credit_code,
+      </if>
+      <if test="bankNo != null" >
+        bank_no,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="businessLicense != null" >
+        business_license,
+      </if>
+      <if test="businessLicenseTime != null" >
+        business_license_time,
+      </if>
+      <if test="legalPersonName != null" >
+        legal_person_name,
+      </if>
+      <if test="enterpriseType != null" >
+        enterprise_type,
+      </if>
+      <if test="enterpriseAddr != null" >
+        enterprise_addr,
+      </if>
+      <if test="enterpriseFax != null" >
+        enterprise_fax,
+      </if>
+      <if test="enterpriseEmail != null" >
+        enterprise_email,
+      </if>
+      <if test="enterpriseLv != null" >
+        enterprise_lv,
+      </if>
+      <if test="enterpriseDesc != null" >
+        enterprise_desc,
+      </if>
+      <if test="importantEvent != null" >
+        important_event,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ccName != null" >
+        #{ccName,jdbcType=VARCHAR},
+      </if>
+      <if test="ccType != null" >
+        #{ccType,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null" >
+        #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null" >
+        #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseTime != null" >
+        #{businessLicenseTime,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonName != null" >
+        #{legalPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseType != null" >
+        #{enterpriseType,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseAddr != null" >
+        #{enterpriseAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseFax != null" >
+        #{enterpriseFax,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseEmail != null" >
+        #{enterpriseEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseLv != null" >
+        #{enterpriseLv,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseDesc != null" >
+        #{enterpriseDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="importantEvent != null" >
+        #{importantEvent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.ConsociationCompanyExample" resultType="java.lang.Integer" >
+    select count(*) from consociation_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update consociation_company
+    <set >
+      <if test="record.ccId != null" >
+        cc_id = #{record.ccId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ccName != null" >
+        cc_name = #{record.ccName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ccType != null" >
+        cc_type = #{record.ccType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creditCode != null" >
+        credit_code = #{record.creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankNo != null" >
+        bank_no = #{record.bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null" >
+        bank_name = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessLicense != null" >
+        business_license = #{record.businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessLicenseTime != null" >
+        business_license_time = #{record.businessLicenseTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalPersonName != null" >
+        legal_person_name = #{record.legalPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseType != null" >
+        enterprise_type = #{record.enterpriseType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseAddr != null" >
+        enterprise_addr = #{record.enterpriseAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseFax != null" >
+        enterprise_fax = #{record.enterpriseFax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseEmail != null" >
+        enterprise_email = #{record.enterpriseEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseLv != null" >
+        enterprise_lv = #{record.enterpriseLv,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseDesc != null" >
+        enterprise_desc = #{record.enterpriseDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.importantEvent != null" >
+        important_event = #{record.importantEvent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update consociation_company
+    set cc_id = #{record.ccId,jdbcType=VARCHAR},
+      cc_name = #{record.ccName,jdbcType=VARCHAR},
+      cc_type = #{record.ccType,jdbcType=VARCHAR},
+      credit_code = #{record.creditCode,jdbcType=VARCHAR},
+      bank_no = #{record.bankNo,jdbcType=VARCHAR},
+      bank_name = #{record.bankName,jdbcType=VARCHAR},
+      business_license = #{record.businessLicense,jdbcType=VARCHAR},
+      business_license_time = #{record.businessLicenseTime,jdbcType=VARCHAR},
+      legal_person_name = #{record.legalPersonName,jdbcType=VARCHAR},
+      enterprise_type = #{record.enterpriseType,jdbcType=VARCHAR},
+      enterprise_addr = #{record.enterpriseAddr,jdbcType=VARCHAR},
+      enterprise_fax = #{record.enterpriseFax,jdbcType=VARCHAR},
+      enterprise_email = #{record.enterpriseEmail,jdbcType=VARCHAR},
+      enterprise_lv = #{record.enterpriseLv,jdbcType=VARCHAR},
+      enterprise_desc = #{record.enterpriseDesc,jdbcType=LONGVARCHAR},
+      important_event = #{record.importantEvent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update consociation_company
+    set cc_id = #{record.ccId,jdbcType=VARCHAR},
+      cc_name = #{record.ccName,jdbcType=VARCHAR},
+      cc_type = #{record.ccType,jdbcType=VARCHAR},
+      credit_code = #{record.creditCode,jdbcType=VARCHAR},
+      bank_no = #{record.bankNo,jdbcType=VARCHAR},
+      bank_name = #{record.bankName,jdbcType=VARCHAR},
+      business_license = #{record.businessLicense,jdbcType=VARCHAR},
+      business_license_time = #{record.businessLicenseTime,jdbcType=VARCHAR},
+      legal_person_name = #{record.legalPersonName,jdbcType=VARCHAR},
+      enterprise_type = #{record.enterpriseType,jdbcType=VARCHAR},
+      enterprise_addr = #{record.enterpriseAddr,jdbcType=VARCHAR},
+      enterprise_fax = #{record.enterpriseFax,jdbcType=VARCHAR},
+      enterprise_email = #{record.enterpriseEmail,jdbcType=VARCHAR},
+      enterprise_lv = #{record.enterpriseLv,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.ConsociationCompanyWithBLOBs" >
+    update consociation_company
+    <set >
+      <if test="ccName != null" >
+        cc_name = #{ccName,jdbcType=VARCHAR},
+      </if>
+      <if test="ccType != null" >
+        cc_type = #{ccType,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null" >
+        credit_code = #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        bank_no = #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null" >
+        business_license = #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicenseTime != null" >
+        business_license_time = #{businessLicenseTime,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonName != null" >
+        legal_person_name = #{legalPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseType != null" >
+        enterprise_type = #{enterpriseType,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseAddr != null" >
+        enterprise_addr = #{enterpriseAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseFax != null" >
+        enterprise_fax = #{enterpriseFax,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseEmail != null" >
+        enterprise_email = #{enterpriseEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseLv != null" >
+        enterprise_lv = #{enterpriseLv,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseDesc != null" >
+        enterprise_desc = #{enterpriseDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="importantEvent != null" >
+        important_event = #{importantEvent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where cc_id = #{ccId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.ldxx.bean.ConsociationCompanyWithBLOBs" >
+    update consociation_company
+    set cc_name = #{ccName,jdbcType=VARCHAR},
+      cc_type = #{ccType,jdbcType=VARCHAR},
+      credit_code = #{creditCode,jdbcType=VARCHAR},
+      bank_no = #{bankNo,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      business_license = #{businessLicense,jdbcType=VARCHAR},
+      business_license_time = #{businessLicenseTime,jdbcType=VARCHAR},
+      legal_person_name = #{legalPersonName,jdbcType=VARCHAR},
+      enterprise_type = #{enterpriseType,jdbcType=VARCHAR},
+      enterprise_addr = #{enterpriseAddr,jdbcType=VARCHAR},
+      enterprise_fax = #{enterpriseFax,jdbcType=VARCHAR},
+      enterprise_email = #{enterpriseEmail,jdbcType=VARCHAR},
+      enterprise_lv = #{enterpriseLv,jdbcType=VARCHAR},
+      enterprise_desc = #{enterpriseDesc,jdbcType=LONGVARCHAR},
+      important_event = #{importantEvent,jdbcType=LONGVARCHAR}
+    where cc_id = #{ccId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.ConsociationCompany" >
+    update consociation_company
+    set cc_name = #{ccName,jdbcType=VARCHAR},
+      cc_type = #{ccType,jdbcType=VARCHAR},
+      credit_code = #{creditCode,jdbcType=VARCHAR},
+      bank_no = #{bankNo,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      business_license = #{businessLicense,jdbcType=VARCHAR},
+      business_license_time = #{businessLicenseTime,jdbcType=VARCHAR},
+      legal_person_name = #{legalPersonName,jdbcType=VARCHAR},
+      enterprise_type = #{enterpriseType,jdbcType=VARCHAR},
+      enterprise_addr = #{enterpriseAddr,jdbcType=VARCHAR},
+      enterprise_fax = #{enterpriseFax,jdbcType=VARCHAR},
+      enterprise_email = #{enterpriseEmail,jdbcType=VARCHAR},
+      enterprise_lv = #{enterpriseLv,jdbcType=VARCHAR}
+    where cc_id = #{ccId,jdbcType=VARCHAR}
+  </update>
+</mapper>

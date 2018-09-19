@@ -1,0 +1,84 @@
+package org.ldxx.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.ldxx.bean.SignetManage;
+import org.ldxx.service.ProjectSealService;
+import org.ldxx.util.TimeUUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+/**
+ * 项目印章管理
+ * @author hp
+ *
+ */
+@Controller
+@RequestMapping("prjSeal")
+public class ProjectSealController {
+	
+	@Autowired
+	private ProjectSealService prjSealService;
+	
+	@RequestMapping("/selectPrjSeal")
+	@ResponseBody
+	public List<SignetManage> selectPrjSeal(){
+		return prjSealService.selectPrjSeal();
+	}
+	
+	@RequestMapping("/addPrjSeal")/*保存印章*/
+	@ResponseBody
+	public Map<String,Object> addPrjSeal(SignetManage signetManage){
+		Map<String,Object> map = new HashMap<>();
+		String id = new TimeUUID().getTimeUUID();
+		signetManage.setSmId(id);
+		int i = prjSealService.addPrjSeal(signetManage);
+		if(i>0){
+			map.put("result", i);
+			map.put("signetManage", signetManage);
+		}
+		return map;
+	}
+	
+	@RequestMapping("/addPrjSeal2")/*提交印章*/
+	@ResponseBody
+	public Map<String,Object> addPrjSeal2(SignetManage signetManage){
+		Map<String,Object> map = new HashMap<>();
+		String id = new TimeUUID().getTimeUUID();
+		signetManage.setSmId(id);
+		int i = prjSealService.addPrjSeal(signetManage);
+		if(i>0){
+			map.put("result", i);
+			map.put("signetManage", signetManage);
+		}
+		return map;
+	}
+	
+	@RequestMapping("/deletePrjSealById")
+	@ResponseBody
+	public int deletePrjSealById(String smId){
+		return prjSealService.deletePrjSealById(smId);
+	}
+	
+	@RequestMapping("/updatePrjSealById")
+	@ResponseBody
+	public Map<String,Object> updatePrjSealById(SignetManage signetManage){
+		Map<String,Object> map = new HashMap<>();
+		int i = prjSealService.updatePrjSealById(signetManage);
+		if(i>0){
+			map.put("result", i);
+			map.put("signetManage", signetManage);
+		}
+		return map;
+	}
+	
+	@RequestMapping("/selectPrjSealById")
+	@ResponseBody
+	public SignetManage selectPrjSealById(String smId){
+		return prjSealService.selectPrjSealById(smId);
+	}
+
+}

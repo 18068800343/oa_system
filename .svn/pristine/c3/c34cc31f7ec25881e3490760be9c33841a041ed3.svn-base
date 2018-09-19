@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.mapper.FlowNodeMapper" >
+  <resultMap id="BaseResultMap" type="org.ldxx.bean.FlowNode" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="Flo_Node_Left" property="floNodeLeft" jdbcType="VARCHAR" />
+    <result column="Flo_Tmp_ID" property="floTmpId" jdbcType="VARCHAR" />
+    <result column="FlowNodeName" property="flownodename" jdbcType="VARCHAR" />
+    <result column="Tip" property="tip" jdbcType="VARCHAR" />
+    <result column="Step" property="step" jdbcType="INTEGER" />
+    <result column="NodeWorkType" property="nodeworktype" jdbcType="INTEGER" />
+    <result column="TSpanDay" property="tspanday" jdbcType="REAL" />
+    <result column="TSpanHour" property="tspanhour" jdbcType="REAL" />
+    <result column="WarningDay" property="warningday" jdbcType="REAL" />
+    <result column="WarningHour" property="warninghour" jdbcType="REAL" />
+    <result column="FWCNodeName" property="fwcnodename" jdbcType="VARCHAR" />
+    <result column="Doc" property="doc" jdbcType="VARCHAR" />
+    <result column="ReturnRole" property="returnrole" jdbcType="INTEGER" />
+    <result column="IsExpSender" property="isexpsender" jdbcType="INTEGER" />
+    <result column="CancelRole" property="cancelrole" jdbcType="INTEGER" />
+    <result column="WhenNoWorker" property="whennoworker" jdbcType="INTEGER" />
+    <result column="CCRole" property="ccrole" jdbcType="INTEGER" />
+    <result column="IsCanOver" property="iscanover" jdbcType="INTEGER" />
+    <result column="IsRM" property="isrm" jdbcType="INTEGER" />
+    <result column="IsHandOver" property="ishandover" jdbcType="BIT" />
+    <result column="ReadReceipts" property="readreceipts" jdbcType="INTEGER" />
+    <result column="AutoJumpRole0" property="autojumprole0" jdbcType="INTEGER" />
+    <result column="AutoJumpRole1" property="autojumprole1" jdbcType="INTEGER" />
+    <result column="AutoJumpRole2" property="autojumprole2" jdbcType="INTEGER" />
+    <result column="SFActiveFlows" property="sfactiveflows" jdbcType="VARCHAR" />
+    <result column="OutTimeDeal" property="outtimedeal" jdbcType="INTEGER" />
+    <result column="DoOutTime" property="doouttime" jdbcType="VARCHAR" />
+    <result column="FormUrl" property="formurl" jdbcType="VARCHAR" />
+    <result column="TurnToDealDoc" property="turntodealdoc" jdbcType="VARCHAR" />
+    <result column="IsCCFlow" property="isccflow" jdbcType="INTEGER" />
+    <result column="HisStas" property="hisstas" jdbcType="VARCHAR" />
+    <result column="HisDeptStrs" property="hisdeptstrs" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Flo_Node_Left, Flo_Tmp_ID, FlowNodeName, Tip, Step, NodeWorkType, TSpanDay, TSpanHour, 
+    WarningDay, WarningHour, FWCNodeName, Doc, ReturnRole, IsExpSender, CancelRole, WhenNoWorker, 
+    CCRole, IsCanOver, IsRM, IsHandOver, ReadReceipts, AutoJumpRole0, AutoJumpRole1, 
+    AutoJumpRole2, SFActiveFlows, OutTimeDeal, DoOutTime, FormUrl, TurnToDealDoc, IsCCFlow, 
+    HisStas, HisDeptStrs
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.FlowNodeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from flownode
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from flownode
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from flownode
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ldxx.bean.FlowNodeExample" >
+    delete from flownode
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ldxx.bean.FlowNode" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into flownode (Flo_Node_Left, Flo_Tmp_ID, FlowNodeName, 
+      Tip, Step, NodeWorkType, 
+      TSpanDay, TSpanHour, WarningDay, 
+      WarningHour, FWCNodeName, Doc, 
+      ReturnRole, IsExpSender, CancelRole, 
+      WhenNoWorker, CCRole, IsCanOver, 
+      IsRM, IsHandOver, ReadReceipts, 
+      AutoJumpRole0, AutoJumpRole1, AutoJumpRole2, 
+      SFActiveFlows, OutTimeDeal, DoOutTime, 
+      FormUrl, TurnToDealDoc, IsCCFlow, 
+      HisStas, HisDeptStrs)
+    values (#{floNodeLeft,jdbcType=VARCHAR}, #{floTmpId,jdbcType=VARCHAR}, #{flownodename,jdbcType=VARCHAR}, 
+      #{tip,jdbcType=VARCHAR}, #{step,jdbcType=INTEGER}, #{nodeworktype,jdbcType=INTEGER}, 
+      #{tspanday,jdbcType=REAL}, #{tspanhour,jdbcType=REAL}, #{warningday,jdbcType=REAL}, 
+      #{warninghour,jdbcType=REAL}, #{fwcnodename,jdbcType=VARCHAR}, #{doc,jdbcType=VARCHAR}, 
+      #{returnrole,jdbcType=INTEGER}, #{isexpsender,jdbcType=INTEGER}, #{cancelrole,jdbcType=INTEGER}, 
+      #{whennoworker,jdbcType=INTEGER}, #{ccrole,jdbcType=INTEGER}, #{iscanover,jdbcType=INTEGER}, 
+      #{isrm,jdbcType=INTEGER}, #{ishandover,jdbcType=BIT}, #{readreceipts,jdbcType=INTEGER}, 
+      #{autojumprole0,jdbcType=INTEGER}, #{autojumprole1,jdbcType=INTEGER}, #{autojumprole2,jdbcType=INTEGER}, 
+      #{sfactiveflows,jdbcType=VARCHAR}, #{outtimedeal,jdbcType=INTEGER}, #{doouttime,jdbcType=VARCHAR}, 
+      #{formurl,jdbcType=VARCHAR}, #{turntodealdoc,jdbcType=VARCHAR}, #{isccflow,jdbcType=INTEGER}, 
+      #{hisstas,jdbcType=VARCHAR}, #{hisdeptstrs,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ldxx.bean.FlowNode" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into flownode
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="floNodeLeft != null" >
+        Flo_Node_Left,
+      </if>
+      <if test="floTmpId != null" >
+        Flo_Tmp_ID,
+      </if>
+      <if test="flownodename != null" >
+        FlowNodeName,
+      </if>
+      <if test="tip != null" >
+        Tip,
+      </if>
+      <if test="step != null" >
+        Step,
+      </if>
+      <if test="nodeworktype != null" >
+        NodeWorkType,
+      </if>
+      <if test="tspanday != null" >
+        TSpanDay,
+      </if>
+      <if test="tspanhour != null" >
+        TSpanHour,
+      </if>
+      <if test="warningday != null" >
+        WarningDay,
+      </if>
+      <if test="warninghour != null" >
+        WarningHour,
+      </if>
+      <if test="fwcnodename != null" >
+        FWCNodeName,
+      </if>
+      <if test="doc != null" >
+        Doc,
+      </if>
+      <if test="returnrole != null" >
+        ReturnRole,
+      </if>
+      <if test="isexpsender != null" >
+        IsExpSender,
+      </if>
+      <if test="cancelrole != null" >
+        CancelRole,
+      </if>
+      <if test="whennoworker != null" >
+        WhenNoWorker,
+      </if>
+      <if test="ccrole != null" >
+        CCRole,
+      </if>
+      <if test="iscanover != null" >
+        IsCanOver,
+      </if>
+      <if test="isrm != null" >
+        IsRM,
+      </if>
+      <if test="ishandover != null" >
+        IsHandOver,
+      </if>
+      <if test="readreceipts != null" >
+        ReadReceipts,
+      </if>
+      <if test="autojumprole0 != null" >
+        AutoJumpRole0,
+      </if>
+      <if test="autojumprole1 != null" >
+        AutoJumpRole1,
+      </if>
+      <if test="autojumprole2 != null" >
+        AutoJumpRole2,
+      </if>
+      <if test="sfactiveflows != null" >
+        SFActiveFlows,
+      </if>
+      <if test="outtimedeal != null" >
+        OutTimeDeal,
+      </if>
+      <if test="doouttime != null" >
+        DoOutTime,
+      </if>
+      <if test="formurl != null" >
+        FormUrl,
+      </if>
+      <if test="turntodealdoc != null" >
+        TurnToDealDoc,
+      </if>
+      <if test="isccflow != null" >
+        IsCCFlow,
+      </if>
+      <if test="hisstas != null" >
+        HisStas,
+      </if>
+      <if test="hisdeptstrs != null" >
+        HisDeptStrs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="floNodeLeft != null" >
+        #{floNodeLeft,jdbcType=VARCHAR},
+      </if>
+      <if test="floTmpId != null" >
+        #{floTmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="flownodename != null" >
+        #{flownodename,jdbcType=VARCHAR},
+      </if>
+      <if test="tip != null" >
+        #{tip,jdbcType=VARCHAR},
+      </if>
+      <if test="step != null" >
+        #{step,jdbcType=INTEGER},
+      </if>
+      <if test="nodeworktype != null" >
+        #{nodeworktype,jdbcType=INTEGER},
+      </if>
+      <if test="tspanday != null" >
+        #{tspanday,jdbcType=REAL},
+      </if>
+      <if test="tspanhour != null" >
+        #{tspanhour,jdbcType=REAL},
+      </if>
+      <if test="warningday != null" >
+        #{warningday,jdbcType=REAL},
+      </if>
+      <if test="warninghour != null" >
+        #{warninghour,jdbcType=REAL},
+      </if>
+      <if test="fwcnodename != null" >
+        #{fwcnodename,jdbcType=VARCHAR},
+      </if>
+      <if test="doc != null" >
+        #{doc,jdbcType=VARCHAR},
+      </if>
+      <if test="returnrole != null" >
+        #{returnrole,jdbcType=INTEGER},
+      </if>
+      <if test="isexpsender != null" >
+        #{isexpsender,jdbcType=INTEGER},
+      </if>
+      <if test="cancelrole != null" >
+        #{cancelrole,jdbcType=INTEGER},
+      </if>
+      <if test="whennoworker != null" >
+        #{whennoworker,jdbcType=INTEGER},
+      </if>
+      <if test="ccrole != null" >
+        #{ccrole,jdbcType=INTEGER},
+      </if>
+      <if test="iscanover != null" >
+        #{iscanover,jdbcType=INTEGER},
+      </if>
+      <if test="isrm != null" >
+        #{isrm,jdbcType=INTEGER},
+      </if>
+      <if test="ishandover != null" >
+        #{ishandover,jdbcType=BIT},
+      </if>
+      <if test="readreceipts != null" >
+        #{readreceipts,jdbcType=INTEGER},
+      </if>
+      <if test="autojumprole0 != null" >
+        #{autojumprole0,jdbcType=INTEGER},
+      </if>
+      <if test="autojumprole1 != null" >
+        #{autojumprole1,jdbcType=INTEGER},
+      </if>
+      <if test="autojumprole2 != null" >
+        #{autojumprole2,jdbcType=INTEGER},
+      </if>
+      <if test="sfactiveflows != null" >
+        #{sfactiveflows,jdbcType=VARCHAR},
+      </if>
+      <if test="outtimedeal != null" >
+        #{outtimedeal,jdbcType=INTEGER},
+      </if>
+      <if test="doouttime != null" >
+        #{doouttime,jdbcType=VARCHAR},
+      </if>
+      <if test="formurl != null" >
+        #{formurl,jdbcType=VARCHAR},
+      </if>
+      <if test="turntodealdoc != null" >
+        #{turntodealdoc,jdbcType=VARCHAR},
+      </if>
+      <if test="isccflow != null" >
+        #{isccflow,jdbcType=INTEGER},
+      </if>
+      <if test="hisstas != null" >
+        #{hisstas,jdbcType=VARCHAR},
+      </if>
+      <if test="hisdeptstrs != null" >
+        #{hisdeptstrs,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ldxx.bean.FlowNodeExample" resultType="java.lang.Integer" >
+    select count(*) from flownode
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update flownode
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.floNodeLeft != null" >
+        Flo_Node_Left = #{record.floNodeLeft,jdbcType=VARCHAR},
+      </if>
+      <if test="record.floTmpId != null" >
+        Flo_Tmp_ID = #{record.floTmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flownodename != null" >
+        FlowNodeName = #{record.flownodename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tip != null" >
+        Tip = #{record.tip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.step != null" >
+        Step = #{record.step,jdbcType=INTEGER},
+      </if>
+      <if test="record.nodeworktype != null" >
+        NodeWorkType = #{record.nodeworktype,jdbcType=INTEGER},
+      </if>
+      <if test="record.tspanday != null" >
+        TSpanDay = #{record.tspanday,jdbcType=REAL},
+      </if>
+      <if test="record.tspanhour != null" >
+        TSpanHour = #{record.tspanhour,jdbcType=REAL},
+      </if>
+      <if test="record.warningday != null" >
+        WarningDay = #{record.warningday,jdbcType=REAL},
+      </if>
+      <if test="record.warninghour != null" >
+        WarningHour = #{record.warninghour,jdbcType=REAL},
+      </if>
+      <if test="record.fwcnodename != null" >
+        FWCNodeName = #{record.fwcnodename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doc != null" >
+        Doc = #{record.doc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnrole != null" >
+        ReturnRole = #{record.returnrole,jdbcType=INTEGER},
+      </if>
+      <if test="record.isexpsender != null" >
+        IsExpSender = #{record.isexpsender,jdbcType=INTEGER},
+      </if>
+      <if test="record.cancelrole != null" >
+        CancelRole = #{record.cancelrole,jdbcType=INTEGER},
+      </if>
+      <if test="record.whennoworker != null" >
+        WhenNoWorker = #{record.whennoworker,jdbcType=INTEGER},
+      </if>
+      <if test="record.ccrole != null" >
+        CCRole = #{record.ccrole,jdbcType=INTEGER},
+      </if>
+      <if test="record.iscanover != null" >
+        IsCanOver = #{record.iscanover,jdbcType=INTEGER},
+      </if>
+      <if test="record.isrm != null" >
+        IsRM = #{record.isrm,jdbcType=INTEGER},
+      </if>
+      <if test="record.ishandover != null" >
+        IsHandOver = #{record.ishandover,jdbcType=BIT},
+      </if>
+      <if test="record.readreceipts != null" >
+        ReadReceipts = #{record.readreceipts,jdbcType=INTEGER},
+      </if>
+      <if test="record.autojumprole0 != null" >
+        AutoJumpRole0 = #{record.autojumprole0,jdbcType=INTEGER},
+      </if>
+      <if test="record.autojumprole1 != null" >
+        AutoJumpRole1 = #{record.autojumprole1,jdbcType=INTEGER},
+      </if>
+      <if test="record.autojumprole2 != null" >
+        AutoJumpRole2 = #{record.autojumprole2,jdbcType=INTEGER},
+      </if>
+      <if test="record.sfactiveflows != null" >
+        SFActiveFlows = #{record.sfactiveflows,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outtimedeal != null" >
+        OutTimeDeal = #{record.outtimedeal,jdbcType=INTEGER},
+      </if>
+      <if test="record.doouttime != null" >
+        DoOutTime = #{record.doouttime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.formurl != null" >
+        FormUrl = #{record.formurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.turntodealdoc != null" >
+        TurnToDealDoc = #{record.turntodealdoc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isccflow != null" >
+        IsCCFlow = #{record.isccflow,jdbcType=INTEGER},
+      </if>
+      <if test="record.hisstas != null" >
+        HisStas = #{record.hisstas,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hisdeptstrs != null" >
+        HisDeptStrs = #{record.hisdeptstrs,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update flownode
+    set ID = #{record.id,jdbcType=VARCHAR},
+      Flo_Node_Left = #{record.floNodeLeft,jdbcType=VARCHAR},
+      Flo_Tmp_ID = #{record.floTmpId,jdbcType=VARCHAR},
+      FlowNodeName = #{record.flownodename,jdbcType=VARCHAR},
+      Tip = #{record.tip,jdbcType=VARCHAR},
+      Step = #{record.step,jdbcType=INTEGER},
+      NodeWorkType = #{record.nodeworktype,jdbcType=INTEGER},
+      TSpanDay = #{record.tspanday,jdbcType=REAL},
+      TSpanHour = #{record.tspanhour,jdbcType=REAL},
+      WarningDay = #{record.warningday,jdbcType=REAL},
+      WarningHour = #{record.warninghour,jdbcType=REAL},
+      FWCNodeName = #{record.fwcnodename,jdbcType=VARCHAR},
+      Doc = #{record.doc,jdbcType=VARCHAR},
+      ReturnRole = #{record.returnrole,jdbcType=INTEGER},
+      IsExpSender = #{record.isexpsender,jdbcType=INTEGER},
+      CancelRole = #{record.cancelrole,jdbcType=INTEGER},
+      WhenNoWorker = #{record.whennoworker,jdbcType=INTEGER},
+      CCRole = #{record.ccrole,jdbcType=INTEGER},
+      IsCanOver = #{record.iscanover,jdbcType=INTEGER},
+      IsRM = #{record.isrm,jdbcType=INTEGER},
+      IsHandOver = #{record.ishandover,jdbcType=BIT},
+      ReadReceipts = #{record.readreceipts,jdbcType=INTEGER},
+      AutoJumpRole0 = #{record.autojumprole0,jdbcType=INTEGER},
+      AutoJumpRole1 = #{record.autojumprole1,jdbcType=INTEGER},
+      AutoJumpRole2 = #{record.autojumprole2,jdbcType=INTEGER},
+      SFActiveFlows = #{record.sfactiveflows,jdbcType=VARCHAR},
+      OutTimeDeal = #{record.outtimedeal,jdbcType=INTEGER},
+      DoOutTime = #{record.doouttime,jdbcType=VARCHAR},
+      FormUrl = #{record.formurl,jdbcType=VARCHAR},
+      TurnToDealDoc = #{record.turntodealdoc,jdbcType=VARCHAR},
+      IsCCFlow = #{record.isccflow,jdbcType=INTEGER},
+      HisStas = #{record.hisstas,jdbcType=VARCHAR},
+      HisDeptStrs = #{record.hisdeptstrs,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ldxx.bean.FlowNode" >
+    update flownode
+    <set >
+      <if test="floNodeLeft != null" >
+        Flo_Node_Left = #{floNodeLeft,jdbcType=VARCHAR},
+      </if>
+      <if test="floTmpId != null" >
+        Flo_Tmp_ID = #{floTmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="flownodename != null" >
+        FlowNodeName = #{flownodename,jdbcType=VARCHAR},
+      </if>
+      <if test="tip != null" >
+        Tip = #{tip,jdbcType=VARCHAR},
+      </if>
+      <if test="step != null" >
+        Step = #{step,jdbcType=INTEGER},
+      </if>
+      <if test="nodeworktype != null" >
+        NodeWorkType = #{nodeworktype,jdbcType=INTEGER},
+      </if>
+      <if test="tspanday != null" >
+        TSpanDay = #{tspanday,jdbcType=REAL},
+      </if>
+      <if test="tspanhour != null" >
+        TSpanHour = #{tspanhour,jdbcType=REAL},
+      </if>
+      <if test="warningday != null" >
+        WarningDay = #{warningday,jdbcType=REAL},
+      </if>
+      <if test="warninghour != null" >
+        WarningHour = #{warninghour,jdbcType=REAL},
+      </if>
+      <if test="fwcnodename != null" >
+        FWCNodeName = #{fwcnodename,jdbcType=VARCHAR},
+      </if>
+      <if test="doc != null" >
+        Doc = #{doc,jdbcType=VARCHAR},
+      </if>
+      <if test="returnrole != null" >
+        ReturnRole = #{returnrole,jdbcType=INTEGER},
+      </if>
+      <if test="isexpsender != null" >
+        IsExpSender = #{isexpsender,jdbcType=INTEGER},
+      </if>
+      <if test="cancelrole != null" >
+        CancelRole = #{cancelrole,jdbcType=INTEGER},
+      </if>
+      <if test="whennoworker != null" >
+        WhenNoWorker = #{whennoworker,jdbcType=INTEGER},
+      </if>
+      <if test="ccrole != null" >
+        CCRole = #{ccrole,jdbcType=INTEGER},
+      </if>
+      <if test="iscanover != null" >
+        IsCanOver = #{iscanover,jdbcType=INTEGER},
+      </if>
+      <if test="isrm != null" >
+        IsRM = #{isrm,jdbcType=INTEGER},
+      </if>
+      <if test="ishandover != null" >
+        IsHandOver = #{ishandover,jdbcType=BIT},
+      </if>
+      <if test="readreceipts != null" >
+        ReadReceipts = #{readreceipts,jdbcType=INTEGER},
+      </if>
+      <if test="autojumprole0 != null" >
+        AutoJumpRole0 = #{autojumprole0,jdbcType=INTEGER},
+      </if>
+      <if test="autojumprole1 != null" >
+        AutoJumpRole1 = #{autojumprole1,jdbcType=INTEGER},
+      </if>
+      <if test="autojumprole2 != null" >
+        AutoJumpRole2 = #{autojumprole2,jdbcType=INTEGER},
+      </if>
+      <if test="sfactiveflows != null" >
+        SFActiveFlows = #{sfactiveflows,jdbcType=VARCHAR},
+      </if>
+      <if test="outtimedeal != null" >
+        OutTimeDeal = #{outtimedeal,jdbcType=INTEGER},
+      </if>
+      <if test="doouttime != null" >
+        DoOutTime = #{doouttime,jdbcType=VARCHAR},
+      </if>
+      <if test="formurl != null" >
+        FormUrl = #{formurl,jdbcType=VARCHAR},
+      </if>
+      <if test="turntodealdoc != null" >
+        TurnToDealDoc = #{turntodealdoc,jdbcType=VARCHAR},
+      </if>
+      <if test="isccflow != null" >
+        IsCCFlow = #{isccflow,jdbcType=INTEGER},
+      </if>
+      <if test="hisstas != null" >
+        HisStas = #{hisstas,jdbcType=VARCHAR},
+      </if>
+      <if test="hisdeptstrs != null" >
+        HisDeptStrs = #{hisdeptstrs,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ldxx.bean.FlowNode" >
+    update flownode
+    set Flo_Node_Left = #{floNodeLeft,jdbcType=VARCHAR},
+      Flo_Tmp_ID = #{floTmpId,jdbcType=VARCHAR},
+      FlowNodeName = #{flownodename,jdbcType=VARCHAR},
+      Tip = #{tip,jdbcType=VARCHAR},
+      Step = #{step,jdbcType=INTEGER},
+      NodeWorkType = #{nodeworktype,jdbcType=INTEGER},
+      TSpanDay = #{tspanday,jdbcType=REAL},
+      TSpanHour = #{tspanhour,jdbcType=REAL},
+      WarningDay = #{warningday,jdbcType=REAL},
+      WarningHour = #{warninghour,jdbcType=REAL},
+      FWCNodeName = #{fwcnodename,jdbcType=VARCHAR},
+      Doc = #{doc,jdbcType=VARCHAR},
+      ReturnRole = #{returnrole,jdbcType=INTEGER},
+      IsExpSender = #{isexpsender,jdbcType=INTEGER},
+      CancelRole = #{cancelrole,jdbcType=INTEGER},
+      WhenNoWorker = #{whennoworker,jdbcType=INTEGER},
+      CCRole = #{ccrole,jdbcType=INTEGER},
+      IsCanOver = #{iscanover,jdbcType=INTEGER},
+      IsRM = #{isrm,jdbcType=INTEGER},
+      IsHandOver = #{ishandover,jdbcType=BIT},
+      ReadReceipts = #{readreceipts,jdbcType=INTEGER},
+      AutoJumpRole0 = #{autojumprole0,jdbcType=INTEGER},
+      AutoJumpRole1 = #{autojumprole1,jdbcType=INTEGER},
+      AutoJumpRole2 = #{autojumprole2,jdbcType=INTEGER},
+      SFActiveFlows = #{sfactiveflows,jdbcType=VARCHAR},
+      OutTimeDeal = #{outtimedeal,jdbcType=INTEGER},
+      DoOutTime = #{doouttime,jdbcType=VARCHAR},
+      FormUrl = #{formurl,jdbcType=VARCHAR},
+      TurnToDealDoc = #{turntodealdoc,jdbcType=VARCHAR},
+      IsCCFlow = #{isccflow,jdbcType=INTEGER},
+      HisStas = #{hisstas,jdbcType=VARCHAR},
+      HisDeptStrs = #{hisdeptstrs,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectStartFlowNode" resultType="flowNode">
+  		select * from flownode a where a.Flo_Tmp_ID = #{_parameter} and (Flo_Node_Left = "" or Flo_Node_Left is null) 
+ </select>
+ <select id="selectNodeActors" resultType="nodeActorsVo">
+  		select a.ID,a.RoleCode,a.Flo_Node_ID,b.User,b.UserName from nodeactors a LEFT JOIN flownodeactor b on a.RoleCode = b.RoleCode where a.Flo_Node_ID=#{_parameter} 
+ </select>
+ 
+</mapper>
