@@ -26,13 +26,12 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public int addTask(Task task) {
 		List<Enterprise> enterprise=task.getEnterprise();
-		
-		for(int ii=0;ii<enterprise.size();ii++){
-			enterprise.get(ii).seteId(task.getPrjId());
-		}
-		int i=edao.addEnterprise(enterprise);
+		int i=tdao.addTask(task);
 		if(i>0){
-			i=tdao.addTask(task);
+			for(int ii=0;ii<enterprise.size();ii++){
+				enterprise.get(ii).seteId(task.getPrjId());
+			}
+			i=edao.addEnterprise(enterprise);
 		}
 		return i;
 	}
@@ -50,7 +49,8 @@ public class TaskServiceImpl implements TaskService{
 	@Transactional
 	@Override
 	public int updateTask(Task task) {
-		int i=edao.deleteEnterprise(task.getPrjId());
+		
+		/*int i=edao.deleteEnterprise(task.getPrjId());
 		List<Enterprise> enterprise=task.getEnterprise();
 		for(int ii=0;ii<enterprise.size();ii++){
 			enterprise.get(ii).seteId(task.getPrjId());
@@ -60,8 +60,8 @@ public class TaskServiceImpl implements TaskService{
 			if(i>0){
 				i=edao.addEnterprise(task.getEnterprise());
 			}
-		}
-		return i;
+		}*/
+		return 0;
 	}
 
 	@Override

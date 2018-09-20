@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.Task;
+import org.ldxx.service.EnterpriseService;
 import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
@@ -23,6 +25,9 @@ public class TaskController {
 	@Autowired
 	private TaskService tService;
 	
+	@Autowired
+	private EnterpriseService eService;
+	
 	@RequestMapping("/addTask")/*任务单保存*/
 	@ResponseBody
 	public int addTask(@RequestBody List<Task> task){
@@ -31,7 +36,7 @@ public class TaskController {
 		Task t=task.get(0);
 		t.setPrjId(id);
 		
-		FlowUtill flowUtill = new FlowUtill();
+		/*FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl("addTask-"+id);
 		currentFlow.setParams("1");
@@ -60,7 +65,7 @@ public class TaskController {
 			flowUtill.zancunFlow(currentFlow,flowHistroy);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		return tService.addTask(t);
 	}
@@ -73,7 +78,7 @@ public class TaskController {
 		Task t=task.get(0);
 		t.setPrjId(id);
 		
-		FlowUtill flowUtill = new FlowUtill();
+		/*FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl("addTask2-"+id);
 		currentFlow.setParams("1");
@@ -100,7 +105,7 @@ public class TaskController {
 			flowUtill.submitFlow(currentFlow,flowHistroy,"张三","7dad936dce6a");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		return tService.addTask(t);
 	}
@@ -178,14 +183,20 @@ public class TaskController {
 	@ResponseBody
 	public int updateTask(@RequestBody List<Task> task){
 		Task t=task.get(0);
-		return tService.updateTask(t);
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		t.setPrjId(id);
+		return tService.addTask(t);
 	}
 	
 	@RequestMapping("/updateTask2")/*任务单修改提交*/
 	@ResponseBody
 	public int updateTask2(@RequestBody List<Task> task){
 		Task t=task.get(0);
-		return tService.updateTask(t);
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		t.setPrjId(id);
+		return tService.addTask(t);
 	}
 	
 	
@@ -217,6 +228,20 @@ public class TaskController {
 	@ResponseBody
 	public int taskOk(){
 		return 0;
+	}
+	
+	@RequestMapping("/getEnterpriseById")
+	@ResponseBody
+	public List<Enterprise> getEnterpriseById(String id){
+		List<Enterprise> list=eService.selectEnterpriseById(id);
+		return list;
+	}
+	
+	@RequestMapping("/getEnterpriseByIdAndName")
+	@ResponseBody
+	public List<Enterprise> getEnterpriseByIdAndName(String id,String name){
+		List<Enterprise> list=eService.selectEnterpriseByIdAndName(id, name);
+		return list;
 	}
 	
 }

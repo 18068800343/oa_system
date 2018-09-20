@@ -12,4 +12,6 @@ public interface EnterpriseDao {
 		public int deleteEnterprise(@Param("id")String id);
 		
 		public List<Enterprise> selectEnterpriseById(@Param("id")String id);
+		
+		public List<Enterprise> selectEnterpriseByIdAndName(@Param("id")String id,@Param("name")String name);
 }
