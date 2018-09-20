@@ -1264,6 +1264,136 @@ public class FlowHistroyExample {
             addCriterion("ActorResult not between", value1, value2, "actorresult");
             return (Criteria) this;
         }
+
+        public Criteria andDoDateIsNull() {
+            addCriterion("do_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateIsNotNull() {
+            addCriterion("do_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateEqualTo(Date value) {
+            addCriterion("do_date =", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateNotEqualTo(Date value) {
+            addCriterion("do_date <>", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateGreaterThan(Date value) {
+            addCriterion("do_date >", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("do_date >=", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateLessThan(Date value) {
+            addCriterion("do_date <", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateLessThanOrEqualTo(Date value) {
+            addCriterion("do_date <=", value, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateIn(List<Date> values) {
+            addCriterion("do_date in", values, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateNotIn(List<Date> values) {
+            addCriterion("do_date not in", values, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateBetween(Date value1, Date value2) {
+            addCriterion("do_date between", value1, value2, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoDateNotBetween(Date value1, Date value2) {
+            addCriterion("do_date not between", value1, value2, "doDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdIsNull() {
+            addCriterion("mode_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdIsNotNull() {
+            addCriterion("mode_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdEqualTo(String value) {
+            addCriterion("mode_id =", value, "modeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdNotEqualTo(String value) {
+            addCriterion("mode_id <>", value, "modeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdGreaterThan(String value) {
+            addCriterion("mode_id >", value, "modeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdGreaterThanOrEqualTo(String value) {
+            addCriterion("mode_id >=", value, "modeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdLessThan(String value) {
+            addCriterion("mode_id <", value, "modeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdLessThanOrEqualTo(String value) {
+            addCriterion("mode_id <=", value, "modeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdLike(String value) {
+            addCriterion("mode_id like", value, "modeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdNotLike(String value) {
+            addCriterion("mode_id not like", value, "modeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdIn(List<String> values) {
+            addCriterion("mode_id in", values, "modeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdNotIn(List<String> values) {
+            addCriterion("mode_id not in", values, "modeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdBetween(String value1, String value2) {
+            addCriterion("mode_id between", value1, value2, "modeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIdNotBetween(String value1, String value2) {
+            addCriterion("mode_id not between", value1, value2, "modeId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
