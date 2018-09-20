@@ -13,6 +13,8 @@ public class FlowHistoryVo {
 
 	    private String businessname;
 	    
+	    private String status;
+	    
 	    private String url;
 
 	    private String params;
@@ -45,7 +47,15 @@ public class FlowHistoryVo {
 
 	    private String view;
 
-	    public String getBusinessname() {
+	    public String getStatus() {
+			return status;
+		}
+
+		public void setStatus(String status) {
+			this.status = status;
+		}
+
+		public String getBusinessname() {
 			return businessname;
 		}
 
