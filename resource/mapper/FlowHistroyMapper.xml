@@ -508,4 +508,24 @@
       mode_id = #{modeId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="getFlowHistoryVoByUserId" resultType="flowHistoryVo">
+		SELECT
+			a.*,
+			c.BusinessName,
+			b.`status`,count(DISTINCT a.URL)
+		FROM
+			flowhistroy a
+		LEFT JOIN mode_status b ON a.mode_id = b.mode_id
+		LEFT JOIN business c ON a.Bus_ID = c.ID GROUP BY a.URL where a.Actor=#{userId};
+  </select>
+    <select id="getFlowHistoryVoByUserIdAlreadyEnd" resultType="flowHistoryVo">
+		SELECT
+			a.*,
+			c.BusinessName,
+			b.`status`,count(DISTINCT a.URL)
+		FROM
+			flowhistroy a
+		LEFT JOIN mode_status b ON a.mode_id = b.mode_id
+		LEFT JOIN business c ON a.Bus_ID = c.ID where a.Actor=#{userId} and b.`status`=1 GROUP BY a.URL ;
+  </select>
 </mapper>

@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.FlowHistroyExample;
+import org.ldxx.model.FlowHistoryVo;
 
 public interface FlowHistroyMapper {
     int countByExample(FlowHistroyExample example);
@@ -33,4 +34,9 @@ public interface FlowHistroyMapper {
     int updateByPrimaryKeyWithBLOBs(FlowHistroy record);
 
     int updateByPrimaryKey(FlowHistroy record);
+    
+    List<FlowHistoryVo> getFlowHistoryVoByUserId(String userId);
+    
+    List<FlowHistoryVo> getFlowHistoryVoByUserIdAlreadyEnd(String userId);
+    
 }
