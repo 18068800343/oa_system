@@ -293,9 +293,16 @@
 	            	omTel:phone,
 	            	omFax:chuanzheng,
 	            },
-	            success: function () {
-	            	location.reload([true]);
+	            success: function (json) {
+	            	//location.reload([true]);
 	            	//$('#mainContent').DataTable().row.add().draw(false);     //新增行立即显示
+	            	if(json==0){
+	            		toastr.error("添加失败")
+	            	}else{
+		            	toastr.success("添加成功")
+		            	$("#myModal").modal('hide');
+		            	initTable();
+	            	}
 	            }
 	        });
 	})
@@ -318,9 +325,9 @@
             success: function (json) {
             	if(json!=0){
             		$('#mainContent').DataTable().row(dom).remove().draw(true); //删除行立即显示
-            		 //toastr.success('删除成功');
+            		 toastr.success('删除成功');
             	}else{
-            		 //toastr.error('删除失败');
+            		 toastr.error('删除失败');
             	}
             }
         });
@@ -349,6 +356,27 @@
 		var lingdao=$("#xglingdao").find("option:selected").val();
 		var phone=$("#xgphone").val();
 		var chuanzheng=$("#xgchuanzheng").val();
+		if(bumenName==''){
+			toastr.error("部门名称为空");
+			return;
+		}
+		if(daihao==''){
+			toastr.error("部门代号为空");
+			return;
+		}
+		if(phone==''){
+			toastr.error("电话为空");
+			return;
+		}
+		var reg=/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
+		if(!reg.test(chuanzheng)){
+			toastr.error("传真格式不正确");
+			return;
+		}
+		if(chuanzheng==''){
+			toastr.error("传真为空");
+			return;
+		}
 		var addJson = {
 	            "omId": bianma,
 	            "omName": bumenName,
@@ -369,8 +397,13 @@
 	            	omTel:phone,
 	            	omFax:chuanzheng,
 	            },
-	            success: function () {
-	            	$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+	            success: function (json) {
+	            	if(json==0){
+	            		toastr.error("修改失败")
+	            	}else{
+	            		toastr.success("修改成功")
+		            	$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+	            	}
 	            }
 	        }); 
 	})

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../font2/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <style lang="">
 	    *{
@@ -184,6 +185,7 @@
 <script src="../../js/common-scripts.js"></script>
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
 <script>
 $(document).ready( function () {
 	initTable();
@@ -269,6 +271,10 @@ function initTable(){
 	
 	//添加一级项目类型
 	$("#addyiji").click(function(){
+		if($("#yiji").val().trim()==''){
+			toastr.error("项目类型为空")
+			return false;
+		}
 		$.ajax({
 		        type: 'POST',
 		        url: getContextPath()+'/projectType/addFirstPrj',
@@ -286,7 +292,14 @@ function initTable(){
 	        	        	+'  <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>'
 	        	            +'  <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle="modal" data-target="#xiugaiyiji"></i>'       
 	        	            +'</td></tr>'); */
-	        		location.reload([true]);
+	        	    if(json>0){
+	        	    	toastr.success("添加成功")
+	        	    	$("#myModal").modal('hide')
+	        	    	initTable();
+	        	    }else{
+	        	    	toastr.error("添加失败")
+	        	    }
+	        		//location.reload([true]);
 		        }
 		    });
 	})
@@ -308,9 +321,9 @@ function initTable(){
 	            success: function (json) {
 	            	if(json!=0){
 	            		$('#mainContent').DataTable().row(dom).remove().draw(true); //删除行立即显示
-	            		 //toastr.success('删除成功');
+	            		toastr.success('删除成功');
 	            	}else{
-	            		 //toastr.error('删除失败');
+	            		toastr.error('删除失败');
 	            	}
 	            }
 	        });
@@ -339,6 +352,10 @@ function initTable(){
 			$("#xgyijiType").val(data.nameFirst)
 			})
 	$("#changeyiji").click(function(){
+		if($("#xgyijiType").val().trim()==''){
+			toastr.error("项目类型为空")
+			return false;
+		}
 		//console.log(afteryiji)
 	  		$.ajax({
 	            type: 'POST',
@@ -350,7 +367,12 @@ function initTable(){
 	            },
 	            success: function (json) {
 	                if(json!=0){
-	                	location.reload([true]);
+	                	//location.reload([true]);
+	                	toastr.success('修改成功');
+	                	$("#xiugaiyiji").modal('hide')
+	                	initTable();
+	                }else{
+	                	toastr.error("修改失败")
 	                }
 	            }
 	        });
@@ -390,6 +412,10 @@ function initTable(){
 			yijiid=data.idFirst;
 			})
 	$("#adderji").click(function(){
+		if($("#zenjiaerji").val().trim()==''){
+			toastr.error("项目类型为空")
+			return false;
+		}
 		//console.log(yijiid);
 	    	$.ajax({
 	            type: 'POST',
@@ -402,10 +428,12 @@ function initTable(){
 	            },
 	            success: function (json) {
 	            	if(json!=0){
-	            			location.reload([true]);
-	            		 //toastr.success('成功');
+	            		//location.reload([true]);
+	            		toastr.success('添加成功');
+	            		$("#myModalerji").modal('hide')
+	            		initTable();
 	            	}else{
-	            		 //toastr.error('失败');
+	            		 toastr.error('添加失败');
 	            	}
 	            }
 	        });
@@ -429,10 +457,10 @@ function initTable(){
 	        success: function (json) {
 	        	if(json!=0){
 	        		 aa.parentNode.parentNode.remove();
-	        		 location.reload([true]);
-	        		 //toastr.success('删除成功');
+	        		 //location.reload([true]);
+	        		 toastr.success('删除成功');
 	        	}else{
-	        		 //toastr.error('删除失败');
+	        		 toastr.error('删除失败');
 	        	}
 	        }
 	    }); 
@@ -447,6 +475,10 @@ function initTable(){
 		erjiid2=aa.getAttribute("data-id2");
 	}
 	function xiugaierji(){
+		if($("#xgerjiType").val().trim()==''){
+			toastr.error("项目类型为空")
+			return false;
+		}
 		 $.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/projectType/updateTwoPrj',
@@ -458,10 +490,12 @@ function initTable(){
 	        },
 	        success: function (json) {
 	        	if(json!=0){
-	        		 
-	        		location.reload([true]);
+	        		 toastr.success("修改成功")
+	        		 $("#changeerji").modal('hide')
+	        		 initTable();
+	        		//location.reload([true]);
 	        	}else{
-	        		 
+	        		 toastr.error("修改失败")
 	        	}
 	        }
 	    }); 
