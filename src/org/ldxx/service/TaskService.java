@@ -17,4 +17,8 @@ public interface TaskService {
 	public Task selectTaskById(String id);
 
 	public List<Task> selectIdAndNameByStatus(String status);
+	
+	public int typeCount(String type);
+	
+	public List<Task> selectTaskHistory(String no);
 }

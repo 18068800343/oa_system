@@ -7,17 +7,7 @@ public class Dictionary {
 
     private String nameSecond;
     
-    private String code;
     
-
-    public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
 	public String getdId() {
         return dId;
     }

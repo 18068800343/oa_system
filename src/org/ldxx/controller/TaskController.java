@@ -1,7 +1,9 @@
 package org.ldxx.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.Enterprise;
@@ -35,6 +37,13 @@ public class TaskController {
 		String id=uuid.getTimeUUID();
 		Task t=task.get(0);
 		t.setPrjId(id);
+		
+		String type=t.getPrjType2();
+		String code=type.split(" ")[1];
+		int count=tService.typeCount(type);
+		count=count+1;
+		String prjNo=uuid.getPrjCode(code, count);
+		
 		
 		/*FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
@@ -77,6 +86,12 @@ public class TaskController {
 		String id=uuid.getTimeUUID();
 		Task t=task.get(0);
 		t.setPrjId(id);
+		
+		String type=t.getPrjType2();
+		String code=type.split(" ")[1];
+		int count=tService.typeCount(type);
+		count=count+1;
+		String prjNo=uuid.getPrjCode(code, count);
 		
 		/*FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
@@ -216,6 +231,17 @@ public class TaskController {
 	@ResponseBody
 	public Task selectTaskById(String id){
 		return tService.selectTaskById(id);
+	}
+	
+	@RequestMapping("/selectTaskHistory")
+	@ResponseBody
+	public Map<String,Object> selectTaskHistory(String id,String no){
+		Map<String,Object> map=new HashMap<>();
+		Task t=tService.selectTaskById(id);
+		map.put("task", t);
+		List<Task> list=tService.selectTaskHistory(no);
+		map.put("taskList", list);
+		return map;
 	}
 	
 	@RequestMapping("/taskOff") /*任务单中止*/

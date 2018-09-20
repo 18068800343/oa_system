@@ -222,15 +222,7 @@ var table=$('#mainContent').DataTable({
 								  	  		return '<B style="font-size:22px;cursor:pointer;" onclick="showerji(this)">o</B>';
 								  	  		
 								        }
-								  },{	
-										 "class": "details-control",
-										    "targets": 1,
-										    "searchable": true,
-										    "render": function(data, type, full) {
-										    		var name=data+" "+full.code;
-										  	  		return name;
-										        }
-										  },
+								  },
 							{	
 								 "class": "tcenter",
 								    "targets": 2,
@@ -277,13 +269,13 @@ function initTable(){
 	
 	//添加一级项目类型
 	$("#addyiji").click(function(){
+		var nameFirst=$("#yiji").val()+" "+$("#yijitype").val();
 		$.ajax({
 		        type: 'POST',
 		        url: getContextPath()+'/projectType/addFirstPrj',
 		        dataType: 'json',
 		        data: {
-		        	nameFirst:$("#yiji").val(),
-		        	code:$("#yijitype").val()
+		        	nameFirst:nameFirst
 		        },
 		        success: function (json) {
 	        		location.reload([true]);
@@ -327,14 +319,14 @@ function initTable(){
 		})
 			
 	$("#changeyiji").click(function(){
+		var nameFirst=$("#xgyijiType").val()+" "+$("#xgyiji").val();
 	  		$.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/projectType/updateFirstPrj',
 	            dataType: 'json',
 	            data:{
 	            	idFirst:afteryiji,
-	            	nameFirst:$("#xgyijiType").val(),
-	            	code:$("#xgyiji").val()
+	            	nameFirst:nameFirst
 	            },
 	            success: function (json) {
 	                if(json!=0){
@@ -362,8 +354,7 @@ function initTable(){
 	            },
 	            success: function (json) {
 	            		for(var i=0;i<json.length;i++){
-	            			var name=json[i].nameSecond+" "+json[i].code;
-	        				$(aa).parent().parent().after('<tr class="qwe'+data.idFirst+'"><td style="border:none;"></td><td>'+name+'</td><td><i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"  onclick="delerji(this)" data-id='+json[i].dId+'></i>  <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle="modal" data-target="#changeerji" onclick="showxgerji(this)" data-id='+json[i].idFirst+' data-id2='+json[i].dId+'></i></td></tr>');
+	        				$(aa).parent().parent().after('<tr class="qwe'+data.idFirst+'"><td style="border:none;"></td><td>'+json[i].nameSecond+'</td><td><i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"  onclick="delerji(this)" data-id='+json[i].dId+'></i>  <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle="modal" data-target="#changeerji" onclick="showxgerji(this)" data-id='+json[i].idFirst+' data-id2='+json[i].dId+'></i></td></tr>');
 	        			}
 	            }
 			});
@@ -378,14 +369,14 @@ function initTable(){
 			yijiid=data.idFirst;
 			})
 	$("#adderji").click(function(){
+		var nameSecond=$("#zenjiaerji").val()+" "+$("#zenjiaerjitype").val();
 	    	$.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/projectType/addTwoPrj',
 	            dataType: 'json',
 	            data: {
 	            	idFirst:yijiid,
-	            	nameSecond:$("#zenjiaerji").val(),
-	            	code:$("#zenjiaerjitype").val()
+	            	nameSecond:nameSecond
 	            },
 	            success: function (json) {
 	            	if(json!=0){
@@ -434,6 +425,7 @@ function initTable(){
 		erjiid2=aa.getAttribute("data-id2");
 	}
 	function xiugaierji(){
+		var nameSecond=$("#xgerjiType").val()+" "+$("#xgerji").val();
 		 $.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/projectType/updateTwoPrj',
@@ -441,8 +433,7 @@ function initTable(){
 	        data: {
 	        	dId:erjiid2,
 	        	idFirst:yijiid2,
-	        	nameSecond:$("#xgerjiType").val(),
-	        	code:$("#xgerji").val()
+	        	nameSecond:nameSecond
 	        },
 	        success: function (json) {
 	        	if(json!=0){

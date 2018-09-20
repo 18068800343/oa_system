@@ -492,36 +492,22 @@
                         </tbody>
                     </table>
                     
-                    <table class="table table-bordered table-condensed">
+                    <table class="table table-bordered table-condensed" id="look_xieban_table">
                     	<thead>
                     		<tr>
                     			<th colspan="8">查看承接信息</th>
                     		</tr>
                     	</thead>
                     	<tbody>
-                    		<tr>
-	                             <td>主办部门</td>
-	                             <td id="lookzhuban"></td>
-	                             <td>金额</td>
-	                             <td id="lookzhubanjine"></td>
-	                             <td>协办部门1</td>
-	                             <td id="lookxieban1"></td>
-	                             <td>金额</td>
-	                             <td id="lookxiebanjine"></td>
-	                         </tr>
-	                         <tr>
-	                             <td>协办部门2</td>
-	                             <td id="lookxieban2"></td>
-	                             <td>金额</td>
-	                             <td id="lookxieban2jine"></td>
-	                             <td>协办部门3</td>
-	                             <td id="lookxieban3"></td>
-	                             <td>金额</td>
-	                             <td id="lookxieban3jine"></td>
-	                         </tr>
                     	</tbody>
                     </table>
-
+						
+					<br/>
+					<h2 style="color:red;">历史信息</h2>
+					<table >
+						
+					</table>
+					
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" onclick="quxiao3()">取消</button>
                     </div>
@@ -1632,6 +1618,18 @@
     	    lianxibiao.push(xinlianxibiao);
     	})
     	
+    	var a=1;
+    	$("#messages").find("input").each(function(){
+    		var name=$(this).val();
+    		if(name==''||name==null){
+    			a=0;
+    		}
+    	});
+    	
+    	if(a==0){
+    		toastr.error('存在数据未填写');
+    		return;
+    	}
     		var yijiji=$("#xgyijileixing").find("option:selected").val();
            	var erji=$("#xgerjileixing").find("option:selected").val();
     		var taskName=$("#xgtaskName").val();
@@ -1744,6 +1742,18 @@
     	    lianxibiao.push(xinlianxibiao);
     	})
     	
+    	var a=1;
+    	$("#messages").find("input").each(function(){
+    		var name=$(this).val();
+    		if(name==''||name==null){
+    			a=0;
+    		}
+    	});
+    	
+    	if(a==0){
+    		toastr.error('存在数据未填写');
+    		return;
+    	}
     		var yijiji=$("#xgyijileixing").find("option:selected").val();
            	var erji=$("#xgerjileixing").find("option:selected").val();
     		var taskName=$("#xgtaskName").val();
@@ -1840,55 +1850,60 @@
     
   //查看单个具体信息
   	$('#mainContent').delegate('#lookDetall','click', function () {
-
-        $("#diyi").removeClass("active");
-        $("#disi").addClass("active");
-        $("#diyi a").show();
-        $("#disi a").show();
-        $("#home").removeClass("active");
-        $("#settings").addClass("active");
-
   		var dom = $(this).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
   		
 		 $.ajax({
             type: 'POST',
-            url: getContextPath()+'/task/ selectTaskById',
+            url: getContextPath()+'/task/ selectTaskHistory',
             dataType: 'json',
             data: {
-            	id:data.prjId
+            	id:data.prjId,
+            	no:data.prjNo
             },
             success: function (json) {
-            	$("#looktaskName").text(json.prjName);
-            	$("#looktaskbianhao").text(json.prjNo);
-            	$("#lookmoshi").text(json.prjManagementModel);
-            	$("#lookgongsi").text(json.prjCompany);
-            	$("#lookleixing").text(json.prjType2);
-            	$("#lookshejijieduan").text(json.jsPhases);
-            	$("#lookyezhudanwei").text(json.prjOwnerUnit);
-            	$("#lookjine").text(json.prjEstimateMoney);
-            	$("#lookhetonge").text(json.contractMoney);
-            	$("#lookzandingjin").text(json.provisionalSum);
-            	$("#lookstartTime").text(json.prjStartTime);
-            	$("#lookendTime").text(json.prjEndTime);
-            	$("#lookzhuban").text(json.omName);
-            	$("#lookzhubanjine").text(json.mainDepartmentMoney);
-            	$("#lookxieban1").text(json.name1);
-            	$("#lookxiebanjine").text(json.assistDepartment1Money);
-            	$("#lookxieban2").text(json.name2);
-            	$("#lookxieban2jine").text(json.assistDepartment2Money);
-            	$("#lookxieban3").text(json.name3);
-            	$("#lookxieban3jine").text(json.assistDepartment3Money);
-            	$("#lookgaikuang").text(json.workContent);
+            	var task=json.task;
+            	$("#looktaskName").text(task.prjName);
+            	$("#looktaskbianhao").text(task.prjNo);
+            	$("#lookmoshi").text(task.prjManagementModel);
+            	$("#lookgongsi").text(task.prjCompany);
+            	$("#lookleixing").text(task.prjType2);
+            	$("#lookshejijieduan").text(task.jsPhases);
+            	$("#lookyezhudanwei").text(task.prjOwnerUnit);
+            	$("#lookjine").text(task.prjEstimateMoney);
+            	$("#lookhetonge").text(task.contractMoney);
+            	$("#lookzandingjin").text(task.provisionalSum);
+            	$("#lookstartTime").text(task.prjStartTime);
+            	$("#lookendTime").text(task.prjEndTime);
+            	$("#lookgaikuang").text(task.workContent);
+            	
+            	$("#look_xieban_table tbody").html('');
+            	$("#look_xieban_table tbody").append("<tr><td>主办部门</td><td>"+task.omName+"</td><td>金额</td><td>"+task.mainDepartmentMoney+"</td></tr>")
+            	
+            	if(task.name1!=null&&task.name1!=''){
+            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name1+"</td><td>金额</td><td>"+task.assistDepartment1Money+"</td></tr>")
+            	}
+				if(task.name2!=null&&task.name2!=''){
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name2+"</td><td>金额</td><td>"+task.assistDepartment2Money+"</td></tr>")
+            	}
+				if(task.name3!=null&&task.name3!=''){
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name3+"</td><td>金额</td><td>"+task.assistDepartment3Money+"</td></tr>")
+				}
             	
             	$("#looklianxibiaoge tbody").empty("");
-            	for(var i=0;i<json.enterprise.length;i++){
+            	for(var i=0;i<task.enterprise.length;i++){
             		$("#looklianxibiaoge").append("<tr><td>"
-											    			+json.enterprise[i].eMan
+											    			+task.enterprise[i].eMan
 											    			+"</td><td>"
-											    			+json.enterprise[i].eTel
+											    			+task.enterprise[i].eTel
 											    			+"</td></tr>")
             	}
+            	$("#diyi").removeClass("active");
+                $("#disi").addClass("active");
+                $("#diyi a").show();
+                $("#disi a").show();
+                $("#home").removeClass("active");
+                $("#settings").addClass("active");
             }
         }); 
   	})
