@@ -8,6 +8,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.FlowHistroyExample;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.mapper.FlowHistroyMapper;
+import org.ldxx.model.CurrentFlowVo;
 import org.ldxx.service.CurrentFlowService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,10 +19,8 @@ public class CurrentFlowServiceImpl implements CurrentFlowService {
 	@Autowired
 	FlowHistroyMapper flowHistroyMapper;
 	@Override
-	public List<CurrentFlow> getCurrentFlowListByUser(String userId) {
-		CurrentFlowExample example = new CurrentFlowExample();
-	    example.createCriteria().andActorEqualTo(userId);
-	    List<CurrentFlow> currentFlows =currentFlowMapper.selectByExample(example);
+	public List<CurrentFlowVo> getCurrentFlowListByUser(String userId,String status) {
+	    List<CurrentFlowVo> currentFlows =currentFlowMapper.getCurrentFlowVoByUserId(userId, status);
 		return currentFlows;
 	}	
 	

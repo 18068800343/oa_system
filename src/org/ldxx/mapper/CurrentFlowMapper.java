@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.CurrentFlowExample;
+import org.ldxx.model.CurrentFlowVo;
 
 public interface CurrentFlowMapper {
     int countByExample(CurrentFlowExample example);
@@ -27,4 +28,6 @@ public interface CurrentFlowMapper {
     int updateByPrimaryKeySelective(CurrentFlow record);
 
     int updateByPrimaryKey(CurrentFlow record);
+    
+    List<CurrentFlowVo> getCurrentFlowVoByUserId(String userId,String status);
 }
