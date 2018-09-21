@@ -18,4 +18,10 @@ public interface TaskDao {
 	public Task selectTaskById(@Param("id")String id);
 
 	public List<Task> selectIdAndNameByStatus(@Param("status") String status);
+	
+	public int typeCount(@Param("type")String type);
+	
+	public List<Task> selectTaskHistory(@Param("no")String no);
+	
+	public Task selectCcNameByPrjId(@Param("id")String id);
 }

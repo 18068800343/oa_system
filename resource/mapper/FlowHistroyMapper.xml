@@ -20,6 +20,7 @@
     <result column="ActorName" property="actorname" jdbcType="VARCHAR" />
     <result column="ActorResult" property="actorresult" jdbcType="INTEGER" />
     <result column="do_date" property="doDate" jdbcType="TIMESTAMP" />
+    <result column="mode_id" property="modeId" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="org.ldxx.bean.FlowHistroy" extends="BaseResultMap" >
     <result column="view" property="view" jdbcType="LONGVARCHAR" />
@@ -84,7 +85,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, Flo_Tmp_ID, Flo_Node_ID, Bus_ID, URL, Params, Title, Starter, StarterName, RDT, 
-    FK_Dept, DeptName, NodeName, PRI, Actor, ActorName, ActorResult, do_date
+    FK_Dept, DeptName, NodeName, PRI, Actor, ActorName, ActorResult, do_date, mode_id
   </sql>
   <sql id="Blob_Column_List" >
     view
@@ -143,15 +144,15 @@
       Starter, StarterName, RDT, 
       FK_Dept, DeptName, NodeName, 
       PRI, Actor, ActorName, 
-      ActorResult, do_date, view
-      )
+      ActorResult, do_date, mode_id, 
+      view)
     values (#{floTmpId,jdbcType=VARCHAR}, #{floNodeId,jdbcType=VARCHAR}, #{busId,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
       #{starter,jdbcType=VARCHAR}, #{startername,jdbcType=VARCHAR}, #{rdt,jdbcType=TIMESTAMP}, 
       #{fkDept,jdbcType=VARCHAR}, #{deptname,jdbcType=VARCHAR}, #{nodename,jdbcType=VARCHAR}, 
       #{pri,jdbcType=INTEGER}, #{actor,jdbcType=VARCHAR}, #{actorname,jdbcType=VARCHAR}, 
-      #{actorresult,jdbcType=INTEGER}, #{doDate,jdbcType=TIMESTAMP}, #{view,jdbcType=LONGVARCHAR}
-      )
+      #{actorresult,jdbcType=INTEGER}, #{doDate,jdbcType=TIMESTAMP}, #{modeId,jdbcType=VARCHAR}, 
+      #{view,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.ldxx.bean.FlowHistroy" >
     insert into flowhistroy
@@ -206,6 +207,9 @@
       </if>
       <if test="doDate != null" >
         do_date,
+      </if>
+      <if test="modeId != null" >
+        mode_id,
       </if>
       <if test="view != null" >
         view,
@@ -262,6 +266,9 @@
       </if>
       <if test="doDate != null" >
         #{doDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modeId != null" >
+        #{modeId,jdbcType=VARCHAR},
       </if>
       <if test="view != null" >
         #{view,jdbcType=LONGVARCHAR},
@@ -331,6 +338,9 @@
       <if test="record.doDate != null" >
         do_date = #{record.doDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.modeId != null" >
+        mode_id = #{record.modeId,jdbcType=VARCHAR},
+      </if>
       <if test="record.view != null" >
         view = #{record.view,jdbcType=LONGVARCHAR},
       </if>
@@ -359,6 +369,7 @@
       ActorName = #{record.actorname,jdbcType=VARCHAR},
       ActorResult = #{record.actorresult,jdbcType=INTEGER},
       do_date = #{record.doDate,jdbcType=TIMESTAMP},
+      mode_id = #{record.modeId,jdbcType=VARCHAR},
       view = #{record.view,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -383,7 +394,8 @@
       Actor = #{record.actor,jdbcType=VARCHAR},
       ActorName = #{record.actorname,jdbcType=VARCHAR},
       ActorResult = #{record.actorresult,jdbcType=INTEGER},
-      do_date = #{record.doDate,jdbcType=TIMESTAMP}
+      do_date = #{record.doDate,jdbcType=TIMESTAMP},
+      mode_id = #{record.modeId,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -442,6 +454,9 @@
       <if test="doDate != null" >
         do_date = #{doDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="modeId != null" >
+        mode_id = #{modeId,jdbcType=VARCHAR},
+      </if>
       <if test="view != null" >
         view = #{view,jdbcType=LONGVARCHAR},
       </if>
@@ -467,6 +482,7 @@
       ActorName = #{actorname,jdbcType=VARCHAR},
       ActorResult = #{actorresult,jdbcType=INTEGER},
       do_date = #{doDate,jdbcType=TIMESTAMP},
+      mode_id = #{modeId,jdbcType=VARCHAR},
       view = #{view,jdbcType=LONGVARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -488,7 +504,28 @@
       Actor = #{actor,jdbcType=VARCHAR},
       ActorName = #{actorname,jdbcType=VARCHAR},
       ActorResult = #{actorresult,jdbcType=INTEGER},
-      do_date = #{doDate,jdbcType=TIMESTAMP}
+      do_date = #{doDate,jdbcType=TIMESTAMP},
+      mode_id = #{modeId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="getFlowHistoryVoByUserId" resultType="flowHistoryVo">
+		SELECT
+			a.*,
+			c.BusinessName,
+			b.`status`,count(DISTINCT a.URL)
+		FROM
+			flowhistroy a
+		LEFT JOIN mode_status b ON a.mode_id = b.mode_id
+		LEFT JOIN business c ON a.Bus_ID = c.ID GROUP BY a.URL where a.Actor=#{userId};
+  </select>
+    <select id="getFlowHistoryVoByUserIdAlreadyEnd" resultType="flowHistoryVo">
+		SELECT
+			a.*,
+			c.BusinessName,
+			b.`status`,count(DISTINCT a.URL)
+		FROM
+			flowhistroy a
+		LEFT JOIN mode_status b ON a.mode_id = b.mode_id
+		LEFT JOIN business c ON a.Bus_ID = c.ID where a.Actor=#{userId} and b.`status`=1 GROUP BY a.URL ;
+  </select>
 </mapper>

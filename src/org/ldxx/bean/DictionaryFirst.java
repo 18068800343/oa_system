@@ -8,7 +8,7 @@ public class DictionaryFirst {
     private String type;
     
 
-    public String getType() {
+	public String getType() {
 		return type;
 	}
 

@@ -6,8 +6,9 @@ public class Dictionary {
     private String idFirst;
 
     private String nameSecond;
-
-    public String getdId() {
+    
+    
+	public String getdId() {
         return dId;
     }
 

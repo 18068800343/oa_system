@@ -39,6 +39,8 @@ public class FlowHistroy {
 
     private Date doDate;
 
+    private String modeId;
+
     private String view;
 
     public String getId() {
@@ -183,6 +185,14 @@ public class FlowHistroy {
 
     public void setDoDate(Date doDate) {
         this.doDate = doDate;
+    }
+
+    public String getModeId() {
+        return modeId;
+    }
+
+    public void setModeId(String modeId) {
+        this.modeId = modeId == null ? null : modeId.trim();
     }
 
     public String getView() {

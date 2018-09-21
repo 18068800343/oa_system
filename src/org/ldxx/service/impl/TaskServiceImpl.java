@@ -26,13 +26,12 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public int addTask(Task task) {
 		List<Enterprise> enterprise=task.getEnterprise();
-		
-		for(int ii=0;ii<enterprise.size();ii++){
-			enterprise.get(ii).seteId(task.getPrjId());
-		}
-		int i=edao.addEnterprise(enterprise);
+		int i=tdao.addTask(task);
 		if(i>0){
-			i=tdao.addTask(task);
+			for(int ii=0;ii<enterprise.size();ii++){
+				enterprise.get(ii).seteId(task.getPrjId());
+			}
+			i=edao.addEnterprise(enterprise);
 		}
 		return i;
 	}
@@ -80,6 +79,21 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public List<Task> selectIdAndNameByStatus(String status) {
 		return tdao.selectIdAndNameByStatus(status);
+	}
+
+	@Override
+	public int typeCount(String type) {
+		return tdao.typeCount(type);
+	}
+
+	@Override
+	public List<Task> selectTaskHistory(String no) {
+		return tdao.selectTaskHistory(no);
+	}
+
+	@Override
+	public Task selectCcNameByPrjId(String id) {
+		return tdao.selectCcNameByPrjId(id);
 	}
 
 }
