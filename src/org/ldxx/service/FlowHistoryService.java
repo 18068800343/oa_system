@@ -9,7 +9,7 @@ import org.ldxx.model.FlowHistoryVo;
 public interface FlowHistoryService {
 
 
-	List<FlowHistoryVo> getFlowHistoryByUser(String userId);
+	List<FlowHistoryVo> getFlowHistoryByUser(String userId,String status);
 	
 	List<FlowHistoryVo> getFlowHistoryByUserAlreadyEnd(String userId);
 }

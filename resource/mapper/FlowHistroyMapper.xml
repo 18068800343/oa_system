@@ -516,9 +516,13 @@
 		FROM
 			flowhistroy a
 		LEFT JOIN mode_status b ON a.mode_id = b.mode_id
-		LEFT JOIN business c ON a.Bus_ID = c.ID GROUP BY a.URL where a.Actor=#{userId};
+		LEFT JOIN business c ON a.Bus_ID = c.ID where a.Actor=#{userId}
+		<if test="status != null and status !='' ">
+        and b.`status`=#{status}
+       	</if>
+		  GROUP BY a.URL ;
   </select>
-    <select id="getFlowHistoryVoByUserIdAlreadyEnd" resultType="flowHistoryVo">
+  <select id="getFlowHistoryVoByUserIdAlreadyEnd" resultType="flowHistoryVo">
 		SELECT
 			a.*,
 			c.BusinessName,

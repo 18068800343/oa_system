@@ -19,8 +19,8 @@ public class FlowHistoryServiceImpl implements FlowHistoryService {
 	FlowHistroyMapper flowHistroyMapper;
 
 	@Override
-	public List<FlowHistoryVo> getFlowHistoryByUser(String userId) {
-		List<FlowHistoryVo> list = flowHistroyMapper.getFlowHistoryVoByUserId(userId);
+	public List<FlowHistoryVo> getFlowHistoryByUser(String userId,String status) {
+		List<FlowHistoryVo> list = flowHistroyMapper.getFlowHistoryVoByUserId(userId,status);
 		return list;
 	}
 
