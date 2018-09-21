@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <style lang="">
+	    @media screen and (max-width: 1920px) {
+		    #History {
+		        margin-bottom:350px !important;
+		    }
+		}
         .UpperPart{
             display: flex;
             justify-content:space-between;
@@ -72,7 +77,9 @@
                             <tr>
                                 <td>甲方单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                	<input type="text" id="jiafangdanwei" class="form-control">
+                                	<input type="text" id="jiafangdanwei" class="form-control"> 
+                                	<!-- <select class="form-control" id="jiafangdanwei" style="width:180px;">
+                                    </select> -->
                                 </td>
                                 <td>预算编制日期</td>
                                 <td>
@@ -278,13 +285,15 @@
                             </td>
                             <td style="width:100px;">任务单号</td>
                             <td>
-                                <input type="text" id="xgrenwudan" class="form-control">
+                                <input type="text" id="xgrenwudan" class="form-control" disabled>
                             </td>
                         </tr>
                         <tr>
                             <td>甲方单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             <td>
-                            	<input type="text" id="xgjiafangdanwei" class="form-control">
+                            	<input type="text" id="xgjiafangdanwei" class="form-control"> 
+                            	<!-- <select class="form-control" id="xgjiafangdanwei" style="width:180px;">
+                                    </select> -->
                             </td>
                             <td>预算编制日期</td>
                             <td>
@@ -552,6 +561,88 @@
         </div>
     </div>
 <!-- allMsg -->
+<!-- 查看历史详细信息 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="History">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>查看历史详细信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            <td style="width:100px;">项目名称</td>
+                            <td id="HistoryprjName"></td>
+                            <td style="width:100px;">任务单号</td>
+                            <td id="Historyrenwudan"></td>
+                        </tr>
+                        <tr>
+                            <td>甲方单位</td>
+                            <td id="Historyjfdanwei"></td>
+                            <td>预算编制日期</td>
+                            <td id="Historyyear"></td>
+                        </tr>  
+                    </table>
+
+                    <table class="table table-bordered table-condensed" id="Historyfyyusuan">
+                        <thead>
+                            <tr>
+                                <th colspan="5">费用预算</th>
+                            </tr>
+                            <tr>
+                                <td>分类</td>
+                                <td>项目明细</td>
+                                <td>费用金额（元）</td>
+                                <td>备注</td>
+                            </tr>
+                        </thead>
+                        	
+                        <tbody>
+                             
+                            
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered table-condensed" id="Historyrgyusuan">
+                        <thead>
+                            <tr>
+                                <th colspan="6">人工预算</th>
+                            </tr>
+                            <tr>
+                                <td>项目成员类型</td>
+                                <td>姓名</td>
+                                <td>角色系数</td>
+                                <td>预计投入天数</td>
+                                <td>备注</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered table-condensed" id="">
+                        <tr>
+                            <td>申报人确认</td>
+                            <td id="Historyshenbaoren"></td>
+                        </tr>
+                    </table>
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -582,15 +673,14 @@
                             <tr>
                                 <th colspan="5">费用预算</th>
                             </tr>
-                        </thead>
-                        <thead>
-                        	<tr>
+                            <tr>
                                 <td>分类</td>
                                 <td>项目明细</td>
                                 <td>费用金额（元）</td>
                                 <td>备注</td>
                             </tr>
                         </thead>
+                        	
                         <tbody>
                              
                             
@@ -602,9 +692,7 @@
                             <tr>
                                 <th colspan="6">人工预算</th>
                             </tr>
-                        </thead>
-                        <thead>
-                        	<tr>
+                            <tr>
                                 <td>项目成员类型</td>
                                 <td>姓名</td>
                                 <td>角色系数</td>
@@ -623,6 +711,24 @@
                             <td id="lookshenbaoren"></td>
                         </tr>
                     </table>
+                    
+                    <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory">
+                        <thead>
+                            <tr>
+                                <th colspan="6">历史信息</th>
+                            </tr>
+                            <tr>
+                                <td>项目名称</td>
+                                <td>任务单号</td>
+                                <td>甲方单位</td>
+                                <td>修改日期</td>
+                                <td>操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
                 </form>  
             </div>
         </div>
@@ -632,6 +738,7 @@
         </div>
     </div>
 </div>
+
 <!-- allMsg结束 -->
 </body>
 <script src="../../js/jquery.js"></script>
@@ -666,8 +773,8 @@
 		"columns": [
             { "data": null},
             { "data": "prjName"}, 
-            { "data": "taskListId"}, 
-            { "data": "prjOwnerUnit"}, 
+            { "data": "taskNo"}, 
+            { "data": "ccName"}, 
             { "data": "budgetDate"}, 
             { "data": "declarer"}, 
         ],
@@ -705,6 +812,51 @@
             }
         
 	});
+    //历史表格
+    var table2=$('#lookHistory').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": "prjName"}, 
+            { "data": "taskNo"}, 
+            { "data": "prjUnit"}, 
+            { "data": "makeTime"}, 
+        ],
+        "columnDefs": [
+						{	
+								 "class": "tcenter",
+								    "targets": 4,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookHistoryDetails(this)"   id="lookDetall"></i>'
+								        }
+								  }
+						],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+	});
 	function initTable(){
         $.ajax({
             type: 'POST',
@@ -712,7 +864,6 @@
             dataType: 'json',
             data: {
             	status:1,
-            	state:1
             },
             error: function (msg) {
                 errMessage("请求UserController失败");
@@ -725,6 +876,8 @@
         });
     }
 	
+	
+	
 	//初始化项目名称，项目负责人
 	function xiangmuSelect(){
 	    $.ajax({
@@ -735,13 +888,15 @@
 	        	status:2
 	        },
 	        success: function (json) {
-	        	//console.log(json)
+	        	console.log(json)
 	        	 for(var i=0;i<json.length;i++){
 	        		$("#prjName").append( "<option value='" + json[i].prjId + "'>"
 		                    + json[i].prjName + "</option>");
 	        		$("#xgprjName").append( "<option value='" + json[i].prjId + "'>"
 		                    + json[i].prjName + "</option>"); 
-	        		$("#jiafangdanwei").val(json[i].prjOwnerUnit);
+	        		$("#jiafangdanwei").val(json[i].ccName);
+	        		/* $("#jiafangdanwei").append( "<option value='" + json[i].prjOwnerUnit + "'>"
+		                    + json[i].ccName + "</option>"); */
 	        	} 
 	        	$("#prjName").trigger('change');
 	        	$("#xgprjName").trigger('change');
@@ -753,16 +908,20 @@
 		var prjName=$("#prjName").val();
 		$.ajax({
 			type:"POST",
-			url:getContextPath()+"/task/selectTaskById",
+			url:getContextPath()+"/task/selectCcNameByPrjId",
 			dataTyepe:"json",
 			async:false,
 			data:{ 
 				id:prjName 
 				},
 			success:function(json){
-				//console.log(json)
+				console.log(json)
         		$("#jiafangdanwei").empty('');
-        		$("#jiafangdanwei").val(json.prjOwnerUnit);
+        		$("#jiafangdanwei").val(json.ccName); 
+        		/* for(var i=0;i<json.length;i++){
+        			$("#jiafangdanwei").append( "<option value='" + json[i].ccName + "'>"
+		                    + json[i].ccName + "</option>");
+        		} */
 			}
 		})
 	})
@@ -780,7 +939,11 @@
 			success:function(json){
 				//console.log(json)
         		$("#xgjiafangdanwei").empty('');
-        		$("#xgjiafangdanwei").val(json.prjOwnerUnit);
+        		$("#xgjiafangdanwei").val(json.ccName);
+        		/* for(var i=0;i<json.length;i++){
+        			$("#xgjiafangdanwei").append( "<option value='" + json[i].ccName + "'>"
+		                    + json[i].ccName + "</option>");
+        		} */
 			}
 		})
 	})
@@ -973,7 +1136,7 @@
     		var xinyusuandan={
     				bfId:undefined,
     				prjId:undefined,
-    				taskListId:undefined,
+    				taskNo:undefined,
     				prjUnit:undefined,
     				budgetDate:undefined,
     				declarer:undefined,
@@ -983,7 +1146,7 @@
     		}
     		xinyusuandan.bfId=null;
     		xinyusuandan.prjId=prjName;
-    		xinyusuandan.taskListId=renwudan;
+    		xinyusuandan.taskNo=renwudan;
     		xinyusuandan.prjUnit=jiafangdanwei;
     		xinyusuandan.budgetDate=riqi;
     		xinyusuandan.declarer=shenbaoren;
@@ -1094,7 +1257,7 @@
     		var xinyusuandan={
     				bfId:undefined,
     				prjId:undefined,
-    				taskListId:undefined,
+    				taskNo:undefined,
     				prjUnit:undefined,
     				budgetDate:undefined,
     				declarer:undefined,
@@ -1104,7 +1267,7 @@
     		}
     		xinyusuandan.bfId=null;
     		xinyusuandan.prjId=prjName;
-    		xinyusuandan.taskListId=renwudan;
+    		xinyusuandan.taskNo=renwudan;
     		xinyusuandan.prjUnit=jiafangdanwei;
     		xinyusuandan.budgetDate=riqi;
     		xinyusuandan.declarer=shenbaoren;
@@ -1140,12 +1303,17 @@
 	
 	
 	//查看详细信息
+	var taskNo;
+	var id;
 	function lookThis(obj){
 		var dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
+		id=data.bfId;
+		taskNo=data.taskNo;
+		initTable2();
 		console.log(data)
 		$("#lookprjName").text(data.prjName)
-		$("#lookrenwudan").text(data.taskListId)
+		$("#lookrenwudan").text(data.taskNo)
 		$("#lookjfdanwei").text(data.prjUnit)
 		$("#lookyear").text(data.budgetDate)
 		$("#lookshenbaoren").text(data.declarer)
@@ -1155,8 +1323,6 @@
 			dataType:"json",
 			data:{
 				id:data.bfId,
-				status:1,
-				state:1
 			},
 			success:function(json){
 				console.log(json);
@@ -1191,8 +1357,87 @@
 			}
 		})
 	}
+	//初始化历史列表
+	function initTable2(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/budge/selectBudgeHistory',
+            dataType: 'json',
+            data: {
+            	//id:id,
+            	taskNo:taskNo
+            },
+            error: function (msg) {
+                errMessage("请求UserController失败");
+            },
+            success: function (json) {
+            	console.log(json)
+                $('#lookHistory').dataTable().fnClearTable();
+                $('#lookHistory').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
 	
 	
+	
+	//查看历史项目详细信息
+	function lookHistoryDetails(obj){
+		$("#allMsg1").modal('hide')
+		var dom=$(obj).parents("tr");
+		var data=$('#lookHistory').DataTable().row(dom).data();
+		$("#History").modal('show')
+		$('#History').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		//console.log(HbfId)
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/budge/selectBudgeById",
+			dataType:"json",
+			data:{
+				id:data.bfId,
+			},
+			success:function(json){
+				console.log(json);
+				$("#HistoryprjName").text(json.prjName)
+				$("#Historyrenwudan").text(json.taskNo)
+				$("#Historyjfdanwei").text(json.prjUnit)
+				$("#Historyyear").text(json.budgetDate)
+				$("#Historyshenbaoren").text(json.declarer)
+				
+				//费用预算
+				$("#Historyfyyusuan tbody").empty("");
+            	for(var i=0;i<json.costBudget.length;i++){
+            		$("#Historyfyyusuan").append("<tr><td>"
+								    			+json.costBudget[i].classify
+								    			+"</td><td>"
+								    			+json.costBudget[i].prjDetail
+								    			+"</td><td>"
+								    			+json.costBudget[i].costAmount
+								    			+"</td><td>"
+								    			+json.costBudget[i].cbDesc
+								    			+"</td></tr>")
+            	}
+            	//人工预算
+            	$("#Historyrgyusuan tbody").empty("");
+            	for(var i=0;i<json.artificialBudget.length;i++){
+            		$("#Historyrgyusuan").append("<tr><td>"
+								    			+json.artificialBudget[i].prjMemberType
+								    			+"</td><td>"
+								    			+json.artificialBudget[i].aName
+								    			+"</td><td>"
+								    			+json.artificialBudget[i].roleCoefficient
+								    			+"</td><td>"
+								    			+json.artificialBudget[i].estimatedDays
+								    			+"</td><td>"
+								    			+json.artificialBudget[i].aDesc
+								    			+"</td></tr>")
+            	}
+			}
+		})
+	}
 	
 	
 	//修改回显
@@ -1202,7 +1447,7 @@
 		var data=$('#mainContent').DataTable().row(dom).data();
 		xgId=data.bfId;
 		$("#xgprjName").val(data.prjId);
-		$("#xgrenwudan").val(data.taskListId);
+		$("#xgrenwudan").val(data.taskNo);
 		$("#xgjiafangdanwei").val(data.prjUnit);
 		$("#xgyear").val(data.budgetDate);
 		$("#xgshenbaoren").val(data.declarer);
@@ -1213,8 +1458,6 @@
 			dataType:"json",
 			data:{
 				id:xgId,
-				status:1,
-				state:1
 			},
 			success:function(json){
 				console.log(json);
@@ -1335,7 +1578,7 @@
     		var xgxinyusuandan={
     				bfId:undefined,
     				prjId:undefined,
-    				taskListId:undefined,
+    				taskNo:undefined,
     				prjUnit:undefined,
     				budgetDate:undefined,
     				declarer:undefined,
@@ -1345,7 +1588,7 @@
     		}
     		xgxinyusuandan.bfId=xgId;
     		xgxinyusuandan.prjId=xgprjName;
-    		xgxinyusuandan.taskListId=xgrenwudan;
+    		xgxinyusuandan.taskNo=xgrenwudan;
     		xgxinyusuandan.prjUnit=xgjiafangdanwei;
     		xgxinyusuandan.budgetDate=xgriqi;
     		xgxinyusuandan.declarer=xgshenbaoren;
@@ -1455,7 +1698,7 @@
     		var xgxinrenwudan={
     				bfId:undefined,
     				prjId:undefined,
-    				taskListId:undefined,
+    				taskNo:undefined,
     				prjUnit:undefined,
     				budgetDate:undefined,
     				declarer:undefined,
@@ -1465,7 +1708,7 @@
     		}
     		xgxinrenwudan.bfId=xgId;
     		xgxinrenwudan.prjId=xgprjName;
-    		xgxinrenwudan.taskListId=xgrenwudan;
+    		xgxinrenwudan.taskNo=xgrenwudan;
     		xgxinrenwudan.prjUnit=xgjiafangdanwei;
     		xgxinrenwudan.budgetDate=xgriqi;
     		xgxinrenwudan.declarer=xgshenbaoren;
@@ -1497,26 +1740,6 @@
     		toastr.error("费用预算与人工预算为空")
     	}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

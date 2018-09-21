@@ -11,7 +11,7 @@ public class BudgetFpplicationForm {
 	
 	private String bfId;
 	private String prjId;//项目id
-	private String taskListId;//任务单号
+	private String taskNo;//任务单号
 	private String prjUnit;//甲方单位
 	private String budgetDate;//预算日期
 	private String declarer;//申报人
@@ -22,7 +22,7 @@ public class BudgetFpplicationForm {
 	private List<ArtificialBudget> artificialBudget;
 	
 	private String prjName;//项目名
-    private String prjOwnerUnit;//项目负责人
+    private String ccName;//项目负责人
 	
 	
     
@@ -45,11 +45,12 @@ public class BudgetFpplicationForm {
 	public void setPrjName(String prjName) {
 		this.prjName = prjName;
 	}
-	public String getPrjOwnerUnit() {
-		return prjOwnerUnit;
+	
+	public String getCcName() {
+		return ccName;
 	}
-	public void setPrjOwnerUnit(String prjOwnerUnit) {
-		this.prjOwnerUnit = prjOwnerUnit;
+	public void setCcName(String ccName) {
+		this.ccName = ccName;
 	}
 	public List<CostBudget> getCostBudget() {
 		return costBudget;
@@ -75,11 +76,12 @@ public class BudgetFpplicationForm {
 	public void setPrjId(String prjId) {
 		this.prjId = prjId;
 	}
-	public String getTaskListId() {
-		return taskListId;
+	
+	public String getTaskNo() {
+		return taskNo;
 	}
-	public void setTaskListId(String taskListId) {
-		this.taskListId = taskListId;
+	public void setTaskNo(String taskNo) {
+		this.taskNo = taskNo;
 	}
 	public String getPrjUnit() {
 		return prjUnit;

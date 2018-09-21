@@ -109,13 +109,20 @@ public class BudgetFpplicationFormController {
 	
 	@RequestMapping("/selectBudgeByStatus")
 	@ResponseBody
-	public List<BudgetFpplicationForm> selectBudgeByStatus(String status,String state){
-		return bservice.selectBudgeByStatus(status,state);
+	public List<BudgetFpplicationForm> selectBudgeByStatus(String status){
+		return bservice.selectBudgeByStatus(status);
 	}
 	
 	@RequestMapping("/selectBudgeById")
 	@ResponseBody
-	public BudgetFpplicationForm selectBudgeById(String id,String status,String state){
-		return bservice.selectBudgeById(id,status,state);
+	public BudgetFpplicationForm selectBudgeById(String id){
+		return bservice.selectBudgeById(id);
+	}
+	
+	@RequestMapping("/selectBudgeHistory")
+	@ResponseBody
+	public List<BudgetFpplicationForm> selectBudgeHistory(String taskNo){
+		List<BudgetFpplicationForm> budgeHistoryList=bservice.selectBudgeHistory(taskNo);
+		return budgeHistoryList;
 	}
 }

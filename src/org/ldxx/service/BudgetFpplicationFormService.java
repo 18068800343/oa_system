@@ -12,10 +12,12 @@ public interface BudgetFpplicationFormService {
 
 	int updateBudge(BudgetFpplicationForm budge);
 
-	List<BudgetFpplicationForm> selectBudgeByStatus(String status, String state);
+	List<BudgetFpplicationForm> selectBudgeByStatus(String status);
 
-	BudgetFpplicationForm selectBudgeById(String id, String status, String state);
+	BudgetFpplicationForm selectBudgeById(String id);
 
 	int changeStateById(String bfId);
+
+	List<BudgetFpplicationForm> selectBudgeHistory(String taskNo);
 
 }

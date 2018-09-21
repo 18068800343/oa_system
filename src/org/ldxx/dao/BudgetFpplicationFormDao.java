@@ -13,10 +13,12 @@ public interface BudgetFpplicationFormDao {
 
 	int updateBudge(@Param("budge")BudgetFpplicationForm budge);
 
-	List<BudgetFpplicationForm> selectBudgeByStatus(@Param("status")String status,@Param("state") String state);
+	List<BudgetFpplicationForm> selectBudgeByStatus(@Param("status")String status);
 
-	BudgetFpplicationForm selectBudgeById(@Param("id")String id,@Param("status") String status,@Param("state") String state);
+	BudgetFpplicationForm selectBudgeById(@Param("id")String id);
 
 	int changeStateById(@Param("bfId")String bfId);
+
+	List<BudgetFpplicationForm> selectBudgeHistory(@Param("taskNo")String taskNo);
 
 }
