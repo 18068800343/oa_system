@@ -22,4 +22,6 @@ public interface TaskDao {
 	public int typeCount(@Param("type")String type);
 	
 	public List<Task> selectTaskHistory(@Param("no")String no);
+	
+	public Task selectCcNameByPrjId(@Param("id")String id);
 }

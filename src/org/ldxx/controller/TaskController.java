@@ -270,4 +270,10 @@ public class TaskController {
 		return list;
 	}
 	
+	@RequestMapping("/selectCcNameByPrjId")
+	@ResponseBody
+	public Task selectCcNameByPrjId(String id){
+		return tService.selectCcNameByPrjId(id);
+	}
+	
 }

@@ -91,4 +91,9 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.selectTaskHistory(no);
 	}
 
+	@Override
+	public Task selectCcNameByPrjId(String id) {
+		return tdao.selectCcNameByPrjId(id);
+	}
+
 }

@@ -56,8 +56,26 @@ public class Task {
     private String name2;//协办部门2
     private String name3;//协办部门3
     
+    private String makeTime;
     
+    private String ccName;
     
+	public String getCcName() {
+		return ccName;
+	}
+
+	public void setCcName(String ccName) {
+		this.ccName = ccName;
+	}
+
+	public String getMakeTime() {
+		return makeTime;
+	}
+
+	public void setMakeTime(String makeTime) {
+		this.makeTime = makeTime;
+	}
+
 	public String getName1() {
 		return name1;
 	}

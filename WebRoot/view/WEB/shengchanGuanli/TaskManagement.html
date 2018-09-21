@@ -504,8 +504,18 @@
 						
 					<br/>
 					<h2 style="color:red;">历史信息</h2>
-					<table >
-						
+					<table class="table table-bordered table-condensed" id="history_table">
+						  <thead>
+	                        	<tr>
+	                        		<th>编号</th>
+	                        		<th>项目名称</th>
+	                        		<th>所属公司</th>
+	                        		<th>业主单位</th>
+	                        		<th>修改时间</th>
+	                        		<th style="width:80px;;">操作</th>
+	                        	</tr>
+	                        </thead>
+	                        <tbody></tbody>
 					</table>
 					
                     <div class="modal-footer">
@@ -724,7 +734,7 @@
 		            { "data": "prjName"},
 		            { "data": "prjCompany"}, 
 		            { "data": "prjType2"}, 
-		            { "data": "prjOwnerUnit"}, 
+		            { "data": "ccName"}, 
 		            { "data": "prjEstimateMoney"}, 
 		            { "data": "contractMoney"}, 
 		            { "data": "prjStartTime"}, 
@@ -760,6 +770,56 @@
         }},
         
 	});
+    
+    var table2=$('#history_table').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "prjNo"}, 
+		            { "data": "prjName"},
+		            { "data": "prjCompany"}, 
+		            { "data": "ccName"}, 
+		            { "data": "makeTime"}, 
+		            { "data": null},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 5,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看历史详细信息" onclick="lookHistory()"></i>'
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    
+    
 	function initTable(){
 		$.ajax({
             type: 'POST',
@@ -769,7 +829,6 @@
             	status:2,
             },
             success: function (json) {
-            	//console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
@@ -839,7 +898,6 @@
 	
     //初始化一级类型
     function leixingSelect(){
-    	//console.log(1)
 	    $.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/projectType/selectAllFirstPrj',
@@ -849,7 +907,6 @@
 	           
 	        },
 	        success: function (json) {
-	        	//console.log(json)
 	        	 for(var i=0;i<json.length;i++){
 	        		$("#yijileixing").append( "<option value='" + json[i].idFirst + "'>"
 		                    + json[i].nameFirst + "</option>")
@@ -865,7 +922,6 @@
     $("#yijileixing").change(function(){
         var id=$(this).children('option:selected').val();//这就是selected的值
         var yijiid=$(this).children('option:selected').val();
-        //console.log(yijiid)
         $.ajax({
             type: 'POST',
             url: getContextPath()+'/projectType/selectOne_TwoPrj',
@@ -885,7 +941,6 @@
     $("#xgyijileixing").change(function(){
         var id=$(this).children('option:selected').val();//这就是selected的值
         var yijiid=$(this).children('option:selected').val();
-        //console.log(yijiid)
         $.ajax({
             type: 'POST',
             url: getContextPath()+'/projectType/selectOne_TwoPrj',
@@ -1098,7 +1153,6 @@
                     + json[i].ccName + "</option>")
 	        	}
 	        	 $("#xgyezhudanwei").trigger("change");
-	        	 console.log("aaa")
 	        }
 	    });
 	}
@@ -1863,13 +1917,14 @@
             },
             success: function (json) {
             	var task=json.task;
+            	var taskList=json.taskList;
             	$("#looktaskName").text(task.prjName);
             	$("#looktaskbianhao").text(task.prjNo);
             	$("#lookmoshi").text(task.prjManagementModel);
             	$("#lookgongsi").text(task.prjCompany);
             	$("#lookleixing").text(task.prjType2);
             	$("#lookshejijieduan").text(task.jsPhases);
-            	$("#lookyezhudanwei").text(task.prjOwnerUnit);
+            	$("#lookyezhudanwei").text(task.ccName);
             	$("#lookjine").text(task.prjEstimateMoney);
             	$("#lookhetonge").text(task.contractMoney);
             	$("#lookzandingjin").text(task.provisionalSum);
@@ -1898,6 +1953,9 @@
 											    			+task.enterprise[i].eTel
 											    			+"</td></tr>")
             	}
+            	$('#history_table').dataTable().fnClearTable();
+                $('#history_table').DataTable().rows.add(taskList).draw(false);
+            	
             	$("#diyi").removeClass("active");
                 $("#disi").addClass("active");
                 $("#diyi a").show();
@@ -1925,7 +1983,6 @@
             	id:data.prjId
             },
             success: function (json) {
-            	console.log(json);
             	if(json==0){
             		
             	}else{
@@ -1947,7 +2004,6 @@
             	id:data.prjId
             },
             success: function (json) {
-            	console.log(json);
             	if(json==0){
             		
             	}else{
