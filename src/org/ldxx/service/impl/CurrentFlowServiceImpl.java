@@ -11,7 +11,9 @@ import org.ldxx.mapper.FlowHistroyMapper;
 import org.ldxx.model.CurrentFlowVo;
 import org.ldxx.service.CurrentFlowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CurrentFlowServiceImpl implements CurrentFlowService {
 
 	@Autowired

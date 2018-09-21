@@ -12,7 +12,9 @@ import org.ldxx.model.FlowHistoryVo;
 import org.ldxx.service.CurrentFlowService;
 import org.ldxx.service.FlowHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FlowHistoryServiceImpl implements FlowHistoryService {
 
 	@Autowired
