@@ -35,8 +35,8 @@ public interface FlowHistroyMapper {
 
     int updateByPrimaryKey(FlowHistroy record);
     
-    List<FlowHistoryVo> getFlowHistoryVoByUserId(String userId,String status);
+    List<FlowHistoryVo> getFlowHistoryVoByUserId(@Param("userId")String userId,@Param("status")String status);
     
-    List<FlowHistoryVo> getFlowHistoryVoByUserIdAlreadyEnd(String userId);
+    List<FlowHistoryVo> getFlowHistoryVoByUserIdAlreadyEnd(@Param("userId")String userId);
     
 }

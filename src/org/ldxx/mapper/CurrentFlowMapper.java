@@ -29,5 +29,5 @@ public interface CurrentFlowMapper {
 
     int updateByPrimaryKey(CurrentFlow record);
     
-    List<CurrentFlowVo> getCurrentFlowVoByUserId(String userId,String status);
+    List<CurrentFlowVo> getCurrentFlowVoByUserId(@Param("userId")String userId,@Param("status")String status);
 }
