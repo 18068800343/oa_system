@@ -94,15 +94,15 @@
                               <select class="form-control" id="prjName" style="width:180px;">
                               </select>
                           </td>
-                          <td style="width:100px;">任务单号</td>
-                          <td>
-                              <input type="text" id="renwudan" class="form-control">
-                          </td>
                           <td>甲方单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                           <td>
                           	<input type="text" id="jiafangdanwei" class="form-control"> 
                           	<!-- <select class="form-control" id="jiafangdanwei" style="width:180px;">
                               </select> -->
+                          </td>
+                          <td style="width:100px;">任务单号</td>
+                          <td>
+                              <input type="text" id="renwudan" class="form-control">
                           </td>
                           <td>预算编制日期</td>
                           <td>
@@ -256,15 +256,15 @@
                                     
                                 </select>
                             </td>
-                            <td style="width:100px;">任务单号</td>
-                            <td>
-                                <input type="text" id="xgrenwudan" class="form-control" disabled>
-                            </td>
                             <td>甲方单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             <td>
                             	<input type="text" id="xgjiafangdanwei" class="form-control"> 
                             	<!-- <select class="form-control" id="xgjiafangdanwei" style="width:180px;">
                                     </select> -->
+                            </td>
+                            <td style="width:100px;">任务单号</td>
+                            <td>
+                                <input type="text" id="xgrenwudan" class="form-control" disabled>
                             </td>
                             <td>预算编制日期</td>
                             <td>
@@ -410,10 +410,10 @@
                         <tr>
                             <td style="width:100px;">项目名称</td>
                             <td id="lookprjName"></td>
+                            <td>甲方单位</td>
+                            <td id="lookjfdanwei"></td>
                             <td style="width:100px;">任务单号</td>
                             <td id="lookrenwudan"></td>
-                             <td>甲方单位</td>
-                            <td id="lookjfdanwei"></td>
                             <td>预算编制日期</td>
                             <td id="lookyear"></td>
                         </tr>
@@ -779,7 +779,6 @@
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
-<script src="../../js/biaoqianye.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
@@ -1805,7 +1804,7 @@
     		
     		$.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/budge/updateBudgeSave',
+	            url: getContextPath()+'/budge/updateBudgeSubmit',
 	            dataType: 'json',
 	            contentType: "application/json", 
 	            data:JSON.stringify(xgyusuandan),
@@ -1831,7 +1830,13 @@
 	
 	//添加费用预算
 	function addfyyusuan(){
-		if($("#fyMoney").val().trim()!=''){
+		if($("#fyMoney").val().trim()==''){
+			toastr.error("费用金额为空")
+			return false;
+		}if($("#fyDesc").val().trim()==''){
+			toastr.error("备注为空")
+			return false;
+		}else{
 			$("#fyyusuan tbody").append("<tr><td>"
 	    			+$("#fyfenlei").find("option:selected").text()
 	    			+"</td><td>"
@@ -1843,15 +1848,19 @@
 	    			+"</td><td style='width:55px;'>"
 	    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' onclick='delfyyusuan(this)' title='删除'></i>"
 	    			+"</td></tr>")
-		}else{
-			toastr.error("费用金额为空")
 		}
 	}
 	
 	
 	//修改页面添加费用预算
 	function addxgfyyusuan(){
-		if($("#xgfyMoney").val().trim()!=''){
+		if($("#xgfyMoney").val().trim()==''){
+			toastr.error("费用金额为空")
+			return false;
+		}if($("#xgfyDesc").val().trim()==''){
+			toastr.error("备注为空")
+			return false;
+		}else{
 			$("#xgfyyusuan tbody").append("<tr><td>"
 	    			+$("#xgfyfenlei").find("option:selected").text()
 	    			+"</td><td>"
@@ -1864,16 +1873,19 @@
 	    			+"<i class='iconfont icon-xiugai' style='font-size:18px;cursor:pointer;' title='修改' onclick='checkxgfyyusuan(this)' data-toggle='modal' data-target='#changeysfy'></i>"
 	    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;'onclick='delfyyusuan(this)' title='删除'></i>"
 	    			+"</td></tr>")
-		}else{
-			toastr.error("费用金额为空")
 		}
 	}
 	//添加人工预算
 	function addRgyusuan(){
 		if($("#rgxingming").val().trim()==''){
 			toastr.error("姓名为空")
+			return false;
 		}else if($("#rgdays").val().trim()==''){
 			toastr.error("预计投入天数为空")
+			return false;
+		}else if($("#rgDesc").val().trim()==''){
+			toastr.error("备注为空")
+			return false;
 		}else{
 			$("#rgyusuan tbody").append("<tr><td>"
 	    			+$("#rgcyleixing").find("option:selected").text()
@@ -1896,6 +1908,8 @@
 			toastr.error("姓名为空")
 		}else if($("#xgrgdays").val().trim()==''){
 			toastr.error("预计投入天数为空")
+		}else if($("#xgrgDesc").val().trim()==''){
+			toastr.error("备注为空")
 		}else{
 			$("#xgrgyusuan tbody").append("<tr><td>"
 	    			+$("#xgrgcyleixing").find("option:selected").text()

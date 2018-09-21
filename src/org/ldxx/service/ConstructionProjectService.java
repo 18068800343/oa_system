@@ -6,7 +6,7 @@ import org.ldxx.bean.BidProject;
 
 public interface ConstructionProjectService {
 
-	List<BidProject> selectAllcPrj();
+	List<BidProject> selectAllcPrj(String status);
 
 	int addcPrj(BidProject bidProject);
 

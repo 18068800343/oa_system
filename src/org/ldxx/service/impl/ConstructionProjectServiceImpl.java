@@ -17,8 +17,8 @@ public class ConstructionProjectServiceImpl implements ConstructionProjectServic
 	private ConstructionProjectDao cPrjDao;
 
 	@Override
-	public List<BidProject> selectAllcPrj() {
-		return cPrjDao.selectAllcPrj();
+	public List<BidProject> selectAllcPrj(String status) {
+		return cPrjDao.selectAllcPrj(status);
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import org.ldxx.bean.BidProject;
 
 public interface ConstructionProjectDao {
 
-	List<BidProject> selectAllcPrj();
+	List<BidProject> selectAllcPrj(@Param("status")String status);
 
 	int addcPrj(@Param("bidProject")BidProject bidProject);
 

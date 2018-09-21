@@ -47,8 +47,8 @@ public class RiskAssessmentServiceImpl implements RiskAssessmentService {
 	}
 
 	@Override
-	public List<RiskAssessment> selectAllRiskAssessment() {
-		return raDao.selectAllRiskAssessment();
+	public List<RiskAssessment> selectAllRiskAssessment(String status) {
+		return raDao.selectAllRiskAssessment(status);
 	}
 
 	@Override

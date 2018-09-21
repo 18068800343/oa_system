@@ -19,7 +19,7 @@ public interface RiskAssessmentDao {
 
 	int updateRiskAssessmentById(@Param("riskassessment")RiskAssessment riskassessment);
 
-	List<RiskAssessment> selectAllRiskAssessment();
+	List<RiskAssessment> selectAllRiskAssessment(@Param("status")String status);
 
 	List<RiskAssessment> selectRiskAssessmentPrjName();
 

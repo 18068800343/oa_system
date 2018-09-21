@@ -18,7 +18,7 @@ public interface RiskAssessmentService {
 
 	int updateRiskAssessmentById(RiskAssessment riskassessment);
 
-	List<RiskAssessment> selectAllRiskAssessment();
+	List<RiskAssessment> selectAllRiskAssessment(String status);
 
 	List<RiskAssessment> selectRiskAssessmentPrjName();
 

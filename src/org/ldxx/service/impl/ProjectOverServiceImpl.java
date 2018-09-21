@@ -32,8 +32,8 @@ public class ProjectOverServiceImpl implements ProjectOverService {
 	}
 
 	@Override
-	public List<ProjectOver> selectPrjOver() {
-		return prjDao.selectPrjOver();
+	public List<ProjectOver> selectPrjOver(String status) {
+		return prjDao.selectPrjOver(status);
 	}
 
 	@Override

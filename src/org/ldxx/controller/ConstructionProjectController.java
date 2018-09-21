@@ -26,8 +26,8 @@ public class ConstructionProjectController {
 	
 	@RequestMapping("/selectAllcPrj")
 	@ResponseBody
-	public List<BidProject> selectAllcPrj(){
-		return cPrjService.selectAllcPrj();
+	public List<BidProject> selectAllcPrj(String status){
+		return cPrjService.selectAllcPrj(status);
 	}
 	
 	@RequestMapping("/addcPrj")/*添加保存*/

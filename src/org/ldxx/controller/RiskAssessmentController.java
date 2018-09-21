@@ -102,8 +102,8 @@ public class RiskAssessmentController {
 	
 	@RequestMapping("/selectAllRiskAssessment")
 	@ResponseBody
-	public List<RiskAssessment> selectAllRiskAssessment(){
-		return raService.selectAllRiskAssessment();
+	public List<RiskAssessment> selectAllRiskAssessment(String status){
+		return raService.selectAllRiskAssessment(status);
 	}
 	
 	@RequestMapping("/selectRiskAssessmentPrjName")

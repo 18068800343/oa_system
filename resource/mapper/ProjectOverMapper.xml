@@ -45,7 +45,10 @@
     where po_id = #{projectOver.poId,jdbcType=VARCHAR}
   </update>
   <select id="selectPrjOver" resultType="org.ldxx.bean.ProjectOver">
-  	select a.*,b.prj_id from project_over a,risk_assessment b where a.prj_name=b.ra_id
+  	select a.*,b.prj_id from project_over a
+  		left join risk_assessment b on a.prj_name=b.ra_id
+  		left join mode_status m on a.po_id=m.mode_id
+  		where m.status=#{status}
   </select>
   <select id="selectPrjOverById" resultType="org.ldxx.bean.ProjectOver">
   	select * from project_over where po_id = #{poId}
