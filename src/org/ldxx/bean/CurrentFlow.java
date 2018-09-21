@@ -51,6 +51,8 @@ public class CurrentFlow {
 
     private Date doDate;
 
+    private String modeId;
+
     public String getId() {
         return id;
     }
@@ -241,5 +243,13 @@ public class CurrentFlow {
 
     public void setDoDate(Date doDate) {
         this.doDate = doDate;
+    }
+
+    public String getModeId() {
+        return modeId;
+    }
+
+    public void setModeId(String modeId) {
+        this.modeId = modeId == null ? null : modeId.trim();
     }
 }
