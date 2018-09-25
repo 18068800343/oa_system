@@ -71,7 +71,7 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script>
     $(document).ready( function () {
-    	
+    	initTable();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -83,6 +83,25 @@
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
+		"columns": [{
+            "data": "businessname"
+        },{
+            "data": "status"
+        }],
+         "columnDefs": [{
+            "targets": 1,
+            "searchable": false,
+            "render": function (data, type, full) {
+            	if(data=="1"){
+            		 return '<td>进行中</td>';
+            	}else if(data=="5"){
+            		 return '<td>通过</td>';
+            	}else{
+            		return "";
+            	}
+               
+            }
+        }], 
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
@@ -104,17 +123,15 @@
 	});
 	function initTable(){
         $.ajax({
-            type: 'POST',
-            url: '',
-            dataType: 'json',
-            data: {
-            },
-            error: function (msg) {
-                errMessage("请求UserController失败");
+        	type: 'POST',
+            url: getContextPath()+'/flowHistory/getFlowHistoryByUser',
+            data:{
+            	userId:"88b6f133f129"
             },
             success: function (json) {
-                $('#').dataTable().fnClearTable();
-                $('#').DataTable().rows.add(json).draw(false);
+            	console.log(json);
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
     }

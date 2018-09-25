@@ -44,65 +44,23 @@
 	<div class="home-content" style="background:#fff;width:100%;height:100%;position:absolute;">
 		<div class="home-import">
 			<div class="unfinish mission">
-				<table class="tb1 table table-hover">
+				<table id="tb1" class="tb1 table table-hover">
 					<tr class="tb1-unfinish">
                         <th>
                             <i class="iconfont icon-web-icon-" style="font-size:18px;"></i>待办任务(<span>10</span>)
                             <span style="cursor: pointer;margin-left:50%;"><a href="./gerenRenwu/JobManagement.html">查看更多</a></span>
                         </th>
 					</tr>
-					<tr>
-						<td><span data-toggle="modal" data-target=".dada" style="cursor:pointer;" class="lianjieColor">小河大桥任务单审批</span></td>
-					</tr>
-					<tr>
-						<td><span data-toggle="modal" data-target=".dada" style="cursor:pointer;" class="lianjieColor">小河大桥任务单审批</span></td>
-					</tr>
-					<tr>
-						<td><span data-toggle="modal" data-target=".dada" style="cursor:pointer;" class="lianjieColor">小河大桥任务单审批</span></td>
-					</tr>
-					<tr>
-						<td><span data-toggle="modal" data-target=".dada" style="cursor:pointer;" class="lianjieColor">小河大桥任务单审批</span></td>
-					</tr>
-					<tr>
-						<td><span data-toggle="modal" data-target=".dada" style="cursor:pointer;" class="lianjieColor">小河大桥任务单审批</span></td>
-					</tr>
-					<tr>
-						<td><span data-toggle="modal" data-target=".dada" style="cursor:pointer;" class="lianjieColor">小河大桥任务单审批</span></td>
-					</tr>
 				</table>
 			</div>
 
 				<div class="management-notifications mission">
-					<table class="tb3 table table-hover">
+					<table id="tb3" class="tb3 table table-hover">
 						<tr class="tb3-management">
 							<th colspan="2">
                                 <i class="iconfont icon-3" style="font-size:18px;"></i>任务通知(<span>10</span>)
                                 <span style="cursor: pointer;margin-left:50%;"><a href="./gerenRenwu/BusinessNotice.html">查看更多</a></span>
                             </th>
-						</tr>
-						<tr>
-                            <td>G104秦淮河大桥检查</td>
-                            <td style="width:50px;">通过</td>
-						</tr>
-						<tr>
-                            <td>秦淮河大桥检查</td>
-                            <td>通过</td>
-						</tr>
-						<tr>
-                            <td>G104秦淮河大桥检查</td>
-                            <td>通过</td>
-						</tr>
-						<tr>
-                            <td>秦淮河大桥检查</td>
-                            <td>通过</td>
-						</tr>
-						<tr>
-                            <td>G104秦淮河大桥检查</td>
-                            <td>通过</td>
-						</tr>
-						<tr>
-                            <td>秦淮河大桥检查</td>
-                            <td>通过</td>
 						</tr>
 					</table>
 				</div>
@@ -176,33 +134,12 @@
 
 			<div class="notice-bulletin mission">
 				<div class="finished">
-					<table class="tb2 table table-hover">
+					<table id="tb2" class="tb2 table table-hover">
 						<tr class="tb2-finished">
 							<th>
                                 <i class="iconfont icon-yiwancheng" style="font-size:18px;"></i>已办任务
                                 <span style="cursor: pointer;margin-left:55%;"><a href="./gerenRenwu/RunMatters.html">查看更多</a></span>
                             </th>
-						</tr>
-						<tr>
-							<td><span data-toggle="modal" data-target=".dadayb" style="cursor:pointer;" class="lianjieColor">大河大桥检查</span></td>
-						</tr>
-						<tr>
-							<td><span data-toggle="modal" data-target=".dadayb" style="cursor:pointer;" class="lianjieColor">大河大桥检查</span></td>
-						</tr>
-						<tr>
-							<td><span data-toggle="modal" data-target=".dadayb" style="cursor:pointer;" class="lianjieColor">大河大桥检查</span></td>
-						</tr>
-						<tr>
-							<td><span data-toggle="modal" data-target=".dadayb" style="cursor:pointer;" class="lianjieColor">大河大桥检查</span></td>
-						</tr>
-						<tr>
-							<td><span data-toggle="modal" data-target=".dadayb" style="cursor:pointer;" class="lianjieColor">大河大桥检查</span></td>
-						</tr>
-						<tr>
-							<td><span data-toggle="modal" data-target=".dadayb" style="cursor:pointer;" class="lianjieColor">大河大桥检查</span></td>
-                        </tr>
-                        <tr>
-							<td><span data-toggle="modal" data-target=".dadayb" style="cursor:pointer;" class="lianjieColor">大河大桥检查</span></td>
 						</tr>
 					</table>
                 </div>
@@ -684,7 +621,9 @@
 <script src="../js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">  
 	$(document).ready( function () {
-    	
+    	initTable1();
+    	initTable2();
+    	initTable3();
 	});
     function clock(){
         $("#scrollDiv ul").animate({marginTop:"-25px"},5,function(){
@@ -749,19 +688,58 @@
           　  　});
             }
 	} );
-	function initTable(){
-        $.ajax({
+	function initTable1(){
+		$.ajax({
             type: 'POST',
-            url: '',
+            url: getContextPath()+'/currentFlow/getCurrentFlowListStatus1ByUser',
+            data:{
+            	userId:"88b6f133f129"
+            },
             dataType: 'json',
-            data: {
-            },
-            error: function (msg) {
-                errMessage("请求UserController失败");
-            },
             success: function (json) {
-                $('#').dataTable().fnClearTable();
-                $('#').DataTable().rows.add(json).draw(false);
+            	console.log(json);
+            	for(var i=0;i<6;i++){
+            		$("#tb1").append("<tr><td style='width:50px;'><span data-toggle='modal' data-target='.dada' style='cursor:pointer;' class='lianjieColor'>"+json[i].businessname+"</span></td></tr>")
+            	}
+            }
+        });
+    }
+	function initTable3(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/flowHistory/getFlowHistoryByUser',
+            data:{
+            	userId:"88b6f133f129"
+            },
+            dataType: 'json',
+            success: function (json) {
+            	console.log(json);
+            	for(var i=0;i<json.length;i++){
+            		var status = json[i].status;
+            		var statu="";
+            		if(status=="1"){
+            			statu="进行中";
+            		}else if(status=="4"){
+            			statu="结束";
+            		}
+            		$("#tb3").append("<tr><td>"+json[i].businessname+"</td><td style='width:80px;'>"+statu+"</td></tr>");
+            	}
+            }
+        });
+    }
+	function initTable2(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/flowHistory/getFlowHistoryByUser',
+            data:{
+            	userId:"88b6f133f129"
+            },
+            dataType: 'json',
+            success: function (json) {
+            	console.log(json);
+            	for(var i=0;i<json.length;i++){
+            		$("#tb2").append("<tr><td><span data-toggle='modal' data-target='.dadayb' style='cursor:pointer;' class='lianjieColor'>"+json[i].businessname+"</span></td></tr>");
+            	}
             }
         });
     }

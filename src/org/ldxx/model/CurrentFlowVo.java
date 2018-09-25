@@ -252,5 +252,17 @@ public class CurrentFlowVo {
 	public void setDoDate(Date doDate) {
 		this.doDate = doDate;
 	}
+
+	@Override
+	public String toString() {
+		return "CurrentFlowVo [id=" + id + ", floNodeId=" + floNodeId + ", floTmpId=" + floTmpId + ", busId=" + busId
+				+ ", businessname=" + businessname + ", url=" + url + ", params=" + params + ", title=" + title
+				+ ", wfstate=" + wfstate + ", starter=" + starter + ", startername=" + startername + ", actor=" + actor
+				+ ", actorname=" + actorname + ", rdt=" + rdt + ", fkDept=" + fkDept + ", deptname=" + deptname
+				+ ", nodename=" + nodename + ", pri=" + pri + ", sdtofnode=" + sdtofnode + ", sdtofflow=" + sdtofflow
+				+ ", agent=" + agent + ", agenttype=" + agenttype + ", memo=" + memo + ", readreceipts=" + readreceipts
+				+ ", doDate=" + doDate + "]";
+	}
     
+	
 }
