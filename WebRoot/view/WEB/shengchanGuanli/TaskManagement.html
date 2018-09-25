@@ -558,6 +558,115 @@
     </div>
 </div>
 <!-- 提交 modal结束 -->
+
+	<!-- 查看Modal -->
+				<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="look_history_info">
+				    <div class="modal-dialog modal-lg" role="document">
+				        <div class="modal-content">
+				        <div class="modal-header">
+				            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				            <h4 class="modal-title" id="myModalLabel"><b>查看详细信息</b></h4>
+				        </div>
+				        <div class="modal-body">
+				                <div>     
+				                    <table class="table table-bordered table-condensed">
+				                    	<thead>
+				                    		<tr>
+				                    			<th colspan="8">查看项目基本信息</th>
+				                    		</tr>
+				                    	</thead>
+				                    	<tbody>
+				                    		<tr>
+				                            <td>项目名称</td>
+				                            <td id="historyName"></td>
+				                            <td style="width:100px;">编号</td>
+				                            <td id="historybianhao"></td>
+				                            <td>项目经营模式</td>
+				                            <td id="historymoshi"></td>
+				                            <td>项目所属公司</td>
+				                            <td id="historygongsi"></td>
+				                        </tr>
+				                        <tr>
+				                            <td style="width:100px;">项目类型</td>
+				                            <td id="historyleixing"></td>
+				                            <td>设计阶段</td>
+				                            <td id="historyshejijieduan"></td>
+				                            <td></td>
+				                            <td></td>
+				                            <td></td>
+				                            <td></td>
+				                        </tr>
+				                         <tr>
+					                            <td>项目概况及工作内容</td>
+					                            <td colspan="8"  id="historygaikuang"></td>
+					                      </tr>
+				                    	</tbody>
+				                    </table>
+				                    
+				                    <table class="table table-bordered table-condensed">
+				                    	<thead>
+				                    		<tr>
+				                    			<th colspan="8">查看业主信息</th>
+				                    		</tr>
+				                    	</thead>
+				                    	<tbody>
+				                    		<tr>
+					                            <td>项目业主单位</td>
+					                            <td id="historyyezhudanwei"></td>
+					                            <td>项目金额</td>
+					                            <td id="historyjine"></td>
+					                            <td>合同金额</td>
+					                            <td id="historyhetonge"></td>
+					                            <td>暂定金</td>
+					                            <td id="historyzandingjin"></td>
+					                        </tr>
+					                        <tr>
+					                            <td>项目开始时间</td>
+					                            <td id="historystartTime"></td>
+					                            <td>项目结束时间</td>
+					                            <td id="historyendTime"></td>
+					                            <td>预估合同金额</td>
+					                            <td></td>
+					                            <td></td>
+					                            <td></td>
+					                        </tr>
+				                    	</tbody>
+				                    </table>
+				                    <table class="table table-bordered table-condensed"  id="historylianxibiaoge">
+				                        <thead>
+				                            <tr>
+				                                <th colspan="2">添加的联系人,联系方式</th>
+				                            </tr>
+				                            <tr>
+				                                <th>联系人</th>
+				                                <th>联系方式</th>
+				                            </tr>
+				                        </thead>
+				                        <tbody>
+				                            
+				                        </tbody>
+				                    </table>
+				                    
+				                    <table class="table table-bordered table-condensed" id="history_xieban_table">
+				                    	<thead>
+				                    		<tr>
+				                    			<th colspan="8">查看承接信息</th>
+				                    		</tr>
+				                    	</thead>
+				                    	<tbody>
+				                    	</tbody>
+				                    </table>
+				                </div>
+				        </div>
+				        <div class="modal-footer">
+				            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				        </div>
+				        </div>
+				    </div>
+				</div>
+				<!-- 查看model结束 -->
+
+
 <!-- Modal3 -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal3">
     <div class="modal-dialog modal-lg" role="document">
@@ -795,7 +904,7 @@
 										    "targets": 5,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看历史详细信息" onclick="lookHistory()"></i>'
+										  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看历史详细信息" onclick="lookHistory(this)"></i>'
 										        }
 										  }
 								],
@@ -1909,7 +2018,7 @@
   		
 		 $.ajax({
             type: 'POST',
-            url: getContextPath()+'/task/ selectTaskHistory',
+            url: getContextPath()+'/task/selectTaskHistory',
             dataType: 'json',
             data: {
             	id:data.prjId,
@@ -2014,7 +2123,58 @@
   		
   	})
   	
+  	function lookHistory(obj){
+  		var dom = $(obj).parents('tr');
+		var data=$('#history_table').DataTable().row(dom).data();
   		
+		 $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectTaskById',
+            dataType: 'json',
+            data: {
+            	id:data.prjId
+            },
+            success: function (json) {
+            	$("#historyName").text(json.prjName);
+            	$("#historybianhao").text(json.prjNo);
+            	$("#historymoshi").text(json.prjManagementModel);
+            	$("#historygongsi").text(json.prjCompany);
+            	$("#historyleixing").text(json.prjType2);
+            	$("#historyshejijieduan").text(json.jsPhases);
+            	$("#historyyezhudanwei").text(json.ccName);
+            	$("#historyjine").text(json.prjEstimateMoney);
+            	$("#historyhetonge").text(json.contractMoney);
+            	$("#historyzandingjin").text(json.provisionalSum);
+            	$("#historystartTime").text(json.prjStartTime);
+            	$("#historyendTime").text(json.prjEndTime);
+            	$("#historygaikuang").text(json.workContent);
+            	
+            	$("#history_xieban_table tbody").html('');
+            	$("#history_xieban_table tbody").append("<tr><td>主办部门</td><td>"+json.omName+"</td><td>金额</td><td>"+json.mainDepartmentMoney+"</td></tr>")
+            	
+            	if(json.name1!=null&&json.name1!=''){
+            		$("#history_xieban_table tbody").append("<tr><td>协办部门</td><td>"+json.name1+"</td><td>金额</td><td>"+json.assistDepartment1Money+"</td></tr>")
+            	}
+				if(json.name2!=null&&json.name2!=''){
+					$("#history_xieban_table tbody").append("<tr><td>协办部门</td><td>"+json.name2+"</td><td>金额</td><td>"+json.assistDepartment2Money+"</td></tr>")
+            	}
+				if(json.name3!=null&&json.name3!=''){
+					$("#history_xieban_table tbody").append("<tr><td>协办部门</td><td>"+json.name3+"</td><td>金额</td><td>"+json.assistDepartment3Money+"</td></tr>")
+				}
+            	
+            	$("#historylianxibiaoge tbody").empty("");
+            	for(var i=0;i<json.enterprise.length;i++){
+            		$("#historylianxibiaoge").append("<tr><td>"
+											    			+json.enterprise[i].eMan
+											    			+"</td><td>"
+											    			+json.enterprise[i].eTel
+											    			+"</td></tr>")
+            	}
+  				$("#look_history_info").modal("show");
+  			}
+		 });
+  	}
+  	
   
 </script>
 
