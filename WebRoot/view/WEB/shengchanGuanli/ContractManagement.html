@@ -634,21 +634,24 @@
                             </tr>
                         </table>
 
-                        <table class="table table-bordered table-condensed" id="xiebana">
+                        <table class="table table-bordered table-condensed" id="bgxieban">
                             <thead>
                                 <tr>
                                     <th colspan="2">添加的协办部门</th>
                                 </tr>
+                                <tr>
+                                 	<th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="bgaddBumen()">添加协办部门</button></th>
+                             	</tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>主办金额</td>
                                     <td>
                                         <form class="form-inline">
-                                          <select class="form-control" style="width:150px;" id="xgzhubana">
+                                          <select class="form-control" style="width:150px;" id="bgzhubanbumen">
                                               
                                           </select>
-                                          <input type="text" class="form-control" style="width:150px;" placeholder="金额" id="xgzhubanjinea">
+                                          <input type="text" class="form-control" style="width:150px;" placeholder="金额" id="bgzhubanjine">
                                       </form>
                                     </td>
                                 </tr>
@@ -1091,6 +1094,41 @@ Array.prototype.unique3 = function(){
     		toastr.error("协办部门已达上限")
     	}
     }
+    function bgaddBumen(){
+    	if(($("#bgxieban tr").length)<=4){
+	    	$("#bgxieban").append("<tr><td>"+"协办部门"+($("#bgxieban tr").length-1)+"</td><td>"
+	                +'<form class="form-inline">'
+	                    +'<select class="form-control" id="bgxieban'+($("#bgxieban tr").length-1)+'" style="width:150px;">'
+	                       
+	                    +'</select>'
+	                    +'  <input type="text" id="bgxiebanjine'+($("#bgxieban tr").length-1)+'" class="form-control" style="width:150px;" placeholder="金额">'
+	                +'</form>'
+	                +"</td></tr>");
+	                $.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+	                    dataType: 'json',
+	                    data: {
+	
+	                    },
+	                    error: function (msg) {
+	                    	toastr.error("请求失败");
+	                    },
+	                    success: function (json) {
+	                    	$("#bgxieban1").empty();
+	                    	$("#bgxieban2").empty();
+	                    	$("#bgxieban3").empty();
+	                        for(var i=0;i<json.length;i++){
+	                        	$("#bgxieban1").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        	$("#bgxieban2").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        	$("#bgxieban3").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        }
+	                    }
+	        		});
+    	}else{
+    		toastr.error("协办部门已达上限")
+    	}
+    }
     //回显协办部门
     function xiebanhuixian(obj1,obj2,obj3){
     	$.ajax({
@@ -1136,6 +1174,7 @@ Array.prototype.unique3 = function(){
                 	$("#tijiaobumen").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                 	$("#zhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                 	$("#xgzhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#bgzhubanbumen").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                 }
             }
 		});
