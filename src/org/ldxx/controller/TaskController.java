@@ -276,4 +276,22 @@ public class TaskController {
 		return tService.selectCcNameByPrjId(id);
 	}
 	
+	@RequestMapping("/selectPrjNameAndWorkNo")
+	@ResponseBody
+	public List<Task> selectPrjNameAndWorkNo(){
+		return tService.selectPrjNameAndWorkNo();
+	}
+	
+	@RequestMapping("/selectTaskPrjName")
+	@ResponseBody
+	public Task selectTaskPrjName(String prjNo){
+		return tService.selectTaskPrjName(prjNo);
+	}
+	
+	@RequestMapping("/selectTaskPrjNo")
+	@ResponseBody
+	public Task selectTaskPrjNo(String prjName){
+		return tService.selectTaskPrjNo(prjName);
+	}
+	
 }

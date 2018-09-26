@@ -24,4 +24,10 @@ public interface TaskDao {
 	public List<Task> selectTaskHistory(@Param("no")String no);
 	
 	public Task selectCcNameByPrjId(@Param("id")String id);
+	
+	public List<Task> selectPrjNameAndWorkNo();
+	
+	public Task selectTaskPrjName(@Param("prjNo")String prjNo);
+	
+	public Task selectTaskPrjNo(@Param("prjName")String prjName);
 }

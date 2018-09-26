@@ -15,4 +15,6 @@ public interface CjContractService {
 	public CjContract selectCjContractById(String id);
 	
 	public int deleteCjContract(String id);
+	
+	public List<CjContract> selectIdAndName();
 }

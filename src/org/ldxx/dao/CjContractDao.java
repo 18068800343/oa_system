@@ -16,4 +16,6 @@ public interface CjContractDao {
 	public CjContract selectCjContractById(@Param("id")String id);
 	
 	public int deleteCjContract(@Param("id")String id);
+	
+	public List<CjContract> selectIdAndName();
 }

@@ -29,7 +29,14 @@
 	</update>
 	
 	<select id="selectCjContractByStatus" resultType="CjContract">
-		select * from cj_contract as a left join mode_status as b on a.cj_id=b.mode_id
+		select a.*,c.cc_name,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4 
+		from cj_contract as a left join mode_status as b on a.cj_id=b.mode_id
+		left join consociation_company as c on a.contract_name_jia=c.cc_id
+		left join organization_management as d on a.yi_cj_department=d.om_id 
+		left join organization_management as d2 on a.main_department=d2.om_id
+		left join organization_management as d3 on a.assist_department1=d3.om_id
+		left join organization_management as d4 on a.assist_department2=d4.om_id
+		left join organization_management as d5 on a.assist_department3=d5.om_id
 		where b.status=#{status}
 	</select>
 	
@@ -40,4 +47,9 @@
 	<delete id="deleteCjContract" parameterType="String">
 		delete from cj_contract where cj_id=#{id}
 	</delete>
+	
+	<select id="selectIdAndName"  resultType="CjContract">
+		select cj_id,contract_name from cj_contract as a left join mode_status as b on a.cj_id=b.mode_id
+		where b.status=2
+	</select>
 </mapper>

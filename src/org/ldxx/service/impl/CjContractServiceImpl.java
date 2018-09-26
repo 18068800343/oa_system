@@ -2,11 +2,14 @@ package org.ldxx.service.impl;
 
 import java.util.List;
 
+import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CjContract;
+import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.CjContractDao;
 import org.ldxx.service.CjContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CjContractServiceImpl implements CjContractService{
@@ -14,19 +17,38 @@ public class CjContractServiceImpl implements CjContractService{
 	@Autowired
 	private CjContractDao dao;
 	
+	@Autowired
+	private AccessoryDao adao;
+	
+	@Transactional
 	@Override
 	public int addCjContract(CjContract cj) {
-		return 0;
+		int i=dao.addCjContract(cj);
+		if(i>0){
+			List<Accessory> accessory=cj.getAccessory();
+			if(accessory!=null){
+				i=adao.addAccessory(accessory);
+			}
+		}
+		return i;
 	}
 
+	@Transactional
 	@Override
 	public int updateCjContract(CjContract cj) {
-		return 0;
+		int i=dao.updateCjContract(cj);
+		if(i>0){
+			List<Accessory> accessory=cj.getAccessory();
+			if(accessory!=null){
+				i=adao.addAccessory(accessory);
+			}
+		}
+		return i;
 	}
 
 	@Override
 	public List<CjContract> selectCjContractByStatus(String status) {
-		return null;
+		return dao.selectCjContractByStatus(status);
 	}
 
 	@Override
@@ -37,6 +59,11 @@ public class CjContractServiceImpl implements CjContractService{
 	@Override
 	public int deleteCjContract(String id) {
 		return 0;
+	}
+
+	@Override
+	public List<CjContract> selectIdAndName() {
+		return dao.selectIdAndName();
 	}
 
 }

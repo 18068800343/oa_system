@@ -96,4 +96,19 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.selectCcNameByPrjId(id);
 	}
 
+	@Override
+	public List<Task> selectPrjNameAndWorkNo() {
+		return tdao.selectPrjNameAndWorkNo();
+	}
+
+	@Override
+	public Task selectTaskPrjName(String prjNo) {
+		return tdao.selectTaskPrjName(prjNo);
+	}
+
+	@Override
+	public Task selectTaskPrjNo(String prjName) {
+		return tdao.selectTaskPrjNo(prjName);
+	}
+
 }

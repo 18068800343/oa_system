@@ -24,4 +24,10 @@ public interface TaskService {
 	public List<Task> selectTaskHistory(String no);
 	
 	public Task selectCcNameByPrjId(String id);
+	
+	public List<Task> selectPrjNameAndWorkNo();
+	
+	public Task selectTaskPrjName(String prjNo);
+	
+	public Task selectTaskPrjNo(String prjName);
 }

@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.util.List;
+
 /** 
 * @ClassName: CjContract 
 * @Description: 承接合同
@@ -14,25 +16,76 @@ public class CjContract {
 	private String contractName;
 	private String prjName;
 	private String prjType;
-	private String contractNameJia;
+	private String contractNameJia;//甲方id
+	private String ccName;//甲方名称
 	private String contractNameYi;
 	private String contractStartTime;
 	private String contractEndTime;
-	private String yiCjDepartment;
+	private String yiCjDepartment;//乙方承接部门id
+	private String omName;//乙方承接部门名称
 	private String contractLongTime;
 	private String receieveMoneyCondition;
-	private String contractMoney;
-	private String temporaryMoney;
+	private float contractMoney;
+	private float temporaryMoney;
 	private String contractSignTime;
 	private String workInfo;
 	private String mainDepartment;
-	private String mainDepartmentMoney;
+	private String name;
+	private float mainDepartmentMoney;
 	private String assistDepartment1;
-	private String assistDepartment1Money;
+	private String name2;
+	private float assistDepartment1Money;
 	private String assistDepartment2;
-	private String assistDepartment2Money;
+	private String name3;
+	private float assistDepartment2Money;
 	private String assistDepartment3;
-	private String assistDepartment3Money;
+	private String name4;
+	private float assistDepartment3Money;
+	private List<Accessory> accessory;
+	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getName2() {
+		return name2;
+	}
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
+	public String getName3() {
+		return name3;
+	}
+	public void setName3(String name3) {
+		this.name3 = name3;
+	}
+	public String getName4() {
+		return name4;
+	}
+	public void setName4(String name4) {
+		this.name4 = name4;
+	}
+	public String getOmName() {
+		return omName;
+	}
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+	public String getCcName() {
+		return ccName;
+	}
+	public void setCcName(String ccName) {
+		this.ccName = ccName;
+	}
+	public List<Accessory> getAccessory() {
+		return accessory;
+	}
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
 	public String getCjId() {
 		return cjId;
 	}
@@ -105,16 +158,16 @@ public class CjContract {
 	public void setReceieveMoneyCondition(String receieveMoneyCondition) {
 		this.receieveMoneyCondition = receieveMoneyCondition;
 	}
-	public String getContractMoney() {
+	public float getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(String contractMoney) {
+	public void setContractMoney(float contractMoney) {
 		this.contractMoney = contractMoney;
 	}
-	public String getTemporaryMoney() {
+	public float getTemporaryMoney() {
 		return temporaryMoney;
 	}
-	public void setTemporaryMoney(String temporaryMoney) {
+	public void setTemporaryMoney(float temporaryMoney) {
 		this.temporaryMoney = temporaryMoney;
 	}
 	public String getContractSignTime() {
@@ -135,10 +188,10 @@ public class CjContract {
 	public void setMainDepartment(String mainDepartment) {
 		this.mainDepartment = mainDepartment;
 	}
-	public String getMainDepartmentMoney() {
+	public float getMainDepartmentMoney() {
 		return mainDepartmentMoney;
 	}
-	public void setMainDepartmentMoney(String mainDepartmentMoney) {
+	public void setMainDepartmentMoney(float mainDepartmentMoney) {
 		this.mainDepartmentMoney = mainDepartmentMoney;
 	}
 	public String getAssistDepartment1() {
@@ -147,10 +200,10 @@ public class CjContract {
 	public void setAssistDepartment1(String assistDepartment1) {
 		this.assistDepartment1 = assistDepartment1;
 	}
-	public String getAssistDepartment1Money() {
+	public float getAssistDepartment1Money() {
 		return assistDepartment1Money;
 	}
-	public void setAssistDepartment1Money(String assistDepartment1Money) {
+	public void setAssistDepartment1Money(float assistDepartment1Money) {
 		this.assistDepartment1Money = assistDepartment1Money;
 	}
 	public String getAssistDepartment2() {
@@ -159,10 +212,10 @@ public class CjContract {
 	public void setAssistDepartment2(String assistDepartment2) {
 		this.assistDepartment2 = assistDepartment2;
 	}
-	public String getAssistDepartment2Money() {
+	public float getAssistDepartment2Money() {
 		return assistDepartment2Money;
 	}
-	public void setAssistDepartment2Money(String assistDepartment2Money) {
+	public void setAssistDepartment2Money(float assistDepartment2Money) {
 		this.assistDepartment2Money = assistDepartment2Money;
 	}
 	public String getAssistDepartment3() {
@@ -171,12 +224,27 @@ public class CjContract {
 	public void setAssistDepartment3(String assistDepartment3) {
 		this.assistDepartment3 = assistDepartment3;
 	}
-	public String getAssistDepartment3Money() {
+	public float getAssistDepartment3Money() {
 		return assistDepartment3Money;
 	}
-	public void setAssistDepartment3Money(String assistDepartment3Money) {
+	public void setAssistDepartment3Money(float assistDepartment3Money) {
 		this.assistDepartment3Money = assistDepartment3Money;
 	}
+	@Override
+	public String toString() {
+		return "CjContract [cjId=" + cjId + ", taskCode=" + taskCode + ", contractName=" + contractName + ", prjName="
+				+ prjName + ", prjType=" + prjType + ", contractNameJia=" + contractNameJia + ", contractNameYi="
+				+ contractNameYi + ", contractStartTime=" + contractStartTime + ", contractEndTime=" + contractEndTime
+				+ ", yiCjDepartment=" + yiCjDepartment + ", contractLongTime=" + contractLongTime
+				+ ", receieveMoneyCondition=" + receieveMoneyCondition + ", contractMoney=" + contractMoney
+				+ ", temporaryMoney=" + temporaryMoney + ", contractSignTime=" + contractSignTime + ", workInfo="
+				+ workInfo + ", mainDepartment=" + mainDepartment + ", mainDepartmentMoney=" + mainDepartmentMoney
+				+ ", assistDepartment1=" + assistDepartment1 + ", assistDepartment1Money=" + assistDepartment1Money
+				+ ", assistDepartment2=" + assistDepartment2 + ", assistDepartment2Money=" + assistDepartment2Money
+				+ ", assistDepartment3=" + assistDepartment3 + ", assistDepartment3Money=" + assistDepartment3Money
+				+ "]";
+	}
+	
 	
 	
 }
