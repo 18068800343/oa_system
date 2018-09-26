@@ -29,10 +29,10 @@
             cursor: pointer;
             font-size: 14px;
         }
-        #tijiaoren{
+       /*  #tijiaoren{
                 display: flex;
                 flex-wrap:wrap;
-        }
+        } */
         .tab-content>div{
             margin-top:18px;
         }
@@ -111,7 +111,7 @@
                                 <td>项目名称</td>
                                 <td>
                                 	<form class="form-inline">
-									    <input type="text" class="form-control" style="width:222px;" id="taskName">  <i class="iconfont icon-xingxing-copy" style="color:red;"></i>
+									    <input type="text" class="form-control" style="width:180px;" id="taskName">  <i class="iconfont icon-xingxing-copy" style="color:red;"></i>
 									  </form>
                                 </td>
                                 <td style="width:150px;">项目经营模式</td>
@@ -537,18 +537,21 @@
                 <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
             </div>
             <div class="modal-body">
-                <form class="form-inline">
                 
                     <!-- <div id="tijiaoren"></div> -->
-                        <table class="table table-bordered table-condensed">
-                            <tr>
-                            	<td></td>
-                                <td>部门</td>
-                                <td>职务</td>
-                                <td>审批人</td>
-                            </tr>
+                        <table class="table table-bordered table-condensed" id="tijiaoren">
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
                         </table>
-                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -1617,21 +1620,38 @@
 	            contentType: "application/json", 
 	            data:JSON.stringify(danwei),
 	            success: function (json) {
-	            	if(json.receiver!=null){
+	            	console.log(json)
+	            	if(json.receiver!=null&&json.receiver.length>1){
 	            		lianjie=json.url;
 		        		  $("#tijiaogei").modal('show');
-		        		  $("#tijiaoren").empty("");
+		        		  $("#tijiaoren tbody").empty("");
 		        		  for(var i=0;i<json.receiver.length;i++){
-		        			  $("#tijiaoren").append('<tr><td>'
-		        					  +'<input type="checkbox" >'
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'">'
 		        					  +'</td><td>'
-		        					  +
+		        					  +json.receiver[i].omName
 		        					  +'</td><td>'
-		        					  +
+		        					  +json.receiver[i].dutyName
 		        					  +'</td><td>'
-		        					  +
+		        					  +json.receiver[i].uName
 		        					  +'</td></tr>');
 		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver[i].userId,
+		        	        	  uName:json.receiver[i].uName,
+		        	        	  omName:json.receiver[i].omName,
+		        	        	  dutyName:json.receiver[i].dutyName
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
 		        	  }
 	            }
 	        }); 
@@ -1645,8 +1665,12 @@
     
   function tijiaorenwudan2(){
 	  var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
-	  var uname=$("input[name='tijiaorenming']:checked").val();
-	 $.ajax({
+	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+	  /* console.log(uid,bmmc,zw,uname)*/
+	  //var uname=$("input[name='tijiaorenming']:checked").val();
+	$.ajax({
           type: 'POST',
           url: getContextPath()+'/task/addTask4',
           dataType: 'json',
@@ -1654,11 +1678,13 @@
         	  url:lianjie,
         	  userId:uid,
         	  uName:uname,
+        	  omName:bmmc,
+        	  dutyName:zw
           },
           success: function (json) {
         	  toastr.success('提交成功');
           }
-      }); 
+      });  
 	
   }
     //修改任务单
