@@ -345,7 +345,7 @@ public class FlowUtill {
 		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 		try {
 			INSTANCE.currentFlowMapper.insert(currentFlow);
-			INSTANCE.flowHistroyMapper.insert(flowHistroy);
+			/*INSTANCE.flowHistroyMapper.insert(flowHistroy);*/
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
