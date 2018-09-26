@@ -21,6 +21,7 @@ public class BeanUtil {
 		flowHistroy.setDeptname(currentFlow.getDeptname());
 		flowHistroy.setNodename(currentFlow.getNodename());
 		flowHistroy.setPri(currentFlow.getPri());
+		flowHistroy.setModeId(currentFlow.getModeId());
 		return flowHistroy;
 	}
 }

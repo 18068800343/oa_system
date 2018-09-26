@@ -178,6 +178,7 @@ public class TaskController {
 	    flowHistroy.setActor("4136c78ab4d5");
 	    flowHistroy.setActorname("萨姆");
 	    flowHistroy.setView("发起流程");
+	    flowHistroy.setId(new TimeUUID().getTimeUUID());
 		String string = "";
 		try {
 			string = flowUtill.submitFlow(currentFlow, flowHistroy, userId, userName);

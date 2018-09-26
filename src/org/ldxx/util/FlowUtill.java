@@ -85,11 +85,13 @@ public class FlowUtill {
 		 */
 		currentFlow.setWfstate(0);
 		currentFlow.setDoDate(new Date());
+		String mode_id = "";
 		BusinessExample example = new BusinessExample();
 		String url = currentFlow.getUrl();
 		if(null!=url&&url.contains("-")){
 			String urls[] = url.split("-");
 			url = urls[0];
+			mode_id=urls[1];
 		}else{
 			log.error("url为null或者url格式有误");
 			throw new FlowException("url format error");
@@ -106,6 +108,7 @@ public class FlowUtill {
 		currentFlow.setBusId(business.getId());
 		currentFlow.setFloTmpId(business.getFloTmpId());
 		currentFlow.setId(new TimeUUID().getTimeUUID());
+		currentFlow.setModeId(mode_id);
 		FlowNode flowNode = INSTANCE.flowNodeMapper.selectStartFlowNode(business.getFloTmpId());
 		FlowEdgeExample example3 = new FlowEdgeExample();
 		example3.createCriteria().andFloNodeLeftEqualTo(flowNode.getId());
