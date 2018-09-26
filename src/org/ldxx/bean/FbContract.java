@@ -1,55 +1,118 @@
 package org.ldxx.bean;
 
+import java.util.List;
+
 public class FbContract {
     private String fbId;
 
-    private String contractName;
+    private String contractName;//合同名称
 
-    private String fbcType;
+    private String fbcType;//类型
 
-    private String contractNameJia;
+    private String contractNameJia;//合同甲方
 
-    private String contractNameYi;
+    private String contractNameYi;//合同乙方单位
 
-    private String workNo;
+    private String workNo;//任务单号
 
-    private String prjName;
+    private String prjId;//项目名称
 
-    private String cjContractCode;
+    private String cjContractCode;//承接合同号
 
-    private String cjContractName;
+    private String cjContractName;//承接合同名称
 
-    private Float mainContractMoney;
+    private Float mainContractMoney;//主合同金额
 
-    private Float nowFbAllMoney;
+    private Float nowFbAllMoney;//已经累计分包金额
 
-    private String contractStartTime;
+    private String contractStartTime;//合同开始时间
 
-    private String contractEndTime;
+    private String contractEndTime;//合同结束时间
 
-    private String mainManageDepartment;
+    private String mainManageDepartment;//甲方管理部门
 
-    private String contractLongTime;
+    private String contractLongTime;//合同工期
 
-    private String payMode;
+    private String payMode;//付款方式
 
-    private Float contractMoney;
+    private Float contractMoney;//合同金额
 
-    private Float temporaryMoney;
+    private Float temporaryMoney;//暂定金
 
-    private String contractTextPath;
+    private Float performanceBond;//已收履约保证金
+    
+    private String workContent;//工作内容
+    
+    
+    private String prjName;//项目名
+    private String omName;//部门名称
+    private String ccName;//乙方单位名称
+    private String cjcontractName2;//承接合同名称
+    
+    private List<Accessory> accessory;
+    
+    
+    
 
-    private String contractProbablyText;
+    
 
-    private String cptSignNameImgpath;
+	public String getCjcontractName2() {
+		return cjcontractName2;
+	}
 
-    private String cptSignName;
+	public void setCjcontractName2(String cjcontractName2) {
+		this.cjcontractName2 = cjcontractName2;
+	}
 
-    private String contractProbablyTextTime;
+	public String getCcName() {
+		return ccName;
+	}
 
-    private Integer status;
+	public void setCcName(String ccName) {
+		this.ccName = ccName;
+	}
 
-    public String getFbId() {
+	public String getOmName() {
+		return omName;
+	}
+
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+
+	public String getPrjName() {
+		return prjName;
+	}
+
+	public void setPrjName(String prjName) {
+		this.prjName = prjName;
+	}
+
+	public Float getPerformanceBond() {
+		return performanceBond;
+	}
+
+	public void setPerformanceBond(Float performanceBond) {
+		this.performanceBond = performanceBond;
+	}
+
+	public String getWorkContent() {
+		return workContent;
+	}
+
+	public void setWorkContent(String workContent) {
+		this.workContent = workContent;
+	}
+
+	public List<Accessory> getAccessory() {
+		return accessory;
+	}
+
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
+
+	public String getFbId() {
         return fbId;
     }
 
@@ -97,15 +160,15 @@ public class FbContract {
         this.workNo = workNo == null ? null : workNo.trim();
     }
 
-    public String getPrjName() {
-        return prjName;
-    }
+    public String getPrjId() {
+		return prjId;
+	}
 
-    public void setPrjName(String prjName) {
-        this.prjName = prjName == null ? null : prjName.trim();
-    }
+	public void setPrjId(String prjId) {
+		this.prjId = prjId;
+	}
 
-    public String getCjContractCode() {
+	public String getCjContractCode() {
         return cjContractCode;
     }
 
@@ -193,51 +256,4 @@ public class FbContract {
         this.temporaryMoney = temporaryMoney;
     }
 
-    public String getContractTextPath() {
-        return contractTextPath;
-    }
-
-    public void setContractTextPath(String contractTextPath) {
-        this.contractTextPath = contractTextPath == null ? null : contractTextPath.trim();
-    }
-
-    public String getContractProbablyText() {
-        return contractProbablyText;
-    }
-
-    public void setContractProbablyText(String contractProbablyText) {
-        this.contractProbablyText = contractProbablyText == null ? null : contractProbablyText.trim();
-    }
-
-    public String getCptSignNameImgpath() {
-        return cptSignNameImgpath;
-    }
-
-    public void setCptSignNameImgpath(String cptSignNameImgpath) {
-        this.cptSignNameImgpath = cptSignNameImgpath == null ? null : cptSignNameImgpath.trim();
-    }
-
-    public String getCptSignName() {
-        return cptSignName;
-    }
-
-    public void setCptSignName(String cptSignName) {
-        this.cptSignName = cptSignName == null ? null : cptSignName.trim();
-    }
-
-    public String getContractProbablyTextTime() {
-        return contractProbablyTextTime;
-    }
-
-    public void setContractProbablyTextTime(String contractProbablyTextTime) {
-        this.contractProbablyTextTime = contractProbablyTextTime == null ? null : contractProbablyTextTime.trim();
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 }
