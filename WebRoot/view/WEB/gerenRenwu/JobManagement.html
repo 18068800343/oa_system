@@ -65,9 +65,9 @@
                 <form class="form-inline">
                     <div class="form-group">
                         <span>事项名称:</span>
-                        <select style="width:180px;" class="form-control">
-                            <option value="">需要审批业务</option>
-                            <option value="">未完成表单草稿</option>
+                        <select style="width:180px;" id="shenpi" class="form-control">
+                            <option value="1">需要审批业务</option>
+                            <option value="0">未完成表单草稿</option>
                         </select>
                     </div>
                 </form>
@@ -223,13 +223,29 @@
         }},
         
 	});
-    
+    $("#shenpi").on("change",function(){
+    	var statu = $(this).val();
+    		$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/currentFlow/getCurrentFlowListStatus1ByUser',
+                data:{
+                	userId:"88b6f133f129",
+                	statu:statu,
+                },
+                dataType: 'json',
+                success: function (json) {
+                	$('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                }
+            });
+    });
     function initTable1(){
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/currentFlow/getCurrentFlowListStatus1ByUser',
             data:{
-            	userId:"88b6f133f129"
+            	userId:"88b6f133f129",
+            	statu:"",
             },
             dataType: 'json',
             success: function (json) {
