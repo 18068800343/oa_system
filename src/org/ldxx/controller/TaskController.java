@@ -138,13 +138,13 @@ public class TaskController {
 		currentFlow.setUrl("addTask3-"+id);
 		currentFlow.setParams("1");
 		currentFlow.setTitle(t.getPrjName());
-		currentFlow.setActor("4136c78ab4d5");
-		currentFlow.setActorname("萨姆");;
+		currentFlow.setActor("88b6f133f129");
+		currentFlow.setActorname("索隆");;
 		currentFlow.setMemo("流程发起");
-		currentFlow.setUrl("submitFlow-"+id);
+		currentFlow.setUrl("addTask3-"+id);
 		currentFlow.setParams("{'cs':'1'}");
-		currentFlow.setStarter("4136c78ab4d5");
-		currentFlow.setStartername("萨姆");
+		currentFlow.setStarter("88b6f133f129");
+		currentFlow.setStartername("索隆");
 		currentFlow.setFkDept("1");
 		currentFlow.setDeptname("工程建设一部");
 		currentFlow.setNodename("节点名称");

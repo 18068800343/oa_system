@@ -53,6 +53,16 @@ public class CurrentFlowVo {
 
     private Date doDate;
 
+    private String modeId;
+    
+	public String getModeId() {
+		return modeId;
+	}
+
+	public void setModeId(String modeId) {
+		this.modeId = modeId;
+	}
+
 	public String getId() {
 		return id;
 	}

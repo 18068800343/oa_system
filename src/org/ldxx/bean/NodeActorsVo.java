@@ -10,6 +10,56 @@ public class NodeActorsVo {
     private String userId;
 
     private String uName;
+    
+    private String omNo;
+    
+    private String omId;
+    
+    private String omName;
+    
+    private String dutyId;
+    
+    private String dutyName;
+    
+	public String getOmNo() {
+		return omNo;
+	}
+
+	public void setOmNo(String omNo) {
+		this.omNo = omNo;
+	}
+
+	public String getOmId() {
+		return omId;
+	}
+
+	public void setOmId(String omId) {
+		this.omId = omId;
+	}
+
+	public String getOmName() {
+		return omName;
+	}
+
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+
+	public String getDutyId() {
+		return dutyId;
+	}
+
+	public void setDutyId(String dutyId) {
+		this.dutyId = dutyId;
+	}
+
+	public String getDutyName() {
+		return dutyName;
+	}
+
+	public void setDutyName(String dutyName) {
+		this.dutyName = dutyName;
+	}
 
 	public String getId() {
 		return id;

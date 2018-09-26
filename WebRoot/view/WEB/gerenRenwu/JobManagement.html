@@ -110,7 +110,7 @@
                 <h4 class="modal-title" id="gridSystemModalLabel">处理业务</h4>
             </div>
             <div class="modal-body">
-                <iframe name="view_frame" id="rightMain" src="../shengchanGuanli/TaskManagementLook.html?prjId=b2a2d02be9da&prjNo=20180003B2" frameborder="false" scrolling="auto" style="border: none;" width="100%" height=700 allowtransparency="true"></iframe>
+                <iframe name="view_frame" id="rightMain" src="../shengchanGuanli/TaskManagementLook.html?prjId=" frameborder="false" scrolling="auto" style="border: none;" width="100%" height=700 allowtransparency="true"></iframe>
                 
                 <div id="midBox">
                     <div id="titles">标题</div>
@@ -195,13 +195,13 @@
         },{
             "data": "deptname"
         },{
-            "data": "deptname"
+            "data": "modeId"
         }],
          "columnDefs": [{
             "targets": 3,
             "searchable": false,
             "render": function (data, type, full) {
-                return '<i class="iconfont icon-yewubanli" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
+                return '<i class="iconfont icon-yewubanli" name="mode" data-id="'+data+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
             }
         }], 
         "order": [[1, 'asc']],
@@ -223,6 +223,7 @@
         }},
         
 	});
+    
     $("#shenpi").on("change",function(){
     	var statu = $(this).val();
     		$.ajax({
@@ -236,9 +237,16 @@
                 success: function (json) {
                 	$('#mainContent').dataTable().fnClearTable();
                     $('#mainContent').DataTable().rows.add(json).draw(false);
+                    bindclick();
                 }
             });
     });
+    function bindclick(){
+    	$("body").on("click","i[name='mode']",function(){
+        	var data_id = $(this).attr("data-id");
+        	$("#rightMain").attr("src","../shengchanGuanli/TaskManagementLook.html?prjId="+data_id);
+        });
+    }
     function initTable1(){
 		$.ajax({
             type: 'POST',
@@ -251,6 +259,7 @@
             success: function (json) {
             	$('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                bindclick();
             }
         });
     }
