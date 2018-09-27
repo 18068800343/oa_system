@@ -135,13 +135,13 @@ public class TaskController {
 		
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
-		currentFlow.setUrl("addTask3-"+id);
+		currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
 		currentFlow.setParams("1");
 		currentFlow.setTitle(t.getPrjName());
 		currentFlow.setActor("88b6f133f129");
 		currentFlow.setActorname("索隆");;
 		currentFlow.setMemo("流程发起");
-		currentFlow.setUrl("addTask3-"+id);
+		currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
 		currentFlow.setParams("{'cs':'1'}");
 		currentFlow.setStarter("88b6f133f129");
 		currentFlow.setStartername("索隆");
@@ -170,7 +170,7 @@ public class TaskController {
 	
 	@RequestMapping("/addTask4")/*任务单保存*/
 	@ResponseBody
-	public String addTask4(String url,String userId,String userName){
+	public String addTask4(String url,String userId,String uName){
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl(url);
@@ -181,7 +181,7 @@ public class TaskController {
 	    flowHistroy.setId(new TimeUUID().getTimeUUID());
 		String string = "";
 		try {
-			string = flowUtill.submitFlow(currentFlow, flowHistroy, userId, userName);
+			string = flowUtill.submitFlow(currentFlow, flowHistroy, userId, uName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "fail";
