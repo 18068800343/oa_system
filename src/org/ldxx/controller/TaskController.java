@@ -179,8 +179,8 @@ public class TaskController {
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl(url);
 		FlowHistroy	flowHistroy = new FlowHistroy();
-	    flowHistroy.setActor("4136c78ab4d5");
-	    flowHistroy.setActorname("萨姆");
+	    flowHistroy.setActor("88b6f133f129");
+	    flowHistroy.setActorname("索隆");
 	    flowHistroy.setView("发起流程");
 	    flowHistroy.setId(new TimeUUID().getTimeUUID());
 		String string = "";
@@ -193,6 +193,27 @@ public class TaskController {
 		return string;
 	}
 	
+	@RequestMapping("/addTask5")/*任务单保存*/
+	@ResponseBody
+	public String addTask5(String url,String userId,String uName,String omName){
+		FlowUtill flowUtill = new FlowUtill();
+		CurrentFlow currentFlow = new CurrentFlow();
+		currentFlow.setUrl(url);
+		currentFlow.setDeptname(omName);
+		FlowHistroy	flowHistroy = new FlowHistroy();
+	    flowHistroy.setActor("88b6f133f129");
+	    flowHistroy.setActorname("索隆");
+	    flowHistroy.setView("发起流程");
+	    flowHistroy.setId(new TimeUUID().getTimeUUID());
+		String string = "";
+		try {
+			string = flowUtill.submitFlow(currentFlow, flowHistroy, userId, uName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
+		return string;
+	}
 	@RequestMapping("/deleteTask")
 	@ResponseBody
 	public int deleteTask(String id){

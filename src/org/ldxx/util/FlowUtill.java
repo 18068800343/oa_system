@@ -142,15 +142,15 @@ public class FlowUtill {
 	 */
 	
 	@Transactional
-	public String submitFlow(CurrentFlow currentFlow,FlowHistroy flowHistroy,String next_user_id,String next_name) throws Exception{
-			currentFlow.setRdt(new Date());
+	public String submitFlow(CurrentFlow currentFlowOld,FlowHistroy flowHistroy,String next_user_id,String next_name) throws Exception{
+		currentFlowOld.setRdt(new Date());
 			ModeStatus modeStatus = new ModeStatus(); 	
 			INSTANCE.init();
 			/**0：流程刚发起,暂存状态
 			 * 1：流程刚发起,提交状态
 			 */
-			currentFlow.setWfstate(1);
-			String url = currentFlow.getUrl();
+			currentFlowOld.setWfstate(1);
+			String url = currentFlowOld.getUrl();
 			String modeId = "";
 			if(null!=url&&url.contains("-")){
 				String urls[] = url.split("-");
@@ -161,16 +161,19 @@ public class FlowUtill {
 				throw new FlowException("url format error");
 			}
 			CurrentFlowExample example2 = new CurrentFlowExample();
-			example2.createCriteria().andUrlEqualTo(currentFlow.getUrl());
+			example2.createCriteria().andUrlEqualTo(currentFlowOld.getUrl());
 			List<CurrentFlow> currentFlows = INSTANCE.currentFlowMapper.selectByExample(example2);
+			CurrentFlow currentFlow = new CurrentFlow();
 			try {
 				if(null!=currentFlows&&currentFlows.size()>0){
 					currentFlow = currentFlows.get(0);
 					currentFlow.setDoDate(new Date());
+					currentFlow.setDeptname(currentFlowOld.getDeptname());
 					flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 					if(!"end".equals(currentFlow.getFloNodeId())){
 						currentFlow.setActor(next_user_id);
 						currentFlow.setActorname(next_name);
+						currentFlow.setDeptname(currentFlowOld.getDeptname());
 						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 						modeStatus.setModeId(modeId);
 						//1：流程运转中
