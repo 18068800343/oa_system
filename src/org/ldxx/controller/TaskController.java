@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.reflection.wrapper.BaseWrapper;
 import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.CurrentFlowExample;
 import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.Task;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.EnterpriseService;
 import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
@@ -29,7 +32,8 @@ public class TaskController {
 	
 	@Autowired
 	private EnterpriseService eService;
-	
+	@Autowired
+	private CurrentFlowMapper currentFlowMapper;
 	@RequestMapping("/addTask")/*任务单保存*/
 	@ResponseBody
 	public int addTask(@RequestBody List<Task> task){
@@ -293,6 +297,23 @@ public class TaskController {
 	@ResponseBody
 	public Task selectTaskPrjNo(String prjName){
 		return tService.selectTaskPrjNo(prjName);
+	}
+	
+	@RequestMapping("/getReceiver")/*任务单保存*/
+	@ResponseBody
+	public String getReceiver(String url){
+		String string = "";
+		CurrentFlowExample example = new CurrentFlowExample();
+		example.createCriteria().andUrlEqualTo(url);
+		List<CurrentFlow> currentFlows = currentFlowMapper.selectByExample(example);
+		FlowUtill flowUtill = new FlowUtill();
+		try {
+			string = flowUtill.shenpiGetReceiver(currentFlows.get(0));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return string;
 	}
 	
 }

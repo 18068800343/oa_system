@@ -120,7 +120,7 @@
                 </div> 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
+                <button type="button" id="getReceiver" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
                 <button type="button" class="btn btn-default">退回</button>
                 <button type="button" class="btn btn-default">保存</button>
             </div>
@@ -195,7 +195,7 @@
         },{
             "data": "deptname"
         },{
-            "data": "modeId"
+            "data": "url"
         }],
          "columnDefs": [{
             "targets": 3,
@@ -230,7 +230,7 @@
                 type: 'POST',
                 url: getContextPath()+'/currentFlow/getCurrentFlowListStatus1ByUser',
                 data:{
-                	userId:"d194d371db95",
+                	userId:"88b6f133f129",
                 	statu:statu,
                 },
                 dataType: 'json',
@@ -241,18 +241,34 @@
                 }
             });
     });
+    var page_url;
     function bindclick(){
     	$("body").on("click","i[name='mode']",function(){
         	var data_id = $(this).attr("data-id");
-        	$("#rightMain").attr("src","../shengchanGuanli/TaskManagementLook.html?prjId="+data_id);
+        	var strs = data_id.split("-")
+        	page_url=data_id;
+        	$("#rightMain").attr("src","../"+strs[0]+"?prjId="+strs[1]);
         });
     }
+    $("#getReceiver").on("click",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/getReceiver',
+            data:{
+            	url:page_url,
+            },
+            dataType: 'json',
+            success: function (json) {
+            	console.log(json);
+            }
+        });
+    });
     function initTable1(){
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/currentFlow/getCurrentFlowListStatus1ByUser',
             data:{
-            	userId:"d194d371db95",
+            	userId:"88b6f133f129",
             	statu:"",
             },
             dataType: 'json',

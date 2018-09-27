@@ -29,7 +29,8 @@ public class CurrentFlowController {
 	@RequestMapping("/getCurrentFlowListStatus1ByUser")
 	@ResponseBody
 	public List<CurrentFlowVo> getCurrentFlowListByUser(String userId,String statu){
-		return currentFlowService.getCurrentFlowListByUser(userId, statu);
+		List<CurrentFlowVo> list = currentFlowService.getCurrentFlowListByUser(userId, statu);
+		return list;
 	}
 	
 	@RequestMapping("/getCurrentFlowListStatus0ByUser")
