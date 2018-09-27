@@ -262,7 +262,7 @@
 	        		  $("#tijiaoren tbody").empty("");
 	        		  for(var i=0;i<json.receiver.length;i++){
 	        			  $("#tijiaoren tbody").append('<tr><td>'
-	        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'">'
+	        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
 	        					  +'</td><td>'
 	        					  +json.receiver[i].omName
 	        					  +'</td><td>'
@@ -274,14 +274,16 @@
 	        	  }else if(json.receiver.length==1){
 	        		  $.ajax({
 	        	          type: 'POST',
-	        	          url: getContextPath()+'',
+	        	          url: getContextPath()+'/task/addTask5',
 	        	          dataType: 'json',
 	        	          data:{
 	        	        	  url:json.url,
 	        	        	  userId:json.receiver.userId,
 	        	        	  uName:json.receiver.uName,
 	        	        	  omName:json.receiver.omName,
-	        	        	  dutyName:json.receiver.dutyName
+	        	        	  dutyName:json.receiver.dutyName,
+	        	        	  omId:json.receiver.omId,
+	        	        	  dutyId:json.receiver.dutyId
 	        	          },
 	        	          success: function (json) {
 	        	        	  toastr.success('提交成功');
@@ -293,10 +295,12 @@
     });
     function tijiaorenwudan2(){
   	  var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
   	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
   	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
   	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
-  	  console.log(uid,bmmc,zw,uname)
+  	  console.log(uid,omid,dutyid,bmmc,zw,uname)
   	  //var uname=$("input[name='tijiaorenming']:checked").val();
   	 $.ajax({
             type: 'POST',
@@ -307,12 +311,14 @@
           	  userId:uid,
           	  uName:uname,
           	  omName:bmmc,
-          	  dutyName:zw
+          	  dutyName:zw,
+          	  omId:omid,
+        	  dutyId:dutyid
             },
             success: function (json) {
           	  toastr.success('提交成功');
             }
-        }); 
+        });
   	
     }
     function initTable1(){
