@@ -57,7 +57,7 @@
                 </form>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="newFile()">填报采购合同</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >填报采购合同</button>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -161,13 +161,16 @@
                                 <td>主要概况及工作内容</td>
                                 <td colspan="3"><textarea class="form-control" id="gaikuang" rows="4" cols="50"></textarea></td>
                             </tr>
-                            <tr>
-                                <td>采购合同文本  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile()">添加附件</button></td>
-                            </tr>
+                            
                         </table> 
                         <table class="table table-bordered table-condensed" id="new_accessory">
-                        
+                        	<thead>
+                        		<tr>
+                                	<td style="width:30%;">采购合同文本  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
                         </table>
                     </form>  
                 </div>
@@ -175,7 +178,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             <button type="button" class="btn btn-default" onclick="saveCg()">保存</button>
-            <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
+            <button type="button" class="btn btn-success" onclick="submitCg()" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
         </div>
         </div>
     </div>
@@ -317,13 +320,17 @@
                                 <td>主要概况及工作内容</td>
                                 <td colspan="3"><textarea class="form-control" id="xggaikuang" rows="4" cols="50"></textarea></td>
                             </tr>
-                            <tr>
-                                <td>采购合同文本  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile2()">添加附件</button></td>
-                            </tr>
+                            
                         </table> 
                         <table class="table table-bordered table-condensed" id="edit_accessory">
-                        
+                        	<thead>
+                        		<tr>
+                                	<td style="width:30%;">采购合同文本  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                               	 	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile2()">添加附件</button></td>
+                           		</tr>
+                        	</thead>
+                        	<tbody>
+                        	</tbody>
                         </table>
                     </form>  
                 </div>
@@ -331,7 +338,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             <button type="button" class="btn btn-default" onclick="checksaveCgC()">保存</button>
-             <button type="button" class="btn btn-success">提交</button>
+             <button type="button" class="btn btn-success" onclick="checksubmitCgC()">提交</button>
         </div>
         </div>
     </div>
@@ -744,11 +751,11 @@
 			toastr.error("采购单编号为空");
 			return;
 		}
-		if($("#file").val().length==0){
+		if($("#new_accessory").find('tbody tr').length<1 || $("#file").val()==''){
 			toastr.error("上传附件为空")
 			return;
 		}
-		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(bumencgMoney)){
 			toastr.error("部门采购金额只能输入数字和两位小数");
 			return;
@@ -760,7 +767,7 @@
 		if(!reg.test(cghetongMoney)){
 			toastr.error("采购合同金额只能输入数字和两位小数");
 			return;
-		}	
+		} */	
 		
 		var options={
 	            type: 'POST',
@@ -798,7 +805,7 @@
 			$("#new_form").ajaxSubmit(options);
 	}
 	//填报提交
-	function saveCg(){
+	function submitCg(){
 		var cghetongming=$("#cghetongming").val();
 		var cgNo=$("#cgNo").val();
 		var task_no=$("#task_no").val();
@@ -823,12 +830,12 @@
 			toastr.error("采购单编号为空");
 			return;
 		}
-		if($("#file").val().length==0){
+		if($("#new_accessory").find('tbody tr').length<1 || $("#file").val()==''){
 			toastr.error("上传附件为空")
 			return;
 		}
 		
-		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(bumencgMoney)){
 			toastr.error("部门采购金额只能输入数字和两位小数");
 			return;
@@ -840,7 +847,7 @@
 		if(!reg.test(cghetongMoney)){
 			toastr.error("采购合同金额只能输入数字和两位小数");
 			return;
-		}	
+		} */	
 		
 		var options={
 	            type: 'POST',
@@ -912,12 +919,12 @@
 			},
 			success:function(json){
 				//console.log(json);
-				$("#edit_accessory").empty();
+				$("#edit_accessory tbody").empty();
 	               for(var i=0;i<json.length;i++){
-	            	   $("#edit_accessory").append("<tr>"+
+	            	   $("#edit_accessory tbody").append("<tr>"+
 	            	   														"<td>合同文本"+(i+1)+"</td>"+
-													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
-													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
+													            	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+													            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
 													            	    "</tr>");
 	               }
 			}
@@ -944,7 +951,8 @@
 	        		toastr.error("删除失败");
 	        	}else{
 	        		toastr.success("删除成功");
-	        		$('#change').modal('hide');
+	        		$(obj).parent().parent().remove();
+	        		//$('#change').modal('hide');
 	        	}
 	        }
 		});
@@ -969,7 +977,7 @@
 		var xghetonggaishu=$("#xghetonggaishu").val();
 		var xggaikuang=$("#xggaikuang").val();
 		
-		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		
 		if(!reg.test(xgbumencgMoney)){
 			toastr.error("部门采购金额只能输入数字和两位小数");
@@ -982,7 +990,7 @@
 		if(!reg.test(xgcghetongMoney)){
 			toastr.error("采购合同金额只能输入数字和两位小数");
 			return;
-		}
+		} */
 		
 		if(xgcghetongming==''){
 			toastr.error("采购合同名称为空");
@@ -992,7 +1000,7 @@
 			toastr.error("采购单编号为空")
 			return;
 		}
-		if($("#edit_accessory").find('tr').length<1){
+		if($("#edit_accessory").find('tbody tr').length<1 || $("#xgfile").val()==''){
 			toastr.error("上传附件为空")
 			return;
 		}
@@ -1036,7 +1044,7 @@
 	
 	
 	//修改提交
-	function checksaveCgC(){
+	function checksubmitCgC(){
 		var xgcghetongming=$("#xgcghetongming").val();
 		var xgcgNo=$("#xgcgNo").val();
 		var xgtask_no=$("#xgtask_no").val();
@@ -1053,7 +1061,7 @@
 		var xghetonggaishu=$("#xghetonggaishu").val();
 		var xggaikuang=$("#xggaikuang").val();
 		
-		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		
 		if(!reg.test(xgbumencgMoney)){
 			toastr.error("部门采购金额只能输入数字和两位小数");
@@ -1066,7 +1074,7 @@
 		if(!reg.test(xgcghetongMoney)){
 			toastr.error("采购合同金额只能输入数字和两位小数");
 			return;
-		}
+		} */
 		
 		if(xgcghetongming==''){
 			toastr.error("采购合同名称为空");
@@ -1076,7 +1084,7 @@
 			toastr.error("采购单编号为空")
 			return;
 		}
-		if($("#edit_accessory").find('tr').length<1){
+		if($("#edit_accessory").find('tbody tr').length<1 || $("#xgfile").val()==''){
 			toastr.error("上传附件为空")
 			return;
 		}
@@ -1157,7 +1165,7 @@
 	               for(var i=0;i<json.length;i++){
 	            	   $("#look_all_table").append("<tr>"+
 	            	   														"<td>合同文本"+(i+1)+"</td>"+
-													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+													            	    	"<td colspan='2'><input type='text' style='width:70%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
 													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
 													            	    "</tr>");
 	               }
@@ -1175,16 +1183,17 @@
 	
 	
 	//点击填报采购合同时默认添加的一个附件
-	function newFile(){
-		$("#new_accessory").html('');
-		$("#new_accessory").append("<tr><td>新附件</td><td><input type='file' name='file' id='file'><td style='width:150px;'></td></tr>")
-	}
+	/*function newFile(){
+		$("#new_accessory tbody").html('');
+		$("#new_accessory tbody").append("<tr><td>新附件</td><td><input type='file' name='file' id='file'><td style='width:150px;'></td></tr>")
+		 
+	} */
 	
 	function addFile(){
-		$("#new_accessory").append("<tr><td>新附件</td><td><input type='file' name='file' id='file' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+		$("#new_accessory tbody").append("<tr><td>新附件</td><td><input type='file' name='file' id='file' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
 	}
 	function addFile2(){
-		$("#edit_accessory").append("<tr><td>新附件</td><td><input type='file' name='file' id='xgfile' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+		$("#edit_accessory tbody").append("<tr><td>新附件</td><td><input type='file' name='file' id='xgfile' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
 	}
 	
 	function removeFile(obj){

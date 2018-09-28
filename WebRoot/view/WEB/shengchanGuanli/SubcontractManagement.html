@@ -62,7 +62,7 @@
                 </form>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary" onclick="add_contract()" data-toggle="modal" data-target="#myModal">填报分包单</button>
+                <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#myModal">填报分包单</button>
                 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">分包合同变更</button> -->
             </div>
 <!-- Modal -->
@@ -184,17 +184,20 @@
                                     </div> 
                                 </td>
                             </tr>
-                            <tr>
-                                <td>合同文本:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td colspan="3">
-                                	<!-- <input type="file" name="file" class="form-control"> -->
-                                	<button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
-                                </td>
-                                
-                            </tr>
+                            
                         </table> 
                         <table class="table table-bordered table-condensed" id="new_accessory">
-							
+							<thead>
+								<tr>
+	                                <td style="width:30%;">合同文本:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td colspan="3">
+	                                	<!-- <input type="file" name="file" class="form-control"> -->
+	                                	<button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
+	                                </td>
+	                            </tr>
+							</thead>
+							<tbody>
+							</tbody>
 						</table>
                     </form>  
                 </div>
@@ -361,16 +364,19 @@
                                     </div> 
                                 </td>
                             </tr>
-                            <tr>
-                                <td>合同文本:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td colspan="3">
-                                	<!-- <input type="file" name="file" class="form-control"> -->
-                                	<button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox2">添加附件</button>
-                                </td>
-                            </tr>
+                            
                         </table> 
                         <table class="table table-bordered table-condensed"  id="edit_huixian_table">
-                        
+                        	<thead>
+                        		<tr>
+	                                <td style="width:30%;">合同文本:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td colspan="3">
+	                                	<!-- <input type="file" name="file" class="form-control"> -->
+	                                	<button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox2">添加附件</button>
+	                                </td>
+	                            </tr>
+                        	</thead>
+                        	<tbody></tbody>
                         </table>
                     </form>  
                 </div>
@@ -1075,13 +1081,12 @@
 			toastr.error("分包合同名称为空");
 			return;
 		}
-		
-		if($("#file").val().length==0){
-			toastr.error("合同文本为空")
+		if($("#new_accessory").find('tbody tr').length<1 || $("#file").val()==''){
+			toastr.error("上传附件为空")
 			return;
 		}
 		
-		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(zhuhetongMoney)){
 			toastr.error("主合同金额只能输入数字和两位小数");
 			return;
@@ -1101,7 +1106,7 @@
 		if(!reg.test(baozhengMoney)){
 			toastr.error("保证金只能输入数字和两位小数");
 			return;
-		}
+		} */
 		
 		var options={
             type: 'POST',
@@ -1170,12 +1175,12 @@
 			return;
 		}
 		
-		if($("#file").val().length==0){
-			toastr.error("合同文本为空")
+		if($("#new_accessory").find('tbody tr').length<1 || $("#file").val()==''){
+			toastr.error("上传附件为空")
 			return;
 		}
 		
-		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(zhuhetongMoney)){
 			toastr.error("主合同金额只能输入数字和两位小数");
 			return;
@@ -1195,7 +1200,7 @@
 		if(!reg.test(baozhengMoney)){
 			toastr.error("保证金只能输入数字和两位小数");
 			return;
-		}
+		} */
 		
 		var options={
             type: 'POST',
@@ -1277,11 +1282,11 @@
 			},
 			success:function(json){
 				//console.log(json);
-				$("#edit_huixian_table").empty();
+				$("#edit_huixian_table tbody").empty();
 	               for(var i=0;i<json.length;i++){
-	            	   $("#edit_huixian_table").append("<tr>"+
+	            	   $("#edit_huixian_table tbody").append("<tr>"+
 	            	   														"<td>合同文本"+(i+1)+"</td>"+
-													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+													            	    	"<td ><input type='text' style='width:70%;' class='form-control'  value='"+json[i].acName+"' disabled></td>"+
 													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
 													            	    "</tr>");
 	               }
@@ -1309,7 +1314,8 @@
 	        		toastr.error("删除失败");
 	        	}else{
 	        		toastr.success("删除成功");
-	        		$('#change').modal('hide');
+	        		$(obj).parent().parent().remove();
+	        		//$('#change').modal('hide');
 	        	}
 	        }
 		});
@@ -1342,11 +1348,11 @@
 			return;
 		}
 		
-		if($("#edit_huixian_table").find('tr').length<1){
-			toastr.error("合同文本为空")
+		if($("#edit_huixian_table").find('tbody tr').length<1 || $("#xgfile").val()==''){
+			toastr.error("上传附件为空")
 			return;
-		} 
-		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		}
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(xgzhuhetongMoney)){
 			toastr.error("主合同金额只能输入数字和两位小数");
 			return;
@@ -1366,7 +1372,7 @@
 		if(!reg.test(xglvyuebaozhengMoney)){
 			toastr.error("已收履约保证金只能输入数字和两位小数");
 			return;
-		}
+		} */
 		
 		var options={
             type: 'POST',
@@ -1436,11 +1442,11 @@
 			return;
 		}
 		
-		if($("#edit_huixian_table").find('tr').length<1){
-			toastr.error("合同文本为空")
+		if($("#edit_huixian_table").find('tbody tr').length<1 || $("#xgfile").val()==''){
+			toastr.error("上传附件为空")
 			return;
 		}
-		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(xgzhuhetongMoney)){
 			toastr.error("主合同金额只能输入数字和两位小数");
 			return;
@@ -1460,7 +1466,7 @@
 		if(!reg.test(xglvyuebaozhengMoney)){
 			toastr.error("已收履约保证金只能输入数字和两位小数");
 			return;
-		}
+		} */
 		
 		var options={
             type: 'POST',
@@ -1563,21 +1569,15 @@
 	
 	
 	
-	function add_contract(){
-		$("#new_accessory").html('');
-  		$("#new_accessory").append("<tr><td>新附件</td><td><input type='file' name='file' id='file' class='form-control'></td><td style='width:150px;'></td></tr>")
-  		//$("#myModal").modal("show");
-	}
-	
 	
 	//添加附件
 	$("#uploaderBox").on("click", function(e) {
-        $("#new_accessory").append("<tr><td>新附件</td><td><input type='file' name='file' id='file' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+        $("#new_accessory tbody").append("<tr><td>新附件</td><td><input type='file' name='file' id='file' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
         
     });
 	//修改
 	$("#uploaderBox2").on("click", function(e) {
-        $("#edit_huixian_table").append("<tr><td>新附件</td><td><input type='file' name='file' id='xgfile' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+        $("#edit_huixian_table tbody").append("<tr><td>新附件</td><td><input type='file' name='file' id='xgfile' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
         
     });
 	
