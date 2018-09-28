@@ -21,4 +21,8 @@ public interface CgContractService {
 
 	int deleteAccessoryByIdAndName(Accessory accessory);
 
+	List<CgContract> selectCgIdAndName();
+
+	CgContract selectCgnoById(String id);
+
 }

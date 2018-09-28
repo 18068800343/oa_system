@@ -79,4 +79,14 @@ public class CgContractServiceImpl implements CgContractService {
 		return adao.deleteAccessoryByIdAndName(accessory);
 	}
 
+	@Override
+	public List<CgContract> selectCgIdAndName() {
+		return cgDao.selectCgIdAndName();
+	}
+
+	@Override
+	public CgContract selectCgnoById(String id) {
+		return cgDao.selectCgnoById(id);
+	}
+
 }

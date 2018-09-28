@@ -17,4 +17,8 @@ public interface CgContractDao {
 
 	CgContract selectCgContractById(@Param("id")String id);
 
+	List<CgContract> selectCgIdAndName();
+
+	CgContract selectCgnoById(@Param("id")String id);
+
 }

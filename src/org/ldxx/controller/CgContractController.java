@@ -160,10 +160,22 @@ public class CgContractController {
 		return i;
 	}
 	
-	@RequestMapping("selectCgContractById")
+	@RequestMapping("/selectCgContractById")
 	@ResponseBody
 	public CgContract selectCgContractById(String id){
 		return cgService.selectCgContractById(id);
+	}
+	
+	@RequestMapping("/selectCgIdAndName")
+	@ResponseBody
+	public List<CgContract> selectCgIdAndName(){
+		return cgService.selectCgIdAndName();
+	}
+	
+	@RequestMapping("/selectCgnoById")
+	@ResponseBody
+	public CgContract selectCgnoById(String id){
+		return cgService.selectCgnoById(id);
 	}
 	
 	@RequestMapping("/selectAccessoryById")

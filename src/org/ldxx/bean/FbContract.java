@@ -6,6 +6,8 @@ public class FbContract {
     private String fbId;
 
     private String contractName;//合同名称
+    
+    private String fbNo;// 分包合同编号
 
     private String fbcType;//类型
 
@@ -54,7 +56,13 @@ public class FbContract {
     
     
 
-    
+	public String getFbNo() {
+		return fbNo;
+	}
+
+	public void setFbNo(String fbNo) {
+		this.fbNo = fbNo;
+	}
 
 	public String getCjcontractName2() {
 		return cjcontractName2;
