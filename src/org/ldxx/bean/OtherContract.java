@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.util.List;
+
 public class OtherContract {
     private String oId;
 
@@ -12,6 +14,7 @@ public class OtherContract {
     private String contractNameJia;
 
     private String contractNameYi;
+    private String ccName;
 
     private Float contractMoney;
 
@@ -25,11 +28,26 @@ public class OtherContract {
 
     private String abutmentSignedTime;
 
-    private String contractFilePath;
+    private List<Accessory> accessory;
 
-    private Integer status;
+    
+    public String getCcName() {
+		return ccName;
+	}
 
-    public String getoId() {
+	public void setCcName(String ccName) {
+		this.ccName = ccName;
+	}
+
+	public List<Accessory> getAccessory() {
+		return accessory;
+	}
+
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
+
+	public String getoId() {
         return oId;
     }
 
@@ -125,19 +143,4 @@ public class OtherContract {
         this.abutmentSignedTime = abutmentSignedTime == null ? null : abutmentSignedTime.trim();
     }
 
-    public String getContractFilePath() {
-        return contractFilePath;
-    }
-
-    public void setContractFilePath(String contractFilePath) {
-        this.contractFilePath = contractFilePath == null ? null : contractFilePath.trim();
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 }

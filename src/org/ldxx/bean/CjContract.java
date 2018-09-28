@@ -14,6 +14,7 @@ public class CjContract {
 	private String cjId;
 	private String taskCode;
 	private String contractName;
+	private String contractNo;
 	private String prjName;
 	private String prjType;
 	private String contractNameJia;//甲方id
@@ -44,6 +45,12 @@ public class CjContract {
 	private List<Accessory> accessory;
 	
 	
+	public String getContractNo() {
+		return contractNo;
+	}
+	public void setContractNo(String contractNo) {
+		this.contractNo = contractNo;
+	}
 	public String getName() {
 		return name;
 	}

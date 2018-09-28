@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
-import org.ldxx.bean.CjContract;
-import org.ldxx.service.CjContractService;
+import org.ldxx.bean.OtherContract;
+import org.ldxx.service.OtherContractService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,24 +17,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("cj")
-public class CjContractController {
+@RequestMapping("other")
+public class OtherContractConroller {
 
 	@Autowired
-	private CjContractService service;
+	private OtherContractService service;
 	
-	@RequestMapping("/addCjContractBySave")
+	@RequestMapping("/addOtherContractBySave")
 	@ResponseBody
-	public int addCjContractBySave(CjContract cj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addOtherContractBySave(OtherContract other,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		cj.setCjId(id);
+		other.setoId(id);
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract";
+				String path="D:"+File.separator+"oa"+File.separator+"OtherContract";
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -47,25 +47,24 @@ public class CjContractController {
 				accessory.setAcUrl(filePath);
 				list.add(accessory);
 			}
-			cj.setAccessory(list);
+			other.setAccessory(list);
 		}
-		int i=service.addCjContract(cj);
+		int i=service.addOtherContract(other);
 		return i;
 	}
 	
-	
-	@RequestMapping("/addCjContractBySubmit")
+	@RequestMapping("/addOtherContractBySubmit")
 	@ResponseBody
-	public int addCjContractBySubmit(CjContract cj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addOtherContractBySubmit(OtherContract other,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		cj.setCjId(id);
+		other.setoId(id);
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract";
+				String path="D:"+File.separator+"oa"+File.separator+"OtherContract";
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -78,43 +77,22 @@ public class CjContractController {
 				accessory.setAcUrl(filePath);
 				list.add(accessory);
 			}
-			cj.setAccessory(list);
+			other.setAccessory(list);
 		}
-		int i=service.addCjContract(cj);
+		int i=service.addOtherContract(other);
 		return i;
 	}
 	
-	@RequestMapping("/selectCjContractByStatus")
+	@RequestMapping("/updateOtherContractBySave")
 	@ResponseBody
-	public List<CjContract> selectCjContractByStatus(String status){
-		List<CjContract> list=service.selectCjContractByStatus(status);
-		return list;
-	}
-	
-	@RequestMapping("/selectIdAndName")
-	@ResponseBody
-	public List<CjContract> selectIdAndName(){
-		List<CjContract> list=service.selectIdAndName();
-		return list;
-	}
-	
-	@RequestMapping("/selectContractNoById")
-	@ResponseBody
-	public List<CjContract> selectContractNoById(String id){
-		List<CjContract> list=service.selectContractNoById(id);
-		return list;
-	}
-	
-	@RequestMapping("/updateCjContractBySave")
-	@ResponseBody
-	public int updateCjContractBySave(CjContract cj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
-		String id=cj.getCjId();
+	public int updateOtherContractBySave(OtherContract other,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		String id=other.getoId();
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract";
+				String path="D:"+File.separator+"oa"+File.separator+"OtherContract";
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -127,22 +105,22 @@ public class CjContractController {
 				accessory.setAcUrl(filePath);
 				list.add(accessory);
 			}
-			cj.setAccessory(list);
+			other.setAccessory(list);
 		}
-		int i=service.updateCjContract(cj);
+		int i=service.updateOtherContract(other);
 		return i;
 	}
 	
-	@RequestMapping("/updateCjContractBySubmit")
+	@RequestMapping("/updateOtherContractBySubmit")
 	@ResponseBody
-	public int updateCjContractBySubmit(CjContract cj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
-		String id=cj.getCjId();
+	public int updateOtherContractBySubmit(OtherContract other,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		String id=other.getoId();
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract";
+				String path="D:"+File.separator+"oa"+File.separator+"OtherContract";
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -155,9 +133,15 @@ public class CjContractController {
 				accessory.setAcUrl(filePath);
 				list.add(accessory);
 			}
-			cj.setAccessory(list);
+			other.setAccessory(list);
 		}
-		int i=service.updateCjContract(cj);
+		int i=service.updateOtherContract(other);
 		return i;
+	}
+	
+	@RequestMapping("/selectOtherContract")
+	@ResponseBody
+	public List<OtherContract> selectOtherContract(String status){
+		return service.selectOtherContract(status);
 	}
 }

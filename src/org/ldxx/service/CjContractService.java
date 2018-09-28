@@ -17,4 +17,6 @@ public interface CjContractService {
 	public int deleteCjContract(String id);
 	
 	public List<CjContract> selectIdAndName();
+	
+	public List<CjContract> selectContractNoById(String id);
 }

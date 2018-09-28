@@ -66,4 +66,9 @@ public class CjContractServiceImpl implements CjContractService{
 		return dao.selectIdAndName();
 	}
 
+	@Override
+	public List<CjContract> selectContractNoById(String id) {
+		return dao.selectContractNoById(id);
+	}
+
 }
