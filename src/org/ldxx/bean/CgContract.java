@@ -9,8 +9,9 @@ import java.util.List;
  *
  */
 public class CgContract {
-	private String cgId;// 采购合同编号
+	private String cgId;//编号
 	private String contractName;// 采购合同名称
+	private String cgNo;//采购合同编号
 	private String workNo;// 任务单号
 	private String isProgram;// 是否代购
 	private String cgcType;// 采购合同类型
@@ -29,6 +30,16 @@ public class CgContract {
 
 	private String omName;// 部门名称
 	private String ccName;// 乙方单位名称
+
+	
+	
+	public String getCgNo() {
+		return cgNo;
+	}
+
+	public void setCgNo(String cgNo) {
+		this.cgNo = cgNo;
+	}
 
 	public String getCgId() {
 		return cgId;
