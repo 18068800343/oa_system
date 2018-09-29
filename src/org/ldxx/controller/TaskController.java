@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -310,14 +311,24 @@ public class TaskController {
 	
 	@RequestMapping("/selectTaskPrjName")
 	@ResponseBody
-	public Task selectTaskPrjName(String prjNo){
-		return tService.selectTaskPrjName(prjNo);
+	public List<Task> selectTaskPrjName(String prjNo){
+		List<Task> list=new ArrayList<Task>();
+		for(int i=0;i<prjNo.split(",").length;i++){
+			Task task=tService.selectTaskPrjName(prjNo.split(",")[i]);
+			list.add(task);
+		}
+		return list;
 	}
 	
 	@RequestMapping("/selectTaskPrjNo")
 	@ResponseBody
-	public Task selectTaskPrjNo(String prjName){
-		return tService.selectTaskPrjNo(prjName);
+	public List<Task> selectTaskPrjNo(String prjName){
+		List<Task> list=new ArrayList<Task>();
+		for(int i=0;i<prjName.split(",").length;i++){
+			Task task=tService.selectTaskPrjNo(prjName.split(",")[i]);
+			list.add(task);
+		}
+		return list;
 	}
 	
 	@RequestMapping("/getReceiver")/*任务单保存*/

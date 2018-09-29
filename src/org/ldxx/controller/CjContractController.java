@@ -29,6 +29,9 @@ public class CjContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
+		int count=service.countNo();
+		String code="CJ"+uuid.getPrjCode("", count+1);
+		cj.setContractNo(code);
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
@@ -60,6 +63,9 @@ public class CjContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
+		int count=service.countNo();
+		String code="CJ"+uuid.getPrjCode("", count+1);
+		cj.setContractNo(code);
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){

@@ -27,4 +27,6 @@ public interface CjContractService {
 	public List<CjContract> selectCjByNo(String no);
 	
 	public List<CjContract> selectCjHistory(String no);
+	
+	public int countNo();
 }

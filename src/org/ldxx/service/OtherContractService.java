@@ -15,4 +15,6 @@ public interface OtherContractService {
 	public int updateOtherContract(OtherContract other);
 	
 	public List<OtherContract> selectCjHistory(String no);
+	
+	public int countNo();
 }

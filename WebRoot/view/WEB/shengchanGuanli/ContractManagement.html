@@ -10,8 +10,9 @@
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
     <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link href="../../font3/bootstrap-select.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- <link rel="stylesheet" href="../../style/jquery-editable-select.css"> -->
     <style lang="">
         
         .UpperPart{
@@ -62,7 +63,7 @@
                 </form>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary" onclick="add_contract()">填报合同单</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报合同单</button>
                 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">合同变更</button> -->
             </div>
 <!-- Modal -->
@@ -78,13 +79,13 @@
                     <form class="form-inline" method="post" id="new_form" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed">
                             <tr>
-                                <td>承接合同名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:18%;">承接合同名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
                                     <div class="form-group">
                                     	<input type="text" class="form-control" id="contract_name">
                                     </div>
                                 </td>
-                                <td>承接合同编号:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:18%;">承接合同编号: </td>
                                 <td>
                                     <div class="form-group">
                                     	<input type="text" class="form-control" id="contract_no" disabled>
@@ -92,17 +93,21 @@
                                 </td>
                             </tr>
                             <tr>
-                            	<td style="width:100px;">任务单号:</td>
-                                <td>
-                                    <div class="form-group">
-                                        <select class="form-control" style="width:180px;" id="work_no">
-                                        </select>
-                                    </div>
+                            	<td>任务单号:<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td colspan="3">
+                                    	<select class="selectpicker show-tick form-control"  onchange="changeWorkNo()" style="width:100%;" id="work_no" multiple data-live-search="true">
+                                    	</select>
+                                       <!--  <select class="form-control" style="width:180px;" id="work_no">
+                                        </select> -->
                                 </td>
-                                <td>项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td>
-                                	<select class="form-control" style="width:180px;" id="prj_name">
+                            </tr>
+                            <tr>
+                            	<td>项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td colspan="3">
+                                	<select class="selectpicker show-tick form-control"  style="width:100%;" onchange="changePrjName()"  id="prj_name" multiple data-live-search="true">
                                     </select>
+                                	<!-- <select class="form-control" style="width:180px;" id="prj_name">
+                                    </select> -->
                                 </td>
                             </tr>
                             <tr>
@@ -686,11 +691,10 @@
             <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>
                     <tr>
-                        <th style="width:8%;">任务单号</th>
-                        <th style="width:15%;">承接合同名称</th>
-                        <th style="width:13%;">项目类型</th>
-                        <th style="width:17%;">甲方</th>
-                        <th style="width:17%;">乙方</th>
+                        <th style="width:10%;">承接合同号</th>
+                        <th style="width:20%;">承接合同名称</th>
+                        <th style="width:20%;">甲方</th>
+                        <th style="width:20%;">乙方</th>
                         <th>合同金额</th>
                         <th>暂定金</th>
                         <th>合同工期</th>
@@ -915,10 +919,11 @@
 <script src="../../js/common-scripts.js"></script>
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
-<script src="../../js/jquery-editable-select.js"></script>
+<!-- <script src="../../js/jquery-editable-select.js"></script> -->
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/bootstrap-select.js"></script>
 <script>
     $(document).ready( function () {
         laydate.render({
@@ -957,9 +962,8 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-		            { "data": "taskCode"}, 
+		            { "data": "contractNo"}, 
 		            { "data": "contractName"}, 
-		            { "data": "prjType"}, 
 		            { "data": "ccName"}, 
 		            { "data": "contractNameYi"}, 
 		            { "data": "contractMoney"},
@@ -970,7 +974,7 @@
 		        "columnDefs": [
 								{	
 										 "class": "tcenter",
-										    "targets": 8,
+										    "targets": 7,
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" title="查看详细信息"  onclick="lookDetall(this)"></i><i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;margin-left:3px;" title="合同变更" onclick="contractChange(this)"></i><i class="iconfont icon-icon-test cancel" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="查看取消原因"  onclick="lookCancel(this)"></i><i class="iconfont icon-arrow chongqi" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="承接合同启用" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu iconquxiao" style="font-size:18px;cursor:pointer;margin-left:3px;" title="承接合同取消"  data-toggle="modal" data-target="#myModal2"></i><i class="iconfont icon-yibanshixiang iconwanjie" style="font-size:18px;cursor:pointer;margin-left:3px;" title="项目履约完结"  data-toggle="modal" data-target="#myModal5"></i>'
@@ -1298,7 +1302,9 @@
             		$("#edit_prj_name").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
             		$("#edit_work_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
             	}
-            	$('#prj_name').editableSelect().on('select.editable-select', function (e, dom) {
+            	$('#work_no').selectpicker('refresh');
+            	$('#prj_name').selectpicker('refresh');
+            	/* $('#prj_name').editableSelect().on('select.editable-select', function (e, dom) {
             		$.ajax({
                         type: 'POST',
                         url: getContextPath()+'/task/selectTaskPrjNo',
@@ -1354,10 +1360,111 @@
                         	$("#edit_prj_type").val(json.prjType2);
                         }
               		});
-			  	})
+			  	}) */
             }
   		});
   	}
+  	
+  	function changeWorkNo(){
+  		var no_list=$("#work_no").val();
+  		if(no_list!=null){
+	  		$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectTaskPrjName',
+	            dataType: 'json',
+	            data: {
+	            	prjNo:no_list.toString()
+	            },
+	            success: function (json) {
+	            	var array=new Array();
+	            	var array2=new Array();
+	            	for(var i=0;i<json.length;i++){
+	            		array.push(json[i].prjName)
+	            		var type=json[i].prjType2;
+	            		if($.inArray(type, array2)==-1){
+	            			array2.push(type)
+	            		}
+	            	}
+	            	$('#prj_name').removeAttr("onchange");
+	            	$('#prj_name').selectpicker('val', array);//设置选中 
+	            	$('#prj_type').val(array2.toString())
+	            }
+	  		});
+  		}else{
+  			$('#prj_name').selectpicker('val', "");
+  			$('#prj_type').val("");
+  		}
+  	}
+  	
+  	function changePrjName(){
+  		var name_list=$("#prj_name").val();
+  		if(name_list!=null){
+	  		$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectTaskPrjNo',
+	            dataType: 'json',
+	            data: {
+	            	prjName:name_list.toString()
+	            },
+	            success: function (json) {
+	            	var array=new Array();
+	            	var array2=new Array();
+	            	for(var i=0;i<json.length;i++){
+	            		array.push(json[i].prjNo)
+	            		var type=json[i].prjType2;
+	            		if($.inArray(type, array2)==-1){
+	            			array2.push(type)
+	            		}
+	            	}
+	            	$('#work_no').removeAttr("onchange");
+	            	$('#work_no').selectpicker('val', array);//设置选中 
+	            	$('#prj_type').val(array2.toString())
+	            }
+	  		});
+  		}else{
+  			$('#work_no').selectpicker('val', "");
+  			$('#prj_type').val("");
+  		}
+  	}
+  	
+  	/* $('#work_no').on("change",function(){
+  			var no_list=$("#work_no").val().toString();
+  	  		$.ajax({
+  	            type: 'POST',
+  	            url: getContextPath()+'/task/selectTaskPrjName',
+  	            dataType: 'json',
+  	            data: {
+  	            	prjNo:no_list
+  	            },
+  	            success: function (json) {
+  	            	var array=new Array();
+  	            	for(var i=0;i<json.length;i++){
+  	            		array.push(json[i].prjName)
+  	            	}
+  	            	$('#prj_name').selectpicker('val', array);//设置选中 
+  	            }
+  	  		});
+  	})
+  	
+  	$('#prj_name').on("change",function(){
+  			var name_list=$("#prj_name").val().toString();
+  	  		$.ajax({
+  	            type: 'POST',
+  	            url: getContextPath()+'/task/selectTaskPrjNo',
+  	            dataType: 'json',
+  	            data: {
+  	            	prjName:name_list
+  	            },
+  	            success: function (json) {
+  	            	var array=new Array();
+  	            	for(var i=0;i<json.length;i++){
+  	            		array.push(json[i].prjNo)
+  	            	}
+  	            	$('#work_no').selectpicker('val', array);//设置选中 
+  	            }
+  	  		});
+  		
+  	}) */
   	
   	function initCooperator(){
   		$.ajax({
@@ -1380,11 +1487,6 @@
 	    });
   	}
   	
-  	function add_contract(){
-  		/* $("#new_accessory").html('');
-  		$("#new_accessory").append("<tr><td>新附件</td><td><input type='file' name='file' class='form-control'></td><td style='width:150px;'></td></tr>") */
-  		$("#myModal").modal("show");
-  	}
   	
   	function new_accessory(){
   		$("#new_accessory").append("<tr><td>新附件</td><td><input type='file' name='file' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>")
@@ -1406,7 +1508,6 @@
   	
   	function new_save(){
   		var contract_name=$("#contract_name").val();
-  		var contract_no=$("#contract_no").val();
   		var work_no=$("#work_no").val();
   		var prj_name=$("#prj_name").val();
   		var prj_type=$("#prj_type").val();
@@ -1436,7 +1537,6 @@
    		        dataType: 'json',
    		        data: {
    		        	taskCode:work_no,
-   		        	contractNo:contract_no,
    		        	contractName:contract_name,
    		        	prjName:prj_name,
    		        	prjType:prj_type,
@@ -1474,7 +1574,6 @@
   	
   	function new_submit(){
   		var contract_name=$("#contract_name").val();
-  		var contract_no=$("#contract_no").val();
   		var work_no=$("#work_no").val();
   		var prj_name=$("#prj_name").val();
   		var prj_type=$("#prj_type").val();
@@ -1504,7 +1603,6 @@
    		        dataType: 'json',
    		        data: {
    		        	taskCode:work_no,
-   		        	contractNo:contract_no,
    		        	contractName:contract_name,
    		        	prjName:prj_name,
    		        	prjType:prj_type,

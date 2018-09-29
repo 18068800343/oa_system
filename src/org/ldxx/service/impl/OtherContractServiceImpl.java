@@ -61,4 +61,9 @@ public class OtherContractServiceImpl implements OtherContractService{
 		return dao.selectCjHistory(no);
 	}
 
+	@Override
+	public int countNo() {
+		return dao.countNo();
+	}
+
 }

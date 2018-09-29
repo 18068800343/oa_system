@@ -29,6 +29,15 @@ public class OtherContractConroller {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
+		int count=service.countNo();
+		String type="";
+		if(other.getContractType().equals("收款")){
+			type="A";
+		}else if(other.getContractType().equals("付款")){
+			type="B";
+		}
+		String code="QT"+uuid.getPrjCode(type, count+1);
+		other.setContractCode(code);
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
@@ -59,6 +68,15 @@ public class OtherContractConroller {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
+		int count=service.countNo();
+		String type="";
+		if(other.getContractType().equals("收款")){
+			type="A";
+		}else if(other.getContractType().equals("付款")){
+			type="B";
+		}
+		String code="QT"+uuid.getPrjCode(type, count+1);
+		other.setContractCode(code);
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){

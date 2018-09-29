@@ -28,4 +28,6 @@ public interface CjContractDao {
 	public List<CjContract> selectCjByNo(@Param("no")String no);
 	
 	public List<CjContract> selectCjHistory(@Param("no")String no);
+	
+	public int countNo();
 }

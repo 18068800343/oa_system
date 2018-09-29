@@ -91,4 +91,9 @@ public class CjContractServiceImpl implements CjContractService{
 		return dao.selectCjHistory(no);
 	}
 
+	@Override
+	public int countNo() {
+		return dao.countNo();
+	}
+
 }
