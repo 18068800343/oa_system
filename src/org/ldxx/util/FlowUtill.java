@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import sun.security.jca.GetInstance.Instance;
 
 @Component
 public class FlowUtill {
@@ -170,9 +171,13 @@ public class FlowUtill {
 					currentFlow.setDoDate(new Date());
 					currentFlow.setDeptname(currentFlowOld.getDeptname());
 					flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
-					if(!"end".equals(currentFlow.getFloNodeId())){
+					String oldFloNodeId = currentFlow.getFloNodeId();
+					FlowNode flowNode = INSTANCE.flowNodeMapper.selectByPrimaryKey(oldFloNodeId);
+					String nextFloNodeId = deque(flowNode, currentFlow);
+					if(!"end".equals(nextFloNodeId)){
 						currentFlow.setActor(next_user_id);
 						currentFlow.setActorname(next_name);
+						currentFlow.setFloNodeId(nextFloNodeId);
 						currentFlow.setDeptname(currentFlowOld.getDeptname());
 						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 						modeStatus.setModeId(modeId);
