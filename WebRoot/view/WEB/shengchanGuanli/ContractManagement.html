@@ -95,7 +95,7 @@
                             <tr>
                             	<td>任务单号:<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td colspan="3">
-                                    	<select class="selectpicker show-tick form-control"  onchange="changeWorkNo()" style="width:100%;" id="work_no" multiple data-live-search="true">
+                                    	<select class="selectpicker show-tick form-control"  style="width:100%;" onclick="clickWorkNo()" id="work_no" multiple data-live-search="true">
                                     	</select>
                                        <!--  <select class="form-control" style="width:180px;" id="work_no">
                                         </select> -->
@@ -104,7 +104,7 @@
                             <tr>
                             	<td>项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td colspan="3">
-                                	<select class="selectpicker show-tick form-control"  style="width:100%;" onchange="changePrjName()"  id="prj_name" multiple data-live-search="true">
+                                	<select class="selectpicker show-tick form-control"  style="width:100%;" onclick="clickPrjName()"  id="prj_name" multiple data-live-search="true">
                                     </select>
                                 	<!-- <select class="form-control" style="width:180px;" id="prj_name">
                                     </select> -->
@@ -1304,20 +1304,7 @@
             	}
             	$('#work_no').selectpicker('refresh');
             	$('#prj_name').selectpicker('refresh');
-            	/* $('#prj_name').editableSelect().on('select.editable-select', function (e, dom) {
-            		$.ajax({
-                        type: 'POST',
-                        url: getContextPath()+'/task/selectTaskPrjNo',
-                        dataType: 'json',
-                        data: {
-                        	prjName:$('#prj_name').val()
-                        },
-                        success: function (json) {
-                        	$('#work_no').val(json.prjNo);
-                        	$("#prj_type").val(json.prjType2);
-                        }
-              		});
-              	})
+            	/* 
               	$('#work_no').editableSelect().on('select.editable-select', function (e, dom) {
               		$.ajax({
                         type: 'POST',
@@ -1365,7 +1352,134 @@
   		});
   	}
   	
-  	function changeWorkNo(){
+  	function clickWorkNo(){
+  		var no_list=$("#work_no").val();
+  		console.log(no_list)
+  		if(no_list!=null){
+	  		$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectTaskPrjName',
+	            dataType: 'json',
+	            data: {
+	            	prjNo:no_list.toString()
+	            },
+	            success: function (json) {
+	            	var array=new Array();
+	            	var array2=new Array();
+	            	for(var i=0;i<json.length;i++){
+	            		array.push(json[i].prjName)
+	            		var type=json[i].prjType2;
+	            		if($.inArray(type, array2)==-1){
+	            			array2.push(type)
+	            		}
+	            	}
+	            	
+	            	$('#prj_name').selectpicker('val', array);//设置选中 
+	            	$('#prj_type').val(array2.toString())
+	            }
+	  		});
+  		}else{
+  			$('#prj_name').selectpicker('val', "");
+  			$('#prj_type').val("");
+  		}
+  	}
+  	
+  	function clickPrjName(){
+  		var name_list=$("#prj_name").val();
+  		console.log(name_list)
+  		if(name_list!=null){
+	  		$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectTaskPrjNo',
+	            dataType: 'json',
+	            data: {
+	            	prjName:name_list.toString()
+	            },
+	            success: function (json) {
+	            	var array=new Array();
+	            	var array2=new Array();
+	            	for(var i=0;i<json.length;i++){
+	            		array.push(json[i].prjNo)
+	            		var type=json[i].prjType2;
+	            		if($.inArray(type, array2)==-1){
+	            			array2.push(type)
+	            		}
+	            	}
+	            	
+	            	$('#work_no').selectpicker('val', array);//设置选中 
+	            	$('#prj_type').val(array2.toString())
+	            }
+	  		});
+  		}else{
+  			$('#work_no').selectpicker('val', "");
+  			$('#prj_type').val("");
+  		}
+  	}
+  	
+
+  	/* $("#work_no").change(function(){
+  		var no_list=$("#work_no").val();
+  		if(no_list!=null){
+	  		$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectTaskPrjName',
+	            dataType: 'json',
+	            data: {
+	            	prjNo:no_list.toString()
+	            },
+	            success: function (json) {
+	            	var array=new Array();
+	            	var array2=new Array();
+	            	for(var i=0;i<json.length;i++){
+	            		array.push(json[i].prjName)
+	            		var type=json[i].prjType2;
+	            		if($.inArray(type, array2)==-1){
+	            			array2.push(type)
+	            		}
+	            	}
+	            	
+	            	$('#prj_name').selectpicker('val', array);//设置选中 
+	            	$('#prj_type').val(array2.toString())
+	            }
+	  		});
+  		}else{
+  			$('#prj_name').selectpicker('val', "");
+  			$('#prj_type').val("");
+  		}
+  	})
+  	
+  	$("#prj_name").change(function(){
+  		var name_list=$("#prj_name").val();
+  		if(name_list!=null){
+	  		$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectTaskPrjNo',
+	            dataType: 'json',
+	            data: {
+	            	prjName:name_list.toString()
+	            },
+	            success: function (json) {
+	            	var array=new Array();
+	            	var array2=new Array();
+	            	for(var i=0;i<json.length;i++){
+	            		array.push(json[i].prjNo)
+	            		var type=json[i].prjType2;
+	            		if($.inArray(type, array2)==-1){
+	            			array2.push(type)
+	            		}
+	            	}
+	            	
+	            	$('#work_no').selectpicker('val', array);//设置选中 
+	            	$('#prj_type').val(array2.toString())
+	            }
+	  		});
+  		}else{
+  			$('#work_no').selectpicker('val', "");
+  			$('#prj_type').val("");
+  		}
+  	}) */
+  	
+  	/* function changeWorkNo(){
   		var no_list=$("#work_no").val();
   		if(no_list!=null){
 	  		$.ajax({
@@ -1425,46 +1539,8 @@
   			$('#work_no').selectpicker('val', "");
   			$('#prj_type').val("");
   		}
-  	}
+  	} */
   	
-  	/* $('#work_no').on("change",function(){
-  			var no_list=$("#work_no").val().toString();
-  	  		$.ajax({
-  	            type: 'POST',
-  	            url: getContextPath()+'/task/selectTaskPrjName',
-  	            dataType: 'json',
-  	            data: {
-  	            	prjNo:no_list
-  	            },
-  	            success: function (json) {
-  	            	var array=new Array();
-  	            	for(var i=0;i<json.length;i++){
-  	            		array.push(json[i].prjName)
-  	            	}
-  	            	$('#prj_name').selectpicker('val', array);//设置选中 
-  	            }
-  	  		});
-  	})
-  	
-  	$('#prj_name').on("change",function(){
-  			var name_list=$("#prj_name").val().toString();
-  	  		$.ajax({
-  	            type: 'POST',
-  	            url: getContextPath()+'/task/selectTaskPrjNo',
-  	            dataType: 'json',
-  	            data: {
-  	            	prjName:name_list
-  	            },
-  	            success: function (json) {
-  	            	var array=new Array();
-  	            	for(var i=0;i<json.length;i++){
-  	            		array.push(json[i].prjNo)
-  	            	}
-  	            	$('#work_no').selectpicker('val', array);//设置选中 
-  	            }
-  	  		});
-  		
-  	}) */
   	
   	function initCooperator(){
   		$.ajax({
