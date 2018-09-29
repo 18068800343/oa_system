@@ -10,6 +10,7 @@ import java.util.List;
 public class BudgetFpplicationForm {
 	
 	private String bfId;
+	private String bfNo;//预算单编号
 	private String prjId;//项目id
 	private String taskNo;//任务单号
 	private String prjUnit;//甲方单位
@@ -21,12 +22,17 @@ public class BudgetFpplicationForm {
 	private List<CostBudget> costBudget;
 	private List<ArtificialBudget> artificialBudget;
 	
-	private String prjName;//项目名
     private String ccName;//项目负责人
 	
 	
     
     
+	public String getBfNo() {
+		return bfNo;
+	}
+	public void setBfNo(String bfNo) {
+		this.bfNo = bfNo;
+	}
 	public String getState() {
 		return state;
 	}
@@ -38,12 +44,6 @@ public class BudgetFpplicationForm {
 	}
 	public void setMakeTime(String makeTime) {
 		this.makeTime = makeTime;
-	}
-	public String getPrjName() {
-		return prjName;
-	}
-	public void setPrjName(String prjName) {
-		this.prjName = prjName;
 	}
 	
 	public String getCcName() {

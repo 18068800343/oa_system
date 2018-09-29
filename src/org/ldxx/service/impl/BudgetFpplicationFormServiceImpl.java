@@ -107,7 +107,12 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	}
 
 	@Override
-	public List<BudgetFpplicationForm> selectBudgeHistory(String taskNo) {
-		return bdao.selectBudgeHistory(taskNo);
+	public List<BudgetFpplicationForm> selectBudgeHistory(String no) {
+		return bdao.selectBudgeHistory(no);
+	}
+
+	@Override
+	public int countNo() {
+		return bdao.countNo();
 	}
 }

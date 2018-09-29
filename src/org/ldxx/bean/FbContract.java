@@ -48,10 +48,8 @@ public class FbContract {
     private String history;//历史状态
     
     
-    private String prjName;//项目名
     private String omName;//部门名称
     private String ccName;//乙方单位名称
-    private String cjcontractName2;//承接合同名称
     
     private List<Accessory> accessory;
     
@@ -82,13 +80,6 @@ public class FbContract {
 		this.fbNo = fbNo;
 	}
 
-	public String getCjcontractName2() {
-		return cjcontractName2;
-	}
-
-	public void setCjcontractName2(String cjcontractName2) {
-		this.cjcontractName2 = cjcontractName2;
-	}
 
 	public String getCcName() {
 		return ccName;
@@ -106,13 +97,6 @@ public class FbContract {
 		this.omName = omName;
 	}
 
-	public String getPrjName() {
-		return prjName;
-	}
-
-	public void setPrjName(String prjName) {
-		this.prjName = prjName;
-	}
 
 	public Float getPerformanceBond() {
 		return performanceBond;

@@ -19,6 +19,8 @@ public interface BudgetFpplicationFormDao {
 
 	int changeStateById(@Param("bfId")String bfId);
 
-	List<BudgetFpplicationForm> selectBudgeHistory(@Param("taskNo")String taskNo);
+	List<BudgetFpplicationForm> selectBudgeHistory(@Param("no")String no);
+
+	int countNo();
 
 }

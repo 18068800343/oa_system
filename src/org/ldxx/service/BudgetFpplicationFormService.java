@@ -18,6 +18,8 @@ public interface BudgetFpplicationFormService {
 
 	int changeStateById(String bfId);
 
-	List<BudgetFpplicationForm> selectBudgeHistory(String taskNo);
+	List<BudgetFpplicationForm> selectBudgeHistory(String no);
+
+	int countNo();
 
 }

@@ -31,13 +31,13 @@ public class BudgetFpplicationFormController {
 	@ResponseBody
 	public Map<String,Object> saveBudge(@RequestBody List<BudgetFpplicationForm> budges){
 		Map<String,Object> map = new HashMap<>();
-		String id=new TimeUUID().getTimeUUID();
-		Date date = new Date();
-		SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss");
-		String nowTime=dateFormat.format(date);
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
 		BudgetFpplicationForm budge = budges.get(0);
 		budge.setBfId(id);
-		budge.setMakeTime(nowTime);
+		int count=bservice.countNo();
+		String code="YS"+uuid.getPrjCode("", count+1);
+		budge.setBfNo(code);
 		int i=bservice.saveBudge(budge);
 		map.put("result", i);
 		map.put("budge", budge);
@@ -48,13 +48,13 @@ public class BudgetFpplicationFormController {
 	@ResponseBody
 	public Map<String,Object> submitBudge(@RequestBody List<BudgetFpplicationForm> budges){
 		Map<String,Object> map = new HashMap<>();
-		String id=new TimeUUID().getTimeUUID();
-		Date date = new Date();
-		SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss");
-		String nowTime=dateFormat.format(date);
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
 		BudgetFpplicationForm budge = budges.get(0);
 		budge.setBfId(id);
-		budge.setMakeTime(nowTime);
+		int count=bservice.countNo();
+		String code="YS"+uuid.getPrjCode("", count+1);
+		budge.setBfNo(code);
 		int i=bservice.saveBudge(budge);
 		map.put("result", i);
 		map.put("budge", budge);
@@ -71,12 +71,8 @@ public class BudgetFpplicationFormController {
 	@ResponseBody
 	public Map<String,Object> updateBudgeSave(@RequestBody List<BudgetFpplicationForm> budges){
 		Map<String,Object> map = new HashMap<>();
-		Date date = new Date();
-		SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss");
-		String nowTime=dateFormat.format(date);
 		BudgetFpplicationForm budge = budges.get(0);
-		budge.setMakeTime(nowTime);
-		int i=bservice.changeStateById(budge.getBfId());
+		int i=bservice.changeStateById(budge.getBfId());//修改历史状态为0
 		if(i>0){
 			String newId=new TimeUUID().getTimeUUID();
 			budge.setBfId(newId);
@@ -91,11 +87,7 @@ public class BudgetFpplicationFormController {
 	@ResponseBody
 	public Map<String,Object> updateBudgeSubmit(@RequestBody List<BudgetFpplicationForm> budges){
 		Map<String,Object> map = new HashMap<>();
-		Date date = new Date();
-		SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss");
-		String nowTime=dateFormat.format(date);
 		BudgetFpplicationForm budge = budges.get(0);
-		budge.setMakeTime(nowTime);
 		int i=bservice.changeStateById(budge.getBfId());
 		if(i>0){
 			String newId=new TimeUUID().getTimeUUID();
@@ -121,8 +113,8 @@ public class BudgetFpplicationFormController {
 	
 	@RequestMapping("/selectBudgeHistory")
 	@ResponseBody
-	public List<BudgetFpplicationForm> selectBudgeHistory(String taskNo){
-		List<BudgetFpplicationForm> budgeHistoryList=bservice.selectBudgeHistory(taskNo);
+	public List<BudgetFpplicationForm> selectBudgeHistory(String no){
+		List<BudgetFpplicationForm> budgeHistoryList=bservice.selectBudgeHistory(no);
 		return budgeHistoryList;
 	}
 }
