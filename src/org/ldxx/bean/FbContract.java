@@ -44,6 +44,8 @@ public class FbContract {
     private Float performanceBond;//已收履约保证金
     
     private String workContent;//工作内容
+    private String makeTime; //当前时间
+    private String history;//历史状态
     
     
     private String prjName;//项目名
@@ -55,6 +57,22 @@ public class FbContract {
     
     
     
+
+	public String getMakeTime() {
+		return makeTime;
+	}
+
+	public void setMakeTime(String makeTime) {
+		this.makeTime = makeTime;
+	}
+
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String history) {
+		this.history = history;
+	}
 
 	public String getFbNo() {
 		return fbNo;

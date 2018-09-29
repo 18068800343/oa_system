@@ -13,6 +13,7 @@ public class CgContract {
 	private String contractName;// 采购合同名称
 	private String cgNo;//采购合同编号
 	private String workNo;// 任务单号
+	private String prjName;//项目名称
 	private String isProgram;// 是否代购
 	private String cgcType;// 采购合同类型
 	private String cgDepartment;// 采购部门
@@ -25,7 +26,9 @@ public class CgContract {
 	private String contractSignTime;// 采购合同签订时间
 	private String contractSummary;// 采购合同概述
 	private String workContent;// 主要概况及工作内容
-
+	private String makeTime; //当前时间
+	private String history;//历史状态
+	    
 	private List<Accessory> accessory;
 
 	private String omName;// 部门名称
@@ -33,6 +36,30 @@ public class CgContract {
 
 	
 	
+	public String getMakeTime() {
+		return makeTime;
+	}
+
+	public void setMakeTime(String makeTime) {
+		this.makeTime = makeTime;
+	}
+
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String history) {
+		this.history = history;
+	}
+
+	public String getPrjName() {
+		return prjName;
+	}
+
+	public void setPrjName(String prjName) {
+		this.prjName = prjName;
+	}
+
 	public String getCgNo() {
 		return cgNo;
 	}

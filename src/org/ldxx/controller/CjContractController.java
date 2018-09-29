@@ -198,4 +198,23 @@ public class CjContractController {
 		int i=service.addCjContract(cj);
 		return i;
 	}
+	
+	@RequestMapping("/selectNameAndNo")//初始化承接合同名和合同号
+	@ResponseBody
+	public List<CjContract> selectNameAndNo(){
+		List<CjContract> list=service.selectNameAndNo();
+		return list;
+	}
+	
+	@RequestMapping("/selectCjContractByName")//通过承接合同名查询合同号、项目名以及任务单号
+	@ResponseBody
+	public CjContract selectCjContractByName(String name){
+		return service.selectCjContractByName(name);
+	}
+	
+	@RequestMapping("/selectCjContractByNo")//通过合同号查询承接合同名、项目名以及任务单号
+	@ResponseBody
+	public CjContract selectCjContractByNo(String no){
+		return service.selectCjContractByNo(no);
+	}
 }

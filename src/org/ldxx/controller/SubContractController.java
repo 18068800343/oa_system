@@ -40,8 +40,18 @@ public class SubContractController {
 	public Map<String,Object> saveSubContract(FbContract fbContract,@RequestParam("file")MultipartFile file[]){
 		Map<String,Object> map = new HashMap<>();
 		List<Accessory> list=new ArrayList<>();
-		String id=new TimeUUID().getTimeUUID();
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
 		fbContract.setFbId(id);
+		
+		String type = fbContract.getFbcType();
+		String code = type.split(" ")[1];
+		int count=scService.fbNocount();
+		count=count+1;
+		String fbNo=uuid.getPrjCode(code, count);
+		fbNo="FB"+fbNo;
+		fbContract.setFbNo(fbNo);	
+		
 		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
 		for(int i=0;i<file.length;i++){
 			String filename = file[i].getOriginalFilename();
@@ -75,8 +85,18 @@ public class SubContractController {
 	public Map<String,Object> submitSubContract(FbContract fbContract,@RequestParam("file")MultipartFile file[]){
 		Map<String,Object> map = new HashMap<>();
 		List<Accessory> list=new ArrayList<>();
-		String id=new TimeUUID().getTimeUUID();
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
 		fbContract.setFbId(id);
+		
+		String type = fbContract.getFbcType();
+		String code = type.split(" ")[1];
+		int count=scService.fbNocount();
+		count=count+1;
+		String fbNo=uuid.getPrjCode(code, count);
+		fbNo="FB"+fbNo;
+		fbContract.setFbNo(fbNo);
+		
 		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
 		for(int i=0;i<file.length;i++){
 			String filename = file[i].getOriginalFilename();
@@ -111,23 +131,16 @@ public class SubContractController {
 		return scService.deleteSubContractById(id);
 	}
 	
-	@RequestMapping("/deleteAccessory")
-	@ResponseBody
-	public int deleteAccessory(Accessory accessory){
-		int i=scService.deleteAccessoryByIdAndName(accessory);
-		if(i>0){
-			File f=new File(accessory.getAcUrl());
-			f.delete();
-		}
-		return i;
-	}
 	
 	@RequestMapping("/updateSubContractsave")
 	@ResponseBody
 	public Map<String,Object> updateSubContractsave(FbContract fbContract,@RequestParam("file")MultipartFile file[]){
 		Map<String,Object> map = new HashMap<>();
 		List<Accessory> list=new ArrayList<>();
-		String id = fbContract.getFbId();
+		String id=new TimeUUID().getTimeUUID();
+		scService.updateHistory(fbContract.getFbId());
+		fbContract.setFbId(id);
+		
 		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
 		for(int i=0;i<file.length;i++){
 			String filename = file[i].getOriginalFilename();
@@ -150,7 +163,7 @@ public class SubContractController {
 				map.put("result", 0);
 			}
 		}
-		int i=scService.updateSubContract(fbContract);
+		int i=scService.saveSubContract(fbContract);
 		map.put("result", i);
 		map.put("fbContract", fbContract);
 		return map;
@@ -161,7 +174,10 @@ public class SubContractController {
 	public Map<String,Object> updateSubContractsubmit(FbContract fbContract,@RequestParam("file")MultipartFile file[]){
 		Map<String,Object> map = new HashMap<>();
 		List<Accessory> list=new ArrayList<>();
-		String id = fbContract.getFbId();
+		String id=new TimeUUID().getTimeUUID();
+		scService.updateHistory(fbContract.getFbId());
+		fbContract.setFbId(id);
+		
 		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
 		for(int i=0;i<file.length;i++){
 			String filename = file[i].getOriginalFilename();
@@ -184,7 +200,7 @@ public class SubContractController {
 				map.put("result", 0);
 			}
 		}
-		int i=scService.updateSubContract(fbContract);
+		int i=scService.saveSubContract(fbContract);
 		map.put("result", i);
 		map.put("fbContract", fbContract);
 		return map;
@@ -201,5 +217,42 @@ public class SubContractController {
 	public List<Accessory> selectAccessoryById(String id){
 		List<Accessory> list=scService.selectAccessoryById(id);
 		return list;
+	}
+	
+	@RequestMapping("/deleteAccessory")
+	@ResponseBody
+	public int deleteAccessory(Accessory accessory){
+		int i=scService.deleteAccessoryByIdAndName(accessory);
+		if(i>0){
+			File f=new File(accessory.getAcUrl());
+			f.delete();
+		}
+		return i;
+	}
+	
+	@RequestMapping("/selectsubcontractHistory")//初始化合同历史信息
+	@ResponseBody
+	public List<FbContract> selectsubcontractHistory(String fbNo){
+		List<FbContract> list=scService.selectsubcontractHistory(fbNo);
+		return list;
+	}
+	
+	@RequestMapping("/getFBNameAndNo")//初始化合同名和合同编号
+	@ResponseBody
+	public List<FbContract> getFBNameAndNo(){
+		List<FbContract> list=scService.getFBNameAndNo();
+		return list;
+	}
+	
+	@RequestMapping("/getFBNameByNo")//通过合同编号获得合同名
+	@ResponseBody
+	public FbContract getFBNameByNo(String fbNo){
+		return scService.getFBNameByNo(fbNo);
+	}
+	
+	@RequestMapping("/getFBNoByName")//通过合同名获得合同编号
+	@ResponseBody
+	public FbContract getFBNoByName(String contractName){
+		return scService.getFBNoByName(contractName);
 	}
 }

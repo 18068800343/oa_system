@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CgContract;
+import org.ldxx.bean.FbContract;
 
 public interface CgContractDao {
 
@@ -20,5 +21,17 @@ public interface CgContractDao {
 	List<CgContract> selectCgIdAndName();
 
 	CgContract selectCgnoById(@Param("id")String id);
+
+	void updateHistoryById(@Param("cgId")String cgId);
+
+	List<CgContract> selectHistoryByNo(@Param("cgNo")String cgNo);
+
+	int cgNocount();
+
+	List<CgContract> getCGNameAndNo();
+
+	CgContract getCGNameByNo(@Param("cgNo")String cgNo);
+
+	CgContract getCGNoByName(@Param("contractName")String contractName);
 
 }

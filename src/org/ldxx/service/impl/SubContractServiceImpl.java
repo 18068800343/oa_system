@@ -76,4 +76,34 @@ public class SubContractServiceImpl implements SubContractService {
 	public int deleteAccessoryByIdAndName(Accessory accessory) {
 		return adao.deleteAccessoryByIdAndName(accessory);
 	}
+
+	@Override
+	public List<FbContract> selectsubcontractHistory(String fbNo) {
+		return scDao.selectsubcontractHistory(fbNo);
+	}
+
+	@Override
+	public int fbNocount() {
+		return scDao.fbNocount();
+	}
+
+	@Override
+	public void updateHistory(String fbId) {
+		scDao.updateHistory(fbId);
+	}
+
+	@Override
+	public List<FbContract> getFBNameAndNo() {
+		return scDao.getFBNameAndNo();
+	}
+
+	@Override
+	public FbContract getFBNameByNo(String fbNo) {
+		return scDao.getFBNameByNo(fbNo);
+	}
+
+	@Override
+	public FbContract getFBNoByName(String contractName) {
+		return scDao.getFBNoByName(contractName);
+	}
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.ContractPaymentDao" >
+	<select id="selectPayByStatus" resultType="org.ldxx.bean.Pay">
+		select * from pay a
+			left join mode_status m on m.mode_id=a.pay_id
+		where m.status=#{status} and a.history=1
+	</select>
+ 	<insert id="addCgContract" parameterType="org.ldxx.bean.Pay" >
+    insert into pay (pay_id,pay_code, contract_code, contract_name, 
+      contract_money, already_kp_money, this_time_kp_money, 
+      main_contract_code, main_contract_name, main_contract_money, 
+      prj_list_code, prj_name, fb_contract_schedule, 
+      if_contract_do_cost, contract_do_cost_money, 
+      already_accumulate_money, should_cut_df_money, 
+      should_cut_material_money, this_time_ask_money, 
+      pay_method, receieve_money_company, this_time_actual_pay_money, 
+      pay_list_explain, compiler_person, compiler_time, 
+      make_time,history)
+    values (#{pay.payId,jdbcType=VARCHAR},#{pay.payCode,jdbcType=VARCHAR}, #{pay.contractCode,jdbcType=VARCHAR}, #{pay.contractName,jdbcType=VARCHAR}, 
+      #{pay.contractMoney,jdbcType=VARCHAR}, #{pay.alreadyKpMoney,jdbcType=VARCHAR}, #{pay.thisTimeKpMoney,jdbcType=VARCHAR}, 
+      #{pay.mainContractCode,jdbcType=VARCHAR}, #{pay.mainContractName,jdbcType=VARCHAR}, #{pay.mainContractMoney,jdbcType=VARCHAR}, 
+      #{pay.prjListCode,jdbcType=VARCHAR}, #{pay.prjName,jdbcType=VARCHAR}, #{pay.fbContractSchedule,jdbcType=VARCHAR}, 
+      #{pay.ifContractDoCost,jdbcType=VARCHAR}, #{pay.contractDoCostMoney,jdbcType=VARCHAR}, 
+      #{pay.alreadyAccumulateMoney,jdbcType=VARCHAR}, #{pay.shouldCutDfMoney,jdbcType=VARCHAR}, 
+      #{pay.shouldCutMaterialMoney,jdbcType=VARCHAR}, #{pay.thisTimeAskMoney,jdbcType=VARCHAR}, 
+      #{pay.payMethod,jdbcType=VARCHAR}, #{pay.receieveMoneyCompany,jdbcType=VARCHAR}, #{pay.thisTimeActualPayMoney,jdbcType=VARCHAR}, 
+      #{pay.payListExplain,jdbcType=VARCHAR}, #{pay.compilerPerson,jdbcType=VARCHAR}, #{pay.compilerTime,jdbcType=VARCHAR}, 
+      now(),1)
+  	</insert>
+  	<update id="updateHistory">
+  		update pay set history=0 where pay_id=#{payId}
+  	</update>
+  	<select id="selectPayById" resultType="pay">
+  		select * from pay where pay_id=#{id}
+  	</select>
+  
+</mapper>

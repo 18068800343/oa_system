@@ -29,4 +29,10 @@ public interface CjContractService {
 	public List<CjContract> selectCjHistory(String no);
 	
 	public int countNo();
+
+	public List<CjContract> selectNameAndNo();
+
+	public CjContract selectCjContractByName(String name);
+
+	public CjContract selectCjContractByNo(String no);
 }

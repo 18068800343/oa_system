@@ -30,4 +30,10 @@ public interface CjContractDao {
 	public List<CjContract> selectCjHistory(@Param("no")String no);
 	
 	public int countNo();
+
+	public List<CjContract> selectNameAndNo();
+
+	public CjContract selectCjContractByName(@Param("name")String name);
+
+	public CjContract selectCjContractByNo(@Param("no")String no);
 }

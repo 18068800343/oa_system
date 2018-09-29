@@ -21,4 +21,16 @@ public interface SubContractService {
 
 	int deleteAccessoryByIdAndName(Accessory accessory);
 
+	List<FbContract> selectsubcontractHistory(String fbNo);
+
+	int fbNocount();
+
+	void updateHistory(String fbId);
+
+	List<FbContract> getFBNameAndNo();
+
+	FbContract getFBNameByNo(String fbNo);
+
+	FbContract getFBNoByName(String contractName);
+
 }

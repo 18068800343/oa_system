@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgContract;
+import org.ldxx.bean.FbContract;
 
 public interface CgContractService {
 
@@ -24,5 +25,17 @@ public interface CgContractService {
 	List<CgContract> selectCgIdAndName();
 
 	CgContract selectCgnoById(String id);
+
+	void updateHistoryById(String cgId);
+
+	List<CgContract> selectHistoryByNo(String cgNo);
+
+	int cgNocount();
+
+	List<CgContract> getCGNameAndNo();
+
+	CgContract getCGNameByNo(String cgNo);
+
+	CgContract getCGNoByName(String contractName);
 
 }

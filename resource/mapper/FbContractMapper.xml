@@ -8,12 +8,12 @@
 			left join organization_management o on o.om_id=f.main_manage_department
 			left join consociation_company c on c.cc_id=f.contract_name_yi
 			left join cj_contract j on j.cj_id=f.cj_contract_name
-			where m.status=#{status}
+			where m.status=#{status} and f.history=1
 	</select>
 	<insert id="saveSubContract" parameterType="fbContract">
 		insert into fb_contract(fb_id,contract_name,fb_no,fbc_type,contract_name_jia,contract_name_yi,prj_id,work_no,cj_contract_name,
 			cj_contract_code,main_contract_money,now_fb_all_money,contract_start_time,contract_end_time,main_manage_department,contract_long_time,
-			pay_mode,contract_money,temporary_money,performance_bond,work_content)
+			pay_mode,contract_money,temporary_money,performance_bond,work_content,make_time,history)
 			values(#{fbContract.fbId},
 				#{fbContract.contractName},
 				#{fbContract.fbNo},
@@ -34,15 +34,42 @@
 				#{fbContract.contractMoney},
 				#{fbContract.temporaryMoney},
 				#{fbContract.performanceBond},
-				#{fbContract.workContent})
+				#{fbContract.workContent},
+				now(),1)
 	</insert>
 	<delete id="deleteSubContractById" parameterType="String">
 		delete from fb_contract where fb_id=#{id}
 	</delete>
 	<select id="selectSubContractById" parameterType="String" resultType="fbContract">
-		select * from fb_contract where fb_id=#{id}
+		select f.*,o.om_name,j.contract_name cjcontractName2 from fb_contract f
+			left join organization_management o on o.om_id=f.main_manage_department
+			left join consociation_company c on c.cc_id=f.contract_name_yi
+			left join cj_contract j on j.cj_id=f.cj_contract_name
+		where fb_id=#{id}
 	</select>
-  <update id="updateSubContract" parameterType="org.ldxx.bean.FbContract" >
+	<select id="selectsubcontractHistory" parameterType="String" resultType="fbContract">
+		select f.*,c.cc_name from fb_contract f
+			left join consociation_company c on c.cc_id=f.contract_name_yi
+		 where fb_no=#{fbNo} and history=0
+	</select>
+	<select id="fbNocount" resultType="int">
+		select count(1) from (select distinct fb_no from fb_contract) as a
+	</select>
+	<update id="updateHistory">
+		update fb_contract set history=0 where fb_id=#{fbId}
+	</update>
+	<select id="getFBNameAndNo" resultType="fbContract">
+		select contract_name,fb_no from fb_contract f
+			left join mode_status m on m.mode_id=f.fb_id
+		where m.status=2 and f.history=1
+	</select>
+	<select id="getFBNameByNo" resultType="fbContract">
+		select contract_name from fb_contract where fb_no=#{fbNo} and history=1
+	</select>
+	<select id="getFBNoByName" resultType="fbContract">
+		select fb_no from fb_contract where contract_name=#{contractName} and history=1
+	</select>
+  <!-- <update id="updateSubContract" parameterType="org.ldxx.bean.FbContract" >
     update fb_contract
     set contract_name = #{fbContract.contractName},
    	  fb_no=#{fbContract.fbNo},
@@ -63,7 +90,8 @@
       contract_money = #{fbContract.contractMoney},
       temporary_money=#{fbContract.temporaryMoney},
       performance_bond=#{fbContract.performanceBond},
-      work_content=#{fbContract.workContent}
+      work_content=#{fbContract.workContent},
+      make_time=#{now()}
     where fb_id = #{fbContract.fbId}
-  </update> 
+  </update>  -->
 </mapper>

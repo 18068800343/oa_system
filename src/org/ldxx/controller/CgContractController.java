@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgContract;
+import org.ldxx.bean.FbContract;
 import org.ldxx.service.CgContractService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,15 @@ public class CgContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
+		
+		String type = cg.getCgcType();
+		String code = type.split(" ")[1];
+		int count=cgService.cgNocount();
+		count=count+1;
+		String cgNo=uuid.getPrjCode(code, count);
+		cgNo="CG"+cgNo;
+		cg.setCgNo(cgNo);
+		
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
@@ -73,6 +83,15 @@ public class CgContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
+		
+		String type = cg.getCgcType();
+		String code = type.split(" ")[1];
+		int count=cgService.cgNocount();
+		count=count+1;
+		String cgNo=uuid.getPrjCode(code, count);
+		cgNo="CG"+cgNo;
+		cg.setCgNo(cgNo);
+		
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
@@ -107,7 +126,11 @@ public class CgContractController {
 	@RequestMapping("/updateCgContractSave")
 	@ResponseBody
 	public int updateCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
-		String id = cg.getCgId();
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		cgService.updateHistoryById(cg.getCgId());
+		cg.setCgId(id);
+		
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
@@ -128,14 +151,18 @@ public class CgContractController {
 			}
 			cg.setAccessory(list);
 		}
-		int i=cgService.updateCgContractSave(cg);
+		int i=cgService.addCgContract(cg);
 		return i;
 	}
 	
 	@RequestMapping("/updateCgContractSubmit")
 	@ResponseBody
 	public int updateCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
-		String id = cg.getCgId();
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		cgService.updateHistoryById(cg.getCgId());
+		cg.setCgId(id);
+		
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
@@ -156,7 +183,7 @@ public class CgContractController {
 			}
 			cg.setAccessory(list);
 		}
-		int i=cgService.updateCgContractSave(cg);
+		int i=cgService.addCgContract(cg);
 		return i;
 	}
 	
@@ -194,5 +221,30 @@ public class CgContractController {
 			f.delete();
 		}
 		return i;
+	}
+	
+	@RequestMapping("/selectHistoryByNo")
+	@ResponseBody
+	public List<CgContract> selectHistoryByNo(String cgNo){
+		return cgService.selectHistoryByNo(cgNo);
+	}
+	
+	@RequestMapping("/getCGNameAndNo")//初始化合同名和合同编号
+	@ResponseBody
+	public List<CgContract> getCGNameAndNo(){
+		List<CgContract> list=cgService.getCGNameAndNo();
+		return list;
+	}
+	
+	@RequestMapping("/getCGNameByNo")//通过合同编号获得合同名
+	@ResponseBody
+	public CgContract getCGNameByNo(String cgNo){
+		return cgService.getCGNameByNo(cgNo);
+	}
+	
+	@RequestMapping("/getCGNoByName")//通过合同名获得合同编号
+	@ResponseBody
+	public CgContract getCGNoByName(String contractName){
+		return cgService.getCGNoByName(contractName);
 	}
 }

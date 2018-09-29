@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgContract;
+import org.ldxx.bean.FbContract;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.CgContractDao;
 import org.ldxx.service.CgContractService;
@@ -87,6 +88,36 @@ public class CgContractServiceImpl implements CgContractService {
 	@Override
 	public CgContract selectCgnoById(String id) {
 		return cgDao.selectCgnoById(id);
+	}
+
+	@Override
+	public void updateHistoryById(String cgId) {
+		cgDao.updateHistoryById(cgId);
+	}
+
+	@Override
+	public List<CgContract> selectHistoryByNo(String cgNo) {
+		return cgDao.selectHistoryByNo(cgNo);
+	}
+
+	@Override
+	public int cgNocount() {
+		return cgDao.cgNocount();
+	}
+
+	@Override
+	public List<CgContract> getCGNameAndNo() {
+		return cgDao.getCGNameAndNo();
+	}
+
+	@Override
+	public CgContract getCGNameByNo(String cgNo) {
+		return cgDao.getCGNameByNo(cgNo);
+	}
+
+	@Override
+	public CgContract getCGNoByName(String contractName) {
+		return cgDao.getCGNoByName(contractName);
 	}
 
 }

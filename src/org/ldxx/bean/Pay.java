@@ -1,61 +1,76 @@
 package org.ldxx.bean;
 
+import java.util.List;
+
 public class Pay {
     private String payId;
 
-    private String payCode;
+    private String payCode;//付款单号
 
-    private String contractCode;
+    private String contractCode;//合同编码
 
-    private String contractName;
+    private String contractName;//合同名称
 
-    private String contractMoney;
+    private String contractMoney;//合同金额
 
-    private String alreadyKpMoney;
+    private String alreadyKpMoney;//已经开票金额
 
-    private String thisTimeKpMoney;
+    private String thisTimeKpMoney;//本次开票金额
 
-    private String mainContractCode;
+    private String mainContractCode;//主合同号
 
-    private String mainContractName;
+    private String mainContractName;//主合同名称
 
-    private String mainContractMoney;
+    private String mainContractMoney;//主合同金额
 
-    private String prjListCode;
+    private String prjListCode;//任务单号
 
-    private String prjName;
+    private String prjName;//项目名称
 
-    private String fbContractSchedule;
+    private String fbContractSchedule;//分包合同进度
 
-    private String ifContractDoCost;
+    private String ifContractDoCost;//是否进行合同履约结算
 
-    private String contractDoCostMoney;
+    private String contractDoCostMoney;//合同履约结算金额
 
-    private String alreadyAccumulateMoney;
+    private String alreadyAccumulateMoney;//已累计进付金额
 
-    private String shouldCutDfMoney;
+    private String shouldCutDfMoney;//应扣除代付款
 
-    private String shouldCutMaterialMoney;
+    private String shouldCutMaterialMoney;//应扣除材料费
 
-    private String thisTimeAskMoney;
+    private String thisTimeAskMoney;//本次申请付款
 
-    private String payMethod;
+    private String payMethod;//付款性质
 
-    private String receieveMoneyCompany;
+    private String receieveMoneyCompany;//收款单位
 
-    private String thisTimeActualPayMoney;
+    private String thisTimeActualPayMoney;//本次实际付款
 
-    private String payListExplain;
+    private String payListExplain;//付款单说明
 
-    private String compilerPerson;
+    private String compilerPerson;//编制人
 
-    private String compilerTime;
+    private String compilerTime;//编制时间
 
-    private String openTicketFile;
+    private String openTicketFile;//开票附件名称
 
     private String ticketFilePath;
 
-    public String getPayId() {
+    
+    private List<Accessory> accessory;
+    
+    
+    
+    public List<Accessory> getAccessory() {
+		return accessory;
+	}
+
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
+
+	public String getPayId() {
         return payId;
     }
 
