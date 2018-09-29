@@ -19,4 +19,12 @@ public interface CjContractService {
 	public List<CjContract> selectIdAndName();
 	
 	public List<CjContract> selectContractNoById(String id);
+	
+	public List<CjContract> selectContractByTaskNo(String no);
+	
+	public List<CjContract> selectCjByName(String name);
+	
+	public List<CjContract> selectCjByNo(String no);
+	
+	public List<CjContract> selectCjHistory(String no);
 }

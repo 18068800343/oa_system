@@ -30,7 +30,7 @@ public class TimeUUID {
 	
 	public static void main(String[] args) {
 		TimeUUID uuid=new TimeUUID();
-		String aa=uuid.getPrjCode("A1", 80);
+		String aa=uuid.getPrjCode("", 80);
 		System.out.println(aa);
 	}
 }

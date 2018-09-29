@@ -44,7 +44,7 @@ public class TaskController {
 		
 		String type=t.getPrjType2();
 		String code=type.split(" ")[1];
-		int count=tService.typeCount(type);
+		int count=tService.typeCount();
 		count=count+1;
 		String prjNo=uuid.getPrjCode(code, count);
 		
@@ -93,7 +93,7 @@ public class TaskController {
 		
 		String type=t.getPrjType2();
 		String code=type.split(" ")[1];
-		int count=tService.typeCount(type);
+		int count=tService.typeCount();
 		count=count+1;
 		String prjNo=uuid.getPrjCode(code, count);
 		

@@ -14,4 +14,6 @@ public interface OtherContractDao {
 	public List<OtherContract> selectOtherContract(@Param("status")String status);
 	
 	public int updateOtherContract(@Param("other")OtherContract other);
+	
+	public List<OtherContract> selectCjHistory(@Param("no")String no);
 }

@@ -19,7 +19,7 @@ public interface TaskService {
 
 	public List<Task> selectIdAndNameByStatus(String status);
 	
-	public int typeCount(String type);
+	public int typeCount();
 	
 	public List<Task> selectTaskHistory(String no);
 	

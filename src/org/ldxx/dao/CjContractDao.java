@@ -20,4 +20,12 @@ public interface CjContractDao {
 	public List<CjContract> selectIdAndName();
 	
 	public List<CjContract> selectContractNoById(@Param("id")String id);
+	
+	public List<CjContract> selectContractByTaskNo(@Param("no")String no);
+	
+	public List<CjContract> selectCjByName(@Param("name")String name);
+	
+	public List<CjContract> selectCjByNo(@Param("no")String no);
+	
+	public List<CjContract> selectCjHistory(@Param("no")String no);
 }

@@ -34,7 +34,7 @@ public class OtherContractConroller {
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"OtherContract";
+				String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -64,7 +64,7 @@ public class OtherContractConroller {
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"OtherContract";
+				String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -86,13 +86,15 @@ public class OtherContractConroller {
 	@RequestMapping("/updateOtherContractBySave")
 	@ResponseBody
 	public int updateOtherContractBySave(OtherContract other,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
-		String id=other.getoId();
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		other.setoId(id);
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"OtherContract";
+				String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -107,20 +109,22 @@ public class OtherContractConroller {
 			}
 			other.setAccessory(list);
 		}
-		int i=service.updateOtherContract(other);
+		int i=service.addOtherContract(other);
 		return i;
 	}
 	
 	@RequestMapping("/updateOtherContractBySubmit")
 	@ResponseBody
 	public int updateOtherContractBySubmit(OtherContract other,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
-		String id=other.getoId();
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		other.setoId(id);
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"OtherContract";
+				String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -135,7 +139,7 @@ public class OtherContractConroller {
 			}
 			other.setAccessory(list);
 		}
-		int i=service.updateOtherContract(other);
+		int i=service.addOtherContract(other);
 		return i;
 	}
 	
@@ -143,5 +147,11 @@ public class OtherContractConroller {
 	@ResponseBody
 	public List<OtherContract> selectOtherContract(String status){
 		return service.selectOtherContract(status);
+	}
+	
+	@RequestMapping("/selectCjHistory")
+	@ResponseBody
+	public List<OtherContract> selectCjHistory(String no){
+		return service.selectCjHistory(no);
 	}
 }

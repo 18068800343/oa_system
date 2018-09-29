@@ -34,7 +34,7 @@ public class CjContractController {
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract";
+				String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -65,7 +65,7 @@ public class CjContractController {
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract";
+				String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -105,16 +105,46 @@ public class CjContractController {
 		return list;
 	}
 	
+	@RequestMapping("/selectCjHistory")
+	@ResponseBody
+	public List<CjContract> selectCjHistory(String no){
+		List<CjContract> list=service.selectCjHistory(no);
+		return list;
+	}
+	
+	@RequestMapping("/selectContractByTaskNo")
+	@ResponseBody
+	public List<CjContract> selectContractByTaskNo(String no){
+		List<CjContract> list=service.selectContractByTaskNo(no);
+		return list;
+	}
+	
+	@RequestMapping("/selectCjByName")
+	@ResponseBody
+	public List<CjContract> selectCjByName(String name){
+		List<CjContract> list=service.selectCjByName(name);
+		return list;
+	}
+	
+	@RequestMapping("/selectCjByNo")
+	@ResponseBody
+	public List<CjContract> selectCjByNo(String no){
+		List<CjContract> list=service.selectCjByNo(no);
+		return list;
+	}
+	
 	@RequestMapping("/updateCjContractBySave")
 	@ResponseBody
 	public int updateCjContractBySave(CjContract cj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
-		String id=cj.getCjId();
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		cj.setCjId(id);
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract";
+				String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -129,20 +159,22 @@ public class CjContractController {
 			}
 			cj.setAccessory(list);
 		}
-		int i=service.updateCjContract(cj);
+		int i=service.addCjContract(cj);
 		return i;
 	}
 	
 	@RequestMapping("/updateCjContractBySubmit")
 	@ResponseBody
 	public int updateCjContractBySubmit(CjContract cj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
-		String id=cj.getCjId();
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		cj.setCjId(id);
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract";
+				String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -157,7 +189,7 @@ public class CjContractController {
 			}
 			cj.setAccessory(list);
 		}
-		int i=service.updateCjContract(cj);
+		int i=service.addCjContract(cj);
 		return i;
 	}
 }

@@ -13,4 +13,6 @@ public interface OtherContractService {
 	public List<OtherContract> selectOtherContract(String status);
 	
 	public int updateOtherContract(OtherContract other);
+	
+	public List<OtherContract> selectCjHistory(String no);
 }

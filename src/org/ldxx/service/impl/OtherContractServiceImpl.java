@@ -56,4 +56,9 @@ public class OtherContractServiceImpl implements OtherContractService{
 		return i;
 	}
 
+	@Override
+	public List<OtherContract> selectCjHistory(String no) {
+		return dao.selectCjHistory(no);
+	}
+
 }

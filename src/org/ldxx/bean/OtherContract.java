@@ -19,6 +19,7 @@ public class OtherContract {
     private Float contractMoney;
 
     private String abutmentDepartment;
+    private String omName;
 
     private String contractStartTime;
 
@@ -31,7 +32,15 @@ public class OtherContract {
     private List<Accessory> accessory;
 
     
-    public String getCcName() {
+    public String getOmName() {
+		return omName;
+	}
+
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+
+	public String getCcName() {
 		return ccName;
 	}
 
