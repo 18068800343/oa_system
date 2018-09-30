@@ -17,7 +17,7 @@ public class FbContract {
 
     private String workNo;//任务单号
 
-    private String prjId;//项目名称
+    private String prjName;//项目名称
 
     private String cjContractCode;//承接合同号
 
@@ -170,12 +170,14 @@ public class FbContract {
         this.workNo = workNo == null ? null : workNo.trim();
     }
 
-    public String getPrjId() {
-		return prjId;
+   
+
+	public String getPrjName() {
+		return prjName;
 	}
 
-	public void setPrjId(String prjId) {
-		this.prjId = prjId;
+	public void setPrjName(String prjName) {
+		this.prjName = prjName;
 	}
 
 	public String getCjContractCode() {

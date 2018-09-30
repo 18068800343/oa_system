@@ -255,4 +255,10 @@ public class SubContractController {
 	public FbContract getFBNoByName(String contractName){
 		return scService.getFBNoByName(contractName);
 	}
+	
+	@RequestMapping("/getFBContractByName")//通过合同名获得主合同名、主合同号、主合同金额、项目名、任务单号、（合同进度）
+	@ResponseBody
+	public FbContract getFBContractByName(String contractName){
+		return scService.getFBContractByName(contractName);
+	}
 }
