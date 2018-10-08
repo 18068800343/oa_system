@@ -1784,6 +1784,66 @@ public class CurrentFlowExample {
             addCriterion("mode_id not between", value1, value2, "modeId");
             return (Criteria) this;
         }
+
+        public Criteria andFlowEndStateIsNull() {
+            addCriterion("flow_end_state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowEndStateIsNotNull() {
+            addCriterion("flow_end_state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowEndStateEqualTo(Integer value) {
+            addCriterion("flow_end_state =", value, "flowEndState");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowEndStateNotEqualTo(Integer value) {
+            addCriterion("flow_end_state <>", value, "flowEndState");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowEndStateGreaterThan(Integer value) {
+            addCriterion("flow_end_state >", value, "flowEndState");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowEndStateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("flow_end_state >=", value, "flowEndState");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowEndStateLessThan(Integer value) {
+            addCriterion("flow_end_state <", value, "flowEndState");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowEndStateLessThanOrEqualTo(Integer value) {
+            addCriterion("flow_end_state <=", value, "flowEndState");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowEndStateIn(List<Integer> values) {
+            addCriterion("flow_end_state in", values, "flowEndState");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowEndStateNotIn(List<Integer> values) {
+            addCriterion("flow_end_state not in", values, "flowEndState");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowEndStateBetween(Integer value1, Integer value2) {
+            addCriterion("flow_end_state between", value1, value2, "flowEndState");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowEndStateNotBetween(Integer value1, Integer value2) {
+            addCriterion("flow_end_state not between", value1, value2, "flowEndState");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

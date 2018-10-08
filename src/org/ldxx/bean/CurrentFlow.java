@@ -53,6 +53,8 @@ public class CurrentFlow {
 
     private String modeId;
 
+    private Integer flowEndState;
+
     public String getId() {
         return id;
     }
@@ -251,5 +253,13 @@ public class CurrentFlow {
 
     public void setModeId(String modeId) {
         this.modeId = modeId == null ? null : modeId.trim();
+    }
+
+    public Integer getFlowEndState() {
+        return flowEndState;
+    }
+
+    public void setFlowEndState(Integer flowEndState) {
+        this.flowEndState = flowEndState;
     }
 }
