@@ -62,7 +62,7 @@ public class Pay {
     
     private List<Accessory> accessory;
     private List<Accessory> accessory2;
-    private String nooo;
+    
     
     private String fbNo;//分包合同号
     private Float fbcontractMoney;//分包合同金额
