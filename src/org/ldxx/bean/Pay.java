@@ -48,6 +48,8 @@ public class Pay {
     private String thisTimeActualPayMoney;//本次实际付款
 
     private String payListExplain;//付款单说明
+    
+    private String omId;//部门
 
     private String compilerPerson;//编制人
 
@@ -59,10 +61,55 @@ public class Pay {
 
     
     private List<Accessory> accessory;
+    private List<Accessory> accessory2;
+    private String nooo;
+    
+    private String fbNo;//分包合同号
+    private Float fbcontractMoney;//分包合同金额
+    private String uName;//编制人
     
     
-    
-    public List<Accessory> getAccessory() {
+    public String getOmId() {
+		return omId;
+	}
+
+	public void setOmId(String omId) {
+		this.omId = omId;
+	}
+
+	public String getuName() {
+		return uName;
+	}
+
+	public void setuName(String uName) {
+		this.uName = uName;
+	}
+
+	public String getFbNo() {
+		return fbNo;
+	}
+
+	public void setFbNo(String fbNo) {
+		this.fbNo = fbNo;
+	}
+
+	public Float getFbcontractMoney() {
+		return fbcontractMoney;
+	}
+
+	public void setFbcontractMoney(Float fbcontractMoney) {
+		this.fbcontractMoney = fbcontractMoney;
+	}
+
+	public List<Accessory> getAccessory2() {
+		return accessory2;
+	}
+
+	public void setAccessory2(List<Accessory> accessory2) {
+		this.accessory2 = accessory2;
+	}
+
+	public List<Accessory> getAccessory() {
 		return accessory;
 	}
 
