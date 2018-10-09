@@ -57,15 +57,20 @@
 		update fb_contract set history=0 where fb_id=#{fbId}
 	</update>
 	<select id="getFBNameAndNo" resultType="fbContract">
-		select contract_name,fb_no,contract_name_yi from fb_contract f
+		select f.contract_name,f.fb_no,f.contract_name_yi,c.cc_name from fb_contract f
 			left join mode_status m on m.mode_id=f.fb_id
+			left join consociation_company c on c.cc_id=f.contract_name_yi
 		where m.status=2 and f.history=1
 	</select>
 	<select id="getFBNameByNo" resultType="fbContract">
-		select contract_name,contract_name_yi from fb_contract where fb_no=#{fbNo} and history=1
+		select f.contract_name,f.contract_name_yi,c.cc_name from fb_contract f
+		left join consociation_company c on c.cc_id=f.contract_name_yi
+		 where f.fb_no=#{fbNo} and f.history=1
 	</select>
 	<select id="getFBNoByName" resultType="fbContract">
-		select fb_no,contract_name_yi from fb_contract where contract_name=#{contractName} and history=1
+		select f.fb_no,f.contract_name_yi,c.cc_name from fb_contract f 
+		left join consociation_company c on c.cc_id=f.contract_name_yi
+		where contract_name=#{contractName} and history=1
 	</select>
 	<select id="getFBContractByName" resultType="fbContract">
 		select cj_contract_name,cj_contract_code,main_contract_money,prj_name,work_no from fb_contract where contract_name=#{contractName} and history=1
