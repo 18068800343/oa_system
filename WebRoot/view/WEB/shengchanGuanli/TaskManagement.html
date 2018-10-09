@@ -243,10 +243,10 @@
                                     <td>主办部门</td>
                                     <td>
                                         <form class="form-inline">
-                                            <select class="form-control" style="width:150px;" id="zhuban">
+                                            <select class="form-control" style="width:120px;" id="zhuban">
                                                 
                                             </select>
-                                            <input type="text" class="form-control" style="width:150px;" placeholder="金额" id="zhubanjine">
+                                            <input type="text" class="form-control" style="width:120px;" placeholder="金额" id="zhubanjine">
                                         </form>
                                     </td>
                                 </tr>
@@ -389,7 +389,7 @@
                  <table class="table table-bordered table-condensed" id="xgxieban">
                             <thead>
                                 <tr>
-                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="xgaddBumen()">添加协办部门</button></th>
+                                    <th colspan="3" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="xgaddBumen()">添加协办部门</button></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1075,10 +1075,10 @@
     	if(($("#xieban tr").length)<=4){
 	    	$("#xieban").append("<tr><td>"+"协办部门"+($("#xieban tr").length-1)+"</td><td>"
 	                +'<form class="form-inline">'
-	                    +'<select class="form-control" id="xieban'+($("#xieban tr").length-1)+'" style="width:150px;">'
+	                    +'<select class="form-control" id="xieban'+($("#xieban tr").length-1)+'" style="width:120px;">'
 	                    +'</select>'
-	                    +'  <input type="text" id="xiebanMoney'+($("#xieban tr").length-1)+'" class="form-control" style="width:150px;" placeholder="金额">'
-		                +'<button type="button" style="text-align:right;margin-left:30px;" class="btn btn-primary" onclick="deleteXieBan(this)">移除协办单位</button>'
+	                    +'  <input type="text" id="xiebanMoney'+($("#xieban tr").length-1)+'" class="form-control" style="width:120px;" placeholder="金额">'
+	                    +'<button type="button" style="text-align:right;margin-left:10px;" class="btn btn-primary" onclick="deleteXieBan(this)">移除协办单位</button>'
 	                +'</form>'
 	                +"</td></tr>")
 	                $.ajax({
@@ -1188,10 +1188,62 @@
                 	$("#tijiaobumen").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                 	$("#zhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                 	$("#xgzhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#zhuban").trigger('change');
+                	$("#xgzhuban").trigger('change');
                 }
             }
 		});
 	}
+	$("#zhuban").change(function(){
+		var bumen=$("#zhuban").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$("#xmfzr").empty();
+				$("#zrgcs").empty();
+				$("#qtzyglry").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xmfzr").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>");
+					$("#zrgcs").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>");
+					$("#qtzyglry").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>");
+				}
+			}
+		})
+	})
+	$("#xgzhuban").change(function(){
+		var bumen=$("#xgzhuban").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$("#xgxmfzr").empty();
+				$("#xgzrgcs").empty();
+				$("#xgqtzyglry").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xgxmfzr").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>");
+					$("#xgzrgcs").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>");
+					$("#xgqtzyglry").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>");
+				}
+			}
+		})
+	})
     //初始化提交人员
 	function initbushei(){
 		$.ajax({
