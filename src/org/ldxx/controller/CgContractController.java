@@ -229,7 +229,7 @@ public class CgContractController {
 		return cgService.selectHistoryByNo(cgNo);
 	}
 	
-	@RequestMapping("/getCGNameAndNo")//初始化合同名和合同编号
+	@RequestMapping("/getCGNameAndNo")//初始化合同名和合同编号、项目名和任务单号
 	@ResponseBody
 	public List<CgContract> getCGNameAndNo(){
 		List<CgContract> list=cgService.getCGNameAndNo();
@@ -246,5 +246,18 @@ public class CgContractController {
 	@ResponseBody
 	public CgContract getCGNoByName(String contractName){
 		return cgService.getCGNoByName(contractName);
+	}
+	
+	
+	@RequestMapping("/getCGNameAndPrjNameBytaskNo")//通过任务单获得采购合同和项目名
+	@ResponseBody
+	public List<CgContract> getCGNameAndPrjNameBytaskNo(String no){
+		return cgService.getCGNameAndPrjNameBytaskNo(no);
+	}
+	
+	@RequestMapping("/getCGNametaskNoAndByPrjName")//通过项目名获得采购合同和任务单
+	@ResponseBody
+	public List<CgContract> getCGNametaskNoAndByPrjName(String name){
+		return cgService.getCGNametaskNoAndByPrjName(name);
 	}
 }

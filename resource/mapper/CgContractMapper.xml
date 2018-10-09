@@ -44,15 +44,25 @@
 		select count(1) from (select distinct cg_no from cg_contract) as a
 	</select>
 	<select id="getCGNameAndNo" resultType="CgContract">
-		select contract_name,cg_no from cg_contract a
+		select cg_id,contract_name,cg_no,prj_name,work_no from cg_contract a
 			left join mode_status b on a.cg_id =b.mode_id
 		 where b.status=2 and a.history=1
 	</select>
 	<select id="getCGNameByNo" resultType="CgContract">
-		select contract_name from cg_contract where cg_no=#{cgNo} and history=1
+		select cg_id,contract_name from cg_contract where cg_no=#{cgNo} and history=1
 	</select>
 	<select id="getCGNoByName" resultType="CgContract">
 		select cg_no from cg_contract where contract_name=#{contractName} and history=1
+	</select>
+	<select id="getCGNameAndPrjNameBytaskNo" resultType="CgContract">
+		select cg_id,contract_name,prj_name from cg_contract a 
+		left join mode_status b on a.cg_id =b.mode_id
+		 where a.work_no=#{no} and a.history=1 and b.status=2
+	</select>
+	<select id="getCGNametaskNoAndByPrjName" resultType="CgContract">
+		select cg_id,work_no,contract_name from cg_contract a
+		left join mode_status b on a.cg_id =b.mode_id
+		where a.prj_name=#{name} and a.history=1 and b.status=2
 	</select>
 	<!-- <update id="updateCgContractSave" parameterType="CgContract">
 		update cg_contract

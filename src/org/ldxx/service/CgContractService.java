@@ -38,4 +38,8 @@ public interface CgContractService {
 
 	CgContract getCGNoByName(String contractName);
 
+	List<CgContract> getCGNameAndPrjNameBytaskNo(String no);
+
+	List<CgContract> getCGNametaskNoAndByPrjName(String name);
+
 }

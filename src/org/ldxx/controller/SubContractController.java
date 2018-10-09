@@ -237,20 +237,20 @@ public class SubContractController {
 		return list;
 	}
 	
-	@RequestMapping("/getFBNameAndNo")//初始化合同名和合同编号
+	@RequestMapping("/getFBNameAndNo")//初始化合同名和合同编号和乙方
 	@ResponseBody
 	public List<FbContract> getFBNameAndNo(){
 		List<FbContract> list=scService.getFBNameAndNo();
 		return list;
 	}
 	
-	@RequestMapping("/getFBNameByNo")//通过合同编号获得合同名
+	@RequestMapping("/getFBNameByNo")//通过合同编号获得合同名和乙方
 	@ResponseBody
 	public FbContract getFBNameByNo(String fbNo){
 		return scService.getFBNameByNo(fbNo);
 	}
 	
-	@RequestMapping("/getFBNoByName")//通过合同名获得合同编号
+	@RequestMapping("/getFBNoByName")//通过合同名获得合同编号和乙方
 	@ResponseBody
 	public FbContract getFBNoByName(String contractName){
 		return scService.getFBNoByName(contractName);

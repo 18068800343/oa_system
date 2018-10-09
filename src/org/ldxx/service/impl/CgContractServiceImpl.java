@@ -120,4 +120,14 @@ public class CgContractServiceImpl implements CgContractService {
 		return cgDao.getCGNoByName(contractName);
 	}
 
+	@Override
+	public List<CgContract> getCGNameAndPrjNameBytaskNo(String no) {
+		return cgDao.getCGNameAndPrjNameBytaskNo(no);
+	}
+
+	@Override
+	public List<CgContract> getCGNametaskNoAndByPrjName(String name) {
+		return cgDao.getCGNametaskNoAndByPrjName(name);
+	}
+
 }
