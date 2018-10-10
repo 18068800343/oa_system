@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+            font-size: 14px;
+        }
+        @media screen and (max-width: 1366px) {
+		    #myModal {
+		        margin-bottom:250px !important;
+		    }
+		}
+		@media screen and (max-width: 1366px) {
+		    #change {
+		        margin-bottom:250px !important;
+		    }
+		}
+		@media screen and (max-width: 1366px) {
+		    #allMsg1 {
+		        margin-bottom:250px !important;
+		    }
+		}
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+			<li>生产管理</li>
+			<li class="active">任务单管理</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+    <h1 class="modal-title" ><b></b></h1>
+        <table class="table table-bordered table-condensed">
+                    	<thead>
+                    		<tr>
+                    			<th colspan="8">查看项目基本信息</th>
+                    		</tr>
+                    	</thead>
+                    	<tbody>
+                    		<tr>
+                            <td>项目名称</td>
+                            <td id="looktaskName"></td>
+                            <td style="width:100px;">编号</td>
+                            <td id="looktaskbianhao"></td>
+                            <td>项目经营模式</td>
+                            <td id="lookmoshi"></td>
+                            <td>项目所属公司</td>
+                            <td id="lookgongsi"></td>
+                        </tr>
+                        <tr>
+                            <td style="width:100px;">项目类型</td>
+                            <td id="lookleixing"></td>
+                            <td>设计阶段</td>
+                            <td id="lookshejijieduan"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    	</tbody>
+                    </table>
+                    
+                    <table class="table table-bordered table-condensed">
+                    	<thead>
+                    		<tr>
+                    			<th colspan="8">查看业主信息</th>
+                    		</tr>
+                    	</thead>
+                    	<tbody>
+                    		<tr>
+	                            <td>项目业主单位</td>
+	                            <td id="lookyezhudanwei"></td>
+	                            <td>项目金额</td>
+	                            <td id="lookjine"></td>
+	                            <td>合同金额</td>
+	                            <td id="lookhetonge"></td>
+	                            <td>暂定金</td>
+	                            <td id="lookzandingjin"></td>
+	                        </tr>
+	                        <tr>
+	                            <td>项目开始时间</td>
+	                            <td id="lookstartTime"></td>
+	                            <td>项目结束时间</td>
+	                            <td id="lookendTime"></td>
+	                            <td>预估合同金额</td>
+	                            <td></td>
+	                            <td></td>
+	                            <td></td>
+	                        </tr>
+                    	</tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed"  id="looklianxibiaoge">
+                        <thead>
+                            <tr>
+                                <th colspan="2">添加的联系人,联系方式</th>
+                            </tr>
+                            <tr>
+                                <th>联系人</th>
+                                <th>联系方式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                    
+                    <table class="table table-bordered table-condensed" id="look_xieban_table">
+                    	<thead>
+                    		<tr>
+                    			<th colspan="10">查看承接信息</th>
+                    		</tr>
+                    	</thead>
+                    	<tbody>
+                    	</tbody>
+                    </table>
+        
+    </div>
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script>  
+    $(document).ready( function () {
+    	initTable();
+    	inithuman();
+	});
+    //console.log(window.location.search)
+    function GetQueryString(name){
+         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+         var r = window.location.search.substr(1).match(reg);
+         if(r!=null)return  unescape(r[2]); return null;
+    }
+    // 调用方法
+    	id=GetQueryString("prjId");
+    	no=GetQueryString("prjNo");
+    	
+    var zhubanbumen;
+    var xiebanbumen1;
+    var xiebanbumen2;
+    var xiabanbumen3;
+    function initTable(){
+    	//console.log(id)
+    	//console.log(no)
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectTaskHistory',
+            dataType: 'json',
+            async:false,
+            data: {
+            	id:id,
+            	no:no
+            },
+            success: function (json) {
+            	var task=json.task;
+            	var taskList=json.taskList;
+            	console.log(json)
+            	zhubanbumen=task.mainDepartment;
+            	xiebanbumen1=task.assistDepartment1;
+            	xiebanbumen2=task.assistDepartment2;
+            	xiebanbumen3=task.assistDepartment3;
+            	
+            	$("#looktaskName").text(task.prjName);
+            	$("#looktaskbianhao").text(task.prjNo);
+            	$("#lookmoshi").text(task.prjManagementModel);
+            	$("#lookgongsi").text(task.prjCompany);
+            	$("#lookleixing").text(task.prjType2);
+            	$("#lookshejijieduan").text(task.jsPhases);
+            	$("#lookyezhudanwei").text(task.ccName);
+            	$("#lookjine").text(task.prjEstimateMoney);
+            	$("#lookhetonge").text(task.contractMoney);
+            	$("#lookzandingjin").text(task.provisionalSum);
+            	$("#lookstartTime").text(task.prjStartTime);
+            	$("#lookendTime").text(task.prjEndTime);
+            	$("#lookgaikuang").text(task.workContent);
+            	
+            	$("#look_xieban_table tbody").html('');
+            	$("#look_xieban_table tbody").append("<tr><td style='width:80px;'>主办部门</td><td style='width:100px;'>"
+            			+task.omName
+            			+"</td><td>金额</td><td>"
+            			+task.mainDepartmentMoney
+            			+"</td><td>项目负责人</td><td>"
+            			+'<select class="form-control" style="width:100%;" id="xmfzr"></select>'
+            			+"</td><td>主任工程师</td><td>"
+            			+'<select class="form-control" style="width:100%;" id="zrgcs"></select>'
+            			+"</td><td>其他负责人</td><td>"
+            			+'<select class="form-control" style="width:100%;" id="qtfzr"></select>'
+            			+"</td></tr>")
+            	
+            	if(task.name1!=null&&task.name1!=''){
+            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
+            				+task.name1
+            				+"</td><td>金额</td><td>"
+            				+task.assistDepartment1Money
+            				+"</td><td>项目负责人</td><td>"
+                			+'<select class="form-control" style="width:100%;" id="xbxmfzr1"></select>'
+                			+"</td><td>主任工程师</td><td>"
+                			+'<select class="form-control" style="width:100%;" id="xbzrgcs1"></select>'
+                			+"</td><td>其他负责人</td><td>"
+                			+'<select class="form-control" style="width:100%;" id="xbqtfzr1"></select>'
+            				+"</td></tr>")
+            	}
+				if(task.name2!=null&&task.name2!=''){
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
+							+task.name2
+							+"</td><td>金额</td><td>"
+							+task.assistDepartment2Money
+							+"</td><td>项目负责人</td><td>"
+	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr2"></select>'
+	            			+"</td><td>主任工程师</td><td>"
+	            			+'<select class="form-control" style="width:100%;" id="xbzrgcs2"></select>'
+	            			+"</td><td>其他负责人</td><td>"
+	            			+'<select class="form-control" style="width:100%;" id="xbqtfzr2"></select>'
+							+"</td></tr>")
+            	}
+				if(task.name3!=null&&task.name3!=''){
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
+							+task.name3
+							+"</td><td>金额</td><td>"
+							+task.assistDepartment3Money
+							+"</td><td>项目负责人</td><td>"
+	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr3"></select>'
+	            			+"</td><td>主任工程师</td><td>"
+	            			+'<select class="form-control" style="width:100%;" id="xbzrgcs3"></select>'
+	            			+"</td><td>其他负责人</td><td>"
+	            			+'<select class="form-control" style="width:100%;" id="xbqtfzr3"></select>'
+							+"</td></tr>")
+				}
+            	
+            	$("#looklianxibiaoge tbody").empty("");
+            	for(var i=0;i<task.enterprise.length;i++){
+            		$("#looklianxibiaoge").append("<tr><td>"
+											    			+task.enterprise[i].eMan
+											    			+"</td><td>"
+											    			+task.enterprise[i].eTel
+											    			+"</td></tr>")
+            	}
+            }
+        }); 
+    }
+
+	//项目负责人，主任工程师其他负责人
+	function inithuman(){
+		//console.log()
+		//主办
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			data:{ 
+				omId:zhubanbumen
+				},
+			success:function(json){
+				$("#guanliren").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xmfzr").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+                    $("#zrgcs").append("<option value='" + json[i].userId + "'>"
+                    + json[i].uName + "</option>")
+                    $("#qtfzr").append("<option value='" + json[i].userId + "'>"
+                    + json[i].uName + "</option>")
+				}
+			}
+		})
+		//协办1
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			data:{ 
+				omId:xiebanbumen1
+				},
+			success:function(json){
+				$("#guanliren").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xbxmfzr1").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+                    $("#xbzrgcs1").append("<option value='" + json[i].userId + "'>"
+                    + json[i].uName + "</option>")
+                    $("#xbqtfzr1").append("<option value='" + json[i].userId + "'>"
+                    + json[i].uName + "</option>")
+				}
+			}
+		})
+		//协办2
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			data:{ 
+				omId:xiebanbumen2
+				},
+			success:function(json){
+				$("#guanliren").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xbxmfzr2").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+                    $("#xbzrgcs2").append("<option value='" + json[i].userId + "'>"
+                    + json[i].uName + "</option>")
+                    $("#xbqtfzr2").append("<option value='" + json[i].userId + "'>"
+                    + json[i].uName + "</option>")
+				}
+			}
+		})
+		//协办3
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			data:{ 
+				omId:xiebanbumen3
+				},
+			success:function(json){
+				$("#guanliren").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xbxmfzr3").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+                    $("#xbzrgcs3").append("<option value='" + json[i].userId + "'>"
+                    + json[i].uName + "</option>")
+                    $("#xbqtfzr3").append("<option value='" + json[i].userId + "'>"
+                    + json[i].uName + "</option>")
+				}
+			}
+		})
+	}
+    
+</script>
+</html>
