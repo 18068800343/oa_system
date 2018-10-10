@@ -238,13 +238,13 @@ public class CgContractController {
 	
 	@RequestMapping("/getCGNameByNo")//通过合同编号获得合同名
 	@ResponseBody
-	public CgContract getCGNameByNo(String cgNo){
+	public List<CgContract> getCGNameByNo(String cgNo){
 		return cgService.getCGNameByNo(cgNo);
 	}
 	
 	@RequestMapping("/getCGNoByName")//通过合同名获得合同编号
 	@ResponseBody
-	public CgContract getCGNoByName(String contractName){
+	public List<CgContract> getCGNoByName(String contractName){
 		return cgService.getCGNoByName(contractName);
 	}
 	

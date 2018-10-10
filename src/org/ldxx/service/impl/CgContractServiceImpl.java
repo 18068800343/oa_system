@@ -111,12 +111,12 @@ public class CgContractServiceImpl implements CgContractService {
 	}
 
 	@Override
-	public CgContract getCGNameByNo(String cgNo) {
+	public List<CgContract> getCGNameByNo(String cgNo) {
 		return cgDao.getCGNameByNo(cgNo);
 	}
 
 	@Override
-	public CgContract getCGNoByName(String contractName) {
+	public List<CgContract> getCGNoByName(String contractName) {
 		return cgDao.getCGNoByName(contractName);
 	}
 
