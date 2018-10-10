@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.MaterialPurchaseSettlementDao">
+	<select id="selectmaterialPurchaseSettlement" resultType="clfbContractPurchaseSettlement">
+		select *,b.contract_name from clfb_contract_purchaseSettlement c
+		left join mode_status m on m.mode_id=c.cp_id
+		left join cj_contract b on b.cj_id=c.cj_contract
+		where m.status=#{status} and c.history=1
+	</select>
+	<insert id="addmaterialPurchaseSettlementSave" parameterType="clfbContractPurchaseSettlement">
+		insert into clfb_contract_purchaseSettlement(cp_id,cgjs_no,task_no,prj_name,cg_contract,cj_contract,audit_settlement_type,settlement_time,
+		purchaseSettlementDesc,make_time,history)
+		values(#{c.cpId},#{c.cgjsNo},#{c.taskNo},#{c.prjName},#{c.cgContract},#{c.cjContract},#{c.auditSettlementType},
+		#{c.settlementTime},#{c.purchaseSettlementDesc},now(),1)
+	</insert>
+	<update id="updateHistory">
+		update clfb_contract_purchaseSettlement set history=0 where cp_id=#{cpId}
+	</update>
+	<select id="selectmaterialPurchaseSettlementById" resultType="clfbContractPurchaseSettlement">
+		select * from clfb_contract_purchaseSettlement where cp_id=#{id}
+	</select>
+	<select id="cgjsNocount" resultType="int">
+		select count(1) from (select distinct cgjs_no from clfb_contract_purchaseSettlement ) as a;
+	</select>
+	<select id="selectHistoryByNo" resultType="clfbContractPurchaseSettlement">
+		select *,b.contract_name from clfb_contract_purchaseSettlement c
+		left join cj_contract b on b.cj_id=c.cj_contract
+		where c.cgjs_no=#{no} and c.history=0
+	</select>
+</mapper>

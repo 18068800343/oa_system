@@ -51,9 +51,7 @@ public class ContractPaymentController {
 		pay.setPayId(id);
 		
 		int count=payService.fkNocount();
-		count=count+1;
-		String fkNo=uuid.getPrjCode("", count);
-		fkNo="FBFK"+fkNo;
+		String fkNo="FBFK"+uuid.getPrjCode("", count+1);
 		pay.setPayCode(fkNo);
 		
 		String path="D:"+File.separator+"oa"+File.separator+"pay";
