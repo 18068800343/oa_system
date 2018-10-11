@@ -1,6 +1,8 @@
 package org.ldxx.bean;
 
-public class FbContractOver {
+import java.util.List;
+
+public class FbContractOver {/*分包结算申请*/
     private String fcoId;
 
     private String prjCode;
@@ -14,18 +16,29 @@ public class FbContractOver {
     private String settlementType;
 
     private String settlementTime;
+    
+    private String workInfo;
+    
+    private List<Accessory> accessory;
+    
 
-    private String contractProbablyText;
+    public String getWorkInfo() {
+		return workInfo;
+	}
 
-    private String cptSignNameImgpath;
+	public void setWorkInfo(String workInfo) {
+		this.workInfo = workInfo;
+	}
 
-    private String cptSignTime;
+	public List<Accessory> getAccessory() {
+		return accessory;
+	}
 
-    private String cptSignName;
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
 
-    private String contractProbablyTextTime;
-
-    public String getFcoId() {
+	public String getFcoId() {
         return fcoId;
     }
 
@@ -81,43 +94,4 @@ public class FbContractOver {
         this.settlementTime = settlementTime == null ? null : settlementTime.trim();
     }
 
-    public String getContractProbablyText() {
-        return contractProbablyText;
-    }
-
-    public void setContractProbablyText(String contractProbablyText) {
-        this.contractProbablyText = contractProbablyText == null ? null : contractProbablyText.trim();
-    }
-
-    public String getCptSignNameImgpath() {
-        return cptSignNameImgpath;
-    }
-
-    public void setCptSignNameImgpath(String cptSignNameImgpath) {
-        this.cptSignNameImgpath = cptSignNameImgpath == null ? null : cptSignNameImgpath.trim();
-    }
-
-    public String getCptSignTime() {
-        return cptSignTime;
-    }
-
-    public void setCptSignTime(String cptSignTime) {
-        this.cptSignTime = cptSignTime == null ? null : cptSignTime.trim();
-    }
-
-    public String getCptSignName() {
-        return cptSignName;
-    }
-
-    public void setCptSignName(String cptSignName) {
-        this.cptSignName = cptSignName == null ? null : cptSignName.trim();
-    }
-
-    public String getContractProbablyTextTime() {
-        return contractProbablyTextTime;
-    }
-
-    public void setContractProbablyTextTime(String contractProbablyTextTime) {
-        this.contractProbablyTextTime = contractProbablyTextTime == null ? null : contractProbablyTextTime.trim();
-    }
 }

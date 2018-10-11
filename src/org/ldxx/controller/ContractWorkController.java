@@ -128,4 +128,144 @@ public class ContractWorkController {
 		return map;
 	}
 	
+	@RequestMapping("/addContractWork2BySave")
+	@ResponseBody
+	public int addContractWork2BySave( String work,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		Map<String, Class> classMap = new HashMap<String, Class>();
+		classMap.put("enterprise", Enterprise.class);
+		
+		JSONObject jsonObject=JSONObject.fromObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		cwork.setCwId(id);
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int ii=0;ii<file.length;ii++){
+				Accessory accessory=new Accessory();
+				String fileName=file[ii].getOriginalFilename();
+				String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+				File f=new File(path);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[ii].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(filePath);
+				list.add(accessory);
+			}
+			cwork.setAccessory(list);
+		}
+		int i=service.addContractWork(cwork);
+		return i;
+	}
+	
+	@RequestMapping("/addContractWork2BySubmit")
+	@ResponseBody
+	public int addContractWork2BySubmit(String work,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		Map<String, Class> classMap = new HashMap<String, Class>();
+		classMap.put("enterprise", Enterprise.class);
+		
+		JSONObject jsonObject=JSONObject.fromObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		cwork.setCwId(id);
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int ii=0;ii<file.length;ii++){
+				Accessory accessory=new Accessory();
+				String fileName=file[ii].getOriginalFilename();
+				String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+				File f=new File(path);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[ii].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(filePath);
+				list.add(accessory);
+			}
+			cwork.setAccessory(list);
+		}
+		int i=service.addContractWork(cwork);
+		return i;
+	}
+	
+	@RequestMapping("/addContractWork3BySave")
+	@ResponseBody
+	public int addContractWork3BySave( String work,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		Map<String, Class> classMap = new HashMap<String, Class>();
+		classMap.put("enterprise", Enterprise.class);
+		
+		JSONObject jsonObject=JSONObject.fromObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		cwork.setCwId(id);
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int ii=0;ii<file.length;ii++){
+				Accessory accessory=new Accessory();
+				String fileName=file[ii].getOriginalFilename();
+				String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+				File f=new File(path);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[ii].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(filePath);
+				list.add(accessory);
+			}
+			cwork.setAccessory(list);
+		}
+		int i=service.addContractWork(cwork);
+		return i;
+	}
+	
+	@RequestMapping("/addContractWork3BySubmit")
+	@ResponseBody
+	public int addContractWork3BySubmit(String work,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		Map<String, Class> classMap = new HashMap<String, Class>();
+		classMap.put("enterprise", Enterprise.class);
+		
+		JSONObject jsonObject=JSONObject.fromObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		cwork.setCwId(id);
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int ii=0;ii<file.length;ii++){
+				Accessory accessory=new Accessory();
+				String fileName=file[ii].getOriginalFilename();
+				String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+				File f=new File(path);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[ii].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(filePath);
+				list.add(accessory);
+			}
+			cwork.setAccessory(list);
+		}
+		int i=service.addContractWork(cwork);
+		return i;
+	}
+	
 }

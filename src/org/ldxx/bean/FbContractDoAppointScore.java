@@ -3,35 +3,33 @@ package org.ldxx.bean;
 public class FbContractDoAppointScore {
     private String fcdId;
 
-    private String taskListCode;
+    private String taskListCode;//任务单号
 
-    private String cjContractCode;
+    private String cjContractCode;//承接合同号
 
-    private String cjContractName;
+    private String cjContractName;//承接合同名称
 
-    private String fbContractCode;
+    private String fbContractCode;//分包合同编号
 
-    private String fbContractName;
+    private String fbContractName;//分包合同名称
 
-    private String fbDepartment;
+    private String fbDepartment;//分包单位
 
-    private String actualChargePerson;
+    private String actualChargePerson;//实际负责人
 
-    private String scoreMaterialSituation;
+    private String scoreMaterialSituation;//人员、材料和设备配置情况
 
-    private String scoreManageAbility;
+    private String scoreManageAbility;//施工经验、施工组织管理能力
 
-    private String scoreQualityControl;
+    private String scoreQualityControl;//质量控制
 
-    private String scoreMoneyAbility;
+    private String scoreCompanyReputation;//企业信誉
 
-    private String scoreCompanyReputation;
+    private String scoreJinduControl;//进度控制
 
-    private String scoreJinduControl;
+    private String safetyCivilizationEnvironment;//安全文明与环保
 
-    private String safetyCivilizationEnvironment;
-
-    private String allScore;
+    private String allScore;//综合评价
 
     public String getFcdId() {
         return fcdId;
@@ -119,14 +117,6 @@ public class FbContractDoAppointScore {
 
     public void setScoreQualityControl(String scoreQualityControl) {
         this.scoreQualityControl = scoreQualityControl == null ? null : scoreQualityControl.trim();
-    }
-
-    public String getScoreMoneyAbility() {
-        return scoreMoneyAbility;
-    }
-
-    public void setScoreMoneyAbility(String scoreMoneyAbility) {
-        this.scoreMoneyAbility = scoreMoneyAbility == null ? null : scoreMoneyAbility.trim();
     }
 
     public String getScoreCompanyReputation() {

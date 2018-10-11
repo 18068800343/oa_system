@@ -31,30 +31,32 @@ public class AnnouncementController {
 	public int addAnnouncementByAllAndSave(Announcement announcement,@RequestParam("file")MultipartFile [] file){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		List<Accessory> list=new ArrayList<>();
-		for(int i=0;i<file.length;i++){
-			Accessory accessory=new Accessory();
-			String acName=file[i].getOriginalFilename();
-			String url="D:/oa/announcement/"+id;
-			File f=new File(url);
-			if(!f.exists()){
-				f.mkdirs();
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				Accessory accessory=new Accessory();
+				String acName=file[i].getOriginalFilename();
+				String url="D:/oa/announcement/"+id;
+				File f=new File(url);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String acUrl=url+File.separator+acName;
+				File acFile=new File(acUrl);
+				accessory.setaId(id);
+				accessory.setAcName(acName);
+				accessory.setAcUrl(acUrl);
+				list.add(accessory);
+				try {
+					file[i].transferTo(acFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
 			}
-			String acUrl=url+File.separator+acName;
-			File acFile=new File(acUrl);
-			accessory.setaId(id);
-			accessory.setAcName(acName);
-			accessory.setAcUrl(acUrl);
-			list.add(accessory);
-			try {
-				file[i].transferTo(acFile);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 0;
-			}
+			announcement.setAccessory(list);
 		}
 		announcement.setaId(id);
-		announcement.setAccessory(list);
 		int i=service.addAnnouncement(announcement);
 		return i;
 	}
@@ -66,29 +68,31 @@ public class AnnouncementController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		List<Accessory> list=new ArrayList<>();
-		for(int i=0;i<file.length;i++){
-			Accessory accessory=new Accessory();
-			String acName=file[i].getOriginalFilename();
-			String url="D:/oa/announcement/"+id;
-			File f=new File(url);
-			if(!f.exists()){
-				f.mkdirs();
+		if(file.length>0){
+			for(int i=0;i<file.length;i++){
+				Accessory accessory=new Accessory();
+				String acName=file[i].getOriginalFilename();
+				String url="D:/oa/announcement/"+id;
+				File f=new File(url);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String acUrl=url+File.separator+acName;
+				File acFile=new File(acUrl);
+				accessory.setaId(id);
+				accessory.setAcName(acName);
+				accessory.setAcUrl(acUrl);
+				list.add(accessory);
+				try {
+					file[i].transferTo(acFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
 			}
-			String acUrl=url+File.separator+acName;
-			File acFile=new File(acUrl);
-			accessory.setaId(id);
-			accessory.setAcName(acName);
-			accessory.setAcUrl(acUrl);
-			list.add(accessory);
-			try {
-				file[i].transferTo(acFile);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 0;
-			}
+			announcement.setAccessory(list);
 		}
 		announcement.setaId(id);
-		announcement.setAccessory(list);
 		int i=service.addAnnouncement(announcement);
 		return i;
 	}
@@ -100,29 +104,31 @@ public class AnnouncementController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		List<Accessory> list=new ArrayList<>();
-		for(int i=0;i<file.length;i++){
-			Accessory accessory=new Accessory();
-			String acName=file[i].getOriginalFilename();
-			String url="D:/oa/announcement/"+id;
-			File f=new File(url);
-			if(!f.exists()){
-				f.mkdirs();
+		if(file.length>0){
+			for(int i=0;i<file.length;i++){
+				Accessory accessory=new Accessory();
+				String acName=file[i].getOriginalFilename();
+				String url="D:/oa/announcement/"+id;
+				File f=new File(url);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String acUrl=url+File.separator+acName;
+				File acFile=new File(acUrl);
+				accessory.setaId(id);
+				accessory.setAcName(acName);
+				accessory.setAcUrl(acUrl);
+				list.add(accessory);
+				try {
+					file[i].transferTo(acFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
 			}
-			String acUrl=url+File.separator+acName;
-			File acFile=new File(acUrl);
-			accessory.setaId(id);
-			accessory.setAcName(acName);
-			accessory.setAcUrl(acUrl);
-			list.add(accessory);
-			try {
-				file[i].transferTo(acFile);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 0;
-			}
+			announcement.setAccessory(list);
 		}
 		announcement.setaId(id);
-		announcement.setAccessory(list);
 		int i=service.addAnnouncement(announcement);
 		return i;
 	}
@@ -133,29 +139,31 @@ public class AnnouncementController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		List<Accessory> list=new ArrayList<>();
-		for(int i=0;i<file.length;i++){
-			Accessory accessory=new Accessory();
-			String acName=file[i].getOriginalFilename();
-			String url="D:/oa/announcement/"+id;
-			File f=new File(url);
-			if(!f.exists()){
-				f.mkdirs();
+		if(file.length>0){
+			for(int i=0;i<file.length;i++){
+				Accessory accessory=new Accessory();
+				String acName=file[i].getOriginalFilename();
+				String url="D:/oa/announcement/"+id;
+				File f=new File(url);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String acUrl=url+File.separator+acName;
+				File acFile=new File(acUrl);
+				accessory.setaId(id);
+				accessory.setAcName(acName);
+				accessory.setAcUrl(acUrl);
+				list.add(accessory);
+				try {
+					file[i].transferTo(acFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
 			}
-			String acUrl=url+File.separator+acName;
-			File acFile=new File(acUrl);
-			accessory.setaId(id);
-			accessory.setAcName(acName);
-			accessory.setAcUrl(acUrl);
-			list.add(accessory);
-			try {
-				file[i].transferTo(acFile);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 0;
-			}
+			announcement.setAccessory(list);
 		}
 		announcement.setaId(id);
-		announcement.setAccessory(list);
 		int i=service.addAnnouncement(announcement);
 		return i;
 	}
@@ -178,30 +186,31 @@ public class AnnouncementController {
 		int a=0;
 		String id=announcement.getaId();
 		List<Accessory> list2=new ArrayList<>();
-		for(int iii=0;iii<file.length;iii++){
-			Accessory accessory=new Accessory();
-			String acName=file[iii].getOriginalFilename();
-			String url="D:/oa/announcement/"+id;
-			File f=new File(url);
-			if(!f.exists()){
-				f.mkdirs();
+		if(file.length>0){
+			for(int iii=0;iii<file.length;iii++){
+				Accessory accessory=new Accessory();
+				String acName=file[iii].getOriginalFilename();
+				String url="D:/oa/announcement/"+id;
+				File f=new File(url);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String acUrl=url+File.separator+acName;
+				File acFile=new File(acUrl);
+				accessory.setaId(id);
+				accessory.setAcName(acName);
+				accessory.setAcUrl(acUrl);
+				list2.add(accessory);
+				try {
+					file[iii].transferTo(acFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
 			}
-			String acUrl=url+File.separator+acName;
-			File acFile=new File(acUrl);
-			accessory.setaId(id);
-			accessory.setAcName(acName);
-			accessory.setAcUrl(acUrl);
-			list2.add(accessory);
-			try {
-				file[iii].transferTo(acFile);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 0;
-			}
+			announcement.setAccessory(list2);
 		}
-		announcement.setAccessory(list2);
 		a=service.updateAnnouncement(announcement);
-		
 		return a;
 	}
 	
@@ -212,30 +221,31 @@ public class AnnouncementController {
 		int a=0;
 		String id=announcement.getaId();
 		List<Accessory> list2=new ArrayList<>();
-		for(int iii=0;iii<file.length;iii++){
-			Accessory accessory=new Accessory();
-			String acName=file[iii].getOriginalFilename();
-			String url="D:/oa/announcement/"+id;
-			File f=new File(url);
-			if(!f.exists()){
-				f.mkdirs();
+		if(file.length>0){
+			for(int iii=0;iii<file.length;iii++){
+				Accessory accessory=new Accessory();
+				String acName=file[iii].getOriginalFilename();
+				String url="D:/oa/announcement/"+id;
+				File f=new File(url);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String acUrl=url+File.separator+acName;
+				File acFile=new File(acUrl);
+				accessory.setaId(id);
+				accessory.setAcName(acName);
+				accessory.setAcUrl(acUrl);
+				list2.add(accessory);
+				try {
+					file[iii].transferTo(acFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
 			}
-			String acUrl=url+File.separator+acName;
-			File acFile=new File(acUrl);
-			accessory.setaId(id);
-			accessory.setAcName(acName);
-			accessory.setAcUrl(acUrl);
-			list2.add(accessory);
-			try {
-				file[iii].transferTo(acFile);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 0;
-			}
+			announcement.setAccessory(list2);
 		}
-		announcement.setAccessory(list2);
 		a=service.updateAnnouncement(announcement);
-		
 		return a;
 	}
 	
@@ -246,30 +256,31 @@ public class AnnouncementController {
 		int a=0;
 		String id=announcement.getaId();
 		List<Accessory> list2=new ArrayList<>();
-		for(int iii=0;iii<file.length;iii++){
-			Accessory accessory=new Accessory();
-			String acName=file[iii].getOriginalFilename();
-			String url="D:/oa/announcement/"+id;
-			File f=new File(url);
-			if(!f.exists()){
-				f.mkdirs();
+		if(file.length>0){
+			for(int iii=0;iii<file.length;iii++){
+				Accessory accessory=new Accessory();
+				String acName=file[iii].getOriginalFilename();
+				String url="D:/oa/announcement/"+id;
+				File f=new File(url);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String acUrl=url+File.separator+acName;
+				File acFile=new File(acUrl);
+				accessory.setaId(id);
+				accessory.setAcName(acName);
+				accessory.setAcUrl(acUrl);
+				list2.add(accessory);
+				try {
+					file[iii].transferTo(acFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
 			}
-			String acUrl=url+File.separator+acName;
-			File acFile=new File(acUrl);
-			accessory.setaId(id);
-			accessory.setAcName(acName);
-			accessory.setAcUrl(acUrl);
-			list2.add(accessory);
-			try {
-				file[iii].transferTo(acFile);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 0;
-			}
+			announcement.setAccessory(list2);
 		}
-		announcement.setAccessory(list2);
 		a=service.updateAnnouncement(announcement);
-		
 		return a;
 	}
 	
@@ -280,30 +291,31 @@ public class AnnouncementController {
 		int a=0;
 		String id=announcement.getaId();
 		List<Accessory> list2=new ArrayList<>();
-		for(int iii=0;iii<file.length;iii++){
-			Accessory accessory=new Accessory();
-			String acName=file[iii].getOriginalFilename();
-			String url="D:/oa/announcement/"+id;
-			File f=new File(url);
-			if(!f.exists()){
-				f.mkdirs();
+		if(file.length>0){
+			for(int iii=0;iii<file.length;iii++){
+				Accessory accessory=new Accessory();
+				String acName=file[iii].getOriginalFilename();
+				String url="D:/oa/announcement/"+id;
+				File f=new File(url);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String acUrl=url+File.separator+acName;
+				File acFile=new File(acUrl);
+				accessory.setaId(id);
+				accessory.setAcName(acName);
+				accessory.setAcUrl(acUrl);
+				list2.add(accessory);
+				try {
+					file[iii].transferTo(acFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
 			}
-			String acUrl=url+File.separator+acName;
-			File acFile=new File(acUrl);
-			accessory.setaId(id);
-			accessory.setAcName(acName);
-			accessory.setAcUrl(acUrl);
-			list2.add(accessory);
-			try {
-				file[iii].transferTo(acFile);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 0;
-			}
+			announcement.setAccessory(list2);
 		}
-		announcement.setAccessory(list2);
 		a=service.updateAnnouncement(announcement);
-		
 		return a;
 	}
 	

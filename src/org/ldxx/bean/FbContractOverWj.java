@@ -1,45 +1,52 @@
 package org.ldxx.bean;
 
+import java.util.List;
+
 public class FbContractOverWj {
     private String fcowId;
 
-    private String fbContractName;
+    private String fbContractName;//分包合同名称
 
-    private String fbContract;
+    private String fbContract;//分包合同
 
-    private String prjCode;
+    private String prjCode;//任务单号
 
-    private String prjChargePerson;
+    private String prjChargePerson;//项目负责人
 
-    private String cjContractName;
+    private String cjContractName;//承接合同名称
 
-    private String cjContract;
+    private String cjContract;//承接合同
 
-    private String contractNameYi;
+    private String contractNameYi;//合同乙方单位
 
-    private String fbChargePerson;
+    private String fbChargePerson;//分包合同负责人
 
-    private String prjProbablyText;
+    private String prjProbablyText;//项目概况
 
-    private String workLongTime;
+    private Float contractMoney;//合同金额
 
-    private String workText;
+    private Float provisionalMoney;//暂定金
 
-    private Float contractMoney;
+    private Float overWorkMoney;//结算金额
 
-    private Float provisionalMoney;
+    private String overWorkExplain;//结算说明
 
-    private Float overWorkMoney;
+    private Float allPayMoney;//累计付款
 
-    private String overWorkExplain;
+    private String doAppointScore;//履约评级
+    
+    private List<Accessory> accessory;
 
-    private Float allPayMoney;
 
-    private String doAppointScore;
+    public List<Accessory> getAccessory() {
+		return accessory;
+	}
 
-    private String otherFile;
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
 
-    public String getFcowId() {
+	public String getFcowId() {
         return fcowId;
     }
 
@@ -119,21 +126,6 @@ public class FbContractOverWj {
         this.prjProbablyText = prjProbablyText == null ? null : prjProbablyText.trim();
     }
 
-    public String getWorkLongTime() {
-        return workLongTime;
-    }
-
-    public void setWorkLongTime(String workLongTime) {
-        this.workLongTime = workLongTime == null ? null : workLongTime.trim();
-    }
-
-    public String getWorkText() {
-        return workText;
-    }
-
-    public void setWorkText(String workText) {
-        this.workText = workText == null ? null : workText.trim();
-    }
 
     public Float getContractMoney() {
         return contractMoney;
@@ -183,11 +175,4 @@ public class FbContractOverWj {
         this.doAppointScore = doAppointScore == null ? null : doAppointScore.trim();
     }
 
-    public String getOtherFile() {
-        return otherFile;
-    }
-
-    public void setOtherFile(String otherFile) {
-        this.otherFile = otherFile == null ? null : otherFile.trim();
-    }
 }

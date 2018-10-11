@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../font3/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <style lang="">
@@ -24,6 +25,13 @@
         #mainContent th{
             cursor: pointer;
         }
+        
+        
+		div input[type=radio]{
+			width:20px;
+			height:20px;
+			margin-left: 8px;
+		}
     </style>
 </head>
 <body>
@@ -42,8 +50,8 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist" style="background:#fff;">
             <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">履约评价</a></li>
-            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">分包结算申请</a></li>
-            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">分包合同履约</a></li>
+            <li role="presentation" onclick="initTable2()"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">分包结算申请</a></li>
+            <li role="presentation" onclick="initTable3()"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">分包合同履约</a></li>
         </ul>     
         <!-- Tab panes -->
         <div class="tab-content">
@@ -69,64 +77,42 @@
                                 <form class="form-inline">
                                     <table class="table table-bordered table-condensed">
                                         <tr>   
-                                            <td style="width:100px;">承接合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                            <td style="width:15%;">承接合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                             <td>
-                                                <select class="form-control" style="width:180px;">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
+                                                <select class="form-control"  style="width:80%;" id="new_cj_name">
                                                 </select>
                                             </td>
-                                            <td style="width:100px;">承接合同编号</td>
-                                            <td><input type="text" class="form-control" disabled></td>
+                                            <td style="width:15%;">承接合同编号</td>
+                                            <td><select class="form-control"  style="width:80%;" id="new_cj_no">
+                                                </select>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>任务单号</td>
                                             <td>
-                                                <select class="form-control" style="width:180px;"  id="editable-select">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
+                                                <input type="text" class="form-control" style="width:80%;" disabled id="new_prj_no">
                                             </td>
                                             <td>分包合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                             <td>
-                                                <select class="form-control" style="width:180px;"  id="editable-select3">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
+                                                <select class="form-control" style="width:80%;" id="new_fb_name">
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>分包合同编号</td>
-                                            <td><input type="text" class="form-control" disabled></td>
+                                            <td>
+                                            	<select class="form-control" style="width:80%;" id="new_fb_no">
+                                                </select>
+                                            </td>
                                             <td>分包单位</td>
                                             <td>
-                                                <select class="form-control" style="width:180px;"  id="editable-select2">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
+                                                <input type="text" class="form-control" style="width:80%;" disabled id="new_fb_department">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>实际负责人</td>
                                             <td>
-                                                <select class="form-control" style="width:180px;"  id="editable-select4">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
+                                                <select class="form-control" style="width:80%;"  id="leader">
                                                 </select>
                                             </td>
                                             <td></td>
@@ -136,57 +122,57 @@
                                             <td rowspan="6">评价内容  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                             <td>人员、材料和设备配置情况（20%）</td>
                                             <td colspan="2">
-                                                <input type="radio" name="pj">90
-                                                <input type="radio" name="pj">75
-                                                <input type="radio" name="pj">60
+                                                <input type="radio" name="pj" value="90">90
+                                                <input type="radio" name="pj" value="75">75
+                                                <input type="radio" name="pj" value="60">60
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>施工经验、施工组织管理能力（20%）</td>
                                             <td colspan="2">
-                                                <input type="radio" name="pj2">90
-                                                <input type="radio" name="pj2">75
-                                                <input type="radio" name="pj2">60
+                                                <input type="radio" name="pj2" value="90">90
+                                                <input type="radio" name="pj2" value="75">75
+                                                <input type="radio" name="pj2" value="60">60
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>质量控制（20%）</td>
                                             <td colspan="2">
-                                                <input type="radio" name="pj3">90
-                                                <input type="radio" name="pj3">75
-                                                <input type="radio" name="pj3">60
+                                                <input type="radio" name="pj3" value="90">90
+                                                <input type="radio" name="pj3" value="75">75
+                                                <input type="radio" name="pj3" value="60">60
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>个人信誉（15%）</td>
                                             <td colspan="2">
-                                                <input type="radio" name="pj4">90
-                                                <input type="radio" name="pj4">75
-                                                <input type="radio" name="pj4">60
+                                                <input type="radio" name="pj4" value="90">90
+                                                <input type="radio" name="pj4" value="75">75
+                                                <input type="radio" name="pj4" value="60">60
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>进度控制（15%）</td>
                                             <td colspan="2">
-                                                <input type="radio" name="pj5">90
-                                                <input type="radio" name="pj5">75
-                                                <input type="radio" name="pj5">60
+                                                <input type="radio" name="pj5" value="90">90
+                                                <input type="radio" name="pj5" value="75">75
+                                                <input type="radio" name="pj5" value="60">60
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>安全文明与环保（10%）</td>
                                             <td colspan="2">
-                                                <input type="radio" name="pj6">90
-                                                <input type="radio" name="pj6">75
-                                                <input type="radio" name="pj6">60
+                                                <input type="radio" name="pj6" value="90">90
+                                                <input type="radio" name="pj6" value="75">75
+                                                <input type="radio" name="pj6" value="60">60
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>综合评价</td>
                                             <td colspan="3">
-                                                <input type="radio" name="pj7">90
-                                                <input type="radio" name="pj7">75
-                                                <input type="radio" name="pj7">60
+                                                <input type="radio" name="pj7" value="90">90
+                                                <input type="radio" name="pj7" value="75">75
+                                                <input type="radio" name="pj7" value="60">60
                                             </td>
                                         </tr>
                                     </table> 
@@ -195,8 +181,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="button" class="btn btn-default">保存</button>
-                        <button type="button" class="btn btn-success">提交</button>
+                        <button type="button" class="btn btn-success" onclick="save()">保存</button>
+                        <button type="button" class="btn btn-success" onclick="submit()">提交</button>
                     </div>
                     </div>
                 </div>
@@ -366,54 +352,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>41450524</td>
-                                    <td>G104秦淮河大桥检查</td>
-                                    <td>45225</td>
-                                    <td>G104秦淮河大桥检查</td>
-                                    <td>小小公司</td>
-                                    <td>里斯</td>
-                                    <td>100</td>
-                                    <td>
-                                        <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1"></i>
-                                        <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change'></i>
-                                        <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                                        <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>41450524</td>
-                                    <td>G104秦淮河大桥检查</td>
-                                    <td>45225</td>
-                                    <td>G104秦淮河大桥检查</td>
-                                    <td>小小公司</td>
-                                    <td>里斯</td>
-                                    <td>100</td>
-                                    <td>
-                                        <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1"></i>
-                                        <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change'></i>
-                                        <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                                        <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>41450524</td>
-                                    <td>G104秦淮河大桥检查</td>
-                                    <td>45225</td>
-                                    <td>G104秦淮河大桥检查</td>
-                                    <td>小小公司</td>
-                                    <td>里斯</td>
-                                    <td>100</td>
-                                    <td>
-                                        <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1"></i>
-                                        <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change'></i>
-                                        <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                                        <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
-                                    </td>
-                                </tr>
                             </tbody>   
                         </table>
 <!-- allMsg -->
@@ -429,57 +367,57 @@
                 <form class="form-inline">
                     <table class="table table-bordered table-condensed">
                         <tr>   
-                            <td style="width:100px;">承接合同名称</td>
-                            <td>sdgfdgag</td>
-                            <td style="width:100px;">承接合同编号</td>
-                            <td>24626236</td>
+                            <td style="width:15%;">承接合同名称</td>
+                            <td id="look_cj_name"></td>
+                            <td style="width:15%;">承接合同编号</td>
+                            <td id="look_cj_no"></td>
                         </tr>
                         <tr>
                             <td>任务单号</td>
-                            <td>263543226</td>
+                            <td id="look_prj_no"></td>
                             <td>分包合同名称</td>
-                            <td>kdghdfyd</td>
+                            <td id="look_fb_name"></td>
                         </tr>
                         <tr>
                             <td>分包合同编号</td>
-                            <td>23436253</td>
+                            <td id="look_fb_no"></td>
                             <td>分包单位</td>
-                            <td>jdfstst</td>
+                            <td id="look_fb_department"></td>
                         </tr>
                         <tr>
                             <td>实际负责人</td>
-                            <td>yyyyyyyysty</td>
+                            <td id="look_leader"></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td rowspan="6">评价内容</td>
                             <td>人员、材料和设备配置情况（20%）</td>
-                            <td colspan="2">90</td>
+                            <td colspan="2" id="score"></td>
                         </tr>
                         <tr>
                             <td>施工经验、施工组织管理能力（20%）</td>
-                            <td colspan="2">90</td>
+                            <td colspan="2" id="score2"></td>
                         </tr>
                         <tr>
                             <td>质量控制（20%）</td>
-                            <td colspan="2">90</td>
+                            <td colspan="2" id="score3"></td>
                         </tr>
                         <tr>
                             <td>个人信誉（15%）</td>
-                            <td colspan="2">90</td>
+                            <td colspan="2" id="score4"></td>
                         </tr>
                         <tr>
                             <td>进度控制（15%）</td>
-                            <td colspan="2">90</td>
+                            <td colspan="2" id="score5"></td>
                         </tr>
                         <tr>
                             <td>安全文明与环保（10%）</td>
-                            <td colspan="2">90</td>
+                            <td colspan="2" id="score6"></td>
                         </tr>
                         <tr>
                             <td>综合评价</td>
-                            <td colspan="3">90</td>
+                            <td colspan="3" id="score7"></td>
                         </tr>
                     </table> 
                 </form> 
@@ -515,74 +453,76 @@
         </div>
         <div class="modal-body">
                 <div>     
-                    <form class="form-inline">
+                    <form class="form-inline" id="form_fb" method="post" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed">
                             <tr>
-                                <td>项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td>
-                                    <select class="form-control" style="width:180px;"  id="editable-select2x2">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:35%;">
+                                    <select class="form-control" style="width:80%;"  id="prj_name">
+                                    	<option value="测试项目1">测试项目1</option>
+                                    	<option value="测试项目2">测试项目2</option>
                                     </select>
                                 </td>
-                                <td style="width:100px;">任务单号</td>
-                                <td><input type="text" class="form-control" disabled></td>
+                                <td style="width:15%;">任务单号</td>
+                                <td style="width:35%;">
+                                	<select class="form-control" style="width:80%;"  id="prj_no2">
+                                		<option value="fb2018001">fb2018001</option>
+                                		<option value="fb2018002">fb2018002</option>
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
-                                <td style="width:100px;">分包合同  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>分包合同  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                    <select class="form-control" style="width:180px;">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                    <select class="form-control" style="width:80%;" id="fb_name2">
+                                    	<option value="分包合同1">分包合同1</option>
+                                    	<option value="分包合同2">分包合同2</option>
                                     </select>
                                 </td>
                                 <td>承接合同  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                    <select class="form-control" style="width:180px;"  id="editable-select3x2">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                    <select class="form-control" style="width:80%;"  id="cj_name2">
+                                    	<option value="承接合同1">承接合同1</option>
+                                    	<option value="承接合同2">承接合同2</option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>审计结算类型</td>
                                 <td>
-                                    <select class="form-control" style="width:180px;">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                    <select class="form-control" style="width:80%;" id="sj_type">
+                                        <option value="中间结算">中间结算</option>
+                                        <option value="最终结算">最终结算</option>
                                     </select>
                                 </td>
                                 <td>时间</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" style="width:80%;" class="form-control" id="year"></td>
                             </tr>
                             <tr>
                                 <td>内容概述</td>
                                 <td colspan="3">
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="4" cols="50"></textarea>
-                                    </div> 
+                                     <textarea class="form-control" rows="4" style="width:100%;" id="work_info2"></textarea>
                                 </td>
                             </tr>
                         </table>
+                        <table class="table table-bordered table-condensed" id="new_accessory">
+							<thead>
+								<tr>
+	                                <td style="width:30%;">附件:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td colspan="2">
+	                                    <button type="button" class="btn btn-primary" onclick="new_accessory()">增加附件</button>
+	                                </td>
+                            	</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
                     </form>  
                 </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-default">保存</button>
-            <button type="button" class="btn btn-success">提交</button>
+            <button type="button" class="btn btn-success" onclick="save2()">保存</button>
+            <button type="button" class="btn btn-success" onclick="submit2()">提交</button>
         </div>
         </div>
     </div>
@@ -683,54 +623,10 @@
                         <th>分包合同</th>
                         <th>审计结算类型</th>
                         <th>时间</th>
-                        <th>内容概述</th>
                         <th style="width:75px;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>1</td>
-                        <td>20180101</td>
-                        <td>啊改啊亚特按规范</td>
-                        <td>
-                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change2'></i>
-                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                            <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>1</td>
-                        <td>20180101</td>
-                        <td>啊改啊亚特按规范</td>
-                        <td>
-                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change2'></i>
-                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                            <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>1</td>
-                        <td>20180101</td>
-                        <td>啊改啊亚特按规范</td>
-                        <td>
-                            <!-- <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg2"></i> -->
-                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change2'></i>
-                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                            <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
-                        </td>
-                    </tr>
                 </tbody>   
             </table>
 <!-- allMsg -->
@@ -746,28 +642,40 @@
                 <form class="form-inline">
                     <table class="table table-bordered table-condensed">
                         <tr>
-                            <td>项目名称</td>
-                            <td>jfdjdh</td>
-                            <td style="width:100px;">任务单号</td>
-                            <td>15242151</td>
+                            <td style="width:15%;">项目名称</td>
+                            <td id="look_prj_name2"></td>
+                            <td style="width:15%;">任务单号</td>
+                            <td id="look_prj_no2"></td>
                         </tr>
                         <tr>
-                            <td style="width:100px;">分包合同</td>
-                            <td>fnfhsdh</td>
+                            <td>分包合同</td>
+                            <td id="look_fb_name2"></td>
                             <td>承接合同</td>
-                            <td>hsfsdgdssss</td>
+                            <td id="look_cj_name2"></td>
                         </tr>
                         <tr>
                             <td>审计结算类型</td>
-                            <td>hsdfstr</td>
+                            <td id="look_sj_type"></td>
                             <td>时间</td>
-                            <td>1542123</td>
+                            <td id="look_year"></td>
                         </tr>
                         <tr>
                             <td>内容概述</td>
-                            <td colspan="3">jdfygsdt</td>
+                            <td colspan="3" id="look_work_info2"></td>
                         </tr>
                     </table>
+                    <br/>
+					 <table class="table table-bordered table-condensed" id="look_accessory">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>附件名称</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+					<br/>
                 </form>  
             </div>
         </div>
@@ -790,7 +698,7 @@
             </div>
             <div class="UpperPartR">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">新建合同履约申请表</button>
-                <button type="button" class="btn btn-primary">导出打印</button>
+                <button type="button" class="btn btn-primary" onclick="exportThis()">导出打印</button>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal3">
@@ -802,103 +710,96 @@
         </div>
         <div class="modal-body">
                 <div>     
-                    <form class="form-inline">
+                    <form class="form-inline" id="form_fb2" method="post" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed">
                             <tr>
-                                <td>分包合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:18%;">分包合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                    <select class="form-control" style="width:180px;"  id="editable-select2x3">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                    <select class="form-control" style="width:80%;"  id="fbContractName">
                                     </select>
                                 </td>
-                                <td style="width:100px;">分包合同号</td>
-                                <td><input type="text" class="form-control" disabled></td>
+                                <td style="width:18%;">分包合同号</td>
+                                <td>
+                                	<select class="form-control" style="width:80%;"  id="fbContract">
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
-                                <td style="width:100px;">承接合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>承接合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                    <select class="form-control" style="width:180px;">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                    <select class="form-control" style="width:80%;" id="cjContractName">
                                     </select>
                                 </td>
                                 <td>承接合同编号</td>
-                                <td><input type="text" class="form-control" disabled></td>
+                                <td>
+                                	<select class="form-control" style="width:80%;" id="cjContract">
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td>任务单号</td>
-                                <td><input type="text" class="form-control" disabled></td>
+                                <td><input type="text" class="form-control" style="width:80%;" id=prjCode></td>
                                 <td>项目负责人</td>
                                 <td>
-                                    <select class="form-control" style="width:180px;">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                    <select class="form-control" style="width:80%;" id="prjChargePerson">
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>合同乙方</td>
                                 <td>
-                                    <select class="form-control" style="width:180px;">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                    <select class="form-control" style="width:80%;" id="contractNameYi">
                                     </select>
                                 </td>
                                 <td>分包负责人</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td>
+                                	 <select class="form-control" style="width:80%;" id="fbChargePerson">
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td>合同金额</td>
-                                <td><input type="text" class="form-control" disabled></td>
+                                <td><input type="text" class="form-control" style="width:80%;" id="contractMoney"></td>
                                 <td>暂定金</td>
-                                <td><input type="text" class="form-control" disabled></td>
+                                <td><input type="text" class="form-control" style="width:80%;" id="provisionalMoney"></td>
                             </tr>
                             <tr>
                                 <td>结算金额</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" style="width:80%;" id="overWorkMoney"></td>
                                 <td>结算说明</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" style="width:80%;" id="overWorkExplain"></td>
                             </tr>
                             <tr>
                                 <td>累计付款</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" style="width:80%;" id="allPayMoney"></td>
                                 <td>履约评级</td>
-                                <td><input type="text" class="form-control" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>附件</td>
-                                <td colspan="3"><input type="file" class="form-control"></td>
+                                <td><input type="text" class="form-control" style="width:80%;" id="doAppointScore"></td>
                             </tr>
                             <tr>
                                 <td>项目概况、工作内容、实际工期</td>
                                 <td colspan="3">
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="4" cols="50"></textarea>
-                                    </div> 
+                                   <textarea class="form-control" rows="4" style="width:100%;" id="prjProbablyText"></textarea>
                                 </td>
                             </tr>
                         </table>
-
+						<table class="table table-bordered table-condensed" id="new_accessory2">
+							<thead>
+								<tr>
+	                                <td style="width:30%;">附件:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td colspan="2">
+	                                    <button type="button" class="btn btn-primary" onclick="new_accessory2()">增加附件</button>
+	                                </td>
+                            	</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
                     </form>  
                 </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-default">保存</button>
-            <button type="button" class="btn btn-success">提交</button>
+            <button type="button" class="btn btn-success" onclick="save3()">保存</button>
+            <button type="button" class="btn btn-success" onclick="submit3()">提交</button>
         </div>
         </div>
     </div>
@@ -1026,81 +927,11 @@
                         <th>任务单号</th>
                         <th>承接合同编号</th>
                         <th>承接合同名称</th>
-                        <th>分包合同金额</th>
-                        <th>分包结算金额</th>
-                        <th>累计付款</th>
-                        <th>承接合同进度</th>
-                        <th>项目负责人</th>
-                        <th>所属部门</th>
-                        <th>履约完结时间</th>
-                        <th>履约单</th>
+                        <th>合同金额</th>
                         <th style="width:75px;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>5416745</td>
-                        <td>45245</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>100</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10%</td>
-                        <td>张三</td>
-                        <td>工程一部</td>
-                        <td>20180101</td>
-                        <td>1</td>
-                        <td>
-                            <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg3"></i>
-                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change3'></i>
-                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                            <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>5416745</td>
-                        <td>45245</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>100</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10%</td>
-                        <td>张三</td>
-                        <td>工程一部</td>
-                        <td>20180101</td>
-                        <td>1</td>
-                        <td>
-                            <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg3"></i>
-                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change3'></i>
-                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                            <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>5416745</td>
-                        <td>45245</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>100</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10%</td>
-                        <td>张三</td>
-                        <td>工程一部</td>
-                        <td>20180101</td>
-                        <td>1</td>
-                        <td>
-                            <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg3"></i>
-                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change3'></i>
-                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                            <i class="iconfont icon-quxiao quxiao" style="font-size:18px;cursor:pointer;" title="取消"></i>
-                        </td>
-                    </tr>
                 </tbody>   
             </table>
 <!-- allMsg -->
@@ -1116,57 +947,64 @@
                 <form class="form-inline">
                     <table class="table table-bordered table-condensed">
                         <tr>
-                            <td>分包合同名称</td>
-                            <td>gsdrs</td>
-                            <td style="width:100px;">分包合同号</td>
-                            <td>2146124</td>
+                            <td style="width:15%;">分包合同名称</td>
+                            <td id="look_fbContractName"></td>
+                            <td style="width:15%;">分包合同号</td>
+                            <td id="look_fbContract"></td>
                         </tr>
                         <tr>
-                            <td style="width:100px;">承接合同名称</td>
-                            <td>gafasf</td>
+                            <td>承接合同名称</td>
+                            <td id="look_cjContractName"></td>
                             <td>承接合同编号</td>
-                            <td>1321515</td>
+                            <td id="look_cjContract"></td>
                         </tr>
                         <tr>
                             <td>任务单号</td>
-                            <td>1241515125</td>
+                            <td id="look_prjCode"></td>
                             <td>项目负责人</td>
-                            <td>hsdfsdr</td>
+                            <td id="look_prjChargePerson"></td>
                         </tr>
                         <tr>
                             <td>合同乙方</td>
-                            <td>hsdgsr</td>
+                            <td id="look_contractNameYi"></td>
                             <td>分包负责人</td>
-                            <td>shdrsr</td>
+                            <td id="look_fbChargePerson"></td>
                         </tr>
                         <tr>
                             <td>合同金额</td>
-                            <td>stddgsdt</td>
+                            <td id="look_contractMoney"></td>
                             <td>暂定金</td>
-                            <td>sdtsdrsr</td>
+                            <td id="look_provisionalMoney"></td>
                         </tr>
                         <tr>
                             <td>结算金额</td>
-                            <td>strsrr</td>
+                            <td id="look_overWorkMoney"></td>
                             <td>结算说明</td>
-                            <td>hstsdt</td>
+                            <td id="look_overWorkExplain"></td>
                         </tr>
                         <tr>
                             <td>累计付款</td>
-                            <td>shsdtast</td>
+                            <td id="look_allPayMoney"></td>
                             <td>履约评级</td>
-                            <td>asrassat</td>
-                        </tr>
-                        <tr>
-                            <td>附件</td>
-                            <td colspan="3">asrasrasr</td>
+                            <td id="look_doAppointScore"></td>
                         </tr>
                         <tr>
                             <td>项目概况、工作内容、实际工期</td>
-                            <td colspan="3">hdarasr</td>
+                            <td colspan="3" id="look_prjProbablyText"></td>
                         </tr>
                     </table>
-
+					 <br/>
+					 <table class="table table-bordered table-condensed" id="look_accessory2">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>附件名称</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+					<br/>
                 </form>  
             </div>
         </div>
@@ -1187,22 +1025,21 @@
 <script src="../../js/common-scripts.js"></script>
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
 <script>
     $(document).ready( function () {
-    	$('#editable-select').editableSelect({ 
-            effects: 'slide' 
+    	laydate.render({
+            elem: '#year' //指定元素
         });
-        $('#editable-select2').editableSelect({ 
-            effects: 'slide' 
-        });
-        $('#editable-select3').editableSelect({ 
-            effects: 'slide' 
-        });
-        $('#editable-select4').editableSelect({ 
-            effects: 'slide' 
-        });
-	});
+    	initSelect();
+    	initFb();
+    	initUser();
+    	initTable();
+    	initDepartment();
+    });
     var table=$('#mainContent').dataTable({
         "deferRender": true,
         "processing": true,
@@ -1213,6 +1050,27 @@
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
+		"columns": [
+		            { "data": "taskListCode"}, 
+		            { "data": "cjContractCode"}, 
+		            { "data": "cjContractName"}, 
+		            { "data": "fbContractCode"}, 
+		            { "data": "fbContractName"}, 
+		            { "data": "fbDepartment"}, 
+		            { "data": "actualChargePerson"}, 
+		            { "data": "allScore"}, 
+		            { "data": null},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 8,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="look1(this)" title="查看"></i>';
+										        }
+										  }
+								],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
@@ -1241,6 +1099,25 @@
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
+		"columns": [
+		            { "data": "prjCode"}, 
+		            { "data": "prjName"}, 
+		            { "data": "cjContract"}, 
+		            { "data": "fbContract"}, 
+		            { "data": "settlementType"}, 
+		            { "data": "settlementTime"}, 
+		            { "data": null},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 6,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="look2(this)" title="查看"></i>';
+										        }
+										  }
+								],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
@@ -1269,6 +1146,25 @@
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
+		"columns": [
+		            { "data": "fbContract"}, 
+		            { "data": "fbContractName"}, 
+		            { "data": "prjCode"}, 
+		            { "data": "cjContract"}, 
+		            { "data": "cjContractName"}, 
+		            { "data": "contractMoney"}, 
+		            { "data": null},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 6,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="look3(this)" title="查看"></i>';
+										        }
+										  }
+								],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
@@ -1287,19 +1183,45 @@
             "sLast": "最后一页"
         }},
 	});
+    
 	function initTable(){
         $.ajax({
             type: 'POST',
-            url: '',
+            url: getContextPath()+'/fbScore/selectFbContractDoAppointScore',
             dataType: 'json',
             data: {
             },
-            error: function (msg) {
-                errMessage("请求UserController失败");
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	
+	function initTable2(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/fbOver/selectFbContractOver',
+            dataType: 'json',
+            data: {
             },
             success: function (json) {
-                $('#').dataTable().fnClearTable();
-                $('#').DataTable().rows.add(json).draw(false);
+                $('#mainContent2').dataTable().fnClearTable();
+                $('#mainContent2').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	
+	function initTable3(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/fbOverWj/selectFbContractOverWj',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $('#mainContent3').dataTable().fnClearTable();
+                $('#mainContent3').DataTable().rows.add(json).draw(false);
             }
         });
     }
@@ -1322,12 +1244,6 @@
         rowIndex = bb.parentNode.parentNode.rowIndex; 
     }
 
-    // $("#mainContent tbody tr").click(function (){
-    //     $(this).addClass('selected')
-    //     .siblings().removeClass('selected')
-    //     .end();
-    // })
-
     $(".quxiao").click(function(){
         if(confirm("确定要撤销吗？")){
             return true;
@@ -1336,6 +1252,556 @@
             return false;
         }
     })
+    
+    //初始化承接合同名称和承接合同号
+	 function initSelect(){
+			$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cj/selectNameAndNo',
+	        dataType: 'json',
+	        data: {
+	        },
+	        error: function (msg) {
+	        	toastr.error("请求失败");
+	        },
+	        success: function (json) {
+	        	$("#new_cj_name").html('');
+	        	$("#new_cj_no").html('');
+	        	$("#cjContractName").html('');
+	        	$("#cjContract").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		$("#new_cj_name").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
+	        		$("#new_cj_no").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
+	        		$("#cjContractName").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
+	        		$("#cjContract").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
+	        	}
+	        	$('#new_cj_name').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/cj/selectCjContractByName',
+	                    dataType: 'json',
+	                    data: {
+	                    	name:$('#new_cj_name').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#new_cj_no').val(json.contractNo);
+	                    	$('#new_prj_no').val(json.taskCode);
+	                    }
+	          		});
+	          	})
+	          	$('#new_cj_no').editableSelect().on('select.editable-select', function (e, dom) {
+	          		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/cj/selectCjContractByNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	no:$('#new_cj_no').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#new_cj_name').val(json.contractName);
+	                    	$('#new_prj_no').val(json.taskCode);
+	                    }
+	          		});
+			  	})
+			  	
+			  	$('#cjContractName').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/cj/selectCjContractByName',
+	                    dataType: 'json',
+	                    data: {
+	                    	name:$('#cjContractName').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#cjContract').val(json.contractNo);
+	                    	$('#prjCode').val(json.taskCode);
+	                    }
+	          		});
+	          	})
+	          	$('#cjContract').editableSelect().on('select.editable-select', function (e, dom) {
+	          		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/cj/selectCjContractByNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	no:$('#cjContract').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#cjContractName').val(json.contractName);
+	                    	$('#prjCode').val(json.taskCode);
+	                    }
+	          		});
+			  	})
+			  	
+	        }
+			});
+		}
+    
+    
+    function initFb(){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/subcontract/getFBNameAndNo',
+	        dataType: 'json',
+	        data: {
+	        },
+	        error: function (msg) {
+	        	toastr.error("请求失败");
+	        },
+	        success: function (json) {
+	        	$("#new_fb_name").html('');
+	        	$("#new_fb_no").html('');
+	        	$("#fbContractName").html('');
+	        	$("#fbContract").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		$("#new_fb_name").append("<option value="+json[i].contarctName+">"+json[i].contractName+"</option>");
+	        		$("#new_fb_no").append("<option value="+json[i].fbNo+">"+json[i].fbNo+"</option>");
+	        		$("#fbContractName").append("<option value="+json[i].contarctName+">"+json[i].contractName+"</option>");
+	        		$("#fbContract").append("<option value="+json[i].fbNo+">"+json[i].fbNo+"</option>");
+	        	}
+	        	
+	        	$('#new_fb_name').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/subcontract/getFBNoByName',
+	                    dataType: 'json',
+	                    data: {
+	                    	contractName:$('#new_fb_name').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#new_fb_no').val(json.fbNo);
+	                    	$('#new_fb_department').val(json.ccName);
+	                    }
+	          		});
+	          	})
+	          	$('#new_fb_no').editableSelect().on('select.editable-select', function (e, dom) {
+	          		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/subcontract/getFBNameByNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	fbNo:$('#new_fb_no').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#new_fb_name').val(json.contractName);
+	                    	$('#new_fb_department').val(json.ccName);
+	                    }
+	          		});
+			  	})
+			  	
+			  	$('#fbContractName').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/subcontract/getFBNoByName',
+	                    dataType: 'json',
+	                    data: {
+	                    	contractName:$('#fbContractName').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#fbContract').val(json.fbNo);
+	                    }
+	          		});
+	          	})
+	          	$('#fbContract').editableSelect().on('select.editable-select', function (e, dom) {
+	          		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/subcontract/getFBNameByNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	fbNo:$('#fbContract').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#fbContractName').val(json.contractName);
+	                    }
+	          		});
+			  	})
+	        	
+	        }
+    	});
+    }
+    
+    function initUser(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/user/selectAllUser',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+	            	$("#leader").append("<option value="+json[i].uName+">"+json[i].uName+"</option>")
+	            	$("#prjChargePerson").append("<option value="+json[i].uName+">"+json[i].uName+"</option>")
+	            	$("#fbChargePerson").append("<option value="+json[i].uName+">"+json[i].uName+"</option>")
+            	}
+            }
+    	});
+    }
+    
+  //初始化提交部门
+	function initDepartment(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            data: {
 
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+                for(var i=0;i<json.length;i++){
+                	$("#contractNameYi").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                }
+            }
+		});
+	}
+    
+    function save(){
+    	var cj_name=$("#new_cj_name").val();
+    	var cj_no=$("#new_cj_no").val();
+    	var prj_no=$("#new_prj_no").val();
+    	var fb_name=$("#new_fb_name").val();
+    	var fb_no=$("#new_fb_no").val();
+    	var fb_department=$("#new_fb_department").val();
+    	var leader=$("#leader").val();
+    	var score=$("input[name='pj']:checked").val();
+    	var score2=$("input[name='pj2']:checked").val();
+    	var score3=$("input[name='pj3']:checked").val();
+    	var score4=$("input[name='pj4']:checked").val();
+    	var score5=$("input[name='pj5']:checked").val();
+    	var score6=$("input[name='pj6']:checked").val();
+    	var all_score=$("input[name='pj7']:checked").val();
+    	
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/fbScore/addFbContractDoAppointScoreBySave',
+            dataType: 'json',
+            data: {
+            	taskListCode:prj_no,
+            	cjContractCode:cj_no,
+            	cjContractName:cj_name,
+            	fbContractCode:fb_no,
+            	fbContractName:fb_name,
+            	fbDepartment:fb_department,
+            	actualChargePerson:leader,
+            	scoreMaterialSituation:score,
+            	scoreManageAbility:score2,
+            	scoreQualityControl:score3,
+            	scoreCompanyReputation:score4,
+            	scoreJinduControl:score5,
+            	safetyCivilizationEnvironment:score6,
+            	allScore:all_score
+            },
+            success: function (json) {
+            	if(json>0){
+            		$("#myModal").modal("hide");
+            		toastr.success("保存成功")
+            	}else{
+            		toastr.error("保存失败")
+            	}
+            }
+    	});
+    }
+    
+    function submit(){
+    	var cj_name=$("#new_cj_name").val();
+    	var cj_no=$("#new_cj_no").val();
+    	var prj_no=$("#new_prj_no").val();
+    	var fb_name=$("#new_fb_name").val();
+    	var fb_no=$("#new_fb_no").val();
+    	var fb_department=$("#new_fb_department").val();
+    	var leader=$("#leader").val();
+    	var score=$("input[name='pj']:checked").val();
+    	var score2=$("input[name='pj2']:checked").val();
+    	var score3=$("input[name='pj3']:checked").val();
+    	var score4=$("input[name='pj4']:checked").val();
+    	var score5=$("input[name='pj5']:checked").val();
+    	var score6=$("input[name='pj6']:checked").val();
+    	var all_score=$("input[name='pj7']:checked").val();
+    	
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/fbScore/addFbContractDoAppointScoreBySubmit',
+            dataType: 'json',
+            data: {
+            	taskListCode:prj_no,
+            	cjContractCode:cj_no,
+            	cjContractName:cj_name,
+            	fbContractCode:fb_no,
+            	fbContractName:fb_name,
+            	fbDepartment:fb_department,
+            	actualChargePerson:leader,
+            	scoreMaterialSituation:score,
+            	scoreManageAbility:score2,
+            	scoreQualityControl:score3,
+            	scoreCompanyReputation:score4,
+            	scoreJinduControl:score5,
+            	safetyCivilizationEnvironment:score6,
+            	allScore:all_score
+            },
+            success: function (json) {
+            	if(json>0){
+            		$("#myModal").modal("hide");
+            		toastr.success("提交成功")
+            	}else{
+            		toastr.error("提交失败")
+            	}
+            }
+    	});
+    }
+    
+    function look1(obj){
+    	var tr=$(obj).parents("tr");
+    	var data=$("#mainContent").DataTable().row(tr).data();
+    	
+    	$("#look_cj_name").text(data.cjContractName);
+    	$("#look_cj_no").text(data.cjContractCode);
+    	$("#look_prj_no").text(data.taskListCode);
+    	$("#look_fb_name").text(data.fbContractName);
+    	$("#look_fb_no").text(data.fbContractCode);
+    	$("#look_fb_department").text(data.fbDepartment);
+    	$("#look_leader").text(data.actualChargePerson);
+    	$("#score").text(data.scoreMaterialSituation);
+    	$("#score2").text(data.scoreManageAbility);
+    	$("#score3").text(data.scoreQualityControl);
+    	$("#score4").text(data.scoreCompanyReputation);
+    	$("#score5").text(data.scoreJinduControl);
+    	$("#score6").text(data.safetyCivilizationEnvironment);
+    	$("#score7").text(data.allScore);
+    	
+    	$("#allMsg1").modal("show");
+    }
+    
+    function look2(obj){
+    	var tr=$(obj).parents("tr");
+    	var data=$("#mainContent2").DataTable().row(tr).data();
+    	
+    	$("#look_prj_name2").text(data.prjName);
+    	$("#look_prj_no2").text(data.prjCode);
+    	$("#look_fb_name2").text(data.fbContract);
+    	$("#look_cj_name2").text(data.cjContract);
+    	$("#look_sj_type").text(data.settlementType);
+    	$("#look_year").text(data.settlementTime);
+    	$("#look_work_info2").text(data.workInfo);
+    	
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/work/selectDepartmentAndPerson',
+            dataType: 'json',
+            data: {
+            	id:data.fcoId
+            },
+            success: function (json) {
+            	var accessory=json.accessory;
+            	$("#look_accessory tbody").html('');
+				for(var j=0;j<accessory.length;j++){
+					$("#look_accessory tbody").append("<tr><td>附件"+(j+1)+"</td><td>"+accessory[j].acName+"</td><td><button type='button' data="+accessory[j].acUrl+" class='btn btn-primary' onclick='downLoadFile(this)'>下载附件</button></td></tr>")
+            	}
+            }
+  		});
+    	
+    	$("#allMsg2").modal("show");
+    }
+    
+    function new_accessory(){
+			var length=$("#new_accessory tr").length;
+			$("#new_accessory tbody").append("<tr><td>新附件</td><td><input type='file' id='file"+length+"' name='file' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeThis(this)'>移除</button></td></tr>")
+	}
+    
+    function new_accessory2(){
+		var length=$("#new_accessory2 tr").length;
+		$("#new_accessory2 tbody").append("<tr><td>新附件</td><td><input type='file' id='file"+length+"' name='file' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeThis(this)'>移除</button></td></tr>")
+	}
+    
+    function removeThis(obj){
+    	var tr=$(obj).parent().parent();
+  		$(tr).remove();
+    }
+    
+    function  save2(){
+    	var prj_name=$("#prj_name").val();
+    	var prj_no=$("#prj_no2").val();
+    	var fb_name=$("#fb_name2").val();
+    	var cj_name=$("#cj_name2").val();
+    	var sj_type=$("#sj_type").val();
+    	var year=$("#year").val();
+    	var work_info2=$("#work_info2").val();
+    	
+    	var options={
+    			type: 'POST',
+                url: getContextPath()+'/fbOver/addFbContractOverBySave',
+                dataType: 'json',
+                data: {
+                	prjCode:prj_no,
+                	prjName:prj_name,
+                	cjContract:cj_name,
+                	fbContract:fb_name,
+                	settlementType:sj_type,
+                	settlementTime:year,
+                	workInfo:work_info2
+                },
+                success: function (json) {
+                	if(json>0){
+                		$("#myModal2").modal("hide");
+                		toastr.success("提交成功")
+                	}else{
+                		toastr.error("提交失败")
+                	}
+                }
+    	}
+    	$("#form_fb").ajaxSubmit(options);
+    }
+    
+    function  submit2(){
+    	var prj_name=$("#prj_name").val();
+    	var prj_no=$("#prj_no2").val();
+    	var fb_name=$("#fb_name2").val();
+    	var cj_name=$("#cj_name2").val();
+    	var sj_type=$("#sj_type").val();
+    	var year=$("#year").val();
+    	var work_info2=$("#work_info2").val();
+    	
+    	var options={
+    			type: 'POST',
+                url: getContextPath()+'/fbOver/addFbContractOverBySubmit',
+                dataType: 'json',
+                data: {
+                	prjCode:prj_no,
+                	prjName:prj_name,
+                	cjContract:cj_name,
+                	fbContract:fb_name,
+                	settlementType:sj_type,
+                	settlementTime:year,
+                	workInfo:work_info2
+                },
+                success: function (json) {
+                	if(json>0){
+                		$("#myModal2").modal("hide");
+                		toastr.success("提交成功")
+                	}else{
+                		toastr.error("提交失败")
+                	}
+                }
+    	}
+    	$("#form_fb").ajaxSubmit(options);
+    }
+    
+    function downLoadFile(obj){
+			var filePath=$(obj).attr("data");
+			var fileName=$(obj).parents("tr").find("td").eq(1).text();
+			window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
+	}
+    
+    function save3(){
+    	var options={
+    			type: 'POST',
+                url: getContextPath()+'/fbOverWj/addFbContractOverWjBySave',
+                dataType: 'json',
+                data: {
+                	fbContractName:$("#fbContractName").val(),
+                	fbContract:$("#fbContract").val(),
+                	prjCode:$("#prjCode").val(),
+                	prjChargePerson:$("#prjChargePerson").val(),
+                	cjContractName:$("#cjContractName").val(),
+                	cjContract:$("#cjContract").val(),
+                	contractNameYi:$("#contractNameYi").val(),
+                	fbChargePerson:$("#fbChargePerson").val(),
+                	prjProbablyText:$("#prjProbablyText").val(),
+                	contractMoney:$("#contractMoney").val(),
+                	provisionalMoney:$("#provisionalMoney").val(),
+                	overWorkMoney:$("#overWorkMoney").val(),
+                	overWorkExplain:$("#overWorkExplain").val(),
+                	allPayMoney:$("#allPayMoney").val(),
+                	doAppointScore:$("#doAppointScore").val()
+                },
+                success: function (json) {
+                	if(json>0){
+                		$("#myModal3").modal("hide");
+                		toastr.success("保存成功")
+                	}else{
+                		toastr.error("保存失败")
+                	}
+                }
+    	}
+    	$("#form_fb2").ajaxSubmit(options);
+    }
+
+    function submit3(){
+    	var options={
+    			type: 'POST',
+                url: getContextPath()+'/fbOverWj/addFbContractOverWjBySubmit',
+                dataType: 'json',
+                data: {
+                	fbContractName:$("#fbContractName").val(),
+                	fbContract:$("#fbContract").val(),
+                	prjCode:$("#prjCode").val(),
+                	prjChargePerson:$("#prjChargePerson").val(),
+                	cjContractName:$("#cjContractName").val(),
+                	cjContract:$("#cjContract").val(),
+                	contractNameYi:$("#contractNameYi").val(),
+                	fbChargePerson:$("#fbChargePerson").val(),
+                	prjProbablyText:$("#prjProbablyText").val(),
+                	contractMoney:$("#contractMoney").val(),
+                	provisionalMoney:$("#provisionalMoney").val(),
+                	overWorkMoney:$("#overWorkMoney").val(),
+                	overWorkExplain:$("#overWorkExplain").val(),
+                	allPayMoney:$("#allPayMoney").val(),
+                	doAppointScore:$("#doAppointScore").val()
+                },
+                success: function (json) {
+                	if(json>0){
+                		$("#myModal3").modal("hide");
+                		toastr.success("提交成功")
+                	}else{
+                		toastr.error("提交失败")
+                	}
+                }
+    	}
+    	$("#form_fb2").ajaxSubmit(options);
+    }
+    
+    function look3(obj){
+    	var tr=$(obj).parents("tr");
+    	var data=$("#mainContent3").DataTable().row(tr).data();
+    	
+    	$("#look_fbContractName").text(data.fbContractName);
+    	$("#look_fbContract").text(data.fbContract);
+    	$("#look_prjCode").text(data.prjCode);
+    	$("#look_prjChargePerson").text(data.prjChargePerson);
+    	$("#look_cjContractName").text(data.cjContractName);
+    	$("#look_cjContract").text(data.cjContract);
+    	$("#look_contractNameYi").text(data.contractNameYi);
+    	$("#look_fbChargePerson").text(data.fbChargePerson);
+    	$("#look_prjProbablyText").text(data.prjProbablyText);
+    	$("#look_contractMoney").text(data.contractMoney);
+    	$("#look_provisionalMoney").text(data.provisionalMoney);
+    	$("#look_overWorkMoney").text(data.overWorkMoney);
+    	$("#look_overWorkExplain").text(data.overWorkExplain);
+    	$("#look_allPayMoney").text(data.allPayMoney);
+    	$("#look_doAppointScore").text(data.doAppointScore);
+    	
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/work/selectDepartmentAndPerson',
+            dataType: 'json',
+            data: {
+            	id:data.fcowId
+            },
+            success: function (json) {
+            	var accessory=json.accessory;
+            	$("#look_accessory2 tbody").html('');
+				for(var j=0;j<accessory.length;j++){
+					$("#look_accessory2 tbody").append("<tr><td>附件"+(j+1)+"</td><td>"+accessory[j].acName+"</td><td><button type='button' data="+accessory[j].acUrl+" class='btn btn-primary' onclick='downLoadFile(this)'>下载附件</button></td></tr>")
+            	}
+            }
+  		});
+    	
+    	$("#allMsg3").modal("show");
+    }
+    
+    function exportThis(){
+    	window.location.href=encodeURI(getContextPath()+'/fbOverWj/exportFbOverWj');
+    }
 </script>
 </html>

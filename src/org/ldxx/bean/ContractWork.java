@@ -15,6 +15,8 @@ public class ContractWork {
     private String jiaFang;
 
     private String workText;
+    
+    private String rating;
 
     private Float contractMoney;
 
@@ -50,6 +52,14 @@ public class ContractWork {
 	
 	private List<Enterprise> enterprise;
 	
+
+	public String getRating() {
+		return rating;
+	}
+
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
 
 	public String getJiaFang() {
 		return jiaFang;
