@@ -110,7 +110,7 @@ public class FbContractOverWjController {
 			data.add(fb.get(i).getPrjChargePerson());
 			data.add(fb.get(i).getCjContractName());
 			data.add(fb.get(i).getCjContract());
-			data.add(fb.get(i).getContractNameYi());
+			data.add(fb.get(i).getYiFang());
 			data.add(fb.get(i).getFbChargePerson());
 			data.add(fb.get(i).getContractMoney()+"");
 			data.add(fb.get(i).getProvisionalMoney()+"");

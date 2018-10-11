@@ -18,6 +18,8 @@ public class FbContractOverWj {
     private String cjContract;//承接合同
 
     private String contractNameYi;//合同乙方单位
+    
+    private String yiFang;//乙方名称
 
     private String fbChargePerson;//分包合同负责人
 
@@ -38,7 +40,15 @@ public class FbContractOverWj {
     private List<Accessory> accessory;
 
 
-    public List<Accessory> getAccessory() {
+    public String getYiFang() {
+		return yiFang;
+	}
+
+	public void setYiFang(String yiFang) {
+		this.yiFang = yiFang;
+	}
+
+	public List<Accessory> getAccessory() {
 		return accessory;
 	}
 
