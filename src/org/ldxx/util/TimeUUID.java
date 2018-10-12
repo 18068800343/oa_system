@@ -28,6 +28,19 @@ public class TimeUUID {
 		return prjCode;
 	}
 	
+	public String getClCode(String omNo,int count){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
+		String year=sdf.format(new Date());
+		String y=String.valueOf(count);
+		if(y.length()==1){
+			y="00"+y;
+		}else if(y.length()==2){
+			y="0"+y;
+		}
+		String clCode=year+omNo+y;
+		return clCode;
+	}
+	
 	public static void main(String[] args) {
 		TimeUUID uuid=new TimeUUID();
 		String aa=uuid.getPrjCode("", 80);

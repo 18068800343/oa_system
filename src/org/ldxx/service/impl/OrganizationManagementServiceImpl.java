@@ -55,4 +55,9 @@ public class OrganizationManagementServiceImpl implements OrganizationManagement
 		return omdao.getOrgIdByName(omName);
 	}
 
+	@Override
+	public OrganizationManagement selectOrgById(String omId) {
+		return omdao.selectOrgById(omId);
+	}
+
 }

@@ -5,28 +5,46 @@ import java.util.List;
 public class PrjMaterialBuy {
     private String pmbId;
 
-    private String applyDepartment;
+    private String applyDepartment;//申请部门编号
+    private String omName;//申请部门名称
 
-    private String applyPerson;
+    private String applyPerson;//申请人编号
+    private String uName;//申请人名称
 
-    private String applyCode;
+    private String applyCode;//任务单号
 
-    private String applyPrj;
+    private String applyPrj;//任务名称
 
-    private String taskCode;
+    private String taskCode;//申请单编号
 
-    private String cjContractCode;
+    private String cjContractCode;//承接合同编号
 
-    private String cjContractName;
+    private String cjContractName;//承接合同名称
 
-    private String applyReason;
+    private String applyReason;//申请原因
     
-    private Float sumPrice;
+    private Float sumPrice;//总价格
     
     private List<MaterialDemand> md;
     
     
-    public List<MaterialDemand> getMd() {
+    public String getOmName() {
+		return omName;
+	}
+
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+
+	public String getuName() {
+		return uName;
+	}
+
+	public void setuName(String uName) {
+		this.uName = uName;
+	}
+
+	public List<MaterialDemand> getMd() {
 		return md;
 	}
 
