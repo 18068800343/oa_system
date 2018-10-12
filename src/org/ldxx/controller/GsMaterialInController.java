@@ -182,8 +182,8 @@ public class GsMaterialInController {
 			data.add(projectList.get(i).getSpecificationModel());
 			data.add(projectList.get(i).getCmUnit());
 			data.add(projectList.get(i).getCmNumber());
-			data.add(projectList.get(i).getCmUnitPrice());
-			data.add(projectList.get(i).getCmMoney());
+			data.add(projectList.get(i).getCmUnitPrice()+"");
+			data.add(projectList.get(i).getCmMoney()+"");
 			data.add(projectList.get(i).getSentDate());
 			data.add(projectList.get(i).getSentUnit());
 			data.add(projectList.get(i).getManufacturer());

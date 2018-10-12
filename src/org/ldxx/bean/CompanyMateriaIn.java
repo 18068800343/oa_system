@@ -17,8 +17,8 @@ public class CompanyMateriaIn {
 	private String specificationModel;//规格型号
 	private String cmUnit;//单位
 	private String cmNumber;// 数量
-	private String cmUnitPrice;//单价
-	private String cmMoney;//金额
+	private Float cmUnitPrice;//单价
+	private Float cmMoney;//金额
 	private String sentDate;//收货日期
 	private String sentUnit;//来货单位
 	private String manufacturer;//生产厂家
@@ -115,19 +115,19 @@ public class CompanyMateriaIn {
 		this.cmNumber = cmNumber;
 	}
 
-	public String getCmUnitPrice() {
+	public Float getCmUnitPrice() {
 		return cmUnitPrice;
 	}
 
-	public void setCmUnitPrice(String cmUnitPrice) {
+	public void setCmUnitPrice(Float cmUnitPrice) {
 		this.cmUnitPrice = cmUnitPrice;
 	}
 
-	public String getCmMoney() {
+	public Float getCmMoney() {
 		return cmMoney;
 	}
 
-	public void setCmMoney(String cmMoney) {
+	public void setCmMoney(Float cmMoney) {
 		this.cmMoney = cmMoney;
 	}
 
