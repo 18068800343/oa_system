@@ -54,6 +54,12 @@ public class SupplierController {
 		return sService.selectAllSupplier();
 	}
 	
+	@RequestMapping("/selectIdAndName")
+	@ResponseBody
+	public List<Supplier> selectIdAndName(){
+		return sService.selectIdAndName();
+	}
+	
 	@RequestMapping("/selectOneSupplier")
 	@ResponseBody
 	public Supplier selectOneSupplier(String id){

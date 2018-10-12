@@ -89,4 +89,9 @@ public class SupplierServiceImpl implements SupplierService{
 		return supplier;
 	}
 
+	@Override
+	public List<Supplier> selectIdAndName() {
+		return sDao.selectIdAndName();
+	}
+
 }

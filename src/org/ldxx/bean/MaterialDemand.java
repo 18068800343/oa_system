@@ -9,13 +9,15 @@ public class MaterialDemand {
 
     private String buyCompany;
 
+    private Float price;
+    
     private String num;
 
-    private String departmentRecommendMetrialModeAndProvideCompany;
+    private String provideCompany;
 
-    private String sureMaterialModeAndProvide;
+    private String sureMaterialMode;
 
-    private String ps;
+    private String desc;
 
     public String getMdlId() {
         return mdlId;
@@ -57,27 +59,37 @@ public class MaterialDemand {
         this.num = num == null ? null : num.trim();
     }
 
-    public String getDepartmentRecommendMetrialModeAndProvideCompany() {
-        return departmentRecommendMetrialModeAndProvideCompany;
-    }
 
-    public void setDepartmentRecommendMetrialModeAndProvideCompany(String departmentRecommendMetrialModeAndProvideCompany) {
-        this.departmentRecommendMetrialModeAndProvideCompany = departmentRecommendMetrialModeAndProvideCompany == null ? null : departmentRecommendMetrialModeAndProvideCompany.trim();
-    }
+    public String getProvideCompany() {
+		return provideCompany;
+	}
 
-    public String getSureMaterialModeAndProvide() {
-        return sureMaterialModeAndProvide;
-    }
+	public void setProvideCompany(String provideCompany) {
+		this.provideCompany = provideCompany;
+	}
 
-    public void setSureMaterialModeAndProvide(String sureMaterialModeAndProvide) {
-        this.sureMaterialModeAndProvide = sureMaterialModeAndProvide == null ? null : sureMaterialModeAndProvide.trim();
-    }
+	public String getSureMaterialMode() {
+		return sureMaterialMode;
+	}
 
-    public String getPs() {
-        return ps;
-    }
+	public void setSureMaterialMode(String sureMaterialMode) {
+		this.sureMaterialMode = sureMaterialMode;
+	}
 
-    public void setPs(String ps) {
-        this.ps = ps == null ? null : ps.trim();
-    }
+	public Float getPrice() {
+		return price;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
 }

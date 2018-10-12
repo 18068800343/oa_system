@@ -217,4 +217,11 @@ public class CjContractController {
 	public CjContract selectCjContractByNo(String no){
 		return service.selectCjContractByNo(no);
 	}
+	
+	@RequestMapping("/selectCjContractByTaskNo")//通过任务单号查询承接合同
+	@ResponseBody
+	public List<CjContract> selectCjContractByTaskNo(String no){
+		String code="%"+no+"%";
+		return service.selectCjContractByTaskNo(code);
+	}
 }

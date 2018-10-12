@@ -30,4 +30,8 @@ public interface TaskDao {
 	public Task selectTaskPrjName(@Param("prjNo")String prjNo);
 	
 	public Task selectTaskPrjNo(@Param("prjName")String prjName);
+	
+	public Task selectNoByName(@Param("name")String name);
+	
+	public Task selectIdByNo(@Param("no")String no);
 }
