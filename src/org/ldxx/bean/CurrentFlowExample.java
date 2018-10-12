@@ -1844,6 +1844,76 @@ public class CurrentFlowExample {
             addCriterion("flow_end_state not between", value1, value2, "flowEndState");
             return (Criteria) this;
         }
+
+        public Criteria andFlowNodeLastIsNull() {
+            addCriterion("Flow_Node_Last is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastIsNotNull() {
+            addCriterion("Flow_Node_Last is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastEqualTo(String value) {
+            addCriterion("Flow_Node_Last =", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastNotEqualTo(String value) {
+            addCriterion("Flow_Node_Last <>", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastGreaterThan(String value) {
+            addCriterion("Flow_Node_Last >", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastGreaterThanOrEqualTo(String value) {
+            addCriterion("Flow_Node_Last >=", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastLessThan(String value) {
+            addCriterion("Flow_Node_Last <", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastLessThanOrEqualTo(String value) {
+            addCriterion("Flow_Node_Last <=", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastLike(String value) {
+            addCriterion("Flow_Node_Last like", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastNotLike(String value) {
+            addCriterion("Flow_Node_Last not like", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastIn(List<String> values) {
+            addCriterion("Flow_Node_Last in", values, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastNotIn(List<String> values) {
+            addCriterion("Flow_Node_Last not in", values, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastBetween(String value1, String value2) {
+            addCriterion("Flow_Node_Last between", value1, value2, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastNotBetween(String value1, String value2) {
+            addCriterion("Flow_Node_Last not between", value1, value2, "flowNodeLast");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -14,6 +14,7 @@ import org.ldxx.bean.CurrentFlowExample;
 import org.ldxx.bean.FlowEdge;
 import org.ldxx.bean.FlowEdgeExample;
 import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.FlowHistroyExample;
 import org.ldxx.bean.FlowNode;
 import org.ldxx.bean.FlowNodeExample;
 import org.ldxx.bean.ModeStatus;
@@ -85,6 +86,7 @@ public class FlowUtill {
 		 * 1：流程刚发起,提交状态
 		 */
 		currentFlow.setWfstate(0);
+		currentFlow.setFlowEndState(5);
 		currentFlow.setDoDate(new Date());
 		String mode_id = "";
 		BusinessExample example = new BusinessExample();
@@ -150,7 +152,7 @@ public class FlowUtill {
 			/**0：流程刚发起,暂存状态
 			 * 1：流程刚发起,提交状态
 			 */
-			currentFlowOld.setWfstate(1);
+			currentFlowOld.setWfstate(0);
 			String url = currentFlowOld.getUrl();
 			String modeId = "";
 			if(null!=url&&url.contains("-")){
@@ -193,7 +195,7 @@ public class FlowUtill {
 						INSTANCE.currentFlowMapper.deleteByExample(example2);
 						modeStatus.setModeId(modeId);
 						//5:流程结束
-						modeStatus.setStatus("5");
+						modeStatus.setStatus(currentFlow.getFlowEndState()+"");
 						ModeStatus modeStatus2 = INSTANCE.modeStatusMapper.selectByPrimaryKey(modeId);
 						if(null!=modeStatus2){
 							INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus);
@@ -267,7 +269,7 @@ public class FlowUtill {
 			/**0：流程刚发起,暂存状态
 			 * 1：流程刚发起,提交状态
 			 */
-			currentFlow.setWfstate(1);
+			currentFlow.setWfstate(0);
 			String url = currentFlow.getUrl();
 			String modeId = "";
 			if(null!=url&&url.contains("-")){
@@ -323,7 +325,65 @@ public class FlowUtill {
 			}
 		return "success";
 	}
+	/**
+	 * 新流程发起，初始提交
+	 * @param currentFlow url,Title,Starter,StartName,Sender,SenderName,FK_Dept,DeptName,NodeName,PRI,SDTOfNode,SDTOfFlow,Actor,ActorType,Memo
+	 *        flowHistroy Actor ActorName ActorResult view
+	 * @author xianing
+	 */
 	
+	@Transactional
+	public String TuiHuiFlow(String currentFlowId) throws Exception{
+			ModeStatus modeStatus = new ModeStatus(); 	
+			INSTANCE.init();
+			/**0：流程刚发起,暂存状态
+			 * 1：流程刚发起,提交状态
+			 */
+			FlowHistroy flowHistroy = new FlowHistroy();
+			CurrentFlow currentFlow = INSTANCE.currentFlowMapper.selectByPrimaryKey(currentFlowId);
+			String url = currentFlow.getUrl();
+			currentFlow.setRdt(new Date());
+			currentFlow.setDoDate(new Date());
+			FlowNode flowNode = INSTANCE.flowNodeMapper.selectByPrimaryKey(currentFlow.getFloNodeId());
+			String modeId = "";
+			if(null!=url&&url.contains("-")){
+				String urls[] = url.split("-");
+				url=urls[0];
+				modeId =urls[1];
+			}else{
+				log.error("url为null或者url格式有误");
+				throw new FlowException("url format error");
+			}
+			try {
+				//returnRole=0代表退回到第一步
+				Integer returnRole = flowNode.getReturnrole();
+				if(returnRole==Constant.FIRST_FLOW_NODE){
+				FlowNode flowNode1 = INSTANCE.flowNodeMapper.selectStartFlowNode(flowNode.getFloTmpId());
+			    currentFlow.setFloNodeId(flowNode1.getId());
+			    FlowHistroyExample example = new FlowHistroyExample();
+			    example.createCriteria().andFloNodeIdEqualTo(flowNode1.getId()).andUrlEqualTo(currentFlow.getUrl());
+				List<FlowHistroy> flowHistroys = INSTANCE.flowHistroyMapper.selectByExample(example);
+				FlowHistroy flowHistroy2=new FlowHistroy();
+				if(flowHistroys.size()>0){
+				flowHistroy2 = flowHistroys.get(0);
+				currentFlow.setActor(flowHistroy2.getActor());
+				currentFlow.setActorname(flowHistroy2.getActorname());
+				CurrentFlowExample example2 = new CurrentFlowExample();
+				example2.createCriteria().andIdEqualTo(currentFlowId);
+				INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2 );
+				}
+				}else if(returnRole==Constant.LAST_FLOW_NODE){
+					currentFlow.setFloNodeId(flowNode.getFloNodeLeft());
+				}
+				INSTANCE.flowHistroyMapper.insert(flowHistroy);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.error("数据库插入错误");
+				throw new FlowException("database do error");
+			}
+		return "success";
+	}
 	@Transactional
 	public String zancunFlow(CurrentFlow currentFlow,FlowHistroy flowHistroy) throws Exception{
 		currentFlow.setRdt(new Date());
