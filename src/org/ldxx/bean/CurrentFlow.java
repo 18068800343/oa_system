@@ -55,6 +55,8 @@ public class CurrentFlow {
 
     private Integer flowEndState;
 
+    private String flowNodeLast;
+
     public String getId() {
         return id;
     }
@@ -261,5 +263,13 @@ public class CurrentFlow {
 
     public void setFlowEndState(Integer flowEndState) {
         this.flowEndState = flowEndState;
+    }
+
+    public String getFlowNodeLast() {
+        return flowNodeLast;
+    }
+
+    public void setFlowNodeLast(String flowNodeLast) {
+        this.flowNodeLast = flowNodeLast == null ? null : flowNodeLast.trim();
     }
 }

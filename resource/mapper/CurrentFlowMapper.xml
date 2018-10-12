@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.mapper.CurrentFlowMapper" >
-  <resultMap id="BaseResultMap" type="org.ldxx.bean.CurrentFlow" >
+<resultMap id="BaseResultMap" type="org.ldxx.bean.CurrentFlow" >
     <id column="ID" property="id" jdbcType="VARCHAR" />
     <result column="Flo_Node_ID" property="floNodeId" jdbcType="VARCHAR" />
     <result column="Flo_Tmp_ID" property="floTmpId" jdbcType="VARCHAR" />
@@ -28,6 +28,7 @@
     <result column="do_date" property="doDate" jdbcType="TIMESTAMP" />
     <result column="mode_id" property="modeId" jdbcType="VARCHAR" />
     <result column="flow_end_state" property="flowEndState" jdbcType="INTEGER" />
+    <result column="Flow_Node_Last" property="flowNodeLast" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -90,7 +91,7 @@
   <sql id="Base_Column_List" >
     ID, Flo_Node_ID, Flo_Tmp_ID, Bus_ID, URL, Params, Title, WFState, Starter, StarterName, 
     Actor, ActorName, RDT, FK_Dept, DeptName, NodeName, PRI, SDTOfNode, SDTOfFlow, Agent, 
-    AgentType, Memo, ReadReceipts, do_date, mode_id, flow_end_state
+    AgentType, Memo, ReadReceipts, do_date, mode_id, flow_end_state, Flow_Node_Last
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.CurrentFlowExample" >
     select
@@ -134,7 +135,8 @@
       NodeName, PRI, SDTOfNode, 
       SDTOfFlow, Agent, AgentType, 
       Memo, ReadReceipts, do_date, 
-      mode_id, flow_end_state)
+      mode_id, flow_end_state, Flow_Node_Last
+      )
     values (#{id,jdbcType=VARCHAR}, #{floNodeId,jdbcType=VARCHAR}, #{floTmpId,jdbcType=VARCHAR}, 
       #{busId,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{wfstate,jdbcType=INTEGER}, #{starter,jdbcType=VARCHAR}, 
@@ -143,7 +145,8 @@
       #{nodename,jdbcType=VARCHAR}, #{pri,jdbcType=INTEGER}, #{sdtofnode,jdbcType=TIMESTAMP}, 
       #{sdtofflow,jdbcType=TIMESTAMP}, #{agent,jdbcType=VARCHAR}, #{agenttype,jdbcType=VARCHAR}, 
       #{memo,jdbcType=VARCHAR}, #{readreceipts,jdbcType=INTEGER}, #{doDate,jdbcType=TIMESTAMP}, 
-      #{modeId,jdbcType=VARCHAR}, #{flowEndState,jdbcType=INTEGER})
+      #{modeId,jdbcType=VARCHAR}, #{flowEndState,jdbcType=INTEGER}, #{flowNodeLast,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="org.ldxx.bean.CurrentFlow" >
     <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
@@ -227,6 +230,9 @@
       <if test="flowEndState != null" >
         flow_end_state,
       </if>
+      <if test="flowNodeLast != null" >
+        Flow_Node_Last,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{id,jdbcType=VARCHAR},
@@ -304,6 +310,9 @@
       </if>
       <if test="flowEndState != null" >
         #{flowEndState,jdbcType=INTEGER},
+      </if>
+      <if test="flowNodeLast != null" >
+        #{flowNodeLast,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -394,6 +403,9 @@
       <if test="record.flowEndState != null" >
         flow_end_state = #{record.flowEndState,jdbcType=INTEGER},
       </if>
+      <if test="record.flowNodeLast != null" >
+        Flow_Node_Last = #{record.flowNodeLast,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -426,7 +438,8 @@
       ReadReceipts = #{record.readreceipts,jdbcType=INTEGER},
       do_date = #{record.doDate,jdbcType=TIMESTAMP},
       mode_id = #{record.modeId,jdbcType=VARCHAR},
-      flow_end_state = #{record.flowEndState,jdbcType=INTEGER}
+      flow_end_state = #{record.flowEndState,jdbcType=INTEGER},
+      Flow_Node_Last = #{record.flowNodeLast,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -509,6 +522,9 @@
       <if test="flowEndState != null" >
         flow_end_state = #{flowEndState,jdbcType=INTEGER},
       </if>
+      <if test="flowNodeLast != null" >
+        Flow_Node_Last = #{flowNodeLast,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -538,10 +554,11 @@
       ReadReceipts = #{readreceipts,jdbcType=INTEGER},
       do_date = #{doDate,jdbcType=TIMESTAMP},
       mode_id = #{modeId,jdbcType=VARCHAR},
-      flow_end_state = #{flowEndState,jdbcType=INTEGER}
+      flow_end_state = #{flowEndState,jdbcType=INTEGER},
+      Flow_Node_Last = #{flowNodeLast,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-    <select id="getCurrentFlowVoByUserId" resultType="currentFlowVo">
+  <select id="getCurrentFlowVoByUserId" resultType="currentFlowVo">
 		SELECT
 			a.*,
 			c.BusinessName,
