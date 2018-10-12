@@ -375,4 +375,16 @@ public class TaskController {
 		return map;
 	}
 	
+	@RequestMapping("/selectNoByName2")
+	@ResponseBody
+	public Task selectNoByName2(String name){
+		return tService.selectNoByName2(name);
+	}
+	
+	@RequestMapping("/selectIdByNo2")
+	@ResponseBody
+	public Task selectIdByNo2(String no){
+		return tService.selectIdByNo2(no);
+	}
+	
 }
