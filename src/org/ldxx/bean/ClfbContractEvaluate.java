@@ -10,8 +10,8 @@ public class ClfbContractEvaluate {
 	private String prjPerson;//项目负责人
 	private String department;//部门
 	private String materialContractCode;//材料采购合同编号
-	private String contractAllMoney;//合同累计金额
-	private String contractEndMoney;//合同实际结算金额
+	private Float contractAllMoney;//合同累计金额
+	private Float contractEndMoney;//合同实际结算金额
 	private String payMode;//付款方式
 	private String omId;//实际负责人部门
 	private String actualChargePerson;//实际负责人
@@ -90,16 +90,17 @@ public class ClfbContractEvaluate {
 	public void setMaterialContractCode(String materialContractCode) {
 		this.materialContractCode = materialContractCode;
 	}
-	public String getContractAllMoney() {
+	
+	public Float getContractAllMoney() {
 		return contractAllMoney;
 	}
-	public void setContractAllMoney(String contractAllMoney) {
+	public void setContractAllMoney(Float contractAllMoney) {
 		this.contractAllMoney = contractAllMoney;
 	}
-	public String getContractEndMoney() {
+	public Float getContractEndMoney() {
 		return contractEndMoney;
 	}
-	public void setContractEndMoney(String contractEndMoney) {
+	public void setContractEndMoney(Float contractEndMoney) {
 		this.contractEndMoney = contractEndMoney;
 	}
 	public String getPayMode() {

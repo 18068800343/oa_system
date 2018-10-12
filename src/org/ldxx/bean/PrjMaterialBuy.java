@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.util.List;
+
 public class PrjMaterialBuy {
     private String pmbId;
 
@@ -7,19 +9,56 @@ public class PrjMaterialBuy {
 
     private String applyPerson;
 
-    private String applyListCode;
+    private String applyCode;
 
-    private String contractNameYi;
+    private String applyPrj;
 
-    private String taskListCode;
+    private String taskCode;
 
     private String cjContractCode;
 
     private String cjContractName;
 
     private String applyReason;
+    
+    private Float sumPrice;
+    
+    private List<MaterialDemand> md;
+    
+    
+    public List<MaterialDemand> getMd() {
+		return md;
+	}
 
-    public String getPmbId() {
+	public void setMd(List<MaterialDemand> md) {
+		this.md = md;
+	}
+
+	public String getApplyCode() {
+		return applyCode;
+	}
+
+	public void setApplyCode(String applyCode) {
+		this.applyCode = applyCode;
+	}
+
+	public String getTaskCode() {
+		return taskCode;
+	}
+
+	public void setTaskCode(String taskCode) {
+		this.taskCode = taskCode;
+	}
+
+	public Float getSumPrice() {
+		return sumPrice;
+	}
+
+	public void setSumPrice(Float sumPrice) {
+		this.sumPrice = sumPrice;
+	}
+
+	public String getPmbId() {
         return pmbId;
     }
 
@@ -43,29 +82,15 @@ public class PrjMaterialBuy {
         this.applyPerson = applyPerson == null ? null : applyPerson.trim();
     }
 
-    public String getApplyListCode() {
-        return applyListCode;
-    }
 
-    public void setApplyListCode(String applyListCode) {
-        this.applyListCode = applyListCode == null ? null : applyListCode.trim();
-    }
+    public String getApplyPrj() {
+		return applyPrj;
+	}
 
-    public String getContractNameYi() {
-        return contractNameYi;
-    }
+	public void setApplyPrj(String applyPrj) {
+		this.applyPrj = applyPrj;
+	}
 
-    public void setContractNameYi(String contractNameYi) {
-        this.contractNameYi = contractNameYi == null ? null : contractNameYi.trim();
-    }
-
-    public String getTaskListCode() {
-        return taskListCode;
-    }
-
-    public void setTaskListCode(String taskListCode) {
-        this.taskListCode = taskListCode == null ? null : taskListCode.trim();
-    }
 
     public String getCjContractCode() {
         return cjContractCode;

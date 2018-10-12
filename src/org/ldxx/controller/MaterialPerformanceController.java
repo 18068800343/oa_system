@@ -234,11 +234,11 @@ public class MaterialPerformanceController {
 			data.add(projectList.get(i).getCjNo());
 			data.add(projectList.get(i).getContractYi());
 			data.add(projectList.get(i).getFbPerson());
-			data.add(projectList.get(i).getContractMoney());
-			data.add(projectList.get(i).getProvisionalMoney());
-			data.add(projectList.get(i).getSettlementMoney());
+			data.add(projectList.get(i).getContractMoney()+"");
+			data.add(projectList.get(i).getProvisionalMoney()+"");
+			data.add(projectList.get(i).getSettlementMoney()+"");
 			data.add(projectList.get(i).getSettlementDesc());
-			data.add(projectList.get(i).getAccumulativePaymentMoney());
+			data.add(projectList.get(i).getAccumulativePaymentMoney()+"");
 			data.add(projectList.get(i).getPerformanceGrade());
 			data.add(projectList.get(i).getPerformanceDesc());
 			dataList.add(data);

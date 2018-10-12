@@ -36,4 +36,6 @@ public interface CjContractDao {
 	public CjContract selectCjContractByName(@Param("name")String name);
 
 	public CjContract selectCjContractByNo(@Param("no")String no);
+	
+	public List<CjContract> selectCjContractByTaskNo(@Param("no")String no);
 }

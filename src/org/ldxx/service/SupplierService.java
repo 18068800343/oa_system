@@ -14,5 +14,7 @@ public interface SupplierService {
 	
 	public List<Supplier> selectAllSupplier();
 	
+	public List<Supplier> selectIdAndName();
+	
 	public Supplier selectOneSupplier(String id);
 }

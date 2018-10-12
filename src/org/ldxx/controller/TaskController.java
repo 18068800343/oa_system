@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.reflection.wrapper.BaseWrapper;
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.CurrentFlowExample;
 import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.Task;
 import org.ldxx.mapper.CurrentFlowMapper;
+import org.ldxx.service.CjContractService;
 import org.ldxx.service.EnterpriseService;
 import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
@@ -30,11 +32,13 @@ public class TaskController {
 
 	@Autowired
 	private TaskService tService;
-	
 	@Autowired
 	private EnterpriseService eService;
 	@Autowired
 	private CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	private CjContractService cjservice;
+	
 	@RequestMapping("/addTask")/*任务单保存*/
 	@ResponseBody
 	public int addTask(@RequestBody List<Task> task){
@@ -342,10 +346,45 @@ public class TaskController {
 		try {
 			string = flowUtill.shenpiGetReceiver(currentFlows.get(0));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return string;
+	}
+	
+	@RequestMapping("/selectCjByTaskName")
+	@ResponseBody
+	public Map<String,Object> selectCjByTaskName(String name){
+		Map<String,Object> map=new HashMap<>();
+		Task task=tService.selectNoByName(name);
+		String code="%"+task.getPrjNo()+"%";
+		List<CjContract> cj=cjservice.selectCjContractByTaskNo(code);
+		map.put("task", task);
+		map.put("cj", cj);
+		return map;
+	}
+	
+	@RequestMapping("/selectCjByTaskNo")
+	@ResponseBody
+	public Map<String,Object> selectCjByTaskNo(String no){
+		Map<String,Object> map=new HashMap<>();
+		Task task=tService.selectIdByNo(no);
+		String code="%"+no+"%";
+		List<CjContract> cj=cjservice.selectCjContractByTaskNo(code);
+		map.put("task", task);
+		map.put("cj", cj);
+		return map;
+	}
+	
+	@RequestMapping("/selectNoByName2")
+	@ResponseBody
+	public Task selectNoByName2(String name){
+		return tService.selectNoByName2(name);
+	}
+	
+	@RequestMapping("/selectIdByNo2")
+	@ResponseBody
+	public Task selectIdByNo2(String no){
+		return tService.selectIdByNo2(no);
 	}
 	
 }

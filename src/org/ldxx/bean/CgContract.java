@@ -12,6 +12,7 @@ public class CgContract {
 	private String cgId;//编号
 	private String contractName;// 采购合同名称
 	private String cgNo;//采购合同编号
+	private String cgdNo;//采购单号
 	private String workNo;// 任务单号
 	private String prjName;//项目名称
 	private String isProgram;// 是否代购
@@ -36,6 +37,14 @@ public class CgContract {
 
 	
 	
+	public String getCgdNo() {
+		return cgdNo;
+	}
+
+	public void setCgdNo(String cgdNo) {
+		this.cgdNo = cgdNo;
+	}
+
 	public String getMakeTime() {
 		return makeTime;
 	}
