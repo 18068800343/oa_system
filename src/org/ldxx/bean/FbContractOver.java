@@ -5,24 +5,42 @@ import java.util.List;
 public class FbContractOver {/*分包结算申请*/
     private String fcoId;
 
-    private String prjCode;
+    private String prjCode;//任务单号
 
-    private String prjName;
+    private String prjName;//任务名称
 
-    private String cjContract;
+    private String cjContract;//承接单号
+    private String cjName;//承接名称
 
-    private String fbContract;
+    private String fbContract;//分包单号
+    private String fbName;//分包名称
 
-    private String settlementType;
+    private String settlementType;//结算类型
 
-    private String settlementTime;
+    private String settlementTime;//时间
     
     private String workInfo;
     
     private List<Accessory> accessory;
     
 
-    public String getWorkInfo() {
+    public String getCjName() {
+		return cjName;
+	}
+
+	public void setCjName(String cjName) {
+		this.cjName = cjName;
+	}
+
+	public String getFbName() {
+		return fbName;
+	}
+
+	public void setFbName(String fbName) {
+		this.fbName = fbName;
+	}
+
+	public String getWorkInfo() {
 		return workInfo;
 	}
 

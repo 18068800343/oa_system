@@ -1036,6 +1036,8 @@
     	initTable();
     	initDepartment();
     	initPrj();
+    	initFb();
+    	initCj();
     });
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -1099,8 +1101,8 @@
 		"columns": [
 		            { "data": "prjCode"}, 
 		            { "data": "prjName"}, 
-		            { "data": "cjContract"}, 
-		            { "data": "fbContract"}, 
+		            { "data": "cjName"}, 
+		            { "data": "fbName"}, 
 		            { "data": "settlementType"}, 
 		            { "data": "settlementTime"}, 
 		            { "data": null},
@@ -1576,8 +1578,8 @@
     	
     	$("#look_prj_name2").text(data.prjName);
     	$("#look_prj_no2").text(data.prjCode);
-    	$("#look_fb_name2").text(data.fbContract);
-    	$("#look_cj_name2").text(data.cjContract);
+    	$("#look_fb_name2").text(data.fbName);
+    	$("#look_cj_name2").text(data.cjName);
     	$("#look_sj_type").text(data.settlementType);
     	$("#look_year").text(data.settlementTime);
     	$("#look_work_info2").text(data.workInfo);
@@ -1847,6 +1849,42 @@
 		          		})
                 })
                 
+            }
+    	})
+    }
+    
+    function initCj(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/cj/selectIdAndName',
+            dataType: 'json',
+            data: {
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#cj_name2").append("<option value="+json[i].cjId+">"+json[i].contractName+"</option>")
+            	}
+            }
+    	})
+    }
+    
+    function initFb(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBNameAndNo',
+            dataType: 'json',
+            data: {
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#fb_name2").append("<option value="+json[i].fbId+">"+json[i].contractName+"</option>")
+            	}
             }
     	})
     }
