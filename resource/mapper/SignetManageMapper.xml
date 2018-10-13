@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.ProjectSealDao" >
-  <select id="selectPrjSeal" resultType="SignetManage">
+  <!-- <select id="selectPrjSeal" resultType="SignetManage">
   	select s.*,t.prj_name,o.om_name,u.u_name from 
   		signet_manage s,task t,organization_management o,user u,mode_status m
   	where 
   		s.prj_id=t.prj_id and s.om_id=o.om_id and s.signet_man=u.user_id and s.sm_id=m.mode_id and m.status=#{status}
+  </select> -->
+  <select id="selectPrjSeal" resultType="SignetManage">
+  	select s.*,o.om_name from signet_manage s
+  		left join organization_management o on s.om_id=o.om_id
+  		left join mode_status m on s.sm_id=m.mode_id
+  	where m.status=#{status}
   </select>
   
   <insert id="addPrjSeal" parameterType="SignetManage" >
-    insert into signet_manage (sm_id,prj_id, om_id, application_date, signet_name, signet_man, sm_desc)
+    insert into signet_manage (sm_id,prj_id,task_no, om_id, application_date, signet_name, signet_man)
     values (
     	#{signetManage.smId,jdbcType=VARCHAR},
     	#{signetManage.prjId,jdbcType=VARCHAR}, 
+    	#{signetManage.taskNo,jdbcType=VARCHAR},
 		#{signetManage.omId,jdbcType=VARCHAR}, 
 		#{signetManage.applicationDate,jdbcType=VARCHAR},
 		#{signetManage.signetName,jdbcType=VARCHAR}, 
-		#{signetManage.signetMan,jdbcType=VARCHAR}, 
-		#{signetManage.smDesc,jdbcType=VARCHAR}
+		#{signetManage.signetMan,jdbcType=VARCHAR}
       )
   </insert>
   
@@ -29,11 +35,11 @@
   <update id="updatePrjSealById" parameterType="org.ldxx.bean.SignetManage" >
     update signet_manage
     set prj_id = #{signetManage.prjId,jdbcType=VARCHAR},
+   	 task_no = #{signetManage.taskNo,jdbcType=VARCHAR},
       om_id = #{signetManage.omId,jdbcType=VARCHAR},
       application_date = #{signetManage.applicationDate,jdbcType=VARCHAR},
       signet_name = #{signetManage.signetName,jdbcType=VARCHAR},
-      signet_man = #{signetManage.signetMan,jdbcType=VARCHAR},
-      sm_desc = #{signetManage.smDesc,jdbcType=VARCHAR}
+      signet_man = #{signetManage.signetMan,jdbcType=VARCHAR}
     where sm_id = #{signetManage.smId,jdbcType=VARCHAR}
   </update>
   

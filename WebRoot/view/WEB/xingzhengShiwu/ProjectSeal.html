@@ -95,7 +95,11 @@
                                 	<button type="button" class="btn btn-primary"  id="chosexm">选择项目</button>
                                 </td>
                                 <td>任务单号</td>
-                                <td><input type="text" class="form-control" id="task_no"></td>
+                                <td>
+                                	<!-- <input type="text" class="form-control" id="task_no"> -->
+                                	<select class="form-control" style="width:180px;" id="task_no">
+	                                </select>
+                                </td>
                             </tr>
                             <tr>
 	                            <td>申请部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -155,7 +159,11 @@
                                 	<button type="button" class="btn btn-primary"  id="xgchosexm">选择项目</button>
                                 </td>
                                 <td>任务单号</td>
-                                <td><input type="text" class="form-control" id="xgtask_no"></td>
+                                <td>
+                                	<!-- <input type="text" class="form-control" id="xgtask_no"> -->
+                                	<select class="form-control" style="width:180px;" id="xgtask_no">
+	                                </select>
+                                </td>
                             </tr>
                             <tr>
 	                            <td>申请部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -351,20 +359,20 @@
                             <tr>
                                 <td style="width:100px;">申请项目</td>
                                 <td id="lookxiangmu"></td>
+                                <td>任务单号</td>
+                                <td id="looktask_no"></td>
+                            </tr>
+                            <tr>
                                 <td>申请部门</td>
                                 <td id="lookbumen"></td>
-                            </tr>
-                            <tr>
                                 <td>项目印章授权人</td>
                                 <td id="lookyinzhangshouquanren"></td>
-                                <td style="width:100px;">申请日期</td>
-                                <td id="lookyear"></td>
                             </tr>
                             <tr>
+                                <td style="width:100px;">申请日期</td>
+                                <td id="lookyear"></td>
                             	<td style="width:100px;">专用章全称</td>
                                 <td id="lookquancheng"></td>
-                                <td style="width:100px;"></td>
-                                <td></td>
                             </tr>
                         </table>
                         <!-- <table class="table table-bordered table-condensed">
@@ -714,6 +722,12 @@
                     <form id="edit_form2" class="form-inline" method="post" enctype="multipart/form-data">
                                         <table class="table table-bordered table-condensed">
                                             <tr>
+                                                <td>使用的项目</td>
+                                                <td id="lookusePrj"></td>
+                                                <td>任务单号</td>
+                                                <td id="looktask_no2"></td>
+                                            </tr>
+                                            <tr>
                                                 <td>开始时间</td>
                                                 <td  id="lookbeginTime"></td>
                                                 <td>结束时间</td>
@@ -722,14 +736,8 @@
                                             <tr>
                                                 <td>保管人</td>
                                                 <td id="lookbaoguan"></td>
-                                                <td>使用的项目</td>
-                                                <td id="lookusePrj"></td>
-                                            </tr>
-                                            <tr>
                                                 <td>销毁时间</td>
                                                 <td id="lookxiaohuiTime"></td>
-                                                <td></td>
-                                                <td></td>
                                             </tr>
                                             <!-- <tr>
 			                                    <td>附件</td>
@@ -789,6 +797,7 @@
     	//xiangmuSelect();
     	bumenSelect();
     	initBaoGuanRen();
+    	initSelect();
     	laydate.render({
             elem: '#year' //指定元素
         });
@@ -828,11 +837,11 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-            { "data": "prjName"},
+            { "data": "prjId"},
             { "data": "applicationDate"}, 
             { "data": "omName"}, 
             { "data": "signetName"}, 
-            { "data": "uName"}, 
+            { "data": "signetMan"}, 
         ],
         "columnDefs": [
 						{	
@@ -876,8 +885,8 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-            { "data": "prjName"},
-            { "data": "uName"}, 
+            { "data": "useProject"},
+            { "data": "custodyMan"}, 
             { "data": "beginTime"}, 
             { "data": "endTime"}, 
             { "data": "destroyTime"}, 
@@ -1328,7 +1337,60 @@
             }
         });
     }
-	//选择项目
+	
+	
+	//使用管理de选择项目
+	$("#chosexm2").click(function(){
+		$("#xiangmumd2").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectTaskByStatus',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	status:2,
+	            },
+	            success: function (json) {
+	                $('#xiangmubiao2').dataTable().fnClearTable();
+	                $('#xiangmubiao2').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+	})
+	$("#quedingxm2").click(function(){
+		var a=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var b=$("input[name='xiangmuName']:checked").parent().next().text();
+		$("#usePrj").val(a);
+		$("#task_no2").val(b);
+		$("#xiangmumd2").modal("hide");
+	})
+	$("#xgchosexm2").click(function(){
+		$("#xgxiangmumd2").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectTaskByStatus',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	status:2,
+	            },
+	            success: function (json) {
+	                $('#xgxiangmubiao2').dataTable().fnClearTable();
+	                $('#xgxiangmubiao2').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+	})
+	$("#xgquedingxm2").click(function(){
+		var a=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var b=$("input[name='xiangmuName']:checked").parent().next().text();
+		$("#xgusePrj").val(a);
+		$("#xgtask_no2").val(b)
+		$("#xgxiangmumd2").modal("hide");
+	})
+	
+	
+	
+	
+	//刻制申请的选择项目
 	$("#chosexm").click(function(){
 		$("#xiangmumd").modal("show");
 		 $.ajax({
@@ -1346,8 +1408,10 @@
 	        });
 	})
 	$("#quedingxm").click(function(){
-		var a=$("input[name='xiangmuName']:checked").parent().next().next().text();
-		$("#xiangmu").val(a);
+		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
+		$("#xiangmu").val(prjname);
+		$("#task_no").val(prjNo);
 		$("#xiangmumd").modal("hide");
 	})
 	$("#xgchosexm").click(function(){
@@ -1367,10 +1431,105 @@
 	        });
 	})
 	$("#xgquedingxm").click(function(){
-		var a=$("input[name='xiangmuName']:checked").parent().next().next().text();
-		$("#xgxiangmu").val(a);
+		var prjName=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
+		$("#xgxiangmu").val(prjName);
+		$("#xgxiangmu").val(prjNo);
 		$("#xgxiangmumd").modal("hide");
 	})
+	
+	//初始化任务单号
+	function initSelect(){
+		$.ajax({
+        type: 'POST',
+        url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+        dataType: 'json',
+        data: {
+        },
+        error: function (msg) {
+        	toastr.error("请求失败");
+        },
+        success: function (json) {
+        	console.log(json)
+        	$("#task_no").html('');
+        	$("#xgtask_no").html('');
+        	$("#task_no2").html('');
+        	$("#xgtask_no2").html('');
+        	for(var i=0;i<json.length;i++){
+        		$("#task_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+        		$("#xgtask_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+        		$("#task_no2").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+        		$("#xgtask_no2").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+        	}
+          	$('#task_no').editableSelect().on('select.editable-select', function (e, dom) {
+          		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    data: {
+                    	prjNo:$('#task_no').val()
+                    },
+                    success: function (json) {
+                    	console.log(json)
+                    	for(var i=0;i<json.length;i++){
+	                    	$('#xiangmu').val(json[i].prjName);
+                    	}
+                    }
+          		});
+		  	})
+          	$('#xgtask_no').editableSelect().on('select.editable-select', function (e, dom) {
+          		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    data: {
+                    	prjNo:$('#xgtask_no').val()
+                    },
+                    success: function (json) {
+                    	for(var i=0;i<json.length;i++){
+	                    	$('#xgxiangmu').val(json[i].prjName);
+                    	}
+                    }
+          		});
+		  	}) 
+		  	$('#task_no2').editableSelect().on('select.editable-select', function (e, dom) {
+          		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    data: {
+                    	prjNo:$('#task_no2').val()
+                    },
+                    success: function (json) {
+                    	console.log(json)
+                    	for(var i=0;i<json.length;i++){
+	                    	$('#usePrj').val(json[i].prjName);
+                    	}
+                    }
+          		});
+		  	})
+          	$('#xgtask_no2').editableSelect().on('select.editable-select', function (e, dom) {
+          		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    data: {
+                    	prjNo:$('#xgtask_no2').val()
+                    },
+                    success: function (json) {
+                    	for(var i=0;i<json.length;i++){
+	                    	$('#xgusePrj').val(json[i].prjName);
+                    	}
+                    }
+          		});
+		  	})
+        }
+		});
+	}
+	
+	
+	
+	
 	//已知部门，获取部门所属人员
 	$("#choseren").click(function(){
 		$("#people").modal("show");
@@ -1510,32 +1669,6 @@
 	
 	
 	
-	
-	//初始化申请项目
-	/* function xiangmuSelect(){
-	    $.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/task/selectTaskByStatus',
-	        dataType: 'json',
-	        data: {
-	        	status:2
-	        },
-	        success: function (json) {
-	        	//console.log(json)
-	        	 for(var i=0;i<json.length;i++){
-	        		$("#xiangmu").append( "<option value='" + json[i].prjId + "'>"
-		                    + json[i].prjName + "</option>");
-	        		$("#xgxiangmu").append( "<option value='" + json[i].prjId + "'>"
-		                    + json[i].prjName + "</option>"); 
-	        		$("#usePrj").append( "<option value='" + json[i].prjId + "'>"
-		                    + json[i].prjName + "</option>");
-	        		$("#xgusePrj").append( "<option value='" + json[i].prjId + "'>"
-		                    + json[i].prjName + "</option>");
-	        	} 
-	        }
-	    });
-	} */
-	
 	//初始化申请部门
 	function bumenSelect(){
 	    $.ajax({
@@ -1557,7 +1690,6 @@
 	        }
 	    });
 	}
-	
 	/* $("#bumen").change(function(){
 		var bumen=$("#bumen").val();
 		$.ajax({
@@ -1627,8 +1759,9 @@
 		var beginTime=$("#beginTime").val();
 		var endTime=$("#endTime").val();
 		var bumen2=$("#bumen2").val();
-		var baoguanren=$("#baoguan").val();
+		var baoguanren=$("#baoguanren").val();
 		var usePrj=$("#usePrj").val();
+		var task_no2=$("#task_no2").val();
 		var xiaohuiTime=$("#xiaohuiTime").val();
 		
 		
@@ -1660,6 +1793,7 @@
 				departId:bumen2,
 				custodyMan:baoguanren,
 				useProject:usePrj,
+				taskNo:task_no2,
 				destroyTime:xiaohuiTime,
 			},
 			success:function(json){
@@ -1682,8 +1816,9 @@
 		var beginTime=$("#beginTime").val();
 		var endTime=$("#endTime").val();
 		var bumen2=$("#bumen2").val();
-		var baoguanren=$("#baoguan").val();
+		var baoguanren=$("#baoguanren").val();
 		var usePrj=$("#usePrj").val();
+		var task_no2=$("#task_no2").val();
 		var xiaohuiTime=$("#xiaohuiTime").val();
 		
 		if($("#baoguanren").val()==''){
@@ -1713,6 +1848,7 @@
 				departId:bumen2,
 				custodyMan:baoguanren,
 				useProject:usePrj,
+				taskNo:task_no2,
 				destroyTime:xiaohuiTime,
 			},
 			success:function(json){
@@ -1769,12 +1905,13 @@
 		
 		$("#xgbeginTime").val(data.beginTime);
 		$("#xgendTime").val(data.endTime);
-		$("#xgbaoguanren").val(data.uName);
+		$("#xgbaoguanren").val(data.custodyMan);
 		$("#xgbumen2").val(data.departId);
 		//$("#xgbaoguan").val(data.custodyMan);
-		initSelectEdit(data.custodyMan);
+		//initSelectEdit(data.custodyMan);
 		
-		$("#xgusePrj").val(data.prjName);
+		$("#xgusePrj").val(data.useProject);
+		$("#xgtask_no2").val(data.taskNo);
 		$("#xgxiaohuiTime").val(data.destroyTime);
 		
 		$.ajax({
@@ -1838,10 +1975,11 @@
 		var xgbeginTime=$("#xgbeginTime").val();
 		var xgendTime=$("#xgendTime").val();
 		var xgusePrj=$("#xgusePrj").val();
+		var xgtask_no2=$("#xgtask_no2").val();
 		var xgxiaohuiTime=$("#xgxiaohuiTime").val();
 		var xgbumen2=$("#xgbumen2").val();
-		var xgbaoguanren=$("#xgbaoguan").val();
-		/* var xgbaoguanren=$("#xgbaoguanren").val(); */
+		//var xgbaoguanren=$("#xgbaoguan").val();
+		var xgbaoguanren=$("#xgbaoguanren").val(); 
 		
 		
 		if($("#xgsyfile").val()==''){
@@ -1874,6 +2012,7 @@
 				beginTime:xgbeginTime,
 				endTime:xgendTime,
 				departId:xgbumen2,
+				taskNo:xgtask_no2,
 				custodyMan:xgbaoguanren,
 				useProject:xgusePrj,
 				destroyTime:xgxiaohuiTime,
@@ -1900,8 +2039,8 @@
 		var xgusePrj=$("#xgusePrj").val();
 		var xgxiaohuiTime=$("#xgxiaohuiTime").val();
 		var xgbumen2=$("#xgbumen2").val();
-		var xgbaoguanren=$("#xgbaoguan").val();
-		/* var xgbaoguanren=$("#xgbaoguanren").val(); */
+		//var xgbaoguanren=$("#xgbaoguan").val();
+		var xgbaoguanren=$("#xgbaoguanren").val(); 
 		if($("#xgsyfile").val()==''){
 			toastr.error("附件为空");
     		return;
@@ -1959,10 +2098,11 @@
 		$("#lookbeginTime").text(data2.beginTime);
 		$("#lookendTime").text(data2.endTime);
 		$("#lookxiaohuiTime").text(data2.destroyTime);
-		$("#lookusePrj").text(data2.prjName);
+		$("#lookusePrj").text(data2.useProject);
+		$("#looktask_no2").text(data2.taskNo);
 		
-		//$("#lookbaoguan").text(data2.custodyMan);
-		initSelectEdit(data2.uName);
+		$("#lookbaoguan").text(data2.custodyMan);
+		//initSelectEdit(data2.uName);
 		$.ajax({
 			type:"post",
 			url:getContextPath()+"/signetUsers/selectAccessoryById",
@@ -1994,53 +2134,12 @@
 	
 	
 	<!-- **************************************** 项目印章刻制申请的增删改查   ****************************************************-->
-	//选择项目
-	$("#chosexm2").click(function(){
-		$("#xiangmumd2").modal("show");
-		 $.ajax({
-	            type: 'POST',
-	            url: getContextPath()+'/task/selectTaskByStatus',
-	            dataType: 'json',
-	            async:false,
-	            data: {
-	            	status:2,
-	            },
-	            success: function (json) {
-	                $('#xiangmubiao2').dataTable().fnClearTable();
-	                $('#xiangmubiao2').DataTable().rows.add(json).draw(false);
-	            }
-	        });
-	})
-	$("#quedingxm2").click(function(){
-		var a=$("input[name='xiangmuName']:checked").parent().next().next().text();
-		$("#usePrj").val(a);
-		$("#xiangmumd2").modal("hide");
-	})
-	$("#xgchosexm2").click(function(){
-		$("#xgxiangmumd2").modal("show");
-		 $.ajax({
-	            type: 'POST',
-	            url: getContextPath()+'/task/selectTaskByStatus',
-	            dataType: 'json',
-	            async:false,
-	            data: {
-	            	status:2,
-	            },
-	            success: function (json) {
-	                $('#xgxiangmubiao2').dataTable().fnClearTable();
-	                $('#xgxiangmubiao2').DataTable().rows.add(json).draw(false);
-	            }
-	        });
-	})
-	$("#xgquedingxm2").click(function(){
-		var a=$("input[name='xiangmuName']:checked").parent().next().next().text();
-		$("#xgusePrj").val(a);
-		$("#xgxiangmumd2").modal("hide");
-	})
+	
 	
 	//添加项目印章刻制申请保存
 	function addPrjSeal(){
 		var xiangmu=$("#xiangmu").val();
+		var taskNo=$("#task_no").val();
 		var bumen=$("#bumen").val();
 		var yinzhangshouquanren=$("#yinzhangshouquanren").val();
 		var year=$("#year").val();
@@ -2060,6 +2159,7 @@
 			dataType:"json",
 			data:{
 				prjId:xiangmu,
+				taskNo:taskNo,
 				omId:bumen,
 				signetMan:yinzhangshouquanren,
 				applicationDate:year,
@@ -2083,6 +2183,7 @@
 	//添加印章申请提交
 	function addPrjSealSubmit(){
 		var xiangmu=$("#xiangmu").val();
+		var taskNo=$("#task_no").val();
 		var bumen=$("#bumen").val();
 		var yinzhangshouquanren=$("#yinzhangshouquanren").val();
 		var year=$("#year").val();
@@ -2102,6 +2203,7 @@
 			dataType:"json",
 			data:{
 				prjId:xiangmu,
+				taskNo:taskNo,
 				omId:bumen,
 				signetMan:yinzhangshouquanren,
 				applicationDate:year,
@@ -2161,11 +2263,12 @@
 		var dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
 		//console.log(data)
-		$("#lookxiangmu").text(data.prjName);
+		$("#lookxiangmu").text(data.prjId);
+		$("#looktask_no").text(data.taskNo);
 		$("#lookbumen").text(data.omName);
-		//$("#lookyinzhangshouquanren").text(json.uName);
+		$("#lookyinzhangshouquanren").text(data.signetMan);
 		
-		initSelectOnEdit(data.uName)
+		//initSelectOnEdit(data.uName)
 		
 		$("#lookyear").text(data.applicationDate);
 		$("#lookquancheng").text(data.signetName);
@@ -2207,11 +2310,12 @@
 		var data=$('#mainContent').DataTable().row(dom).data();
 		xiugaiId=data.smId;
 		//console.log(data)
-		$("#xgxiangmu").val(data.prjName);
+		$("#xgxiangmu").val(data.prjId);
+		$("#xgtask_no").val(data.taskNo);
 		$("#xgbumen").val(data.omId);
-		$("#xgyinzhangshouquanren").val(data.uName);
+		$("#xgyinzhangshouquanren").val(data.signetMan);
 		
-		initSelectOnEdit(data.signetMan)
+		//initSelectOnEdit(data.signetMan)
 		
 		$("#xgyear").val(data.applicationDate);
 		$("#xgbianhao").val(data.smNo);
@@ -2274,6 +2378,7 @@
 	//保存修改
 	function checkxiugai(){
 		var xgxiangmu=$("#xgxiangmu").val();
+		var xgtaskNo=$("#xgtask_no").val();
 		var xgbumen=$("#xgbumen").val();
 		var xgyinzhangshouquanren=$("#xgyinzhangshouquanren").val();
 		var xgyear=$("#xgyear").val();
@@ -2294,6 +2399,7 @@
 			data:{
 				smId:xiugaiId,
 				prjId:xgxiangmu,
+				taskNo:xgtaskNo,
 				omId:xgbumen,
 				signetMan:xgyinzhangshouquanren,
 				applicationDate:xgyear,
@@ -2317,6 +2423,7 @@
 	//提交修改
 	function checkSubmit(){
 		var xgxiangmu=$("#xgxiangmu").val();
+		var xgtaskNo=$("#xgtask_no").val();
 		var xgbumen=$("#xgbumen").val();
 		var xgyinzhangshouquanren=$("#xgyinzhangshouquanren").val();
 		var xgyear=$("#xgyear").val();
@@ -2337,6 +2444,7 @@
 			data:{
 				smId:xiugaiId,
 				prjId:xgxiangmu,
+				taskNo:xgtaskNo,
 				omId:xgbumen,
 				signetMan:xgyinzhangshouquanren,
 				applicationDate:xgyear,

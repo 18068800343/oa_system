@@ -69,5 +69,10 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 		return gmDao.selectcgNotaskNoByPrjName(name);
 	}
 
+	@Override
+	public List<CompanyMateriaIn> selectcgNotaskNoPrjNameBycgName(String cgName) {
+		return gmDao.selectcgNotaskNoPrjNameBycgName(cgName);
+	}
+
 
 }

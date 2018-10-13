@@ -1,12 +1,17 @@
 package org.ldxx.bean;
 
 import java.util.List;
-
+/**
+ * 项目印章刻制申请
+ * @author hp
+ *
+ */
 public class SignetManage {
     private String smId;
 
     private String prjId;
 
+    private String taskNo;
 
     private String omId;
 
@@ -19,14 +24,20 @@ public class SignetManage {
     private String smDesc;
     
     
-    private String prjName;
     private String omName;
-    private String uName;
     
     private List<Accessory> accessory;
     
     
     
+
+	public String getTaskNo() {
+		return taskNo;
+	}
+
+	public void setTaskNo(String taskNo) {
+		this.taskNo = taskNo;
+	}
 
 	public List<Accessory> getAccessory() {
 		return accessory;
@@ -36,13 +47,6 @@ public class SignetManage {
 		this.accessory = accessory;
 	}
 
-	public String getuName() {
-		return uName;
-	}
-
-	public void setuName(String uName) {
-		this.uName = uName;
-	}
 
 	public String getOmName() {
 		return omName;
@@ -52,13 +56,6 @@ public class SignetManage {
 		this.omName = omName;
 	}
 
-	public String getPrjName() {
-		return prjName;
-	}
-
-	public void setPrjName(String prjName) {
-		this.prjName = prjName;
-	}
 
 	public String getSmId() {
         return smId;

@@ -198,25 +198,31 @@ public class GsMaterialInController {
 		exportData.ExportWithResponse(xlsName, xlsName, array.length, array, dataList, response);
 	}
 	
-	@RequestMapping("/selectcgNotaskNoPrjName")//初始化采购合同号、任务单号、项目名 
+	@RequestMapping("/selectcgNotaskNoPrjName")//初始化采购合同号、采购合同名、任务单号、项目名 
 	@ResponseBody
 	public List<CompanyMateriaIn> selectcgNotaskNoPrjName(){
 		return gmService.selectcgNotaskNoPrjName();
 	}
 	
-	@RequestMapping("/selecttaskNoPrjNameBycgNo")//通过采购合同号查找任务单号、项目名 
+	@RequestMapping("/selecttaskNoPrjNameBycgNo")//通过采购合同号查找采购合同名、任务单号、项目名 、材料名称、材料类型、规格型号、单位、金额
 	@ResponseBody
 	public List<CompanyMateriaIn> selecttaskNoPrjNameBycgNo(String cgNo){
 		return gmService.selecttaskNoPrjNameBycgNo(cgNo);
 	}
 	
-	@RequestMapping("/selectcgNoPrjNameBytaskNo")//通过任务单号查找采购合同号、项目名 
+	@RequestMapping("/selectcgNotaskNoPrjNameBycgName")//通过采购合同名查找采购合同号、任务单号、项目名 、材料名称、材料类型、规格型号、单位、金额
+	@ResponseBody
+	public List<CompanyMateriaIn> selectcgNotaskNoPrjNameBycgName(String cgName){
+		return gmService.selectcgNotaskNoPrjNameBycgName(cgName);
+	}
+	
+	@RequestMapping("/selectcgNoPrjNameBytaskNo")//通过任务单号查找采购合同号、采购合同名、项目名 、材料名称、材料类型、规格型号、单位、金额
 	@ResponseBody
 	public List<CompanyMateriaIn> selectcgNoPrjNameBytaskNo(String taskNo){
 		return gmService.selectcgNoPrjNameBytaskNo(taskNo);
 	}
 	
-	@RequestMapping("/selectcgNotaskNoByPrjName")//通过项目名 查找采购合同号、任务单号
+	@RequestMapping("/selectcgNotaskNoByPrjName")//通过项目名 查找采购合同号、采购合同名、任务单号、材料名称、材料类型、规格型号、单位、金额
 	@ResponseBody
 	public List<CompanyMateriaIn> selectcgNotaskNoByPrjName(String name){
 		return gmService.selectcgNotaskNoByPrjName(name);
