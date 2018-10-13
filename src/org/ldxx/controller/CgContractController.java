@@ -45,7 +45,7 @@ public class CgContractController {
 		cg.setCgId(id);
 		
 		String type = cg.getCgcType();
-		String code = type.split(" ")[1];
+		String code = type.split(" ")[0];
 		int count=cgService.cgNocount();
 		count=count+1;
 		String cgNo=uuid.getPrjCode(code, count);
@@ -85,7 +85,7 @@ public class CgContractController {
 		cg.setCgId(id);
 		
 		String type = cg.getCgcType();
-		String code = type.split(" ")[1];
+		String code = type.split(" ")[0];
 		int count=cgService.cgNocount();
 		count=count+1;
 		String cgNo=uuid.getPrjCode(code, count);

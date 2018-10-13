@@ -16,4 +16,6 @@ public interface PrjMaterialBuyDao {
 	public List<PrjMaterialBuy> selectBuyCode();
 	
 	public PrjMaterialBuy selectBuyById(@Param("id")String id);
+	
+	public int updateSumPrice(@Param("sumPrice")float sumPrice,@Param("id")String id);
 }

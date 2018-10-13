@@ -2,8 +2,10 @@ package org.ldxx.controller;
 
 import java.util.List;
 
+import org.ldxx.bean.MaterialDemand;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjMaterialBuy;
+import org.ldxx.service.MaterialDemandService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.PrjMaterialBuyService;
 import org.ldxx.util.TimeUUID;
@@ -29,6 +31,8 @@ public class PrjMaterialBuyController {
 	private PrjMaterialBuyService service;
 	@Autowired
 	private OrganizationManagementService oservice;
+	@Autowired
+	private MaterialDemandService mservice;
 	
 	@RequestMapping("/addPrjMaterialBuyBySave")
 	@ResponseBody
@@ -58,7 +62,7 @@ public class PrjMaterialBuyController {
 		String taskCode=uuid.getClCode(omNo, count+1);
 		buy.setTaskCode(taskCode);
 		int i=service.addPrjMaterialBuy(buy);
-		return 0;
+		return i;
 	}
 	
 	@RequestMapping("/selectPrjMaterialBuy")
@@ -81,4 +85,12 @@ public class PrjMaterialBuyController {
 		List<PrjMaterialBuy> list=service.selectBuyByIds(ids);
 		return list;
 	}
+	
+	@RequestMapping("/updateBuy")
+	@ResponseBody
+	public int updateBuy(@RequestBody List<MaterialDemand> md){
+		int i=mservice.updateMd(md);
+		return i;
+	}
+	
 }

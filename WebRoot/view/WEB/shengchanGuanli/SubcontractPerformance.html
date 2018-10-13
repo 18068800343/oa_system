@@ -459,15 +459,13 @@
                                 <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
                                     <select class="form-control" style="width:80%;"  id="prj_name">
-                                    	<option value="测试项目1">测试项目1</option>
-                                    	<option value="测试项目2">测试项目2</option>
+                                    	
                                     </select>
                                 </td>
                                 <td style="width:15%;">任务单号</td>
                                 <td style="width:35%;">
                                 	<select class="form-control" style="width:80%;"  id="prj_no2">
-                                		<option value="fb2018001">fb2018001</option>
-                                		<option value="fb2018002">fb2018002</option>
+                                		
                                     </select>
                                 </td>
                             </tr>
@@ -475,15 +473,13 @@
                                 <td>分包合同  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
                                     <select class="form-control" style="width:80%;" id="fb_name2">
-                                    	<option value="分包合同1">分包合同1</option>
-                                    	<option value="分包合同2">分包合同2</option>
+                                    	
                                     </select>
                                 </td>
                                 <td>承接合同  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
                                     <select class="form-control" style="width:80%;"  id="cj_name2">
-                                    	<option value="承接合同1">承接合同1</option>
-                                    	<option value="承接合同2">承接合同2</option>
+                                    	
                                     </select>
                                 </td>
                             </tr>
@@ -1039,6 +1035,7 @@
     	initUser();
     	initTable();
     	initDepartment();
+    	initPrj();
     });
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -1802,6 +1799,56 @@
     
     function exportThis(){
     	window.location.href=encodeURI(getContextPath()+'/fbOverWj/exportFbOverWj');
+    }
+    
+    function initPrj(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+            dataType: 'json',
+            data: {
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+                for(var i=0;i<json.length;i++){
+                	$("#prj_name").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
+                	$("#prj_no2").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+                }
+                
+                $('#prj_name').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectCjByTaskName',
+	                    dataType: 'json',
+	                    data: {
+	                    	name:$('#prj_name').val()
+	                    },
+	                    success: function (json) {
+	                    	var task=json.task;
+	                    	$('#prj_no2').val(task.prjNo);
+	                    }
+	        		})
+                })
+                
+                $('#prj_no2').editableSelect().on('select.editable-select', function (e, dom) {
+		          		$.ajax({
+		                    type: 'POST',
+		                    url: getContextPath()+'/task/selectCjByTaskNo',
+		                    dataType: 'json',
+		                    data: {
+		                    	no:$('#prj_no2').val()
+		                    },
+		                    success: function (json) {
+		                    	var task=json.task;
+		                    	$('#prj_name').val(task.prjName);
+		                    }
+		          		})
+                })
+                
+            }
+    	})
     }
 </script>
 </html>

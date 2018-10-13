@@ -9,4 +9,6 @@ public interface MaterialDemandService {
 	public int addMaterialDemand(List<MaterialDemand> md);
 	
 	public List<MaterialDemand> selectMaterialDemandById(String id);
+	
+	public int updateMd(List<MaterialDemand> md);
 }

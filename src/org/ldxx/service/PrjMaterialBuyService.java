@@ -15,4 +15,5 @@ public interface PrjMaterialBuyService {
 	public List<PrjMaterialBuy> selectBuyCode();
 	
 	public List<PrjMaterialBuy> selectBuyByIds(String ids);
+	
 }

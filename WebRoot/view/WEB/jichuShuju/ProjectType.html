@@ -269,11 +269,11 @@ function initTable(){
 	
 	//添加一级项目类型
 	$("#addyiji").click(function(){
-		var nameFirst=$("#yiji").val()+" "+$("#yijitype").val();
 		if($("#yiji").val().trim()==''){
 			toastr.error("项目类型为空")
 			return false;
 		}
+		var nameFirst=$("#yijitype").val()+" "+$("#yiji").val();
 		$.ajax({
 		        type: 'POST',
 		        url: getContextPath()+'/projectType/addFirstPrj',
@@ -334,17 +334,19 @@ function initTable(){
 			var dom = $(this).parents('tr');
 			var data=$('#mainContent').DataTable().row(dom).data();
 			afteryiji=data.idFirst;
-			$("#xgyijiType").val(data.nameFirst);
-			$("#xgyiji").val(data.code);
+			var all=data.nameFirst;
+			var name=all.split(" ")[1];
+			var code=all.split(" ")[0];
+			$("#xgyijiType").val(name);
+			$("#xgyiji").val(code);
 		})
 			
 	$("#changeyiji").click(function(){
-		var nameFirst=$("#xgyijiType").val()+" "+$("#xgyiji").val();
 		if($("#xgyijiType").val().trim()==''){
 			toastr.error("项目类型为空")
 			return false;
 		}
-		//console.log(afteryiji)
+		var nameFirst=$("#xgyiji").val()+" "+$("#xgyijiType").val();
 	  		$.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/projectType/updateFirstPrj',
@@ -355,10 +357,10 @@ function initTable(){
 	            },
 	            success: function (json) {
 	                if(json!=0){
-	                	//location.reload([true]);
+	                	location.reload([true]);
 	                	toastr.success('修改成功');
 	                	$("#xiugaiyiji").modal('hide')
-	                	initTable();
+	                	//initTable();
 	                }else{
 	                	toastr.error("修改失败")
 	                }
@@ -399,12 +401,11 @@ function initTable(){
 			yijiid=data.idFirst;
 			})
 	$("#adderji").click(function(){
-		var nameSecond=$("#zenjiaerji").val()+" "+$("#zenjiaerjitype").val();
 		if($("#zenjiaerji").val().trim()==''){
 			toastr.error("项目类型为空")
 			return false;
 		}
-		//console.log(yijiid);
+		var nameSecond=$("#zenjiaerjitype").val()+" "+$("#zenjiaerji").val();
 	    	$.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/projectType/addTwoPrj',
@@ -462,11 +463,11 @@ function initTable(){
 		erjiid2=aa.getAttribute("data-id2");
 	}
 	function xiugaierji(){
-		var nameSecond=$("#xgerjiType").val()+" "+$("#xgerji").val();
 		if($("#xgerjiType").val().trim()==''){
 			toastr.error("项目类型为空")
 			return false;
 		}
+		var nameSecond=$("#xgerji").val()+" "+$("#xgerjiType").val();
 		 $.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/projectType/updateTwoPrj',
