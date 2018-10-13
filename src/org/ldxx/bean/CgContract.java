@@ -18,7 +18,7 @@ public class CgContract {
 	private String isProgram;// 是否代购
 	private String cgcType;// 采购合同类型
 	private String cgDepartment;// 采购部门
-	private Float departmentCgMoney;// 部门采购金额
+	private String departmentCgMoney;// 部门采购金额
 	private Float programMoney;// 代购金额
 	private Float cgContractMoney;// 采购合同金额
 	private String contractNameJia;// 合同甲方名称
@@ -125,13 +125,17 @@ public class CgContract {
 		this.cgDepartment = cgDepartment;
 	}
 
-	public Float getDepartmentCgMoney() {
+	
+
+	public String getDepartmentCgMoney() {
 		return departmentCgMoney;
 	}
 
-	public void setDepartmentCgMoney(Float departmentCgMoney) {
+	public void setDepartmentCgMoney(String departmentCgMoney) {
 		this.departmentCgMoney = departmentCgMoney;
 	}
+
+	
 
 	public Float getProgramMoney() {
 		return programMoney;
