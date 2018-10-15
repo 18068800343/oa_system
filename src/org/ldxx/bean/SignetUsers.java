@@ -5,15 +5,18 @@ import java.util.List;
 public class SignetUsers {
     private String suId;
     
+    private String useProject;//使用项目
+    
+    private String taskNo;//任务单号
+    
     private String departId;//部门id
 
     private String beginTime;
 
     private String endTime;
 
-    private String custodyMan;//保管人id
+    private String custodyMan;//保管人
 
-    private String useProject;//使用项目id
 
     private String destroyTime;
     
@@ -23,6 +26,15 @@ public class SignetUsers {
     
     private List<Accessory> accessory;
 
+
+    
+	public String getTaskNo() {
+		return taskNo;
+	}
+
+	public void setTaskNo(String taskNo) {
+		this.taskNo = taskNo;
+	}
 
 	public List<Accessory> getAccessory() {
 		return accessory;

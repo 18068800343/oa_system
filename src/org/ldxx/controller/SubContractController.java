@@ -45,7 +45,7 @@ public class SubContractController {
 		fbContract.setFbId(id);
 		
 		String type = fbContract.getFbcType();
-		String code = type.split(" ")[1];
+		String code = type.split(" ")[0];
 		int count=scService.fbNocount();
 		count=count+1;
 		String fbNo=uuid.getPrjCode(code, count);
@@ -90,7 +90,7 @@ public class SubContractController {
 		fbContract.setFbId(id);
 		
 		String type = fbContract.getFbcType();
-		String code = type.split(" ")[1];
+		String code = type.split(" ")[0];
 		int count=scService.fbNocount();
 		count=count+1;
 		String fbNo=uuid.getPrjCode(code, count);

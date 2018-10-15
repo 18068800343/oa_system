@@ -5,21 +5,40 @@ public class MaterialDemand {
 
     private String materialName;
 
-    private String materialCode;
+    private String materialType;
 
     private String buyCompany;
 
     private Float price;
     
-    private String num;
+    private int num;
 
     private String provideCompany;
+    private String name;
 
     private String sureMaterialMode;
+    private String name2;
 
-    private String desc;
+    private String infos;
 
-    public String getMdlId() {
+    
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName2() {
+		return name2;
+	}
+
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
+
+	public String getMdlId() {
         return mdlId;
     }
 
@@ -35,15 +54,15 @@ public class MaterialDemand {
         this.materialName = materialName == null ? null : materialName.trim();
     }
 
-    public String getMaterialCode() {
-        return materialCode;
-    }
+    public String getMaterialType() {
+		return materialType;
+	}
 
-    public void setMaterialCode(String materialCode) {
-        this.materialCode = materialCode == null ? null : materialCode.trim();
-    }
+	public void setMaterialType(String materialType) {
+		this.materialType = materialType;
+	}
 
-    public String getBuyCompany() {
+	public String getBuyCompany() {
         return buyCompany;
     }
 
@@ -51,16 +70,16 @@ public class MaterialDemand {
         this.buyCompany = buyCompany == null ? null : buyCompany.trim();
     }
 
-    public String getNum() {
-        return num;
-    }
 
-    public void setNum(String num) {
-        this.num = num == null ? null : num.trim();
-    }
+    public int getNum() {
+		return num;
+	}
 
+	public void setNum(int num) {
+		this.num = num;
+	}
 
-    public String getProvideCompany() {
+	public String getProvideCompany() {
 		return provideCompany;
 	}
 
@@ -84,12 +103,12 @@ public class MaterialDemand {
 		this.price = price;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getInfos() {
+		return infos;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setInfos(String infos) {
+		this.infos = infos;
 	}
 
 }

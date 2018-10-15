@@ -11,7 +11,9 @@ public class CompanyMateriaIn {
 
 	private String cmId;
 	private String cgNo;//采购合同号
+	private String cgName;//采购合同名
 	private String taskNo;//任务单号
+	private String demandProject;//需求项目
 	private String materialName;//材料名称
 	private String materialType;//材料类型
 	private String specificationModel;//规格型号
@@ -24,7 +26,6 @@ public class CompanyMateriaIn {
 	private String manufacturer;//生产厂家
 	private String omId;//收货人所属部门
 	private String collectPerson;//收货人
-	private String demandProject;//需求项目
 	private String cmDesc;//备注
 	private String acceptanceOpinion;//验收及处理意见
 	
@@ -35,6 +36,14 @@ public class CompanyMateriaIn {
 	
 	
 	
+	public String getCgName() {
+		return cgName;
+	}
+
+	public void setCgName(String cgName) {
+		this.cgName = cgName;
+	}
+
 	public String getOmName() {
 		return omName;
 	}

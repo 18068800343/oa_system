@@ -3,7 +3,7 @@
 <mapper namespace="org.ldxx.dao.SignetUsersDao" >
   <insert id="addsUser" parameterType="org.ldxx.bean.SignetUsers" >
     insert into signet_users 
-    	(su_id,depart_id,begin_time, end_time, custody_man,use_project, destroy_time)
+    	(su_id,depart_id,begin_time, end_time, custody_man,use_project,task_no, destroy_time)
     values 
     	(#{sUser.suId,jdbcType=VARCHAR},
     	#{sUser.departId,jdbcType=VARCHAR},
@@ -11,6 +11,7 @@
   		#{sUser.endTime,jdbcType=VARCHAR}, 
   		#{sUser.custodyMan,jdbcType=VARCHAR}, 
     	#{sUser.useProject,jdbcType=VARCHAR}, 
+    	#{sUser.taskNo,jdbcType=VARCHAR}, 
     	#{sUser.destroyTime,jdbcType=VARCHAR})
   </insert>
   <delete id="deletesUserById" parameterType="String">
@@ -25,13 +26,12 @@
       	end_time = #{sUser.endTime,jdbcType=VARCHAR},
       	custody_man = #{sUser.custodyMan,jdbcType=VARCHAR},
       	use_project = #{sUser.useProject,jdbcType=VARCHAR},
+      	task_no=#{sUser.taskNo,jdbcType=VARCHAR},
       	destroy_time = #{sUser.destroyTime,jdbcType=VARCHAR}
     where su_id = #{sUser.suId,jdbcType=VARCHAR}
   </update>
   <select id="selectUser" resultType="org.ldxx.bean.SignetUsers">
-  	select a.*,b.u_name,c.prj_name,d.om_name from signet_users a 
-  		left join user b on a.custody_man=b.user_id 
-  		left join task c on a.use_project=c.prj_id
+  	select a.*,d.om_name from signet_users a 
   		left join organization_management d on a.depart_id=d.om_id
   		left join mode_status m on a.su_id=m.mode_id
   	where m.status=#{status}

@@ -9,25 +9,28 @@
 		where m.status=2
 	</select>
 	<insert id="addGsMaterialInSave" parameterType="CompanyMateriaIn">
-		insert into company_material_in(cm_id,cg_no,task_no,material_name,material_type,specification_model,
+		insert into company_material_in(cm_id,cg_no,cg_name,task_no,material_name,material_type,specification_model,
 			cm_unit,cm_number,cm_unit_price,cm_money,sent_date,sent_unit,manufacturer,om_id,collect_person,
 			demand_project,cm_desc,acceptance_opinion)
-		values(#{cm.cmId},#{cm.cgNo},#{cm.taskNo},#{cm.materialName},#{cm.materialType},#{cm.specificationModel},#{cm.cmUnit},#{cm.cmNumber},
+		values(#{cm.cmId},#{cm.cgNo},#{cm.cgName},#{cm.taskNo},#{cm.materialName},#{cm.materialType},#{cm.specificationModel},#{cm.cmUnit},#{cm.cmNumber},
 		#{cm.cmUnitPrice},#{cm.cmMoney},#{cm.sentDate},#{cm.sentUnit},#{cm.manufacturer},#{cm.omId},#{cm.collectPerson},#{cm.demandProject},
 		#{cm.cmDesc},#{cm.acceptanceOpinion})
 	</insert>
 	<select id="selectcgNotaskNoPrjName" resultType="CompanyMateriaIn">
-		select cg_no,task_no,demand_project from company_material_in a
+		select cg_no,cg_name,task_no,demand_project from company_material_in a
 		left join mode_status m on m.mode_id=a.cm_id
 		where m.status=2
 	</select>
 	<select id="selecttaskNoPrjNameBycgNo" resultType="CompanyMateriaIn">
-		select task_no,demand_project from company_material_in where cg_no=#{cgNo}
+		select cg_name,task_no,demand_project,material_name,material_type,specification_model,cm_unit,cm_money from company_material_in where cg_no=#{cgNo}
 	</select>
 	<select id="selectcgNoPrjNameBytaskNo" resultType="CompanyMateriaIn">
-		select cg_no,demand_project from company_material_in where task_no=#{taskNo}
+		select cg_no,cg_name,demand_project,material_name,material_type,specification_model,cm_unit,cm_money from company_material_in where task_no=#{taskNo}
 	</select>
 	<select id="selectcgNotaskNoByPrjName" resultType="CompanyMateriaIn">
-		select cg_no,task_no from company_material_in where demand_project=#{name}
+		select cg_no,cg_name,task_no,material_name,material_type,specification_model,cm_unit,cm_money from company_material_in where demand_project=#{name}
+	</select>
+	<select id="selectcgNotaskNoPrjNameBycgName" resultType="CompanyMateriaIn">
+		select cg_no,task_no,demand_project,material_name,material_type,specification_model,cm_unit,cm_money from company_material_in where cg_name=#{cgName}
 	</select>
 </mapper>

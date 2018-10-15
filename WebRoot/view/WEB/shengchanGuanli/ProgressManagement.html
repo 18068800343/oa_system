@@ -96,11 +96,14 @@
                                 <td>预算总费用</td>
                                 <td><input type="text" class="form-control"></td>
                                 <td>本期</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" id="benqi"></td>
                             </tr>
                             <tr>
                                 <td>总累计收入</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td>
+                                		<input type="text" class="form-control" disabled id="zongshouru">
+                                		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#jindu" id="jindua">选择进度</button>
+                                </td>
                                 <td>总累计成本</td>
                                 <td><input type="text" class="form-control"></td>
                             </tr>
@@ -233,7 +236,78 @@
     </div>
 </div>
 <!-- model结束 -->
-
+<!--进度 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="jindu">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择进度</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline" id="B2jieduan">
+                    <div class="form-group">
+                        <div>
+                            <span>初步设计:</span>
+                            <select style="width:180px;" id="firstsheji" class="form-control" >
+                                <option value="55">成果审查</option>
+                                <option value="80">初设文件交付</option>
+                                <option value="90">审查会议纪要</option>
+                                <option value="100">初设文件批复</option>
+                            </select>
+                            <span>施工图设计:</span>
+                            <select style="width:180px;" id=shigongsheji class="form-control" >
+                                <option value="55">成果审查</option>
+                                <option value="80">施设文件交付</option>
+                                <option value="85">审查会议纪要或者图审中心意见</option>
+                                <option value="100">交工验收报告</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div id="AB1jieduan">
+                	<select style="width:280px;" id="AB1jieduanjindu" class="form-control" >
+                        <option value="10">中期取得的业主盖章的进度证明10%</option>
+                        <option value="20">中期取得的业主盖章的进度证明20%</option>
+                        <option value="30">中期取得的业主盖章的进度证明30%</option>
+                        <option value="40">中期取得的业主盖章的进度证明40%</option>
+                        <option value="50">中期取得的业主盖章的进度证明50%</option>
+                        <option value="60">中期取得的业主盖章的进度证明60%</option>
+                        <option value="70">中期取得的业主盖章的进度证明70%</option>
+                        <option value="80">中期取得的业主盖章的进度证明80%</option>
+                        <option value="90">未提交检测报告交付单确认限额</option>
+                        <option value="100">检测报告交付单</option>
+                    </select>
+                </div>
+                <div id="C1jieduan">
+                	<select style="width:200px;" id="C1jieduanjindu" class="form-control" >
+                        <option value="5">经业主（或监理）确认的进场开工报告</option>
+                        <option value="按照实际确认的工程进度">经业主（或监理）签认的计量表或业主盖章确认的征询函</option>
+                        <option value="90">实体完工未交工验收项目确认限额</option>
+                        <option value="100">交（竣）工验收报告</option>
+                    </select>
+                </div>
+                <div id="C2jieduan">
+                	<select style="width:200px;" id="C2jieduanjindu" class="form-control" >
+                        <option value="5">经业主（或监理）确认的进场开工报告</option>
+                        <option value="按照实际确认的工程进度">经业主（或监理）签认的计量表或业主盖章确认的征询函</option>
+                        <option value="95">实体完工未交工验收项目确认限额</option>
+                        <option value="100">交（竣）工验收报告</option>
+                    </select>
+                </div>
+                <div id="qita">
+                	<input type="text" class="form-control" style="width:200px;" id="qitajindu">
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="quedingjindu">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 进度 modal结束 -->
 <!-- 修改Modal -->
 <div class="modal fade bs-example-modal-lg" id="change" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
@@ -779,7 +853,7 @@
 <script>
     $(document).ready( function () {
     	laydate.render({
-            elem: '#year' //指定元素
+            elem: '#benqi' //指定元素
         });
         laydate.render({
             elem: '#year2' //指定元素
@@ -1479,10 +1553,63 @@
         }
 		});
 	}
+	//判断进度
+	$("#jindua").click(function(){
+		$("#B2jieduan").hide();
+		$("#AB1jieduan").hide();
+		$("#C1jieduan").hide();
+		$("#C2jieduan").hide();
+		$("#qita").hide();
+		var str=$("#prjType2").val();
+		if(str.indexOf("B2") != -1 ){
+			$("#B2jieduan").show();
+		}else if(str.indexOf("B1") != -1||str.indexOf("A") != -1){
+			$("#AB1jieduan").show();
+		}else if(str.indexOf("C1") != -1){
+			$("#C1jieduan").show();
+		}else if(str.indexOf("C2") != -1){
+			$("#C2jieduan").show();
+		}else{
+			$("#qita").show();
+		}
+	})
+	$("#quedingjindu").click(function(){
+		if($('#B2jieduan').is(':hidden')){
+		      //如果隐藏时。。。
 
+		}else{
+		      //如果显示时。。。
+			$("#zongshouru").val($("#firstsheji").val()/1*0.45+$("#shigongsheji").val()/1*0.55+"%")
+		}
+		if($('#AB1jieduan').is(':hidden')){
+
+		}else{
+			$("#zongshouru").val($("#AB1jieduanjindu").val()/1+"%")
+		}
+		if($('#C1jieduan').is(':hidden')){
+
+		}else{
+			$("#zongshouru").val($("#C1jieduanjindu").val()/1+"%")
+		}
+		if($('#C2jieduan').is(':hidden')){
+		      
+
+		}else{
+			$("#zongshouru").val($("#C2jieduanjindu").val()/1+"%")
+		}
+		if($('#qita').is(':hidden')){
+		     
+
+		}else{
+			$("#zongshouru").val($("#qitajindu").val()/1+"%")
+		}
+	})
 	
-	
-	
+	$('#jindu').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
 	
 	
 	

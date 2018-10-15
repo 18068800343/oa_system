@@ -23,5 +23,7 @@ public interface GsMaterialInService {
 
 	List<CompanyMateriaIn> selectcgNotaskNoByPrjName(String name);
 
+	List<CompanyMateriaIn> selectcgNotaskNoPrjNameBycgName(String cgName);
+
 
 }

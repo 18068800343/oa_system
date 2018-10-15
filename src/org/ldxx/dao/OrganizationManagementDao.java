@@ -20,5 +20,7 @@ public interface OrganizationManagementDao {
 	OrganizationManagement getOrgNameById(@Param("omId") String omId);
 
 	OrganizationManagement getOrgIdByName(@Param("omName")String omName);
+	
+	OrganizationManagement selectOrgById(@Param("omId")String omId);
 
 }

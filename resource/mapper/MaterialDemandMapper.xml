@@ -2,16 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.MaterialDemandDao" >
   <insert id="addMaterialDemand" parameterType="java.util.List">
-  	insert into material_demand(mdl_id,material_name, material_code, buy_company, 
-      price,num, provide_company,sure_material_mode, desc)
+  	insert into material_demand(mdl_id,material_name, material_type, buy_company, 
+      price,num, provide_company,sure_material_mode, infos)
     values
-    	<foreach collection="md" item="item" separator=",">
-	    	(#{item.mdlId},#{item.materialName},#{item.materialCode},#{item.buyCompany},
-	    	 #{item.price},#{item.num},#{item.provideCompany},#{item.sureMaterialMode},#{item.desc})
+    	<foreach collection="md" item="item" index="index" separator=",">
+	    	(#{item.mdlId},#{item.materialName},#{item.materialType},#{item.buyCompany},
+	    	 #{item.price},#{item.num},#{item.provideCompany},#{item.sureMaterialMode},#{item.infos})
     	</foreach>
   </insert>
   
   <select id="selectMaterialDemandById" resultType="MaterialDemand">
-  	select * from material_demand where mdl_id=#{id}
+  	select a.*,b.sp_name as name,b2.sp_name as name2 from material_demand as a
+  	left join sourcing_purchasing as b on a.provide_company=b.sp_id
+  	left join sourcing_purchasing as b2 on a.sure_material_mode=b2.sp_id
+  	where a.mdl_id=#{id}
   </select>
+  
+  <delete id="deleteMdById" parameterType="String">
+  	delete from material_demand where mdl_id=#{id}
+  </delete>
 </mapper>
