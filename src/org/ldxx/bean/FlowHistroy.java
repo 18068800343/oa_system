@@ -41,6 +41,10 @@ public class FlowHistroy {
 
     private String modeId;
 
+    private String flowNodeLast;
+
+    private Integer operateType;
+
     private String view;
 
     public String getId() {
@@ -193,6 +197,22 @@ public class FlowHistroy {
 
     public void setModeId(String modeId) {
         this.modeId = modeId == null ? null : modeId.trim();
+    }
+
+    public String getFlowNodeLast() {
+        return flowNodeLast;
+    }
+
+    public void setFlowNodeLast(String flowNodeLast) {
+        this.flowNodeLast = flowNodeLast == null ? null : flowNodeLast.trim();
+    }
+
+    public Integer getOperateType() {
+        return operateType;
+    }
+
+    public void setOperateType(Integer operateType) {
+        this.operateType = operateType;
     }
 
     public String getView() {

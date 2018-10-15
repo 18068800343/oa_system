@@ -86,7 +86,7 @@ public class FlowUtill {
 		 * 1：流程刚发起,提交状态
 		 */
 		currentFlow.setWfstate(0);
-		currentFlow.setFlowEndState(5);
+		//currentFlow.setFlowEndState(5);
 		currentFlow.setDoDate(new Date());
 		String mode_id = "";
 		BusinessExample example = new BusinessExample();
@@ -146,7 +146,7 @@ public class FlowUtill {
 	
 	@Transactional
 	public String submitFlow(CurrentFlow currentFlowOld,FlowHistroy flowHistroy,String next_user_id,String next_name) throws Exception{
-		currentFlowOld.setRdt(new Date());
+		    currentFlowOld.setRdt(new Date());
 			ModeStatus modeStatus = new ModeStatus(); 	
 			INSTANCE.init();
 			/**0：流程刚发起,暂存状态
@@ -364,6 +364,7 @@ public class FlowUtill {
 			    example.createCriteria().andFloNodeIdEqualTo(flowNode1.getId()).andUrlEqualTo(currentFlow.getUrl());
 				List<FlowHistroy> flowHistroys = INSTANCE.flowHistroyMapper.selectByExample(example);
 				FlowHistroy flowHistroy2=new FlowHistroy();
+				
 				if(flowHistroys.size()>0){
 				flowHistroy2 = flowHistroys.get(0);
 				currentFlow.setActor(flowHistroy2.getActor());
@@ -373,7 +374,9 @@ public class FlowUtill {
 				INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2 );
 				}
 				}else if(returnRole==Constant.LAST_FLOW_NODE){
-					currentFlow.setFloNodeId(flowNode.getFloNodeLeft());
+					
+					currentFlow.setFloNodeId(currentFlow.getFlowNodeLast());
+					
 				}
 				INSTANCE.flowHistroyMapper.insert(flowHistroy);
 			} catch (Exception e) {

@@ -1394,6 +1394,136 @@ public class FlowHistroyExample {
             addCriterion("mode_id not between", value1, value2, "modeId");
             return (Criteria) this;
         }
+
+        public Criteria andFlowNodeLastIsNull() {
+            addCriterion("Flow_Node_Last is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastIsNotNull() {
+            addCriterion("Flow_Node_Last is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastEqualTo(String value) {
+            addCriterion("Flow_Node_Last =", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastNotEqualTo(String value) {
+            addCriterion("Flow_Node_Last <>", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastGreaterThan(String value) {
+            addCriterion("Flow_Node_Last >", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastGreaterThanOrEqualTo(String value) {
+            addCriterion("Flow_Node_Last >=", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastLessThan(String value) {
+            addCriterion("Flow_Node_Last <", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastLessThanOrEqualTo(String value) {
+            addCriterion("Flow_Node_Last <=", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastLike(String value) {
+            addCriterion("Flow_Node_Last like", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastNotLike(String value) {
+            addCriterion("Flow_Node_Last not like", value, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastIn(List<String> values) {
+            addCriterion("Flow_Node_Last in", values, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastNotIn(List<String> values) {
+            addCriterion("Flow_Node_Last not in", values, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastBetween(String value1, String value2) {
+            addCriterion("Flow_Node_Last between", value1, value2, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andFlowNodeLastNotBetween(String value1, String value2) {
+            addCriterion("Flow_Node_Last not between", value1, value2, "flowNodeLast");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeIsNull() {
+            addCriterion("operate_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeIsNotNull() {
+            addCriterion("operate_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeEqualTo(Integer value) {
+            addCriterion("operate_type =", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeNotEqualTo(Integer value) {
+            addCriterion("operate_type <>", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeGreaterThan(Integer value) {
+            addCriterion("operate_type >", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("operate_type >=", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeLessThan(Integer value) {
+            addCriterion("operate_type <", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("operate_type <=", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeIn(List<Integer> values) {
+            addCriterion("operate_type in", values, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeNotIn(List<Integer> values) {
+            addCriterion("operate_type not in", values, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeBetween(Integer value1, Integer value2) {
+            addCriterion("operate_type between", value1, value2, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("operate_type not between", value1, value2, "operateType");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
