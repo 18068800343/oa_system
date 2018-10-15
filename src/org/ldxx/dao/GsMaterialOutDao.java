@@ -10,5 +10,7 @@ public interface GsMaterialOutDao {
 	List<CompanyMateriaOut> selectGsMaterialOut();
 
 	int addGsMaterialOutSave(@Param("cm")CompanyMateriaOut cm);
+	
+	List<CompanyMateriaOut> selectXmMaterialOutByNo(@Param("no")String no);
 
 }

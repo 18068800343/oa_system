@@ -25,4 +25,10 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 	public int addGsMaterialOutSave(CompanyMateriaOut cm) {
 		return dao.addGsMaterialOutSave(cm);
 	}
+
+	@Override
+	public List<CompanyMateriaOut> selectXmMaterialOutByNo(String no) {
+		no="%"+no+"%";
+		return dao.selectXmMaterialOutByNo(no);
+	}
 }

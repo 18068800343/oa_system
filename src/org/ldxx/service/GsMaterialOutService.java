@@ -9,5 +9,7 @@ public interface GsMaterialOutService {
 	List<CompanyMateriaOut> selectGsMaterialOut();
 
 	int addGsMaterialOutSave(CompanyMateriaOut cm);
+	
+	List<CompanyMateriaOut> selectXmMaterialOutByNo(String no);
 
 }
