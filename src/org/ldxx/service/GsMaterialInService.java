@@ -25,5 +25,7 @@ public interface GsMaterialInService {
 
 	List<CompanyMateriaIn> selectcgNotaskNoPrjNameBycgName(String cgName);
 
+	int updateGsMaterialInSave(CompanyMateriaIn cm);
+
 
 }

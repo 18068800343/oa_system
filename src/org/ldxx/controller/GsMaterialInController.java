@@ -115,11 +115,7 @@ public class GsMaterialInController {
 	@ResponseBody
 	public Map<String,Object> updateGsMaterialInSave(CompanyMateriaIn cm,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
-		TimeUUID uuid=new TimeUUID();
-		String id=uuid.getTimeUUID();
-		cm.setCmId(id);
-		
-		
+		String id = cm.getCmId();
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
@@ -140,7 +136,7 @@ public class GsMaterialInController {
 			}
 			cm.setAccessory(list);
 		}
-		int i=gmService.addGsMaterialInSave(cm);
+		int i=gmService.updateGsMaterialInSave(cm);
 		map.put("result", i);
 		map.put("CompanyMateriaIn", cm);
 		return map;

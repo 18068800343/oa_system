@@ -33,7 +33,7 @@ public class CgContract {
 	private List<Accessory> accessory;
 
 	private String omName;// 部门名称
-	private String ccName;// 乙方单位名称
+	private String spName;// 乙方单位名称
 
 	
 	
@@ -217,12 +217,14 @@ public class CgContract {
 		this.omName = omName;
 	}
 
-	public String getCcName() {
-		return ccName;
+	public String getSpName() {
+		return spName;
 	}
 
-	public void setCcName(String ccName) {
-		this.ccName = ccName;
+	public void setSpName(String spName) {
+		this.spName = spName;
 	}
+
+	
 
 }

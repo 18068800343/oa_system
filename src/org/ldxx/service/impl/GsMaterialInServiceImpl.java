@@ -74,5 +74,10 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 		return gmDao.selectcgNotaskNoPrjNameBycgName(cgName);
 	}
 
+	@Override
+	public int updateGsMaterialInSave(CompanyMateriaIn cm) {
+		return gmDao.updateGsMaterialInSave(cm);
+	}
+
 
 }

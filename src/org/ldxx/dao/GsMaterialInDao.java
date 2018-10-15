@@ -21,6 +21,8 @@ public interface GsMaterialInDao {
 
 	List<CompanyMateriaIn> selectcgNotaskNoPrjNameBycgName(@Param("cgName")String cgName);
 
+	int updateGsMaterialInSave(@Param("cm")CompanyMateriaIn cm);
+
 
 
 }

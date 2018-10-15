@@ -31,7 +31,7 @@ public class clfbCgcontractPerformance {
 	
 	private List<Accessory> accessory;
 	
-	private String ccName;//乙方名称
+	private String spName;//乙方名称
 
 	public String getpId() {
 		return pId;
@@ -193,12 +193,13 @@ public class clfbCgcontractPerformance {
 		this.accessory = accessory;
 	}
 
-	public String getCcName() {
-		return ccName;
+	public String getSpName() {
+		return spName;
 	}
 
-	public void setCcName(String ccName) {
-		this.ccName = ccName;
+	public void setSpName(String spName) {
+		this.spName = spName;
 	}
+
 	
 }
