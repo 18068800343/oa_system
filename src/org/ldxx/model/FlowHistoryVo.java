@@ -46,8 +46,28 @@ public class FlowHistoryVo {
 	    private String modeId;
 
 	    private String view;
+	    
+	    private String flowNodeLast;
 
-	    public String getStatus() {
+	    private Integer operateType;
+
+	    public String getFlowNodeLast() {
+			return flowNodeLast;
+		}
+
+		public void setFlowNodeLast(String flowNodeLast) {
+			this.flowNodeLast = flowNodeLast;
+		}
+
+		public Integer getOperateType() {
+			return operateType;
+		}
+
+		public void setOperateType(Integer operateType) {
+			this.operateType = operateType;
+		}
+
+		public String getStatus() {
 			return status;
 		}
 
