@@ -123,6 +123,7 @@ public class FlowUtill {
 			throw new FlowException("deque do error");
 		}
 		currentFlow.setFloNodeId(floNodeId);
+		currentFlow.setFlowNodeLast(null);
 		INSTANCE.currentFlowMapper.insert(currentFlow);
 		JSONObject jsonObject = new JSONObject();
 		JSONArray arrays = new JSONArray();
@@ -181,6 +182,7 @@ public class FlowUtill {
 						currentFlow.setActorname(next_name);
 						currentFlow.setFloNodeId(nextFloNodeId);
 						currentFlow.setDeptname(currentFlowOld.getDeptname());
+						
 						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 						modeStatus.setModeId(modeId);
 						//1：流程运转中
