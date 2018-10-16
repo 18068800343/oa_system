@@ -18,6 +18,8 @@ package org.ldxx.bean;
 public class ClOut {
 
 	private String outId;
+	private String taskNo;
+	private String taskName;
 	private String clName;
 	private String clType;
 	private String modeType;
@@ -28,6 +30,20 @@ public class ClOut {
 	private String getTime;
 	private String getPerson;
 	private String infos;
+	
+	
+	public String getTaskNo() {
+		return taskNo;
+	}
+	public void setTaskNo(String taskNo) {
+		this.taskNo = taskNo;
+	}
+	public String getTaskName() {
+		return taskName;
+	}
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
+	}
 	public String getOutId() {
 		return outId;
 	}

@@ -8,6 +8,7 @@ import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.dao.MaterialDemandDao;
 import org.ldxx.dao.PrjMaterialBuyDao;
 import org.ldxx.service.PrjMaterialBuyService;
+import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +28,11 @@ public class PrjMaterialBuyServiceImpl implements PrjMaterialBuyService{
 		String id=buy.getPmbId();
 		if(i>0){
 			List<MaterialDemand> md=buy.getMd();
+			TimeUUID uuid=new TimeUUID();
 			if(md!=null){
 				for(int a=0;a<md.size();a++){
-					md.get(a).setMdlId(id);
+					md.get(a).setBuyId(id);
+					md.get(a).setMdlId(uuid.getTimeUUID());
 				}
 				i=mdao.addMaterialDemand(md);
 			}

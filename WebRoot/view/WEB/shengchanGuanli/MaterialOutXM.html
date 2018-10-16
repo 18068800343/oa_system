@@ -54,14 +54,14 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL" style="font-size:18px;">
-                
+                 <select class="form-control" id="prj"></select>
             </div>
             <div class="UpperPartR">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报</button>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
-    <div class="modal-dialog modal-lg" role="document" >
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -72,20 +72,31 @@
                     <form class="form-inline">
                         <table class="table table-bordered table-condensed" id="xinjianCailiao">
                              <tr>
-                                <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:15%;">任务单号</td>
                                 <td style="width:38%;">
-                                	<select class="form-control" id="prj_name" style="width:65%;"> 
+                                	<select class="form-control" id="prj_no" style="width:65%;"> 
                                 		
                                 	</select>
                                 </td>
-                                <td style="width:15%;">任务单号</td>
+                                 <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:32%;">
-                                	<select class="form-control" id="prj_no" style="width:75%;"> 
+                                	<select class="form-control" id="prj_name" style="width:75%;"> 
                                 		
                                 	</select>
                                 </td>
                             </tr>
                             <tr>
+                                <td>领料人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="get_person" style="width:65%;"></td>
+                                <td>领料日期</td>
+                                <td><input type="text" class="form-control" id="year" style="width:75%;"></td>
+                            </tr>
+                            <tr>
+                            	<td>备注</td>
+                                <td colspan='3'><input type="text" class="form-control" id="infos" style="width:90%;"></td>
+                            </tr>
+                          </table>
+                            <!-- <tr>
                                 <td>材料名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
                                     <select class="form-control" id="cl_name" style="width:65%;"> 
@@ -112,18 +123,22 @@
                                 <td><input type="text" class="form-control" id="num"  style="width:65%;">&nbsp&nbsp&nbsp<button type="button" class="btn btn-default"  onclick="getSumPrice()">计算金额</button></td>
                                 <td>金额</td>
                                 <td><input type="text" class="form-control" id="sum_price" disabled style="width:75%;"></td>
-                            </tr>
-                            <tr>
-                                <td>领料人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td><input type="text" class="form-control" id="get_person" style="width:65%;"></td>
-                                <td>领料日期</td>
-                                <td><input type="text" class="form-control" id="year" style="width:75%;"></td>
-                            </tr>
-                            <tr>
-                            	<td>备注</td>
-                                <td colspan='3'><input type="text" class="form-control" id="infos" style="width:90%;"></td>
-                            </tr>
-                        </table>
+                            </tr> -->
+                          <table class="table table-bordered table-condensed"  id="cl_table">
+                          	<thead>
+                          		<tr>
+                          			<th style='width:15%;'>材料名称</th>
+                          			<th style='width:15%;'>材料类型</th>
+                          			<th style='width:15%;'>规格型号</th>
+                          			<th style='width:10%;'>单位</th>
+                          			<th style='width:10%;'>单价</th>
+                          			<th style='width:10%;'>库存总数</th>
+                          			<th style='width:10%;'>出库数量</th>
+                          			<th style='width:15%;'>操作</th>
+                          		</tr>
+                          	</thead>
+                          	<tbody></tbody>
+                          </table>
                     </form>  
                 </div>
         </div>
@@ -200,21 +215,18 @@
             <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>
                     <tr>
-                        <th>材料名称</th>
-                        <th>材料类型</th>
-                        <th>规格型号</th>
-                        <th>单位</th>
-                        <th>领料数量</th>
-                        <th>价格</th>
-                        <th>金额</th>
+                        <th>项目名称</th>
+                        <th>任务单号</th>
                         <th>领料日期</th>
                         <th>领料人</th>
+                        <th>备注</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                 </tbody> 
             </table>
+            
         </div>
     </div>
 <!-- allMsg -->
@@ -225,8 +237,8 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
         </div>
-        <div class="modal-body" style="overflow-x:scroll;">
-            <table class="table table-bordered table-condensed">
+        <div class="modal-body">
+            <table class="table table-bordered table-condensed" id="mainContent2">
                 <thead>
                     <tr>
                         <th>材料名称</th>
@@ -236,25 +248,10 @@
                         <th>领料数量</th>
                         <th>价格</th>
                         <th>金额</th>
-                        <th>领料日期</th>
-                        <th>领料人</th>
-                        <th>备注</th>
                     </tr>
                 </thead>
-                <tr>
-                    <td>材料名称1111111</td>
-                    <td>材料类型111111</td>
-                    <td>11111111111111</td>
-                    <td>11111111111111</td>
-                    <td>11111111111111</td>
-                    <td>11111111111111</td>
-                    <td>11111111111111</td>
-                    <td>11111111111111</td>
-                    <td>11111111111111</td>
-                    <td>11111111111111</td>
-                    <td>11111111111111</td>
-                    <td>11111111111111</td>
-                </tr>
+                <tbody>
+                </tbody> 
             </table>
         </div>
         <div class="modal-footer">
@@ -280,7 +277,7 @@
     	$('#editable-select').editableSelect({ 
             effects: 'slide' 
         });
-    	initTable();
+    	initPrj();
     	initSelect();
 	});
     var table=$('#mainContent').dataTable({
@@ -294,24 +291,20 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-		            { "data": "clName"}, 
-		            { "data": "clType"}, 
-		            { "data": "modeType"}, 
-		            { "data": "unit"}, 
-		            { "data": "num"}, 
-		            { "data": "price"},
-		            { "data": "sumPrice"},
+		            { "data": "taskName"}, 
+		            { "data": "taskNo"}, 
 		            { "data": "getTime"},
 		            { "data": "getPerson"},
+		            { "data": "infos"},
 		            { "data": null},
 		        ],
 		        "columnDefs": [
 								{	
 										 "class": "tcenter",
-										    "targets": 9,
+										    "targets": 5,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="look3(this)" title="查看"></i>';
+										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="look(this)" title="查看"></i>';
 										        }
 										  }
 								],
@@ -334,19 +327,46 @@
         }},
   
 	});
-	function initTable(){
-        $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/clout/selectClOut',
-            dataType: 'json',
-            data: {
-            },
-            success: function (json) {
-                $('#mainContent').dataTable().fnClearTable();
-                $('#mainContent').DataTable().rows.add(json).draw(false);
-            }
-        });
-    }
+    
+    var table2=$('#mainContent2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "clName"}, 
+		            { "data": "clType"}, 
+		            { "data": "modeType"}, 
+		            { "data": "unit"}, 
+		            { "data": "num"}, 
+		            { "data": "price"},
+		            { "data": "sumPrice"}
+		        ],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+  
+	});
+	
 
     function getCreat(bb){
         var EnterpriseRating= $(bb).parent().prev().text();
@@ -392,6 +412,38 @@ Array.prototype.unique3 = function(){
         $("#rwdh2").text(arr2.unique3())
     })
     
+    function initPrj(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	$("#prj").append("<option value='%'>全部</option>")
+                for(var i=0;i<json.length;i++){
+					$("#prj").append("<option value="+json[i].prjNo+">"+json[i].prjName+"</option>")                	
+                }
+            	$("#prj").trigger("change");
+            }
+        });
+    }
+	
+	$("#prj").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/clout/selectClOut',
+            dataType: 'json',
+            data: {
+            	no:$("#prj").val()
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    })
+    
     function getSumPrice(){
     	var reg=/^\+?[1-9][0-9]*$/; 
     	var num=$("#num").val();
@@ -410,35 +462,63 @@ Array.prototype.unique3 = function(){
     }
     
     function save(){
-    	var prjName=$("#prj_name").val();
-    	var prjNo=$("#prj_no").val();
-    	var clName=$("#cl_name").val();
-    	var clType=$("#cl_type").val();
-    	var modeType=$("#mode_type").val();
-    	var unit=$("#unit").val();
-    	var num=$("#num").val();
-    	var price=$("#price").val();
-    	var sumPrice=$("#sum_price").val();
+    	var taskName=$("#prj_name").val();
+    	var taskNo=$("#prj_no").val();
     	var getTime=$("#year").val();
     	var infos=$("#infos").val();
     	var getPerson=$("#get_person").val();
+    	
+    	var outArray=new Array();
+    	
+    	$("#cl_table tbody").find("tr").each(function(){
+    		var out={
+        			outId:undefined,
+        			taskNo:undefined,
+        			taskName:undefined,
+        			clName:undefined,
+        			clType:undefined,
+        			modeType:undefined,
+        			unit:undefined,
+        			num:0,
+        			price:0,
+        			sumPrice:0,
+        			getTime:undefined,
+        			getPerson:undefined,
+        			infos:undefined
+        	}
+    		var clName=$(this).find("td").eq(0).text();
+    		var clType=$(this).find("td").eq(1).text();
+    		var modeType=$(this).find("td").eq(2).text();
+    		var unit=$(this).find("td").eq(3).text();
+    		var price=$(this).find("td").eq(4).text();
+    		var num=$(this).find("input").eq(0).val();
+    		
+    		var reg=/^\+?[1-9][0-9]*$/; 
+        	if(!reg.test(num)){
+        		toastr.error("请输入数字")
+        		return;
+        	}
+    		out.taskNo=taskNo;
+    		out.taskName=taskName;
+    		out.getTime=getTime;
+    		out.infos=infos;
+    		out.getPerson=getPerson;
+    		out.clName=clName;
+    		out.clType=clType;
+    		out.modeType=modeType;
+    		out.unit=unit;
+    		out.price=price;
+    		out.num=num;
+    		out.sumPrice=Number(num)*Number(price);
+    		outArray.push(out);
+    	})
     	
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/clout/addClOutBySave',
             dataType: 'json',
-            data: {
-            	clName:clName,
-            	clType:clType,
-            	modeType:modeType,
-            	unit:unit,
-            	num:num,
-            	price:price,
-            	sumPrice:sumPrice,
-            	getTime:getTime,
-            	getPerson:getPerson,
-            	infos:infos
-            },
+            contentType:'application/json',
+            data:JSON.stringify(outArray),
             success: function (json) {
                 if(json>0){
                 	$("#myModal").modal("hide");
@@ -474,13 +554,21 @@ Array.prototype.unique3 = function(){
 	                    },
 	                    success: function (json) {
 	                    	var cm=json.cm;
-	                    	var list=json.cmList;
+	                    	var cmList=json.cmList;
 	                    	$("#prj_no").val(cm.taskNo);
-	                    	$("#cl_name").html('');
-	                    	for(var i=0;i<list.length;i++){
-	                    		$("#cl_name").append("<option value="+list[i].materialName+">"+list[i].materialName+"</option>")
-	                    	}
-	                    	$("#cl_name").trigger("change");
+	                    	$("#cl_table tbody").html('');
+	                    	for(var i=0;i<cmList.length;i++){
+	                    		$("#cl_table tbody").append("<tr>"+
+	                    												"<td>"+cmList[i].materialName+"</td>"+
+	                    												"<td>"+cmList[i].materialType+"</td>"+
+	                    												"<td>"+cmList[i].specificationModel+"</td>"+
+	                    												"<td>"+cmList[i].cmoUnit+"</td>"+
+	                    												"<td>"+cmList[i].cmoUnitPrice+"</td>"+
+	                    												"<td>"+cmList[i].remainNumber+"</td>"+
+	                    												"<td><input type='text' class='form-control'></td>"+
+	                    												"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
+	                    										  "</tr>")
+	                    	}  
 	                    }
 	          		});
 	          	})
@@ -494,13 +582,21 @@ Array.prototype.unique3 = function(){
 	                    },
 	                    success: function (json) {
 	                    	var cm=json.cm;
-	                    	var list=json.cmList;
+	                    	var cmList=json.cmList;
 	                    	$("#prj_name").val(cm.pickProject);
-	                    	$("#cl_name").html('');
-	                    	for(var i=0;i<list.length;i++){
-	                    		$("#cl_name").append("<option value="+list[i].materialName+">"+list[i].materialName+"</option>")
-	                    	}
-	                    	$("#cl_name").trigger("change");
+	                    	$("#cl_table tbody").html('');
+	                    	for(var i=0;i<cmList.length;i++){
+	                    		$("#cl_table tbody").append("<tr>"+
+	                    												"<td>"+cmList[i].materialName+"</td>"+
+	                    												"<td>"+cmList[i].materialType+"</td>"+
+	                    												"<td>"+cmList[i].specificationModel+"</td>"+
+	                    												"<td>"+cmList[i].cmoUnit+"</td>"+
+	                    												"<td>"+cmList[i].cmoUnitPrice+"</td>"+
+	                    												"<td>"+cmList[i].remainNumber+"</td>"+
+	                    												"<td><input type='text' class='form-control'></td>"+
+	                    												"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
+	                    										  "</tr>")
+	                    	} 
 	                    }
 	          		});
 			  	})
@@ -508,24 +604,32 @@ Array.prototype.unique3 = function(){
             }
         });
     }
-	
-    $("#cl_name").on("change",function(){
+    
+    function removeThis(obj){
+    	var tr=$(obj).parent().parent();
+    	$(tr).remove();
+    }
+    
+    function look(obj){
+    	var tr=$(obj).parent().parent();
+    	var data=$("#mainContent").DataTable().row(tr).data();
+    	
     	$.ajax({
             type: 'POST',
-            url: getContextPath()+'/gsMaterialOut/selectClInfoByNoAndClName',
+            url: getContextPath()+'/clout/selectClByNoAndTimeAndPerson',
             dataType: 'json',
             data: {
-            	no:$('#prj_no').val(),
-            	clName:$("#cl_name").val()
+            	no:data.taskNo,
+            	time:data.getTime,
+            	person:data.getPerson
             },
             success: function (json) {
-            	$("#cl_type").val(json.materialType);
-            	$("#mode_type").val(json.specificationModel);
-            	$("#unit").val(json.cmoUnit);
-            	$("#price").val(json.cmoUnitPrice);
-            	$("#all_num").val(json.cmoNumber);
+            	$('#mainContent2').dataTable().fnClearTable();
+                $('#mainContent2').DataTable().rows.add(json).draw(false);
             }
-    	});
-    })
+    	})
+    	$("#allMsg1").modal("show");
+    }
+	
 </script>
 </html>
