@@ -72,8 +72,8 @@ public class GsMaterialOutController {
 		Map<String,Object> map=new HashMap<>();
 		CompanyMateriaOut cm=service.selectNoByName(name);
 		List<CompanyMateriaOut> list=service.selectClListByName(name);
-		map.put("cm", cm);
 		map.put("cmList", list);
+		map.put("cm", cm);
 		return map;
 	}
 	
@@ -83,8 +83,8 @@ public class GsMaterialOutController {
 		Map<String,Object> map=new HashMap<>();
 		CompanyMateriaOut cm=service.selectNameByNo(no);
 		List<CompanyMateriaOut> list=service.selectClListByNo(no);
-		map.put("cm", cm);
 		map.put("cmList", list);
+		map.put("cm", cm);
 		return map;
 	}
 

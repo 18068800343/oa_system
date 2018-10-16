@@ -15,13 +15,18 @@ public class ClOutServiceImpl implements ClOutService{
 	private ClOutDao cdao;
 	
 	@Override
-	public int addClOut(ClOut out) {
+	public int addClOut(List<ClOut> out) {
 		return cdao.addClOut(out);
 	}
 
 	@Override
-	public List<ClOut> selectClOut() {
-		return cdao.selectClOut();
+	public List<ClOut> selectClOutByNo(String no) {
+		return cdao.selectClOutByNo(no);
+	}
+
+	@Override
+	public List<ClOut> selectClByNoAndTimeAndPerson(String no, String time, String person) {
+		return cdao.selectClByNoAndTimeAndPerson(no, time, person);
 	}
 
 }

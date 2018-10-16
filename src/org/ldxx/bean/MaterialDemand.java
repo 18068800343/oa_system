@@ -2,6 +2,8 @@ package org.ldxx.bean;
 
 public class MaterialDemand {
     private String mdlId;
+    
+    private String buyId;
 
     private String materialName;
 
@@ -22,7 +24,15 @@ public class MaterialDemand {
     private String infos;
 
     
-    public String getName() {
+    public String getBuyId() {
+		return buyId;
+	}
+
+	public void setBuyId(String buyId) {
+		this.buyId = buyId;
+	}
+
+	public String getName() {
 		return name;
 	}
 

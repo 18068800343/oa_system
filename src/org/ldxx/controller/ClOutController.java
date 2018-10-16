@@ -7,6 +7,7 @@ import org.ldxx.service.ClOutService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,10 +20,11 @@ public class ClOutController {
 	
 	@RequestMapping("/addClOutBySave")
 	@ResponseBody
-	public int addClOutBySave(ClOut out){
+	public int addClOutBySave(@RequestBody List<ClOut> out){
 		TimeUUID uuid=new TimeUUID();
-		String id=uuid.getTimeUUID();
-		out.setOutId(id);
+		for(int a=0;a<out.size();a++){
+			out.get(a).setOutId(uuid.getTimeUUID());
+		}
 		int i=service.addClOut(out);
 		return i;
 	}
@@ -30,7 +32,16 @@ public class ClOutController {
 	
 	@RequestMapping("/selectClOut")
 	@ResponseBody
-	public List<ClOut> selectClOut(){
-		return service.selectClOut();
+	public List<ClOut> selectClOut(String no){
+		no="%"+no+"%";
+		List<ClOut> list=service.selectClOutByNo(no);
+		return list;
+	}
+	
+	@RequestMapping("/selectClByNoAndTimeAndPerson")
+	@ResponseBody
+	public List<ClOut> selectClByNoAndTimeAndPerson(String no,String time,String person){
+		List<ClOut> list=service.selectClByNoAndTimeAndPerson(no, time, person);
+		return list;
 	}
 }
