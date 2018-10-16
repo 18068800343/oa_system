@@ -1720,12 +1720,23 @@
 		var dom=$(obj).parents("tr");
 		var data=$('#mainContent2').DataTable().row(dom).data();
 		
-		$("#look_title_this").val(data.aTitle);
-		$("#look_type_this").val(data.aType);
-		$("#look_this_importance").val(data.aImportance);
-		$("#look_this_department").val(data.aDepartment);
-		initUser2(data.issuer);
-		$("#look_this_info").val(data.aDesc);
+		$("#look_title_this").text(data.aTitle);
+		$("#look_type_this").text(data.aType);
+		$("#look_this_importance").text(data.aImportance);
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getOrgNameById',
+	        dataType: 'json',
+	        data: {
+	        	omId:data.aDepartment
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	$("#look_this_department").text(json.omName)
+	        }
+	    });
+		$("#look_this_isuser").text(data.uName);
+		$("#look_this_info").text(data.aDesc);
 		
 		var id=data.aId;
 		$.ajax({
