@@ -11,5 +11,16 @@ public interface GsMaterialOutService {
 	int addGsMaterialOutSave(CompanyMateriaOut cm);
 	
 	List<CompanyMateriaOut> selectXmMaterialOutByNo(String no);
-
+	
+	List<CompanyMateriaOut> selectClByNo(String no);
+	
+	CompanyMateriaOut selectNoByName(String name);
+	
+	CompanyMateriaOut selectNameByNo(String no);
+	
+	List<CompanyMateriaOut> selectClListByNo(String no);
+	
+	List<CompanyMateriaOut> selectClListByName(String name);
+	
+	CompanyMateriaOut selectClInfoByNoAndClName(String no,String clName);
 }

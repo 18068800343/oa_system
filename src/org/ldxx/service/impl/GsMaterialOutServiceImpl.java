@@ -31,4 +31,34 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 		no="%"+no+"%";
 		return dao.selectXmMaterialOutByNo(no);
 	}
+
+	@Override
+	public List<CompanyMateriaOut> selectClByNo(String no) {
+		return dao.selectClByNo(no);
+	}
+
+	@Override
+	public CompanyMateriaOut selectNoByName(String name) {
+		return dao.selectNoByName(name);
+	}
+
+	@Override
+	public CompanyMateriaOut selectNameByNo(String no) {
+		return dao.selectNameByNo(no);
+	}
+
+	@Override
+	public List<CompanyMateriaOut> selectClListByNo(String no) {
+		return dao.selectClListByNo(no);
+	}
+
+	@Override
+	public List<CompanyMateriaOut> selectClListByName(String name) {
+		return dao.selectClListByName(name);
+	}
+
+	@Override
+	public CompanyMateriaOut selectClInfoByNoAndClName(String no, String clName) {
+		return dao.selectClInfoByNoAndClName(no, clName);
+	}
 }

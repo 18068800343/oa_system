@@ -13,4 +13,15 @@ public interface GsMaterialOutDao {
 	
 	List<CompanyMateriaOut> selectXmMaterialOutByNo(@Param("no")String no);
 
+	List<CompanyMateriaOut> selectClByNo(@Param("no")String no);
+	
+	CompanyMateriaOut selectNoByName(@Param("name")String name);
+	
+	CompanyMateriaOut selectNameByNo(@Param("no")String no);
+	
+	List<CompanyMateriaOut> selectClListByNo(@Param("no")String no);
+	
+	List<CompanyMateriaOut> selectClListByName(@Param("name")String name);
+	
+	CompanyMateriaOut selectClInfoByNoAndClName(@Param("no")String no,@Param("clName")String clName);
 }

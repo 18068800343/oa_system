@@ -1,6 +1,5 @@
 package org.ldxx.bean;
 
-import java.util.List;
 
 /**
  * 公司材料出库
@@ -18,7 +17,8 @@ public class CompanyMateriaOut {
 	private String materialType;//材料类型
 	private String specificationModel;//规格型号
 	private String cmoUnit;//单位
-	private String cmoNumber;// 领料数量
+	private int cmoNumber;// 出库总数量
+	private int remainNumber;//剩余数量
 	private Float cmoUnitPrice;//价格
 	private Float cmoMoney;//金额
 	private String pickDate;//领料日期
@@ -30,7 +30,12 @@ public class CompanyMateriaOut {
 	private String uName; //人员名称
 	
 	
-	
+	public int getRemainNumber() {
+		return remainNumber;
+	}
+	public void setRemainNumber(int remainNumber) {
+		this.remainNumber = remainNumber;
+	}
 	public String getCgName() {
 		return cgName;
 	}
@@ -79,10 +84,10 @@ public class CompanyMateriaOut {
 	public void setCmoUnit(String cmoUnit) {
 		this.cmoUnit = cmoUnit;
 	}
-	public String getCmoNumber() {
+	public int getCmoNumber() {
 		return cmoNumber;
 	}
-	public void setCmoNumber(String cmoNumber) {
+	public void setCmoNumber(int cmoNumber) {
 		this.cmoNumber = cmoNumber;
 	}
 	public Float getCmoUnitPrice() {

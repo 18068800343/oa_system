@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../font3/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <style lang="">
@@ -70,37 +71,57 @@
                 <div>     
                     <form class="form-inline">
                         <table class="table table-bordered table-condensed" id="xinjianCailiao">
-                            <tr>
-                                <td style="width:15%;">材料名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td style="width:32%;">
-                                    <input type="text" class="form-control" id="cl_name" style="width:75%;">
+                             <tr>
+                                <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:38%;">
+                                	<select class="form-control" id="prj_name" style="width:65%;"> 
+                                		
+                                	</select>
                                 </td>
-                                <td style="width:15%;">材料类型</td>
-                                <td style="width:38%;"><input type="text" class="form-control" id="cl_type" style="width:65%;"></td>
+                                <td style="width:15%;">任务单号</td>
+                                <td style="width:32%;">
+                                	<select class="form-control" id="prj_no" style="width:75%;"> 
+                                		
+                                	</select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>材料名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" id="cl_name" style="width:65%;"> 
+                                		
+                                	</select>
+                                </td>
+                                <td>材料类型</td>
+                                <td><input type="text" class="form-control" id="cl_type" style="width:75%;" disabled></td>
                             </tr>
                             <tr>
                                 <td>规格型号</td>
-                                <td><input type="text" class="form-control" id="mode_type" style="width:75%;"></td>
+                                <td><input type="text" class="form-control" id="mode_type" style="width:65%;" disabled></td>
                                 <td>单位</td>
-                                <td><input type="text" class="form-control" id="unit" style="width:65%;"></td>
+                                <td><input type="text" class="form-control" id="unit" style="width:75%;" disabled></td>
                             </tr>
                             <tr>
-                                <td>领料数量</td>
-                                <td><input type="text" class="form-control" id="num" style="width:75%;"></td>
-                                <td>价格</td>
-                                <td><input type="text" class="form-control" id="price" style="width:65%;">&nbsp&nbsp&nbsp<button type="button" class="btn btn-default"  onclick="getSumPrice()">计算金额</button></td>
+                                <td>库存数量</td>
+                                <td><input type="text" class="form-control" id="all_num" style="width:65%;" disabled></td>
+                                <td>单价</td>
+                                <td><input type="text" class="form-control" id="price" style="width:75%;" disabled></td>
                             </tr>
                             <tr>
+                            	<td>领料数量</td>
+                                <td><input type="text" class="form-control" id="num"  style="width:65%;">&nbsp&nbsp&nbsp<button type="button" class="btn btn-default"  onclick="getSumPrice()">计算金额</button></td>
                                 <td>金额</td>
                                 <td><input type="text" class="form-control" id="sum_price" disabled style="width:75%;"></td>
-                                <td>领料日期</td>
-                                <td><input type="text" class="form-control" id="year" style="width:65%;"></td>
                             </tr>
                             <tr>
                                 <td>领料人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td><input type="text" class="form-control" id="get_person" style="width:75%;"></td>
-                                <td>备注</td>
-                                <td><input type="text" class="form-control" id="infos" style="width:65%;"></td>
+                                <td><input type="text" class="form-control" id="get_person" style="width:65%;"></td>
+                                <td>领料日期</td>
+                                <td><input type="text" class="form-control" id="year" style="width:75%;"></td>
+                            </tr>
+                            <tr>
+                            	<td>备注</td>
+                                <td colspan='3'><input type="text" class="form-control" id="infos" style="width:90%;"></td>
                             </tr>
                         </table>
                     </form>  
@@ -260,6 +281,7 @@
             effects: 'slide' 
         });
     	initTable();
+    	initSelect();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -371,13 +393,25 @@ Array.prototype.unique3 = function(){
     })
     
     function getSumPrice(){
+    	var reg=/^\+?[1-9][0-9]*$/; 
     	var num=$("#num").val();
     	var price=$("#price").val();
+    	var allNum=$("#all_num").val();
+    	if(!reg.test(num)){
+    		toastr.error("请输入数字")
+    		return;
+    	}
+    	if(Number(num)>Number(allNum)){
+    		toastr.error("领料数量不能超过总数量")
+    		return;
+    	}
     	var sum=num*price;
     	$("#sum_price").val(sum);
     }
     
     function save(){
+    	var prjName=$("#prj_name").val();
+    	var prjNo=$("#prj_no").val();
     	var clName=$("#cl_name").val();
     	var clType=$("#cl_type").val();
     	var modeType=$("#mode_type").val();
@@ -415,6 +449,83 @@ Array.prototype.unique3 = function(){
             }
         });
     }
-
+    
+    function initSelect(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/gsMaterialOut/selectXmMaterialOutByNo',
+            dataType: 'json',
+            data: {
+            	no:'%'
+            },
+            success: function (json) {
+               for(var i=0;i<json.length;i++){
+            	   $("#prj_name").append("<option value="+json[i].pickProject+">"+json[i].pickProject+"</option>");
+            	   $("#prj_no").append("<option value="+json[i].taskNo+">"+json[i].taskNo+"</option>");
+               }
+               
+               $('#prj_name').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/gsMaterialOut/selectNoByName',
+	                    dataType: 'json',
+	                    data: {
+	                    	name:$('#prj_name').val()
+	                    },
+	                    success: function (json) {
+	                    	var cm=json.cm;
+	                    	var list=json.cmList;
+	                    	$("#prj_no").val(cm.taskNo);
+	                    	$("#cl_name").html('');
+	                    	for(var i=0;i<list.length;i++){
+	                    		$("#cl_name").append("<option value="+list[i].materialName+">"+list[i].materialName+"</option>")
+	                    	}
+	                    	$("#cl_name").trigger("change");
+	                    }
+	          		});
+	          	})
+	          	$('#prj_no').editableSelect().on('select.editable-select', function (e, dom) {
+	          		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/gsMaterialOut/selectNameByNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	no:$('#prj_no').val()
+	                    },
+	                    success: function (json) {
+	                    	var cm=json.cm;
+	                    	var list=json.cmList;
+	                    	$("#prj_name").val(cm.pickProject);
+	                    	$("#cl_name").html('');
+	                    	for(var i=0;i<list.length;i++){
+	                    		$("#cl_name").append("<option value="+list[i].materialName+">"+list[i].materialName+"</option>")
+	                    	}
+	                    	$("#cl_name").trigger("change");
+	                    }
+	          		});
+			  	})
+               
+            }
+        });
+    }
+	
+    $("#cl_name").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/gsMaterialOut/selectClInfoByNoAndClName',
+            dataType: 'json',
+            data: {
+            	no:$('#prj_no').val(),
+            	clName:$("#cl_name").val()
+            },
+            success: function (json) {
+            	$("#cl_type").val(json.materialType);
+            	$("#mode_type").val(json.specificationModel);
+            	$("#unit").val(json.cmoUnit);
+            	$("#price").val(json.cmoUnitPrice);
+            	$("#all_num").val(json.cmoNumber);
+            }
+    	});
+    })
 </script>
 </html>

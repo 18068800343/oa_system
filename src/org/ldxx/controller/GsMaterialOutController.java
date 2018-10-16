@@ -44,5 +44,48 @@ public class GsMaterialOutController {
 		map.put("CompanyMateriaOut", cm);
 		return map;
 	}
+	
+	@RequestMapping("/selectXmMaterialOutByNo")
+	@ResponseBody
+	public List<CompanyMateriaOut> selectXmMaterialOutByNo(String no){
+		List<CompanyMateriaOut> list=service.selectXmMaterialOutByNo(no);
+		return list;
+	}
+	
+	@RequestMapping("/selectClByNo")
+	@ResponseBody
+	public List<CompanyMateriaOut> selectClByNo(String no){
+		List<CompanyMateriaOut> list=service.selectClByNo(no);
+		return list;
+	}
+	
+	@RequestMapping("/selectClInfoByNoAndClName")
+	@ResponseBody
+	public CompanyMateriaOut selectClInfoByNoAndClName(String no,String clName){
+		CompanyMateriaOut cm=service.selectClInfoByNoAndClName(no, clName);
+		return cm;
+	}
+	
+	@RequestMapping("/selectNoByName")
+	@ResponseBody
+	public Map<String,Object> selectNoByName(String name){
+		Map<String,Object> map=new HashMap<>();
+		CompanyMateriaOut cm=service.selectNoByName(name);
+		List<CompanyMateriaOut> list=service.selectClListByName(name);
+		map.put("cm", cm);
+		map.put("cmList", list);
+		return map;
+	}
+	
+	@RequestMapping("/selectNameByNo")
+	@ResponseBody
+	public Map<String,Object> selectNameByNo(String no){
+		Map<String,Object> map=new HashMap<>();
+		CompanyMateriaOut cm=service.selectNameByNo(no);
+		List<CompanyMateriaOut> list=service.selectClListByNo(no);
+		map.put("cm", cm);
+		map.put("cmList", list);
+		return map;
+	}
 
 }
