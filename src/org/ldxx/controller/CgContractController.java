@@ -260,4 +260,16 @@ public class CgContractController {
 	public List<CgContract> getCGNametaskNoAndByPrjName(String name){
 		return cgService.getCGNametaskNoAndByPrjName(name);
 	}
+	
+	@RequestMapping("/updateDepartmentMoney")//修改部门金额
+	@ResponseBody
+	public int updateDepartmentMoney(float price,String id){
+		return cgService.updateDepartmentMoney(price,id);
+	}
+	
+	@RequestMapping("/updateMaterialPrice")//修改材料单价
+	@ResponseBody
+	public int updateMaterialPrice(float price,String id){
+		return cgService.updateMaterialPrice(price,id);
+	}
 }

@@ -1,12 +1,16 @@
 package org.ldxx.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.FbContract;
+import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.CgContractDao;
+import org.ldxx.dao.MaterialDemandDao;
+import org.ldxx.dao.PrjMaterialBuyDao;
 import org.ldxx.service.CgContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,12 @@ public class CgContractServiceImpl implements CgContractService {
 	
 	@Autowired
 	private AccessoryDao adao;
+	
+	@Autowired
+	private PrjMaterialBuyDao pdao;
+	
+	@Autowired
+	private MaterialDemandDao mdao;
 
 	@Override
 	public List<CgContract> selectCgContractByStatus(String status) {
@@ -128,6 +138,17 @@ public class CgContractServiceImpl implements CgContractService {
 	@Override
 	public List<CgContract> getCGNametaskNoAndByPrjName(String name) {
 		return cgDao.getCGNametaskNoAndByPrjName(name);
+	}
+
+
+	@Override
+	public int updateDepartmentMoney(float price, String id) {
+		return pdao.updateSumPrice(price,id);
+	}
+
+	@Override
+	public int updateMaterialPrice(float price, String id) {
+		return mdao.updateMaterialPrice(price,id);
 	}
 
 }

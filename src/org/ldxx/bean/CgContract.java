@@ -17,8 +17,6 @@ public class CgContract {
 	private String prjName;//项目名称
 	private String isProgram;// 是否代购
 	private String cgcType;// 采购合同类型
-	private String cgDepartment;// 采购部门
-	private String departmentCgMoney;// 部门采购金额
 	private Float programMoney;// 代购金额
 	private Float cgContractMoney;// 采购合同金额
 	private String contractNameJia;// 合同甲方名称
@@ -29,14 +27,22 @@ public class CgContract {
 	private String workContent;// 主要概况及工作内容
 	private String makeTime; //当前时间
 	private String history;//历史状态
+	private String buyId;//材料采购id
 	    
 	private List<Accessory> accessory;
 
-	private String omName;// 部门名称
 	private String spName;// 乙方单位名称
 
 	
 	
+	public String getBuyId() {
+		return buyId;
+	}
+
+	public void setBuyId(String buyId) {
+		this.buyId = buyId;
+	}
+
 	public String getCgdNo() {
 		return cgdNo;
 	}
@@ -117,26 +123,6 @@ public class CgContract {
 		this.cgcType = cgcType;
 	}
 
-	public String getCgDepartment() {
-		return cgDepartment;
-	}
-
-	public void setCgDepartment(String cgDepartment) {
-		this.cgDepartment = cgDepartment;
-	}
-
-	
-
-	public String getDepartmentCgMoney() {
-		return departmentCgMoney;
-	}
-
-	public void setDepartmentCgMoney(String departmentCgMoney) {
-		this.departmentCgMoney = departmentCgMoney;
-	}
-
-	
-
 	public Float getProgramMoney() {
 		return programMoney;
 	}
@@ -207,14 +193,6 @@ public class CgContract {
 
 	public void setAccessory(List<Accessory> accessory) {
 		this.accessory = accessory;
-	}
-
-	public String getOmName() {
-		return omName;
-	}
-
-	public void setOmName(String omName) {
-		this.omName = omName;
 	}
 
 	public String getSpName() {

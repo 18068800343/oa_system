@@ -42,4 +42,8 @@ public interface CgContractService {
 
 	List<CgContract> getCGNametaskNoAndByPrjName(String name);
 
+	int updateDepartmentMoney(float price, String id);
+
+	int updateMaterialPrice(float price, String id);
+
 }
