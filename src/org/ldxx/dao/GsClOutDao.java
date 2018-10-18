@@ -14,4 +14,6 @@ public interface GsClOutDao {
 	List<GsClOut> selectClListByName(@Param("name")String name);
 	
 	int updateRemain(@Param("id")String id,@Param("remain")int remain);
+	
+	int updateRemainForEnd(@Param("id")String id);
 }

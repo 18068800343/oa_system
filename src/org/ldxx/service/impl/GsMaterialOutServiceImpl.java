@@ -46,11 +46,6 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 		return dao.selectNameByNo(no);
 	}
 
-	@Override
-	public CompanyMateriaOut selectClInfoByNoAndClName(String no, String clName) {
-		return dao.selectClInfoByNoAndClName(no, clName);
-	}
-
 	@Transactional
 	@Override
 	public int updateStatus(CompanyMateriaOut out) {
@@ -67,5 +62,11 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 	@Override
 	public List<CompanyMateriaOut> selectAllXmMaterialOut() {
 		return dao.selectAllXmMaterialOut();
+	}
+
+	@Override
+	public List<CompanyMateriaOut> selectCompanyMateriaOutForEnd(String no) {
+		no="%"+no+"%";
+		return dao.selectCompanyMateriaOutForEnd(no);
 	}
 }

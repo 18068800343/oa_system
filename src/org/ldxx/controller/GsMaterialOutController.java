@@ -68,12 +68,6 @@ public class GsMaterialOutController {
 		return list;
 	}
 	
-	@RequestMapping("/selectClInfoByNoAndClName")
-	@ResponseBody
-	public CompanyMateriaOut selectClInfoByNoAndClName(String no,String clName){
-		CompanyMateriaOut cm=service.selectClInfoByNoAndClName(no, clName);
-		return cm;
-	}
 	
 	@RequestMapping("/selectNoByName")
 	@ResponseBody
@@ -128,6 +122,13 @@ public class GsMaterialOutController {
 		}
 		int i=service.updateStatus(out);
 		return i;
+	}
+	
+	@RequestMapping("/selectCompanyMateriaOutForEnd")
+	@ResponseBody
+	public List<CompanyMateriaOut> selectCompanyMateriaOutForEnd(String no){
+		List<CompanyMateriaOut> list=service.selectCompanyMateriaOutForEnd(no);
+		return list;
 	}
 
 }

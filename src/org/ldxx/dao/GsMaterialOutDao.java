@@ -17,9 +17,11 @@ public interface GsMaterialOutDao {
 	
 	CompanyMateriaOut selectNameByNo(@Param("no")String no);
 	
-	CompanyMateriaOut selectClInfoByNoAndClName(@Param("no")String no,@Param("clName")String clName);
-	
-	int updateStatus(@Param("out")CompanyMateriaOut out);
+	int updateStatus(@Param("out")CompanyMateriaOut out);//更改验收信息
 	
 	List<CompanyMateriaOut> selectAllXmMaterialOut();
+	
+	List<CompanyMateriaOut> selectCompanyMateriaOutForEnd(@Param("no")String no);//项目结余列表
+	
+	int updateRemainStatus(@Param("id")String id);
 }

@@ -20,7 +20,8 @@
 	</select>
 	
 	<select id="selectAllXmMaterialOut" resultType="CompanyMateriaOut">
-		select  distinct task_no,pick_project from company_material_out
+		select DISTINCT task_no,pick_project from company_material_out where cmo_id in
+				(SELECT cmo_id FROM company_material_out where get_status=1)
 	</select>
 	
 	<select id="selectNoByName" resultType="CompanyMateriaOut">
@@ -31,12 +32,17 @@
 		select  distinct task_no,pick_project from company_material_out where task_no = #{no}
 	</select>
 	
-	<select id="selectClInfoByNoAndClName" resultType="CompanyMateriaOut">
-		select  material_name,material_type,specification_model,cmo_unit,cmo_number,cmo_unit_price,cmo_money,pick_date
-		from company_material_out where task_no = #{no} and material_name=#{clName}
-	</select>
-	
 	<update id="updateStatus" parameterType="CompanyMateriaOut">
 		update company_material_out set get_person=#{out.getPerson},get_infos=#{out.getInfos},get_status=1 where cmo_id=#{out.cmoId}
+	</update>
+	
+	<select id="selectCompanyMateriaOutForEnd" resultType="CompanyMateriaOut">
+		SELECT cmo_id,cg_no,cg_name,task_no,pick_project,pick_person,pick_date,remain_type
+			FROM company_material_out
+			where get_status=1 and task_no like #{no}
+	</select>
+	
+	<update id="updateRemainStatus" parameterType="String">
+		update company_material_out set remain_type=1 where cmo_id=#{id}
 	</update>
 </mapper>

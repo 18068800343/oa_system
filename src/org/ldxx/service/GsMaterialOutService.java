@@ -17,9 +17,9 @@ public interface GsMaterialOutService {
 	
 	CompanyMateriaOut selectNameByNo(String no);
 	
-	CompanyMateriaOut selectClInfoByNoAndClName(String no,String clName);
-	
 	int updateStatus(CompanyMateriaOut out);
 	
 	List<CompanyMateriaOut> selectAllXmMaterialOut();
+	
+	List<CompanyMateriaOut> selectCompanyMateriaOutForEnd(String no);
 }
