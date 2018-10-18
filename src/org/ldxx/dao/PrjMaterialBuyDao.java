@@ -19,4 +19,6 @@ public interface PrjMaterialBuyDao {
 	
 	public int updateSumPrice(@Param("sumPrice")float sumPrice,@Param("id")String id);
 
+	public List<PrjMaterialBuy> selectBuyByname(@Param("name")String name);
+
 }
