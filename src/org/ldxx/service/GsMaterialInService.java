@@ -27,5 +27,7 @@ public interface GsMaterialInService {
 
 	int updateGsMaterialInSave(CompanyMateriaIn cm);
 
+	int updateMaterialbuyUnitAndManufacturer(String id,String unit, String manufacturer);
+
 
 }

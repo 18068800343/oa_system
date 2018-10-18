@@ -25,8 +25,8 @@ public class GsClOut {
 	private String cmoUnit;//单位
 	private int cmoNumber;// 出库总数量
 	private int remainNumber;//剩余数量
-	private Float cmoUnitPrice;//价格
-	private Float cmoMoney;//金额
+	private Float cmoUnitPrice;//单价
+	private Float cmoMoney;//出库的金额
 	private String pickDate;//领料日期
 	
 	public String getGsId() {

@@ -2,40 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.GsMaterialInDao" >
 	<select id="selectGsMaterialIn" resultType="CompanyMateriaIn">
-		select *,o.om_name,b.u_name from company_material_in a
+		select * from company_material_in a
 		left join mode_status m on m.mode_id=a.cm_id
-		left join user b on a.collect_person=b.user_id
-		left join organization_management o on o.om_id=a.om_id
 		where m.status=2
 	</select>
 	<insert id="addGsMaterialInSave" parameterType="CompanyMateriaIn">
-		insert into company_material_in(cm_id,cg_no,cg_name,task_no,material_name,material_type,specification_model,
-			cm_unit,cm_number,cm_unit_price,cm_money,sent_date,sent_unit,manufacturer,om_id,collect_person,
-			demand_project,cm_desc,acceptance_opinion)
-		values(#{cm.cmId},#{cm.cgNo},#{cm.cgName},#{cm.taskNo},#{cm.materialName},#{cm.materialType},#{cm.specificationModel},#{cm.cmUnit},#{cm.cmNumber},
-		#{cm.cmUnitPrice},#{cm.cmMoney},#{cm.sentDate},#{cm.sentUnit},#{cm.manufacturer},#{cm.omId},#{cm.collectPerson},#{cm.demandProject},
-		#{cm.cmDesc},#{cm.acceptanceOpinion})
+		insert into company_material_in(cm_id,cg_no,cg_name,task_no,sent_date,collect_person,
+			demand_project,cm_desc,acceptance_opinion,buy_no)
+		values(#{cm.cmId},#{cm.cgNo},#{cm.cgName},#{cm.taskNo},#{cm.sentDate},#{cm.collectPerson},#{cm.demandProject},
+		#{cm.cmDesc},#{cm.acceptanceOpinion},#{cm.buyNo})
 	</insert>
 	<update id="updateGsMaterialInSave" parameterType="CompanyMateriaIn">
 		update company_material_in set 
 			cg_no=#{cm.cgNo},
 			cg_name=#{cm.cgName},
 			task_no=#{cm.taskNo},
-			material_name=#{cm.materialName},
-			material_type=#{cm.materialType},
-			specification_model=#{cm.specificationModel},
-			cm_unit=#{cm.cmUnit},
-			cm_number=#{cm.cmNumber},
-			cm_unit_price=#{cm.cmUnitPrice},
-			cm_money=#{cm.cmMoney},
 			sent_date=#{cm.sentDate},
-			sent_unit=#{cm.sentUnit},
-			manufacturer=#{cm.manufacturer},
-			om_id=#{cm.omId},
 			collect_person=#{cm.collectPerson},
 			demand_project=#{cm.demandProject},
 			cm_desc=#{cm.cmDesc},
-			acceptance_opinion=#{cm.acceptanceOpinion}
+			acceptance_opinion=#{cm.acceptanceOpinion},
+			buy_no=#{cm.buyNo}
 		where cm_id=#{cm.cmId}
 	</update>
 	<select id="selectcgNotaskNoPrjName" resultType="CompanyMateriaIn">
@@ -44,15 +31,15 @@
 		where m.status=2
 	</select>
 	<select id="selecttaskNoPrjNameBycgNo" resultType="CompanyMateriaIn">
-		select cg_name,task_no,demand_project,material_name,material_type,specification_model,cm_unit,cm_money from company_material_in where cg_no=#{cgNo}
+		select cg_name,task_no,demand_project from company_material_in where cg_no=#{cgNo}
 	</select>
 	<select id="selectcgNoPrjNameBytaskNo" resultType="CompanyMateriaIn">
-		select cg_no,cg_name,demand_project,material_name,material_type,specification_model,cm_unit,cm_money from company_material_in where task_no=#{taskNo}
+		select cg_no,cg_name,demand_project from company_material_in where task_no=#{taskNo}
 	</select>
 	<select id="selectcgNotaskNoByPrjName" resultType="CompanyMateriaIn">
-		select cg_no,cg_name,task_no,material_name,material_type,specification_model,cm_unit,cm_money from company_material_in where demand_project=#{name}
+		select cg_no,cg_name,task_no from company_material_in where demand_project=#{name}
 	</select>
 	<select id="selectcgNotaskNoPrjNameBycgName" resultType="CompanyMateriaIn">
-		select cg_no,task_no,demand_project,material_name,material_type,specification_model,cm_unit,cm_money from company_material_in where cg_name=#{cgName}
+		select cg_no,task_no,demand_project from company_material_in where cg_name=#{cgName}
 	</select>
 </mapper>

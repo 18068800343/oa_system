@@ -160,40 +160,6 @@ public class GsMaterialInController {
 		return i;
 	}
 	
-	@RequestMapping("/exportgsMaterialIn")//导出 
-	@ResponseBody
-	public void exportCooperator(HttpServletResponse response) throws Exception {
-		String xlsName = "公司材料入库";
-		ExportData exportData = new ExportData();
-		List<CompanyMateriaIn> projectList = gmService.selectGsMaterialIn();
-		List<List<String>> dataList = new ArrayList<>();
-		for (int i = 0; i < projectList.size(); i++) {
-			List<String> data = new ArrayList<>();
-			data.add(i + 1 + "");
-			data.add(projectList.get(i).getCgNo());
-			data.add(projectList.get(i).getTaskNo());
-			data.add(projectList.get(i).getDemandProject());
-			data.add(projectList.get(i).getMaterialName());
-			data.add(projectList.get(i).getMaterialType());
-			data.add(projectList.get(i).getSpecificationModel());
-			data.add(projectList.get(i).getCmUnit());
-			data.add(projectList.get(i).getCmNumber());
-			data.add(projectList.get(i).getCmUnitPrice()+"");
-			data.add(projectList.get(i).getCmMoney()+"");
-			data.add(projectList.get(i).getSentDate());
-			data.add(projectList.get(i).getSentUnit());
-			data.add(projectList.get(i).getManufacturer());
-			data.add(projectList.get(i).getOmName());
-			data.add(projectList.get(i).getuName());
-			data.add(projectList.get(i).getCmDesc());
-			data.add(projectList.get(i).getAcceptanceOpinion());
-			dataList.add(data);
-		}
-		String[] array = { "编号","采购合同号" , "任务单号", "需求项目", "材料名称", "材料类型","规格型号", "单位", "数量", "单价", "金额", "收货日期", "来货单位",
-				"生产厂家","收货人所属部门","收货人","备注","验收及处理意见"};
-		exportData.ExportWithResponse(xlsName, xlsName, array.length, array, dataList, response);
-	}
-	
 	@RequestMapping("/selectcgNotaskNoPrjName")//初始化采购合同号、采购合同名、任务单号、项目名 
 	@ResponseBody
 	public List<CompanyMateriaIn> selectcgNotaskNoPrjName(){
@@ -212,7 +178,21 @@ public class GsMaterialInController {
 		return gmService.selectcgNotaskNoPrjNameBycgName(cgName);
 	}
 	
-	@RequestMapping("/selectcgNoPrjNameBytaskNo")//通过任务单号查找采购合同号、采购合同名、项目名 、材料名称、材料类型、规格型号、单位、金额
+
+	@RequestMapping("/updateMaterialbuyUnitAndManufacturer")//修改材料的来货单位及生产厂家
+	@ResponseBody
+	public int updateMaterialbuyUnitAndManufacturer(String id,String unit,String manufacturer){
+		return gmService.updateMaterialbuyUnitAndManufacturer(id,unit,manufacturer);
+	}
+	
+	
+	/*@RequestMapping("/allOutgsMaterial")//全部出库
+	@ResponseBody
+	public void exportCooperator(HttpServletResponse response) throws Exception {
+		List<CompanyMateriaIn> projectList = gmService.selectGsMaterialIn();
+	}*/
+	
+	/*@RequestMapping("/selectcgNoPrjNameBytaskNo")//通过任务单号查找采购合同号、采购合同名、项目名 、材料名称、材料类型、规格型号、单位、金额
 	@ResponseBody
 	public List<CompanyMateriaIn> selectcgNoPrjNameBytaskNo(String taskNo){
 		return gmService.selectcgNoPrjNameBytaskNo(taskNo);
@@ -222,6 +202,5 @@ public class GsMaterialInController {
 	@ResponseBody
 	public List<CompanyMateriaIn> selectcgNotaskNoByPrjName(String name){
 		return gmService.selectcgNotaskNoByPrjName(name);
-	}
-
+	}*/
 }

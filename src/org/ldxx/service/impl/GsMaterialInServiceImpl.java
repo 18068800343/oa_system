@@ -6,6 +6,7 @@ import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CompanyMateriaIn;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.GsMaterialInDao;
+import org.ldxx.dao.MaterialDemandDao;
 import org.ldxx.service.GsMaterialInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,10 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	
 	@Autowired
 	private AccessoryDao adao;
-
+	
+	@Autowired
+	private MaterialDemandDao mdao;
+	
 	@Override
 	public List<CompanyMateriaIn> selectGsMaterialIn() {
 		return gmDao.selectGsMaterialIn();
@@ -77,6 +81,11 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	@Override
 	public int updateGsMaterialInSave(CompanyMateriaIn cm) {
 		return gmDao.updateGsMaterialInSave(cm);
+	}
+
+	@Override
+	public int updateMaterialbuyUnitAndManufacturer(String id,String unit, String manufacturer) {
+		return mdao.updateMaterialbuyUnitAndManufacturer(id,unit,manufacturer);
 	}
 
 

@@ -27,7 +27,6 @@ public class CgContract {
 	private String workContent;// 主要概况及工作内容
 	private String makeTime; //当前时间
 	private String history;//历史状态
-	private String buyId;//材料采购id
 	    
 	private List<Accessory> accessory;
 
@@ -35,14 +34,6 @@ public class CgContract {
 
 	
 	
-	public String getBuyId() {
-		return buyId;
-	}
-
-	public void setBuyId(String buyId) {
-		this.buyId = buyId;
-	}
-
 	public String getCgdNo() {
 		return cgdNo;
 	}

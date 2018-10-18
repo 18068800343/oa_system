@@ -22,9 +22,30 @@ public class MaterialDemand {
     private String name2;
 
     private String infos;
+    
+    private String buyUnit;//来货单位
+    
+    private String manufacturer;//生产厂家
 
     
-    public String getBuyId() {
+    
+    public String getBuyUnit() {
+		return buyUnit;
+	}
+
+	public void setBuyUnit(String buyUnit) {
+		this.buyUnit = buyUnit;
+	}
+
+	public String getManufacturer() {
+		return manufacturer;
+	}
+
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
+
+	public String getBuyId() {
 		return buyId;
 	}
 
