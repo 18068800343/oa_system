@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../font3/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <style lang="">
@@ -161,23 +162,21 @@
         </div>
         <div class="modal-body">
                 <div>
-                    <form class="form-inline">
+                    <form class="form-inline" method="post" id="form" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed" id="xinjianCailiao2">
                             <tr>
                                 <td style="width:20%;">收货人确认  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td style="width:30%;">
-                                    <select class="form-control" style="width:80%;">
-                                        <option value="123">123</option>
-                                        <option value="123">123</option>
-                                    </select>
+                                <td style="width:40%;">
+                                    <input type="text" class="form-control"  id="get_person" disabled>
+                                    <button type="button" class="btn btn-default" id="choosePerson" data-toggle="modal" data-target="#addChoose">选择收货人</button>
                                 </td>
-                                <td style="width:20%;">备注</td>
-                                <td style="width:30%;"><input type="text" class="form-control" style="width:80%;"></td>
+                                <td style="width:20%;"></td>
+                                <td style="width:20%;"></td>
                             </tr>
                             <tr>
                                 <td>验收及处理意见</td>
                                 <td colspan="7">
-                                    <textarea style="width:100%;" rows="4" class="form-control"></textarea>
+                                    <textarea style="width:100%;" rows="4" class="form-control" id="get_infos"></textarea>
                                 </td>
                             </tr>
                         </table>
@@ -186,7 +185,7 @@
 								<tr>
 	                                <td style="width:30%;">收货单附件:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 	                                <td colspan="2">
-	                                    <button type="button" class="btn btn-primary" onclick="new_accessory()">增加附件</button>
+	                                    <button type="button" class="btn btn-primary" id="addFile" onclick="new_accessory()">增加附件</button>
 	                                </td>
                             	</tr>
 							</thead>
@@ -197,8 +196,39 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-default" onclick="edit_save()">保存</button>
+            <button type="button" class="btn btn-success"  id="edit_save">保存</button>
         </div>
+        </div>
+    </div>
+</div>
+<!--选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addChoose">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择收货人</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>部门:</span>
+                            <select style="width:180px;" id="bumen" class="form-control" >
+                                
+                            </select>
+                            <span>人员:</span>
+                            <select style="width:180px;" id="guanliren" class="form-control" >
+                                
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveChoose()" data-dismiss="modal">确定</button>
+            </div>
         </div>
     </div>
 </div>
@@ -213,6 +243,7 @@
                         <th>采购合同名称</th>
                         <th>采购合同单号</th>
                         <th>入库日期</th>
+                        <th>是否确认收货</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -240,7 +271,6 @@
                         <th>数量</th>
                         <th>单价</th>
                         <th>金额</th>
-                        <th>收货日期</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -261,6 +291,8 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
 <script>
     $(document).ready( function () {
         laydate.render({
@@ -270,6 +302,7 @@
             effects: 'slide' 
         });
     	initPrj();
+    	initDepartment();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -287,15 +320,28 @@
 		            { "data": "cgName"}, 
 		            { "data": "cgNo"}, 
 		            { "data": "pickDate"}, 
+		            { "data": null}, 
 		            { "data": null}
 		        ],
 		        "columnDefs": [
+							{	
+								 "class": "tcenter",
+								    "targets": 5,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								    		if(full.getStatus==1){
+								    			return '<span class="label label-success state">已确认收货</span>';
+								    		}else{
+								    			return '<span class="label label-danger state">未确认收货</span>';
+								    		}
+								        }
+								  },
 								{	
 										 "class": "tcenter",
-										    "targets": 5,
+										    "targets": 6,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="look(this)" title="查看"></i><i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;margin-left:5px;" title="收货确认" onclick="edit()"></i><i class="iconfont icon-xiazai" style="font-size:20px;cursor:pointer;margin-left:5px;" title="附件列表" onclick="fileList()"></i>';
+										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="look(this)" title="查看"></i><i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;margin-left:5px;" title="收货确认" onclick="edit(this)"></i>';
 										        }
 										  }
 								],
@@ -336,8 +382,7 @@
 		            { "data": "cmoUnit"}, 
 		            { "data": "cmoNumber"}, 
 		            { "data": "cmoUnitPrice"}, 
-		            { "data": "cmoMoney"}, 
-		            { "data": "pickDate"}
+		            { "data": "cmoMoney"}
 		        ],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
@@ -446,10 +491,10 @@ Array.prototype.unique3 = function(){
     	var data=$("#mainContent").DataTable().row(tr).data();
     	$.ajax({
             type: 'POST',
-            url: getContextPath()+'/gsMaterialOut/selectClByNo',
+            url: getContextPath()+'/GsClOut/selectClByNo',
             dataType: 'json',
             data: {
-            	no:data.taskNo
+            	no:data.cmoId
             },
             success: function (json) {
                 $('#mainContent2').dataTable().fnClearTable();
@@ -469,13 +514,137 @@ Array.prototype.unique3 = function(){
   		$(tr).remove();
     }
     
+    var id;
     function edit(obj){
     	var tr=$(obj).parents("tr");
     	var data=$("#mainContent").DataTable().row(tr).data();
-    	
+    	var status=data.getStatus;
+    	id=data.cmoId;
+    	if(status==1){
+    		$("#get_person").val(data.getPerson);
+    		$("#get_infos").val(data.getInfos).attr("disabled",true);
+    		$("#choosePerson").attr("disabled",true);
+    		$("#addFile").attr("disabled",true);
+    		$("#edit_save").attr("disabled",true);
+    		$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/accessory/selectAccessoryById',
+                dataType: 'json',
+                data: {
+                	id:id
+                },
+                success: function (json) {
+                	for(var i=0;i<json.length;i++){
+	                	$("#new_accessory tbody").append("<tr><td style='width:20%;'>附件"+(i+1)+"</td><td style='width:50%;'>"+json[i].acName+"</td><td style='width:30%;'><button type='button' class='btn btn-primary' data2="+json[i].acUrl+" onclick='downloadFile(this)'>下载附件</button></td></tr>")
+                	}
+                }
+            });
+    	}else{
+    		$("#get_person").val('');
+    		$("#get_infos").val('').attr("disabled",false);
+    		$("#choosePerson").attr("disabled",false);
+    		$("#addFile").attr("disabled",false);
+    		$("#edit_save").attr("disabled",false);
+    		$("#new_accessory tbody").html('');
+    	}
     	$("#change").modal("show");
     }
     
+    function downloadFile(obj){
+		var filePath=$(obj).attr("data2");
+		var fileName=$(obj).parents("tr").find("td").eq(1).text();
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
+	}
+    
+    $("#edit_save").on("click",function(){
+    	var getPerson=$("#get_person").val();
+    	var getInfos=$("#get_infos").val();
+    	
+    	var options={
+    			 type: 'POST',
+    	            url: getContextPath()+'/gsMaterialOut/updateStatus',
+    	            dataType: 'json',
+    	            data: {
+    	            	cmoId:id,
+    	            	getPerson:getPerson,
+    	            	getInfos:getInfos
+    	            },
+    	            success: function (json) {
+    	            	if(json>0){
+    	            		$("#change").modal("hide");
+    	            		toastr.success("保存成功");
+    	            		location.reload([true]);
+    	            	}else{
+    	            		toastr.error("保存失败");
+    	            	}
+    	            }
+    	}
+    	$("#form").ajaxSubmit(options);
+    })
+    
+  //初始化收货人部门及人员
+	function initDepartment(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+	            	$("#bumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+            	}
+            	$("#bumen").trigger('change');
+            }
+        });
+	}
+	
+	$("#bumen").change(function(){
+		var bumen=$("#bumen").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataType:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$("#guanliren").empty();
+				for(var i=0;i<json.length;i++){
+					$("#guanliren").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+				}
+			}
+		})
+	})
+  //保存添加收货人
+	function saveChoose(){
+		var bumen=$("#bumen").val();
+		var guanliren=$("#guanliren").val();
+		$('#addGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		if(guanliren==''){
+			toastr.error("人员为空");
+			return;
+		}
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserById",
+			dataType:"json",
+			async:false,
+			data:{ 
+				userId:guanliren 
+				},
+			success:function(json){
+				$("#get_person").empty('');
+				$("#get_person").val(json.uName)
+			}
+		})
+	}
     
     
 </script>

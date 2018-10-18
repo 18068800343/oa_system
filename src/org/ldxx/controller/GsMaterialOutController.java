@@ -1,16 +1,23 @@
 package org.ldxx.controller;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CompanyMateriaOut;
+import org.ldxx.bean.GsClOut;
+import org.ldxx.service.GsClOutService;
 import org.ldxx.service.GsMaterialOutService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 公司材料出库
@@ -24,6 +31,8 @@ public class GsMaterialOutController {
 	
 	@Autowired
 	private GsMaterialOutService service;
+	@Autowired
+	private GsClOutService gservice;
 	
 	@RequestMapping("/selectGsMaterialOut")
 	@ResponseBody
@@ -52,10 +61,10 @@ public class GsMaterialOutController {
 		return list;
 	}
 	
-	@RequestMapping("/selectClByNo")
+	@RequestMapping("/selectAllXmMaterialOut")
 	@ResponseBody
-	public List<CompanyMateriaOut> selectClByNo(String no){
-		List<CompanyMateriaOut> list=service.selectClByNo(no);
+	public List<CompanyMateriaOut> selectAllXmMaterialOut(){
+		List<CompanyMateriaOut> list=service.selectAllXmMaterialOut();
 		return list;
 	}
 	
@@ -71,7 +80,7 @@ public class GsMaterialOutController {
 	public Map<String,Object> selectNoByName(String name){
 		Map<String,Object> map=new HashMap<>();
 		CompanyMateriaOut cm=service.selectNoByName(name);
-		List<CompanyMateriaOut> list=service.selectClListByName(name);
+		List<GsClOut> list=gservice.selectClListByName(name);
 		map.put("cmList", list);
 		map.put("cm", cm);
 		return map;
@@ -82,10 +91,43 @@ public class GsMaterialOutController {
 	public Map<String,Object> selectNameByNo(String no){
 		Map<String,Object> map=new HashMap<>();
 		CompanyMateriaOut cm=service.selectNameByNo(no);
-		List<CompanyMateriaOut> list=service.selectClListByNo(no);
+		List<GsClOut> list=gservice.selectClListByNo(no);
 		map.put("cmList", list);
 		map.put("cm", cm);
 		return map;
+	}
+	
+	@RequestMapping("/updateStatus")
+	@ResponseBody
+	public int updateStatus(CompanyMateriaOut out,@RequestParam MultipartFile [] file){
+		String id=out.getCmoId();
+		if(file!=null){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				Accessory accessory=new Accessory();
+				String acName=file[i].getOriginalFilename();
+				String url="D:"+File.separator+"oa"+File.separator+"CompanyMateriaOut"+File.separator+id;
+				File f=new File(url);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String acUrl=url+File.separator+acName;
+				File acFile=new File(acUrl);
+				accessory.setaId(id);
+				accessory.setAcName(acName);
+				accessory.setAcUrl(acUrl);
+				list.add(accessory);
+				try {
+					file[i].transferTo(acFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
+			}
+			out.setAccessory(list);
+		}
+		int i=service.updateStatus(out);
+		return i;
 	}
 
 }

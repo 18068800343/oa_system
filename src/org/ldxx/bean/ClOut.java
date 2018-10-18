@@ -8,6 +8,8 @@
 
 package org.ldxx.bean;
 
+import java.util.List;
+
 /** 
 * @ClassName: ClOut 
 * @Description: 项目材料出库
@@ -20,18 +22,24 @@ public class ClOut {
 	private String outId;
 	private String taskNo;
 	private String taskName;
-	private String clName;
-	private String clType;
-	private String modeType;
-	private String unit;
-	private int num;
-	private float price;
-	private float sumPrice;
 	private String getTime;
 	private String getPerson;
 	private String infos;
+	private List<ClOutInfo> cInfo;
 	
 	
+	public List<ClOutInfo> getcInfo() {
+		return cInfo;
+	}
+	public void setcInfo(List<ClOutInfo> cInfo) {
+		this.cInfo = cInfo;
+	}
+	public String getOutId() {
+		return outId;
+	}
+	public void setOutId(String outId) {
+		this.outId = outId;
+	}
 	public String getTaskNo() {
 		return taskNo;
 	}
@@ -43,54 +51,6 @@ public class ClOut {
 	}
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
-	}
-	public String getOutId() {
-		return outId;
-	}
-	public void setOutId(String outId) {
-		this.outId = outId;
-	}
-	public String getClName() {
-		return clName;
-	}
-	public void setClName(String clName) {
-		this.clName = clName;
-	}
-	public String getClType() {
-		return clType;
-	}
-	public void setClType(String clType) {
-		this.clType = clType;
-	}
-	public String getModeType() {
-		return modeType;
-	}
-	public void setModeType(String modeType) {
-		this.modeType = modeType;
-	}
-	public String getUnit() {
-		return unit;
-	}
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
-	public int getNum() {
-		return num;
-	}
-	public void setNum(int num) {
-		this.num = num;
-	}
-	public float getPrice() {
-		return price;
-	}
-	public void setPrice(float price) {
-		this.price = price;
-	}
-	public float getSumPrice() {
-		return sumPrice;
-	}
-	public void setSumPrice(float sumPrice) {
-		this.sumPrice = sumPrice;
 	}
 	public String getGetTime() {
 		return getTime;
@@ -110,6 +70,5 @@ public class ClOut {
 	public void setInfos(String infos) {
 		this.infos = infos;
 	}
-	
 	
 }

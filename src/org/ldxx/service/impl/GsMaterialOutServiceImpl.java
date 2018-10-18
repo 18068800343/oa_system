@@ -2,7 +2,9 @@ package org.ldxx.service.impl;
 
 import java.util.List;
 
+import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CompanyMateriaOut;
+import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.GsMaterialOutDao;
 import org.ldxx.service.GsMaterialOutService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,9 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 
 	@Autowired
 	private GsMaterialOutDao dao;
-
+	@Autowired
+	private AccessoryDao adao;
+	
 	@Override
 	public List<CompanyMateriaOut> selectGsMaterialOut() {
 		return dao.selectGsMaterialOut();
@@ -33,11 +37,6 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 	}
 
 	@Override
-	public List<CompanyMateriaOut> selectClByNo(String no) {
-		return dao.selectClByNo(no);
-	}
-
-	@Override
 	public CompanyMateriaOut selectNoByName(String name) {
 		return dao.selectNoByName(name);
 	}
@@ -48,17 +47,25 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 	}
 
 	@Override
-	public List<CompanyMateriaOut> selectClListByNo(String no) {
-		return dao.selectClListByNo(no);
-	}
-
-	@Override
-	public List<CompanyMateriaOut> selectClListByName(String name) {
-		return dao.selectClListByName(name);
-	}
-
-	@Override
 	public CompanyMateriaOut selectClInfoByNoAndClName(String no, String clName) {
 		return dao.selectClInfoByNoAndClName(no, clName);
+	}
+
+	@Transactional
+	@Override
+	public int updateStatus(CompanyMateriaOut out) {
+		int i=dao.updateStatus(out);
+		if(i>0){
+			List<Accessory> accessory=out.getAccessory();
+			if(accessory!=null){
+				i=adao.addAccessory(accessory);
+			}
+		}
+		return i;
+	}
+
+	@Override
+	public List<CompanyMateriaOut> selectAllXmMaterialOut() {
+		return dao.selectAllXmMaterialOut();
 	}
 }

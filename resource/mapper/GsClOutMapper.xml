@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.GsClOutDao" >
+  	<select id="selectClByNo" resultType="GsClOut">
+		select  gs_out_id,material_name,material_type,specification_model,cmo_unit,cmo_number,cmo_unit_price,cmo_money
+		from gs_cl_out where gs_out_id = #{no}
+	</select>
+	
+	<select id="selectClListByNo" resultType="GsClOut">
+		SELECT * FROM gs_cl_out where remain_number!=0 and gs_out_id in (select cmo_id from company_material_out where task_no=#{no} )
+	</select>
+	
+	<select id="selectClListByName" resultType="GsClOut">
+		SELECT * FROM gs_cl_out where remain_number!=0 and gs_out_id in (select cmo_id from company_material_out where pick_project=#{name} )
+	</select>
+	
+	<update id="updateRemain">
+		update gs_cl_out set remain_number=#{remain} where gs_id=#{id}
+	</update>
+</mapper>

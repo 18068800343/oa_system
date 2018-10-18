@@ -1,6 +1,8 @@
 package org.ldxx.bean;
 
-public class Accessory {
+import java.io.Serializable;
+
+public class Accessory{
     private String aId;
 
     private String acName;

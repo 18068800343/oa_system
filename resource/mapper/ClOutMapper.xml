@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.ClOutDao" >
-  	<insert id="addClOut" parameterType="java.util.List">
-  		insert into cl_out(out_id,task_name,task_no,cl_name,cl_type,mode_type,
-  			unit,num,price,sum_price,get_time,get_person,infos)
+  	<insert id="addClOut" parameterType="ClOut">
+  		insert into cl_out(out_id,task_name,task_no,get_time,get_person,infos)
+  		values(#{out.outId},#{out.taskName},#{out.taskNo},#{out.getTime},#{out.getPerson},#{out.infos})
+  	</insert>
+  	
+  	<insert id="addClOutInfo" parameterType="java.util.List">
+  		insert into cl_out_info(out_id,cl_name,cl_type,mode_type,unit,num,price,sum_price)
   		values
-		<foreach collection="out" index="index" item="o" separator=",">
-			(#{o.outId},#{o.taskName},#{o.taskNo},#{o.clName},#{o.clType},#{o.modeType},
-  				   #{o.unit},#{o.num},#{o.price},#{o.sumPrice},#{o.getTime},#{o.getPerson},#{o.infos})
-		</foreach>
+  		<foreach collection="cInfo" index="index" item="c" separator=",">
+  			(#{c.outId},#{c.clName},#{c.clType},#{c.modeType},#{c.unit},#{c.num},#{c.price},#{c.sumPrice})
+  		</foreach>
   	</insert>
   	
   	<select id="selectClOutByNo" resultType="clout">
-  		select DISTINCT task_name,task_no,get_time,get_person,infos  from cl_out where task_no like #{no}
+  		select out_id,task_name,task_no,get_time,get_person,infos  from cl_out where task_no like #{no}
   	</select>
   	
-  	<select id="selectClByNoAndTimeAndPerson" resultType="clout">
-  		select cl_name,cl_type,mode_type,unit,num,price,sum_price from cl_out 
-  		where task_no=#{no} and get_time=#{time} and get_person=#{person}
+  	<select id="selectClOutInfoById" resultType="clOutInfo">
+  		select * from cl_out_info
+  		where out_id=#{id}
   	</select>
 </mapper>
