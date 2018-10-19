@@ -30,4 +30,11 @@ public class ClRemainController {
 		return i;
 	}
 	
+	@RequestMapping("/selectClRemainById")
+	@ResponseBody
+	public List<ClRemain> selectClRemainById(String id){
+		List<ClRemain> list=service.selectClRemainById(id);
+		return list;
+	}
+	
 }

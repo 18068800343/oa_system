@@ -9,5 +9,6 @@ public interface ClRemainDao {
 	
 	public int addClRemain(@Param("cr") List<ClRemain> cr);
 	
+	public List<ClRemain> selectClRemainById(@Param("id")String id);
 
 }
