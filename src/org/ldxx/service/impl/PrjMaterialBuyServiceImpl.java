@@ -65,4 +65,9 @@ public class PrjMaterialBuyServiceImpl implements PrjMaterialBuyService{
 		return list;
 	}
 
+	@Override
+	public List<PrjMaterialBuy> selectBuyByname(String name) {
+		return dao.selectBuyByname(name);
+	}
+
 }

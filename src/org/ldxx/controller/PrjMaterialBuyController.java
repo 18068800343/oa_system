@@ -93,4 +93,10 @@ public class PrjMaterialBuyController {
 		return i;
 	}
 	
+	@RequestMapping("/selectBuyByname")//通过项目名获得材料信息
+	@ResponseBody
+	public List<PrjMaterialBuy> selectBuyByname(String name){
+		List<PrjMaterialBuy> list=service.selectBuyByname(name);
+		return list;
+	}
 }
