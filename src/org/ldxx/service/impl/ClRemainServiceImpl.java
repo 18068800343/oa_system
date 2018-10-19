@@ -3,10 +3,13 @@ package org.ldxx.service.impl;
 import java.util.List;
 
 import org.ldxx.bean.ClRemain;
+import org.ldxx.bean.CompanyMateriaOut;
+import org.ldxx.bean.GsClOut;
 import org.ldxx.dao.ClRemainDao;
 import org.ldxx.dao.GsClOutDao;
 import org.ldxx.dao.GsMaterialOutDao;
 import org.ldxx.service.ClRemainService;
+import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +41,23 @@ public class ClRemainServiceImpl implements ClRemainService{
 	@Override
 	public List<ClRemain> selectClRemainById(String id) {
 		return dao.selectClRemainById(id);
+	}
+
+	@Transactional
+	@Override
+	public int remainUse(CompanyMateriaOut cm) {
+		int i=gdao.addGsMaterialOutSave(cm);
+		if(i>0){
+			TimeUUID uuid=new TimeUUID();
+			String id=cm.getCmoId();
+			List<GsClOut> gsout=cm.getGsClOut();
+			for(int a=0;a<gsout.size();a++){
+				gsout.get(a).setGsOutId(id);
+				gsout.get(a).setGsId(uuid.getTimeUUID());
+			}
+			i=goDao.addgsClOut(gsout);
+		}
+		return i;
 	}
 
 }

@@ -334,6 +334,10 @@
                     		<td>转出时间：</td>
                     		<td><input type="text" style="width:80%;" class="form-control" id="out_time"></td>
                     	</tr>
+                    	<tr>
+                    		<td>备注：</td>
+                    		<td colspan="3"><input type="text" style="width:90%;" class="form-control" id="out_desc"></td>
+                    	</tr>
                     </table>
                     <table class="table table-bordered table-condensed"  id="remain_out_table">
                     	<thead>
@@ -355,7 +359,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+            <button type="button" class="btn btn-success"  onclick="saveJy()">提交</button>
         </div>
         </div>
     </div>
@@ -411,6 +415,7 @@
          });
     	 initDepartment();
         initPrj();
+        initSelectCG();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -741,7 +746,7 @@
 								"<td style='width:15%;'>"+json[i].specificationModel+"</td>"+
 								"<td style='width:10%;'>"+json[i].cmoUnit+"</td>"+
 								"<td style='width:10%;'>"+json[i].remainNumber+"</td>"+
-								"<td style='width:15%;'><input type='text' class='form-control' style='width:70%;'></td>"+
+								"<td style='width:15%;'><input type='text' data="+json[i].crId+" class='form-control' style='width:70%;'></td>"+
 								"<td style='width:10%;'>"+json[i].cmoUnitPrice+"</td>"+
 								"<td style='width:10%;'><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
 							"</tr>")
@@ -824,6 +829,205 @@
 			}
 		})
 	}
+	
+	//初始化采购合同名和采购合同号
+    function initSelectCG(){
+		$.ajax({
+        type: 'POST',
+        url: getContextPath()+'/cgcontract/selectCgIdAndName',
+        dataType: 'json',
+        data: {
+        },
+        error: function (msg) {
+        	toastr.error("请求失败");
+        },
+        success: function (json) {
+        	$("#in_cg_no").html('');
+        	$("#in_cg_name").html('');
+        	for(var i=0;i<json.length;i++){
+        		$("#in_cg_no").append("<option value="+json[i].cgNo+">"+json[i].cgNo+"</option>");
+        		$("#in_cg_name").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
+        	}
+        	
+        	$('#in_cg_no').editableSelect().on('select.editable-select', function (e, dom) {
+        		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/cgcontract/getCGNameByNo',
+                    dataType: 'json',
+                    data: {
+                    	cgNo:$('#in_cg_no').val()
+                    },
+                    success: function (json) {
+                    	$("#in_cg_name").val(json[0].contractName)
+                    	var prj_name=json[0].prjName;
+                    	var work_no=json[0].workNo;
+                    	$("#in_prj_name").html('');
+                    	for(var i=0;i<prj_name.split(",").length;i++){
+                    		$("#in_prj_name").append("<option value="+prj_name.split(",")[i]+">"+prj_name.split(",")[i]+"</option>")
+                    	}
+                    	$("#in_prj_no").html('');
+                    	for(var i=0;i<work_no.split(",").length;i++){
+                    		$("#in_prj_no").append("<option value="+work_no.split(",")[i]+">"+work_no.split(",")[i]+"</option>")
+                    	}
+                    }
+          		});
+          	})
+          	$('#in_cg_name').editableSelect().on('select.editable-select', function (e, dom) {
+        		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/cgcontract/getCGNoByName',
+                    dataType: 'json',
+                    data: {
+                    	contractName:$('#in_cg_name').val()
+                    },
+                    success: function (json) {
+                    	$("#in_cg_no").val(json[0].cgNo)
+                    	var prj_name=json[0].prjName;
+                    	var work_no=json[0].workNo;
+                    	$("#in_prj_name").html('');
+                    	for(var i=0;i<prj_name.split(",").length;i++){
+                    		$("#in_prj_name").append("<option value="+prj_name.split(",")[i]+">"+prj_name.split(",")[i]+"</option>")
+                    	}
+                    	$("#in_prj_no").html('');
+                    	for(var i=0;i<work_no.split(",").length;i++){
+                    		$("#in_prj_no").append("<option value="+work_no.split(",")[i]+">"+work_no.split(",")[i]+"</option>")
+                    	}
+                    }
+          		});
+          	})
+          	 
+        }
+		});
+	}
+	
+    $("#in_prj_name").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectTaskPrjNo',
+            dataType: 'json',
+            data: {
+            	prjName:$('#in_prj_name').val()
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+                	$('#in_prj_no').val(json[i].prjNo);
+            	}
+            }
+  		});
+    })
+    
+    $("#in_prj_no").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectTaskPrjName',
+            dataType: 'json',
+            data: {
+            	prjNo:$('#in_prj_no').val()
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+                	$('#in_prj_name').val(json[i].prjName);
+            	}
+            }
+  		});
+    })
+    
+    function saveJy(){
+    	var cgName=$("#in_cg_name").val();
+    	var cgNo=$("#in_cg_no").val();
+    	var prjName=$("#in_prj_name").val();
+    	var prjNo=$("#in_prj_no").val();
+    	var outPerson=$("#out_person").val();
+    	var outTime=$("#out_time").val();
+    	var cmoDesc=$("#out_desc").val();
+    	
+    	var cMOut={
+    			cmoId:undefined,
+    			cgNo:undefined,
+    			cgName:undefined,
+    			taskNo:undefined,
+    			pickProject:undefined,
+    			pickDate:undefined,
+    			pickPerson:undefined,
+    			cmoDesc:undefined,
+    			type:2,
+    			getPerson:undefined,
+    			getInfos:undefined,
+    			getStatus:0,
+    			remainType:0,
+    			gsClOut:undefined
+    			
+    	}
+    	cMOut.cgNo=cgNo;
+    	cMOut.cgName=cgName;
+    	cMOut.taskNo=prjNo;
+    	cMOut.pickProject=prjName;
+    	cMOut.pickDate=outTime;
+    	cMOut.pickPerson=outPerson;
+    	cMOut.cmoDesc=cmoDesc;
+    	
+    	var clInfoArray=new Array();
+    	$("#remain_out_table tbody").find("tr").each(function(){
+    		var clName=$(this).find("td").eq(0).text();
+    		var clType=$(this).find("td").eq(1).text();
+    		var modeType=$(this).find("td").eq(2).text();
+    		var unit=$(this).find("td").eq(3).text();
+    		var jy=$(this).find("td").eq(4).text();
+    		var price=$(this).find("td").eq(6).text();
+    		var outNum=$(this).find("input").eq(0).val();
+    		var reg=/^\+?[1-9][0-9]*$/;
+    		if(!reg.test(outNum)){
+    			toastr.error("请输入数字")
+        		return;
+    		}
+    		if(Number(outNum)>Number(jy)){
+        		toastr.error("领料数量不能超过结余总数")
+        		return;
+        	}
+    		
+    		var clInfo={
+    				gsId:undefined,
+    				gsOutId:undefined,                                          
+    				materialName:undefined,
+    				materialType:undefined,
+    				specificationModel:undefined,
+    				cmoUnit:undefined,
+    				cmoNumber:0,
+    				remainNumber:0,
+    				cmoUnitPrice:0,
+    				cmoMoney:0,
+    				pickDate:undefined
+    		}
+    		clInfo.materialName=clName;
+    		clInfo.materialType=clType;
+    		clInfo.specificationModel=modeType;
+    		clInfo.cmoUnit=unit;
+    		clInfo.cmoNumber=outNum;
+    		clInfo.remainNumber=outNum;
+    		clInfo.cmoUnitPrice=price;
+    		clInfo.cmoMoney=Number(outNum)*Number(price);
+    		clInfo.pickDate=outTime;
+    		clInfoArray.push(clInfo);
+    	})
+    	cMOut.gsClOut=clInfoArray;
+    	
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/ClRemain/remainUse',
+            dataType: 'json',
+            contentType:"application/json",
+            data: JSON.stringify(cMOut),
+            success: function (json) {
+            	if(json>0){
+            		$("#allMsg3").modal("hide");
+            		toastr.success("提交成功")
+            		location.reload([true]);
+            	}else{
+            		toastr.error("提交失败")
+            	}
+            }
+  		});
+    }
 
 </script>
 </html>
