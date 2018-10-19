@@ -49,7 +49,7 @@
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
-    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
+    <div class="modal-dialog modal-lg" role="document" style="width:75%;">
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -107,24 +107,28 @@
                     <table class="table table-bordered table-condensed"  id="cl_table">
                     	<thead>
                     		<tr>
-	                            <td style="font-size:24px;" colspan="7">添加材料需求  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                            <td style="font-size:24px;" colspan="8">添加材料需求  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 	                        	<td style="width:5%;"><button type="button" class="btn btn btn-primary" onclick="add()">添加</button></td>
                         	</tr>
                         	<tr>
-	                            <td>材料名称</td>
-	                            <td>材料型号</td>
-	                            <td style="width:8%;">单位</td>
+	                            <td style="width:10%;">材料名称</td>
+	                            <td style="width:10%;">材料类型</td>
+	                            <td style="width:10%;">规格型号</td>
+	                            <td style="width:6%;">单位</td>
 	                            <td style="width:8%;">数量</td>
-	                            <td>项目部推荐供应商</td>
-	                            <td>公司确定供应商</td>
-	                            <td>备注</td>
-	                            <td>操作</td>
+	                            <td style="width:15%;">项目部推荐供应商</td>
+	                            <td style="width:15%;">公司确定供应商</td>
+	                            <td style="width:10%;">备注</td>
+	                            <td style="width:6%;">操作</td>
                         	</tr>
                         </thead>
                         <tbody>
                         	<tr>
 	                        	<td><input type="text" class="form-control" id="cl_name"></td>
-	                            <td><input type="text" class="form-control" id="cl_type"></td>
+	                            <td>
+	                            	<select class="form-control" id="cl_type"></select>
+	                            </td>
+	                            <td><input type="text" class="form-control" id="mode_type"></td>
 	                            <td>
 	                                <select class="form-control" id="unit">
 	                                    <option value="个">个</option>
@@ -132,6 +136,8 @@
 	                                    <option value="套">套</option>
 	                                    <option value="副">副</option>
 	                                    <option value="双">双</option>
+	                                    <option value="万元">万元</option>
+	                                    <option value="桶">桶</option>
 	                                </select>
 	                            </td>
 	                            <td><input type="text" class="form-control" id="num"></td>
@@ -272,7 +278,8 @@
                         	</tr>
                         	<tr>
 	                            <td>材料名称</td>
-	                            <td>材料型号</td>
+	                            <td>材料类型</td>
+	                            <td>规格型号</td>
 	                            <td style="width:8%;">单位</td>
 	                            <td style="width:8%;">数量</td>
 	                            <td>单价</td>
@@ -370,7 +377,8 @@
                     		</tr>
                         	<tr>
 	                            <td>材料名称</td>
-	                            <td>材料型号</td>
+	                            <td>材料类型</td>
+	                            <td>规格型号</td>
 	                            <td style="width:8%;">单位</td>
 	                            <td style="width:8%;">数量</td>
 	                            <td>单价</td>
@@ -689,6 +697,7 @@
     	initPrj();
     	initSupplier();
     	initTable();
+    	initClType();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -938,6 +947,36 @@
     	})
     }
     
+    function initClType(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#cl_type").append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            	}
+            }
+  		});
+    }
+    
+    function initClType2(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#cl_type"+obj).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            	}
+            }
+  		});
+    }
+    
     function initSupplier(){
     	$.ajax({
             type: 'POST',
@@ -999,6 +1038,9 @@
     	var length=$("#cl_table tbody").find("tr").length;
     	$("#cl_table tbody").append("<tr>"+
         												'<td><input type="text" class="form-control"></td>'+
+        												'<td>'+
+        													'<select class="form-control" id="cl_type'+length+'"></select>'+
+        												'</td>'+
         												'<td><input type="text" class="form-control"></td>'+
         												'<td>'+
             												'<select class="form-control">'+
@@ -1007,6 +1049,8 @@
 	                											'<option value="套">套</option>'+
 	                											'<option value="副">副</option>'+
 	                											'<option value="双">双</option>'+
+	                											'<option value="万元">万元</option>'+
+	                											'<option value="桶">桶</option>'+
             												'</select>'+
         												'</td>'+
 												        '<td><input type="text" class="form-control"></td>'+
@@ -1022,11 +1066,13 @@
 												        '<td><button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button></td>'+
     												"</tr>")
     				initSupplier2(length);
+    				initClType2(length);
     }
     
     function add2(){
     	var length=$("#edit_cl_table tbody").find("tr").length;
     	$("#edit_cl_table tbody").append("<tr>"+
+        												'<td><input type="text" class="form-control"></td>'+
         												'<td><input type="text" class="form-control"></td>'+
         												'<td><input type="text" class="form-control"></td>'+
         												'<td>'+
@@ -1099,6 +1145,7 @@
     				mdlId:undefined,
     				materialName:undefined,
     				materialType:undefined,
+    				modeType:undefined,
     				buyCompany:undefined,
     				price:0,
     				num:0,
@@ -1107,16 +1154,22 @@
     				infos:undefined
     		}
     		var name=$(this).find("input").eq(0).val();
-    		var type=$(this).find("input").eq(1).val();
+    		var modeType=$(this).find("input").eq(1).val();
     		var num=$(this).find("input").eq(2).val();
-    		var infos=$(this).find("input").eq(3).val();
-    		var unit=$(this).find("select").eq(0).val();
-    		var department_tj=$(this).find("select").eq(1).val();
-    		var company_sure=$(this).find("select").eq(2).val();
+    		var price=$(this).find("input").eq(3).val();
+    		var infos=$(this).find("input").eq(4).val();
+    		
+    		var type=$(this).find("select").eq(0).val();
+    		var unit=$(this).find("select").eq(1).val();
+    		var department_tj=$(this).find("select").eq(2).val();
+    		var company_sure=$(this).find("select").eq(3).val();
+    		md.mdlId=mdlId;
     		md.materialName=name;
     		md.materialType=type;
+    		md.modeType=modeType;
     		md.buyCompany=unit;
     		md.num=num;
+    		md.price=price;
     		md.provideCompany=department_tj;
     		md.sureMaterialMode=company_sure;
     		md.infos=infos;
@@ -1164,6 +1217,7 @@
     				mdlId:undefined,
     				materialName:undefined,
     				materialType:undefined,
+    				modeType:undefined,
     				buyCompany:undefined,
     				price:0,
     				num:0,
@@ -1172,16 +1226,22 @@
     				infos:undefined
     		}
     		var name=$(this).find("input").eq(0).val();
-    		var type=$(this).find("input").eq(1).val();
+    		var modeType=$(this).find("input").eq(1).val();
     		var num=$(this).find("input").eq(2).val();
-    		var infos=$(this).find("input").eq(3).val();
-    		var unit=$(this).find("select").eq(0).val();
-    		var department_tj=$(this).find("select").eq(1).val();
-    		var company_sure=$(this).find("select").eq(2).val();
+    		var price=$(this).find("input").eq(3).val();
+    		var infos=$(this).find("input").eq(4).val();
+    		
+    		var type=$(this).find("select").eq(0).val();
+    		var unit=$(this).find("select").eq(1).val();
+    		var department_tj=$(this).find("select").eq(2).val();
+    		var company_sure=$(this).find("select").eq(3).val();
+    		md.mdlId=mdlId;
     		md.materialName=name;
     		md.materialType=type;
+    		md.modeType=modeType;
     		md.buyCompany=unit;
     		md.num=num;
+    		md.price=price;
     		md.provideCompany=department_tj;
     		md.sureMaterialMode=company_sure;
     		md.infos=infos;
@@ -1236,6 +1296,7 @@
             	    	$("#edit_cl_table tbody").append("<tr>"+
             	        												'<td><input type="text" class="form-control" value='+json[i].materialName+'></td>'+
             	        												'<td><input type="text" class="form-control" value='+json[i].materialType+'></td>'+
+            	        												'<td><input type="text" class="form-control" value='+json[i].materialType+'></td>'+
             	        												'<td>'+
             	            												'<select class="form-control" id="unit'+length+'">'+
             		               												'<option value="个">个</option>'+
@@ -1275,6 +1336,7 @@
     				mdlId:undefined,
     				materialName:undefined,
     				materialType:undefined,
+    				modeType:undefined,
     				buyCompany:undefined,
     				price:0,
     				num:0,
@@ -1283,16 +1345,19 @@
     				infos:undefined
     		}
     		var name=$(this).find("input").eq(0).val();
-    		var type=$(this).find("input").eq(1).val();
+    		var modeType=$(this).find("input").eq(1).val();
     		var num=$(this).find("input").eq(2).val();
     		var price=$(this).find("input").eq(3).val();
     		var infos=$(this).find("input").eq(4).val();
-    		var unit=$(this).find("select").eq(0).val();
-    		var department_tj=$(this).find("select").eq(1).val();
-    		var company_sure=$(this).find("select").eq(2).val();
+    		
+    		var type=$(this).find("select").eq(0).val();
+    		var unit=$(this).find("select").eq(1).val();
+    		var department_tj=$(this).find("select").eq(2).val();
+    		var company_sure=$(this).find("select").eq(3).val();
     		md.mdlId=mdlId;
     		md.materialName=name;
     		md.materialType=type;
+    		md.modeType=modeType;
     		md.buyCompany=unit;
     		md.num=num;
     		md.price=price;
@@ -1348,6 +1413,7 @@
             	    	$("#look_cl_table tbody").append("<tr>"+
             	        												'<td>'+json[i].materialName+'</td>'+
             	        												'<td>'+json[i].materialType+'</td>'+
+            	        												'<td>'+json[i].modeType+'</td>'+
             	        												'<td>'+json[i].buyCompany+'</td>'+
             													        '<td>'+json[i].num+'</td>'+
             													        '<td>'+json[i].price+'</td>'+

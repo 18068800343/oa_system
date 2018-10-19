@@ -955,8 +955,8 @@
     			getInfos:undefined,
     			getStatus:0,
     			remainType:0,
-    			gsClOut:undefined
-    			
+    			gsClOut:undefined,
+    			oRemain:undefined
     	}
     	cMOut.cgNo=cgNo;
     	cMOut.cgName=cgName;
@@ -967,6 +967,7 @@
     	cMOut.cmoDesc=cmoDesc;
     	
     	var clInfoArray=new Array();
+    	var oRemainArray=new Array();
     	$("#remain_out_table tbody").find("tr").each(function(){
     		var clName=$(this).find("td").eq(0).text();
     		var clType=$(this).find("td").eq(1).text();
@@ -975,6 +976,7 @@
     		var jy=$(this).find("td").eq(4).text();
     		var price=$(this).find("td").eq(6).text();
     		var outNum=$(this).find("input").eq(0).val();
+    		var id=$(this).find("input").eq(0).attr("data");
     		var reg=/^\+?[1-9][0-9]*$/;
     		if(!reg.test(outNum)){
     			toastr.error("请输入数字")
@@ -984,6 +986,14 @@
         		toastr.error("领料数量不能超过结余总数")
         		return;
         	}
+    		var remain=jy-outNum;
+    		var or={
+    				id:undefined,
+    				remain:0
+    		}
+    		or.id=id;
+    		or.remain=remain;
+    		oRemainArray.push(or);
     		
     		var clInfo={
     				gsId:undefined,
@@ -1010,6 +1020,7 @@
     		clInfoArray.push(clInfo);
     	})
     	cMOut.gsClOut=clInfoArray;
+    	cMOut.oRemain=oRemainArray
     	
     	$.ajax({
             type: 'POST',

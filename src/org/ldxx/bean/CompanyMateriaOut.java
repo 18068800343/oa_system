@@ -24,9 +24,17 @@ public class CompanyMateriaOut {
 	private String remainType;//结余状态 0 未结余 1 已结余
 	private List<Accessory> accessory;
 	private List<GsClOut> gsClOut;
+	private List<outRemain> oRemain;
 	
 	
-	
+	public List<outRemain> getoRemain() {
+		return oRemain;
+	}
+
+	public void setoRemain(List<outRemain> oRemain) {
+		this.oRemain = oRemain;
+	}
+
 	public List<GsClOut> getGsClOut() {
 		return gsClOut;
 	}

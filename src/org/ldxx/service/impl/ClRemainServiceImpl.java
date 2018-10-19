@@ -5,6 +5,7 @@ import java.util.List;
 import org.ldxx.bean.ClRemain;
 import org.ldxx.bean.CompanyMateriaOut;
 import org.ldxx.bean.GsClOut;
+import org.ldxx.bean.outRemain;
 import org.ldxx.dao.ClRemainDao;
 import org.ldxx.dao.GsClOutDao;
 import org.ldxx.dao.GsMaterialOutDao;
@@ -56,8 +57,15 @@ public class ClRemainServiceImpl implements ClRemainService{
 				gsout.get(a).setGsId(uuid.getTimeUUID());
 			}
 			i=goDao.addgsClOut(gsout);
+			List<outRemain> out=cm.getoRemain();
+			i=dao.updateClRemain(out);		
 		}
 		return i;
+	}
+
+	@Override
+	public int updateClRemain(List<outRemain> out) {
+		return dao.updateClRemain(out);
 	}
 
 }

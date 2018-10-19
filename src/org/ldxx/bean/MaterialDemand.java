@@ -8,6 +8,8 @@ public class MaterialDemand {
     private String materialName;
 
     private String materialType;
+    
+    private String modeType;
 
     private String buyCompany;
 
@@ -29,7 +31,15 @@ public class MaterialDemand {
 
     
     
-    public String getBuyUnit() {
+    public String getModeType() {
+		return modeType;
+	}
+
+	public void setModeType(String modeType) {
+		this.modeType = modeType;
+	}
+
+	public String getBuyUnit() {
 		return buyUnit;
 	}
 
