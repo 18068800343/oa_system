@@ -146,7 +146,7 @@
 
 <!-- 修改Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
-    <div class="modal-dialog modal-lg" role="document"  style="width:80%;">
+    <div class="modal-dialog modal-lg" role="document"  style="width:70%;">
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -252,7 +252,7 @@
     </div>
 <!-- allMsg -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
-    <div class="modal-dialog modal-lg" role="document" style="width:1500px">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%">
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -521,6 +521,7 @@
                     success: function (json) {
                     	console.log(json)
                     	for(var i=0;i<json.length;i++){
+                    		xginitMaterial(json[i].cgdNo)
                     		$("#xgcgName").val(json[i].contractName);
 	                    	$('#xgtaskNo').val(json[i].workNo);
 	                    	$('#xgprjName').val(json[i].prjName);
@@ -539,6 +540,7 @@
                     success: function (json) {
                     	console.log(json)
                     	for(var i=0;i<json.length;i++){
+                    		xginitMaterial(json[i].cgdNo)
                     		$("#xgcgNo").val(json[i].cgNo);
 	                    	$('#xgtaskNo').val(json[i].workNo);
 	                    	$('#xgprjName').val(json[i].prjName);
@@ -563,7 +565,7 @@
 				arr.push(list[i])
 			}
 		}else{
-			rr.push(list)
+			arr.push(list)
 		}
 		if(arr!=null){
 			$("#cailiaobiaoDiv table").remove();
@@ -581,6 +583,7 @@
                         	"</tr>"+
                         	"<tr>"+
                             	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
 	                            "<th>材料型号</th>"+
 	                            "<th style='width:6%;'>单位</th>"+
 	                            "<th>数量</th>"+
@@ -632,6 +635,8 @@
 		                		  				+"</td><td>"
 		                		  				+""+json[k].materialType+""
 		                		  				+"</td><td>"
+		                		  				+""+json[k].materialModel+""
+		                		  				+"</td><td>"
 		                		  				+""+json[k].buyCompany+""
 		                		  				+"</td><td>"
 		                		  				+""+json[k].num+""
@@ -657,7 +662,118 @@
 		  		});
 		  		
 	  		}else{
-	  			toastr.error("采购单号为空");
+	  			toastr.error("采购合同号为空");
+	  		}
+	}
+	
+	
+	var xgarrayClId=new Array();
+	function xginitMaterial(obj){
+		var arr=new Array();
+		if(obj.indexOf(",")){
+			var list=obj.split(",");
+			for(var i=0;i<list.length;i++){
+				arr.push(list[i])
+			}
+		}else{
+			arr.push(list)
+		}
+		if(arr!=null){
+			$("#xgcailiaobiaoDiv table").remove();
+			for(var i=0;i<arr.length;i++){
+				console.log(list[i])
+        		$("#xgcailiaobiaoDiv").append(
+        				"<table  class='table table-bordered table-condensed' id='xgcailiaobiao"+i+"'>"+
+                    	"<thead>"+
+                    		"<tr>"+
+                            	"<td>采购部门</td>"+
+                                "<td dataId='' id='xgcgbumen"+i+"'></td>"+
+                                "<td  colspan='2'>部门采购金额</td>"+
+                                "<td id='xgbumencgMoney"+i+"' colspan='2'></td>"+
+                            	"<th colspan='4' style='text-align:right;'></th>"+
+                        	"</tr>"+
+                        	"<tr>"+
+                            	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
+	                            "<th>材料型号</th>"+
+	                            "<th style='width:6%;'>单位</th>"+
+	                            "<th>数量</th>"+
+	                            "<th style='width:8%;'>单价</th>"+
+	                            "<th>项目部推荐供应商</th>"+
+	                            "<th>公司确定供应商</th>"+
+	                            "<th>来货单位</th>"+
+	                            "<th>生产厂家</th>"+
+	                            "<th>备注</th>"+
+                        	"</tr>"+
+                    	"</thead>"+
+                    	"<tbody>"+
+                    	"</tbody>"+
+                    "</table>"
+                    )}
+		  		$.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
+		            dataType: 'json',
+		            data: {
+		            	ids:arr.toString()
+		            },
+		            success: function (json) {
+		            	console.log(json)
+		            	for(var i=0;i<json.length;i++){
+		            		var omName=json[i].omName
+		            		var sumPrice=json[i].sumPrice;
+		            		var taskCode=json[i].taskCode;
+		            		if($.inArray(taskCode, xgarrayClId)==-1){
+		            			xgarrayClId.push(taskCode)
+		            		} 
+		            		$("#xgcgbumen"+i+"").text(json[i].omName)
+		            		$("#xgcgbumen"+i+"").attr("dataId",taskCode)
+		            		$("#xgbumencgMoney"+i+"").text(json[i].sumPrice)
+		            		
+		            		$.ajax({
+		                        type: 'POST',
+		                        url: getContextPath()+'/md/selectMaterialDemandById',
+		                        dataType: 'json',
+		                        async:false,
+		                        data: {
+		                        	id:json[i].pmbId
+		                        },
+		                        success: function (json) {
+		                        	console.log(json)
+		                        	for(var k=0;k<json.length;k++){
+		                        		$("#xgcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
+		                		  				+""+json[k].materialName+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].materialType+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].materialModel+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].buyCompany+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].num+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].price+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].name+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].name2+""
+		                		  				+"</td><td>"
+		                		  				+'<input type="text" class="form-control"  style="width:100%;">'
+		                		  				+"</td><td>"
+		                		  				+'<input type="text" class="form-control"  style="width:100%;">'
+		                		  				+"</td><td>"
+		                		  				+""+json[k].infos+""
+		                		  				+"</td></tr>")
+		                        	} 
+		                        }
+		              		});
+		            		
+		            	}
+		            }
+		  		});
+		  		
+	  		}else{
+	  			toastr.error("采购合同号为空");
 	  		}
 	}
 	
@@ -1036,6 +1152,7 @@
                         	"</tr>"+
                         	"<tr>"+
                             	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
 	                            "<th>材料型号</th>"+
 	                            "<th style='width:6%;'>单位</th>"+
 	                            "<th>数量</th>"+
@@ -1086,6 +1203,8 @@
 		                		  				+"</td><td>"
 		                		  				+""+json[k].materialType+""
 		                		  				+"</td><td>"
+		                		  				+""+json[k].materialModel+""
+		                		  				+"</td><td>"
 		                		  				+""+json[k].buyCompany+""
 		                		  				+"</td><td>"
 		                		  				+""+json[k].num+""
@@ -1121,7 +1240,6 @@
 	
 	//修改回显
 	var xgId;
-	var xgarrayClId=new Array();
 	function checkMSIn(obj){
 		var dom=$(obj).parents("tr");
 		var data=$("#mainContent").DataTable().row(dom).data();
@@ -1182,6 +1300,7 @@
                         	"</tr>"+
                         	"<tr>"+
                             	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
 	                            "<th>材料型号</th>"+
 	                            "<th style='width:6%;'>单位</th>"+
 	                            "<th>数量</th>"+
@@ -1232,6 +1351,8 @@
 		                		  				+""+json[k].materialName+""
 		                		  				+"</td><td>"
 		                		  				+""+json[k].materialType+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].materialModel+""
 		                		  				+"</td><td>"
 		                		  				+""+json[k].buyCompany+""
 		                		  				+"</td><td>"
