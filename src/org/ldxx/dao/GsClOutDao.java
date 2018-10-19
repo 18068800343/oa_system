@@ -16,4 +16,6 @@ public interface GsClOutDao {
 	int updateRemain(@Param("id")String id,@Param("remain")int remain);
 	
 	int updateRemainForEnd(@Param("id")String id);
+
+	int addgsClOut(@Param("gsClOut")List<GsClOut> gsClOut);
 }

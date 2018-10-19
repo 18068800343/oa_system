@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CompanyMateriaOut;
+import org.ldxx.bean.GsClOut;
 import org.ldxx.dao.AccessoryDao;
+import org.ldxx.dao.GsClOutDao;
 import org.ldxx.dao.GsMaterialOutDao;
 import org.ldxx.service.GsMaterialOutService;
+import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,9 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 	@Autowired
 	private AccessoryDao adao;
 	
+	@Autowired
+	private GsClOutDao gdao;
+	
 	@Override
 	public List<CompanyMateriaOut> selectGsMaterialOut() {
 		return dao.selectGsMaterialOut();
@@ -27,7 +33,22 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 
 	@Override
 	public int addGsMaterialOutSave(CompanyMateriaOut cm) {
-		return dao.addGsMaterialOutSave(cm);
+		List<GsClOut> gsClOut = cm.getGsClOut();
+		int i = dao.addGsMaterialOutSave(cm);
+		String id = cm.getCmoId();
+		String date = cm.getPickDate();
+		if(i>0){
+			TimeUUID uuid=new TimeUUID();
+			if(gsClOut!=null&&gsClOut.size()!=0){
+				for(int k=0;k<gsClOut.size();k++){
+					gsClOut.get(k).setGsId(uuid.getTimeUUID());
+					gsClOut.get(k).setGsOutId(id);
+					gsClOut.get(k).setPickDate(date);
+				}
+				i=gdao.addgsClOut(gsClOut);
+			}
+		}
+		return i;
 	}
 
 	@Override

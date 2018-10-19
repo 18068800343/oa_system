@@ -14,6 +14,7 @@ import org.ldxx.service.GsMaterialOutService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,14 +44,15 @@ public class GsMaterialOutController {
 	
 	@RequestMapping("/addGsMaterialOutSave")
 	@ResponseBody
-	public Map<String,Object> addGsMaterialOutSave(CompanyMateriaOut cm){
+	public Map<String,Object> addGsMaterialOutSave(@RequestBody List<CompanyMateriaOut> cm){
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
-		cm.setCmoId(id);
-		int i=service.addGsMaterialOutSave(cm);
+		CompanyMateriaOut materiaOut = cm.get(0);
+		materiaOut.setCmoId(id);
+		int i=service.addGsMaterialOutSave(materiaOut);
 		map.put("result", i);
-		map.put("CompanyMateriaOut", cm);
+		map.put("CompanyMateriaOut", materiaOut);
 		return map;
 	}
 	

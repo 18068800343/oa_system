@@ -23,9 +23,9 @@ public class GsClOut {
 	private String materialType;//材料类型
 	private String specificationModel;//规格型号
 	private String cmoUnit;//单位
+	private Float cmoUnitPrice;//单价
 	private int cmoNumber;// 出库总数量
 	private int remainNumber;//剩余数量
-	private Float cmoUnitPrice;//单价
 	private Float cmoMoney;//出库的金额
 	private String pickDate;//领料日期
 	

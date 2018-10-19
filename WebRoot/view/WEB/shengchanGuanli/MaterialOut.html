@@ -230,7 +230,7 @@
     </div>
 <!-- allMsg -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
-    <div class="modal-dialog modal-lg" role="document" style="width:1500px">
+    <div class="modal-dialog modal-lg" role="document" style="width:80%">
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -259,6 +259,11 @@
                     <td id="lookbeizhu"></td>
                 </tr>
             </table>
+            
+            <!--材料信息表格  -->
+             <div id="lookcailiaobiaoDiv">
+             
+             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -426,7 +431,6 @@
         	toastr.error("请求失败");
         },
         success: function (json) {
-        	console.log(json)
         	$("#cgNo").html('');
         	$("#cgName").html('');
         	for(var i=0;i<json.length;i++){
@@ -442,11 +446,9 @@
                     	cgNo:$('#cgNo').val()
                     },
                     success: function (json) {
-                    	console.log(json)
                     	for(var i=0;i<json.length;i++){
                     		$('#cgName').val(json[i].cgName);
                     		var prj=json[i].demandProject;
-                    		console.log(prj)
 	                 		var list=new Array();
                     		if(prj.indexOf(",")){
                     			var name=prj.split(",")
@@ -480,11 +482,25 @@
                     success: function (json) {
                     	console.log(json)
                     	for(var i=0;i<json.length;i++){
-                    		initMaterial(json[i].buyNo)
                     		$('#cgNo').val(json[i].cgNo);
-	                    	/* $('#taskNo').val(json[i].taskNo);
-	                    	$('#prjName').val(json[i].demandProject); */
+                    		var prj=json[i].demandProject;
+	                 		var list=new Array();
+                    		if(prj.indexOf(",")){
+                    			var name=prj.split(",")
+                    			for(var a=0;a<name.length;a++){
+                    				console.log(name[a])
+                    				list.push(name[a])
+                    			}
+                    		}else{
+                    			list.push(name)
+                    		}
+                    		$('#prjName').attr("disabled",false)
+                    		$('#prjName').empty();
+                    		for(var k=0;k<list.length;k++){
+                    			$('#prjName').append("<option value="+list[k]+">"+list[k]+"</option>")
+                    		}
                     	}
+                    	$('#prjName').trigger('change')
                     }
           		});
           	})
@@ -504,7 +520,7 @@
             	prjName:name
             },
             success: function (json) {
-            	console.log(json)
+            	//console.log(json)
             	for(var i=0;i<json.length;i++){
 	                $('#taskNo').val(json[i].prjNo);
             	}
@@ -619,20 +635,23 @@
 		//console.log(obj)
 		var num=$("#num").val();
 		if(num!=""){
-			var hetongMoney=0;
 			$("#cailiaobiaoDiv table").each(function(){
-				var bumenMoney=0;
-				$(this).find("tbody").eq(0).find("tr").each(function(){
-					var danjia=$(this).find("td").eq(4).find("input").val();
-					var num=$(this).find("td").eq(3).text();
-					var money=danjia*num
-					$(this).find("td").eq(5).text(money);
-					bumenMoney+=money;
+				$(this).find("tbody").find("tr").each(function(){
+					var shengyuNum=0;
+					var chukuMoney=0;
+					var num=$(this).find("td").eq(4).text();
+					var danjia=$(this).find("td").eq(5).text();
+					var lingnum=$(this).find("td").eq(6).find("input").val();
+					if(lingnum/1<num/1 || lingnum/1==num/1){
+						shengyuNum=num-lingnum
+						chukuMoney=danjia*lingnum
+					}else if(lingnum/1>num/1){
+						toastr.error("超出库中数量")
+					}
+					$(this).find("td").eq(7).text(shengyuNum);
+					$(this).find("td").eq(8).text(chukuMoney);
 				})
-				$(this).find("thead").eq(0).find("tr").eq(0).find("td").eq(3).text(bumenMoney)
-				hetongMoney+=bumenMoney;
 			})
-			$("#cghetongMoney").val(hetongMoney);
 		}
 	}
 	
@@ -780,54 +799,101 @@
 	
 	//填报保存
 	function saveClck(){
-		var cgNo=$("#cgNo").val();
-		var cgName=$("#cgName").val();
-		var taskNo=$("#taskNo").val();
-		var prjName=$("#prjName").val();
-		var clName=$("#clName").val();
-		var clType=$("#clType").val();
-		var xinghao=$("#xinghao").val();
-		var danwei=$("#danwei").val();
-		var number=$("#number").val();
-		var jiage=$("#jiage").val();
-		var Money=$("#Money").val();
-		var year=$("#year").val();
-		/* var bumen=$("#bumen").val();
-		var renyuan=$("#guanliren").val(); */
-		var renyuan=$("#lingliaoren").val();
-		var beizhu=$("#beizhu").val();
-		
-		
-		if(clName==''){
-			toastr.error("材料名称为空")
-			return;
-		}
-		
-		
-		$.ajax({
-			type: 'POST',
-            url: getContextPath()+'/gsMaterialOut/addGsMaterialOutSave',
-            dataType: 'json',
-            data: { 
-            	cgNo:cgNo,
-            	cgName:cgName,
-            	taskNo:taskNo,
-            	pickProject:prjName,
-            	pickDate:year,
-            	pickPerson:renyuan,
-            	cmoDesc:beizhu,
-            },
-            success: function (json) {
-            	console.log(json);
-            	if(json.result>0){
-					$("#myModal").modal("hide")
-					toastr.success("添加成功")
-					initTable();
-				}else{
-					toastr.error("添加失败")
-				}
-            }
-		})
+		var clOut= new Array();
+    	var material= new Array();
+    	//材料信息
+    	$("#cailiaobiao tbody").find("tr").each(function(){
+    		var data = $(this).children();
+    		var clname = data.eq(0).text();//材料名
+    	    var cltype = data.eq(1).text();//材料类型
+    	    var clxinghao = data.eq(2).text();//材料型号
+    	    var cldanwei = data.eq(3).text();//材料单位
+    	    var cldanjia = data.eq(5).text();//材料单价
+    	    var lingNum = data.eq(6).find("input").val();//领料数量
+    	    var shengyuNum = data.eq(7).text();//剩余数量
+    	    var outMoney = data.eq(8).text();//出库金额
+    	    
+    	    var arr={
+    	    		gsId:undefined,
+    	    		gsOutId:undefined,
+    	    		materialName:undefined,
+    	    		materialType:undefined,
+    	    		specificationModel:undefined,
+    	    		cmoUnit:undefined,
+    	    		cmoUnitPrice:undefined,
+    	    		cmoNumber:undefined,
+    	    		remainNumber:undefined,
+    	    		cmoMoney:undefined,
+    	    		pickDate:undefined
+    	    }
+    	    arr.gsId=null;
+    	    arr.gsOutId=null;
+    	    arr.materialName=clname;
+    	    arr.materialType=cltype;
+    	    arr.specificationModel=clxinghao;
+    	    arr.cmoUnit=cldanwei;
+    	    arr.cmoUnitPrice=cldanjia
+    	    arr.cmoNumber=lingNum;
+    	    arr.remainNumber=shengyuNum;
+    	    arr.cmoMoney=outMoney;
+    	    arr.pickDate=null;
+    	    material.push(arr);
+    	    //console.log(material)
+    	})
+    	if(material.length!=0){
+	    	var cgNo=$("#cgNo").val();
+			var cgName=$("#cgName").val();
+			var taskNo=$("#taskNo").val();
+			var prjName=$("#prjName").val();
+			var year=$("#year").val();
+			var renyuan=$("#lingliaoren").val();
+			var beizhu=$("#beizhu").val();
+			if(cgNo==''){
+				toastr.error("采购合同号为空")
+				return;
+			}
+			var arr2={
+					cmoId:undefined,
+					cgNo:undefined,
+					cgName:undefined,
+					taskNo:undefined,
+					pickProject:undefined,
+					pickDate:undefined,
+					pickPerson:undefined,
+					cmoDesc:undefined,
+					gsClOut:undefined
+    		}
+			arr2.cmoId=null;
+			arr2.cgNo=cgNo;
+			arr2.cgName=cgName;
+			arr2.taskNo=taskNo;
+			arr2.pickProject=prjName;
+			arr2.pickDate=year;
+			arr2.pickPerson=renyuan;
+			arr2.cmoDesc=beizhu;
+			arr2.gsClOut=material;
+			clOut.push(arr2);
+    		console.log(clOut)
+			$.ajax({
+				type: 'POST',
+	            url: getContextPath()+'/gsMaterialOut/addGsMaterialOutSave',
+	            dataType: 'json',
+	            contentType:'application/json',
+	            data:JSON.stringify(clOut),
+	            success: function (json) {
+	            	console.log(json);
+	            	if(json.result>0){
+						$("#myModal").modal("hide")
+						toastr.success("添加成功")
+						initTable();
+					}else{
+						toastr.error("添加失败")
+					}
+	            }
+			}) 
+	    }else{
+	    	toastr.error("材料信息为空")
+	    }
 		
 	}
 	
@@ -845,6 +911,92 @@
 		$("#lookyear").text(data.pickDate);
 		$("#looklingliaoren").text(data.pickPerson);
 		$("#lookbeizhu").text(data.cmoDesc);
+		
+		if(data.pickProject!=null){
+			$("#lookcailiaobiaoDiv table").remove();
+				//console.log(list[i])
+        		$("#lookcailiaobiaoDiv").append(
+        				"<table  class='table table-bordered table-condensed' id='lookcailiaobiao'>"+
+                    	"<thead>"+
+                    		"<tr>"+
+                            	"<td>采购部门</td>"+
+                                "<td dataId='' id='lookcgbumen'></td>"+
+                                "<td  colspan='2'>部门采购金额</td>"+
+                                "<td id='lookbumencgMoney' colspan='2'></td>"+
+                            	"<th colspan='4' style='text-align:right;'></th>"+
+                        	"</tr>"+
+                        	"<tr>"+
+                            	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
+	                            "<th>材料型号</th>"+
+	                            "<th style='width:6%;'>单位</th>"+
+	                            "<th style='width:8%;'>单价</th>"+
+	                            "<th style='width:8%;'>领料数量</th>"+
+	                            "<th>剩余数量</th>"+
+	                            "<th>出库金额</th>"+
+                        	"</tr>"+
+                    	"</thead>"+
+                    	"<tbody>"+
+                    	"</tbody>"+
+                    "</table>"
+                    )
+		  		$.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByname',
+		            dataType: 'json',
+		            data: {
+		            	name:data.pickProject
+		            },
+		            success: function (json) {
+		            	console.log(json)
+		            	for(var i=0;i<json.length;i++){
+		            		var omName=json[i].omName
+		            		var sumPrice=json[i].sumPrice;
+		            		var taskCode=json[i].taskCode;
+		            		if($.inArray(taskCode, arrayClId)==-1){
+		            			arrayClId.push(taskCode)
+		            		} 
+		            		$("#lookcgbumen").text(json[i].omName)
+		            		$("#lookcgbumen").attr("dataId",taskCode)
+		            		$("#lookbumencgMoney").text(json[i].sumPrice)
+		            		
+		            		$.ajax({
+		                        type: 'POST',
+		                        url: getContextPath()+'/GsClOut/selectClByNo',
+		                        dataType: 'json',
+		                        async:false,
+		                        data: {
+		                        	no:data.cmoId
+		                        },
+		                        success: function (json) {
+		                        	console.log(json)
+		                        	for(var k=0;k<json.length;k++){
+		                        		$("#lookcailiaobiao tbody").append("<tr dataId="+json[k].mdlId+"><td>"
+		                		  				+""+json[k].materialName+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].materialType+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].specificationModel+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].cmoUnit+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].cmoUnitPrice+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].cmoNumber+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].remainNumber+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].cmoMoney+""
+		                		  				+"</td></tr>")
+		                        	} 
+		                        }
+		              		});
+		            		
+		            	}
+		            }
+		  		});
+		  		
+	  		}
 	}
 	
 	

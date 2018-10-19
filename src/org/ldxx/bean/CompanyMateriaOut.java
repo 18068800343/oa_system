@@ -23,8 +23,18 @@ public class CompanyMateriaOut {
 	private String getStatus;//收货状态 0：未确认收货 1：确认收货
 	private String remainType;//结余状态 0 未结余 1 已结余
 	private List<Accessory> accessory;
+	private List<GsClOut> gsClOut;
 	
 	
+	
+	public List<GsClOut> getGsClOut() {
+		return gsClOut;
+	}
+
+	public void setGsClOut(List<GsClOut> gsClOut) {
+		this.gsClOut = gsClOut;
+	}
+
 	public List<Accessory> getAccessory() {
 		return accessory;
 	}
