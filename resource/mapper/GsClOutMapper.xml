@@ -30,4 +30,34 @@
 	    	 #{item.cmoUnit},#{item.cmoNumber},#{item.remainNumber},#{item.cmoUnitPrice},#{item.cmoMoney},#{item.pickDate})
     	</foreach>
 	</insert>
+	
+	<select id="selectClListByIds" resultType="GsClOut">
+		SELECT * FROM gs_cl_out where gs_out_id in(
+			SELECT
+				cmo_id
+			FROM
+				company_material_out
+			WHERE
+				cg_no = #{cgNo}
+			AND cg_name = #{cgName}
+			AND task_no = #{taskNo}
+			AND get_status = 1
+			AND remain_type = 0
+		)
+	</select>
+	
+	<select id="selectClListByIds2" resultType="GsClOut">
+		SELECT * FROM gs_cl_out where gs_out_id in(
+			SELECT
+				cmo_id
+			FROM
+				company_material_out
+			WHERE
+				cg_no = #{cgNo}
+			AND cg_name = #{cgName}
+			AND pick_project = #{name}
+			AND get_status = 1
+			AND remain_type = 0
+		)
+	</select>
 </mapper>

@@ -18,4 +18,8 @@ public interface GsClOutDao {
 	int updateRemainForEnd(@Param("id")String id);
 
 	int addgsClOut(@Param("gsClOut")List<GsClOut> gsClOut);
+	
+	List<GsClOut> selectClListByIds(@Param("cgNo")String cgNo,@Param("cgName")String cgName,@Param("taskNo")String taskNo);
+	
+	List<GsClOut> selectClListByIds2(@Param("cgNo")String cgNo,@Param("cgName")String cgName,@Param("name")String name);
 }

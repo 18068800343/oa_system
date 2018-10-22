@@ -2,7 +2,6 @@ package org.ldxx.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CompanyMateriaOut;
 
 public interface GsMaterialOutService {
@@ -24,4 +23,10 @@ public interface GsMaterialOutService {
 	List<CompanyMateriaOut> selectCompanyMateriaOutForEnd(String no);
 	
 	List<CompanyMateriaOut> selectCompanyMateriaOutForWaste(String no);
+	
+	List<CompanyMateriaOut> selectCgIdAndName();
+	
+	List<CompanyMateriaOut> selectTaskByNo(String no);
+	
+	List<CompanyMateriaOut> selectTaskByName(String name);
 }

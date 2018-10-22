@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ldxx.bean.ClRemain;
 import org.ldxx.bean.CompanyMateriaOut;
+import org.ldxx.bean.GsClOut;
 import org.ldxx.service.ClRemainService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,10 @@ public class ClRemainController {
 		return i;
 	}
 	
-	@RequestMapping("/selectClRemainById")
+	@RequestMapping("/selectGsClOutById")
 	@ResponseBody
-	public List<ClRemain> selectClRemainById(String id){
-		List<ClRemain> list=service.selectClRemainById(id);
+	public List<GsClOut> selectGsClOutById(String id){
+		List<GsClOut> list=service.selectGsClOutById(id);
 		return list;
 	}
 	
@@ -45,13 +46,6 @@ public class ClRemainController {
 		String id = uuid.getTimeUUID();
 		cm.setCmoId(id);
 		int i=service.remainUse(cm);
-		return i;
-	}
-	
-	@RequestMapping("/wasteDispose")
-	@ResponseBody
-	public int wasteDispose(@RequestBody CompanyMateriaOut cm){
-		int i=service.updateWasteDispose(cm);
 		return i;
 	}
 	

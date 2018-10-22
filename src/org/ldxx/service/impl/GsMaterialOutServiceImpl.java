@@ -96,4 +96,20 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 		no="%"+no+"%";
 		return dao.selectCompanyMateriaOutForWaste(no);
 	}
+
+	@Override
+	public List<CompanyMateriaOut> selectCgIdAndName() {
+		return dao.selectCgIdAndName();
+	}
+
+	@Override
+	public List<CompanyMateriaOut> selectTaskByNo(String no) {
+		return dao.selectTaskByNo(no);
+	}
+
+	@Override
+	public List<CompanyMateriaOut> selectTaskByName(String name) {
+		return dao.selectTaskByName(name);
+	}
+
 }

@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CgContract;
 import org.ldxx.bean.CompanyMateriaOut;
 import org.ldxx.bean.GsClOut;
+import org.ldxx.dao.CgContractDao;
 import org.ldxx.service.GsClOutService;
 import org.ldxx.service.GsMaterialOutService;
 import org.ldxx.util.TimeUUID;
@@ -34,6 +36,8 @@ public class GsMaterialOutController {
 	private GsMaterialOutService service;
 	@Autowired
 	private GsClOutService gservice;
+	@Autowired
+	private CgContractDao cdao;
 	
 	@RequestMapping("/selectGsMaterialOut")
 	@ResponseBody
@@ -138,5 +142,56 @@ public class GsMaterialOutController {
 	public List<CompanyMateriaOut> selectCompanyMateriaOutForWaste(String no){
 		List<CompanyMateriaOut> list=service.selectCompanyMateriaOutForWaste(no);
 		return list;
+	}
+	
+	@RequestMapping("/selectCgIdAndName")
+	@ResponseBody
+	public List<CompanyMateriaOut> selectCgIdAndName(){
+		List<CompanyMateriaOut> list=service.selectCgIdAndName();
+		return list;
+	}
+	
+	@RequestMapping("/selectCgListByName")
+	@ResponseBody
+	public Map<String,Object> selectCgListByName(String name){
+		Map<String,Object> map=new HashMap<>();
+		List<CgContract> cg=cdao.getCGNoByName(name);
+		List<CompanyMateriaOut> cm=service.selectTaskByName(name);
+		map.put("cg", cg);
+		map.put("cm", cm);
+		return map;
+	}
+	
+	@RequestMapping("/selectCgListByNo")
+	@ResponseBody
+	public Map<String,Object> selectCgListByNo(String no){
+		Map<String,Object> map=new HashMap<>();
+		List<CgContract> cg=cdao.getCGNameByNo(no);
+		List<CompanyMateriaOut> cm=service.selectTaskByNo(no);
+		map.put("cg", cg);
+		map.put("cm", cm);
+		return map;
+	}
+	
+	@RequestMapping("/selectPrjNoAndCl")
+	@ResponseBody
+	public Map<String,Object> selectPrjNoAndCl(String cgNo,String cgName,String name){
+		Map<String,Object> map=new HashMap<>();
+		CompanyMateriaOut cm=service.selectNoByName(name);
+		List<GsClOut> gc=gservice.selectClListByIds2(cgNo, cgName, name);
+		map.put("cm", cm);
+		map.put("gc", gc);
+		return map;
+	}
+	
+	@RequestMapping("/selectPrjNameAndCl")
+	@ResponseBody
+	public Map<String,Object> selectPrjNameAndCl(String cgNo,String cgName,String no){
+		Map<String,Object> map=new HashMap<>();
+		CompanyMateriaOut cm=service.selectNameByNo(no);
+		List<GsClOut> gc=gservice.selectClListByIds(cgNo, cgName, no);
+		map.put("cm", cm);
+		map.put("gc", gc);
+		return map;
 	}
 }

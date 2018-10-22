@@ -28,4 +28,11 @@ public interface GsMaterialOutDao {
 	int updateRemainStatus(@Param("id")String id);
 	
 	int updateWasteDispose(@Param("out")CompanyMateriaOut out);
+	
+	List<CompanyMateriaOut> selectCgIdAndName();
+	
+	List<CompanyMateriaOut> selectTaskByNo(@Param("no")String no);
+	
+	List<CompanyMateriaOut> selectTaskByName(@Param("name")String name);
+	
 }

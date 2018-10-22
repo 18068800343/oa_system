@@ -34,4 +34,14 @@ public class GsClOutServiceImpl implements GsClOutService{
 		return dao.updateRemain(id, remain);
 	}
 
+	@Override
+	public List<GsClOut> selectClListByIds(String cgNo, String cgName, String taskNo) {
+		return dao.selectClListByIds(cgNo, cgName, taskNo);
+	}
+
+	@Override
+	public List<GsClOut> selectClListByIds2(String cgNo, String cgName, String name) {
+		return dao.selectClListByIds2(cgNo, cgName, name);
+	}
+
 }

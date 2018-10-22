@@ -53,10 +53,10 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL" style="font-size:18px;">
-                <select class="form-control" id="prj"></select>
+                <!-- <select class="form-control" id="prj"></select> -->
             </div>
             <div class="UpperPartR">
-               <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报</button>  -->
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报</button>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -73,21 +73,29 @@
                             <tr>
                                 <td style="width:18%;">采购合同编号 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:34%;">
-                                    <input type="text" class="form-control" style="width:66%;" id="cg_no" disabled>
+                                    <select class="form-control" style="width:66%;" id="cg_no" >
+                                    	
+                                    </select>
                                  </td>
                                  <td style="width:18%;">采购合同名称 </td>
                                  <td style="width:30%;">
-                                 	<input type="text" class="form-control" style="width:80%;" id="cg_name" disabled>
+                                  	<select class="form-control" style="width:80%;" id="cg_name">
+                                    	
+                                    </select>
                                  </td>
                             </tr>
                             <tr>
                                 <td>任务单号</td>
                                 <td>
-                                	<input type="text" class="form-control" style="width:66%;" id="prj_no" disabled>
+                                	<select class="form-control" style="width:66%;" id="prj_no">
+                                    	
+                                    </select>
                                 </td>
                                 <td>项目名称</td>
                                 <td>
-                                	<input type="text" class="form-control" style="width:80%;" id="prj_name" disabled>
+                                	<select class="form-control" style="width:80%;" id="prj_name">
+                                    	
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
@@ -123,15 +131,15 @@
                         	<thead>
                         		<tr>
                         			<th style="width:12%;">材料名称</th>
-                        			<th style="width:12%;">材料类型</th>
-                        			<th style="width:12%;">规格型号</th>
+                        			<th style="width:10%;">材料类型</th>
+                        			<th style="width:10%;">规格型号</th>
                         			<th style="width:8%;">单位</th>
                         			<th style="width:8%;">处理数量</th>
-                        			<th style="width:9%;">采购单价</th>
-                        			<th style="width:10%;">采购金额</th>
-                        			<th style="width:15%;">拟折价出售金额</th>
+                        			<th style="width:8%;">采购单价</th>
+                        			<th style="width:9%;">采购金额</th>
+                        			<th style="width:14%;">拟折价出售金额</th>
                         			<th style="width:15%;">实际折价出售金额</th>
-                        			<!-- <th style="width:7%;">操作</th> -->
+                        			<th style="width:7%;">操作</th>
                         		</tr>
                         	</thead>
                         	<tbody></tbody>
@@ -142,7 +150,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             <!-- <button type="button" class="btn btn-default">保存</button> -->
-            <button type="button" class="btn btn-success" id="wasteDispose">提交</button>
+            <button type="button" class="btn btn-success" id="wasteDispose" disabled>提交</button>
         </div>
         </div>
     </div>
@@ -218,8 +226,8 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-default">保存</button> -->
-            <button type="button" class="btn btn-success" id="wasteDispose">提交</button>
+            <!-- <button type="button" class="btn btn-default">保存</button> 
+            <button type="button" class="btn btn-success" id="wasteDispose2">提交</button>-->
         </div>
         </div>
     </div>
@@ -429,7 +437,7 @@
             effects: 'slide' 
         });
     	initDepartment();
-    	initPrj();
+    	initSelectCG();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -609,7 +617,169 @@ Array.prototype.unique3 = function(){
 		})
 	}
 	
-	function initPrj(){
+	//初始化采购合同名和采购合同号
+    function initSelectCG(){
+		$.ajax({
+        type: 'POST',
+        url: getContextPath()+'/gsMaterialOut/selectCgIdAndName',
+        dataType: 'json',
+        data: {
+        },
+        error: function (msg) {
+        	toastr.error("请求失败");
+        },
+        success: function (json) {
+        	$("#cg_no").html('');
+        	$("#cg_name").html('');
+        	for(var i=0;i<json.length;i++){
+        		$("#cg_no").append("<option value="+json[i].cgNo+">"+json[i].cgNo+"</option>");
+        		$("#cg_name").append("<option value="+json[i].cgName+">"+json[i].cgName+"</option>");
+        	}
+        	
+        	$('#cg_no').editableSelect().on('select.editable-select', function (e, dom) {
+        		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/gsMaterialOut/selectCgListByNo',
+                    dataType: 'json',
+                    data: {
+                    	no:$('#cg_no').val()
+                    },
+                    success: function (json) {
+                    	var cg=json.cg;
+                    	var cm=json.cm;
+                    	$("#cg_name").val(cg[0].contractName);
+                    	$("#prj_name").html('');
+                    	$("#prj_no").html('');
+                    	for(var i=0;i<cm.length;i++){
+                    		$("#prj_name").append("<option value="+cm[i].pickProject+">"+cm[i].pickProject+"</option>")
+                    		$("#prj_no").append("<option value="+cm[i].taskNo+">"+cm[i].taskNo+"</option>")
+                    	}
+                    	$("#prj_name").trigger("change");
+                    	$("#prj_no").trigger("change");
+                    }
+          		});
+          	})
+          	$('#cg_name').editableSelect().on('select.editable-select', function (e, dom) {
+        		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/gsMaterialOut/selectCgListByName',
+                    dataType: 'json',
+                    data: {
+                    	name:$('#cg_name').val()
+                    },
+                    success: function (json) {
+                    	var cg=json.cg;
+                    	var cm=json.cm;
+                    	$("#cg_no").val(cg[0].cgNo);
+                    	$("#prj_name").html('');
+                    	$("#prj_no").html('');
+                    	for(var i=0;i<cm.length;i++){
+                    		$("#prj_name").append("<option value="+cm[i].pickProject+">"+cm[i].pickProject+"</option>")
+                    		$("#prj_no").append("<option value="+cm[i].taskNo+">"+cm[i].taskNo+"</option>")
+                    	}
+                    	$("#prj_name").trigger("change");
+                    	$("#prj_no").trigger("change");
+                    }
+          		});
+          	})
+          	 
+        }
+		});
+	}
+	
+    $("#prj_name").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/gsMaterialOut/selectPrjNoAndCl',
+            dataType: 'json',
+            data: {
+            	name:$('#prj_name').val(),
+            	cgNo:$('#cg_no').val(),
+            	cgName:$('#cg_name').val()
+            },
+            success: function (json) {
+            	var cm=json.cm;
+            	var gc=json.gc;
+            	$("#prj_no").val(cm.taskNo);
+            	$("#waste_table tbody").html('');
+            	for(var i=0;i<gc.length;i++){
+            		if(gc[i].remainNumber>0){
+		            	$("#waste_table tbody").append("<tr>"+
+		            														"<td>"+gc[i].materialName+"</td>"+
+		            														"<td>"+gc[i].materialType+"</td>"+
+		            														"<td>"+gc[i].specificationModel+"</td>"+
+		            														"<td>"+gc[i].cmoUnit+"</td>"+
+		            														"<td>"+gc[i].remainNumber+"</td>"+
+		            														"<td>"+gc[i].cmoUnitPrice+"</td>"+
+		            														"<td>"+Number(gc[i].remainNumber)*Number(gc[i].cmoUnitPrice)+"</td>"+
+		            														"<td><input type='text' class='form-control' data="+gc[i].gsId+"></td>"+
+		            														"<td><input type='text' class='form-control'></td>"+
+		            													"</tr>");
+            		}
+            	}
+            	var length=$("#waste_table tbody").find("tr").length;
+        		if(length==0){
+        			$("#wasteDispose").attr("disabled",true);
+        		}else{
+        			$("#wasteDispose").attr("disabled",false);
+        		}
+            }
+  		});
+    })
+    
+    $("#prj_no").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/gsMaterialOut/selectPrjNameAndCl',
+            dataType: 'json',
+            data: {
+            	no:$('#prj_no').val(),
+            	cgNo:$('#cg_no').val(),
+            	cgName:$('#cg_name').val()
+            },
+            success: function (json) {
+            	var cm=json.cm;
+            	var gc=json.gc;
+            	$("#prj_name").val(cm.pickProject)
+            	$("#waste_table tbody").html('');
+            	for(var i=0;i<gc.length;i++){
+            		if(gc[i].remainNumber>0){
+		            	$("#waste_table tbody").append("<tr>"+
+		            														"<td>"+gc[i].materialName+"</td>"+
+		            														"<td>"+gc[i].materialType+"</td>"+
+		            														"<td>"+gc[i].specificationModel+"</td>"+
+		            														"<td>"+gc[i].cmoUnit+"</td>"+
+		            														"<td>"+gc[i].remainNumber+"</td>"+
+		            														"<td>"+gc[i].cmoUnitPrice+"</td>"+
+		            														"<td>"+Number(gc[i].remainNumber)*Number(gc[i].cmoUnitPrice)+"</td>"+
+		            														"<td><input type='text' class='form-control' data="+gc[i].gsId+"></td>"+
+		            														"<td><input type='text' class='form-control'></td>"+
+		            														"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
+		            													"</tr>");
+            		}
+            	}
+            	var length=$("#waste_table tbody").find("tr").length;
+        		if(length==0){
+        			$("#wasteDispose").attr("disabled",true);
+        		}else{
+        			$("#wasteDispose").attr("disabled",false);
+        		}
+            }
+  		});
+    })
+    
+    function removeThis(obj){
+		var tr=$(obj).parent().parent();
+		$(tr).remove();
+		var length=$("#waste_table tbody").find("tr").length;
+		if(length==0){
+			$("#wasteDispose").attr("disabled",true);
+		}else{
+			$("#wasteDispose").attr("disabled",false);
+		}
+	}
+	
+	/* function initPrj(){
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/task/selectPrjNameAndWorkNo',
@@ -626,10 +796,11 @@ Array.prototype.unique3 = function(){
         });
     }
 	
+	
 	$("#prj").on("change",function(){
     	$.ajax({
             type: 'POST',
-            url: getContextPath()+'/gsMaterialOut/selectCompanyMateriaOutForWaste',
+            url: getContextPath()+'/gsMaterialOut/selectCompanyMateriaOutForEnd',
             dataType: 'json',
             data: {
             	no:$("#prj").val()
@@ -639,7 +810,7 @@ Array.prototype.unique3 = function(){
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
-    })
+    }) */
     
     var cmoId;
     function waste(obj){

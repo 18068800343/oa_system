@@ -58,58 +58,56 @@
                     <form class="form-inline">
                         <table class="table table-bordered table-condensed">
                             <tr>
-                                <td>项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td>
-                                    <select class="form-control" style="width:180px;" id="prjName">
+                                <td style="width:18%;;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:34%;;">
+                                    <select class="form-control" style="width:60%;" id="prjName">
                                         
                                     </select>
                                 </td>
-                                <td style="width:100px;">任务单号</td>
-                                <td>
-                                    <input type="text" class="form-control" id="task_no">
+                                <td style="width:18%;">任务单号</td>
+                                <td style="width:30%;">
+                                    <input type="text" class="form-control" id="task_no" style="width:70%;">
                                 </td>
                             </tr>
                             <tr>
                                 <td>项目类型</td>
-                                <td><input type="text" class="form-control" disabled id="prjType2"></td>
+                                <td><input type="text" class="form-control" disabled id="prjType2" style="width:60%;"></td>
                                 <td style="width:100px;">合同金额</td>
-                                <td><input type="text" class="form-control" disabled id="contractMoney"></td>
+                                <td><input type="text" class="form-control" disabled id="contractMoney" style="width:70%;"></td>
                             </tr>
                             <tr>
                                 <td>项目负责人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                    <select class="form-control" style="width:180px;">
-                                        <option>1</option>
-                                        <option>2</option>
-                                    </select>
+                                    <input type="text" class="form-control" id="prj_leader" style="width:60%;" disabled>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择负责人</button>
                                 </td>
                                 <td>暂列金</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" style="width:70%;"></td>
                             </tr>
                             <tr>
                                 <td>项目开始时间</td>
-                                <td><input type="text" class="form-control" id="year"></td>
+                                <td><input type="text" class="form-control" id="prj_start" style="width:60%;"></td>
                                 <td>项目预计结束时间</td>
-                                <td><input type="text" class="form-control" id="year2"></td>
+                                <td><input type="text" class="form-control" id="prj_end" style="width:70%;"></td>
                             </tr>
                             <tr>
                                 <td>预算总费用</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" style="width:60%;"></td>
                                 <td>本期</td>
-                                <td><input type="text" class="form-control" id="benqi"></td>
+                                <td><input type="text" class="form-control" id="this_time" style="width:70%;"></td>
                             </tr>
                             <tr>
                                 <td>总累计收入</td>
                                 <td>
-                                		<input type="text" class="form-control" disabled id="zongshouru">
+                                		<input type="text" class="form-control" disabled id="zongshouru" style="width:60%;">
                                 		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#jindu" id="jindua">选择进度</button>
                                 </td>
                                 <td>总累计成本</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" style="width:70%;"></td>
                             </tr>
                             <tr>
                                 <td>项目本期收入</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" style="width:60%;"></td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -236,6 +234,38 @@
     </div>
 </div>
 <!-- model结束 -->
+<!--选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择收货人</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>部门:</span>
+                            <select style="width:180px;" id="bumen" class="form-control" >
+                                
+                            </select>
+                            <span>人员:</span>
+                            <select style="width:180px;" id="guanliren" class="form-control" >
+                                
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--进度 modal -->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="jindu">
     <div class="modal-dialog" role="document">
@@ -853,12 +883,17 @@
 <script>
     $(document).ready( function () {
     	laydate.render({
-            elem: '#benqi' //指定元素
+            elem: '#prj_start' //指定元素
         });
         laydate.render({
-            elem: '#year2' //指定元素
+            elem: '#prj_end' //指定元素
+        });
+        laydate.render({
+            elem: '#this_time', //指定元素
+            type:'month'
         });
         initSelect();
+        initDepartment();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -892,19 +927,84 @@
 	function initTable(){
         $.ajax({
             type: 'POST',
-            url: '',
+            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
             dataType: 'json',
             data: {
             },
-            error: function (msg) {
-                errMessage("请求UserController失败");
-            },
             success: function (json) {
-                $('#').dataTable().fnClearTable();
-                $('#').DataTable().rows.add(json).draw(false);
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
     }
+	
+	//初始化收货人部门及人员
+	function initDepartment(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+	            	$("#bumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+	            	$("#xgbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+            	}
+            	$("#bumen").trigger('change');
+	        	$("#xgbumen").trigger('change');
+            }
+        });
+	}
+	
+	$("#bumen").change(function(){
+		var bumen=$("#bumen").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataType:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+			},
+			success:function(json){
+				$("#guanliren").empty();
+				for(var i=0;i<json.length;i++){
+					$("#guanliren").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+				}
+			}
+		})
+	})
+	
+	//保存添加收货人
+	function saveGuanliren(){
+		var bumen=$("#bumen").val();
+		var guanliren=$("#guanliren").val();
+		$('#addGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		if(guanliren==''){
+			toastr.error("人员为空");
+			return;
+		}
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserById",
+			dataType:"json",
+			async:false,
+			data:{ 
+				userId:guanliren 
+				},
+			success:function(json){
+				$("#out_person").empty('');
+				$("#out_person").val(json.uName);
+			}
+		})
+	}
+	
 	//初始化项目名称
 	function initSelect(){
 		$.ajax({

@@ -40,8 +40,8 @@ public class ClRemainServiceImpl implements ClRemainService{
 	}
 
 	@Override
-	public List<ClRemain> selectClRemainById(String id) {
-		return dao.selectClRemainById(id);
+	public List<GsClOut> selectGsClOutById(String id) {
+		return dao.selectGsClOutById(id);
 	}
 
 	@Transactional
@@ -66,17 +66,6 @@ public class ClRemainServiceImpl implements ClRemainService{
 	@Override
 	public int updateClRemain(List<outRemain> out) {
 		return dao.updateClRemain(out);
-	}
-
-	@Transactional
-	@Override
-	public int updateWasteDispose(CompanyMateriaOut cm) {
-		int i=gdao.updateWasteDispose(cm);
-		if(i>0){
-			List<ClRemain> cl=cm.getClRemain();
-			i=dao.updateWasteDispose(cl);
-		}
-		return i;
 	}
 
 }

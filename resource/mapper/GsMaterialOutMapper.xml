@@ -20,6 +20,10 @@
 				(SELECT cmo_id FROM company_material_out where get_status=1)
 	</select>
 	
+	<select id="selectCgIdAndName" resultType="CompanyMateriaOut">
+		SELECT DISTINCT cg_no,cg_name FROM company_material_out where get_status=1
+	</select>
+	
 	<select id="selectNoByName" resultType="CompanyMateriaOut">
 		select  distinct task_no,pick_project from company_material_out where pick_project = #{name}
 	</select>
@@ -35,7 +39,7 @@
 	<select id="selectCompanyMateriaOutForEnd" resultType="CompanyMateriaOut">
 		SELECT cmo_id,cg_no,cg_name,task_no,pick_project,pick_person,get_person,pick_date,remain_type
 			FROM company_material_out
-			where get_status=1 and task_no like #{no}
+			where get_status=1 and task_no like #{no} and remain_type !=1
 	</select>
 	
 	<select id="selectCompanyMateriaOutForWaste" resultType="CompanyMateriaOut">
@@ -55,4 +59,12 @@
 					dispose_desc=#{out.disposeDesc},dispose_status=#{out.disposeStatus}
 		where cmo_id=#{out.cmoId}
 	</update>
+	
+	<select id="selectTaskByNo" resultType="CompanyMateriaOut">
+		SELECT DISTINCT task_no,pick_project FROM company_material_out where cg_no=#{no} and get_status=1
+	</select>
+	
+	<select id="selectTaskByName" resultType="CompanyMateriaOut">
+		SELECT DISTINCT task_no,pick_project FROM company_material_out where cg_name=#{name} and get_status=1
+	</select>
 </mapper>
