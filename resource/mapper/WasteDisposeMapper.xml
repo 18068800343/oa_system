@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.WasteDisposeDao" >
+  	<select id="selectWasteDispose" resultType="WasteDispose">
+  		select * from waste_dispose
+  	</select>
+  	
+  	<insert id="addWasteDispose" parameterType="WasteDispose">
+  		insert into waste_dispose(wp_id,cg_no,cg_name,task_no,pick_project,waste_person,
+  					waste_time,waste_reason,waste_type,waste_money,waste_desc)
+  		values(#{wd.wpId},#{wd.cgNo},#{wd.cgName},#{wd.taskNo},#{wd.pickProject},#{wd.wastePerson},
+  					#{wd.wasteTime},#{wd.wasteReason},#{wd.wasteType},#{wd.wasteMoney},#{wd.wasteDesc})
+  	</insert>
+  	
+  	<insert id="addWasteDisposeCl" parameterType="java.util.List">
+  		insert into waste_dispose_cl(wp_id,material_name,material_type,specification_model,
+  					cmo_unit,cmo_number,cmo_unit_price,cmo_money,waste_want_money,waste_actual_money)
+  		values
+  		<foreach collection="wdc" index="index" item="w" separator=",">
+  			(#{w.wpId},#{w.materialName},#{w.materialType},#{w.specificationModel},#{w.cmoUnit},
+  			#{w.cmoNumber},#{w.cmoUnitPrice},#{w.cmoMoney},#{w.wasteWantMoney},#{w.wasteActualMoney})
+  		</foreach>
+  	</insert>
+  	
+  	<select id="selectWdById" resultType="WasteDisposeCl">
+  		select * from waste_dispose_cl where wp_id=#{id}
+  	</select>
+</mapper>

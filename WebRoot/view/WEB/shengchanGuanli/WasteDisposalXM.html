@@ -161,7 +161,7 @@
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel"><b>废旧品处理</b></h4>
+            <h4 class="modal-title" id="myModalLabel"><b>废旧品处理详情</b></h4>
         </div>
         <div class="modal-body">
                 <div>     
@@ -358,9 +358,8 @@
 			                        <th>任务单号</th>
 			                        <th>采购合同名称</th>
 			                        <th>采购合同单号</th>
-			                        <th>收货人</th>
-			                        <th>收货日期</th>
-			                        <th>处理结果</th>
+			                        <th>处理人</th>
+			                        <th>处理日期</th>
 			                        <th>操作</th>
 			                    </tr>
 			                </thead>
@@ -438,6 +437,7 @@
         });
     	initDepartment();
     	initSelectCG();
+    	initTable();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -454,35 +454,17 @@
 		            { "data": "taskNo"}, 
 		            { "data": "cgName"}, 
 		            { "data": "cgNo"}, 
-		            { "data": "getPerson"}, 
-		            { "data": "pickDate"}, 
-		            { "data": null},
+		            { "data": "wastePerson"}, 
+		            { "data": "wasteTime"}, 
 		            { "data": null}
 		        ],
 		        "columnDefs": [
 								{	
-									 "class": "tcenter",
-									    "targets": 6,
-									    "searchable": true,
-									    "render": function(data, type, full) {
-									    		if(full.disposeStatus==1){
-									    			return '<span class="label label-success state">已处理</span>';
-									    		}else{
-									    			return '<span class="label label-danger state">未处理</span>';
-									    		}
-									        }
-									  },
-								{	
 										 "class": "tcenter",
-										    "targets": 7,
+										    "targets": 6,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	if(full.disposeStatus==1){
 										    		return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="look(this)" title="查看"></i>';
-									    		}else{
-									    			return '<i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;margin-left:5px;" title="废旧品处理" onclick="waste(this)"></i>';
-									    		}
-										    	
 										     }
 										  }
 								],
@@ -549,6 +531,21 @@ Array.prototype.unique3 = function(){
         arr2.push($("#renwuDanhao2").val())
         $("#rwdh2").text(arr2.unique3())
     })
+    
+    function initTable(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/wd/selectWasteDispose',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	console.log(json)
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+    	})
+    }
     
     //初始化收货人部门及人员
 	function initDepartment(){
@@ -859,37 +856,54 @@ Array.prototype.unique3 = function(){
 	}
 	
 	$("#wasteDispose").on("click",function(){
-		var CompanyMateriaOut={
-				cmoId:undefined,
-				disposePerson:undefined,
-				disposeTime:undefined,
-				disposeReason:undefined,
-				disposeType:undefined,
-				disposeMoney:0,
-				disposeDesc:undefined,
-				disposeStatus:1,
-				clRemain:undefined
+		var WasteDispose={
+				wpId:undefined,
+				cgNo:undefined,
+				cgName:undefined,
+				taskNo:undefined,
+				pickProject:undefined,
+				wastePerson:undefined,
+				wasteTime:undefined,
+				wasteReason:undefined,
+				wasteType:undefined,
+				wasteMoney:0,
+				wasteDesc:undefined,
+				wdc:undefined,
+				oRemain:undefined
 		}
+		var cgNo=$("#cg_no").val();
+		var cgName=$("#cg_name").val();
+		var taskNo=$("#prj_no").val();
+		var pickProject=$("#prj_name").val();
 		var disposePerson=$("#person").val();
 		var disposeTime=$("#year").val();
 		var disposeReason=$("#reason").val();
 		var disposeType=$("#dispose_type").val();
 		var disposeMoney=$("#dispose_money").val();
 		var disposeDesc=$("#dispose_desc").val();
-		CompanyMateriaOut.cmoId=cmoId;
-		CompanyMateriaOut.disposePerson=disposePerson;
-		CompanyMateriaOut.disposeTime=disposeTime;
-		CompanyMateriaOut.disposeReason=disposeReason;
-		CompanyMateriaOut.disposeType=disposeType;
-		CompanyMateriaOut.disposeMoney=disposeMoney;
-		CompanyMateriaOut.disposeDesc=disposeDesc;
+		WasteDispose.cgNo=cgNo;
+		WasteDispose.cgName=cgName;
+		WasteDispose.taskNo=taskNo;
+		WasteDispose.pickProject=pickProject;
+		WasteDispose.wastePerson=disposePerson;
+		WasteDispose.wasteTime=disposeTime;
+		WasteDispose.wasteReason=disposeReason;
+		WasteDispose.wasteType=disposeType;
+		WasteDispose.wasteMoney=disposeMoney;
+		WasteDispose.wasteDesc=disposeDesc;
 		
-		var ClRemainArray=new Array();
+		var WasteDisposeClArray=new Array();
+		var oRemainArray=new Array();
 		$("#waste_table tbody").find("tr").each(function(){
+			var materialName=$(this).find("td").eq(0).text();
+			var materialType=$(this).find("td").eq(1).text();
+			var specificationModel=$(this).find("td").eq(2).text();
+			var cmoUnit=$(this).find("td").eq(3).text();
 			var wasteNum=$(this).find("td").eq(4).text();
+			var cmoUnitPrice=$(this).find("td").eq(5).text();
 			var wasteMoney=$(this).find("td").eq(6).text();
 			var wasteWantMoney=$(this).find("input").eq(0).val();
-			var crId=$(this).find("input").eq(0).attr("data");
+			var gsId=$(this).find("input").eq(0).attr("data");
 			var wasteActualMoney=$(this).find("input").eq(1).val();
 			var reg=/^\+?[1-9][0-9]*$/;
     		if(!reg.test(wasteWantMoney)){
@@ -900,29 +914,43 @@ Array.prototype.unique3 = function(){
     			toastr.error("请输入实际折价出售金额")
         		return;
     		}
-			var ClRemain={
-					crId:undefined,					
-					wasteNumber:0,
-					wasteMoney:0,
+    		var oRemain={
+    				id:undefined,
+    				remain:0
+    		}
+    		oRemain.id=gsId;
+    		oRemainArray.push(oRemain);
+			var WasteDisposeCl={
+					wpId:undefined,		
+					materialName:undefined,		
+					materialType:undefined,		
+					specificationModel:undefined,		
+					cmoUnit:undefined,		
+					cmoNumber:0,
+					cmoUnitPrice:0,
+					cmoMoney:0,
 					wasteWantMoney:0,
-					wasteActualMoney:0,
-					remainNumber:0
+					wasteActualMoney:0
 			}
-			ClRemain.crId=crId;
-			ClRemain.wasteNumber=wasteNum;
-			ClRemain.wasteMoney=wasteMoney;
-			ClRemain.wasteWantMoney=wasteWantMoney;
-			ClRemain.wasteActualMoney=wasteActualMoney;
-			ClRemainArray.push(ClRemain);
+			WasteDisposeCl.materialName=materialName;
+			WasteDisposeCl.materialType=materialType;
+			WasteDisposeCl.specificationModel=specificationModel;
+			WasteDisposeCl.cmoUnit=cmoUnit;
+			WasteDisposeCl.cmoNumber=wasteNum;
+			WasteDisposeCl.cmoUnitPrice=cmoUnitPrice;
+			WasteDisposeCl.cmoMoney=wasteMoney;
+			WasteDisposeCl.wasteWantMoney=wasteWantMoney;
+			WasteDisposeCl.wasteActualMoney=wasteActualMoney;
+			WasteDisposeClArray.push(WasteDisposeCl);
 		})
-		CompanyMateriaOut.clRemain=ClRemainArray;
-
+		WasteDispose.wdc=WasteDisposeClArray;
+		WasteDispose.oRemain=oRemainArray;
 		$.ajax({
             type: 'POST',
-            url: getContextPath()+'/ClRemain/wasteDispose',
+            url: getContextPath()+'/wd/addWasteDispose',
             dataType: 'json',
             contentType:'application/json',
-            data:JSON.stringify(CompanyMateriaOut),
+            data:JSON.stringify(WasteDispose),
             success: function (json) {
                 if(json>0){
                 	$("#myModal").modal("hide");
@@ -943,33 +971,32 @@ Array.prototype.unique3 = function(){
 		$("#look_cg_name").text(data.cgName);
 		$("#look_prj_no").text(data.taskNo);
 		$("#look_prj_name").text(data.pickProject);
-		$("#look_person").text(data.disposePerson);
-		$("#look_year").text(data.disposeTime);
-		$("#look_reason").text(data.disposeReason);
-		$("#look_dispose_type").text(data.disposeType);
-		$("#look_dispose_money").text(data.disposeMoney);
-		$("#look_dispose_desc").text(data.disposeDesc);
+		$("#look_person").text(data.wastePerson);
+		$("#look_year").text(data.wasteTime);
+		$("#look_reason").text(data.wasteReason);
+		$("#look_dispose_type").text(data.wasteType);
+		$("#look_dispose_money").text(data.wasteMoney);
+		$("#look_dispose_desc").text(data.wasteDesc);
 		
 		$.ajax({
             type: 'POST',
-            url: getContextPath()+'/ClRemain/selectClRemainById',
+            url: getContextPath()+'/wd/selectWdById',
             dataType: 'json',
             data:{
-            	id:data.cmoId
+            	id:data.wpId
             },
             success: function (json) {
-            	console.log(json)
             	$("#look_waste_table tbody").html('');
             	for(var i=0;i<json.length;i++){
-            		if(json[i].wasteNumber>0){
+            		if(json[i].cmoNumber>0){
 		            	$("#look_waste_table tbody").append("<tr>"+
 		            														"<td>"+json[i].materialName+"</td>"+
 		            														"<td>"+json[i].materialType+"</td>"+
 		            														"<td>"+json[i].specificationModel+"</td>"+
 		            														"<td>"+json[i].cmoUnit+"</td>"+
-		            														"<td>"+json[i].wasteNumber+"</td>"+
+		            														"<td>"+json[i].cmoNumber+"</td>"+
 		            														"<td>"+json[i].cmoUnitPrice+"</td>"+
-		            														"<td>"+json[i].wasteMoney+"</td>"+
+		            														"<td>"+json[i].cmoMoney+"</td>"+
 		            														"<td>"+json[i].wasteWantMoney+"</td>"+
 		            														"<td>"+json[i].wasteActualMoney+"</td>"+
 		            													"</tr>");

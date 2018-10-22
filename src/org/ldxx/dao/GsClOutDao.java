@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.GsClOut;
+import org.ldxx.bean.outRemain;
 
 public interface GsClOutDao {
 
@@ -16,6 +17,8 @@ public interface GsClOutDao {
 	int updateRemain(@Param("id")String id,@Param("remain")int remain);
 	
 	int updateRemainForEnd(@Param("id")String id);
+	
+	int updateRemainForWaste(@Param("cr")List<outRemain> cr);
 
 	int addgsClOut(@Param("gsClOut")List<GsClOut> gsClOut);
 	
