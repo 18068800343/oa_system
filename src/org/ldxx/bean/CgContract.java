@@ -16,6 +16,7 @@ public class CgContract {
 	private String workNo;// 任务单号
 	private String prjName;//项目名称
 	private String isProgram;// 是否代购
+	private String programType;// 代购类型
 	private String cgcType;// 采购合同类型
 	private Float programMoney;// 代购金额
 	private Float cgContractMoney;// 采购合同金额
@@ -34,6 +35,14 @@ public class CgContract {
 
 	
 	
+	public String getProgramType() {
+		return programType;
+	}
+
+	public void setProgramType(String programType) {
+		this.programType = programType;
+	}
+
 	public String getCgdNo() {
 		return cgdNo;
 	}

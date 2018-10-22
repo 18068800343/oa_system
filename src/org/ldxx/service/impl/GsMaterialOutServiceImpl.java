@@ -112,4 +112,9 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 		return dao.selectTaskByName(name);
 	}
 
+	@Override
+	public List<CompanyMateriaOut> selectGSmaterialRemain(int remainType) {
+		return dao.selectGSmaterialRemain(remainType);
+	}
+
 }
