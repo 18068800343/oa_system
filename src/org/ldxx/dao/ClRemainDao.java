@@ -13,5 +13,7 @@ public interface ClRemainDao {
 	public List<ClRemain> selectClRemainById(@Param("id")String id);
 	
 	public int updateClRemain(@Param("out")List<outRemain> out);
+	
+	public int updateWasteDispose(@Param("cl")List<ClRemain> cl);
 
 }

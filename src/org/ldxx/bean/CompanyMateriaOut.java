@@ -25,8 +25,81 @@ public class CompanyMateriaOut {
 	private List<Accessory> accessory;
 	private List<GsClOut> gsClOut;
 	private List<outRemain> oRemain;
+	private List<ClRemain> clRemain;
+	
+	private String disposePerson; //废旧处理申请人
+	private String disposeTime;//废旧处理时间
+	private String disposeReason;//废旧处理原因
+	private String disposeType;//处理类型
+	private String disposeMoney;//处理费用
+	private String disposeDesc;//备注
+	private String disposeStatus;//处理状态
 	
 	
+	public List<ClRemain> getClRemain() {
+		return clRemain;
+	}
+
+	public void setClRemain(List<ClRemain> clRemain) {
+		this.clRemain = clRemain;
+	}
+
+	public String getDisposePerson() {
+		return disposePerson;
+	}
+
+	public void setDisposePerson(String disposePerson) {
+		this.disposePerson = disposePerson;
+	}
+
+	public String getDisposeTime() {
+		return disposeTime;
+	}
+
+	public void setDisposeTime(String disposeTime) {
+		this.disposeTime = disposeTime;
+	}
+
+	public String getDisposeReason() {
+		return disposeReason;
+	}
+
+	public void setDisposeReason(String disposeReason) {
+		this.disposeReason = disposeReason;
+	}
+
+	public String getDisposeType() {
+		return disposeType;
+	}
+
+	public void setDisposeType(String disposeType) {
+		this.disposeType = disposeType;
+	}
+
+	public String getDisposeMoney() {
+		return disposeMoney;
+	}
+
+	public void setDisposeMoney(String disposeMoney) {
+		this.disposeMoney = disposeMoney;
+	}
+
+	public String getDisposeDesc() {
+		return disposeDesc;
+	}
+
+	public void setDisposeDesc(String disposeDesc) {
+		this.disposeDesc = disposeDesc;
+	}
+
+	public String getDisposeStatus() {
+		return disposeStatus;
+	}
+
+	public void setDisposeStatus(String disposeStatus) {
+		this.disposeStatus = disposeStatus;
+	}
+
 	public List<outRemain> getoRemain() {
 		return oRemain;
 	}

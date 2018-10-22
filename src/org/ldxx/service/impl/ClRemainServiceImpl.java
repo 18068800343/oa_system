@@ -68,4 +68,15 @@ public class ClRemainServiceImpl implements ClRemainService{
 		return dao.updateClRemain(out);
 	}
 
+	@Transactional
+	@Override
+	public int updateWasteDispose(CompanyMateriaOut cm) {
+		int i=gdao.updateWasteDispose(cm);
+		if(i>0){
+			List<ClRemain> cl=cm.getClRemain();
+			i=dao.updateWasteDispose(cl);
+		}
+		return i;
+	}
+
 }

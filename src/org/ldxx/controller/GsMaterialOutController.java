@@ -133,4 +133,10 @@ public class GsMaterialOutController {
 		return list;
 	}
 
+	@RequestMapping("/selectCompanyMateriaOutForWaste")
+	@ResponseBody
+	public List<CompanyMateriaOut> selectCompanyMateriaOutForWaste(String no){
+		List<CompanyMateriaOut> list=service.selectCompanyMateriaOutForWaste(no);
+		return list;
+	}
 }

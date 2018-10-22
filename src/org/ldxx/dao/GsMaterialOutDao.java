@@ -23,5 +23,9 @@ public interface GsMaterialOutDao {
 	
 	List<CompanyMateriaOut> selectCompanyMateriaOutForEnd(@Param("no")String no);//项目结余列表
 	
+	List<CompanyMateriaOut> selectCompanyMateriaOutForWaste(@Param("no")String no);//废旧品处理列表
+	
 	int updateRemainStatus(@Param("id")String id);
+	
+	int updateWasteDispose(@Param("out")CompanyMateriaOut out);
 }

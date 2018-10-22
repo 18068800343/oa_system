@@ -28,6 +28,36 @@ public class ClRemain {
 	private float cmoUnitPrice;
 	private float cmoMoney;
 	private String pickDate;
+	
+	private int wasteNumber;//废旧处理个数
+	private float wasteMoney;//废旧处理品原价
+	private float wasteWantMoney;//拟折价出售金额
+	private float wasteActualMoney;//实际折价出售金额
+	
+	public int getWasteNumber() {
+		return wasteNumber;
+	}
+	public void setWasteNumber(int wasteNumber) {
+		this.wasteNumber = wasteNumber;
+	}
+	public float getWasteMoney() {
+		return wasteMoney;
+	}
+	public void setWasteMoney(float wasteMoney) {
+		this.wasteMoney = wasteMoney;
+	}
+	public float getWasteWantMoney() {
+		return wasteWantMoney;
+	}
+	public void setWasteWantMoney(float wasteWantMoney) {
+		this.wasteWantMoney = wasteWantMoney;
+	}
+	public float getWasteActualMoney() {
+		return wasteActualMoney;
+	}
+	public void setWasteActualMoney(float wasteActualMoney) {
+		this.wasteActualMoney = wasteActualMoney;
+	}
 	public String getCrId() {
 		return crId;
 	}

@@ -22,4 +22,6 @@ public interface GsMaterialOutService {
 	List<CompanyMateriaOut> selectAllXmMaterialOut();
 	
 	List<CompanyMateriaOut> selectCompanyMateriaOutForEnd(String no);
+	
+	List<CompanyMateriaOut> selectCompanyMateriaOutForWaste(String no);
 }

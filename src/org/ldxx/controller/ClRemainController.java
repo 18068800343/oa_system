@@ -48,4 +48,11 @@ public class ClRemainController {
 		return i;
 	}
 	
+	@RequestMapping("/wasteDispose")
+	@ResponseBody
+	public int wasteDispose(@RequestBody CompanyMateriaOut cm){
+		int i=service.updateWasteDispose(cm);
+		return i;
+	}
+	
 }

@@ -90,4 +90,10 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 		no="%"+no+"%";
 		return dao.selectCompanyMateriaOutForEnd(no);
 	}
+
+	@Override
+	public List<CompanyMateriaOut> selectCompanyMateriaOutForWaste(String no) {
+		no="%"+no+"%";
+		return dao.selectCompanyMateriaOutForWaste(no);
+	}
 }

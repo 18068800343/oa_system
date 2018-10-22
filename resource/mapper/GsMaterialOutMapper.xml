@@ -33,12 +33,26 @@
 	</update>
 	
 	<select id="selectCompanyMateriaOutForEnd" resultType="CompanyMateriaOut">
-		SELECT cmo_id,cg_no,cg_name,task_no,pick_project,pick_person,pick_date,remain_type
+		SELECT cmo_id,cg_no,cg_name,task_no,pick_project,pick_person,get_person,pick_date,remain_type
 			FROM company_material_out
 			where get_status=1 and task_no like #{no}
 	</select>
 	
+	<select id="selectCompanyMateriaOutForWaste" resultType="CompanyMateriaOut">
+		SELECT cmo_id,cg_no,cg_name,task_no,pick_project,get_person,pick_date,dispose_person,dispose_time,dispose_reason,
+			dispose_type,dispose_money,dispose_desc,dispose_status
+			FROM company_material_out
+			where get_status=1 and task_no like #{no} and remain_type=1
+	</select>
+	
 	<update id="updateRemainStatus" parameterType="String">
 		update company_material_out set remain_type=1 where cmo_id=#{id}
+	</update>
+	
+	<update id="updateWasteDispose" parameterType="CompanyMateriaOut">
+		update company_material_out set dispose_person=#{out.disposePerson},dispose_time=#{out.disposeTime},
+					dispose_reason=#{out.disposeReason},dispose_type=#{out.disposeType},dispose_money=#{out.disposeMoney},
+					dispose_desc=#{out.disposeDesc},dispose_status=#{out.disposeStatus}
+		where cmo_id=#{out.cmoId}
 	</update>
 </mapper>
