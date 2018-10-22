@@ -148,6 +148,84 @@
     </div>
 </div>
 <!-- model结束 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="lookModal">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>废旧品处理</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" >
+                            <tr>
+                                <td style="width:18%;">采购合同编号 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:34%;" id="look_cg_no">
+                                 </td>
+                                 <td style="width:18%;">采购合同名称 </td>
+                                 <td style="width:30%;" id="look_cg_name">
+                                 </td>
+                            </tr>
+                            <tr>
+                                <td>任务单号</td>
+                                <td id="look_prj_no">
+                                </td>
+                                <td>项目名称</td>
+                                <td id="look_prj_name">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>申请人</td>
+                                <td id="look_person">
+                                </td>
+                                <td>申请时间</td>
+                                <td id="look_year"></td>
+                            </tr>
+                            <tr>
+                                <td>处理原因</td>
+                                <td id="look_reason">
+                                </td>
+                                <td>处理方式</td>
+                                <td id="look_dispose_type">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>废旧品处理费用</td>
+                                <td id="look_dispose_money"></td>
+                                <td>备注</td>
+                                <td id="look_dispose_desc"></td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered table-condensed"  id="look_waste_table">
+                        	<thead>
+                        		<tr>
+                        			<th style="width:12%;">材料名称</th>
+                        			<th style="width:12%;">材料类型</th>
+                        			<th style="width:12%;">规格型号</th>
+                        			<th style="width:8%;">单位</th>
+                        			<th style="width:8%;">处理数量</th>
+                        			<th style="width:9%;">采购单价</th>
+                        			<th style="width:10%;">采购金额</th>
+                        			<th style="width:15%;">拟折价出售金额</th>
+                        			<th style="width:15%;">实际折价出售金额</th>
+                        		</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <!-- <button type="button" class="btn btn-default">保存</button> -->
+            <button type="button" class="btn btn-success" id="wasteDispose">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+
 <!--选人 modal -->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
     <div class="modal-dialog" role="document">
@@ -391,7 +469,12 @@
 										    "targets": 7,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;margin-left:5px;" title="废旧品处理" onclick="waste(this)"></i>';
+										    	if(full.disposeStatus==1){
+										    		return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="look(this)" title="查看"></i>';
+									    		}else{
+									    			return '<i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;margin-left:5px;" title="废旧品处理" onclick="waste(this)"></i>';
+									    		}
+										    	
 										     }
 										  }
 								],
@@ -681,6 +764,51 @@ Array.prototype.unique3 = function(){
         });
 		
 	})
+	
+	function look(obj){
+		var tr=$(obj).parent().parent();
+		var data=$("#mainContent").DataTable().row(tr).data();
+		$("#look_cg_no").text(data.cgNo);
+		$("#look_cg_name").text(data.cgName);
+		$("#look_prj_no").text(data.taskNo);
+		$("#look_prj_name").text(data.pickProject);
+		$("#look_person").text(data.disposePerson);
+		$("#look_year").text(data.disposeTime);
+		$("#look_reason").text(data.disposeReason);
+		$("#look_dispose_type").text(data.disposeType);
+		$("#look_dispose_money").text(data.disposeMoney);
+		$("#look_dispose_desc").text(data.disposeDesc);
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/ClRemain/selectClRemainById',
+            dataType: 'json',
+            data:{
+            	id:data.cmoId
+            },
+            success: function (json) {
+            	console.log(json)
+            	$("#look_waste_table tbody").html('');
+            	for(var i=0;i<json.length;i++){
+            		if(json[i].wasteNumber>0){
+		            	$("#look_waste_table tbody").append("<tr>"+
+		            														"<td>"+json[i].materialName+"</td>"+
+		            														"<td>"+json[i].materialType+"</td>"+
+		            														"<td>"+json[i].specificationModel+"</td>"+
+		            														"<td>"+json[i].cmoUnit+"</td>"+
+		            														"<td>"+json[i].wasteNumber+"</td>"+
+		            														"<td>"+json[i].cmoUnitPrice+"</td>"+
+		            														"<td>"+json[i].wasteMoney+"</td>"+
+		            														"<td>"+json[i].wasteWantMoney+"</td>"+
+		            														"<td>"+json[i].wasteActualMoney+"</td>"+
+		            													"</tr>");
+            		}
+            	}
+            }
+        });
+		
+		$("#lookModal").modal("show");
+	}
 
 </script>
 </html>
