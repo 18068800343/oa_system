@@ -52,8 +52,20 @@ public class User {
     private String dutyName;
 
     private String certificate;
+    
+    private String certificateGrade;
 
-    public String getUserId() {
+    
+    
+    public String getCertificateGrade() {
+		return certificateGrade;
+	}
+
+	public void setCertificateGrade(String certificateGrade) {
+		this.certificateGrade = certificateGrade;
+	}
+
+	public String getUserId() {
         return userId;
     }
 

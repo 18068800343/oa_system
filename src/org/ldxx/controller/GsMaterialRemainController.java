@@ -26,8 +26,6 @@ public class GsMaterialRemainController {
 
 	@Autowired
 	private GsMaterialOutService Outservice;
-	@Autowired
-	private PrjMaterialBuyService buyservice;
 	
 	@RequestMapping("/selectGsMaterialRemain")
 	@ResponseBody
