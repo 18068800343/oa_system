@@ -99,4 +99,10 @@ public class PrjMaterialBuyController {
 		List<PrjMaterialBuy> list=service.selectBuyByname(name);
 		return list;
 	}
+	
+	@RequestMapping("/selectDepartmentAndMoney")//获得部门名及部门金额
+	@ResponseBody
+	public List<PrjMaterialBuy> selectDepartmentAndMoney(){
+		return service.selectDepartmentAndMoney();
+	}
 }

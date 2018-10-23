@@ -49,4 +49,11 @@ public class ClRemainController {
 		return i;
 	}
 	
+	@RequestMapping("/selectClRemainById")//根据gs_out_id查找结余材料信息
+	@ResponseBody
+	public List<ClRemain> selectClRemainById(String id){
+		List<ClRemain> list=service.selectClRemainById(id);
+		return list;
+	}
+	
 }

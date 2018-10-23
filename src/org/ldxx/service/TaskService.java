@@ -37,4 +37,6 @@ public interface TaskService {
 	public Task selectNoByName2(String name);
 	
 	public Task selectIdByNo2(String no);
+
+	public List<Task> selectPrjandNoAndPrjMoney();
 }

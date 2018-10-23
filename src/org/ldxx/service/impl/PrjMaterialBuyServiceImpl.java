@@ -70,4 +70,9 @@ public class PrjMaterialBuyServiceImpl implements PrjMaterialBuyService{
 		return dao.selectBuyByname(name);
 	}
 
+	@Override
+	public List<PrjMaterialBuy> selectDepartmentAndMoney() {
+		return dao.selectDepartmentAndMoney();
+	}
+
 }

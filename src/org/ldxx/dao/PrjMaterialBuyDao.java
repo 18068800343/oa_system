@@ -21,4 +21,6 @@ public interface PrjMaterialBuyDao {
 
 	public List<PrjMaterialBuy> selectBuyByname(@Param("name")String name);
 
+	public List<PrjMaterialBuy> selectDepartmentAndMoney();
+
 }

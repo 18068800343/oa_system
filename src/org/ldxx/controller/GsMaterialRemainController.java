@@ -3,10 +3,12 @@ package org.ldxx.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ldxx.bean.ClRemain;
 import org.ldxx.bean.CompanyMateriaIn;
 import org.ldxx.bean.CompanyMateriaOut;
 import org.ldxx.bean.GsClOut;
 import org.ldxx.bean.PrjMaterialBuy;
+import org.ldxx.service.ClRemainService;
 import org.ldxx.service.GsMaterialInService;
 import org.ldxx.service.GsMaterialOutService;
 import org.ldxx.service.PrjMaterialBuyService;
@@ -26,6 +28,7 @@ public class GsMaterialRemainController {
 
 	@Autowired
 	private GsMaterialOutService Outservice;
+	
 	
 	@RequestMapping("/selectGsMaterialRemain")
 	@ResponseBody

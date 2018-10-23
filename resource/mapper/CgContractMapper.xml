@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.CgContractDao">
+
 	<select id="selectCgContractByStatus" resultType="CgContract">
 		select a.*,c.sp_name from cg_contract a
 			left join mode_status b on a.cg_id =b.mode_id
 			left join sourcing_purchasing c on c.sp_id=a.contract_name_yi 
 		where b.status=#{status} and a.history=1
 	</select>
+	
 	<insert id="addCgContract" parameterType="CgContract">
 		insert into cg_contract(cg_id,contract_name,cg_no,cgd_no,work_no,prj_name,is_program,program_type,cgc_type,program_money,
 			cg_contract_money,contract_name_jia,contract_name_yi,pay_mode,contract_sign_time,contract_summary,work_content,make_time,history) 
@@ -16,50 +18,66 @@
 			#{cg.contractNameYi},#{cg.payMode},#{cg.contractSignTime},#{cg.contractSummary},
 			#{cg.workContent},now(),1)
 	</insert>
+	
 	<delete id="deleteCgContractById">
 		delete from cg_contract where cg_id=#{id}
 	</delete>
+	
 	<select id="selectCgContractById" resultType="CgContract">
 		select * from cg_contract where cg_id=#{id}
 	</select>
+	
 	<select id="selectCgIdAndName" resultType="CgContract">
 		select cg_id,cg_no,contract_name from cg_contract a
 			left join mode_status b on a.cg_id =b.mode_id
 		where b.status=2 and a.history=1
 	</select>
+	
 	<select id="selectCgnoById" resultType="CgContract">
 		select cg_no from cg_contract where cg_id=#{id}
 	</select>
+	
 	<update id="updateHistoryById">
 		update cg_contract set history=0 where cg_id=#{cgId}
 	</update>
+	
 	<select id="selectHistoryByNo" parameterType="String" resultType="CgContract">
 		select a.*,c.sp_name from  cg_contract a
 			left join sourcing_purchasing c on c.sp_id=a.contract_name_yi 
 		 where a.cg_no=#{cgNo} and a.history=0
 	</select>
+	
 	<select id="cgNocount" resultType="int">
 		select count(1) from (select distinct cg_no from cg_contract) as a
 	</select>
+	
 	<select id="getCGNameAndNo" resultType="CgContract">
 		select cg_id,contract_name,cg_no,cgd_no,prj_name,work_no from cg_contract a
 			left join mode_status b on a.cg_id =b.mode_id
 		 where b.status=2 and a.history=1
 	</select>
+	
 	<select id="getCGNameByNo" resultType="CgContract">
 		select cg_id,cgd_no,contract_name,work_no,prj_name from cg_contract where cg_no=#{cgNo} and history=1
 	</select>
+	
 	<select id="getCGNoByName" resultType="CgContract">
 		select cg_no,cgd_no,work_no,prj_name from cg_contract where contract_name=#{contractName} and history=1
 	</select>
+	
 	<select id="getCGNameAndPrjNameBytaskNo" resultType="CgContract">
 		select cg_id,cg_no,contract_name,prj_name from cg_contract a 
 		left join mode_status b on a.cg_id =b.mode_id
 		 where a.work_no=#{no} and a.history=1 and b.status=2
 	</select>
+	
 	<select id="getCGNametaskNoAndByPrjName" resultType="CgContract">
 		select cg_id,cg_no,work_no,contract_name from cg_contract a
 		left join mode_status b on a.cg_id =b.mode_id
 		where a.prj_name=#{name} and a.history=1 and b.status=2
+	</select>
+	
+	<select id="getCGNameCgNoAndCgMoney" resultType="CgContract">
+		select cg_id,cg_no,contract_name,cg_contract_money,contract_sign_time from cg_contract
 	</select>
 </mapper>

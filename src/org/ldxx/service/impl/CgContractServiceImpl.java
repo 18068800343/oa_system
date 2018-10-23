@@ -151,4 +151,9 @@ public class CgContractServiceImpl implements CgContractService {
 		return mdao.updateMaterialPrice(price,id);
 	}
 
+	@Override
+	public List<CgContract> getCGNameCgNoAndCgMoney() {
+		return cgDao.getCGNameCgNoAndCgMoney();
+	}
+
 }

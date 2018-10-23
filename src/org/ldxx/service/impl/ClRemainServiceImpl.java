@@ -68,4 +68,9 @@ public class ClRemainServiceImpl implements ClRemainService{
 		return dao.updateClRemain(out);
 	}
 
+	@Override
+	public List<ClRemain> selectClRemainById(String id) {
+		return dao.selectClRemainById(id);
+	}
+
 }

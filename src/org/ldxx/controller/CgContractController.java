@@ -272,4 +272,11 @@ public class CgContractController {
 	public int updateMaterialPrice(float price,String id){
 		return cgService.updateMaterialPrice(price,id);
 	}
+	
+	@RequestMapping("/getCGNameCgNoAndCgMoney")//初始化合同名、合同编号、合同金额
+	@ResponseBody
+	public List<CgContract> getCGNameCgNoAndCgMoney(){
+		List<CgContract> list=cgService.getCGNameCgNoAndCgMoney();
+		return list;
+	}
 }

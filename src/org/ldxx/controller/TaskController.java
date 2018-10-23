@@ -387,4 +387,10 @@ public class TaskController {
 		return tService.selectIdByNo2(no);
 	}
 	
+	@RequestMapping("/selectPrjandNoAndPrjMoney")//获取项目名、任务单号、项目金额、签订时间
+	@ResponseBody
+	public List<Task> selectPrjandNoAndPrjMoney(){
+		return tService.selectPrjandNoAndPrjMoney();
+	}
+	
 }

@@ -131,4 +131,9 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.selectIdByNo2(no);
 	}
 
+	@Override
+	public List<Task> selectPrjandNoAndPrjMoney() {
+		return tdao.selectPrjandNoAndPrjMoney();
+	}
+
 }

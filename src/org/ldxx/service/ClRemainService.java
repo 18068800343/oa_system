@@ -17,5 +17,7 @@ public interface ClRemainService {
 	public int remainUse(CompanyMateriaOut cm);
 	
 	public int updateClRemain(List<outRemain> out);
+
+	public List<ClRemain> selectClRemainById(String id);
 	
 }

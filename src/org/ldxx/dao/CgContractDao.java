@@ -38,4 +38,6 @@ public interface CgContractDao {
 
 	List<CgContract> getCGNametaskNoAndByPrjName(@Param("name")String name);
 
+	List<CgContract> getCGNameCgNoAndCgMoney();
+
 }

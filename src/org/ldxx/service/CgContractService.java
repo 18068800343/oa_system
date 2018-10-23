@@ -46,4 +46,6 @@ public interface CgContractService {
 
 	int updateMaterialPrice(float price, String id);
 
+	List<CgContract> getCGNameCgNoAndCgMoney();
+
 }
