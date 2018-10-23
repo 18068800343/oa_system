@@ -19,5 +19,7 @@ public interface ClRemainService {
 	public int updateClRemain(List<outRemain> out);
 
 	public List<ClRemain> selectClRemainById(String id);
-	
+
+	public int updateClRemainNum(ClRemain cr);
+
 }

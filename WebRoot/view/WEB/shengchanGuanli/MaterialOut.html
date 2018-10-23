@@ -552,7 +552,7 @@
                                 "<td dataId='' id='cgbumen'></td>"+
                                 "<td  colspan='2'>部门采购金额</td>"+
                                 "<td id='bumencgMoney' colspan='2'></td>"+
-                            	"<th colspan='4' style='text-align:right;'><button type='button' id='xgyijianjiesuanMoney' onclick='yijianjiesuan()' class='btn btn-primary' >一键结算金额</button></th>"+
+                            	"<th colspan='4' style='text-align:right;'></th>"+
                         	"</tr>"+
                         	"<tr>"+
                         		"<th><input type='checkbox' id='allchk' name='checkbox' onclick='allCheck(this)'></th>"+
@@ -563,8 +563,8 @@
 	                            "<th>数量</th>"+
 	                            "<th style='width:8%;'>单价</th>"+
 	                            "<th style='width:8%;'>领料数量</th>"+
-	                            "<th>剩余数量</th>"+
-	                            "<th>出库金额</th>"+
+	                            /* "<th>剩余数量</th>"+
+	                            "<th>出库金额</th>"+ */
                         	"</tr>"+
                     	"</thead>"+
                     	"<tbody>"+
@@ -617,8 +617,8 @@
 		                		  				+""+json[k].price+""
 		                		  				+"</td><td>"
 		                		  				+'<input type="text" class="form-control" id="num"  style="width:100%;">'
-		                		  				+"</td><td>"
-		                		  				+"</td><td>"
+		                		  				/* +"</td><td>"
+		                		  				+"</td><td>" */
 		                		  				+"</td></tr>")
 		                        	} 
 		                        }
@@ -826,11 +826,20 @@
 	       var cltype = $(this).parent().next().next().text();//材料类型
 	       var clxinghao = $(this).parent().next().next().next().text();//材料型号
 	       var cldanwei = $(this).parent().next().next().next().next().text();//材料单位
-	       var cldanjia = $(this).parent().next().next().next().next().next().next().text();//材料单位
+	       var num = $(this).parent().next().next().next().next().next().text();//材料数量
+	       var cldanjia = $(this).parent().next().next().next().next().next().next().text();//材料单价
 	       var lingNum = $(this).parent().next().next().next().next().next().next().next().find("input").val();//领料数量
-	       var shengyuNum = $(this).parent().next().next().next().next().next().next().next().next().text();//剩余数量
-	       var outMoney = $(this).parent().next().next().next().next().next().next().next().next().next().text();//出库金额
-	       console.log(outMoney)
+	       var shengyuNum=num-lingNum;
+	       var outMoney=lingNum*cldanjia;
+	       var reg=/^\+?[1-9][0-9]*$/;
+	   	   if(!reg.test(lingNum)){
+	   			toastr.error("请输入数字")
+	       		return;
+	   		}
+	       if(Number(lingNum)>Number(num)){
+	    	   toastr.error("领料数量不能超过原有数量")
+       			return;
+	       }
 	       var arr={
 		    		gsId:undefined,
 		    		gsOutId:undefined,

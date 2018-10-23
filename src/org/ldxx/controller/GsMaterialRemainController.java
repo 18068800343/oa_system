@@ -14,6 +14,7 @@ import org.ldxx.service.GsMaterialOutService;
 import org.ldxx.service.PrjMaterialBuyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,13 +29,21 @@ public class GsMaterialRemainController {
 
 	@Autowired
 	private GsMaterialOutService Outservice;
-	
+	@Autowired
+	private ClRemainService clRemainservice;
 	
 	@RequestMapping("/selectGsMaterialRemain")
 	@ResponseBody
 	public List<CompanyMateriaOut> selectGsMaterialRemain(int remainType){
 		List<CompanyMateriaOut> list=Outservice.selectGSmaterialRemain(remainType);
 		return list;
+	}
+	
+	@RequestMapping("/updateClRemainNum")//修改结余材料的剩余数量以及
+	@ResponseBody
+	public int updateClRemainNum(ClRemain cr){
+		int i=clRemainservice.updateClRemainNum(cr);
+		return i;
 	}
 	
 }

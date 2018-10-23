@@ -187,7 +187,7 @@
                         		<thead>
 	                        		<tr>
 	                                	<th colspan="9">材料信息列表</th>
-	                                	<th style='text-align:right;'><button type='button' id='xgyijianjiesuanMoney' onclick='yijianjiesuan()' class='btn btn-primary' >一键结算金额</button></th>
+	                                	<!-- <th style='text-align:right;'><button type='button' id='xgyijianjiesuanMoney' onclick='yijianjiesuan()' class='btn btn-primary' >一键结算金额</button></th> -->
 	                            	</tr>
 	                            	<tr>
 	                        			<th>材料名称</th>
@@ -197,8 +197,6 @@
 		                    			<th>结余余数</th>
 		                    			<th>单价</th>
 		                    			<th>转出数量</th>
-		                    			<th>剩余数量</th>
-		                    			<th>转出金额</th>
 		                    			<th>操作</th>
 	                        		</tr>
 	                        	</thead>
@@ -654,8 +652,6 @@
 								"<td style='width:10%;'>"+json[i].remainNumber+"</td>"+
 								"<td style='width:10%;'>"+json[i].cmoUnitPrice+"</td>"+
 								"<td style='width:10%;'><input type='text' data="+json[i].crId+"  class='form-control' style='width:70%;'></td>"+
-								"<td style='width:10%;'></td>"+
-								"<td style='width:10%;'></td>"+
 								"<td style='width:10%;'><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
 							"</tr>")
             		}
@@ -919,11 +915,22 @@
     	    var cltype = data.eq(1).text();//材料类型
     	    var clxinghao = data.eq(2).text();//材料型号
     	    var cldanwei = data.eq(3).text();//材料单位
+    	    var yushu = data.eq(4).text();//结余余数
     	    var cldanjia = data.eq(5).text();//材料单价
     	    var lingNum = data.eq(6).find("input").val();//领料数量
-    	    var shengyuNum = data.eq(7).text();//剩余数量
-    	    var outMoney = data.eq(8).text();//出库金额
-    	    
+    	    /* var shengyuNum = data.eq(7).text();//剩余数量
+    	    var outMoney = data.eq(8).text();//出库金额 */
+    	    var shengyuNum=yushu-lingNum;
+			var outMoney=lingNum*cldanjia;
+			var reg=/^\+?[1-9][0-9]*$/;
+	   	    if(!reg.test(lingNum)){
+	   			toastr.error("请输入数字")
+	       		return;
+	   		}
+	        if(Number(lingNum)>Number(yushu)){
+	    	   toastr.error("领料数量不能超过原有数量")
+       			return;
+	        }
     	    var arr={
     	    		gsId:undefined,
     	    		gsOutId:undefined,
@@ -987,6 +994,7 @@
 			arr2.gsClOut=material;
 			clOut.push(arr2);
     		//console.log(clOut)
+    		
 			$.ajax({
 				type: 'POST',
 	            url: getContextPath()+'/gsMaterialOut/addGsMaterialOutSave',
@@ -999,6 +1007,45 @@
 						$("#allMsg3").modal("hide")
 						toastr.success("添加成功")
 						initTable();
+						
+						//修改结余材料的数目
+						$("#remain_out_table tbody").find("tr").each(function(){
+							var data = $(this).children();
+							var yushu = data.eq(4).text();//结余余数
+							var cldanjia = data.eq(5).text();//材料单价
+							var id = data.eq(6).find("input").attr("data");//id
+							var lingNum = data.eq(6).find("input").val();//领料数量
+							var shengyuNum=yushu-lingNum;
+							var outMoney=lingNum*cldanjia;
+							//console.log(outMoney)
+							var reg=/^\+?[1-9][0-9]*$/;
+					   	    if(!reg.test(lingNum)){
+					   			toastr.error("请输入数字")
+					       		return;
+					   		}
+					        if(Number(lingNum)>Number(yushu)){
+					    	   toastr.error("领料数量不能超过原有数量")
+				       			return;
+					        }
+							$.ajax({
+						        type: 'POST',
+						        url: getContextPath()+'/GsMaterialRemain/updateClRemainNum',
+						        dataType: 'json',
+						        data: {
+						        	crId:id,
+						        	cmoNumber:lingNum,
+						        	remainNumber:shengyuNum,
+						        	cmoMoney:outMoney,
+						        },
+						        success: function (json) {
+						        	console.log(json)
+						        	if(json=0){
+						        		toastr.error("修改材料余数失败")
+						        	}
+						        }
+						    });
+						})
+						
 					}else{
 						toastr.error("添加失败")
 					}
@@ -1009,7 +1056,6 @@
 	    }
 		
 	}
-	
 	
 	
     function getCreat(bb){
