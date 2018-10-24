@@ -29,9 +29,19 @@ public class MaterialDemand {
     
     private String manufacturer;//生产厂家
 
+    private int remainNumber;//剩余数量
     
     
-    public String getModeType() {
+    
+    public int getRemainNumber() {
+		return remainNumber;
+	}
+
+	public void setRemainNumber(int remainNumber) {
+		this.remainNumber = remainNumber;
+	}
+
+	public String getModeType() {
 		return modeType;
 	}
 

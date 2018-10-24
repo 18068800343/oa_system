@@ -49,5 +49,10 @@ public class MaterialDemandServiceImpl implements MaterialDemandService{
 		return i;
 	}
 
+	@Override
+	public int updateMaterialDemand(String id, int number) {
+		return dao.updateMaterialDemand(id,number);
+	}
+
 	
 }

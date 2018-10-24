@@ -11,4 +11,7 @@ public interface MaterialDemandService {
 	public List<MaterialDemand> selectMaterialDemandById(String id);
 	
 	public int updateMd(List<MaterialDemand> md);
+
+	public int updateMaterialDemand(String id, int number);
+
 }

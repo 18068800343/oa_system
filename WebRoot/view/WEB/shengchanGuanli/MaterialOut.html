@@ -531,18 +531,8 @@
   //初始化材料列表
 	var arrayClId=new Array();
 	function initMaterial(obj){
-		/* var arr=new Array();
-		if(obj.indexOf(",")){
-			var list=obj.split(",");
-			for(var i=0;i<list.length;i++){
-				arr.push(list[i])
-			}
-		}else{
-			arr.push(list)
-		} */
 		if(obj!=null){
 			$("#cailiaobiaoDiv table").remove();
-				//console.log(list[i])
         		$("#cailiaobiaoDiv").append(
         				"<table  class='table table-bordered table-condensed' id='cailiaobiao'>"+
                     	"<thead>"+
@@ -563,8 +553,6 @@
 	                            "<th>数量</th>"+
 	                            "<th style='width:8%;'>单价</th>"+
 	                            "<th style='width:8%;'>领料数量</th>"+
-	                            /* "<th>剩余数量</th>"+
-	                            "<th>出库金额</th>"+ */
                         	"</tr>"+
                     	"</thead>"+
                     	"<tbody>"+
@@ -579,7 +567,6 @@
 		            	name:obj
 		            },
 		            success: function (json) {
-		            	//console.log(json)
 		            	for(var i=0;i<json.length;i++){
 		            		var omName=json[i].omName
 		            		var sumPrice=json[i].sumPrice;
@@ -600,9 +587,9 @@
 		                        	id:json[i].pmbId
 		                        },
 		                        success: function (json) {
-		                        	//console.log(json)
 		                        	for(var k=0;k<json.length;k++){
-		                        		$("#cailiaobiao tbody").append("<tr dataId="+json[k].mdlId+"><td>"
+		                        		var num=json[k].remainNumber==""?json[k].num:json[k].remainNumber
+		                        		$("#cailiaobiao tbody").append("<tr><td>"
 		                        				+"<input type='checkbox' id='selectOne' class='chksty' name='checkboxs'></td><td>"
 		                		  				+""+json[k].materialName+""
 		                		  				+"</td><td>"
@@ -612,13 +599,11 @@
 		                		  				+"</td><td>"
 		                		  				+""+json[k].buyCompany+""
 		                		  				+"</td><td>"
-		                		  				+""+json[k].num+""
+		                		  				+""+num+""
 		                		  				+"</td><td>"
 		                		  				+""+json[k].price+""
 		                		  				+"</td><td>"
-		                		  				+'<input type="text" class="form-control" id="num"  style="width:100%;">'
-		                		  				/* +"</td><td>"
-		                		  				+"</td><td>" */
+		                		  				+'<input type="text" dataId='+json[k].mdlId+' class="form-control" id="num"  style="width:100%;">'
 		                		  				+"</td></tr>")
 		                        	} 
 		                        }
@@ -631,28 +616,6 @@
 	  		}else{
 	  			toastr.error("采购合同号为空");
 	  		}
-	}
-	//一键结算金额
-	function yijianjiesuan(){
-		//console.log(obj)
-		var num=$("#num").val();
-			$("#cailiaobiaoDiv table").each(function(){
-				$(this).find("tbody").find("tr").each(function(){
-					var shengyuNum=0;
-					var chukuMoney=0;
-					var num=$(this).find("td").eq(5).text();
-					var danjia=$(this).find("td").eq(6).text();
-					var lingnum=$(this).find("td").eq(7).find("input").val();
-					if(lingnum/1<num/1 || lingnum/1==num/1){
-						shengyuNum=num-lingnum
-						chukuMoney=danjia*lingnum
-					}else if(lingnum/1>num/1){
-						toastr.error("超出库中数量")
-					}
-					$(this).find("td").eq(8).text(shengyuNum);
-					$(this).find("td").eq(9).text(chukuMoney);
-				})
-			})
 	}
 	
 	//全选
@@ -684,7 +647,6 @@
             data: {
             },
             success: function (json) {
-            	//console.log(json);
             	for(var i=0;i<json.length;i++){
 	            	$("#bumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
 	            	$("#xgbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
@@ -736,7 +698,6 @@
 				userId:guanliren 
 				},
 			success:function(json){
-				//console.log(json)
 				$("#lingliaoren").empty('');
 				$("#lingliaoren").val(json.uName)
 			}
@@ -785,7 +746,6 @@
 				userId:xgguanliren 
 				},
 			success:function(json){
-				//console.log(json)
 				$("#xglingliaoren").empty('');
 				$("#xglingliaoren").val(json.uName)
 			}
@@ -914,6 +874,31 @@
 						$("#myModal").modal("hide")
 						toastr.success("添加成功")
 						initTable();
+						
+						//修改材料剩余数量
+						$("#cailiaobiao tbody").find(":checkbox:checked").each(function(){
+							   var num = $(this).parent().next().next().next().next().next().text();//材料数量
+							   var id = $(this).parent().next().next().next().next().next().next().next().find("input").attr("dataId");//id
+						       var lingNum = $(this).parent().next().next().next().next().next().next().next().find("input").val();//领料数量
+						       var shengyuNum=num-lingNum;
+						       $.ajax({
+							        type: 'POST',
+							        url: getContextPath()+'/gsMaterialOut/updateMaterialDemand',
+							        dataType: 'json',
+							        data: {
+							        	id:id,
+							        	number:shengyuNum,
+							        },
+							        success: function (json) {
+							        	if(json=0){
+							        		toastr.error("修改材料余数失败")
+							        	}
+							        }
+							    });
+						})
+						
+						
+						
 					}else{
 						toastr.error("添加失败")
 					}

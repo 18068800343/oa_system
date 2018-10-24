@@ -13,6 +13,7 @@ import org.ldxx.bean.GsClOut;
 import org.ldxx.dao.CgContractDao;
 import org.ldxx.service.GsClOutService;
 import org.ldxx.service.GsMaterialOutService;
+import org.ldxx.service.MaterialDemandService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,8 @@ public class GsMaterialOutController {
 	private GsClOutService gservice;
 	@Autowired
 	private CgContractDao cdao;
+	@Autowired
+	private MaterialDemandService mdservice;
 	
 	@RequestMapping("/selectGsMaterialOut")
 	@ResponseBody
@@ -193,5 +196,11 @@ public class GsMaterialOutController {
 		map.put("cm", cm);
 		map.put("gc", gc);
 		return map;
+	}
+	
+	@RequestMapping("/updateMaterialDemand")//修改材料剩余数量
+	@ResponseBody
+	public int updateMaterialDemand(String id,int number){
+		return mdservice.updateMaterialDemand(id,number);
 	}
 }

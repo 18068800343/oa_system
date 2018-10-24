@@ -39,7 +39,7 @@ public class GsMaterialRemainController {
 		return list;
 	}
 	
-	@RequestMapping("/updateClRemainNum")//修改结余材料的剩余数量以及
+	@RequestMapping("/updateClRemainNum")//修改结余材料的出库数、剩余数量以及出库金额
 	@ResponseBody
 	public int updateClRemainNum(ClRemain cr){
 		int i=clRemainservice.updateClRemainNum(cr);
