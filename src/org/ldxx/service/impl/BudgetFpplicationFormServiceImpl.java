@@ -115,4 +115,14 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	public int countNo() {
 		return bdao.countNo();
 	}
+
+	@Override
+	public BudgetFpplicationForm selectBudgeByNo(String no) {
+		return bdao.selectBudgeByNo(no);
+	}
+
+	@Override
+	public BudgetFpplicationForm selectBudgeByName(String name) {
+		return bdao.selectBudgeByName(name);
+	}
 }

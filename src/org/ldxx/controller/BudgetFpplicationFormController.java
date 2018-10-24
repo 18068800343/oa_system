@@ -117,4 +117,16 @@ public class BudgetFpplicationFormController {
 		List<BudgetFpplicationForm> budgeHistoryList=bservice.selectBudgeHistory(no);
 		return budgeHistoryList;
 	}
+	
+	@RequestMapping("/selectBudgeByNo")
+	@ResponseBody
+	public BudgetFpplicationForm selectBudgeByNo(String no){
+		return bservice.selectBudgeByNo(no);
+	}
+	
+	@RequestMapping("/selectBudgeByName")
+	@ResponseBody
+	public BudgetFpplicationForm selectBudgeByName(String name){
+		return bservice.selectBudgeByName(name);
+	}
 }

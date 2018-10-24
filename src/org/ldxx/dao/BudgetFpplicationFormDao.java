@@ -22,5 +22,9 @@ public interface BudgetFpplicationFormDao {
 	List<BudgetFpplicationForm> selectBudgeHistory(@Param("no")String no);
 
 	int countNo();
-
+	
+	BudgetFpplicationForm selectBudgeByNo(@Param("no")String no);
+	
+	BudgetFpplicationForm selectBudgeByName(@Param("name")String name);
+	
 }

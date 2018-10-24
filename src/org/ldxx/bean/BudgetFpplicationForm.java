@@ -18,6 +18,7 @@ public class BudgetFpplicationForm {
 	private String declarer;//申报人
 	private String makeTime;//填报时间
 	private String state;//数据状态：0 历史数据 ； 1 最新数据
+	private float allCost;//总预算金额
 	
 	private List<CostBudget> costBudget;
 	private List<ArtificialBudget> artificialBudget;
@@ -26,7 +27,12 @@ public class BudgetFpplicationForm {
 	
 	
     
-    
+	public float getAllCost() {
+		return allCost;
+	}
+	public void setAllCost(float allCost) {
+		this.allCost = allCost;
+	}
 	public String getBfNo() {
 		return bfNo;
 	}

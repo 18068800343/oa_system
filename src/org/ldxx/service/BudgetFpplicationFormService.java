@@ -21,5 +21,9 @@ public interface BudgetFpplicationFormService {
 	List<BudgetFpplicationForm> selectBudgeHistory(String no);
 
 	int countNo();
-
+	
+	BudgetFpplicationForm selectBudgeByNo(String no);
+	
+	BudgetFpplicationForm selectBudgeByName(String name);
+	
 }
