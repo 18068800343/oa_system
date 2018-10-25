@@ -52,6 +52,62 @@ public class ContractWork {
 	
 	private List<Enterprise> enterprise;
 	
+	private String prjManager;//项目经理
+	private String deputyPrjManager1;//项目副经理1
+	private String deputyPrjManager2;//项目副经理2
+	private String prjGeneral;//项目总工
+	private String prjDuration;//项目工期
+	private String prjGrade;//公路等级
+	
+
+	
+	public String getPrjManager() {
+		return prjManager;
+	}
+
+	public void setPrjManager(String prjManager) {
+		this.prjManager = prjManager;
+	}
+
+	public String getDeputyPrjManager1() {
+		return deputyPrjManager1;
+	}
+
+	public void setDeputyPrjManager1(String deputyPrjManager1) {
+		this.deputyPrjManager1 = deputyPrjManager1;
+	}
+
+	public String getDeputyPrjManager2() {
+		return deputyPrjManager2;
+	}
+
+	public void setDeputyPrjManager2(String deputyPrjManager2) {
+		this.deputyPrjManager2 = deputyPrjManager2;
+	}
+
+	public String getPrjGeneral() {
+		return prjGeneral;
+	}
+
+	public void setPrjGeneral(String prjGeneral) {
+		this.prjGeneral = prjGeneral;
+	}
+
+	public String getPrjDuration() {
+		return prjDuration;
+	}
+
+	public void setPrjDuration(String prjDuration) {
+		this.prjDuration = prjDuration;
+	}
+
+	public String getPrjGrade() {
+		return prjGrade;
+	}
+
+	public void setPrjGrade(String prjGrade) {
+		this.prjGrade = prjGrade;
+	}
 
 	public String getRating() {
 		return rating;
