@@ -12,7 +12,7 @@ public class PrjWorkingHours {
 	private String pwhId;
 	private String prjName;//项目名
 	private String prjNo;//任务单号
-	private String contractMoney;//合同额
+	private Float contractMoney;//合同额
 	private String designInput;//设计院手动输入
 	private String prjUnit;//项目管理单位
 	private String attendanceTime;//考勤时间
@@ -56,11 +56,11 @@ public class PrjWorkingHours {
 		this.prjNo = prjNo;
 	}
 
-	public String getContractMoney() {
+	public Float getContractMoney() {
 		return contractMoney;
 	}
 
-	public void setContractMoney(String contractMoney) {
+	public void setContractMoney(Float contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 

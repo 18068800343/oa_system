@@ -66,7 +66,10 @@ public class PrjWorkingHoursServiceImpl implements PrjWorkingHoursService {
 		int i=dao.deletePrjWorkingHours(id);
 		if(i>0){
 			i=pdao.deleteByprjgsid(id);
-			i=adao.deleteAccessory(id);
+			List<Accessory> list = adao.selectAccessoryById(id);
+			if(list.size()>0&&list!=null){
+				i=adao.deleteAccessory(id);
+			}
 		}
 		return i;
 	}

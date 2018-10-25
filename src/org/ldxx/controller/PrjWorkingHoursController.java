@@ -62,7 +62,7 @@ public class PrjWorkingHoursController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"gsMaterialIn"+File.separator+id;
+				String path="D:"+File.separator+"oa"+File.separator+"PrjWorkingHours"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -100,7 +100,7 @@ public class PrjWorkingHoursController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"gsMaterialIn"+File.separator+id;
+				String path="D:"+File.separator+"oa"+File.separator+"PrjWorkingHours"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
