@@ -1,49 +1,53 @@
 package org.ldxx.bean;
 
+import java.util.List;
+
+//项目周报/月报
 public class PrjReport {
     private String prId;
 
-    private String prjCode;
+    private String prjCode;//任务单号
 
-    private String prjName;
+    private String prjName;//项目名称
 
-    private String prjLongTime;
+    private String prjLongTime;//项目工期
 
-    private String reportTableKind;
+    private String reportTableKind;//报表性质
 
-    private String fillTime;
+    private String fillTime;//日期
 
-    private String thistimePrjText;
+    private String thistimePrjText;//本期项目内容
 
-    private String prjSafetyMaybeText;
+    private String prjSafetyMaybeText;//项目安全概述
 
-    private String prjQuatityMaybeText;
+    private String prjQuatityMaybeText;//项目质量概述
 
-    private String fbManageSituation;
+    private String fbManageSituation;//分包管理情况
 
-    private String changeSituation;
+    private String changeSituation;//变更情况
 
-    private String importentThings;
+    private String importentThings;//重大事项
 
-    private String needCompanyCooperation;
+    private String needCompanyCooperation;//需要公司协调
 
-    private String otherThings;
+    private String otherThings;//其他事项
 
-    private String maybeSignTime;
+    private String maybeText;//概述
 
-    private String maybeSignPath;
+    private Integer prType;//报表类型(0:周报表 1:月报表)
 
-    private String maybeText;
+    private List<Accessory> accessory;
+    
+    
+    public List<Accessory> getAccessory() {
+		return accessory;
+	}
 
-    private String departIdea;
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
 
-    private String otherfilePath;
-
-    private String otherfileUpload;
-
-    private Integer prType;
-
-    public String getPrId() {
+	public String getPrId() {
         return prId;
     }
 
@@ -155,21 +159,6 @@ public class PrjReport {
         this.otherThings = otherThings == null ? null : otherThings.trim();
     }
 
-    public String getMaybeSignTime() {
-        return maybeSignTime;
-    }
-
-    public void setMaybeSignTime(String maybeSignTime) {
-        this.maybeSignTime = maybeSignTime == null ? null : maybeSignTime.trim();
-    }
-
-    public String getMaybeSignPath() {
-        return maybeSignPath;
-    }
-
-    public void setMaybeSignPath(String maybeSignPath) {
-        this.maybeSignPath = maybeSignPath == null ? null : maybeSignPath.trim();
-    }
 
     public String getMaybeText() {
         return maybeText;
@@ -179,29 +168,6 @@ public class PrjReport {
         this.maybeText = maybeText == null ? null : maybeText.trim();
     }
 
-    public String getDepartIdea() {
-        return departIdea;
-    }
-
-    public void setDepartIdea(String departIdea) {
-        this.departIdea = departIdea == null ? null : departIdea.trim();
-    }
-
-    public String getOtherfilePath() {
-        return otherfilePath;
-    }
-
-    public void setOtherfilePath(String otherfilePath) {
-        this.otherfilePath = otherfilePath == null ? null : otherfilePath.trim();
-    }
-
-    public String getOtherfileUpload() {
-        return otherfileUpload;
-    }
-
-    public void setOtherfileUpload(String otherfileUpload) {
-        this.otherfileUpload = otherfileUpload == null ? null : otherfileUpload.trim();
-    }
 
     public Integer getPrType() {
         return prType;

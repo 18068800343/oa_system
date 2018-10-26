@@ -6,6 +6,7 @@ import java.util.List;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.FbContract;
+import org.ldxx.bean.MaterialDemand;
 import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.CgContractDao;
@@ -147,8 +148,8 @@ public class CgContractServiceImpl implements CgContractService {
 	}
 
 	@Override
-	public int updateMaterialPrice(float price, String id) {
-		return mdao.updateMaterialPrice(price,id);
+	public int updateMaterial(MaterialDemand md) {
+		return mdao.updateMaterial(md);
 	}
 
 	@Override

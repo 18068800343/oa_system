@@ -13,7 +13,7 @@ public interface MaterialDemandDao {
 	
 	public int deleteMdById(@Param("id")String id);
 
-	public int updateMaterialPrice(@Param("price")float price, @Param("id")String id);//修改单价
+	public int updateMaterial(@Param("md")MaterialDemand md);//修改材料信息
 
 	public int updateMaterialbuyUnitAndManufacturer(@Param("id")String id,@Param("unit")String unit, @Param("manufacturer")String manufacturer);//修改来货单位及生产厂家
 

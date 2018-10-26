@@ -5,6 +5,7 @@ import java.util.List;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.FbContract;
+import org.ldxx.bean.MaterialDemand;
 
 public interface CgContractService {
 
@@ -44,7 +45,7 @@ public interface CgContractService {
 
 	int updateDepartmentMoney(float price, String id);
 
-	int updateMaterialPrice(float price, String id);
+	int updateMaterial(MaterialDemand md);
 
 	List<CgContract> getCGNameCgNoAndCgMoney();
 

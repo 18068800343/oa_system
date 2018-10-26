@@ -8,6 +8,7 @@ import java.util.List;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.FbContract;
+import org.ldxx.bean.MaterialDemand;
 import org.ldxx.service.CgContractService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -267,10 +268,10 @@ public class CgContractController {
 		return cgService.updateDepartmentMoney(price,id);
 	}
 	
-	@RequestMapping("/updateMaterialPrice")//修改材料单价
+	@RequestMapping("/updateMaterial")//修改材料信息
 	@ResponseBody
-	public int updateMaterialPrice(float price,String id){
-		return cgService.updateMaterialPrice(price,id);
+	public int updateMaterial(MaterialDemand md){
+		return cgService.updateMaterial(md);
 	}
 	
 	@RequestMapping("/getCGNameCgNoAndCgMoney")//初始化合同名、合同编号、合同金额

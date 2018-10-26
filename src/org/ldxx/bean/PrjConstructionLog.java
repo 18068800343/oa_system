@@ -1,35 +1,57 @@
 package org.ldxx.bean;
-
+//项目施工日志
 public class PrjConstructionLog {
     private String pclId;
 
-    private String prjCode;
+    private String prjCode;//任务单号
 
-    private String prjName;
+    private String prjName;//项目名称
 
-    private String prjLongTime;
+    private String prjLongTime;//项目工期
 
-    private String materialCondition;
+    private String materialCondition;//人机料情况
 
-    private String constructionContent;
+    private String constructionContent;//施工内容
 
-    private String safetySituation;
+    private String safetySituation;//安全情况
 
-    private String qualityCondition;
+    private String qualityCondition;//质量情况
 
-    private String weather;
+    private String weather;//天气
 
-    private String temperature;
+    private String temperature;//温度
 
-    private String fillTime;
+    private String fillTime;//日期
 
-    private String tomorrowPlan;
+    private String tomorrowPlan;//明日计划
 
-    private String otherThings;
+    private String otherThings;//其他事项
 
-    private String importentThings;
+    private String importentThings;//重大事项
+    
+    private String constructionSite1;//施工部位1
+    
+    private String constructionSite2;//施工部位2
 
-    public String getPclId() {
+    
+    
+    public String getConstructionSite1() {
+		return constructionSite1;
+	}
+
+	public void setConstructionSite1(String constructionSite1) {
+		this.constructionSite1 = constructionSite1;
+	}
+
+	public String getConstructionSite2() {
+		return constructionSite2;
+	}
+
+	public void setConstructionSite2(String constructionSite2) {
+		this.constructionSite2 = constructionSite2;
+	}
+
+	public String getPclId() {
         return pclId;
     }
 
