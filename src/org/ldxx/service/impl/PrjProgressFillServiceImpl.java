@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.PrjProgressFill;
+import org.ldxx.bean.PrjProgressFillCj;
 import org.ldxx.bean.PrjProgressFillInfo;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.PrjProgressFillDao;
@@ -57,8 +58,13 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			i=dao.addPrjProgressFillInfo(ppfi4);
 			i=dao.addPrjProgressFillInfo(ppfi5);
 			i=dao.addPrjProgressFillInfo(ppfi6);
+			List<PrjProgressFillCj>ppcj=ppf.getPpcj();
+			for(int a=0;a<ppcj.size();a++){
+				ppcj.get(a).setPpfId(id);
+			}
+			i=dao.addPrjProgressFillCj(ppcj);
 			List<Accessory> accessory=ppf.getAccessory();
-			if(accessory!=null){
+			if(accessory.size()!=0){
 				i=aDao.addAccessory(accessory);
 			}
 		}
@@ -83,6 +89,36 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 	@Override
 	public PrjProgressFill selectLastPrjProgressFill(String no) {
 		return dao.selectLastPrjProgressFill(no);
+	}
+
+	@Override
+	public PrjProgressFillInfo getLastByDepartmentAndId(String id, String department) {
+		return dao.getLastByDepartmentAndId(id, department);
+	}
+
+	@Override
+	public int addPrjProgressFillCj(List<PrjProgressFillCj> ppcj) {
+		return dao.addPrjProgressFillCj(ppcj);
+	}
+
+	@Override
+	public PrjProgressFillCj cjBq(String ppfId, String cjId) {
+		return dao.cjBq(ppfId, cjId);
+	}
+
+	@Override
+	public List<PrjProgressFillCj> selectPrjProgressFillCjById(String id) {
+		return dao.selectPrjProgressFillCjById(id);
+	}
+
+	@Override
+	public List<PrjProgressFill> selectPrjProgressFillByStatus(int status) {
+		return dao.selectPrjProgressFillByStatus(status);
+	}
+
+	@Override
+	public int updateStatusAndDesc(int status, String infos,String id) {
+		return dao.updateStatusAndDesc(status, infos,id);
 	}
 
 }

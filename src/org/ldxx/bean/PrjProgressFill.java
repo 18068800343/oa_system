@@ -24,8 +24,11 @@ public class PrjProgressFill {
 	private String thisTime;
 	private String allMoney;
 	private float allCost;
-	private float prjThisIncome;
+	private String prjThisIncome;
+	private int status;
+	private String infos;
 	
+	private List<PrjProgressFillCj> ppcj;
 	private List<PrjProgressFillInfo> ppfi;// 累计收入
 	private List<PrjProgressFillInfo> ppfi2;// 本期收入
 	private List<PrjProgressFillInfo> ppfi3;// 本期收款
@@ -35,6 +38,24 @@ public class PrjProgressFill {
 	private List<Accessory> accessory;
 	
 	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public String getInfos() {
+		return infos;
+	}
+	public void setInfos(String infos) {
+		this.infos = infos;
+	}
+	public List<PrjProgressFillCj> getPpcj() {
+		return ppcj;
+	}
+	public void setPpcj(List<PrjProgressFillCj> ppcj) {
+		this.ppcj = ppcj;
+	}
 	public List<PrjProgressFillInfo> getPpfi() {
 		return ppfi;
 	}
@@ -155,10 +176,10 @@ public class PrjProgressFill {
 	public void setAllCost(float allCost) {
 		this.allCost = allCost;
 	}
-	public float getPrjThisIncome() {
+	public String getPrjThisIncome() {
 		return prjThisIncome;
 	}
-	public void setPrjThisIncome(float prjThisIncome) {
+	public void setPrjThisIncome(String prjThisIncome) {
 		this.prjThisIncome = prjThisIncome;
 	}
 	

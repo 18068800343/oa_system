@@ -3,11 +3,11 @@
 <mapper namespace="org.ldxx.dao.PrjProgressFillDao" >
   	<insert id="addPrjProgressFill" parameterType="PrjProgressFill">
   		insert into prj_progress_fill(ppf_id,prj_name,task_no,prj_type,contract_money,prj_leader,
-  									provisional_sum,prj_start_time,prj_end_time,budget_money_all,
-  									this_time,all_money,all_cost,prj_this_income)
+  									provisional_sum,prj_start_time,prj_end_time,
+  									this_time,all_money,all_cost,prj_this_income,status)
   		values(#{ppf.ppfId},#{ppf.prjName},#{ppf.taskNo},#{ppf.prjType},#{ppf.contractMoney},#{ppf.prjLeader},
-  					#{ppf.provisionalSum},#{ppf.prjStartTime},#{ppf.prjEndTime},#{ppf.budgetMoneyAll},
-  					#{ppf.thisTime},#{ppf.allMoney},#{ppf.allCost},#{ppf.prjThisIncome})
+  					#{ppf.provisionalSum},#{ppf.prjStartTime},#{ppf.prjEndTime},
+  					#{ppf.thisTime},#{ppf.allMoney},#{ppf.allCost},#{ppf.prjThisIncome},#{ppf.status})
   	</insert>
   	
   	<insert id="addPrjProgressFillInfo" parameterType="java.util.List">
@@ -32,6 +32,35 @@
   	</select>
   	
   	<select id="selectLastPrjProgressFill" resultType="PrjProgressFill">
-  		select all_money from prj_progress_fill where task_no=#{no} ORDER BY this_time desc LIMIT 1
+  		select ppf_id,all_money from prj_progress_fill where task_no=#{no} ORDER BY this_time desc LIMIT 1
   	</select>
+  	
+  	<select id="getLastByDepartmentAndId" resultType="PrjProgressFillInfo">
+  		select money from prj_progress_fill_info where ppf_id=#{id} and department=#{department} and type='1'
+  	</select>
+  	
+  	<insert id="addPrjProgressFillCj" parameterType="java.util.List">
+  		insert into prj_progress_fill_cj(ppf_id,cj_id,cj_name,contract_money,temporary_money,income_bq,income_all) 
+  		values
+  		<foreach collection="ppcj" index="index" item="p" separator=",">
+  			(#{p.ppfId},#{p.cjId},#{p.cjName},#{p.contractMoney},#{p.temporaryMoney},#{p.incomeBq},#{p.incomeAll})
+  		</foreach>
+  	</insert>
+  	
+  	<select id="cjBq"  resultType="PrjProgressFillCj">
+  		select income_all from prj_progress_fill_cj where ppf_id=#{ppfId} and cj_id=#{cjId}
+  	</select>
+  	
+  	<select id="selectPrjProgressFillCjById" resultType="PrjProgressFillCj">
+  		select * from prj_progress_fill_cj where ppf_id=#{id}
+  	</select>
+  	
+  	<select id="selectPrjProgressFillByStatus" resultType="PrjProgressFill">
+  		select a.* from prj_progress_fill as a left join mode_status as b on a.ppf_id=b.mode_id
+  		where b.status=2 and  a.status=#{status}
+  	</select>
+  	
+  	<update id="updateStatusAndDesc">
+  		update prj_progress_fill set status=#{status},infos=#{infos} where ppf_id=#{id}
+  	</update>
 </mapper>

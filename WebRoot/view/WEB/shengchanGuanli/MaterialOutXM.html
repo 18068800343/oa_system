@@ -87,7 +87,10 @@
                             </tr>
                             <tr>
                                 <td>领料人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td><input type="text" class="form-control" id="get_person" style="width:65%;"></td>
+                                <td>
+                                	<input type="text" class="form-control" id="get_person" style="width:65%;" disabled>
+                                	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择领料人</button>
+                                </td>
                                 <td>领料日期</td>
                                 <td><input type="text" class="form-control" id="year" style="width:75%;"></td>
                             </tr>
@@ -145,7 +148,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success" onclick="save()">保存</button>
+            <button type="button" class="btn btn-success" id="outBut" onclick="save()" disabled>保存</button>
             <!-- <button type="button" class="btn btn-success">提交</button> -->
         </div>
         </div>
@@ -153,6 +156,37 @@
 </div>
 <!-- model结束 -->
 
+<!--选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择收货人</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>部门:</span>
+                            <select style="width:180px;" id="bumen" class="form-control" >
+                                
+                            </select>
+                            <span>人员:</span>
+                            <select style="width:180px;" id="guanliren" class="form-control" >
+                                
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 修改Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
     <div class="modal-dialog modal-lg" role="document" style="width:1500px">
@@ -280,6 +314,7 @@
         });
     	initPrj();
     	initSelect();
+    	initDepartment();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -412,6 +447,73 @@ Array.prototype.unique3 = function(){
         arr2.push($("#renwuDanhao2").val())
         $("#rwdh2").text(arr2.unique3())
     })
+    
+    //初始化收货人部门及人员
+	function initDepartment(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+	            	$("#bumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+	            	$("#xgbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+            	}
+            	$("#bumen").trigger('change');
+	        	$("#xgbumen").trigger('change');
+            }
+        });
+	}
+	
+	$("#bumen").change(function(){
+		var bumen=$("#bumen").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataType:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+			},
+			success:function(json){
+				$("#guanliren").empty();
+				for(var i=0;i<json.length;i++){
+					$("#guanliren").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+				}
+			}
+		})
+	})
+    
+    //保存添加收货人
+	function saveGuanliren(){
+		var bumen=$("#bumen").val();
+		var guanliren=$("#guanliren").val();
+		$('#addGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		if(guanliren==''){
+			toastr.error("人员为空");
+			return;
+		}
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserById",
+			dataType:"json",
+			async:false,
+			data:{ 
+				userId:guanliren 
+				},
+			success:function(json){
+				$("#get_person").empty('');
+				$("#get_person").val(json.uName);
+			}
+		})
+	}
     
     function initPrj(){
     	$.ajax({
@@ -577,18 +679,26 @@ Array.prototype.unique3 = function(){
 	                    	var cmList=json.cmList;
 	                    	$("#prj_no").val(cm.taskNo);
 	                    	$("#cl_table tbody").html('');
-	                    	for(var i=0;i<cmList.length;i++){
-	                    		$("#cl_table tbody").append("<tr>"+
-	                    												"<td>"+cmList[i].materialName+"</td>"+
-	                    												"<td>"+cmList[i].materialType+"</td>"+
-	                    												"<td>"+cmList[i].specificationModel+"</td>"+
-	                    												"<td>"+cmList[i].cmoUnit+"</td>"+
-	                    												"<td>"+cmList[i].cmoUnitPrice+"</td>"+
-	                    												"<td>"+cmList[i].remainNumber+"</td>"+
-	                    												"<td><input type='text' class='form-control' data-id="+cmList[i].gsId+"></td>"+
-	                    												"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
-	                    										  "</tr>")
-	                    	}  
+	                    	if(cmList.length!=0){
+	                    		for(var i=0;i<cmList.length;i++){
+		                    		$("#cl_table tbody").append("<tr>"+
+		                    												"<td>"+cmList[i].materialName+"</td>"+
+		                    												"<td>"+cmList[i].materialType+"</td>"+
+		                    												"<td>"+cmList[i].specificationModel+"</td>"+
+		                    												"<td>"+cmList[i].cmoUnit+"</td>"+
+		                    												"<td>"+cmList[i].cmoUnitPrice+"</td>"+
+		                    												"<td>"+cmList[i].remainNumber+"</td>"+
+		                    												"<td><input type='text' class='form-control' data-id="+cmList[i].gsId+"></td>"+
+		                    												"<td>"+cmList[i].pickDate+"</td>"+
+		                    												"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
+		                    										  "</tr>")
+		                    	} 
+	                    		$("#outBut").attr("disabled",false);
+	                    	}else{
+	                    		$("#outBut").attr("disabled",true);
+	                    		$("#cl_table tbody").append("<tr><td colspan='9' style='text-align:center;color:red;font-size:24px'>暂无数据</td></tr>")
+	                    	}
+	                    	
 	                    }
 	          		});
 	          	})
@@ -605,19 +715,25 @@ Array.prototype.unique3 = function(){
 	                    	var cmList=json.cmList;
 	                    	$("#prj_name").val(cm.pickProject);
 	                    	$("#cl_table tbody").html('');
-	                    	for(var i=0;i<cmList.length;i++){
-	                    		$("#cl_table tbody").append("<tr>"+
-	                    												"<td>"+cmList[i].materialName+"</td>"+
-	                    												"<td>"+cmList[i].materialType+"</td>"+
-	                    												"<td>"+cmList[i].specificationModel+"</td>"+
-	                    												"<td>"+cmList[i].cmoUnit+"</td>"+
-	                    												"<td>"+cmList[i].cmoUnitPrice+"</td>"+
-	                    												"<td>"+cmList[i].remainNumber+"</td>"+
-	                    												"<td><input type='text' style='width:80%;' class='form-control' data-id="+cmList[i].gsId+"></td>"+
-	                    												"<td>"+cmList[i].pickDate+"</td>"+
-	                    												"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
-	                    										  "</tr>")
-	                    	} 
+	                    	if(cmList.length!=0){
+	                    		for(var i=0;i<cmList.length;i++){
+		                    		$("#cl_table tbody").append("<tr>"+
+		                    												"<td>"+cmList[i].materialName+"</td>"+
+		                    												"<td>"+cmList[i].materialType+"</td>"+
+		                    												"<td>"+cmList[i].specificationModel+"</td>"+
+		                    												"<td>"+cmList[i].cmoUnit+"</td>"+
+		                    												"<td>"+cmList[i].cmoUnitPrice+"</td>"+
+		                    												"<td>"+cmList[i].remainNumber+"</td>"+
+		                    												"<td><input type='text' class='form-control' data-id="+cmList[i].gsId+"></td>"+
+		                    												"<td>"+cmList[i].pickDate+"</td>"+
+		                    												"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
+		                    										  "</tr>")
+		                    	} 
+	                    		$("#outBut").attr("disabled",false);
+	                    	}else{
+	                    		$("#outBut").attr("disabled",true);
+	                    		$("#cl_table tbody").append("<tr><td colspan='9' style='text-align:center;color:red;font-size:24px'>暂无数据</td></tr>")
+	                    	}
 	                    }
 	          		});
 			  	})
@@ -629,6 +745,12 @@ Array.prototype.unique3 = function(){
     function removeThis(obj){
     	var tr=$(obj).parent().parent();
     	$(tr).remove();
+    	var length=$("#cl_table tbody").find("tr").length;
+		if(length==0){
+			$("#outBut").attr("disabled",true);
+		}else{
+			$("#outBut").attr("disabled",false);
+		}
     }
     
     function look(obj){

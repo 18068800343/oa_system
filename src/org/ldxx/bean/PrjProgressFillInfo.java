@@ -19,7 +19,7 @@ public class PrjProgressFillInfo {
 
 	private String ppfId;
 	private String department;
-	private float money;
+	private String money;
 	private String type;//1:累计收入,2:本期收入,3:本期收款,4:累计收款,5:本期成本,6:累计成本
 	private String main;//是否为主办 1：主办 0：协办
 	
@@ -41,10 +41,10 @@ public class PrjProgressFillInfo {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	public float getMoney() {
+	public String getMoney() {
 		return money;
 	}
-	public void setMoney(float money) {
+	public void setMoney(String money) {
 		this.money = money;
 	}
 	public String getType() {
