@@ -32,10 +32,24 @@ public class GsMaterialRemainController {
 	@Autowired
 	private ClRemainService clRemainservice;
 	
-	@RequestMapping("/selectGsMaterialRemain")
+	@RequestMapping("/selectGsMaterialRemain")//查看已结余的信息
 	@ResponseBody
 	public List<CompanyMateriaOut> selectGsMaterialRemain(int remainType){
 		List<CompanyMateriaOut> list=Outservice.selectGSmaterialRemain(remainType);
+		return list;
+	}
+	
+	@RequestMapping("/selectGsMaterialRemainByname")//通过已结余的项目名查找任务单
+	@ResponseBody
+	public List<CompanyMateriaOut> selectGsMaterialRemainByname(int remainType,String name){
+		List<CompanyMateriaOut> list=Outservice.selectGsMaterialRemainByname(remainType,name);
+		return list;
+	}
+	
+	@RequestMapping("/selectGsMaterialRemainByno")//通过已结余的任务单查找项目名
+	@ResponseBody
+	public List<CompanyMateriaOut> selectGsMaterialRemainByno(int remainType,String no){
+		List<CompanyMateriaOut> list=Outservice.selectGsMaterialRemainByno(remainType,no);
 		return list;
 	}
 	

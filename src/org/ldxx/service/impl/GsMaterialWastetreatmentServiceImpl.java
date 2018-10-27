@@ -3,6 +3,9 @@ package org.ldxx.service.impl;
 import java.util.List;
 
 import org.ldxx.bean.GsMaterialWastetreatment;
+import org.ldxx.bean.GsMaterialWastetreatmentCl;
+import org.ldxx.bean.outRemain;
+import org.ldxx.dao.ClRemainDao;
 import org.ldxx.dao.GsMaterialWastetreatmentDao;
 import org.ldxx.service.GsMaterialWastetreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +19,33 @@ public class GsMaterialWastetreatmentServiceImpl implements GsMaterialWastetreat
 	
 	@Autowired
 	private GsMaterialWastetreatmentDao dao;
+	@Autowired
+	private ClRemainDao crdao;
 
 	@Override
 	public int addGsMaterialWastetreatmentSave(GsMaterialWastetreatment mw) {
-		return dao.addGsMaterialWastetreatmentSave(mw);
+		int i=dao.addGsMaterialWastetreatmentSave(mw);
+		if(i>0){
+			List<GsMaterialWastetreatmentCl> cl = mw.getGsMaterialWastetreatmentCl();
+			List<outRemain> remain = mw.getoRemain();
+			for(int k=0;k<cl.size();k++){
+				cl.get(k).setCwmclId(mw.getCmwId());
+			}
+			i=dao.addGsMaterialWastetreatmentCl(cl);
+			i=crdao.updateRemainForWaste(remain);
+		}
+		return i;
 	}
 
-	@Override
-	public int updateGsMaterialWastetreatmentSave(GsMaterialWastetreatment mw) {
-		return dao.updateGsMaterialWastetreatmentSave(mw);
-	}
 
 	@Override
-	public int deleteGsMaterialWastetreatment(String id) {
-		return dao.deleteGsMaterialWastetreatment(id);
+	public List<GsMaterialWastetreatment> selectGsMaterialWastetreatment(String type) {
+		return dao.selectGsMaterialWastetreatment(type);
 	}
 
+
 	@Override
-	public List<GsMaterialWastetreatment> selectGsMaterialWastetreatment() {
-		return dao.selectGsMaterialWastetreatment();
+	public List<GsMaterialWastetreatmentCl> selectGsMaterialWastetreatmentClById(String id) {
+		return dao.selectGsMaterialWastetreatmentClById(id);
 	}
 }

@@ -1,4 +1,7 @@
 package org.ldxx.bean;
+
+import java.util.List;
+
 /**
  * 公司材料废旧品处理
  * @author hp
@@ -7,71 +10,62 @@ package org.ldxx.bean;
 public class GsMaterialWastetreatment {
 	
 	private String cmwId;
-	private String materialName;//材料名称
-	private String materialType;//材料类型
-	private String materialModel;//规格型号
-	private String cmwUnit;//单位
-	private int dealNumber;//处理数量
-	private Float cmwPrice;//采购价格
-	private Float cmwMoney ;//金额
+	private String prjName;
+	private String prjNo;
 	private String applyPerson;//申请人
+	private String applyDate;//申请时间
 	private String dealReason;//处理原因
 	private String dealMode;//处理方式
-	private Float quasiDiscountMoney;//拟折价出售金额
-	private Float actualDiscountMoney;//实际折价出售金额
 	private Float costMoney;//成本费用
 	private String cmwDesc;
+	private String type;//0:废旧品处理；1：退货
+	private List<GsMaterialWastetreatmentCl> gsMaterialWastetreatmentCl;
+	private List<outRemain> oRemain;
 	
 	
-	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getApplyDate() {
+		return applyDate;
+	}
+	public void setApplyDate(String applyDate) {
+		this.applyDate = applyDate;
+	}
+	public List<outRemain> getoRemain() {
+		return oRemain;
+	}
+	public void setoRemain(List<outRemain> oRemain) {
+		this.oRemain = oRemain;
+	}
+	public List<GsMaterialWastetreatmentCl> getGsMaterialWastetreatmentCl() {
+		return gsMaterialWastetreatmentCl;
+	}
+	public void setGsMaterialWastetreatmentCl(List<GsMaterialWastetreatmentCl> gsMaterialWastetreatmentCl) {
+		this.gsMaterialWastetreatmentCl = gsMaterialWastetreatmentCl;
+	}
+	public String getPrjName() {
+		return prjName;
+	}
+	public void setPrjName(String prjName) {
+		this.prjName = prjName;
+	}
+	public String getPrjNo() {
+		return prjNo;
+	}
+	public void setPrjNo(String prjNo) {
+		this.prjNo = prjNo;
+	}
 	public String getCmwId() {
 		return cmwId;
 	}
 	public void setCmwId(String cmwId) {
 		this.cmwId = cmwId;
 	}
-	public String getMaterialName() {
-		return materialName;
-	}
-	public void setMaterialName(String materialName) {
-		this.materialName = materialName;
-	}
-	public String getMaterialType() {
-		return materialType;
-	}
-	public void setMaterialType(String materialType) {
-		this.materialType = materialType;
-	}
-	public String getMaterialModel() {
-		return materialModel;
-	}
-	public void setMaterialModel(String materialModel) {
-		this.materialModel = materialModel;
-	}
-	public String getCmwUnit() {
-		return cmwUnit;
-	}
-	public void setCmwUnit(String cmwUnit) {
-		this.cmwUnit = cmwUnit;
-	}
-	public int getDealNumber() {
-		return dealNumber;
-	}
-	public void setDealNumber(int dealNumber) {
-		this.dealNumber = dealNumber;
-	}
-	public Float getCmwPrice() {
-		return cmwPrice;
-	}
-	public void setCmwPrice(Float cmwPrice) {
-		this.cmwPrice = cmwPrice;
-	}
-	public Float getCmwMoney() {
-		return cmwMoney;
-	}
-	public void setCmwMoney(Float cmwMoney) {
-		this.cmwMoney = cmwMoney;
-	}
+	
 	public String getApplyPerson() {
 		return applyPerson;
 	}
@@ -90,18 +84,7 @@ public class GsMaterialWastetreatment {
 	public void setDealMode(String dealMode) {
 		this.dealMode = dealMode;
 	}
-	public Float getQuasiDiscountMoney() {
-		return quasiDiscountMoney;
-	}
-	public void setQuasiDiscountMoney(Float quasiDiscountMoney) {
-		this.quasiDiscountMoney = quasiDiscountMoney;
-	}
-	public Float getActualDiscountMoney() {
-		return actualDiscountMoney;
-	}
-	public void setActualDiscountMoney(Float actualDiscountMoney) {
-		this.actualDiscountMoney = actualDiscountMoney;
-	}
+	
 	public Float getCostMoney() {
 		return costMoney;
 	}
