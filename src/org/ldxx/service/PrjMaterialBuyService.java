@@ -19,5 +19,7 @@ public interface PrjMaterialBuyService {
 	public List<PrjMaterialBuy> selectBuyByname(String name);
 
 	public List<PrjMaterialBuy> selectDepartmentAndMoney();
+
+	public List<PrjMaterialBuy> selectDepartmentlike(String bumen);
 	
 }

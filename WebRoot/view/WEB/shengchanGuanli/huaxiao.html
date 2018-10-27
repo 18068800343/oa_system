@@ -84,6 +84,12 @@
                 </thead>
                 <tbody>
                 </tbody> 
+                <tfoot>
+                	<tr>
+                		<td colspan='3' style="text-align:right;color:red">总金额</td>
+                		<td id="allMoney"></td>
+                	</tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -92,6 +98,10 @@
     	<div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL" style="font-size:18px;">
+            		<div class="UpperPartL">
+                            <select class="form-control" id="prj">
+                            </select>
+                     </div>
             </div>
             <div class="UpperPartR">
                 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报</button> -->
@@ -111,6 +121,12 @@
                 </thead>
                 <tbody>
                 </tbody> 
+                <tfoot>
+                	<tr>
+                		<td colspan='3' style="text-align:right;color:red">总金额</td>
+                		<td id="allMoney2"></td>
+                	</tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -119,6 +135,10 @@
     	<div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL" style="font-size:18px;">
+            		<div class="UpperPartL">
+                            <select class="form-control" id="bumen">
+                            </select>
+                     </div>
             </div>
             <div class="UpperPartR">
                 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报</button> -->
@@ -131,6 +151,7 @@
                     <tr>
                     	<th>年份</th>
            				<th>部门</th>
+           				<th>申请人</th>
            				<th>金额</th>
                         <!-- <td>操作</td> -->
                     </tr>
@@ -138,6 +159,12 @@
                 <tbody>
                     
                 </tbody> 
+                <tfoot>
+                	<tr>
+                		<td colspan='3' style="text-align:right;color:red">总金额</td>
+                		<td id="allMoney3"></td>
+                	</tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -229,8 +256,8 @@
 <script>
     $(document).ready( function () {
     	initTable();
-    	initTable2();
-    	initTable3();
+    	initPrj();
+    	initbumen();
         laydate.render({
             elem: '#year' //指定元素
         });
@@ -361,7 +388,8 @@
 		},
 		"columns": [
             { "data": null}, 
-            { "data": "omName"}, 
+            { "data": "omName"},
+            { "data": "uName"},
             { "data": "sumPrice"}, 
         ],
          "columnDefs": [
@@ -403,6 +431,8 @@
         }},
   
 	});
+    
+    
 	function initTable(){
         $.ajax({
             type: 'POST',
@@ -411,39 +441,97 @@
             data: {
             },
             success: function (json) {
-            	console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                var num=0;
+                $("#mainContent tbody").find("tr").each(function(){
+       			 var mon=$(this).find("td").eq(3).text();
+       			 num+=Number(mon)
+       		 	})
+       		 	$("#allMoney").text(num)
             }
         });
     }
-	function initTable2(){
-        $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/task/selectPrjandNoAndPrjMoney',
-            dataType: 'json',
-            data: {
-            },
-            success: function (json) {
-                $('#mainContent2').dataTable().fnClearTable();
-                $('#mainContent2').DataTable().rows.add(json).draw(false);
-            }
-        });
-    }
-	function initTable3(){
-        $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/PrjMaterialBuy/selectDepartmentAndMoney',
-            dataType: 'json',
-            data: {
-            },
-            success: function (json) {
-            	console.log(json)
-                $('#mainContent3').dataTable().fnClearTable();
-                $('#mainContent3').DataTable().rows.add(json).draw(false);
-            }
-        });
-    }
+	
+	
+	 function initPrj(){
+	    	$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectPrjandNoAndPrjMoney',
+	            dataType: 'json',
+	            data: {
+	            },
+	            success: function (json) {
+	            	$("#prj").append("<option value='%'>全部</option>")
+	                for(var i=0;i<json.length;i++){
+						$("#prj").append("<option value="+json[i].prjNo+">"+json[i].prjName+"</option>")                	
+	                }
+	            	$("#prj").trigger("change");
+	            }
+	        });
+	    }
+	
+	 $("#prj").on("change",function(){
+		 var no=$("#prj").val();
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectPrjByprjlike',
+	            dataType: 'json',
+	            data: {
+	            	no:no
+	            },
+	            success: function (json) {
+	                $('#mainContent2').dataTable().fnClearTable();
+	                $('#mainContent2').DataTable().rows.add(json).draw(false);
+	                var num=0;
+	                $("#mainContent2 tbody").find("tr").each(function(){
+	       			 var mon=$(this).find("td").eq(3).text();
+	       			 console.log(mon)
+	       			 num+=Number(mon)
+	       		 	})
+	       		 	$("#allMoney2").text(num)
+	            }
+	        }); 
+	 })
+	 
+	 function initbumen(){
+	    	$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/PrjMaterialBuy/selectDepartmentAndMoney',
+	            dataType: 'json',
+	            data: {
+	            },
+	            success: function (json) {
+	            	$("#bumen").append("<option value='%'>全部</option>")
+	                for(var i=0;i<json.length;i++){
+						$("#bumen").append("<option value="+json[i].applyDepartment+">"+json[i].omName+"</option>")                	
+	                }
+	            	$("#bumen").trigger("change");
+	            }
+	        });
+	    }
+	 
+	 $("#bumen").on("change",function(){
+		 var bumen=$("#bumen").val();
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/PrjMaterialBuy/selectDepartmentlike',
+	            dataType: 'json',
+	            data: {
+	            	bumen:bumen
+	            },
+	            success: function (json) {
+	                $('#mainContent3').dataTable().fnClearTable();
+	                $('#mainContent3').DataTable().rows.add(json).draw(false);
+	                var num=0;
+	                $("#mainContent3 tbody").find("tr").each(function(){
+	       			 var mon=$(this).find("td").eq(3).text();
+	       			 num+=Number(mon)
+	       		 	})
+	       		 	$("#allMoney3").text(num)
+	            }
+	        }); 
+	 })
 
 
 </script>

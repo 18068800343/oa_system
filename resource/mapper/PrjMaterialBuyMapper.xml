@@ -49,9 +49,17 @@
   </select>
  
   <select id="selectDepartmentAndMoney" resultType="PrjMaterialBuy">
-  		SELECT  task_code,apply_department,sum(sum_price) as sum_price,c.om_name from prj_material_buy a 
+  		SELECT  task_code,apply_department,apply_person,sum_price ,c.om_name,d.u_name from prj_material_buy a 
   		left join organization_management as c on a.apply_department=c.om_id
-  		GROUP BY apply_department
+  		left join user as d on a.apply_person=d.user_id
+  		group by apply_department
+  </select>
+ 
+  <select id="selectDepartmentlike" resultType="PrjMaterialBuy">
+  	select *,c.om_name,d.u_name from prj_material_buy a 
+  	left join organization_management as c on a.apply_department=c.om_id 
+  	left join user as d on a.apply_person=d.user_id
+  	where apply_department like #{bumen}
   </select>
  
 </mapper>

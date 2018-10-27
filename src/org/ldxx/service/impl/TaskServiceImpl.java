@@ -136,4 +136,10 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.selectPrjandNoAndPrjMoney();
 	}
 
+	@Override
+	public List<Task> selectPrjByprjlike(String no) {
+		no="%"+no+"%";
+		return tdao.selectPrjByprjlike(no);
+	}
+
 }

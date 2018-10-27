@@ -40,4 +40,6 @@ public interface TaskDao {
 	public Task selectIdByNo2(@Param("no")String no);
 
 	public List<Task> selectPrjandNoAndPrjMoney();
+
+	public List<Task> selectPrjByprjlike(@Param("no")String no);
 }

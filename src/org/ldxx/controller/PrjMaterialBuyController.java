@@ -105,4 +105,10 @@ public class PrjMaterialBuyController {
 	public List<PrjMaterialBuy> selectDepartmentAndMoney(){
 		return service.selectDepartmentAndMoney();
 	}
+	
+	@RequestMapping("/selectDepartmentlike")
+	@ResponseBody
+	public List<PrjMaterialBuy> selectDepartmentlike(String bumen){
+		return service.selectDepartmentlike(bumen);
+	}
 }

@@ -75,4 +75,10 @@ public class PrjMaterialBuyServiceImpl implements PrjMaterialBuyService{
 		return dao.selectDepartmentAndMoney();
 	}
 
+	@Override
+	public List<PrjMaterialBuy> selectDepartmentlike(String bumen) {
+		bumen="%"+bumen+"%";
+		return dao.selectDepartmentlike(bumen);
+	}
+
 }

@@ -393,4 +393,10 @@ public class TaskController {
 		return tService.selectPrjandNoAndPrjMoney();
 	}
 	
+	@RequestMapping("/selectPrjByprjlike")
+	@ResponseBody
+	public List<Task> selectPrjByprjlike(String no){
+		return tService.selectPrjByprjlike(no);
+	}
+	
 }
