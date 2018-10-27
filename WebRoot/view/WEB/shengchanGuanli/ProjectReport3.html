@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../font2/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <style lang="">
@@ -57,86 +58,94 @@
         </div>
         <div class="modal-body">
                 <div>     
-                    <form class="form-inline">
+                    <form id="new_form" class="form-inline" method="post" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed">
                             <tr>
                                 <td>项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                    <select class="form-control" style="width:180px;">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                    <select class="form-control" id="prjName" style="width:180px;">
+                                        
                                     </select>
                                 </td>
                                 <td>任务单号</td>
-                                <td><input type="text" class="form-control" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>项目工期</td>
-                                <td><input type="text" class="form-control"></td>
-                                <td>报表性质</td>
                                 <td>
-                                    月报
+                                	<select class="form-control" id="prjNo" style="width:180px;">
+                                        
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
+                                <td>项目工期</td>
+                                <td><input type="text" class="form-control" id="prjLongTime"></td>
+                                <td>报表性质</td>
+                                <td id="reportTableKind">月报</td>
+                            </tr>
+                            <tr>
                                 <td>填报日期</td>
-                                <td><input type="text" class="form-control" id="year2"></td>
+                                <td><input type="text" class="form-control" id="year"></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>本期项目内容</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="thistimePrjText" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>项目安全概述</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="prjSafetyMaybeText" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>项目质量概述</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="prjQuatityMaybeText" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>分包管理情况</td>
-                                <td colspan="3"><textarea  class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea  class="form-control" id="fbManageSituation" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>变更情况</td>
-                                <td colspan="3"><textarea  class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea  class="form-control" id="changeSituation" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>重大事项</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="importentThings" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>需要公司协调</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="needCompanyCooperation" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>其他事项</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="otherThings" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>概述</td>
                                 <td colspan="3">
-                                    <textarea class="form-control" cols="55" rows="3"></textarea>
+                                    <textarea class="form-control" id="maybeText" cols="55" rows="3"></textarea>
                                 </td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td>附件上传</td>
                                 <td colspan="3"><input type="file" class="form-control"></td>
-                            </tr>
+                            </tr> -->
+                        </table>
+                        
+                        <table class="table table-bordered table-condensed" id="new_accessory">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:30%;">附件上传  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
                         </table> 
                     </form>  
                 </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-default">保存</button>
-            <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
+            <button type="button" class="btn btn-default" onclick="save()">保存</button>
+            <!-- <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button> -->
         </div>
         </div>
     </div>
@@ -186,85 +195,92 @@
         </div>
         <div class="modal-body">
                 <div>     
-                    <form class="form-inline">
+                    <form id="edit_form" class="form-inline" method="post" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed">
                             <tr>
                                 <td>项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                    <select class="form-control" style="width:180px;">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                    <select class="form-control" id="xgprjName" style="width:180px;">
+                                        
                                     </select>
                                 </td>
                                 <td>任务单号</td>
-                                <td><input type="text" class="form-control" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>项目工期</td>
-                                <td><input type="text" class="form-control"></td>
-                                <td>报表性质</td>
                                 <td>
-                                    月报
+                                	<select class="form-control" id="xgprjNo" style="width:180px;">
+                                        
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
+                                <td>项目工期</td>
+                                <td><input type="text" class="form-control" id="xgprjLongTime"></td>
+                                <td>报表性质</td>
+                                <td id="xgreportTableKind">月报</td>
+                            </tr>
+                            <tr>
                                 <td>填报日期</td>
-                                <td><input type="text" class="form-control" id="year2"></td>
+                                <td><input type="text" class="form-control" id="xgyear"></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>本期项目内容</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="xgthistimePrjText" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>项目安全概述</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="xgprjSafetyMaybeText" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>项目质量概述</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="xgprjQuatityMaybeText" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>分包管理情况</td>
-                                <td colspan="3"><textarea  class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea  class="form-control" id="xgfbManageSituation" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>变更情况</td>
-                                <td colspan="3"><textarea  class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea  class="form-control" id="xgchangeSituation" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>重大事项</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="xgimportentThings" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>需要公司协调</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="xgneedCompanyCooperation" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>其他事项</td>
-                                <td colspan="3"><textarea class="form-control" cols="55" rows="3"></textarea></td>
+                                <td colspan="3"><textarea class="form-control" id="xgotherThings" cols="55" rows="3"></textarea></td>
                             </tr>
                             <tr>
                                 <td>概述</td>
                                 <td colspan="3">
-                                    <textarea class="form-control" cols="55" rows="3"></textarea>
+                                    <textarea class="form-control" id="xgmaybeText" cols="55" rows="3"></textarea>
                                 </td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td>附件上传</td>
                                 <td colspan="3"><input type="file" class="form-control"></td>
-                            </tr>
+                            </tr> -->
                         </table> 
+                        <table class="table table-bordered table-condensed" id="edit_accessory">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:30%;">附件上传  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile2()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        </table>
                     </form>  
                 </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success">保存</button>
+            <button type="button" class="btn btn-success" onclick="checkSave()">保存</button>
         </div>
         </div>
     </div>
@@ -285,45 +301,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>2</td>
-                        <td>1</td>
-                        <td>20180101</td>
-                        <td>
-                            <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1"></i>
-                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change'></i>
-                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                            <i class="iconfont icon-xiazai" style="font-size:20px;cursor:pointer;" title="下载附件"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>2</td>
-                        <td>1</td>
-                        <td>20180101</td>
-                        <td>
-                            <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1"></i>
-                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change'></i>
-                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                            <i class="iconfont icon-xiazai" style="font-size:20px;cursor:pointer;" title="下载附件"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>G104秦淮河大桥检查</td>
-                        <td>2</td>
-                        <td>1</td>
-                        <td>20180101</td>
-                        <td>
-                            <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1"></i>
-                            <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#change'></i>
-                            <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
-                            <i class="iconfont icon-xiazai" style="font-size:20px;cursor:pointer;" title="下载附件"></i>
-                        </td>
-                    </tr>
+                    
                 </tbody>   
             </table>
         </div>
@@ -341,64 +319,64 @@
                     <table class="table table-bordered table-condensed">
                         <tr>
                             <td>项目名称</td>
-                            <td>bdsgdshs</td>
+                            <td id="lookprjName"></td>
                             <td>任务单号</td>
-                            <td>12432151</td>
+                            <td id="lookprjNo"></td>
                         </tr>
                         <tr>
                             <td>项目工期</td>
-                            <td>12421614</td>
+                            <td id="lookprjLongTime"></td>
                             <td>报表性质</td>
-                            <td>
-                                月报
-                            </td>
+                            <td id="lookreportTableKind">月报</td>
                         </tr>
                         <tr>
                             <td>填报日期</td>
-                            <td>125124</td>
+                            <td id="lookyear"></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>本期项目内容</td>
-                            <td colspan="3">shsdhdshdsh</td>
+                            <td colspan="3" id="lookthistimePrjText"></td>
                         </tr>
                         <tr>
                             <td>项目安全概述</td>
-                            <td colspan="3">sdhfsdtst</td>
+                            <td colspan="3" id="lookprjSafetyMaybeText"></td>
                         </tr>
                         <tr>
                             <td>项目质量概述</td>
-                            <td colspan="3">shdfsdfdsg</td>
+                            <td colspan="3" id="lookprjQuatityMaybeText"></td>
                         </tr>
                         <tr>
                             <td>分包管理情况</td>
-                            <td colspan="3">sdtdsagdshsh</td>
+                            <td colspan="3" id="lookfbManageSituation"></td>
                         </tr>
                         <tr>
                             <td>变更情况</td>
-                            <td colspan="3">arhaghahdh</td>
+                            <td colspan="3" id="lookchangeSituation"></td>
                         </tr>
                         <tr>
                             <td>重大事项</td>
-                            <td colspan="3">hadfasrar</td>
+                            <td colspan="3" id="lookimportentThings"></td>
                         </tr>
                         <tr>
                             <td>需要公司协调</td>
-                            <td colspan="3">hararr</td>
+                            <td colspan="3" id="lookneedCompanyCooperation"></td>
                         </tr>
                         <tr>
                             <td>其他事项</td>
-                            <td colspan="3">ahrarrs</td>
+                            <td colspan="3" id="lookotherThings"></td>
                         </tr>
                         <tr>
                             <td>概述</td>
-                            <td colspan="3">hadfag</td>
+                            <td colspan="3" id="lookmaybeText"></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>附件上传</td>
                             <td colspan="3">ahsratag</td>
-                        </tr>
+                        </tr> -->
+                    </table>
+                    <table class="table table-bordered table-condensed" id="look_accessory">
                     </table>
                 </form>  
             </div>
@@ -418,8 +396,12 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
 <script>
     $(document).ready( function () {
+    	initTable();
+    	initPrj();
     	laydate.render({
             elem: '#year' //指定元素
         });
@@ -443,6 +425,23 @@
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
+		"columns": [
+            { "data": "prjCode"}, 
+            { "data": "prjName"}, 
+            { "data": "prjLongTime"}, 
+            { "data": "reportTableKind"}, 
+            { "data": "fillTime"},
+        ],
+        "columnDefs": [
+						{	
+								 "class": "tcenter",
+								    "targets": 5,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;"  title="删除" onclick="deleteReport(this)"></i>  <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookReport(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  <i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="checkReport(this)" data-toggle="modal" data-target="#change" ></i>'
+								        }
+								  }
+						],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
@@ -463,22 +462,371 @@
         
 	});
 	function initTable(){
-        $.ajax({
+		$.ajax({
             type: 'POST',
-            url: '',
+            url: getContextPath()+'/PrjReport/selectPrjReport',
             dataType: 'json',
             data: {
-            },
-            error: function (msg) {
-                errMessage("请求UserController失败");
+            	prType:1
             },
             success: function (json) {
-                $('#').dataTable().fnClearTable();
-                $('#').DataTable().rows.add(json).draw(false);
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
     }
 
+	//初始化项目名称和任务单号
+    function initPrj(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+	        dataType: 'json',
+	        data: {
+	        },
+	        error: function (msg) {
+	        	toastr.error("请求失败");
+	        },
+	        success: function (json) {
+	        	$("#prjName").html('');
+	        	$("#prjNo").html('');
+	        	$("#xgprjName").html('');
+	        	$("#xgprjNo").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		$("#prjName").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
+	        		$("#prjNo").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+	        		$("#xgprjName").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
+	        		$("#xgprjNo").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+	        	}
+	        	 $('#prjNo').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjName',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjNo:$('#prjNo').val()
+	                    },
+	                    success: function (json) {
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#prjName").val(json[i].prjName)
+	                    	}
+	                    }
+	          		});
+	          	})
+	          	$('#prjName').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjName:$('#prjName').val()
+	                    },
+	                    success: function (json) {
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#prjNo").val(json[i].prjNo)
+	                    	}
+	                    }
+	          		});
+	          	}) 
+	          	$('#xgprjNo').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjName',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjNo:$('#xgprjNo').val()
+	                    },
+	                    success: function (json) {
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#xgprjName").val(json[i].prjName)
+	                    	}
+	                    }
+	          		});
+	          	})
+	          	$('#xgprjName').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjName:$('#xgprjName').val()
+	                    },
+	                    success: function (json) {
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#xgprjNo").val(json[i].prjNo)
+	                    	}
+	                    }
+	          		});
+	          	})
+	          	 
+	        }
+		});
+	}
+	
+	
+	
+  //保存
+	function save(){
+		var prjName=$("#prjName").val();
+		var prjNo=$("#prjNo").val();
+		var prjLongTime=$("#prjLongTime").val();
+		var reportTableKind=$("#reportTableKind").text();
+		var year=$("#year").val();
+		var thistimePrjText=$("#thistimePrjText").val();
+		var prjSafetyMaybeText=$("#prjSafetyMaybeText").val();
+		var prjQuatityMaybeText=$("#prjQuatityMaybeText").val();
+		var fbManageSituation=$("#fbManageSituation").val();
+		var changeSituation=$("#changeSituation").val();
+		var importentThings=$("#importentThings").val();
+		var needCompanyCooperation=$("#needCompanyCooperation").val();
+		var otherThings=$("#otherThings").val();
+		var maybeText=$("#maybeText").val();
+		
+		var options={
+	            type: 'POST',
+	            url: getContextPath()+'/PrjReport/addPrjReportSave',
+	            dataType: 'json',
+	            data: { 
+	            	prId:null,
+	            	prjCode:prjNo,
+	            	prjName:prjName,
+	            	prjLongTime:prjLongTime,
+	            	reportTableKind:reportTableKind,
+	            	fillTime:year,
+	            	thistimePrjText:thistimePrjText,
+	            	prjSafetyMaybeText:prjSafetyMaybeText,
+	            	prjQuatityMaybeText:prjQuatityMaybeText,
+	            	fbManageSituation:fbManageSituation,
+	            	changeSituation:changeSituation,
+	            	importentThings:importentThings,
+	            	needCompanyCooperation:needCompanyCooperation,
+	            	otherThings:otherThings,
+	            	maybeText:maybeText,
+	            	prType:1
+	            },
+	            success: function (json) {
+	            	if(json.result>0){
+						toastr.success("添加成功")
+						$("#myModal2").modal("hide")
+						$('#mainContent').DataTable().row.add(json.PrjReport).draw(false);     //新增行立即显示
+					}else{
+						toastr.error("添加失败")
+					}
+	            }
+	        };
+			$("#new_form").ajaxSubmit(options);
+	}
+	
+	//删除
+	function deleteReport(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		if(!confirm("确认删除吗?")){
+		   return false;
+		}
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/PrjReport/deletePrjReport",
+			dataType:"json",
+			data:{ 
+				id:data.prId
+				},
+			success:function(json){
+				if(json>0){
+					toastr.success("删除成功")
+					$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
+				}else{
+					toastr.error("删除失败")
+				}
+			}
+		})
+	}
+	
+	
+	//查看详细信息
+	function lookReport(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		$("#lookprjName").text(data.prjName);
+		$("#lookprjNo").text(data.prjCode);
+		$("#lookprjLongTime").text(data.prjLongTime);
+		$("#lookreportTableKind").text(data.reportTableKind);
+		$("#lookyear").text(data.fillTime);
+		$("#lookthistimePrjText").text(data.thistimePrjText);
+		$("#lookprjSafetyMaybeText").text(data.prjSafetyMaybeText);
+		$("#lookprjQuatityMaybeText").text(data.prjQuatityMaybeText);
+		$("#lookfbManageSituation").text(data.fbManageSituation);
+		$("#lookchangeSituation").text(data.changeSituation);
+		$("#lookimportentThings").text(data.importentThings);
+		$("#lookneedCompanyCooperation").text(data.needCompanyCooperation);
+		$("#lookotherThings").text(data.otherThings);
+		$("#lookmaybeText").text(data.maybeText);
+		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/PrjReport/selectAccessoryById",
+			dataType:"json",
+			data:{ 
+				id:data.prId
+				},
+			success:function(json){
+				console.log(json)
+				$("#look_accessory").empty();
+				for(var i=0;i<json.length;i++){
+					 $("#look_accessory").append("<tr>"+
+															"<td>附件"+(i+1)+"</td>"+
+										         	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+										         	    	"<td ><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+										         	    "</tr>");
+				}
+			}
+		})
+	}
+	//下载附件
+	function download_all(obj){
+		var url=$(obj).attr("data2");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+	
+	//修改回显
+	var xgId;
+	function checkReport(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		xgId=data.prId
+		$("#xgprjName").val(data.prjName);
+		$("#xgprjNo").val(data.prjCode);
+		$("#xgprjLongTime").val(data.prjLongTime);
+		$("#xgreportTableKind").val(data.reportTableKind);
+		$("#xgyear").val(data.fillTime);
+		$("#xgthistimePrjText").val(data.thistimePrjText);
+		$("#xgprjSafetyMaybeText").val(data.prjSafetyMaybeText);
+		$("#xgprjQuatityMaybeText").val(data.prjQuatityMaybeText);
+		$("#xgfbManageSituation").val(data.fbManageSituation);
+		$("#xgchangeSituation").val(data.changeSituation);
+		$("#xgimportentThings").val(data.importentThings);
+		$("#xgneedCompanyCooperation").val(data.needCompanyCooperation);
+		$("#xgotherThings").val(data.otherThings);
+		$("#xgmaybeText").val(data.maybeText);
+		
+		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/PrjReport/selectAccessoryById",
+			dataType:"json",
+			data:{ 
+				id:data.prId
+			},
+			success:function(json){
+				$("#edit_accessory tbody").empty();
+				for(var i=0;i<json.length;i++){
+					 $("#edit_accessory tbody").append("<tr>"+
+															"<td>附件"+(i+1)+"</td>"+
+										         	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+										         	    	"<td  style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
+										         	    "</tr>");
+				}
+			}
+		})
+	}
+	
+	//删除附件
+	function deletefile(obj){
+		var id=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var url=$(obj).attr("data2");
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/pay/deleteAccessory',
+	        dataType: 'json',
+	        data: {
+	        	aId:id,
+	        	acName:name,
+	        	acUrl:url
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("删除失败");
+	        	}else{
+	        		toastr.success("删除成功");
+	        		$(obj).parent().parent().remove();
+	        	}
+	        }
+		});
+	}
+	
+	//修改保存
+	function checkSave(){
+		var prjName=$("#xgprjName").val();
+		var prjNo=$("#xgprjNo").val();
+		var prjLongTime=$("#xgprjLongTime").val();
+		var reportTableKind=$("#xgreportTableKind").text();
+		var year=$("#xgyear").val();
+		var thistimePrjText=$("#xgthistimePrjText").val();
+		var prjSafetyMaybeText=$("#xgprjSafetyMaybeText").val();
+		var prjQuatityMaybeText=$("#xgprjQuatityMaybeText").val();
+		var fbManageSituation=$("#xgfbManageSituation").val();
+		var changeSituation=$("#xgchangeSituation").val();
+		var importentThings=$("#xgimportentThings").val();
+		var needCompanyCooperation=$("#xgneedCompanyCooperation").val();
+		var otherThings=$("#xgotherThings").val();
+		var maybeText=$("#xgmaybeText").val();
+		
+		var options={
+	            type: 'POST',
+	            url: getContextPath()+'/PrjReport/updatePrjReportSave',
+	            dataType: 'json',
+	            data: { 
+	            	prId:xgId,
+	            	prjCode:prjNo,
+	            	prjName:prjName,
+	            	prjLongTime:prjLongTime,
+	            	reportTableKind:reportTableKind,
+	            	fillTime:year,
+	            	thistimePrjText:thistimePrjText,
+	            	prjSafetyMaybeText:prjSafetyMaybeText,
+	            	prjQuatityMaybeText:prjQuatityMaybeText,
+	            	fbManageSituation:fbManageSituation,
+	            	changeSituation:changeSituation,
+	            	importentThings:importentThings,
+	            	needCompanyCooperation:needCompanyCooperation,
+	            	otherThings:otherThings,
+	            	maybeText:maybeText,
+	            	prType:1
+	            },
+	            success: function (json) {
+	            	if(json.result>0){
+						toastr.success("修改成功")
+						$("#change").modal("hide")
+						location.reload([true]);
+					}else{
+						toastr.error("添加失败")
+					}
+	            }
+	        };
+			$("#edit_form").ajaxSubmit(options);
+	}
+	
+	
+	
+	function addFile(){
+		$("#new_accessory tbody").append("<tr><td>新附件</td><td colspan='2'><input style='width:70%;' type='file'  name='file' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	
+	function addFile2(){
+		$("#edit_accessory tbody").append("<tr><td>新附件</td><td colspan='2'><input style='width:70%;' type='file'  name='file' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	
+	function removeFile(obj){
+		var tr=$(obj).parents("tr");
+		$(tr).remove();
+	}
+	
+	
+	
     function getCreat(bb){
         var EnterpriseRating= $(bb).parent().prev().text();
         var Remarks= $(bb).parent().prev().prev().text();
