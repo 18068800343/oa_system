@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CjContract;
+import org.ldxx.bean.CjSplitMoney;
 
 public interface CjContractDao {
 
@@ -38,4 +39,8 @@ public interface CjContractDao {
 	public CjContract selectCjContractByNo(@Param("no")String no);
 	
 	public List<CjContract> selectCjContractByTaskNo(@Param("no")String no);
+
+	public int addCjSplitMoneySave(@Param("cs") List<CjSplitMoney> cs);
+
+	public List<CjSplitMoney> selectCjSplitMoneyById(@Param("id")String id);
 }

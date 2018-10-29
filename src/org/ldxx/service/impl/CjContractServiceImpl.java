@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CjContract;
+import org.ldxx.bean.CjSplitMoney;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.CjContractDao;
 import org.ldxx.service.CjContractService;
@@ -29,6 +30,13 @@ public class CjContractServiceImpl implements CjContractService{
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);
 			}
+			List<CjSplitMoney> cjSplitMoney = cj.getCjSplitMoney();
+			for(int j=0;j<cjSplitMoney.size();j++){
+				cjSplitMoney.get(j).setCjId(cj.getCjId());
+			}
+			if(cjSplitMoney!=null&& cjSplitMoney.size()>0){
+				i = dao.addCjSplitMoneySave(cjSplitMoney);
+			}
 		}
 		return i;
 	}
@@ -48,7 +56,13 @@ public class CjContractServiceImpl implements CjContractService{
 
 	@Override
 	public List<CjContract> selectCjContractByStatus(String status) {
-		return dao.selectCjContractByStatus(status);
+		List<CjContract> list = dao.selectCjContractByStatus(status);
+		for(int i=0;i<list.size();i++){
+			String id = list.get(i).getCjId();
+			List<CjSplitMoney> cjSplitMoney=dao.selectCjSplitMoneyById(id);
+			list.get(i).setCjSplitMoney(cjSplitMoney);
+		}
+		return list;
 	}
 
 	@Override
@@ -88,7 +102,13 @@ public class CjContractServiceImpl implements CjContractService{
 
 	@Override
 	public List<CjContract> selectCjHistory(String no) {
-		return dao.selectCjHistory(no);
+		List<CjContract> list = dao.selectCjHistory(no);
+		for(int i=0;i<list.size();i++){
+			String id = list.get(i).getCjId();
+			List<CjSplitMoney> cjSplitMoney=dao.selectCjSplitMoneyById(id);
+			list.get(i).setCjSplitMoney(cjSplitMoney);
+		}
+		return list;
 	}
 
 	@Override

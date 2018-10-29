@@ -3,18 +3,26 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CjContract;
+import org.ldxx.bean.CjSplitMoney;
+import org.ldxx.bean.PrjWorkingHours;
+import org.ldxx.bean.PrjWorkingHoursP;
 import org.ldxx.service.CjContractService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("cj")
@@ -25,7 +33,12 @@ public class CjContractController {
 	
 	@RequestMapping("/addCjContractBySave")
 	@ResponseBody
-	public int addCjContractBySave(CjContract cj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addCjContractBySave(String cjContract,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		Map<String,Class> map=new HashMap<>();
+		map.put("cjSplitMoney", CjSplitMoney.class);
+		JSONObject jsonObject=JSONObject.fromObject(cjContract);
+		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
+		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
@@ -59,7 +72,12 @@ public class CjContractController {
 	
 	@RequestMapping("/addCjContractBySubmit")
 	@ResponseBody
-	public int addCjContractBySubmit(CjContract cj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		Map<String,Class> map=new HashMap<>();
+		map.put("cjSplitMoney", CjSplitMoney.class);
+		JSONObject jsonObject=JSONObject.fromObject(cjContract);
+		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
+		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
@@ -141,7 +159,12 @@ public class CjContractController {
 	
 	@RequestMapping("/updateCjContractBySave")
 	@ResponseBody
-	public int updateCjContractBySave(CjContract cj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int updateCjContractBySave(String cjContract,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		Map<String,Class> map=new HashMap<>();
+		map.put("cjSplitMoney", CjSplitMoney.class);
+		JSONObject jsonObject=JSONObject.fromObject(cjContract);
+		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
+		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
@@ -171,7 +194,12 @@ public class CjContractController {
 	
 	@RequestMapping("/updateCjContractBySubmit")
 	@ResponseBody
-	public int updateCjContractBySubmit(CjContract cj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int updateCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		Map<String,Class> map=new HashMap<>();
+		map.put("cjSplitMoney", CjSplitMoney.class);
+		JSONObject jsonObject=JSONObject.fromObject(cjContract);
+		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
+		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
@@ -224,4 +252,5 @@ public class CjContractController {
 		String code="%"+no+"%";
 		return service.selectCjContractByTaskNo(code);
 	}
+	
 }
