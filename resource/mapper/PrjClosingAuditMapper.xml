@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.PrjClosingAuditDao" >
+  	<insert id="addPrjClosingAudit" parameterType="PrjClosingAudit">
+  		insert into prj_closing_audit(pc_id,prj_name,prj_no,prj_type,contract_money,
+  							prj_start_time,prj_end_time,department,end_money,evaluate)
+  		values(#{audit.pcId},#{audit.prjName},#{audit.prjNo},#{audit.prjType},#{audit.contractMoney},
+  		#{audit.prjStartTime},#{audit.prjEndTime},#{audit.department},#{audit.endMoney},#{audit.evaluate})
+  	</insert>
+  	
+  	<insert id="addPrjClosingAuditPerson" parameterType="java.util.List">
+  		insert into prj_closing_audit_person(pc_id,role_name,u_name,role_xs,days,score)
+  		values
+  		<foreach collection="person" index="index" item="p" separator=",">
+  			(#{p.pcId},#{p.roleName},#{p.uName},#{p.roleXs},#{p.days},#{p.score})
+  		</foreach>
+  	</insert>
+  	
+  	<select id="selectPrjClosingAudit" resultType="PrjClosingAudit">
+  		select a.* from prj_closing_audit as a left join mode_status as b on a.pc_id=b.mode_id
+  		where b.status=2
+  	</select>
+  	
+  	<select id="selectPrjClosingAuditById" resultType="PrjClosingAudit">
+  		select * from prj_closing_audit where pc_id=#{id}
+  	</select>
+  	
+  	<select id="selectPrjClosingAuditPersonById" resultType="PrjClosingAuditPerson">
+  		select * from prj_closing_audit_person where pc_id=#{id}
+  	</select>
+</mapper>
