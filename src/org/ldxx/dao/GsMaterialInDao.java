@@ -15,10 +15,6 @@ public interface GsMaterialInDao {
 
 	List<CompanyMateriaIn> selecttaskNoPrjNameBycgNo(@Param("cgNo")String cgNo);
 
-	List<CompanyMateriaIn> selectcgNoPrjNameBytaskNo(@Param("taskNo")String taskNo);
-
-	List<CompanyMateriaIn> selectcgNotaskNoByPrjName(@Param("name")String name);
-
 	List<CompanyMateriaIn> selectcgNotaskNoPrjNameBycgName(@Param("cgName")String cgName);
 
 	int updateGsMaterialInSave(@Param("cm")CompanyMateriaIn cm);

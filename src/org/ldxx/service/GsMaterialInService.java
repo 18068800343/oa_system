@@ -19,10 +19,6 @@ public interface GsMaterialInService {
 
 	List<CompanyMateriaIn> selecttaskNoPrjNameBycgNo(String cgNo);
 
-	List<CompanyMateriaIn> selectcgNoPrjNameBytaskNo(String taskNo);
-
-	List<CompanyMateriaIn> selectcgNotaskNoByPrjName(String name);
-
 	List<CompanyMateriaIn> selectcgNotaskNoPrjNameBycgName(String cgName);
 
 	int updateGsMaterialInSave(CompanyMateriaIn cm);

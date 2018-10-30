@@ -64,16 +64,6 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	}
 
 	@Override
-	public List<CompanyMateriaIn> selectcgNoPrjNameBytaskNo(String taskNo) {
-		return gmDao.selectcgNoPrjNameBytaskNo(taskNo);
-	}
-
-	@Override
-	public List<CompanyMateriaIn> selectcgNotaskNoByPrjName(String name) {
-		return gmDao.selectcgNotaskNoByPrjName(name);
-	}
-
-	@Override
 	public List<CompanyMateriaIn> selectcgNotaskNoPrjNameBycgName(String cgName) {
 		return gmDao.selectcgNotaskNoPrjNameBycgName(cgName);
 	}

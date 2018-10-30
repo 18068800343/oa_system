@@ -185,22 +185,4 @@ public class GsMaterialInController {
 		return gmService.updateMaterialbuyUnitAndManufacturer(id,unit,manufacturer);
 	}
 	
-	
-	/*@RequestMapping("/allOutgsMaterial")//全部出库
-	@ResponseBody
-	public void exportCooperator(HttpServletResponse response) throws Exception {
-		List<CompanyMateriaIn> projectList = gmService.selectGsMaterialIn();
-	}*/
-	
-	/*@RequestMapping("/selectcgNoPrjNameBytaskNo")//通过任务单号查找采购合同号、采购合同名、项目名 、材料名称、材料类型、规格型号、单位、金额
-	@ResponseBody
-	public List<CompanyMateriaIn> selectcgNoPrjNameBytaskNo(String taskNo){
-		return gmService.selectcgNoPrjNameBytaskNo(taskNo);
-	}
-	
-	@RequestMapping("/selectcgNotaskNoByPrjName")//通过项目名 查找采购合同号、采购合同名、任务单号、材料名称、材料类型、规格型号、单位、金额
-	@ResponseBody
-	public List<CompanyMateriaIn> selectcgNotaskNoByPrjName(String name){
-		return gmService.selectcgNotaskNoByPrjName(name);
-	}*/
 }

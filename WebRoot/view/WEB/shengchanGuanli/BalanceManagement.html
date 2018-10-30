@@ -147,7 +147,7 @@
 	                    		<td>转出采购合同编号：</td>
 	                    		<td><input type="text" class="form-control" style="width:80%;"  id="out_cg_no" disabled></td>
 	                    	</tr>
-	                    	<tr>
+	                    	<!-- <tr>
 	                    		<td>转入采购合同名称：</td>
 	                    		<td>
 	                    			<select id="in_cg_name" class="form-control" style="width:62%;"></select>
@@ -156,15 +156,15 @@
 	                    		<td>
 	                    			<select id="in_cg_no" class="form-control" style="width:80%;"></select>
 	                    		</td>
-	                    	</tr>
+	                    	</tr> -->
 	                    	<tr>
 	                    		<td>转入项目名称：</td>
 	                    		<td>
-	                    			<select id="in_prj_name" class="form-control" style="width:62%;" disabled></select>
+	                    			<select id="in_prj_name" class="form-control" style="width:62%;"></select>
 	                    		</td>
 	                    		<td>转入项目编号：</td>
 	                    		<td>
-	                    			<select id="in_prj_no" class="form-control" style="width:80%;" disabled></select> 
+	                    			<select id="in_prj_no" class="form-control" style="width:80%;"></select> 
 	                    			<!-- <input type="text" style="width:62%;" class="form-control" id="in_prj_no" disabled> -->
 	                    		</td>
 	                    	</tr>
@@ -187,7 +187,6 @@
                         		<thead>
 	                        		<tr>
 	                                	<th colspan="9">材料信息列表</th>
-	                                	<!-- <th style='text-align:right;'><button type='button' id='xgyijianjiesuanMoney' onclick='yijianjiesuan()' class='btn btn-primary' >一键结算金额</button></th> -->
 	                            	</tr>
 	                            	<tr>
 	                        			<th>材料名称</th>
@@ -197,7 +196,7 @@
 		                    			<th>结余余数</th>
 		                    			<th>单价</th>
 		                    			<th>转出数量</th>
-		                    			<th>操作</th>
+		                    			<th colspan="2">操作</th>
 	                        		</tr>
 	                        	</thead>
 	                        	<tbody>
@@ -641,6 +640,7 @@
             	id:cmoId
             },
             success: function (json) {
+            	console.log(json)
             	$("#remain_out_table tbody").html('');
             	for(var i=0;i<json.length;i++){
             		if(json[i].remainNumber!=0){
@@ -654,6 +654,8 @@
 								"<td style='width:10%;'><input type='text' data="+json[i].crId+"  class='form-control' style='width:70%;'></td>"+
 								"<td style='width:10%;'><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
 							"</tr>")
+            		}else{
+            			$("#remain_out_table tbody").append("<tr><td colspan='8' style='color:red'>材料为空<td></tr>")
             		}
             	}
             }
@@ -664,29 +666,7 @@
 		var tr=$(obj).parent().parent();
 		$(tr).remove();
 	}
-	//一键结算金额
-	function yijianjiesuan(){
-		//console.log(obj)
-		var num=$(".form-control").val();
-		console.log(num)
-		if(num!=""){
-			$("#remain_out_table tbody").find("tr").each(function(){
-					var shengyuNum=0;
-					var chukuMoney=0;
-					var num=$(this).find("td").eq(4).text();
-					var danjia=$(this).find("td").eq(5).text();
-					var lingnum=$(this).find("td").eq(6).find("input").val();
-					if(lingnum/1<num/1 || lingnum/1==num/1){
-						shengyuNum=num-lingnum
-						chukuMoney=danjia*lingnum
-					}else if(lingnum/1>num/1){
-						toastr.error("超出库中数量")
-					}
-					$(this).find("td").eq(7).text(shengyuNum);
-					$(this).find("td").eq(8).text(chukuMoney);
-			})
-		}
-	}
+	
 	
 	//初始化采购合同名和采购合同号
     function initSelectCG(){
@@ -700,142 +680,67 @@
         	toastr.error("请求失败");
         },
         success: function (json) {
-        	$("#in_cg_no").html('');
-        	$("#in_cg_name").html('');
+        	$("#in_prj_name").html('');
+        	$("#in_prj_no").html('');
         	for(var i=0;i<json.length;i++){
-        		$("#in_cg_no").append("<option value="+json[i].cgNo+">"+json[i].cgNo+"</option>");
-        		$("#in_cg_name").append("<option value="+json[i].cgName+">"+json[i].cgName+"</option>");
+        		var prj=json[i].demandProject;
+        		var taskno=json[i].taskNo;
+         		var list=new Array();
+         		var list2=new Array();
+        		if(prj.indexOf(",")){
+        			var name=prj.split(",")
+        			for(var a=0;a<name.length;a++){
+        				list.push(name[a])
+        			}
+        			var no=taskno.split(",")
+        			for(var aa=0;aa<no.length;aa++){
+        				list2.push(no[aa])
+        			}
+        		}else{
+        			list.push(prj)
+        			list2.push(taskno)
+        		}
+        		for(var k=0;k<list.length;k++){
+        			$('#in_prj_name').append("<option value="+list[k]+">"+list[k]+"</option>")
+        		}
+        		for(var kk=0;kk<list2.length;kk++){
+        			$('#in_prj_no').append("<option value="+list2[kk]+">"+list2[kk]+"</option>")
+        		}
         	}
-        	$('#in_cg_no').editableSelect().on('select.editable-select', function (e, dom) {
+        	$('#in_prj_name').editableSelect().on('select.editable-select', function (e, dom) {
         		$.ajax({
                     type: 'POST',
-                    url: getContextPath()+'/gsMaterialIn/selecttaskNoPrjNameBycgNo',
+                    url: getContextPath()+'/task/selectTaskPrjNo',
                     dataType: 'json',
                     data: {
-                    	cgNo:$('#in_cg_no').val()
+                    	prjName:$('#in_prj_name').val()
                     },
                     success: function (json) {
                     	for(var i=0;i<json.length;i++){
-                    		$('#in_cg_name').val(json[i].cgName);
-                    		var prj=json[i].demandProject;
-                    		var taskno=json[i].taskNo;
-	                 		var list=new Array();
-	                 		var list2=new Array();
-                    		if(prj.indexOf(",")){
-                    			var name=prj.split(",")
-                    			for(var a=0;a<name.length;a++){
-                    				//console.log(name[a])
-                    				list.push(name[a])
-                    			}
-                    			var no=taskno.split(",")
-                    			for(var aa=0;aa<no.length;aa++){
-                    				//console.log(name[a])
-                    				list2.push(no[aa])
-                    			}
-                    		}else{
-                    			list.push(prj)
-                    			list2.push(taskno)
-                    		}
-                    		$('#in_prj_name').attr("disabled",false)
-                    		$('#in_prj_name').empty();
-                    		for(var k=0;k<list.length;k++){
-                    			$('#in_prj_name').append("<option value="+list[k]+">"+list[k]+"</option>")
-                    		}
-                    		$('#in_prj_no').attr("disabled",false)
-                    		$('#in_prj_no').empty();
-                    		for(var kk=0;kk<list2.length;kk++){
-                    			$('#in_prj_no').append("<option value="+list2[kk]+">"+list2[kk]+"</option>")
-                    		}
+                    		$('#in_prj_no').val(json[i].prjNo);
                     	}
-                    		$('#in_prj_name').trigger('change')
-                    		$('#in_prj_no').trigger('change')
                     }
           		});
           	})
-          	$('#in_cg_name').editableSelect().on('select.editable-select', function (e, dom) {
+          	$('#in_prj_no').editableSelect().on('select.editable-select', function (e, dom) {
         		$.ajax({
                     type: 'POST',
-                    url: getContextPath()+'/gsMaterialIn/selectcgNotaskNoPrjNameBycgName',
+                    url: getContextPath()+'/task/selectTaskPrjName',
                     dataType: 'json',
                     data: {
-                    	cgName:$('#in_cg_name').val()
+                    	prjNo:$('#in_prj_no').val()
                     },
                     success: function (json) {
-                    	console.log(json)
                     	for(var i=0;i<json.length;i++){
-                    		$('#in_cg_no').val(json[i].cgNo);
-                    		var prj=json[i].demandProject;
-                    		var taskno=json[i].taskNo;
-	                 		var list=new Array();
-	                 		var list2=new Array();
-                    		if(prj.indexOf(",")){
-                    			var name=prj.split(",")
-                    			for(var a=0;a<name.length;a++){
-                    				//console.log(name[a])
-                    				list.push(name[a])
-                    			}
-                    			var no=taskno.split(",")
-                    			for(var aa=0;aa<no.length;aa++){
-                    				//console.log(name[a])
-                    				list2.push(no[aa])
-                    			}
-                    		}else{
-                    			list.push(prj)
-                    			list2.push(taskno)
-                    		}
-                    		$('#in_prj_name').attr("disabled",false)
-                    		$('#in_prj_name').empty();
-                    		for(var k=0;k<list.length;k++){
-                    			$('#in_prj_name').append("<option value="+list[k]+">"+list[k]+"</option>")
-                    		}
-                    		$('#in_prj_no').attr("disabled",false)
-                    		$('#in_prj_no').empty();
-                    		for(var kk=0;kk<list2.length;kk++){
-                    			$('#in_prj_no').append("<option value="+list2[kk]+">"+list2[kk]+"</option>")
-                    		}
+                    		$('#in_prj_name').val(json[i].prjName);
                     	}
-                    	$('#in_prj_name').trigger('change')
-                    	$('#in_prj_no').trigger('change')
                     }
           		});
-          	})
+          	}) 
           	 
         }
 		});
 	}
-	$("#in_prj_name").change(function(){
-		var name=$('#in_prj_name').val()
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/task/selectTaskPrjNo',
-            dataType: 'json',
-            async:false,
-            data: {
-            	prjName:name
-            },
-            success: function (json) {
-            	//console.log(json)
-            	for(var i=0;i<json.length;i++){
-	                $('#in_prj_no').val(json[i].prjNo);
-            	}
-            }
-  		});
-	})
-	$("#in_prj_no").change(function(){
-    	$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/task/selectTaskPrjName',
-            dataType: 'json',
-            data: {
-            	prjNo:$('#in_prj_no').val()
-            },
-            success: function (json) {
-            	for(var i=0;i<json.length;i++){
-                	$('#in_prj_name').val(json[i].prjName);
-            	}
-            }
-  		});
-    })
 	
 	//初始化收货人部门及人员
 	function initbumen(){
@@ -959,15 +864,15 @@
     	    //console.log(material)
     	})
     	if(material.length!=0){
-	    	var cgNo=$("#in_cg_no").val();
-			var cgName=$("#in_cg_name").val();
+	    	var cgNo=$("#out_cg_no").val();
+			var cgName=$("#out_cg_name").val();
 			var taskNo=$("#in_prj_no").val();
 			var prjName=$("#in_prj_name").val();
 			var year=$("#out_time").val();
 			var renyuan=$("#out_person").val();
 			var beizhu=$("#out_desc").val();
-			if(cgNo==''){
-				toastr.error("采购合同号为空")
+			if(prjName==''){
+				toastr.error("项目名称为空")
 				return;
 			}
 			var arr2={
