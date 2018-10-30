@@ -9,29 +9,34 @@ public class clfbContractPurchaseSettlement {
 	private String cgjsNo;//采购结算申请单号
 	private String taskNo;//任务单号
 	private String prjName;//项目名
-	private String cgContract;//采购合同
-	private String cjContract;//承接合同
+	private String cgContract;//采购合同名
+	private String cgNo;//采购合同号
+	private String cjContract;//承接合同名
+	private String cjNo;//承接合同号
 	private String auditSettlementType;//审计结算类型
 	private String settlementTime;//时间
 	private String purchaseSettlementDesc;//概述
 	private String makeTime;
 	private String history;
 	
-	private String contractName;//承接合同名
-	
-	
 	 
+	public String getCjNo() {
+		return cjNo;
+	}
+	public void setCjNo(String cjNo) {
+		this.cjNo = cjNo;
+	}
+	public String getCgNo() {
+		return cgNo;
+	}
+	public void setCgNo(String cgNo) {
+		this.cgNo = cgNo;
+	}
 	public String getCgjsNo() {
 		return cgjsNo;
 	}
 	public void setCgjsNo(String cgjsNo) {
 		this.cgjsNo = cgjsNo;
-	}
-	public String getContractName() {
-		return contractName;
-	}
-	public void setContractName(String contractName) {
-		this.contractName = contractName;
 	}
 	public String getCpId() {
 		return cpId;
