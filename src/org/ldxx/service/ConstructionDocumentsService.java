@@ -15,8 +15,8 @@ public interface ConstructionDocumentsService {
 
 	int deleteAccessoryByIdAndName(Accessory accessory);
 
-	int addManagingDocumentsSave(ConstructionDocuments cd);
+	int addConstructionDocumentsSave(ConstructionDocuments cd);
 
-	int updateManagingDocumentsSave(ConstructionDocuments cd);
+	int updateConstructionDocumentsSave(ConstructionDocuments cd);
 
 }

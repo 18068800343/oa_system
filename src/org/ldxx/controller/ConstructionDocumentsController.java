@@ -42,9 +42,9 @@ public class ConstructionDocumentsController {
 	}
 	
 	
-	@RequestMapping("/addManagingDocumentsSave")//添加保存
+	@RequestMapping("/addConstructionDocumentsSave")//添加保存
 	@ResponseBody
-	public Map<String,Object> addPaySave(ConstructionDocuments cd,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
+	public Map<String,Object> addConstructionDocumentsSave(ConstructionDocuments cd,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
 			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8
 			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13
 			,@RequestParam MultipartFile [] file14,@RequestParam MultipartFile [] file15) throws IllegalStateException, IOException{
@@ -299,7 +299,7 @@ public class ConstructionDocumentsController {
 			cd.setAccessory15(list15);
 		}
 		
-		int i=service.addManagingDocumentsSave(cd);
+		int i=service.addConstructionDocumentsSave(cd);
 		map.put("result", i);
 		map.put("ConstructionDocuments", cd);
 		return map; 
@@ -314,9 +314,9 @@ public class ConstructionDocumentsController {
 	}
 	
 	
-	@RequestMapping("/updateManagingDocumentsSave")//修改保存
+	@RequestMapping("/updateConstructionDocumentsSave")//修改保存
 	@ResponseBody
-	public Map<String,Object> updateManagingDocumentsSave(ConstructionDocuments cd,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
+	public Map<String,Object> updateConstructionDocumentsSave(ConstructionDocuments cd,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
 			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8
 			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13
 			,@RequestParam MultipartFile [] file14,@RequestParam MultipartFile [] file15) throws IllegalStateException, IOException{
@@ -569,7 +569,7 @@ public class ConstructionDocumentsController {
 			cd.setAccessory15(list15);
 		}
 		
-		int i=service.updateManagingDocumentsSave(cd);
+		int i=service.updateConstructionDocumentsSave(cd);
 		map.put("result", i);
 		map.put("ConstructionDocuments", cd);
 		return map; 

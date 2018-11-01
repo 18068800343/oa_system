@@ -11,8 +11,8 @@ public interface ConstructionDocumentsDao {
 
 	int deleteConstructionDocumentsById(@Param("id")String id);
 
-	int addManagingDocumentsSave(@Param("cd") ConstructionDocuments cd);
+	int addConstructionDocumentsSave(@Param("cd") ConstructionDocuments cd);
 
-	int updateManagingDocumentsSave(@Param("cd")ConstructionDocuments cd);
+	int updateConstructionDocumentsSave(@Param("cd")ConstructionDocuments cd);
 
 }

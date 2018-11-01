@@ -87,8 +87,8 @@ public class ConstructionDocumentsServiceImpl implements ConstructionDocumentsSe
 
 
 	@Override
-	public int addManagingDocumentsSave(ConstructionDocuments cd) {
-		int i=dao.addManagingDocumentsSave(cd);
+	public int addConstructionDocumentsSave(ConstructionDocuments cd) {
+		int i=dao.addConstructionDocumentsSave(cd);
 		if(i>0){
 			List<Accessory> accessory1 = cd.getAccessory1();
 			if(accessory1!=null&&accessory1.size()>0){
@@ -156,8 +156,8 @@ public class ConstructionDocumentsServiceImpl implements ConstructionDocumentsSe
 
 
 	@Override
-	public int updateManagingDocumentsSave(ConstructionDocuments cd) {
-		int i=dao.updateManagingDocumentsSave(cd);
+	public int updateConstructionDocumentsSave(ConstructionDocuments cd) {
+		int i=dao.updateConstructionDocumentsSave(cd);
 		if(i>0){
 			List<Accessory> accessory1 = cd.getAccessory1();
 			if(accessory1!=null&&accessory1.size()>0){
