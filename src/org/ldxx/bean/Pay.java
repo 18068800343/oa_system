@@ -55,9 +55,9 @@ public class Pay {
 
     private String compilerTime;//编制时间
 
-    private String openTicketFile;//开票附件名称
+    private String makeTime;
 
-    private String ticketFilePath;
+    private String history;
 
     
     private List<Accessory> accessory;
@@ -225,17 +225,18 @@ public class Pay {
 	public void setCompilerTime(String compilerTime) {
 		this.compilerTime = compilerTime;
 	}
-	public String getOpenTicketFile() {
-		return openTicketFile;
+	
+	public String getMakeTime() {
+		return makeTime;
 	}
-	public void setOpenTicketFile(String openTicketFile) {
-		this.openTicketFile = openTicketFile;
+	public void setMakeTime(String makeTime) {
+		this.makeTime = makeTime;
 	}
-	public String getTicketFilePath() {
-		return ticketFilePath;
+	public String getHistory() {
+		return history;
 	}
-	public void setTicketFilePath(String ticketFilePath) {
-		this.ticketFilePath = ticketFilePath;
+	public void setHistory(String history) {
+		this.history = history;
 	}
 	public List<Accessory> getAccessory() {
 		return accessory;
