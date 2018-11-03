@@ -142,4 +142,9 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.selectPrjByprjlike(no);
 	}
 
+	@Override
+	public List<Task> selectPrjAndNo() {
+		return tdao.selectPrjAndNo();
+	}
+
 }

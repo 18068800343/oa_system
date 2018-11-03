@@ -1,6 +1,5 @@
 package org.ldxx.bean;
 
-import java.io.Serializable;
 
 public class Accessory{
     private String aId;
@@ -11,6 +10,17 @@ public class Accessory{
     
     private String aType;
     
+    private String aDesc;
+    
+
+    
+	public String getaDesc() {
+		return aDesc;
+	}
+
+	public void setaDesc(String aDesc) {
+		this.aDesc = aDesc;
+	}
 
 	public String getaType() {
 		return aType;

@@ -399,4 +399,10 @@ public class TaskController {
 		return tService.selectPrjByprjlike(no);
 	}
 	
+	@RequestMapping("/selectPrjAndNo")//初始化状态为正在进行和项目终止的项目名和任务单号 
+	@ResponseBody
+	public List<Task> selectPrjAndNo(){
+		return tService.selectPrjAndNo();
+	}
+	
 }

@@ -7,11 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ConstructionDocuments;
-import org.ldxx.bean.ManagingDocuments;
-import org.ldxx.bean.ManagingDocumentsTenderer;
-import org.ldxx.service.ConstructionDocumentsService;
+import org.ldxx.bean.TestingEvaluation;
+import org.ldxx.service.TestingEvaluationService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,35 +20,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import net.sf.json.JSONObject;
 
 /**
- * 施工文档资料
+ * 检测评估类
  * @author hp
  *
  */
-
-@RequestMapping("ConstructionDocuments")
+@RequestMapping("TestingEvaluation")
 @Controller
-public class ConstructionDocumentsController {
+public class TestingEvaluationController {
 	
 	@Autowired
-	private ConstructionDocumentsService service;
+	private TestingEvaluationService service;
 	
-	@RequestMapping("/selectConstructionDocuments")
+	
+	@RequestMapping("/selectTestingEvaluation")
 	@ResponseBody
-	public List<ConstructionDocuments> selectConstructionDocuments(){
-		return service.selectConstructionDocuments();
+	public List<TestingEvaluation> selectTestingEvaluation(){
+		return service.selectTestingEvaluation();
 	}
 	
-	
-	@RequestMapping("/addConstructionDocumentsSave")//添加保存
+	@RequestMapping("/addTestingEvaluationSave")//添加保存
 	@ResponseBody
-	public Map<String,Object> addConstructionDocumentsSave(String cds,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
+	public Map<String,Object> addTestingEvaluationSave(String tes,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
 			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8
-			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13
-			,@RequestParam MultipartFile [] file14,@RequestParam MultipartFile [] file15) throws IllegalStateException, IOException{
+			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory1", Accessory.class);
@@ -63,23 +65,20 @@ public class ConstructionDocumentsController {
 		map2.put("accessory11", Accessory.class);
 		map2.put("accessory12", Accessory.class);
 		map2.put("accessory13", Accessory.class);
-		map2.put("accessory14", Accessory.class);
-		map2.put("accessory15", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cds);
-		ConstructionDocuments cd=(ConstructionDocuments)JSONObject.toBean(jsonObject, ConstructionDocuments.class,map2);
+		JSONObject jsonObject=JSONObject.fromObject(tes);
+		TestingEvaluation te=(TestingEvaluation)JSONObject.toBean(jsonObject, TestingEvaluation.class,map2);
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		cd.setCdId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"ConstructionDocuments";
+		te.setTeId(id);
+		String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation";
 		
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
 		}
 		if(file1.length>0){
-			//List<Accessory> list1=new ArrayList<>();
-			List<Accessory> acc = cd.getAccessory1();
+			List<Accessory> acc = te.getAccessory1();
 			for(int i=0;i<file1.length;i++){
 				String fileName=file1[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -93,13 +92,11 @@ public class ConstructionDocumentsController {
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
-				/*accessory1.setaType("项目实际存档目录");
-				list1.add(accessory1);*/
 			}
-			cd.setAccessory1(acc);
+			te.setAccessory1(acc);
 		}
 		if(file2.length>0){
-			List<Accessory> acc = cd.getAccessory2();
+			List<Accessory> acc = te.getAccessory2();
 			for(int i=0;i<file2.length;i++){
 				String fileName=file2[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -114,10 +111,10 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory2(acc);
+			te.setAccessory2(acc);
 		}
 		if(file3.length>0){
-			List<Accessory> acc = cd.getAccessory3();
+			List<Accessory> acc = te.getAccessory3();
 			for(int i=0;i<file3.length;i++){
 				String fileName=file3[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -132,10 +129,10 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory3(acc);
+			te.setAccessory3(acc);
 		}
 		if(file4.length>0){
-			List<Accessory> acc = cd.getAccessory4();
+			List<Accessory> acc = te.getAccessory4();
 			for(int i=0;i<file4.length;i++){
 				String fileName=file4[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -145,15 +142,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("项目主合同");
+					acc.get(j).setaType("合同资料");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory4(acc);
+			te.setAccessory4(acc);
 		}
 		if(file5.length>0){
-			List<Accessory> acc = cd.getAccessory5();
+			List<Accessory> acc = te.getAccessory5();
 			for(int i=0;i<file5.length;i++){
 				String fileName=file5[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -163,15 +160,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("开工报告");
+					acc.get(j).setaType("出版报告");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory5(acc);
+			te.setAccessory5(acc);
 		}
 		if(file6.length>0){
-			List<Accessory> acc = cd.getAccessory6();
+			List<Accessory> acc = te.getAccessory6();
 			for(int i=0;i<file6.length;i++){
 				String fileName=file6[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -181,15 +178,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("项目总结");
+					acc.get(j).setaType("计算模型、计算书");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory6(acc);
+			te.setAccessory6(acc);
 		}
 		if(file7.length>0){
-			List<Accessory> acc = cd.getAccessory7();
+			List<Accessory> acc = te.getAccessory7();
 			for(int i=0;i<file7.length;i++){
 				String fileName=file7[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -199,15 +196,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("计量资料");
+					acc.get(j).setaType("外部评审意见");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory7(acc);
+			te.setAccessory7(acc);
 		}
 		if(file8.length>0){
-			List<Accessory> acc = cd.getAccessory8();
+			List<Accessory> acc = te.getAccessory8();
 			for(int i=0;i<file8.length;i++){
 				String fileName=file8[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -217,15 +214,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("设计变更资料");
+					acc.get(j).setaType("校审资料");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory8(acc);
+			te.setAccessory8(acc);
 		}
 		if(file9.length>0){
-			List<Accessory> acc = cd.getAccessory9();
+			List<Accessory> acc = te.getAccessory9();
 			for(int i=0;i<file9.length;i++){
 				String fileName=file9[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -235,15 +232,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("施工图和竣工图");
+					acc.get(j).setaType("技术方案");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory9(acc);
+			te.setAccessory9(acc);
 		}
 		if(file10.length>0){
-			List<Accessory> acc = cd.getAccessory10();
+			List<Accessory> acc = te.getAccessory10();
 			for(int i=0;i<file10.length;i++){
 				String fileName=file10[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -253,15 +250,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("开工、过程以及交竣工全部外部审查意见");
+					acc.get(j).setaType("重点项目的项目总结");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory10(acc);
+			te.setAccessory10(acc);
 		}
 		if(file11.length>0){
-			List<Accessory> acc = cd.getAccessory11();
+			List<Accessory> acc = te.getAccessory11();
 			for(int i=0;i<file11.length;i++){
 				String fileName=file11[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -271,15 +268,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("首件工程总结");
+					acc.get(j).setaType("重点项目质量流程控制文件");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory11(acc);
+			te.setAccessory11(acc);
 		}
 		if(file12.length>0){
-			List<Accessory> acc = cd.getAccessory12();
+			List<Accessory> acc = te.getAccessory12();
 			for(int i=0;i<file12.length;i++){
 				String fileName=file12[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -289,15 +286,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("材料检测资料");
+					acc.get(j).setaType("依据设计图纸");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory12(acc);
+			te.setAccessory12(acc);
 		}
 		if(file13.length>0){
-			List<Accessory> acc = cd.getAccessory13();
+			List<Accessory> acc = te.getAccessory13();
 			for(int i=0;i<file13.length;i++){
 				String fileName=file13[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -307,71 +304,26 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("中间报验资料和检验评定资料");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
-			}
-			cd.setAccessory13(acc);
-		}
-		if(file14.length>0){
-			List<Accessory> acc = cd.getAccessory14();
-			for(int i=0;i<file14.length;i++){
-				String fileName=file14[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f14=new File(filePath);
-				file14[i].transferTo(f14);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("施工日志");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
-			}
-			cd.setAccessory14(acc);
-		}
-		if(file15.length>0){
-			List<Accessory> acc = cd.getAccessory15();
-			for(int i=0;i<file15.length;i++){
-				String fileName=file15[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f15=new File(filePath);
-				file15[i].transferTo(f15);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
 					acc.get(j).setaType("其它");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory15(acc);
+			te.setAccessory13(acc);
 		}
 		
-		int i=service.addConstructionDocumentsSave(cd);
+		int i=service.addTestingEvaluationSave(te);
 		map.put("result", i);
-		map.put("ConstructionDocuments", cd);
+		map.put("TestingEvaluation", te);
 		return map; 
 	}
+
 	
-	
-	
-	@RequestMapping("/deleteConstructionDocumentsById")
+	@RequestMapping("/updateTestingEvaluationSave")//修改保存
 	@ResponseBody
-	public int deleteConstructionDocumentsById(String id){
-		return service.deleteConstructionDocumentsById(id);
-	}
-	
-	
-	@RequestMapping("/updateConstructionDocumentsSave")//修改保存
-	@ResponseBody
-	public Map<String,Object> updateConstructionDocumentsSave(String  cds,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
+	public Map<String,Object> updateTestingEvaluationSave(String tes,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
 			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8
-			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13
-			,@RequestParam MultipartFile [] file14,@RequestParam MultipartFile [] file15) throws IllegalStateException, IOException{
+			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13,HttpServletRequest request) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory1", Accessory.class);
@@ -387,23 +339,18 @@ public class ConstructionDocumentsController {
 		map2.put("accessory11", Accessory.class);
 		map2.put("accessory12", Accessory.class);
 		map2.put("accessory13", Accessory.class);
-		map2.put("accessory14", Accessory.class);
-		map2.put("accessory15", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cds);
-		ConstructionDocuments cd=(ConstructionDocuments)JSONObject.toBean(jsonObject, ConstructionDocuments.class,map2);
+		JSONObject jsonObject=JSONObject.fromObject(tes);
+		TestingEvaluation te=(TestingEvaluation)JSONObject.toBean(jsonObject, TestingEvaluation.class,map2);
 		
-		
-		
-		String id=cd.getCdId();
-		String path="D:"+File.separator+"oa"+File.separator+"ConstructionDocuments";
+		String id=te.getTeId();
+		String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation";
 		
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
 		}
 		if(file1.length>0){
-			//List<Accessory> list1=new ArrayList<>();
-			List<Accessory> acc = cd.getAccessory1();
+			List<Accessory> acc = te.getAccessory1();
 			for(int i=0;i<file1.length;i++){
 				String fileName=file1[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -418,10 +365,10 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory1(acc);
+			te.setAccessory1(acc);
 		}
 		if(file2.length>0){
-			List<Accessory> acc = cd.getAccessory2();
+			List<Accessory> acc = te.getAccessory2();
 			for(int i=0;i<file2.length;i++){
 				String fileName=file2[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -436,10 +383,10 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory2(acc);
+			te.setAccessory2(acc);
 		}
 		if(file3.length>0){
-			List<Accessory> acc = cd.getAccessory3();
+			List<Accessory> acc = te.getAccessory3();
 			for(int i=0;i<file3.length;i++){
 				String fileName=file3[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -454,10 +401,10 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory3(acc);
+			te.setAccessory3(acc);
 		}
 		if(file4.length>0){
-			List<Accessory> acc = cd.getAccessory4();
+			List<Accessory> acc = te.getAccessory4();
 			for(int i=0;i<file4.length;i++){
 				String fileName=file4[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -467,15 +414,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("项目主合同");
+					acc.get(j).setaType("合同资料");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory4(acc);
+			te.setAccessory4(acc);
 		}
 		if(file5.length>0){
-			List<Accessory> acc = cd.getAccessory5();
+			List<Accessory> acc = te.getAccessory5();
 			for(int i=0;i<file5.length;i++){
 				String fileName=file5[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -485,15 +432,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("开工报告");
+					acc.get(j).setaType("出版报告");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory5(acc);
+			te.setAccessory5(acc);
 		}
 		if(file6.length>0){
-			List<Accessory> acc = cd.getAccessory6();
+			List<Accessory> acc = te.getAccessory6();
 			for(int i=0;i<file6.length;i++){
 				String fileName=file6[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -503,15 +450,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("项目总结");
+					acc.get(j).setaType("计算模型、计算书");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory6(acc);
+			te.setAccessory6(acc);
 		}
 		if(file7.length>0){
-			List<Accessory> acc = cd.getAccessory7();
+			List<Accessory> acc = te.getAccessory7();
 			for(int i=0;i<file7.length;i++){
 				String fileName=file7[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -521,15 +468,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("计量资料");
+					acc.get(j).setaType("外部评审意见");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory7(acc);
+			te.setAccessory7(acc);
 		}
 		if(file8.length>0){
-			List<Accessory> acc = cd.getAccessory8();
+			List<Accessory> acc = te.getAccessory8();
 			for(int i=0;i<file8.length;i++){
 				String fileName=file8[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -539,15 +486,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("设计变更资料");
+					acc.get(j).setaType("校审资料");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory8(acc);
+			te.setAccessory8(acc);
 		}
 		if(file9.length>0){
-			List<Accessory> acc = cd.getAccessory9();
+			List<Accessory> acc = te.getAccessory9();
 			for(int i=0;i<file9.length;i++){
 				String fileName=file9[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -557,15 +504,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("施工图和竣工图");
+					acc.get(j).setaType("技术方案");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory9(acc);
+			te.setAccessory9(acc);
 		}
 		if(file10.length>0){
-			List<Accessory> acc = cd.getAccessory10();
+			List<Accessory> acc = te.getAccessory10();
 			for(int i=0;i<file10.length;i++){
 				String fileName=file10[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -575,15 +522,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("开工、过程以及交竣工全部外部审查意见");
+					acc.get(j).setaType("重点项目的项目总结");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory10(acc);
+			te.setAccessory10(acc);
 		}
 		if(file11.length>0){
-			List<Accessory> acc = cd.getAccessory11();
+			List<Accessory> acc = te.getAccessory11();
 			for(int i=0;i<file11.length;i++){
 				String fileName=file11[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -593,15 +540,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("首件工程总结");
+					acc.get(j).setaType("重点项目质量流程控制文件");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory11(acc);
+			te.setAccessory11(acc);
 		}
 		if(file12.length>0){
-			List<Accessory> acc = cd.getAccessory12();
+			List<Accessory> acc = te.getAccessory12();
 			for(int i=0;i<file12.length;i++){
 				String fileName=file12[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -611,15 +558,15 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("材料检测资料");
+					acc.get(j).setaType("依据设计图纸");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory12(acc);
+			te.setAccessory12(acc);
 		}
 		if(file13.length>0){
-			List<Accessory> acc = cd.getAccessory13();
+			List<Accessory> acc = te.getAccessory13();
 			for(int i=0;i<file13.length;i++){
 				String fileName=file13[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
@@ -629,58 +576,25 @@ public class ConstructionDocumentsController {
 					acc.get(j).setaId(id);
 					acc.get(j).setAcName(fileName);
 					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("中间报验资料和检验评定资料");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
-			}
-			cd.setAccessory13(acc);
-		}
-		if(file14.length>0){
-			List<Accessory> acc = cd.getAccessory14();
-			for(int i=0;i<file14.length;i++){
-				String fileName=file14[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f14=new File(filePath);
-				file14[i].transferTo(f14);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("施工日志");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
-			}
-			cd.setAccessory14(acc);
-		}
-		if(file15.length>0){
-			List<Accessory> acc = cd.getAccessory15();
-			for(int i=0;i<file15.length;i++){
-				String fileName=file15[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f15=new File(filePath);
-				file15[i].transferTo(f15);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
 					acc.get(j).setaType("其它");
 					String atype=acc.get(j).getaDesc();
 					acc.get(j).setaDesc(atype);
 				}
 			}
-			cd.setAccessory15(acc);
+			te.setAccessory13(acc);
 		}
 		
-		int i=service.updateConstructionDocumentsSave(cd);
+		int i=service.updateTestingEvaluationSave(te);
 		map.put("result", i);
-		map.put("ConstructionDocuments", cd);
+		map.put("TestingEvaluation", te);
 		return map; 
 	}
 	
-	
-	
+	@RequestMapping("/deleteTestingEvaluationById")
+	@ResponseBody
+	public int deleteTestingEvaluationById(String id){
+		return service.deleteTestingEvaluationById(id);
+	}
 	
 	@RequestMapping("/selectAccessoryById")
 	@ResponseBody
@@ -700,5 +614,4 @@ public class ConstructionDocumentsController {
 		return i;
 	}
 	
-
 }

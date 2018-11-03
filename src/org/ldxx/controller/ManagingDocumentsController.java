@@ -48,6 +48,12 @@ public class ManagingDocumentsController {
 		Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("managingDocumentsTenderer", ManagingDocumentsTenderer.class);
+		map2.put("accessory1", Accessory.class);
+		map2.put("accessory2", Accessory.class);
+		map2.put("accessory3", Accessory.class);
+		map2.put("accessory4", Accessory.class);
+		map2.put("accessory5", Accessory.class);
+		map2.put("accessory6", Accessory.class);
 		JSONObject jsonObject=JSONObject.fromObject(managingDocuments);
 		ManagingDocuments md=(ManagingDocuments)JSONObject.toBean(jsonObject, ManagingDocuments.class,map2);
 		
@@ -55,105 +61,117 @@ public class ManagingDocumentsController {
 		String id=uuid.getTimeUUID();
 		md.setMdId(id);
 		String path="D:"+File.separator+"oa"+File.separator+"ManagingDocuments";
-		List<Accessory> list1=new ArrayList<>();
-		List<Accessory> list2=new ArrayList<>();
-		List<Accessory> list3=new ArrayList<>();
-		List<Accessory> list4=new ArrayList<>();
-		List<Accessory> list5=new ArrayList<>();
-		List<Accessory> list6=new ArrayList<>();
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
 		}
 		if(file1.length>0){
+			List<Accessory> acc = md.getAccessory1();
 			for(int i=0;i<file1.length;i++){
-				Accessory accessory1=new Accessory();
 				String fileName=file1[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f1=new File(filePath);
 				file1[i].transferTo(f1);
-				accessory1.setaId(id);
-				accessory1.setAcName(fileName);
-				accessory1.setAcUrl(filePath);
-				accessory1.setaType("招标文件");
-				list1.add(accessory1);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("招标文件");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory1(list1);
+			md.setAccessory1(acc);
 		}
 		if(file2.length>0){
+			List<Accessory> acc= md.getAccessory2();
 			for(int i=0;i<file2.length;i++){
-				Accessory accessory2=new Accessory();
 				String fileName=file2[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file2[i].transferTo(f2);
-				accessory2.setaId(id);
-				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
-				accessory2.setaType("技术文件");
-				list2.add(accessory2);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("技术文件");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory2(list2);
+			md.setAccessory2(acc);
 		}
 		if(file3.length>0){
+			List<Accessory> acc= md.getAccessory3();
 			for(int i=0;i<file3.length;i++){
-				Accessory accessory3=new Accessory();
 				String fileName=file3[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f3=new File(filePath);
 				file3[i].transferTo(f3);
-				accessory3.setaId(id);
-				accessory3.setAcName(fileName);
-				accessory3.setAcUrl(filePath);
-				accessory3.setaType("商务文件");
-				list3.add(accessory3);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("商务文件");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory3(list3);
+			md.setAccessory3(acc);
 		}
 		if(file4.length>0){
+			List<Accessory> acc= md.getAccessory4();
 			for(int i=0;i<file4.length;i++){
-				Accessory accessory4=new Accessory();
 				String fileName=file4[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f4=new File(filePath);
 				file4[i].transferTo(f4);
-				accessory4.setaId(id);
-				accessory4.setAcName(fileName);
-				accessory4.setAcUrl(filePath);
-				accessory4.setaType("中标通知书");
-				list4.add(accessory4);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("中标通知书");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory4(list4);
+			md.setAccessory4(acc);
 		}
 		if(file5.length>0){
+			List<Accessory> acc= md.getAccessory5();
 			for(int i=0;i<file5.length;i++){
-				Accessory accessory5=new Accessory();
 				String fileName=file5[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f5=new File(filePath);
 				file5[i].transferTo(f5);
-				accessory5.setaId(id);
-				accessory5.setAcName(fileName);
-				accessory5.setAcUrl(filePath);
-				accessory5.setaType("验收证书");
-				list5.add(accessory5);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("验收证书");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory5(list5);
+			md.setAccessory5(acc);
 		}
 		if(file6.length>0){
+			List<Accessory> acc= md.getAccessory6();
 			for(int i=0;i<file6.length;i++){
-				Accessory accessory6=new Accessory();
 				String fileName=file6[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f6=new File(filePath);
 				file6[i].transferTo(f6);
-				accessory6.setaId(id);
-				accessory6.setAcName(fileName);
-				accessory6.setAcUrl(filePath);
-				accessory6.setaType("开标记录");
-				list6.add(accessory6);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("开标记录");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory6(list6);
+			md.setAccessory6(acc);
 		}
 		
 		int i=service.addManagingDocumentsSave(md);
@@ -170,110 +188,128 @@ public class ManagingDocumentsController {
 		Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("managingDocumentsTenderer", ManagingDocumentsTenderer.class);
+		map2.put("accessory1", Accessory.class);
+		map2.put("accessory2", Accessory.class);
+		map2.put("accessory3", Accessory.class);
+		map2.put("accessory4", Accessory.class);
+		map2.put("accessory5", Accessory.class);
+		map2.put("accessory6", Accessory.class);
 		JSONObject jsonObject=JSONObject.fromObject(managingDocuments);
 		ManagingDocuments md=(ManagingDocuments)JSONObject.toBean(jsonObject, ManagingDocuments.class,map2);
 		
 		String id=md.getMdId();
 		String path="D:"+File.separator+"oa"+File.separator+"ManagingDocuments";
-		List<Accessory> list1=new ArrayList<>();
-		List<Accessory> list2=new ArrayList<>();
-		List<Accessory> list3=new ArrayList<>();
-		List<Accessory> list4=new ArrayList<>();
-		List<Accessory> list5=new ArrayList<>();
-		List<Accessory> list6=new ArrayList<>();
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
 		}
 		if(file1.length>0){
+			List<Accessory> acc = md.getAccessory1();
 			for(int i=0;i<file1.length;i++){
-				Accessory accessory1=new Accessory();
 				String fileName=file1[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f1=new File(filePath);
 				file1[i].transferTo(f1);
-				accessory1.setaId(id);
-				accessory1.setAcName(fileName);
-				accessory1.setAcUrl(filePath);
-				accessory1.setaType("招标文件");
-				list1.add(accessory1);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("招标文件");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory1(list1);
+			md.setAccessory1(acc);
 		}
 		if(file2.length>0){
+			List<Accessory> acc= md.getAccessory2();
 			for(int i=0;i<file2.length;i++){
-				Accessory accessory2=new Accessory();
 				String fileName=file2[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file2[i].transferTo(f2);
-				accessory2.setaId(id);
-				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
-				accessory2.setaType("技术文件");
-				list2.add(accessory2);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("技术文件");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory2(list2);
+			md.setAccessory2(acc);
 		}
 		if(file3.length>0){
+			List<Accessory> acc= md.getAccessory3();
 			for(int i=0;i<file3.length;i++){
-				Accessory accessory3=new Accessory();
 				String fileName=file3[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f3=new File(filePath);
 				file3[i].transferTo(f3);
-				accessory3.setaId(id);
-				accessory3.setAcName(fileName);
-				accessory3.setAcUrl(filePath);
-				accessory3.setaType("商务文件");
-				list3.add(accessory3);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("商务文件");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory3(list3);
+			md.setAccessory3(acc);
 		}
 		if(file4.length>0){
+			List<Accessory> acc= md.getAccessory4();
 			for(int i=0;i<file4.length;i++){
-				Accessory accessory4=new Accessory();
 				String fileName=file4[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f4=new File(filePath);
 				file4[i].transferTo(f4);
-				accessory4.setaId(id);
-				accessory4.setAcName(fileName);
-				accessory4.setAcUrl(filePath);
-				accessory4.setaType("中标通知书");
-				list4.add(accessory4);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("中标通知书");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory4(list4);
+			md.setAccessory4(acc);
 		}
 		if(file5.length>0){
+			List<Accessory> acc= md.getAccessory5();
 			for(int i=0;i<file5.length;i++){
-				Accessory accessory5=new Accessory();
 				String fileName=file5[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f5=new File(filePath);
 				file5[i].transferTo(f5);
-				accessory5.setaId(id);
-				accessory5.setAcName(fileName);
-				accessory5.setAcUrl(filePath);
-				accessory5.setaType("验收证书");
-				list5.add(accessory5);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("验收证书");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory5(list5);
+			md.setAccessory5(acc);
 		}
 		if(file6.length>0){
+			List<Accessory> acc= md.getAccessory6();
 			for(int i=0;i<file6.length;i++){
-				Accessory accessory6=new Accessory();
 				String fileName=file6[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f6=new File(filePath);
 				file6[i].transferTo(f6);
-				accessory6.setaId(id);
-				accessory6.setAcName(fileName);
-				accessory6.setAcUrl(filePath);
-				accessory6.setaType("开标记录");
-				list6.add(accessory6);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("开标记录");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
 			}
-			md.setAccessory6(list6);
+			md.setAccessory6(acc);
 		}
 		
 		int i=service.updateManagingDocumentsSave(md);
