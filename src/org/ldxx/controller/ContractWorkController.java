@@ -26,7 +26,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
+/**
+ * 合同履约下的承接合同
+ * @author hp
+ *
+ */
 @Controller
 @RequestMapping("work")
 public class ContractWorkController {
