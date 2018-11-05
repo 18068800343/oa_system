@@ -31,11 +31,6 @@ public class OtherContractConroller {
 		other.setoId(id);
 		int count=service.countNo();
 		String type="";
-		if(other.getContractType().equals("收款")){
-			type="A";
-		}else if(other.getContractType().equals("付款")){
-			type="B";
-		}
 		String code="QT"+uuid.getPrjCode(type, count+1);
 		other.setContractCode(code);
 		if(file.length>0){
@@ -70,11 +65,6 @@ public class OtherContractConroller {
 		other.setoId(id);
 		int count=service.countNo();
 		String type="";
-		if(other.getContractType().equals("收款")){
-			type="A";
-		}else if(other.getContractType().equals("付款")){
-			type="B";
-		}
 		String code="QT"+uuid.getPrjCode(type, count+1);
 		other.setContractCode(code);
 		if(file.length>0){

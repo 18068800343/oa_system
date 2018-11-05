@@ -30,11 +30,20 @@ public class CgContract {
 	private String history;//历史状态
 	    
 	private List<Accessory> accessory;
+	private List<Accessory> accessory1;
 
 	private String spName;// 乙方单位名称
 
 	
 	
+	public List<Accessory> getAccessory1() {
+		return accessory1;
+	}
+
+	public void setAccessory1(List<Accessory> accessory1) {
+		this.accessory1 = accessory1;
+	}
+
 	public String getProgramType() {
 		return programType;
 	}

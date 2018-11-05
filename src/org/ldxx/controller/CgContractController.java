@@ -40,7 +40,7 @@ public class CgContractController {
 
 	@RequestMapping("/addCgContractSave")//保存
 	@ResponseBody
-	public int addCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
@@ -53,25 +53,42 @@ public class CgContractController {
 		cgNo="CG"+cgNo;
 		cg.setCgNo(cgNo);
 		
+		String path="D:"+File.separator+"oa"+File.separator+"CgContract";
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CgContract";
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("采购合同文本");
 				list.add(accessory);
 			}
 			cg.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1=new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory1=new Accessory();
+				String fileName1=file1[i].getOriginalFilename();
+				String filePath1=path+File.separator+fileName1;
+				File f2=new File(filePath1);
+				file1[i].transferTo(f2);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName1);
+				accessory1.setAcUrl(filePath1);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			cg.setAccessory1(list1);
 		}
 		int i=cgService.addCgContract(cg);
 		return i;
@@ -80,7 +97,7 @@ public class CgContractController {
 	
 	@RequestMapping("/addCgContractSubmit")//提交
 	@ResponseBody
-	public int addCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
@@ -93,25 +110,42 @@ public class CgContractController {
 		cgNo="CG"+cgNo;
 		cg.setCgNo(cgNo);
 		
+		String path="D:"+File.separator+"oa"+File.separator+"CgContract";
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CgContract";
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("采购合同文本");
 				list.add(accessory);
 			}
 			cg.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1=new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory1=new Accessory();
+				String fileName1=file1[i].getOriginalFilename();
+				String filePath1=path+File.separator+fileName1;
+				File f2=new File(filePath1);
+				file1[i].transferTo(f2);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName1);
+				accessory1.setAcUrl(filePath1);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			cg.setAccessory1(list1);
 		}
 		int i=cgService.addCgContract(cg);
 		return i;
@@ -126,31 +160,48 @@ public class CgContractController {
 	
 	@RequestMapping("/updateCgContractSave")
 	@ResponseBody
-	public int updateCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public int updateCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cgService.updateHistoryById(cg.getCgId());
 		cg.setCgId(id);
 		
+		String path="D:"+File.separator+"oa"+File.separator+"CgContract";
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CgContract";
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("采购合同文本");
 				list.add(accessory);
 			}
 			cg.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1=new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory1=new Accessory();
+				String fileName1=file1[i].getOriginalFilename();
+				String filePath1=path+File.separator+fileName1;
+				File f2=new File(filePath1);
+				file1[i].transferTo(f2);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName1);
+				accessory1.setAcUrl(filePath1);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			cg.setAccessory1(list1);
 		}
 		int i=cgService.addCgContract(cg);
 		return i;
@@ -158,31 +209,48 @@ public class CgContractController {
 	
 	@RequestMapping("/updateCgContractSubmit")
 	@ResponseBody
-	public int updateCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public int updateCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cgService.updateHistoryById(cg.getCgId());
 		cg.setCgId(id);
 		
+		String path="D:"+File.separator+"oa"+File.separator+"CgContract";
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CgContract";
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("采购合同文本");
 				list.add(accessory);
 			}
 			cg.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1=new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory1=new Accessory();
+				String fileName1=file1[i].getOriginalFilename();
+				String filePath1=path+File.separator+fileName1;
+				File f2=new File(filePath1);
+				file1[i].transferTo(f2);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName1);
+				accessory1.setAcUrl(filePath1);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			cg.setAccessory1(list1);
 		}
 		int i=cgService.addCgContract(cg);
 		return i;
