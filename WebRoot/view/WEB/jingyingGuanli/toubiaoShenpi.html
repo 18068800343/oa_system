@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>经营管理</li>
+            <li>项目投标</li>
+			<li class="active">投标审批单</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+
+        <div>
+            <div class="tab-content">
+                
+                    <div class="UpperPart">
+                            <div class="UpperPartL">
+
+                            </div>
+                            <div class="UpperPartR">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建投标审批单</button>
+                            </div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>新建投标审批单</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                            	<td>项目名称</td>
+                            	<td style="width:38%;">
+                            		<input type="text" class="form-control" id="prjName" disabled>
+                                	<button type="button" class="btn btn-primary"  id="chosexm">选择项目</button>
+                            	</td>
+                            	<td>项目编号</td>
+                            	<td style="width:38%;"><input type="text"class="form-control"id="" disabled></td>
+                            </tr>
+                            <tr>
+                            	<td>业主单位</td>
+                            	<td><input type="text"class="form-control"id="" ></td>
+                            	<td>项目类型</td>
+                            	<td>
+                            		<select class="form-control" style="width:180px;">
+                            			<option>123</option>
+                            		</select>
+                            	</td>
+                            </tr>
+                            <tr>
+                            	<td>投标人</td>
+                            	<td colspan="3">
+                            		<input type="checkbox">中设设计集团股份有限公司<br>
+                            		<input type="checkbox">江苏华通工程检测有限公司<br>
+                            		<input type="checkbox">江苏华汇工程科技有限公司<br>
+                            	</td>
+                            </tr>
+                            <tr>
+                            	<td rowspan="3">资格预审递交时间</td>
+                            	<td>现场考察时间</td>
+                            	<td colspan="2"><input type="text"class="form-control"id="" ></td>
+                            </tr>
+                            <tr>
+                            	<td>标前会时间</td>
+                            	<td colspan="2"><input type="text"class="form-control"id="" ></td>
+                            </tr>
+                            <tr>
+                            	<td>投标文件递交时间</td>
+                            	<td colspan="2"><input type="text"class="form-control"id="" ></td>
+                            </tr>
+                            <tr>
+                            	<td>项目报名人员</td>
+                            	<td>
+                            		<input type="text" id="userSignetMan" class="form-control" disabled>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择报名人员</button>
+                            	</td>
+                            	<td>项目购买标书人员</td>
+                            	<td>
+                            		<input type="text" id="userSignetMan2" class="form-control" disabled>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren2">选择报名人员</button>
+                            	</td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="addsave()">保存</button>
+            <button type="button" class="btn btn-success" onclick="addSubmit()" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+<!-- Modal项目 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xiangmumd">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xiangmubiao">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>编号</th>
+                                    <th>项目名称</th>
+                                    <th>项目所属公司</th>
+                                    <th>项目类型</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="quedingxm">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+<!--选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择报名人员</h4>
+            </div>
+            <div class="modal-body">
+            
+                <form class="form-inline">
+                    <div class="form-group">
+                        	<span>部门:</span>
+                            <select style="width:180px;"id="bumen" class="form-control" ></select>
+                    </div>
+                </form>
+                
+                <div>
+                     <table class="table table-bordered table-condensed"  id="bmmingzibiao" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 选人 modal结束 -->
+<!--选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择报名人员</h4>
+            </div>
+            <div class="modal-body">
+            
+                <form class="form-inline">
+                    <div class="form-group">
+                        	<span>部门:</span>
+                            <select style="width:180px;"id="bumen2" class="form-control" ></select>
+                    </div>
+                </form>
+                
+                <div>
+                     <table class="table table-bordered table-condensed"  id="bmmingzibiao2" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveGuanliren2()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 选人 modal结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-condensed" id="mingzibiao">
+	       				<thead>
+	       					<tr>
+	       						<th></th>
+	       						<th>姓名</th>
+	       						<th>工号</th>
+	       						<th>出生日期</th>
+	       						<th>性别</th>
+	       						<th>职务</th>
+	       					</tr>
+	       				</thead>
+	       				<tbody></tbody>
+	       			</table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 --> 
+<!-- 修改Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改投标审批单</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                            	<td>项目名称</td>
+                            	<td style="width:38%;">
+                            		<input type="text" class="form-control" id="xgprjName" disabled>
+                                	<button type="button" class="btn btn-primary"  id="xgchosexm">选择项目</button>
+                            	</td>
+                            	<td>项目编号</td>
+                            	<td style="width:38%;"><input type="text"class="form-control"id="" disabled></td>
+                            </tr>
+                            <tr>
+                            	<td>业主单位</td>
+                            	<td><input type="text"class="form-control"id="" ></td>
+                            	<td>项目类型</td>
+                            	<td>
+                            		<select class="form-control" style="width:180px;">
+                            			<option>123</option>
+                            		</select>
+                            	</td>
+                            </tr>
+                            <tr>
+                            	<td>投标人</td>
+                            	<td colspan="3">
+                            		<input type="checkbox">中设设计集团股份有限公司<br>
+                            		<input type="checkbox">江苏华通工程检测有限公司<br>
+                            		<input type="checkbox">江苏华汇工程科技有限公司<br>
+                            	</td>
+                            </tr>
+                            <tr>
+                            	<td rowspan="3">资格预审递交时间</td>
+                            	<td>现场考察时间</td>
+                            	<td colspan="2"><input type="text"class="form-control"id="" ></td>
+                            </tr>
+                            <tr>
+                            	<td>标前会时间</td>
+                            	<td colspan="2"><input type="text"class="form-control"id="" ></td>
+                            </tr>
+                            <tr>
+                            	<td>投标文件递交时间</td>
+                            	<td colspan="2"><input type="text"class="form-control"id="" ></td>
+                            </tr>
+                            <tr>
+                            	<td>项目报名人员</td>
+                            	<td>
+                            		<input type="text" id="xguserSignetMan" class="form-control" disabled>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren">选择报名人员</button>
+                            	</td>
+                            	<td>项目购买标书人员</td>
+                            	<td>
+                            		<input type="text" id="xguserSignetMan2" class="form-control" disabled>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren2">选择报名人员</button>
+                            	</td>
+                            </tr>
+                        </table> 
+                    </form> 
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="checkSave()">保存</button>
+            <button type="button" class="btn btn-success" onclick="checkSubmit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改model结束 -->
+<!-- xg项目 Modalxg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgxiangmumd">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xgxiangmubiao">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>编号</th>
+                                    <th>项目名称</th>
+                                    <th>项目所属公司</th>
+                                    <th>项目类型</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="xgquedingxm">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!--xg项目  modelxg结束 -->
+<!--修改选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgaddGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">修改选择用章管理人</h4>
+            </div>
+            <div class="modal-body">
+            
+                <form class="form-inline">
+                    <div class="form-group">
+                        	<span>部门:</span>
+                            <select style="width:180px;"id="xgbumen" class="form-control" ></select>
+                    </div>
+                </form>
+                
+                <div>
+                     <table class="table table-bordered table-condensed"  id="xgbmmingzibiao" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="savexgGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改选人 modal结束 -->
+<!--修改选人2 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgaddGuanliren2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">修改选择用章管理人</h4>
+            </div>
+            <div class="modal-body">
+            
+                <form class="form-inline">
+                    <div class="form-group">
+                        	<span>部门:</span>
+                            <select style="width:180px;"id="xgbumen2" class="form-control" ></select>
+                    </div>
+                </form>
+                
+                <div>
+                     <table class="table table-bordered table-condensed"  id="xgbmmingzibiao2" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="savexgGuanliren2()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改选人 modal结束 -->
+
+                        </div>
+                        <div class="LowerPart" style="margin-top:3px;">
+                            <table class="table table-bordered table-condensed" id="mainContent">
+                                <thead>
+                                    <tr>
+                                        <th>项目名称</th>
+                                        <th>业主单位</th>
+                                        <th>代理单位</th>
+                                        <th>投标人</th>
+                                        <th>项目类型</th>
+                                        <th>资格预审递交时间</th>
+                                        <th>现场考察时间</th>
+                                        <th>标前会时间</th>
+                                        <th>投标文件递交时间</th>
+                                        <th style="width:50px;">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>   
+                            </table>
+                        </div>
+                
+            </div>   
+        </div>
+		<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+		    <div class="modal-dialog modal-lg" role="document">
+		        <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+		        </div>
+		        <div class="modal-body">
+		            <div>     
+		                <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                            	<td>项目名称</td>
+                            	<td>
+                            		
+                            	<td>项目编号</td>
+                            	<td></td>
+                            </tr>
+                            <tr>
+                            	<td>业主单位</td>
+                            	<td></td>
+                            	<td>项目类型</td>
+                            	<td>
+                            		
+                            	</td>
+                            </tr>
+                            <tr>
+                            	<td>投标人</td>
+                            	<td colspan="3">
+                            		
+                            	</td>
+                            </tr>
+                            <tr>
+                            	<td rowspan="3">资格预审递交时间</td>
+                            	<td>现场考察时间</td>
+                            	<td colspan="2"></td>
+                            </tr>
+                            <tr>
+                            	<td>标前会时间</td>
+                            	<td colspan="2"></td>
+                            </tr>
+                            <tr>
+                            	<td>投标文件递交时间</td>
+                            	<td colspan="2"></td>
+                            </tr>
+                            <tr>
+                            	<td>项目报名人员</td>
+                            	<td>
+                            		
+                            	</td>
+                            	<td>项目购买标书人员</td>
+                            	<td>
+                            		
+                            	</td>
+                            </tr>
+                        </table> 
+                    </form>   
+		            </div>
+		        </div>
+		        <div class="modal-footer">
+		            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        </div>
+		        </div>
+		    </div>
+		</div>
+        
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js">
+</script><script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+    	bumenSelect();
+    	laydate.render({
+            elem: '#year' //指定元素
+        });
+        laydate.render({
+            elem: '#year2' //指定元素
+        });
+        laydate.render({
+            elem: '#year3' //指定元素
+        });
+        laydate.render({
+            elem: '#year4' //指定元素
+        });
+        $('#editable-select').editableSelect({ 
+            effects: 'slide' 
+        });
+	});
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": "prjId"},
+            { "data": "ownerUnit"}, 
+            { "data": "proxyUnit"}, 
+            { "data": "bidUnit"}, 
+            { "data": "prjType"},
+            { "data": "prequalificationTime"},
+            { "data": "siteInspectionTime"},
+            { "data": "beforeTime"},
+            { "data": "submitTime"},
+            
+        ],
+        "columnDefs": [
+						{	
+								 "class": "tcenter",
+								    "targets": 9,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '  <i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" title="查看详细信息" onclick="lookcPrj(this)"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>   <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" onclick="xiugaicPrj(this)" title="修改" data-toggle="modal" data-target="#change" id="ChangeRisk"></i> '
+								        }
+								  }
+						],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table3=$('#xiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+		            { "data": "prjId"}, 
+		            { "data": "prjScale"}, 
+		            { "data": "prjType"}, 
+		            { "data": "evaluationMethod"},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xiangmuName" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table3xg=$('#xgxiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+					{ "data": "prjId"}, 
+		            { "data": "prjScale"}, 
+		            { "data": "prjType"}, 
+		            { "data": "evaluationMethod"},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xiangmuName" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    //选部门选人
+    var bmtableren=$('#bmmingzibiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="mingzi" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var xgbmtableren=$('#xgbmmingzibiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="mingzi" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var bmtableren=$('#bmmingzibiao2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="mingzi2" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var xgbmtableren=$('#xgbmmingzibiao2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="mingzi2" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/ConstructionProject/selectAllcPrj',
+            dataType: 'json',
+            data: {
+            	status:2
+            },
+            error: function (msg) {
+                errMessage("请求UserController失败");
+            },
+            success: function (json) {
+            	//console.log(json)
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	//选择项目
+	$("#chosexm").click(function(){
+		$("#xiangmumd").modal("show");
+		$.ajax({
+			type:'post',
+			url:getContextPath()+'/riskAssessment/selectAllRiskAssessment',
+			dataType:'json',
+			async:false,
+			data:{
+				status:2
+			},
+			success:function(json){
+				//console.log(json)
+				$('#xiangmubiao').dataTable().fnClearTable();
+                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	$("#quedingxm").click(function(){
+		var prjNo=$("input[name='xiangmuName']:checked").parent().next().next().next().text();
+		var prjname=$("input[name='xiangmuName']:checked").parent().next().text();
+		$("#prjName").val(prjname);
+		$("#prjType").val(prjNo);
+		$("#xiangmumd").modal("hide");
+	})
+	$("#xgchosexm").click(function(){
+		$("#xgxiangmumd").modal("show");
+		$.ajax({
+			type:'post',
+			url:getContextPath()+'/riskAssessment/selectAllRiskAssessment',
+			dataType:'json',
+			async:false,
+			data:{
+				status:2
+			},
+			success:function(json){
+				//console.log(json)
+				$('#xgxiangmubiao').dataTable().fnClearTable();
+                $('#xgxiangmubiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	$("#xgquedingxm").click(function(){
+		var prjNo=$("input[name='xiangmuName']:checked").parent().next().next().next().text();
+		var prjName=$("input[name='xiangmuName']:checked").parent().next().text();
+		$("#xgprjName").val(prjName);
+		$("#xgprjType").val(prjNo);
+		$("#xgxiangmumd").modal("hide");
+	})
+	
+
+
+	
+	function initSelectOnEdit(obj){
+		var id=$("#xgprjName").val();
+		$.ajax({
+			type: 'POST',
+            url: getContextPath()+'/riskAssessment/selectRiskAssessmentById',
+            dataType: 'json',
+            data:{
+            	raId:id,
+            },
+            success: function (json) {
+            	//console.log(json)
+            	$("#xgprjType").empty();
+            	$("#xgprjName").val(obj)
+            }
+		})
+	}
+	
+	//初始化部门
+	function bumenSelect(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#bumen").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>");
+	        		$("#xgbumen").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>"); 
+	        		$("#bumen2").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>");
+	        		$("#xgbumen2").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>"); 
+	        	} 
+	        	$("#bumen").trigger('change');
+	        	$("#xgbumen").trigger('change');
+	        	$("#bumen2").trigger('change');
+	        	$("#xgbumen2").trigger('change');
+	        }
+	    });
+	}
+	
+	$("#bumen").change(function(){
+		var bumen=$("#bumen").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#bmmingzibiao').dataTable().fnClearTable();
+                $('#bmmingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	$("#xgbumen").change(function(){
+		var bumen=$("#xgbumen").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#xgbmmingzibiao').dataTable().fnClearTable();
+                $('#xgbmmingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	$("#bumen2").change(function(){
+		var bumen=$("#bumen2").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#bmmingzibiao2').dataTable().fnClearTable();
+                $('#bmmingzibiao2').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	$("#xgbumen2").change(function(){
+		var bumen=$("#xgbumen2").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#xgbmmingzibiao2').dataTable().fnClearTable();
+                $('#xgbmmingzibiao2').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	//保存添加用印管理人
+	function saveGuanliren(){
+		var bumen=$("#bumen").val();
+		var a=$("input[name='mingzi']:checked").parent().next().text();
+		$("#userSignetMan").val(a);
+		$("#addGuanliren").modal("hide");
+	}
+	function saveGuanliren2(){
+		var bumen=$("#bumen2").val();
+		var a=$("input[name='mingzi2']:checked").parent().next().text();
+		$("#userSignetMan2").val(a);
+		$("#addGuanliren2").modal("hide");
+	}
+	function savexgGuanliren(){
+		var bumen=$("#xgbumen").val();
+		var a=$("input[name='mingzi']:checked").parent().next().text();
+		$("#xguserSignetMan").val(a);
+		$("#xgaddGuanliren").modal("hide");
+	}
+	function savexgGuanliren2(){
+		var bumen=$("#xgbumen2").val();
+		var a=$("input[name='mingzi2']:checked").parent().next().text();
+		$("#xguserSignetMan2").val(a);
+		$("#xgaddGuanliren2").modal("hide");
+	}
+
+	
+	
+	//查看详细信息
+	function lookcPrj(obj){
+		
+	}
+	
+	
+	
+	//添加保存
+	function addsave(){
+		
+    	}
+		
+	
+	
+	//添加提交
+	function addSubmit(){
+		
+	}
+	
+	
+	
+	//修改回显
+	var xiugaiId;
+	function xiugaicPrj(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		xiugaiId=data.bpId;
+		//console.log(data);
+	
+		
+	}
+	//修改保存
+	function savexiugai(){
+		
+	}
+	
+	//修改提交
+	function Submitxiugai(){
+		
+	}
+	
+
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+
+</script>
+</html>
