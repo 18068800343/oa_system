@@ -37,9 +37,9 @@ public class SubContractController {
 	
 	@RequestMapping("/saveSubContract")//保存
 	@ResponseBody
-	public Map<String,Object> saveSubContract(FbContract fbContract,@RequestParam("file")MultipartFile file[]){
+	public Map<String,Object> saveSubContract(FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]) throws IllegalStateException, IOException{
 		Map<String,Object> map = new HashMap<>();
-		List<Accessory> list=new ArrayList<>();
+		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		fbContract.setFbId(id);
@@ -53,26 +53,41 @@ public class SubContractController {
 		fbContract.setFbNo(fbNo);	
 		
 		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
-		for(int i=0;i<file.length;i++){
-			String filename = file[i].getOriginalFilename();
-			File f=new File(path);
-			if(!f.exists()){
-				f.mkdirs();
-			}
-			String path1=path+File.separator+filename;
-			File f1=new File(path1);
-			try {
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				String filename = file[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
 				file[i].transferTo(f1);
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(path1);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("分包合同文本");
 				list.add(accessory);
-				fbContract.setAccessory(list);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
 			}
+			fbContract.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1 = new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory1=new Accessory();
+				String fileName=file1[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file1[i].transferTo(f1);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName);
+				accessory1.setAcUrl(filePath);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			fbContract.setAccessory1(list1);
 		}
 		int i=scService.saveSubContract(fbContract);
 		map.put("result", i);
@@ -82,9 +97,8 @@ public class SubContractController {
 	
 	@RequestMapping("/submitSubContract")//提交
 	@ResponseBody
-	public Map<String,Object> submitSubContract(FbContract fbContract,@RequestParam("file")MultipartFile file[]){
+	public Map<String,Object> submitSubContract(FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]) throws IllegalStateException, IOException{
 		Map<String,Object> map = new HashMap<>();
-		List<Accessory> list=new ArrayList<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		fbContract.setFbId(id);
@@ -98,26 +112,41 @@ public class SubContractController {
 		fbContract.setFbNo(fbNo);
 		
 		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
-		for(int i=0;i<file.length;i++){
-			String filename = file[i].getOriginalFilename();
-			File f=new File(path);
-			if(!f.exists()){
-				f.mkdirs();
-			}
-			String path1=path+File.separator+filename;
-			File f1=new File(path1);
-			try {
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				String filename = file[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
 				file[i].transferTo(f1);
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(path1);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("分包合同文本");
 				list.add(accessory);
-				fbContract.setAccessory(list);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
 			}
+			fbContract.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1 = new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory1=new Accessory();
+				String fileName=file1[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file1[i].transferTo(f1);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName);
+				accessory1.setAcUrl(filePath);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			fbContract.setAccessory1(list1);
 		}
 		int i=scService.saveSubContract(fbContract);
 		map.put("result", i);
@@ -134,34 +163,48 @@ public class SubContractController {
 	
 	@RequestMapping("/updateSubContractsave")
 	@ResponseBody
-	public Map<String,Object> updateSubContractsave(FbContract fbContract,@RequestParam("file")MultipartFile file[]){
+	public Map<String,Object> updateSubContractsave(FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]) throws IllegalStateException, IOException{
 		Map<String,Object> map = new HashMap<>();
-		List<Accessory> list=new ArrayList<>();
 		String id=new TimeUUID().getTimeUUID();
 		scService.updateHistory(fbContract.getFbId());
 		fbContract.setFbId(id);
 		
 		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
-		for(int i=0;i<file.length;i++){
-			String filename = file[i].getOriginalFilename();
-			File f=new File(path);
-			if(!f.exists()){
-				f.mkdirs();
-			}
-			String path1=path+File.separator+filename;
-			File f1=new File(path1);
-			try {
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				String filename = file[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
 				file[i].transferTo(f1);
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(path1);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("分包合同文本");
 				list.add(accessory);
-				fbContract.setAccessory(list);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
 			}
+			fbContract.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1 = new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory1=new Accessory();
+				String fileName=file1[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file1[i].transferTo(f1);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName);
+				accessory1.setAcUrl(filePath);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			fbContract.setAccessory1(list1);
 		}
 		int i=scService.saveSubContract(fbContract);
 		map.put("result", i);
@@ -171,34 +214,48 @@ public class SubContractController {
 	
 	@RequestMapping("/updateSubContractsubmit")
 	@ResponseBody
-	public Map<String,Object> updateSubContractsubmit(FbContract fbContract,@RequestParam("file")MultipartFile file[]){
+	public Map<String,Object> updateSubContractsubmit(FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]) throws IllegalStateException, IOException{
 		Map<String,Object> map = new HashMap<>();
-		List<Accessory> list=new ArrayList<>();
 		String id=new TimeUUID().getTimeUUID();
 		scService.updateHistory(fbContract.getFbId());
 		fbContract.setFbId(id);
 		
 		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
-		for(int i=0;i<file.length;i++){
-			String filename = file[i].getOriginalFilename();
-			File f=new File(path);
-			if(!f.exists()){
-				f.mkdirs();
-			}
-			String path1=path+File.separator+filename;
-			File f1=new File(path1);
-			try {
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				String filename = file[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
 				file[i].transferTo(f1);
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(path1);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("分包合同文本");
 				list.add(accessory);
-				fbContract.setAccessory(list);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
 			}
+			fbContract.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1 = new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory1=new Accessory();
+				String fileName=file1[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file1[i].transferTo(f1);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName);
+				accessory1.setAcUrl(filePath);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			fbContract.setAccessory1(list1);
 		}
 		int i=scService.saveSubContract(fbContract);
 		map.put("result", i);

@@ -5,7 +5,7 @@ import java.util.List;
 public class OtherContract {
     private String oId;
 
-    private String contractType;
+    /*private String contractType;*/
 
     private String contractCode;
 
@@ -64,13 +64,6 @@ public class OtherContract {
         this.oId = oId == null ? null : oId.trim();
     }
 
-    public String getContractType() {
-        return contractType;
-    }
-
-    public void setContractType(String contractType) {
-        this.contractType = contractType == null ? null : contractType.trim();
-    }
 
     public String getContractCode() {
         return contractCode;

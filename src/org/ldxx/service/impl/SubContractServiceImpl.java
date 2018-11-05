@@ -34,6 +34,10 @@ public class SubContractServiceImpl implements SubContractService {
 			if(accessory!=null&&accessory.size()>0){
 				i = adao.addAccessory(accessory);
 			}
+			List<Accessory> accessory1 = fbContract.getAccessory1();
+			if(accessory1!=null&&accessory1.size()>0){
+				i = adao.addAccessory(accessory1);
+			}
 		}
 		return i;
 	}

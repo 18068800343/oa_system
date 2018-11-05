@@ -46,15 +46,41 @@ public class FbContract {
     private String workContent;//工作内容
     private String makeTime; //当前时间
     private String history;//历史状态
-    
+    private String rate;//税率
+    private String rateType;//税票类型
     
     private String omName;//部门名称
     private String ccName;//乙方单位名称
     
     private List<Accessory> accessory;
+    private List<Accessory> accessory1;//法律顾问签字
     
     
     
+
+	public String getRate() {
+		return rate;
+	}
+
+	public void setRate(String rate) {
+		this.rate = rate;
+	}
+
+	public String getRateType() {
+		return rateType;
+	}
+
+	public void setRateType(String rateType) {
+		this.rateType = rateType;
+	}
+
+	public List<Accessory> getAccessory1() {
+		return accessory1;
+	}
+
+	public void setAccessory1(List<Accessory> accessory1) {
+		this.accessory1 = accessory1;
+	}
 
 	public String getMakeTime() {
 		return makeTime;
