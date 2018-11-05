@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>生产管理</li>
+            <li>现场管理</li>
+			<li class="active">项目结算审计</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        <div class="UpperPart">
+            <div class="UpperPartL">
+                
+            </div>
+            <div class="UpperPartR">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报项目结算审计</button>
+            </div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document" style="width:1200px">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报项目结算审计</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" id="prj_name" style="width:80%;">
+                                    </select>
+                                </td>
+                                <td>任务单号</td>
+                                <td>
+                                	<select class="form-control" id="prj_no" style="width:80%;">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>项目类型</td>
+                                <td>
+                                	<input type="text" class="form-control" style="width:80%;" id="prj_type" disabled>
+                                </td>
+                                 <td>合同金额</td>
+                                <td>
+                                    <input type="text" class="form-control" id="contract_money" style="width:80%;" disabled>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>项目开始时间</td>
+                                <td>
+                                    <input type="text" class="form-control" id="start_time" style="width:80%;" disabled>
+                                </td>
+                                <td>项目结束时间</td>
+                                <td>
+                                    <input type="text" class="form-control" id="end_time" style="width:80%;" disabled>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实施部门</td>
+                                <td>
+									<select class="form-control" id="department" style="width:80%;">
+                                    </select>
+								</td>
+                                <td>结算期收款金额</td>
+                                <td>
+                                    <input type="text" class="form-control" id="end_money" style="width:80%;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>业主评价  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <input type="text" class="form-control" id="evaluate" style="width:80%;">
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered table-condensed" id="add_person">
+                            <thead>
+                                <tr>
+                                    <th colspan="6">添加项目成员</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th style="width:20%;">角色</th>
+                                    <th style="width:20%;">姓名</th>
+                                    <th style="width:15%;">角色系数</th>
+                                    <th style="width:15%;">投入天数</th>
+                                    <th style="width:15%;">绩效评价得分</th>
+                                    <th style="width:10%;">操作</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="form-control" style="width:80%;">
+                                            <option value="项目负责人">项目负责人</option>
+                                            <option value="核心人员">核心人员</option>
+                                            <option value="辅助人员">辅助人员</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" style="width:80%;">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" style="width:80%;">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" style="width:80%;">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" style="width:80%;">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default" onclick="addPerson(this)">添加</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="person_list">
+                            <thead>
+                                <tr>
+                                    <th colspan="6">项目成员投入记录</th>
+                                </tr>
+                                <tr>
+                                	<th style="width:20%;">角色</th>
+                                    <th style="width:20%;">姓名</th>
+                                    <th style="width:15%;">角色系数</th>
+                                    <th style="width:15%;">投入天数</th>
+                                    <th style="width:15%;">绩效评价得分</th>
+                                    <th style="width:10%;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="save()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+<!-- Modal修改 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog modal-lg" role="document" style="width:1200px">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>新建项目结算审计</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:180px;">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </td>
+                                <td>任务单号</td>
+                                <td><input type="text" class="form-control" disabled></td>
+                            </tr>
+                            <tr>
+                                <td>项目类型</td>
+                                <td>
+                                    <select class="form-control" style="width:180px;">
+                                        <option>设计项目</option>
+                                        <option>检测项目</option>
+                                        <option>科研项目</option>
+                                    </select>
+                                </td>
+                                <td>实施部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td>合同金额</td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>结算期收款金额</td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>项目周期</td>
+                                <td>
+                                    <input type="text" class="form-control" id="year" style="width:130px;">-<input type="text" class="form-control" id="year2" style="width:130px;">
+                                </td>
+                                <td>业主评价  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                    <input type="file" class="form-control" style="width:180px;">
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered table-condensed" id="">
+                            <thead>
+                                <tr>
+                                    <th colspan="6">添加项目成员投入记录  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>角色</td>
+                                    <td>姓名</td>
+                                    <td>角色系数</td>
+                                    <td>投入天数</td>
+                                    <td>绩效评价得分</td>
+                                    <td>操作</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="form-control" style="width:180px;">
+                                            <option value="">项目负责人</option>
+                                            <option value="">核心成员</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" style="width:100px;">
+                                        <input type="file" class="form-control" style="width:150px;">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default">添加</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="">
+                            <thead>
+                                <tr>
+                                    <th colspan="6">费用预算</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>角色</td>
+                                    <td>姓名</td>
+                                    <td>角色系数</td>
+                                    <td>投入天数</td>
+                                    <td>绩效评价得分</td>
+                                    <td>操作</td>
+                                </tr>
+                                <tr>
+                                    <td>老板</td>
+                                    <td>路人甲</td>
+                                    <td>0.2</td>
+                                    <td>2</td>
+                                    <td>60</td>
+                                    <td style="width:55px;">
+                                        <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#changeysfy'></i>
+                                        <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>老板</td>
+                                    <td>路人甲</td>
+                                    <td>0.2</td>
+                                    <td>2</td>
+                                    <td>60</td>
+                                    <td style="width:55px;">
+                                        <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle='modal' data-target='#changeysfy'></i>
+                                        <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model修改结束 -->
+<!-- 修改预算费用Modal -->
+<div class="modal fade bs-example-modal-lg" id="changeysfy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document" style="width:1200px">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改预算费用</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th colspan="6">添加项目成员投入记录  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>角色</td>
+                                <td>姓名</td>
+                                <td>角色系数</td>
+                                <td>投入天数</td>
+                                <td>绩效评价得分</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <select class="form-control" style="width:180px;">
+                                        <option value="">项目负责人</option>
+                                        <option value="">核心成员</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" style="width:100px;">
+                                    <input type="file" class="form-control" style="width:150px;">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改预算费用model结束 -->
+
+        </div>
+        <div class="LowerPart" style="margin-top:3px;">
+            <table class="table table-bordered table-condensed" id="mainContent">
+                <thead>
+                    <tr>
+                        <th>任务单号</th>
+                        <th>项目名称</th>
+                        <th>项目类型</th>
+                        <th>实施部门</th>
+                        <th>合同金额</th>
+                        <th>结算期收款金额</th>
+                        <th>业主评价</th>
+                        <th style="width:100px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>   
+            </table>
+        </div>
+    </div>
+<!-- allMsg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered">
+                            <tr>
+                                <td>项目名称</td>
+                                <td id="look_prj_name"></td>
+                                <td>任务单号</td>
+                                <td id="look_prj_no"></td>
+                            </tr>
+                            <tr>
+                                <td>项目类型</td>
+                                <td id="look_prj_type"></td>
+                                <td>合同金额</td>
+                                <td id="look_contract_money"></td>
+                            </tr>
+                            <tr>
+                                <td>项目开始时间</td>
+                                <td id="look_start_time"></td>
+                                <td>项目结束时间</td>
+                                <td id="look_end_time"></td>
+                            </tr>
+                            <tr>
+                                <td>实施部门</td>
+                                <td id="look_department"></td>
+                                <td>结算期收款金额</td>
+                                <td id="look_end_money"></td>
+                            </tr>
+                            <tr>
+                                <td>业主评价</td>
+                                <td id="look_evaluate"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered table-condensed" id="look_person">
+                            <thead>
+                                <tr>
+                                    <th colspan="5">项目成员投入记录</th>
+                                </tr>
+                                <tr>
+                                	<th style="width:20%;">角色</th>
+                                    <th style="width:20%;">姓名</th>
+                                    <th style="width:20%;">角色系数</th>
+                                    <th style="width:20%;">投入天数</th>
+                                    <th style="width:20%;">绩效评价得分</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg结束 -->
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script>
+    $(document).ready( function () {
+    	initSelect();
+    	initDepartment();
+    	initTable();
+	});
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "prjName"}, 
+		            { "data": "prjNo"}, 
+		            { "data": "prjType"}, 
+		            { "data": "department"}, 
+		            { "data": "contractMoney"}, 
+		            { "data": "endMoney"}, 
+		            { "data": "evaluate"},
+		            { "data": null}
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 7,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="look(this)" id="lookDetall"></i>'
+										        }
+										  }
+								],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/audit/selectPrjClosingAudit',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+
+    function getCreat(bb){
+        var EnterpriseRating= $(bb).parent().prev().text();
+        var Remarks= $(bb).parent().prev().prev().text();
+        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
+        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
+        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
+        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
+        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
+        $("#CEnterprise-rating").val(EnterpriseRating);
+        $("#CRemarks").val(Remarks);
+        $("#CContact-phone1").val(ContactPhone1);
+        $("#CContacts").val(Contacts);
+        $("#Caddress").val(address);
+        $("#CProprietor-unit").val(ProprietorUnit);
+        $("#CCode").val(Code);
+        rowIndex = bb.parentNode.parentNode.rowIndex; 
+    }
+
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+
+    function addPerson(obj){
+    	var tr=$(obj).parents("tr");
+    	var role=$(tr).find("td").eq(0).find("select").eq(0).val();
+    	var name=$(tr).find("td").eq(1).find("input").eq(0).val();
+    	var role_xs=$(tr).find("td").eq(2).find("input").val();
+    	var days=$(tr).find("td").eq(3).find("input").val();
+    	var score=$(tr).find("td").eq(4).find("input").val();
+    	$("#person_list tbody").append("<tr>"+
+    															"<td>"+role+"</td>"+
+    															"<td>"+name+"</td>"+
+    															"<td>"+role_xs+"</td>"+
+    															"<td>"+days+"</td>"+
+    															"<td>"+score+"</td>"+
+    															"<td><button type='button' class='btn btn-default' onclick='removePerson(this)'>移除</button></td>"+
+    														"</tr>")
+    		
+    }
+    
+    function removePerson(obj){
+    	var tr=$(obj).parents("tr");
+    	$(tr).remove();
+    }
+    
+  //初始化项目名称和任务单号
+    function initSelect(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+	        dataType: 'json',
+	        data: {
+	        },
+	        error: function (msg) {
+	        	toastr.error("请求失败");
+	        },
+	        success: function (json) {
+	        	$("#prj_name").html('');
+	        	$("#prj_no").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		$("#prj_name").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
+	        		$("#prj_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+	        	}
+	        	 $('#prj_no').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjName',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjNo:$('#prj_no').val()
+	                    },
+	                    success: function (json) {
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#prj_name").val(json[i].prjName)
+	                    		$("#contract_money").val(json[i].contractMoney)
+	                    		$("#prj_type").val(json[i].prjType2)
+	                    		$("#start_time").val(json[i].prjStartTime)
+	                    		$("#end_time").val(json[i].prjEndTime)
+	                    	}
+	                    }
+	          		});
+	          	})
+	          	$('#prj_name').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjName:$('#prj_name').val()
+	                    },
+	                    success: function (json) {
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#prj_no").val(json[i].prjNo)
+	                    		$("#contract_money").val(json[i].contractMoney)
+	                    		$("#prj_type").val(json[i].prjType2)
+	                    		$("#start_time").val(json[i].prjStartTime)
+	                    		$("#end_time").val(json[i].prjEndTime)
+	                    	}
+	                    }
+	          		});
+	          	}) 
+	          	
+	        }
+		});
+	}
+  
+    function initDepartment(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	$("#department").html('');
+                for(var i=0;i<json.length;i++){
+                	$("#department").append("<option value="+json[i].omName+">"+json[i].omName+"</option>");
+                }
+            }
+		});
+    }
+    
+    function save(){
+    	var PrjClosingAudit={
+    			pcId:undefined,
+    			prjName:undefined,
+    			prjNo:undefined,
+    			department:undefined,
+    			endMoney:0,
+    			evaluate:undefined,
+    			person:undefined,
+    			prjType:undefined,
+    			contractMoney:0,
+    			prjStartTime:undefined,
+    			prjEndTime:undefined
+    	}
+    	
+    	var prjName=$("#prj_name").val();
+    	var prjNo=$("#prj_no").val();
+    	var department=$("#department").val();
+    	var endMoney=$("#end_money").val();
+    	var evaluate=$("#evaluate").val();
+    	var prjType=$("#prj_type").val();
+    	var contractMoney=$("#contract_money").val();
+    	var prjStartTime=$("#start_time").val();
+    	var prjEndTime=$("#end_time").val();
+    	
+    	PrjClosingAudit.prjName=prjName;
+    	PrjClosingAudit.prjNo=prjNo;
+    	PrjClosingAudit.department=department;
+    	PrjClosingAudit.endMoney=endMoney;
+    	PrjClosingAudit.evaluate=evaluate;
+    	PrjClosingAudit.prjType=prjType;
+    	PrjClosingAudit.contractMoney=contractMoney;
+    	PrjClosingAudit.prjStartTime=prjStartTime;
+    	PrjClosingAudit.prjEndTime=prjEndTime;
+    	
+    	var personArray=new Array();
+    	$("#person_list tbody").find("tr").each(function(){
+    		var roleName=$(this).find("td").eq(0).text();
+    		var uName=$(this).find("td").eq(1).text();
+    		var roleXs=$(this).find("td").eq(2).text();
+    		var days=$(this).find("td").eq(3).text();
+    		var score=$(this).find("td").eq(4).text();
+    		
+    		var person={
+    				pcId:undefined,
+    				roleName:undefined,
+    				uName:undefined,
+    				roleXs:undefined,
+    				days:0,
+    				score:0
+    		}
+    		person.roleName=roleName;
+    		person.uName=uName;
+    		person.roleXs=roleXs;
+    		person.days=days;
+    		person.score=score;
+    		personArray.push(person);
+    	})
+    	PrjClosingAudit.person=personArray;
+    	
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/audit/addPrjClosingAudit',
+            contentType:'application/json',
+            dataType: 'json',
+            data: JSON.stringify(PrjClosingAudit),
+            success: function (json) {
+            	if(json>0){
+            		$("#myModal").modal("hide");
+            		toastr.success("保存成功");
+            	}else{
+            		toastr.error("保存失败");
+            	}
+            }
+		});
+    }
+    
+    function look(obj){
+    	var tr=$(obj).parents("tr");
+    	var data=$("#mainContent").DataTable().row(tr).data();
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/audit/selectPrjClosingAuditById',
+            dataType: 'json',
+            data:{
+            	id:data.pcId
+            },
+            success: function (json) {
+            	$("#look_prj_name").text(json.prjName)
+            	$("#look_prj_no").text(json.prjNo)
+            	$("#look_prj_type").text(json.prjType)
+            	$("#look_contract_money").text(json.contractMoney)
+            	$("#look_start_time").text(json.prjStartTime)
+            	$("#look_end_time").text(json.prjEndTime)
+            	$("#look_department").text(json.department)
+            	$("#look_end_money").text(json.endMoney)
+            	$("#look_evaluate").text(json.evaluate)
+            	var person=json.person;
+            	$("#look_person tbody").html('');
+            	for(var i=0;i<person.length;i++){
+            		$("#look_person tbody").append("<tr>"+
+            																 "<td>"+person[i].roleName+"</td>"+
+            																 "<td>"+person[i].uName+"</td>"+
+            																 "<td>"+person[i].roleXs+"</td>"+
+            																 "<td>"+person[i].days+"</td>"+
+            																 "<td>"+person[i].score+"</td>"+
+            															  "</tr>")
+            	}
+            }
+		});
+    	$("#allMsg1").modal("show");
+    }
+</script>
+</html>

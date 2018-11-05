@@ -1,0 +1,2474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link href="../../font3/bootstrap-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+   <!--  <link rel="stylesheet" href="../../style/jquery-editable-select.css"> -->
+    <style lang="">
+        
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .UpperPartL{
+            font-size: 16px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>生产管理</li>
+            <li>材料采购管理</li>
+			<li class="active">采购合同管理</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        <div class="UpperPart">
+            <div class="UpperPartL" style="font-size:18px;">
+                <form class="form-inline">
+                    <label>状态筛选:</label>
+                    <select class="zhuangtai form-control">
+                        <option>正常进行</option>
+                        <option>审批中</option>
+                        <option>合同终止</option>
+                    </select>
+                </form>
+            </div>
+            <div class="UpperPartR">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >填报采购合同</button>
+            </div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报采购合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form id="new_form" class="form-inline"  method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:120px;">采购合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                	<input type="text" id="cghetongming" class="form-control">
+                                </td>
+                                <td style="width:120px;">采购合同编号</td>
+                                <td>
+                              		<input type="text" id="cgNo" class="form-control" disabled>
+                                </td> 
+                            </tr>
+                            <tr>
+                                <td style="width:120px;">采购单号</td>
+                                <td>
+                              		<input type="text" id="cgdNo" class="form-control" disabled>
+                              		<button type="button" class="btn btn-primary" onclick="chooseNo()">选择采购单号</button>
+                                </td>
+                                <td style="width:100px;">采购合同类型</td>
+                                <td>
+                                    <select class="form-control" id="cghetongType" style="width:180px;">
+                                        <option>A 材料采购</option>
+                                        <option>B 设备采购</option>
+                                        <option>C 其他采购</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                	<input type="text" id="prjName" class="form-control">
+                                    <!-- <select class="form-control" style="width:180px;" id="prjName">
+                                    </select> -->
+                                </td>
+                                <td>任务单号</td>
+                                <td>
+                                	<input type="text" id="task_no" class="form-control">
+                                	<!-- <div class="form-group">
+                                        <select class="form-control" style="width:180px;" id="task_no">
+                                        </select>
+                                    </div> -->
+                                </td>
+                            </tr>
+                            <tr>
+                            	<td>是否代购</td>
+                                <td>
+                                    <select class="form-control" id="isdaigou" style="width:180px;">
+                                        <option>是</option>
+                                        <option>否</option>
+                                    </select>
+                                </td>
+                                <td>代购类型</td>
+                                <td>
+                                    <select class="form-control" id="daigouType" style="width:180px;">
+                                        <option>无息代购</option>
+                                        <option>有息代购</option>
+                                        <option>对方打款</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>代购金额</td>
+                                <td><input type="text" id="daigouMoney" class="form-control"></td>
+                                <td>采购合同金额</td>
+                                <td><input type="text" id="cghetongMoney" class="form-control" placeholder="万元" disabled></td>
+                            </tr>
+                            <tr>
+                                <td>合同甲方名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" id="hetongjiafang" style="width:180px;">
+                                        <option>江苏华通工程检测有限公司</option>
+                                        <option>江苏华汇工程检测有限公司</option>
+                                    </select>  
+                                </td>
+                                <td>乙方  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" id="yifang" style="width:180px;">
+                                        
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>付款方式</td>
+                                <td>
+                                    <input type="text" class="form-control" id="fukuangfangshi">
+                                </td>
+                                <td>采购合同签订时间</td>
+                                <td><input type="text" class="form-control" id="year"></td>
+                            </tr>
+                            <tr>
+                                <td>采购合同概述</td>
+                                <td colspan="3"><textarea class="form-control" id="hetonggaishu" rows="4" cols="50"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>主要概况及工作内容</td>
+                                <td colspan="3"><textarea class="form-control" id="gaikuang" rows="4" cols="50"></textarea></td>
+                            </tr>
+                            
+                        </table> 
+                        <table class="table table-bordered table-condensed" id="new_accessory">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:30%;">采购合同文本  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        </table>
+                        
+                        <!--材料信息表格  -->
+                        <div id="cailiaobiaoDiv">
+                        	<button type='button' id="yijianjiesuanMoney" onclick='yijianjiesuan(1)' class='btn btn-primary' >一键结算金额</button>
+                        </div>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="saveCg()">保存</button>
+            <button type="button" class="btn btn-success" onclick="submitCg()" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>提交给:</span>
+                            <select style="width:180px;" class="form-control" id="editable-selectT">
+                                <option value="">123123</option>
+                                <option value="">456456</option>
+                            </select>
+                        </div>
+                        <div style="display:flex;margin-top:5px;">
+                            <div style="margin-top:5px;">
+                                <textarea cols="70" rows="5" class="form-control" placeholder="请输入内容"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
+<!-- 修改Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改采购合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form id="edit_form" class="form-inline"  method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:120px;">采购合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                	<input type="text" id="xgcghetongming" class="form-control">
+                                </td>
+                                <td style="width:120px;">采购合同编号</td>
+                                <td>
+                                	<input type="text" id="xgcgNo" class="form-control" disabled>
+                                </td>
+                            </tr>
+                            <tr>
+                            	<td style="width:120px;">采购单号</td>
+                                <td>
+                              		<input type="text" id="xgcgdNo" class="form-control" disabled>
+                              		<button type="button" class="btn btn-primary" onclick="chooseNo2()">选择采购单号</button>
+                                </td>
+                                <td style="width:100px;">采购合同类型</td>
+                                <td>
+                                    <select class="form-control" id="xgcghetongType" style="width:180px;">
+                                        <option>A 材料采购</option>
+                                        <option>B 设备采购</option>
+                                        <option>C 其他采购</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                            	<td>项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                	<input type="text" id="xgprjName" class="form-control">
+                                    <!-- <select class="form-control" style="width:180px;" id="xgprjName">
+                                    </select> -->
+                                </td>
+                                <td>任务单号</td>
+                                <td>
+                                	<input type="text" id="xgtask_no" class="form-control">
+                                	<!-- <div class="form-group">
+                                        <select class="form-control" style="width:180px;" id="xgtask_no">
+                                        </select>
+                                    </div> -->
+                                </td>
+                            </tr>
+                            <tr>
+                            	<td>是否代购</td>
+                                <td>
+                                    <select class="form-control" id="xgisdaigou" style="width:180px;">
+                                        <option>是</option>
+                                        <option>否</option>
+                                    </select>
+                                </td>
+                                <td>代购类型</td>
+                                <td>
+                                    <select class="form-control" id="xgdaigouType" style="width:180px;">
+                                        <option>无息代购</option>
+                                        <option>有息代购</option>
+                                        <option>对方打款</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>代购金额</td>
+                                <td><input type="text" id="xgdaigouMoney" class="form-control"></td>
+                                <td>采购合同金额</td>
+                                <td><input type="text" id="xgcghetongMoney" class="form-control" placeholder="万元" disabled></td>
+                            </tr>
+                            <tr>
+                                <td>合同甲方名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" id="xghetongjiafang" style="width:180px;">
+                                        <option>江苏华通工程检测有限公司</option>
+                                        <option>江苏华汇工程检测有限公司</option>
+                                    </select>  
+                                </td>
+                                <td>乙方  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" id="xgyifang" style="width:180px;">
+                                        
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>付款方式</td>
+                                <td>
+                                    <input type="text" class="form-control" id="xgfukuangfangshi">
+                                </td>
+                                <td>采购合同签订时间</td>
+                                <td><input type="text" class="form-control" id="xgyear"></td>
+                            </tr>
+                            <tr>
+                                <td>采购合同概述</td>
+                                <td colspan="3"><textarea class="form-control" id="xghetonggaishu" rows="4" cols="50"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>主要概况及工作内容</td>
+                                <td colspan="3"><textarea class="form-control" id="xggaikuang" rows="4" cols="50"></textarea></td>
+                            </tr>
+                            
+                        </table> 
+                        <table class="table table-bordered table-condensed" id="edit_accessory">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:30%;">采购合同文本  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                               	 	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile2()">添加附件</button></td>
+                           		</tr>
+                        	</thead>
+                        	<tbody>
+                        	</tbody>
+                        </table>
+                        <!--材料信息表格  -->
+                        <div id="xgcailiaobiaoDiv">
+                        	<button type='button' id="xgyijianjiesuanMoney" onclick='yijianjiesuan(2)' class='btn btn-primary' >一键结算金额</button>
+                        </div>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="checksaveCgC()">保存</button>
+             <button type="button" class="btn btn-success" onclick="checksubmitCgC()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改model结束 -->
+<!-- Modal2 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>采购合同取消</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td>合同取消原因</td>
+                                <td colspan="3"><textarea class="form-control" rows="4" cols="50"></textarea></td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default">保存</button>
+            <button type="button" class="btn btn-success">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model2结束 -->
+<!-- Modal3 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal3">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>采购合同重启</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td>合同重启原因</td>
+                                <td colspan="3"><textarea class="form-control" rows="4" cols="50"></textarea></td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default">保存</button>
+            <button type="button" class="btn btn-success">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model3结束 -->
+        </div>
+        <div class="LowerPart" style="margin-top:3px;">
+            <table class="table table-bordered table-condensed" id="mainContent">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>采购合同编号</th>
+                        <th>采购合同名称</th>
+                        <th>采购合同类型</th>
+                        <th>合同乙方</th>
+                        <th>采购合同金额</th>
+                        <th>签订时间</th>
+                        <th style="width:100px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>   
+            </table>
+        </div>
+    </div>
+<!-- allMsg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            <td>采购合同名称</td>
+                            <td id="lookcghetongming"></td>
+                            <td style="width:100px;">采购合同编号</td>
+                            <td id="lookcgNo"></td>
+                        </tr>
+                        <tr>
+                        	<td>采购单号</td>
+                            <td id="lookcgdNo"></td>
+                            <td style="width:100px;">采购合同类型</td>
+                            <td id="lookcgType"></td>
+                        </tr>
+                        <tr>
+                            <td>项目名称</td>
+                            <td id="lookprjName"></td>
+                            <td>任务单号</td>
+                            <td id="looktask_no"></td>
+                        </tr>
+                        <tr>
+                            <td>是否代购</td>
+                            <td id="lookisdaigou"></td>
+                            <td>代购类型</td>
+                            <td id="lookdaigouType"></td>
+                        </tr>
+                        <tr>
+                            <td>代购金额</td>
+                            <td id="lookdaigouMoney"></td>
+                            <td>采购合同金额</td>
+                            <td id="lookcghetongMoney"></td>
+                        </tr>
+                        <tr>
+                            <td>合同甲方名称</td>
+                            <td id="lookjiafang"></td>
+                            <td>乙方</td>
+                            <td id="lookyifang"></td>
+                        </tr>
+                        <tr>
+                            <td>付款方式</td>
+                            <td id="lookfukuanfangshi"></td>
+                            <td>采购合同签订时间</td>
+                            <td id="lookyear"></td>
+                        </tr>
+                        <tr>
+                            <td>采购合同概述</td>
+                            <td colspan="3" id="lookcghetonggaishu"></td>
+                        </tr>
+                        <tr>
+                            <td>主要概况及工作内容</td>
+                            <td colspan="3" id="lookgaikuang"></td>
+                        </tr>
+                        <!-- <tr>
+                            <td>采购合同文本</td>
+                            <td colspan="3"></td>
+                        </tr> -->
+                    </table>
+                    <table class="table table-bordered table-condensed"  id="look_all_table">
+				                        		
+				    </table>
+				    
+				    <div id="lookcailiaobiaoDiv">
+				    
+                    </div>
+				    
+				    <!-- 历史信息表格 -->
+				    <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory">
+                        <thead>
+                            <tr>
+                                <th colspan="6">历史信息</th>
+                            </tr>
+                            <tr>
+                                <td>采购合同编号</td>
+                                <td>采购合同名称</td>
+                                <td>合同类型</td>
+                                <td>修改时间</td>
+                                <td>操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg结束 -->
+<!-- 历史详细信息 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="History">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            <td>采购合同名称</td>
+                            <td id="Historycghetongming"></td>
+                            <td style="width:100px;">采购合同编号</td>
+                            <td id="HistorycgNo"></td>
+                        </tr>
+                        <tr>
+                        	<td style="width:100px;">采购单号</td>
+                            <td id="HistorycgdNo"></td>
+                             <td style="width:100px;">采购合同类型</td>
+                            <td id="HistorycgType"></td>
+                        </tr>
+                        <tr>
+                            <td>项目名称</td>
+                            <td id="HistoryprjName"></td>
+                            <td>任务单号</td>
+                            <td id="Historytask_no"></td>
+                        </tr>
+                        <tr>
+                        	<td>是否代购</td>
+                            <td id="Historyisdaigou"></td>
+                            <td>代购类型</td>
+                            <td id="HistorydaigouType"></td>
+                        </tr>
+                        <tr>
+                            <td>代购金额</td>
+                            <td id="HistorydaigouMoney"></td>
+                            <td>采购合同金额</td>
+                            <td id="HistorycghetongMoney"></td>
+                        </tr>
+                        <tr>
+                            <td>合同甲方名称</td>
+                            <td id="Historyjiafang"></td>
+                            <td>乙方</td>
+                            <td id="Historyyifang"></td>
+                        </tr>
+                        <tr>
+                            <td>付款方式</td>
+                            <td id="Historyfukuanfangshi"></td>
+                            <td>采购合同签订时间</td>
+                            <td id="Historyyear"></td>
+                        </tr>
+                        <tr>
+                            <td>采购合同概述</td>
+                            <td colspan="3" id="Historycghetonggaishu"></td>
+                        </tr>
+                        <tr>
+                            <td>主要概况及工作内容</td>
+                            <td colspan="3" id="Historygaikuang"></td>
+                        </tr>
+                        <!-- <tr>
+                            <td>采购合同文本</td>
+                            <td colspan="3"></td>
+                        </tr> -->
+                    </table>
+                    
+                    <div id="HistorycailiaobiaoDiv">
+				    
+                    </div>
+                    
+                    <table class="table table-bordered table-condensed"  id="History_all_table">
+				                        		
+				    </table>
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<!-- 添加 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="chooseNo">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择采购单号</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" method="post"  enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+                        	<tr>
+                        		<td style="width:20%;">采购单号：</td>
+                        		<td>
+                        			<select class="selectpicker show-tick form-control"  style="width:100%;"  id="selectpicker_no" multiple data-live-search="true">
+                        				
+                                    </select>
+                        		</td>
+                        	</tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" onclick="quxiao()">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveNo()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="chooseNo2">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择采购单号</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" method="post"  enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+                        	<tr>
+                        		<td style="width:20%;">采购单号：</td>
+                        		<td>
+                        			<select class="selectpicker2 show-tick form-control"  style="width:100%;"  id="selectpicker_no2" multiple data-live-search="true">
+                        				
+                                    </select>
+                        		</td>
+                        	</tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" onclick="quxiao2()">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveNo2()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<!-- <script src="../../js/jquery-editable-select.js"></script> -->
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/bootstrap-select.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+    	initSelect();
+    	//initbumen();
+    	inityifang();
+        laydate.render({
+            elem: '#year' //指定元素
+        });
+        laydate.render({
+            elem: '#xgyear' //指定元素
+        });
+    	/* $('#editable-select').editableSelect({ 
+            effects: 'slide' 
+        });
+        $('#editable-selectT').editableSelect({ 
+            effects: 'slide' 
+        }); */
+	});
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": null}, 
+            { "data": "cgNo"},
+            { "data": "contractName"}, 
+            { "data": "cgcType"}, 
+            { "data": "spName"}, 
+            { "data": "cgContractMoney"}, 
+            { "data": "contractSignTime"}, 
+        ],
+        "columnDefs": [
+						{	
+								 "class": "tcenter",
+								    "targets": 7,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;margin-left:3px;" title="查看详细信息" onclick="lookCgC(this)" data-toggle="modal" data-target="#allMsg1"   id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;margin-left:3px;" title="合同变更" onclick="checkCgC(this)" data-toggle="modal" data-target="#change"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="重启" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu iconzhongzhi" style="font-size:18px;cursor:pointer;margin-left:3px;" title="分包合同取消"  data-toggle="modal" data-target="#myModal2"></i>'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        "fnDrawCallback"  : function(){
+          　　this.api().column(0).nodes().each(function(cell, i) {
+          　　　　cell.innerHTML =  i + 1;
+          　  　});
+            }
+	});
+    <!-- 历史表格 -->
+    var table2=$('#lookHistory').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": "cgNo"}, 
+            { "data": "contractName"}, 
+            { "data": "cgcType"}, 
+            { "data": "makeTime"}, 
+        ],
+        "columnDefs": [
+						{	
+								 "class": "tcenter",
+								    "targets": 4,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookHistoryDetails(this)" data-toggle="modal" data-target="#History"   id="lookDetall"></i>'
+								        }
+								  }
+						],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+	});
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url:getContextPath()+'/cgcontract/selectCgContractByStatus',
+            dataType: 'json',
+            data: {
+            	status:2
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+
+	
+	//初始化
+    $(".zhuangtai").change(function(){
+        var zt=$(".zhuangtai").val();
+        if(zt=="正常进行"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/cgcontract/selectCgContractByStatus',
+                dataType: 'json',
+                data: {
+                	status:2,
+                },
+                success: function (json) {
+                    $('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").hide();
+                    $(".iconxiugai").show();
+                    $(".iconzhongzhi").show();
+                    $(".iconlywj").show();
+                }
+            });
+            
+        }else if(zt=="合同终止"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/cgcontract/selectCgContractByStatus',
+                dataType: 'json',
+                data: {
+                	status:3,
+                },
+                success: function (json) {
+                    $('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").show();
+                    $(".iconxiugai").hide();
+                    $(".iconzhongzhi").hide();
+                    $(".iconlywj").hide();
+                }
+            });
+            
+        }else if(zt=="审批中"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/cgcontract/selectCgContractByStatus',
+                dataType: 'json',
+                data: {
+                	status:1,
+                },
+                success: function (json) {
+                    $('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").hide();
+                	$(".iconxiugai").hide();
+                	$(".iconzhongzhi").hide();
+                    $(".iconlywj").hide();
+                }
+            });
+        	
+        }
+    })
+    
+    //初始化采购单号
+    function initSelect(){
+  		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/PrjMaterialBuy/selectBuyCode',
+            dataType: 'json',
+            data: {
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	//console.log(json)
+            	$("#selectpicker_no").html('');
+            	$("#selectpicker_no2").html('');
+            	for(var i=0;i<json.length;i++){
+            		$("#selectpicker_no").append("<option  value="+json[i].taskCode+">"+json[i].taskCode+"</option>");
+            		$("#selectpicker_no2").append("<option  value="+json[i].taskCode+">"+json[i].taskCode+"</option>");
+            	}
+            	$('#selectpicker_no').selectpicker('refresh');
+            	$('#selectpicker_no2').selectpicker('refresh');
+            }
+  		});
+  	}  
+	
+	
+	function chooseNo(){
+		$('.selectpicker').selectpicker('deselectAll'); 
+		$("#chooseNo").modal("show");
+	}
+	function chooseNo2(){
+		$('.selectpicker2').selectpicker('deselectAll'); 
+		$("#chooseNo2").modal("show");
+	}
+	
+	function quxiao(){
+		$('#chooseNo').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+        $('#chooseNo').modal("hide");
+	}
+	function quxiao2(){
+		$('#chooseNo2').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+        $('#chooseNo2').modal("hide");
+	}
+	
+	
+	//保存选择采购单号
+	$("#yijianjiesuanMoney").hide();
+	function saveNo(){
+		$('#chooseNo').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		
+		var no_list=$("#selectpicker_no").val();
+		if(no_list!=null){
+			$("#cghetongMoney").val("");
+			$("#cailiaobiaoDiv table").remove();
+			$("#yijianjiesuanMoney").show();
+			for(var i=0;i<no_list.length;i++){
+        		$("#cailiaobiaoDiv").append(
+        				"<table  class='table table-bordered table-condensed' id='cailiaobiao"+i+"'>"+
+                    	"<thead>"+
+                    		"<tr>"+
+                            	"<td>采购部门</td>"+
+                                "<td dataId='' id='cgbumen"+i+"'></td>"+
+                                "<td  colspan='2'>部门采购金额</td>"+
+                                "<td id='bumencgMoney"+i+"' colspan='2'></td>"+
+                            	"<th colspan='4' style='text-align:right;'></th>"+
+                        	"</tr>"+
+                        	"<tr>"+
+                            	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
+	                            "<th>材料型号</th>"+
+	                            "<th style='width:5%;'>单位</th>"+
+	                            "<th>数量</th>"+
+	                            "<th style='width:6%;'>单价</th>"+
+	                            "<th style='width:7%;'>金额</th>"+
+	                            "<th>项目部推荐供应商</th>"+
+	                            "<th>公司确定供应商</th>"+
+	                            "<th style='width:5%;'>备注</th>"+
+                        	"</tr>"+
+                    	"</thead>"+
+                    	"<tbody>"+
+                    	"</tbody>"+
+                    "</table>"
+                    )}
+		  		$.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
+		            dataType: 'json',
+		            async:false,
+		            data: {
+		            	ids:no_list.toString()
+		            },
+		            success: function (json) {
+		            	console.log(json)
+		            	var array1=new Array();
+		            	var array2=new Array();
+		            	for(var i=0;i<json.length;i++){
+		            		var applyCode=json[i].applyCode
+		            		var applyPrj=json[i].applyPrj
+		            		var omName=json[i].omName
+		            		var sumPrice=json[i].sumPrice;
+		            		var pmbId=json[i].pmbId;
+		            		if($.inArray(applyCode, array1)==-1){
+		            			array1.push(applyCode)
+		            		}
+		            		if($.inArray(applyPrj, array2)==-1){
+		            			array2.push(applyPrj)
+		            		}
+		            		$("#cgbumen"+i+"").text(json[i].omName)
+		            		$("#cgbumen"+i+"").attr("dataId",pmbId)
+		            		
+		            		$.ajax({
+		                        type: 'POST',
+		                        url: getContextPath()+'/md/selectMaterialDemandById',
+		                        dataType: 'json',
+		                        async:false,
+		                        data: {
+		                        	id:pmbId
+		                        },
+		                        success: function (json) {
+		                        	console.log(json)
+		                        	for(var k=0;k<json.length;k++){
+		                        		$("#cailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].materialName+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].materialType+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].modeType+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].buyCompany+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].num+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control"  style="width:80%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].price+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<select style="width:150px;" class="form-control" id=xm'+json[k].mdlId+'></select>'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<select style="width:150px;" class="form-control" id=gs'+json[k].mdlId+'></select>'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].infos+' style="width:100%;">'
+		                		  				+"</td></tr>")
+		                		  				
+		                		  				initName1(json[k].provideCompany,json[k].mdlId);
+		                        				initName2(json[k].sureMaterialMode,json[k].mdlId);
+		                		  				
+		                		  				
+		                        	} 
+		                        }
+		              		});
+		            		
+		            	}
+	            		$("#cgdNo").val(no_list)
+	            		$('#task_no').val(array1.toString())
+		            	$('#prjName').val(array2.toString())
+		            	$("#chooseNo").modal("hide");
+		            }
+		  		});
+		  		
+	  		}else{
+	  			toastr.error("采购单号为空");
+	  		}
+	}
+	//初始化供应商
+	function initName1(obj1,obj2){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/supplier/selectIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            success: function (json) {
+            	$("#xm"+obj2).empty();
+            	$("#xgxm"+obj2).empty();
+                for(var i=0;i<json.length;i++){
+                	$("#xm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#xgxm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                }
+                $("#xm"+obj2).val(obj1);
+                $("#xgxm"+obj2).val(obj1);
+            }
+		});
+	}
+	function initName2(obj1,obj2){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/supplier/selectIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            success: function (json) {
+            	$("#gs"+obj2).empty();
+            	$("#xggs"+obj2).empty();
+                for(var i=0;i<json.length;i++){
+                	$("#gs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#xggs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                }
+                $("#gs"+obj2).val(obj1);
+                $("#xggs"+obj2).val(obj1);
+            }
+		});
+	}
+	
+	
+    //一键结算金额
+	function yijianjiesuan(type){
+		//console.log(obj)
+		if(type==1){
+			var hetongMoney=0;
+			$("#cailiaobiaoDiv table").each(function(){
+				var bumenMoney=0;
+				$(this).find("tbody").eq(0).find("tr").each(function(){
+					var danjia=$(this).find("td").eq(5).find("input").val();
+					var num=$(this).find("td").eq(4).find("input").val();
+					var money=danjia*num
+					$(this).find("td").eq(6).find("input").val(money);
+					bumenMoney+=money;
+				})
+				$(this).find("thead").eq(0).find("tr").eq(0).find("td").eq(3).text(bumenMoney)
+				hetongMoney+=bumenMoney;
+			})
+			$("#cghetongMoney").val(hetongMoney);
+		}else if(type==2){
+			var hetongMoney=0;
+			$("#xgcailiaobiaoDiv table").each(function(){
+				var bumenMoney=0;
+				$(this).find("tbody").eq(0).find("tr").each(function(){
+					var danjia=$(this).find("td").eq(5).find("input").val();
+					var num=$(this).find("td").eq(4).find("input").val();
+					var money=danjia*num
+					$(this).find("td").eq(6).find("input").val(money);
+					bumenMoney+=money;
+				})
+				$(this).find("thead").eq(0).find("tr").eq(0).find("td").eq(3).text(bumenMoney)
+				hetongMoney+=bumenMoney;
+			})
+			$("#xgcghetongMoney").val(hetongMoney);
+		}
+	}
+	
+	//修改保存选择采购单号
+	$("#xgyijianjiesuanMoney").hide();
+	function saveNo2(){
+		$('#chooseNo2').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		
+		var no_list2=$("#selectpicker_no2").val();
+		if(no_list2!=null){
+			$("#xgcghetongMoney").val("");
+			$("#xgcailiaobiaoDiv table").remove();
+			$("#xgyijianjiesuanMoney").show();
+			for(var i=0;i<no_list2.length;i++){
+        		$("#xgcailiaobiaoDiv").append(
+        				"<table  class='table table-bordered table-condensed' id='xgcailiaobiao"+i+"'>"+
+                    	"<thead>"+
+                    		"<tr>"+
+                            	"<td>采购部门</td>"+
+                                "<td dataId='' id='xgcgbumen"+i+"'></td>"+
+                                "<td  colspan='2'>部门采购金额</td>"+
+                                "<td id='xgbumencgMoney"+i+"' colspan='2'></td>"+
+                            	"<th colspan='4' style='text-align:right;'></th>"+
+                        	"</tr>"+
+                        	"<tr>"+
+                            	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
+	                            "<th>材料型号</th>"+
+	                            "<th style='width:6%;'>单位</th>"+
+	                            "<th>数量</th>"+
+	                            "<th style='width:8%;'>单价</th>"+
+	                            "<th style='width:8%;'>金额</th>"+
+	                            "<th>项目部推荐供应商</th>"+
+	                            "<th>公司确定供应商</th>"+
+	                            "<th>备注</th>"+
+                        	"</tr>"+
+                    	"</thead>"+
+                    	"<tbody>"+
+                    	"</tbody>"+
+                    "</table>"
+                    )}
+		  		$.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
+		            dataType: 'json',
+		            data: {
+		            	ids:no_list2.toString()
+		            },
+		            success: function (json) {
+		            	console.log(json)
+		            	var array1=new Array();
+		            	var array2=new Array();
+		            	for(var i=0;i<json.length;i++){
+		            		var applyCode=json[i].applyCode
+		            		var applyPrj=json[i].applyPrj
+		            		var omName=json[i].omName
+		            		var sumPrice=json[i].sumPrice;
+		            		var pmbId=json[i].pmbId;
+		            		if($.inArray(applyCode, array1)==-1){
+		            			array1.push(applyCode)
+		            		}
+		            		if($.inArray(applyPrj, array2)==-1){
+		            			array2.push(applyPrj)
+		            		}
+		            		$("#xgcgbumen"+i+"").text(json[i].omName)
+		            		$("#xgcgbumen"+i+"").attr("dataId",pmbId)
+		            		
+		            		$.ajax({
+		                        type: 'POST',
+		                        url: getContextPath()+'/md/selectMaterialDemandById',
+		                        dataType: 'json',
+		                        async:false,
+		                        data: {
+		                        	id:pmbId
+		                        },
+		                        success: function (json) {
+		                        	console.log(json)
+		                        	for(var k=0;k<json.length;k++){
+		                        		$("#xgcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].materialName+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].materialType+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].modeType+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].buyCompany+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].num+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control"  style="width:80%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].price+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<select style="width:150px;" class="form-control" id=xgxm'+json[k].mdlId+'></select>'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<select style="width:150px;" class="form-control" id=xggs'+json[k].mdlId+'></select>'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].infos+' style="width:100%;">'
+		                		  				+"</td></tr>")
+		                		  				initName1(json[k].provideCompany,json[k].mdlId);
+                        						initName2(json[k].sureMaterialMode,json[k].mdlId);
+		                        	} 
+		                        }
+		              		});
+		            		
+		            	}
+	            		$('#xgcgdNo').val(no_list2)
+		            	$('#xgtask_no').val(array1.toString())
+		            	$('#xgprjName').val(array2.toString())
+		            	$("#chooseNo2").modal("hide");
+		            	
+		            }
+		  		});
+		  		
+	  		}else{
+	  			toastr.error("采购单号为空");
+	  		}
+	}
+	
+	
+	
+	//初始化乙方
+    function inityifang(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/supplier/selectIdAndName',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	$("#yifang").html('');
+	        	$("#xgyifang").html('');
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#yifang").append( "<option value='" + json[i].spId + "'>"
+		                    + json[i].spName + "</option>")
+		            $("#xgyifang").append( "<option value='" + json[i].spId + "'>"
+		                    + json[i].spName + "</option>")
+	        	}
+	        }
+	    });
+	}
+	
+	
+	//填报保存
+	function saveCg(){
+		var cghetongming=$("#cghetongming").val();
+		var cgdNo=$("#cgdNo").val();
+		var task_no=$("#task_no").val();
+		var prjName=$("#prjName").val();
+		var isdaigou=$("#isdaigou").val();
+		var daigouType=$("#daigouType").val();
+		var cghetongType=$("#cghetongType").val();
+		var daigouMoney=$("#daigouMoney").val();
+		var cghetongMoney=$("#cghetongMoney").val();
+		var hetongjiafang=$("#hetongjiafang").val();
+		var yifang=$("#yifang").val();
+		var fukuangfangshi=$("#fukuangfangshi").val();
+		var year=$("#year").val();
+		var hetonggaishu=$("#hetonggaishu").val();
+		var gaikuang=$("#gaikuang").val();
+		
+		if(cghetongming==''){
+			toastr.error("采购合同名称为空");
+			return;
+		}
+		if(cghetongMoney==''){
+			toastr.error("采购合同金额为空");
+			return;
+		}
+		if($("#new_accessory").find('tbody tr').length<1 || $("#file").val()==''){
+			toastr.error("上传附件为空")
+			return;
+		} 
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		if(!reg.test(bumencgMoney)){
+			toastr.error("部门采购金额只能输入数字和两位小数");
+			return;
+		}
+		if(!reg.test(daigouMoney)){
+			toastr.error("代购金额只能输入数字和两位小数");
+			return;
+		}
+		if(!reg.test(cghetongMoney)){
+			toastr.error("采购合同金额只能输入数字和两位小数");
+			return;
+		} */	
+		
+		var options={
+	            type: 'POST',
+	            url: getContextPath()+'/cgcontract/addCgContractSave',
+	            dataType: 'json',
+	            data: { 
+	            	contractName:cghetongming,
+	            	cgdNo:cgdNo,
+	            	workNo:task_no,
+	            	prjName:prjName,
+	            	cgcType:cghetongType,
+	            	isProgram:isdaigou,
+	            	programType:daigouType,
+	            	programMoney:daigouMoney,
+	            	cgContractMoney:cghetongMoney,
+	            	contractNameJia:hetongjiafang,
+	            	contractNameYi:yifang,
+	            	payMode:fukuangfangshi,
+	            	contractSignTime:year,
+	            	contractSummary:hetonggaishu,
+	            	workContent:gaikuang,
+	            },
+	            success: function (json) {
+	            	console.log(json);
+	            	if(json==0){
+						toastr.error("添加失败")
+					}else if(json>0){
+						//location.reload([true]);
+						toastr.success("添加成功")
+						$("#myModal").modal("hide")
+						initTable();
+						
+						$("#cailiaobiaoDiv table").each(function(){
+							//保存部门采购金额
+							$(this).find("thead").eq(0).find("tr").eq(0).each(function(){
+								var id=$(this).find("td").eq(1).attr("dataId");
+								var bumenMoney=$(this).find("td").eq(3).text();
+								//console.log(id)
+								$.ajax({
+							        type: 'POST',
+							        url: getContextPath()+'/cgcontract/updateDepartmentMoney',
+							        dataType: 'json',
+							        data: {
+							        	id:id,
+							        	price:bumenMoney
+							        },
+							        success: function (json) {
+							        	//console.log(json)
+							        	if(json=0){
+							        		toastr.error("部门采购金额添加失败")
+							        	}
+							        }
+							    });
+							})
+							//保存材料信息
+							$(this).find("tbody").find("tr").each(function(){
+								var mdlId=$(this).eq(0).attr("dataId")
+								//console.log(mdlId)
+								var clname=$(this).find("td").eq(0).find("input").val();
+								var cltype=$(this).find("td").eq(1).find("input").val();
+								var clxinghao=$(this).find("td").eq(2).find("input").val();
+								var danwei=$(this).find("td").eq(3).find("input").val();
+								var danjia=$(this).find("td").eq(5).find("input").val();
+								var num=$(this).find("td").eq(4).find("input").val();
+								var xm=$(this).find("td").eq(7).find("option:selected").val();
+								var gs=$(this).find("td").eq(8).find("option:selected").val();
+								var beizhu=$(this).find("td").eq(9).find("input").val();
+								$.ajax({
+							        type: 'POST',
+							        url: getContextPath()+'/cgcontract/updateMaterial',
+							        dataType: 'json',
+							        data: {
+							        	mdlId:mdlId,
+							        	materialName:clname,
+							        	materialType:cltype,
+							        	modeType:clxinghao,
+							        	buyCompany:danwei,
+							        	price:danjia,
+							        	num:num,
+							        	provideCompany:xm,
+							        	sureMaterialMode:gs,
+							        	infos:beizhu
+							        },
+							        success: function (json) {
+							        	//console.log(json)
+							        	if(json=0){
+							        		toastr.error("材料单价修改失败")
+							        	}
+							        }
+							    });
+								
+							})
+						})
+						
+					}
+	            }
+	        };
+			$("#new_form").ajaxSubmit(options);
+	}
+	//填报提交
+	function submitCg(){
+		var cghetongming=$("#cghetongming").val();
+		var cgdNo=$("#cgdNo").val();
+		var task_no=$("#task_no").val();
+		var prjName=$("#prjName").val();
+		var isdaigou=$("#isdaigou").val();
+		var daigouType=$("#daigouType").val();
+		var cghetongType=$("#cghetongType").val();
+		var daigouMoney=$("#daigouMoney").val();
+		var cghetongMoney=$("#cghetongMoney").val();
+		var hetongjiafang=$("#hetongjiafang").val();
+		var yifang=$("#yifang").val();
+		var fukuangfangshi=$("#fukuangfangshi").val();
+		var year=$("#year").val();
+		var hetonggaishu=$("#hetonggaishu").val();
+		var gaikuang=$("#gaikuang").val();
+		
+		if(cghetongming==''){
+			toastr.error("采购合同名称为空");
+			return;
+		}
+		if(cghetongMoney==''){
+			toastr.error("采购合同金额为空");
+			return;
+		}
+		if($("#new_accessory").find('tbody tr').length<1 || $("#file").val()==''){
+			toastr.error("上传附件为空")
+			return;
+		} 
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		if(!reg.test(bumencgMoney)){
+			toastr.error("部门采购金额只能输入数字和两位小数");
+			return;
+		}
+		if(!reg.test(daigouMoney)){
+			toastr.error("代购金额只能输入数字和两位小数");
+			return;
+		}
+		if(!reg.test(cghetongMoney)){
+			toastr.error("采购合同金额只能输入数字和两位小数");
+			return;
+		} */	
+		
+		var options={
+	            type: 'POST',
+	            url: getContextPath()+'/cgcontract/addCgContractSubmit',
+	            dataType: 'json',
+	            data: { 
+	            	contractName:cghetongming,
+	            	cgdNo:cgdNo,
+	            	workNo:task_no,
+	            	prjName:prjName,
+	            	cgcType:cghetongType,
+	            	isProgram:isdaigou,
+	            	programType:daigouType,
+	            	programMoney:daigouMoney,
+	            	cgContractMoney:cghetongMoney,
+	            	contractNameJia:hetongjiafang,
+	            	contractNameYi:yifang,
+	            	payMode:fukuangfangshi,
+	            	contractSignTime:year,
+	            	contractSummary:hetonggaishu,
+	            	workContent:gaikuang,
+	            },
+	            success: function (json) {
+	            	console.log(json);
+	            	if(json==0){
+						toastr.error("添加失败")
+					}else if(json>0){
+						//location.reload([true]);
+						toastr.success("添加成功")
+						$("#myModal").modal("hide")
+						initTable();
+						
+						$("#cailiaobiaoDiv table").each(function(){
+							//保存部门采购金额
+							$(this).find("thead").eq(0).find("tr").eq(0).each(function(){
+								var id=$(this).find("td").eq(1).attr("dataId");
+								var bumenMoney=$(this).find("td").eq(3).text();
+								$.ajax({
+							        type: 'POST',
+							        url: getContextPath()+'/cgcontract/updateDepartmentMoney',
+							        dataType: 'json',
+							        data: {
+							        	id:id,
+							        	price:bumenMoney
+							        },
+							        success: function (json) {
+							        	//console.log(json)
+							        	if(json=0){
+							        		toastr.error("部门采购金额添加失败")
+							        	}
+							        }
+							    });
+							})
+							//保存材料单价
+							$(this).find("tbody").find("tr").each(function(){
+								var mdlId=$(this).eq(0).attr("dataId2")
+								var clname=$(this).find("td").eq(0).find("input").val();
+								var cltype=$(this).find("td").eq(1).find("input").val();
+								var clxinghao=$(this).find("td").eq(2).find("input").val();
+								var danwei=$(this).find("td").eq(3).find("input").val();
+								var danjia=$(this).find("td").eq(5).find("input").val();
+								var num=$(this).find("td").eq(4).find("input").val();
+								var xm=$(this).find("td").eq(7).find("option:selected").val();
+								var gs=$(this).find("td").eq(8).find("option:selected").val();
+								var beizhu=$(this).find("td").eq(9).find("input").val();
+								$.ajax({
+							        type: 'POST',
+							        url: getContextPath()+'/cgcontract/updateMaterial',
+							        dataType: 'json',
+							        data: {
+							        	mdlId:mdlId,
+							        	materialName:clname,
+							        	materialType:cltype,
+							        	modeType:clxinghao,
+							        	buyCompany:danwei,
+							        	price:danjia,
+							        	num:num,
+							        	provideCompany:xm,
+							        	sureMaterialMode:gs,
+							        	infos:beizhu
+							        },
+							        success: function (json) {
+							        	if(json=0){
+							        		toastr.error("材料单价修改失败")
+							        	}
+							        }
+							    });
+							})
+						})
+						
+					}
+	            }
+	        };
+			$("#new_form").ajaxSubmit(options);
+	}
+	
+	
+	//修改回显
+	var editId;
+	function checkCgC(obj){
+		var dom=$(obj).parents('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+		console.log(data)
+		editId=data.cgId;
+		
+		var list=new Array();
+		if(data.cgdNo.indexOf(",")){
+			var no=data.cgdNo.split(",");
+			for(var i=0;i<no.length;i++){
+				list.push(no[i])
+			}
+		}else{
+			list.push(data.cgdNo)
+		}
+		if(list!=null){
+			$("#xgcghetongMoney").val("");
+			$("#xgcailiaobiaoDiv table").remove();
+			$("#xgyijianjiesuanMoney").show();
+			for(var i=0;i<list.length;i++){
+				console.log(list[i])
+        		$("#xgcailiaobiaoDiv").append(
+        				"<table  class='table table-bordered table-condensed' id='xgcailiaobiao"+i+"'>"+
+                    	"<thead>"+
+                    		"<tr>"+
+                            	"<td>采购部门</td>"+
+                                "<td dataId='' id='xgcgbumen"+i+"'></td>"+
+                                "<td  colspan='2'>部门采购金额</td>"+
+                                "<td id='xgbumencgMoney"+i+"' colspan='2'></td>"+
+                            	"<th colspan='3' style='text-align:right;'></th>"+
+                        	"</tr>"+
+                        	"<tr>"+
+                            	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
+	                            "<th>材料型号</th>"+
+	                            "<th style='width:6%;'>单位</th>"+
+	                            "<th>数量</th>"+
+	                            "<th style='width:8%;'>单价</th>"+
+	                            "<th style='width:8%;'>金额</th>"+
+	                            "<th>项目部推荐供应商</th>"+
+	                            "<th>公司确定供应商</th>"+
+	                            "<th>备注</th>"+
+                        	"</tr>"+
+                    	"</thead>"+
+                    	"<tbody>"+
+                    	"</tbody>"+
+                    "</table>"
+                    )}
+		  		$.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
+		            dataType: 'json',
+		            data: {
+		            	ids:list.toString()
+		            },
+		            success: function (json) {
+		            	console.log(json)
+		            	for(var i=0;i<json.length;i++){
+		            		var omName=json[i].omName
+		            		var sumPrice=json[i].sumPrice;
+		            		var pmbId=json[i].pmbId;
+		            		/* if($.inArray(pmbId, arrayClId2)==-1){
+		            			arrayClId2.push(pmbId)
+		            		} */ 
+		            		$("#xgcgbumen"+i+"").text(json[i].omName)
+		            		$("#xgcgbumen"+i+"").attr("dataId",pmbId)
+		            		$("#xgbumencgMoney"+i+"").text(json[i].sumPrice)
+		            		
+		            		$.ajax({
+		                        type: 'POST',
+		                        url: getContextPath()+'/md/selectMaterialDemandById',
+		                        dataType: 'json',
+		                        async:false,
+		                        data: {
+		                        	id:pmbId
+		                        },
+		                        success: function (json) {
+		                        	console.log(json)
+		                        	for(var k=0;k<json.length;k++){
+		                        		$("#xgcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].materialName+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].materialType+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].modeType+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].buyCompany+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].num+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].price+'  style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].price+' style="width:100%;">'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<select style="width:150px;" class="form-control" id=xgxm'+json[k].mdlId+'></select>'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<select style="width:150px;" class="form-control" id=xggs'+json[k].mdlId+'></select>'
+		                		  				+"</td><td style='width:10%;'>"
+		                		  				+'<input type="text" class="form-control" value='+json[k].infos+' style="width:100%;">'
+		                		  				+"</td></tr>")
+		                		  				initName1(json[k].provideCompany,json[k].mdlId);
+                								initName2(json[k].sureMaterialMode,json[k].mdlId);
+		                        	} 
+		                        }
+		              		});
+		            		
+		            	}
+		            }
+		  		});
+		  		
+	  		}else{
+	  			toastr.error("采购单号为空");
+	  		}
+
+		$("#xgcghetongming").val(data.contractName);
+		$("#xgcgNo").val(data.cgNo)
+		$("#xgcgdNo").val(data.cgdNo)
+		$("#xgtask_no").val(data.workNo);
+		$("#xgprjName").val(data.prjName);
+		$("#xgisdaigou").val(data.isProgram);
+		$("#xgdaigouType").val(data.programType);
+		$("#xgcghetongType").val(data.cgcType);
+		$("#xgdaigouMoney").val(data.programMoney);
+		$("#xgcghetongMoney").val(data.cgContractMoney);
+		$("#xghetongjiafang").val(data.contractNameJia);
+		$("#xgyifang").val(data.contractNameYi);
+		$("#xgfukuangfangshi").val(data.payMode);
+		$("#xgyear").val(data.contractSignTime);
+		$("#xghetonggaishu").val(data.contractSummary);
+		$("#xggaikuang").val(data.workContent);
+		
+		/* $.ajax({
+			type:"post",
+			url:getContextPath()+"/cgcontract/selectAccessoryById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:editId,
+			},
+			success:function(json){
+				//console.log(json);
+				$("#edit_accessory tbody").empty();
+	               for(var i=0;i<json.length;i++){
+	            	   $("#edit_accessory tbody").append("<tr>"+
+	            	   														"<td>合同文本"+(i+1)+"</td>"+
+													            	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+													            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
+													            	    "</tr>");
+	               }
+			}
+		}) */
+	}
+	
+	
+	//删除附件
+	function deletefile(obj){
+		var id=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var url=$(obj).attr("data2");
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cgcontract/deleteAccessory',
+	        dataType: 'json',
+	        data: {
+	        	aId:id,
+	        	acName:name,
+	        	acUrl:url
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("删除失败");
+	        	}else{
+	        		toastr.success("删除成功");
+	        		$(obj).parent().parent().remove();
+	        		//$('#change').modal('hide');
+	        	}
+	        }
+		});
+	}
+	
+	
+	//修改保存
+	function checksaveCgC(){
+		var xgcghetongming=$("#xgcghetongming").val();
+		var xgcgNo=$("#xgcgNo").val();
+		var xgcgdNo=$("#xgcgdNo").val();
+		var xgtask_no=$("#xgtask_no").val();
+		var xgprjName=$("#xgprjName").val();
+		var xgisdaigou=$("#xgisdaigou").val();
+		var xgdaigouType=$("#xgdaigouType").val();
+		var xgcghetongType=$("#xgcghetongType").val();
+		var xgdaigouMoney=$("#xgdaigouMoney").val();
+		var xgcghetongMoney=$("#xgcghetongMoney").val();
+		var xghetongjiafang=$("#xghetongjiafang").val();
+		var xgyifang=$("#xgyifang").val();
+		var xgfukuangfangshi=$("#xgfukuangfangshi").val();
+		var xgyear=$("#xgyear").val();
+		var xghetonggaishu=$("#xghetonggaishu").val();
+		var xggaikuang=$("#xggaikuang").val();
+		
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		
+		if(!reg.test(xgbumencgMoney)){
+			toastr.error("部门采购金额只能输入数字和两位小数");
+			return;
+		}
+		if(!reg.test(xgdaigouMoney)){
+			toastr.error("代购金额只能输入数字和两位小数");
+			return;
+		}
+		if(!reg.test(xgcghetongMoney)){
+			toastr.error("采购合同金额只能输入数字和两位小数");
+			return;
+		} */
+		
+		if(xgcghetongming==''){
+			toastr.error("采购合同名称为空");
+			return;
+		}
+		if(xgcghetongMoney==''){
+			toastr.error("采购合同金额为空");
+			return;
+		}
+		if($("#edit_accessory").find('tbody tr').length<1 || $("#xgfile").val()==''){
+			toastr.error("上传附件为空")
+			return;
+		}
+		
+		var options={
+	            type: 'POST',
+	            url: getContextPath()+'/cgcontract/updateCgContractSave',
+	            dataType: 'json',
+	            data: {
+	            	cgId:editId,
+	            	contractName:xgcghetongming,
+	            	cgNo:xgcgNo,
+	            	cgdNo:xgcgdNo,
+	            	workNo:xgtask_no,
+	            	prjName:xgprjName,
+	            	isProgram:xgisdaigou,
+	            	programType:xgdaigouType,
+	            	cgcType:xgcghetongType,
+	            	programMoney:xgdaigouMoney,
+	            	cgContractMoney:xgcghetongMoney,
+	            	contractNameJia:xghetongjiafang,
+	            	contractNameYi:xgyifang,
+	            	payMode:xgfukuangfangshi,
+	            	contractSignTime:xgyear,
+	            	contractSummary:xghetonggaishu,
+	            	workContent:xggaikuang,
+	            },
+	            success: function (json) {
+	            	console.log(json);
+	            	if(json==0){
+						toastr.error("修改失败")
+					}else if(json>0){
+						//location.reload([true]);
+						toastr.success("修改成功")
+						$("#change").modal("hide")
+						initTable();
+						
+						$("#xgcailiaobiaoDiv table").each(function(){
+							//保存部门采购金额
+							$(this).find("thead").eq(0).find("tr").eq(0).each(function(){
+								var xgid=$(this).find("td").eq(1).attr("dataId");
+								var xgbumenMoney=$(this).find("td").eq(3).text();
+								$.ajax({
+							        type: 'POST',
+							        url: getContextPath()+'/cgcontract/updateDepartmentMoney',
+							        dataType: 'json',
+							        data: {
+							        	id:xgid,
+							        	price:xgbumenMoney
+							        },
+							        success: function (json) {
+							        	console.log(json)
+							        	if(json=0){
+							        		toastr.error("部门采购金额添加失败")
+							        	}
+							        }
+							    });
+							})
+							//保存材料单价
+							$(this).find("tbody").find("tr").each(function(){
+								var xgmdlId=$(this).eq(0).attr("dataId")
+								var xgclname=$(this).find("td").eq(0).find("input").val();
+								var xgcltype=$(this).find("td").eq(1).find("input").val();
+								var xgclxinghao=$(this).find("td").eq(2).find("input").val();
+								var xgdanwei=$(this).find("td").eq(3).find("input").val();
+								var xgdanjia=$(this).find("td").eq(5).find("input").val();
+								var xgnum=$(this).find("td").eq(4).find("input").val();
+								var xgxm=$(this).find("td").eq(7).find("option:selected").val();
+								var xggs=$(this).find("td").eq(8).find("option:selected").val();
+								var xgbeizhu=$(this).find("td").eq(9).find("input").val();
+								$.ajax({
+							        type: 'POST',
+							        url: getContextPath()+'/cgcontract/updateMaterial',
+							        dataType: 'json',
+							        data: {
+							        	mdlId:xgmdlId,
+							        	materialName:xgclname,
+							        	materialType:xgcltype,
+							        	modeType:xgclxinghao,
+							        	buyCompany:xgdanwei,
+							        	price:xgdanjia,
+							        	num:xgnum,
+							        	provideCompany:xgxm,
+							        	sureMaterialMode:xggs,
+							        	infos:xgbeizhu
+							        },
+							        success: function (json) {
+							        	if(json=0){
+							        		toastr.error("材料单价修改失败")
+							        	}
+							        }
+							    });
+							})
+						})
+						
+					}
+	            }
+	        };
+			$("#edit_form").ajaxSubmit(options);
+	}
+	
+	
+	//修改提交
+	function checksubmitCgC(){
+		var xgcghetongming=$("#xgcghetongming").val();
+		var xgcgNo=$("#xgcgNo").val();
+		var xgcgdNo=$("#xgcgdNo").val();
+		var xgtask_no=$("#xgtask_no").val();
+		var xgprjName=$("#xgprjName").val();
+		var xgisdaigou=$("#xgisdaigou").val();
+		var xgdaigouType=$("#xgdaigouType").val();
+		var xgcghetongType=$("#xgcghetongType").val();
+		var xgdaigouMoney=$("#xgdaigouMoney").val();
+		var xgcghetongMoney=$("#xgcghetongMoney").val();
+		var xghetongjiafang=$("#xghetongjiafang").val();
+		var xgyifang=$("#xgyifang").val();
+		var xgfukuangfangshi=$("#xgfukuangfangshi").val();
+		var xgyear=$("#xgyear").val();
+		var xghetonggaishu=$("#xghetonggaishu").val();
+		var xggaikuang=$("#xggaikuang").val();
+		
+		/* var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		
+		if(!reg.test(xgbumencgMoney)){
+			toastr.error("部门采购金额只能输入数字和两位小数");
+			return;
+		}
+		if(!reg.test(xgdaigouMoney)){
+			toastr.error("代购金额只能输入数字和两位小数");
+			return;
+		}
+		if(!reg.test(xgcghetongMoney)){
+			toastr.error("采购合同金额只能输入数字和两位小数");
+			return;
+		} */
+		
+		if(xgcghetongming==''){
+			toastr.error("采购合同名称为空");
+			return;
+		}
+		if(xgcghetongMoney==''){
+			toastr.error("采购合同金额为空");
+			return;
+		}
+		if($("#edit_accessory").find('tbody tr').length<1 || $("#xgfile").val()==''){
+			toastr.error("上传附件为空")
+			return;
+		}
+		
+		var options={
+	            type: 'POST',
+	            url: getContextPath()+'/cgcontract/updateCgContractSubmit',
+	            dataType: 'json',
+	            data: {
+	            	cgId:editId,
+	            	contractName:xgcghetongming,
+	            	cgNo:xgcgNo,
+	            	cgdNo:xgcgdNo,
+	            	workNo:xgtask_no,
+	            	prjName:xgprjName,
+	            	isProgram:xgisdaigou,
+	            	programType:xgdaigouType,
+	            	cgcType:xgcghetongType,
+	            	programMoney:xgdaigouMoney,
+	            	cgContractMoney:xgcghetongMoney,
+	            	contractNameJia:xghetongjiafang,
+	            	contractNameYi:xgyifang,
+	            	payMode:xgfukuangfangshi,
+	            	contractSignTime:xgyear,
+	            	contractSummary:xghetonggaishu,
+	            	workContent:xggaikuang,
+	            },
+	            success: function (json) {
+	            	console.log(json);
+	            	if(json==0){
+						toastr.error("修改失败")
+					}else if(json>0){
+						//location.reload([true]);
+						toastr.success("修改成功")
+						$("#change").modal("hide")
+						initTable();
+						
+						$("#xgcailiaobiaoDiv table").each(function(){
+							//保存部门采购金额
+							$(this).find("thead").eq(0).find("tr").eq(0).each(function(){
+								var xgid=$(this).find("td").eq(1).attr("dataId");
+								var xgbumenMoney=$(this).find("td").eq(3).text();
+								$.ajax({
+							        type: 'POST',
+							        url: getContextPath()+'/cgcontract/updateDepartmentMoney',
+							        dataType: 'json',
+							        data: {
+							        	id:xgid,
+							        	price:xgbumenMoney
+							        },
+							        success: function (json) {
+							        	//console.log(json)
+							        	if(json=0){
+							        		toastr.error("部门采购金额添加失败")
+							        	}
+							        }
+							    });
+							})
+							//保存材料单价
+							$(this).find("tbody").find("tr").each(function(){
+								var xgmdlId=$(this).eq(0).attr("dataId")
+								var xgclname=$(this).find("td").eq(0).find("input").val();
+								var xgcltype=$(this).find("td").eq(1).find("input").val();
+								var xgclxinghao=$(this).find("td").eq(2).find("input").val();
+								var xgdanwei=$(this).find("td").eq(3).find("input").val();
+								var xgdanjia=$(this).find("td").eq(5).find("input").val();
+								var xgnum=$(this).find("td").eq(4).find("input").val();
+								var xgxm=$(this).find("td").eq(7).find("option:selected").val();
+								var xggs=$(this).find("td").eq(8).find("option:selected").val();
+								var xgbeizhu=$(this).find("td").eq(9).find("input").val();
+								$.ajax({
+							        type: 'POST',
+							        url: getContextPath()+'/cgcontract/updateMaterial',
+							        dataType: 'json',
+							        data: {
+							        	mdlId:xgmdlId,
+							        	materialName:xgclname,
+							        	materialType:xgcltype,
+							        	modeType:xgclxinghao,
+							        	buyCompany:xgdanwei,
+							        	price:xgdanjia,
+							        	num:xgnum,
+							        	provideCompany:xgxm,
+							        	sureMaterialMode:xggs,
+							        	infos:xgbeizhu
+							        },
+							        success: function (json) {
+							        	//console.log(json)
+							        	if(json=0){
+							        		toastr.error("材料单价修改失败")
+							        	}
+							        }
+							    });
+							})
+						})
+						
+					}
+	            }
+	        };
+			$("#edit_form").ajaxSubmit(options);
+	}
+	
+	
+	
+	//查看详细信息
+	var cgNo;
+	function lookCgC(obj){
+		var dom=$(obj).parents('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+		console.log(data)
+		cgNo=data.cgNo;
+		initTableHistory();
+		
+		$("#lookcghetongming").text(data.contractName);
+		$("#lookcgNo").text(data.cgNo);
+		$("#lookcgdNo").text(data.cgdNo);
+		$("#lookcgbianhao").text(data.cgId)
+		$("#looktask_no").text(data.workNo);
+		$("#lookprjName").text(data.prjName)
+		$("#lookisdaigou").text(data.isProgram);
+		$("#lookdaigouType").text(data.programType),
+		$("#lookcgType").text(data.cgcType);
+		$("#lookdaigouMoney").text(data.programMoney);
+		$("#lookcghetongMoney").text(data.cgContractMoney);
+		$("#lookjiafang").text(data.contractNameJia);
+		$("#lookyifang").text(data.spName);
+		$("#lookfukuanfangshi").text(data.payMode);
+		$("#lookyear").text(data.contractSignTime);
+		$("#lookcghetonggaishu").text(data.contractSummary);
+		$("#lookgaikuang").text(data.workContent);
+		
+		var list=new Array();
+		if(data.cgdNo.indexOf(",")){
+			var no=data.cgdNo.split(",");
+			for(var i=0;i<no.length;i++){
+				list.push(no[i])
+			}
+		}else{
+			list.push(data.cgdNo)
+		}
+		if(list!=null){
+			$("#lookcghetongMoney").val("");
+			$("#lookcailiaobiaoDiv table").remove();
+			for(var i=0;i<list.length;i++){
+				console.log(list[i])
+        		$("#lookcailiaobiaoDiv").append(
+        				"<table  class='table table-bordered table-condensed' id='lookcailiaobiao"+i+"'>"+
+                    	"<thead>"+
+                    		"<tr>"+
+                            	"<td>采购部门</td>"+
+                                "<td dataId='' id='lookcgbumen"+i+"'></td>"+
+                                "<td  colspan='2'>部门采购金额</td>"+
+                                "<td id='lookbumencgMoney"+i+"' colspan='2'></td>"+
+                            	"<th colspan='3' style='text-align:right;'></th>"+
+                        	"</tr>"+
+                        	"<tr>"+
+                            	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
+	                            "<th>材料型号</th>"+
+	                            "<th style='width:6%;'>单位</th>"+
+	                            "<th>数量</th>"+
+	                            "<th style='width:8%;'>单价</th>"+
+	                            "<th style='width:8%;'>金额</th>"+
+	                            "<th>项目部推荐供应商</th>"+
+	                            "<th>公司确定供应商</th>"+
+	                            "<th>备注</th>"+
+                        	"</tr>"+
+                    	"</thead>"+
+                    	"<tbody>"+
+                    	"</tbody>"+
+                    "</table>"
+                    )}
+		  		$.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
+		            dataType: 'json',
+		            data: {
+		            	ids:list.toString()
+		            },
+		            success: function (json) {
+		            	console.log(json)
+		            	for(var i=0;i<json.length;i++){
+		            		var omName=json[i].omName
+		            		var sumPrice=json[i].sumPrice;
+		            		var pmbId=json[i].pmbId;
+		            		$("#lookcgbumen"+i+"").text(json[i].omName)
+		            		$("#lookcgbumen"+i+"").attr("dataId",pmbId)
+		            		$("#lookbumencgMoney"+i+"").text(json[i].sumPrice)
+		            		
+		            		$.ajax({
+		                        type: 'POST',
+		                        url: getContextPath()+'/md/selectMaterialDemandById',
+		                        dataType: 'json',
+		                        async:false,
+		                        data: {
+		                        	id:pmbId
+		                        },
+		                        success: function (json) {
+		                        	console.log(json)
+		                        	for(var k=0;k<json.length;k++){
+		                        		$("#lookcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
+		                		  				+""+json[k].materialName+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].materialType+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].modeType+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].buyCompany+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].num+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].price+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].price+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].name+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].name2+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].infos+""
+		                		  				+"</td></tr>")
+		                        	} 
+		                        }
+		              		});
+		            		
+		            	}
+		            }
+		  		});
+		  		
+	  		}
+		
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/cgcontract/selectAccessoryById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:data.cgId,
+			},
+			success:function(json){
+				console.log(json);
+				$("#look_all_table").empty();
+	               for(var i=0;i<json.length;i++){
+	            	   $("#look_all_table").append("<tr>"+
+	            	   														"<td>合同文本"+(i+1)+"</td>"+
+													            	    	"<td colspan='2'><input type='text' style='width:70%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+													            	    "</tr>");
+	               }
+			}
+		})
+		
+	}
+	//下载附件
+	function download_all(obj){
+		var url=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+	//初始化历史列表
+	function initTableHistory(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/cgcontract/selectHistoryByNo',
+            dataType: 'json',
+            data: {
+            	cgNo:cgNo,
+            },
+            error: function (msg) {
+                errMessage("请求失败");
+            },
+            success: function (json) {
+            	console.log(json)
+                $('#lookHistory').dataTable().fnClearTable();
+                $('#lookHistory').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	
+	//查看历史信息的详细信息
+	function lookHistoryDetails(obj){
+		var dom=$(obj).parents('tr');
+		var data=$('#lookHistory').DataTable().row(dom).data();
+		console.log(data)
+		$('#lookHistory').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		
+		$("#Historycghetongming").text(data.contractName);
+		$("#HistorycgNo").text(data.cgNo);
+		$("#HistorycgdNo").text(data.cgdNo);
+		$("#Historycgbianhao").text(data.cgId)
+		$("#Historytask_no").text(data.workNo);
+		$("#HistoryprjName").text(data.prjName)
+		$("#Historyisdaigou").text(data.isProgram);
+		$("#HistorydaigouType").text(data.programType),
+		$("#HistorycgType").text(data.cgcType);
+		$("#HistorydaigouMoney").text(data.programMoney);
+		$("#HistorycghetongMoney").text(data.cgContractMoney);
+		$("#Historyjiafang").text(data.contractNameJia);
+		$("#Historyyifang").text(data.spName);
+		$("#Historyfukuanfangshi").text(data.payMode);
+		$("#Historyyear").text(data.contractSignTime);
+		$("#Historycghetonggaishu").text(data.contractSummary);
+		$("#Historygaikuang").text(data.workContent);
+		
+		
+		var list=new Array();
+		if(data.cgdNo.indexOf(",")){
+			var no=data.cgdNo.split(",");
+			for(var i=0;i<no.length;i++){
+				list.push(no[i])
+			}
+		}else{
+			list.push(data.cgdNo)
+		}
+		if(list!=null){
+			$("#HistorycghetongMoney").val("");
+			$("#HistorycailiaobiaoDiv table").remove();
+			for(var i=0;i<list.length;i++){
+				console.log(list[i])
+        		$("#HistorycailiaobiaoDiv").append(
+        				"<table  class='table table-bordered table-condensed' id='Historycailiaobiao"+i+"'>"+
+                    	"<thead>"+
+                    		"<tr>"+
+                            	"<td>采购部门</td>"+
+                                "<td dataId='' id='Historycgbumen"+i+"'></td>"+
+                                "<td  colspan='2'>部门采购金额</td>"+
+                                "<td id='HistorybumencgMoney"+i+"' colspan='2'></td>"+
+                            	"<th colspan='3' style='text-align:right;'></th>"+
+                        	"</tr>"+
+                        	"<tr>"+
+                            	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
+	                            "<th>材料型号</th>"+
+	                            "<th style='width:6%;'>单位</th>"+
+	                            "<th>数量</th>"+
+	                            "<th style='width:8%;'>单价</th>"+
+	                            "<th style='width:8%;'>金额</th>"+
+	                            "<th>项目部推荐供应商</th>"+
+	                            "<th>公司确定供应商</th>"+
+	                            "<th>备注</th>"+
+                        	"</tr>"+
+                    	"</thead>"+
+                    	"<tbody>"+
+                    	"</tbody>"+
+                    "</table>"
+                    )}
+		  		$.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
+		            dataType: 'json',
+		            data: {
+		            	ids:list.toString()
+		            },
+		            success: function (json) {
+		            	console.log(json)
+		            	for(var i=0;i<json.length;i++){
+		            		var omName=json[i].omName
+		            		var sumPrice=json[i].sumPrice;
+		            		var pmbId=json[i].pmbId;
+		            		$("#Historycgbumen"+i+"").text(json[i].omName)
+		            		$("#Historycgbumen"+i+"").attr("dataId",pmbId)
+		            		$("#HistorybumencgMoney"+i+"").text(json[i].sumPrice)
+		            		
+		            		$.ajax({
+		                        type: 'POST',
+		                        url: getContextPath()+'/md/selectMaterialDemandById',
+		                        dataType: 'json',
+		                        async:false,
+		                        data: {
+		                        	id:pmbId
+		                        },
+		                        success: function (json) {
+		                        	console.log(json)
+		                        	for(var k=0;k<json.length;k++){
+		                        		$("#Historycailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
+		                		  				+""+json[k].materialName+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].materialType+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].modeType+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].buyCompany+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].num+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].price+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].price+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].name+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].name2+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].infos+""
+		                		  				+"</td></tr>")
+		                        	} 
+		                        }
+		              		});
+		            		
+		            	}
+		            }
+		  		});
+		  		
+	  		}
+		
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/cgcontract/selectAccessoryById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:data.cgId,
+			},
+			success:function(json){
+				console.log(json);
+				$("#History_all_table").empty();
+	               for(var i=0;i<json.length;i++){
+	            	   $("#History_all_table").append("<tr>"+
+	            	   														"<td>合同文本"+(i+1)+"</td>"+
+													            	    	"<td colspan='2'><input type='text' style='width:70%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+													            	    "</tr>");
+	               }
+			}
+		})
+		
+	}
+	
+	
+	
+	
+	//点击填报采购合同时默认添加的一个附件
+	/*function newFile(){
+		$("#new_accessory tbody").html('');
+		$("#new_accessory tbody").append("<tr><td>新附件</td><td><input type='file' name='file' id='file'><td style='width:150px;'></td></tr>")
+		 
+	} */
+	
+	function addFile(){
+		$("#new_accessory tbody").append("<tr><td>新附件</td><td><input type='file' name='file' id='file' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+	}
+	function addFile2(){
+		$("#edit_accessory tbody").append("<tr><td>新附件</td><td><input type='file' name='file' id='xgfile' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+	}
+	
+	function removeFile(obj){
+  		var tr=$(obj).parents("tr");
+  		$(tr).remove();
+  	}
+	
+	
+	
+	
+    function getCreat(bb){
+        var EnterpriseRating= $(bb).parent().prev().text();
+        var Remarks= $(bb).parent().prev().prev().text();
+        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
+        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
+        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
+        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
+        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
+        $("#CEnterprise-rating").val(EnterpriseRating);
+        $("#CRemarks").val(Remarks);
+        $("#CContact-phone1").val(ContactPhone1);
+        $("#CContacts").val(Contacts);
+        $("#Caddress").val(address);
+        $("#CProprietor-unit").val(ProprietorUnit);
+        $("#CCode").val(Code);
+        rowIndex = bb.parentNode.parentNode.rowIndex; 
+    }
+
+    // $("#mainContent tbody tr").click(function (){
+    //     $(this).addClass('selected')
+    //     .siblings().removeClass('selected')
+    //     .end();
+    // })
+//数组去重
+Array.prototype.unique3 = function(){
+ var res = [];
+ var json = {};
+ for(var i = 0; i < this.length; i++){
+  if(!json[this[i]]){
+   res.push(this[i]);
+   json[this[i]] = 1;
+  }
+ }
+ return res;
+}
+
+    var arr=[];
+    // $('#renwuDanhao')[0].selectedIndex = -1;
+    $("#renwuDanhao").change(function(){
+        arr.push($("#renwuDanhao").val())
+        $("#rwdh").text(arr.unique3())
+    })
+    var arr2=[];
+    // $('#renwuDanhao2')[0].selectedIndex = -1;
+    $("#renwuDanhao2").change(function(){
+        arr2.push($("#renwuDanhao2").val())
+        $("#rwdh2").text(arr2.unique3())
+    })
+
+    $(".zhuangtai").change(function(){
+        var zt=$(".zhuangtai").val();
+        if(zt=="合同终止"){
+            $(".quxiao").hide();
+            $(".chongqi").show()
+        }else{
+            $(".quxiao").show();
+            $(".chongqi").hide();
+        }
+    })
+
+</script>
+</html>
