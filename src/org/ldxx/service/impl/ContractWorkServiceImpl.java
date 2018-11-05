@@ -32,10 +32,14 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 		String id=work.getCwId();
 		if(i>0){
 			List<Accessory> accessory=work.getAccessory();
-			List<Enterprise> enterprise=work.getEnterprise();
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);
 			}
+			List<Accessory> accessory1=work.getAccessory1();
+			if(accessory1!=null){
+				i=adao.addAccessory(accessory1);
+			}
+			List<Enterprise> enterprise=work.getEnterprise();
 			if(enterprise!=null){
 				for(int a=0;a<enterprise.size();a++){
 					enterprise.get(a).seteId(id);

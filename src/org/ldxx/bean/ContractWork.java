@@ -49,6 +49,7 @@ public class ContractWork {
 	private float assistDepartment3Money;
 	
 	private List<Accessory> accessory;
+	private List<Accessory> accessory1;//法律顾问签字
 	
 	private List<Enterprise> enterprise;
 	
@@ -61,6 +62,14 @@ public class ContractWork {
 	
 
 	
+	public List<Accessory> getAccessory1() {
+		return accessory1;
+	}
+
+	public void setAccessory1(List<Accessory> accessory1) {
+		this.accessory1 = accessory1;
+	}
+
 	public String getPrjManager() {
 		return prjManager;
 	}

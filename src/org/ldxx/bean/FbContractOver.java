@@ -22,9 +22,18 @@ public class FbContractOver {/*分包结算申请*/
     private String workInfo;
     
     private List<Accessory> accessory;
+    private List<Accessory> accessory2;//法律顾问签字
     
 
-    public String getCjName() {
+    public List<Accessory> getAccessory2() {
+		return accessory2;
+	}
+
+	public void setAccessory2(List<Accessory> accessory2) {
+		this.accessory2 = accessory2;
+	}
+
+	public String getCjName() {
 		return cjName;
 	}
 

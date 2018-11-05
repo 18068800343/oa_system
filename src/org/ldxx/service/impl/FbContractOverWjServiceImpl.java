@@ -29,6 +29,10 @@ public class FbContractOverWjServiceImpl implements FbContractOverWjService{
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);
 			}
+			List<Accessory> accessory1=fbContractOverWj.getAccessory1();
+			if(accessory1!=null){
+				i=adao.addAccessory(accessory1);
+			}
 		}
 		return i;
 	}

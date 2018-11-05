@@ -1,4 +1,7 @@
 package org.ldxx.bean;
+
+import java.util.List;
+
 /**
  * 材料分包合同下的采购结算申请
  * @author hp
@@ -19,7 +22,16 @@ public class clfbContractPurchaseSettlement {
 	private String makeTime;
 	private String history;
 	
-	 
+	private List<Accessory> accessory;//法律顾问签字
+	
+	
+	
+	public List<Accessory> getAccessory() {
+		return accessory;
+	}
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
 	public String getCjNo() {
 		return cjNo;
 	}

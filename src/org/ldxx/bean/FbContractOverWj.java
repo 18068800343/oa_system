@@ -38,9 +38,19 @@ public class FbContractOverWj {
     private String doAppointScore;//履约评级
     
     private List<Accessory> accessory;
+    private List<Accessory> accessory1;//法律顾问签字
 
 
-    public String getYiFang() {
+    
+    public List<Accessory> getAccessory1() {
+		return accessory1;
+	}
+
+	public void setAccessory1(List<Accessory> accessory1) {
+		this.accessory1 = accessory1;
+	}
+
+	public String getYiFang() {
 		return yiFang;
 	}
 

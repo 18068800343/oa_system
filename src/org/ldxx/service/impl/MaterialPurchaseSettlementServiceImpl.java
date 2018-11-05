@@ -2,7 +2,9 @@ package org.ldxx.service.impl;
 
 import java.util.List;
 
+import org.ldxx.bean.Accessory;
 import org.ldxx.bean.clfbContractPurchaseSettlement;
+import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.MaterialPurchaseSettlementDao;
 import org.ldxx.service.MaterialPurchaseSettlementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ public class MaterialPurchaseSettlementServiceImpl implements MaterialPurchaseSe
 
 	@Autowired
 	private MaterialPurchaseSettlementDao mDao;
+	@Autowired
+	private AccessoryDao adao;
 
 	@Override
 	public List<clfbContractPurchaseSettlement> selectmaterialPurchaseSettlement(String status) {
@@ -23,7 +27,14 @@ public class MaterialPurchaseSettlementServiceImpl implements MaterialPurchaseSe
 
 	@Override
 	public int addmaterialPurchaseSettlementSave(clfbContractPurchaseSettlement c) {
-		return mDao.addmaterialPurchaseSettlementSave(c);
+		int i=mDao.addmaterialPurchaseSettlementSave(c);
+		if(i>0){
+			List<Accessory> accessory = c.getAccessory();
+			if(accessory.size()>0&&accessory!=null){
+				i=adao.addAccessory(accessory);
+			}
+		}
+		return i;
 	}
 
 	@Override
@@ -44,5 +55,15 @@ public class MaterialPurchaseSettlementServiceImpl implements MaterialPurchaseSe
 	@Override
 	public List<clfbContractPurchaseSettlement> selectHistoryByNo(String no) {
 		return mDao.selectHistoryByNo(no);
+	}
+
+	@Override
+	public List<Accessory> selectAccessoryById(String id) {
+		return adao.selectAccessoryById(id);
+	}
+
+	@Override
+	public int deleteAccessoryByIdAndName(Accessory accessory) {
+		return adao.deleteAccessoryByIdAndName(accessory);
 	}
 }

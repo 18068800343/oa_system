@@ -1,16 +1,22 @@
 package org.ldxx.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ldxx.bean.Accessory;
 import org.ldxx.bean.clfbContractPurchaseSettlement;
 import org.ldxx.service.MaterialPurchaseSettlementService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 材料分包合同下的采购结算申请
@@ -34,7 +40,7 @@ public class MaterialPurchaseSettlementController {
 	
 	@RequestMapping("/addmaterialPurchaseSettlementSave")//添加保存
 	@ResponseBody
-	public Map<String,Object> addmaterialPurchaseSettlementSave(clfbContractPurchaseSettlement c){
+	public Map<String,Object> addmaterialPurchaseSettlementSave(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[]) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<String, Object>();
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
@@ -45,6 +51,27 @@ public class MaterialPurchaseSettlementController {
 		code="CGJS"+code;
 		c.setCgjsNo(code);
 		
+		String path = "D:"+File.separator+"oa"+File.separator+"materialPurchaseSettlement";
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				String filename = file[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("法律顾问签字");
+				list.add(accessory);
+			}
+			c.setAccessory(list);
+		}
 		int i=mService.addmaterialPurchaseSettlementSave(c);
 		map.put("result",i);
 		map.put("clfbContractPurchaseSettlement", c);
@@ -53,7 +80,7 @@ public class MaterialPurchaseSettlementController {
 	
 	@RequestMapping("/addmaterialPurchaseSettlementSubmit")//添加提交
 	@ResponseBody
-	public Map<String,Object> addmaterialPurchaseSettlementSubmit(clfbContractPurchaseSettlement c){
+	public Map<String,Object> addmaterialPurchaseSettlementSubmit(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[]) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<String, Object>();
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
@@ -63,6 +90,28 @@ public class MaterialPurchaseSettlementController {
 		String code=uuid.getPrjCode("", count);
 		code="CGJS"+code;
 		c.setCgjsNo(code);
+		
+		String path = "D:"+File.separator+"oa"+File.separator+"materialPurchaseSettlement";
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				String filename = file[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("法律顾问签字");
+				list.add(accessory);
+			}
+			c.setAccessory(list);
+		}
 		
 		int i=mService.addmaterialPurchaseSettlementSave(c);
 		map.put("result",i);
@@ -73,35 +122,96 @@ public class MaterialPurchaseSettlementController {
 	
 	@RequestMapping("/updatematerialPurchaseSettlementSave")//修改保存
 	@ResponseBody
-	public Map<String,Object> updatematerialPurchaseSettlementSave(clfbContractPurchaseSettlement c){
+	public Map<String,Object> updatematerialPurchaseSettlementSave(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[]) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<String, Object>();
-		int i=mService.updateHistory(c.getCpId());
-		if(i>0){
-			TimeUUID uuid=new TimeUUID();
-			String id = uuid.getTimeUUID();
-			c.setCpId(id);
-			i=mService.addmaterialPurchaseSettlementSave(c);
-			map.put("result",i);
-			map.put("clfbContractPurchaseSettlement", c);
+		mService.updateHistory(c.getCpId());
+		TimeUUID uuid=new TimeUUID();
+		String id = uuid.getTimeUUID();
+		c.setCpId(id);
+		
+		String path = "D:"+File.separator+"oa"+File.separator+"materialPurchaseSettlement";
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
 		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				String filename = file[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("法律顾问签字");
+				list.add(accessory);
+			}
+			c.setAccessory(list);
+		}
+		
+		int i=mService.addmaterialPurchaseSettlementSave(c);
+		map.put("result",i);
+		map.put("clfbContractPurchaseSettlement", c);
 		return map;
 	}
 	
 	
 	@RequestMapping("/updatematerialPurchaseSettlementSubmit")//修改提交
 	@ResponseBody
-	public Map<String,Object> updatematerialPurchaseSettlementSubmit(clfbContractPurchaseSettlement c){
+	public Map<String,Object> updatematerialPurchaseSettlementSubmit(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[]) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<String, Object>();
-		int i=mService.updateHistory(c.getCpId());
-		if(i>0){
-			TimeUUID uuid=new TimeUUID();
-			String id = uuid.getTimeUUID();
-			c.setCpId(id);
-			i=mService.addmaterialPurchaseSettlementSave(c);
-			map.put("result",i);
-			map.put("clfbContractPurchaseSettlement", c);
+		mService.updateHistory(c.getCpId());
+		TimeUUID uuid=new TimeUUID();
+		String id = uuid.getTimeUUID();
+		c.setCpId(id);
+		
+		String path = "D:"+File.separator+"oa"+File.separator+"materialPurchaseSettlement";
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
 		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				String filename = file[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("法律顾问签字");
+				list.add(accessory);
+			}
+			c.setAccessory(list);
+		}
+		
+		int i=mService.addmaterialPurchaseSettlementSave(c);
+		map.put("result",i);
+		map.put("clfbContractPurchaseSettlement", c);
 		return map;
+	}
+	
+	
+	@RequestMapping("/selectAccessoryById")
+	@ResponseBody
+	public List<Accessory> selectAccessoryById(String id){
+		List<Accessory> list=mService.selectAccessoryById(id);
+		return list;
+	}
+	
+	@RequestMapping("/deleteAccessory")
+	@ResponseBody
+	public int deleteAccessory(Accessory accessory){
+		int i=mService.deleteAccessoryByIdAndName(accessory);
+		if(i>0){
+			File f=new File(accessory.getAcUrl());
+			f.delete();
+		}
+		return i;
 	}
 	
 	

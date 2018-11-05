@@ -19,7 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
+/**
+ * 分包合同履约
+ * @author hp
+ *
+ */
 @Controller
 @RequestMapping("fbOverWj")
 public class FbContractOverWjController {
@@ -29,29 +33,46 @@ public class FbContractOverWjController {
 	
 	@RequestMapping("/addFbContractOverWjBySave")
 	@ResponseBody
-	public int addFbContractOverWjBySave(FbContractOverWj fbContractOverWj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addFbContractOverWjBySave(FbContractOverWj fbContractOverWj,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		fbContractOverWj.setFcowId(id);
+		String path="D:"+File.separator+"oa"+File.separator+"fbContractOverWj"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"fbContractOverWj"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
 			fbContractOverWj.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1=new ArrayList<>();
+			for(int ii=0;ii<file1.length;ii++){
+				Accessory accessory1=new Accessory();
+				String fileName=file1[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file1[ii].transferTo(f2);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName);
+				accessory1.setAcUrl(filePath);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			fbContractOverWj.setAccessory1(list1);
 		}
 		int i=service.addFbContractOverWj(fbContractOverWj);
 		return i;
@@ -59,29 +80,46 @@ public class FbContractOverWjController {
 	
 	@RequestMapping("/addFbContractOverWjBySubmit")
 	@ResponseBody
-	public int addFbContractOverWjBySubmit(FbContractOverWj fbContractOverWj,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addFbContractOverWjBySubmit(FbContractOverWj fbContractOverWj,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		fbContractOverWj.setFcowId(id);
+		String path="D:"+File.separator+"oa"+File.separator+"fbContractOverWj"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"fbContractOverWj"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
 			fbContractOverWj.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1=new ArrayList<>();
+			for(int ii=0;ii<file1.length;ii++){
+				Accessory accessory1=new Accessory();
+				String fileName=file1[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file1[ii].transferTo(f2);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName);
+				accessory1.setAcUrl(filePath);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			fbContractOverWj.setAccessory1(list1);
 		}
 		int i=service.addFbContractOverWj(fbContractOverWj);
 		return i;
