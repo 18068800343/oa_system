@@ -43,10 +43,17 @@ public class CjContract {
 	private String name4;
 	private float assistDepartment3Money;
 	private List<Accessory> accessory;
+	private List<Accessory> accessory2;//法律顾问签字
 	private List<CjSplitMoney> cjSplitMoney;//承接合同拆分金额
 	private int splitState;//拆分合同金额状态0：未拆分，1:已拆分
 	
 	
+	public List<Accessory> getAccessory2() {
+		return accessory2;
+	}
+	public void setAccessory2(List<Accessory> accessory2) {
+		this.accessory2 = accessory2;
+	}
 	public int getSplitState() {
 		return splitState;
 	}

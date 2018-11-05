@@ -33,7 +33,7 @@ public class CjContractController {
 	
 	@RequestMapping("/addCjContractBySave")
 	@ResponseBody
-	public int addCjContractBySave(String cjContract,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addCjContractBySave(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
@@ -45,25 +45,42 @@ public class CjContractController {
 		int count=service.countNo();
 		String code="CJ"+uuid.getPrjCode("", count+1);
 		cj.setContractNo(code);
+		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("承接合同文本");
 				list.add(accessory);
 			}
 			cj.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int ii=0;ii<file2.length;ii++){
+				Accessory accessory2=new Accessory();
+				String fileName=file2[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file2[ii].transferTo(f2);
+				accessory2.setaId(id);
+				accessory2.setAcName(fileName);
+				accessory2.setAcUrl(filePath);
+				accessory2.setaType("法律顾问签字");
+				list2.add(accessory2);
+			}
+			cj.setAccessory2(list2);
 		}
 		int i=service.addCjContract(cj);
 		return i;
@@ -72,7 +89,7 @@ public class CjContractController {
 	
 	@RequestMapping("/addCjContractBySubmit")
 	@ResponseBody
-	public int addCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
@@ -84,25 +101,42 @@ public class CjContractController {
 		int count=service.countNo();
 		String code="CJ"+uuid.getPrjCode("", count+1);
 		cj.setContractNo(code);
+		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("承接合同文本");
 				list.add(accessory);
 			}
 			cj.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int ii=0;ii<file2.length;ii++){
+				Accessory accessory2=new Accessory();
+				String fileName=file2[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file2[ii].transferTo(f2);
+				accessory2.setaId(id);
+				accessory2.setAcName(fileName);
+				accessory2.setAcUrl(filePath);
+				accessory2.setaType("法律顾问签字");
+				list2.add(accessory2);
+			}
+			cj.setAccessory2(list2);
 		}
 		int i=service.addCjContract(cj);
 		return i;
@@ -159,7 +193,7 @@ public class CjContractController {
 	
 	@RequestMapping("/updateCjContractBySave")
 	@ResponseBody
-	public int updateCjContractBySave(String cjContract,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int updateCjContractBySave(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
@@ -168,25 +202,42 @@ public class CjContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
+		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("承接合同文本");
 				list.add(accessory);
 			}
 			cj.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int ii=0;ii<file2.length;ii++){
+				Accessory accessory2=new Accessory();
+				String fileName=file2[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file2[ii].transferTo(f2);
+				accessory2.setaId(id);
+				accessory2.setAcName(fileName);
+				accessory2.setAcUrl(filePath);
+				accessory2.setaType("法律顾问签字");
+				list2.add(accessory2);
+			}
+			cj.setAccessory2(list2);
 		}
 		int i=service.addCjContract(cj);
 		return i;
@@ -194,7 +245,7 @@ public class CjContractController {
 	
 	@RequestMapping("/updateCjContractBySubmit")
 	@ResponseBody
-	public int updateCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int updateCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
@@ -203,25 +254,42 @@ public class CjContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
+		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("承接合同文本");
 				list.add(accessory);
 			}
 			cj.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int ii=0;ii<file2.length;ii++){
+				Accessory accessory2=new Accessory();
+				String fileName=file2[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file2[ii].transferTo(f2);
+				accessory2.setaId(id);
+				accessory2.setAcName(fileName);
+				accessory2.setAcUrl(filePath);
+				accessory2.setaType("法律顾问签字");
+				list2.add(accessory2);
+			}
+			cj.setAccessory2(list2);
 		}
 		int i=service.addCjContract(cj);
 		return i;

@@ -45,7 +45,7 @@ public class ContractPaymentController {
 	
 	@RequestMapping("/addPaySave")//添加保存
 	@ResponseBody
-	public int addPaySave(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
+	public int addPaySave(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2,@RequestParam("file3") MultipartFile [] file3) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		pay.setPayId(id);
@@ -57,6 +57,7 @@ public class ContractPaymentController {
 		String path="D:"+File.separator+"oa"+File.separator+"pay";
 		List<Accessory> list=new ArrayList<>();
 		List<Accessory> list2=new ArrayList<>();
+		List<Accessory> list3=new ArrayList<>();
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -91,13 +92,28 @@ public class ContractPaymentController {
 			}
 			pay.setAccessory2(list2);
 		}
+		if(file3.length>0){
+			for(int i=0;i<file3.length;i++){
+				Accessory accessory3=new Accessory();
+				String fileName=file3[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file3[i].transferTo(f2);
+				accessory3.setaId(id);
+				accessory3.setAcName(fileName);
+				accessory3.setAcUrl(filePath);
+				accessory3.setaType("法律顾问签字");
+				list3.add(accessory3);
+			}
+			pay.setAccessory3(list3);
+		}
 		int i=payService.addCgContract(pay);
 		return i; 
 	}
 	
 	@RequestMapping("/addPaySubmit")//添加提交
 	@ResponseBody
-	public int addPaySubmit(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
+	public int addPaySubmit(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2,@RequestParam("file3") MultipartFile [] file3) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		pay.setPayId(id);
@@ -111,6 +127,7 @@ public class ContractPaymentController {
 		String path="D:"+File.separator+"oa"+File.separator+"pay";
 		List<Accessory> list=new ArrayList<>();
 		List<Accessory> list2=new ArrayList<>();
+		List<Accessory> list3=new ArrayList<>();
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -144,6 +161,21 @@ public class ContractPaymentController {
 				list2.add(accessory2);
 			}
 			pay.setAccessory2(list2);
+		}
+		if(file3.length>0){
+			for(int i=0;i<file3.length;i++){
+				Accessory accessory3=new Accessory();
+				String fileName=file3[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file3[i].transferTo(f2);
+				accessory3.setaId(id);
+				accessory3.setAcName(fileName);
+				accessory3.setAcUrl(filePath);
+				accessory3.setaType("法律顾问签字");
+				list3.add(accessory3);
+			}
+			pay.setAccessory3(list3);
 		}
 		int i=payService.addCgContract(pay);
 		return i; 
@@ -152,7 +184,7 @@ public class ContractPaymentController {
 	
 	@RequestMapping("/updatePaySave")//修改保存
 	@ResponseBody
-	public int updatePaySave(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
+	public int updatePaySave(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2,@RequestParam("file3") MultipartFile [] file3) throws IllegalStateException, IOException{
 		payService.updateHistory(pay.getPayId());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -161,6 +193,7 @@ public class ContractPaymentController {
 		String path="D:"+File.separator+"oa"+File.separator+"pay";
 		List<Accessory> list=new ArrayList<>();
 		List<Accessory> list2=new ArrayList<>();
+		List<Accessory> list3=new ArrayList<>();
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -194,14 +227,29 @@ public class ContractPaymentController {
 				list2.add(accessory2);
 			}
 			pay.setAccessory2(list2);
+		}
+		if(file3.length>0){
+			for(int i=0;i<file3.length;i++){
+				Accessory accessory3=new Accessory();
+				String fileName=file3[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file3[i].transferTo(f2);
+				accessory3.setaId(id);
+				accessory3.setAcName(fileName);
+				accessory3.setAcUrl(filePath);
+				accessory3.setaType("法律顾问签字");
+				list3.add(accessory3);
+			}
+			pay.setAccessory3(list3);
 		}
 		int i=payService.addCgContract(pay);
 		return i;
 	}
 	
-	@RequestMapping("/updatePaySubmit")//修改保存
+	@RequestMapping("/updatePaySubmit")//修改提交
 	@ResponseBody
-	public int updatePaySubmit(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
+	public int updatePaySubmit(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2,@RequestParam("file3") MultipartFile [] file3) throws IllegalStateException, IOException{
 		payService.updateHistory(pay.getPayId());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -210,6 +258,7 @@ public class ContractPaymentController {
 		String path="D:"+File.separator+"oa"+File.separator+"pay";
 		List<Accessory> list=new ArrayList<>();
 		List<Accessory> list2=new ArrayList<>();
+		List<Accessory> list3=new ArrayList<>();
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -243,6 +292,21 @@ public class ContractPaymentController {
 				list2.add(accessory2);
 			}
 			pay.setAccessory2(list2);
+		}
+		if(file3.length>0){
+			for(int i=0;i<file3.length;i++){
+				Accessory accessory3=new Accessory();
+				String fileName=file3[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file3[i].transferTo(f2);
+				accessory3.setaId(id);
+				accessory3.setAcName(fileName);
+				accessory3.setAcUrl(filePath);
+				accessory3.setaType("法律顾问签字");
+				list3.add(accessory3);
+			}
+			pay.setAccessory3(list3);
 		}
 		int i=payService.addCgContract(pay);
 		return i;

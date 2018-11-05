@@ -25,7 +25,7 @@ public class OtherContractConroller {
 	
 	@RequestMapping("/addOtherContractBySave")
 	@ResponseBody
-	public int addOtherContractBySave(OtherContract other,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addOtherContractBySave(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
@@ -33,25 +33,44 @@ public class OtherContractConroller {
 		String type="";
 		String code="QT"+uuid.getPrjCode(type, count+1);
 		other.setContractCode(code);
+		
+		String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("其他合同文本");
 				list.add(accessory);
 			}
 			other.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int ii=0;ii<file2.length;ii++){
+				Accessory accessory2=new Accessory();
+				String fileName=file2[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file2[ii].transferTo(f2);
+				accessory2.setaId(id);
+				accessory2.setAcName(fileName);
+				accessory2.setAcUrl(filePath);
+				accessory2.setaType("法律顾问签字");
+				list2.add(accessory2);
+			}
+			other.setAccessory2(list2);
 		}
 		int i=service.addOtherContract(other);
 		return i;
@@ -59,7 +78,7 @@ public class OtherContractConroller {
 	
 	@RequestMapping("/addOtherContractBySubmit")
 	@ResponseBody
-	public int addOtherContractBySubmit(OtherContract other,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addOtherContractBySubmit(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
@@ -67,25 +86,42 @@ public class OtherContractConroller {
 		String type="";
 		String code="QT"+uuid.getPrjCode(type, count+1);
 		other.setContractCode(code);
+		String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("其他合同文本");
 				list.add(accessory);
 			}
 			other.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int ii=0;ii<file2.length;ii++){
+				Accessory accessory2=new Accessory();
+				String fileName=file2[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file2[ii].transferTo(f2);
+				accessory2.setaId(id);
+				accessory2.setAcName(fileName);
+				accessory2.setAcUrl(filePath);
+				accessory2.setaType("法律顾问签字");
+				list2.add(accessory2);
+			}
+			other.setAccessory2(list2);
 		}
 		int i=service.addOtherContract(other);
 		return i;
@@ -93,29 +129,46 @@ public class OtherContractConroller {
 	
 	@RequestMapping("/updateOtherContractBySave")
 	@ResponseBody
-	public int updateOtherContractBySave(OtherContract other,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int updateOtherContractBySave(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
+		String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("其他合同文本");
 				list.add(accessory);
 			}
 			other.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int ii=0;ii<file2.length;ii++){
+				Accessory accessory2=new Accessory();
+				String fileName=file2[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file2[ii].transferTo(f2);
+				accessory2.setaId(id);
+				accessory2.setAcName(fileName);
+				accessory2.setAcUrl(filePath);
+				accessory2.setaType("法律顾问签字");
+				list2.add(accessory2);
+			}
+			other.setAccessory2(list2);
 		}
 		int i=service.addOtherContract(other);
 		return i;
@@ -123,29 +176,46 @@ public class OtherContractConroller {
 	
 	@RequestMapping("/updateOtherContractBySubmit")
 	@ResponseBody
-	public int updateOtherContractBySubmit(OtherContract other,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int updateOtherContractBySubmit(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
+		String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("其他合同文本");
 				list.add(accessory);
 			}
 			other.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int ii=0;ii<file2.length;ii++){
+				Accessory accessory2=new Accessory();
+				String fileName=file2[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file2[ii].transferTo(f2);
+				accessory2.setaId(id);
+				accessory2.setAcName(fileName);
+				accessory2.setAcUrl(filePath);
+				accessory2.setaType("法律顾问签字");
+				list2.add(accessory2);
+			}
+			other.setAccessory2(list2);
 		}
 		int i=service.addOtherContract(other);
 		return i;

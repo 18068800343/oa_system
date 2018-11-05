@@ -48,8 +48,6 @@ public class Pay {
     private Float thisTimeActualPayMoney;//本次实际付款
 
     private String payListExplain;//付款单说明
-    
-    private String omId;//部门
 
     private String compilerPerson;//编制人
 
@@ -62,13 +60,29 @@ public class Pay {
     
     private List<Accessory> accessory;
     private List<Accessory> accessory2;
+    private List<Accessory> accessory3;//法律顾问签字
     
     
     private String fbNo;//分包合同号
     private Float fbcontractMoney;//分包合同金额
-    private String uName;//编制人
+    private String contractNameYi;//分包合同乙方单位(分包单位)
+    private String uName;//编制人               
     
     
+    
+    
+	public List<Accessory> getAccessory3() {
+		return accessory3;
+	}
+	public void setAccessory3(List<Accessory> accessory3) {
+		this.accessory3 = accessory3;
+	}
+	public String getContractNameYi() {
+		return contractNameYi;
+	}
+	public void setContractNameYi(String contractNameYi) {
+		this.contractNameYi = contractNameYi;
+	}
 	public String getPayId() {
 		return payId;
 	}
@@ -206,12 +220,6 @@ public class Pay {
 	}
 	public void setPayListExplain(String payListExplain) {
 		this.payListExplain = payListExplain;
-	}
-	public String getOmId() {
-		return omId;
-	}
-	public void setOmId(String omId) {
-		this.omId = omId;
 	}
 	public String getCompilerPerson() {
 		return compilerPerson;

@@ -29,6 +29,10 @@ public class OtherContractServiceImpl implements OtherContractService{
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);
 			}
+			List<Accessory> accessory2=other.getAccessory2();
+			if(accessory2!=null){
+				i=adao.addAccessory(accessory2);
+			}
 		}
 		return i;
 	}

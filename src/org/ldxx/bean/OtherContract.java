@@ -30,9 +30,19 @@ public class OtherContract {
     private String abutmentSignedTime;
 
     private List<Accessory> accessory;
+    private List<Accessory> accessory2;//法律顾问签字
+
 
     
-    public String getOmName() {
+    public List<Accessory> getAccessory2() {
+		return accessory2;
+	}
+
+	public void setAccessory2(List<Accessory> accessory2) {
+		this.accessory2 = accessory2;
+	}
+
+	public String getOmName() {
 		return omName;
 	}
 
