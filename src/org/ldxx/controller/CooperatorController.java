@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.ldxx.bean.Cooperator;
 import org.ldxx.bean.Enterprise;
 import org.ldxx.service.CooperatorService;
+import org.ldxx.service.EnterpriseService;
 import org.ldxx.util.ExportData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,8 @@ public class CooperatorController {
 
 	@Autowired
 	private CooperatorService cservice;
+	@Autowired
+	private EnterpriseService eService;
 	
 	@RequestMapping("/addCooperator")
 	@ResponseBody
@@ -99,6 +102,15 @@ public class CooperatorController {
 	@ResponseBody
 	public List<Cooperator> selectCooperatorIdAndName(){
 		List<Cooperator> list=cservice.selectCooperatorIdAndName();
+		return list;
+	}
+	
+	@RequestMapping("/selectCooperatorById")
+	@ResponseBody
+	public Cooperator selectCooperatorById(String id){
+		Cooperator list=cservice.selectOneCooperator(id);
+		List<Enterprise> ent=eService.selectEnterpriseById(id);
+		list.setEnterprise(ent);
 		return list;
 	}
 	

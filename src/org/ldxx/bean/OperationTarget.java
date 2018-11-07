@@ -6,7 +6,22 @@ public class OperationTarget {
 	private float contractAmount;
 	private float revenueTarget;
 	private float collectionTarget;
+	private float budgetCost;//预算成本
+	private float actualCost;//实际成本
 	private String year;
+	
+	public float getBudgetCost() {
+		return budgetCost;
+	}
+	public void setBudgetCost(float budgetCost) {
+		this.budgetCost = budgetCost;
+	}
+	public float getActualCost() {
+		return actualCost;
+	}
+	public void setActualCost(float actualCost) {
+		this.actualCost = actualCost;
+	}
 	public String getOtId() {
 		return otId;
 	}
