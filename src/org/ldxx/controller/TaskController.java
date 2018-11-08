@@ -405,4 +405,21 @@ public class TaskController {
 		return tService.selectPrjAndNo();
 	}
 	
+	@RequestMapping("/getLeader")//根据承接合同关联的项目，找到对应主合同负责人（合同金额多的）
+	@ResponseBody
+	public Map<String,String> getLeader(String nos){
+		Map<String,String> map=new HashMap<>();
+		float money=0;
+		String leader="";
+		for(int i=0;i<nos.split(",").length;i++){
+			Task task=tService.selectIdByNo(nos.split(",")[i]);
+			if(task.getContractMoney()>money){
+				money=task.getContractMoney();
+				leader=task.getMainPrjLeader();
+			}
+		}
+		map.put("leader", leader);
+		return map;
+	}
+	
 }
