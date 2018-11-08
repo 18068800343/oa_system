@@ -15,46 +15,44 @@ public class DesignDocuments {
     private List<Accessory> accessory3;//招投标文件
     private List<Accessory> accessory4;//合同资料
     //工可/方案
-    private List<Accessory> accessorygk1;//设计任务书
-    private List<Accessory> accessorygk2;//建设用地批准书、规划要点
-    private List<Accessory> accessorygk3;//用地红线图（地形图）
-    private List<Accessory> accessorygk4;//用地实测图
-    private List<Accessory> accessorygk5;//区域控制性详细规划
-    private List<Accessory> accessorygk6;//开发可行性报告与市场调查
-    private List<Accessory> accessorygk7;//工程地质勘察报告
-    private List<Accessory> accessorygk8;//工程场地地震安评报告
-    private List<Accessory> accessorygk9;//用地范围周边市政系统情况
-    private List<Accessory> accessorygk10;//效果图
-    private List<Accessory> accessorygk11;//工可报告、图纸
-    private List<Accessory> accessorygk12;//相关单位往来函、文
+    private List<Accessory> accessory5;//工可设计任务书
+    private List<Accessory> accessory6;//工可建设用地批准书、规划要点
+    private List<Accessory> accessory7;//工可用地红线图（地形图）
+    private List<Accessory> accessory8;//工可用地实测图
+    private List<Accessory> accessory9;//工可区域控制性详细规划
+    private List<Accessory> accessory10;//工可开发可行性报告与市场调查
+    private List<Accessory> accessory11;//工可工程地质勘察报告
+    private List<Accessory> accessory12;//工可工程场地地震安评报告
+    private List<Accessory> accessory13;//工可用地范围周边市政系统情况
+    private List<Accessory> accessory14;//工可效果图
+    private List<Accessory> accessory15;//工可工可报告、图纸
+    private List<Accessory> accessory16;//工可相关单位往来函、文
     //报批方案
-    private List<Accessory> accessorybp1;//效果图
-    private List<Accessory> accessorybp2;//报批文本
-    private List<Accessory> accessorybp3;//图纸
-    private List<Accessory> accessorybp4;//审查意见
-    private List<Accessory> accessorybp5;//校审单
+    private List<Accessory> accessory17;//报批效果图
+    private List<Accessory> accessory18;//报批文本
+    private List<Accessory> accessory19;//报批图纸
+    private List<Accessory> accessory20;//报批审查意见
+    private List<Accessory> accessory21;//报批校审单
     //初设阶段
-    private List<Accessory> accessorycs1;//方案批文（规划、环评、安评等）
-    private List<Accessory> accessorycs2;//施工图文件
-    private List<Accessory> accessorycs3;//概算书
-    private List<Accessory> accessorycs4;//地勘报告（初勘或详勘）
-    private List<Accessory> accessorycs5;//审查意见
-    private List<Accessory> accessorycs6;//校审单
-    private List<Accessory> accessorycs7;//相关单位往来函、文
+    private List<Accessory> accessory22;//初设方案批文（规划、环评、安评等）
+    private List<Accessory> accessory23;//初设施工图文件
+    private List<Accessory> accessory24;//初设概算书
+    private List<Accessory> accessory25;//初设地勘报告（初勘或详勘）
+    private List<Accessory> accessory26;//初设审查意见
+    private List<Accessory> accessory27;//初设校审单
+    private List<Accessory> accessory28;//初设相关单位往来函、文
     //施工图阶段
-    private List<Accessory> accessorysgt1;//初设批文
-    private List<Accessory> accessorysgt2;//施工图文件
-    private List<Accessory> accessorysgt3;//结构模型、计算书
-    private List<Accessory> accessorysgt4;//地勘报告（详勘）
-    private List<Accessory> accessorysgt5;//审查意见
-    private List<Accessory> accessorysgt6;//校审单
-    private List<Accessory> accessorysgt7;//施工交底记录及回复
-    private List<Accessory> accessorysgt8;//设计变更资料
-    private List<Accessory> accessorysgt9;//重点项目项目总结
-    private List<Accessory> accessorysgt10;//相关单位往来函、文
-    private List<Accessory> accessorysgt11;//重点项目质量流程内部控制文件
-    
-    
+    private List<Accessory> accessory29;//施工图初设批文
+    private List<Accessory> accessory30;//施工图施工图文件
+    private List<Accessory> accessory31;//施工图结构模型、计算书
+    private List<Accessory> accessory32;//施工图地勘报告（详勘）
+    private List<Accessory> accessory33;//施工图审查意见
+    private List<Accessory> accessory34;//施工图校审单
+    private List<Accessory> accessory35;//施工图施工交底记录及回复
+    private List<Accessory> accessory36;//施工图设计变更资料
+    private List<Accessory> accessory37;//施工图重点项目项目总结
+    private List<Accessory> accessory38;//施工图相关单位往来函、文
+    private List<Accessory> accessory39;//施工图重点项目质量流程内部控制文件
 	public String getDdId() {
 		return ddId;
 	}
@@ -97,214 +95,215 @@ public class DesignDocuments {
 	public void setAccessory4(List<Accessory> accessory4) {
 		this.accessory4 = accessory4;
 	}
-	public List<Accessory> getAccessorygk1() {
-		return accessorygk1;
+	public List<Accessory> getAccessory5() {
+		return accessory5;
 	}
-	public void setAccessorygk1(List<Accessory> accessorygk1) {
-		this.accessorygk1 = accessorygk1;
+	public void setAccessory5(List<Accessory> accessory5) {
+		this.accessory5 = accessory5;
 	}
-	public List<Accessory> getAccessorygk2() {
-		return accessorygk2;
+	public List<Accessory> getAccessory6() {
+		return accessory6;
 	}
-	public void setAccessorygk2(List<Accessory> accessorygk2) {
-		this.accessorygk2 = accessorygk2;
+	public void setAccessory6(List<Accessory> accessory6) {
+		this.accessory6 = accessory6;
 	}
-	public List<Accessory> getAccessorygk3() {
-		return accessorygk3;
+	public List<Accessory> getAccessory7() {
+		return accessory7;
 	}
-	public void setAccessorygk3(List<Accessory> accessorygk3) {
-		this.accessorygk3 = accessorygk3;
+	public void setAccessory7(List<Accessory> accessory7) {
+		this.accessory7 = accessory7;
 	}
-	public List<Accessory> getAccessorygk4() {
-		return accessorygk4;
+	public List<Accessory> getAccessory8() {
+		return accessory8;
 	}
-	public void setAccessorygk4(List<Accessory> accessorygk4) {
-		this.accessorygk4 = accessorygk4;
+	public void setAccessory8(List<Accessory> accessory8) {
+		this.accessory8 = accessory8;
 	}
-	public List<Accessory> getAccessorygk5() {
-		return accessorygk5;
+	public List<Accessory> getAccessory9() {
+		return accessory9;
 	}
-	public void setAccessorygk5(List<Accessory> accessorygk5) {
-		this.accessorygk5 = accessorygk5;
+	public void setAccessory9(List<Accessory> accessory9) {
+		this.accessory9 = accessory9;
 	}
-	public List<Accessory> getAccessorygk6() {
-		return accessorygk6;
+	public List<Accessory> getAccessory10() {
+		return accessory10;
 	}
-	public void setAccessorygk6(List<Accessory> accessorygk6) {
-		this.accessorygk6 = accessorygk6;
+	public void setAccessory10(List<Accessory> accessory10) {
+		this.accessory10 = accessory10;
 	}
-	public List<Accessory> getAccessorygk7() {
-		return accessorygk7;
+	public List<Accessory> getAccessory11() {
+		return accessory11;
 	}
-	public void setAccessorygk7(List<Accessory> accessorygk7) {
-		this.accessorygk7 = accessorygk7;
+	public void setAccessory11(List<Accessory> accessory11) {
+		this.accessory11 = accessory11;
 	}
-	public List<Accessory> getAccessorygk8() {
-		return accessorygk8;
+	public List<Accessory> getAccessory12() {
+		return accessory12;
 	}
-	public void setAccessorygk8(List<Accessory> accessorygk8) {
-		this.accessorygk8 = accessorygk8;
+	public void setAccessory12(List<Accessory> accessory12) {
+		this.accessory12 = accessory12;
 	}
-	public List<Accessory> getAccessorygk9() {
-		return accessorygk9;
+	public List<Accessory> getAccessory13() {
+		return accessory13;
 	}
-	public void setAccessorygk9(List<Accessory> accessorygk9) {
-		this.accessorygk9 = accessorygk9;
+	public void setAccessory13(List<Accessory> accessory13) {
+		this.accessory13 = accessory13;
 	}
-	public List<Accessory> getAccessorygk10() {
-		return accessorygk10;
+	public List<Accessory> getAccessory14() {
+		return accessory14;
 	}
-	public void setAccessorygk10(List<Accessory> accessorygk10) {
-		this.accessorygk10 = accessorygk10;
+	public void setAccessory14(List<Accessory> accessory14) {
+		this.accessory14 = accessory14;
 	}
-	public List<Accessory> getAccessorygk11() {
-		return accessorygk11;
+	public List<Accessory> getAccessory15() {
+		return accessory15;
 	}
-	public void setAccessorygk11(List<Accessory> accessorygk11) {
-		this.accessorygk11 = accessorygk11;
+	public void setAccessory15(List<Accessory> accessory15) {
+		this.accessory15 = accessory15;
 	}
-	public List<Accessory> getAccessorygk12() {
-		return accessorygk12;
+	public List<Accessory> getAccessory16() {
+		return accessory16;
 	}
-	public void setAccessorygk12(List<Accessory> accessorygk12) {
-		this.accessorygk12 = accessorygk12;
+	public void setAccessory16(List<Accessory> accessory16) {
+		this.accessory16 = accessory16;
 	}
-	public List<Accessory> getAccessorybp1() {
-		return accessorybp1;
+	public List<Accessory> getAccessory17() {
+		return accessory17;
 	}
-	public void setAccessorybp1(List<Accessory> accessorybp1) {
-		this.accessorybp1 = accessorybp1;
+	public void setAccessory17(List<Accessory> accessory17) {
+		this.accessory17 = accessory17;
 	}
-	public List<Accessory> getAccessorybp2() {
-		return accessorybp2;
+	public List<Accessory> getAccessory18() {
+		return accessory18;
 	}
-	public void setAccessorybp2(List<Accessory> accessorybp2) {
-		this.accessorybp2 = accessorybp2;
+	public void setAccessory18(List<Accessory> accessory18) {
+		this.accessory18 = accessory18;
 	}
-	public List<Accessory> getAccessorybp3() {
-		return accessorybp3;
+	public List<Accessory> getAccessory19() {
+		return accessory19;
 	}
-	public void setAccessorybp3(List<Accessory> accessorybp3) {
-		this.accessorybp3 = accessorybp3;
+	public void setAccessory19(List<Accessory> accessory19) {
+		this.accessory19 = accessory19;
 	}
-	public List<Accessory> getAccessorybp4() {
-		return accessorybp4;
+	public List<Accessory> getAccessory20() {
+		return accessory20;
 	}
-	public void setAccessorybp4(List<Accessory> accessorybp4) {
-		this.accessorybp4 = accessorybp4;
+	public void setAccessory20(List<Accessory> accessory20) {
+		this.accessory20 = accessory20;
 	}
-	public List<Accessory> getAccessorybp5() {
-		return accessorybp5;
+	public List<Accessory> getAccessory21() {
+		return accessory21;
 	}
-	public void setAccessorybp5(List<Accessory> accessorybp5) {
-		this.accessorybp5 = accessorybp5;
+	public void setAccessory21(List<Accessory> accessory21) {
+		this.accessory21 = accessory21;
 	}
-	public List<Accessory> getAccessorycs1() {
-		return accessorycs1;
+	public List<Accessory> getAccessory22() {
+		return accessory22;
 	}
-	public void setAccessorycs1(List<Accessory> accessorycs1) {
-		this.accessorycs1 = accessorycs1;
+	public void setAccessory22(List<Accessory> accessory22) {
+		this.accessory22 = accessory22;
 	}
-	public List<Accessory> getAccessorycs2() {
-		return accessorycs2;
+	public List<Accessory> getAccessory23() {
+		return accessory23;
 	}
-	public void setAccessorycs2(List<Accessory> accessorycs2) {
-		this.accessorycs2 = accessorycs2;
+	public void setAccessory23(List<Accessory> accessory23) {
+		this.accessory23 = accessory23;
 	}
-	public List<Accessory> getAccessorycs3() {
-		return accessorycs3;
+	public List<Accessory> getAccessory24() {
+		return accessory24;
 	}
-	public void setAccessorycs3(List<Accessory> accessorycs3) {
-		this.accessorycs3 = accessorycs3;
+	public void setAccessory24(List<Accessory> accessory24) {
+		this.accessory24 = accessory24;
 	}
-	public List<Accessory> getAccessorycs4() {
-		return accessorycs4;
+	public List<Accessory> getAccessory25() {
+		return accessory25;
 	}
-	public void setAccessorycs4(List<Accessory> accessorycs4) {
-		this.accessorycs4 = accessorycs4;
+	public void setAccessory25(List<Accessory> accessory25) {
+		this.accessory25 = accessory25;
 	}
-	public List<Accessory> getAccessorycs5() {
-		return accessorycs5;
+	public List<Accessory> getAccessory26() {
+		return accessory26;
 	}
-	public void setAccessorycs5(List<Accessory> accessorycs5) {
-		this.accessorycs5 = accessorycs5;
+	public void setAccessory26(List<Accessory> accessory26) {
+		this.accessory26 = accessory26;
 	}
-	public List<Accessory> getAccessorycs6() {
-		return accessorycs6;
+	public List<Accessory> getAccessory27() {
+		return accessory27;
 	}
-	public void setAccessorycs6(List<Accessory> accessorycs6) {
-		this.accessorycs6 = accessorycs6;
+	public void setAccessory27(List<Accessory> accessory27) {
+		this.accessory27 = accessory27;
 	}
-	public List<Accessory> getAccessorycs7() {
-		return accessorycs7;
+	public List<Accessory> getAccessory28() {
+		return accessory28;
 	}
-	public void setAccessorycs7(List<Accessory> accessorycs7) {
-		this.accessorycs7 = accessorycs7;
+	public void setAccessory28(List<Accessory> accessory28) {
+		this.accessory28 = accessory28;
 	}
-	public List<Accessory> getAccessorysgt1() {
-		return accessorysgt1;
+	public List<Accessory> getAccessory29() {
+		return accessory29;
 	}
-	public void setAccessorysgt1(List<Accessory> accessorysgt1) {
-		this.accessorysgt1 = accessorysgt1;
+	public void setAccessory29(List<Accessory> accessory29) {
+		this.accessory29 = accessory29;
 	}
-	public List<Accessory> getAccessorysgt2() {
-		return accessorysgt2;
+	public List<Accessory> getAccessory30() {
+		return accessory30;
 	}
-	public void setAccessorysgt2(List<Accessory> accessorysgt2) {
-		this.accessorysgt2 = accessorysgt2;
+	public void setAccessory30(List<Accessory> accessory30) {
+		this.accessory30 = accessory30;
 	}
-	public List<Accessory> getAccessorysgt3() {
-		return accessorysgt3;
+	public List<Accessory> getAccessory31() {
+		return accessory31;
 	}
-	public void setAccessorysgt3(List<Accessory> accessorysgt3) {
-		this.accessorysgt3 = accessorysgt3;
+	public void setAccessory31(List<Accessory> accessory31) {
+		this.accessory31 = accessory31;
 	}
-	public List<Accessory> getAccessorysgt4() {
-		return accessorysgt4;
+	public List<Accessory> getAccessory32() {
+		return accessory32;
 	}
-	public void setAccessorysgt4(List<Accessory> accessorysgt4) {
-		this.accessorysgt4 = accessorysgt4;
+	public void setAccessory32(List<Accessory> accessory32) {
+		this.accessory32 = accessory32;
 	}
-	public List<Accessory> getAccessorysgt5() {
-		return accessorysgt5;
+	public List<Accessory> getAccessory33() {
+		return accessory33;
 	}
-	public void setAccessorysgt5(List<Accessory> accessorysgt5) {
-		this.accessorysgt5 = accessorysgt5;
+	public void setAccessory33(List<Accessory> accessory33) {
+		this.accessory33 = accessory33;
 	}
-	public List<Accessory> getAccessorysgt6() {
-		return accessorysgt6;
+	public List<Accessory> getAccessory34() {
+		return accessory34;
 	}
-	public void setAccessorysgt6(List<Accessory> accessorysgt6) {
-		this.accessorysgt6 = accessorysgt6;
+	public void setAccessory34(List<Accessory> accessory34) {
+		this.accessory34 = accessory34;
 	}
-	public List<Accessory> getAccessorysgt7() {
-		return accessorysgt7;
+	public List<Accessory> getAccessory35() {
+		return accessory35;
 	}
-	public void setAccessorysgt7(List<Accessory> accessorysgt7) {
-		this.accessorysgt7 = accessorysgt7;
+	public void setAccessory35(List<Accessory> accessory35) {
+		this.accessory35 = accessory35;
 	}
-	public List<Accessory> getAccessorysgt8() {
-		return accessorysgt8;
+	public List<Accessory> getAccessory36() {
+		return accessory36;
 	}
-	public void setAccessorysgt8(List<Accessory> accessorysgt8) {
-		this.accessorysgt8 = accessorysgt8;
+	public void setAccessory36(List<Accessory> accessory36) {
+		this.accessory36 = accessory36;
 	}
-	public List<Accessory> getAccessorysgt9() {
-		return accessorysgt9;
+	public List<Accessory> getAccessory37() {
+		return accessory37;
 	}
-	public void setAccessorysgt9(List<Accessory> accessorysgt9) {
-		this.accessorysgt9 = accessorysgt9;
+	public void setAccessory37(List<Accessory> accessory37) {
+		this.accessory37 = accessory37;
 	}
-	public List<Accessory> getAccessorysgt10() {
-		return accessorysgt10;
+	public List<Accessory> getAccessory38() {
+		return accessory38;
 	}
-	public void setAccessorysgt10(List<Accessory> accessorysgt10) {
-		this.accessorysgt10 = accessorysgt10;
+	public void setAccessory38(List<Accessory> accessory38) {
+		this.accessory38 = accessory38;
 	}
-	public List<Accessory> getAccessorysgt11() {
-		return accessorysgt11;
+	public List<Accessory> getAccessory39() {
+		return accessory39;
 	}
-	public void setAccessorysgt11(List<Accessory> accessorysgt11) {
-		this.accessorysgt11 = accessorysgt11;
+	public void setAccessory39(List<Accessory> accessory39) {
+		this.accessory39 = accessory39;
 	}
+	
 }

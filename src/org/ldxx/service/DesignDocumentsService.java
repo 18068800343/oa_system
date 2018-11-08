@@ -8,4 +8,8 @@ public interface DesignDocumentsService {
 
 	List<DesignDocuments> selectDesignDocuments();
 
+	int addDesignDocumentsSave(DesignDocuments dd);
+
+	int deleteDesignDocuments(String id);
+
 }
