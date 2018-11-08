@@ -116,13 +116,13 @@
                 <div id="midBox">
                     <div id="titles">标题</div>
                     <div id="srcontent">
-                        <textarea cols="30" rows="8" class="form-control" placeholder="请输入内容"></textarea>
+                        <textarea cols="30" rows="8" class="form-control" id="view" placeholder="请输入内容"></textarea>
                     </div>
                 </div> 
             </div>
             <div class="modal-footer">
                 <button type="button" id="getReceiver" class="btn btn-success" data-dismiss="modal" >提交</button>
-                <button type="button" class="btn btn-default">退回</button>
+                <button type="button" id="tuiHui" class="btn btn-default" data-dismiss="modal">退回</button>
                 <button type="button" class="btn btn-default">保存</button>
             </div>
         </div>
@@ -155,6 +155,37 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-success" data-dismiss="modal" onclick="tijiaorenwudan2()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  modal结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tuihuigei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">退回至</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-condensed" id="tijiaoren">
+	                   	<thead>
+	                   			<tr>
+	                         	<th></th>
+	                             <th>步骤</th>
+	                             <th>操作人</th>
+	                             <th>内容</th>
+	                         </tr>
+	                   	</thead>
+                       <tbody>
+                       	
+                       </tbody>
+                   </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="tuihuisubmit()">提交</button>
             </div>
         </div>
     </div>
@@ -250,7 +281,7 @@
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/task/getReceiver',
-            data:{
+            data:{ 
             	url:page_url,
             },
             dataType: 'json',
@@ -258,7 +289,7 @@
             	console.log(json);
             	lianjie=json.url;
             	if(json.receiver!=null&&json.receiver.length>1){
-	        		  $("#tijiaogei").modal('show');
+	        		  $("#tijiaogei").modal('show'); 
 	        		  $("#tijiaoren tbody").empty("");
 	        		  for(var i=0;i<json.receiver.length;i++){
 	        			  $("#tijiaoren tbody").append('<tr><td>'
@@ -304,6 +335,34 @@
             }
         });
     });
+    
+    $("#tuiHui").on("click",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/tuiHui',
+            data:{
+            	url:page_url,
+            	view:$("#view").val()
+            },
+            dataType: 'json',
+            success: function (json) {
+              $("#tijiaogei").modal('show'); 
+      		  $("#tijiaoren tbody").empty("");
+      		  for(var i=0;i<json.list.length;i++){
+   			  $("#tijiaoren tbody").append('<tr><td>'
+   					  +'<input type="radio" name="tuihuiren">'
+   					  +'</td><td>'
+   					  +json.list[i].omName
+   					  +'</td><td>'
+   					  +json.list[i].dutyName
+   					  +'</td></tr>');
+   		      }
+            }
+        });
+    });
+    function tuihuisubmit(){
+    	
+    }
     function tijiaorenwudan2(){
   	  var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
   	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");

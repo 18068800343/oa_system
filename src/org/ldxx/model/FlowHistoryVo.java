@@ -13,6 +13,8 @@ public class FlowHistoryVo {
 
 	    private String businessname;
 	    
+	    private String flowNodeName;
+	    
 	    private String status;
 	    
 	    private String url;
@@ -51,7 +53,15 @@ public class FlowHistoryVo {
 
 	    private Integer operateType;
 
-	    public String getFlowNodeLast() {
+	    public String getFlowNodeName() {
+			return flowNodeName;
+		}
+
+		public void setFlowNodeName(String flowNodeName) {
+			this.flowNodeName = flowNodeName;
+		}
+
+		public String getFlowNodeLast() {
 			return flowNodeLast;
 		}
 

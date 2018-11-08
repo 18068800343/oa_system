@@ -350,7 +350,20 @@ public class TaskController {
 		}
 		return string;
 	}
-	
+	@RequestMapping("/tuiHui")/*任务单保存*/
+	@ResponseBody
+	public String tuiHui(String url,String view){
+		FlowUtill flowUtill = new FlowUtill();
+		String currentFlowId = "";
+		String result = "";
+		try {
+			currentFlowId = url.split("-")[1];
+			result = flowUtill.TuiHuiFlow(currentFlowId, view);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	@RequestMapping("/selectCjByTaskName")
 	@ResponseBody
 	public Map<String,Object> selectCjByTaskName(String name){

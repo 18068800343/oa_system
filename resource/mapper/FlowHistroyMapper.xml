@@ -142,7 +142,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="org.ldxx.bean.FlowHistroy" >
-    insert into flowhistroy (Flo_Tmp_ID, Flo_Node_ID, Bus_ID, 
+    insert into flowhistroy (Flo_Tmp_ID, Flo_Node_ID,ID, Bus_ID, 
       URL, Params, Title, 
       Starter, StarterName, RDT, 
       FK_Dept, DeptName, NodeName, 
@@ -150,7 +150,7 @@
       ActorResult, do_date, mode_id, 
       Flow_Node_Last, operate_type, view
       )
-    values (#{floTmpId,jdbcType=VARCHAR}, #{floNodeId,jdbcType=VARCHAR}, #{busId,jdbcType=VARCHAR}, 
+    values (#{floTmpId,jdbcType=VARCHAR}, #{floNodeId,jdbcType=VARCHAR},#{id,jdbcType=VARCHAR}, #{busId,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
       #{starter,jdbcType=VARCHAR}, #{startername,jdbcType=VARCHAR}, #{rdt,jdbcType=TIMESTAMP}, 
       #{fkDept,jdbcType=VARCHAR}, #{deptname,jdbcType=VARCHAR}, #{nodename,jdbcType=VARCHAR}, 
@@ -569,5 +569,7 @@
 		LEFT JOIN mode_status b ON a.mode_id = b.mode_id
 		LEFT JOIN business c ON a.Bus_ID = c.ID where a.Actor=#{userId} and b.`status`=1 GROUP BY a.URL ;
   </select>
-  
+  <select id="getTuiHuiFlowHistoryVo" resultType="flowHistoryVo">
+		select a.*,b.FlowNodeName from flowhistroy a left join flownode b on a.Flo_Node_ID = b.ID where a.URL=#{url} and a.Flow_Node_Last=#{flowNodeLast} and a.operate_type=1;
+  </select>
 </mapper>
