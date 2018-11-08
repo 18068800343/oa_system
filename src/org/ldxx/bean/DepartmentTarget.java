@@ -8,9 +8,24 @@ public class DepartmentTarget {
 	private float contractAmount;//合同额目标
 	private float revenueTarget;//收入目标
 	private float collectionTarget;//收款目标
+	private float budgetCost;//预算成本
+	private float actualCost;//实际成本
 	private String omName;
 	private String year;
 	
+	
+	public float getBudgetCost() {
+		return budgetCost;
+	}
+	public void setBudgetCost(float budgetCost) {
+		this.budgetCost = budgetCost;
+	}
+	public float getActualCost() {
+		return actualCost;
+	}
+	public void setActualCost(float actualCost) {
+		this.actualCost = actualCost;
+	}
 	public String getYear() {
 		return year;
 	}

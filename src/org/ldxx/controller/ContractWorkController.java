@@ -374,4 +374,10 @@ public class ContractWorkController {
 		return i;
 	}
 	
+	@RequestMapping("/selectContractWorkByNo")
+	@ResponseBody
+	public ContractWork selectContractWorkByNo(String no){
+		ContractWork cw=service.selectContractWorkByNo(no);
+		return cw;
+	}
 }

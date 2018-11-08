@@ -36,18 +36,42 @@ public class Task {
     private String mainDepartment;
 
     private Float mainDepartmentMoney;
+    
+    private String mainPrjLeader;
+    
+    private String mainEngineer;
+    
+    private String mainOther;
 
     private String assistDepartment1;
 
     private Float assistDepartment1Money;
-
+    
+    private String assist1PrjLeader;
+    
+    private String assist1Engineer;
+    
+    private String assist1Other;
+    
     private String assistDepartment2;
 
     private Float assistDepartment2Money;
+    
+    private String assist2PrjLeader;
+    
+    private String assist2Engineer;
+    
+    private String assist2Other;
 
     private String assistDepartment3;
 
     private Float assistDepartment3Money;
+    
+    private String assist3PrjLeader;
+    
+    private String assist3Engineer;
+    
+    private String assist3Other;
 
     private List<Enterprise> enterprise;
     
@@ -60,6 +84,103 @@ public class Task {
     
     private String ccName;
     
+    
+	public String getMainPrjLeader() {
+		return mainPrjLeader;
+	}
+
+	public void setMainPrjLeader(String mainPrjLeader) {
+		this.mainPrjLeader = mainPrjLeader;
+	}
+
+	public String getMainEngineer() {
+		return mainEngineer;
+	}
+
+	public void setMainEngineer(String mainEngineer) {
+		this.mainEngineer = mainEngineer;
+	}
+
+	public String getMainOther() {
+		return mainOther;
+	}
+
+	public void setMainOther(String mainOther) {
+		this.mainOther = mainOther;
+	}
+
+	public String getAssist1PrjLeader() {
+		return assist1PrjLeader;
+	}
+
+	public void setAssist1PrjLeader(String assist1PrjLeader) {
+		this.assist1PrjLeader = assist1PrjLeader;
+	}
+
+	public String getAssist1Engineer() {
+		return assist1Engineer;
+	}
+
+	public void setAssist1Engineer(String assist1Engineer) {
+		this.assist1Engineer = assist1Engineer;
+	}
+
+	public String getAssist1Other() {
+		return assist1Other;
+	}
+
+	public void setAssist1Other(String assist1Other) {
+		this.assist1Other = assist1Other;
+	}
+
+	public String getAssist2PrjLeader() {
+		return assist2PrjLeader;
+	}
+
+	public void setAssist2PrjLeader(String assist2PrjLeader) {
+		this.assist2PrjLeader = assist2PrjLeader;
+	}
+
+	public String getAssist2Engineer() {
+		return assist2Engineer;
+	}
+
+	public void setAssist2Engineer(String assist2Engineer) {
+		this.assist2Engineer = assist2Engineer;
+	}
+
+	public String getAssist2Other() {
+		return assist2Other;
+	}
+
+	public void setAssist2Other(String assist2Other) {
+		this.assist2Other = assist2Other;
+	}
+
+	public String getAssist3PrjLeader() {
+		return assist3PrjLeader;
+	}
+
+	public void setAssist3PrjLeader(String assist3PrjLeader) {
+		this.assist3PrjLeader = assist3PrjLeader;
+	}
+
+	public String getAssist3Engineer() {
+		return assist3Engineer;
+	}
+
+	public void setAssist3Engineer(String assist3Engineer) {
+		this.assist3Engineer = assist3Engineer;
+	}
+
+	public String getAssist3Other() {
+		return assist3Other;
+	}
+
+	public void setAssist3Other(String assist3Other) {
+		this.assist3Other = assist3Other;
+	}
+
 	public String getCcName() {
 		return ccName;
 	}
