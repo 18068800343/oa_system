@@ -33,12 +33,27 @@ public class TimeUUID {
 		String year=sdf.format(new Date());
 		String y=String.valueOf(count);
 		if(y.length()==1){
-			y="00"+y;
+			y="000"+y;
 		}else if(y.length()==2){
-			y="0"+y;
+			y="00"+y;
 		}
 		String clCode=year+omNo+y;
 		return clCode;
+	}
+	//投标人(ZS、HT、HH)+项目类型（JC、SG、SJ、EPC、QT）+年月+流水号（按年，3位）
+	public String getSerialNumber(String bidder,String type,int count){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
+		String year=sdf.format(new Date());
+		String y=String.valueOf(count);
+		if(y.length()==1){
+			y="00"+y;
+		}else if(y.length()==2){
+			y="0"+y;
+		}else if(y.length()==3){
+			y="0"+y;
+		}
+		String PrjNo=bidder+type+year+y;
+		return PrjNo;
 	}
 	
 	public static void main(String[] args) {
