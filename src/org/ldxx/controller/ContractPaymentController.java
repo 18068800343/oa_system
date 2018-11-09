@@ -54,7 +54,7 @@ public class ContractPaymentController {
 		String fkNo="FBFK"+uuid.getPrjCode("", count+1);
 		pay.setPayCode(fkNo);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"pay";
+		String path="D:"+File.separator+"oa"+File.separator+"pay"+File.separator+id;
 		List<Accessory> list=new ArrayList<>();
 		List<Accessory> list2=new ArrayList<>();
 		List<Accessory> list3=new ArrayList<>();
@@ -124,7 +124,7 @@ public class ContractPaymentController {
 		fkNo="FBFK"+fkNo;
 		pay.setPayCode(fkNo);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"pay";
+		String path="D:"+File.separator+"oa"+File.separator+"pay"+File.separator+id;
 		List<Accessory> list=new ArrayList<>();
 		List<Accessory> list2=new ArrayList<>();
 		List<Accessory> list3=new ArrayList<>();
@@ -190,7 +190,7 @@ public class ContractPaymentController {
 		String id=uuid.getTimeUUID();
 		pay.setPayId(id);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"pay";
+		String path="D:"+File.separator+"oa"+File.separator+"pay"+File.separator+id;
 		List<Accessory> list=new ArrayList<>();
 		List<Accessory> list2=new ArrayList<>();
 		List<Accessory> list3=new ArrayList<>();
@@ -255,7 +255,7 @@ public class ContractPaymentController {
 		String id=uuid.getTimeUUID();
 		pay.setPayId(id);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"pay";
+		String path="D:"+File.separator+"oa"+File.separator+"pay"+File.separator+id;
 		List<Accessory> list=new ArrayList<>();
 		List<Accessory> list2=new ArrayList<>();
 		List<Accessory> list3=new ArrayList<>();

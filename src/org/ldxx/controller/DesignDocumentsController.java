@@ -96,7 +96,7 @@ public class DesignDocumentsController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		dd.setDdId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"DesignDocuments";
+		String path="D:"+File.separator+"oa"+File.separator+"DesignDocuments"+File.separator+id;;
 		
 		File f=new File(path);
 		if(!f.exists()){

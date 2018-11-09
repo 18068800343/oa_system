@@ -53,7 +53,7 @@ public class CgContractController {
 		cgNo="CG"+cgNo;
 		cg.setCgNo(cgNo);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"CgContract";
+		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -110,7 +110,7 @@ public class CgContractController {
 		cgNo="CG"+cgNo;
 		cg.setCgNo(cgNo);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"CgContract";
+		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -166,7 +166,7 @@ public class CgContractController {
 		cgService.updateHistoryById(cg.getCgId());
 		cg.setCgId(id);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"CgContract";
+		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -215,7 +215,7 @@ public class CgContractController {
 		cgService.updateHistoryById(cg.getCgId());
 		cg.setCgId(id);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"CgContract";
+		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();

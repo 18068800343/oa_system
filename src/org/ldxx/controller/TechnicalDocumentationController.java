@@ -1,0 +1,417 @@
+package org.ldxx.controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.ldxx.bean.Accessory;
+import org.ldxx.bean.ConstructionDocuments;
+import org.ldxx.bean.TechnicalDocumentation;
+import org.ldxx.service.TechnicalDocumentationService;
+import org.ldxx.util.TimeUUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import net.sf.json.JSONObject;
+
+/**
+ * 科技文档资料
+ * @author hp
+ *
+ */
+@RequestMapping("TechnicalDocumentation")
+@Controller
+public class TechnicalDocumentationController {
+	
+	@Autowired
+	private TechnicalDocumentationService service;
+	
+	@RequestMapping("/selectTechnicalDocumentation")
+	@ResponseBody
+	public List<TechnicalDocumentation> selectTechnicalDocumentation(){
+		return service.selectTechnicalDocumentation();
+	}
+	
+	
+	@RequestMapping("/addTechnicalDocumentationSave")//添加保存
+	@ResponseBody
+	public Map<String,Object> addTechnicalDocumentationSave(String tds,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
+			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8
+			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13
+			,@RequestParam MultipartFile [] file14,@RequestParam MultipartFile [] file15,@RequestParam MultipartFile [] file16,@RequestParam MultipartFile [] file17,@RequestParam MultipartFile [] file18) throws IllegalStateException, IOException{
+		Map<String,Object> map=new HashMap<>();
+		Map<String,Class> map2=new HashMap<>();
+		map2.put("accessory1", Accessory.class);
+		map2.put("accessory2", Accessory.class);
+		map2.put("accessory3", Accessory.class);
+		map2.put("accessory4", Accessory.class);
+		map2.put("accessory5", Accessory.class);
+		map2.put("accessory6", Accessory.class);
+		map2.put("accessory7", Accessory.class);
+		map2.put("accessory8", Accessory.class);
+		map2.put("accessory9", Accessory.class);
+		map2.put("accessory10", Accessory.class);
+		map2.put("accessory11", Accessory.class);
+		map2.put("accessory12", Accessory.class);
+		map2.put("accessory13", Accessory.class);
+		map2.put("accessory14", Accessory.class);
+		map2.put("accessory15", Accessory.class);
+		map2.put("accessory16", Accessory.class);
+		map2.put("accessory17", Accessory.class);
+		map2.put("accessory18", Accessory.class);
+		JSONObject jsonObject=JSONObject.fromObject(tds);
+		TechnicalDocumentation td=(TechnicalDocumentation)JSONObject.toBean(jsonObject, TechnicalDocumentation.class,map2);
+		
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		td.setTdId(id);
+		String path="D:"+File.separator+"oa"+File.separator+"TechnicalDocumentation"+File.separator+id;;
+		
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file1.length>0){
+			List<Accessory> acc = td.getAccessory1();
+			for(int i=0;i<file1.length;i++){
+				String fileName=file1[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file1[i].transferTo(f1);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("项目实际存档目录");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory1(acc);
+		}
+		if(file2.length>0){
+			List<Accessory> acc = td.getAccessory2();
+			for(int i=0;i<file2.length;i++){
+				String fileName=file2[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file2[i].transferTo(f2);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("合同资料");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory2(acc);
+		}
+		if(file3.length>0){
+			List<Accessory> acc = td.getAccessory3();
+			for(int i=0;i<file3.length;i++){
+				String fileName=file3[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f3=new File(filePath);
+				file3[i].transferTo(f3);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("科研申请书");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory3(acc);
+		}
+		if(file4.length>0){
+			List<Accessory> acc = td.getAccessory4();
+			for(int i=0;i<file4.length;i++){
+				String fileName=file4[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f4=new File(filePath);
+				file4[i].transferTo(f4);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("工作大纲及评审记录");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory4(acc);
+		}
+		if(file5.length>0){
+			List<Accessory> acc = td.getAccessory5();
+			for(int i=0;i<file5.length;i++){
+				String fileName=file5[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f5=new File(filePath);
+				file5[i].transferTo(f5);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("中间报告及评审记录");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory5(acc);
+		}
+		if(file6.length>0){
+			List<Accessory> acc = td.getAccessory6();
+			for(int i=0;i<file6.length;i++){
+				String fileName=file6[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f6=new File(filePath);
+				file6[i].transferTo(f6);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("成果简介");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory6(acc);
+		}
+		if(file7.length>0){
+			List<Accessory> acc = td.getAccessory7();
+			for(int i=0;i<file7.length;i++){
+				String fileName=file7[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f7=new File(filePath);
+				file7[i].transferTo(f7);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("研究报告");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory7(acc);
+		}
+		if(file8.length>0){
+			List<Accessory> acc = td.getAccessory8();
+			for(int i=0;i<file8.length;i++){
+				String fileName=file8[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f8=new File(filePath);
+				file8[i].transferTo(f8);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("查新报告");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory8(acc);
+		}
+		if(file9.length>0){
+			List<Accessory> acc = td.getAccessory9();
+			for(int i=0;i<file9.length;i++){
+				String fileName=file9[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f9=new File(filePath);
+				file9[i].transferTo(f9);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("总结报告");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory9(acc);
+		}
+		if(file10.length>0){
+			List<Accessory> acc = td.getAccessory10();
+			for(int i=0;i<file10.length;i++){
+				String fileName=file10[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f10=new File(filePath);
+				file10[i].transferTo(f10);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("用户报告/应用证明");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory10(acc);
+		}
+		if(file11.length>0){
+			List<Accessory> acc = td.getAccessory11();
+			for(int i=0;i<file11.length;i++){
+				String fileName=file11[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f11=new File(filePath);
+				file11[i].transferTo(f11);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("鉴定(评审)证书/验收评审意见");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory11(acc);
+		}
+		if(file12.length>0){
+			List<Accessory> acc = td.getAccessory12();
+			for(int i=0;i<file12.length;i++){
+				String fileName=file12[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f12=new File(filePath);
+				file12[i].transferTo(f12);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("科研项目其他成果");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory12(acc);
+		}
+		if(file13.length>0){
+			List<Accessory> acc = td.getAccessory13();
+			for(int i=0;i<file13.length;i++){
+				String fileName=file13[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f13=new File(filePath);
+				file13[i].transferTo(f13);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("汇报PPT");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory13(acc);
+		}
+		if(file14.length>0){
+			List<Accessory> acc = td.getAccessory14();
+			for(int i=0;i<file14.length;i++){
+				String fileName=file14[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f14=new File(filePath);
+				file14[i].transferTo(f14);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("财务决算表");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory14(acc);
+		}
+		if(file15.length>0){
+			List<Accessory> acc = td.getAccessory15();
+			for(int i=0;i<file15.length;i++){
+				String fileName=file15[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f15=new File(filePath);
+				file15[i].transferTo(f15);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("报奖文件");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory15(acc);
+		}
+		if(file16.length>0){
+			List<Accessory> acc = td.getAccessory16();
+			for(int i=0;i<file16.length;i++){
+				String fileName=file16[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f16=new File(filePath);
+				file16[i].transferTo(f16);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("相关论文及专利");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory16(acc);
+		}
+		if(file17.length>0){
+			List<Accessory> acc = td.getAccessory17();
+			for(int i=0;i<file17.length;i++){
+				String fileName=file17[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f17=new File(filePath);
+				file17[i].transferTo(f17);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("课题所用到图纸、模型和报告");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory17(acc);
+		}
+		if(file18.length>0){
+			List<Accessory> acc = td.getAccessory18();
+			for(int i=0;i<file18.length;i++){
+				String fileName=file18[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f18=new File(filePath);
+				file18[i].transferTo(f18);
+				for(int j=0;j<acc.size();j++){
+					acc.get(j).setaId(id);
+					acc.get(j).setAcName(fileName);
+					acc.get(j).setAcUrl(filePath);
+					acc.get(j).setaType("其它");
+					String atype=acc.get(j).getaDesc();
+					acc.get(j).setaDesc(atype);
+				}
+			}
+			td.setAccessory18(acc);
+		}
+		
+		int i=service.addConstructionDocumentsSave(td);
+		map.put("result", i);
+		map.put("TechnicalDocumentation", td);
+		return map; 
+	}
+	
+	@RequestMapping("/deleteTechnicalDocumentation")
+	@ResponseBody
+	public int deleteTechnicalDocumentation(String id){
+		return service.deleteTechnicalDocumentation(id);
+	}
+
+}

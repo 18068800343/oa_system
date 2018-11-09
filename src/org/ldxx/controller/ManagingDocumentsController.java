@@ -60,7 +60,7 @@ public class ManagingDocumentsController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		md.setMdId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"ManagingDocuments";
+		String path="D:"+File.separator+"oa"+File.separator+"ManagingDocuments"+File.separator+id;;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();

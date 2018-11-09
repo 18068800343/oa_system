@@ -71,7 +71,7 @@ public class TestingEvaluationController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		te.setTeId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation";
+		String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation"+File.separator+id;;
 		
 		File f=new File(path);
 		if(!f.exists()){

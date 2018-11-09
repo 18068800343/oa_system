@@ -52,7 +52,7 @@ public class SubContractController {
 		fbNo="FB"+fbNo;
 		fbContract.setFbNo(fbNo);	
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
+		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -111,7 +111,7 @@ public class SubContractController {
 		fbNo="FB"+fbNo;
 		fbContract.setFbNo(fbNo);
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
+		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -169,7 +169,7 @@ public class SubContractController {
 		scService.updateHistory(fbContract.getFbId());
 		fbContract.setFbId(id);
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
+		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -220,7 +220,7 @@ public class SubContractController {
 		scService.updateHistory(fbContract.getFbId());
 		fbContract.setFbId(id);
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"subcontract";
+		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();

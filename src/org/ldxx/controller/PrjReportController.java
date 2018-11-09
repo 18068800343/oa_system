@@ -55,7 +55,7 @@ public class PrjReportController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"PrjReport";
+				String path="D:"+File.separator+"oa"+File.separator+"PrjReport"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -95,7 +95,7 @@ public class PrjReportController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"PrjReport";
+				String path="D:"+File.separator+"oa"+File.separator+"PrjReport"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();

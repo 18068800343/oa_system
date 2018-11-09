@@ -71,7 +71,7 @@ public class ConstructionDocumentsController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cd.setCdId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"ConstructionDocuments";
+		String path="D:"+File.separator+"oa"+File.separator+"ConstructionDocuments"+File.separator+id;;
 		
 		File f=new File(path);
 		if(!f.exists()){
