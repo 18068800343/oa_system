@@ -1151,6 +1151,10 @@
 				$(this).find("tbody").eq(0).find("tr").each(function(){
 					var danjia=$(this).find("td").eq(5).find("input").val();
 					var num=$(this).find("td").eq(4).find("input").val();
+					if(danjia==''||danjia==null){
+						toastr.error("单价不能为空");
+						return;
+					}
 					var money=danjia*num
 					$(this).find("td").eq(6).find("input").val(money);
 					bumenMoney+=money;
@@ -1166,6 +1170,10 @@
 				$(this).find("tbody").eq(0).find("tr").each(function(){
 					var danjia=$(this).find("td").eq(5).find("input").val();
 					var num=$(this).find("td").eq(4).find("input").val();
+					if(danjia==''||danjia==null){
+						toastr.error("单价不能为空");
+						return;
+					}
 					var money=danjia*num
 					$(this).find("td").eq(6).find("input").val(money);
 					bumenMoney+=money;
@@ -1343,10 +1351,14 @@
 			toastr.error("采购合同名称为空");
 			return;
 		}
-		/* if(cghetongMoney==''){
+		if(cghetongMoney==''){
 			toastr.error("采购合同金额为空");
 			return;
-		} */
+		} 
+		if(cghetongMoney==0){
+			toastr.error("采购合同金额不能为0");
+			return;
+		}
 		if($("#new_accessory").find('tbody tr').length<1 || $("#file").val()==''){
 			toastr.error("采购合同文本附件为空")
 			return;
@@ -1483,6 +1495,10 @@
 		}
 		if(cghetongMoney==''){
 			toastr.error("采购合同金额为空");
+			return;
+		}
+		if(cghetongMoney==0){
+			toastr.error("采购合同金额不能为0");
 			return;
 		}
 		if($("#new_accessory").find('tbody tr').length<1 || $("#file").val()==''){
@@ -1673,7 +1689,7 @@
 		                        	id:pmbId
 		                        },
 		                        success: function (json) {
-		                        	console.log(json)
+		                        	//console.log(json)
 		                        	for(var k=0;k<json.length;k++){
 		                        		$("#xgcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td style='width:10%;'>"
 		                		  				+'<input type="text" class="form-control" value='+json[k].materialName+' style="width:100%;">'
@@ -1808,6 +1824,10 @@
 		}
 		if(xgcghetongMoney==''){
 			toastr.error("采购合同金额为空");
+			return;
+		}
+		if(xgcghetongMoney==0){
+			toastr.error("采购合同金额不能为0");
 			return;
 		}
 		if($("#edit_accessory").find('tbody tr').length<1 || $("#xgfile").val()==''){
@@ -1949,6 +1969,10 @@
 			toastr.error("采购合同金额为空");
 			return;
 		}
+		if(xgcghetongMoney==0){
+			toastr.error("采购合同金额不能为0");
+			return;
+		}
 		if($("#edit_accessory").find('tbody tr').length<1 || $("#xgfile").val()==''){
 			toastr.error("采购合同文本附件为空")
 			return;
@@ -2063,7 +2087,7 @@
 	function lookCgC(obj){
 		var dom=$(obj).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
-		console.log(data)
+		//console.log(data)
 		cgNo=data.cgNo;
 		initTableHistory();
 		
@@ -2098,7 +2122,7 @@
 			$("#lookcghetongMoney").val("");
 			$("#lookcailiaobiaoDiv table").remove();
 			for(var i=0;i<list.length;i++){
-				console.log(list[i])
+				//console.log(list[i])
         		$("#lookcailiaobiaoDiv").append(
         				"<table  class='table table-bordered table-condensed' id='lookcailiaobiao"+i+"'>"+
                     	"<thead>"+
@@ -2152,7 +2176,7 @@
 		                        	id:pmbId
 		                        },
 		                        success: function (json) {
-		                        	console.log(json)
+		                        	//console.log(json)
 		                        	for(var k=0;k<json.length;k++){
 		                        		$("#lookcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
 		                		  				+""+json[k].materialName+""
@@ -2195,7 +2219,7 @@
 				id:data.cgId,
 			},
 			success:function(json){
-				console.log(json);
+				//console.log(json);
 				$("#look_all_table").empty();
 				$("#look_all_table1").empty();
 	            for(var i=0;i<json.length;i++){
@@ -2239,7 +2263,7 @@
                 errMessage("请求失败");
             },
             success: function (json) {
-            	console.log(json)
+            	//console.log(json)
                 $('#lookHistory').dataTable().fnClearTable();
                 $('#lookHistory').DataTable().rows.add(json).draw(false);
             }
@@ -2250,7 +2274,7 @@
 	function lookHistoryDetails(obj){
 		var dom=$(obj).parents('tr');
 		var data=$('#lookHistory').DataTable().row(dom).data();
-		console.log(data)
+		//console.log(data)
 		$('#lookHistory').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
             if ($('.modal.in').size() >= 1) {
                 $('body').addClass('modal-open')
@@ -2289,7 +2313,7 @@
 			$("#HistorycghetongMoney").val("");
 			$("#HistorycailiaobiaoDiv table").remove();
 			for(var i=0;i<list.length;i++){
-				console.log(list[i])
+				//console.log(list[i])
         		$("#HistorycailiaobiaoDiv").append(
         				"<table  class='table table-bordered table-condensed' id='Historycailiaobiao"+i+"'>"+
                     	"<thead>"+
@@ -2325,7 +2349,7 @@
 		            	ids:list.toString()
 		            },
 		            success: function (json) {
-		            	console.log(json)
+		            	//console.log(json)
 		            	for(var i=0;i<json.length;i++){
 		            		var omName=json[i].omName
 		            		var sumPrice=json[i].sumPrice;
@@ -2343,7 +2367,7 @@
 		                        	id:pmbId
 		                        },
 		                        success: function (json) {
-		                        	console.log(json)
+		                        	//console.log(json)
 		                        	for(var k=0;k<json.length;k++){
 		                        		$("#Historycailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
 		                		  				+""+json[k].materialName+""
@@ -2386,7 +2410,7 @@
 				id:data.cgId,
 			},
 			success:function(json){
-				console.log(json);
+				//console.log(json);
 				$("#History_all_table").empty();
 				$("#History_all_table1").empty();
 	               for(var i=0;i<json.length;i++){
