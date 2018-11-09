@@ -10,6 +10,7 @@ package org.ldxx.bean;
 public class KpApplication {
 
 	private String kpId;
+	private String fpNo;
 	private String contractName;
 	private String contractNo;
 	private String prjName;
@@ -26,6 +27,14 @@ public class KpApplication {
 	private String phone;
 	private String bank;
 	private String bankNo;
+	
+	
+	public String getFpNo() {
+		return fpNo;
+	}
+	public void setFpNo(String fpNo) {
+		this.fpNo = fpNo;
+	}
 	public String getKpId() {
 		return kpId;
 	}

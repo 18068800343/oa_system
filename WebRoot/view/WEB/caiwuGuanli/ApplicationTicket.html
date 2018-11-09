@@ -206,7 +206,12 @@
                                 <td>开票申请人</td>
                                 <td id="look_sq_men">
                                 </td>
-                                
+                            </tr>
+                            <tr>
+                            	<td>发票编码</td>
+                            	<td id="look_fpNo"></td>
+                            	<td></td>
+                            	<td></td>
                             </tr>
                         </table>
                         <table class="table table-bordered">
@@ -428,29 +433,29 @@
     </div>
 </div>
 <!-- 修改model结束 -->
-<!-- Modal -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="nadd">
+<!-- 补录Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="blue">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel"><b>新建财务收款</b></h4>
+            <h4 class="modal-title" id="myModalLabel"><b>补录发票编号</b></h4>
         </div>
         <div class="modal-body">
                 <div>     
                     <form class="form-inline">
                         <table class="table table-bordered">
-                            <tr>
-                                <td>开票编码</td>
-                                <td><input type="text" class="form-control"></td>
-                            </tr>
-                        </table> 
+                        	<tr>
+                        		<td style="width:25%;">发票编号</td>
+                        		<td style="width:75%;"><input type="text" id="fp_no" class="form-control" style="width:80%;"></td>
+                        	</tr>
+                        </table>
                     </form>  
                 </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success">保存</button>
+            <button type="button" class="btn btn-success"  onclick="saveBule()">保存</button>
         </div>
         </div>
     </div>
@@ -564,15 +569,16 @@
             <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>
                     <tr>
-                        <th>任务单号</th>
-                        <th>项目名称</th>
-                        <th>付款单位</th>
-                        <th>开票日期</th>
-                        <th>本次开票金额</th>
-                        <th>累计开票金额</th>
-                        <th>发票类型</th>
-                        <th>开票申请人</th>
-                        <th style="width:100px;">操作</th>
+                        <th style="width:8%;">任务单号</th>
+                        <th style="width:12%;">项目名称</th>
+                        <th style="width:10%;">付款单位</th>
+                        <th style="width:9%;">开票日期</th>
+                        <th style="width:11%;">本次开票金额</th>
+                        <th style="width:11%;">累计开票金额</th>
+                        <th style="width:10%;">发票类型</th>
+                        <th style="width:10%;">开票申请人</th>
+                        <th style="width:13%;">发票编码是否补录</th>
+                        <th style="width:6%;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -620,19 +626,31 @@
 		            { "data": "kpMoney"}, 
 		            { "data": "allKpMoney"}, 
 		            { "data": "fpType"}, 
-		            { "data": "sqMen"}, 
+		            { "data": "sqMen"},
+		            { "data": null},
 		            { "data": null}
 		        ],
 		        "columnDefs": [
 									{	
-										 "class": "details-control",
+										    "class": "details-control",
 										    "targets": 8,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" title="查看" onclick="look(this)"></i>';
+										    		if(full.fpNo!=''&&full.fpNo!=null){
+										    			return '<span class="label label-success state">已补录</span>'
+										    		}else{
+										    			return '<span class="label label-danger state">未补录</span>'
+										    		}
 										  	  		
 										        }
-										  }
+										  },{	
+												 "class": "details-control",
+												    "targets": 9,
+												    "searchable": true,
+												    "render": function(data, type, full) {
+												  	  		return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" title="查看" onclick="look(this)"></i> &nbsp <i class="iconfont icon-icon_edit" style="font-size:18px;cursor:pointer;" title="补录发票编号" onclick="backTracking(this)"></i>';
+												        }
+												  }
 								],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
@@ -869,7 +887,7 @@
 		var fp_type=$("#fp_type").val();
 		var duty_no=$("#duty_no").val();
 		var sq_men=$("#sq_men").val();
-		var pay_unit=$("#pay_unit").text();
+		var pay_unit=$("#pay_unit").find("option:selected").text();
 		var xy_code=$("#xy_code").val();
 		var address=$("#address").val();
 		var phone=$("#phone").val();
@@ -920,7 +938,7 @@
 		var fp_type=$("#fp_type").val();
 		var duty_no=$("#duty_no").val();
 		var sq_men=$("#sq_men").val();
-		var pay_unit=$("#pay_unit").text();
+		var pay_unit=$("#pay_unit").find("option:selected").text();
 		var xy_code=$("#xy_code").val();
 		var address=$("#address").val();
 		var phone=$("#phone").val();
@@ -980,6 +998,7 @@
 		$("#look_phone").text(data.phone);
 		$("#look_bank").text(data.bank);
 		$("#look_bank_no").text(data.bankNo);
+		$("#look_fpNo").text(data.fpNo);
 		$("#look_modal").modal("show");
 	}
 	
@@ -1010,6 +1029,37 @@
 		})
 	}
     
+	var dataB;
+	var trB;
+	 function backTracking(obj){
+		 trB=$(obj).parents("tr");
+		 dataB=$("#mainContent").DataTable().row(trB).data();
+		 $("#fp_no").val(dataB.fpNo)
+    	 $("#blue").modal("show");
+	 }
+	 
+	 function saveBule(){
+		 var fpNo=$("#fp_no").val();
+		 $.ajax({
+				type:"POST",
+				url:getContextPath()+"/kp/buleFpNo",
+				dataType:"json",
+				data:{ 
+					no:fpNo,
+					id:dataB.kpId
+				},
+				success:function(json){
+					if(json>0){
+						dataB.fpNo=fpNo;
+						$("#mainContent").DataTable().row(trB).data(dataB).draw(false);
+						toastr.success("补录成功")
+						$("#blue").modal("hide");
+					}else{
+						toastr.error("补录失败")
+					}
+				}
+			}) 
+	 }
 
 </script>
 </html>

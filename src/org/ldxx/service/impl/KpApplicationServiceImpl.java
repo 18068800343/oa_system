@@ -29,4 +29,19 @@ public class KpApplicationServiceImpl implements KpApplicationService{
 		return dao.getAllMoney(contractNo, prjNo);
 	}
 
+	@Override
+	public int buleFpNo(String no, String id) {
+		return dao.buleFpNo(no, id);
+	}
+
+	@Override
+	public List<KpApplication> getKpNo(String no) {
+		return dao.getKpNo(no);
+	}
+
+	@Override
+	public KpApplication getAllKpMoneyByFpNo(String no) {
+		return dao.getAllKpMoneyByFpNo(no);
+	}
+
 }

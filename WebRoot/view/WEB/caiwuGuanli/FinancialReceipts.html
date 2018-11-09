@@ -139,16 +139,19 @@
                                 <td><input type="text" class="form-control" style="width:80%;" id="total_money" disabled></td>
                             </tr>
                             <tr>
-                                <td>已开票应收金额（万元）  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td><input type="text" class="form-control" style="width:80%;" id="kp_money"></td> 
                                 <td>发票编号</td>
-                                <td><input type="text" class="form-control" style="width:80%;" id="fp_no"></td>
+                                <td>
+                                	<select class="form-control" style="width:80%;" id="fp_no">
+                                    </select>
+                                </td>
+                                <td>已开票应收金额（万元）  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" style="width:80%;" id="kp_money" disabled></td> 
                             </tr>
                             <tr>
                                 <td>合同收款条件</td>
                                 <td><input type="text" class="form-control" style="width:80%;" id="collection_terms" disabled></td>
                                 <td>项目完成进度</td>
-                                <td><input type="text" class="form-control" style="width:80%;" id="prj_plan"></td>
+                                <td><input type="text" class="form-control" style="width:80%;" id="prj_plan" disabled></td>
                             </tr>
                             <tr>
                                 <td>实际收款</td>
@@ -742,6 +745,8 @@
 	                    	$("#collection_terms").val(json.receieveMoneyCondition);
 	                    	getLeader($('#prj_no').val());
 	                    	getMoney($('#contract_no').val());
+	                    	getKpNo($('#contract_no').val());
+	                    	getPrjPlan($('#prj_no').val(),$('#contract_no').val());
 	                    }
 	          		});
 	          	})
@@ -764,6 +769,8 @@
 	                    	$("#collection_terms").val(json.receieveMoneyCondition);
 	                    	getLeader($('#prj_no').val());
 	                    	getMoney($('#contract_no').val());
+	                    	getKpNo($('#contract_no').val());
+	                    	getPrjPlan($('#prj_no').val(),$('#contract_no').val());
 	                    }
 	          		});
 			  	})
@@ -772,6 +779,7 @@
 			});
 		}
     
+    //获取项目负责人
     function  getLeader(nos){
     	$.ajax({
             type: 'POST',
@@ -786,6 +794,7 @@
     	})
     }
     
+    //获取合同结算额，累计收款
     function getMoney(no){
     	$.ajax({
             type: 'POST',
@@ -801,6 +810,57 @@
             }
     	})
     }
+    
+    //获取项目完成进度
+    function getPrjPlan(nos,contractNo){
+    	$("#prj_plan").val('');
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/kp/getPrjPlan',
+            dataType: 'json',
+            data: {
+            	nos:nos,
+            	contractNo:contractNo
+            },
+            success: function (json) {
+            	$("#prj_plan").val(json.jindu);
+            }
+    	})
+    }
+    
+    //获取发票编号
+    function getKpNo(no){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/kp/getKpNo',
+            dataType: 'json',
+            data: {
+            	no:no
+            },
+            success: function (json) {
+            	$("#fp_no").html('');
+            	$("#kp_money").val('');
+			    for(var i=0;i<json.length;i++){
+			    	$("#fp_no").append("<option value="+json[i].fpNo+">"+json[i].fpNo+"</option>")
+			    }
+			    $("#fp_no").trigger("change");
+            }
+    	})
+    }
+    
+    $("#fp_no").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/kp/getAllKpMoneyByFpNo',
+            dataType: 'json',
+            data: {
+            	no:$("#fp_no").val()
+            },
+            success: function (json) {
+            	$("#kp_money").val(json.allKpMoney);
+            }
+    	})
+    })
     
     function saveFr(){
     	var prj_name=$("#prj_name").val();

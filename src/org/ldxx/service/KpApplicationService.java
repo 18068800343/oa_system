@@ -11,4 +11,10 @@ public interface KpApplicationService {
 	public List<KpApplication> selectKpApplication(String status);
 	
 	public float getAllMoney(String contractNo,String prjNo);
+	
+	public int buleFpNo(String no,String id);
+	
+	public  List<KpApplication> getKpNo(String no);
+	
+	public KpApplication getAllKpMoneyByFpNo(String no);
 }
