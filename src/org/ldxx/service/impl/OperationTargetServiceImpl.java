@@ -46,4 +46,10 @@ public class OperationTargetServiceImpl implements OperationTargetService{
 		return odao.selectOperationTarget();
 	}
 
+	@Override
+	public float getSumCostByYear(String year) {
+		String y="%"+year+"%";
+		return odao.getSumCostByYear(y);
+	}
+
 }

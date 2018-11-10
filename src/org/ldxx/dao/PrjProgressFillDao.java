@@ -32,4 +32,12 @@ public interface PrjProgressFillDao {
 	public List<PrjProgressFill> selectPrjProgressFillByStatus(@Param("status")int status);
 	
 	public int updateStatusAndDesc(@Param("status")int status,@Param("infos")String infos,@Param("id")String id);
+
+	public List<PrjProgressFill> selectDistinctTaskNo(@Param("year")String year);
+	
+	public PrjProgressFill getCost(@Param("no")String no);
+	
+	public float getDepartmentCost(@Param("department")String department,@Param("id")String id);
+	
+	public int countOfDepartmentCost(@Param("department")String department,@Param("id")String id);
 }

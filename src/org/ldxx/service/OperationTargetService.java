@@ -13,4 +13,6 @@ public interface OperationTargetService {
 	public int updateOperationTarget(OperationTarget target);
 	
 	public List<OperationTarget> selectOperationTarget();
+	
+	public float getSumCostByYear(String year);
 }

@@ -12,6 +12,13 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+        <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -103,14 +110,14 @@
                                 		<input type="text" class="form-control" disabled id="all_money" style="width:60%;">
                                 		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#jindu" id="jindua">选择进度</button>
                                 </td>
-                                <td>总累计成本</td>
-                                <td><input type="text" class="form-control" style="width:70%;" id="all_cost"></td>
-                            </tr>
-                            <tr>
                                 <td>项目本期收入</td>
-                                <td><input type="text" class="form-control" style="width:60%;" id="this_time_money" disabled></td>
-                                <td></td>
-                                <td></td>
+                                <td><input type="text" class="form-control" style="width:70%;" id="this_time_money" disabled></td>
+                            </tr>
+                            <tr style="display:none;">
+                                <td>总实际成本</td>
+                                <td><input type="text" class="form-control" style="width:60%;" id="all_cost"></td>
+                                <td>总累计收入</td>
+                                <td><input type="text" class="form-control" style="width:70%;" id="all_income"></td>
                             </tr>
                         </table>
                         
@@ -383,7 +390,7 @@
                             <tr>
                                 <td>总累计收入</td>
                                 <td><input type="text" class="form-control"></td>
-                                <td>总累计成本</td>
+                                <td>总实际成本</td>
                                 <td><input type="text" class="form-control"></td>
                             </tr>
                             <tr>
@@ -610,14 +617,14 @@
                         <tr>
                         	<td>总累计收入</td>
                             <td id="look_all_money"></td>
-                            <td>总累计成本</td>
-                            <td id="look_all_cost"></td>
-                        </tr>
-                        <tr>
                             <td>项目本期收入</td>
                             <td id="look_prj_this_income"></td>
-                            <td></td>
-                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>总实际成本</td>
+                            <td id="look_all_cost"></td>
+                            <td>总实际收入</td>
+                            <td id="look_in_come"></td>
                         </tr>
                     </table>
                     
@@ -713,6 +720,7 @@
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -1545,7 +1553,7 @@
     	var budget_money_all=$("#budget_money_all").val();
     	var this_time=$("#this_time").val();
     	var all_money=$("#all_money").val();
-    	var all_cost=$("#all_cost").val();
+    	/* var all_cost=$("#all_cost").val(); */
     	var this_time_money=$("#this_time_money").val();
     	
     	var PrjProgressFill={
@@ -1562,6 +1570,7 @@
     			thisTime:undefined,
     			allMoney:undefined,
     			allCost:0,
+    			allIncome:0,
     			prjThisIncome:undefined,
     			ppfi:undefined,
     			ppfi2:undefined,
@@ -1583,7 +1592,7 @@
     	PrjProgressFill.budgetMoneyAll=budget_money_all;
     	PrjProgressFill.thisTime=this_time;
     	PrjProgressFill.allMoney=all_money;
-    	PrjProgressFill.allCost=all_cost;
+    /* 	PrjProgressFill.allCost=all_cost; */
     	PrjProgressFill.prjThisIncome=this_time_money;
     	
     	var ppfiArray=new Array();
@@ -1787,6 +1796,7 @@
     			thisTime:undefined,
     			allMoney:undefined,
     			allCost:0,
+    			allIncome:0,
     			prjThisIncome:undefined,
     			ppfi:undefined,
     			ppfi2:undefined,
@@ -1808,7 +1818,7 @@
     	PrjProgressFill.budgetMoneyAll=budget_money_all;
     	PrjProgressFill.thisTime=this_time;
     	PrjProgressFill.allMoney=all_money;
-    	PrjProgressFill.allCost=all_cost;
+    	/* PrjProgressFill.allCost=all_cost; */
     	PrjProgressFill.prjThisIncome=this_time_money;
     	
     	var ppfiArray=new Array();
@@ -1985,6 +1995,7 @@
     
     
     function look(obj){
+    	myTool.mask.show('查询中...');
     	var tr=$(obj).parent().parent();
     	var data=$("#mainContent").DataTable().row(tr).data();
     	$.ajax({
@@ -2016,6 +2027,7 @@
             	$("#look_this_time").text(json.thisTime);
             	$("#look_all_money").text(json.allMoney);
             	$("#look_all_cost").text(json.allCost);
+            	$("#look_in_come").text(json.allIncome);
             	$("#look_prj_this_income").text(json.prjThisIncome);
             	$("#look_accessory tbody").html('');
             	for(var i=0;i<accessory.length;i++){
@@ -2150,10 +2162,11 @@
             														"<td>"+ppcj[i].incomeAll+"</td>"+
             													"</tr>")
             	}
-            	
+            	myTool.mask.hide();
+            	$("#allMsg1").modal("show");
             }
     	})
-    	$("#allMsg1").modal("show");
+    	
     }
     
     function downloadFile(obj){

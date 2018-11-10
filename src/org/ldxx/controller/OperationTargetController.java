@@ -6,9 +6,13 @@ import java.util.List;
 import org.ldxx.bean.DepartmentTarget;
 import org.ldxx.bean.MonthTarget;
 import org.ldxx.bean.OperationTarget;
+import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.service.DepartmentTargetService;
 import org.ldxx.service.MonthTargetService;
 import org.ldxx.service.OperationTargetService;
+import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.PrjProgressFillService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +32,10 @@ public class OperationTargetController {
 	
 	@Autowired
 	private MonthTargetService mservice;
+	@Autowired
+	private PrjProgressFillService pService;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/addOperationTargetBySave")
 	@ResponseBody
@@ -74,6 +82,20 @@ public class OperationTargetController {
 	@ResponseBody
 	public List<OperationTarget> selectOperationTarget(){
 		List<OperationTarget> list=oservice.selectOperationTarget();
+		for(int i=0;i<list.size();i++){
+			float budgetCost=oservice.getSumCostByYear(list.get(i).getYear());
+			list.get(i).setBudgetCost(budgetCost);
+			List<PrjProgressFill> noList=pService.selectDistinctTaskNo(list.get(i).getYear());
+			float actualCost=0;
+			if(noList!=null){
+				for(int j=0;j<noList.size();j++){
+					PrjProgressFill ppf=pService.getCost(noList.get(j).getTaskNo());
+					float cost=ppf.getAllCost();
+					actualCost=actualCost+cost;
+				}
+			}
+			list.get(i).setActualCost(actualCost);
+		}
 		return list;
 	}
 	
@@ -106,8 +128,32 @@ public class OperationTargetController {
 	
 	@RequestMapping("/selectDepartmentTarget")/*查看公司指标下部门指标列表*/
 	@ResponseBody
-	public List<DepartmentTarget> selectDepartmentTarget(String id){
+	public List<DepartmentTarget> selectDepartmentTarget(String id,String year){
 		List<DepartmentTarget> list=dservice.selectDepartmentTarget(id);
+		if(list!=null){
+			for(int i=0;i<list.size();i++){
+				String om_id=list.get(i).getOmId();
+				OrganizationManagement om=oService.getOrgNameById(om_id);
+				String omName=om.getOmName();
+				float actualCost=0;
+				List<PrjProgressFill> noList=pService.selectDistinctTaskNo(year);
+				if(noList!=null){
+					for(int j=0;j<noList.size();j++){
+						PrjProgressFill ppf=pService.getCost(noList.get(j).getTaskNo());
+						String ppfId=ppf.getPpfId();
+						int count=pService.countOfDepartmentCost(omName, ppfId);
+						if(count==0){
+							float money=0;
+							actualCost=actualCost+money;
+						}else{
+							float money=pService.getDepartmentCost(omName, ppfId);
+							actualCost=actualCost+money;
+						}
+					}
+				}
+				list.get(i).setActualCost(actualCost);
+			}
+		}
 		return list;
 	}
 	

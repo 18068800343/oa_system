@@ -29,4 +29,12 @@ public interface PrjProgressFillService {
 	public List<PrjProgressFill> selectPrjProgressFillByStatus(int status);
 	
 	public int updateStatusAndDesc(int status,String infos,String id);
+	
+	public List<PrjProgressFill> selectDistinctTaskNo(String year);
+	
+	public PrjProgressFill getCost(String no);
+	
+	public float getDepartmentCost(String department,String id);
+	
+	public int countOfDepartmentCost(String department,String id);
 }

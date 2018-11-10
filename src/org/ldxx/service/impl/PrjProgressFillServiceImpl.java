@@ -121,4 +121,25 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.updateStatusAndDesc(status, infos,id);
 	}
 
+	@Override
+	public List<PrjProgressFill> selectDistinctTaskNo(String year) {
+		String y="%"+year+"%";
+		return dao.selectDistinctTaskNo(y);
+	}
+
+	@Override
+	public PrjProgressFill getCost(String no) {
+		return dao.getCost(no);
+	}
+
+	@Override
+	public float getDepartmentCost(String department, String id) {
+		return dao.getDepartmentCost(department, id);
+	}
+
+	@Override
+	public int countOfDepartmentCost(String department, String id) {
+		return dao.countOfDepartmentCost(department, id);
+	}
+
 }

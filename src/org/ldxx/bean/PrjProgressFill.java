@@ -24,6 +24,7 @@ public class PrjProgressFill {
 	private String thisTime;
 	private String allMoney;
 	private float allCost;
+	private float allIncome;
 	private String prjThisIncome;
 	private int status;
 	private String infos;
@@ -38,6 +39,12 @@ public class PrjProgressFill {
 	private List<Accessory> accessory;
 	
 	
+	public float getAllIncome() {
+		return allIncome;
+	}
+	public void setAllIncome(float allIncome) {
+		this.allIncome = allIncome;
+	}
 	public int getStatus() {
 		return status;
 	}

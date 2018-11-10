@@ -16,4 +16,6 @@ public interface OperationTargetDao {
 	public List<OperationTarget> selectOperationTarget();
 	
 	public int countByYear(@Param("year")String year,@Param("id")String id);
+	
+	public float getSumCostByYear(@Param("year")String year);
 }
