@@ -974,9 +974,19 @@
 		
 		var dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
-		console.log(data)
 		$("#looktitle").text(data.otaTitle);
-		$("#lookdepartment").text(data.omId);
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getOrgNameById',
+	        dataType: 'json',
+	        data: {
+	        	omId:data.omId
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	$("#lookdepartment").text(json.omName);
+	        }
+	    });
 		$("#looktraining_name").text(data.trainingName);
 		$("#looktraining_lv").text(data.trainingLv);
 		$("#lookclassName").text(data.courseName);

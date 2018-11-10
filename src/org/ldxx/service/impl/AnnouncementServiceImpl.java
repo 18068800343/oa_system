@@ -26,7 +26,7 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 		int i=adao.addAnnouncement(announcement);
 		if(i>0){
 			List<Accessory> accessory=announcement.getAccessory();
-			if(accessory.size()!=0){
+			if(accessory !=null){
 				i=dao.addAccessory(accessory);
 			}
 		}
@@ -49,7 +49,7 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 		int i=adao.updateAnnouncement(announcement);
 		if(i>0){
 			List<Accessory> accessory=announcement.getAccessory();
-			if(accessory.size()!=0){
+			if(accessory !=null){
 				i=dao.addAccessory(accessory);
 			}
 		}

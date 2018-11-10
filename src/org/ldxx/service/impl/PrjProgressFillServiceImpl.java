@@ -64,7 +64,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			}
 			i=dao.addPrjProgressFillCj(ppcj);
 			List<Accessory> accessory=ppf.getAccessory();
-			if(accessory.size()!=0){
+			if(accessory !=null){
 				i=aDao.addAccessory(accessory);
 			}
 		}

@@ -31,7 +31,7 @@ public class PrjWorkingHoursServiceImpl implements PrjWorkingHoursService {
 		int i=dao.addPrjWorkingHoursSave(pwh);
 		if(i>0){
 			List<Accessory> accessory=pwh.getAccessory();
-			if(accessory!=null&&accessory.size()>0){
+			if(accessory!=null){
 				i=adao.addAccessory(accessory);
 			}
 			List<PrjWorkingHoursP> hoursP = pwh.getPrjWorkingHoursP();

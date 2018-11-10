@@ -43,7 +43,7 @@ public class CgContractServiceImpl implements CgContractService {
 		int i=cgDao.addCgContract(cg);
 		if(i>0){
 			List<Accessory> accessory=cg.getAccessory();
-			if(accessory!=null&&accessory.size()>0){
+			if(accessory!=null){
 				i=adao.addAccessory(accessory);
 			}
 			List<Accessory> accessory1=cg.getAccessory1();
@@ -68,7 +68,7 @@ public class CgContractServiceImpl implements CgContractService {
 		int i=cgDao.updateCgContractSave(cg);
 		if(i>0){
 			List<Accessory> accessory=cg.getAccessory();
-			if(accessory!=null&&accessory.size()>0){
+			if(accessory!=null){
 				i=adao.addAccessory(accessory);
 			}
 		}
