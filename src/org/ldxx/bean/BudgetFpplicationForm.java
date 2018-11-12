@@ -19,6 +19,8 @@ public class BudgetFpplicationForm {
 	private String makeTime;//填报时间
 	private String state;//数据状态：0 历史数据 ； 1 最新数据
 	private float allCost;//总预算金额
+	private String department;//负责部门id
+	private String omName;//部门名称
 	
 	private List<CostBudget> costBudget;
 	private List<ArtificialBudget> artificialBudget;
@@ -27,6 +29,18 @@ public class BudgetFpplicationForm {
 	
 	
     
+	public String getOmName() {
+		return omName;
+	}
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 	public float getAllCost() {
 		return allCost;
 	}

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.BudgetFpplicationFormDao" >
 	<insert id="saveBudge" parameterType="BudgetFpplicationForm">
-		insert into budget_fpplication_form(bf_id,bf_no,prj_id,task_no,prj_unit,budget_date,declarer,make_time,state) values
-			(#{budge.bfId},#{budge.bfNo},#{budge.prjId},#{budge.taskNo },#{budge.prjUnit},#{budge.budgetDate},#{budge.declarer},now(),1)
+		insert into budget_fpplication_form(bf_id,bf_no,prj_id,task_no,prj_unit,budget_date,declarer,make_time,state,all_cost,department) values
+			(#{budge.bfId},#{budge.bfNo},#{budge.prjId},#{budge.taskNo },#{budge.prjUnit},#{budge.budgetDate},#{budge.declarer},now(),1,#{budge.allCost},#{budge.department})
 	</insert>
 	<delete id="deleteBudgeById" parameterType="String">
 		delete from budget_fpplication_form where bf_id=#{id}
@@ -20,12 +20,13 @@
 			where bf_id=#{budge.bfId}
 	</update> -->
 	<select id="selectBudgeByStatus" parameterType="String" resultType="BudgetFpplicationForm">
-		select b.* from budget_fpplication_form b 
+		select b.*,c.om_name from budget_fpplication_form b 
 			left join mode_status m on b.bf_id=m.mode_id 
+			left join organization_management c on b.department=c.om_id
 			where m.status=#{status} and b.state=1
 	</select>
 	<select id="selectBudgeById" resultType="BudgetFpplicationForm">
-		select * from budget_fpplication_form where bf_id=#{id} 
+		select *,c.om_name from budget_fpplication_form b left join organization_management c on b.department=c.om_id where bf_id=#{id} 
 	</select>
 	<select id="selectBudgeHistory" resultType="BudgetFpplicationForm">
 		select * from budget_fpplication_form where bf_no=#{no} and state=0

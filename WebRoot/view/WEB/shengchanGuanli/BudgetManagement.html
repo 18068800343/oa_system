@@ -509,6 +509,8 @@
                             <td id="lookrenwudan"></td>
                             <td>甲方单位</td>
                             <td id="lookjfdanwei"></td>
+                            <td>负责部门</td>
+                            <td id="lookdepartment"></td>
                             <td>预算编制日期</td>
                             <td id="lookyear"></td>
                             <td>预算单编号</td>
@@ -787,10 +789,12 @@
                         <tr>
                             <td>甲方单位</td>
                             <td id="Historyjfdanwei"></td>
-                            <td>预算编制日期</td>
-                            <td id="Historyyear"></td>
+                            <td>负责部门</td>
+                            <td id="Historydepartment"></td>
                         </tr>  
                         <tr>
+                            <td>预算编制日期</td>
+                            <td id="Historyyear"></td>
                         	<td>预算单编号</td>
                             <td id="HistorybfNo"></td>
                         </tr>
@@ -1171,6 +1175,43 @@
 		$("#renwudan").val(prjNo);
 		$("#jiafangdanwei").val(jiafang);
 		$("#xiangmumd").modal("hide");
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectTaskPrjNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				prjName:prjname
+				},
+			success:function(json){
+				var array=new Array();
+				var array2=new Array();
+            	for(var i=0;i<json.length;i++){
+                	if(json[i].omName!=null){
+                    	array.push(json[i].omName)
+                    	array2.push(json[i].mainDepartment)
+                	}
+                	if(json[i].name1!=null){
+                    	array.push(json[i].name1)
+                    	array2.push(json[i].assistDepartment1)
+                	}
+                	if(json[i].name2!=null){
+                    	array.push(json[i].name2)
+                    	array2.push(json[i].assistDepartment2)
+                	}
+                	if(json[i].name3!=null){
+                    	array.push(json[i].name3)
+                    	array2.push(json[i].assistDepartment3)
+                	}
+            	}
+            	$("#department").empty();
+            	for(var ii=0;ii<array.length;ii++){
+            		for(var ii=0;ii<array2.length;ii++){
+	            		$("#department").append("<option value="+array2[ii]+">"+array[ii]+"</option>")
+            		}
+            	}
+			}
+		})
 	})
 	$("#xgchosexm").click(function(){
 		$("#xgxiangmumd").modal("show");
@@ -1196,6 +1237,44 @@
 		$("#xgrenwudan").val(prjNo);
 		$("#xgjiafangdanwei").val(jiafang);
 		$("#xgxiangmumd").modal("hide");
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectTaskPrjNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				prjName:prjName
+				},
+			success:function(json){
+				//console.log(json)
+				var array=new Array();
+				var array2=new Array();
+		    	for(var i=0;i<json.length;i++){
+		        	if(json[i].omName!=null){
+		            	array.push(json[i].omName)
+		            	array2.push(json[i].mainDepartment)
+		        	}
+		        	if(json[i].name1!=null){
+		            	array.push(json[i].name1)
+		            	array2.push(json[i].assistDepartment1)
+		        	}
+		        	if(json[i].name2!=null){
+		            	array.push(json[i].name2)
+		            	array2.push(json[i].assistDepartment2)
+		        	}
+		        	if(json[i].name3!=null){
+		            	array.push(json[i].name3)
+		            	array2.push(json[i].assistDepartment3)
+		        	}
+		    	}
+		    	$("#edit_department").empty();
+		    	for(var ii=0;ii<array.length;ii++){
+		    		for(var ii=0;ii<array2.length;ii++){
+			    		$("#edit_department").append("<option value="+array2[ii]+">"+array[ii]+"</option>")
+		    		}
+		    	}
+			}
+		}) 
 	})
 	//初始化项目名和任务单号
     function initSelect(){
@@ -1230,9 +1309,33 @@
                     	prjNo:$('#renwudan').val()
                     },
                     success: function (json) {
+                    	var array=new Array();
+                    	var array2=new Array();
                     	for(var i=0;i<json.length;i++){
 	                    	$('#prjName').val(json[i].prjName);
 	                    	$("#jiafangdanwei").val(json[i].ccName); 
+	                    	if(json[i].omName!=null){
+		                    	array.push(json[i].omName)
+		                    	array2.push(json[i].mainDepartment)
+	                    	}
+	                    	if(json[i].name1!=null){
+		                    	array.push(json[i].name1)
+		                    	array2.push(json[i].assistDepartment1)
+	                    	}
+	                    	if(json[i].name2!=null){
+		                    	array.push(json[i].name2)
+		                    	array2.push(json[i].assistDepartment2)
+	                    	}
+	                    	if(json[i].name3!=null){
+		                    	array.push(json[i].name3)
+		                    	array2.push(json[i].assistDepartment3)
+	                    	}
+                    	}
+                    	$("#department").empty();
+                    	for(var ii=0;ii<array.length;ii++){
+                    		for(var ii=0;ii<array2.length;ii++){
+	                    		$("#department").append("<option value="+array2[ii]+">"+array[ii]+"</option>")
+                    		}
                     	}
                     }
           		});
@@ -1247,10 +1350,32 @@
                     	prjNo:$('#xgrenwudan').val()
                     },
                     success: function (json) {
-                    	for(var i=0;i<json.length;i++){
-	                    	$('#xgprjName').val(json[i].prjName);
-	                    	$("#xgjiafangdanwei").val(json[i].ccName);
-                    	}
+                    	var array=new Array();
+        				var array2=new Array();
+        		    	for(var i=0;i<json.length;i++){
+        		        	if(json[i].omName!=null){
+        		            	array.push(json[i].omName)
+        		            	array2.push(json[i].mainDepartment)
+        		        	}
+        		        	if(json[i].name1!=null){
+        		            	array.push(json[i].name1)
+        		            	array2.push(json[i].assistDepartment1)
+        		        	}
+        		        	if(json[i].name2!=null){
+        		            	array.push(json[i].name2)
+        		            	array2.push(json[i].assistDepartment2)
+        		        	}
+        		        	if(json[i].name3!=null){
+        		            	array.push(json[i].name3)
+        		            	array2.push(json[i].assistDepartment3)
+        		        	}
+        		    	}
+        		    	$("#edit_department").empty();
+        		    	for(var ii=0;ii<array.length;ii++){
+        		    		for(var ii=0;ii<array2.length;ii++){
+        			    		$("#edit_department").append("<option value="+array2[ii]+">"+array[ii]+"</option>")
+        		    		}
+        		    	}
                     }
           		});
 		  	}) 
@@ -1268,7 +1393,7 @@
 	        dataType: 'json',
 	        data: {
 	        },
-	        success: function (json) {xgfyfenlei
+	        success: function (json) {
 	        	//console.log(json)
 	        	 for(var i=0;i<json.length;i++){
 	        		$("#fyfenlei").append( "<option value='" + json[i].idFirst + "'>"
@@ -1376,12 +1501,14 @@
     	var fyyusuan= new Array();
     	var rgyusuan=new Array();
     	//预算费用
+    	var allMoney=0;
     	$("#fyyusuan tbody").find("tr").each(function(){
     		var data = $(this).children();
     		var fenlei = data.eq(0).text();
     	    var mingxi = data.eq(1).text();
     	    var money = data.eq(2).text();
     	    var desc = data.eq(3).text();
+    	    allMoney+=Number(money)
     	    
     	    var xinfyyusuan={
     	    		cbId:undefined,
@@ -1430,6 +1557,7 @@
     		var jiafangdanwei=$("#jiafangdanwei").val();
     		var riqi=$("#year").val();
     		var shenbaoren=$("#shenbaoren").val();
+    		var department=$('#department').val();
     		
     		if(renwudan.trim()==''){
     			toastr.error("任务单号为空")
@@ -1452,7 +1580,9 @@
     				budgetDate:undefined,
     				declarer:undefined,
     				costBudget:undefined,
-    				artificialBudget:undefined
+    				artificialBudget:undefined,
+    				allCost:0,
+    				department:undefined,
     		}
     		xinyusuandan.bfId=null;
     		xinyusuandan.prjId=prjName;
@@ -1462,10 +1592,12 @@
     		xinyusuandan.declarer=shenbaoren;
     		xinyusuandan.costBudget=fyyusuan;
     		xinyusuandan.artificialBudget=rgyusuan;
+    		xinyusuandan.allCost=allMoney;
+    		xinyusuandan.department=department;
     		yusuandan.push(xinyusuandan);
     		//console.log(yusuandan)
     		
-    		$.ajax({
+    		 $.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/budge/saveBudge',
 	            dataType: 'json',
@@ -1478,17 +1610,17 @@
 	            	}else{
 	            		toastr.success("填报成功")
 	            		//$('#myModal').modal('hide');
-	            		 $("#diyi").addClass("active");
-	            	      $("#dier").removeClass("active");
-	            	      $("#diyi a").hide();
-	            	      $("#dier a").hide();
-	            	      $("#home").addClass("active");
-	            	      $("#profile").removeClass("active");
+	            		$("#diyi").addClass("active");
+	            	    $("#dier").removeClass("active");
+	            	    $("#diyi a").hide();
+	            	    $("#dier a").hide();
+	            	    $("#home").addClass("active");
+	            	    $("#profile").removeClass("active");
 						initTable();
-		            	 //$('#mainContent').DataTable().row.add().draw(false);     //新增行立即显示
+		            	//$('#mainContent').DataTable().row.add().draw(false);     //新增行立即显示
 	            	}
 	            }
-	        });
+	        }); 
     	}else{
     		toastr.error("费用预算或人工预算为空")
     	}
@@ -1501,12 +1633,14 @@
     	var fyyusuan= new Array();
     	var rgyusuan=new Array();
     	//预算费用
+    	var allMoney=0;
     	$("#fyyusuan tbody").find("tr").each(function(){
     		var data = $(this).children();
     		var fenlei = data.eq(0).text();
     	    var mingxi = data.eq(1).text();
     	    var money = data.eq(2).text();
     	    var desc = data.eq(3).text();
+    	    allMoney+=Number(money)
     	    
     	    var xinfyyusuan={
     	    		cbId:undefined,
@@ -1555,6 +1689,7 @@
     		var jiafangdanwei=$("#jiafangdanwei").val();
     		var riqi=$("#year").val();
     		var shenbaoren=$("#shenbaoren").val();
+    		var department=$('#department').val();
     		
     		if(renwudan.trim()==''){
     			toastr.error("任务单号为空")
@@ -1577,7 +1712,9 @@
     				budgetDate:undefined,
     				declarer:undefined,
     				costBudget:undefined,
-    				artificialBudget:undefined
+    				artificialBudget:undefined,
+    				allCost:0,
+    				department:undefined,
     		}
     		xinyusuandan.bfId=null;
     		xinyusuandan.prjId=prjName;
@@ -1587,6 +1724,8 @@
     		xinyusuandan.declarer=shenbaoren;
     		xinyusuandan.costBudget=fyyusuan;
     		xinyusuandan.artificialBudget=rgyusuan;
+    		xinyusuandan.allCost=allMoney;
+    		xinyusuandan.department=department;
     		yusuandan.push(xinyusuandan);
     		//console.log(yusuandan)
     		
@@ -1610,7 +1749,7 @@
 	            }
 	        });
     	}else{
-    		toastr.error("费用预算与人工预算为空")
+    		toastr.error("费用预算或人工预算为空")
     	}
     	
 	}
@@ -1633,10 +1772,11 @@
 		id=data.bfId;
 		bfNo=data.bfNo;
 		initTable2();
-		//console.log(data)
+		console.log(data)
 		$("#lookprjName").text(data.prjId)
 		$("#lookrenwudan").text(data.taskNo)
 		$("#lookjfdanwei").text(data.prjUnit)
+		$("#lookdepartment").text(data.omName)
 		$("#lookyear").text(data.budgetDate)
 		$("#lookshenbaoren").text(data.declarer)
 		$("#lookbfNo").text(data.bfNo)
@@ -1726,6 +1866,7 @@
 				$("#HistoryprjName").text(json.prjId)
 				$("#Historyrenwudan").text(json.taskNo)
 				$("#Historyjfdanwei").text(json.prjUnit)
+				$("#Historydepartment").text(json.omName)
 				$("#Historyyear").text(json.budgetDate)
 				$("#Historyshenbaoren").text(json.declarer)
 				$("#HistorybfNo").text(json.bfNo)
@@ -1762,6 +1903,47 @@
 		})
 	}
 	
+	//回显负责部门
+	function editDepartment(obj1,obj2){
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectTaskPrjNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				prjName:obj1
+				},
+			success:function(json){
+				var array=new Array();
+				var array2=new Array();
+            	for(var i=0;i<json.length;i++){
+                	if(json[i].omName!=null){
+                    	array.push(json[i].omName)
+                    	array2.push(json[i].mainDepartment)
+                	}
+                	if(json[i].name1!=null){
+                    	array.push(json[i].name1)
+                    	array2.push(json[i].assistDepartment1)
+                	}
+                	if(json[i].name2!=null){
+                    	array.push(json[i].name2)
+                    	array2.push(json[i].assistDepartment2)
+                	}
+                	if(json[i].name3!=null){
+                    	array.push(json[i].name3)
+                    	array2.push(json[i].assistDepartment3)
+                	}
+            	}
+            	$("#edit_department").empty();
+            	for(var ii=0;ii<array.length;ii++){
+            		for(var ii=0;ii<array2.length;ii++){
+	            		$("#edit_department").append("<option value="+array2[ii]+">"+array[ii]+"</option>")
+            		}
+            	}
+            	$("#edit_department").val(obj2)
+			}
+		})
+	}
 	
 	//修改回显
 	var xgId;
@@ -1776,10 +1958,13 @@
 		
 		var dom=$(obj).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
+		console.log(data)
 		xgId=data.bfId;
 		$("#xgprjName").val(data.prjId);
 		$("#xgrenwudan").val(data.taskNo);
 		$("#xgjiafangdanwei").val(data.prjUnit);
+		//$("#edit_department").val(data.department)
+		editDepartment(data.prjId,data.department)
 		$("#xgyear").val(data.budgetDate);
 		$("#xgshenbaoren").val(data.declarer);
 		$("#xgbfNo").val(data.bfNo)
@@ -1838,12 +2023,14 @@
     	var xgfyyusuan= new Array();
     	var xgrgyusuan=new Array();
     	//xg预算费用
+    	var allMoney=0
     	$("#xgfyyusuan tbody").find("tr").each(function(){
     		var data = $(this).children();
     		var xgfenlei  = data.eq(0).text();
     	    var xgmingxi = data.eq(1).text();
     	    var xgmoney = data.eq(2).text();
     	    var xgdesc = data.eq(3).text();
+    	    allMoney+=Number(xgmoney)
     	    
     	    var xgxinfyyusuan={
     	    		cbId:undefined,
@@ -1893,6 +2080,7 @@
     		var xgriqi=$("#xgyear").val();
     		var xgshenbaoren=$("#xgshenbaoren").val();
     		var xgbfNo=$("#xgbfNo").val();
+    		var edit_department=$("#edit_department").val();
     		if(xgrenwudan.trim()==''){
     			toastr.error("任务单号为空")
     			return;
@@ -1915,7 +2103,9 @@
     				bfNo:undefined,
     				declarer:undefined,
     				costBudget:undefined,
-    				artificialBudget:undefined
+    				artificialBudget:undefined,
+    				allCost:0,
+    				department:undefined,
     		}
     		xgxinyusuandan.bfId=xgId;
     		xgxinyusuandan.prjId=xgprjName;
@@ -1926,6 +2116,8 @@
     		xgxinyusuandan.declarer=xgshenbaoren;
     		xgxinyusuandan.costBudget=xgfyyusuan;
     		xgxinyusuandan.artificialBudget=xgrgyusuan;
+    		xgxinyusuandan.allCost=allMoney;
+    		xgxinyusuandan.department=edit_department;
     		xgyusuandan.push(xgxinyusuandan);
     		//console.log(xgyusuandan)
     		
@@ -1949,7 +2141,7 @@
 	            }
 	        });
     	}else{
-    		toastr.error("费用预算与人工预算为空")
+    		toastr.error("费用预算或人工预算为空")
     	}
 	}
 	
@@ -1959,12 +2151,14 @@
     	var xgfyyusuan= new Array();
     	var xgrgyusuan=new Array();
     	//xg预算费用
+    	var allMoney=0;
     	$("#xgfyyusuan tbody").find("tr").each(function(){
     		var data = $(this).children();
     		var xgfenlei  = data.eq(0).text();
     	    var xgmingxi = data.eq(1).text();
     	    var xgmoney = data.eq(2).text();
     	    var xgdesc = data.eq(3).text();
+    	    allMoney+=Number(xgmoney)
     	    
     	    var xgxinfyyusuan={
     	    		cbId:undefined,
@@ -2014,6 +2208,8 @@
     		var xgriqi=$("#xgyear").val();
     		var xgshenbaoren=$("#xgshenbaoren").val();
     		var xgbfNo=$("#xgbfNo").val();
+    		var edit_department=$("#edit_department").val();
+    		
     		if(xgrenwudan.trim()==''){
     			toastr.error("任务单号为空")
     			return;
@@ -2036,7 +2232,9 @@
     				bfNo:undefined,
     				declarer:undefined,
     				costBudget:undefined,
-    				artificialBudget:undefined
+    				artificialBudget:undefined,
+    				allCost:0,
+    				department:undefined,
     		}
     		xgxinyusuandan.bfId=xgId;
     		xgxinyusuandan.prjId=xgprjName;
@@ -2047,6 +2245,8 @@
     		xgxinyusuandan.declarer=xgshenbaoren;
     		xgxinyusuandan.costBudget=xgfyyusuan;
     		xgxinyusuandan.artificialBudget=xgrgyusuan;
+    		xgxinyusuandan.allCost=allMoney;
+    		xgxinyusuandan.department=edit_department;
     		xgyusuandan.push(xgxinyusuandan);
     		//console.log(xgyusuandan)
     		
@@ -2070,7 +2270,7 @@
 	            }
 	        });
     	}else{
-    		toastr.error("费用预算与人工预算为空")
+    		toastr.error("费用预算或人工预算为空")
     	}
 	}
 	
@@ -2079,12 +2279,13 @@
 	
 	//添加费用预算
 	function addfyyusuan(){
-		if($("#fyMoney").val().trim()==''){
-			toastr.error("费用金额为空")
-			return false;
-		}if($("#fyDesc").val().trim()==''){
+		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		if(!reg.test($("#fyMoney").val().trim())){
+			toastr.error("费用金额只能输入数字且只能有两位小数");
+			return;
+		}else if($("#fyDesc").val().trim()==''){
 			toastr.error("备注为空")
-			return false;
+			return;
 		}else{
 			$("#fyyusuan tbody").append("<tr><td>"
 	    			+$("#fyfenlei").find("option:selected").text()
@@ -2103,12 +2304,13 @@
 	
 	//修改页面添加费用预算
 	function addxgfyyusuan(){
-		if($("#xgfyMoney").val().trim()==''){
-			toastr.error("费用金额为空")
-			return false;
-		}if($("#xgfyDesc").val().trim()==''){
+		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		if(!reg.test($("#xgfyMoney").val().trim())){
+			toastr.error("费用金额只能输入数字且只能有两位小数");
+			return;
+		}else if($("#xgfyDesc").val().trim()==''){
 			toastr.error("备注为空")
-			return false;
+			return;
 		}else{
 			$("#xgfyyusuan tbody").append("<tr><td>"
 	    			+$("#xgfyfenlei").find("option:selected").text()
