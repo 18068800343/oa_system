@@ -564,6 +564,23 @@
             }
         });
     }
+	function initDepartment(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $("#department").html('');
+                $("#edit_department").html('');
+                for(var i=0;i<json.length;i++){
+                	$("#department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
+                	$("#edit_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
+                }
+            }
+        });
+	}
 	//已知部门，获取部门所属人员
 	$("#choseren").click(function(){
 		$("#people").modal("show");
@@ -601,68 +618,58 @@
 	        });
 	})
 	//添加人员到input框
+	var aaid;
 	$('#mingzibiao').delegate('#chked','click', function () {
 		var dom = $(this).parents('tr');
 		var data=$('#mingzibiao').DataTable().row(dom).data();
   		//console.log(data)
-  		$.ajax({
+  		aaid=data.dutyId
+  		
+	})
+	var xgaaid;
+	$('#xgmingzibiao').delegate('#xgchked','click', function () {
+		var dom = $(this).parents('tr');
+		var data=$('#xgmingzibiao').DataTable().row(dom).data();
+  		//console.log(data)
+  		xgaaid=data.dutyId
+  		
+	})
+	$("#querenciren").click(function(){
+		var a=$("input[name='mingzi']:checked").parent().next().text();
+		$("#user").val(a);
+		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/duty/selectDutyBydutyId',
 	        dataType: 'json',
 	        data: {
-	        	dutyId:data.dutyId
+	        	dutyId:aaid
 	        },
 	        success: function (data) {
 	        	//console.log(data)
 	        	$("#duty").val(data.dutyName)
 	        }
 	    });
+		$("#people").modal("hide");
 	})
-	$('#xgmingzibiao').delegate('#xgchked','click', function () {
-		var dom = $(this).parents('tr');
-		var data=$('#xgmingzibiao').DataTable().row(dom).data();
-  		//console.log(data)
-  		$.ajax({
+	$("#xgquerenciren").click(function(){
+		var a=$("input[name='xgmingzi']:checked").parent().next().text();
+		$("#edit_user").val(a);
+		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/duty/selectDutyBydutyId',
 	        dataType: 'json',
 	        data: {
-	        	dutyId:data.dutyId
+	        	dutyId:xgaaid
 	        },
 	        success: function (data) {
 	        	//console.log(data)
 	        	$("#edit_duty").val(data.dutyName)
 	        }
 	    });
-	})
-	$("#querenciren").click(function(){
-		var a=$("input[name='mingzi']:checked").parent().next().text();
-		$("#user").val(a);
-		$("#people").modal("hide");
-	})
-	$("#xgquerenciren").click(function(){
-		var a=$("input[name='xgmingzi']:checked").parent().next().text();
-		$("#edit_user").val(a);
 		$("#xgpeople").modal("hide");
 	})
 	
-	function initDepartment(){
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
-            dataType: 'json',
-            data: {
-            },
-            success: function (json) {
-                $("#department").html('');
-                $("#edit_department").html('');
-                for(var i=0;i<json.length;i++){
-                	$("#department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
-                	$("#edit_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
-                }
-            }
-        });
-	}
+	
 	
 	
 	function new_save(){
@@ -693,6 +700,11 @@
     		toastr.error("课程内容不能为空");
     		return;
     	}
+		var reg =/^[0-9]*$/;
+		if(!reg.test($("#studyMoney").val())){
+			toastr.error("培训费用只能为数字");
+    		return;
+		}
 		var options={
 				type: 'POST',
 				url: getContextPath()+'/outTrain/addOutTrainBySave',
@@ -751,6 +763,11 @@
     		toastr.error("课程内容不能为空");
     		return;
     	}
+		var reg =/^[0-9]*$/;
+		if(!reg.test(studyMoney)){
+			toastr.error("培训费用只能为数字");
+    		return;
+		}
 		var options={
 				type: 'POST',
 				url: getContextPath()+'/outTrain/addOutTrainBySubmit',
@@ -888,6 +905,10 @@
     		toastr.error("课程内容不能为空");
     		return;
     	}
+		if(!reg.test(studyMoney)){
+			toastr.error("培训费用只能为数字");
+    		return;
+		}
 		var options={
 				type: 'POST',
 				url: getContextPath()+'/outTrain/updateOutTrainBySave',
@@ -947,6 +968,10 @@
     		toastr.error("课程内容不能为空");
     		return;
     	}
+		if(!reg.test(studyMoney)){
+			toastr.error("培训费用只能为数字");
+    		return;
+		}
 		var options={
 				type: 'POST',
 				url: getContextPath()+'/outTrain/updateOutTrainBySubmit',
