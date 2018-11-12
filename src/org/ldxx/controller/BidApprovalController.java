@@ -27,8 +27,8 @@ public class BidApprovalController {
 	
 	@RequestMapping("/selectBidApproval")
 	@ResponseBody
-	public List<BidApproval> selectBidApproval(){
-		return service.selectBidApproval();
+	public List<BidApproval> selectBidApproval(String status){
+		return service.selectBidApproval(status);
 	}
 	
 	@RequestMapping("/addBidApproval")//添加保存
@@ -113,6 +113,25 @@ public class BidApprovalController {
 		map.put("result", i);
 		map.put("BidApproval", ba);
 		return map;
+	}
+	
+	
+	@RequestMapping("/selectprjNameAndNo")//初始化项目名称和项目编号（投标审批单号）
+	@ResponseBody
+	public List<BidApproval> selectprjNameAndNo(String status){
+		return service.selectprjNameAndNo(status);
+	}
+	
+	@RequestMapping("/selectNoByName")//通过项目名称查找项目编号（投标审批单号）和项目类型
+	@ResponseBody
+	public BidApproval selectNoByName(String name){
+		return service.selectNoByName(name);
+	}
+	
+	@RequestMapping("/selectNameByNo")//通过项目编号（投标审批单号）查找项目名称和项目类型
+	@ResponseBody
+	public BidApproval selectNameByNo(String no){
+		return service.selectNameByNo(no);
 	}
 
 }

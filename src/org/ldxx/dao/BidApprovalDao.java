@@ -7,7 +7,7 @@ import org.ldxx.bean.BidApproval;
 
 public interface BidApprovalDao {
 
-	List<BidApproval> selectBidApproval();
+	List<BidApproval> selectBidApproval(@Param("status")String status);
 
 	int addBidApproval(@Param("ba")BidApproval ba);
 
@@ -16,5 +16,11 @@ public interface BidApprovalDao {
 	int deleteBidApproval(@Param("id")String id);
 
 	int updateBidApproval(@Param("ba")BidApproval ba);
+
+	List<BidApproval> selectprjNameAndNo(@Param("status")String status);
+
+	BidApproval selectNoByName(@Param("name")String name);
+
+	BidApproval selectNameByNo(@Param("no")String no);
 
 }

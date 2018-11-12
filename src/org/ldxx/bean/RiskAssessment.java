@@ -1,9 +1,11 @@
 package org.ldxx.bean;
-
+//项目风险评估
 public class RiskAssessment {
     private String raId;
 
     private String prjId;
+    
+    private String prjNo;
     
     private String prjScale;
     
@@ -35,7 +37,15 @@ public class RiskAssessment {
 
 
     
-    public String getPrjScale() {
+    public String getPrjNo() {
+		return prjNo;
+	}
+
+	public void setPrjNo(String prjNo) {
+		this.prjNo = prjNo;
+	}
+
+	public String getPrjScale() {
 		return prjScale;
 	}
 

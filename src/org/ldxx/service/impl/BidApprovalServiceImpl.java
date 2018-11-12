@@ -17,8 +17,8 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 	private BidApprovalDao dao;
 
 	@Override
-	public List<BidApproval> selectBidApproval() {
-		return dao.selectBidApproval();
+	public List<BidApproval> selectBidApproval(String status) {
+		return dao.selectBidApproval(status);
 	}
 
 	@Override
@@ -39,6 +39,21 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 	@Override
 	public int updateBidApproval(BidApproval ba) {
 		return dao.updateBidApproval(ba);
+	}
+
+	@Override
+	public List<BidApproval> selectprjNameAndNo(String status) {
+		return dao.selectprjNameAndNo(status);
+	}
+
+	@Override
+	public BidApproval selectNoByName(String name) {
+		return dao.selectNoByName(name);
+	}
+
+	@Override
+	public BidApproval selectNameByNo(String no) {
+		return dao.selectNameByNo(no);
 	}
 
 }

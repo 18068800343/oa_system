@@ -3,7 +3,9 @@
 <mapper namespace="org.ldxx.dao.BidApprovalDao" >
 
 	<select id="selectBidApproval" resultType="BidApproval">
-		select * from bid_approval
+		select * from bid_approval a
+		left join mode_status b on a.ba_id=b.mode_id
+		where status=#{status}
 	</select>
 	
 	<insert id="addBidApproval" parameterType="BidApproval">
@@ -36,8 +38,19 @@
 		project_applicants=#{ba.projectApplicants},
 		purchase_tender_personnel=#{ba.purchaseTenderPersonnel}
 		where ba_id=#{ba.baId}
-		
-		
 	</update>
+	
+	<select id="selectprjNameAndNo" resultType="BidApproval">
+		select prj_name,prj_no,owner_unit,prj_type from bid_approval a left join mode_status b on a.ba_id=b.mode_id
+		where status=#{status}
+	</select>
+	
+	<select id="selectNoByName" resultType="BidApproval">
+		select prj_no,prj_type from bid_approval where prj_name=#{name}
+	</select>
+	
+	<select id="selectNameByNo" resultType="BidApproval">
+		select prj_name,prj_type from bid_approval where prj_no=#{no}
+	</select>
 
 </mapper>
