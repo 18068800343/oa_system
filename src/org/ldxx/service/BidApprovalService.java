@@ -14,4 +14,6 @@ public interface BidApprovalService {
 
 	int deleteBidApproval(String id);
 
+	int updateBidApproval(BidApproval ba);
+
 }

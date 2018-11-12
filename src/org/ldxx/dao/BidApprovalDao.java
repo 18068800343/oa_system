@@ -15,4 +15,6 @@ public interface BidApprovalDao {
 
 	int deleteBidApproval(@Param("id")String id);
 
+	int updateBidApproval(@Param("ba")BidApproval ba);
+
 }

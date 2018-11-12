@@ -36,4 +36,9 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 		return dao.deleteBidApproval(id);
 	}
 
+	@Override
+	public int updateBidApproval(BidApproval ba) {
+		return dao.updateBidApproval(ba);
+	}
+
 }
