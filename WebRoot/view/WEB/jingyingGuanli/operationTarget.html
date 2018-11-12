@@ -6,12 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="../../font2/iconfont.css">
-    <link rel="stylesheet" href="../../font3/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -35,6 +33,9 @@
 		        margin-bottom:100px !important;
 		    }
 		}
+		.details-control{
+        	text-align:center;
+        }
     </style>
 </head>
 <body>
@@ -441,9 +442,11 @@
 <script src="../../js/common-scripts.js"></script>
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
-<script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -453,9 +456,6 @@
         laydate.render({
             elem: '#xgyear' //指定元素
             ,type: 'year'
-        });
-        $('#editable-select').editableSelect({ 
-            effects: 'slide' 
         });
         initTable();
         bumenedu();
@@ -487,7 +487,7 @@
 										    "targets": 0,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<B style="font-size:22px;cursor:pointer;" onclick="showerji(this)">o</B>';
+										  	  		return '<B style="font-size:22px;cursor:pointer;text-align:center;" onclick="showerji(this)">o</B>';
 										  	  		
 										        }
 										  },
@@ -798,6 +798,7 @@
 			stateArray.splice($.inArray(data.otId,stateArray),1);// $.inArray(data.idFirst,stateArray)获取idFirst在数组中的索引值 ；stateArray.splice(索引值，数量)删除数组中指定索引值的元素
 			$(".qwe"+data.otId).remove();
 		}else{
+			myTool.mask.show('查询中..');
 			stateArray.push(data.otId);
 			$.ajax({
 	            type: 'POST',
@@ -813,8 +814,10 @@
 	            		/* $(aa).parent().parent().after('<tr class="qwe'+data.otId+'"><td style="border:none;"></td><td>'+json[i].omName+'</td><td>'+json[i].contractAmount+'</td><td>'+json[i].revenueTarget+'</td><td>'+json[i].collectionTarget+'</td><td><i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"  onclick="delerji(this)" data-id='+json[i].tId+'></i>  <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle="modal" data-target="#changeerji" onclick="showxgerji(this)" data-id='+json[i].tId+' data-id2='+json[i].dId+'></i></td></tr>'); */
         			}
 	            	$(aa).parent().parent().after('<tr class="qwe'+data.otId+'" style="font-weight:700;font-size:18px;"><td style="border:none;"></td><td>部门名称</td><td>部门新增合同额</td><td>部门收入目标</td><td>部门收款目标</td><td>部门预计成本</td><td>部门实际成本</td><td>操作</td></tr>');
+	                myTool.mask.hide();
 	            }
 	        }); 
+			
 		}
 		
 	}
@@ -846,6 +849,6 @@
 		});
 		
 	}
-
+	
 </script>
 </html>

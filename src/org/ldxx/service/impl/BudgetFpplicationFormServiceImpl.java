@@ -125,4 +125,9 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	public BudgetFpplicationForm selectBudgeByName(String name) {
 		return bdao.selectBudgeByName(name);
 	}
+
+	@Override
+	public float getBudgeCost(String department,String year) {
+		return bdao.getBudgeCost(department,year);
+	}
 }

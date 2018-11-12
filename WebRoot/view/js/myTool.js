@@ -37,7 +37,7 @@ var myTool = {
             var $mask = $('#maskDom');
             if($mask.length==0){
                 $mask = $('<div id="maskDom" class="mask-cover" style="position:fixed;top: 0;right:0;bottom:0;filter: alpha(opacity=60);background-color: #E2E2E2;z-index: 8888; left: 0;display:none;opacity:0.6; -moz-opacity:0.5;">' +
-                    '<div class="mask-loading" style="width:auto;height:56px;position:fixed;top:50%;left:50%;transform: translate(-50%,-50%);line-height:56px;color:#fff;padding-left:60px;padding-right:20px;font-size:15px;background: #000 url(../img/loader.gif) no-repeat 10px 50%;z-index:9999; -moz-border-radius:20px; -webkit-border-radius:20px;border-radius:20px;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);">' +
+                    '<div class="mask-loading" style="width:auto;height:56px;position:fixed;top:50%;left:50%;transform: translate(-50%,-50%);line-height:56px;color:#fff;padding-left:60px;padding-right:20px;font-size:15px;background: #000 url(../../img/loader.gif) no-repeat 10px 50%;z-index:9999; -moz-border-radius:20px; -webkit-border-radius:20px;border-radius:20px;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);">' +
                     '</div>' +
                     '</div>');
             }

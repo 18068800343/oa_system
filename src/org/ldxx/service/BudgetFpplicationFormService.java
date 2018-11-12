@@ -26,4 +26,6 @@ public interface BudgetFpplicationFormService {
 	
 	BudgetFpplicationForm selectBudgeByName(String name);
 	
+	float getBudgeCost(String department,String year);
+	
 }

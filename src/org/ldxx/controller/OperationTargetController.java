@@ -8,6 +8,7 @@ import org.ldxx.bean.MonthTarget;
 import org.ldxx.bean.OperationTarget;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjProgressFill;
+import org.ldxx.service.BudgetFpplicationFormService;
 import org.ldxx.service.DepartmentTargetService;
 import org.ldxx.service.MonthTargetService;
 import org.ldxx.service.OperationTargetService;
@@ -29,13 +30,14 @@ public class OperationTargetController {
 	
 	@Autowired
 	private DepartmentTargetService dservice;
-	
 	@Autowired
 	private MonthTargetService mservice;
 	@Autowired
 	private PrjProgressFillService pService;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private BudgetFpplicationFormService bService;
 	
 	@RequestMapping("/addOperationTargetBySave")
 	@ResponseBody
@@ -135,7 +137,7 @@ public class OperationTargetController {
 				String om_id=list.get(i).getOmId();
 				OrganizationManagement om=oService.getOrgNameById(om_id);
 				String omName=om.getOmName();
-				float actualCost=0;
+				float actualCost=0;//获取部门实际成本
 				List<PrjProgressFill> noList=pService.selectDistinctTaskNo(year);
 				if(noList!=null){
 					for(int j=0;j<noList.size();j++){
@@ -152,6 +154,9 @@ public class OperationTargetController {
 					}
 				}
 				list.get(i).setActualCost(actualCost);
+				String y=year+"%";
+				float budgetCost=bService.getBudgeCost(om_id, y); //获取预算成本
+				list.get(i).setBudgetCost(budgetCost);
 			}
 		}
 		return list;
