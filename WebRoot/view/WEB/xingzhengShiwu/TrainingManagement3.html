@@ -600,48 +600,54 @@
 	        });
 	})
 	//添加人员到input框
+	var aaid;
 	$('#mingzibiao').delegate('#chked','click', function () {
 		var dom = $(this).parents('tr');
 		var data=$('#mingzibiao').DataTable().row(dom).data();
   		//console.log(data)
-  		$.ajax({
+  		aaid=data.dutyId
+  		
+	})
+	var xgaaid;
+	$('#xgmingzibiao').delegate('#xgchked','click', function () {
+		var dom = $(this).parents('tr');
+		var data=$('#xgmingzibiao').DataTable().row(dom).data();
+  		//console.log(data)
+  		xgaaid=data.dutyId
+  		
+	})
+	$("#querenciren").click(function(){
+		var a=$("input[name='mingzi']:checked").parent().next().text();
+		$("#new_user").val(a);
+		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/duty/selectDutyBydutyId',
 	        dataType: 'json',
 	        data: {
-	        	dutyId:data.dutyId
+	        	dutyId:aaid
 	        },
 	        success: function (data) {
 	        	//console.log(data)
 	        	$("#new_duty").val(data.dutyName)
 	        }
 	    });
+		$("#people").modal("hide");
 	})
-	$('#xgmingzibiao').delegate('#xgchked','click', function () {
-		var dom = $(this).parents('tr');
-		var data=$('#xgmingzibiao').DataTable().row(dom).data();
-  		//console.log(data)
-  		$.ajax({
+	$("#xgquerenciren").click(function(){
+		var a=$("input[name='xgmingzi']:checked").parent().next().text();
+		$("#edit_user").val(a);
+		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/duty/selectDutyBydutyId',
 	        dataType: 'json',
 	        data: {
-	        	dutyId:data.dutyId
+	        	dutyId:xgaaid
 	        },
 	        success: function (data) {
 	        	//console.log(data)
 	        	$("#edit_duty").val(data.dutyName)
 	        }
 	    });
-	})
-	$("#querenciren").click(function(){
-		var a=$("input[name='mingzi']:checked").parent().next().text();
-		$("#new_user").val(a);
-		$("#people").modal("hide");
-	})
-	$("#xgquerenciren").click(function(){
-		var a=$("input[name='xgmingzi']:checked").parent().next().text();
-		$("#edit_user").val(a);
 		$("#xgpeople").modal("hide");
 	})
 	
@@ -670,6 +676,11 @@
 	    		toastr.error("课程内容不能为空");
 	    		return;
 	    	}
+			var reg =/^[0-9]*$/;
+			if(!reg.test(trainingMoney)){
+				toastr.error("培训费用只能为数字");
+	    		return;
+			}
 		 var options={
 				 type: 'POST',
 					url: getContextPath()+'/InternalTraining/addInternalTrainingBySave',
@@ -720,6 +731,11 @@
 	    		toastr.error("课程内容不能为空");
 	    		return;
 	    	}
+			var reg =/^[0-9]*$/;
+			if(!reg.test(trainingMoney)){
+				toastr.error("培训费用只能为数字");
+	    		return;
+			}
 		 var options={
 				 type: 'POST',
 					url: getContextPath()+'/InternalTraining/addInternalTrainingBySubmit',
@@ -872,6 +888,11 @@
 	    		toastr.error("课程内容不能为空");
 	    		return;
 	    	}
+			var reg =/^[0-9]*$/;
+			if(!reg.test(trainingMoney)){
+				toastr.error("培训费用只能为数字");
+	    		return;
+			}
 		 var options={
 				 type: 'POST',
 					url: getContextPath()+'/InternalTraining/updateInternalTrainingBySave',
@@ -923,6 +944,11 @@
 	    		toastr.error("课程内容不能为空");
 	    		return;
 	    	}
+			var reg =/^[0-9]*$/;
+			if(!reg.test(trainingMoney)){
+				toastr.error("培训费用只能为数字");
+	    		return;
+			}
 		 var options={
 				 type: 'POST',
 					url: getContextPath()+'/InternalTraining/updateInternalTrainingBySubmit',
