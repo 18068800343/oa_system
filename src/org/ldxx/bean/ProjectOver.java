@@ -10,6 +10,8 @@ public class ProjectOver {
 
     /*项目名称*/
     private String prjName;
+    /*项目编号*/
+    private String prjNo;
 
     /*业主单位*/
     private String productOwners;
@@ -49,17 +51,15 @@ public class ProjectOver {
 
     
     
-    private String prjId;
-    
-    
 
-    public String getPrjId() {
-		return prjId;
+    public String getPrjNo() {
+		return prjNo;
 	}
 
-	public void setPrjId(String prjId) {
-		this.prjId = prjId;
+	public void setPrjNo(String prjNo) {
+		this.prjNo = prjNo;
 	}
+
 
 	public String getTenderCompany() {
 		return tenderCompany;

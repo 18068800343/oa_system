@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.ProjectOverDao" >
   <insert id="addPrjOver" parameterType="org.ldxx.bean.ProjectOver">
-  	insert into project_over (po_id,prj_name,product_owners,po_date,po_no,contract_amount,
+  	insert into project_over (po_id,prj_name,prj_no,product_owners,po_date,po_no,contract_amount,
   		project_duration,project_manager,project_engineer,management_model,tender_company,
   		message_source,business_director,transfer_content,Content_backlog,prj_desc)
   	values(#{projectOver.poId},
   		#{projectOver.prjName},
+  		#{projectOver.prjNo},
   		#{projectOver.productOwners},
   		#{projectOver.poDate},
   		#{projectOver.poNo},
@@ -30,6 +31,7 @@
     set po_date = #{projectOver.poDate,jdbcType=VARCHAR},
       po_no = #{projectOver.poNo,jdbcType=VARCHAR},
       prj_name = #{projectOver.prjName,jdbcType=VARCHAR},
+      prj_no = #{projectOver.prjNo,jdbcType=VARCHAR},
       product_owners = #{projectOver.productOwners,jdbcType=VARCHAR},
       prj_desc = #{projectOver.prjDesc,jdbcType=VARCHAR},
       contract_amount = #{projectOver.contractAmount,jdbcType=VARCHAR},
@@ -45,8 +47,7 @@
     where po_id = #{projectOver.poId,jdbcType=VARCHAR}
   </update>
   <select id="selectPrjOver" resultType="org.ldxx.bean.ProjectOver">
-  	select a.*,b.prj_id from project_over a
-  		left join risk_assessment b on a.prj_name=b.ra_id
+  	select * from project_over a
   		left join mode_status m on a.po_id=m.mode_id
   		where m.status=#{status}
   </select>
