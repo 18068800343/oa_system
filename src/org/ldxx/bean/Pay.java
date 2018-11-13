@@ -9,7 +9,9 @@ public class Pay {
 
     private String contractCode;//合同编码
 
-    private String contractName;//合同名称
+    private String contractName;//分包合同名称
+    
+    private String contractNo;//分包合同编号
 
     private Float contractMoney;//合同金额
 
@@ -35,10 +37,8 @@ public class Pay {
 
     private Float alreadyAccumulateMoney;//已累计进付金额
 
-    private Float shouldCutDfMoney;//应扣除代付款
-
-    private Float shouldCutMaterialMoney;//应扣除材料费
-
+    private Float GenerationAdvancesMoney; //付款申请代垫款
+    
     private Float thisTimeAskMoney;//本次申请付款
 
     private String payMethod;//付款性质
@@ -63,7 +63,19 @@ public class Pay {
     private List<Accessory> accessory3;//法律顾问签字
     
     
-    private String fbNo;//分包合同号
+    public String getContractNo() {
+		return contractNo;
+	}
+	public void setContractNo(String contractNo) {
+		this.contractNo = contractNo;
+	}
+	public Float getGenerationAdvancesMoney() {
+		return GenerationAdvancesMoney;
+	}
+	public void setGenerationAdvancesMoney(Float generationAdvancesMoney) {
+		GenerationAdvancesMoney = generationAdvancesMoney;
+	}
+	private String fbNo;//分包合同号
     private Float fbcontractMoney;//分包合同金额
     private String contractNameYi;//分包合同乙方单位(分包单位)
     private String uName;//编制人               
@@ -178,18 +190,6 @@ public class Pay {
 	}
 	public void setAlreadyAccumulateMoney(Float alreadyAccumulateMoney) {
 		this.alreadyAccumulateMoney = alreadyAccumulateMoney;
-	}
-	public Float getShouldCutDfMoney() {
-		return shouldCutDfMoney;
-	}
-	public void setShouldCutDfMoney(Float shouldCutDfMoney) {
-		this.shouldCutDfMoney = shouldCutDfMoney;
-	}
-	public Float getShouldCutMaterialMoney() {
-		return shouldCutMaterialMoney;
-	}
-	public void setShouldCutMaterialMoney(Float shouldCutMaterialMoney) {
-		this.shouldCutMaterialMoney = shouldCutMaterialMoney;
 	}
 	public Float getThisTimeAskMoney() {
 		return thisTimeAskMoney;

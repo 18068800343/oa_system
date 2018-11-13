@@ -313,9 +313,15 @@ public class SubContractController {
 		return scService.getFBNoByName(contractName);
 	}
 	
-	@RequestMapping("/getFBContractByName")//通过合同名获得主合同名、主合同号、主合同金额、项目名、任务单号、（合同进度）
+	@RequestMapping("/getFBContractByName")//通过合同名获得主合同名、主合同号、主合同金额、项目名、任务单号、合同号
 	@ResponseBody
 	public FbContract getFBContractByName(String contractName){
 		return scService.getFBContractByName(contractName);
+	}
+	
+	@RequestMapping("/getFBContractByNo")//通过合同号获得主合同名、主合同号、主合同金额、项目名、任务单号、合同名
+	@ResponseBody
+	public FbContract getFBContractByNo(String no){
+		return scService.getFBContractByNo(no);
 	}
 }

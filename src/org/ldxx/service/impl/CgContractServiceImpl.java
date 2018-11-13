@@ -7,9 +7,11 @@ import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.FbContract;
 import org.ldxx.bean.MaterialDemand;
+import org.ldxx.bean.Pay;
 import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.CgContractDao;
+import org.ldxx.dao.ContractPaymentDao;
 import org.ldxx.dao.MaterialDemandDao;
 import org.ldxx.dao.PrjMaterialBuyDao;
 import org.ldxx.service.CgContractService;
@@ -23,15 +25,14 @@ public class CgContractServiceImpl implements CgContractService {
 	
 	@Autowired
 	private CgContractDao cgDao;
-	
 	@Autowired
 	private AccessoryDao adao;
-	
 	@Autowired
 	private PrjMaterialBuyDao pdao;
-	
 	@Autowired
 	private MaterialDemandDao mdao;
+	@Autowired
+	private ContractPaymentDao payDao;
 
 	@Override
 	public List<CgContract> selectCgContractByStatus(String status) {
@@ -40,6 +41,11 @@ public class CgContractServiceImpl implements CgContractService {
 
 	@Override
 	public int addCgContract(CgContract cg) {
+		String isProgram = cg.getIsProgram();
+		if(isProgram.equals("是")){
+			Pay pay=payDao.selectPayByNo(cg.getFbNo());
+			payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
+		}
 		int i=cgDao.addCgContract(cg);
 		if(i>0){
 			List<Accessory> accessory=cg.getAccessory();
@@ -159,6 +165,11 @@ public class CgContractServiceImpl implements CgContractService {
 	@Override
 	public List<CgContract> getCGNameCgNoAndCgMoney() {
 		return cgDao.getCGNameCgNoAndCgMoney();
+	}
+
+	@Override
+	public List<MaterialDemand> getMdById(String id) {
+		return mdao.getMdById(id);
 	}
 
 }

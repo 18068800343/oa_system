@@ -49,4 +49,6 @@ public interface CgContractService {
 
 	List<CgContract> getCGNameCgNoAndCgMoney();
 
+	List<MaterialDemand> getMdById(String id);
+
 }

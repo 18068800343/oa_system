@@ -336,6 +336,12 @@ public class CgContractController {
 		return cgService.updateDepartmentMoney(price,id);
 	}
 	
+	@RequestMapping("/getMdById")//获取材料信息
+	@ResponseBody
+	public List<MaterialDemand> getMdById(String id){
+		return cgService.getMdById(id);
+	}
+	
 	@RequestMapping("/updateMaterial")//修改材料信息
 	@ResponseBody
 	public int updateMaterial(MaterialDemand md){

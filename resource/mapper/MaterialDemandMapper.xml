@@ -3,11 +3,11 @@
 <mapper namespace="org.ldxx.dao.MaterialDemandDao" >
   <insert id="addMaterialDemand" parameterType="java.util.List">
   	insert into material_demand(mdl_id,buy_id,material_name, material_type,mode_type,buy_company, 
-      price,num, provide_company,sure_material_mode, infos)
+      price,num, provide_company,sure_material_mode, infos,remain_number)
     values
     	<foreach collection="md" item="item" index="index" separator=",">
 	    	(#{item.mdlId},#{item.buyId},#{item.materialName},#{item.materialType},#{item.modeType},#{item.buyCompany},
-	    	 #{item.price},#{item.num},#{item.provideCompany},#{item.sureMaterialMode},#{item.infos})
+	    	 #{item.price},#{item.num},#{item.provideCompany},#{item.sureMaterialMode},#{item.infos},#{item.num})
     	</foreach>
   </insert>
   
@@ -43,4 +43,11 @@
   <update id="updateMaterialDemand">
   	update material_demand set remain_number=#{number} where mdl_id=#{id}
   </update>
+  
+  <select id="getMdById" resultType="MaterialDemand">
+  	select a.*,b.sp_name as name,b2.sp_name as name2 from material_demand as a
+  	left join sourcing_purchasing as b on a.provide_company=b.sp_id
+  	left join sourcing_purchasing as b2 on a.sure_material_mode=b2.sp_id
+  	where a.buy_id=#{id}
+  </select>
 </mapper>

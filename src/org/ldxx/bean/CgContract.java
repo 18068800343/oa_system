@@ -28,6 +28,7 @@ public class CgContract {
 	private String workContent;// 主要概况及工作内容
 	private String makeTime; //当前时间
 	private String history;//历史状态
+	private String fbNo;//关联的分保合同编号
 	    
 	private List<Accessory> accessory;
 	private List<Accessory> accessory1;
@@ -36,6 +37,14 @@ public class CgContract {
 
 	
 	
+	public String getFbNo() {
+		return fbNo;
+	}
+
+	public void setFbNo(String fbNo) {
+		this.fbNo = fbNo;
+	}
+
 	public List<Accessory> getAccessory1() {
 		return accessory1;
 	}

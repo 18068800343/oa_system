@@ -18,5 +18,10 @@ public interface ContractPaymentDao {
 	int fkNocount();
 
 	List<Pay> selectHistoryBypayCode(@Param("payCode")String payCode);
+	
+	Pay selectPayByNo(@Param("fbNo")String fbNo);
+
+	int updateGenerationAdvancesMoney(@Param("programMoney")Float programMoney, @Param("id")String id);
+
 
 }

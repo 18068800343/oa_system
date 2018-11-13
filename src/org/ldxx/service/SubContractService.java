@@ -35,4 +35,6 @@ public interface SubContractService {
 
 	FbContract getFBContractByName(String contractName);
 
+	FbContract getFBContractByNo(String no);
+
 }
