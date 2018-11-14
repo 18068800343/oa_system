@@ -409,7 +409,8 @@
 								    "targets": 7,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookMs(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  <i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="checkMSIn(this)" data-toggle="modal" data-target="#change"  id="Changedanwei"></i>'
+								  	  		/* return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookMs(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  <i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="checkMSIn(this)" data-toggle="modal" data-target="#change"  id="Changedanwei"></i>' */
+								    	return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookMs(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>'
 								        }
 								  }
 						],
@@ -440,7 +441,6 @@
             data: {
             },
             success: function (json) {
-            	console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
@@ -461,7 +461,7 @@
         	toastr.error("请求失败");
         },
         success: function (json) {
-        	console.log(json)
+        	//console.log(json)
         	$("#cgNo").html('');
         	$("#cgName").html('');
         	$("#xgcgNo").html('');
@@ -481,7 +481,7 @@
                     	cgNo:$('#cgNo').val()
                     },
                     success: function (json) {
-                    	console.log(json)
+                    	//console.log(json)
                     	for(var i=0;i<json.length;i++){
 	                    	initMaterial(json[i].cgdNo);
                     		$("#cgName").val(json[i].contractName);
@@ -500,7 +500,7 @@
                     	contractName:$('#cgName').val()
                     },
                     success: function (json) {
-                    	console.log(json)
+                    	//console.log(json)
                     	for(var i=0;i<json.length;i++){
                     		initMaterial(json[i].cgdNo);
                     		$("#cgNo").val(json[i].cgNo);
@@ -557,7 +557,7 @@
 	//初始化材料列表
 	var arrayClId=new Array();
 	function initMaterial(obj){
-		console.log(obj)
+		//console.log(obj)
 		var arr=new Array();
 		if(obj.indexOf(",")){
 			var list=obj.split(",");
@@ -570,7 +570,7 @@
 		if(arr!=null){
 			$("#cailiaobiaoDiv table").remove();
 			for(var i=0;i<arr.length;i++){
-				console.log(list[i])
+				//console.log(list[i])
         		$("#cailiaobiaoDiv").append(
         				"<table  class='table table-bordered table-condensed' id='cailiaobiao"+i+"'>"+
                     	"<thead>"+
@@ -579,7 +579,7 @@
                                 "<td dataId='' id='cgbumen"+i+"'></td>"+
                                 "<td  colspan='2'>部门采购金额</td>"+
                                 "<td id='bumencgMoney"+i+"' colspan='2'></td>"+
-                            	"<th colspan='4' style='text-align:right;'></th>"+
+                            	"<th colspan='5' style='text-align:right;'></th>"+
                         	"</tr>"+
                         	"<tr>"+
                             	"<th>材料名称</th>"+
@@ -603,11 +603,12 @@
 		            type: 'POST',
 		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
 		            dataType: 'json',
+		            async:false,
 		            data: {
 		            	ids:arr.toString()
 		            },
 		            success: function (json) {
-		            	console.log(json)
+		            	//console.log(json)
 		            	for(var i=0;i<json.length;i++){
 		            		var omName=json[i].omName
 		            		var sumPrice=json[i].sumPrice;
@@ -628,32 +629,36 @@
 		                        	id:json[i].pmbId
 		                        },
 		                        success: function (json) {
-		                        	console.log(json)
-		                        	for(var k=0;k<json.length;k++){
-		                        		$("#cailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
-		                		  				+""+json[k].materialName+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].materialType+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].modeType+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].buyCompany+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].num+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].price+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].name+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].name2+""
-		                		  				+"</td><td>"
-		                		  				+'<input type="text" class="form-control"  style="width:100%;">'
-		                		  				+"</td><td>"
-		                		  				+'<input type="text" class="form-control"  style="width:100%;">'
-		                		  				+"</td><td>"
-		                		  				+""+json[k].infos+""
-		                		  				+"</td></tr>")
-		                        	} 
+		                        	//console.log(json)
+		                        	if(json.length!=0){
+			                        	for(var k=0;k<json.length;k++){
+			                        		$("#cailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
+			                		  				+""+json[k].materialName+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].materialType+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].modeType+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].buyCompany+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].num+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].price+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].name+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].name2+""
+			                		  				+"</td><td>"
+			                		  				+'<input type="text" class="form-control"  style="width:100%;">'
+			                		  				+"</td><td>"
+			                		  				+'<input type="text" class="form-control"  style="width:100%;">'
+			                		  				+"</td><td>"
+			                		  				+""+json[k].infos+""
+			                		  				+"</td></tr>")
+			                        	} 
+		                        	}else{
+		                        		$("#cailiaobiao"+i+" tbody").append("<tr><td colspan='10' style='text-align:center;color:red;font-size:24px'>材料为空</td></tr>")
+		                        	}
 		                        }
 		              		});
 		            		
@@ -681,7 +686,7 @@
 		if(arr!=null){
 			$("#xgcailiaobiaoDiv table").remove();
 			for(var i=0;i<arr.length;i++){
-				console.log(list[i])
+				//console.log(list[i])
         		$("#xgcailiaobiaoDiv").append(
         				"<table  class='table table-bordered table-condensed' id='xgcailiaobiao"+i+"'>"+
                     	"<thead>"+
@@ -690,7 +695,7 @@
                                 "<td dataId='' id='xgcgbumen"+i+"'></td>"+
                                 "<td  colspan='2'>部门采购金额</td>"+
                                 "<td id='xgbumencgMoney"+i+"' colspan='2'></td>"+
-                            	"<th colspan='4' style='text-align:right;'></th>"+
+                            	"<th colspan='5' style='text-align:right;'></th>"+
                         	"</tr>"+
                         	"<tr>"+
                             	"<th>材料名称</th>"+
@@ -718,7 +723,7 @@
 		            	ids:arr.toString()
 		            },
 		            success: function (json) {
-		            	console.log(json)
+		            	//console.log(json)
 		            	for(var i=0;i<json.length;i++){
 		            		var omName=json[i].omName
 		            		var sumPrice=json[i].sumPrice;
@@ -734,37 +739,40 @@
 		                        type: 'POST',
 		                        url: getContextPath()+'/md/selectMaterialDemandById',
 		                        dataType: 'json',
-		                        async:false,
 		                        data: {
 		                        	id:json[i].pmbId
 		                        },
 		                        success: function (json) {
-		                        	console.log(json)
-		                        	for(var k=0;k<json.length;k++){
-		                        		$("#xgcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
-		                		  				+""+json[k].materialName+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].materialType+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].modeType+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].buyCompany+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].num+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].price+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].name+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].name2+""
-		                		  				+"</td><td>"
-		                		  				+'<input type="text" class="form-control"  style="width:100%;">'
-		                		  				+"</td><td>"
-		                		  				+'<input type="text" class="form-control"  style="width:100%;">'
-		                		  				+"</td><td>"
-		                		  				+""+json[k].infos+""
-		                		  				+"</td></tr>")
-		                        	} 
+		                        	//console.log(json)
+		                        	if(json.length!=0){
+			                        	for(var k=0;k<json.length;k++){
+			                        		$("#xgcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
+			                		  				+""+json[k].materialName+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].materialType+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].modeType+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].buyCompany+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].num+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].price+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].name+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].name2+""
+			                		  				+"</td><td>"
+			                		  				+'<input type="text" class="form-control"  style="width:100%;">'
+			                		  				+"</td><td>"
+			                		  				+'<input type="text" class="form-control"  style="width:100%;">'
+			                		  				+"</td><td>"
+			                		  				+""+json[k].infos+""
+			                		  				+"</td></tr>")
+			                        	}
+		                        	}else{
+		                        		$("#xgcailiaobiao"+i+" tbody").append("<tr><td colspan='10' style='text-align:center;color:red;font-size:24px'>材料为空</td></tr>")
+		                        	}
 		                        }
 		              		});
 		            		
@@ -990,7 +998,7 @@
 							        	manufacturer:changjia,
 							        },
 							        success: function (json) {
-							        	console.log(json)
+							        	//console.log(json)
 							        	if(json=0){
 							        		toastr.error("材料单价修改失败")
 							        	}
@@ -1053,7 +1061,7 @@
 	            	buyNo:buyNo,
 	            },
 	            success: function (json) {
-	            	console.log(json);
+	            	//console.log(json);
 	            	if(json.result>0){
 						$("#myModal").modal("hide")
 						toastr.success("添加成功")
@@ -1075,7 +1083,7 @@
 							        	manufacturer:changjia,
 							        },
 							        success: function (json) {
-							        	console.log(json)
+							        	//console.log(json)
 							        	if(json=0){
 							        		toastr.error("材料单价修改失败")
 							        	}
@@ -1097,7 +1105,7 @@
 	function lookMs(obj){
 		var dom=$(obj).parents("tr");
 		var data=$("#mainContent").DataTable().row(dom).data();
-		console.log(data)
+		//console.log(data)
 		$("#lookcgNo").text(data.cgNo);
 		$("#lookcgName").text(data.cgName);
 		$("#looktaskNo").text(data.taskNo);
@@ -1116,7 +1124,7 @@
 				id:data.cmId,
 			},
 			success:function(json){
-				console.log(json);
+				//console.log(json);
 				$("#look_all_table").empty();
 	               for(var i=0;i<json.length;i++){
 	            	   $("#look_all_table").append("<tr>"+
@@ -1148,7 +1156,7 @@
                                 "<td dataId='' id='lookcgbumen"+i+"'></td>"+
                                 "<td  colspan='2'>部门采购金额</td>"+
                                 "<td id='lookbumencgMoney"+i+"' colspan='2'></td>"+
-                            	"<th colspan='4' style='text-align:right;'></th>"+
+                            	"<th colspan='5' style='text-align:right;'></th>"+
                         	"</tr>"+
                         	"<tr>"+
                             	"<th>材料名称</th>"+
@@ -1172,11 +1180,12 @@
 		            type: 'POST',
 		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
 		            dataType: 'json',
+		            async:false,
 		            data: {
 		            	ids:list.toString()
 		            },
 		            success: function (json) {
-		            	console.log(json)
+		            	//console.log(json)
 		            	for(var i=0;i<json.length;i++){
 		            		var omName=json[i].omName
 		            		var sumPrice=json[i].sumPrice;
@@ -1196,7 +1205,7 @@
 		                        	id:pmbId
 		                        },
 		                        success: function (json) {
-		                        	console.log(json)
+		                        	//console.log(json)
 		                        	for(var k=0;k<json.length;k++){
 		                        		$("#lookcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
 		                		  				+""+json[k].materialName+""
@@ -1243,7 +1252,7 @@
 	function checkMSIn(obj){
 		var dom=$(obj).parents("tr");
 		var data=$("#mainContent").DataTable().row(dom).data();
-		console.log(data)
+		//console.log(data)
 		xgId=data.cmId;
 		$("#xgcgNo").val(data.cgNo);
 		$("#xgcgName").val(data.cgName);
@@ -1263,7 +1272,7 @@
 				id:data.cmId,
 			},
 			success:function(json){
-				console.log(json);
+				//console.log(json);
 				$("#edit_accessory tbody").empty();
 	               for(var i=0;i<json.length;i++){
 	            	   $("#edit_accessory tbody").append("<tr>"+
@@ -1296,7 +1305,7 @@
                                 "<td dataId='' id='xgcgbumen"+i+"'></td>"+
                                 "<td  colspan='2'>部门采购金额</td>"+
                                 "<td id='xgbumencgMoney"+i+"' colspan='2'></td>"+
-                            	"<th colspan='4' style='text-align:right;'></th>"+
+                            	"<th colspan='5' style='text-align:right;'></th>"+
                         	"</tr>"+
                         	"<tr>"+
                             	"<th>材料名称</th>"+
@@ -1324,7 +1333,7 @@
 		            	ids:list.toString()
 		            },
 		            success: function (json) {
-		            	console.log(json)
+		            	//console.log(json)
 		            	for(var i=0;i<json.length;i++){
 		            		var omName=json[i].omName
 		            		var sumPrice=json[i].sumPrice;
@@ -1345,7 +1354,7 @@
 		                        	id:pmbId
 		                        },
 		                        success: function (json) {
-		                        	console.log(json)
+		                        	//console.log(json)
 		                        	for(var k=0;k<json.length;k++){
 		                        		$("#xgcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
 		                		  				+""+json[k].materialName+""
@@ -1457,7 +1466,7 @@
 	            	buyNo:buyNo,
 	            },
 	            success: function (json) {
-	            	console.log(json);
+	            	//console.log(json);
 	            	if(json.result>0){
 						$("#change").modal("hide")
 						toastr.success("添加成功")
@@ -1479,7 +1488,7 @@
 							        	manufacturer:changjia,
 							        },
 							        success: function (json) {
-							        	console.log(json)
+							        	//console.log(json)
 							        	if(json=0){
 							        		toastr.error("材料单价修改失败")
 							        	}
