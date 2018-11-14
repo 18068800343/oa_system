@@ -3,7 +3,7 @@ package org.ldxx.bean;
 public class RiskAssessment {
     private String raId;
 
-    private String prjId;
+    private String prjName;
     
     private String prjNo;
     
@@ -69,12 +69,12 @@ public class RiskAssessment {
         this.raId = raId == null ? null : raId.trim();
     }
 
-	public String getPrjId() {
-		return prjId;
+	public String getPrjName() {
+		return prjName;
 	}
 
-	public void setPrjId(String prjId) {
-		this.prjId = prjId;
+	public void setPrjName(String prjName) {
+		this.prjName = prjName;
 	}
 
 	public String getPecificAssessment() {

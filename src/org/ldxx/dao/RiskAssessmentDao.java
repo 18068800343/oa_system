@@ -13,9 +13,9 @@ public interface RiskAssessmentDao {
 
 	RiskAssessment selectRiskAssessmentById(@Param("raId")String raId);
 
-	int isExistByprjId(@Param("prjId")String prjId);
+	int isExistByprjId(@Param("prjName")String prjName);
 
-	int countOfPrjId(@Param("prjId")String prjId, @Param("raId")String raId);
+	int countOfPrjId(@Param("prjName")String prjName, @Param("raId")String raId);
 
 	int updateRiskAssessmentById(@Param("riskassessment")RiskAssessment riskassessment);
 
@@ -23,7 +23,7 @@ public interface RiskAssessmentDao {
 
 	List<RiskAssessment> selectRiskAssessmentPrjName();
 
-	RiskAssessment selectIdByName(@Param("prjId")String prjId);
+	RiskAssessment selectIdByName(@Param("prjName")String prjName);
 
 
 }

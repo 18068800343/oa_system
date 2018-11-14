@@ -6,7 +6,7 @@ import org.ldxx.bean.RiskAssessment;
 
 public interface RiskAssessmentService {
 	
-	int isExistByprjId(String prjId);
+	int isExistByprjId(String prjName);
 	
 	int addRiskAssessment(RiskAssessment riskassessment);
 
@@ -14,7 +14,7 @@ public interface RiskAssessmentService {
 
 	RiskAssessment selectRiskAssessmentById(String raId);
 
-	int countOfPrjId(String prjId, String raId);
+	int countOfPrjId(String prjName, String raId);
 
 	int updateRiskAssessmentById(RiskAssessment riskassessment);
 
@@ -22,7 +22,7 @@ public interface RiskAssessmentService {
 
 	List<RiskAssessment> selectRiskAssessmentPrjName();
 
-	RiskAssessment selectIdByName(String prjId);
+	RiskAssessment selectIdByName(String prjName);
 
 
 

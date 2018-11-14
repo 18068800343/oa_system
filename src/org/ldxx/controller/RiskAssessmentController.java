@@ -28,7 +28,7 @@ public class RiskAssessmentController {
 	@ResponseBody
 	public Map<String,Object> addRiskAssessment(RiskAssessment riskassessment){
 		Map<String,Object> map = new HashMap<>();
-		int i =raService.isExistByprjId(riskassessment.getPrjId());
+		int i =raService.isExistByprjId(riskassessment.getPrjName());
 		if(i==0){
 			String id = new TimeUUID().getTimeUUID();
 			riskassessment.setRaId(id);
@@ -45,7 +45,7 @@ public class RiskAssessmentController {
 	@ResponseBody
 	public Map<String,Object> addRiskAssessmentSubmit(RiskAssessment riskassessment){
 		Map<String,Object> map = new HashMap<>();
-		int i =raService.isExistByprjId(riskassessment.getPrjId());
+		int i =raService.isExistByprjId(riskassessment.getPrjName());
 		if(i==0){
 			String id = new TimeUUID().getTimeUUID();
 			riskassessment.setRaId(id);
@@ -68,7 +68,7 @@ public class RiskAssessmentController {
 	@ResponseBody
 	public Map<String,Object> updateRiskAssessmentById(RiskAssessment riskassessment){
 		Map<String,Object> map = new HashMap<>();
-		int i =raService.countOfPrjId(riskassessment.getPrjId(),riskassessment.getRaId());
+		int i =raService.countOfPrjId(riskassessment.getPrjName(),riskassessment.getRaId());
 		if(i<1){
 			i = raService.updateRiskAssessmentById(riskassessment);
 		}else{
@@ -83,7 +83,7 @@ public class RiskAssessmentController {
 	@ResponseBody
 	public Map<String,Object> updateRiskAssessmentByIdSubmit(RiskAssessment riskassessment){
 		Map<String,Object> map = new HashMap<>();
-		int i =raService.countOfPrjId(riskassessment.getPrjId(),riskassessment.getRaId());
+		int i =raService.countOfPrjId(riskassessment.getPrjName(),riskassessment.getRaId());
 		if(i<1){
 			i = raService.updateRiskAssessmentById(riskassessment);
 		}else{
@@ -114,8 +114,8 @@ public class RiskAssessmentController {
 	
 	@RequestMapping("/selectIdByName")
 	@ResponseBody
-	public RiskAssessment selectIdByName(String prjId){
-		return raService.selectIdByName(prjId);
+	public RiskAssessment selectIdByName(String prjName){
+		return raService.selectIdByName(prjName);
 	}
 	
 }

@@ -17,8 +17,8 @@ public class RiskAssessmentServiceImpl implements RiskAssessmentService {
 	private RiskAssessmentDao raDao;
 	
 	@Override
-	public int isExistByprjId(String prjId) {
-		return raDao.isExistByprjId(prjId);
+	public int isExistByprjId(String prjName) {
+		return raDao.isExistByprjId(prjName);
 	}
 	
 	@Override
@@ -37,8 +37,8 @@ public class RiskAssessmentServiceImpl implements RiskAssessmentService {
 	}
 
 	@Override
-	public int countOfPrjId(String prjId, String raId) {
-		return raDao.countOfPrjId(prjId,raId);
+	public int countOfPrjId(String prjName, String raId) {
+		return raDao.countOfPrjId(prjName,raId);
 	}
 
 	@Override
@@ -57,8 +57,8 @@ public class RiskAssessmentServiceImpl implements RiskAssessmentService {
 	}
 
 	@Override
-	public RiskAssessment selectIdByName(String prjId) {
-		return raDao.selectIdByName(prjId);
+	public RiskAssessment selectIdByName(String prjName) {
+		return raDao.selectIdByName(prjName);
 	}
 
 	
