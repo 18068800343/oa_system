@@ -120,4 +120,15 @@ public class SubContractServiceImpl implements SubContractService {
 	public FbContract getFBContractByNo(String no) {
 		return scDao.getFBContractByNo(no);
 	}
+
+	@Override
+	public List<FbContract> getFbcjNo() {
+		return scDao.getFbcjNo();
+	}
+
+	@Override
+	public List<FbContract> getFBNoBycjNo(String no) {
+		return scDao.getFBNoBycjNo(no);
+	}
+
 }

@@ -324,4 +324,17 @@ public class SubContractController {
 	public FbContract getFBContractByNo(String no){
 		return scService.getFBContractByNo(no);
 	}
+	
+	@RequestMapping("/getFbcjNo")//初始化主合同号
+	@ResponseBody
+	public List<FbContract> getFbcjNo(){
+		return scService.getFbcjNo();
+	}
+	
+	@RequestMapping("/getFBNoBycjNo")//通过主合同号获得分包合同编号
+	@ResponseBody
+	public List<FbContract> getFBNoBycjNo(String no){
+		return scService.getFBNoBycjNo(no);
+	}
+	
 }

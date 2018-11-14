@@ -9,7 +9,7 @@ public interface ContractPaymentDao {
 
 	List<Pay> selectPayByStatus(@Param("status")String status);
 
-	int addCgContract(@Param("pay")Pay pay);
+	int addPaySave(@Param("pay")Pay pay);
 
 	void updateHistory(@Param("payId")String payId);
 

@@ -2,14 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.ContractPaymentDao" >
 	<select id="selectPayByStatus" resultType="org.ldxx.bean.Pay">
-		select *,f.contract_money as fbcontractMoney,f.contract_name_yi,b.u_name from pay a
+		select *,f.contract_money as fbcontractMoney,f.contract_name_yi,c.cc_name,b.u_name from pay a
 			left join mode_status m on m.mode_id=a.pay_id
 			left join fb_contract f on a.contract_name=f.contract_name and f.history=1
+			left join consociation_company c on c.cc_id=f.contract_name_yi
 			left join user b on a.compiler_person=b.user_id
 		where m.status=#{status} and a.history=1
 	</select>
- 	<insert id="addCgContract" parameterType="org.ldxx.bean.Pay" >
-    insert into pay (pay_id,pay_code, contract_code, contract_name,contract_no, 
+ 	<insert id="addPaySave" parameterType="org.ldxx.bean.Pay" >
+    insert into pay (pay_id,pay_code, contract_name,contract_no, 
       contract_money, already_kp_money, this_time_kp_money, 
       main_contract_code, main_contract_name, main_contract_money, 
       prj_list_code, prj_name, fb_contract_schedule, 
@@ -18,7 +19,7 @@
       pay_method, receieve_money_company, this_time_actual_pay_money, 
       pay_list_explain, compiler_person, compiler_time, 
       make_time,history)
-    values (#{pay.payId,jdbcType=VARCHAR},#{pay.payCode,jdbcType=VARCHAR}, #{pay.contractCode,jdbcType=VARCHAR}, #{pay.contractName,jdbcType=VARCHAR}, 
+    values (#{pay.payId,jdbcType=VARCHAR},#{pay.payCode,jdbcType=VARCHAR}, #{pay.contractName,jdbcType=VARCHAR}, 
       #{pay.contractNo,jdbcType=VARCHAR},#{pay.contractMoney,jdbcType=VARCHAR}, #{pay.alreadyKpMoney,jdbcType=VARCHAR}, #{pay.thisTimeKpMoney,jdbcType=VARCHAR}, 
       #{pay.mainContractCode,jdbcType=VARCHAR}, #{pay.mainContractName,jdbcType=VARCHAR}, #{pay.mainContractMoney,jdbcType=VARCHAR}, 
       #{pay.prjListCode,jdbcType=VARCHAR}, #{pay.prjName,jdbcType=VARCHAR}, #{pay.fbContractSchedule,jdbcType=VARCHAR}, 

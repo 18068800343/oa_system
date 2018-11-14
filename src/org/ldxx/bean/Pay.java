@@ -7,8 +7,6 @@ public class Pay {
 
     private String payCode;//付款单号
 
-    private String contractCode;//合同编码
-
     private String contractName;//分包合同名称
     
     private String contractNo;//分包合同编号
@@ -62,8 +60,20 @@ public class Pay {
     private List<Accessory> accessory2;
     private List<Accessory> accessory3;//法律顾问签字
     
+    private Float fbcontractMoney;//分包合同金额
+    private String contractNameYi;//分包合同乙方单位(分包单位)id
+    private String ccName;//分包合同乙方单位名称(分包单位)
+    private String uName;//编制人               
     
-    public String getContractNo() {
+    
+    
+    public String getCcName() {
+		return ccName;
+	}
+	public void setCcName(String ccName) {
+		this.ccName = ccName;
+	}
+	public String getContractNo() {
 		return contractNo;
 	}
 	public void setContractNo(String contractNo) {
@@ -75,14 +85,6 @@ public class Pay {
 	public void setGenerationAdvancesMoney(Float generationAdvancesMoney) {
 		GenerationAdvancesMoney = generationAdvancesMoney;
 	}
-	private String fbNo;//分包合同号
-    private Float fbcontractMoney;//分包合同金额
-    private String contractNameYi;//分包合同乙方单位(分包单位)
-    private String uName;//编制人               
-    
-    
-    
-    
 	public List<Accessory> getAccessory3() {
 		return accessory3;
 	}
@@ -106,12 +108,6 @@ public class Pay {
 	}
 	public void setPayCode(String payCode) {
 		this.payCode = payCode;
-	}
-	public String getContractCode() {
-		return contractCode;
-	}
-	public void setContractCode(String contractCode) {
-		this.contractCode = contractCode;
 	}
 	public String getContractName() {
 		return contractName;
@@ -257,12 +253,6 @@ public class Pay {
 	}
 	public void setAccessory2(List<Accessory> accessory2) {
 		this.accessory2 = accessory2;
-	}
-	public String getFbNo() {
-		return fbNo;
-	}
-	public void setFbNo(String fbNo) {
-		this.fbNo = fbNo;
 	}
 	public Float getFbcontractMoney() {
 		return fbcontractMoney;

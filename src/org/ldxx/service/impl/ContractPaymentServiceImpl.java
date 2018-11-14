@@ -28,8 +28,8 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 	}
 
 	@Override
-	public int addCgContract(Pay pay) {
-		int i=payDao.addCgContract(pay);
+	public int addPaySave(Pay pay) {
+		int i=payDao.addPaySave(pay);
 		if(i>0){
 			List<Accessory> accessory = pay.getAccessory();
 			if(accessory!=null&&accessory.size()>0){

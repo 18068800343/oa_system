@@ -41,13 +41,15 @@ public class CgContractServiceImpl implements CgContractService {
 
 	@Override
 	public int addCgContract(CgContract cg) {
-		String isProgram = cg.getIsProgram();
-		if(isProgram.equals("是")){
-			Pay pay=payDao.selectPayByNo(cg.getFbNo());
-			payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
-		}
 		int i=cgDao.addCgContract(cg);
 		if(i>0){
+			String isProgram = cg.getIsProgram();
+			if(isProgram.equals("是")){	//当是否代购为是时，金额统计到付款申请代垫款中。
+				Pay pay=payDao.selectPayByNo(cg.getFbNo());
+				if(pay!=null){
+					i=payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
+				}
+			}
 			List<Accessory> accessory=cg.getAccessory();
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);

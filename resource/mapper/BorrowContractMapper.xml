@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.BorrowContractDao">
+
+	<select id="selectBorrowContract" resultType="BorrowContract">
+		select *,c.cc_name from borrow_contract a 
+		left join mode_status m on m.mode_id=a.b_id
+		left join consociation_company c on c.cc_id=a.unit_yi
+		where m.status=#{status} and a.history=1
+	</select>
+	
+	<select id="JKNocount" resultType="int">
+		select count(1) from (select distinct b_no from borrow_contract) as a
+	</select>
+	
+	<insert id="addBorrowContractSave" parameterType="BorrowContract">
+		insert into borrow_contract(b_id,b_no,unit_jia,unit_yi,cj_no,fb_no,this_borrow_money,interest_payment_method,
+		borrow_time,accumulated_borrowing_money,borrowing_purposes,history,make_time)
+		values(#{bc.bId},#{bc.bNo},#{bc.unitJia},#{bc.unitYi},#{bc.cjNo},#{bc.fbNo},#{bc.thisBorrowMoney},
+		#{bc.interestPaymentMethod},#{bc.borrowTime},#{bc.accumulatedBorrowingMoney},#{bc.borrowingPurposes},1,now())
+	</insert>
+	
+	<select id="selectBorrowContractHistory" resultType="BorrowContract">
+		select *,c.cc_name from borrow_contract a
+		left join consociation_company c on c.cc_id=a.unit_yi
+		 where b_no=#{no} and history=0
+	</select>
+
+</mapper>

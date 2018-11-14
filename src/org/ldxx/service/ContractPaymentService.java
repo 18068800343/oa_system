@@ -9,7 +9,7 @@ public interface ContractPaymentService {
 
 	List<Pay> selectPayByStatus(String status);
 
-	int addCgContract(Pay pay);
+	int addPaySave(Pay pay);
 
 	void updateHistory(String payId);
 

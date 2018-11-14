@@ -107,7 +107,7 @@ public class ContractPaymentController {
 			}
 			pay.setAccessory3(list3);
 		}
-		int i=payService.addCgContract(pay);
+		int i=payService.addPaySave(pay);
 		return i; 
 	}
 	
@@ -177,7 +177,7 @@ public class ContractPaymentController {
 			}
 			pay.setAccessory3(list3);
 		}
-		int i=payService.addCgContract(pay);
+		int i=payService.addPaySave(pay);
 		return i; 
 	}
 	
@@ -243,7 +243,7 @@ public class ContractPaymentController {
 			}
 			pay.setAccessory3(list3);
 		}
-		int i=payService.addCgContract(pay);
+		int i=payService.addPaySave(pay);
 		return i;
 	}
 	
@@ -308,7 +308,7 @@ public class ContractPaymentController {
 			}
 			pay.setAccessory3(list3);
 		}
-		int i=payService.addCgContract(pay);
+		int i=payService.addPaySave(pay);
 		return i;
 	}
 	
