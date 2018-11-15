@@ -309,7 +309,6 @@ public class FlowUtill {
 						currentFlow.setActorname(next_name);
 						currentFlow.setFloNodeId(nextFloNodeId);
 						currentFlow.setDeptname(currentFlowOld.getDeptname());
-						
 						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 						modeStatus.setModeId(modeId);
 						//1：流程运转中
@@ -621,7 +620,6 @@ public class FlowUtill {
 			  return endFlowHistorys;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return endFlowHistorys;
