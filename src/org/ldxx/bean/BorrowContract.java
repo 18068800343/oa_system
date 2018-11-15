@@ -8,30 +8,40 @@ public class BorrowContract {
 	private String bNo;// 借款合同号
 	private String unitJia;// 甲方
 	private String unitYi;// 乙方
-	private String ccName;//乙方单位名称
+	private String ccName;// 乙方单位名称
 	private String cjNo;// 主合同号
 	private String fbNo;// 分包合同号
 	private Float thisBorrowMoney;// 本次借款金额
 	private String interestPaymentMethod;// 利息支付方式
 	private String borrowTime;// 借款期限
-	private Float accumulatedBorrowingMoney;//乙方累计借款额
+	private Float accumulatedBorrowingMoney;// 乙方累计借款额
 	private String borrowingPurposes;// 借款用途
-	private String makeTime; //当前时间
-    private String history;//历史状态
-    
-	 private List<Accessory> accessory;
+	private String makeTime; // 当前时间
+	private String history;// 历史状态
 
-	 
-	 
+	private List<Accessory> accessory;
+	private List<Accessory> accessory2;
+
+	public List<Accessory> getAccessory2() {
+		return accessory2;
+	}
+
+	public void setAccessory2(List<Accessory> accessory2) {
+		this.accessory2 = accessory2;
+	}
+
 	public String getCcName() {
 		return ccName;
 	}
+
 	public void setCcName(String ccName) {
 		this.ccName = ccName;
 	}
+
 	public String getbId() {
 		return bId;
 	}
+
 	public String getMakeTime() {
 		return makeTime;
 	}
@@ -139,7 +149,5 @@ public class BorrowContract {
 	public void setAccessory(List<Accessory> accessory) {
 		this.accessory = accessory;
 	}
-	 
-	 
 
 }

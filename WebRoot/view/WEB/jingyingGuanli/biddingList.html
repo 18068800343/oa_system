@@ -53,7 +53,12 @@
 
                             <label>类型筛选:</label>
                             <select id="cxleixing" class="form-control" style="width:180px;">
-                            </select>
+                            	<option>JC 检测类</option>
+                            	<option>SG 施工类</option>
+                            	<option>SJ 设计类</option>
+                            	<option>EPC EPC</option>
+                            	<option>QT 其它</option>
+                            	</select>
                             <button type="button" class="btn btn-primary" onclick="searchPrj()">查询</button>
                         </form>
                     </div>
@@ -107,14 +112,15 @@
 								</td>
                              	<td>类型</td>
                              	<td>
-                              		<form class="form-inline">
+                             		<input type="text" class="form-control" id="xmleixing" disabled>
+                              		<!-- <form class="form-inline">
 		                                 <select class="form-control" style="width:110px;" id="yijileixing">
 		                                    <option>--请选择--</option>
 		                                </select>
 		                                <select class="form-control" style="width:110px;" id="erjileixing">
 		                                    <option>--请选择--</option>
 		                                </select>
-                            		</form>
+                            		</form> -->
              					</td>
                             </tr>
                             <tr>
@@ -276,14 +282,15 @@
                          	</td>
                          	<td>类型</td>
 			                   <td>
-			                        <form class="form-inline">
+			                   		<input type="text" class="form-control" id="xgxmleixing" disabled>
+			                        <!-- <form class="form-inline">
 	                                    <select class="form-control" style="width:110px;" id="xgyijileixing">
 	                                        <option>--请选择--</option>
 	                                    </select>
 	                                    <select class="form-control" style="width:110px;" id="xgerjileixing">
 	                                        <option>--请选择--</option>
 	                                    </select>
-	                                </form>
+	                                </form> -->
 			                 </td>
                          </tr>
                          <tr>
@@ -385,7 +392,7 @@
                            	<td>项目名称</td>
                            	<td id="lookxmmingcheng"></td>
                            	<td>类型</td>
-	                        <td id="lookleixing1"></td>
+	                        <td id="lookleixing"></td>
                          </tr>
                          <tr>
                         	<td>投标部门</td>
@@ -448,7 +455,7 @@
     	laydate.render({
             elem: '#year' //指定元素
         });
-    	leixingSelect();
+    	//leixingSelect();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -464,7 +471,7 @@
             { "data": null},
             { "data": "prjName"},
             { "data": "isbiding"}, 
-            { "data": "prjType2"}, 
+            { "data": "prjType"}, 
             { "data": "plMoney"}, 
             { "data": "omName"},
         ],
@@ -630,7 +637,9 @@
 	})
 	$("#quedingxm").click(function(){
 		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var prjtype=$("input[name='xiangmuName']:checked").parent().next().next().next().text();
 		$("#xmmingcheng").val(prjname);
+		$("#xmleixing").val(prjtype);
 		$("#xiangmumd").modal("hide");
 	})
 	$("#xgchosexm").click(function(){
@@ -652,7 +661,9 @@
 	})
 	$("#xgquedingxm").click(function(){
 		var prjname=$("input[name='xgxiangmuName']:checked").parent().next().next().text();
+		var prjtype=$("input[name='xiangmuName']:checked").parent().next().next().next().text();
 		$("#xgxmmingcheng").val(prjName);
+		$("#xgxmleixing").val(prjtype);
 		$("#xgxiangmumd").modal("hide");
 	})
 	
@@ -681,7 +692,7 @@
 	
 	
 	//初始化一级类型
-	 function leixingSelect(){
+	 /* function leixingSelect(){
 	    	//console.log(1)
 		    $.ajax({
 		        type: 'POST',
@@ -747,7 +758,7 @@
 	    			}
 	            }
 	        }); 
-	    })
+	    }) */
 	
 	    
 	    function initSelectOnEdit(obj1,obj2){
@@ -777,17 +788,14 @@
 	 function searchPrj(){
 		var plUnit=$("#cxbumen").val();
 		//console.log(plUnit)
-		var prjType1=$("#cxleixing").val();
+		var prjType=$("#cxleixing").val();
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/diddingList/selectdiddingByUnitAndType',
             dataType: 'json',
             data: {
             	plUnit:plUnit,
-            	prjType1:prjType1
-            },
-            error: function (msg) {
-                errMessage("请求UserController失败");
+            	prjType:prjType
             },
             success: function (json) {
             	console.log(json);
@@ -838,8 +846,10 @@
 	//添加
 	function addbidding(){
 		var xmmingcheng=$("#xmmingcheng").val();
-		var yijileixing=$("#yijileixing").val();
-		var erjileixing=$("#erjileixing").val();
+		/* var yijileixing=$("#yijileixing").val();
+		var erjileixing=$("#erjileixing").val(); */
+		var leixing=$("#xmleixing").val();
+		
 		var bumen=$("#bumen").val();
 		var sfzb=$("#sfzb").val();
 		var zbje=$("#zbje").val();
@@ -850,8 +860,7 @@
 	        dataType: 'json',
 	        data: {
 	        	prjName:xmmingcheng,
-	        	prjType1:yijileixing,
-	        	prjType2:erjileixing,
+	        	prjType:leixing,
 	        	plUnit:bumen,
 	        	isbiding:sfzb,
 	        	plMoney:zbje,
@@ -881,7 +890,7 @@
 		xgid=data.plId;
 		console.log(data)
 		$("#xgxmmingcheng").val(data.prjName);
-		$("#xgyijileixing").val(data.prjType1);
+		$("#xgxmleixing").val(data.prjType);
 		/* $("#xgerjileixing").val(data.prjType2); */
 		initSelectOnEdit(data.prjType1,data.prjType2);
 		$("#xgbumen").val(data.plUnit);
@@ -1000,8 +1009,9 @@
 	
 	function update_save(){
 		var xgxmmingcheng=$("#xgxmmingcheng").val();
-		var xgyijileixing=$("#xgyijileixing").val();
-		var xgerjileixing=$("#xgerjileixing").val();
+		/* var xgyijileixing=$("#xgyijileixing").val();
+		var xgerjileixing=$("#xgerjileixing").val(); */
+		var xgxmleixing=$("#xgxmleixing").val();
 		var xgbumen=$("#xgbumen").val();
 		var xgsfzb=$("#xgsfzb").val();
 		var xgzbje=$("#xgzbje").val();
@@ -1013,8 +1023,7 @@
 	        data: {
 	        	plId:xgid,
 	        	prjName:xgxmmingcheng,
-	        	prjType1:xgyijileixing,
-	        	prjType2:xgerjileixing,
+	        	prjType:xgxmleixing,
 	        	plUnit:xgbumen,
 	        	isbiding:xgsfzb,
 	        	plMoney:xgzbje,
@@ -1082,10 +1091,10 @@
 		$("#lookxmmingcheng").text(data.prjName); 
 		
 		/* $("#lookleixing1").text(data.prjType1); */
-		initSelectOnEdit(data.prjType1,data.prjType2);
+		/* initSelectOnEdit(data.prjType1,data.prjType2); */
+		$("#lookleixing").text(data.prjType)
 		
 		$("#lookbumen").text(data.omName);
-		
 		$("#looksfzh").text(data.isbiding);
 		$("#lookzbje").text(data.plMoney);
 		

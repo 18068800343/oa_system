@@ -39,7 +39,7 @@ public class BorrowContractController {
 	
 	@RequestMapping("/addBorrowContractSave")
 	@ResponseBody
-	public Map<String,Object> addBorrowContractSave(BorrowContract bc,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public Map<String,Object> addBorrowContractSave(BorrowContract bc,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -64,9 +64,26 @@ public class BorrowContractController {
 				accessory.setaId(id);
 				accessory.setAcName(filename);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("借款合同文本");
 				list.add(accessory);
 			}
 			bc.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int i=0;i<file2.length;i++){
+				String filename = file2[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file2[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("法律顾问签字");
+				list2.add(accessory);
+			}
+			bc.setAccessory2(list2);
 		}
 		int i=service.addBorrowContractSave(bc);
 		map.put("result", i);
@@ -76,7 +93,7 @@ public class BorrowContractController {
 	
 	@RequestMapping("/addBorrowContractSubmit")
 	@ResponseBody
-	public Map<String,Object> addBorrowContractSubmit(BorrowContract bc,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public Map<String,Object> addBorrowContractSubmit(BorrowContract bc,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -101,9 +118,26 @@ public class BorrowContractController {
 				accessory.setaId(id);
 				accessory.setAcName(filename);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("借款合同文本");
 				list.add(accessory);
 			}
 			bc.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int i=0;i<file2.length;i++){
+				String filename = file2[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file2[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("法律顾问签字");
+				list2.add(accessory);
+			}
+			bc.setAccessory2(list2);
 		}
 		int i=service.addBorrowContractSave(bc);
 		map.put("result", i);
@@ -113,7 +147,7 @@ public class BorrowContractController {
 	
 	@RequestMapping("/updateBorrowContractSave")
 	@ResponseBody
-	public Map<String,Object> updateBorrowContractSave(BorrowContract bc,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public Map<String,Object> updateBorrowContractSave(BorrowContract bc,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -135,9 +169,26 @@ public class BorrowContractController {
 				accessory.setaId(id);
 				accessory.setAcName(filename);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("借款合同文本");
 				list.add(accessory);
 			}
 			bc.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int i=0;i<file2.length;i++){
+				String filename = file2[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file2[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("法律顾问签字");
+				list2.add(accessory);
+			}
+			bc.setAccessory2(list2);
 		}
 		int i=service.addBorrowContractSave(bc);
 		map.put("result", i);
@@ -147,7 +198,7 @@ public class BorrowContractController {
 	
 	@RequestMapping("/updateBorrowContractSubmit")
 	@ResponseBody
-	public Map<String,Object> updateBorrowContractSubmit(BorrowContract bc,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public Map<String,Object> updateBorrowContractSubmit(BorrowContract bc,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -169,9 +220,26 @@ public class BorrowContractController {
 				accessory.setaId(id);
 				accessory.setAcName(filename);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("借款合同文本");
 				list.add(accessory);
 			}
 			bc.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int i=0;i<file2.length;i++){
+				String filename = file2[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file2[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("法律顾问签字");
+				list2.add(accessory);
+			}
+			bc.setAccessory2(list2);
 		}
 		int i=service.addBorrowContractSave(bc);
 		map.put("result", i);

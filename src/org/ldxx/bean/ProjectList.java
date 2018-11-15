@@ -3,9 +3,8 @@ package org.ldxx.bean;
 public class ProjectList {
 	private String plId;// 编号
 	private String plUnit;// 投标部门id
-	private String prjName;// 项目id
-	private String prjType1;// 项目类型1id
-	private String prjType2;// 项目类型2
+	private String prjName;// 项目名
+	private String prjType;// 项目类型
 	private String isbiding;// 是否中标
 	private String plMoney;// 中标金额
 	private String zhaofile;// 招标文件
@@ -16,7 +15,6 @@ public class ProjectList {
 	private String drawingUrl;// 图纸地址
 
 	
-	private String prjId; //项目名
 	private String omName;//部门名
 	private String nameFirst;//一级类型名
 	
@@ -38,29 +36,14 @@ public class ProjectList {
 		this.omName = omName;
 	}
 
-	public String getPrjType1() {
-		return prjType1;
+	public String getPrjType() {
+		return prjType;
 	}
 
-	public void setPrjType1(String prjType1) {
-		this.prjType1 = prjType1;
+	public void setPrjType(String prjType) {
+		this.prjType = prjType;
 	}
 
-	public String getPrjType2() {
-		return prjType2;
-	}
-
-	public void setPrjType2(String prjType2) {
-		this.prjType2 = prjType2;
-	}
-
-	public String getPrjId() {
-		return prjId;
-	}
-
-	public void setPrjId(String prjId) {
-		this.prjId = prjId;
-	}
 
 	public String getPlId() {
 		return plId;

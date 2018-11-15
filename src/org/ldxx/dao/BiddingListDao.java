@@ -23,6 +23,6 @@ public interface BiddingListDao {
 
 	List<ProjectList> selectdiddingUnitAndType();
 
-	List<ProjectList> selectdiddingByUnitAndType(@Param("plUnit")String plUnit, @Param("prjType1")String prjType1);
+	List<ProjectList> selectdiddingByUnitAndType(@Param("plUnit")String plUnit, @Param("prjType")String prjType);
 
 }

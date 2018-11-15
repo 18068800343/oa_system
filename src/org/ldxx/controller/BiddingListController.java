@@ -239,8 +239,8 @@ public class BiddingListController {
 
 	@RequestMapping("/selectdiddingByUnitAndType")
 	@ResponseBody
-	public List<ProjectList> selectdiddingByUnitAndType(String plUnit, String prjType1) { //通过部门和类型查询 
-		return bListService.selectdiddingByUnitAndType(plUnit, prjType1);
+	public List<ProjectList> selectdiddingByUnitAndType(String plUnit, String prjType) { //通过部门和类型查询 
+		return bListService.selectdiddingByUnitAndType(plUnit, prjType);
 	}
 
 	// 导入
@@ -288,45 +288,45 @@ public class BiddingListController {
 							break;
 						case 1:// 项目名称
 							String prjName = cell.toString();
-							projectList.setPrjId(prjName);
+							projectList.setPrjName(prjName);
 							break;
-						case 2:// 项目类型1
+						/*case 2:// 项目类型1
 							String prjtype1 = cell.toString();
 							projectList.setNameFirst(prjtype1);
+							break;*/
+						case 2:// 项目类型
+							String prjtype = cell.toString();
+							projectList.setPrjType(prjtype);
 							break;
-						case 3:// 项目类型2
-							String prjtype2 = cell.toString();
-							projectList.setPrjType2(prjtype2);
-							break;
-						case 4:// 是否中标
+						case 3:// 是否中标
 							String zhongbiao = cell.toString();
 							projectList.setIsbiding(zhongbiao);
 							break;
-						case 5:// 中标金额
-							String money = cell.toString().split("\\.")[0];
+						case 4:// 中标金额
+							String money = cell.toString()/*.split("\\.")[0]*/;
 							projectList.setPlMoney(money);
 							break;
-						case 6:// 招标文件
+						case 5:// 招标文件
 							String zhao = cell.toString();
 							projectList.setZhaofile(zhao);
 							break;
-						case 7:// 招标文件地址
+						case 6:// 招标文件地址
 							String zhaoUrl = cell.toString();
 							projectList.setZhaofileUrl(zhaoUrl);
 							break;
-						case 8:// 投标文件
+						case 7:// 投标文件
 							String tou = cell.toString();
 							projectList.setToufile(tou);
 							break;
-						case 9:// 投标文件地址
+						case 8:// 投标文件地址
 							String touUrl = cell.toString();
 							projectList.setToufileUrl(touUrl);
 							break;
-						case 10:// 图纸
+						case 9:// 图纸
 							String tuzhi = cell.toString();
 							projectList.setDrawing(tuzhi);
 							break;
-						case 11:// 图纸地址
+						case 10:// 图纸地址
 							String tuzhiUrl = cell.toString();
 							projectList.setDrawingUrl(tuzhiUrl);
 							break;
@@ -338,10 +338,10 @@ public class BiddingListController {
 				
 				OrganizationManagement om = omservice.getOrgIdByName(projectList.getOmName());
 				projectList.setPlUnit(om.getOmId());
-				RiskAssessment rs = raService.selectIdByName(projectList.getPrjId());
+				/*RiskAssessment rs = raService.selectIdByName(projectList.getPrjId());
 				projectList.setPrjName(rs.getRaId());
 				DictionaryFirst df = projectTypeService.selectOneIdByName(projectList.getNameFirst());
-				projectList.setPrjType1(df.getIdFirst());
+				projectList.setPrjType(df.getIdFirst());*/
 				
 				TimeUUID uuid2 = new TimeUUID();
 				String id2 = uuid.getTimeUUID();
@@ -364,9 +364,8 @@ public class BiddingListController {
 			List<String> data = new ArrayList<>();
 			data.add(i + 1 + "");
 			data.add(projectList.get(i).getOmName());
-			data.add(projectList.get(i).getPrjId());
-			data.add(projectList.get(i).getNameFirst());
-			data.add(projectList.get(i).getPrjType2());
+			data.add(projectList.get(i).getPrjName());
+			data.add(projectList.get(i).getPrjType());
 			data.add(projectList.get(i).getIsbiding());
 			data.add(projectList.get(i).getPlMoney());
 			data.add(projectList.get(i).getZhaofile());
@@ -377,7 +376,7 @@ public class BiddingListController {
 			data.add(projectList.get(i).getDrawingUrl());
 			dataList.add(data);
 		}
-		String[] array = { "编号", "投标部门", "项目名称", "项目类型1", "项目类型2","是否中标", "中标金额", "招标文件", "招标文件地址", "投标文件", "投标文件地址", "图纸",
+		String[] array = { "编号", "投标部门", "项目名称", "项目类型", "是否中标", "中标金额", "招标文件", "招标文件地址", "投标文件", "投标文件地址", "图纸",
 				"图纸地址" };
 		exportData.ExportWithResponse(xlsName, xlsName, array.length, array, dataList, response);
 	}

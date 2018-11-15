@@ -49,6 +49,10 @@ public class BorrowContractServiceImpl implements BorrowContractService {
 			if(accessory!=null&&accessory.size()>0){
 				i = adao.addAccessory(accessory);
 			}
+			List<Accessory> accessory2 = bc.getAccessory2();
+			if(accessory2!=null&&accessory2.size()>0){
+				i = adao.addAccessory(accessory2);
+			}
 		}
 		return i;
 	}

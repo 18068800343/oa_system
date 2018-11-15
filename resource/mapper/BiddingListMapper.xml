@@ -2,13 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.BiddingListDao" >
 	<insert id="adddiddingList" parameterType="org.ldxx.bean.ProjectList">
-		insert into project_list (pl_id,pl_unit,prj_Name,prj_type1,prj_type2,isbiding,pl_money,
+		insert into project_list (pl_id,pl_unit,prj_Name,prj_type,isbiding,pl_money,
 			zhaofile ,zhaofile_url,toufile ,toufile_url,drawing ,drawing_url)
 		values(#{projectList.plId},
 			#{projectList.plUnit},
 			#{projectList.prjName},
-			#{projectList.prjType1},
-			#{projectList.prjType2},
+			#{projectList.prjType},
 			#{projectList.isbiding},
 			#{projectList.plMoney},
 			#{projectList.zhaofile},
@@ -30,11 +29,8 @@
 			<if test="projectList.prjName!=null">
 				prj_Name=#{projectList.prjName},
 			</if>
-			<if test="projectList.prjType1!=null">
-				prj_type1=#{projectList.prjType1},
-			</if>
-			<if test="projectList.prjType2!=null">
-				prj_type2=#{projectList.prjType2},
+			<if test="projectList.prjType!=null">
+				prj_type=#{projectList.prjType},
 			</if>
 			<if test="projectList.isbiding!=null">
 				isbiding=#{projectList.isbiding},
@@ -58,20 +54,18 @@
 		where pl_id=#{projectList.plId}
 	</update>
 	<select id="selectdiddingList" resultType="org.ldxx.bean.ProjectList">
-		select a.*,c.om_name,d.name_first 
-		from project_list a,organization_management c,dictionary_first d 
-		where  a.pl_unit=c.om_id and a.prj_type1=d.id_first
+		select a.*,c.om_name from project_list a LEFT JOIN organization_management c on a.pl_unit=c.om_id
 	</select> 
 	<!-- <select id="selectdiddingList" resultType="org.ldxx.bean.ProjectList">
 		select * from project_list  
 	</select> -->
 	<select id="selectdiddingUnitAndType" resultType="org.ldxx.bean.ProjectList">
-		select pl_id,pl_unit,prj_type1 from project_list
+		select pl_id,pl_unit,prj_type from project_list
 	</select>
 	<select id="selectdiddingByUnitAndType" resultType="org.ldxx.bean.ProjectList">
-		select a.*,c.om_name,d.name_first 
-		from project_list a,risk_assessment b,organization_management c,dictionary_first d 
-		where a.pl_unit=c.om_id and a.prj_type1=d.id_first and pl_unit =#{plUnit } and prj_type1=#{prjType1}
+		select a.*,c.om_name
+		from project_list a LEFT JOIN organization_management c on a.pl_unit=c.om_id
+		where pl_unit =#{plUnit} and prj_type=#{prjType}
 	</select>
 	<delete id="deletezhaoFileById" parameterType="String">
 		update project_list set zhaofile=null,zhaofile_url=null where pl_id=#{plId}

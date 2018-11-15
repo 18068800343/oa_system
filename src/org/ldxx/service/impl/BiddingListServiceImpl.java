@@ -55,8 +55,8 @@ public class BiddingListServiceImpl implements BiddingListService {
 	}
 
 	@Override
-	public List<ProjectList> selectdiddingByUnitAndType(String plUnit, String prjType1) {
-		return bListDao.selectdiddingByUnitAndType(plUnit,prjType1);
+	public List<ProjectList> selectdiddingByUnitAndType(String plUnit, String prjType) {
+		return bListDao.selectdiddingByUnitAndType(plUnit,prjType);
 	}
 
 }
