@@ -280,14 +280,15 @@ function initTable(){
 		        	nameFirst:$("#yiji").val()
 		        },
 		        success: function (json) {
-		        	if(json==0){
-		        		toastr.error("添加失败")
-		        	}else{
+		        	if(json.result!=0){
 		        		toastr.success("添加成功")
 		        		$("#myModal").modal('hide')
-		        		initTable();
+		        		$('#mainContent').DataTable().row.add(json.DictionaryFirst).draw(false);//新增行立即显示
+		        		//initTable();
+		        		//location.reload([true]);
+		        	}else{
+		        		toastr.error("添加失败")
 		        	}
-	        		//location.reload([true]);
 		        }
 		    });
 	})
@@ -308,7 +309,7 @@ function initTable(){
 	            },
 	            success: function (json) {
 	            	if(json!=0){
-	            		$('#mainContent').DataTable().row(dom).remove().draw(true); //删除行立即显示
+	            		$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
 	            		toastr.success('删除成功');
 	            	}else{
 	            		 toastr.error('删除失败');
@@ -316,20 +317,29 @@ function initTable(){
 	            }
 	        });
     	});
+	
+	var DictionaryFirst={
+			idFirst:null,
+			nameFirst:undefined,
+	}
+	
 	//修改一级项目类型
 	var afteryiji;
+	var tr;
 		$('#mainContent').delegate('#showxg','click', function () {
+			tr = $(this).closest('tr');
 			var dom = $(this).parents('tr');
 			var data=$('#mainContent').DataTable().row(dom).data();
 			afteryiji=data.idFirst;
 			$("#xgyijiType").val(data.nameFirst)
 			})
 	$("#changeyiji").click(function(){
-		//console.log(afteryiji)
 		if($("#xgyijiType").val().trim()==''){
 			toastr.error("一级成本科目为空")
 			return false;
 		}
+		DictionaryFirst.nameFirst=$("#xgyijiType").val();
+		DictionaryFirst.idFirst=afteryiji;
 	  		$.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/costSubjects/updateFirstcostSubjects',
@@ -342,7 +352,8 @@ function initTable(){
 	                if(json!=0){
 	                	toastr.success("修改成功")
 		        		$("#xiugaiyiji").modal('hide')
-		        		initTable();
+		        		$('#mainContent').DataTable().row(tr).data(DictionaryFirst);//修改行立即显示
+		        		//initTable();
 	                }else{
 	                	toastr.error("修改失败")
 	                }
@@ -359,7 +370,7 @@ function initTable(){
 			$(".qwe"+data.idFirst).remove();
 		}else{
 			array.push(data.idFirst);
-			console.log(data.idFirst)
+			//console.log(data.idFirst)
 			$.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/costSubjects/selectOne_TwocostSubjects',

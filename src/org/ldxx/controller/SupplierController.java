@@ -1,7 +1,9 @@
 package org.ldxx.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,9 +32,13 @@ public class SupplierController {
 	
 	@RequestMapping("/addSupplier")
 	@ResponseBody
-	public int addSupplier(@RequestBody List<Supplier> supplier){
+	public Map<String,Object> addSupplier(@RequestBody List<Supplier> supplier){
+		Map<String,Object> map = new HashMap<>();
 		Supplier su=supplier.get(0);
-		return sService.addSupplier(su);
+		int i= sService.addSupplier(su);
+		map.put("result", i);
+		map.put("Supplier", su);
+		return map;
 	}
 	
 	@RequestMapping("/deleteSupplier")
@@ -43,9 +49,13 @@ public class SupplierController {
 	
 	@RequestMapping("/updateSupplier")
 	@ResponseBody
-	public int updateSupplier(@RequestBody List<Supplier> supplier){
+	public Map<String,Object> updateSupplier(@RequestBody List<Supplier> supplier){
+		Map<String,Object> map = new HashMap<>();
 		Supplier su=supplier.get(0);
-		return sService.updateSupplier(su);
+		int i= sService.updateSupplier(su);
+		map.put("result", i);
+		map.put("Supplier", su);
+		return map;
 	}
 	
 	@RequestMapping("/selectAllSupplier")

@@ -1,6 +1,8 @@
 package org.ldxx.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.ldxx.bean.Dictionary;
 import org.ldxx.bean.DictionaryFirst;
@@ -24,8 +26,12 @@ public class CostSubjectsController {
 	
 	@RequestMapping("/addFirstcostSubjects")
 	@ResponseBody
-	public int addFirstcostSubjects(DictionaryFirst dictionaryFirst){
-		return projectTypeService.addFirstcostSubjects(dictionaryFirst);
+	public Map<String,Object> addFirstcostSubjects(DictionaryFirst dictionaryFirst){
+		Map<String,Object> map = new HashMap<>();
+		int i= projectTypeService.addFirstcostSubjects(dictionaryFirst);
+		map.put("result", i);
+		map.put("DictionaryFirst", dictionaryFirst);
+		return map;
 	}
 	
 	@RequestMapping("/deleteFirstcostSubjects")
@@ -36,8 +42,12 @@ public class CostSubjectsController {
 	
 	@RequestMapping("/updateFirstcostSubjects")
 	@ResponseBody
-	public int updateFirstcostSubjects(DictionaryFirst dictionaryFirst){
-		return projectTypeService .updateFirstPrj(dictionaryFirst);
+	public Map<String,Object> updateFirstcostSubjects(DictionaryFirst dictionaryFirst){
+		Map<String,Object> map = new HashMap<>();
+		int i=projectTypeService .updateFirstPrj(dictionaryFirst);
+		map.put("result", i);
+		map.put("DictionaryFirst", dictionaryFirst);
+		return map;
 	}
 	
 	@RequestMapping("/selectAllFirstcostSubjects")

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../font2/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <style lang="">
         .UpperPart{
@@ -174,11 +175,12 @@
                     <table class="table table-bordered table-condensed" id="lianxibiaoge">
                         <thead>
                             <tr>
-                                <th colspan="2">添加的联系人,联系方式</th>
+                                <th colspan="3">添加的联系人,联系方式</th>
                             </tr>
                             <tr>
                                 <th>联系人</th>
                                 <th>联系方式</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -320,11 +322,12 @@
                     <table class="table table-bordered table-condensed" id="xiugailianxibiaoge">
                         <thead>
                             <tr>
-                                <th colspan="2">添加的联系人,联系方式</th>
+                                <th colspan="3">添加的联系人,联系方式</th>
                             </tr>
                             <tr>
                                 <th>联系人</th>
                                 <th>联系方式</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -488,6 +491,7 @@
 <script src="../../js/common-scripts.js"></script>
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
 <script>
 $(document).ready( function () {
 	initTable()
@@ -561,20 +565,44 @@ $(document).ready( function () {
     }
     //增加联系人联系电话
     function addLianxiren(){
+    	if($("#lianxiren").val()==''){
+    		toastr.error("联系人不能为空")
+    		return;
+    	}
+    	if($("#lianxifangshi").val()==''){
+    		toastr.error("联系方式不能为空")
+    		return;
+    	}
     	$("#lianxibiaoge tbody").append("<tr><td>"
     			+$("#lianxiren").val()
     			+"</td><td>"
     			+$("#lianxifangshi").val()
+    			+"</td><td>"
+    			+"<button type='button' class='btn btn-primary' onclick='removelixiren(this)'>移除</button>"
     			+"</td></tr>")
     }
     //修改联系人联系电话
     function xgaddLianxiren(){
+    	if($("#xglianxiren").val()==''){
+    		toastr.error("联系人不能为空")
+    		return;
+    	}
+    	if($("#xglianxifangshi").val()==''){
+    		toastr.error("联系方式不能为空")
+    		return;
+    	}
     	$("#xiugailianxibiaoge tbody").append("<tr><td>"
     			+'<input type="text" class="form-control" value='+$("#xglianxiren").val()+'>'
     			+"</td><td>"
     			+'<input type="text" class="form-control" value='+$("#xglianxifangshi").val()+'>'
+    			+"</td><td>"
+    			+"<button type='button' class='btn btn-primary' onclick='removelixiren(this)'>移除</button>"
     			+"</td></tr>")
     }
+    function removelixiren(obj){
+    	$(obj).parents("tr").remove();
+    }
+    
     //添加合作单位
     function creatUnit(){
     	var danwei= new Array();
@@ -595,7 +623,7 @@ $(document).ready( function () {
     	    lianxibiao.push(xinlianxibiao);
     	    //console.log(lianxibiao)
     	})
-    	
+    	if(lianxibiao.length!=0){
     		var qiyemingcheng=$("#qiyemingcheng").val();
         	var bianma=$("#bianma").val();
         	var leixing=$("#leixing").find("option:selected").val();
@@ -616,6 +644,11 @@ $(document).ready( function () {
         	var fanwei=$("#fanwei").val();
         	var beizhu=$("#beizhu").val();
         	var biginport=$("#biginport").val();
+        	
+        	if(qiyemingcheng==''){
+        		toastr.error("企业名称不能为空")
+        		return;
+        	}
         	
     	    var xindanwei={
     	    		spName:undefined,
@@ -666,19 +699,24 @@ $(document).ready( function () {
     		
     	      $.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/ supplier/ addSupplier',
+	            url: getContextPath()+'/supplier/ addSupplier',
 	            dataType: 'json',
 	            contentType: "application/json", 
 	            data:JSON.stringify(danwei),
 	            success: function (json) {
-	            	if(json==0){
-	            		
+	            	if(json.result!=0){
+	            		toastr.success("添加成功");
+	            		$("#myModal").modal('hide')
+		            	$('#mainContent').DataTable().row.add(json.Supplier).draw(false);     //新增行立即显示
 	            	}else{
-	            		location.reload([true]);
-		            	 //$('#mainContent').DataTable().row.add().draw(false);     //新增行立即显示
+	            		toastr.error("添加失败")
 	            	}
 	            }
 	        });
+    	}else{
+    		toastr.error("请至少添加一条联系人信息")
+    		return;
+    	}
 	    	
     }
     
@@ -699,7 +737,7 @@ $(document).ready( function () {
 	            },
 	            success: function (json) {
 	            	if(json!=0){
-	            		$('#mainContent').DataTable().row(dom).remove().draw(true); //删除行立即显示
+	            		$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
 	            		 //toastr.success('删除成功');
 	            	}else{
 	            		 //toastr.error('删除失败');
@@ -709,7 +747,9 @@ $(document).ready( function () {
     	});
   
   	//修改合作单位
+  	var tr;
   	$('#mainContent').delegate('#Changedanwei','click', function () {
+  		tr = $(this).closest('tr');
   		var dom = $(this).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
 			//console.log(data)
@@ -723,7 +763,7 @@ $(document).ready( function () {
 	            success: function (json) {
 	            	var xgqiyemingcheng=$("#xgqiyemingcheng").val(json.spName);
 	    			var xgbianma=$("#xgbianma").val(json.spId);
-	    			var xgleixing=$("#xgleixing").find("option").val(json.spType);
+	    			var xgleixing=$("#xgleixing").val(json.spType);
 	    			//var xgdefen=$("#xgdefen").val(json.evaScore);
 	    			var xgxinyongma=$("#xgxinyongma").val(json.creditCode);
 	    			var xgkaihuhang=$("#xgkaihuhang").val(json.bankNo);
@@ -748,6 +788,8 @@ $(document).ready( function () {
 												    			+'<input type="text" class="form-control" value='+json.enterprise[i].eMan+'>'
 												    			+"</td><td>"
 												    			+'<input type="text" class="form-control" value='+json.enterprise[i].eTel+'>'
+												    			+"</td><td>"
+												    			+'<button type="button" class="btn btn-primary" onclick="removelixiren(this)">移除</button>'
 												    			+"</td></tr>")
 	            	}
 	            	/* $("#Changelianxi").click(function(){
@@ -759,7 +801,9 @@ $(document).ready( function () {
 	        });	
   		
     	});
+  	 
   	$("#qdgengai").click(function(){
+  		var oldNum=$(tr.children()[0]).text();
   		var xiugaidanwei= new Array();
     	var xiugailianxibiao= new Array();
     	$("#xiugailianxibiaoge tbody").find("tr").each(function(){
@@ -779,6 +823,7 @@ $(document).ready( function () {
     	    //console.log(xiugaixinlianxibiao)
     	})
     	
+    	if(xiugailianxibiao.length!=0){
     	    var xiugaixindanwei={
 		    		spName:undefined,
 		    		spId:null,
@@ -804,7 +849,7 @@ $(document).ready( function () {
    			}
     	    xiugaixindanwei.spName=$("#xgqiyemingcheng").val();
     	    xiugaixindanwei.spId=$("#xgbianma").val();
-    	    xiugaixindanwei.spType=$("#xgleixing").find("option:selected").val();
+    	    xiugaixindanwei.spType=$("#xgleixing").val();
     	   // xiugaixindanwei.evaScore=$("#xgdefen").val();
     	    xiugaixindanwei.creditCode=$("#xgxinyongma").val();
     	    xiugaixindanwei.bankNo=$("#xgkaihuhang").val();
@@ -833,11 +878,19 @@ $(document).ready( function () {
 	            contentType: "application/json", 
 	            data:JSON.stringify(xiugaidanwei),
 	            success: function (json) {
-	                if(json!=0){
-	                	location.reload([true]);
+	                if(json.result!=0){
+	                	toastr.success("修改成功")
+	                	$("#change").modal('hide')
+	                	$('#mainContent').DataTable().row(tr).data(xiugaixindanwei);//修改行立即显示
+	                	$(tr.children()[0]).text(oldNum);
+	                }else{
+	                	toastr.error("修改失败")
 	                }
 	            }
 	        });  
+    	}else{
+    		toastr.error("请至少添加一条联系人信息")
+    	}
 	})
   	//查看单个具体信息
   	$('#mainContent').delegate('#lookDetall','click', function () {
@@ -875,16 +928,17 @@ $(document).ready( function () {
             	$("#lookbeizhu").text(json.enterpriseDesc);
             	$("#lookbiginport").text(json.importantEvent);
             	
+            	$("#defen tbody").empty();
             	if(json.enterpriseEva.length==0){
-            		$("#defen").append("")
+            		$("#defen tbody").append("")
             	}else if(json.enterpriseEva.length==1){
-            		$("#defen").append("<tr><td>"
+            		$("#defen tbody").append("<tr><td>"
 			    			+json.enterpriseEva[0].evaName
 			    			+"</td><td>"
 			    			+json.enterpriseEva[0].evaLv
 			    			+"</td></tr>")
             	}else{
-            		$("#defen").append("<tr><td>"
+            		$("#defen tbody").append("<tr><td>"
 			    			+json.enterpriseEva[0].evaName
 			    			+"</td><td>"
 			    			+json.enterpriseEva[0].evaLv

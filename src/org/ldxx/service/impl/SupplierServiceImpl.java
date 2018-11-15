@@ -35,7 +35,9 @@ public class SupplierServiceImpl implements SupplierService{
 		}
 		int i=sDao.addSupplier(supplier);
 		if(i>0){
-			i=eDao.addEnterprise(enterprise);
+			if(enterprise.size()!=0&&enterprise!=null){
+				i=eDao.addEnterprise(enterprise);
+			}
 		}
 		return i;
 	}
@@ -54,14 +56,16 @@ public class SupplierServiceImpl implements SupplierService{
 	@Override
 	public int updateSupplier(Supplier supplier) {
 		int i=eDao.deleteEnterprise(supplier.getSpId());
-		List<Enterprise>enterprise=supplier.getEnterprise();
+		List<Enterprise> enterprise=supplier.getEnterprise();
 		for(int ii=0;ii<enterprise.size();ii++){
 			enterprise.get(ii).seteId(supplier.getSpId());
 		}
 		if(i>0){
 			i=sDao.updateSupplier(supplier);
 			if(i>0){
-				i=eDao.addEnterprise(enterprise);
+				if(enterprise.size()!=0){
+					i=eDao.addEnterprise(enterprise);
+				}
 			}
 		}
 		return i;

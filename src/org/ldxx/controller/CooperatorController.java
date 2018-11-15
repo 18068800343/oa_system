@@ -1,7 +1,9 @@
 package org.ldxx.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,9 +37,13 @@ public class CooperatorController {
 	
 	@RequestMapping("/addCooperator")
 	@ResponseBody
-	public  int addCooperator(@RequestBody List<Cooperator> cooperator){
+	public  Map<String,Object> addCooperator(@RequestBody List<Cooperator> cooperator){
+		Map<String,Object> map = new HashMap<>();
 		Cooperator Co=cooperator.get(0);
-		return cservice.addCooperator(Co);
+		int i=cservice.addCooperator(Co);
+		map.put("result", i);
+		map.put("Cooperator", Co);
+		return map;
 	}
 	
 	
@@ -50,9 +56,13 @@ public class CooperatorController {
 	
 	@RequestMapping("/updateCooperator")
 	@ResponseBody
-	public int updateCooperator(@RequestBody List<Cooperator> cooperator){
+	public Map<String,Object> updateCooperator(@RequestBody List<Cooperator> cooperator){
+		Map<String,Object> map = new HashMap<>();
 		Cooperator Co=cooperator.get(0);
-		return cservice.updateCooperator(Co);
+		int i=cservice.updateCooperator(Co);
+		map.put("result", i);
+		map.put("Cooperator", Co);
+		return map;
 	}
 	
 	@RequestMapping("/selectAllCooperator")

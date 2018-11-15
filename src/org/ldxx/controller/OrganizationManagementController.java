@@ -1,6 +1,8 @@
 package org.ldxx.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.service.OrganizationManagementService;
@@ -22,8 +24,12 @@ public class OrganizationManagementController {
 	
 	@RequestMapping("/addOrganizationManagement")/*新建组织机构*/
 	@ResponseBody
-	public int addOrganizationManagement(OrganizationManagement organizationManagement){
-		return omservice.addOrganizationManagement(organizationManagement);
+	public Map<String,Object> addOrganizationManagement(OrganizationManagement organizationManagement){
+		Map<String,Object> map = new HashMap<>();
+		int i=omservice.addOrganizationManagement(organizationManagement);
+		map.put("result", i);
+		map.put("OrganizationManagement", organizationManagement);
+		return map;
 	}
 	
 	@RequestMapping("/deleteOrganizationManagement")/*删除组织机构*/

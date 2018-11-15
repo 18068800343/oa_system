@@ -1,6 +1,8 @@
 package org.ldxx.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.ldxx.bean.Dictionary;
@@ -28,9 +30,12 @@ public class ProjectTypeController {
 	
 	@RequestMapping("/addFirstPrj")
 	@ResponseBody
-	public int addFirstPrj(DictionaryFirst dictionaryFirst){
+	public Map<String,Object> addFirstPrj(DictionaryFirst dictionaryFirst){
+		Map<String,Object> map = new HashMap<>();
 		int i=projectTypeService.addOneProjectType(dictionaryFirst);
-		return i;
+		map.put("result", i);
+		map.put("DictionaryFirst", dictionaryFirst);
+		return map;
 	}
 	
 	@RequestMapping("/deleteFirstPrj")
@@ -43,8 +48,12 @@ public class ProjectTypeController {
 	
 	@RequestMapping("/updateFirstPrj")
 	@ResponseBody
-	public int updateFirstPrj(DictionaryFirst dictionaryFirst){
-		return projectTypeService.updateFirstPrj(dictionaryFirst);
+	public Map<String,Object> updateFirstPrj(DictionaryFirst dictionaryFirst){
+		Map<String,Object> map = new HashMap<>();
+		int i=projectTypeService.updateFirstPrj(dictionaryFirst);
+		map.put("result", i);
+		map.put("DictionaryFirst", dictionaryFirst);
+		return map;
 	}
 	
 	@RequestMapping("/selectAllFirstPrj")
@@ -56,9 +65,12 @@ public class ProjectTypeController {
 	
 	@RequestMapping("/addTwoPrj")
 	@ResponseBody
-	public int addTwoPrj(Dictionary dictionary){
+	public Map<String,Object> addTwoPrj(Dictionary dictionary){
+		Map<String,Object> map = new HashMap<>();
 		int i=projectTypeService.addTwoPrj(dictionary);
-		return i;
+		map.put("result", i);
+		map.put("Dictionary", dictionary);
+		return map;
 	}
 	
 	@RequestMapping("/deleteTwoPrj")
@@ -70,8 +82,12 @@ public class ProjectTypeController {
 	
 	@RequestMapping("/updateTwoPrj")
 	@ResponseBody
-	public int updateTwoPrj(Dictionary dictionary){
-		return projectTypeService.updateTwoPrj(dictionary);
+	public Map<String,Object> updateTwoPrj(Dictionary dictionary){
+		Map<String,Object> map = new HashMap<>();
+		int i=projectTypeService.updateTwoPrj(dictionary);
+		map.put("result", i);
+		map.put("Dictionary", dictionary);
+		return map;
 	}
 	
 	@RequestMapping("/selectAllTwoPrj")

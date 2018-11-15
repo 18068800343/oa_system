@@ -84,7 +84,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success"  data-dismiss="modal"  id="addyiji">保存</button>
+            <button type="button" class="btn btn-success"  id="addyiji">保存</button>
         </div>
         </div>
     </div>
@@ -262,7 +262,7 @@ function initTable(){
 	            },
 	            success: function (json) {
 	            	if(json!=0){
-	            		$('#mainContent').DataTable().row(dom).remove().draw(true); //删除行立即显示
+	            		$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
 	            		toastr.success('删除成功');
 	            	}else{
 	            		toastr.error('删除失败');
@@ -273,19 +273,28 @@ function initTable(){
 		
 	//修改一级项目类型
 	var xgId;
+	var tr;
 		$('#mainContent').delegate('#showxg','click', function () {
+			tr = $(this).closest('tr');
 			var dom = $(this).parents('tr');
 			var data=$('#mainContent').DataTable().row(dom).data();
 			xgId=data.mId;
 			$("#xgname").val(data.materialType);
 		})
-			
+	
+	var MaterialType={
+			mId:null,
+			materialType:undefined,
+	}
 	$("#changeyiji").click(function(){
+		var oldNum=$(tr.children()[0]).text();
 		if($("#xgname").val().trim()==''){
 			toastr.error("材料类型名称为空")
 			return false;
 		}
 		var name=$("#xgname").val();
+		MaterialType.materialType=name;
+		MaterialType.mId=xgId;
 	  		$.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/MaterialType/updateMaterialTypeById',
@@ -296,10 +305,11 @@ function initTable(){
 	            },
 	            success: function (json) {
 	                if(json!=0){
-	                	location.reload([true]);
+	                	//location.reload([true]);
 	                	toastr.success('修改成功');
 	                	$("#xiugaiyiji").modal('hide')
-	                	//initTable();
+	                	$('#mainContent').DataTable().row(tr).data(MaterialType);//修改行立即显示
+	                	$(tr.children()[0]).text(oldNum);
 	                }else{
 	                	toastr.error("修改失败")
 	                }

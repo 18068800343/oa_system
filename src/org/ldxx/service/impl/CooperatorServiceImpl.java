@@ -37,7 +37,9 @@ public class CooperatorServiceImpl  implements CooperatorService{
 		}
 		int i=cDao.addCooperator(cooperator);
 		if(i>0){
-			i=eDao.addEnterprise(enterprise);
+			if(enterprise.size()!=0&&enterprise!=null){
+				i=eDao.addEnterprise(enterprise);
+			}
 		}
 		return i;
 	}
