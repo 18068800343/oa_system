@@ -55,8 +55,6 @@ public class PrjWorkingHoursServiceImpl implements PrjWorkingHoursService {
 			String id=list.get(i).getPwhId();
 			List<PrjWorkingHoursP> p=pdao.selectByprjgsid(id);
 			list.get(i).setPrjWorkingHoursP(p);
-			List<Accessory> accessory = adao.selectAccessoryById(id);
-			list.get(i).setAccessory(accessory);
 		}
 		return list;
 	}

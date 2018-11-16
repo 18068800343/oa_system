@@ -31,6 +31,12 @@ public class BidApprovalController {
 		return service.selectBidApproval(status);
 	}
 	
+	@RequestMapping("/selectBidApprovalById")
+	@ResponseBody
+	public BidApproval selectBidApprovalById(String id){
+		return service.selectBidApprovalById(id);
+	}
+	
 	@RequestMapping("/addBidApproval")//添加保存
 	@ResponseBody
 	public Map<String,Object> addBidApproval(BidApproval ba){

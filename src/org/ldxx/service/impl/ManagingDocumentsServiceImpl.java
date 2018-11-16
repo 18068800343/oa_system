@@ -27,23 +27,6 @@ public class ManagingDocumentsServiceImpl implements ManagingDocumentsService {
 	@Override
 	public List<ManagingDocuments> selectManagingDocuments() {
 		List<ManagingDocuments> list = dao.selectManagingDocuments();
-		for(int i=0;i<list.size();i++){
-			String id=list.get(i).getMdId();
-			List<ManagingDocumentsTenderer> tender=tdao.selectTendererById(id);
-			list.get(i).setManagingDocumentsTenderer(tender);
-			List<Accessory> accessory1 = adao.selectAccessoryByIdAndType(id, "招标文件");
-			list.get(i).setAccessory1(accessory1);
-			List<Accessory> accessory2 = adao.selectAccessoryByIdAndType(id, "技术文件");
-			list.get(i).setAccessory2(accessory2);
-			List<Accessory> accessory3 = adao.selectAccessoryByIdAndType(id, "商务文件");
-			list.get(i).setAccessory3(accessory3);
-			List<Accessory> accessory4 = adao.selectAccessoryByIdAndType(id, "中标通知书");
-			list.get(i).setAccessory4(accessory4);
-			List<Accessory> accessory5 = adao.selectAccessoryByIdAndType(id, "验收证书");
-			list.get(i).setAccessory5(accessory5);
-			List<Accessory> accessory6 = adao.selectAccessoryByIdAndType(id, "开标记录");
-			list.get(i).setAccessory6(accessory6);
-		}
 		return list;
 	}
 

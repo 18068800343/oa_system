@@ -56,4 +56,9 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 		return dao.selectNameByNo(no);
 	}
 
+	@Override
+	public BidApproval selectBidApprovalById(String id) {
+		return dao.selectBidApprovalById(id);
+	}
+
 }

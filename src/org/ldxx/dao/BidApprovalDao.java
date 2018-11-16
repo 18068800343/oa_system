@@ -23,4 +23,6 @@ public interface BidApprovalDao {
 
 	BidApproval selectNameByNo(@Param("no")String no);
 
+	BidApproval selectBidApprovalById(@Param("id")String id);
+
 }

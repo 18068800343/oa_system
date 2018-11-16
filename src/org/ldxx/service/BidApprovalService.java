@@ -22,4 +22,6 @@ public interface BidApprovalService {
 
 	BidApproval selectNameByNo(String no);
 
+	BidApproval selectBidApprovalById(String id);
+
 }

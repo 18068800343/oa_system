@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 项目投标审批
+ * 项目投标审批(不用了)
  * @author hp
  *
  */
