@@ -25,4 +25,6 @@ public interface BiddingListDao {
 
 	List<ProjectList> selectdiddingByUnitAndType(@Param("plUnit")String plUnit, @Param("prjType")String prjType);
 
+	ProjectList selectdiddingListById(@Param("id")String id);
+
 }

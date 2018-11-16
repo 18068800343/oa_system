@@ -661,8 +661,8 @@
 	})
 	$("#xgquedingxm").click(function(){
 		var prjname=$("input[name='xgxiangmuName']:checked").parent().next().next().text();
-		var prjtype=$("input[name='xiangmuName']:checked").parent().next().next().next().text();
-		$("#xgxmmingcheng").val(prjName);
+		var prjtype=$("input[name='xgxiangmuName']:checked").parent().next().next().next().text();
+		$("#xgxmmingcheng").val(prjname);
 		$("#xgxmleixing").val(prjtype);
 		$("#xgxiangmumd").modal("hide");
 	})
@@ -853,7 +853,7 @@
 		var bumen=$("#bumen").val();
 		var sfzb=$("#sfzb").val();
 		var zbje=$("#zbje").val();
-		
+		var bumenmingzi=$("#bumen").find("option:selected").text();
 		var options={
 			type: 'POST',
 	        url: getContextPath()+'/diddingList/adddiddingList',
@@ -864,6 +864,7 @@
 	        	plUnit:bumen,
 	        	isbiding:sfzb,
 	        	plMoney:zbje,
+	        	omName:bumenmingzi
 	        },
 	        success: function (json) {
 	        	//console.log(json);
@@ -872,9 +873,9 @@
 	        	}else{
 	        		toastr.success("保存成功");
 	        		$("#myModal").modal("hide");
-	        		initTable();
+	        		//initTable();
 	        		//location.reload([true]);
-	        		//$('#mainContent').DataTable().row.add(json.projectList).draw(false);
+	        		$('#mainContent').DataTable().row.add(json.projectList).draw(false);
 	        	}
 	        }
 		}
@@ -884,53 +885,63 @@
 	//修改
 	var dom;
 	var xgid;
+	var tr;
 	function updatePrj(obj){
+		tr = $(obj).closest('tr');
 		dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
 		xgid=data.plId;
-		console.log(data)
-		$("#xgxmmingcheng").val(data.prjName);
-		$("#xgxmleixing").val(data.prjType);
-		/* $("#xgerjileixing").val(data.prjType2); */
-		initSelectOnEdit(data.prjType1,data.prjType2);
-		$("#xgbumen").val(data.plUnit);
-		$("#xgsfzb").val(data.isbiding);
-		$("#xgzbje").val(data.plMoney);
-		
-		
-		//招标文件
-		var zhaofile=data.zhaofile;
-		if(zhaofile!=null&&zhaofile!=""){
-			$("#xgzhaobiaowenjian").empty();
-			$("#xgzhaobiaowenjian2").empty();
-			$("#xgzhaobiaowenjian").append("<input type='text' style='width:100%;' class='form-control' id='xgzbwj'>");
-			$("#xgzhaobiaowenjian2").append("<button type='button' class='btn btn-primary' onclick='deletezhaoFile()'>删除附件</button>");
-    		$("#xgzbwj").val(zhaofile).attr("disabled",true);
-		}else{
-			initzhaoFileInput();
-		} 
-		//投标文件
-		var toufile=data.toufile;
-		if(toufile!=null){
-			$("#xgtoubiaowenjian").empty();
-			$("#xgtoubiaowenjian2").empty();
-			$("#xgtoubiaowenjian").append("<input type='text' style='width:100%;' class='form-control' id='xgtbwj'>");
-			$("#xgtoubiaowenjian2").append("<button type='button' class='btn btn-primary' onclick='deletetouFile()'>删除附件</button>");
-    		$("#xgtbwj").val(toufile).attr("disabled",true);
-		}else{
-			inittouFileInput();
-		} 
-		//tuzhi
-		var drawing=data.drawing;
-		if(drawing!=null){
-			$("#xgtuzhi").empty();
-			$("#xgtuzhi2").empty();
-			$("#xgtuzhi").append("<input type='text' style='width:100%;' class='form-control' id='xgtz'>");
-			$("#xgtuzhi2").append("<button type='button' class='btn btn-primary' onclick='deletetuzhiFile()'>删除附件</button>");
-    		$("#xgtz").val(drawing).attr("disabled",true);
-		}else{
-			inittuzhiFileInput();
-		}
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/diddingList/selectdiddingListById',
+	        dataType: 'json',
+	        data: {
+	        	id:xgid,
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	$("#xgxmmingcheng").val(json.prjName);
+	    		$("#xgxmleixing").val(json.prjType);
+	    		/* $("#xgerjileixing").val(data.prjType2); 
+	    		initSelectOnEdit(data.prjType1,data.prjType2);*/
+	    		$("#xgbumen").val(json.plUnit);
+	    		$("#xgsfzb").val(json.isbiding);
+	    		$("#xgzbje").val(json.plMoney);
+	    		//招标文件
+	    		var zhaofile=json.zhaofile;
+	    		if(zhaofile!=null&&zhaofile!=""){
+	    			$("#xgzhaobiaowenjian").empty();
+	    			$("#xgzhaobiaowenjian2").empty();
+	    			$("#xgzhaobiaowenjian").append("<input type='text' style='width:100%;' class='form-control' id='xgzbwj'>");
+	    			$("#xgzhaobiaowenjian2").append("<button type='button' class='btn btn-primary' onclick='deletezhaoFile()'>删除附件</button>");
+	        		$("#xgzbwj").val(zhaofile).attr("disabled",true);
+	    		}else{
+	    			initzhaoFileInput();
+	    		}
+	    		//投标文件
+	    		var toufile=json.toufile;
+	    		if(toufile!=null){
+	    			$("#xgtoubiaowenjian").empty();
+	    			$("#xgtoubiaowenjian2").empty();
+	    			$("#xgtoubiaowenjian").append("<input type='text' style='width:100%;' class='form-control' id='xgtbwj'>");
+	    			$("#xgtoubiaowenjian2").append("<button type='button' class='btn btn-primary' onclick='deletetouFile()'>删除附件</button>");
+	        		$("#xgtbwj").val(toufile).attr("disabled",true);
+	    		}else{
+	    			inittouFileInput();
+	    		} 
+	    		//tuzhi
+	    		var drawing=json.drawing;
+	    		if(drawing!=null){
+	    			$("#xgtuzhi").empty();
+	    			$("#xgtuzhi2").empty();
+	    			$("#xgtuzhi").append("<input type='text' style='width:100%;' class='form-control' id='xgtz'>");
+	    			$("#xgtuzhi2").append("<button type='button' class='btn btn-primary' onclick='deletetuzhiFile()'>删除附件</button>");
+	        		$("#xgtz").val(drawing).attr("disabled",true);
+	    		}else{
+	    			inittuzhiFileInput();
+	    		}
+	        }
+		});
 		
 	}
 	
@@ -1008,6 +1019,8 @@
 	
 	
 	function update_save(){
+		var oldNum=$(tr.children()[0]).text();
+		
 		var xgxmmingcheng=$("#xgxmmingcheng").val();
 		/* var xgyijileixing=$("#xgyijileixing").val();
 		var xgerjileixing=$("#xgerjileixing").val(); */
@@ -1016,6 +1029,15 @@
 		var xgsfzb=$("#xgsfzb").val();
 		var xgzbje=$("#xgzbje").val();
 		
+		var xgbumenmingzi=$("#xgbumen").find("option:selected").text();
+		var addJson = {
+				"plId":xgid,
+				"prjName": xgxmmingcheng,
+	            "isbiding":xgsfzb,
+	            "prjType": xgxmleixing,
+	            "plMoney": xgzbje,
+	            "omName": xgbumenmingzi
+	        };
 		var options={
 			type: 'POST',
 	        url: getContextPath()+'/diddingList/updatediddingList',
@@ -1030,14 +1052,14 @@
 	        },
 	        success: function (json) {
 	        	//console.log(json);
-	        	if(json.result==0){
-	        		toastr.error("修改失败");
-	        	}else{
-	        		//$('#mainContent').DataTable().row(dom).data(json.projectList);
+	        	if(json.result!=0){
 	        		//location.reload([true]);
 	        		toastr.success("修改成功");
 	        		$("#change").modal("hide");
-	        		initTable();
+	        		$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+	        		$(tr.children()[0]).text(oldNum);
+	        	}else{
+	        		toastr.error("修改失败");
 	        	}
 	        }
 		}

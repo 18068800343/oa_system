@@ -849,7 +849,6 @@
 					toastr.success("添加成功");
 					//$('#mainContent').DataTable().row.add(json.riskassessment).draw(false);
 					$('#myModal').modal('hide');
-					initTable()
 				}else if(json.result==2){
 					toastr.error("项目名称重复")
 				}
@@ -911,7 +910,6 @@
 					toastr.success("提交成功");
 					//$('#mainContent').DataTable().row.add(json.riskassessment).draw(false);
 					$('#myModal').modal('hide');
-					initTable()
 				}else if(json.result==2){
 					toastr.error("项目名称重复")
 				}
@@ -950,7 +948,9 @@
 	
 	//修改
 	var xiugaiId;
+	var tr;
 	function xiugaiRisk(obj){
+		tr = $(obj).closest('tr');
 		var dom=$(obj).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
 		xiugaiId=data.raId;
@@ -1005,6 +1005,13 @@
 				toastr.error("项目名称为空");
 				return;
 			}
+		 var addJson = {
+		            "raId":xiugaiId,
+					"prjName": xgprjName,
+		            "prjScale": xgprjScale,
+		            "prjType": xgprjType,
+		            "evaluationMethod": xgpingbiao
+		        };
 		 $.ajax({
 				type:"POST",
 				url:getContextPath()+"/riskAssessment/updateRiskAssessmentById",
@@ -1035,7 +1042,7 @@
 					}else if(json.result==1){
 						$('#change').modal('hide');
 						toastr.success("修改成功");
-						initTable()
+						$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
 					}else if(json.result==2){
 						toastr.error("项目名称重复")
 					} 
@@ -1065,6 +1072,13 @@
 				toastr.error("项目名称为空");
 				return;
 			}
+		var addJson = {
+	            "raId":xiugaiId,
+				"prjName": xgprjName,
+	            "prjScale": xgprjScale,
+	            "prjType": xgprjType,
+	            "evaluationMethod": xgpingbiao
+	        };
 		 $.ajax({
 				type:"POST",
 				url:getContextPath()+"/riskAssessment/updateRiskAssessmentByIdSubmit",
@@ -1095,7 +1109,7 @@
 					}else if(json.result==1){
 						$('#change').modal('hide');
 						toastr.success("提交成功");
-						initTable()
+						$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
 					}else if(json.result==2){
 						toastr.error("项目名称重复")
 					} 

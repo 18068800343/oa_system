@@ -860,7 +860,6 @@
 					//location.reload([ true ]);
 					toastr.success("添加成功");
 					$('#myModal').modal('hide');
-					initTable();
 					//$('#mainContent').DataTable().row.add(json.bidProject).draw(false);     //新增行立即显示
 				} else if (json.result == 2) {
 					toastr.error("添加失败");
@@ -938,7 +937,6 @@
 					//location.reload([ true ]);
 					toastr.success("提交成功");
 					$('#myModal').modal('hide');
-					initTable();
 				} else if (json.result == 2) {
 					toastr.error("提交失败");
 				}
@@ -948,7 +946,9 @@
 
 	//修改回显
 	var xgId;
+	var tr;
 	function xiugaicPrj(obj) {
+		tr = $(obj).closest('tr');
 		$("input:checkbox").removeAttr("checked");
 		var dom = $(obj).parents("tr");
 		var data = $("#mainContent").DataTable().row(dom).data();
@@ -1039,6 +1039,18 @@
     		toastr.error("经营负责人为空");
     		return;
     	}
+		var addJson = {
+	            "poId":xgId,
+				"prjName": xgprjName,
+	            "productOwners": xgyezhudanwei,
+	            "contractAmount": xghetongjin,
+	            "projectDuration": xgxiangmugongqi,
+	            "projectManager": xgzhongbiaojingli,
+	            "tenderCompany": xgzhongbiaodanwei, 
+	            "managementModel": xgmoshi, 
+	            "transferContent": xgjiaojie,
+	            "contentBacklog": xgdaiban,
+	        };
 		
 		 $.ajax({
 			type : "POST",
@@ -1069,7 +1081,7 @@
 				if (json.result == 1) {
 					toastr.success("修改成功");
 					$('#change').modal('hide');
-					initTable();
+					$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
 				} else if (json.result == 2) {
 					toastr.error("修改失败");
 				}
@@ -1115,7 +1127,18 @@
     		toastr.error("经营负责人为空");
     		return;
     	}
-		
+		var addJson = {
+	            "poId":xgId,
+				"prjName": xgprjName,
+	            "productOwners": xgyezhudanwei,
+	            "contractAmount": xghetongjin,
+	            "projectDuration": xgxiangmugongqi,
+	            "projectManager": xgzhongbiaojingli,
+	            "tenderCompany": xgzhongbiaodanwei, 
+	            "managementModel": xgmoshi, 
+	            "transferContent": xgjiaojie,
+	            "contentBacklog": xgdaiban,
+	        };
 		 $.ajax({
 			type : "POST",
 			url : getContextPath() + "/prjOver/updatePrjOverByIdSubmit",
@@ -1145,7 +1168,7 @@
 				if (json.result == 1) {
 					toastr.success("修改成功");
 					$('#change').modal('hide');
-					initTable();
+					$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
 				} else if (json.result == 2) {
 					toastr.error("修改失败");
 				}

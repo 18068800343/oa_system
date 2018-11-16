@@ -129,6 +129,12 @@ public class BiddingListController {
 		return map;
 	}
 
+	@RequestMapping("/selectdiddingListById")
+	@ResponseBody
+	public ProjectList selectdiddingListById(String id) {
+		return bListService.selectdiddingListById(id);
+	}
+	
 	@RequestMapping("/deletediddingListById")
 	@ResponseBody
 	public int deletediddingListById(String plId) {

@@ -24,4 +24,6 @@ public interface BiddingListService {
 
 	List<ProjectList> selectdiddingByUnitAndType(String plUnit, String prjType);
 
+	ProjectList selectdiddingListById(String id);
+
 }

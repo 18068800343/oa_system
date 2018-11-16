@@ -169,7 +169,7 @@
                                 </td>
                                 <td>岗位职务</td>
                                 <td>
-                                    <select style="width:70%;" class="form-control" id="gangwu" onclick="changegangwei()">
+                                    <select style="width:70%;" class="form-control" id="gangwu">
                                         <option>职能岗</option>
                                         <option>技术岗</option>
                                         <option>工程岗</option>
@@ -361,6 +361,8 @@
                                         <option>二级</option>
                                     </select>
                             	</td>
+                            	<td></td>
+                            	<td></td>
                             </tr>
                         </tbody>
                         </table> 
@@ -501,6 +503,8 @@
                             <tr>
                             	<td>人员证书等级</td>
                             	<td id="lookzhengshuGrade"></td>
+                            	<td></td>
+                            	<td></td>
                             </tr>
                         </tbody>
                         </table> 
@@ -840,7 +844,7 @@
         	var addJson={
         			"workId":gonghao,
         			"recordNo":danganhao,
-        			"userName":xingming,
+        			"uName":xingming,
         			"sex":sex,
         			"birthday":year,
         			"nation":mingzu,
@@ -887,10 +891,9 @@
 	            		toastr.error("添加失败");
 	            	}else if(json==1){
 	            		//location.reload([true]);
-		            	 //$('#mainContent').DataTable().row.add(json).draw(false);     //新增行立即显示
+		            	$('#mainContent').DataTable().row.add(addJson).draw(false);     //新增行立即显示
 	            		toastr.success("添加成功");
 		            	$("#myModal").modal('hide');
-		            	initTable();
 	            	}else if(json==2){
 	            		toastr.error("用户名已存在");
 	            		return false;
@@ -924,7 +927,7 @@
             },
             success: function (json) {
             	if(json!=0){
-            		$('#mainContent').DataTable().row(dom).remove().draw(true); //删除行立即显示
+            		$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
             		toastr.success('删除成功');
             	}else{
             		 toastr.error('删除失败');
@@ -1008,7 +1011,9 @@
   	//修改
   	var xiugaiid;
     var xgzhongwenbumen;
+    var tr;
   	$('#mainContent').delegate('#Changedanwei','click', function () {
+  		tr = $(this).closest('tr');
   		var dom = $(this).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
 		xiugaiid=data.userId;
@@ -1156,6 +1161,19 @@
     		return false;
     	} 
     	//console.log(bumen)
+    	var addJson={
+	        	"userId":xiugaiid,		
+	    		"workId":gonghao,
+	        	"recordNo":danganhao,
+	        	"uName":xingming,
+	        	"sex":sex,
+	        	"birthday":year,
+	        	"nation":mingzu,
+	        	"phoneNo":phone,
+	        	"specialty":zhuanye,
+	        	"dutyName":gangwu,
+	        	"omId":bumen,
+        	}
     	 $.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/user/updateUser',
@@ -1198,7 +1216,8 @@
 	            	 //$('#mainContent').DataTable().row.add(json).draw(false);     //新增行立即显示
             		toastr.success("修改成功");
 	            	$("#change").modal('hide')
-	            	initTable();
+	            	$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+	            	//initTable();
             	}else if(json==2){
             		toastr.error("用户名已存在");
             		return false;

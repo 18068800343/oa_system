@@ -1203,9 +1203,7 @@
 				console.log(json)
 				if(json.result>0){
 					toastr.success("添加成功");
-					//$('#mainContent').DataTable().row.add(json.BidApproval).draw(false);
 					$('#myModal').modal('hide');
-					initTable();
 				}else {
 					toastr.error("添加失败")
 					return;
@@ -1250,9 +1248,7 @@
 				console.log(json)
 				if(json.result>0){
 					toastr.success("添加成功");
-					//$('#mainContent').DataTable().row.add(json.BidApproval).draw(false);
 					$('#myModal').modal('hide');
-					initTable();
 				}else {
 					toastr.error("添加失败")
 					return;
@@ -1295,11 +1291,12 @@
 	
 	//修改回显
 	var xgId;
+	var tr;
 	function checkBa(obj){
+		tr = $(obj).closest('tr');
 		var dom=$(obj).parents("tr");
 		var data=$("#mainContent").DataTable().row(dom).data();
 		xgId=data.baId;
-		console.log(data);
 		
 		$("#xgprjName").val(data.prjName);
 		$("#xgprjNo").val(data.prjNo);
@@ -1326,7 +1323,17 @@
 		var xgyear4=$("#xgyear4").val();
 		var xgbaomingren=$("#xgbaomingren").val();
 		var xggoumairen=$("#xggoumairen").val();
-		
+		var addJson = {
+	            "baId":xgId,
+				"prjName": xgprjName,
+	            "ownerUnit": xgyezhudanwei,
+	            "prjType": xgprjType,
+	            "bidder": xgtoubiaoren,
+	            "pretrialSubmissionTime": xgyear,
+	            "fieldTime": xgyear2, 
+	            "pretenderMeetingTime": xgyear3, 
+	            "submissionTime": xgyear4
+	        };
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/BidApproval/updateBidApprovalSave",
@@ -1349,7 +1356,7 @@
 				if(json.result>0){
 					toastr.success("修改成功");
 					$('#change').modal('hide');
-					initTable();
+					$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
 				}else {
 					toastr.error("修改失败")
 				}
@@ -1370,7 +1377,17 @@
 		var xgyear4=$("#xgyear4").val();
 		var xgbaomingren=$("#xgbaomingren").val();
 		var xggoumairen=$("#xggoumairen").val();
-		
+		var addJson = {
+	            "baId":xgId,
+				"prjName": xgprjName,
+	            "ownerUnit": xgyezhudanwei,
+	            "prjType": xgprjType,
+	            "bidder": xgtoubiaoren,
+	            "pretrialSubmissionTime": xgyear,
+	            "fieldTime": xgyear2, 
+	            "pretenderMeetingTime": xgyear3, 
+	            "submissionTime": xgyear4
+	        };
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/BidApproval/updateBidApprovalSubmit",
@@ -1393,7 +1410,7 @@
 				if(json.result>0){
 					toastr.success("修改成功");
 					$('#change').modal('hide');
-					initTable();
+					$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
 				}else {
 					toastr.error("修改失败")
 				}

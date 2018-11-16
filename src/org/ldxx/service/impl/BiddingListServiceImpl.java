@@ -59,4 +59,9 @@ public class BiddingListServiceImpl implements BiddingListService {
 		return bListDao.selectdiddingByUnitAndType(plUnit,prjType);
 	}
 
+	@Override
+	public ProjectList selectdiddingListById(String id) {
+		return bListDao.selectdiddingListById(id);
+	}
+
 }
