@@ -27,6 +27,10 @@ public class ManagingDocumentsServiceImpl implements ManagingDocumentsService {
 	@Override
 	public List<ManagingDocuments> selectManagingDocuments() {
 		List<ManagingDocuments> list = dao.selectManagingDocuments();
+		for(int i=0;i<list.size();i++){
+			List<ManagingDocumentsTenderer> list2 = tdao.selectTendererById(list.get(i).getMdId());
+			list.get(i).setManagingDocumentsTenderer(list2);
+		}
 		return list;
 	}
 
