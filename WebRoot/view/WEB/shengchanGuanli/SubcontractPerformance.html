@@ -880,11 +880,11 @@
                     <div class="form-group">
                         <div>
                             <span>部门:</span>
-                            <select style="width:180px;" id="bumen" class="form-control" >
+                            <select style="width:180px;" id="bumen2" class="form-control" >
                                 
                             </select>
                             <span>人员:</span>
-                            <select style="width:180px;" id="guanliren" class="form-control" >
+                            <select style="width:180px;" id="guanliren2" class="form-control" >
                                 
                             </select>
                         </div>
@@ -912,11 +912,11 @@
                     <div class="form-group">
                         <div>
                             <span>部门:</span>
-                            <select style="width:180px;" id="bumen" class="form-control" >
+                            <select style="width:180px;" id="bumen3" class="form-control" >
                                 
                             </select>
                             <span>人员:</span>
-                            <select style="width:180px;" id="guanliren" class="form-control" >
+                            <select style="width:180px;" id="guanliren3" class="form-control" >
                                 
                             </select>
                         </div>
@@ -1606,8 +1606,12 @@
             success: function (json) {
             	for(var i=0;i<json.length;i++){
 	            	$("#bumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+	            	$("#bumen2").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+	            	$("#bumen3").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
             	}
             	$("#bumen").trigger('change');
+            	$("#bumen2").trigger('change');
+            	$("#bumen3").trigger('change');
             }
         });
 	}
@@ -1626,6 +1630,44 @@
 				$("#guanliren").empty();
 				for(var i=0;i<json.length;i++){
 					$("#guanliren").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+				}
+			}
+		})
+	})
+	$("#bumen2").change(function(){
+		var bumen=$("#bumen2").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataType:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$("#guanliren2").empty();
+				for(var i=0;i<json.length;i++){
+					$("#guanliren2").append("<option value='" + json[i].userId + "'>"
+		                    + json[i].uName + "</option>")
+				}
+			}
+		})
+	})
+	$("#bumen3").change(function(){
+		var bumen=$("#bumen3").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataType:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$("#guanliren3").empty();
+				for(var i=0;i<json.length;i++){
+					$("#guanliren3").append("<option value='" + json[i].userId + "'>"
 		                    + json[i].uName + "</option>")
 				}
 			}
@@ -1661,8 +1703,8 @@
 	
 	//保存项目负责人
 	function savePrj(){
-		var bumen=$("#bumen").val();
-		var guanliren=$("#guanliren").val();
+		var bumen=$("#bumen2").val();
+		var guanliren=$("#guanliren2").val();
 		$('#addGuanliren2').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
             if ($('.modal.in').size() >= 1) {
                 $('body').addClass('modal-open')
@@ -1689,8 +1731,8 @@
 	
 	//保存分包负责人
 	function saveFb(){
-		var bumen=$("#bumen").val();
-		var guanliren=$("#guanliren").val();
+		var bumen=$("#bumen3").val();
+		var guanliren=$("#guanliren3").val();
 		$('#addGuanliren3').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
             if ($('.modal.in').size() >= 1) {
                 $('body').addClass('modal-open')
