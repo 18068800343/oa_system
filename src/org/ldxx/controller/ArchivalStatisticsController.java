@@ -81,7 +81,7 @@ public class ArchivalStatisticsController {
 		if(te!=null){
 			List<String> ll5=new ArrayList<>();
 			ll5.add(te.getTeId());
-			ll5.add("监测评估资料");
+			ll5.add("检测评估资料");
 			list.add(ll5);
 		}
 		MaintenanceReinforcement mr=mrService.selectAllMaintenanceReinforcementById(id);
