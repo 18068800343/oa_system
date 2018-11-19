@@ -137,4 +137,9 @@ public class ManagingDocumentsServiceImpl implements ManagingDocumentsService {
 		return i;
 	}
 
+	@Override
+	public ManagingDocuments selectManagingDocumentsById(String id) {
+		return dao.selectManagingDocumentsById(id);
+	}
+
 }

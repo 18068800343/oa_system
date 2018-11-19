@@ -12,5 +12,7 @@ public interface TechnicalDocumentationDao {
 	int addConstructionDocumentsSave(@Param("td")TechnicalDocumentation td);
 
 	int deleteTechnicalDocumentation(@Param("id")String id);
+	
+	TechnicalDocumentation selectTechnicalDocumentationById(@Param("id")String id);
 
 }

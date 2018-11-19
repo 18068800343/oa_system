@@ -18,5 +18,7 @@ public interface ConstructionDocumentsService {
 	int addConstructionDocumentsSave(ConstructionDocuments cd);
 
 	int updateConstructionDocumentsSave(ConstructionDocuments cd);
+	
+	ConstructionDocuments selectConstructionDocumentsById(String id);
 
 }

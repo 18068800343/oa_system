@@ -12,4 +12,6 @@ public interface MaintenanceReinforcementDao {
 	public List<MaintenanceReinforcement> selectAllMaintenanceReinforcement();
 	
 	public int deleteMr(@Param("id")String id);
+	
+	public MaintenanceReinforcement selectAllMaintenanceReinforcementById(@Param("id")String id);
 }

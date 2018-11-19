@@ -11,5 +11,7 @@ public interface TechnicalDocumentationService {
 	int addConstructionDocumentsSave(TechnicalDocumentation td);
 
 	int deleteTechnicalDocumentation(String id);
+	
+	TechnicalDocumentation selectTechnicalDocumentationById(String id);
 
 }

@@ -12,5 +12,7 @@ public interface DesignDocumentsDao {
 	int addDesignDocumentsSave(@Param("dd")DesignDocuments dd);
 
 	int deleteDesignDocuments(@Param("id")String id);
+	
+	DesignDocuments selectDesignDocumentsById(@Param("id")String id);
 
 }

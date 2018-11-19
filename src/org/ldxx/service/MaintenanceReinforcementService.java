@@ -11,4 +11,6 @@ public interface MaintenanceReinforcementService {
 	public List<MaintenanceReinforcement> selectAllMaintenanceReinforcement();
 	
 	public int deleteMr(String id);
+	
+	public MaintenanceReinforcement selectAllMaintenanceReinforcementById(String id);
 }

@@ -168,5 +168,10 @@ public class TestingEvaluationServiceImpl implements TestingEvaluationService {
 	public int deleteAccessoryByIdAndName(Accessory accessory) {
 		return adao.deleteAccessoryByIdAndName(accessory);
 	}
+
+	@Override
+	public TestingEvaluation selectTestingEvaluationById(String id) {
+		return dao.selectTestingEvaluationById(id);
+	}
 	
 }

@@ -11,5 +11,7 @@ public interface DesignDocumentsService {
 	int addDesignDocumentsSave(DesignDocuments dd);
 
 	int deleteDesignDocuments(String id);
+	
+	DesignDocuments selectDesignDocumentsById(String id);
 
 }

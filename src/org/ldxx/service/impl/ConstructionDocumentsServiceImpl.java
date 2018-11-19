@@ -189,4 +189,10 @@ public class ConstructionDocumentsServiceImpl implements ConstructionDocumentsSe
 		}
 		return i;
 	}
+
+
+	@Override
+	public ConstructionDocuments selectConstructionDocumentsById(String id) {
+		return dao.selectConstructionDocumentsById(id);
+	}
 }

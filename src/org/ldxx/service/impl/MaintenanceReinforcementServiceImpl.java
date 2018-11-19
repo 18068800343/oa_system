@@ -134,4 +134,9 @@ public class MaintenanceReinforcementServiceImpl implements MaintenanceReinforce
 		return i;
 	}
 
+	@Override
+	public MaintenanceReinforcement selectAllMaintenanceReinforcementById(String id) {
+		return dao.selectAllMaintenanceReinforcementById(id);
+	}
+
 }

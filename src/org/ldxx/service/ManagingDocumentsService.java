@@ -18,5 +18,7 @@ public interface ManagingDocumentsService {
 	int deleteAccessoryByIdAndName(Accessory accessory);
 
 	int updateManagingDocumentsSave(ManagingDocuments md);
+	
+	ManagingDocuments selectManagingDocumentsById(String id);
 
 }

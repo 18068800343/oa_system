@@ -14,5 +14,7 @@ public interface TestingEvaluationDao {
 	int updateTestingEvaluationSave(@Param("te") TestingEvaluation te);
 
 	int deleteTestingEvaluationById(@Param("id")String id);
+	
+	TestingEvaluation selectTestingEvaluationById(@Param("id")String id);
 
 }

@@ -201,4 +201,9 @@ public class DesignDocumentsServiceImpl implements DesignDocumentsService {
 		return i;
 	}
 
+	@Override
+	public DesignDocuments selectDesignDocumentsById(String id) {
+		return dao.selectDesignDocumentsById(id);
+	}
+
 }

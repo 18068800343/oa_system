@@ -117,4 +117,9 @@ public class TechnicalDocumentationServiceImpl implements TechnicalDocumentation
 		return i;
 	}
 
+	@Override
+	public TechnicalDocumentation selectTechnicalDocumentationById(String id) {
+		return dao.selectTechnicalDocumentationById(id);
+	}
+
 }
