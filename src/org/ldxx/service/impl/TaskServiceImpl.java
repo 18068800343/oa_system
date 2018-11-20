@@ -147,4 +147,9 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.selectPrjAndNo();
 	}
 
+	@Override
+	public Task selectIdByName(String name) {
+		return tdao.selectIdByName(name);
+	}
+
 }

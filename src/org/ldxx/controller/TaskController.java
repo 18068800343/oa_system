@@ -8,11 +8,21 @@ import java.util.Map;
 
 import org.apache.ibatis.reflection.wrapper.BaseWrapper;
 import org.ldxx.bean.CjContract;
+import org.ldxx.bean.ConstructionDocuments;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.CurrentFlowExample;
+import org.ldxx.bean.DesignDocuments;
 import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.MaintenanceReinforcement;
 import org.ldxx.bean.Task;
+import org.ldxx.bean.TechnicalDocumentation;
+import org.ldxx.bean.TestingEvaluation;
+import org.ldxx.dao.ConstructionDocumentsDao;
+import org.ldxx.dao.DesignDocumentsDao;
+import org.ldxx.dao.MaintenanceReinforcementDao;
+import org.ldxx.dao.TechnicalDocumentationDao;
+import org.ldxx.dao.TestingEvaluationDao;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.EnterpriseService;
@@ -38,6 +48,16 @@ public class TaskController {
 	private CurrentFlowMapper currentFlowMapper;
 	@Autowired
 	private CjContractService cjservice;
+	@Autowired
+	private ConstructionDocumentsDao cDao;
+	@Autowired
+	private DesignDocumentsDao dDao;
+	@Autowired
+	private TestingEvaluationDao tDao;
+	@Autowired
+	private MaintenanceReinforcementDao mDao;
+	@Autowired
+	private TechnicalDocumentationDao dao;
 	
 	@RequestMapping("/addTask")/*任务单保存*/
 	@ResponseBody
@@ -53,7 +73,7 @@ public class TaskController {
 		count=count+1;
 		String prjNo=uuid.getPrjCode(code, count);
 		
-		
+		int i=tService.addTask(t);
 		/*FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl("addTask-"+id);
@@ -85,7 +105,7 @@ public class TaskController {
 			e.printStackTrace();
 		}*/
 		
-		return tService.addTask(t);
+		return i;
 	}
 	
 	@RequestMapping("/addTask2")/*任务单提交*/
@@ -101,7 +121,43 @@ public class TaskController {
 		int count=tService.typeCount();
 		count=count+1;
 		String prjNo=uuid.getPrjCode(code, count);
-		
+		int i=tService.addTask(t);
+		if(i>0){
+			String prjName=t.getPrjName();
+			if(code.startsWith("A")){//添加检测评估资料
+				TestingEvaluation te=new TestingEvaluation();
+				te.setTeId(uuid.getTimeUUID());
+				te.setPrjName(prjName);
+				te.setPrjNo(prjNo);
+				tDao.addTestingEvaluationSave(te);
+			}else if(code.startsWith("B")){
+				if(code.equals("B3")){//添加维修加固设计资料
+					MaintenanceReinforcement mr=new MaintenanceReinforcement();
+					mr.setMrId(uuid.getTimeUUID());
+					mr.setPrjName(prjName);
+					mr.setPrjNo(prjNo);
+					mDao.addMaintenanceReinforcement(mr);
+				}else{//添加设计文件资料
+					DesignDocuments dd=new DesignDocuments();
+					dd.setDdId(uuid.getTimeUUID());
+					dd.setPrjName(prjName);
+					dd.setPrjNo(prjNo);
+					dDao.addDesignDocumentsSave(dd);
+				}
+			}else if(code.startsWith("C")){//添加施工文档资料
+				ConstructionDocuments cd=new ConstructionDocuments();
+				cd.setCdId(uuid.getTimeUUID());
+				cd.setPrjName(prjName);
+				cd.setPrjNo(prjNo);
+				cDao.addConstructionDocumentsSave(cd);
+			}else if(code.startsWith("K")){//添加科技文档资料
+				TechnicalDocumentation td=new TechnicalDocumentation();
+				td.setTdId(uuid.getTimeUUID());
+				td.setPrjName(prjName);
+				td.setPrjNo(prjNo);
+				dao.addConstructionDocumentsSave(td);
+			}
+		}
 		/*FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl("addTask2-"+id);
@@ -131,7 +187,7 @@ public class TaskController {
 			e.printStackTrace();
 		}*/
 		
-		return tService.addTask(t);
+		return i;
 	}
 	
 	@RequestMapping("/addTask3")/*任务单保存*/
@@ -435,4 +491,15 @@ public class TaskController {
 		return map;
 	}
 	
+	@RequestMapping("/selectIdByNo")
+	@ResponseBody
+	public Task selectIdByNo(String no){
+		return tService.selectIdByNo(no);
+	}
+	
+	@RequestMapping("/selectIdByName")
+	@ResponseBody
+	public Task selectIdByName(String name){
+		return tService.selectIdByName(name);
+	}
 }

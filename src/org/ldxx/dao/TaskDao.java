@@ -35,6 +35,8 @@ public interface TaskDao {
 	
 	public Task selectIdByNo(@Param("no")String no);
 	
+	public Task selectIdByName(@Param("name")String name);
+	
 	public Task selectNoByName2(@Param("name")String name);
 	
 	public Task selectIdByNo2(@Param("no")String no);
