@@ -16,5 +16,7 @@ public interface AccessoryDao {
 	public int deleteAccessoryByIdAndName(@Param("accessory")Accessory accessory);
 	
 	public List<Accessory> selectAccessoryByIdAndType(@Param("id")String id,@Param("type")String type);
+	
+	public int fileCount(@Param("id")String id);
     
 }

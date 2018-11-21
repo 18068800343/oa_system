@@ -46,4 +46,9 @@ public class AccessoryServiceImpl implements AccessoryService{
 		return dao.selectAccessoryByIdAndType(id, type);
 	}
 
+	@Override
+	public int fileCount(String id) {
+		return dao.fileCount(id);
+	}
+
 }

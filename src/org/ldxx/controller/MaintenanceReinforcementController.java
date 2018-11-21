@@ -45,9 +45,9 @@ public class MaintenanceReinforcementController {
 	@Autowired
 	private AccessoryService aService;
 	
-	@RequestMapping("/addMaintenanceReinforcement")
+	@RequestMapping("/editMaintenanceReinforcement")
 	@ResponseBody
-	public Map<String,Object> addMaintenanceReinforcement(String tes,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
+	public Map<String,Object> editMaintenanceReinforcement(String tes,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
 			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8,
 			@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13,
 			@RequestParam MultipartFile [] file14,@RequestParam MultipartFile [] file15,@RequestParam MultipartFile [] file16,@RequestParam MultipartFile [] file17,@RequestParam MultipartFile [] file18,
@@ -76,9 +76,10 @@ public class MaintenanceReinforcementController {
 		map2.put("accessory20", Accessory.class);
 		JSONObject jsonObject=JSONObject.fromObject(tes);
 		MaintenanceReinforcement mr=(MaintenanceReinforcement)JSONObject.toBean(jsonObject, MaintenanceReinforcement.class,map2);
-		TimeUUID uuid=new TimeUUID();
+		/*TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		mr.setMrId(id);
+		mr.setMrId(id);*/
+		String id=mr.getMrId();
 		String path="D:"+File.separator+"oa"+File.separator+"MaintenanceReinforcement"+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
@@ -426,7 +427,11 @@ public class MaintenanceReinforcementController {
 		}
 		int i=service.addMaintenanceReinforcement(mr);
 		map.put("result", i);
-		map.put("mr", mr);
+		if(i>0){
+			map.put("length", 1);
+		}else{
+			map.put("length", 0);
+		}
 		return map;
 	}
 	
@@ -434,6 +439,10 @@ public class MaintenanceReinforcementController {
 	@ResponseBody
 	public List<MaintenanceReinforcement> selectAllMaintenanceReinforcement(){
 		List<MaintenanceReinforcement> list=service.selectAllMaintenanceReinforcement();
+		for(int i=0;i<list.size();i++){
+			int length=aService.fileCount(list.get(i).getMrId());
+			list.get(i).setFileLength(length);
+		}
 		return list;
 	}
 	

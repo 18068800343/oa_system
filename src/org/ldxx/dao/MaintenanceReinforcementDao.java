@@ -14,4 +14,5 @@ public interface MaintenanceReinforcementDao {
 	public int deleteMr(@Param("id")String id);
 	
 	public MaintenanceReinforcement selectAllMaintenanceReinforcementById(@Param("id")String id);
+	
 }

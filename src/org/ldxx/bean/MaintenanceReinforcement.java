@@ -22,6 +22,7 @@ public class MaintenanceReinforcement {
 	private String mrId;
 	private String prjName;
 	private String prjNo;
+	private int fileLength;
 	private List<Accessory> accessory1;
 	private List<Accessory> accessory2;
 	private List<Accessory> accessory3;
@@ -42,6 +43,14 @@ public class MaintenanceReinforcement {
 	private List<Accessory> accessory18;
 	private List<Accessory> accessory19;
 	private List<Accessory> accessory20;
+	
+	
+	public int getFileLength() {
+		return fileLength;
+	}
+	public void setFileLength(int fileLength) {
+		this.fileLength = fileLength;
+	}
 	public String getMrId() {
 		return mrId;
 	}

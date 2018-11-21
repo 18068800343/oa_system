@@ -16,4 +16,6 @@ public interface AccessoryService {
 	
 	public List<Accessory> selectAccessoryByIdAndType(String id,String type);
 	
+	public int fileCount(String id);
+	
 }

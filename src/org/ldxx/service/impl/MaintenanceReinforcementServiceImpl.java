@@ -23,8 +23,9 @@ public class MaintenanceReinforcementServiceImpl implements MaintenanceReinforce
 	@Transactional
 	@Override
 	public int addMaintenanceReinforcement(MaintenanceReinforcement mr) {
-		int i=dao.addMaintenanceReinforcement(mr);
-		if(i>0){
+		/*int i=dao.addMaintenanceReinforcement(mr);
+		if(i>0){*/
+			int i=0;
 			List<Accessory> acc=mr.getAccessory1();
 			if(acc.size()!=0){
 				i=aDao.addAccessory(acc);
@@ -105,7 +106,7 @@ public class MaintenanceReinforcementServiceImpl implements MaintenanceReinforce
 			if(acc20.size()!=0){
 				i=aDao.addAccessory(acc20);
 			}
-		}
+		/*}*/
 		return i;
 	}
 

@@ -842,8 +842,11 @@
 												    "targets": 2,
 												    "searchable": true,
 												    "render": function(data, type, full) {
-												  	  		return '<span class="label label-danger state">未录入附件</span> '
-												  	  	//	return '<span class="label label-success state">已录入附件</span> '
+												    		if(full.fileLength>0){
+												    			return '<span class="label label-success state">已录入附件</span>'
+												    		}else{
+													  	  		return '<span class="label label-danger state">未录入附件</span> '
+												    		}
 												        }
 												  }
 								],
@@ -1052,7 +1055,7 @@
 		}
 		tes.prjName=prjName;
 		tes.prjNo=prjNo; */
-		
+		tes.mrId=mrId;
 		
 		var acc1=new Array();
 		$("#new_accessory tbody").find("tr").each(function(){
@@ -1428,7 +1431,9 @@
 	            success: function (json) {
 	            	if(json.result>0){
 	            		$("#myModal").modal("hide");
-	            		toastr.success("修改成功")
+	            		toastr.success("修改成功");
+	            		dataC.fileLength=1;
+	            		$('#mainContent').DataTable().row(trC).data(dataC).draw(false);
 	            		/* $('#mainContent').DataTable().row.add(json.mr).draw(false);     //新增行立即显示 */
 	            	}else{
 	            		toastr.error("修改失败")
@@ -1717,12 +1722,14 @@
 	}
     
 	var mrId;
+	var dataC;
+	var trC;
 	function change(obj){
-		var tr=$(obj).parents("tr");
-		var data=$("#mainContent").DataTable().row(tr).data();
-		$("#prjName").val(data.prjName);
-		$("#prjNo").val(data.prjNo);
-		mrId=data.mrId;
+		trC=$(obj).parents("tr");
+		dataC=$("#mainContent").DataTable().row(trC).data();
+		$("#prjName").val(dataC.prjName);
+		$("#prjNo").val(dataC.prjNo);
+		mrId=dataC.mrId;
 			
 		showMask();
 		$.ajax({
@@ -1734,9 +1741,10 @@
             },
             success: function (json) {
             	var acc=json.accessory1;
-            	$("#new_accessory tbody").html('');
+            	$(".fileTr").html('');
+            	/* $("#new_accessory tbody").html(''); */
             	for(var i=0;i<acc.length;i++){
-            		$("#new_accessory tbody").append("<tr>"+
+            		$("#new_accessory thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1745,9 +1753,9 @@
             																	"</tr>")
             	}
             	var acc2=json.accessory2;
-            	$("#new_accessory2 tbody").html('');
+            	/* $("#new_accessory2 tbody").html(''); */
             	for(var i=0;i<acc2.length;i++){
-            		$("#new_accessory2 tbody").append("<tr>"+
+            		$("#new_accessory2 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc2[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1756,9 +1764,9 @@
             																	"</tr>")
             	}
             	var acc3=json.accessory3;
-            	$("#new_accessory3 tbody").html('');
+            	/* $("#new_accessory3 tbody").html(''); */
             	for(var i=0;i<acc3.length;i++){
-            		$("#new_accessory3 tbody").append("<tr>"+
+            		$("#new_accessory3 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc3[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1767,9 +1775,9 @@
             																	"</tr>")
             	}
             	var acc4=json.accessory4;
-            	$("#new_accessory4 tbody").html('');
+            	/* $("#new_accessory4 tbody").html(''); */
             	for(var i=0;i<acc4.length;i++){
-            		$("#new_accessory4 tbody").append("<tr>"+
+            		$("#new_accessory4 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc4[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1778,9 +1786,9 @@
             																	"</tr>")
             	}
             	var acc5=json.accessory5;
-            	$("#new_accessory5 tbody").html('');
+            	/* $("#new_accessory5 tbody").html(''); */
             	for(var i=0;i<acc5.length;i++){
-            		$("#new_accessory5 tbody").append("<tr>"+
+            		$("#new_accessory5 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc5[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1789,9 +1797,9 @@
             																	"</tr>")
             	}
             	var acc6=json.accessory6;
-            	$("#new_accessory6 tbody").html('');
+            	/* $("#new_accessory6 tbody").html(''); */
             	for(var i=0;i<acc6.length;i++){
-            		$("#new_accessory6 tbody").append("<tr>"+
+            		$("#new_accessory6 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc6[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1800,9 +1808,9 @@
             																	"</tr>")
             	}
             	var acc7=json.accessory7;
-            	$("#new_accessory7 tbody").html('');
+            	/* $("#new_accessory7 tbody").html(''); */
             	for(var i=0;i<acc7.length;i++){
-            		$("#new_accessory7 tbody").append("<tr>"+
+            		$("#new_accessory7 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc7[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1811,9 +1819,9 @@
             																	"</tr>")
             	}
             	var acc8=json.accessory8;
-            	$("#new_accessory8 tbody").html('');
+            	/* $("#new_accessory8 tbody").html(''); */
             	for(var i=0;i<acc8.length;i++){
-            		$("#new_accessory8 tbody").append("<tr>"+
+            		$("#new_accessory8 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc8[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1822,9 +1830,9 @@
             																	"</tr>")
             	}
             	var acc9=json.accessory9;
-            	$("#new_accessory9 tbody").html('');
+            	/* $("#new_accessory9 tbody").html(''); */
             	for(var i=0;i<acc9.length;i++){
-            		$("#new_accessory9 tbody").append("<tr>"+
+            		$("#new_accessory9 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc9[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1833,9 +1841,9 @@
             																	"</tr>")
             	}
             	var acc10=json.accessory10;
-            	$("#new_accessory10 tbody").html('');
+            	/* $("#new_accessory10 tbody").html(''); */
             	for(var i=0;i<acc10.length;i++){
-            		$("#new_accessory10 tbody").append("<tr>"+
+            		$("#new_accessory10 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc10[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1844,9 +1852,9 @@
             																	"</tr>")
             	}
             	var acc11=json.accessory11;
-            	$("#new_accessory11 tbody").html('');
+            	/* $("#new_accessory11 tbody").html(''); */
             	for(var i=0;i<acc11.length;i++){
-            		$("#new_accessory11 tbody").append("<tr>"+
+            		$("#new_accessory11 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc11[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1855,9 +1863,9 @@
             																	"</tr>")
             	}
             	var acc12=json.accessory12;
-            	$("#new_accessory12 tbody").html('');
+            	/* $("#new_accessory12 tbody").html(''); */
             	for(var i=0;i<acc12.length;i++){
-            		$("#new_accessory12 tbody").append("<tr>"+
+            		$("#new_accessory12 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc12[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1866,9 +1874,9 @@
             																	"</tr>")
             	}
             	var acc13=json.accessory13;
-            	$("#new_accessory13 tbody").html('');
+            	/* $("#new_accessory13 tbody").html(''); */
             	for(var i=0;i<acc13.length;i++){
-            		$("#new_accessory13 tbody").append("<tr>"+
+            		$("#new_accessory13 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc13[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1877,9 +1885,9 @@
             																	"</tr>")
             	}
             	var acc14=json.accessory14;
-            	$("#new_accessory14 tbody").html('');
+            	/* $("#new_accessory14 tbody").html(''); */
             	for(var i=0;i<acc14.length;i++){
-            		$("#new_accessory14 tbody").append("<tr>"+
+            		$("#new_accessory14 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc14[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1888,9 +1896,9 @@
             																	"</tr>")
             	}
             	var acc15=json.accessory15;
-            	$("#new_accessory15 tbody").html('');
+            	/* $("#new_accessory15 tbody").html(''); */
             	for(var i=0;i<acc15.length;i++){
-            		$("#new_accessory15 tbody").append("<tr>"+
+            		$("#new_accessory15 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc15[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1899,9 +1907,9 @@
             																	"</tr>")
             	}
             	var acc16=json.accessory16;
-            	$("#new_accessory16 tbody").html('');
+            	/* $("#new_accessory16 tbody").html(''); */
             	for(var i=0;i<acc16.length;i++){
-            		$("#new_accessory16 tbody").append("<tr>"+
+            		$("#new_accessory16 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc16[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1910,9 +1918,9 @@
             																	"</tr>")
             	}
             	var acc17=json.accessory17;
-            	$("#new_accessory17 tbody").html('');
+            	/* $("#new_accessory17 tbody").html(''); */
             	for(var i=0;i<acc17.length;i++){
-            		$("#new_accessory17 tbody").append("<tr>"+
+            		$("#new_accessory17 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc17[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1921,9 +1929,9 @@
             																	"</tr>")
             	}
             	var acc18=json.accessory18;
-            	$("#new_accessory18 tbody").html('');
+            	/* $("#new_accessory18 tbody").html(''); */
             	for(var i=0;i<acc18.length;i++){
-            		$("#new_accessory18 tbody").append("<tr>"+
+            		$("#new_accessory18 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc18[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1932,9 +1940,9 @@
             																	"</tr>")
             	}
             	var acc19=json.accessory19;
-            	$("#new_accessory19 tbody").html('');
+            	/* $("#new_accessory19 tbody").html(''); */
             	for(var i=0;i<acc19.length;i++){
-            		$("#new_accessory19 tbody").append("<tr>"+
+            		$("#new_accessory19 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc19[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
@@ -1943,9 +1951,9 @@
             																	"</tr>")
             	}
             	var acc20=json.accessory20;
-            	$("#new_accessory20 tbody").html('');
+            	/* $("#new_accessory20 tbody").html(''); */
             	for(var i=0;i<acc20.length;i++){
-            		$("#new_accessory20 tbody").append("<tr>"+
+            		$("#new_accessory20 thead").append("<tr class='fileTr'>"+
             																		"<td>附件"+(i+1)+"</td>"+
             																		"<td><input type='text' value='"+acc20[i].acName+"' disabled></td>"+
             																		"<td>附件说明</td>"+
