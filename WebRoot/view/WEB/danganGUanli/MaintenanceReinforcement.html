@@ -53,7 +53,7 @@
                 
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建</button>
+                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建</button> -->
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -61,7 +61,7 @@
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel"><b>新建</b></h4>
+            <h4 class="modal-title" id="myModalLabel"><b>修改附件</b></h4>
         </div>
         <div class="modal-body">
                 <div>     
@@ -70,13 +70,15 @@
                             <tr>
                                 <td style="width:25%;">项目名称</td>
                                 <td style="width:30%;">
-                                    <select class="form-control" style="width:90%;" id="prjName">
-                                    </select>
+                                	<input type="text" class="form-control" id="prjName" style="width:90%;" disabled>
+                                    <!-- <select class="form-control" style="width:90%;" id="prjName">
+                                    </select> -->
                                 </td>
                                 <td style="width:15%;">任务单号</td>
                                 <td style="width:30%;">
-                                	<select class="form-control" style="width:90%;" id="prjNo">
-                                    </select>
+                                	<input type="text" class="form-control" id="prjNo" style="width:90%;" disabled>
+                                	<!-- <select class="form-control" style="width:90%;" id="prjNo">
+                                    </select> -->
                                 </td>
                             </tr>
                         </table>
@@ -784,6 +786,7 @@
                     <tr>
                         <th>项目名称</th>
                         <th>任务单号</th>
+                        <th>是否录入附件</th>
                         <th style="width:100px;">操作</th>
                     </tr>
                 </thead>
@@ -806,7 +809,7 @@
 <script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
-    	initSelectPrj();
+    	/* initSelectPrj(); */
     	initTable();
 	});
     var table=$('#mainContent').dataTable({
@@ -823,16 +826,26 @@
 		            { "data": "prjName"}, 
 		            { "data": "prjNo"},
 		            { "data": null},
+		            { "data": null},
 		        ],
 		        "columnDefs": [
 								{	
 										 "class": "tcenter",
-										    "targets": 2,
+										    "targets": 3,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookTe(this)"  id="lookDetall"></i> <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;"  title="删除" onclick="deleteTe(this)"  id="delyiji"></i> '
+										  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookTe(this)"  id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai" style="font-size:20px;cursor:pointer;margin-left:5px;" title="修改" onclick="change(this)"></i> <i class="iconfont icon-shanchu" style="font-size:20px;cursor:pointer;margin-left:5px;"  title="删除" onclick="deleteTe(this)"  id="delyiji"></i> '
 										        }
-										  }
+										  },
+										  {	
+												 "class": "tcenter",
+												    "targets": 2,
+												    "searchable": true,
+												    "render": function(data, type, full) {
+												  	  		return '<span class="label label-danger state">未录入附件</span> '
+												  	  	//	return '<span class="label label-success state">已录入附件</span> '
+												        }
+												  }
 								],
         "order": [[1, 'asc']],
         "oLanguage": { //国际化配置
@@ -868,7 +881,7 @@
     }
 	
 	//初始化项目名称和任务单号
-    function initSelectPrj(){
+    /* function initSelectPrj(){
 		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/task/selectPrjAndNo',
@@ -918,7 +931,7 @@
 	          	 
 	        }
 		});
-	}
+	} */
 	
     function addFile(){
 		$("#new_accessory tbody").append("<tr><td>新附件</td><td style='width:30%;'><input style='width:90%;' type='file'  name='file1' id='file1' class='form-control'></td><td style='width:10%;'>附件说明</td><td style='width:25%;'><input style='width:90%;' type='text' class='form-control'></td><td style='width:10%;''><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
@@ -1008,8 +1021,8 @@
 	function save(){
 		var tes={
 				mrId:null,
-				prjName:undefined,
-				prjNo:undefined,
+				/* prjName:undefined,
+				prjNo:undefined, */
 				accessory:undefined,
 				accessory2:undefined,
 				accessory3:undefined,
@@ -1031,14 +1044,14 @@
 				accessory19:undefined,
 				accessory20:undefined
 		}
-		var prjName=$("#prjName").val();
+		/* var prjName=$("#prjName").val();
 		var prjNo=$("#prjNo").val();
 		if(prjName==''){
 			toastr.error("项目名不能为空")
 			return;
 		}
 		tes.prjName=prjName;
-		tes.prjNo=prjNo;
+		tes.prjNo=prjNo; */
 		
 		
 		var acc1=new Array();
@@ -1408,17 +1421,17 @@
   		
   		$.ajax({
 	  			type: 'POST',
-	            url: getContextPath()+'/MaintenanceReinforcement/addMaintenanceReinforcement',
+	            url: getContextPath()+'/MaintenanceReinforcement/editMaintenanceReinforcement',
 	            data: formData,  
 	            processData: false,
 	            contentType: false,
 	            success: function (json) {
 	            	if(json.result>0){
 	            		$("#myModal").modal("hide");
-	            		toastr.success("保存成功")
-	            		$('#mainContent').DataTable().row.add(json.mr).draw(false);     //新增行立即显示
+	            		toastr.success("修改成功")
+	            		/* $('#mainContent').DataTable().row.add(json.mr).draw(false);     //新增行立即显示 */
 	            	}else{
-	            		toastr.error("保存失败")
+	            		toastr.error("修改失败")
 	            	}
 	            }
 	  		})
@@ -1439,6 +1452,7 @@
             },
             success: function (json) {
             	var acc=json.accessory1;
+            	$("#look_accessory tbody").html('');
             	for(var i=0;i<acc.length;i++){
             		$("#look_accessory tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1449,6 +1463,7 @@
             																	"</tr>")
             	}
             	var acc2=json.accessory2;
+            	$("#look_accessory2 tbody").html('');
             	for(var i=0;i<acc2.length;i++){
             		$("#look_accessory2 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1459,6 +1474,7 @@
             																	"</tr>")
             	}
             	var acc3=json.accessory3;
+            	$("#look_accessory3 tbody").html('');
             	for(var i=0;i<acc3.length;i++){
             		$("#look_accessory3 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1469,6 +1485,7 @@
             																	"</tr>")
             	}
             	var acc4=json.accessory4;
+            	$("#look_accessory4 tbody").html('');
             	for(var i=0;i<acc4.length;i++){
             		$("#look_accessory4 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1479,6 +1496,7 @@
             																	"</tr>")
             	}
             	var acc5=json.accessory5;
+            	$("#look_accessory5 tbody").html('');
             	for(var i=0;i<acc5.length;i++){
             		$("#look_accessory5 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1489,6 +1507,7 @@
             																	"</tr>")
             	}
             	var acc6=json.accessory6;
+            	$("#look_accessory6 tbody").html('');
             	for(var i=0;i<acc6.length;i++){
             		$("#look_accessory6 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1499,6 +1518,7 @@
             																	"</tr>")
             	}
             	var acc7=json.accessory7;
+            	$("#look_accessory7 tbody").html('');
             	for(var i=0;i<acc7.length;i++){
             		$("#look_accessory7 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1509,6 +1529,7 @@
             																	"</tr>")
             	}
             	var acc8=json.accessory8;
+            	$("#look_accessory8 tbody").html('');
             	for(var i=0;i<acc8.length;i++){
             		$("#look_accessory8 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1519,6 +1540,7 @@
             																	"</tr>")
             	}
             	var acc9=json.accessory9;
+            	$("#look_accessory9 tbody").html('');
             	for(var i=0;i<acc9.length;i++){
             		$("#look_accessory9 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1529,6 +1551,7 @@
             																	"</tr>")
             	}
             	var acc10=json.accessory10;
+            	$("#look_accessory10 tbody").html('');
             	for(var i=0;i<acc10.length;i++){
             		$("#look_accessory10 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1539,6 +1562,7 @@
             																	"</tr>")
             	}
             	var acc11=json.accessory11;
+            	$("#look_accessory11 tbody").html('');
             	for(var i=0;i<acc11.length;i++){
             		$("#look_accessory11 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1549,6 +1573,7 @@
             																	"</tr>")
             	}
             	var acc12=json.accessory12;
+            	$("#look_accessory12 tbody").html('');
             	for(var i=0;i<acc12.length;i++){
             		$("#look_accessory12 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1559,6 +1584,7 @@
             																	"</tr>")
             	}
             	var acc13=json.accessory13;
+            	$("#look_accessory13 tbody").html('');
             	for(var i=0;i<acc13.length;i++){
             		$("#look_accessory13 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1569,6 +1595,7 @@
             																	"</tr>")
             	}
             	var acc14=json.accessory14;
+            	$("#look_accessory14 tbody").html('');
             	for(var i=0;i<acc14.length;i++){
             		$("#look_accessory14 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1579,6 +1606,7 @@
             																	"</tr>")
             	}
             	var acc15=json.accessory15;
+            	$("#look_accessory15 tbody").html('');
             	for(var i=0;i<acc15.length;i++){
             		$("#look_accessory15 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1589,6 +1617,7 @@
             																	"</tr>")
             	}
             	var acc16=json.accessory16;
+            	$("#look_accessory16 tbody").html('');
             	for(var i=0;i<acc16.length;i++){
             		$("#look_accessory16 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1599,6 +1628,7 @@
             																	"</tr>")
             	}
             	var acc17=json.accessory17;
+            	$("#look_accessory17 tbody").html('');
             	for(var i=0;i<acc17.length;i++){
             		$("#look_accessory17 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1609,6 +1639,7 @@
             																	"</tr>")
             	}
             	var acc18=json.accessory18;
+            	$("#look_accessory18 tbody").html('');
             	for(var i=0;i<acc18.length;i++){
             		$("#look_accessory18 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1619,6 +1650,7 @@
             																	"</tr>")
             	}
             	var acc19=json.accessory19;
+            	$("#look_accessory19 tbody").html('');
             	for(var i=0;i<acc19.length;i++){
             		$("#look_accessory19 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1629,6 +1661,7 @@
             																	"</tr>")
             	}
             	var acc20=json.accessory20;
+            	$("#look_accessory20 tbody").html('');
             	for(var i=0;i<acc20.length;i++){
             		$("#look_accessory20 tbody").append("<tr>"+
             																		"<td>附件"+(i+1)+"</td>"+
@@ -1683,6 +1716,272 @@
         });
 	}
     
+	var mrId;
+	function change(obj){
+		var tr=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(tr).data();
+		$("#prjName").val(data.prjName);
+		$("#prjNo").val(data.prjNo);
+		mrId=data.mrId;
+			
+		showMask();
+		$.ajax({
+  			type: 'POST',
+            url: getContextPath()+'/MaintenanceReinforcement/selectAccessory',
+            dataType: 'json',
+            data: {
+            	id:mrId
+            },
+            success: function (json) {
+            	var acc=json.accessory1;
+            	$("#new_accessory tbody").html('');
+            	for(var i=0;i<acc.length;i++){
+            		$("#new_accessory tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc2=json.accessory2;
+            	$("#new_accessory2 tbody").html('');
+            	for(var i=0;i<acc2.length;i++){
+            		$("#new_accessory2 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc2[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc2[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc2[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc3=json.accessory3;
+            	$("#new_accessory3 tbody").html('');
+            	for(var i=0;i<acc3.length;i++){
+            		$("#new_accessory3 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc3[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc3[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc3[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc4=json.accessory4;
+            	$("#new_accessory4 tbody").html('');
+            	for(var i=0;i<acc4.length;i++){
+            		$("#new_accessory4 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc4[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc4[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc4[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc5=json.accessory5;
+            	$("#new_accessory5 tbody").html('');
+            	for(var i=0;i<acc5.length;i++){
+            		$("#new_accessory5 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc5[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc5[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc5[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc6=json.accessory6;
+            	$("#new_accessory6 tbody").html('');
+            	for(var i=0;i<acc6.length;i++){
+            		$("#new_accessory6 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc6[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc6[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc6[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc7=json.accessory7;
+            	$("#new_accessory7 tbody").html('');
+            	for(var i=0;i<acc7.length;i++){
+            		$("#new_accessory7 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc7[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc7[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc7[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc8=json.accessory8;
+            	$("#new_accessory8 tbody").html('');
+            	for(var i=0;i<acc8.length;i++){
+            		$("#new_accessory8 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc8[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc8[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc8[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc9=json.accessory9;
+            	$("#new_accessory9 tbody").html('');
+            	for(var i=0;i<acc9.length;i++){
+            		$("#new_accessory9 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc9[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc9[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc9[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc10=json.accessory10;
+            	$("#new_accessory10 tbody").html('');
+            	for(var i=0;i<acc10.length;i++){
+            		$("#new_accessory10 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc10[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc10[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc10[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc11=json.accessory11;
+            	$("#new_accessory11 tbody").html('');
+            	for(var i=0;i<acc11.length;i++){
+            		$("#new_accessory11 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc11[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc11[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc11[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc12=json.accessory12;
+            	$("#new_accessory12 tbody").html('');
+            	for(var i=0;i<acc12.length;i++){
+            		$("#new_accessory12 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc12[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc12[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc12[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc13=json.accessory13;
+            	$("#new_accessory13 tbody").html('');
+            	for(var i=0;i<acc13.length;i++){
+            		$("#new_accessory13 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc13[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc13[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc13[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc14=json.accessory14;
+            	$("#new_accessory14 tbody").html('');
+            	for(var i=0;i<acc14.length;i++){
+            		$("#new_accessory14 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc14[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc14[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc14[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc15=json.accessory15;
+            	$("#new_accessory15 tbody").html('');
+            	for(var i=0;i<acc15.length;i++){
+            		$("#new_accessory15 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc15[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc15[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc15[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc16=json.accessory16;
+            	$("#new_accessory16 tbody").html('');
+            	for(var i=0;i<acc16.length;i++){
+            		$("#new_accessory16 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc16[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc16[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc16[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc17=json.accessory17;
+            	$("#new_accessory17 tbody").html('');
+            	for(var i=0;i<acc17.length;i++){
+            		$("#new_accessory17 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc17[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc17[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc17[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc18=json.accessory18;
+            	$("#new_accessory18 tbody").html('');
+            	for(var i=0;i<acc18.length;i++){
+            		$("#new_accessory18 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc18[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc18[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc18[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc19=json.accessory19;
+            	$("#new_accessory19 tbody").html('');
+            	for(var i=0;i<acc19.length;i++){
+            		$("#new_accessory19 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc19[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc19[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc19[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	var acc20=json.accessory20;
+            	$("#new_accessory20 tbody").html('');
+            	for(var i=0;i<acc20.length;i++){
+            		$("#new_accessory20 tbody").append("<tr>"+
+            																		"<td>附件"+(i+1)+"</td>"+
+            																		"<td><input type='text' value='"+acc20[i].acName+"' disabled></td>"+
+            																		"<td>附件说明</td>"+
+            																		"<td><input type='text' value='"+acc20[i].aDesc+"' disabled></td>"+
+            																		"<td><button type='button' class='btn btn-primary' data1="+acc20[i].acUrl+" onclick='remove_this(this)'>删除附件</button></td>"+
+            																	"</tr>")
+            	}
+            	hidMask();
+            	$("#myModal").modal("show");
+            }
+  		})
+	}
+	
+	function remove_this(obj){
+		var tr=$(obj).parents("tr");
+		var filePath=$(obj).attr("data1");
+		var fileName=$(tr).find("td").eq(1).find("input").val();
+		$.ajax({
+  			type: 'POST',
+            url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
+            dataType: 'json',
+            data: {
+            	acUrl:filePath,
+            	acName:fileName,
+            	aId:mrId
+            },
+            success: function (json) {
+            	if(json>0){
+            		$(tr).remove();
+            		toastr.success("删除成功")
+            	}else{
+            		toastr.error("删除失败")
+            	}
+            }
+		});
+	}
 	
 	 function showMask() {
 	    	myTool.mask.show('查询中...');

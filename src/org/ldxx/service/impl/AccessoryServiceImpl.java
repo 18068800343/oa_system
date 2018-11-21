@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.io.File;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
@@ -31,7 +32,13 @@ public class AccessoryServiceImpl implements AccessoryService{
 
 	@Override
 	public int deleteAccessoryByIdAndName(Accessory accessory) {
-		return dao.deleteAccessoryByIdAndName(accessory);
+		int i=dao.deleteAccessoryByIdAndName(accessory);
+		if(i>0){
+			String path=accessory.getAcUrl();
+			File f=new File(path);
+			f.delete();
+		}
+		return i;
 	}
 
 	@Override
