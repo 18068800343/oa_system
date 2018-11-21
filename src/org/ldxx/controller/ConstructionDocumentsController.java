@@ -11,6 +11,7 @@ import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ConstructionDocuments;
 import org.ldxx.bean.ManagingDocuments;
 import org.ldxx.bean.ManagingDocumentsTenderer;
+import org.ldxx.service.AccessoryService;
 import org.ldxx.service.ConstructionDocumentsService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,18 @@ public class ConstructionDocumentsController {
 	
 	@Autowired
 	private ConstructionDocumentsService service;
+	@Autowired
+	private AccessoryService aService;
 	
 	@RequestMapping("/selectConstructionDocuments")
 	@ResponseBody
 	public List<ConstructionDocuments> selectConstructionDocuments(){
-		return service.selectConstructionDocuments();
+		List<ConstructionDocuments> list = service.selectConstructionDocuments();
+		for(int i=0;i<list.size();i++){
+			int length=aService.fileCount(list.get(i).getCdId());
+			list.get(i).setFileLength(length);
+		}
+		return list;
 	}
 	
 	
@@ -395,7 +403,7 @@ public class ConstructionDocumentsController {
 		
 		
 		String id=cd.getCdId();
-		String path="D:"+File.separator+"oa"+File.separator+"ConstructionDocuments";
+		String path="D:"+File.separator+"oa"+File.separator+"ConstructionDocuments"+File.separator+id;
 		
 		File f=new File(path);
 		if(!f.exists()){

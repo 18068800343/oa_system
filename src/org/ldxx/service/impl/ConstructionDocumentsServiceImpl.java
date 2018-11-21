@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.io.File;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
@@ -35,6 +36,17 @@ public class ConstructionDocumentsServiceImpl implements ConstructionDocumentsSe
 			List<Accessory> list = adao.selectAccessoryById(id);
 			if(list.size()>0&&list!=null){
 				i=adao.deleteAccessory(id);
+				if(i>0){
+					String path="D:"+File.separator+"oa"+File.separator+"ConstructionDocuments"+File.separator+id;
+					File f=new File(path);
+					String[]  tempList  =  f.list();
+					for(int a=0;a<tempList.length;a++){
+						String path2=path+File.separator+tempList[a];
+						File f2=new File(path2);
+						f2.delete();
+					}
+					f.delete();
+				}
 			}
 		}
 		return i;
@@ -124,8 +136,9 @@ public class ConstructionDocumentsServiceImpl implements ConstructionDocumentsSe
 
 	@Override
 	public int updateConstructionDocumentsSave(ConstructionDocuments cd) {
-		int i=dao.updateConstructionDocumentsSave(cd);
-		if(i>0){
+		/*int i=dao.updateConstructionDocumentsSave(cd);
+		if(i>0){*/
+		int i=0;
 			List<Accessory> accessory1 = cd.getAccessory1();
 			if(accessory1!=null&&accessory1.size()>0){
 				i=adao.addAccessory(accessory1);
@@ -186,7 +199,7 @@ public class ConstructionDocumentsServiceImpl implements ConstructionDocumentsSe
 			if(accessory15!=null&&accessory15.size()>0){
 				i=adao.addAccessory(accessory15);
 			}
-		}
+		//}
 		return i;
 	}
 

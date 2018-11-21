@@ -11,7 +11,7 @@ public class TechnicalDocumentation {
 	private String tdId;// 编号
 	private String prjName;//项目名称
 	private String prjNo; //任务单号
-	
+	private int fileLength;
 	private List<Accessory> accessory1;//项目实际存档目录
     private List<Accessory> accessory2;//合同资料
     private List<Accessory> accessory3;//科研申请书
@@ -31,6 +31,13 @@ public class TechnicalDocumentation {
     private List<Accessory> accessory17;//课题所用到图纸、模型和报告
     private List<Accessory> accessory18;//其它
     
+    
+	public int getFileLength() {
+		return fileLength;
+	}
+	public void setFileLength(int fileLength) {
+		this.fileLength = fileLength;
+	}
 	public String getTdId() {
 		return tdId;
 	}

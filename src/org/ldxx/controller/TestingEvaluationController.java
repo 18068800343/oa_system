@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ConstructionDocuments;
 import org.ldxx.bean.TestingEvaluation;
+import org.ldxx.service.AccessoryService;
 import org.ldxx.service.TestingEvaluationService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +38,18 @@ public class TestingEvaluationController {
 	
 	@Autowired
 	private TestingEvaluationService service;
-	
+	@Autowired
+	private AccessoryService aService;
 	
 	@RequestMapping("/selectTestingEvaluation")
 	@ResponseBody
 	public List<TestingEvaluation> selectTestingEvaluation(){
-		return service.selectTestingEvaluation();
+		List<TestingEvaluation> list=service.selectTestingEvaluation();
+		for(int i=0;i<list.size();i++){
+			int length=aService.fileCount(list.get(i).getTeId());
+			list.get(i).setFileLength(length);
+		}
+		return list;
 	}
 	
 	@RequestMapping("/addTestingEvaluationSave")//添加保存
@@ -71,7 +78,7 @@ public class TestingEvaluationController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		te.setTeId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation"+File.separator+id;;
+		String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation"+File.separator+id;
 		
 		File f=new File(path);
 		if(!f.exists()){
@@ -343,7 +350,7 @@ public class TestingEvaluationController {
 		TestingEvaluation te=(TestingEvaluation)JSONObject.toBean(jsonObject, TestingEvaluation.class,map2);
 		
 		String id=te.getTeId();
-		String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation";
+		String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation"+File.separator+id;;
 		
 		File f=new File(path);
 		if(!f.exists()){

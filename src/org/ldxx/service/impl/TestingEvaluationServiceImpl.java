@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.io.File;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
@@ -89,8 +90,9 @@ public class TestingEvaluationServiceImpl implements TestingEvaluationService {
 
 	@Override
 	public int updateTestingEvaluationSave(TestingEvaluation te) {
-		int i=dao.updateTestingEvaluationSave(te);
-		if(i>0){
+		/*int i=dao.updateTestingEvaluationSave(te);
+		if(i>0){*/
+		int i=0;
 			List<Accessory> accessory1 = te.getAccessory1();
 			if(accessory1!=null&&accessory1.size()>0){
 				i=adao.addAccessory(accessory1);
@@ -143,7 +145,7 @@ public class TestingEvaluationServiceImpl implements TestingEvaluationService {
 			if(accessory13!=null&&accessory13.size()>0){
 				i=adao.addAccessory(accessory13);
 			}
-		}
+		//}
 		return i;
 	}
 
@@ -154,6 +156,17 @@ public class TestingEvaluationServiceImpl implements TestingEvaluationService {
 			List<Accessory> list = adao.selectAccessoryById(id);
 			if(list.size()>0&&list!=null){
 				i=adao.deleteAccessory(id);
+				if(i>0){
+					String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation"+File.separator+id;
+					File f=new File(path);
+					String[]  tempList  =  f.list();
+					for(int a=0;a<tempList.length;a++){
+						String path2=path+File.separator+tempList[a];
+						File f2=new File(path2);
+						f2.delete();
+					}
+					f.delete();
+				}
 			}
 		}
 		return i;

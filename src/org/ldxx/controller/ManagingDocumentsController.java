@@ -10,6 +10,7 @@ import java.util.Map;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ManagingDocuments;
 import org.ldxx.bean.ManagingDocumentsTenderer;
+import org.ldxx.service.AccessoryService;
 import org.ldxx.service.ManagingDocumentsService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,18 @@ public class ManagingDocumentsController {
 
 	@Autowired
 	private ManagingDocumentsService service;
-	
+	@Autowired
+	private AccessoryService aService;
 	
 	@RequestMapping("/selectManagingDocuments")
 	@ResponseBody
 	public List<ManagingDocuments> selectManagingDocuments(){
-		return service.selectManagingDocuments();
+		List<ManagingDocuments> list = service.selectManagingDocuments();
+		for(int i=0;i<list.size();i++){
+			int length=aService.fileCount(list.get(i).getMdId());
+			list.get(i).setFileLength(length);
+		}
+		return list;
 	}
 	
 	@RequestMapping("/addManagingDocumentsSave")//添加保存

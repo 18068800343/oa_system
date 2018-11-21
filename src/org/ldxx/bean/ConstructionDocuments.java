@@ -11,7 +11,7 @@ public class ConstructionDocuments {
 	private String cdId;// 编号
 	private String prjName;//项目名称
 	private String prjNo; //任务单号
-	
+	private int fileLength;
 	private List<Accessory> accessory1;//项目实际存档目录
     private List<Accessory> accessory2;//项目特点介绍、关键词
     private List<Accessory> accessory3;//招投标文件
@@ -29,6 +29,12 @@ public class ConstructionDocuments {
     private List<Accessory> accessory15;//其他
     
     
+	public int getFileLength() {
+		return fileLength;
+	}
+	public void setFileLength(int fileLength) {
+		this.fileLength = fileLength;
+	}
 	public String getCdId() {
 		return cdId;
 	}

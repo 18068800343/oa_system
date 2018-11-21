@@ -15,4 +15,6 @@ public interface DesignDocumentsDao {
 	
 	DesignDocuments selectDesignDocumentsById(@Param("id")String id);
 
+	int updateDesignDocumentsSave(@Param("dd") DesignDocuments dd);
+
 }

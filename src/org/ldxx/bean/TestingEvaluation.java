@@ -9,7 +9,7 @@ public class TestingEvaluation {
 	private String teId;// 编号
 	private String prjName;//项目名称
 	private String prjNo; //任务单号
-	
+	private int fileLength;
 	private List<Accessory> accessory1;//项目实际存档目录
     private List<Accessory> accessory2;//项目特点介绍、关键词
     private List<Accessory> accessory3;//招投标文件
@@ -25,6 +25,12 @@ public class TestingEvaluation {
     private List<Accessory> accessory13;//其它
     
     
+	public int getFileLength() {
+		return fileLength;
+	}
+	public void setFileLength(int fileLength) {
+		this.fileLength = fileLength;
+	}
 	public String getTeId() {
 		return teId;
 	}

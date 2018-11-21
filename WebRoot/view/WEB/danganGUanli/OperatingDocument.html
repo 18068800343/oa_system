@@ -53,7 +53,7 @@
                 
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建</button>
+                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建</button> -->
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -278,13 +278,15 @@
                             <tr>
                                 <td style="width:12%">项目名称</td>
                                 <td style="width:35%">
-                                    <select class="form-control" style="width:70%" id="edit_prjName">
-                                    </select>
+                                	<input type="text" style="width:70%" id="edit_prjName" class="form-control" disabled>
+                                    <!-- <select class="form-control" style="width:70%" id="edit_prjName" disabled>
+                                    </select> -->
                                 </td>
                                 <td style="width:12%">任务单号</td>
                                 <td style="width:35%">
-                                    <select class="form-control" style="width:70%" id="edit_prjNo">
-                                    </select>
+                                	<input type="text" style="width:70%" id="edit_prjNo" class="form-control" disabled>
+                                    <!-- <select class="form-control" style="width:70%" id="edit_prjNo" disabled>
+                                    </select> -->
                                 </td>
                             </tr>
                             <tr>
@@ -668,15 +670,10 @@
             <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>
                     <tr>
-                        <th style="width:15%;">项目名称</th>
-                        <th style="width:10%;">填报人</th>
-                        <th style="width:15%;">项目地区</th>
-                        <th style="width:10%;">项目类型</th>
-                        <th style="width:10%;">项目投标时间</th>
-                        <th style="width:9%;">参与开标单位数量</th>
-                        <th style="width:7%;">本公司报价</th>
-                        <th style="width:7%;">是否中标</th>
-                        <th style="width:7%;">操作</th>
+                        <th>项目名称</th>
+                        <th>任务单号</th>
+                        <th>是否录入附件</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -703,7 +700,7 @@
 <script>
     $(document).ready( function () {
     	initTable();
-    	initSelectPrj();
+    	//initSelectPrj();
     	initUser();
     	laydate.render({
             elem: '#year1' //指定元素
@@ -739,24 +736,31 @@
 		},
 		"columns": [
             { "data": "prjName"}, 
-            { "data": "fillInOne"}, 
-            { "data": "prjArea"}, 
-            { "data": "prjType"}, 
-            { "data": "prjBidTime"}, 
-            { "data": "numberParticipatingUnits"}, 
-            { "data": "offer"}, 
-            { "data": "isBidding"}, 
+            { "data": "prjNo"},
+            { "data": null},
+            { "data": null}, 
         ],
         "columnDefs": [
 						{	
 								 "class": "tcenter",
-								    "targets": 8,
+								    "targets": 3,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		/* return '  <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookMd(this)" data-toggle="modal" data-target="#allMsg" id="lookDetall"></i>  <i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="checkMd(this)" data-toggle="modal" data-target="#change"></i>  <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除" onclick="deleteMd(this)" id="delyiji"></i>' */
-								    	return '  <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookMd(this)"  id="lookDetall"></i>   <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除" onclick="deleteMd(this)" id="delyiji"></i>'
+								  	  		return '  <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookMd(this)" data-toggle="modal" data-target="#allMsg" id="lookDetall"></i>  <i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="checkMd(this)" data-toggle="modal" data-target="#change"></i>  <i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除" onclick="deleteMd(this)" id="delyiji"></i>'
 								        }
-								  }
+								  },
+								  {	
+										 "class": "tcenter",
+										    "targets": 2,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+											    	if(full.fileLength>0){
+										    			return '<span class="label label-success state">已录入附件</span>'
+										    		}else{
+											  	  		return '<span class="label label-danger state">未录入附件</span> '
+										    		}
+										        }
+										  }
 						],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
@@ -809,7 +813,7 @@
 
 	
 	//初始化项目名称和任务单号
-    function initSelectPrj(){
+    /* function initSelectPrj(){
 		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/task/selectPrjAndNo',
@@ -839,7 +843,6 @@
 	                    	prjNo:$('#prjNo').val()
 	                    },
 	                    success: function (json) {
-	                    	console.log(json)
 	                    	for(var i=0;i<json.length;i++){
 	                    		$("#prjName").val(json[i].prjName)
 	                    		$("#prjType").val(json[i].prjType2)
@@ -898,7 +901,7 @@
 	          	 
 	        }
 		});
-	}
+	} */
 	
 	
 	
@@ -1231,70 +1234,73 @@
 				id:data.mdId
 				},
 			success:function(json){
-				$("#look_accessory1 tbody").empty();
-				$("#look_accessory2 tbody").empty();
-				$("#look_accessory3 tbody").empty();
-				$("#look_accessory4 tbody").empty();
-				$("#look_accessory5 tbody").empty();
-				$("#look_accessory6 tbody").empty();
-	            for(var i=0;i<json.length;i++){
-	            	if(json[i].aType=="招标文件"){
-	            	   $("#look_accessory1 tbody").append("<tr>"+
-			     	   									"<td style='width:15%;'>附件</td>"+
-								            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-								            	    	"<td>附件说明</td>"+
-								            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
-								            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-								            	    "</tr>");
-	            	}
-	            	if(json[i].aType=="技术文件"){
-		            	   $("#look_accessory2 tbody").append("<tr>"+
+				if(json!=null){
+					$("#look_accessory1 tbody").empty();
+					$("#look_accessory2 tbody").empty();
+					$("#look_accessory3 tbody").empty();
+					$("#look_accessory4 tbody").empty();
+					$("#look_accessory5 tbody").empty();
+					$("#look_accessory6 tbody").empty();
+		            for(var i=0;i<json.length;i++){
+		            	if(json[i].aType=="招标文件"){
+		            	   $("#look_accessory1 tbody").append("<tr>"+
 				     	   									"<td style='width:15%;'>附件</td>"+
 									            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
 									            	    	"<td>附件说明</td>"+
-									            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
+									            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
 									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
 									            	    "</tr>");
-		            }
-	            	if(json[i].aType=="商务文件"){
-		            	   $("#look_accessory3 tbody").append("<tr>"+
-				     	   									"<td style='width:15%;'>附件</td>"+
-									            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-									            	    	"<td>附件说明</td>"+
-									            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
-									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-									            	    "</tr>");
-		            }
-	            	if(json[i].aType=="中标通知书"){
-		            	   $("#look_accessory4 tbody").append("<tr>"+
-				     	   									"<td style='width:15%;'>附件</td>"+
-									            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-									            	    	"<td>附件说明</td>"+
-									            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
-									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-									            	    "</tr>");
-		            }
-	            	if(json[i].aType=="验收证书"){
-		            	   $("#look_accessory5 tbody").append("<tr>"+
-				     	   									"<td style='width:15%;'>附件</td>"+
-									            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-									            	    	"<td>附件说明</td>"+
-									            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
-									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-									            	    "</tr>");
-		            }
-	            	if(json[i].aType=="开标记录"){
-		            	   $("#look_accessory6 tbody").append("<tr>"+
-				     	   									"<td style='width:15%;'>附件</td>"+
-									            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-									            	    	"<td>附件说明</td>"+
-									            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
-									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-									            	    "</tr>");
-		            }
+		            	}
+		            	if(json[i].aType=="技术文件"){
+			            	   $("#look_accessory2 tbody").append("<tr>"+
+					     	   									"<td style='width:15%;'>附件</td>"+
+										            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+										            	    	"<td>附件说明</td>"+
+										            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+										            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+										            	    "</tr>");
+			            }
+		            	if(json[i].aType=="商务文件"){
+			            	   $("#look_accessory3 tbody").append("<tr>"+
+					     	   									"<td style='width:15%;'>附件</td>"+
+										            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+										            	    	"<td>附件说明</td>"+
+										            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+										            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+										            	    "</tr>");
+			            }
+		            	if(json[i].aType=="中标通知书"){
+			            	   $("#look_accessory4 tbody").append("<tr>"+
+					     	   									"<td style='width:15%;'>附件</td>"+
+										            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+										            	    	"<td>附件说明</td>"+
+										            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+										            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+										            	    "</tr>");
+			            }
+		            	if(json[i].aType=="验收证书"){
+			            	   $("#look_accessory5 tbody").append("<tr>"+
+					     	   									"<td style='width:15%;'>附件</td>"+
+										            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+										            	    	"<td>附件说明</td>"+
+										            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+										            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+										            	    "</tr>");
+			            }
+		            	if(json[i].aType=="开标记录"){
+			            	   $("#look_accessory6 tbody").append("<tr>"+
+					     	   									"<td style='width:15%;'>附件</td>"+
+										            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+										            	    	"<td>附件说明</td>"+
+										            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+										            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+										            	    "</tr>");
+			            }
+		            } 
 	            	hidMask();
 	            	$("#allMsg").modal("show");
-	            } 
+					
+				}
 			}
 		})
 		
@@ -1310,13 +1316,13 @@
 	
 	//修改回显
 	var xgId;
-	var tr;
+	var data;
+	var dom;
 	function checkMd(obj){
-		tr = $(obj).closest('tr');
-		var dom=$(obj).parents("tr");
-		var data=$("#mainContent").DataTable().row(dom).data();
+		dom=$(obj).parents("tr");
+		data=$("#mainContent").DataTable().row(dom).data();
 		xgId=data.mdId;
-		console.log(data)
+		//console.log(data)
 		$("#edit_prjName").val(data.prjName);
 		$("#edit_prjNo").val(data.prjNo);
 		$("#edit_prjArea").val(data.prjArea);
@@ -1368,7 +1374,7 @@
 								"<td>附件</td>"+
 		            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
 		            	    	"<td>附件说明</td>"+
-		            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
+		            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
 		            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 		            	    "</tr>");
 	            	}
@@ -1377,7 +1383,7 @@
 									"<td>附件</td>"+
 			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
 			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
 			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
@@ -1386,7 +1392,7 @@
 									"<td>附件</td>"+
 			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
 			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
 			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
@@ -1395,7 +1401,7 @@
 									"<td>附件</td>"+
 			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
 			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
 			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
@@ -1404,7 +1410,7 @@
 									"<td>附件</td>"+
 			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
 			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
 			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
@@ -1413,7 +1419,7 @@
 									"<td>附件</td>"+
 			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
 			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+(json[i].aDesc==null||json[i].aDesc==''?'无':json[i].aDesc)+"' disabled></td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
 			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
@@ -1425,12 +1431,9 @@
 		var url=$(obj).attr("data1");
 		var id=$(obj).attr("data2");
 		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
-		if(!confirm("确认删除该附件吗?")){
-			   return false;
-			}
 		$.ajax({
 	        type: 'POST',
-	        url: getContextPath()+'/ManagingDocuments/deleteAccessory',
+	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
 	        dataType: 'json',
 	        data: {
 	        	aId:id,
@@ -1438,12 +1441,11 @@
             	acUrl:url
 	        },
 	        success: function (json) {
-	        	if(json==0){
-	        		toastr.error("删除失败");
-	        	}else{
+	        	if(json>0){
 	        		toastr.success("删除成功");
 	        		$(obj).parent().parent().remove();
-	        		//$("#change").modal("hide")
+	        	}else{
+	        		toastr.error("删除失败");
 	        	}
 	        }
 		});
@@ -1650,15 +1652,14 @@
 	  			type: 'POST',
 	            url: getContextPath()+'/ManagingDocuments/updateManagingDocumentsSave',
 	            data: formData,  
-	            cache: false,
 	            processData: false,
 	            contentType: false,
-	            async: false,
 	            success: function (json) {
 	            	if(json.result>0){
 	            		$("#change").modal("hide");
 	            		toastr.success("修改成功")
-	            		$('#mainContent').DataTable().row(tr).data(ManagingDocuments);//修改行立即显示
+	            		data.fileLength=1;
+	            		$('#mainContent').DataTable().row(dom).data(data).draw(false);;//修改行立即显示
 	            	}else{
 	            		toastr.error("修改失败")
 	            	}

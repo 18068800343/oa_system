@@ -14,4 +14,6 @@ public interface TechnicalDocumentationService {
 	
 	TechnicalDocumentation selectTechnicalDocumentationById(String id);
 
+	int updateTechnicalDocumentationSave(TechnicalDocumentation td);
+
 }

@@ -14,4 +14,6 @@ public interface DesignDocumentsService {
 	
 	DesignDocuments selectDesignDocumentsById(String id);
 
+	int updateDesignDocumentsSave(DesignDocuments dd);
+
 }

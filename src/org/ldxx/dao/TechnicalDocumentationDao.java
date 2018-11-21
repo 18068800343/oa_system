@@ -15,4 +15,6 @@ public interface TechnicalDocumentationDao {
 	
 	TechnicalDocumentation selectTechnicalDocumentationById(@Param("id")String id);
 
+	int updateTechnicalDocumentationSave(@Param("td")TechnicalDocumentation td);
+
 }

@@ -9,7 +9,7 @@ public class DesignDocuments {
 	private String ddId;// 编号
 	private String prjName;//项目名称
 	private String prjNo; //任务单号
-	
+	private int fileLength;
 	private List<Accessory> accessory1;//项目实际存档目录
     private List<Accessory> accessory2;//项目特点介绍、关键词
     private List<Accessory> accessory3;//招投标文件
@@ -53,6 +53,14 @@ public class DesignDocuments {
     private List<Accessory> accessory37;//施工图重点项目项目总结
     private List<Accessory> accessory38;//施工图相关单位往来函、文
     private List<Accessory> accessory39;//施工图重点项目质量流程内部控制文件
+    
+    
+	public int getFileLength() {
+		return fileLength;
+	}
+	public void setFileLength(int fileLength) {
+		this.fileLength = fileLength;
+	}
 	public String getDdId() {
 		return ddId;
 	}

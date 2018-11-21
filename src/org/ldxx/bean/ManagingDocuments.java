@@ -27,6 +27,7 @@ public class ManagingDocuments {
 	private String bidEvaluationMethod;//评标办法
 	private List<ManagingDocumentsTenderer> managingDocumentsTenderer;//招标人
 	
+	private int fileLength;
 	private List<Accessory> accessory1;
     private List<Accessory> accessory2;
     private List<Accessory> accessory3;
@@ -35,6 +36,12 @@ public class ManagingDocuments {
     private List<Accessory> accessory6;
 	
 	
+	public int getFileLength() {
+		return fileLength;
+	}
+	public void setFileLength(int fileLength) {
+		this.fileLength = fileLength;
+	}
 	public List<Accessory> getAccessory1() {
 		return accessory1;
 	}
