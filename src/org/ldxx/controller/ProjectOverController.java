@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ldxx.bean.ManagingDocuments;
 import org.ldxx.bean.ProjectOver;
+import org.ldxx.service.ManagingDocumentsService;
 import org.ldxx.service.ProjectOverService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class ProjectOverController {
 	
 	@Autowired
 	private ProjectOverService prjOverService;
+	@Autowired
+	private ManagingDocumentsService service;//经营文档资料
 	
 	@RequestMapping("/selectPrjOver")
 	@ResponseBody
@@ -38,11 +42,22 @@ public class ProjectOverController {
 		projectOver.setPoId(id);
 		int i =prjOverService.addPrjOver(projectOver);
 		if(i>0){
-			map.put("result", i);
-			map.put("projectOver", projectOver);
-		}else{
-			i=2;
+			ManagingDocuments md=new ManagingDocuments();
+			md.setMdId(id);
+			md.setPrjName(projectOver.getPrjName());//项目名
+			md.setPrjNo(projectOver.getPrjNo());//项目编号
+			md.setPrjType(projectOver.getPrjType());//项目类型
+			md.setPrjBidTime(projectOver.getPoDate());//项目投标时间
+			md.setIsBidding("是");//是否中标
+			md.setOffer(projectOver.getContractAmount());//本公司报价
+			md.setBiddingPrice(projectOver.getContractAmount());//中标价格
+			md.setBiddingPrjManager(projectOver.getProjectManager());//中标项目经理
+			md.setPrjGeneral(projectOver.getProjectEngineer());//项目总工
+			md.setBiddingUnit(projectOver.getTenderCompany());//中标单位
+			i=service.addManagingDocumentsSave(md);
 		}
+		map.put("result", i);
+		map.put("projectOver", projectOver);
 		return map;
 	}
 	
@@ -54,11 +69,22 @@ public class ProjectOverController {
 		projectOver.setPoId(id);
 		int i =prjOverService.addPrjOver(projectOver);
 		if(i>0){
-			map.put("result", i);
-			map.put("projectOver", projectOver);
-		}else{
-			i=2;
+			ManagingDocuments md=new ManagingDocuments();
+			md.setMdId(id);
+			md.setPrjName(projectOver.getPrjName());//项目名
+			md.setPrjNo(projectOver.getPrjNo());//项目编号
+			md.setPrjType(projectOver.getPrjType());//项目类型
+			md.setPrjBidTime(projectOver.getPoDate());//项目投标时间
+			md.setIsBidding("是");//是否中标
+			md.setOffer(projectOver.getContractAmount());//本公司报价
+			md.setBiddingPrice(projectOver.getContractAmount());//中标价格
+			md.setBiddingPrjManager(projectOver.getProjectManager());//中标项目经理
+			md.setPrjGeneral(projectOver.getProjectEngineer());//项目总工
+			md.setBiddingUnit(projectOver.getTenderCompany());//中标单位
+			i=service.addManagingDocumentsSave(md);
 		}
+		map.put("result", i);
+		map.put("projectOver", projectOver);
 		return map;
 	}
 	
@@ -74,12 +100,8 @@ public class ProjectOverController {
 	public Map<String,Object> updatePrjOverById(ProjectOver projectOver){
 		Map<String,Object> map = new HashMap<>();
 		int i =prjOverService.updatePrjOverById(projectOver);
-		if(i>0){
-			map.put("result", i);
-			map.put("projectOver", projectOver);
-		}else{
-			i=2;
-		}
+		map.put("result", i);
+		map.put("projectOver", projectOver);
 		return map;
 	}
 	
@@ -88,12 +110,8 @@ public class ProjectOverController {
 	public Map<String,Object> updatePrjOverByIdSubmit(ProjectOver projectOver){
 		Map<String,Object> map = new HashMap<>();
 		int i =prjOverService.updatePrjOverById(projectOver);
-		if(i>0){
-			map.put("result", i);
-			map.put("projectOver", projectOver);
-		}else{
-			i=2;
-		}
+		map.put("result", i);
+		map.put("projectOver", projectOver);
 		return map;
 	}
 	

@@ -12,6 +12,8 @@ public class ProjectOver {
     private String prjName;
     /*项目编号*/
     private String prjNo;
+    //项目类型
+    private String prjType;
 
     /*业主单位*/
     private String productOwners;
@@ -20,7 +22,7 @@ public class ProjectOver {
     private String prjDesc;
 
     /*合同金额*/
-    private String contractAmount;
+    private Float contractAmount;
 
     /*项目工期*/
     private String projectDuration;
@@ -52,7 +54,16 @@ public class ProjectOver {
     
     
 
-    public String getPrjNo() {
+    
+    public String getPrjType() {
+		return prjType;
+	}
+
+	public void setPrjType(String prjType) {
+		this.prjType = prjType;
+	}
+
+	public String getPrjNo() {
 		return prjNo;
 	}
 
@@ -117,15 +128,17 @@ public class ProjectOver {
         this.prjDesc = prjDesc == null ? null : prjDesc.trim();
     }
 
-    public String getContractAmount() {
-        return contractAmount;
-    }
+    
 
-    public void setContractAmount(String contractAmount) {
-        this.contractAmount = contractAmount == null ? null : contractAmount.trim();
-    }
+    public Float getContractAmount() {
+		return contractAmount;
+	}
 
-    public String getProjectDuration() {
+	public void setContractAmount(Float contractAmount) {
+		this.contractAmount = contractAmount;
+	}
+
+	public String getProjectDuration() {
         return projectDuration;
     }
 

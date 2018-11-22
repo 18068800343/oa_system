@@ -39,7 +39,10 @@ public class ManagingDocumentsServiceImpl implements ManagingDocumentsService {
 	public int deleteManagingDocumentsById(String id) {
 		int i=dao.deleteManagingDocumentsById(id);
 		if(i>0){
-			i=tdao.deletetTendererById(id);
+			List<ManagingDocumentsTenderer> tenderer = tdao.selectTendererById(id);
+			if(tenderer.size()>0){
+				i=tdao.deletetTendererById(id);
+			}
 			List<Accessory> list = adao.selectAccessoryById(id);
 			if(list.size()>0&&list!=null){
 				i=adao.deleteAccessory(id);
@@ -88,10 +91,10 @@ public class ManagingDocumentsServiceImpl implements ManagingDocumentsService {
 			if(accessory6!=null&&accessory6.size()>0){
 				i=adao.addAccessory(accessory6);
 			}
-			for(int k=0;k<tenderer.size();k++){
-				tenderer.get(k).settId(md.getMdId());
-			}
 			if(tenderer!=null&&tenderer.size()>0){
+				for(int k=0;k<tenderer.size();k++){
+					tenderer.get(k).settId(md.getMdId());
+				}
 				i=tdao.addTenderer(tenderer);
 			}
 			
