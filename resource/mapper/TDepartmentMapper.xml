@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.TDepartmentDao" >
+  	<insert id="addTDepartment" parameterType="java.util.List">
+  		insert into t_department(t_no,d_name,d_money,d_income)
+  		values
+  		<foreach collection="td" item="t" index="index" separator="," >
+  			(#{t.tNo},#{t.dName},#{t.dMoney},#{t.dIncome})
+  		</foreach>
+  	</insert>
+  	
+  	<update id="updateIncome" parameterType="java.util.List">
+  		<foreach collection="td" item="t" index="index" separator=";">
+  			update t_department set d_income=(d_income+#{t.dIncome}) where t_no=#{t.tNo} and d_name=#{t.dName}
+  		</foreach>
+  	</update>
+  	
+  	<select id="selectDepartment" resultType="TDepartment">
+  		select * from t_department where t_no=#{no}
+  	</select>
+  	
+  	<delete id="deleteDepartmentByNo" parameterType="String">
+  		delete from t_department where t_no=#{no}
+  	</delete>
+</mapper>
