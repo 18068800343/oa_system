@@ -106,9 +106,11 @@
                             <tr>
                             	<td>承接合同名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td> 
-                                        <select class="form-control" style="width:70%;" id="chengjiehetongName">
+                                		<input type="text" style="width:70%;" class="form-control" id="chengjiehetongName" disabled>
+                                       <!--  <select class="form-control" style="width:70%;" id="chengjiehetongName">
                                         
-                                        </select>
+                                        </select> -->
+                                         <button type="button" class="btn btn-primary weui-uploader__input" onclick="select_cj()">选择承接合同</button>
                                 </td>
                                 <td>承接合同号:</td>
                                 <td>
@@ -266,9 +268,11 @@
                             <tr>
                             	<td>承接合同名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td> 
-                                        <select class="form-control" style="width:70%;" id="xgchengjiehetongName">
+                                        <!-- <select class="form-control" style="width:70%;" id="xgchengjiehetongName">
                                             
-                                        </select>
+                                        </select> -->
+                                        <input type="text" class="form-control" id="xgchengjiehetongName" disabled style="width:70%;">
+                                        <button type="button" class="btn btn-primary weui-uploader__input" onclick="select_cj2()">选择承接合同</button>
                                 </td>
                                 <td>承接合同号:</td>
                                 <td>
@@ -637,6 +641,82 @@
     </div>
 </div>
 <!-- model3结束 -->
+
+<!-- Modal选择承接合同 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_cj">
+    <div class="modal-dialog modal-lg" role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择承接合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="cj_table">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>承接合同名称</th>
+                                    <th>承接合同编号</th>
+                                    <th>甲方单位</th>
+                                    <th>合同起日期</th>
+                                    <th>合同讫日期</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveCjName()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+
+<!-- Modal选择承接合同 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_cj2">
+    <div class="modal-dialog modal-lg" role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择承接合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="cj_table2">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>承接合同名称</th>
+                                    <th>承接合同编号</th>
+                                    <th>甲方单位</th>
+                                    <th>合同起日期</th>
+                                    <th>合同讫日期</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveCjName2()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
 <!-- Modal4 -->
 <!-- <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal4">
     <div class="modal-dialog modal-lg" role="document">
@@ -1046,6 +1126,102 @@ function quxiao3(){
         
 	});
     
+    var table3=$('#cj_table').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": null}, 
+            { "data": "contractName"},
+            { "data": "contractNo"}, 
+            { "data": "ccName"}, 
+            { "data": "contractStartTime"},
+            { "data": "contractEndTime"}
+        ],
+        "columnDefs": [
+						{
+								 "class": "tcenter",
+								    "targets": 0,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<input type="radio" name="cjName" style="width:16px;height:16px;">'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    
+    var table4=$('#cj_table2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": null}, 
+            { "data": "contractName"},
+            { "data": "contractNo"}, 
+            { "data": "ccName"}, 
+            { "data": "contractStartTime"},
+            { "data": "contractEndTime"}
+        ],
+        "columnDefs": [
+						{
+								 "class": "tcenter",
+								    "targets": 0,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<input type="radio" name="cjName2" style="width:16px;height:16px;">'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    
   <!-- 历史表格 -->
     var table2=$('#lookHistory').dataTable({
         "deferRender": true,
@@ -1204,17 +1380,17 @@ function quxiao3(){
 	        	toastr.error("请求失败");
 	        },
 	        success: function (json) {
-	        	$("#chengjiehetongName").html('');
+	        	/* $("#chengjiehetongName").html(''); */
 	        	$("#chengjiehetonghao").html('');
-	        	$("#xgchengjiehetongName").html('');
+	        	/* $("#xgchengjiehetongName").html(''); */
 	        	$("#xgchengjiehetonghao").html('');
 	        	for(var i=0;i<json.length;i++){
-	        		$("#chengjiehetongName").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
+	        		/* $("#chengjiehetongName").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>"); */
 	        		$("#chengjiehetonghao").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
-	        		$("#xgchengjiehetongName").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
+	        		/* $("#xgchengjiehetongName").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>"); */
 	        		$("#xgchengjiehetonghao").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
 	        	}
-	        	$('#chengjiehetongName').editableSelect().on('select.editable-select', function (e, dom) {
+	        	/* $('#chengjiehetongName').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/cj/selectCjContractByName',
@@ -1228,7 +1404,7 @@ function quxiao3(){
 	                    	$('#task_no').val(json.taskCode);
 	                    }
 	          		});
-	          	})
+	          	}) */
 	          	$('#chengjiehetonghao').editableSelect().on('select.editable-select', function (e, dom) {
 	          		$.ajax({
 	                    type: 'POST',
@@ -1245,7 +1421,7 @@ function quxiao3(){
 	          		});
 			  	})
 			  	
-			  	 $('#xgchengjiehetongName').editableSelect().on('select.editable-select', function (e, dom) {
+			  	 /* $('#xgchengjiehetongName').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/cj/selectCjContractByName',
@@ -1259,7 +1435,7 @@ function quxiao3(){
 	                    	$('#xgtask_no').val(json.taskCode);
 	                    }
 	          		});
-	          	})
+	          	}) */
 	          	$('#xgchengjiehetonghao').editableSelect().on('select.editable-select', function (e, dom) {
 	          		$.ajax({
 	                    type: 'POST',
@@ -1990,15 +2166,6 @@ function quxiao3(){
   		var tr=$(obj).parents("tr");
   		$(tr).remove();
   	}
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
     function getCreat(bb){
@@ -2035,6 +2202,65 @@ function quxiao3(){
             $(".chongqi").hide();
         }
     })
+    
+    function select_cj(){
+    	 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/cj/selectNameAndNo',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            },
+	            success: function (json) {
+	                $('#cj_table').dataTable().fnClearTable();
+	                $('#cj_table').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+    	$("#choose_cj").modal("show");
+    }
 
+    function select_cj2(){
+    	 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/cj/selectNameAndNo',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            },
+	            success: function (json) {
+	                $('#cj_table2').dataTable().fnClearTable();
+	                $('#cj_table2').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+ 		$("#choose_cj2").modal("show");
+    }
+    
+    function saveCjName(){
+    	var tr=$("input[name='cjName']:checked").parents("tr");
+    	var data=$("#cj_table").DataTable().row(tr).data();
+    	if(data==null){
+    		toastr.error("请选择")
+    		return;
+    	}
+    	$("#chengjiehetongName").val(data.contractName);
+    	$("#chengjiehetonghao").val(data.contractNo);
+    	$("#prjName").val(data.prjName);
+    	$("#task_no").val(data.taskCode);
+    	$("#choose_cj").modal("hide");
+    }
+    
+    function saveCjName2(){
+    	var tr=$("input[name='cjName2']:checked").parents("tr");
+    	var data=$("#cj_table2").DataTable().row(tr).data();
+    	if(data==null){
+    		toastr.error("请选择")
+    		return;
+    	}
+    	$("#xgchengjiehetongName").val(data.contractName);
+    	$("#xgchengjiehetonghao").val(data.contractNo);
+    	$("#xgprjName").val(data.prjName);
+    	$("#xgtask_no").val(data.taskCode);
+    	$("#choose_cj2").modal("hide");
+    }
 </script>
 </html>
