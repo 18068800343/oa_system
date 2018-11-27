@@ -72,12 +72,12 @@ public class BudgetFpplicationFormController {
 	public Map<String,Object> updateBudgeSave(@RequestBody List<BudgetFpplicationForm> budges){
 		Map<String,Object> map = new HashMap<>();
 		BudgetFpplicationForm budge = budges.get(0);
-		int i=bservice.changeStateById(budge.getBfId());//修改历史状态为0
-		if(i>0){
+		//int i=bservice.changeStateById(budge.getBfId());//修改历史状态为0
+		//if(i>0){
 			String newId=new TimeUUID().getTimeUUID();
 			budge.setBfId(newId);
-			i=bservice.saveBudge(budge);
-		}
+			int i=bservice.saveBudge(budge);
+		//}
 		map.put("result", i);
 		map.put("budge", budge);
 		return map;
@@ -88,12 +88,12 @@ public class BudgetFpplicationFormController {
 	public Map<String,Object> updateBudgeSubmit(@RequestBody List<BudgetFpplicationForm> budges){
 		Map<String,Object> map = new HashMap<>();
 		BudgetFpplicationForm budge = budges.get(0);
-		int i=bservice.changeStateById(budge.getBfId());
-		if(i>0){
+		//int i=bservice.changeStateById(budge.getBfId());
+		//if(i>0){
 			String newId=new TimeUUID().getTimeUUID();
 			budge.setBfId(newId);
-			i=bservice.saveBudge(budge);
-		}
+			int i=bservice.saveBudge(budge);
+		//}
 		map.put("result", i);
 		map.put("budge", budge);
 		return map;
