@@ -61,7 +61,7 @@
         </div>
         <div class="modal-body">
                 <div>     
-                    <form class="form-inline">
+                    <form class="form-inline" method="post" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed">
                             	<tr>
                             		<td style="width:15%;">项目名称</td>
@@ -80,6 +80,41 @@
                             		<td style="width:35%;"><input type="text" id="prjArea" style="width:60%;" class="form-control"></td>
                             		<td style="width:15%;">项目类型</td>
                             		<td style="width:35%;"><input type="text"class="form-control" style="width:60%;" id="prjType" disabled></td>
+                            	</tr>
+                            	<tr>
+                            		<td style="width:15%;">招标人</td>
+                            		<td style="width:35%;">
+                            			<input type="text" id="zhaobiaoren" style="width:60%;" class="form-control" disabled>
+                            			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择招标人</button>	
+                            		</td>
+                            		<td style="width:15%;">评标办法</td>
+                            		<td style="width:35%;">
+                            			<select class="form-control" id="pingbiaobanfa" style="width:60%;">
+	                            			<option>HL-DIF 合理低价法</option>
+	                            			<option>PS-ZDJ 技术评审最低价法</option>
+	                            			<option>PF-ZDJ 技术评分最低价法</option>
+	                            			<option>ZH-PF 综合评分法</option>
+                            			</select>
+                            		</td>
+                            	</tr>
+                            	<tr>
+                            		<td style="width:15%;">本次参投单位</td>
+                            		<td style="width:35%;">
+                            			<!-- <input type="text" id="cantoudanwei" style="width:60%;" class="form-control"> -->
+                            			<select class="form-control" id="cantoudanwei" style="width:60%;">
+	                            			<option>华通</option>
+	                            			<option>中设</option>
+	                            			<option>华汇</option>
+                            			</select>
+                            		</td>
+                            		<td style="width:15%;">公司报价折扣率</td>
+                            		<td style="width:35%;"><input type="text" id="gsbaojiazhekoulv" style="width:60%;" class="form-control"></td>
+                            	</tr>
+                            	<tr>
+                            		<td style="width:15%;">测算成本</td>
+                            		<td style="width:35%;"><input type="text" id="cesuanchengben" style="width:60%;" class="form-control"></td>
+                            		<td style="width:15%;">实际成本</td>
+                            		<td style="width:35%;"><input type="text" id="shijichengben" style="width:60%;" class="form-control"></td>
                             	</tr>
                             	<tr>
                             		<td style="width:15%;">业主控制价</td>
@@ -119,6 +154,16 @@
                             		<td>废标单位原因</td>
                             		<td colspan="3"><textarea id="yuanyin" rows="4" cols="80" class="form-control"></textarea></td>
                             	</tr>
+                        </table>
+                        
+                        <table class="table table-bordered table-condensed" id="new_accessory">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">开标记录公示截图</td>
+                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
                         </table>
                         
                         <table class="table table-bordered table-condensed" id="kaibiaodw">
@@ -196,6 +241,48 @@
     </div>
 </div>
 <!-- model项目结束 -->
+<!--选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择报名人员</h4>
+            </div>
+            <div class="modal-body">
+            
+                <form class="form-inline">
+                    <div class="form-group">
+                        	<span>部门:</span>
+                            <select style="width:180px;"id="bumen" class="form-control" ></select>
+                    </div>
+                </form>
+                
+                <div>
+                     <table class="table table-bordered table-condensed"  id="bmmingzibiao" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="quxiaoxr()">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 选人 modal结束 -->
 <!-- 提交 modal -->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
     <div class="modal-dialog" role="document">
@@ -258,6 +345,40 @@
                             		<td style="width:35%;"><input type="text" id="xgprjType" style="width:60%;" class="form-control" disabled></td>
                             	</tr>
                             	<tr>
+                            		<td style="width:15%;">招标人</td>
+                            		<td style="width:35%;">
+                            			<input type="text" id="xgzhaobiaoren" style="width:60%;" class="form-control" disabled>
+                            			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren">选择招标人</button>	
+                            		</td>
+                            		<td style="width:15%;">评标办法</td>
+                            		<td style="width:35%;">
+                            			<select class="form-control" id="xgpingbiaobanfa" style="width:60%;">
+	                            			<option>HL-DIF 合理低价法</option>
+	                            			<option>PS-ZDJ 技术评审最低价法</option>
+	                            			<option>PF-ZDJ 技术评分最低价法</option>
+	                            			<option>ZH-PF 综合评分法</option>
+                            			</select>
+                            		</td>
+                            	</tr>
+                            	<tr>
+                            		<td style="width:15%;">本次参投单位</td>
+                            		<td style="width:35%;">
+                            			<select class="form-control" id="xgcantoudanwei" style="width:60%;">
+	                            			<option>华通</option>
+	                            			<option>中设</option>
+	                            			<option>华汇</option>
+                            			</select>
+                            		</td>
+                            		<td style="width:15%;">公司报价折扣率</td>
+                            		<td style="width:35%;"><input type="text" id="xggsbaojiazhekoulv" style="width:60%;" class="form-control"></td>
+                            	</tr>
+                            	<tr>
+                            		<td style="width:15%;">测算成本</td>
+                            		<td style="width:35%;"><input type="text" id="xgcesuanchengben" style="width:60%;" class="form-control"></td>
+                            		<td style="width:15%;">实际成本</td>
+                            		<td style="width:35%;"><input type="text" id="xgshijichengben" style="width:60%;" class="form-control"></td>
+                            	</tr>
+                            	<tr>
                             		<td style="width:15%;">业主控制价</td>
                             		<td style="width:35%;"><input type="text" id="xgyezhukongzhijia" style="width:60%;" class="form-control"></td>
                             		<td style="width:15%;">评标基准价</td>
@@ -296,6 +417,18 @@
                             		<td colspan="3"><textarea id="xgyuanyin" rows="4" cols="80" class="form-control"></textarea></td>
                             	</tr>
                         </table>
+                        
+                        <table class="table table-bordered table-condensed" id="edit_accessory">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">开标记录公示截图</td>
+                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile2()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        
                         <table class="table table-bordered table-condensed" id="xgkaibiaodw">
                         	<thead>
                         		<tr>
@@ -371,6 +504,48 @@
     </div>
 </div>
 <!--xg项目  modelxg结束 --> 
+<!--修改选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgaddGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">修改选择用章管理人</h4>
+            </div>
+            <div class="modal-body">
+            
+                <form class="form-inline">
+                    <div class="form-group">
+                        	<span>部门:</span>
+                            <select style="width:180px;"id="xgbumen" class="form-control" ></select>
+                    </div>
+                </form>
+                
+                <div>
+                     <table class="table table-bordered table-condensed"  id="xgbmmingzibiao" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="quxiaoxgxr()">取消</button>
+                <button type="button" class="btn btn-primary" onclick="savexgGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改选人 modal结束 -->
 
                         </div>
                         <div class="LowerPart" style="margin-top:3px;">
@@ -421,6 +596,24 @@
                             		<td id="lookprjType"></td>
                             	</tr>
                             	<tr>
+                            		<td>招标人</td>
+                            		<td id="lookzhaobiaoren"></td>
+                            		<td>评标办法</td>
+                            		<td id="lookpingbiaobanfa"></td>
+                            	</tr>
+                            	<tr>
+                            		<td>本次参投单位</td>
+                            		<td id="lookcantoudanwei"></td>
+                            		<td>公司报价折扣率</td>
+                            		<td id="lookgsbaojiazhekoulv"></td>
+                            	</tr>
+                            	<tr>
+                            		<td>测算成本</td>
+                            		<td id="lookcesuanchengben"></td>
+                            		<td>实际成本</td>
+                            		<td id="lookshijichengben"></td>
+                            	</tr>
+                            	<tr>
                             		<td>业主控制价</td>
                             		<td id="lookyezhukongzhijia"></td>
                             		<td>评标基准价</td>
@@ -460,6 +653,9 @@
                             	</tr>
                         </table>
                         
+                        <table class="table table-bordered table-condensed" id="look_accessory">
+                        </table>
+                        
                         <table class="table table-bordered table-condensed" id="lookkaibiaodw">
                         	<thead>
                         		<tr>
@@ -494,12 +690,14 @@
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
-<script src="../../js/jquery-editable-select.js">
-</script><script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
     	initSelect();
+    	bumenSelect();
     	laydate.render({
             elem: '#year' //指定元素
         });
@@ -659,6 +857,101 @@
         }},
         
 	});
+  //选部门选人
+    var bmtableren=$('#bmmingzibiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="mingzi" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var xgbmtableren=$('#xgbmmingzibiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xgmingzi" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
 	function initTable(){
         $.ajax({
             type: 'POST',
@@ -674,6 +967,110 @@
             }
         });
     }
+	
+	
+	//初始化部门
+	function bumenSelect(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#bumen").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>");
+	        		$("#xgbumen").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>"); 
+	        		$("#bumen2").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>");
+	        		$("#xgbumen2").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>"); 
+	        	} 
+	        	$("#bumen").trigger('change');
+	        	$("#xgbumen").trigger('change');
+	        	$("#bumen2").trigger('change');
+	        	$("#xgbumen2").trigger('change');
+	        }
+	    });
+	}
+	
+	$("#bumen").change(function(){
+		var bumen=$("#bumen").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#bmmingzibiao').dataTable().fnClearTable();
+                $('#bmmingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	$("#xgbumen").change(function(){
+		var bumen=$("#xgbumen").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#xgbmmingzibiao').dataTable().fnClearTable();
+                $('#xgbmmingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	
+	
+	function quxiaoxr(){
+		$('#addGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+        $("#addGuanliren").modal("hide");
+	}
+	
+	function saveGuanliren(){
+		$('#addGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		var bumen=$("#bumen").val();
+		var a=$("input[name='mingzi']:checked").parent().next().text();
+		$("#zhaobiaoren").val(a);
+		$("#addGuanliren").modal("hide");
+	}
+	function quxiaoxgxr(){
+		$('#xgaddGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+        $("#xgaddGuanliren").modal("hide");
+	}
+	function savexgGuanliren(){
+		$('#xgaddGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		var bumen=$("#xgbumen").val();
+		var a=$("input[name='xgmingzi']:checked").parent().next().text();
+		$("#xgzhaobiaoren").val(a);
+		$("#xgaddGuanliren").modal("hide");
+	}
+	
 	//选择项目
 	$("#chosexm").click(function(){
 		$("#xiangmumd").modal("show");
@@ -875,6 +1272,32 @@
 		$("#lookyear2").text(data.recordDate)
 		$("#lookzongjie").text(data.conclusion)	
 		$("#lookyuanyin").text(data.unitReasonBid)
+		$("#lookzhaobiaoren").text(data.tenderer);
+		$("#lookpingbiaobanfa").text(data.bidEvaluationMethod);
+		$("#lookcantoudanwei").text(data.thisInUnit);
+		$("#lookgsbaojiazhekoulv").text(data.companyDiscountRate);
+		$("#lookcesuanchengben").text(data.calculateCost);
+		$("#lookshijichengben").text(data.actualCost);
+		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/accessory/selectAccessoryById",
+			dataType:"json",
+			data:{ 
+				id:data.orId
+				},
+			success:function(json){
+				$("#look_accessory").empty();
+	            for(var i=0;i<json.length;i++){
+		        	   $("#look_accessory").append("<tr>"+
+									     	   					"<td>附件"+(i+1)+"</td>"+
+														        "<td colspan='2'><input type='text'  style='width:70%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+														         "<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='download_all(this)'>下载附件</button></td>"+
+														"</tr>");
+	            } 
+			}
+		})
+		
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/OpeningRecord/selectOpeningRecordById',
@@ -900,6 +1323,12 @@
         });
 	}
 		
+	//下载附件
+	function download_all(obj){
+		var url=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
 	
 	
 	//添加保存
@@ -949,6 +1378,12 @@
 		var year2=$("#year2").val();
 		var zongjie=$("#zongjie").val();
 		var yuanyin=$("#yuanyin").val();
+		var zhaobiaoren=$("#zhaobiaoren").val();
+		var pingbiaobanfa=$("#pingbiaobanfa").val();
+		var cantoudanwei=$("#cantoudanwei").val();
+		var gsbaojiazhekoulv=$("#gsbaojiazhekoulv").val();
+		var cesuanchengben=$("#cesuanchengben").val();
+		var shijichengben=$("#shijichengben").val();
 		if(prjName==''){
 			toastr.error("项目名称不能为空");
 			return;
@@ -984,6 +1419,12 @@
 				conclusion:undefined,
 				unitReasonBid:undefined,
 				openingInformation:undefined,
+				tenderer:undefined,
+				bidEvaluationMethod:undefined,
+				thisInUnit:undefined,
+				companyDiscountRate:undefined,
+				calculateCost:undefined,
+				actualCost:undefined,
 		}
 		record.orId=null;
 		record.prjName=prjName;
@@ -1002,14 +1443,27 @@
 		record.conclusion=zongjie;
 		record.unitReasonBid=yuanyin;
 		record.openingInformation=arr;
+		record.tenderer=zhaobiaoren;
+		record.bidEvaluationMethod=pingbiaobanfa;
+		record.thisInUnit=cantoudanwei;
+		record.companyDiscountRate=gsbaojiazhekoulv;
+		record.calculateCost=cesuanchengben;
+		record.actualCost=shijichengben;
+		
+		var formData = new FormData();
+  		formData.append("record", JSON.stringify(record));
+  		
+  		$("#new_accessory tbody").find("tr").each(function(){
+  			formData.append("file", $(this).find("input")[0].files[0]);
+  		})
+  		
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/OpeningRecord/addOpeningRecordSave',
-            dataType: 'json',
-            contentType:'application/json',
-            data: JSON.stringify(record),
+            data: formData,  
+            processData: false,
+            contentType: false,
             success: function (json) {
-                console.log(json)
                 if(json.result>0){
                 	toastr.success("添加成功")
                 	$("#myModal").modal('hide')
@@ -1069,6 +1523,12 @@
 		var year2=$("#year2").val();
 		var zongjie=$("#zongjie").val();
 		var yuanyin=$("#yuanyin").val();
+		var zhaobiaoren=$("#zhaobiaoren").val();
+		var pingbiaobanfa=$("#pingbiaobanfa").val();
+		var cantoudanwei=$("#cantoudanwei").val();
+		var gsbaojiazhekoulv=$("#gsbaojiazhekoulv").val();
+		var cesuanchengben=$("#cesuanchengben").val();
+		var shijichengben=$("#shijichengben").val();
 		if(prjName==''){
 			toastr.error("项目名称不能为空");
 			return;
@@ -1104,6 +1564,12 @@
 				conclusion:undefined,
 				unitReasonBid:undefined,
 				openingInformation:undefined,
+				tenderer:undefined,
+				bidEvaluationMethod:undefined,
+				thisInUnit:undefined,
+				companyDiscountRate:undefined,
+				calculateCost:undefined,
+				actualCost:undefined,
 		}
 		record.orId=null;
 		record.prjName=prjName;
@@ -1122,15 +1588,26 @@
 		record.conclusion=zongjie;
 		record.unitReasonBid=yuanyin;
 		record.openingInformation=arr;
-		console.log(record)
+		record.tenderer=zhaobiaoren;
+		record.bidEvaluationMethod=pingbiaobanfa;
+		record.thisInUnit=cantoudanwei;
+		record.companyDiscountRate=gsbaojiazhekoulv;
+		record.calculateCost=cesuanchengben;
+		record.actualCost=shijichengben;
+		
+		var formData = new FormData();
+  		formData.append("record", JSON.stringify(record));
+  		
+  		$("#new_accessory tbody").find("tr").each(function(){
+  			formData.append("file", $(this).find("input")[0].files[0]);
+  		})
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/OpeningRecord/addOpeningRecordSubmit',
-            dataType: 'json',
-            contentType:'application/json',
-            data: JSON.stringify(record),
+            data: formData,  
+            processData: false,
+            contentType: false,
             success: function (json) {
-                console.log(json)
                 if(json.result>0){
                 	toastr.success("添加成功")
                 	$("#myModal").modal('hide')
@@ -1168,6 +1645,31 @@
 		$("#xgyear2").val(data.recordDate);
 		$("#xgzongjie").val(data.conclusion);
 		$("#xgyuanyin").val(data.unitReasonBid);
+		$("#xgzhaobiaoren").val(data.tenderer);
+		$("#xgpingbiaobanfa").val(data.bidEvaluationMethod);
+		$("#xgcantoudanwei").val(data.thisInUnit);
+		$("#xggsbaojiazhekoulv").val(data.companyDiscountRate);
+		$("#xgcesuanchengben").val(data.calculateCost);
+		$("#xgshijichengben").val(data.actualCost);
+		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/accessory/selectAccessoryById",
+			dataType:"json",
+			data:{ 
+				id:xiugaiId
+				},
+			success:function(json){
+				$("#edit_accessory thead").siblings().empty();
+	            for(var i=0;i<json.length;i++){
+		        	   $("#edit_accessory tbody").append("<tr>"+
+									     	   					"<td>附件"+(i+1)+"</td>"+
+														        "<td colspan='2'><input type='text'  style='width:70%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+														         "<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+														"</tr>");
+	            } 
+			}
+		})
 		
 		$.ajax({
             type: 'POST',
@@ -1198,6 +1700,32 @@
         });
 		
 	}
+	
+	function delete_thisFile(obj){
+		var url=$(obj).attr("data1");
+		var id=$(obj).attr("data2");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/PrjWorkingHours/deleteAccessory',
+	        dataType: 'json',
+	        data: {
+	        	aId:id,
+            	acName:name,
+            	acUrl:url
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("删除失败");
+	        	}else{
+	        		toastr.success("删除成功");
+	        		$(obj).parent().parent().remove();
+	        		//$("#change").modal("hide")
+	        	}
+	        }
+		});
+	}
+	
 	//修改保存
 	function savexiugai(){
 		var arr=new Array();
@@ -1245,6 +1773,12 @@
 		var xgyear2=$("#xgyear2").val();
 		var xgzongjie=$("#xgzongjie").val();
 		var xgyuanyin=$("#xgyuanyin").val();
+		var xgzhaobiaoren=$("#xgzhaobiaoren").val();
+		var xgpingbiaobanfa=$("#xgpingbiaobanfa").val();
+		var xgcantoudanwei=$("#xgcantoudanwei").val();
+		var xggsbaojiazhekoulv=$("#xggsbaojiazhekoulv").val();
+		var xgcesuanchengben=$("#xgcesuanchengben").val();
+		var xgshijichengben=$("#xgshijichengben").val();
 		if(xgprjName==''){
 			toastr.error("项目名称不能为空");
 			return;
@@ -1280,6 +1814,12 @@
 				conclusion:undefined,
 				unitReasonBid:undefined,
 				openingInformation:undefined,
+				tenderer:undefined,
+				bidEvaluationMethod:undefined,
+				thisInUnit:undefined,
+				companyDiscountRate:undefined,
+				calculateCost:undefined,
+				actualCost:undefined,
 		}
 		record.orId=xiugaiId;
 		record.prjName=xgprjName;
@@ -1298,13 +1838,26 @@
 		record.conclusion=xgzongjie;
 		record.unitReasonBid=xgyuanyin;
 		record.openingInformation=arr;
+		record.tenderer=xgzhaobiaoren;
+		record.bidEvaluationMethod=xgpingbiaobanfa;
+		record.thisInUnit=xgcantoudanwei;
+		record.companyDiscountRate=xggsbaojiazhekoulv;
+		record.calculateCost=xgcesuanchengben;
+		record.actualCost=xgshijichengben;
 		//console.log(record)
+		var formData = new FormData();
+  		formData.append("record", JSON.stringify(record));
+  		
+  		$("#edit_accessory tfoot").find("tr").each(function(){
+  			formData.append("file", $(this).find("input")[0].files[0]);
+  		})
+  		
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/OpeningRecord/updateOpeningRecordSave',
-            dataType: 'json',
-            contentType:'application/json',
-            data: JSON.stringify(record),
+            data: formData,  
+            processData: false,
+            contentType: false,
             success: function (json) {
                 if(json.result>0){
                 	toastr.success("修改成功")
@@ -1365,6 +1918,12 @@
 		var xgyear2=$("#xgyear2").val();
 		var xgzongjie=$("#xgzongjie").val();
 		var xgyuanyin=$("#xgyuanyin").val();
+		var xgzhaobiaoren=$("#xgzhaobiaoren").val();
+		var xgpingbiaobanfa=$("#xgpingbiaobanfa").val();
+		var xgcantoudanwei=$("#xgcantoudanwei").val();
+		var xggsbaojiazhekoulv=$("#xggsbaojiazhekoulv").val();
+		var xgcesuanchengben=$("#xgcesuanchengben").val();
+		var xgshijichengben=$("#xgshijichengben").val();
 		if(xgprjName==''){
 			toastr.error("项目名称不能为空");
 			return;
@@ -1400,6 +1959,12 @@
 				conclusion:undefined,
 				unitReasonBid:undefined,
 				openingInformation:undefined,
+				tenderer:undefined,
+				bidEvaluationMethod:undefined,
+				thisInUnit:undefined,
+				companyDiscountRate:undefined,
+				calculateCost:undefined,
+				actualCost:undefined,
 		}
 		record.orId=xiugaiId;
 		record.prjName=xgprjName;
@@ -1418,13 +1983,25 @@
 		record.conclusion=xgzongjie;
 		record.unitReasonBid=xgyuanyin;
 		record.openingInformation=arr;
+		record.tenderer=xgzhaobiaoren;
+		record.bidEvaluationMethod=xgpingbiaobanfa;
+		record.thisInUnit=xgcantoudanwei;
+		record.companyDiscountRate=xggsbaojiazhekoulv;
+		record.calculateCost=xgcesuanchengben;
+		record.actualCost=xgshijichengben;
 		//console.log(record)
+		var formData = new FormData();
+  		formData.append("record", JSON.stringify(record));
+  		
+  		$("#edit_accessory tfoot").find("tr").each(function(){
+  			formData.append("file", $(this).find("input")[0].files[0]);
+  		})
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/OpeningRecord/updateOpeningRecordSubmit',
-            dataType: 'json',
-            contentType:'application/json',
-            data: JSON.stringify(record),
+            data: formData,  
+            processData: false,
+            contentType: false,
             success: function (json) {
                 console.log(json)
                 if(json.result>0){
@@ -1439,6 +2016,18 @@
 	}
 	
 
+	function addFile(){
+		$("#new_accessory tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile2(){
+		$("#edit_accessory tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	
+	
+	function removeFile(obj){
+		var tr=$(obj).parents("tr");
+		$(tr).remove();
+	}
 	
 
     $(".quxiao").click(function(){
