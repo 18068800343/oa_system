@@ -13,7 +13,6 @@ public class ClfbContractEvaluate {
 	private Float contractAllMoney;//合同累计金额
 	private Float contractEndMoney;//合同实际结算金额
 	private String payMode;//付款方式
-	private String omId;//实际负责人部门
 	private String actualChargePerson;//实际负责人
 	private String scoreProductQualityEase;//产品质量及易用情况
 	private String scoreGiveProductionTime;//交货周期
@@ -27,9 +26,16 @@ public class ClfbContractEvaluate {
 	
 	
 	private String uName;//实际负责人
+	private String omName;//部门名
 	
 	
 	
+	public String getOmName() {
+		return omName;
+	}
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
 	public String getMakeTime() {
 		return makeTime;
 	}
@@ -41,12 +47,6 @@ public class ClfbContractEvaluate {
 	}
 	public void setuName(String uName) {
 		this.uName = uName;
-	}
-	public String getOmId() {
-		return omId;
-	}
-	public void setOmId(String omId) {
-		this.omId = omId;
 	}
 	public String getAllScore() {
 		return allScore;

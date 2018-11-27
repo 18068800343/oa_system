@@ -72,7 +72,7 @@ public class MaterialSubcontractController {
 	@ResponseBody
 	public int updatemSubcontractSave(ClfbContractEvaluate c){
 		String ceId = c.getCeId();
-		msService.updateHistory(ceId);//修改历史状态
+		//msService.updateHistory(ceId);//修改历史状态
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCeId(id);
@@ -84,7 +84,7 @@ public class MaterialSubcontractController {
 	@ResponseBody
 	public int updatemSubcontractSubmit(ClfbContractEvaluate c){
 		String ceId = c.getCeId();
-		msService.updateHistory(ceId);//修改历史状态
+		//msService.updateHistory(ceId);//修改历史状态
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCeId(id);

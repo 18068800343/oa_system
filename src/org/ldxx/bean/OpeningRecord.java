@@ -9,14 +9,14 @@ public class OpeningRecord {
 	private String prjNo;//投标审批单号
 	private String prjArea;//项目地区
 	private String prjType;//项目类型
-	private Float ownerControlledPrice;//业主控制价
+	private Float ownerControlledPrice;//业主控制价(项目限价)
 	private Float bidEvaluationBenchmarkPrice;//评标基准价
 	private String bidOpeningTime;//开标时间
-	private String percentageFluctuation;//基准价下浮比例
+	private String percentageFluctuation;//基准价折扣率
 	private String winningUnit;//中标单位
 	private String bidProjectManager;//中标项目经理
 	private Float bidPrice;//中标价格
-	private String floatingMediumPrice;//中标价下浮率
+	private String floatingMediumPrice;//中标价折扣率
 	private String recordDate;//记录日期
 	private String conclusion;//总结
 	private String unitReasonBid;//废标单位原因

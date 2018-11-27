@@ -156,7 +156,7 @@ public class MaterialPerformanceController {
 	@ResponseBody
 	public Map<String,Object> updatematerialPerformanceSave(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile file[],@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
-		mpService.updateHistoryById(c.getpId());
+		//mpService.updateHistoryById(c.getpId());//修改历史状态
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		c.setpId(id);
@@ -209,7 +209,7 @@ public class MaterialPerformanceController {
 	@ResponseBody
 	public Map<String,Object> updatematerialPerformanceSubmit(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile file[],@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
-		mpService.updateHistoryById(c.getpId());
+		//mpService.updateHistoryById(c.getpId());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		c.setpId(id);

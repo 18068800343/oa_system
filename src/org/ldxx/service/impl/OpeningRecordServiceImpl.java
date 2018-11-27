@@ -48,8 +48,8 @@ public class OpeningRecordServiceImpl implements OpeningRecordService {
 				for(int k=0;k<list.size();k++){
 					list.get(k).setOiId(record.getOrId());
 				}
+				i=idao.addOpeningInformation(list);
 			}
-			i=idao.addOpeningInformation(list);
 		}
 		return i;
 	}
