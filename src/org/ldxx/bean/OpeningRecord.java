@@ -23,6 +23,7 @@ public class OpeningRecord {
 	private String tenderer;//招标人
 	private String bidEvaluationMethod;//评标办法
 	private String thisInUnit;//本次参投单位
+	private Float companyOffer;//公司报价
 	private String companyDiscountRate;//公司报价折扣率
 	private Float calculateCost;//测算成本
 	private Float actualCost;//实际成本
@@ -34,6 +35,12 @@ public class OpeningRecord {
 	
 	
 	
+	public Float getCompanyOffer() {
+		return companyOffer;
+	}
+	public void setCompanyOffer(Float companyOffer) {
+		this.companyOffer = companyOffer;
+	}
 	public List<Accessory> getAccessory() {
 		return accessory;
 	}

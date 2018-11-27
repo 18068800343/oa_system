@@ -3,11 +3,10 @@ package org.ldxx.bean;
 public class OpeningInformation {
 	private String oiId;
 	private String entityName;//单位名称
-	private String businessOffer;//商务标报价
-	private String businessMark;//商务标得分
-	private String technicalMark;//技术标得分
-	private String totalScore;//总分
-	private String priceRatio;//报价比例
+	private String businessOffer;//报价
+	private String businessMark;//报价得分(A)
+	private String technicalMark;//第一信封得分(B)
+	private String totalScore;//总得分  (A+B)
 	private String ranking;//名次
 	public String getOiId() {
 		return oiId;
@@ -44,12 +43,6 @@ public class OpeningInformation {
 	}
 	public void setTotalScore(String totalScore) {
 		this.totalScore = totalScore;
-	}
-	public String getPriceRatio() {
-		return priceRatio;
-	}
-	public void setPriceRatio(String priceRatio) {
-		this.priceRatio = priceRatio;
 	}
 	public String getRanking() {
 		return ranking;
