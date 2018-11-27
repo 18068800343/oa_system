@@ -20,10 +20,62 @@ public class OpeningRecord {
 	private String recordDate;//记录日期
 	private String conclusion;//总结
 	private String unitReasonBid;//废标单位原因
+	private String tenderer;//招标人
+	private String bidEvaluationMethod;//评标办法
+	private String thisInUnit;//本次参投单位
+	private String companyDiscountRate;//公司报价折扣率
+	private Float calculateCost;//测算成本
+	private Float actualCost;//实际成本
+	
 	
 	private List<OpeningInformation> openingInformation;
 	
+	private List<Accessory> accessory;
 	
+	
+	
+	public List<Accessory> getAccessory() {
+		return accessory;
+	}
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
+	public String getTenderer() {
+		return tenderer;
+	}
+	public void setTenderer(String tenderer) {
+		this.tenderer = tenderer;
+	}
+	public String getBidEvaluationMethod() {
+		return bidEvaluationMethod;
+	}
+	public void setBidEvaluationMethod(String bidEvaluationMethod) {
+		this.bidEvaluationMethod = bidEvaluationMethod;
+	}
+	public String getThisInUnit() {
+		return thisInUnit;
+	}
+	public void setThisInUnit(String thisInUnit) {
+		this.thisInUnit = thisInUnit;
+	}
+	public String getCompanyDiscountRate() {
+		return companyDiscountRate;
+	}
+	public void setCompanyDiscountRate(String companyDiscountRate) {
+		this.companyDiscountRate = companyDiscountRate;
+	}
+	public Float getCalculateCost() {
+		return calculateCost;
+	}
+	public void setCalculateCost(Float calculateCost) {
+		this.calculateCost = calculateCost;
+	}
+	public Float getActualCost() {
+		return actualCost;
+	}
+	public void setActualCost(Float actualCost) {
+		this.actualCost = actualCost;
+	}
 	public List<OpeningInformation> getOpeningInformation() {
 		return openingInformation;
 	}

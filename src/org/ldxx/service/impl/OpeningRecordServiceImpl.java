@@ -2,8 +2,10 @@ package org.ldxx.service.impl;
 
 import java.util.List;
 
+import org.ldxx.bean.Accessory;
 import org.ldxx.bean.OpeningInformation;
 import org.ldxx.bean.OpeningRecord;
+import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.OpeningInformationDao;
 import org.ldxx.dao.OpeningRecordDao;
 import org.ldxx.service.OpeningRecordService;
@@ -17,7 +19,8 @@ public class OpeningRecordServiceImpl implements OpeningRecordService {
 
 	@Autowired
 	private OpeningRecordDao dao;
-	
+	@Autowired
+	private AccessoryDao adao;
 	@Autowired
 	private OpeningInformationDao idao;
 
@@ -36,9 +39,15 @@ public class OpeningRecordServiceImpl implements OpeningRecordService {
 	public int addOpeningRecordSave(OpeningRecord record) {
 		int i=dao.addOpeningRecordSave(record);
 		if(i>0){
+			List<Accessory> accessory=record.getAccessory();
+			if(accessory!=null&&accessory.size()>0){
+				i=adao.addAccessory(accessory);
+			}
 			List<OpeningInformation> list = record.getOpeningInformation();
-			for(int k=0;k<list.size();k++){
-				list.get(k).setOiId(record.getOrId());
+			if(list.size()!=0){
+				for(int k=0;k<list.size();k++){
+					list.get(k).setOiId(record.getOrId());
+				}
 			}
 			i=idao.addOpeningInformation(list);
 		}
@@ -53,6 +62,10 @@ public class OpeningRecordServiceImpl implements OpeningRecordService {
 		}
 		int i=dao.updateOpeningRecordSave(record);
 		if(i>0){
+			List<Accessory> accessory=record.getAccessory();
+			if(accessory!=null&&accessory.size()>0){
+				i=adao.addAccessory(accessory);
+			}
 			List<OpeningInformation> list = record.getOpeningInformation();
 			if(list.size()!=0&&list!=null){
 				for(int ii=0;ii<list.size();ii++){
