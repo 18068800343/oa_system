@@ -74,9 +74,10 @@
                         	<tr>
                                 <td style="width:18%;">项目名称</td>
                                 <td style="width:34%;">
-                                	<select class="form-control" style="width:60%;" id="prjName">
-                                    	
-                                    </select>
+                                	<!-- <select class="form-control" style="width:60%;" id="prjName">
+                                    </select> -->
+                                    <input type="text" class="form-control" id="prjName" disabled  style="width:60%;">
+                               		<button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="chosexm">选择项目</button>
                                 </td>
                                 <td style="width:18%;">任务单号</td>
                                 <td style="width:30%;">
@@ -143,6 +144,42 @@
     </div>
 </div>
 <!-- model结束 -->
+<!-- Modal项目 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xiangmumd">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xiangmubiao">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                                    <th>任务单号</th>
+                                    <th>项目名称</th>
+                            		<th>采购合同号</th>
+                                    <th>采购合同名</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="quedingxm">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
 <!--选人 modal -->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
     <div class="modal-dialog" role="document">
@@ -427,6 +464,53 @@
         }},
   
 	});
+    var table3=$('#xiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+		            { "data": "taskNo"},
+		            { "data": "pickProject"},
+		            { "data": "cgNo"},
+		            { "data": "cgName"},
+		            
+		        ],
+		        "columnDefs": [
+								{
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xiangmuName" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
 	function initTable(){
         $.ajax({
             type: 'POST',
@@ -441,6 +525,47 @@
             }
         });
     }
+	
+	//选择项目
+	$("#chosexm").click(function(){
+		$("#xiangmumd").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/GsMaterialRemain/selectGsMaterialRemain',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	remainType:1
+	            },
+	            success: function (json) {
+	            	//console.log(json)
+	                $('#xiangmubiao').dataTable().fnClearTable();
+	                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+	})
+	$("#quedingxm").click(function(){
+		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
+		$("#prjName").val(prjname);
+		$("#prjNo").val(prjNo);
+		$("#xiangmumd").modal("hide");
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/GsMaterialRemain/selectGsMaterialRemainByname',
+            dataType: 'json',
+            data: {
+            	remainType:1,
+            	name:$('#prjName').val()
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		initClBy(json[i].cmoId)
+            	}
+            }
+  		});
+		
+	})
 	
 	
 	//初始化项目名称和任务单号
@@ -460,11 +585,11 @@
         	$("#prjName").html('');
         	$("#prjNo").html('');
         	for(var i=0;i<json.length;i++){
-        		$("#prjName").append("<option value="+json[i].pickProject+">"+json[i].pickProject+"</option>");
+        		//$("#prjName").append("<option value="+json[i].pickProject+">"+json[i].pickProject+"</option>");
         		$("#prjNo").append("<option value="+json[i].taskNo+">"+json[i].taskNo+"</option>");
         	}
         	
-        	$('#prjName').editableSelect().on('select.editable-select', function (e, dom) {
+        	/* $('#prjName').editableSelect().on('select.editable-select', function (e, dom) {
         		$.ajax({
                     type: 'POST',
                     url: getContextPath()+'/GsMaterialRemain/selectGsMaterialRemainByname',
@@ -481,7 +606,7 @@
                     	}
                     }
           		});
-          	})
+          	}) */
           	$('#prjNo').editableSelect().on('select.editable-select', function (e, dom) {
         		$.ajax({
                     type: 'POST',
