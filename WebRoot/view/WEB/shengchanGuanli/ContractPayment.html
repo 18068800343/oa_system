@@ -63,8 +63,10 @@
                             <tr>
                                 <td style="width:15%;">分包合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;">
-                                	<select class="form-control" style="width:60%;" id="hetongming">
-                                    </select>
+                                	<!-- <select class="form-control" style="width:60%;" id="hetongming">
+                                    </select> -->
+                                    <input type="text" class="form-control" id="hetongming" disabled style="width:60%;">
+                                    <button type="button" class="btn btn-primary weui-uploader__input" onclick="chooseFb()">选择分包</button>
                                 </td>
                                 <td style="width:15%;">分包合同编号  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;">
@@ -293,7 +295,8 @@
                             <tr>
                                 <td style="width:15%;">分包合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;">
-                                	<input type="text" class="form-control" id="xghetongming" style="width:60%;">
+                                	<input type="text" class="form-control" id="xghetongming" style="width:60%;" disabled>
+                                	<button type="button" class="btn btn-primary weui-uploader__input" onclick="chooseFb2()">选择分包</button>
                                 </td>
                                 <td style="width:15%;">分包合同编号  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;">
@@ -764,6 +767,80 @@
         </div>
     </div>
 </div>
+<!-- Modal选择承接合同 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_fb">
+    <div class="modal-dialog modal-lg" role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择分包合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="fb_table">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>分包合同名称</th>
+                                    <th>分包合同编号</th>
+                                    <th>甲方单位</th>
+                                    <th>合同起日期</th>
+                                    <th>合同讫日期</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveFbName()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+<!-- Modal选择承接合同 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_fb2">
+    <div class="modal-dialog modal-lg" role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择分包合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="fb_table2">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>分包合同名称</th>
+                                    <th>分包合同编号</th>
+                                    <th>甲方单位</th>
+                                    <th>合同起日期</th>
+                                    <th>合同讫日期</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveFbName2()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
 
 </body>
 <script src="../../js/jquery.js"></script>
@@ -895,6 +972,101 @@
         }},
         
 	});
+    var table3=$('#fb_table').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": null}, 
+            { "data": "contractName"},
+            { "data": "fbNo"}, 
+            { "data": "ccName"}, 
+            { "data": "contractStartTime"},
+            { "data": "contractEndTime"}
+        ],
+        "columnDefs": [
+						{
+								 "class": "tcenter",
+								    "targets": 0,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<input type="radio" name="fbName" style="width:16px;height:16px;">'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table4=$('#fb_table2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": null}, 
+            { "data": "contractName"},
+            { "data": "fbNo"}, 
+            { "data": "ccName"}, 
+            { "data": "contractStartTime"},
+            { "data": "contractEndTime"}
+        ],
+        "columnDefs": [
+						{
+								 "class": "tcenter",
+								    "targets": 0,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<input type="radio" name="fbName2" style="width:16px;height:16px;">'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    
 	function initTable(){
         $.ajax({
             type: 'POST',
@@ -920,17 +1092,17 @@
 	        data: {
 	        },
 	        success: function (json) {
-	        	$("#hetongming").html('');
+	        	/* $("#hetongming").html(''); */
 	        	$("#hetonghao").html('');
-	        	$("#xghetongming").html('');
+	        	/* $("#xghetongming").html(''); */
 	        	$("#xghetonghao").html('');
 	        	for(var i=0;i<json.length;i++){
-	        		$("#hetongming").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
+	        		/* $("#hetongming").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>"); */
 	        		$("#hetonghao").append("<option value="+json[i].fbNo+">"+json[i].fbNo+"</option>");
-	        		$("#xghetongming").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
+	        		/* $("#xghetongming").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>"); */
 	        		$("#xghetonghao").append("<option value="+json[i].fbNo+">"+json[i].fbNo+"</option>");
 	        	}
-	        	$('#hetongming').editableSelect().on('select.editable-select', function (e, dom) {
+	        	/* $('#hetongming').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/subcontract/getFBContractByName',
@@ -947,7 +1119,7 @@
 	        				$("#renwudanhao").val(json.workNo); 
 	                    }
 	          		});
-	          	})
+	          	}) */
 	          	$('#hetonghao').editableSelect().on('select.editable-select', function (e, dom) {
 	          		$.ajax({
 	                    type: 'POST',
@@ -967,7 +1139,7 @@
 	          		});
 			  	})
 			  	
-			  	 $('#xghetongming').editableSelect().on('select.editable-select', function (e, dom) {
+			  	 /* $('#xghetongming').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/subcontract/getFBContractByName',
@@ -984,7 +1156,7 @@
 	        				$("#xgrenwudanhao").val(json.workNo);
 	                    }
 	          		});
-	          	})
+	          	}) */
 	          	$('#xghetonghao').editableSelect().on('select.editable-select', function (e, dom) {
 	          		$.ajax({
 	                    type: 'POST',
@@ -1727,7 +1899,7 @@
 		
 		$.ajax({
 			type:"post",
-			url:getContextPath()+"/pay/selectAccessoryById",
+			url:getContextPath()+"/subcontract/selectAccessoryById",
 			dataType:"json",
 			async:false,
 			data:{
@@ -1853,6 +2025,91 @@
             return false;
         }
     })
+    
+    function chooseFb(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBNameAndNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            success: function (json) {
+                $('#fb_table').dataTable().fnClearTable();
+                $('#fb_table').DataTable().rows.add(json).draw(false);
+            }
+        });
+    	$("#choose_fb").modal("show");
+    }
 
+    function saveFbName(){
+    	var tr=$("input[name='fbName']:checked").parents("tr");
+    	var data=$("#fb_table").DataTable().row(tr).data();
+    	if(data==null){
+    		toastr.error("请选择")
+    		return;
+    	}
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBContractByName',
+            dataType: 'json',
+            data: {
+            	contractName:data.contractName
+            },
+            success: function (json) {
+            	$('#hetongming').val(data.contractName);
+            	$('#hetonghao').val(json.fbNo);
+            	$("#zhuhetongming").val(json.cjContractName);
+				$("#zhuhetongNo").val(json.cjContractCode);
+				$("#zhuhetongMoney").val(json.mainContractMoney);
+				$("#xiangmuming").val(json.prjName);
+				$("#renwudanhao").val(json.workNo);
+            }
+  		});
+    	$("#choose_fb").modal("hide");
+    }
+    
+    function chooseFb2(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBNameAndNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            success: function (json) {
+                $('#fb_table2').dataTable().fnClearTable();
+                $('#fb_table2').DataTable().rows.add(json).draw(false);
+            }
+        });
+    	$("#choose_fb2").modal("show");
+    }
+
+    function saveFbName2(){
+    	var tr=$("input[name='fbName2']:checked").parents("tr");
+    	var data=$("#fb_table2").DataTable().row(tr).data();
+    	if(data==null){
+    		toastr.error("请选择")
+    		return;
+    	}
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBContractByName',
+            dataType: 'json',
+            data: {
+            	contractName:data.contractName
+            },
+            success: function (json) {
+            	$('#xghetongming').val(data.contractName);
+            	$('#xghetonghao').val(json.fbNo);
+            	$("#xgzhuhetongming").val(json.cjContractName);
+				$("#xgzhuhetongNo").val(json.cjContractCode);
+				$("#xgzhuhetongMoney").val(json.mainContractMoney);
+				$("#xgxiangmuming").val(json.prjName);
+				$("#xgrenwudanhao").val(json.workNo);
+            }
+  		});
+    	$("#choose_fb2").modal("hide");
+    }
 </script>
 </html>
