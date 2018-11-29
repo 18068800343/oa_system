@@ -75,8 +75,10 @@
                             <tr>
                                 <td style="width:15%;">采购合同名  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td  style="width:30%;">
-                                    <select  class="form-control" id="cgName" style="width:60%;">
-                                    </select>
+                                    <!-- <select  class="form-control" id="cgName" style="width:60%;">
+                                    </select> -->
+                                    <input type="text" id="cgName" class="form-control" disabled style="width:60%;">
+                                    <button type="button" class="btn btn-primary weui-uploader__input" onclick="choose_cg()">选择采购</button>
                                 </td>
                                 <td style="width:15%;">采购合同号  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:40%;">
@@ -143,7 +145,42 @@
     </div>
 </div>
 <!-- model结束 -->
-
+<!-- Modal选择采购合同 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_cg">
+    <div class="modal-dialog modal-lg" role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择采购合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="cg_table">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>采购合同名称</th>
+                                    <th>采购合同编号</th>
+                                    <th>乙方单位</th>
+                                    <th>项目名称</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveCgName()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
 <!-- 修改Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
     <div class="modal-dialog modal-lg" role="document"  style="width:80%;">
@@ -433,6 +470,52 @@
         }},
   
 	});
+    var table2=$('#cg_table').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": null}, 
+            { "data": "contractName"},
+            { "data": "cgNo"}, 
+            { "data": "spName"}, 
+            { "data": "prjName"}
+        ],
+        "columnDefs": [
+						{
+								 "class": "tcenter",
+								    "targets": 0,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<input type="radio" name="cgName" style="width:16px;height:16px;">'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
 	function initTable(){
         $.ajax({
             type: 'POST',
@@ -447,6 +530,43 @@
         });
     }
 
+	//选择采购
+	function choose_cg(){
+	    	 $.ajax({
+		            type: 'POST',
+		          	url: getContextPath()+'/cgcontract/getCGNameAndNo',
+		            dataType: 'json',
+		            async:false,
+		            data: {
+		            },
+		            success: function (json) {
+		                $('#cg_table').dataTable().fnClearTable();
+		                $('#cg_table').DataTable().rows.add(json).draw(false);
+		            }
+		        });
+	    	$("#choose_cg").modal("show");
+	    	$('#choose_cg').on('hidden.bs.modal', function () {//解决模态框关闭页面滚动问题
+	            if ($('.modal.in').size() >= 1) {
+	                $('body').addClass('modal-open')
+	            }
+	        })
+	    }
+
+	function saveCgName(){
+		var tr=$("input[name='cgName']:checked").parents("tr");
+	   	var data=$("#cg_table").DataTable().row(tr).data();
+	   	console.log(data)
+	   	if(data==null){
+	   		toastr.error("请选择")
+	   		return;
+	   	}
+	  	$("#cgName").val(data.contractName);
+	  	$("#cgNo").val(data.cgNo);
+	  	$("#prjName").val(data.prjName);
+	  	$("#taskNo").val(data.workNo);
+	  	initMaterial(data.cgdNo);
+	  	$("#choose_cg").modal("hide");
+	}
 	
 	
 	//初始化采购合同名和采购合同号
@@ -491,7 +611,7 @@
                     }
           		});
           	})
-          	$('#cgName').editableSelect().on('select.editable-select', function (e, dom) {
+          	/* $('#cgName').editableSelect().on('select.editable-select', function (e, dom) {
         		$.ajax({
                     type: 'POST',
                     url: getContextPath()+'/cgcontract/getCGNoByName',
@@ -509,8 +629,8 @@
                     	}
                     }
           		});
-          	})
-          	$('#xgcgNo').editableSelect().on('select.editable-select', function (e, dom) {
+          	}) */
+          	/* $('#xgcgNo').editableSelect().on('select.editable-select', function (e, dom) {
         		$.ajax({
                     type: 'POST',
                     url: getContextPath()+'/cgcontract/getCGNameByNo',
@@ -547,7 +667,7 @@
                     	}
                     }
           		});
-          	})
+          	}) */
           	 
         }
 		});

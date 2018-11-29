@@ -502,4 +502,10 @@ public class TaskController {
 	public Task selectIdByName(String name){
 		return tService.selectIdByName(name);
 	}
+	
+	@RequestMapping("/selectIdByNameAndNo")//通过项目名和任务单获取唯一Id
+	@ResponseBody
+	public Task selectIdByNameAndNo(String name,String no){
+		return tService.selectIdByNameAndNo(name,no);
+	}
 }
