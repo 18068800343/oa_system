@@ -508,4 +508,12 @@ public class TaskController {
 	public Task selectIdByNameAndNo(String name,String no){
 		return tService.selectIdByNameAndNo(name,no);
 	}
+	@RequestMapping("/getContracts")//通过项目名和任务单获取唯一Id
+	@ResponseBody
+	public List<CjContract> getContracts(String id){
+		List<CjContract> list = cjservice.selectContractByTaskNo(id);
+		return list;
+	}
+	
 }
+

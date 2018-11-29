@@ -832,7 +832,7 @@
 									     "targets": 7,
 									     "searchable": true,
 									     "render": function(data, type, full) { 
-							  	  		 return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;margin-left:5px;" title="查看详细信息"   id="lookContract"></i>'
+							  	  		 return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;margin-left:5px;" title="查看详细信息"   id="lookContract" onclick="lookContract(this)"></i>'
 							            }
 						        },
 						        {	
@@ -2259,6 +2259,46 @@
             }
         });
   });
+  
+	var flag_dianji=undefined;
+  	function lookContract(s){
+	    var tr = $(s).parents('tr');
+		var data=$('#mainContent').DataTable().row(tr).data();
+		var taskNo =data.prjNo;
+		if(flag_dianji==undefined){
+			flag_dianji = true;
+		}else{
+			if(flag_dianji==true){
+				flag_dianji=false;
+			}else{
+				flag_dianji=true;
+			}
+		}
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/getContracts',
+            dataType: 'json',
+            data: {
+            	id:taskNo
+            },
+            success: function (json) {
+            	var obj  = json;
+            	if(json==0){
+            		
+            	}else{
+            		if(flag_dianji==true){
+            			$(".inTr").remove();
+            		}else{
+            			for(var i in obj){
+                			$(tr).after("<tr class='inTr'><td style='width:100px' class='details-control'><b style='font-size:22px;cursor:pointer;text-align:center;'>·</b></td><td style='width:100px' colspan='2'>合同名称：    <a>"+obj[i].contractName+"</a></td><td colspan='2'>合同金额：    "+obj[i].contractMoney+"</td><td></td></tr>")
+                		}
+            		}
+            		
+            	}
+            }
+        });
+  }
 </script>
 
 </html>
