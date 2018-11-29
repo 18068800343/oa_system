@@ -61,8 +61,10 @@
                             <tr>
                                 <td style="width:16%;">合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;">
-                                    <select id="contract_name" class="form-control" style="width:80%;">
-                                    </select>
+                                    <!-- <select id="contract_name" class="form-control" style="width:80%;">
+                                    </select> -->
+                                    <input type="text" class="form-control" style="width:60%;" disabled id="contract_name">
+                                    <button type="button" class="btn btn-primary weui-uploader__input" onclick="select_cj()">选择承接</button>
                                 </td>
                                 <td style="width:16%;">合同编号</td>
                                 <td style="width:38%;">
@@ -73,7 +75,7 @@
                             <tr>
                                 <td>项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                	<input type="text" class="form-control" style="width:80%;" id="prj_name" disabled>
+                                	<input type="text" class="form-control" style="width:60%;" id="prj_name" disabled>
                                 </td>
                                 <td>任务单号</td>
                                 <td>
@@ -82,7 +84,7 @@
                             </tr>
                             <tr>
                                 <td>开票时间</td>
-                                <td><input type="text" class="form-control" id="time" style="width:80%;"></td>
+                                <td><input type="text" class="form-control" id="time" style="width:60%;"></td>
                                 <td>本次开票金额  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
                                 	<input type="text" class="form-control" style="width:60%;" id="kp_money">
@@ -92,7 +94,7 @@
                             <tr>
                                 <td>发票类型</td>
                                 <td>
-                                    <select class="form-control" style="width:80%;" id="fp_type">
+                                    <select class="form-control" style="width:60%;" id="fp_type">
                                         <option value="增值税专用发票">增值税专用发票</option>
                                         <option value="增值税普通发票">增值税普通发票</option>
                                     </select>
@@ -102,7 +104,7 @@
                             </tr>
                             <tr>
                             	<td>税号</td>
-                                <td><input type="text" class="form-control" style="width:80%;" id="duty_no"></td>
+                                <td><input type="text" class="form-control" style="width:60%;" id="duty_no"></td>
                                 <td>开票申请人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
                                     <input type="text" class="form-control" style="width:60%;" id="sq_men" disabled>
@@ -160,7 +162,43 @@
     </div>
 </div>
 <!-- model结束 -->
-
+<!-- Modal选择承接合同 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_cj">
+    <div class="modal-dialog modal-lg" role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择承接合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="cj_table">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>承接合同名称</th>
+                                    <th>承接合同编号</th>
+                                    <th>甲方单位</th>
+                                    <th>合同起日期</th>
+                                    <th>合同讫日期</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveCjName()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="look_modal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -671,6 +709,53 @@
         }},
         
 	});
+    var table2=$('#cj_table').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": null}, 
+            { "data": "contractName"},
+            { "data": "contractNo"}, 
+            { "data": "ccName"}, 
+            { "data": "contractStartTime"},
+            { "data": "contractEndTime"}
+        ],
+        "columnDefs": [
+						{
+								 "class": "tcenter",
+								    "targets": 0,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<input type="radio" name="cjName" style="width:16px;height:16px;">'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
 	function initTable(){
         $.ajax({
             type: 'POST',
@@ -714,6 +799,45 @@
         }
     })
     
+    
+    //选择承接
+	function select_cj(){
+	   	 $.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/cj/selectNameAndNo',
+		            dataType: 'json',
+		            async:false,
+		            data: {
+		            },
+		            success: function (json) {
+		                $('#cj_table').dataTable().fnClearTable();
+		                $('#cj_table').DataTable().rows.add(json).draw(false);
+		            }
+		        });
+	   			$("#choose_cj").modal("show");
+	   			$('#choose_cj').on('hidden.bs.modal', function () {//解决模态框关闭页面滚动问题
+	   	            if ($('.modal.in').size() >= 1) {
+	   	                $('body').addClass('modal-open')
+	   	            }
+	   	        })
+	   }
+	    
+	    function saveCjName(){
+	    	var tr=$("input[name='cjName']:checked").parents("tr");
+	    	var data=$("#cj_table").DataTable().row(tr).data();
+	    	//console.log(data)
+	    	if(data==null){
+	    		toastr.error("请选择")
+	    		return;
+	    	}
+	    	$("#contract_name").val(data.contractName);
+	    	$("#contract_no").val(data.contractNo);
+	    	$('#prj_no').val(data.taskCode);
+        	$('#prj_name').val(data.prjName);
+        	$("#all_kp_money").val('');
+	    	$("#choose_cj").modal("hide");
+	    }
+    
     //初始化承接合同名称和承接合同号
 	 function initSelect(){
 			$.ajax({
@@ -729,10 +853,10 @@
 	        	$("#contract_name").html('');
 	        	$("#contract_no").html('');
 	        	for(var i=0;i<json.length;i++){
-	        		$("#contract_name").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
+	        		//$("#contract_name").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
 	        		$("#contract_no").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
 	        	}
-	        	$('#contract_name').editableSelect().on('select.editable-select', function (e, dom) {
+	        	/* $('#contract_name').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/cj/selectCjContractByName',
@@ -747,7 +871,7 @@
 	                    	$("#all_kp_money").val('');
 	                    }
 	          		});
-	          	})
+	          	}) */
 	          	$('#contract_no').editableSelect().on('select.editable-select', function (e, dom) {
 	          		$.ajax({
 	                    type: 'POST',

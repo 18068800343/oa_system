@@ -60,23 +60,25 @@
                         <table class="table table-bordered">
                             <tr>
                             <tr>
-                                <td style="width:20%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td style="width:30%;">
-                                    <select class="form-control" style="width:80%;" id="prj_name">
-                                    </select>
+                                <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:35%;">
+                                    <!-- <select class="form-control" style="width:80%;" id="prj_name">
+                                    </select> -->
+                                    <input type="text" class="form-control" id="prj_name" disabled  style="width:65%;">
+                               		<button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="chosexm">选择项目</button>
                                 </td>
-                                <td style="width:20%;">任务单号</td>
-                                <td style="width:30%;">
-                                	<select class="form-control" style="width:80%;" id="prj_no">
+                                <td style="width:15%;">任务单号</td>
+                                <td style="width:35%;">
+                                	<select class="form-control" style="width:65%;" id="prj_no">
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>项目负责人</td>
-                                <td><input type="text" class="form-control" disabled style="width:80%;" id="prj_leader"></td>
+                                <td><input type="text" class="form-control" disabled style="width:65%;" id="prj_leader"></td>
                                 <td>方式</td>
                                 <td>
-                                	<select class="form-control" style="width:80%;" id="hk_type">
+                                	<select class="form-control" style="width:65%;" id="hk_type">
                                         <option value="现金">现金</option>
                                         <option value="付款扣除">付款扣除</option>
                                         <option value="下次借款扣除">下次借款扣除</option>
@@ -86,9 +88,9 @@
                             </tr>
                             <tr>
                                 <td>还款金额</td>
-                                <td><input type="text" class="form-control" style="width:80%;" id="hk_money"></td>
+                                <td><input type="text" class="form-control" style="width:65%;" id="hk_money"></td>
                                 <td>时间</td>
-                                <td><input type="text" class="form-control" style="width:80%;" id="hk_time"></td>
+                                <td><input type="text" class="form-control" style="width:65%;" id="hk_time"></td>
                             </tr>
                         </table>
                     </form>  
@@ -103,6 +105,43 @@
     </div>
 </div>
 <!-- model结束 -->
+<!-- Modal项目 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xiangmumd">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xiangmubiao">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>编号</th>
+                                    <th>项目名称</th>
+                                    <th>项目所属公司</th>
+                                    <th>项目类型</th>
+                                    <th>甲方单位</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="quedingxm">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
 <!-- 修改Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
     <div class="modal-dialog modal-lg" role="document">
@@ -447,6 +486,54 @@
         }},
         
 	});
+    var table2=$('#xiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+		            { "data": "prjNo"},
+		            { "data": "prjName"},
+		            { "data": "prjCompany"},
+		            { "data": "prjType2"},
+		            { "data": "ccName"},
+		            
+		        ],
+		        "columnDefs": [
+								{
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xiangmuName" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
 	function initTable(){
         $.ajax({
             type: 'POST',
@@ -479,6 +566,42 @@
         rowIndex = bb.parentNode.parentNode.rowIndex; 
     }
 
+  //选择项目
+	$("#chosexm").click(function(){
+		$("#xiangmumd").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            },
+	            success: function (json) {
+	                $('#xiangmubiao').dataTable().fnClearTable();
+	                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+	})
+	$("#quedingxm").click(function(){
+		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
+		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		$("#prj_name").val(prjname);
+		$("#prj_no").val(prjNo);
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectIdByName',
+            dataType: 'json',
+            data: {
+            	name:$('#prj_name').val()
+            },
+            success: function (json) {
+                $('#prj_leader').val(json.mainPrjLeader);
+            }
+  		});
+		$("#xiangmumd").modal("hide");
+		
+	})
+    
     //初始化项目名和任务单号
     function initSelect(){
 		$.ajax({
@@ -494,10 +617,10 @@
         	$("#prj_name").html('');
         	$("#prj_no").html('');
         	for(var i=0;i<json.length;i++){
-        		$("#prj_name").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
+        		//$("#prj_name").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
         		$("#prj_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
         	}
-        	$('#prj_name').editableSelect().on('select.editable-select', function (e, dom) {
+        	/* $('#prj_name').editableSelect().on('select.editable-select', function (e, dom) {
         		$.ajax({
                     type: 'POST',
                     url: getContextPath()+'/task/selectIdByName',
@@ -510,7 +633,7 @@
 	                    $('#prj_leader').val(json.mainPrjLeader);
                     }
           		});
-          	})
+          	}) */
           	$('#prj_no').editableSelect().on('select.editable-select', function (e, dom) {
           		$.ajax({
                     type: 'POST',
