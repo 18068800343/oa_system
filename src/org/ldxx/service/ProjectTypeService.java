@@ -30,5 +30,7 @@ public interface ProjectTypeService {
 	List<DictionaryFirst> selectAllFirstcostSubjects();
 
 	DictionaryFirst selectOneIdByName(String nameFirst);
+	
+	public List<Dictionary> selectAllSecond();
 
 }

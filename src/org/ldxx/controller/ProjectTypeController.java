@@ -108,4 +108,11 @@ public class ProjectTypeController {
 	public DictionaryFirst selectOneIdByName(String nameFirst){
 		return projectTypeService.selectOneIdByName(nameFirst);
 	}
+	
+	@RequestMapping("/selectAllSecond")
+	@ResponseBody
+	public List<Dictionary> selectAllSecond(){
+		return projectTypeService.selectAllSecond();
+	}
+	
 }

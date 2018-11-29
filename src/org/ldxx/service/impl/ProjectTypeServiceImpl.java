@@ -90,6 +90,11 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
 	public DictionaryFirst selectOneIdByName(String nameFirst) {
 		return projectTypeDao.selectOneIdByName(nameFirst);
 	}
+
+	@Override
+	public List<Dictionary> selectAllSecond() {
+		return projectTypeDao.selectAllSecond();
+	}
 	
 
 }

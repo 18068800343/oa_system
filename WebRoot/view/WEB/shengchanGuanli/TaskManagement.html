@@ -131,38 +131,16 @@
                                 <td style="width:150px;">项目类型</td>
                                 <td>
                                     <form class="form-inline">
-                                        <select class="form-control" style="width:110px;" id="yijileixing">
-                                        </select>
-                                        <select class="form-control" style="width:110px;" id="erjileixing">
+                                        <!-- <select class="form-control" style="width:110px;" id="yijileixing">
+                                        </select> -->
+                                        <select class="form-control" style="width:80%;" id="erjileixing">
                                         </select>
                                     </form>
                                 </td>
                             </tr>
                             <tr>
-                            	<!-- <td style="width:150px;">项目编号</td>
-                                <td style="width:300px;">
-                                	<form class="form-inline">
-									    <input type="text" class="form-control" style="width:222px;" id="prj_no">  <i class="iconfont icon-xingxing-copy" style="color:red;"></i>
-									  </form>
-                                </td> -->
-                                <td style="width:150px;">设计阶段</td>
-                                <td style="width:300px;">
-                                    <select class="form-control" style="width:180px;" id="shejijieduan">
-                                            <option value="无">无</option>
-                                            <option value="一阶段设计">一阶段设计</option>
-                                            <option value="二阶段设计">二阶段设计</option>
-                                        </select>
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
                             	<td>项目概况及工作内容</td>
-                                <td colspan="7"><textarea class="form-control" rows="3" style="width:100%;" id="gaikuang"></textarea></td>
+                                <td colspan="7"><textarea class="form-control" rows="3" style="width:90%;" id="gaikuang"></textarea></td>
                             </tr>
                     	</tbody>
                     </table>
@@ -294,22 +272,15 @@
                                 <td style="width:100px;">项目类型</td>
                                 <td>
                                     <form class="form-inline">
-                                        <select class="form-control" style="width:110px;" id="xgyijileixing">
+                                       <!--  <select class="form-control" style="width:110px;" id="xgyijileixing">
                                             <option>---请选择---</option>
-                                        </select>
-                                        <select class="form-control" style="width:110px;" id="xgerjileixing">
-                                            <option>---请选择---</option>
+                                        </select> -->
+                                        <select class="form-control" style="width:222px;" id="xgerjileixing">
                                         </select>
                                     </form>
                                 </td>
-                                <td>设计阶段</td>
-                                <td>
-                                		<select class="form-control" style="width:180px;" id="xgshejijieduan">
-                                            <option value="无">无</option>
-                                            <option value="一阶段设计">一阶段设计</option>
-                                            <option value="二阶段设计">二阶段设计</option>
-                                        </select>
-                                </td>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -317,7 +288,7 @@
                             </tr>
                             <tr>
 	                            <td>项目概况及工作内容</td>
-                                <td colspan="7"><textarea class="form-control" rows="3" style="width:100%;" id="xggaikuang"></textarea></td>
+                                <td colspan="7"><textarea class="form-control" rows="3" style="width:90%;" id="xggaikuang"></textarea></td>
 	                      	</tr>
                     	</tbody>
                  </table>
@@ -436,8 +407,8 @@
                         <tr>
                             <td style="width:100px;">项目类型</td>
                             <td id="lookleixing"></td>
-                            <td>设计阶段</td>
-                            <td id="lookshejijieduan"></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -594,8 +565,8 @@
 				                        <tr>
 				                            <td style="width:100px;">项目类型</td>
 				                            <td id="historyleixing"></td>
-				                            <td>设计阶段</td>
-				                            <td id="historyshejijieduan"></td>
+				                            <td></td>
+				                            <td></td>
 				                            <td></td>
 				                            <td></td>
 				                            <td></td>
@@ -787,7 +758,7 @@
         $('#editable-selectT').editableSelect({ 
             effects: 'slide' 
         });
-        leixingSelect();
+        initType();
         leixingSelect2();
         leixingSelect3();
         initTable();
@@ -949,6 +920,23 @@
         });
     }
 
+	function initType(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/projectType/selectAllSecond',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $("#erjileixing").html("");
+                $("#xgerjileixing").html("");
+                for(var i=0;i<json.length;i++){
+                	$("#erjileixing").append("<option value='"+json[i].nameSecond+"'>"+json[i].nameSecond+"</option>")
+                	$("#xgerjileixing").append("<option value='"+json[i].nameSecond+"'>"+json[i].nameSecond+"</option>")
+                }
+            }
+        });
+	}
 
     //初始化
     $(".zhuangtai").change(function(){
@@ -1006,68 +994,7 @@
         }
     })
 	
-    //初始化一级类型
-    function leixingSelect(){
-	    $.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/projectType/selectAllFirstPrj',
-	        dataType: 'json',
-	        async:false,
-	        data: {
-	           
-	        },
-	        success: function (json) {
-	        	 for(var i=0;i<json.length;i++){
-	        		$("#yijileixing").append( "<option value='" + json[i].idFirst + "'>"
-		                    + json[i].nameFirst + "</option>")
-                    $("#xgyijileixing").append( "<option value='" + json[i].idFirst + "'>"
-	                    + json[i].nameFirst + "</option>")
-	        	} 
-	        	 $('#yijileixing').trigger("change");
-		         $('#xgyijileixing').trigger("change");
-	        }
-	    });
-	}
-    //二级类型
-    $("#yijileixing").change(function(){
-        var id=$(this).children('option:selected').val();//这就是selected的值
-        var yijiid=$(this).children('option:selected').val();
-        $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/projectType/selectOne_TwoPrj',
-            dataType: 'json',
-            data:{
-            	idFirst:yijiid,
-            },
-            success: function (json) {
-            	$("#erjileixing").empty("");
-            	for(var i=0;i<json.length;i++){
-            		$("#erjileixing").append( "<option value='" + json[i].nameSecond + "'>"
-		                    + json[i].nameSecond + "</option>")
-    			}
-            }
-        }); 
-    })
-    $("#xgyijileixing").change(function(){
-        var id=$(this).children('option:selected').val();//这就是selected的值
-        var yijiid=$(this).children('option:selected').val();
-        $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/projectType/selectOne_TwoPrj',
-            dataType: 'json',
-            async:false, 
-            data:{
-            	idFirst:yijiid,
-            },
-            success: function (json) {
-            	$("#xgerjileixing").empty("");
-            	for(var i=0;i<json.length;i++){
-            		$("#xgerjileixing").append( "<option value='" + json[i].nameSecond + "'>"
-		                    + json[i].nameSecond + "</option>")
-    			}
-            }
-        }); 
-    })
+    
      //增加部门
     function addBumen(){
     	if(($("#xieban tr").length)<=4){
@@ -1459,7 +1386,7 @@
     	}
     	
     	if(lianxibiao.length!=0){
-    	    var yiji=$("#yijileixing").find("option:selected").val();
+    	    /* var yiji=$("#yijileixing").find("option:selected").val(); */
 	    	var erji=$("#erjileixing").find("option:selected").val();
     		var taskName=$("#taskName").val();
         	var taskbianhao=$("#taskbianhao").val();
@@ -1483,13 +1410,11 @@
         	var gaikuang=$("#gaikuang").val();
         	
     	    var xindanwei={
-    	    		prjType1:undefined,
     	    		prjType2:undefined,
     	    		prjNo:undefined,
     	    		prjName:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
-	            	jsPhases:undefined,
 	            	prjOwnerUnit:undefined,
 	            	workContent:undefined,
 	            	prjEstimateMoney:undefined,
@@ -1509,13 +1434,11 @@
    			}
 
 
-    	    xindanwei.prjType1=yiji,
     	    xindanwei.prjType2=erji,
     	    xindanwei.prjNo=taskbianhao,
     	    xindanwei.prjName=taskName,
     	    xindanwei.prjManagementModel=moshi,
     	    xindanwei.prjCompany=gongsi,
-    	    xindanwei.jsPhases=shejijieduan,
     	    xindanwei.prjOwnerUnit=yezhudanwei,
     	    xindanwei.workContent=gaikuang,
     	    xindanwei.prjEstimateMoney=jine,
@@ -1534,7 +1457,7 @@
     	    xindanwei.enterprise=lianxibiao,
     	    danwei.push(xindanwei);
     		
-    	     $.ajax({
+    	    $.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/task/addTask',
 	            dataType: 'json',
@@ -1589,7 +1512,6 @@
     	
    		if(lianxibiao.length!=0){
 	   
-    	    var yiji=$("#yijileixing").find("option:selected").val();
 	    	var erji=$("#erjileixing").find("option:selected").val();
     		var taskName=$("#taskName").val();
         	var taskbianhao=$("#taskbianhao").val();
@@ -1613,13 +1535,11 @@
         	var gaikuang=$("#gaikuang").val();
         	
     	    var xindanwei={
-    	    		prjType1:undefined,
     	    		prjType2:undefined,
     	    		prjNo:undefined,
     	    		prjName:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
-	            	jsPhases:undefined,
 	            	prjOwnerUnit:undefined,
 	            	workContent:undefined,
 	            	prjEstimateMoney:undefined,
@@ -1638,13 +1558,11 @@
 	            	enterprise:undefined,
    			}
 
-    	    xindanwei.prjType1=$("#yijileixing").find("option:selected").val();
     	    xindanwei.prjType2=$("#erjileixing").find("option:selected").val();
     	    xindanwei.prjNo=taskbianhao;
     	    xindanwei.prjName=taskName;
     	    xindanwei.prjManagementModel=moshi;
     	    xindanwei.prjCompany=gongsi;
-    	    xindanwei.jsPhases=shejijieduan;
     	    xindanwei.prjOwnerUnit=yezhudanwei;
     	    xindanwei.workContent=gaikuang;
     	    xindanwei.prjEstimateMoney=jine;
@@ -1670,7 +1588,6 @@
 	            contentType: "application/json", 
 	            data:JSON.stringify(danwei),
 	            success: function (json) {
-	            	console.log(json)
 	            	lianjie=json.url;
 	            	if(json.receiver!=null&&json.receiver.length>1){
 		        		  $("#tijiaogei").modal('show');
@@ -1758,14 +1675,13 @@
 	            	id:data.prjId
 	            },
 	            success: function (json) {
-	            	$("#xgyijileixing").val(json.prjType1);
-	            	$("#xgyijileixing").trigger("change");
+	            	/* $("#xgyijileixing").val(json.prjType1); */
+	            	/* $("#xgyijileixing").trigger("change"); */
 	            	$("#xgerjileixing").val(json.prjType2);
 	        		$("#xgtaskName").val(json.prjName);
 	            	$("#xgtaskbianhao").val(json.prjNo);
 	            	$("#xgmoshi").val(json.prjManagementModel);
 	            	$("#xggongsi").val(json.prjCompany);
-	            	$("#xgshejijieduan").val(json.jsPhases);
 	            	$("#xgyezhudanwei").val(json.prjOwnerUnit);
 	            	$("#xgyezhudanwei").trigger("change");
 	            	$("#xgjine").val(json.prjEstimateMoney);
@@ -1792,7 +1708,7 @@
 												    			+'<input type="text" class="form-control" value='+json.enterprise[i].eTel+' disabled>'
 												    			+"</td><td><button type='button' style='text-align:right;' class='btn btn-primary' onclick='deleteLianxiren(this)'>移除联系人</button></td></tr>")
 	            	}
-	            	if(json.assistDepartment1!=null){
+	            	if(json.assistDepartment1!=null&&json.assistDepartment1!=""){
 	            		$("#xgxieban tbody").append("<tr class='xieban'><td>"+"协办部门1"+"</td><td>"
 	        	                +'<form class="form-inline">'
 	        	                    +'<select class="form-control" id="xgxieban1" style="width:150px;">'
@@ -1804,7 +1720,7 @@
 	            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
 	            		$("#xgxiebanMoney1").val(json.assistDepartment1Money);
 	            	}
-	            	if(json.assistDepartment2!=null){
+	            	if(json.assistDepartment2!=null&&json.assistDepartment2!=""){
 	            		$("#xgxieban tbody").append("<tr class='xieban'><td>"+"协办部门2"+"</td><td>"
 	        	                +'<form class="form-inline">'
 	        	                    +'<select class="form-control" id="xgxieban2" style="width:150px;">'
@@ -1816,7 +1732,7 @@
 	            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
 	            		$("#xgxiebanMoney2").val(json.assistDepartment2Money);
 	            	}
-	            	if(json.assistDepartment3!=null){
+	            	if(json.assistDepartment3!=null&&json.assistDepartment3!=""){
 	            		$("#xgxieban tbody").append("<tr class='xieban'><td>协办部门3</td><td>"
 	        	                +'<form class="form-inline">'
 	        	                    +'<select class="form-control" id="xgxieban3" style="width:150px;">'
@@ -1875,7 +1791,6 @@
     		toastr.error('存在数据未填写');
     		return;
     	}
-    		var yijiji=$("#xgyijileixing").find("option:selected").val();
            	var erji=$("#xgerjileixing").find("option:selected").val();
     		var taskName=$("#xgtaskName").val();
         	var taskbianhao=$("#xgtaskbianhao").val();
@@ -1899,13 +1814,11 @@
         	var gaikuang=$("#xggaikuang").val();
         	
     	    var xindanwei={
-    	    		prjType1:undefined,
     	    		prjType2:undefined,
     	    		prjNo:undefined,
     	    		prjName:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
-	            	jsPhases:undefined,
 	            	prjOwnerUnit:undefined,
 	            	workContent:undefined,
 	            	prjEstimateMoney:undefined,
@@ -1924,13 +1837,11 @@
 	            	enterprise:undefined,
 	            	prjId:undefined,
    			}
-    	    xindanwei.prjType1=yijiji;
     	    xindanwei.prjType2=erji;
     	    xindanwei.prjNo=taskbianhao;
     	    xindanwei.prjName=taskName;
     	    xindanwei.prjManagementModel=moshi;
     	    xindanwei.prjCompany=gongsi;
-    	    xindanwei.jsPhases=shejijieduan;
     	    xindanwei.prjOwnerUnit=yezhudanwei;
     	    xindanwei.workContent=gaikuang;
     	    xindanwei.prjEstimateMoney=jine;
@@ -1999,7 +1910,6 @@
     		toastr.error('存在数据未填写');
     		return;
     	}
-    		var yijiji=$("#xgyijileixing").find("option:selected").val();
            	var erji=$("#xgerjileixing").find("option:selected").val();
     		var taskName=$("#xgtaskName").val();
         	var taskbianhao=$("#xgtaskbianhao").val();
@@ -2023,13 +1933,11 @@
         	var gaikuang=$("#xggaikuang").val();
         	
     	    var xindanwei={
-    	    		prjType1:undefined,
     	    		prjType2:undefined,
     	    		prjNo:undefined,
     	    		prjName:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
-	            	jsPhases:undefined,
 	            	prjOwnerUnit:undefined,
 	            	workContent:undefined,
 	            	prjEstimateMoney:undefined,
@@ -2048,13 +1956,11 @@
 	            	enterprise:undefined,
 	            	prjId:undefined,
    			}
-    	    xindanwei.prjType1=yijiji;
     	    xindanwei.prjType2=erji;
     	    xindanwei.prjNo=taskbianhao;
     	    xindanwei.prjName=taskName;
     	    xindanwei.prjManagementModel=moshi;
     	    xindanwei.prjCompany=gongsi;
-    	    xindanwei.jsPhases=shejijieduan;
     	    xindanwei.prjOwnerUnit=yezhudanwei;
     	    xindanwei.workContent=gaikuang;
     	    xindanwei.prjEstimateMoney=jine;
@@ -2114,7 +2020,6 @@
             	$("#lookmoshi").text(task.prjManagementModel);
             	$("#lookgongsi").text(task.prjCompany);
             	$("#lookleixing").text(task.prjType2);
-            	$("#lookshejijieduan").text(task.jsPhases);
             	$("#lookyezhudanwei").text(task.ccName);
             	$("#lookjine").text(task.prjEstimateMoney);
             	$("#lookhetonge").text(task.contractMoney);
@@ -2222,7 +2127,6 @@
             	$("#historymoshi").text(json.prjManagementModel);
             	$("#historygongsi").text(json.prjCompany);
             	$("#historyleixing").text(json.prjType2);
-            	$("#historyshejijieduan").text(json.jsPhases);
             	$("#historyyezhudanwei").text(json.ccName);
             	$("#historyjine").text(json.prjEstimateMoney);
             	$("#historyhetonge").text(json.contractMoney);

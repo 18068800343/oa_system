@@ -5,8 +5,6 @@ import java.util.List;
 public class Task {
     private String prjId;
 
-    private String prjType1;
-    
     private String prjType2;
 
     private String prjNo;
@@ -17,8 +15,6 @@ public class Task {
 
     private String prjCompany;
 
-    private String jsPhases;
-    
     private String prjOwnerUnit;
 
     private String workContent;
@@ -246,14 +242,6 @@ public class Task {
 	}
 
 
-	public String getPrjType1() {
-		return prjType1;
-	}
-
-	public void setPrjType1(String prjType1) {
-		this.prjType1 = prjType1;
-	}
-
 	public String getPrjType2() {
 		return prjType2;
 	}
@@ -294,13 +282,6 @@ public class Task {
 		this.prjCompany = prjCompany;
 	}
 
-	public String getJsPhases() {
-		return jsPhases;
-	}
-
-	public void setJsPhases(String jsPhases) {
-		this.jsPhases = jsPhases;
-	}
 
 	public String getPrjOwnerUnit() {
 		return prjOwnerUnit;
@@ -424,9 +405,9 @@ public class Task {
 
 	@Override
 	public String toString() {
-		return "Task [prjId=" + prjId + ", prjType1=" + prjType1 + ", prjType2=" + prjType2 + ", prjNo=" + prjNo
+		return "Task [prjId=" + prjId + ", prjType2=" + prjType2 + ", prjNo=" + prjNo
 				+ ", prjName=" + prjName + ", prjManagementModel=" + prjManagementModel + ", prjCompany=" + prjCompany
-				+ ", jsPhases=" + jsPhases + ", prjOwnerUnit=" + prjOwnerUnit + ", workContent=" + workContent
+				+  ", prjOwnerUnit=" + prjOwnerUnit + ", workContent=" + workContent
 				+ ", prjEstimateMoney=" + prjEstimateMoney + ", contractMoney=" + contractMoney + ", provisionalSum="
 				+ provisionalSum + ", prjStartTime=" + prjStartTime + ", prjEndTime=" + prjEndTime + ", mainDepartment="
 				+ mainDepartment + ", mainDepartmentMoney=" + mainDepartmentMoney + ", assistDepartment1="

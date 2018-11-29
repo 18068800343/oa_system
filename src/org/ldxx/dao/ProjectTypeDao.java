@@ -43,5 +43,6 @@ public interface ProjectTypeDao {
 
 	DictionaryFirst selectOneIdByName(@Param("nameFirst")String nameFirst);
 
+	public List<Dictionary> selectAllSecond();
 	
 }
