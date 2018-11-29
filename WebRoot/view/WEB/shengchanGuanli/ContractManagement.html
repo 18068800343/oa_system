@@ -1119,6 +1119,7 @@
         initbumen();
         initSelect();
         initCooperator();
+        initDetailContract();
 	});
 	
     $("#diyi a").hide();
@@ -1190,9 +1191,9 @@ function checkquxiaoSplit(){
 										    "targets": 7,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" title="查看详细信息"  onclick="lookDetall(this)"></i><i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;margin-left:3px;" title="合同变更" onclick="contractChange(this)"></i><i class="iconfont icon-icon-test cancel" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="查看取消原因"  onclick="lookCancel(this)"></i><i class="iconfont icon-arrow chongqi" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="承接合同启用" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu iconquxiao" style="font-size:18px;cursor:pointer;margin-left:3px;" title="承接合同取消"  data-toggle="modal" data-target="#myModal2"></i>'
+										    	return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" title="查看详细信息" id="'+data.cjId+'"  onclick="lookDetall(this)"></i><i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;margin-left:3px;" title="合同变更" onclick="contractChange(this)"></i><i class="iconfont icon-icon-test cancel" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="查看取消原因"  onclick="lookCancel(this)"></i><i class="iconfont icon-arrow chongqi" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="承接合同启用" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu iconquxiao" style="font-size:18px;cursor:pointer;margin-left:3px;" title="承接合同取消"  data-toggle="modal" data-target="#myModal2"></i>'
 										    	}
-										  }
+										  },
 								],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
@@ -1332,6 +1333,7 @@ function checkquxiaoSplit(){
                  type: 'POST',
                  url: getContextPath()+'/cj/selectCjContractByStatus',
                  dataType: 'json',
+                 async:false,
                  data: {
                  	status:2
                  },
@@ -2673,5 +2675,17 @@ function checkquxiaoSplit(){
 		$(tr).remove();
 	}
   	
+  	function initDetailContract(){
+  	   // 调用方法
+  	   cjId=GetQueryString("cjId");
+  	   if(cjId!=null&&""!=cjId&&cjId!=undefined){
+  	   $("#"+cjId).trigger("click");
+  	   }
+  	}
+	function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
 </script>
 </html>
