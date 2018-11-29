@@ -87,6 +87,7 @@
                                     <th>项目业主单位</th>
                                     <th>项目金额</th>
                                     <th>合同金额</th>
+                                    <th>合同信息</th>
                                     <th>项目开始时间</th>
                                     <th>主办部门</th>
                                     <th style="width:60px;">操作</th>
@@ -822,6 +823,7 @@
 		            { "data": "ccName"}, 
 		            { "data": "prjEstimateMoney"}, 
 		            { "data": "contractMoney"}, 
+		            { "data": "contractMoney"}, 
 		            { "data": "prjStartTime"}, 
 		            { "data": "omName"}, 
 		            { "data": null},
@@ -829,12 +831,20 @@
 		        "columnDefs": [
 								{	
 										 "class": "tcenter",
-										    "targets": 9,
-										    "searchable": true,
-										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;margin-left:5px;" title="查看详细信息"   id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;;margin-left:5px;" title="修改"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi" style="font-size:18px;cursor:pointer;display:none;;margin-left:5px;" title="重启" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu iconzhongzhi" style="font-size:18px;cursor:pointer;;margin-left:5px;" title="项目中止"  data-toggle="modal" data-target="#myModal4"></i></i>'
-										        }
-										  }
+									     "targets": 7,
+									     "searchable": true,
+									     "render": function(data, type, full) { 
+							  	  		 return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;margin-left:5px;" title="查看详细信息"   id="lookContract"></i>'
+							            }
+						        },
+						        {	
+									     "class": "tcenter",
+									     "targets": 10,
+									     "searchable": true,
+									     "render": function(data, type, full) {
+							  	  		 return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;margin-left:5px;" title="查看详细信息"   id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;;margin-left:5px;" title="修改"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi" style="font-size:18px;cursor:pointer;display:none;;margin-left:5px;" title="重启" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu iconzhongzhi" style="font-size:18px;cursor:pointer;;margin-left:5px;" title="项目中止"  data-toggle="modal" data-target="#myModal4"></i></i>'
+		                                }
+						        }
 								],
         "order": [[1, 'asc']],
         "oLanguage": { //国际化配置
@@ -1997,77 +2007,7 @@
 	        }); 
     }
     
-    function GetQueryString(name){
-        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-        var r = window.location.search.substr(1).match(reg);
-        if(r!=null)return  unescape(r[2]); return null;
-   }
-   // 调用方法
-   	id=GetQueryString("prjId");
-   	no=GetQueryString("prjNo");
-   	//var title = decodeURI(id)
-   	console.log(id,no)
-   	if(id!=null&&no!=null){
-   		$("#diyi").removeClass("active");
-        $("#disi").addClass("active");
-        $("#diyi a").show();
-        $("#disi a").show();
-        $("#home").removeClass("active");
-        $("#settings").addClass("active");
-        
-   		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/task/selectTaskHistory',
-            dataType: 'json',
-            data: {
-            	id:id,
-            	no:no
-            },
-            success: function (json) {
-            	var task=json.task;
-            	var taskList=json.taskList;
-            	$("#looktaskName").text(task.prjName);
-            	$("#looktaskbianhao").text(task.prjNo);
-            	$("#lookmoshi").text(task.prjManagementModel);
-            	$("#lookgongsi").text(task.prjCompany);
-            	$("#lookleixing").text(task.prjType2);
-            	$("#lookshejijieduan").text(task.jsPhases);
-            	$("#lookyezhudanwei").text(task.ccName);
-            	$("#lookjine").text(task.prjEstimateMoney);
-            	$("#lookhetonge").text(task.contractMoney);
-            	$("#lookzandingjin").text(task.provisionalSum);
-            	$("#lookstartTime").text(task.prjStartTime);
-            	$("#lookendTime").text(task.prjEndTime);
-            	$("#lookgaikuang").text(task.workContent);
-            	
-            	$("#look_xieban_table tbody").html('');
-            	$("#look_xieban_table tbody").append("<tr><td>主办部门</td><td>"+task.omName+"</td><td>金额</td><td>"+task.mainDepartmentMoney+"</td></tr>")
-            	
-            	if(task.name1!=null&&task.name1!=''){
-            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name1+"</td><td>金额</td><td>"+task.assistDepartment1Money+"</td></tr>")
-            	}
-				if(task.name2!=null&&task.name2!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name2+"</td><td>金额</td><td>"+task.assistDepartment2Money+"</td></tr>")
-            	}
-				if(task.name3!=null&&task.name3!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name3+"</td><td>金额</td><td>"+task.assistDepartment3Money+"</td></tr>")
-				}
-            	
-            	$("#looklianxibiaoge tbody").empty("");
-            	for(var i=0;i<task.enterprise.length;i++){
-            		$("#looklianxibiaoge").append("<tr><td>"
-											    			+task.enterprise[i].eMan
-											    			+"</td><td>"
-											    			+task.enterprise[i].eTel
-											    			+"</td></tr>")
-            	}
-            	$('#history_table').dataTable().fnClearTable();
-                $('#history_table').DataTable().rows.add(taskList).draw(false);
-            	
-            	
-            }
-        }); 
-   	}
+    
     
   //查看单个具体信息
   	$('#mainContent').delegate('#lookDetall','click', function () {
@@ -2231,7 +2171,26 @@
 		 });
   	}
   	
-  
+  $("#lookContract").bind("click",function(){
+	    var dom = $(this).parents('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+		var prjId =data.prjId;
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/getContracts',
+            dataType: 'json',
+            data: {
+            	id:data.prjId
+            },
+            success: function (json) {
+            	if(json==0){
+            		
+            	}else{
+            		$('#mainContent').DataTable().row(dom).remove().draw(true); //删除行立即显示
+            	}
+            }
+        });
+  });
 </script>
 
 </html>
