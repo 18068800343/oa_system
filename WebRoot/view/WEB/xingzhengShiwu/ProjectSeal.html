@@ -843,13 +843,21 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-            { "data": "prjId"},
+            { "data": null},
             { "data": "applicationDate"}, 
             { "data": "omName"}, 
             { "data": "signetName"}, 
             { "data": "signetMan"}, 
         ],
         "columnDefs": [
+					{	
+							 "class": "tcenter",
+						    "targets": 0,
+						    "searchable": true,
+						    "render": function(data, type, full) {
+				  	  		return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjId+'</a>'
+						    }
+				        },
 						{	
 								 "class": "tcenter",
 								    "targets": 5,
@@ -891,13 +899,21 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-            { "data": "useProject"},
+            { "data": null},
             { "data": "custodyMan"}, 
             { "data": "beginTime"}, 
             { "data": "endTime"}, 
             { "data": "destroyTime"}, 
         ],
         "columnDefs": [
+						{	
+						 "class": "tcenter",
+						   "targets": 0,
+						   "searchable": true,
+						   "render": function(data, type, full) {
+								return '<a onclick="gotoPrj2(this)" style="color:	#4876FF;cursor: pointer;">'+data.useProject+'</a>'
+						   }
+						},
 						{	
 								 "class": "tcenter",
 								    "targets": 5,
@@ -1408,6 +1424,7 @@
 	            	status:2,
 	            },
 	            success: function (json) {
+	            	//onsole.log(json)
 	                $('#xiangmubiao').dataTable().fnClearTable();
 	                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
 	            }
@@ -1456,7 +1473,7 @@
         	toastr.error("请求失败");
         },
         success: function (json) {
-        	console.log(json)
+        	//console.log(json)
         	$("#task_no").html('');
         	$("#xgtask_no").html('');
         	$("#task_no2").html('');
@@ -1476,7 +1493,7 @@
                     	prjNo:$('#task_no').val()
                     },
                     success: function (json) {
-                    	console.log(json)
+                    	//console.log(json)
                     	for(var i=0;i<json.length;i++){
 	                    	$('#xiangmu').val(json[i].prjName);
                     	}
@@ -1507,7 +1524,7 @@
                     	prjNo:$('#task_no2').val()
                     },
                     success: function (json) {
-                    	console.log(json)
+                    	//console.log(json)
                     	for(var i=0;i<json.length;i++){
 	                    	$('#usePrj').val(json[i].prjName);
                     	}
@@ -2576,7 +2593,48 @@
         });
         $("#uploaderInput").click();
     }); */
-
+   
+	function gotoPrj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data);
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:data.prjId,
+				no:data.taskNo
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.taskNo+'');
+			}
+		})
+		
+    }
+    function gotoPrj2(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent2').DataTable().row(dom).data();
+		//console.log(data);
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:data.useProject,
+				no:data.taskNo
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.taskNo+'');
+			}
+		})
+		
+    }
+    
     $(".quxiao").click(function(){
         if(confirm("确定要撤销吗？")){
             return true;
