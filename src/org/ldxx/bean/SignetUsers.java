@@ -1,7 +1,7 @@
 package org.ldxx.bean;
 
 import java.util.List;
-
+//使用管理
 public class SignetUsers {
     private String suId;
     
@@ -9,7 +9,6 @@ public class SignetUsers {
     
     private String taskNo;//任务单号
     
-    private String departId;//部门id
 
     private String beginTime;
 
@@ -22,7 +21,6 @@ public class SignetUsers {
     
     private String uName;//保管人名
     private String prjName;//使用的项目名
-    private String omName;//部门
     
     private List<Accessory> accessory;
 
@@ -42,22 +40,6 @@ public class SignetUsers {
 
 	public void setAccessory(List<Accessory> accessory) {
 		this.accessory = accessory;
-	}
-
-	public String getOmName() {
-		return omName;
-	}
-
-	public void setOmName(String omName) {
-		this.omName = omName;
-	}
-
-	public String getDepartId() {
-		return departId;
-	}
-
-	public void setDepartId(String departId) {
-		this.departId = departId;
 	}
 
 	public String getuName() {

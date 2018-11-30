@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.ResultsUsingDao" >
   <select id="selectResultsUsing" resultType="org.ldxx.bean.ResultManagementSignet">
-  	select a.*,b.prj_name,b.prj_owner_unit,b.main_department 
+  	select a.*,b.prj_name,b.prj_owner_unit,b.main_department,c.u_name as uName2
   		from result_management_signet a 
   			left join task b on a.prj_id=b.prj_id
   			left join mode_status m on a.us_id=m.mode_id
+  			left join user c on a.prj_head=c.user_id
   		where m.status=#{status}
   </select>
   <insert id="addResultsUsing" parameterType="org.ldxx.bean.ResultManagementSignet" >
@@ -32,10 +33,11 @@
     where us_id = #{rs.usId,jdbcType=VARCHAR}
   </update>
   <select id="selectResultsUsingById" parameterType="String" resultType="org.ldxx.bean.ResultManagementSignet">
-  	select a.*,b.u_name,c.prj_name from result_management_signet a
+  	select a.*,b.u_name,c.prj_name,d.u_name as uName2 from result_management_signet a
   		left join user b on a.user_signet_man=b.user_id 
   		left join task c on a.prj_id=c.prj_id
   		left join mode_status m on a.us_id=m.mode_id
+  		left join user d on a.prj_head=d.user_id
   	 where us_id = #{usId} and m.status=#{status}
   </select>
 </mapper>

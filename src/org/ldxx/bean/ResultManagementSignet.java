@@ -25,10 +25,19 @@ public class ResultManagementSignet {
     private String prjName;//项目名
     private String prjOwnerUnit;//项目负责人
     private String uName;
+    private String uName2;
 
     
     
-    public String getuName() {
+    public String getuName2() {
+		return uName2;
+	}
+
+	public void setuName2(String uName2) {
+		this.uName2 = uName2;
+	}
+
+	public String getuName() {
 		return uName;
 	}
 

@@ -441,7 +441,7 @@
                                 <tr>
                                     <td style="width:15%;">保管人:</td>
                                     <td style="width:35%;">
-                                    	<input type="text" class="form-control" style="width:60%;" disabled id="baoguanren">
+                                    	<input type="text" class="form-control" data1="" style="width:60%;" disabled id="baoguanren">
                                     	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择保管人</button>
                                     </td>
                                     <td style="width:15%;">销毁时间:</td>
@@ -542,7 +542,7 @@
                                             <tr>
                                                 <td style="width:15%;">保管人</td>
                                                 <td style="width:35%;">
-                                           			 <input type="text" class="form-control" style="width:60%;" disabled id="xgbaoguanren">
+                                           			 <input type="text" class="form-control" data1="" style="width:60%;" disabled id="xgbaoguanren">
                                     				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren">选择保管人</button>
                                            		</td>
                                                 <td style="width:15%;">销毁时间</td>
@@ -900,7 +900,7 @@
 		},
 		"columns": [
             { "data": null},
-            { "data": "custodyMan"}, 
+            { "data": "uName"}, 
             { "data": "beginTime"}, 
             { "data": "endTime"}, 
             { "data": "destroyTime"}, 
@@ -1600,6 +1600,8 @@
 		$("#xgyinzhangshouquanren").val(a);
 		$("#xgpeople").modal("hide");
 	})
+	
+	
 	//初始化保管人
 	function initBaoGuanRen(){
 		$.ajax({
@@ -1639,8 +1641,12 @@
 	})
 	//保存添加保管人
 	function saveBaoguan(){
-		var a=$("input[name='mingzi2']:checked").parent().next().text();
-		$("#baoguanren").val(a);
+		var tr=$("input[name='mingzi2']:checked").parents("tr");
+		var data=$("#bmmingzibiao").DataTable().row(tr).data();
+		console.log(data)
+		//var a=$("input[name='mingzi2']:checked").parent().next().text();
+		$("#baoguanren").val(data.uName);
+		$("#baoguanren").attr("data1",data.userId);
 		$("#addGuanliren").modal("hide");
 	}
 	
@@ -1662,33 +1668,13 @@
 	})
 	//修改添加保管人
 	function xgsaveBaoguan(){
-		var a=$("input[name='xgmingzi2']:checked").parent().next().text();
-		$("#xgbaoguanren").val(a);
+		var tr=$("input[name='xgmingzi2']:checked").parents("tr");
+		var data=$("#xgbmmingzibiao").DataTable().row(tr).data();
+		//var a=$("input[name='xgmingzi2']:checked").parent().next().text();
+		$("#xgbaoguanren").val(data.uName);
+		$("#xgbaoguanren").attr("data1",data.userId);
 		$("#xgaddGuanliren").modal("hide");
 	}
-	
-	function initSelectEdit(obj){
-		var bumen=$("#xgbumen2").val();
-		$.ajax({
-			type:"POST",
-			url:getContextPath()+"/user/selectUserByomId",
-			dataTyepe:"json",
-			async:false,
-			data:{ 
-				omId:bumen 
-				},
-			success:function(json){
-				$("#xgbaoguan").empty();
-				for(var i=0;i<json.length;i++){
-					$("#xgbaoguan").append("<option value='" + json[i].userId + "'>"
-		                    + json[i].uName + "</option>")
-				}
-				$("#xgbaoguan").val(obj);
-				$("#lookbaoguan").text(obj)
-			}
-		})
-	}
-	
 	
 	
 	
@@ -1781,15 +1767,12 @@
 	function addSUsers(){
 		var beginTime=$("#beginTime").val();
 		var endTime=$("#endTime").val();
-		var bumen2=$("#bumen2").val();
-		var baoguanren=$("#baoguanren").val();
+		var baoguanren=$("#baoguanren").attr("data1");
 		var usePrj=$("#usePrj").val();
 		var task_no2=$("#task_no2").val();
 		var xiaohuiTime=$("#xiaohuiTime").val();
 		
-		
-		
-		if($("#baoguanren").val()==''){
+		if(baoguanren==''){
 			toastr.error("保管人为空");
     		return;
 		}
@@ -1813,7 +1796,6 @@
 			data:{
 				beginTime:beginTime,
 				endTime:endTime,
-				departId:bumen2,
 				custodyMan:baoguanren,
 				useProject:usePrj,
 				taskNo:task_no2,
@@ -1827,7 +1809,7 @@
 					//location.reload([true]);
 					toastr.success("添加成功")
 					$("#shiyonggl").modal("hide")
-					initTable2();
+					//initTable2();
 				}
 			}
 		}
@@ -1838,8 +1820,7 @@
 	function addsUsersSubmit(){
 		var beginTime=$("#beginTime").val();
 		var endTime=$("#endTime").val();
-		var bumen2=$("#bumen2").val();
-		var baoguanren=$("#baoguanren").val();
+		var baoguanren=$("#baoguanren").attr("data1");
 		var usePrj=$("#usePrj").val();
 		var task_no2=$("#task_no2").val();
 		var xiaohuiTime=$("#xiaohuiTime").val();
@@ -1868,7 +1849,6 @@
 			data:{
 				beginTime:beginTime,
 				endTime:endTime,
-				departId:bumen2,
 				custodyMan:baoguanren,
 				useProject:usePrj,
 				taskNo:task_no2,
@@ -1882,7 +1862,7 @@
 					//location.reload([true]);
 					toastr.success("提交成功")
 					$("#shiyonggl").modal("hide")
-					initTable2();
+					//initTable2();
 				}
 			}
 		}
@@ -1920,22 +1900,32 @@
 	
 	//修改回显使用管理
 	var suId;
+	var tr;
 	function checksUsers(obj){
+		tr = $(obj).closest('tr');
 		var dom=$(obj).parents("tr");
 		var data=$('#mainContent2').DataTable().row(dom).data();
 		//console.log(data)
 		suId=data.suId;
-		
-		$("#xgbeginTime").val(data.beginTime);
-		$("#xgendTime").val(data.endTime);
-		$("#xgbaoguanren").val(data.custodyMan);
-		$("#xgbumen2").val(data.departId);
-		//$("#xgbaoguan").val(data.custodyMan);
-		//initSelectEdit(data.custodyMan);
-		
-		$("#xgusePrj").val(data.useProject);
-		$("#xgtask_no2").val(data.taskNo);
-		$("#xgxiaohuiTime").val(data.destroyTime);
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/signetUsers/selectUsersById",
+			dataType:"json",
+			data:{
+				suId:suId,
+				status:2
+			},
+			success:function(json){
+				//console.log(json);
+				$("#xgbeginTime").val(json.beginTime);
+				$("#xgendTime").val(json.endTime);
+				$("#xgbaoguanren").attr("data1",json.custodyMan);
+				$("#xgbaoguanren").val(json.uName);
+				$("#xgusePrj").val(json.useProject);
+				$("#xgtask_no2").val(json.taskNo);
+				$("#xgxiaohuiTime").val(json.destroyTime);
+			}
+		})
 		
 		$.ajax({
 			type:"post",
@@ -2000,31 +1990,37 @@
 		var xgusePrj=$("#xgusePrj").val();
 		var xgtask_no2=$("#xgtask_no2").val();
 		var xgxiaohuiTime=$("#xgxiaohuiTime").val();
-		var xgbumen2=$("#xgbumen2").val();
-		//var xgbaoguanren=$("#xgbaoguan").val();
-		var xgbaoguanren=$("#xgbaoguanren").val(); 
+		var xgbaoguanren=$("#xgbaoguanren").attr("data1");
 		
 		
-		if($("#xgsyfile").val()==''){
+		/* if($("#xgsyfile").val()==''){
 			toastr.error("附件为空");
     		return;
-		}
-		if($("#xgbaoguanren").val()==''){
+		} */
+		if(xgbaoguanren==''){
 			toastr.error("保管人为空");
     		return;
 		}
-		if(beginTime==''){
+		if(xgbeginTime==''){
     		toastr.error("开始时间为空");
     		return;
     	}
-		if(endTime==''){
+		if(xgendTime==''){
     		toastr.error("结束时间为空");
     		return;
     	}
-		if(xiaohuiTime==''){
+		if(xgxiaohuiTime==''){
     		toastr.error("销毁时间为空");
     		return;
     	}
+		var addJson={
+				"suId":suId,
+				"useProject":xgusePrj,
+				"uName":$("#xgbaoguanren").val(),
+				"beginTime":xgbeginTime,
+				"endTime":xgendTime,
+				"destroyTime":xgxiaohuiTime,
+		}
 		
 		var options2={
 			type:'post',
@@ -2034,7 +2030,6 @@
 				suId:suId,
 				beginTime:xgbeginTime,
 				endTime:xgendTime,
-				departId:xgbumen2,
 				taskNo:xgtask_no2,
 				custodyMan:xgbaoguanren,
 				useProject:xgusePrj,
@@ -2047,7 +2042,8 @@
 				}else{
 					toastr.success("修改成功");
 					$("#myModal2").modal("hide");
-					initTable2();
+					$('#mainContent2').DataTable().row(tr).data(addJson);//修改行立即显示
+					//initTable2();
 				}
 			}
 		}
@@ -2060,30 +2056,38 @@
 		var xgbeginTime=$("#xgbeginTime").val();
 		var xgendTime=$("#xgendTime").val();
 		var xgusePrj=$("#xgusePrj").val();
+		var xgtask_no2=$("#xgtask_no2").val();
 		var xgxiaohuiTime=$("#xgxiaohuiTime").val();
-		var xgbumen2=$("#xgbumen2").val();
-		//var xgbaoguanren=$("#xgbaoguan").val();
-		var xgbaoguanren=$("#xgbaoguanren").val(); 
-		if($("#xgsyfile").val()==''){
+		var xgbaoguanren=$("#xgbaoguanren").attr("data1"); 
+		/* if($("#xgsyfile").val()==''){
 			toastr.error("附件为空");
     		return;
-		}
-		if($("#xgbaoguanren").val()==''){
+		} */
+		if(xgbaoguanren==''){
 			toastr.error("保管人为空");
     		return;
 		}
-		if(beginTime==''){
+		if(xgbeginTime==''){
     		toastr.error("开始时间为空");
     		return;
     	}
-		if(endTime==''){
+		if(xgendTime==''){
     		toastr.error("结束时间为空");
     		return;
     	}
-		if(xiaohuiTime==''){
+		if(xgxiaohuiTime==''){
     		toastr.error("销毁时间为空");
     		return;
     	}
+		var addJson={
+				"suId":suId,
+				"useProject":xgusePrj,
+				"uName":$("#xgbaoguanren").val(),
+				"beginTime":xgbeginTime,
+				"endTime":xgendTime,
+				"destroyTime":xgxiaohuiTime,
+		}
+		
 		var options3={
 			type:'post',
 			url:getContextPath()+'/signetUsers/updateSubmitsUser',
@@ -2092,9 +2096,9 @@
 				suId:suId,
 				beginTime:xgbeginTime,
 				endTime:xgendTime,
-				departId:xgbumen2,
 				custodyMan:xgbaoguanren,
 				useProject:xgusePrj,
+				taskNo:xgtask_no2,
 				destroyTime:xgxiaohuiTime,
 			},
 			success:function(json){
@@ -2104,13 +2108,13 @@
 				}else{
 					toastr.success("修改成功");
 					$("#myModal2").modal("hide");
-					initTable2();
+					$('#mainContent2').DataTable().row(tr).data(addJson);//修改行立即显示
+					//initTable2();
 				}
 			}
 		}
 		$("#edit_form2").ajaxSubmit(options3);
 	}
-	
 	
 	
 	//查看详细信息使用管理
@@ -2124,8 +2128,7 @@
 		$("#lookusePrj").text(data2.useProject);
 		$("#looktask_no2").text(data2.taskNo);
 		
-		$("#lookbaoguan").text(data2.custodyMan);
-		//initSelectEdit(data2.uName);
+		$("#lookbaoguan").text(data2.uName);
 		$.ajax({
 			type:"post",
 			url:getContextPath()+"/signetUsers/selectAccessoryById",
