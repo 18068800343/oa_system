@@ -61,7 +61,7 @@
                             <tr>
                                 <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
-                                	<input type="text" class="form-control" style="width:60%;" id="prjName" disabled>
+                                	<input type="text" class="form-control" data1="" style="width:60%;" id="prjName" disabled>
                                 	<button type="button" class="btn btn-primary"  id="chosexm">选择项目</button>
                                 </td>
                                 <td style="width:15%;">任务单号</td>
@@ -93,7 +93,7 @@
                             <tr>
                                 <td style="width:15%;">用章管理人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
-                                	<input type="text" id="userSignetMan" style="width:60%;" class="form-control" disabled>
+                                	<input type="text" id="userSignetMan" data2="" style="width:60%;" class="form-control" disabled>
                                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择管理人</button>
                                 </td>
                                 <td></td>
@@ -293,7 +293,7 @@
                                 <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
                                     <!-- <select class="form-control" id="xgprjName" style="width:180px;"></select> -->
-                                    <input type="text" class="form-control" style="width:60%;" id="xgprjName" disabled>
+                                    <input type="text" class="form-control" data1="" style="width:60%;" id="xgprjName" disabled>
                                 	<button type="button" class="btn btn-primary"  id="xgchosexm">选择项目</button>
                                 </td>
                                 <td style="width:15%;">任务单号</td>
@@ -325,7 +325,7 @@
                             <tr>
                                 <td style="width:15%;">用章管理人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
-                                    <input type="text" id="xguserSignetMan" style="width:60%;" class="form-control" disabled>
+                                    <input type="text" id="xguserSignetMan" data2="" style="width:60%;" class="form-control" disabled>
                                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren">选择管理人</button>
                                 </td>
                                 <td></td>
@@ -459,7 +459,6 @@
 <script>
     $(document).ready( function () {
     	initTable();
-    	//xiangmuSelect();
     	initSelect();
     	bumenSelect();
         laydate.render({
@@ -721,30 +720,6 @@
         });
     }
 
-	//初始化项目名称，任务单号，项目负责人，项目阶段，主办部门
-	function xiangmuSelect(){
-	    $.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/task/selectTaskByStatus',
-	        dataType: 'json',
-	        data: {
-	        	status:2
-	        },
-	        success: function (json) {
-	        	//console.log(json)
-	        	 for(var i=0;i<json.length;i++){
-	        		$("#prjName").append( "<option value='" + json[i].prjId + "'>"
-		                    + json[i].prjName + "</option>");
-	        		$("#xgprjName").append( "<option value='" + json[i].prjId + "'>"
-		                    + json[i].prjName + "</option>");
-	        	} 
-	        	$("#prjName").trigger('change');
-	        	$("#xgprjName").trigger('change');
-	        }
-	    });
-	}
-	
-	
 	
 	//初始化部门
 	function bumenSelect(){
@@ -802,21 +777,33 @@
 	})
 	//保存添加用印管理人
 	function saveGuanliren(){
-		var bumen=$("#bumen").val();
-		var a=$("input[name='xgmingzi']:checked").parent().next().text();
-		$("#userSignetMan").val(a);
+		var tr=$("input[name='mingzi']:checked").parents("tr");
+		var data=$("#bmmingzibiao").DataTable().row(tr).data();
+		//console.log(data)
+		$("#userSignetMan").val(data.uName);
+		$("#userSignetMan").attr("data2",data.userId);
 		$("#addGuanliren").modal("hide");
 	}
+	
+	//保存修改用印管理人
+	function savexgGuanliren(){
+		var tr=$("input[name='xgmingzi']:checked").parents("tr");
+		var data=$("#xgbmmingzibiao").DataTable().row(tr).data();
+		//console.log(data)
+		$("#xguserSignetMan").val(data.uName);
+		$("#xguserSignetMan").attr("data2",data.userId);
+		$("#xgaddGuanliren").modal("hide");
+	}
+	
 	//选择项目
 	$("#chosexm").click(function(){
 		$("#xiangmumd").modal("show");
 		 $.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/task/selectTaskByStatus',
+	            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
 	            dataType: 'json',
 	            async:false,
 	            data: {
-	            	status:2,
 	            },
 	            success: function (json) {
 	                $('#xiangmubiao').dataTable().fnClearTable();
@@ -825,10 +812,14 @@
 	        });
 	})
 	$("#quedingxm").click(function(){
-		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
-		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
-		$("#prjName").val(prjname);
-		$("#task_no").val(prjNo);
+		var tr=$("input[name='xiangmuName']:checked").parents("tr");
+		var data=$("#xiangmubiao").DataTable().row(tr).data();
+		//console.log(data)
+		/* var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text(); */
+		$("#prjName").val(data.prjName);
+		$("#prjName").attr("data1",data.prjId);
+		$("#task_no").val(data.prjNo);
 		$("#prj_ownerunit").val("未知");
 		$("#xiangmumd").modal("hide");
 	})
@@ -836,11 +827,10 @@
 		$("#xgxiangmumd").modal("show");
 		 $.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/task/selectTaskByStatus',
+	            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
 	            dataType: 'json',
 	            async:false,
 	            data: {
-	            	status:2,
 	            },
 	            success: function (json) {
 	                $('#xgxiangmubiao').dataTable().fnClearTable();
@@ -849,10 +839,14 @@
 	        });
 	})
 	$("#xgquedingxm").click(function(){
-		var prjName=$("input[name='xgxiangmuName']:checked").parent().next().next().text();
-		var prjNo=$("input[name='xgxiangmuName']:checked").parent().next().text();
-		$("#xgprjName").val(prjName);
-		$("#xgtask_no").val(prjNo);
+		var tr=$("input[name='xgxiangmuName']:checked").parents("tr");
+		var data=$("#xgxiangmubiao").DataTable().row(tr).data();
+		console.log(data)
+		/* var prjName=$("input[name='xgxiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xgxiangmuName']:checked").parent().next().text(); */
+		$("#xgprjName").val(data.prjName);
+		$("#xgprjName").attr("data1",data.prjId);
+		$("#xgtask_no").val(data.prjNo);
 		$("#xgprj_ownerunit").val("未知");
 		$("#xgxiangmumd").modal("hide");
 	})
@@ -914,61 +908,18 @@
 	
 	
 	
-	$("#xgbumen").change(function(){
-		var xgbumen=$("#xgbumen").val();
-		$.ajax({
-			type:"POST",
-			url:getContextPath()+"/user/selectUserByomId",
-			dataTyepe:"json",
-			 async:false,
-			data:{ 
-				omId:xgbumen 
-				},
-			success:function(json){
-				$("#xgguanliren").empty();
-				for(var i=0;i<json.length;i++){
-					$("#xgguanliren").append("<option value='" + json[i].userId + "'>"
-		                    + json[i].uName + "</option>")
-				}
-			}
-		})
-	})
-	//保存修改用印管理人
-	function savexgGuanliren(){
-		var a=$("input[name='mingzi']:checked").parent().next().text();
-		$("#xguserSignetMan").val(a);
-		$("#xgaddGuanliren").modal("hide");
-	}	
+		
 	
 	//填报用印管理保存
 	function addRUsing(){
-		var prjName=$("#prjName").val();
+		var prjName=$("#prjName").attr("data1");
 		var task_no=$("#task_no").val();
 		var prj_ownerunit=$("#prj_ownerunit").val();//项目负责人
 		var prj_phase=$("#prj_phase").val();//项目阶段
 		var divisionEngineer=$("#divisionEngineer").val();//主任
 		var headEngineer=$("#headEngineer").val();//副总工程师
-		var bumen=$("#bumen").val();
-		var guanliren=$("#guanliren").val();
+		var yongzhang=$("#userSignetMan").attr("data2");
 		var prj_desc=$("#prj_desc").val();
-		
-		var yongzhang=$("#userSignetMan").val();
-		if(yongzhang==''){
-    		toastr.error("用章管理人为空");
-    		return;
-    	}
-		if(divisionEngineer==''){
-    		toastr.error("分项主任工程师为空");
-    		return;
-    	}
-		if(headEngineer==''){
-    		toastr.error("总工程师为空");
-    		return;
-    	}
-		if(prj_desc==''){
-    		toastr.error("项目情况说明为空");
-    		return;
-    	}
 		
 		$.ajax({
 			type:"post",
@@ -979,11 +930,11 @@
 				prjId:prjName,
 				usNo:task_no,
 				prjHead:prj_ownerunit,
-				omId:bumen,
+				//omId:bumen,
 				projectPhase:prj_phase,
 				divisionEngineer:divisionEngineer,
 				headEngineer:headEngineer,
-				userSignetMan:guanliren,
+				userSignetMan:yongzhang,
 				projectDesc:prj_desc,
 			},
 			success:function(json){
@@ -994,7 +945,7 @@
 					//location.reload([true]);
 					toastr.success("添加成功")
 					$("#myModal").modal("hide")
-					initTable();
+					//initTable();
 				}
 			}
 		})
@@ -1002,33 +953,14 @@
 	
 	//填报用印管理提交
 	function submitRUsing(){
-		var prjName=$("#prjName").val();
+		var prjName=$("#prjName").attr("data1");
 		var task_no=$("#task_no").val();
 		var prj_ownerunit=$("#prj_ownerunit").val();//项目负责人
 		var prj_phase=$("#prj_phase").val();//项目阶段
 		var divisionEngineer=$("#divisionEngineer").val();//主任
 		var headEngineer=$("#headEngineer").val();//副总工程师
-		var bumen=$("#bumen").val();
-		var guanliren=$("#guanliren").val();
+		var yongzhang=$("#userSignetMan").attr("data2");
 		var prj_desc=$("#prj_desc").val();
-		
-		var yongzhang=$("#userSignetMan").val();
-		if(yongzhang==''){
-    		toastr.error("用章管理人为空");
-    		return;
-    	}
-		if(divisionEngineer==''){
-    		toastr.error("分项主任工程师为空");
-    		return;
-    	}
-		if(headEngineer==''){
-    		toastr.error("总工程师为空");
-    		return;
-    	}
-		if(prj_desc==''){
-    		toastr.error("项目情况说明为空");
-    		return;
-    	}
 		
 		$.ajax({
 			type:"post",
@@ -1039,11 +971,11 @@
 				prjId:prjName,
 				usNo:task_no,
 				prjHead:prj_ownerunit,
-				omId:bumen,
+				//omId:bumen,
 				projectPhase:prj_phase,
 				divisionEngineer:divisionEngineer,
 				headEngineer:headEngineer,
-				userSignetMan:guanliren,
+				userSignetMan:yongzhang,
 				projectDesc:prj_desc,
 			},
 			success:function(json){
@@ -1054,7 +986,7 @@
 					//location.reload([true]);
 					toastr.success("提交成功")
 					$("#myModal").modal("hide")
-					initTable();
+					//initTable();
 				}
 			}
 		})
@@ -1063,7 +995,9 @@
 	
 	//修改回显
 	var checkId;
+	var tr;
 	function checkRs(obj){
+		tr = $(obj).closest('tr');
 		var dom=$(obj).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
 		checkId=data.usId;
@@ -1077,20 +1011,16 @@
 				status:2
 			},
 			success:function(json){
-				console.log(json);
-				//$("#xgprjName").val(json.prjId);
+				//console.log(json);
+				$("#xgprjName").attr("data1",json.prjId);
 				$("#xgprjName").val(json.prjName);
 				$("#xgtask_no").val(json.usNo);
 				$("#xgprj_ownerunit").val(json.prjHead);//项目负责人
 				$("#xgprj_phase").val(json.projectPhase);//项目阶段
 				$("#xgdivisionEngineer").val(json.divisionEngineer);//主任
 				$("#xgheadEngineer").val(json.headEngineer);//副总工程师
-				$("#xgbumen").val(json.omId);
-				
-				//$("#xgguanliren").val(json.userSignetMan);
-				//initSelectOnEdit(json.userSignetMan);
-				
 				$("#xgprj_desc").val(json.projectDesc);
+				$("#xguserSignetMan").attr("data2",json.userSignetMan);
 				$("#xguserSignetMan").val(json.uName);
 			}
 		})
@@ -1098,33 +1028,24 @@
 	
 	//保存修改
 	function checkSave(){
-		var xgprjName=$("#xgprjName").val();
+		var xgprjName=$("#xgprjName").attr("data1");
 		var xgtask_no=$("#xgtask_no").val();
 		var xgprj_ownerunit=$("#xgprj_ownerunit").val();//项目负责人
 		var xgprj_phase=$("#xgprj_phase").val();//项目阶段
 		var xgdivisionEngineer=$("#xgdivisionEngineer").val();//主任
 		var xgheadEngineer=$("#xgheadEngineer").val();//副总工程师
-		var xgbumen=$("#xgbumen").val();
-		var xgguanliren=$("#xgguanliren").val();
+		var xgyongzhang=$("#xguserSignetMan").attr("data2");
 		var xgprj_desc=$("#xgprj_desc").val();
 		
-		var xgyongzhang=$("#xguserSignetMan").val();
-		if(xgyongzhang==''){
-    		toastr.error("用章管理人为空");
-    		return;
-    	}
-		if(xgdivisionEngineer==''){
-    		toastr.error("分项主任工程师为空");
-    		return;
-    	}
-		if(xgheadEngineer==''){
-    		toastr.error("总工程师为空");
-    		return;
-    	}
-		if(xgprj_desc==''){
-    		toastr.error("项目情况说明为空");
-    		return;
-    	}
+		var rsJson={
+				"usId":checkId,
+				"prjName":$("#xgprjName").val(),
+				"usNo":xgtask_no,
+				"prjHead":xgprj_ownerunit,
+				"projectPhase":xgprj_phase,
+				"divisionEngineer":xgdivisionEngineer,
+				"headEngineer":xgheadEngineer,
+		}
 		
 		$.ajax({
 			type:"post",
@@ -1135,11 +1056,10 @@
 				prjId:xgprjName,
 				usNo:xgtask_no,
 				prjHead:xgprj_ownerunit,
-				omId:xgbumen,
 				projectPhase:xgprj_phase,
 				divisionEngineer:xgdivisionEngineer,
 				headEngineer:xgheadEngineer,
-				userSignetMan:xgguanliren,
+				userSignetMan:xgyongzhang,
 				projectDesc:xgprj_desc,
 			},
 			success:function(json){
@@ -1150,7 +1070,8 @@
 					//location.reload([true]);
 					toastr.success("修改成功")
 					$("#change").modal("hide")
-					initTable();
+					$('#mainContent').DataTable().row(tr).data(rsJson);//修改行立即显示
+					//initTable();
 				}
 			}
 		})
@@ -1159,33 +1080,24 @@
 	
 	//提交修改
 	function checkSubmit(){
-		var xgprjName=$("#xgprjName").val();
+		var xgprjName=$("#xgprjName").attr("data1");
 		var xgtask_no=$("#xgtask_no").val();
 		var xgprj_ownerunit=$("#xgprj_ownerunit").val();//项目负责人
 		var xgprj_phase=$("#xgprj_phase").val();//项目阶段
 		var xgdivisionEngineer=$("#xgdivisionEngineer").val();//主任
 		var xgheadEngineer=$("#xgheadEngineer").val();//副总工程师
-		var xgbumen=$("#xgbumen").val();
-		var xgguanliren=$("#xgguanliren").val();
+		var xgyongzhang=$("#xguserSignetMan").attr("data2");
 		var xgprj_desc=$("#xgprj_desc").val();
 		
-		var xgyongzhang=$("#xguserSignetMan").val();
-		if(xgyongzhang==''){
-    		toastr.error("用章管理人为空");
-    		return;
-    	}
-		if(xgdivisionEngineer==''){
-    		toastr.error("分项主任工程师为空");
-    		return;
-    	}
-		if(xgheadEngineer==''){
-    		toastr.error("总工程师为空");
-    		return;
-    	}
-		if(xgprj_desc==''){
-    		toastr.error("项目情况说明为空");
-    		return;
-    	}
+		var rsJson={
+				"usId":checkId,
+				"prjName":$("#xgprjName").val(),
+				"usNo":xgtask_no,
+				"prjHead":xgprj_ownerunit,
+				"projectPhase":xgprj_phase,
+				"divisionEngineer":xgdivisionEngineer,
+				"headEngineer":xgheadEngineer,
+		}
 		
 		$.ajax({
 			type:"post",
@@ -1196,11 +1108,10 @@
 				prjId:xgprjName,
 				usNo:xgtask_no,
 				prjHead:xgprj_ownerunit,
-				omId:xgbumen,
 				projectPhase:xgprj_phase,
 				divisionEngineer:xgdivisionEngineer,
 				headEngineer:xgheadEngineer,
-				userSignetMan:xgguanliren,
+				userSignetMan:xgyongzhang,
 				projectDesc:xgprj_desc,
 			},
 			success:function(json){
@@ -1211,7 +1122,7 @@
 					//location.reload([true]);
 					toastr.success("修改成功")
 					$("#change").modal("hide")
-					initTable();
+					$('#mainContent').DataTable().row(tr).data(rsJson);//修改行立即显示
 				}
 			}
 		})
