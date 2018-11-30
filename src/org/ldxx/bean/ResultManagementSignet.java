@@ -9,8 +9,6 @@ public class ResultManagementSignet {
     
     private String prjHead;//项目负责人
     
-    private String omId;//部门id
-
     private String projectPhase;//项目阶段
 
     private String divisionEngineer;//分项主任工程师
@@ -26,8 +24,6 @@ public class ResultManagementSignet {
     
     private String prjName;//项目名
     private String prjOwnerUnit;//项目负责人
-    private String mainDepartment;//主办部门id
-    private String omName;//主办部门名
     private String uName;
 
     
@@ -57,14 +53,6 @@ public class ResultManagementSignet {
 		this.prjHead = prjHead;
 	}
 
-	public String getOmId() {
-		return omId;
-	}
-
-	public void setOmId(String omId) {
-		this.omId = omId;
-	}
-
 	public String getPrjName() {
 		return prjName;
 	}
@@ -80,23 +68,6 @@ public class ResultManagementSignet {
 
 	public void setPrjOwnerUnit(String prjOwnerUnit) {
 		this.prjOwnerUnit = prjOwnerUnit;
-	}
-
-
-	public String getMainDepartment() {
-		return mainDepartment;
-	}
-
-	public void setMainDepartment(String mainDepartment) {
-		this.mainDepartment = mainDepartment;
-	}
-
-	public String getOmName() {
-		return omName;
-	}
-
-	public void setOmName(String omName) {
-		this.omName = omName;
 	}
 
 	public String getUsId() {

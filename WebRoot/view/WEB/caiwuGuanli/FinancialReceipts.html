@@ -408,140 +408,7 @@
             </table>
         </div>
     </div>
-<!-- Modal look项目名称 -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModallook">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel"><b>任务单</b></h4>
-        </div>
-        <div class="modal-body">
-                <div>
-                    <form class="form-inline">
-                        <table class="table table-bordered table-condensed lookhetong">
-                            <tr>
-                                <td><a href="../shengchanGuanli/TaskManagement.html">项目名称</a></td>
-                                <td>
-                                    项目名称1
-                                </td>
-                                <td style="width:100px;">编号</td>
-                                <td>编号1</td>
-                            </tr>
-                            <tr>
-                                <td>项目经营模式</td>
-                                <td>
-                                    项目经营模式1
-                                </td>
-                                <td>项目所属公司</td>
-                                <td>
-                                    项目所属公司1
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width:100px;"><a href="../jichuShuju/ProjectType.html">项目类型</a></td>
-                                <td>
-                                    项目类型1
-                                </td>
-                                <td>项目业主单位</td>
-                                <td>
-                                    项目业主单位1
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>预估合同额(不含暂定金)</td>
-                                <td>预估合同额1</td>
-                                <td>预估项目金额</td>
-                                <td>预估项目金额1</td>
-                            </tr>
-                            <tr>
-                                <td>暂定金</td>
-                                <td>暂定金1</td>
-                                <td>项目开始时间</td>
-                                <td>项目开始时间1</td>
-                            </tr>
-                            <tr>
-                                <td>项目结束时间</td>
-                                <td>项目结束时间1</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>项目概况及工作内容</td>
-                                <td colspan="3">123</td>
-                            </tr>
-                        </table>
 
-                        <table class="table table-bordered table-condensed">
-                            <thead>
-                                <tr>
-                                    <th colspan="2">添加的联系人,联系方式</th>
-                                </tr>
-                                <tr>
-                                    <th>联系人</th>
-                                    <th>联系方式</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>111</td>
-                                    <td>222</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <table class="table table-bordered table-condensed" id="xieban">
-                            <thead>
-                                <tr>
-                                    <th colspan="2">部门</th>
-                                    <th colspan="2">金额</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>主办部门</td>
-                                    <td>
-                                        主办部门1
-                                    </td>
-                                    <td>金额</td>
-                                    <td>100</td>
-                                </tr>
-                                <tr>
-                                    <td>协办部门1</td>
-                                    <td>
-                                        协办部门1
-                                    </td>
-                                    <td>金额</td>
-                                    <td>100</td>
-                                </tr>
-                                <tr>
-                                    <td>协办部门2</td>
-                                    <td>
-                                        协办部门2
-                                    </td>
-                                    <td>金额</td>
-                                    <td>100</td>
-                                </tr>
-                                <tr>
-                                    <td>协办部门3</td>
-                                    <td>
-                                        协办部门3
-                                    </td>
-                                    <td>金额</td>
-                                    <td>100</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </form>  
-                </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        </div>
-        </div>
-    </div>
-</div>
-<!-- modellook结束 -->
 <!-- 全部Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMSG">
     <div class="modal-dialog modal-lg" role="document">
@@ -658,7 +525,7 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-		            { "data": "prjName"}, 
+		            { "data": null}, 
 		            { "data": "prjLeader"}, 
 		            { "data": "htContract"}, 
 		            { "data": "contractMoneyEnd"}, 
@@ -668,6 +535,14 @@
 		            { "data": null}
 		        ],
 		        "columnDefs": [
+									{	
+										 "class": "tcenter",
+									   "targets": 0,
+									   "searchable": true,
+									   "render": function(data, type, full) {
+											return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjName+'</a>'
+									   }
+									},
 									{	
 										 "class": "details-control",
 										    "targets": 7,
@@ -1082,6 +957,26 @@
     	$("#look_finance_info").text(data.financeInfo);
     	$("#look").modal("show");
     }
-
+    
+    function gotoPrj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data);
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:data.prjId,
+				no:data.taskNo
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.taskNo+'');
+			}
+		})
+		
+    }
 </script>
 </html>
