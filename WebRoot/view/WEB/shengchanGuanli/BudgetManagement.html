@@ -1005,7 +1005,7 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-            { "data": "prjId"}, 
+            { "data": null}, 
             { "data": "taskNo"}, 
             { "data": "prjUnit"}, 
             { "data": "budgetDate"}, 
@@ -1014,6 +1014,14 @@
         ],
         "columnDefs": [
 						{	
+							 "class": "tcenter",
+						  "targets": 0,
+						  "searchable": true,
+						  "render": function(data, type, full) {
+								return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjId+'</a>'
+						  }
+						},
+						{
 								 "class": "tcenter",
 								    "targets": 6,
 								    "searchable": true,
@@ -2687,6 +2695,27 @@
 	function delxgRgyusuan(obj){
 		$(obj).parent().parent().remove();
 	}
+	
+	function gotoPrj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data);
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:data.prjId,
+				no:data.taskNo
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.taskNo+'');
+			}
+		})
+		
+    }
 	
 	//取消
 	function quxiaofyyusuan(){
