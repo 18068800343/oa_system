@@ -27,6 +27,7 @@ public class OpeningRecord {
 	private String companyDiscountRate;//公司报价折扣率
 	private Float calculateCost;//测算成本
 	private Float actualCost;//实际成本
+	private String prjStates;//项目跟踪状态
 	
 	
 	private List<OpeningInformation> openingInformation;
@@ -35,6 +36,12 @@ public class OpeningRecord {
 	
 	
 	
+	public String getPrjStates() {
+		return prjStates;
+	}
+	public void setPrjStates(String prjStates) {
+		this.prjStates = prjStates;
+	}
 	public Float getCompanyOffer() {
 		return companyOffer;
 	}

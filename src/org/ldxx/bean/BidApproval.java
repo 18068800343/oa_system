@@ -13,9 +13,16 @@ public class BidApproval {
 	private String submissionTime;//投标文件递交时间
 	private String projectApplicants;//项目报名人员
 	private String purchaseTenderPersonnel;//项目购买标书人员
+	private String prjStates;//项目跟踪状态
 	
 	
 	
+	public String getPrjStates() {
+		return prjStates;
+	}
+	public void setPrjStates(String prjStates) {
+		this.prjStates = prjStates;
+	}
 	public String getPretrialSubmissionTime() {
 		return pretrialSubmissionTime;
 	}

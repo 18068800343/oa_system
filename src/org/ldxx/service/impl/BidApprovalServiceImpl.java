@@ -3,7 +3,9 @@ package org.ldxx.service.impl;
 import java.util.List;
 
 import org.ldxx.bean.BidApproval;
+import org.ldxx.bean.ProjectTrace;
 import org.ldxx.dao.BidApprovalDao;
+import org.ldxx.dao.ProjectTraceDao;
 import org.ldxx.service.BidApprovalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 	
 	@Autowired
 	private BidApprovalDao dao;
+	@Autowired
+	private ProjectTraceDao ptdao;//项目跟踪单
 
 	@Override
 	public List<BidApproval> selectBidApproval(String status) {
@@ -23,6 +27,12 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 
 	@Override
 	public int addBidApproval(BidApproval ba) {
+		ProjectTrace pt=ptdao.selectprjStatesByname(ba.getPrjName());
+		if(pt!=null){
+			ba.setPrjStates(pt.getPrjStates());
+		}else{
+			ba.setPrjStates("无");
+		}
 		return dao.addBidApproval(ba);
 	}
 
@@ -38,6 +48,12 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 
 	@Override
 	public int updateBidApproval(BidApproval ba) {
+		ProjectTrace pt=ptdao.selectprjStatesByname(ba.getPrjName());
+		if(pt!=null){
+			ba.setPrjStates(pt.getPrjStates());
+		}else{
+			ba.setPrjStates("无");
+		}
 		return dao.updateBidApproval(ba);
 	}
 

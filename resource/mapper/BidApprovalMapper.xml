@@ -13,9 +13,9 @@
 	</select>
 	
 	<insert id="addBidApproval" parameterType="BidApproval">
-		insert into bid_approval(ba_id,prj_name,prj_no,owner_unit,prj_type,bidder,pretrial_submission_time,field_time,pretender_meeting_time,
+		insert into bid_approval(ba_id,prj_name,prj_no,prj_states,owner_unit,prj_type,bidder,pretrial_submission_time,field_time,pretender_meeting_time,
 			submission_time,project_applicants,purchase_tender_personnel)
-		values(#{ba.baId},#{ba.prjName},#{ba.prjNo},#{ba.ownerUnit},#{ba.prjType},#{ba.bidder},#{ba.pretrialSubmissionTime},#{ba.fieldTime}
+		values(#{ba.baId},#{ba.prjName},#{ba.prjNo},#{ba.prjStates},#{ba.ownerUnit},#{ba.prjType},#{ba.bidder},#{ba.pretrialSubmissionTime},#{ba.fieldTime}
 			,#{ba.pretenderMeetingTime},#{ba.submissionTime},#{ba.projectApplicants},#{ba.purchaseTenderPersonnel})
 	</insert>
 	
@@ -32,6 +32,7 @@
 		update bid_approval set 
 		prj_name=#{ba.prjName},
 		prj_no=#{ba.prjNo},
+		prj_states=#{ba.prjStates},
 		owner_unit=#{ba.ownerUnit},
 		prj_type=#{ba.prjType},
 		bidder=#{ba.bidder},
@@ -45,16 +46,16 @@
 	</update>
 	
 	<select id="selectprjNameAndNo" resultType="BidApproval">
-		select prj_name,prj_no,owner_unit,prj_type from bid_approval a left join mode_status b on a.ba_id=b.mode_id
+		select prj_name,prj_no,owner_unit,prj_type,prj_states from bid_approval a left join mode_status b on a.ba_id=b.mode_id
 		where status=#{status}
 	</select>
 	
 	<select id="selectNoByName" resultType="BidApproval">
-		select prj_no,prj_type,owner_unit from bid_approval where prj_name=#{name}
+		select prj_no,prj_type,owner_unit,prj_states from bid_approval where prj_name=#{name}
 	</select>
 	
 	<select id="selectNameByNo" resultType="BidApproval">
-		select prj_name,prj_type,owner_unit from bid_approval where prj_no=#{no}
+		select prj_name,prj_type,owner_unit,prj_states from bid_approval where prj_no=#{no}
 	</select>
 
 </mapper>
