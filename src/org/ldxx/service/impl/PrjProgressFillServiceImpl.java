@@ -142,4 +142,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.countOfDepartmentCost(department, id);
 	}
 
+	@Override
+	public List<PrjProgressFill> selectPrjProgressFillByYear(String status, String y) {
+		return dao.selectPrjProgressFillByYear(status,y);
+	}
+
 }

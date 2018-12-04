@@ -9,7 +9,22 @@ public class OperationTarget {
 	private float budgetCost;//预算成本
 	private float actualCost;//实际成本
 	private String year;
+	private float actualPayment;//实际收款
+	private float realIncome;//实际收入
 	
+	
+	public float getActualPayment() {
+		return actualPayment;
+	}
+	public void setActualPayment(float actualPayment) {
+		this.actualPayment = actualPayment;
+	}
+	public float getRealIncome() {
+		return realIncome;
+	}
+	public void setRealIncome(float realIncome) {
+		this.realIncome = realIncome;
+	}
 	public float getBudgetCost() {
 		return budgetCost;
 	}

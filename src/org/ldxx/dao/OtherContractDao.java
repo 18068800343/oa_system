@@ -18,4 +18,6 @@ public interface OtherContractDao {
 	public List<OtherContract> selectCjHistory(@Param("no")String no);
 	
 	public int countNo();
+
+	public OtherContract selectOtherContractById(@Param("id")String id);
 }

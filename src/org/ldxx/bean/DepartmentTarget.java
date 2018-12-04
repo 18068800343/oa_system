@@ -12,8 +12,22 @@ public class DepartmentTarget {
 	private float actualCost;//实际成本
 	private String omName;
 	private String year;
+	private float actualPayment;//实际收款
+	private float realIncome;//实际收入
 	
 	
+	public float getRealIncome() {
+		return realIncome;
+	}
+	public void setRealIncome(float realIncome) {
+		this.realIncome = realIncome;
+	}
+	public float getActualPayment() {
+		return actualPayment;
+	}
+	public void setActualPayment(float actualPayment) {
+		this.actualPayment = actualPayment;
+	}
 	public float getBudgetCost() {
 		return budgetCost;
 	}

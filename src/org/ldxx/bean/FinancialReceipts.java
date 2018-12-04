@@ -30,7 +30,15 @@ public class FinancialReceipts {
 	private String financeInfo;
 	private String status;
 	
+	private String contractName;//承接合同名
 	
+	
+	public String getContractName() {
+		return contractName;
+	}
+	public void setContractName(String contractName) {
+		this.contractName = contractName;
+	}
 	public String getStatus() {
 		return status;
 	}

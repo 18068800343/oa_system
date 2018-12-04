@@ -70,4 +70,9 @@ public class OtherContractServiceImpl implements OtherContractService{
 		return dao.countNo();
 	}
 
+	@Override
+	public OtherContract selectOtherContractById(String id) {
+		return dao.selectOtherContractById(id);
+	}
+
 }

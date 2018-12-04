@@ -87,7 +87,7 @@
                                 <td style="width:35%;">
                                     <!-- <select id="contract_name" class="form-control" style="width:80%;">
                                     </select> -->
-                                    <input type="text" class="form-control" style="width:65%;" disabled id="contract_name">
+                                    <input type="text" class="form-control" data1="" style="width:65%;" disabled id="contract_name">
                                     <button type="button" class="btn btn-primary weui-uploader__input" onclick="select_cj()">选择承接</button>
                                 </td>
                                 <td style="width:15%;">合同编号</td>
@@ -527,7 +527,7 @@
 		"columns": [
 		            { "data": null}, 
 		            { "data": "prjLeader"}, 
-		            { "data": "htContract"}, 
+		            { "data": "contractName"}, 
 		            { "data": "contractMoneyEnd"}, 
 		            { "data": "totalMoney"}, 
 		            { "data": "kpMoney"}, 
@@ -698,6 +698,7 @@
 	    		return;
 	    	}
 	    	$("#contract_name").val(data.contractName);
+	    	$("#contract_name").attr("data1",data.cjId)
 	    	$("#contract_no").val(data.contractNo);
 	    	$.ajax({
                 type: 'POST',
@@ -774,6 +775,7 @@
 	                    	no:$('#contract_no').val()
 	                    },
 	                    success: function (json) {
+	                    	$("#contract_name").attr("data1",json.cjId)
 	                    	$('#contract_name').val(json.contractName);
 	                    	$('#prj_no').val(json.taskCode);
 	                    	$('#prj_name').val(json.prjName);
@@ -885,7 +887,7 @@
     	var start_time=$("#start_time").val();
     	var end_time=$("#end_time").val();
     	var prj_leader=$("#prj_leader").val();
-    	var Ht_contract=$("#HT_contract").val();
+    	var Ht_contract=$("#contract_name").attr("data1")
     	var contract_money=$("#contract_money").val();
     	var contract_money_end=$("#contract_money_end").val();
     	var total_money=$("#total_money").val();
@@ -911,7 +913,7 @@
             	prjLeader:prj_leader,
             	htContract:Ht_contract,
             	contractMoney:contract_money,
-            	contractMoney_end:contract_money_end,
+            	contractMoneyEnd:contract_money_end,
             	totalMoney:total_money,
             	kpMoney:kp_money,
             	fpNo:fp_no,
@@ -944,7 +946,7 @@
     	$("#look_start_time").text(data.startTime);
     	$("#look_end_time").text(data.endTime);
     	$("#look_prj_leader").text(data.prjLeader);
-    	$("#look_HT_contract").text(data.htContract);
+    	$("#look_HT_contract").text(data.contractName);
     	$("#look_contract_money").text(data.contractMoney);
     	$("#look_contract_money_end").text(data.contractMoneyEnd);
     	$("#look_total_money").text(data.totalMoney);

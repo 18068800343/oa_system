@@ -232,4 +232,10 @@ public class OtherContractConroller {
 	public List<OtherContract> selectCjHistory(String no){
 		return service.selectCjHistory(no);
 	}
+	
+	@RequestMapping("/selectOtherContractById")
+	@ResponseBody
+	public OtherContract selectOtherContractById(String id){
+		return service.selectOtherContractById(id);
+	}
 }

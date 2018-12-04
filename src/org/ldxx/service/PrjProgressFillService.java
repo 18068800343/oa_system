@@ -37,4 +37,6 @@ public interface PrjProgressFillService {
 	public float getDepartmentCost(String department,String id);
 	
 	public int countOfDepartmentCost(String department,String id);
+
+	public List<PrjProgressFill> selectPrjProgressFillByYear(String status, String y);
 }

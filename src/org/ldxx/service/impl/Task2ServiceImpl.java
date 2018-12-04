@@ -46,6 +46,11 @@ public class Task2ServiceImpl implements Task2Service{
 		}
 		return i;
 	}
+
+	@Override
+	public List<Task2> selectTask2ByYear(String y) {
+		return dao.selectTask2ByYear(y);
+	}
 	
 	
 

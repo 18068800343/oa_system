@@ -40,4 +40,6 @@ public interface PrjProgressFillDao {
 	public float getDepartmentCost(@Param("department")String department,@Param("id")String id);
 	
 	public int countOfDepartmentCost(@Param("department")String department,@Param("id")String id);
+
+	public List<PrjProgressFill> selectPrjProgressFillByYear(@Param("status")String status,@Param("y") String y);
 }

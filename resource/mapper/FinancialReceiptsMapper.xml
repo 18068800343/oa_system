@@ -3,28 +3,37 @@
 <mapper namespace="org.ldxx.dao.FinancialReceiptsDao" >
   	<insert id="addFinancialReceipts" parameterType="FinancialReceipts">
   		insert into financial_receipts(fr_id,prj_name,prj_no,year,yezhu,start_time,end_time,
-  														prj_leader,Ht_contract,contract_money,contract_money_end,
+  														prj_leader,ht_contract,contract_money,contract_money_end,
   														total_money,kp_money,fp_no,collection_terms,prj_plan,
   														result_money,department_info,finance_info,status)
   		values(#{fr.frId},#{fr.prjName},#{fr.prjNo},#{fr.year},#{fr.yezhu},#{fr.startTime},#{fr.endTime},
-  				   #{fr.prjLeader},#{fr.HtContract},#{fr.contractMoney},#{fr.contractMoneyEnd},
+  				   #{fr.prjLeader},#{fr.htContract},#{fr.contractMoney},#{fr.contractMoneyEnd},
   				   #{fr.totalMoney},#{fr.kpMoney},#{fr.fpNo},#{fr.collectionTerms},#{fr.prjPlan},
   				   #{fr.resultMoney},#{fr.departmentInfo},#{fr.financeInfo},#{fr.status})
   	</insert>
   	
   	<select id="selectFinancialReceipts" resultType="FinancialReceipts">
-  		select * from financial_receipts 
+  		select *,b.contract_name from financial_receipts as a
+  		left join cj_contract b on a.ht_contract=b.cj_id
   	</select>
   	
   	<select id="selectFinancialReceiptsById" resultType="FinancialReceipts">
-  		select * from financial_receipts where fr_id=#{id}
+  		select *,b.contract_name from financial_receipts as a
+  		left join cj_contract b on a.ht_contract=b.cj_id
+  		 where fr_id=#{id}
   	</select>
   	
   	<select id="selectFinancialReceiptsByStatus" resultType="FinancialReceipts">
-  		select * from financial_receipts where status=#{status}
+  		select *,b.contract_name from financial_receipts as a
+  		left join cj_contract b on a.ht_contract=b.cj_id
+  		where status=#{status}
   	</select>
   	
   	<update id="updateStatus">
   		update financial_receipts set status=#{status} where fr_id=#{id}
   	</update>
+  	
+  	<select id="selectFinancialReceiptsByYear" resultType="FinancialReceipts">
+  		select * from financial_receipts where status=#{status} and year like #{y}
+  	</select>
 </mapper>

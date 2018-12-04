@@ -12,5 +12,7 @@ public interface Task2Dao {
 	public List<Task2> selectTask2();
 	
 	public int deleteTask2(@Param("no")String no);
+
+	public List<Task2> selectTask2ByYear(@Param("y")String y);
 	
 }
