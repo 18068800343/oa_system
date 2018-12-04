@@ -14,8 +14,15 @@ public class DepartmentTarget {
 	private String year;
 	private float actualPayment;//实际收款
 	private float realIncome;//实际收入
+	private float actualContractAmount;//实际合同额
 	
 	
+	public float getActualContractAmount() {
+		return actualContractAmount;
+	}
+	public void setActualContractAmount(float actualContractAmount) {
+		this.actualContractAmount = actualContractAmount;
+	}
 	public float getRealIncome() {
 		return realIncome;
 	}

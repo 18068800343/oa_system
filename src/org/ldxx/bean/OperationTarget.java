@@ -3,16 +3,23 @@ package org.ldxx.bean;
 public class OperationTarget {
 
 	private String otId;
-	private float contractAmount;
-	private float revenueTarget;
-	private float collectionTarget;
+	private float contractAmount;//合同额目标
+	private float revenueTarget;//收入目标
+	private float collectionTarget;//收款目标
 	private float budgetCost;//预算成本
 	private float actualCost;//实际成本
 	private String year;
 	private float actualPayment;//实际收款
 	private float realIncome;//实际收入
+	private float actualContractAmount;//实际合同额
 	
 	
+	public float getActualContractAmount() {
+		return actualContractAmount;
+	}
+	public void setActualContractAmount(float actualContractAmount) {
+		this.actualContractAmount = actualContractAmount;
+	}
 	public float getActualPayment() {
 		return actualPayment;
 	}
