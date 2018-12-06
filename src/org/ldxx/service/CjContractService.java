@@ -38,4 +38,6 @@ public interface CjContractService {
 	public CjContract selectCjContractByNo(String no);
 	
 	public List<CjContract> selectCjContractByTaskNo(String no);
+
+	public CjContract selectCjByCjNo(String no);
 }

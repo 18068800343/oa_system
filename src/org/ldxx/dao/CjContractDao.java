@@ -43,4 +43,6 @@ public interface CjContractDao {
 	public int addCjSplitMoneySave(@Param("cs") List<CjSplitMoney> cs);
 
 	public List<CjSplitMoney> selectCjSplitMoneyById(@Param("id")String id);
+
+	public CjContract selectCjByCjNo(@Param("no")String no);
 }
