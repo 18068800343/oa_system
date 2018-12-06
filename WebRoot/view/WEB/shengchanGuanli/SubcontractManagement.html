@@ -1990,6 +1990,8 @@ function quxiao3(){
 	}
 	
 	
+
+	
 	
 	//查看详细信息
 	var fbNo;
@@ -2061,6 +2063,113 @@ function quxiao3(){
         $("#home").removeClass("active");
         $("#settings").addClass("active");
 	}
+	//超级链接查看表格
+	function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	sid=GetQueryString("prjId");
+   	//var title = decodeURI(id)
+   	console.log(sid)
+   	if(sid!=null){
+   		$("#diyi").removeClass("active");
+        $("#disi").addClass("active");
+        $("#diyi a").show();
+        $("#disi a").show();
+        $("#home").removeClass("active");
+        $("#settings").addClass("active");
+        
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/selectSubContractById',
+            dataType: 'json',
+            data: {
+            	id:sid
+            },
+            success: function (json) {
+            	//console.log(json);
+            	var data=json;
+            	lookId=json.fbId;
+        		fbNo=json.fbNo;
+        		
+        		$("#lookhetongName").text(data.contractName)
+        		$("#lookfbNo").text(data.fbNo);
+        		$("#lookType").text(data.fbcType)
+        		$("#lookjiafang").text(data.contractNameJia)
+        		$("#lookyifang").text(data.ccName)
+        		$("#lookprjName").text(data.prjName)
+        		$("#looktask_no").text(data.workNo)
+        		$("#lookchengjiehetongName").text(data.cjContractName)
+        		$("#lookchengjiehetonghao").text(data.cjContractCode)
+        		$("#lookzhuhetongMoney").text(data.mainContractMoney)
+        		$('#lookleijifenbaoMoney').text(data.nowFbAllMoney)
+        		$("#lookyear").text(data.contractStartTime)
+        		$("#lookyear2").text(data.contractEndTime)
+        		$("#lookjiafangbumen").text(data.omName)
+        		$("#lookhetonggongqi").text(data.contractLongTime)
+        		$("#lookfukuanfangshi").text(data.payMode)
+        		$("#lookhetongMoney").text(data.contractMoney)
+        		$("#lookzandingMoney").text(data.temporaryMoney)
+        		$("#looklvyuebaozhengMoney").text(data.performanceBond)
+        		$("#lookgaikuang").text(data.workContent)
+        		$("#lookrate").text(data.rate);
+        		$("#lookrateType").text(data.rateType);
+        		
+        		$.ajax({
+        			type:"post",
+        			url:getContextPath()+"/subcontract/selectAccessoryById",
+        			dataType:"json",
+        			async:false,
+        			data:{
+        				id:sid,
+        			},
+        			success:function(json){
+        				//console.log(json);
+        				$("#look_all_table").empty();
+        				$("#look_all_table2").empty();
+        	               for(var i=0;i<json.length;i++){
+        	            	   if(json[i].aType=="分包合同文本"){
+        		            	   $("#look_all_table").append("<tr>"+
+        	      	   										"<td>分包合同文本</td>"+
+        							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+        							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+        							            	    "</tr>");
+        	            	   }
+        	            	   if(json[i].aType=="法律顾问签字"){
+        		            	   $("#look_all_table2").append("<tr>"+
+        	      	   										"<td>法律顾问签字</td>"+
+        							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+        							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+        							            	    "</tr>");
+        	            	   }
+        	               }
+        			}
+        		})
+        		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/subcontract/selectsubcontractHistory',
+                    dataType: 'json',
+                    data: {
+                    	fbNo:fbNo,
+                    },
+                    error: function (msg) {
+                        errMessage("请求失败");
+                    },
+                    success: function (json) {
+                    	//console.log(json)
+                        $('#lookHistory').dataTable().fnClearTable();
+                        $('#lookHistory').DataTable().rows.add(json).draw(false);
+                    }
+                });
+            }
+  		});
+        
+		
+   	}
+   	
+   	
 	//初始化历史列表
 	function initTableHistory(){
         $.ajax({
