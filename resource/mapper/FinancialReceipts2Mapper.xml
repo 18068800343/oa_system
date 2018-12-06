@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.FinancialReceipts2Dao" >
+	
+	<!-- <insert id="addFinancialReceipts2" parameterType="java.util.List">
+		insert into financial_tables(t_id,t_no,t_name,t_department,t_collection_value,t_desc,t_time)
+  		values
+  		<foreach collection="list" item="item" index="index" separator="," >
+  			(#{item.tId},#{item.tNo},#{item.tName},#{item.tDepartment},#{item.tCollectionValue},#{item.tDesc},#{item.tTime})
+  		</foreach>
+	</insert> -->
+	<select id="selectValueByno" resultType="financialTables">
+		select t_collection_value from financial_tables where t_no=#{no}
+	</select>
+	
+	<update id="updateValueByNo" parameterType="financialTables">
+	  	update financial_tables set 
+	  			t_name=#{f.tName},
+	  			t_department=#{f.tDepartment},
+	  			t_collection_value=#{f.tCollectionValue},
+	  			t_desc=#{f.tDesc},
+	  			t_time=#{f.tTime}
+		  	where t_no=#{f.tNo}
+  	</update>
+  	
+  	<select id="selectfinancialTables" resultType="financialTables">
+  		select * from financial_tables 
+  	</select>
+  	
+  	<select id="selectfinancialTablesByState" resultType="financialTables">
+  		select * from financial_tables where state=#{state}
+  	</select>
+  	
+  	
+	
+  	
+  	<update id="updateState">
+  		update financial_tables set state=#{state} where t_id=#{id}
+  	</update>
+  	
+  	<select id="selectFinancialReceiptsByYear" resultType="FinancialReceipts">
+  		select * from financial_receipts2 where status=#{status} and year like #{y}
+  	</select>
+</mapper>

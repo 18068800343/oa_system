@@ -19,6 +19,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.ldxx.bean.FinancialTables;
 import org.ldxx.bean.TDepartment;
 import org.ldxx.bean.Task2;
 
@@ -166,4 +167,63 @@ public class ImportData {
              }  
          }  
 
+	 //检测二部财务收款
+	 public Map<String,Object> fR2readXls(InputStream is) throws IOException {  
+			Map<String,Object> map=new HashMap<String, Object>();
+			Workbook  hssfWorkbook=null;
+			try {
+				hssfWorkbook = WorkbookFactory.create(is);  
+			} catch (Exception e) {
+				e.printStackTrace();
+			}  
+			List<FinancialTables> t = new ArrayList<FinancialTables>();
+	        // 循环工作表Sheet  
+	        for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) { 
+	            Sheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);  
+	            if (hssfSheet == null) {  
+	                continue;  
+	            }  
+	            // 循环行Row  
+	            for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {  
+	            	Row hssfRow = hssfSheet.getRow(rowNum);
+	                int cells=hssfRow.getPhysicalNumberOfCells();
+	                
+	                FinancialTables ft=new FinancialTables();
+	                TimeUUID uuid=new TimeUUID();
+	                Cell colum1 = hssfRow.getCell(0);  
+	                Cell colum2 = hssfRow.getCell(1);  
+	                Cell colum3 = hssfRow.getCell(2);  
+	                Cell colum4 = hssfRow.getCell(3);  
+	                Cell colum5 = hssfRow.getCell(4);
+	                Cell colum6 = hssfRow.getCell(5);
+	                
+	                String tNo=getValue(colum1);
+	                boolean flag=true;
+	                /*if(t.size()>0){
+	                	for(int i=0;i<t.size();i++){
+	                    	String no=t.get(i).gettNo();
+	                    	if(no.equals(tNo)){
+	                    		flag=false;
+	                    		break;
+	                    	}else{
+	                    		flag=true;
+	                    	}
+	                    }
+	                }*/
+	                if(flag==true){
+	                	ft.settId(uuid.getTimeUUID());
+	                	ft.settNo(tNo);
+	                	ft.settName(getValue(colum2));
+	                	ft.settDepartment(getValue(colum3));
+	                	ft.settCollectionValue(Float.valueOf(getValue(colum4)));
+	                	ft.settDesc(getValue(colum5));
+	                	ft.settTime(getValue(colum6));
+	                    t.add(ft);
+	                }
+	                }  
+	            } 
+	        map.put("fR2", t);
+	        return map;  
+	    }
+	 
 }
