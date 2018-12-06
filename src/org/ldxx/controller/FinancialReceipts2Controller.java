@@ -15,6 +15,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.ldxx.bean.FinancialDepartments;
 import org.ldxx.bean.FinancialReceipts;
 import org.ldxx.bean.FinancialTables;
 import org.ldxx.bean.TDepartment;
@@ -66,12 +67,20 @@ public class FinancialReceipts2Controller {
 		return list;
 	}
 	
+	@RequestMapping("/selectFinancialDepartmentsById")
+	@ResponseBody
+	public List<FinancialDepartments> selectFinancialDepartmentsById(String id){
+		List<FinancialDepartments> list=service.selectFinancialDepartmentsById(id);
+		return list;
+	}
+	
 	
 	
 	@RequestMapping("/updateState")
 	@ResponseBody
-	public int updateState(String state,String id){
-		return service.updateState(state, id);
+	public int updateState(FinancialDepartments fd){
+		return service.updateState(fd);
 	}
+	
 	
 }

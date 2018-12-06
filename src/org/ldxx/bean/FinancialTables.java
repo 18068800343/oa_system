@@ -9,7 +9,7 @@ public class FinancialTables {
 	private float tCollectionValue;//收款值
 	private String tDesc;//备注
 	private String tTime;//到账时间
-	private String State;//状态：1：未认领，0：已认领
+	private String state;//状态：1：未认领，0：已认领
 	
 	
 	public String gettNo() {
@@ -55,10 +55,11 @@ public class FinancialTables {
 		this.tTime = tTime;
 	}
 	public String getState() {
-		return State;
+		return state;
 	}
 	public void setState(String state) {
-		State = state;
+		this.state = state;
 	}
+	
 	
 }

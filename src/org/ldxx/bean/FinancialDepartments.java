@@ -4,11 +4,25 @@ public class FinancialDepartments {
 	private String ftId;
 	private String ftDepartment;//部门
 	private String ftPerson;//人员
-	private String ftMoney;//认领金额
+	private float ftMoney;//认领金额
 	
 	private String state;
+	private String uName;
+	private String omName;
 	
 	
+	public String getuName() {
+		return uName;
+	}
+	public void setuName(String uName) {
+		this.uName = uName;
+	}
+	public String getOmName() {
+		return omName;
+	}
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
 	public String getState() {
 		return state;
 	}
@@ -33,10 +47,10 @@ public class FinancialDepartments {
 	public void setFtPerson(String ftPerson) {
 		this.ftPerson = ftPerson;
 	}
-	public String getFtMoney() {
+	public float getFtMoney() {
 		return ftMoney;
 	}
-	public void setFtMoney(String ftMoney) {
+	public void setFtMoney(float ftMoney) {
 		this.ftMoney = ftMoney;
 	}
 }

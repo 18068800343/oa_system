@@ -3,8 +3,10 @@ package org.ldxx.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.ldxx.bean.FinancialDepartments;
 import org.ldxx.bean.FinancialReceipts;
 import org.ldxx.bean.FinancialTables;
+import org.ldxx.dao.FinancialDepartmentsDao;
 import org.ldxx.dao.FinancialReceipts2Dao;
 import org.ldxx.service.FinancialReceipts2Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ public class FinancialReceipts2ServiceImpl implements FinancialReceipts2Service{
 
 	@Autowired
 	private FinancialReceipts2Dao dao;
+	@Autowired
+	private FinancialDepartmentsDao fdao;
 	
 	@Override
 	public List<FinancialTables> selectfinancialTables() {
@@ -27,8 +31,26 @@ public class FinancialReceipts2ServiceImpl implements FinancialReceipts2Service{
 	}
 
 	@Override
-	public int updateState(String state, String id) {
-		return dao.updateState(state, id);
+	public int updateState(FinancialDepartments fd) {
+		int i=0;
+		if(fd.getState().equals("0")){//认领
+			i=dao.updateState(fd.getState(), fd.getFtId());
+			if(i>0){
+				i=fdao.addFinancialDepartments(fd);
+				if(i>0){
+					i=dao.updateValueById(fd.getFtId(),fd.getFtMoney());
+				}
+			}
+		}else{//退回
+			i=dao.updateState(fd.getState(), fd.getFtId());
+			if(i>0){
+				i=fdao.deleteFinancialDepartmentsById(fd.getFtId());
+				if(i>0){
+					i=dao.updateValueById2(fd.getFtId(),fd.getFtMoney());
+				}
+			}
+		}
+		return i;
 	}
 
 	@Override
@@ -61,6 +83,11 @@ public class FinancialReceipts2ServiceImpl implements FinancialReceipts2Service{
 			}
 		}
 		return num;
+	}
+
+	@Override
+	public List<FinancialDepartments> selectFinancialDepartmentsById(String id) {
+		return fdao.selectFinancialDepartmentsById(id);
 	}
 
 }

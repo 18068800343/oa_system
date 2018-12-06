@@ -21,4 +21,8 @@ public interface FinancialReceipts2Dao {
 	public int updateValueByNo(@Param("f")FinancialTables f);
 
 	public FinancialTables selectValueByno(@Param("no")String no);
+
+	public int updateValueById(@Param("ftId")String ftId,@Param("ftMoney") float ftMoney);
+
+	public int updateValueById2(@Param("ftId")String ftId,@Param("ftMoney") float ftMoney);
 }
