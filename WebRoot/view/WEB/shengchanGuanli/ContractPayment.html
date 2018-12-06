@@ -890,7 +890,7 @@
 		"columns": [
             { "data": "payCode"},
             { "data": "contractNo"}, 
-            { "data": "contractName"}, 
+            { "data": null}, 
             { "data": "fbcontractMoney"}, 
             { "data": "receieveMoneyCompany"}, 
             { "data": "ccName"}, 
@@ -899,6 +899,14 @@
             { "data": "alreadyAccumulateMoney"}, 
         ],
         "columnDefs": [
+						{	
+							  "class": "tcenter",
+							  "targets":2,
+							  "searchable": true,
+							  "render": function(data, type, full) {
+									return '<a onclick="gotoFb(this)" style="color:	#4876FF;cursor: pointer;">'+data.contractName+'</a>'
+							  }
+						},
 						{	
 								 "class": "tcenter",
 								    "targets": 9,
@@ -2121,5 +2129,26 @@
   		});
     	$("#choose_fb2").modal("hide");
     }
+    
+    function gotoFb(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data)
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBNameByNo',
+            dataType: 'json',
+            data: {
+            	fbNo:data.contractNo
+            },
+            success: function (json) {
+            	//console.log(json);
+            	$(obj).attr('href', '../shengchanGuanli/SubcontractManagement.html?prjId='+json.fbId+'');
+            }
+  		});
+		//var t = encodeURI(encodeURI(data.prjId));
+    }
+    
+    
 </script>
 </html>
