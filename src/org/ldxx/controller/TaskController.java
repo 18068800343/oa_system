@@ -110,7 +110,7 @@ public class TaskController {
 	
 	@RequestMapping("/addTask2")/*任务单提交*/
 	@ResponseBody
-	public int addTask2(@RequestBody List<Task> task){
+	public String addTask2(@RequestBody List<Task> task){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		Task t=task.get(0);
@@ -158,36 +158,37 @@ public class TaskController {
 				dao.addConstructionDocumentsSave(td);
 			}
 		}
-		/*FlowUtill flowUtill = new FlowUtill();
+		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
-		currentFlow.setUrl("addTask2-"+id);
 		currentFlow.setParams("1");
 		currentFlow.setTitle(t.getPrjName());
-		currentFlow.setStarter(id);
-		currentFlow.setStartername(t.getPrjName());
+		currentFlow.setActor("88b6f133f129");
+		currentFlow.setActorname("索隆");;
+		currentFlow.setMemo("流程发起");
+		currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
+		currentFlow.setParams("{'cs':'1'}");
+		currentFlow.setStarter("88b6f133f129");
+		currentFlow.setStartername("索隆");
 		currentFlow.setFkDept("1");
-		currentFlow.setDeptname("工程建设二部");
+		currentFlow.setDeptname("工程建设一部");
 		currentFlow.setNodename("节点名称");
 		currentFlow.setPri(1);
 		currentFlow.setSdtofnode(new Date());
 		currentFlow.setSdtofflow(new Date());
-		currentFlow.setActor("1");
-		currentFlow.setActorname("李四");
-		currentFlow.setMemo("测试提交");
 		
 		FlowHistroy flowHistroy = new FlowHistroy();
 		flowHistroy.setActor(id);
 		flowHistroy.setActorname(t.getPrjName());
 		flowHistroy.setActorresult(0);
 		flowHistroy.setView("意见");
-		
+		String string = "";
 		try {
-			flowUtill.submitFlow(currentFlow,flowHistroy,"张三","7dad936dce6a");
+			string = flowUtill.submitGetReceiver(currentFlow);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
-		
-		return i;
+		}
+		return string;
 	}
 	
 	@RequestMapping("/addTask3")/*任务单保存*/
@@ -200,7 +201,6 @@ public class TaskController {
 		
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
-		currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
 		currentFlow.setParams("1");
 		currentFlow.setTitle(t.getPrjName());
 		currentFlow.setActor("88b6f133f129");
