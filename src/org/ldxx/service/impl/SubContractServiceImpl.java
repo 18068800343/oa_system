@@ -55,7 +55,9 @@ public class SubContractServiceImpl implements SubContractService {
 	public FbContract selectSubContractById(String id) {
 		FbContract fc=scDao.selectSubContractById(id);
 		List<Accessory> list = adao.selectAccessoryById(id);
-		fc.setAccessory(list);
+		if(list.size()!=0){
+			fc.setAccessory(list);
+		}
 		return fc;
 	}
 
