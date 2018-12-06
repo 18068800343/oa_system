@@ -1091,12 +1091,36 @@ function quxiao3(){
             { "data": "contractName"},
             { "data": "contractNameJia"}, 
             { "data": "ccName"}, 
-            { "data": "prjName"}, 
-            { "data": "cjContractName"}, 
+            { "data": null}, 
+            { "data": null}, 
             { "data": "mainContractMoney"}, 
             { "data": "nowFbAllMoney"}, 
         ],
         "columnDefs": [
+						{
+							  "class": "tcenter",
+							  "targets": 4,
+							  "searchable": true,
+							  "render": function(data, type, full) {
+								    var no=data.workNo;
+						    		var name=data.prjName;
+						    		var aa='<a onclick="gotoPrj(this)" data='+no.split(",")[0]+'  style="color:	#4876FF;cursor: pointer;">'+name.split(",")[0]+'</a>';
+						    		if(name.split(",").length>0){
+						    			for(var i=1;i<name.split(",").length;i++){
+						    				aa=aa+"<label>,</label>"+'<a onclick="gotoPrj(this)" data='+no.split(",")[i]+' style="color:	#4876FF;cursor: pointer;">'+name.split(",")[i]+'</a>'
+						    			}
+						    		}
+						    		return aa; 
+						  }
+						},
+						{
+							  "class": "tcenter",
+							  "targets": 5,
+							  "searchable": true,
+							  "render": function(data, type, full) {
+								  return '<a onclick="gotoCj(this)" style="color:#4876FF;cursor: pointer;">'+data.cjContractName+'</a>' 
+						  }
+						},
 						{	
 								 "class": "tcenter",
 								    "targets": 8,
@@ -2261,5 +2285,47 @@ function quxiao3(){
     	$("#xgtask_no").val(data.taskCode);
     	$("#choose_cj2").modal("hide");
     }
+    
+    function gotoPrj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		var name=$(obj).text();
+		var no=$(obj).attr("data");
+		//var t = encodeURI(encodeURI(data.prjId));
+		 $.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:name,
+				no:no
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+no+'');
+			}
+		})  
+    }
+    function gotoCj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//var t = encodeURI(encodeURI(data.prjId));
+		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/cj/selectCjByCjNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				no:data.cjContractCode
+				},
+			success:function(json){
+				//console.log(json)
+				$(obj).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+json.cjId+'');
+			}
+		}) 
+		
+    }
+    
 </script>
 </html>
