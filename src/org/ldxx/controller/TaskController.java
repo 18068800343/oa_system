@@ -72,7 +72,7 @@ public class TaskController {
 		int count=tService.typeCount();
 		count=count+1;
 		String prjNo=uuid.getPrjCode(code, count);
-		
+		t.setPrjNo(prjNo);
 		int i=tService.addTask(t);
 		/*FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
@@ -121,6 +121,7 @@ public class TaskController {
 		int count=tService.typeCount();
 		count=count+1;
 		String prjNo=uuid.getPrjCode(code, count);
+		t.setPrjNo(prjNo);
 		int i=tService.addTask(t);
 		if(i>0){
 			String prjName=t.getPrjName();
