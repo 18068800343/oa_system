@@ -38,14 +38,19 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL">
-                
+                <div class="form-inline">
+                	<label>项目名称：</label>
+	                <select class="form-control" id="prjName" style="width:160px;">
+	                </select>
+	                <button type="button" class="btn btn-primary"  onclick="seach()">查询</button>
+                </div>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">综合查询</button>
+                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">综合查询</button> -->
             </div>
         </div>
 <!-- Modal -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+<!-- <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
@@ -94,10 +99,10 @@
         </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- model结束 -->
         <div class="LowerPart" style="margin-top:3px;">
-            <table class="table table-bordered table-condensed" id="mainContent">
+            <table class="table table-bordered table-condensed" id="mainContent" style="width:2550px;white-space: nowrap;">
                 <thead>
                     <tr>
                         <th>序号</th>
@@ -124,75 +129,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
                 </tbody>   
             </table>
         </div>
@@ -204,7 +140,7 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script>
     $(document).ready( function () {
-    	
+    	initPrjName();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -213,6 +149,7 @@
         "iDisplayLength": 10,
         "searching": true,
         "lengthChange": false,
+        "scrollX": true,
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
@@ -242,9 +179,6 @@
             dataType: 'json',
             data: {
             },
-            error: function (msg) {
-                errMessage("请求UserController失败");
-            },
             success: function (json) {
                 $('#').dataTable().fnClearTable();
                 $('#').DataTable().rows.add(json).draw(false);
@@ -269,14 +203,22 @@
         $("#CCode").val(Code);
         rowIndex = bb.parentNode.parentNode.rowIndex; 
     }
-
-    // $("#mainContent tbody tr").click(function (){
-    //     $(this).addClass('selected')
-    //     .siblings().removeClass('selected')
-    //     .end();
-    // })
-
     
+    function initPrjName(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/getTaskIdNameNo',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $("#prjName").html("");
+                for(var i=0;i<json.length;i++){
+                	 $("#prjName").append("<option value="+json[i].prjNo+">"+json[i].prjName+"</option>")
+                }
+            }
+        });
+    }
 
 </script>
 </html>

@@ -515,5 +515,11 @@ public class TaskController {
 		return list;
 	}
 	
+	@RequestMapping("/getTaskIdNameNo") //获取正在运行以及完结的任务单列表
+	@ResponseBody
+	public List<Task> getTaskIdNameNo(){
+		List<Task> list=tService.getTaskIdNameNo();
+		return list;
+	}
 }
 

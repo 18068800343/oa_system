@@ -47,4 +47,6 @@ public interface TaskService {
 	public List<Task> selectPrjAndNo();
 
 	public Task selectIdByNameAndNo(String name, String no);
+	
+	public List<Task> getTaskIdNameNo();
 }
