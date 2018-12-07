@@ -18,6 +18,7 @@ public class FinancialReceipts {
 	private String endTime;
 	private String prjLeader;
 	private String htContract;
+	private String contractNo;
 	private float contractMoney;
 	private float contractMoneyEnd;
 	private float totalMoney;
@@ -30,14 +31,12 @@ public class FinancialReceipts {
 	private String financeInfo;
 	private String status;
 	
-	private String contractName;//承接合同名
 	
-	
-	public String getContractName() {
-		return contractName;
+	public String getContractNo() {
+		return contractNo;
 	}
-	public void setContractName(String contractName) {
-		this.contractName = contractName;
+	public void setContractNo(String contractNo) {
+		this.contractNo = contractNo;
 	}
 	public String getStatus() {
 		return status;

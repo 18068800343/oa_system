@@ -130,4 +130,9 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	public float getBudgeCost(String department,String year) {
 		return bdao.getBudgeCost(department,year);
 	}
+
+	@Override
+	public float getAllCost(String no) {
+		return bdao.getAllCost(no);
+	}
 }

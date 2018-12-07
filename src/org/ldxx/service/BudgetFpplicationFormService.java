@@ -28,4 +28,6 @@ public interface BudgetFpplicationFormService {
 	
 	float getBudgeCost(String department,String year);
 	
+	float getAllCost(String no);
+	
 }

@@ -28,4 +28,6 @@ public interface BudgetFpplicationFormDao {
 	BudgetFpplicationForm selectBudgeByName(@Param("name")String name);
 	
 	float getBudgeCost(@Param("department")String department,@Param("year")String year);
+	
+	float getAllCost(@Param("no")String no);
 }

@@ -129,4 +129,11 @@ public class BudgetFpplicationFormController {
 	public BudgetFpplicationForm selectBudgeByName(String name){
 		return bservice.selectBudgeByName(name);
 	}
+	
+	@RequestMapping("/getAllCost")
+	@ResponseBody
+	public float getAllCost(String no){
+		float cost=bservice.getAllCost(no);
+		return cost;
+	}
 }
