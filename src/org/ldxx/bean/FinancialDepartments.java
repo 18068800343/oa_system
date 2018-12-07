@@ -4,7 +4,7 @@ public class FinancialDepartments {
 	private String ftId;
 	private String ftDepartment;//部门
 	private String ftPerson;//人员
-	private float ftMoney;//认领金额
+	private Float ftMoney;//认领金额
 	
 	private String state;
 	private String uName;
@@ -47,10 +47,10 @@ public class FinancialDepartments {
 	public void setFtPerson(String ftPerson) {
 		this.ftPerson = ftPerson;
 	}
-	public float getFtMoney() {
+	public Float getFtMoney() {
 		return ftMoney;
 	}
-	public void setFtMoney(float ftMoney) {
+	public void setFtMoney(Float ftMoney) {
 		this.ftMoney = ftMoney;
 	}
 }

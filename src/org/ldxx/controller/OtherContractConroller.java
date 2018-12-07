@@ -238,4 +238,10 @@ public class OtherContractConroller {
 	public OtherContract selectOtherContractById(String id){
 		return service.selectOtherContractById(id);
 	}
+	
+	@RequestMapping("/selectOtherContractByNo")//通过合同号获得其他合同的详细信息
+	@ResponseBody
+	public OtherContract selectOtherContractByNo(String no){
+		return service.selectOtherContractByNo(no);
+	}
 }

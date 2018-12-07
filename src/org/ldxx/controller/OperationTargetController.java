@@ -125,15 +125,14 @@ public class OperationTargetController {
 			
 			
 			//实际收款
-			String status="0";
 			String y=list.get(i).getYear()+"%";
-			List<FinancialReceipts> frList=fservice.selectFinancialReceiptsByYear(status,y);//先通过年份获取项目款已认领列表
+			List<FinancialReceipts> frList=fservice.selectFinancialReceiptsByYear(y);//先通过年份获取财务收款列表
 			float money=0;//实际收款
 			if(frList!=null){
 				for(int j=0;j<frList.size();j++){
 					float resultMoney = frList.get(j).getResultMoney();//实际收款
-					String contractId = frList.get(j).getHtContract();//得到合同的外键id
-					CjContract cjContract = cjservice.selectCjContractById(contractId);//查承接合同
+					String contractNo = frList.get(j).getContractNo();//得到合同的编号
+					CjContract cjContract = cjservice.selectCjByCjNo(contractNo);//查承接合同
 					if(cjContract!=null){
 						float contractMoney = cjContract.getContractMoney();//合同金额
 						String mainDepartment=cjContract.getMainDepartment();//主办部门
@@ -157,10 +156,9 @@ public class OperationTargetController {
 							money=money+(assistDepartment3Money/contractMoney*resultMoney);
 						}
 					}else{//查其他合同
-						OtherContract otherContract = ocservice.selectOtherContractById(contractId);
+						OtherContract otherContract = ocservice.selectOtherContractByNo(contractNo);
 						if(otherContract!=null){
 							String department = otherContract.getAbutmentDepartment();//合同部门
-							Float contractMoney = otherContract.getContractMoney();//合同金额
 							if(department!=null){
 								money=money+resultMoney;
 							}
@@ -168,7 +166,7 @@ public class OperationTargetController {
 					}
 				}
 			}
-			float actualPayment=(float)(Math.round(money*100)/100.0);
+			float actualPayment= new BigDecimal(money).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
 			list.get(i).setActualPayment(actualPayment);
 			
 			//实际收入
@@ -201,22 +199,23 @@ public class OperationTargetController {
 					if(tDepartment.size()!=0){
 						for(int j=0;j<tDepartment.size();j++){
 							float income = tDepartment.get(j).getdIncome();//得到每个项目的部门收入
-								money2=money2+income;
+								money2=money2+(income/10000);
 						}
 					}
 				}
 			}
 			float value=money1+money2;
-			float realIncome=(float)(Math.round(value*100)/100.0);
-			list.get(i).setRealIncome(realIncome);
+			//float realIncome=(float)(Math.round(value*100)/100.0);
+			float mon2= new BigDecimal(value).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+			list.get(i).setRealIncome(mon2);
 			
 			
 			//实际合同额
 			float actualMoney=0;//实际合同额
 			if(frList.size()!=0){
 				for(int j=0;j<frList.size();j++){
-					String contractId = frList.get(j).getHtContract();//得到合同的外键id
-					CjContract cjContract = cjservice.selectCjContractById(contractId);//查承接合同
+					String contractNo = frList.get(j).getContractNo();//得到合同的编号
+					CjContract cjContract = cjservice.selectCjByCjNo(contractNo);//查承接合同
 					if(cjContract!=null){
 						String name = cjContract.getName();//合同主办部门名称
 						if(name!=null){
@@ -239,7 +238,7 @@ public class OperationTargetController {
 							actualMoney=actualMoney+assistDepartment3Money;
 						}
 					}else{//查其他合同
-						OtherContract otherContract = ocservice.selectOtherContractById(contractId);
+						OtherContract otherContract = ocservice.selectOtherContractByNo(contractNo);
 						if(otherContract!=null){
 							Float contractMoney = otherContract.getContractMoney();//合同金额
 							String omName2 = otherContract.getOmName();//其他合同的合同部门名称
@@ -250,7 +249,7 @@ public class OperationTargetController {
 					}
 				}
 			}
-			float actualMoney2=0;
+			float actualMoney2=0;//检测二部的部门合同金额
 			if(task2List.size()!=0){
 				for(int ii=0;ii<task2List.size();ii++){
 					String no = task2List.get(ii).gettNo();
@@ -258,19 +257,17 @@ public class OperationTargetController {
 					if(tDepartment.size()!=0){
 						for(int j=0;j<tDepartment.size();j++){
 							String name = tDepartment.get(j).getdName();//得到每个项目的部门名称
-							float dMoney = tDepartment.get(j).getdMoney();//得到每个项目的部门合同收入
+							float dMoney = tDepartment.get(j).getdMoney();//得到每个项目的部门合同金额
 							if(name!=null){
-								actualMoney2=actualMoney2+dMoney;
+								actualMoney2=actualMoney2+(dMoney/10000);
 							}
 						}
 					}
 				}
 			}
 			float sjcontractmoney=actualMoney+actualMoney2;
-			/*BigDecimal mon= new BigDecimal(sjcontractmoney);
-			mon= mon.setScale(2, BigDecimal.ROUND_HALF_UP);*/
-			float actualContractAmount=(float)(Math.round(sjcontractmoney*100)/100.0);
-			list.get(i).setActualContractAmount(actualContractAmount);
+	       	float allmon= new BigDecimal(sjcontractmoney).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+			list.get(i).setActualContractAmount(allmon);
 			
 			
 		}
@@ -309,8 +306,7 @@ public class OperationTargetController {
 	public List<DepartmentTarget> selectDepartmentTarget(String id,String year){
 		List<DepartmentTarget> list=dservice.selectDepartmentTarget(id);
 		String y=year+"%";
-		String status="0";
-		List<FinancialReceipts> frList=fservice.selectFinancialReceiptsByYear(status,y);//先通过年份获取项目款已认领列表
+		List<FinancialReceipts> frList=fservice.selectFinancialReceiptsByYear(y);//先通过年份获取财务收款列表
 		String modestatus="2";
 		List<PrjProgressFill> ppf2=ppfservice.selectPrjProgressFillByYear(modestatus,y);//通过年限查询今年项目进度列表
 		List<Task2> task2List=tService.selectTask2ByYear(y);//通过年限查询今年检测二部的任务单项目列表
@@ -341,40 +337,39 @@ public class OperationTargetController {
 				list.get(i).setBudgetCost(budgetCost);
 				
 				//实际合同额
-				float actualContractAmount=0;//实际合同额
 				float actualMoney=0;//实际合同额
 				if(frList.size()!=0){
 					for(int j=0;j<frList.size();j++){
-						String contractId = frList.get(j).getHtContract();//得到合同的外键id
-						CjContract cjContract = cjservice.selectCjContractById(contractId);//查承接合同
+						String contractNo = frList.get(j).getContractNo();//得到合同的编号
+						CjContract cjContract = cjservice.selectCjByCjNo(contractNo);//查承接合同
 						if(cjContract!=null){
 							String name = cjContract.getName();//合同主办部门名称
 							if(name!=null && omName.equals(name)){
 								float mainDepartmentMoney=cjContract.getMainDepartmentMoney();//主办部门金额
-								actualMoney=mainDepartmentMoney;
+								actualMoney=actualMoney+mainDepartmentMoney;
 							}
 							String name2 = cjContract.getName2();//合同协办部门1名称
 							if(name2!=null && omName.equals(name2)){
 								float assistDepartment1Money = cjContract.getAssistDepartment1Money();//协办部门1金额
-								actualMoney=assistDepartment1Money;
+								actualMoney=actualMoney+assistDepartment1Money;
 							}
 							String name3 = cjContract.getName3();//合同协办部门2名称
 							if(name3!=null && omName.equals(name3)){
 								float assistDepartment2Money = cjContract.getAssistDepartment2Money();//协办部门2金额
-								actualMoney=assistDepartment2Money;
+								actualMoney=actualMoney+assistDepartment2Money;
 							}
 							String name4 = cjContract.getName4();//合同协办部门3名称
 							if(name4!=null && omName.equals(name4)){
 								float assistDepartment3Money = cjContract.getAssistDepartment3Money();//协办部门3金额
-								actualMoney=assistDepartment3Money;
+								actualMoney=actualMoney+assistDepartment3Money;
 							}
 						}else{//查其他合同
-							OtherContract otherContract = ocservice.selectOtherContractById(contractId);
+							OtherContract otherContract = ocservice.selectOtherContractByNo(contractNo);
 							if(otherContract!=null){
 								Float contractMoney = otherContract.getContractMoney();//合同金额
 								String omName2 = otherContract.getOmName();//其他合同的合同部门名称
 								if(omName2!=null && omName.equals(omName2)){
-									actualMoney=contractMoney;
+									actualMoney=actualMoney+contractMoney;
 								}
 							}
 						}
@@ -388,28 +383,27 @@ public class OperationTargetController {
 						if(tDepartment.size()!=0){
 							for(int j=0;j<tDepartment.size();j++){
 								String name = tDepartment.get(j).getdName();//得到每个项目的部门名称
-								float dMoney = tDepartment.get(j).getdMoney();//得到每个项目的部门合同收入
+								float dMoney = tDepartment.get(j).getdMoney();//得到每个项目的部门合同收入（单位元需/10000）
 								if(name.contains(omName)){
-									actualMoney2=actualMoney2+dMoney;
+									actualMoney2=actualMoney2+(dMoney/10000);
 								}
 							}
 						}
 					}
 				}
 				float sjcontractmoney=actualMoney+actualMoney2;
-				//System.out.println(sjcontractmoney);
-				actualContractAmount=(float)(Math.round(sjcontractmoney*100)/100.0);
-				list.get(i).setActualContractAmount(actualContractAmount);
+				float allmon1 = new BigDecimal(sjcontractmoney).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+				list.get(i).setActualContractAmount(allmon1);
 				
 				
 				//获取实际收款
-				float actualPayment=0;//获取部门实际收款（先得到项目收款认领的所有项目列表，通过合同的id得到合同部门分配金额,合同部门分配金额/合同总金额*项目收款的实际收款）
+				float actualPayment=0;//获取部门实际收款（先得到财务收款列表，通过合同号得到合同部门分配金额,合同部门分配金额/合同总金额*项目收款的实际收款）
 				if(frList.size()!=0){
 					for(int j=0;j<frList.size();j++){
 						float money=0;//实际收款
 						float resultMoney = frList.get(j).getResultMoney();//实际收款
-						String contractId = frList.get(j).getHtContract();//得到合同的外键id
-						CjContract cjContract = cjservice.selectCjContractById(contractId);//查承接合同
+						String contractNo = frList.get(j).getContractNo();//得到合同的编号
+						CjContract cjContract = cjservice.selectCjByCjNo(contractNo);//查承接合同
 						if(cjContract!=null){
 							float contractMoney = cjContract.getContractMoney();//合同金额
 							String mainDepartment=cjContract.getMainDepartment();//主办部门
@@ -433,21 +427,19 @@ public class OperationTargetController {
 								money=assistDepartment3Money/contractMoney*resultMoney;
 							}
 						}else{//查其他合同
-							OtherContract otherContract = ocservice.selectOtherContractById(contractId);
+							OtherContract otherContract = ocservice.selectOtherContractByNo(contractNo);
 							if(otherContract!=null){
 								String department = otherContract.getAbutmentDepartment();//合同部门
-								Float contractMoney = otherContract.getContractMoney();//合同金额
 								if(department!=null && om_id.equals(department)){
 									money=resultMoney;
 								}
 							}
 						}
 						float value=actualPayment+money;
-						actualPayment=(float)(Math.round(value*100)/100.0);
+						actualPayment=new BigDecimal(value).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
 					}
 				}
 				list.get(i).setActualPayment(actualPayment);
-				list.get(i).setActualContractAmount(actualContractAmount);
 				
 				//实际收入
 				float realIncome=0;//获取部门实际收入(进度的部门累计百分比*总实际收入+检测二部任务单管理的部门总收入)
@@ -480,21 +472,23 @@ public class OperationTargetController {
 						if(tDepartment.size()!=0){
 							for(int j=0;j<tDepartment.size();j++){
 								String name = tDepartment.get(j).getdName();//得到每个项目的部门名称
-								float income = tDepartment.get(j).getdIncome();//得到每个项目的部门收入
+								float income = tDepartment.get(j).getdIncome();//得到每个项目的部门收入（单位元需/10000）
 								if(name.contains(omName)){
-									money2=money2+income;
+									money2=money2+(income/10000);
 								}
 							}
 						}
 					}
 				}
-				float value=money1+money2;
-				realIncome=(float)(Math.round(value*100)/100.0);
-				list.get(i).setRealIncome(realIncome);
+				realIncome=money1+money2;
+				//realIncome=(float)(Math.round(value*100)/100.0);
+				float allmon3= new BigDecimal(realIncome).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+				list.get(i).setRealIncome(allmon3);
 			}
 		}
 		return list;
 	}
+	
 	
 	@RequestMapping("/selectDepartmentTargetByOmId")/*各部门指标列表*/
 	@ResponseBody

@@ -17,5 +17,5 @@ public interface FinancialReceiptsDao {
 	
 	public int updateStatus(@Param("status")String status,@Param("id")String id);
 
-	public List<FinancialReceipts> selectFinancialReceiptsByYear(@Param("status")String status,@Param("y") String y);
+	public List<FinancialReceipts> selectFinancialReceiptsByYear(@Param("y") String y);
 }

@@ -75,4 +75,9 @@ public class OtherContractServiceImpl implements OtherContractService{
 		return dao.selectOtherContractById(id);
 	}
 
+	@Override
+	public OtherContract selectOtherContractByNo(String no) {
+		return dao.selectOtherContractByNo(no);
+	}
+
 }
