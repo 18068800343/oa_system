@@ -430,12 +430,20 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 			"columns": [
-	            { "data": "prjName"}, 
+	            { "data": null}, 
 	            { "data": "prjNo"}, 
 	            { "data": "applyPerson"}, 
 	            { "data": "applyDate"}, 
 	        ],
 	        "columnDefs": [
+							{	
+								 "class": "tcenter",
+								  "targets": 0,
+								  "searchable": true,
+								  "render": function(data, type, full) {
+										return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjName+'</a>'
+								  }
+							},
 							{	
 									 "class": "tcenter",
 									    "targets": 4,
@@ -987,18 +995,25 @@ Array.prototype.unique3 = function(){
  return res;
 }
 
-    var arr=[];
-    // $('#renwuDanhao')[0].selectedIndex = -1;
-    $("#renwuDanhao").change(function(){
-        arr.push($("#renwuDanhao").val())
-        $("#rwdh").text(arr.unique3())
-    })
-    var arr2=[];
-    // $('#renwuDanhao2')[0].selectedIndex = -1;
-    $("#renwuDanhao2").change(function(){
-        arr2.push($("#renwuDanhao2").val())
-        $("#rwdh2").text(arr2.unique3())
-    })
+function gotoPrj(obj){
+	dom=$(obj).parents("tr");
+	var data=$('#mainContent').DataTable().row(dom).data();
+	//console.log(data);
+	//var t = encodeURI(encodeURI(data.prjId));
+	$.ajax({
+		type:"POST",
+		url:getContextPath()+"/task/selectIdByNameAndNo",
+		dataTyepe:"json",
+		async:false,
+		data:{ 
+			name:data.prjName,
+			no:data.prjNo
+			},
+		success:function(json){
+			$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.prjNo+'');
+		}
+	})
+}
     
 
 </script>
