@@ -40,8 +40,8 @@ public class FinancialReceiptsServiceImpl implements FinancialReceiptsService{
 	}
 
 	@Override
-	public List<FinancialReceipts> selectFinancialReceiptsByYear(String status, String y) {
-		return dao.selectFinancialReceiptsByYear(status,y);
+	public List<FinancialReceipts> selectFinancialReceiptsByYear( String y) {
+		return dao.selectFinancialReceiptsByYear(y);
 	}
 
 }

@@ -20,4 +20,6 @@ public interface OtherContractDao {
 	public int countNo();
 
 	public OtherContract selectOtherContractById(@Param("id")String id);
+
+	public OtherContract selectOtherContractByNo(@Param("no")String no);
 }
