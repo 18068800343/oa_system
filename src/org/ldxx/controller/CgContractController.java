@@ -354,4 +354,10 @@ public class CgContractController {
 		List<CgContract> list=cgService.getCGNameCgNoAndCgMoney();
 		return list;
 	}
+	
+	@RequestMapping("/selectByCgNo")//通过采购号获取详细信息
+	@ResponseBody
+	public CgContract selectByCgNo(String no){
+		return cgService.selectByCgNo(no);
+	}
 }

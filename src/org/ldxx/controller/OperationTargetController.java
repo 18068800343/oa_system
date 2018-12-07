@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -122,13 +123,12 @@ public class OperationTargetController {
 			}
 			list.get(i).setActualCost(actualCost);
 			
-			//实际合同额
+			
 			//实际收款
 			String status="0";
 			String y=list.get(i).getYear()+"%";
 			List<FinancialReceipts> frList=fservice.selectFinancialReceiptsByYear(status,y);//先通过年份获取项目款已认领列表
 			float money=0;//实际收款
-			float actualMoney=0;//实际合同额
 			if(frList!=null){
 				for(int j=0;j<frList.size();j++){
 					float resultMoney = frList.get(j).getResultMoney();//实际收款
@@ -140,25 +140,21 @@ public class OperationTargetController {
 						if(mainDepartment!=null){
 							float mainDepartmentMoney=cjContract.getMainDepartmentMoney();//主办部门金额
 							money=money+(mainDepartmentMoney/contractMoney*resultMoney);
-							actualMoney=actualMoney+mainDepartmentMoney;
 						}
 						String assistDepartment1 = cjContract.getAssistDepartment1();//协办部门1
 						if(assistDepartment1!=null){
 							float assistDepartment1Money = cjContract.getAssistDepartment1Money();//协办部门1金额
 							money=money+(assistDepartment1Money/contractMoney*resultMoney);
-							actualMoney=actualMoney+assistDepartment1Money;
 						}
 						String assistDepartment2 = cjContract.getAssistDepartment2();//协办部门2
 						if(assistDepartment2!=null){
 							float assistDepartment2Money = cjContract.getAssistDepartment2Money();//协办部门2金额
 							money=money+(assistDepartment2Money/contractMoney*resultMoney);
-							actualMoney=actualMoney+assistDepartment2Money;
 						}
 						String assistDepartment3 = cjContract.getAssistDepartment3();//协办部门3
 						if(assistDepartment3!=null){
 							float assistDepartment3Money = cjContract.getAssistDepartment3Money();//协办部门3金额
 							money=money+(assistDepartment3Money/contractMoney*resultMoney);
-							actualMoney=actualMoney+assistDepartment3Money;
 						}
 					}else{//查其他合同
 						OtherContract otherContract = ocservice.selectOtherContractById(contractId);
@@ -167,16 +163,13 @@ public class OperationTargetController {
 							Float contractMoney = otherContract.getContractMoney();//合同金额
 							if(department!=null){
 								money=money+resultMoney;
-								actualMoney=actualMoney+contractMoney;
 							}
 						}
 					}
 				}
 			}
 			float actualPayment=(float)(Math.round(money*100)/100.0);
-			float actualContractAmount=(float)(Math.round(actualMoney*100)/100.0);
 			list.get(i).setActualPayment(actualPayment);
-			list.get(i).setActualContractAmount(actualContractAmount);
 			
 			//实际收入
 			String modestatus="2";
@@ -216,6 +209,69 @@ public class OperationTargetController {
 			float value=money1+money2;
 			float realIncome=(float)(Math.round(value*100)/100.0);
 			list.get(i).setRealIncome(realIncome);
+			
+			
+			//实际合同额
+			float actualMoney=0;//实际合同额
+			if(frList.size()!=0){
+				for(int j=0;j<frList.size();j++){
+					String contractId = frList.get(j).getHtContract();//得到合同的外键id
+					CjContract cjContract = cjservice.selectCjContractById(contractId);//查承接合同
+					if(cjContract!=null){
+						String name = cjContract.getName();//合同主办部门名称
+						if(name!=null){
+							float mainDepartmentMoney=cjContract.getMainDepartmentMoney();//主办部门金额
+							actualMoney=actualMoney+mainDepartmentMoney;
+						}
+						String name2 = cjContract.getName2();//合同协办部门1名称
+						if(name2!=null){
+							float assistDepartment1Money = cjContract.getAssistDepartment1Money();//协办部门1金额
+							actualMoney=actualMoney+assistDepartment1Money;
+						}
+						String name3 = cjContract.getName3();//合同协办部门2名称
+						if(name3!=null){
+							float assistDepartment2Money = cjContract.getAssistDepartment2Money();//协办部门2金额
+							actualMoney=actualMoney+assistDepartment2Money;
+						}
+						String name4 = cjContract.getName4();//合同协办部门3名称
+						if(name4!=null){
+							float assistDepartment3Money = cjContract.getAssistDepartment3Money();//协办部门3金额
+							actualMoney=actualMoney+assistDepartment3Money;
+						}
+					}else{//查其他合同
+						OtherContract otherContract = ocservice.selectOtherContractById(contractId);
+						if(otherContract!=null){
+							Float contractMoney = otherContract.getContractMoney();//合同金额
+							String omName2 = otherContract.getOmName();//其他合同的合同部门名称
+							if(omName2!=null){
+								actualMoney=actualMoney+contractMoney;
+							}
+						}
+					}
+				}
+			}
+			float actualMoney2=0;
+			if(task2List.size()!=0){
+				for(int ii=0;ii<task2List.size();ii++){
+					String no = task2List.get(ii).gettNo();
+					List<TDepartment> tDepartment = tdService.selectDepartment(no);//根据项目编号查找这个项目下的所有部门收入信息
+					if(tDepartment.size()!=0){
+						for(int j=0;j<tDepartment.size();j++){
+							String name = tDepartment.get(j).getdName();//得到每个项目的部门名称
+							float dMoney = tDepartment.get(j).getdMoney();//得到每个项目的部门合同收入
+							if(name!=null){
+								actualMoney2=actualMoney2+dMoney;
+							}
+						}
+					}
+				}
+			}
+			float sjcontractmoney=actualMoney+actualMoney2;
+			/*BigDecimal mon= new BigDecimal(sjcontractmoney);
+			mon= mon.setScale(2, BigDecimal.ROUND_HALF_UP);*/
+			float actualContractAmount=(float)(Math.round(sjcontractmoney*100)/100.0);
+			list.get(i).setActualContractAmount(actualContractAmount);
+			
 			
 		}
 		return list;
@@ -285,13 +341,72 @@ public class OperationTargetController {
 				list.get(i).setBudgetCost(budgetCost);
 				
 				//实际合同额
-				//获取实际收款
 				float actualContractAmount=0;//实际合同额
+				float actualMoney=0;//实际合同额
+				if(frList.size()!=0){
+					for(int j=0;j<frList.size();j++){
+						String contractId = frList.get(j).getHtContract();//得到合同的外键id
+						CjContract cjContract = cjservice.selectCjContractById(contractId);//查承接合同
+						if(cjContract!=null){
+							String name = cjContract.getName();//合同主办部门名称
+							if(name!=null && omName.equals(name)){
+								float mainDepartmentMoney=cjContract.getMainDepartmentMoney();//主办部门金额
+								actualMoney=mainDepartmentMoney;
+							}
+							String name2 = cjContract.getName2();//合同协办部门1名称
+							if(name2!=null && omName.equals(name2)){
+								float assistDepartment1Money = cjContract.getAssistDepartment1Money();//协办部门1金额
+								actualMoney=assistDepartment1Money;
+							}
+							String name3 = cjContract.getName3();//合同协办部门2名称
+							if(name3!=null && omName.equals(name3)){
+								float assistDepartment2Money = cjContract.getAssistDepartment2Money();//协办部门2金额
+								actualMoney=assistDepartment2Money;
+							}
+							String name4 = cjContract.getName4();//合同协办部门3名称
+							if(name4!=null && omName.equals(name4)){
+								float assistDepartment3Money = cjContract.getAssistDepartment3Money();//协办部门3金额
+								actualMoney=assistDepartment3Money;
+							}
+						}else{//查其他合同
+							OtherContract otherContract = ocservice.selectOtherContractById(contractId);
+							if(otherContract!=null){
+								Float contractMoney = otherContract.getContractMoney();//合同金额
+								String omName2 = otherContract.getOmName();//其他合同的合同部门名称
+								if(omName2!=null && omName.equals(omName2)){
+									actualMoney=contractMoney;
+								}
+							}
+						}
+					}
+				}
+				float actualMoney2=0;
+				if(task2List.size()!=0){
+					for(int ii=0;ii<task2List.size();ii++){
+						String no = task2List.get(ii).gettNo();
+						List<TDepartment> tDepartment = tdService.selectDepartment(no);//根据项目编号查找这个项目下的所有部门收入信息
+						if(tDepartment.size()!=0){
+							for(int j=0;j<tDepartment.size();j++){
+								String name = tDepartment.get(j).getdName();//得到每个项目的部门名称
+								float dMoney = tDepartment.get(j).getdMoney();//得到每个项目的部门合同收入
+								if(name.contains(omName)){
+									actualMoney2=actualMoney2+dMoney;
+								}
+							}
+						}
+					}
+				}
+				float sjcontractmoney=actualMoney+actualMoney2;
+				//System.out.println(sjcontractmoney);
+				actualContractAmount=(float)(Math.round(sjcontractmoney*100)/100.0);
+				list.get(i).setActualContractAmount(actualContractAmount);
+				
+				
+				//获取实际收款
 				float actualPayment=0;//获取部门实际收款（先得到项目收款认领的所有项目列表，通过合同的id得到合同部门分配金额,合同部门分配金额/合同总金额*项目收款的实际收款）
 				if(frList.size()!=0){
 					for(int j=0;j<frList.size();j++){
 						float money=0;//实际收款
-						float actualMoney=0;//实际合同额
 						float resultMoney = frList.get(j).getResultMoney();//实际收款
 						String contractId = frList.get(j).getHtContract();//得到合同的外键id
 						CjContract cjContract = cjservice.selectCjContractById(contractId);//查承接合同
@@ -301,25 +416,21 @@ public class OperationTargetController {
 							if(mainDepartment!=null && om_id.equals(mainDepartment)){
 								float mainDepartmentMoney=cjContract.getMainDepartmentMoney();//主办部门金额
 								money=mainDepartmentMoney/contractMoney*resultMoney;
-								actualMoney=mainDepartmentMoney;
 							}
 							String assistDepartment1 = cjContract.getAssistDepartment1();//协办部门1
 							if(assistDepartment1!=null && om_id.equals(assistDepartment1)){
 								float assistDepartment1Money = cjContract.getAssistDepartment1Money();//协办部门1金额
 								money=assistDepartment1Money/contractMoney*resultMoney;
-								actualMoney=assistDepartment1Money;
 							}
 							String assistDepartment2 = cjContract.getAssistDepartment2();//协办部门2
 							if(assistDepartment2!=null && om_id.equals(assistDepartment2)){
 								float assistDepartment2Money = cjContract.getAssistDepartment2Money();//协办部门2金额
 								money=assistDepartment2Money/contractMoney*resultMoney;
-								actualMoney=assistDepartment2Money;
 							}
 							String assistDepartment3 = cjContract.getAssistDepartment3();//协办部门3
 							if(assistDepartment3!=null && om_id.equals(assistDepartment3)){
 								float assistDepartment3Money = cjContract.getAssistDepartment3Money();//协办部门3金额
 								money=assistDepartment3Money/contractMoney*resultMoney;
-								actualMoney=assistDepartment3Money;
 							}
 						}else{//查其他合同
 							OtherContract otherContract = ocservice.selectOtherContractById(contractId);
@@ -328,14 +439,11 @@ public class OperationTargetController {
 								Float contractMoney = otherContract.getContractMoney();//合同金额
 								if(department!=null && om_id.equals(department)){
 									money=resultMoney;
-									actualMoney=contractMoney;
 								}
 							}
 						}
 						float value=actualPayment+money;
 						actualPayment=(float)(Math.round(value*100)/100.0);
-						float value2=actualContractAmount+actualMoney;
-						actualContractAmount=(float)(Math.round(value2*100)/100.0);
 					}
 				}
 				list.get(i).setActualPayment(actualPayment);

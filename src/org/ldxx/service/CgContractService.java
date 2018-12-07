@@ -51,4 +51,6 @@ public interface CgContractService {
 
 	List<MaterialDemand> getMdById(String id);
 
+	CgContract selectByCgNo(String no);
+
 }

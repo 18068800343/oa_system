@@ -40,4 +40,6 @@ public interface CgContractDao {
 
 	List<CgContract> getCGNameCgNoAndCgMoney();
 
+	CgContract selectByCgNo(@Param("no")String no);
+
 }

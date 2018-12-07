@@ -174,4 +174,9 @@ public class CgContractServiceImpl implements CgContractService {
 		return mdao.getMdById(id);
 	}
 
+	@Override
+	public CgContract selectByCgNo(String no) {
+		return cgDao.selectByCgNo(no);
+	}
+
 }
