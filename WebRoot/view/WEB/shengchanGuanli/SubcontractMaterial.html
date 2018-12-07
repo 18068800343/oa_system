@@ -2002,7 +2002,7 @@
 		"columns": [
             { "data": "materialContractCode"},
             { "data": "taskNo"}, 
-            { "data": "prjName"}, 
+            { "data": null}, 
             { "data": "prjPerson"}, 
             { "data": "omName"}, 
             { "data": "contractAllMoney"}, 
@@ -2010,6 +2010,14 @@
             { "data": "payMode"}, 
         ],
         "columnDefs": [
+						{	
+						 "class": "tcenter",
+						  "targets": 2,
+						  "searchable": true,
+						  "render": function(data, type, full) {
+								return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjName+'</a>'
+						  }
+						},
 						{	
 								 "class": "tcenter",
 								    "targets": 8,
@@ -2191,13 +2199,46 @@
 		},
 		"columns": [
             { "data": "taskNo"},
-            { "data": "prjName"}, 
-            { "data": "cgContract"}, 
-            { "data": "cjContract"}, 
+            { "data": null}, 
+            { "data": null}, 
+            { "data": null}, 
             { "data": "auditSettlementType"}, 
             { "data": "settlementTime"}, 
         ],
         "columnDefs": [
+						{	
+						    "class": "tcenter",
+						    "targets": 1,
+						    "searchable": true,
+						    "render": function(data, type, full) {
+						    		var no=data.taskNo;
+						    		var name=data.prjName;
+						    		var aa='<a onclick="gotoPrj2(this)" data='+no.split(",")[0]+'  style="color:#4876FF;cursor: pointer;">'+name.split(",")[0]+'</a>';
+						    		if(name.split(",").length>0){
+						    			for(var i=1;i<name.split(",").length;i++){
+						    				aa=aa+"<label>,</label>"+'<a onclick="gotoPrj2(this)" data='+no.split(",")[i]+' style="color:	#4876FF;cursor: pointer;">'+name.split(",")[i]+'</a>'
+						    			}
+						    		}
+						    		return aa; 
+						  	  		
+						        }
+						  },
+						  {
+							  "class": "tcenter",
+							   "targets": 2,
+							   "searchable": true,
+							   "render": function(data, type, full) {
+									return '<a onclick="gotoCg(this)" style="color:	#4876FF;cursor: pointer;">'+data.cgContract+'</a>'
+							   }
+							},
+							{	
+							  "class": "tcenter",
+							   "targets":3,
+							   "searchable": true,
+							   "render": function(data, type, full) {
+									return '<a onclick="gotoCj(this)" style="color:	#4876FF;cursor: pointer;">'+data.cjContract+'</a>'
+							   }
+							},
 						{	
 								 "class": "tcenter",
 								    "targets": 6,
@@ -2377,13 +2418,29 @@
 		},
 		"columns": [
             { "data": "cgNo"},
-            { "data": "cgContract"}, 
+            { "data": null}, 
             { "data": "taskNo"}, 
             { "data": "cjNo"}, 
-            { "data": "cjContract"}, 
+            { "data": null}, 
             { "data": "contractMoney"}, 
         ],
         "columnDefs": [
+					{
+						  "class": "tcenter",
+						   "targets": 1,
+						   "searchable": true,
+						   "render": function(data, type, full) {
+								return '<a onclick="gotoCg2(this)" style="color:#4876FF;cursor: pointer;">'+data.cgContract+'</a>'
+						   }
+						},
+						{	
+							  "class": "tcenter",
+							   "targets":4,
+							   "searchable": true,
+							   "render": function(data, type, full) {
+									return '<a onclick="gotoCj2(this)" style="color:#4876FF;cursor: pointer;">'+data.cjContract+'</a>'
+							   }
+							},
 						{	
 								 "class": "tcenter",
 								    "targets": 6,
@@ -5234,6 +5291,122 @@
 			    	$("#xgcjhetongbianhao").val(data.contractNo);
 			    	$("#xgchoose_cj3").modal("hide");
 			    }
-	
+			    
+			    
+			    function gotoPrj(obj){
+			    	dom=$(obj).parents("tr");
+					var data=$('#mainContent').DataTable().row(dom).data();
+					//console.log(data);
+					//var t = encodeURI(encodeURI(data.prjId));
+					$.ajax({
+						type:"POST",
+						url:getContextPath()+"/task/selectIdByNameAndNo",
+						dataTyepe:"json",
+						data:{ 
+							name:data.prjName,
+							no:data.taskNo
+							},
+						success:function(json){
+							$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.taskNo+'');
+						}
+					}) 
+			    }
+			    
+			    function gotoPrj2(obj){
+			    	dom=$(obj).parents("tr");
+					var data=$('#mainContent').DataTable().row(dom).data();
+					var name=$(obj).text();
+					var no=$(obj).attr("data");
+					//var t = encodeURI(encodeURI(data.prjId));
+					 $.ajax({
+						type:"POST",
+						url:getContextPath()+"/task/selectIdByNameAndNo",
+						dataTyepe:"json",
+						data:{ 
+							name:name,
+							no:no
+							},
+						success:function(json){
+							$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+no+'');
+						}
+					})  
+			    }
+			    
+			    function gotoCg(obj){
+			    	dom=$(obj).parents("tr");
+					var data=$('#mainContent2').DataTable().row(dom).data();
+					//console.log(data);
+					//var t = encodeURI(encodeURI(data.prjId));
+					$.ajax({
+						type:"POST",
+						url:getContextPath()+"/cgcontract/selectByCgNo",
+						dataTyepe:"json",
+						data:{ 
+							no:data.cgNo
+							},
+						success:function(json){
+							//console.log(json)
+							$(obj).attr('href', '../shengchanGuanli/ProcurementContract.html?prjId='+json.cgId+'&prjNo='+json.cgNo+'');
+						}
+					}) 
+			    }
+			    
+			    function gotoCj(obj){
+			    	dom=$(obj).parents("tr");
+					var data=$('#mainContent2').DataTable().row(dom).data();
+					//var t = encodeURI(encodeURI(data.prjId));
+					//console.log(data)
+					$.ajax({
+						type:"POST",
+						url:getContextPath()+"/cj/selectCjByCjNo",
+						dataTyepe:"json",
+						data:{ 
+							no:data.cjNo
+							},
+						success:function(json){
+							//console.log(json)
+							$(obj).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+json.cjId+'');
+						}
+					}) 
+			    }
+			    
+			    function gotoCg2(obj){
+			    	dom=$(obj).parents("tr");
+					var data=$('#mainContent3').DataTable().row(dom).data();
+					//console.log(data);
+					//var t = encodeURI(encodeURI(data.prjId));
+					$.ajax({
+						type:"POST",
+						url:getContextPath()+"/cgcontract/selectByCgNo",
+						dataTyepe:"json",
+						data:{ 
+							no:data.cgNo
+							},
+						success:function(json){
+							//console.log(json)
+							$(obj).attr('href', '../shengchanGuanli/ProcurementContract.html?prjId='+json.cgId+'&prjNo='+json.cgNo+'');
+						}
+					}) 
+			    }
+			    
+			    function gotoCj2(obj){
+			    	dom=$(obj).parents("tr");
+					var data=$('#mainContent3').DataTable().row(dom).data();
+					//var t = encodeURI(encodeURI(data.prjId));
+					console.log(data)
+					$.ajax({
+						type:"POST",
+						url:getContextPath()+"/cj/selectCjByCjNo",
+						dataTyepe:"json",
+						data:{ 
+							no:data.cjNo
+							},
+						success:function(json){
+							console.log(json)
+							//$(obj).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+json.cjId+'');
+						}
+					}) 
+			    }
+			    
 </script>
 </html>
