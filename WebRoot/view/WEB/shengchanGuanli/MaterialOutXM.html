@@ -363,7 +363,7 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-		            { "data": "taskName"}, 
+		            { "data": null}, 
 		            { "data": "taskNo"}, 
 		            { "data": "getTime"},
 		            { "data": "getPerson"},
@@ -371,6 +371,14 @@
 		            { "data": null},
 		        ],
 		        "columnDefs": [
+								{	
+									 "class": "tcenter",
+									  "targets": 0,
+									  "searchable": true,
+									  "render": function(data, type, full) {
+											return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.taskName+'</a>'
+									  }
+								},
 								{	
 										 "class": "tcenter",
 										    "targets": 5,
@@ -915,5 +923,25 @@ Array.prototype.unique3 = function(){
     	$("#allMsg1").modal("show");
     }
 	
+    function gotoPrj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data);
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:data.taskName,
+				no:data.taskNo
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.taskNo+'');
+			}
+		})
+    }
+    
 </script>
 </html>
