@@ -466,9 +466,9 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-		            { "data": "pickProject"}, 
+		            { "data": null}, 
 		            { "data": "taskNo"}, 
-		            { "data": "cgName"}, 
+		            { "data": null}, 
 		            { "data": "cgNo"}, 
 		            { "data": "getPerson"}, 
 		            { "data": "pickDate"}, 
@@ -476,6 +476,22 @@
 		            { "data": null}
 		        ],
 		        "columnDefs": [
+							{	
+								 "class": "tcenter",
+								  "targets": 0,
+								  "searchable": true,
+								  "render": function(data, type, full) {
+										return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.pickProject+'</a>'
+								  }
+							},
+							{
+								  "class": "tcenter",
+								   "targets": 2,
+								   "searchable": true,
+								   "render": function(data, type, full) {
+										return '<a onclick="gotoCg(this)" style="color:	#4876FF;cursor: pointer;">'+data.cgName+'</a>'
+								   }
+							},
 							{	
 								 "class": "tcenter",
 								    "targets": 6,
@@ -1183,5 +1199,45 @@
   		});
     }
 
+    function gotoPrj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data);
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:data.pickProject,
+				no:data.taskNo
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.taskNo+'');
+			}
+		})
+    }
+    
+    function gotoCg(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data);
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/cgcontract/selectByCgNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				no:data.cgNo
+				},
+			success:function(json){
+				//console.log(json)
+				$(obj).attr('href', '../shengchanGuanli/ProcurementContract.html?prjId='+json.cgId+'&prjNo='+json.cgNo+'');
+			}
+		}) 
+    }
+    
 </script>
 </html>
