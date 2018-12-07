@@ -1462,15 +1462,31 @@
 		"columns": [
 		            { "data": "taskListCode"}, 
 		            { "data": "cjContractCode"}, 
-		            { "data": "cjContractName"}, 
+		            { "data": null}, 
 		            { "data": "fbContractCode"}, 
-		            { "data": "fbContractName"}, 
+		            { "data": null}, 
 		            { "data": "fbDepartment"}, 
 		            { "data": "actualChargePerson"}, 
 		            { "data": "allScore"}, 
 		            { "data": null},
 		        ],
 		        "columnDefs": [
+								{	
+								  "class": "tcenter",
+								   "targets":2,
+								   "searchable": true,
+								   "render": function(data, type, full) {
+										return '<a onclick="gotoCj(this)" style="color:	#4876FF;cursor: pointer;">'+data.cjContractName+'</a>'
+								   }
+								},
+								{	
+									  "class": "tcenter",
+									  "targets":4,
+									  "searchable": true,
+									  "render": function(data, type, full) {
+											return '<a onclick="gotoFb(this)" style="color:	#4876FF;cursor: pointer;">'+data.fbContractName+'</a>'
+									  }
+								},
 								{	
 										 "class": "tcenter",
 										    "targets": 8,
@@ -1557,14 +1573,38 @@
 		},
 		"columns": [
 		            { "data": "prjCode"}, 
-		            { "data": "prjName"}, 
-		            { "data": "cjName"}, 
-		            { "data": "fbName"}, 
+		            { "data": null}, 
+		            { "data": null}, 
+		            { "data": null}, 
 		            { "data": "settlementType"}, 
 		            { "data": "settlementTime"}, 
 		            { "data": null},
 		        ],
 		        "columnDefs": [
+								{	
+								 "class": "tcenter",
+								  "targets": 1,
+								  "searchable": true,
+								  "render": function(data, type, full) {
+										return '<a onclick="gotoPrj2(this)" style="color:#4876FF;cursor: pointer;">'+data.prjName+'</a>'
+								  }
+								},
+								{	
+								  "class": "tcenter",
+								   "targets":2,
+								   "searchable": true,
+								   "render": function(data, type, full) {
+										return '<a onclick="gotoCj2(this)" style="color:#4876FF;cursor: pointer;">'+data.cjName+'</a>'
+								   }
+								},
+								{	
+									  "class": "tcenter",
+									  "targets":3,
+									  "searchable": true,
+									  "render": function(data, type, full) {
+											return '<a onclick="gotoFb2(this)" style="color:	#4876FF;cursor: pointer;">'+data.fbName+'</a>'
+									  }
+								},
 								{	
 										 "class": "tcenter",
 										    "targets": 6,
@@ -1746,14 +1786,30 @@
 		},
 		"columns": [
 		            { "data": "fbContract"}, 
-		            { "data": "fbContractName"}, 
+		            { "data": null}, 
 		            { "data": "prjCode"}, 
 		            { "data": "cjContract"}, 
-		            { "data": "cjContractName"}, 
+		            { "data": null}, 
 		            { "data": "contractMoney"}, 
 		            { "data": null},
 		        ],
 		        "columnDefs": [
+								{	
+									  "class": "tcenter",
+									  "targets":1,
+									  "searchable": true,
+									  "render": function(data, type, full) {
+											return '<a onclick="gotoFb3(this)" style="color:	#4876FF;cursor: pointer;">'+data.fbContractName+'</a>'
+									  }
+								},
+								{	
+								  "class": "tcenter",
+								   "targets":4,
+								   "searchable": true,
+								   "render": function(data, type, full) {
+										return '<a onclick="gotoCj3(this)" style="color:#4876FF;cursor: pointer;">'+data.cjContractName+'</a>'
+								   }
+								},
 								{	
 										 "class": "tcenter",
 										    "targets": 6,
@@ -3023,5 +3079,119 @@
        	$("#prjCode").val(data.taskCode);
        	$("#choose_cj3").modal("hide");
        }
+       
+       function gotoCj(obj){
+	    	dom=$(obj).parents("tr");
+			var data=$('#mainContent').DataTable().row(dom).data();
+			//var t = encodeURI(encodeURI(data.prjId));
+			//console.log(data)
+			 $.ajax({
+				type:"POST",
+				url:getContextPath()+"/cj/selectCjByCjNo",
+				dataTyepe:"json",
+				async:false,
+				data:{ 
+					no:data.cjContractCode
+					},
+				success:function(json){
+					//console.log(json)
+					$(obj).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+json.cjId+'');
+				}
+			})  
+	    }
+       
+       function gotoFb(obj){
+       	dom=$(obj).parents("tr");
+   		var data=$('#mainContent').DataTable().row(dom).data();
+   		//console.log(data)
+   		$.ajax({
+               type: 'POST',
+               url: getContextPath()+'/subcontract/getFBNameByNo',
+               dataType: 'json',
+               async:false,
+               data: {
+               	fbNo:data.fbContractCode
+               },
+               success: function (json) {
+               	//console.log(json);
+               	$(obj).attr('href', '../shengchanGuanli/SubcontractManagement.html?prjId='+json.fbId+'');
+               }
+     		});
+       }
+       
+       function gotoPrj2(obj){
+       	dom=$(obj).parents("tr");
+   		var data=$('#mainContent2').DataTable().row(dom).data();
+   		//console.log(data);
+   		//var t = encodeURI(encodeURI(data.prjId));
+   		$.ajax({
+   			type:"POST",
+   			url:getContextPath()+"/task/selectIdByNameAndNo",
+   			dataTyepe:"json",
+   			async:false,
+   			data:{ 
+   				name:data.prjName,
+   				no:data.prjCode
+   				},
+   			success:function(json){
+   				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.taskNo+'');
+   			}
+   		}) 
+       }
+       
+       function gotoCj2(obj){
+	    	dom=$(obj).parents("tr");
+			var data=$('#mainContent2').DataTable().row(dom).data();
+			//var t = encodeURI(encodeURI(data.prjId));
+			//console.log(data)
+			$(obj).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+data.cjContract+''); 
+	    }
+       
+       function gotoFb2(obj){
+          	dom=$(obj).parents("tr");
+      		var data=$('#mainContent2').DataTable().row(dom).data();
+      		console.log(data)
+      		$(obj).attr('href', '../shengchanGuanli/SubcontractManagement.html?prjId='+data.fbContract+'');
+          }
+       
+       function gotoFb3(obj){
+          	dom=$(obj).parents("tr");
+      		var data=$('#mainContent3').DataTable().row(dom).data();
+      		//console.log(data)
+      		$.ajax({
+                  type: 'POST',
+                  url: getContextPath()+'/subcontract/getFBNameByNo',
+                  dataType: 'json',
+                  async:false,
+                  data: {
+                  	fbNo:data.fbContract
+                  },
+                  success: function (json) {
+                  	//console.log(json);
+                  	$(obj).attr('href', '../shengchanGuanli/SubcontractManagement.html?prjId='+json.fbId+'');
+                  }
+        		}); 
+          }
+       
+       function gotoCj3(obj){
+	    	dom=$(obj).parents("tr");
+			var data=$('#mainContent').DataTable().row(dom).data();
+			//var t = encodeURI(encodeURI(data.prjId));
+			console.log(data)
+			$.ajax({
+				type:"POST",
+				url:getContextPath()+"/cj/selectCjByCjNo",
+				dataTyepe:"json",
+				async:false,
+				data:{ 
+					no:data.cjContractCode
+					},
+				success:function(json){
+					//console.log(json)
+					$(obj).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+json.cjId+'');
+				}
+			})
+	    }
+       
 </script>
 </html>
