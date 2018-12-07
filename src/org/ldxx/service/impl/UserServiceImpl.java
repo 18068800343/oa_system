@@ -19,8 +19,6 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public int addUser(User user) {
-		TimeUUID uuid = new TimeUUID();
-		user.setUserId(uuid.getTimeUUID());
 		return userDao.addUser(user);
 	}
 
