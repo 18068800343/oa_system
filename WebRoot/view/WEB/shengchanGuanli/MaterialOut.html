@@ -411,13 +411,29 @@
 		},
 		"columns": [
             { "data": "cgNo"}, 
-            { "data": "cgName"}, 
+            { "data": null}, 
             { "data": "taskNo"}, 
-            { "data": "pickProject"}, 
+            { "data": null}, 
             { "data": "pickPerson"}, 
             { "data": "pickDate"}, 
         ],
         "columnDefs": [
+						{
+						  "class": "tcenter",
+						   "targets": 1,
+						   "searchable": true,
+						   "render": function(data, type, full) {
+								return '<a onclick="gotoCg(this)" style="color:	#4876FF;cursor: pointer;">'+data.cgName+'</a>'
+						   }
+						},
+						{	
+						 "class": "tcenter",
+						  "targets": 3,
+						  "searchable": true,
+						  "render": function(data, type, full) {
+								return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.pickProject+'</a>'
+						  }
+						},
 						{	
 								 "class": "tcenter",
 								    "targets": 6,
@@ -1215,19 +1231,45 @@ Array.prototype.unique3 = function(){
  return res;
 }
 
-    var arr=[];
-    // $('#renwuDanhao')[0].selectedIndex = -1;
-    $("#renwuDanhao").change(function(){
-        arr.push($("#renwuDanhao").val())
-        $("#rwdh").text(arr.unique3())
-    })
-    var arr2=[];
-    // $('#renwuDanhao2')[0].selectedIndex = -1;
-    $("#renwuDanhao2").change(function(){
-        arr2.push($("#renwuDanhao2").val())
-        $("#rwdh2").text(arr2.unique3())
-    })
-    
+function gotoCg(obj){
+	dom=$(obj).parents("tr");
+	var data=$('#mainContent').DataTable().row(dom).data();
+	//console.log(data);
+	//var t = encodeURI(encodeURI(data.prjId));
+	$.ajax({
+		type:"POST",
+		url:getContextPath()+"/cgcontract/selectByCgNo",
+		dataTyepe:"json",
+		async:false,
+		data:{ 
+			no:data.cgNo
+			},
+		success:function(json){
+			//console.log(json)
+			$(obj).attr('href', '../shengchanGuanli/ProcurementContract.html?prjId='+json.cgId+'&prjNo='+json.cgNo+'');
+		}
+	})
+}
+
+function gotoPrj(obj){
+	dom=$(obj).parents("tr");
+	var data=$('#mainContent').DataTable().row(dom).data();
+	//console.log(data);
+	//var t = encodeURI(encodeURI(data.prjId));
+	$.ajax({
+		type:"POST",
+		url:getContextPath()+"/task/selectIdByNameAndNo",
+		dataTyepe:"json",
+		async:false,
+		data:{ 
+			name:data.pickProject,
+			no:data.taskNo
+			},
+		success:function(json){
+			$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.taskNo+'');
+		}
+	}) 
+}
 
 </script>
 </html>
