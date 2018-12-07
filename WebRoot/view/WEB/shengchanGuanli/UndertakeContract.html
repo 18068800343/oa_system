@@ -1663,13 +1663,21 @@
 		},
 		"columns": [
 		            { "data": "cjContractCode"}, 
-		            { "data": "cjContractName"}, 
+		            { "data": null}, 
 		            { "data": "contractMoney"}, 
 		            { "data": "prjCode"}, 
 		            { "data": "jiaFang"}, 
 		            { "data": null},
 		        ],
 		        "columnDefs": [
+								{	
+								 "class": "tcenter",
+								 "targets":1,
+								 "searchable": true,
+								 "render": function(data, type, full) {
+										return '<a onclick="gotoCj2(this)" style="color:	#4876FF;cursor: pointer;">'+data.cjContractName+'</a>'
+								 }
+								},
 								{	
 										 "class": "tcenter",
 										    "targets": 5,
@@ -1711,12 +1719,20 @@
 		"columns": [
 		            { "data": "prjCode"}, 
 		            { "data": "cjContractCode"}, 
-		            { "data": "cjContractName"}, 
+		            { "data": null}, 
 		            { "data": "contractMoney"}, 
 		            { "data": "jiaFang"}, 
 		            { "data": null},
 		        ],
 		        "columnDefs": [
+							{	
+								 "class": "tcenter",
+								 "targets":2,
+								 "searchable": true,
+								 "render": function(data, type, full) {
+										return '<a onclick="gotoCj3(this)" style="color:	#4876FF;cursor: pointer;">'+data.cjContractName+'</a>'
+								 }
+								},
 								{	
 										 "class": "tcenter",
 										    "targets": 5,
@@ -3191,6 +3207,42 @@
 	    function gotoCj(obj){
 	    	dom=$(obj).parents("tr");
 			var data=$('#mainContent').DataTable().row(dom).data();
+			//var t = encodeURI(encodeURI(data.prjId));
+			//console.log(data)
+			$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/cj/selectCjContractByNo',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	no:data.cjContractCode
+	            },
+	            success: function (json) {
+	            	$(obj).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+json.cjId+'');
+	            }
+	        });
+	    }
+	    function gotoCj2(obj){
+	    	dom=$(obj).parents("tr");
+			var data=$('#mainContent2').DataTable().row(dom).data();
+			//var t = encodeURI(encodeURI(data.prjId));
+			//console.log(data)
+			$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/cj/selectCjContractByNo',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	no:data.cjContractCode
+	            },
+	            success: function (json) {
+	            	$(obj).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+json.cjId+'');
+	            }
+	        });
+	    }
+	    function gotoCj3(obj){
+	    	dom=$(obj).parents("tr");
+			var data=$('#mainContent3').DataTable().row(dom).data();
 			//var t = encodeURI(encodeURI(data.prjId));
 			//console.log(data)
 			$.ajax({
