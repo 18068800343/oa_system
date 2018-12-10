@@ -14,12 +14,6 @@ public interface BiddingListService {
 
 	int updatediddingList(ProjectList projectList);
 
-	int deletezhaoFileById(String plId);
-
-	int deletetouFileById(String plId);
-
-	int deletetuzhiFileById(String plId);
-
 	List<ProjectList> selectdiddingUnitAndType();
 
 	List<ProjectList> selectdiddingByUnitAndType(String plUnit, String prjType);

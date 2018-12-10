@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.ldxx.bean.Accessory;
 import org.ldxx.bean.Cooperator;
 import org.ldxx.bean.DictionaryFirst;
 import org.ldxx.bean.OrganizationManagement;
@@ -58,70 +59,65 @@ public class BiddingListController {
 	
 	@RequestMapping("/adddiddingList")
 	@ResponseBody
-	public Map<String, Object> adddiddingList(ProjectList projectList, MultipartFile file1, MultipartFile file2,
-			MultipartFile file3) {
+	public Map<String, Object> adddiddingList(ProjectList projectList, @RequestParam("file1")MultipartFile[] file1,@RequestParam("file2") MultipartFile[] file2,
+			@RequestParam("file3")MultipartFile[] file3) throws IllegalStateException, IOException {
 		Map<String, Object> map = new HashMap<>();
 		TimeUUID uuid = new TimeUUID();
 		String id = uuid.getTimeUUID();
 		projectList.setPlId(id);
-		String path = "D:/oa/diddingList/" + id;
-		String filename1;
-		String filename2;
-		String filename3;
-		String path1;
-		String path2;
-		String path3;
-		if (file1 != null) {
-			filename1 = file1.getOriginalFilename();
-			File f = new File(path);
-			if (!f.exists()) {
-				f.mkdirs();
-			}
-			path1 = path + File.separator + filename1;
-			File f1 = new File(path1);
-			try {
-				file1.transferTo(f1);
-				projectList.setZhaofile(filename1);
-				projectList.setZhaofileUrl(path1);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
-			}
-
+		
+		String path = "D:"+File.separator+"oa"+File.separator+"diddingList"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
 		}
-		if (file2 != null) {
-			filename2 = file2.getOriginalFilename();
-			File f = new File(path);
-			if (!f.exists()) {
-				f.mkdirs();
+		if(file1.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				String filename = file1[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file1[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("招标文件");
+				list.add(accessory);
 			}
-			path2 = path + File.separator + filename2;
-			File f2 = new File(path2);
-			try {
-				file2.transferTo(f2);
-				projectList.setToufile(filename2);
-				projectList.setToufileUrl(path2);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
-			}
+			projectList.setAccessory1(list);
 		}
-		if (file3 != null) {
-			filename3 = file3.getOriginalFilename();
-			File f = new File(path);
-			if (!f.exists()) {
-				f.mkdirs();
+		if(file2.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file2.length;i++){
+				String filename = file2[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f2=new File(filePath);
+				file2[i].transferTo(f2);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("投标文件");
+				list.add(accessory);
 			}
-			path3 = path + File.separator + filename3;
-			File f3 = new File(path3);
-			try {
-				file3.transferTo(f3);
-				projectList.setDrawing(filename3);
-				projectList.setDrawingUrl(path3);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
+			projectList.setAccessory2(list);
+		}
+		if(file3.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file3.length;i++){
+				String filename = file3[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f3=new File(filePath);
+				file3[i].transferTo(f3);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("图纸");
+				list.add(accessory);
 			}
+			projectList.setAccessory3(list);
 		}
 		int i = bListService.adddiddingList(projectList);
 		map.put("result", i);
@@ -141,89 +137,65 @@ public class BiddingListController {
 		return bListService.deletediddingListById(plId);
 	}
 
-	@RequestMapping("/deletezhaoFileById")
-	@ResponseBody
-	public int deletezhaoFileById(String plId) {
-		return bListService.deletezhaoFileById(plId);
-	}
 
-	@RequestMapping("/deletetouFileById")
-	@ResponseBody
-	public int deletetouFileById(String plId) {
-		return bListService.deletetouFileById(plId);
-	}
-
-	@RequestMapping("/deletetuzhiFileById")
-	@ResponseBody
-	public int deletetuzhiFileById(String plId) {
-		return bListService.deletetuzhiFileById(plId);
-	}
-
-	@SuppressWarnings("unused")
 	@RequestMapping("/updatediddingList")
 	@ResponseBody
-	public Map<String, Object> updatediddingList(ProjectList projectList, MultipartFile file1, MultipartFile file2,
-			MultipartFile file3) {
+	public Map<String, Object> updatediddingList(ProjectList projectList,@RequestParam("file1") MultipartFile[] file1,@RequestParam("file2") MultipartFile[] file2,
+			@RequestParam("file3") MultipartFile[] file3) throws IllegalStateException, IOException {
 		Map<String, Object> map = new HashMap<>();
 		String id = projectList.getPlId();
-		String path = "D:/oa/diddingList/" + id;
-		String filename1;
-		String filename2;
-		String filename3;
-		String path1;
-		String path2;
-		String path3;
-		if (file1 != null) {
-			filename1 = file1.getOriginalFilename();
-			File f = new File(path);
-			if (!f.exists()) {
-				f.mkdirs();
-			}
-			path1 = path + File.separator + filename1;
-			File f1 = new File(path1);
-			try {
-				file1.transferTo(f1);
-				projectList.setZhaofile(filename1);
-				projectList.setZhaofileUrl(path1);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
-			}
-
+		String path = "D:"+File.separator+"oa"+File.separator+"diddingList"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
 		}
-		if (file2 != null) {
-			filename2 = file2.getOriginalFilename();
-			File f = new File(path);
-			if (!f.exists()) {
-				f.mkdirs();
+		if(file1.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				String filename = file1[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file1[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("招标文件");
+				list.add(accessory);
 			}
-			path2 = path + File.separator + filename2;
-			File f2 = new File(path2);
-			try {
-				file2.transferTo(f2);
-				projectList.setToufile(filename2);
-				projectList.setToufileUrl(path2);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
-			}
+			projectList.setAccessory1(list);
 		}
-		if (file3 != null) {
-			filename3 = file3.getOriginalFilename();
-			File f = new File(path);
-			if (!f.exists()) {
-				f.mkdirs();
+		if(file2.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file2.length;i++){
+				String filename = file2[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f2=new File(filePath);
+				file2[i].transferTo(f2);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("投标文件");
+				list.add(accessory);
 			}
-			path3 = path + File.separator + filename3;
-			File f3 = new File(path3);
-			try {
-				file3.transferTo(f3);
-				projectList.setDrawing(filename3);
-				projectList.setDrawingUrl(path3);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
+			projectList.setAccessory2(list);
+		}
+		if(file3.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file3.length;i++){
+				String filename = file3[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f3=new File(filePath);
+				file3[i].transferTo(f3);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("图纸");
+				list.add(accessory);
 			}
+			projectList.setAccessory3(list);
 		}
 		int i = bListService.updatediddingList(projectList);
 		map.put("result", i);
@@ -312,7 +284,7 @@ public class BiddingListController {
 							String money = cell.toString()/*.split("\\.")[0]*/;
 							projectList.setPlMoney(money);
 							break;
-						case 5:// 招标文件
+						/*case 5:// 招标文件
 							String zhao = cell.toString();
 							projectList.setZhaofile(zhao);
 							break;
@@ -335,7 +307,7 @@ public class BiddingListController {
 						case 10:// 图纸地址
 							String tuzhiUrl = cell.toString();
 							projectList.setDrawingUrl(tuzhiUrl);
-							break;
+							break;*/
 						default:
 							break;
 						}
@@ -374,16 +346,9 @@ public class BiddingListController {
 			data.add(projectList.get(i).getPrjType());
 			data.add(projectList.get(i).getIsbiding());
 			data.add(projectList.get(i).getPlMoney());
-			data.add(projectList.get(i).getZhaofile());
-			data.add(projectList.get(i).getZhaofileUrl());
-			data.add(projectList.get(i).getToufile());
-			data.add(projectList.get(i).getToufileUrl());
-			data.add(projectList.get(i).getDrawing());
-			data.add(projectList.get(i).getDrawingUrl());
 			dataList.add(data);
 		}
-		String[] array = { "编号", "投标部门", "项目名称", "项目类型", "是否中标", "中标金额", "招标文件", "招标文件地址", "投标文件", "投标文件地址", "图纸",
-				"图纸地址" };
+		String[] array = { "编号", "投标部门", "项目名称", "项目类型", "是否中标", "中标金额"};
 		exportData.ExportWithResponse(xlsName, xlsName, array.length, array, dataList, response);
 	}
 

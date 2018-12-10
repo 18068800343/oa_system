@@ -15,12 +15,6 @@ public interface BiddingListDao {
 
 	int updatediddingList(@Param("projectList")ProjectList projectList);
 
-	int deletezhaoFileById(@Param("plId")String plId);
-
-	int deletetouFileById(@Param("plId")String plId);
-
-	int deletetuzhiFileById(@Param("plId")String plId);
-
 	List<ProjectList> selectdiddingUnitAndType();
 
 	List<ProjectList> selectdiddingByUnitAndType(@Param("plUnit")String plUnit, @Param("prjType")String prjType);
