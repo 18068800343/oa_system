@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="zhuti-content">
+
+				<table class="table table-bordered table-condensed">
+                    <tr>
+                    	<td>项目名称</td>
+                    	<td id="lookprjName"></td>
+                    	<td>项目编号</td>
+                    	<td id="lookprjNo"></td>
+                    </tr>
+                    <tr>
+                    	<td>业主单位</td>
+                    	<td id="lookyezhudanwei"></td>
+                    	<td>项目类型</td>
+                    	<td id="lookprjType"></td>
+                    </tr>
+                    <tr>
+                    	<td>投标人</td>
+                    	<td id="looktoubiaoren"></td>
+                    	<td>资格预审递交时间</td>
+                    	<td id="lookyear"></td>
+                    </tr>
+                    <tr>
+                    	<td>现场考察时间</td>
+                    	<td id="lookyear2"></td>
+                    	<td>标前会时间</td>
+                    	<td id="lookyear3"></td>
+                    </tr>
+                    <tr>
+                    	<td>投标文件递交时间</td>
+                    	<td id="lookyear4"></td>
+                    	<td>项目报名人员</td>
+                    	<td id="lookbaomingren"></td>
+                    </tr>
+                    <tr>
+                    	<td>项目购买标书人员</td>
+                    	<td id="lookgoumairen"></td>
+                    	<td></td>
+                    	<td></td>
+                    </tr>
+                </table> 
+        
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js">
+</script><script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+	});
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   
+	function initTable(){
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/BidApproval/selectBidApprovalById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:id,
+			},
+			success:function(json){
+				//console.log(json)
+				$("#lookprjName").text(json.prjName);
+				$("#lookprjNo").text(json.prjNo);
+				$("#lookyezhudanwei").text(json.ownerUnit);
+				$("#lookprjType").text(json.prjType);
+				$("#looktoubiaoren").text(json.bidder);
+				$("#lookyear").text(json.pretrialSubmissionTime);
+				$("#lookyear2").text(json.fieldTime);
+				$("#lookyear3").text(json.pretenderMeetingTime);
+				$("#lookyear4").text(json.submissionTime);
+				$("#lookbaomingren").text(json.projectApplicants);
+				$("#lookgoumairen").text(json.purchaseTenderPersonnel);
+			}
+		})
+    }
+
+
+</script>
+</html>

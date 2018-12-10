@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<link rel="stylesheet" href="../../font2/iconfont.css">
+<link rel="stylesheet" href="../../font3/iconfont.css">
+<link href="../../style/bootstrap.min.css" rel="stylesheet">
+<link href="../../style/style.css" rel="stylesheet">
+<link href="../../toastr/toastr.css" rel="stylesheet">
+<link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+<link rel="stylesheet" href="../../style/jquery-editable-select.css">
+<style lang="">
+.UpperPart {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 12px;
+}
+
+</style>
+</head>
+<body>
+
+	<div class="zhuti-content">
+				<table class="table table-bordered" >
+                        <tr>
+							<td>项目名称</td>
+							<td id="lookmingcheng"></td>
+							<td>投标审批单号</td>
+							<td id="lookprjNo"></td>
+						</tr>
+						<tr>
+							<td>业主单位</td>
+							<td id="lookdanwei"></td>
+							<td>项目类型</td>
+							<td id="lookprjType"></td>
+						</tr>
+						<tr>
+							<td>日 期</td>
+							<td id="lookriqi"></td>
+							<td>编 号</td>
+							<td id="lookbianhao"></td>
+						</tr>
+						<tr>
+							<td>合同金额</td>
+							<td id="hetonge"></td>
+							<td>项目工期</td>
+							<td id="lookgongqi"></td>
+						</tr>
+						<tr>
+							<td>中标项目经理</td>
+							<td id="lookjinli"></td>
+							<td>中标项目总工</td>
+							<td id="lookzongzong"></td>
+						</tr>
+						<tr>
+							<td>管理模式</td>
+							<td id="lookmoshi"></td>
+							<td>中标单位</td>
+							<td id="lookzhongbiaodw"></td>
+						</tr>
+						<tr>
+							<td>跟踪部门或信息来源</td>
+							<td id="looklaiyuan"></td>
+							<td>经营负责人</td>
+							<td id="lookfuzeren"></td>
+						</tr>
+						<tr>
+							<td>交接内容</td>
+							<td id="lookjiaojienr"></td>
+							<td>待办内容</td>
+							<td id="lookdaibannr"></td>
+						</tr>
+						<tr>
+							<td>项目概况</td>
+							<td colspan="3" id="lookgaikuang"></td>
+						</tr>
+                    </table>
+
+	</div>
+	
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+	$(document).ready(function() {
+		initTable();
+	});
+	
+	function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+	
+	function initTable() {
+		$.ajax({
+			type : "POST",
+			url : getContextPath() + "/prjOver/selectPrjOverById",
+			dataType : "json",
+			data : {
+				poId :id,
+			},
+			success : function(json) {
+				console.log(json)
+				$("#lookmingcheng").text(json.prjName);
+				$("#lookprjNo").text(json.prjNo);
+				$("#lookdanwei").text(json.productOwners);
+				$("#lookprjType").text(json.prjType);
+				$("#lookriqi").text(json.poDate);
+				$("#lookbianhao").text(json.poNo);
+				$("#hetonge").text(json.contractAmount);
+				$("#lookgongqi").text(json.projectDuration);
+				$("#lookjinli").text(json.projectManager);
+				$("#lookzongzong").text(json.projectEngineer);
+				$("#lookmoshi").text(json.managementModel);
+				$("#lookzhongbiaodw").text(json.tenderCompany);
+				$("#looklaiyuan").text(json.messageSource);
+				$("#lookfuzeren").text(json.businessDirector);
+				$("#lookjiaojienr").text(json.transferContent);
+				$("#lookdaibannr").text(json.contentBacklog);
+				$("#lookgaikuang").text(json.prjDesc);
+				
+				
+			}
+		})
+	}
+
+
+
+</script>
+</html>

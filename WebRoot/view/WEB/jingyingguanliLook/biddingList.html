@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="zhuti-content">
+				<table class="table table-bordered" >
+                        <tr>
+                           	<td>项目名称</td>
+                           	<td id="lookxmmingcheng"></td>
+                           	<td>类型</td>
+	                        <td id="lookleixing"></td>
+                         </tr>
+                         <tr>
+                        	<td>投标部门</td>
+                          	<td id="lookbumen"></td>
+                           	<td>是否中标</td>
+                          	<td id="looksfzh"></td>
+                          </tr>
+                          <tr>
+	                          <td>中标金额(万元)</td>
+	                          <td id="lookzbje"></td>
+	                          <td></td>
+                              <td></td>
+                          </tr>
+                    </table>
+                    <table class="table table-bordered" >
+                           <tr>
+	                           	<td>招标文件</td>
+	                           	<td colspan="2"><input type="text" style="width:100%;" class="form-control" id="look_zhao"></td>
+	                           	<!-- <td><i class="iconfont icon-xiazai" style="font-size:20px;cursor:pointer;" title="下载附件"></i></td> -->
+								<td id="download_zhao"></td>
+                           </tr>
+                           <tr>
+	                           	<td>投标文件</td>
+	                           	<td colspan="2"><input type="text" style="width:100%;" class="form-control" id="look_tou"></td>
+	                           	<!-- <td><i class="iconfont icon-xiazai" style="font-size:20px;cursor:pointer;" title="下载附件"></i></td> -->
+								<td id="download_tou"></td>
+                           </tr>
+                           <tr>
+	                           	<td>图纸</td>
+	                           	<td colspan="2"><input type="text" style="width:100%;" class="form-control" id="look_tuzhi"></td>
+	                           	<!-- <td><i class="iconfont icon-xiazai" style="font-size:20px;cursor:pointer;" title="下载附件"></i></td> -->
+								<td id="download_tuzhi"></td>
+                           </tr>
+                    </table>
+    
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/myTool.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+	});
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+    
+	var zhaofile;
+	var zhaofile_url;
+	var toufile;
+	var toufileUrl;
+	var drawing;
+	var drawingUrl;
+	function initTable(){
+		
+		$("#lookxmmingcheng").text(data.prjName); 
+		
+		/* $("#lookleixing1").text(data.prjType1); */
+		/* initSelectOnEdit(data.prjType1,data.prjType2); */
+		$("#lookleixing").text(data.prjType)
+		
+		$("#lookbumen").text(data.omName);
+		$("#looksfzh").text(data.isbiding);
+		$("#lookzbje").text(data.plMoney);
+		
+		zhaofile=data.zhaofile;
+		zhaofile_url=data.zhaofileUrl;
+		if(zhaofile==null){
+			$("#look_zhao").val("无").attr("disabled",true);
+			$("#download_zhao").html('');
+		}else{
+			$("#download_zhao").html('');
+    		$("#look_zhao").val(zhaofile).attr("disabled",true);
+    		$("#download_zhao").append("<button type='button' class='btn btn-primary' onclick='download_zhao()'>下载附件</button>");	
+		}
+		
+		toufile=data.toufile;
+		toufileUrl=data.toufileUrl;
+		if(toufile==null){
+			$("#look_tou").val("无").attr("disabled",true);
+			$("#download_tou").html('');
+		}else{
+			$("#download_tou").html('');
+    		$("#look_tou").val(toufile).attr("disabled",true);
+    		$("#download_tou").append("<button type='button' class='btn btn-primary' onclick='download_tou()'>下载附件</button>");	
+		}
+		
+		drawing=data.drawing;
+		drawingUrl=data.drawingUrl;
+		if(drawing==null){
+			$("#look_tuzhi").val("无").attr("disabled",true);
+			$("#download_tuzhi").html('');
+		}else{
+			$("#download_tuzhi").html('');
+    		$("#look_tuzhi").val(drawing).attr("disabled",true);
+    		$("#download_tuzhi").append("<button type='button' class='btn btn-primary' onclick='download_tuzhi()'>下载附件</button>");	
+		}
+    }
+
+	
+    function download_zhao(){
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+zhaofile+"&filePath="+zhaofile_url);
+	}
+    function download_tou(){
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+toufile+"&filePath="+toufileUrl);
+	}
+	function download_tuzhi(){
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+drawing+"&filePath="+drawingUrl);
+	}
+	
+	
+	//导出
+	$("#daochu").click(function(){
+		window.location.href=encodeURI(getContextPath()+'/diddingList/exportdiddingList');
+	})
+	
+	
+</script>
+</html>

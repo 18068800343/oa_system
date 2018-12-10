@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="zhuti-content">
+
+				<table class="table table-bordered table-condensed" id="table_Corporation">
+                       <thead>
+                       	<tr>
+                       		<th style="width:10%;">月份</th>
+                       		<th style="width:30%;">合同额目标（万元）</th>
+                       		<th style="width:30%;">收入目标（万元）</th>
+                       		<th style="width:30%;">收款目标（万元）</th>
+                       	</tr>
+                       </thead>
+                       <tbody>
+                       	
+                       </tbody>
+                </table> 
+
+     
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
+<script>
+    $(document).ready( function () {
+        initTable();
+	});
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+	
+	function initTable(obj){
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/operationTarget/getCorporationTarget',
+            dataType: 'json',
+            data:{
+            	id:id
+            },
+            success: function (json) {
+            	if(json.length==0){
+            		toastr.error("存在部门未分配完成");
+            	}else{
+            		$("#table_Corporation tbody").html('');
+            		for(var i=0;i>json.length;i++){
+            			$("#table_Corporation tbody").append("<tr><td>"+json[i].month+"</td><td>"+json[i].contractAmount+"</td><td>"+json[i].revenueTarget+"</td><td>"+json[i].collectionTarget+"</td></tr>")	
+            		}
+            		$("#chakangs").modal("show");	
+            	}
+            	
+            }
+		});
+		
+	}
+
+	
+</script>
+</html>
