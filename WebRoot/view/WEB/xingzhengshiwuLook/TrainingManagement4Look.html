@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+	<link href="../../toastr/toastr.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="zhuti-content">
+
+				<form class="form-inline" id="edit_form" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:100px;">培训课程名称</td>
+                                <td id="look_class_name"></td>
+                                <td style="width:100px;">参加人员</td>
+                                <td id="look_join_user"></td>
+                            </tr>
+                            <tr>
+                                <td>培训地点</td>
+                                <td id="look_addr"></td>
+                                <td>培训时间</td>
+                                <td id="look_year"></td>
+                            </tr>
+                            <tr>
+                                <td>培训自我总结（侧重于技术要点）</td>
+                                <td colspan="3" id="look_summarize"></td>
+                            </tr>
+                        </table> 
+                        <table class="table table-bordered table-condensed" id="look_ziliao">
+                        	<thead>
+                        		<tr>
+                        			<td style="width:30%;">培训发放资料</td>
+                                	<td>&nbsp;</td>
+                        			<td style="width:20%;">&nbsp;</td>
+                        		</tr>
+                        	</thead>
+                        	<tbody>
+                        		
+                        	</tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="look_zhengshu">
+                        	<thead>
+                        		<tr>
+                        			<td style="width:30%;">培训获得证书</td>
+                                	<td>&nbsp;</td>
+                        			<td style="width:20%;">&nbsp;</td>
+                        		</tr>
+                        	</thead>
+                        	<tbody>
+                        		
+                        	</tbody>
+                        </table>
+                    </form>  
+        
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script>
+    $(document).ready( function () {
+    	
+	});
+  
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("");
+	
+	function lookAll(obj){
+		 
+		 $("#look_class_name").text(data.daName);
+		 $("#look_join_user").text(data.attendees);
+		 $("#look_addr").text(data.trainingLocation);
+		 $("#look_year").text(data.trainingTime);
+		 $("#look_summarize").text(data.credentialDesc);
+		 $("#look_ziliao tbody").html('');
+		 $("#look_zhengshu tbody").html('');
+		 var acc=data.accessory;
+		 var acc2=data.accessory2;
+		 for(var i=0;i<acc.length;i++){
+			 $("#look_ziliao tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+		 }
+		 for(var ii=0;ii<acc2.length;ii++){
+			 $("#look_zhengshu tbody").append("<tr><td>附件"+(ii+1)+"</td><td><input style='width:100%;' type='text' value="+acc2[ii].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc2[ii].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+		 }
+		$("#look").modal("show");
+	}
+	
+	function downloadFile(obj){
+		var filePath=$(obj).attr("data2");
+		var fileName=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
+	}
+	
+
+
+</script>
+</html>

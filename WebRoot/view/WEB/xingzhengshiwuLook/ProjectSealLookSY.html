@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="zhuti-content">
+        
+            				<div>     
+                    				<form id="edit_form2" class="form-inline" method="post" enctype="multipart/form-data">
+                                        <table class="table table-bordered table-condensed">
+                                            <tr>
+                                                <td>使用的项目</td>
+                                                <td id="lookusePrj"></td>
+                                                <td>任务单号</td>
+                                                <td id="looktask_no2"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>开始时间</td>
+                                                <td  id="lookbeginTime"></td>
+                                                <td>结束时间</td>
+                                                <td id="lookendTime"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>保管人</td>
+                                                <td id="lookbaoguan"></td>
+                                                <td>销毁时间</td>
+                                                <td id="lookxiaohuiTime"></td>
+                                            </tr>
+                                        </table> 
+                                        <table class="table table-bordered table-condensed" id="look_table2">
+                        	
+                        				</table>
+                                    </form>  
+                			</div>
+
+    </div>
+    						
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	
+	});
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+
+	
+	
+	//查看详细信息使用管理
+	function lookUsing(){
+		
+		$("#lookbeginTime").text(data2.beginTime);
+		$("#lookendTime").text(data2.endTime);
+		$("#lookxiaohuiTime").text(data2.destroyTime);
+		$("#lookusePrj").text(data2.useProject);
+		$("#looktask_no2").text(data2.taskNo);
+		
+		$("#lookbaoguan").text(data2.custodyMan);
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/signetUsers/selectAccessoryById",
+			dataType:"json",
+			data:{
+				id:id,
+			},
+			success:function(json){
+				//console.log(json);
+				$("#look_table2").empty();
+	               for(var i=0;i<json.length;i++){
+	            	   $("#look_table2").append("<tr>"+
+	            	   														"<td>附件"+(i+1)+"</td>"+
+													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download2(this)'>下载附件</button></td>"+
+													            	    "</tr>");
+	               }
+			}
+		}) 
+	}
+	
+	function download2(obj){
+		var url=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+
+	 function removeFile(obj){
+			var tr=$(obj).parents("tr");
+			$(tr).remove();
+		}
+
+
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+
+</script>
+</html>

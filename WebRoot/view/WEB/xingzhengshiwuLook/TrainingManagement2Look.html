@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+	<link href="../../toastr/toastr.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../font3/bootstrap-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="zhuti-content">
+			<form class="form-inline" id="look_form" method="post" enctype="multipart/form-data">
+                    <table class="table table-bordered table-condensed">
+                           <tr>
+                               <td style="width:100px;">主题  </td>
+                               <td id="looktitle"></td>
+                               <td style="width:100px;">部门</td>
+                               <td id="lookdepartment"></td>
+                           </tr>
+                           <tr>
+                               <td>培训机构名称  </td>
+                               <td id="looktraining_name"></td>
+                               <td>培训机构资质能力</td>
+                               <td id="looktraining_lv"></td>
+                           </tr>
+                           <tr>
+                               <td>课程名称  </td>
+                               <td id="lookclassName"></td>
+                               <td>培训时间</td>
+                               <td id="lookyear"></td>
+                           </tr>
+                           <tr>
+                               <td>培训地点</td>
+                               <td id="lookaddr"></td>
+                               <td>培训费用</td>
+                               <td id="lookmoney"></td>
+                           </tr>
+                           <tr>
+                               <td>参加人员  </td>
+                               <td colspan="3" id="lookusers" ></td>
+                           </tr>
+                           <tr>
+                               <td>课程内容</td>
+                               <td colspan="3" id="lookcourse_desc"></td>
+                           </tr>
+                           <tr>
+                               <td>预期培训目标</td>
+                               <td colspan="3" id="looktraining_reason"></td>
+                           </tr>
+                       </table>
+                    <table class="table table-bordered table-condensed" id="looktable">
+                    	
+                    </table> 
+                </form>  
+        
+    </div>
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/bootstrap-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script>
+    $(document).ready( function () {
+    	
+	});
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("");
+	
+	
+	function lookAll(obj){
+		
+		$("#looktitle").text(data.otaTitle);
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getOrgNameById',
+	        dataType: 'json',
+	        data: {
+	        	omId:id
+	        },
+	        success: function (json) {
+	        	$("#lookdepartment").text(json.omName);
+	        }
+	    });
+		$("#looktraining_name").text(data.trainingName);
+		$("#looktraining_lv").text(data.trainingLv);
+		$("#lookclassName").text(data.courseName);
+		$("#lookyear").text(data.trainingDate);
+		$("#lookaddr").text(data.trainingLocation);
+		$("#lookmoney").text(data.trainingMoney);
+		$("#lookcourse_desc").text(data.courseDesc);
+		$("#looktraining_reason").text(data.trainingReason);
+		$("#lookusers").text(data.attendees);
+		$("#lookbutton").html('');
+		$("#lookbutton").append('<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>');
+		
+		$("#looktable").html('');
+		 var acc=data.accessory;
+		 for(var i=0;i<acc.length;i++){
+			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+		 }
+		
+		
+	}
+	
+	function downloadFile(obj){
+		var filePath=$(obj).attr("data2");
+		var fileName=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
+	}
+
+    
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+
+</script>
+</html>
