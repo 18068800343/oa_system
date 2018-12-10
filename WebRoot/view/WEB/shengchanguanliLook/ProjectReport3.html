@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
+    <style lang="">
+        
+    </style>
+</head>
+<body>
+    
+    
+    <div class="zhuti-content">
+				<table class="table table-bordered table-condensed">
+                        <tr>
+                            <td>项目名称</td>
+                            <td id="lookprjName"></td>
+                            <td>任务单号</td>
+                            <td id="lookprjNo"></td>
+                        </tr>
+                        <tr>
+                            <td>项目工期</td>
+                            <td id="lookprjLongTime"></td>
+                            <td>报表性质</td>
+                            <td id="lookreportTableKind">月报</td>
+                        </tr>
+                        <tr>
+                            <td>填报日期</td>
+                            <td id="lookyear"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>本期项目内容</td>
+                            <td colspan="3" id="lookthistimePrjText"></td>
+                        </tr>
+                        <tr>
+                            <td>项目安全概述</td>
+                            <td colspan="3" id="lookprjSafetyMaybeText"></td>
+                        </tr>
+                        <tr>
+                            <td>项目质量概述</td>
+                            <td colspan="3" id="lookprjQuatityMaybeText"></td>
+                        </tr>
+                        <tr>
+                            <td>分包管理情况</td>
+                            <td colspan="3" id="lookfbManageSituation"></td>
+                        </tr>
+                        <tr>
+                            <td>变更情况</td>
+                            <td colspan="3" id="lookchangeSituation"></td>
+                        </tr>
+                        <tr>
+                            <td>重大事项</td>
+                            <td colspan="3" id="lookimportentThings"></td>
+                        </tr>
+                        <tr>
+                            <td>需要公司协调</td>
+                            <td colspan="3" id="lookneedCompanyCooperation"></td>
+                        </tr>
+                        <tr>
+                            <td>其他事项</td>
+                            <td colspan="3" id="lookotherThings"></td>
+                        </tr>
+                        <tr>
+                            <td>概述</td>
+                            <td colspan="3" id="lookmaybeText"></td>
+                        </tr>
+                        <!-- <tr>
+                            <td>附件上传</td>
+                            <td colspan="3">ahsratag</td>
+                        </tr> -->
+                    </table>
+                    <table class="table table-bordered table-condensed" id="look_accessory">
+                    </table>
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+	});
+    
+    
+	function initTable(){
+		
+    }
+	
+	
+	
+	//查看详细信息
+	function lookReport(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		$("#lookprjName").text(data.prjName);
+		$("#lookprjNo").text(data.prjCode);
+		$("#lookprjLongTime").text(data.prjLongTime);
+		$("#lookreportTableKind").text(data.reportTableKind);
+		$("#lookyear").text(data.fillTime);
+		$("#lookthistimePrjText").text(data.thistimePrjText);
+		$("#lookprjSafetyMaybeText").text(data.prjSafetyMaybeText);
+		$("#lookprjQuatityMaybeText").text(data.prjQuatityMaybeText);
+		$("#lookfbManageSituation").text(data.fbManageSituation);
+		$("#lookchangeSituation").text(data.changeSituation);
+		$("#lookimportentThings").text(data.importentThings);
+		$("#lookneedCompanyCooperation").text(data.needCompanyCooperation);
+		$("#lookotherThings").text(data.otherThings);
+		$("#lookmaybeText").text(data.maybeText);
+		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/PrjReport/selectAccessoryById",
+			dataType:"json",
+			data:{ 
+				id:data.prId
+				},
+			success:function(json){
+				console.log(json)
+				$("#look_accessory").empty();
+				for(var i=0;i<json.length;i++){
+					 $("#look_accessory").append("<tr>"+
+															"<td>附件"+(i+1)+"</td>"+
+										         	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+										         	    	"<td ><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+										         	    "</tr>");
+				}
+			}
+		})
+	}
+	//下载附件
+	function download_all(obj){
+		var url=$(obj).attr("data2");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+	
+	
+	
+	
+	
+
+</script>
+</html>
