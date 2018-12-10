@@ -11,6 +11,13 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -307,13 +314,13 @@
             <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>
                     <tr>
-                        <th>任务单号</th>
-                        <th>项目名称</th>
-                        <th>项目工期</th>
-                        <th>日期</th>
-                        <th>温度</th>
-                        <th>天气</th>
-                        <th style="width:50px;">操作</th>
+                        <th style="width:14%;">任务单号</th>
+                        <th style="width:14%;">项目名称</th>
+                        <th style="width:14%;">项目工期</th>
+                        <th style="width:14%;">日期</th>
+                        <th style="width:14%;">温度</th>
+                        <th style="width:14%;">天气</th>
+                        <th style="width:15%;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -407,6 +414,8 @@
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
@@ -472,7 +481,7 @@
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 5,
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -520,7 +529,7 @@
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 5,
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -796,25 +805,34 @@
 	function deleteLog(obj){
 		var dom=$(obj).parents("tr");
 		var data=$("#mainContent").DataTable().row(dom).data();
-		if(!confirm("确认删除吗?")){
-		   return false;
-		}
-		$.ajax({
-			type:"POST",
-			url:getContextPath()+"/PrjConstructionLog/deletePrjConstructionLog",
-			dataType:"json",
-			data:{ 
-				id:data.pclId
-				},
-			success:function(json){
-				if(json>0){
-					toastr.success("删除成功")
-					$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
-				}else{
-					toastr.error("删除失败")
-				}
-			}
-		})
+		$.SmartMessageBox({
+            title: "删除提示",
+            content: "确认删除？",
+            buttons: '[取消][确定]'
+        }, function (ButtonPressed) {
+        	if (ButtonPressed === "确定") {
+        		myTool.mask.show('删除中...');
+        		$.ajax({
+        			type:"POST",
+        			url:getContextPath()+"/PrjConstructionLog/deletePrjConstructionLog",
+        			dataType:"json",
+        			data:{ 
+        				id:data.pclId
+        				},
+        			success:function(json){
+						myTool.mask.hide();
+        				if(json>0){
+        					toastr.success("删除成功")
+        					$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
+        				}else{
+        					toastr.error("删除失败")
+        				}
+        			}
+        		})
+        	    	
+        	}
+        });
+		
 	}
 	
 	//查看详细信息
