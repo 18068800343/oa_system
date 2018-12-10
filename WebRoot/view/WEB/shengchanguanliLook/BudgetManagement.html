@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+    
+    </style>
+</head>
+<body>
+
+
+    <div class="zhuti-content">
+   			<table class="table table-bordered table-condensed">
+                        <tr>
+                            <td style="width:100px;">项目名称</td>
+                            <td id="lookprjName"></td>
+                            <td style="width:100px;">任务单号</td>
+                            <td id="lookrenwudan"></td>
+                            <td>甲方单位</td>
+                            <td id="lookjfdanwei"></td>
+                            <td>负责部门</td>
+                            <td id="lookdepartment"></td>
+                            <td>预算编制日期</td>
+                            <td id="lookyear"></td>
+                            <td>预算单编号</td>
+                            <td id="lookbfNo"></td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-bordered table-condensed" id="lookfyyusuan">
+                        <thead>
+                            <tr>
+                                <th colspan="6">费用预算</th>
+                            </tr>
+                            <tr>
+                                <td>分类</td>
+                                <td>项目明细</td>
+                                <td>部门</td>
+                                <td>费用金额（元）</td>
+                                <td>备注</td>
+                            </tr>
+                        </thead>
+                        	
+                        <tbody>
+                             
+                            
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered table-condensed" id="lookrgyusuan">
+                        <thead>
+                            <tr>
+                                <th colspan="6">人工预算</th>
+                            </tr>
+                            <tr>
+                                <td>项目成员类型</td>
+                                <td>姓名</td>
+                                <td>角色系数</td>
+                                <td>预计投入天数</td>
+                                <td>备注</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered table-condensed" id="">
+                        <tr>
+                            <td>申报人确认</td>
+                            <td id="lookshenbaoren"></td>
+                        </tr>
+                    </table>
+	</div>
+
+	    
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+	});
+
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+
+	var bfNo;
+	var id;
+	function initTable(){
+		
+		bfNo=data.bfNo;
+		
+		$("#lookprjName").text(data.prjId)
+		$("#lookrenwudan").text(data.taskNo)
+		$("#lookjfdanwei").text(data.prjUnit)
+		$("#lookdepartment").text(data.omName)
+		$("#lookyear").text(data.budgetDate)
+		$("#lookshenbaoren").text(data.declarer)
+		$("#lookbfNo").text(data.bfNo)
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/budge/selectBudgeById",
+			dataType:"json",
+			data:{
+				id:id,
+			},
+			success:function(json){
+				//console.log(json);
+				//费用预算
+				$("#lookfyyusuan tbody").empty("");
+            	for(var i=0;i<json.costBudget.length;i++){
+            		$("#lookfyyusuan").append("<tr><td>"
+								    			+json.costBudget[i].classify
+								    			+"</td><td>"
+								    			+json.costBudget[i].prjDetail
+								    			+"</td><td>"
+								    			+json.costBudget[i].name2
+								    			+"</td><td>"
+								    			+json.costBudget[i].costAmount
+								    			+"</td><td>"
+								    			+json.costBudget[i].cbDesc
+								    			+"</td></tr>")
+            	}
+            	//人工预算
+            	$("#lookrgyusuan tbody").empty("");
+            	for(var i=0;i<json.artificialBudget.length;i++){
+            		$("#lookrgyusuan").append("<tr><td>"
+								    			+json.artificialBudget[i].prjMemberType
+								    			+"</td><td>"
+								    			+json.artificialBudget[i].aName
+								    			+"</td><td>"
+								    			+json.artificialBudget[i].roleCoefficient
+								    			+"</td><td>"
+								    			+json.artificialBudget[i].estimatedDays
+								    			+"</td><td>"
+								    			+json.artificialBudget[i].aDesc
+								    			+"</td></tr>")
+            	}
+			}
+		})
+	}
+
+
+
+</script>
+</html>

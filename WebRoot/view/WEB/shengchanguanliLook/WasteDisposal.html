@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        
+    </style>
+</head>
+<body>
+
+    <div class="zhuti-content" style="overflow-x:scroll;">
+        			<table class="table table-bordered table-condensed" id="xinjianCailiao">
+                        	<tr>
+                                <td style="width:10%;">项目名称</td>
+                                <td style="width:20%;" id="lookprjName"></td>
+                                <td style="width:10%;">任务单号</td>
+                                <td style="width:20%;" id="lookprjNo"></td>
+                            </tr>
+                            <tr>
+                            	<td style="width:10%;">申请人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:20%;" id="lookshenqingren"></td>
+                                <td style="width:10%;">申请时间</td>
+                                <td style="width:20%;" id="lookyear"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:10%;">处理原因</td>
+                                <td style="width:20%;" id="lookchuliyuanyin"></td>
+                                <td style="width:10%;">处理方式</td>
+                                <td style="width:20%;" id="lookchulifangshi"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:10%;">成本费用</td>
+                                <td style="width:20%;" id="lookchengbenfeiyong"></td>
+                                <td style="width:10%;">备注</td>
+                                <td style="width:20%;" id="lookbeizhu"></td>
+                            </tr>
+                        </table>
+            			<table class="table table-bordered table-condensed"  id="look_waste_table">
+                        	<thead>
+                        		<tr>
+                        			<th style="width:12%;">材料名称</th>
+                        			<th style="width:12%;">材料类型</th>
+                        			<th style="width:12%;">规格型号</th>
+                        			<th style="width:8%;">单位</th>
+                        			<th style="width:8%;">处理数量</th>
+                        			<th style="width:9%;">采购单价</th>
+                        			<th style="width:10%;">金额</th>
+                        			<th style="width:15%;">拟折价出售金额</th>
+                        			<th style="width:15%;">实际折价出售金额</th>
+                        		</tr>
+                        	</thead>
+                        	<tbody></tbody>
+              			</table>
+    </div>
+    
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+	});
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+	
+
+	//查看详细信息
+	function initTable(){
+		
+		//console.log(data)
+		$("#lookprjName").text(data.prjName)
+		$("#lookprjNo").text(data.prjNo)
+		$("#lookshenqingren").text(data.applyPerson);
+		$("#lookyear").text(data.applyDate);
+		$("#lookchuliyuanyin").text(data.dealReason);
+		$("#lookchulifangshi").text(data.dealMode);
+		$("#lookchengbenfeiyong").text(data.costMoney);
+		$("#lookbeizhu").text(data.cmwDesc);
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatmentClById',
+            dataType: 'json',
+            data:{
+            	id:data.cmwId
+            },
+            success: function (json) {
+            	console.log(json)
+            	$("#look_waste_table tbody").html('');
+            	for(var i=0;i<json.length;i++){
+		            	$("#look_waste_table tbody").append("<tr>"+
+		            														"<td>"+json[i].materialName+"</td>"+
+		            														"<td>"+json[i].materialType+"</td>"+
+		            														"<td>"+json[i].materialModel+"</td>"+
+		            														"<td>"+json[i].unit+"</td>"+
+		            														"<td>"+json[i].dealNumber+"</td>"+
+		            														"<td>"+json[i].price+"</td>"+
+		            														"<td>"+json[i].money+"</td>"+
+		            														"<td>"+json[i].quasiDiscountMoney+"</td>"+
+		            														"<td>"+json[i].actualDiscountMoney+"</td>"+
+		            													"</tr>");
+            	}
+            }
+        });
+		
+	} 
+	
+
+
+    
+
+</script>
+</html>

@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>生产管理</li>
+            <li>现场管理</li>
+			<li class="active">项目工时管理</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        <div class="UpperPart">
+            <div class="UpperPartL">
+                
+            </div>
+            <div class="UpperPartR">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报项目工时管理</button>
+            </div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报项目工时管理</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form id="new_form" class="form-inline" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:35%;">
+                                    <!-- <select style="width:70%" class="form-control" id="prjName" >
+                                    </select> -->
+                                    <input type="text" class="form-control" id="prjName" disabled  style="width:65%;">
+                               		<button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="chosexm">选择项目</button>
+                                </td>
+                                <td style="width:15%;">任务单号</td>
+                                <td style="width:35%;">
+                                	<!-- <input type="text" id="prjNo" class="form-control" disabled> -->
+                                	<select style="width:65%" class="form-control" id="prjNo" >
+                                        
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%;">合同额(万元)</td>
+                                <td style="width:35%;"><input style="width:65%" type="text" id="hetongMoney" class="form-control" disabled></td>
+                                <td style="width:15%;">项目类型</td>
+                                <td style="width:35%;"><input style="width:65%" type="text" id="prjType" class="form-control" disabled></td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%;">项目管理单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:35%;">
+                                    <select style="width:65%" class="form-control" id="prjUnit" >
+                                        <option>华通</option>
+                                        <option>设计院</option>
+                                    </select>
+                                </td>
+                                <td style="width:15%;">设计院手动输入</td>
+                                <td style="width:35%;"><input style="width:65%" type="text" id="sjyInput" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%;">考勤时间</td>
+                                <td style="width:35%;"><input style="width:65%" type="text" id="year" class="form-control"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>人员动态</td>
+                                <td colspan="3">
+                                    <textarea class="form-control" id="renyuandongtai" rows="3" style="width:100%;"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>考勤情况概述</td>
+                                <td colspan="3">
+                                    <textarea class="form-control" id="desc" rows="3" style="width:100%;"></textarea>
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <td>考勤表附件上传</td>
+                                <td colspan="3"><input type="file" class="form-control"></td>
+                            </tr> -->
+                        </table>
+                        
+                        <table class="table table-bordered table-condensed" id="new_accessory">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:20%;">考勤表附件  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        </table>
+
+                        <table class="table table-bordered" id="renyuan">
+                            <thead>
+                                <tr>
+                                    <th>人员</td>
+                                    <th>分类</th>
+                                    <th>工时</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                    	<input type="text" id="name" class="form-control">
+                                        <!-- <select class="form-control" id="name" style="width:180px;">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                        </select> -->
+                                    </td>
+                                    <td>
+                                        <select class="form-control" id="fenlei" style="width:180px;">
+                                             <option>负责人</option>
+                                            <option>核心成员</option>
+                                            <option>辅助成员</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" id="gongshi" class="form-control"></td>
+                                    <td colspan="3"><button type="button" class="btn btn-primary" onclick="addrenyuan(1)">添加</button></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                        <table class="table table-bordered" id="all_renyuan">
+                            <thead>
+                                <tr>
+                                    <th colspan="3">添加的人员</th>
+                                </tr>
+                                    <tr>
+                                        <th>人员</th>
+                                        <th>分类</th>
+                                        <th>工时</th>
+                                        <th>操作</th>
+                                    </tr>
+                            </thead>
+                            <tbody>
+	                            
+                            </tbody>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="save()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+<!-- Modal项目 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xiangmumd">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xiangmubiao">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>编号</th>
+                                    <th>项目名称</th>
+                                    <th>项目所属公司</th>
+                                    <th>项目类型</th>
+                                    <th>甲方单位</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="quedingxm">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+<!-- 修改Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改项目工时管理</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form id="edit_form" class="form-inline" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:35%;">
+                                    <!-- <select style="width:70%" class="form-control" id="xgprjName" >
+                                    </select> -->
+                                    <input type="text" class="form-control" id="xgprjName" disabled  style="width:65%;">
+                                	<button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="xgchosexm">选择项目</button>
+                                </td>
+                                <td style="width:15%;">任务单号</td>
+                                <td style="width:35%;">
+                                	<!-- <input type="text" id="prjNo" class="form-control" disabled> -->
+                                	<select style="width:65%" class="form-control" id="xgprjNo" >
+                                        
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%;">合同额(万元)</td>
+                                <td style="width:35%;"><input style="width:65%" type="text" id="xghetongMoney" class="form-control" disabled></td>
+                                <td style="width:15%;">项目类型</td>
+                                <td style="width:35%;"><input style="width:65%" type="text" id="xgprjType" class="form-control" disabled></td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%;">项目管理单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:35%;">
+                                    <select  class="form-control" id="xgprjUnit"  style="width:65%">
+                                        <option>华通</option>
+                                        <option>设计院</option>
+                                    </select>
+                                </td>
+                                <td style="width:15%;">设计院手动输入</td>
+                                <td style="width:35%;"><input style="width:65%" type="text"  style="width:70%" id="xgsjyInput" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%;">考勤时间</td>
+                                <td style="width:35%;"><input style="width:65%" type="text"  style="width:70%" id="xgyear" class="form-control"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>人员动态</td>
+                                <td colspan="3">
+                                    <textarea class="form-control" id="xgrenyuandongtai" rows="3" style="width:100%;"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>考勤情况概述</td>
+                                <td colspan="3">
+                                    <textarea class="form-control" id="xgdesc" rows="3" style="width:100%;"></textarea>
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <td>考勤表附件上传</td>
+                                <td colspan="3"><input type="file" class="form-control"></td>
+                            </tr> -->
+                        </table>
+                        
+                        <table class="table table-bordered table-condensed" id="edit_accessory">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:20%;">考勤表附件  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile2()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+
+                        <table class="table table-bordered" id="xgrenyuan">
+                            <thead>
+                                <tr>
+                                    <th>人员</td>
+                                    <th>分类</th>
+                                    <th>工时</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                    	<input type="text" id="xgname" class="form-control">
+                                    </td>
+                                    <td>
+                                        <select class="form-control" id="xgfenlei" style="width:180px;">
+                                             <option>负责人</option>
+                                            <option>核心成员</option>
+                                            <option>辅助成员</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" id="xggongshi" class="form-control"></td>
+                                    <td colspan="3"><button type="button" class="btn btn-primary" onclick="addrenyuan(2)">添加</button></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                        <table class="table table-bordered" id="edit_renyuan">
+                            <thead>
+                                <tr>
+                                    <th colspan="3">添加的人员</th>
+                                </tr>
+                                    <tr>
+                                        <th>人员</th>
+                                        <th>分类</th>
+                                        <th>工时</th>
+                                        <th>操作</th>
+                                    </tr>
+                            </thead>
+                            <tbody>
+	                            
+                            </tbody>
+                        </table>
+                    </form>   
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="checkSave()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改model结束 -->
+<!-- xg项目 Modalxg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgxiangmumd">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xgxiangmubiao">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>编号</th>
+                                    <th>项目名称</th>
+                                    <th>项目所属公司</th>
+                                    <th>项目类型</th>
+                                    <th>甲方单位</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="xgquedingxm">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!--xg项目  modelxg结束 --> 
+
+
+        </div>
+        <div class="LowerPart" style="margin-top:3px;">
+            <table class="table table-bordered table-condensed" id="mainContent">
+                <thead>
+                    <tr>
+                        <th>任务单号</th>
+                        <th>项目名称</th>
+                        <th>合同额(万元)</th>
+                        <th>设计院手动输入</th>
+                        <th>项目管理单位</th>
+                        <th style="width:75px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>   
+            </table>
+        </div>
+    </div>
+<!-- allMsg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>项目名称</td>
+                            <td id="lookprjName"></td>
+                            <td>任务单号</td>
+                            <td id="lookprjNo"></td>
+                        </tr>
+                        <tr>
+                            <td>合同额(万元)</td>
+                            <td id="lookhetongMoney"></td>
+                            <td>项目类型</td>
+                            <td id="lookprjType"></td>
+                        </tr>
+                        <tr>
+                            <td>项目管理单位</td>
+                            <td id="lookprjUnit"></td>
+                            <td>设计院手动输入</td>
+                            <td id="looksjyInput"></td>
+                        </tr>
+                        <tr>
+                            <td>考勤时间</td>
+                            <td id="lookyear"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>人员动态</td>
+                            <td colspan="3" id="lookrenyuandongtai"></td>
+                        </tr>
+                        <tr>
+                            <td>考勤情况概述</td>
+                            <td colspan="3" id="lookdesc"></td>
+                        </tr>
+                        <!-- <tr>
+                            <td>考勤表附件上传</td>
+                            <td colspan="3">gwg34auh3a</td>
+                        </tr> -->
+                    </table>
+                    <table class="table table-bordered table-condensed"  id="look_accessory">
+				                        		
+					</table>
+                    <table class="table table-bordered" id="look_renyuan">
+                        <thead>
+                            <tr>
+                                <th colspan="3">添加的人员</th>
+                                <tr>
+                                    <th>人员</td>
+                                    <th>分类</th>
+                                    <th>工时</th>
+                                </tr>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                        </tbody>
+                    </table>
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg结束 -->
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+    	initSelect();
+    	laydate.render({
+            elem: '#year' //指定元素
+        });
+    	laydate.render({
+            elem: '#xgyear' //指定元素
+        });
+	});
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": "prjNo"}, 
+            { "data": null}, 
+            { "data": "contractMoney"}, 
+            { "data": "designInput"}, 
+            { "data": "prjUnit"}, 
+        ],
+        "columnDefs": [
+						{	
+							 "class": "tcenter",
+							  "targets": 1,
+							  "searchable": true,
+							  "render": function(data, type, full) {
+									return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjName+'</a>'
+							 }
+						},
+						{	
+								 "class": "tcenter",
+								    "targets": 5,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;"  title="删除" onclick="deleteGS(this)"  id="delyiji"></i>  <i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookGS(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  <i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="checkGs(this)" data-toggle="modal" data-target="#change" ></i>'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table3=$('#xiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+		            { "data": "prjNo"},
+		            { "data": "prjName"},
+		            { "data": "prjCompany"},
+		            { "data": "prjType2"},
+		            { "data": "ccName"},
+		            
+		        ],
+		        "columnDefs": [
+								{
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xiangmuName" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table3xg=$('#xgxiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+		            { "data": "prjNo"}, 
+		            { "data": "prjName"},
+		            { "data": "prjCompany"}, 
+		            { "data": "prjType2"},
+		            { "data": "ccName"},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xgxiangmuName" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/PrjWorkingHours/selectPrjWorkingHours',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+
+	//选择项目
+	$("#chosexm").click(function(){
+		$("#xiangmumd").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            },
+	            success: function (json) {
+	            	//console.log(json)
+	                $('#xiangmubiao').dataTable().fnClearTable();
+	                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+		 $('#xiangmumd').on('hidden.bs.modal', function () {//解决模态框关闭页面滚动问题
+	            if ($('.modal.in').size() >= 1) {
+	                $('body').addClass('modal-open')
+	            }
+	        })
+	})
+	$("#quedingxm").click(function(){
+		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
+		var prjtype2=$("input[name='xiangmuName']:checked").parent().next().next().next().next().text();
+		$("#prjName").val(prjname);
+		$("#prjNo").val(prjNo);
+		$("#prjType").val(prjtype2)
+		$("#xiangmumd").modal("hide");
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectTaskPrjName',
+            dataType: 'json',
+            data: {
+            	prjNo:$('#prjNo').val()
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#hetongMoney").val(json[i].contractMoney)
+            		/* $("#prjName").val(json[i].prjName)
+            		$("#prjType").val(json[i].prjType2) */
+            	}
+            }
+  		});
+	})
+	$("#xgchosexm").click(function(){
+		$("#xgxiangmumd").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            },
+	            success: function (json) {
+	                $('#xgxiangmubiao').dataTable().fnClearTable();
+	                $('#xgxiangmubiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+		 $('#xgxiangmumd').on('hidden.bs.modal', function () {//解决模态框关闭页面滚动问题
+	            if ($('.modal.in').size() >= 1) {
+	                $('body').addClass('modal-open')
+	            }
+	        })
+	})
+	$("#xgquedingxm").click(function(){
+		var prjName=$("input[name='xgxiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xgxiangmuName']:checked").parent().next().text();
+		var prjtype2=$("input[name='xgxiangmuName']:checked").parent().next().next().next().next().text();
+		$("#xgprjName").val(prjName);
+		$("#xgprjNo").val(prjNo);
+		$("#xgprjType").val(prjtype2);
+		$("#xgxiangmumd").modal("hide");
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectTaskPrjNo',
+            dataType: 'json',
+            data: {
+            	prjName:$('#xgprjName').val()
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#xghetongMoney").val(json[i].contractMoney)
+            		/* $("#xgprjNo").val(json[i].prjNo)
+            		$("#xgprjType").val(json[i].prjType2) */
+            	}
+            }
+  		});
+		 
+	})
+	
+	//初始化项目名称和任务单号
+    function initSelect(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+	        dataType: 'json',
+	        data: {
+	        },
+	        error: function (msg) {
+	        	toastr.error("请求失败");
+	        },
+	        success: function (json) {
+	        	$("#prjName").html('');
+	        	$("#prjNo").html('');
+	        	$("#xgprjName").html('');
+	        	$("#xgprjNo").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		//$("#prjName").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
+	        		$("#prjNo").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+	        		//$("#xgprjName").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
+	        		$("#xgprjNo").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+	        	}
+	        	 $('#prjNo').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjName',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjNo:$('#prjNo').val()
+	                    },
+	                    success: function (json) {
+	                    	console.log(json)
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#prjName").val(json[i].prjName)
+	                    		$("#hetongMoney").val(json[i].contractMoney)
+	                    		$("#prjType").val(json[i].prjType2)
+	                    	}
+	                    }
+	          		});
+	          	})
+	          	/* $('#prjName').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjName:$('#prjName').val()
+	                    },
+	                    success: function (json) {
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#prjNo").val(json[i].prjNo)
+	                    		$("#hetongMoney").val(json[i].contractMoney)
+	                    		$("#prjType").val(json[i].prjType2)
+	                    	}
+	                    }
+	          		});
+	          	})  */
+	          	$('#xgprjNo').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjName',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjNo:$('#xgprjNo').val()
+	                    },
+	                    success: function (json) {
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#xgprjName").val(json[i].prjName)
+	                    		$("#xghetongMoney").val(json[i].contractMoney)
+	                    		$("#xgprjType").val(json[i].prjType2)
+	                    	}
+	                    }
+	          		});
+	          	})
+	          	/* $('#xgprjName').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjName:$('#xgprjName').val()
+	                    },
+	                    success: function (json) {
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#xgprjNo").val(json[i].prjNo)
+	                    		$("#xghetongMoney").val(json[i].contractMoney)
+	                    		$("#xgprjType").val(json[i].prjType2)
+	                    	}
+	                    }
+	          		});
+	          	}) */
+	          	 
+	        }
+		});
+	}
+	
+	
+	
+	
+	function addrenyuan(obj){
+			if(obj==1){
+				var name=$("#name").val();
+				var fenlei=$("#fenlei").val();
+				var gongshi=$("#gongshi").val();
+				if(name==''){
+					toastr.error("人员不能为空");
+					return;
+				}
+				if(gongshi==''){
+					toastr.error("工时不能为空");
+					return;
+				}
+				$("#all_renyuan tbody").append("<tr>"
+													+"<td style='width:25%;'>"+name+"</td>"
+													+"<td style='width:25%;'>"+fenlei+"</td>"
+													+"<td style='width:25%;'>"+gongshi+"</td>"
+													+"<td style='width:25%;'><button type='button' class='btn btn-primary' onclick='removeThis(this)'>移除</button></td>"
+											+"</tr>")
+				$("#name").val("");
+				$("#gongshi").val("");
+			}else if(obj==2){
+				var name=$("#xgname").val();
+				var fenlei=$("#xgfenlei").val();
+				var gongshi=$("#xggongshi").val();
+				if(name==''){
+					toastr.error("人员不能为空");
+					return;
+				}
+				if(gongshi==''){
+					toastr.error("工时不能为空");
+					return;
+				}
+				$("#edit_renyuan tbody").append("<tr>"
+													+"<td style='width:25%;'>"+name+"</td>"
+													+"<td style='width:25%;'>"+fenlei+"</td>"
+													+"<td style='width:25%;'>"+gongshi+"</td>"
+													+"<td style='width:25%;'><button type='button' class='btn btn-primary' onclick='removeThis(this)'>移除</button></td>"
+											+"</tr>")
+				$("#xgname").val("");
+				$("#xggongshi").val("");
+			}
+		}
+	function removeThis(obj){
+		var tr=$(obj).parent().parent();
+		$(tr).remove();
+	}
+	
+	
+	
+	//保存
+	function save(){
+		var rengs=new Array();//人员工时
+		$("#all_renyuan tbody").find("tr").each(function(){
+			var data = $(this).children();
+			var renyuan=data.eq(0).text();
+			var fenlei=data.eq(1).text();
+			var gs=data.eq(2).text();
+			
+			var arr={
+					gsId:null,
+					prjGsId:null,
+					name:undefined,
+					type:undefined,
+					workingHours:undefined
+			}
+			arr.gsId=null;
+			arr.prjGsId=null;
+			arr.name=renyuan;
+			arr.type=fenlei;
+			arr.workingHours=gs;
+			rengs.push(arr)
+			console.log(rengs)
+		})
+		if(rengs.length!=0){
+			var prjName=$("#prjName").val();
+			var prjNo=$("#prjNo").val();
+			var hetongMoney=$("#hetongMoney").val();
+			var sjyInput=$("#sjyInput").val();
+			var prjUnit=$("#prjUnit").val();
+			var year=$("#year").val();
+			var prjType=$("#prjType").val();
+			var renyuandongtai=$("#renyuandongtai").val();
+			var desc=$("#desc").val();
+			if(prjName==''){
+				toastr.error("项目名称不能为空");
+				return;
+			}
+			if(prjNo==''){
+				toastr.error("项目名称不能为空");
+				return;
+			}
+			var PrjWorkingHours={
+					pwhId:null,
+					prjName:undefined,
+					prjNo:undefined,
+					contractMoney:undefined,
+					designInput:undefined,
+					prjUnit:undefined,
+					attendanceTime:undefined,
+					prjType:undefined,
+					personDynamics:undefined,
+					attendanceDesc:undefined,
+					prjWorkingHoursP:undefined
+			}
+			PrjWorkingHours.pwhId=null;
+			PrjWorkingHours.prjName=prjName;
+			PrjWorkingHours.prjNo=prjNo;
+			PrjWorkingHours.contractMoney=hetongMoney;
+			PrjWorkingHours.designInput=sjyInput;
+			PrjWorkingHours.prjUnit=prjUnit;
+			PrjWorkingHours.attendanceTime=year;
+			PrjWorkingHours.prjType=prjType;
+			PrjWorkingHours.personDynamics=renyuandongtai;
+			PrjWorkingHours.attendanceDesc=desc;
+			PrjWorkingHours.prjWorkingHoursP=rengs;
+			var formData = new FormData();
+	  		formData.append("prjGs", JSON.stringify(PrjWorkingHours));
+	  		
+	  		$("#new_accessory tbody").find("tr").each(function(){
+	  			formData.append("file", $(this).find("input")[0].files[0]);
+	  		})
+			$.ajax({
+	  			type: 'POST',
+	            url: getContextPath()+'/PrjWorkingHours/addPrjWorkingHoursSave',
+	            data: formData,  
+	            cache: false,
+	            processData: false,
+	            contentType: false,
+	            async: false,
+	            success: function (json) {
+	            	if(json.result>0){
+	            		$("#myModal").modal("hide");
+	            		toastr.success("保存成功")
+	            		$('#mainContent').DataTable().row.add(json.PrjWorkingHours).draw(false);     //新增行立即显示
+	            	}else{
+	            		toastr.error("保存失败")
+	            	}
+	            }
+	  		}) 
+			
+		}else{
+			toastr.error("至少添加一条人员信息");
+			return;
+		}
+	}
+	
+	
+	
+	//删除
+	function deleteGS(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		$.SmartMessageBox({
+            title: "删除提示",
+            content: "确认删除？",
+            buttons: '[取消][确定]'
+        }, function (ButtonPressed) {
+        	if (ButtonPressed === "确定") {
+        		myTool.mask.show('删除中...');
+				$.ajax({
+					type:"POST",
+					url:getContextPath()+"/PrjWorkingHours/deletePrjWorkingHours",
+					dataType:"json",
+					data:{ 
+						id:data.pwhId
+						},
+					success:function(json){
+						myTool.mask.hide();
+						if(json>0){
+							toastr.success("删除成功")
+							$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
+						}else{
+							toastr.error("删除失败")
+						}
+					}
+				})
+        	    	
+        	}
+        });
+	}
+	
+	//查看详细信息
+	function lookGS(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		console.log(data)
+		$("#lookprjName").text(data.prjName);
+		$("#lookprjNo").text(data.prjNo);
+		$("#lookhetongMoney").text(data.contractMoney);
+		$("#looksjyInput").text(data.designInput);
+		$("#lookprjUnit").text(data.prjUnit);
+		$("#lookyear").text(data.attendanceTime);
+		$("#lookprjType").text(data.prjType);
+		$("#lookrenyuandongtai").text(data.personDynamics);
+		$("#lookdesc").text(data.attendanceDesc);
+		var renyuan=data.prjWorkingHoursP;
+		$("#look_renyuan tbody").empty();
+		for(var i=0;i<renyuan.length;i++){
+			$("#look_renyuan tbody").append("<tr>"
+					+"<td style='width:25%;'>"+renyuan[i].name+"</td>"
+					+"<td style='width:25%;'>"+renyuan[i].type+"</td>"
+					+"<td style='width:25%;'>"+renyuan[i].workingHours+"</td>"
+			+"</tr>")
+		}
+		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/PrjWorkingHours/selectAccessoryById",
+			dataType:"json",
+			data:{ 
+				id:data.pwhId
+				},
+			success:function(json){
+				$("#look_accessory").empty();
+	            for(var i=0;i<json.length;i++){
+	            	   $("#look_accessory").append("<tr>"+
+			     	   									"<td>考勤表附件"+(i+1)+"</td>"+
+								            	    	"<td colspan='2'><input type='text' style='width:70%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+								            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+								            	    "</tr>");
+	            }
+			}
+		})
+	}
+	
+	//下载附件
+	function download_all(obj){
+		var url=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+	
+	//修改回显
+	var xgId;
+	var tr;
+	function checkGs(obj){
+		tr = $(obj).closest('tr');
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		//console.log(data)
+		xgId=data.pwhId
+		$("#xgprjName").val(data.prjName);
+		$("#xgprjNo").val(data.prjNo);
+		$("#xghetongMoney").val(data.contractMoney);
+		$("#xgsjyInput").val(data.designInput);
+		$("#xgprjUnit").val(data.prjUnit);
+		$("#xgyear").val(data.attendanceTime);
+		$("#xgprjType").val(data.prjType);
+		$("#xgrenyuandongtai").val(data.personDynamics);
+		$("#xgdesc").val(data.attendanceDesc);
+		var renyuan=data.prjWorkingHoursP;
+		$("#edit_renyuan tbody").empty();
+		for(var i=0;i<renyuan.length;i++){
+			$("#edit_renyuan tbody").append("<tr>"
+					+"<td style='width:25%;'>"+renyuan[i].name+"</td>"
+					+"<td style='width:25%;'>"+renyuan[i].type+"</td>"
+					+"<td style='width:25%;'>"+renyuan[i].workingHours+"</td>"
+					+"<td style='width:25%;'><button type='button' class='btn btn-primary' onclick='removeThis(this)'>移除</button></td>"
+			+"</tr>")
+		}
+		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/accessory/selectAccessoryById",
+			dataType:"json",
+			data:{ 
+				id:xgId
+				},
+			success:function(json){
+				$("#edit_accessory thead").siblings().empty();
+	            for(var i=0;i<json.length;i++){
+		        	   $("#edit_accessory tbody").append("<tr>"+
+									     	   					"<td>考勤表附件"+(i+1)+"</td>"+
+														        "<td colspan='2'><input type='text'  style='width:70%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+														         "<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+														"</tr>");
+	            } 
+			}
+		})
+		
+			
+	}
+	function delete_thisFile(obj){
+		var url=$(obj).attr("data1");
+		var id=$(obj).attr("data2");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		if(!confirm("确认删除该附件吗?")){
+			   return false;
+			}
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/PrjWorkingHours/deleteAccessory',
+	        dataType: 'json',
+	        data: {
+	        	aId:id,
+            	acName:name,
+            	acUrl:url
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("删除失败");
+	        	}else{
+	        		toastr.success("删除成功");
+	        		$(obj).parent().parent().remove();
+	        		//$("#change").modal("hide")
+	        	}
+	        }
+		});
+	}
+	
+	//修改保存
+	function checkSave(){
+		var rengs=new Array();//人员工时
+		$("#edit_renyuan tbody").find("tr").each(function(){
+			var data = $(this).children();
+			var renyuan=data.eq(0).text();
+			var fenlei=data.eq(1).text();
+			var gs=data.eq(2).text();
+			
+			var arr={
+					gsId:null,
+					prjGsId:null,
+					name:undefined,
+					type:undefined,
+					workingHours:undefined
+			}
+			arr.gsId=null;
+			arr.prjGsId=null;
+			arr.name=renyuan;
+			arr.type=fenlei;
+			arr.workingHours=gs;
+			rengs.push(arr)
+		})
+		if(rengs.length!=0){
+			var prjName=$("#xgprjName").val();
+			var prjNo=$("#xgprjNo").val();
+			var hetongMoney=$("#xghetongMoney").val();
+			var sjyInput=$("#xgsjyInput").val();
+			var prjUnit=$("#xgprjUnit").val();
+			var year=$("#xgyear").val();
+			var prjType=$("#xgprjType").val();
+			var renyuandongtai=$("#xgrenyuandongtai").val();
+			var desc=$("#xgdesc").val();
+			if(prjName==''){
+				toastr.error("项目名称不能为空");
+				return;
+			}
+			if(prjNo==''){
+				toastr.error("项目名称不能为空");
+				return;
+			}
+			var PrjWorkingHours={
+					pwhId:null,
+					prjName:undefined,
+					prjNo:undefined,
+					contractMoney:undefined,
+					designInput:undefined,
+					prjUnit:undefined,
+					attendanceTime:undefined,
+					prjType:undefined,
+					personDynamics:undefined,
+					attendanceDesc:undefined,
+					prjWorkingHoursP:undefined
+			}
+			PrjWorkingHours.pwhId=xgId;
+			PrjWorkingHours.prjName=prjName;
+			PrjWorkingHours.prjNo=prjNo;
+			PrjWorkingHours.contractMoney=hetongMoney;
+			PrjWorkingHours.designInput=sjyInput;
+			PrjWorkingHours.prjUnit=prjUnit;
+			PrjWorkingHours.attendanceTime=year;
+			PrjWorkingHours.prjType=prjType;
+			PrjWorkingHours.personDynamics=renyuandongtai;
+			PrjWorkingHours.attendanceDesc=desc;
+			PrjWorkingHours.prjWorkingHoursP=rengs;
+			var formData = new FormData();
+	  		formData.append("prjGs", JSON.stringify(PrjWorkingHours));
+	  		
+	  		$("#edit_accessory tfoot").find("tr").each(function(){
+	  			formData.append("file", $(this).find("input")[0].files[0]);
+	  		})
+			$.ajax({
+	  			type: 'POST',
+	            url: getContextPath()+'/PrjWorkingHours/updatePrjWorkingHoursSave',
+	            data: formData,  
+	            cache: false,
+	            processData: false,
+	            contentType: false,
+	            async: false,
+	            success: function (json) {
+	            	if(json.result>0){
+	            		$("#change").modal("hide");
+	            		toastr.success("修改成功")
+	            		$('#mainContent').DataTable().row(tr).data(PrjWorkingHours);//修改行立即显示
+	            	}else{
+	            		toastr.error("修改失败")
+	            	}
+	            }
+	  		}) 
+			
+		}else{
+			toastr.error("至少添加一条人员信息");
+			return;
+		}
+	}
+	
+	
+	
+	function addFile(){
+		var length=$("#new_accessory tr").length;
+		$("#new_accessory tbody").append("<tr><td>新附件</td><td colspan='2'><input style='width:70%;' type='file' id='file"+length+"' name='file' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	
+	function addFile2(){
+		var length=$("#edit_accessory tr").length;
+		$("#edit_accessory tfoot").append("<tr><td>新附件</td><td colspan='2'><input style='width:70%;' type='file' id='file"+length+"' name='file' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	
+	function removeFile(obj){
+		var tr=$(obj).parents("tr");
+		$(tr).remove();
+	}
+	
+	
+	
+	
+	
+	
+	
+    function getCreat(bb){
+        var EnterpriseRating= $(bb).parent().prev().text();
+        var Remarks= $(bb).parent().prev().prev().text();
+        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
+        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
+        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
+        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
+        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
+        $("#CEnterprise-rating").val(EnterpriseRating);
+        $("#CRemarks").val(Remarks);
+        $("#CContact-phone1").val(ContactPhone1);
+        $("#CContacts").val(Contacts);
+        $("#Caddress").val(address);
+        $("#CProprietor-unit").val(ProprietorUnit);
+        $("#CCode").val(Code);
+        rowIndex = bb.parentNode.parentNode.rowIndex; 
+    }
+
+    // $("#mainContent tbody tr").click(function (){
+    //     $(this).addClass('selected')
+    //     .siblings().removeClass('selected')
+    //     .end();
+    // })
+	function gotoPrj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data);
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:data.prjName,
+				no:data.prjNo
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.prjNo+'');
+			}
+		})
+    }
+    
+
+</script>
+</html>

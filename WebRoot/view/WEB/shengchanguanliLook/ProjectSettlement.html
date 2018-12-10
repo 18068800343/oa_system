@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        
+    </style>
+</head>
+<body>
+
+
+    <div class="zhuti-content">
+        		<table class="table table-bordered">
+                            <tr>
+                                <td>项目名称</td>
+                                <td id="look_prj_name"></td>
+                                <td>任务单号</td>
+                                <td id="look_prj_no"></td>
+                            </tr>
+                            <tr>
+                                <td>项目类型</td>
+                                <td id="look_prj_type"></td>
+                                <td>合同金额(万元)</td>
+                                <td id="look_contract_money"></td>
+                            </tr>
+                            <tr>
+                                <td>项目开始时间</td>
+                                <td id="look_start_time"></td>
+                                <td>项目结束时间</td>
+                                <td id="look_end_time"></td>
+                            </tr>
+                            <tr>
+                                <td>实施部门</td>
+                                <td id="look_department"></td>
+                                <td>结算期收款金额(万元)</td>
+                                <td id="look_end_money"></td>
+                            </tr>
+                            <tr>
+                                <td>业主评价</td>
+                                <td id="look_evaluate"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-bordered table-condensed" id="look_person">
+                            <thead>
+                                <tr>
+                                    <th colspan="5">项目成员投入记录</th>
+                                </tr>
+                                <tr>
+                                	<th style="width:20%;">角色</th>
+                                    <th style="width:20%;">姓名</th>
+                                    <th style="width:20%;">角色系数</th>
+                                    <th style="width:20%;">投入天数</th>
+                                    <th style="width:20%;">绩效评价得分</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+    </div>
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+	});
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+  
+    
+    function initTable(){
+    	
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/audit/selectPrjClosingAuditById',
+            dataType: 'json',
+            data:{
+            	id:data.pcId
+            },
+            success: function (json) {
+            	$("#look_prj_name").text(json.prjName)
+            	$("#look_prj_no").text(json.prjNo)
+            	$("#look_prj_type").text(json.prjType)
+            	$("#look_contract_money").text(json.contractMoney)
+            	$("#look_start_time").text(json.prjStartTime)
+            	$("#look_end_time").text(json.prjEndTime)
+            	$("#look_department").text(json.department)
+            	$("#look_end_money").text(json.endMoney)
+            	$("#look_evaluate").text(json.evaluate)
+            	var person=json.person;
+            	$("#look_person tbody").html('');
+            	for(var i=0;i<person.length;i++){
+            		$("#look_person tbody").append("<tr>"+
+            																 "<td>"+person[i].roleName+"</td>"+
+            																 "<td>"+person[i].uName+"</td>"+
+            																 "<td>"+person[i].roleXs+"</td>"+
+            																 "<td>"+person[i].days+"</td>"+
+            																 "<td>"+person[i].score+"</td>"+
+            															  "</tr>")
+            	}
+            }
+		});
+    	
+    }
+    
+
+    
+</script>
+</html>

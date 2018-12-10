@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        
+    </style>
+</head>
+<body>
+
+
+    <div class="zhuti-content">
+        <table class="table table-bordered table-condensed">
+                    <tr>
+                        <td style="width:15%;">合同名称:</td>
+                        <td id="look_contract_name"></td>
+                        <td>合同编号:</td>
+                        <td id="look_contract_no"></td>
+                    </tr>
+                    <tr>
+                    	<!-- <td>合同类型:</td>
+                        <td id="look_contract_type"></td> -->
+                        <td>甲方单位:</td>
+                        <td id="look_organization_jia"></td>
+                        <td>乙方单位:</td>
+                        <td id="look_organization_yi"></td>
+                    </tr>
+                    <tr>
+                        <td>合同金额(万元):</td>
+                        <td id="look_contract_money"></td>
+                        <td>对接部门:</td>
+                        <td id="look_department"></td>
+                    </tr>
+                    <tr>
+                        <td>合同签订时间:</td>
+                        <td id="look_year"></td>
+                        <td>开始时间:</td>
+                        <td id="look_year2"></td>
+                    </tr>
+                    <tr>
+                        <td>结束时间:</td>
+                        <td id="look_year3"></td>
+                    </tr>
+                    <tr>
+                        <td>合同概述:</td>
+                        <td colspan="3" id="look_contract_info"></td>
+                    </tr>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="look_accessory">
+                    	<thead>
+                    		<tr>
+                    			<td style="width:30%;">合同文本附件</td>
+                    			<td colspan="3"></td>
+                    		</tr>
+                    	</thead>
+                    	<tbody></tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="look_accessory2">
+                    	<thead>
+                        	<tr>
+                                <td style="width:30%;">法律顾问签字</td>
+                                <td colspan="3"></td>
+                            </tr>
+                        </thead>
+                    	<tbody></tbody>
+                    </table>
+                    
+                    <table class="table table-bordered table-condensed" id="history_table">
+			         	<thead>
+			                    <tr>
+			                        <th>合同编号</th>
+			                        <th>合同名称</th>
+			                        <th>合同签订时间</th>
+			                        <th>操作</th>
+			                    </tr>
+			                </thead>
+			                <tbody>
+			                </tbody>   
+         			</table>
+        
+        
+        <!-- 2 -->
+        			 <table class="table table-bordered table-condensed">
+                    <tr>
+                        <td style="width:15%;">合同名称:</td>
+                        <td id="look_contract_name2"></td>
+                        <td>合同编号:</td>
+                        <td id="look_contract_no2"></td>
+                    </tr>
+                    <tr>
+                    	<!-- <td>合同类型:</td>
+                        <td id="look_contract_type2"></td> -->
+                        <td>甲方单位:</td>
+                        <td id="look_organization_jia2"></td>
+                        <td>乙方单位:</td>
+                        <td id="look_organization_yi2"></td>
+                    </tr>
+                    <tr>
+                        <td>合同金额(万元):</td>
+                        <td id="look_contract_money2"></td>
+                        <td>对接部门:</td>
+                        <td id="look_department2"></td>
+                    </tr>
+                    <tr>
+                        <td>合同签订时间:</td>
+                        <td id="look_year_2"></td>
+                        <td>开始时间:</td>
+                        <td id="look_year2_2"></td>
+                    </tr>
+                    <tr>
+                        <td>结束时间:</td>
+                        <td id="look_year3_2"></td>
+                    </tr>
+                    <tr>
+                        <td>合同概述:</td>
+                        <td colspan="3" id="look_contract_info2"></td>
+                    </tr>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="look_accessory3">
+                    	<thead>
+                    		<tr>
+                    			<td style="width:30%;">合同文本附件</td>
+                                <td colspan="3"></td>
+                    		</tr>
+                    	</thead>
+                    	<tbody></tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="look_accessory4">
+                    	<thead>
+                        	<tr>
+                                <td style="width:30%;">法律顾问签字</td>
+                                <td colspan="3"></td>
+                            </tr>
+                        </thead>
+                    	<tbody></tbody>
+                    </table>
+                    
+                    
+    </div>
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable()；
+    	
+	});
+
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+
+    
+    function initTable(){
+    	
+    	$("#look_contract_no").text(data.contractCode);
+    	$("#look_contract_name").text(data.contractName);
+    	$("#look_organization_jia").text(data.contractNameJia);
+    	$("#look_organization_yi").text(data.ccName);
+    	$("#look_contract_money").text(data.contractMoney);
+    	$("#look_department").text(data.omName);
+    	$("#look_year2").text(data.contractStartTime);
+    	$("#look_year3").text(data.contractEndTime);
+    	$("#look_contract_info").text(data.contractProbablyText);
+    	$("#look_year").text(data.abutmentSignedTime);
+    	
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/announcement/selectAccessoryById',
+	        dataType: 'json',
+	        data: {
+	           id:data.oId
+	        },
+	        success: function (json) {
+	        	$("#look_accessory tbody").html('');
+	        	$("#look_accessory2 tbody").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		if(json[i].aType=="其他合同文本"){
+		          		$("#look_accessory tbody").append("<tr>"+
+								"<td>附件"+(i+1)+"</td>"+
+			         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+			         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+			         	    "</tr>")
+	        		}
+	          		if(json[i].aType=="法律顾问签字"){
+		            	   $("#look_accessory2 tbody").append("<tr>"+
+									"<td>附件"+(i+1)+"</td>"+
+				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+				         	    "</tr>");
+	            	}
+	        	}
+	        }
+    	});
+    	
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/other/selectCjHistory',
+	        dataType: 'json',
+	        data: {
+	           no:data.contractCode
+	        },
+	        success: function (json) {
+	        	$('#history_table').dataTable().fnClearTable();
+                $('#history_table').DataTable().rows.add(json).draw(false);
+	        }
+    	});
+    }
+    
+    function downloadFile(obj){
+  		var filePath=$(obj).attr("data");
+  		var fileName=$(obj).attr("data2");
+  		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
+  	}
+    
+	function lookHistory(obj){
+		var tr=$(obj).parents("tr");
+  		var data=$("#history_table").DataTable().row(tr).data();
+    	$("#look_contract_no2").text(data.contractCode);
+    	$("#look_contract_name2").text(data.contractName);
+    	$("#look_organization_jia2").text(data.contractNameJia);
+    	$("#look_organization_yi2").text(data.ccName);
+    	$("#look_contract_money2").text(data.contractMoney);
+    	$("#look_department2").text(data.omName);
+    	$("#look_year2_2").text(data.contractStartTime);
+    	$("#look_year3_2").text(data.contractEndTime);
+    	$("#look_contract_info2").text(data.contractProbablyText);
+    	$("#look_year_2").text(data.abutmentSignedTime);
+    	
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/announcement/selectAccessoryById',
+	        dataType: 'json',
+	        data: {
+	           id:data.oId
+	        },
+	        success: function (json) {
+	        	$("#look_accessory3 tbody").html('');
+	        	$("#look_accessory4 tbody").html('');
+	        	for(var i=0;i<json.length;i++){
+	          		if(json[i].aType=="其他合同文本"){
+		          		$("#look_accessory3 tbody").append("<tr>"+
+								"<td>附件"+(i+1)+"</td>"+
+			         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+			         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+			         	    "</tr>")
+	        		}
+	          		if(json[i].aType=="法律顾问签字"){
+		            	   $("#look_accessory4 tbody").append("<tr>"+
+									"<td>附件"+(i+1)+"</td>"+
+				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+				         	    "</tr>");
+	            	}
+	        	}
+	        }
+    	});
+    	
+    	$("#allMsg2").modal("show");
+	}
+    
+</script>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        
+    </style>
+</head>
+<body>
+
+
+    <div class="zhuti-content">
+        			<table class="table table-bordered table-condensed" >
+                            <tr>
+                                <td style="width:18%;">采购合同编号 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:34%;" id="look_cg_no">
+                                 </td>
+                                 <td style="width:18%;">采购合同名称 </td>
+                                 <td style="width:30%;" id="look_cg_name">
+                                 </td>
+                            </tr>
+                            <tr>
+                                <td>任务单号</td>
+                                <td id="look_prj_no">
+                                </td>
+                                <td>项目名称</td>
+                                <td id="look_prj_name">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>申请人</td>
+                                <td id="look_person">
+                                </td>
+                                <td>申请时间</td>
+                                <td id="look_year"></td>
+                            </tr>
+                            <tr>
+                                <td>处理原因</td>
+                                <td id="look_reason">
+                                </td>
+                                <td>处理方式</td>
+                                <td id="look_dispose_type">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>废旧品处理费用</td>
+                                <td id="look_dispose_money"></td>
+                                <td>备注</td>
+                                <td id="look_dispose_desc"></td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered table-condensed"  id="look_waste_table">
+                        	<thead>
+                        		<tr>
+                        			<th style="width:12%;">材料名称</th>
+                        			<th style="width:12%;">材料类型</th>
+                        			<th style="width:12%;">规格型号</th>
+                        			<th style="width:8%;">单位</th>
+                        			<th style="width:8%;">处理数量</th>
+                        			<th style="width:9%;">采购单价</th>
+                        			<th style="width:10%;">采购金额</th>
+                        			<th style="width:15%;">拟折价出售金额</th>
+                        			<th style="width:15%;">实际折价出售金额</th>
+                        		</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        </table>
+    </div>
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+    	
+	});
+
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+    
+
+	
+	function initTable(){
+		
+		$("#look_cg_no").text(data.cgNo);
+		$("#look_cg_name").text(data.cgName);
+		$("#look_prj_no").text(data.taskNo);
+		$("#look_prj_name").text(data.pickProject);
+		$("#look_person").text(data.wastePerson);
+		$("#look_year").text(data.wasteTime);
+		$("#look_reason").text(data.wasteReason);
+		$("#look_dispose_type").text(data.wasteType);
+		$("#look_dispose_money").text(data.wasteMoney);
+		$("#look_dispose_desc").text(data.wasteDesc);
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/wd/selectWdById',
+            dataType: 'json',
+            data:{
+            	id:data.wpId
+            },
+            success: function (json) {
+            	$("#look_waste_table tbody").html('');
+            	for(var i=0;i<json.length;i++){
+            		if(json[i].cmoNumber>0){
+		            	$("#look_waste_table tbody").append("<tr>"+
+		            														"<td>"+json[i].materialName+"</td>"+
+		            														"<td>"+json[i].materialType+"</td>"+
+		            														"<td>"+json[i].specificationModel+"</td>"+
+		            														"<td>"+json[i].cmoUnit+"</td>"+
+		            														"<td>"+json[i].cmoNumber+"</td>"+
+		            														"<td>"+json[i].cmoUnitPrice+"</td>"+
+		            														"<td>"+json[i].cmoMoney+"</td>"+
+		            														"<td>"+json[i].wasteWantMoney+"</td>"+
+		            														"<td>"+json[i].wasteActualMoney+"</td>"+
+		            													"</tr>");
+            		}
+            	}
+            }
+        });
+		
+	}
+	
+
+</script>
+</html>

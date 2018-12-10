@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        
+    </style>
+</head>
+<body>
+    
+
+    <div class="zhuti-content">
+        		<table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:20%;">申请部门</td>
+                                <td style="width:30%;" id="look_department"></td>
+                                <td style="width:20%;">申请人</td>
+                                <td style="width:30%;" id="look_person"></td>
+                            </tr>
+                            <tr>
+                                <td>申请项目</td>
+                                <td id="look_prj_name"></td>
+                                <td>任务单号</td>
+                                <td id="look_prj_no"></td>
+                            </tr>
+                            <tr>
+                                <td>承接合同名称</td>
+                                <td id="look_cj_name"></td>
+                                <td>承接合同编号</td>
+                                <td id="look_cj_no"></td>
+                            </tr>
+                            <tr>
+                            	 <td>申请单编号</td>
+                            	 <td id="look_code"></td>
+                            	 <td></td>
+                            	 <td></td>
+                            </tr>
+                            <tr>
+                                <td>申请原因</td>
+                                <td colspan="3" id="look_reasons"></td>
+                            </tr>
+                        </table> 
+                        
+                        <table class="table table-bordered table-condensed"  id="look_cl_table">
+	                    	<thead>
+	                    		<tr>
+	                    			<td>总价格：</td><td id="sum_price" style="color:red;"></td>
+	                    			<td colspan="7"></td>
+	                    		</tr>
+	                        	<tr>
+		                            <td>材料名称</td>
+		                            <td>材料类型</td>
+		                            <td>规格型号</td>
+		                            <td style="width:8%;">单位</td>
+		                            <td style="width:8%;">数量</td>
+		                            <td>单价</td>
+		                            <td>项目部推荐供应商</td>
+		                            <td>公司确定供应商</td>
+		                            <td>备注</td>
+	                        	</tr>
+	                        </thead>
+	                        <tbody>
+	                        	
+	                        </tbody>
+	                    </table>
+        
+    </div>
+
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+	});
+   
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+
+
+    
+    function look(obj){
+    	
+    	
+    	$("#look_department").text(data.omName);
+    	$("#look_person").text(data.uName);
+    	$("#look_prj_name").text(data.applyPrj);
+    	$("#look_prj_no").text(data.applyCode);
+    	$("#look_cj_name").text(data.cjContractName);
+    	$("#look_cj_no").text(data.cjContractCode);
+    	$("#look_reasons").text(data.applyReason);
+    	$("#look_code").text(data.taskCode);
+    	$("#sum_price").text(data.sumPrice);
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/md/selectMaterialDemandById',
+            dataType: 'json',
+            data: {
+            	id:data.pmbId
+            },
+            success: function (json) {
+            	$("#look_cl_table tbody").html('');
+            	if(json!=null){
+            		for(var i=0;i<json.length;i++){
+            			var length=$("#look_cl_table tbody").find("tr").length;
+            	    	$("#look_cl_table tbody").append("<tr>"+
+            	        												'<td>'+json[i].materialName+'</td>'+
+            	        												'<td>'+json[i].materialType+'</td>'+
+            	        												'<td>'+json[i].modeType+'</td>'+
+            	        												'<td>'+json[i].buyCompany+'</td>'+
+            													        '<td>'+json[i].num+'</td>'+
+            													        '<td>'+json[i].price+'</td>'+
+            													        '<td>'+json[i].name+'</td>'+
+            													        '<td>'+json[i].name2+'</td>'+
+            													        '<td>'+json[i].infos+'</td>'+
+            	    												"</tr>")
+            		}
+            	}
+            }
+    	}) 
+    	
+    }
+    
+
+    
+</script>
+</html>
+ 
+
+

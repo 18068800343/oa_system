@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        
+    </style>
+</head>
+<body>
+ 
+
+    <div class="zhuti-content">
+        <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>采购合同号</th>
+                        <th>采购合同名</th>
+                        <th>任务单号</th>
+                        <th>领料项目</th>
+                        <th>领料人确认</th>
+                        <th>领料日期</th>
+                        <th>备注</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td id="lookcgNo"></td>
+                    <td id="lookcgName"></td>
+                    <td id="looktaskNo"></td>
+                    <td id="lookprjName"></td>
+                    <td id="looklingliaoren"></td>
+                    <td id="lookyear"></td>
+                    <td id="lookbeizhu"></td>
+                </tr>
+            </table>
+            
+            <!--材料信息表格  -->
+             <div id="lookcailiaobiaoDiv">
+             
+             </div>
+        
+    </div>
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+	});
+    
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+
+	
+	function initTable(){
+		
+		
+		$("#lookcgNo").text(data.cgNo);
+		$("#lookcgName").text(data.cgName);
+		$("#looktaskNo").text(data.taskNo);
+		$("#lookprjName").text(data.pickProject);
+		$("#lookyear").text(data.pickDate);
+		$("#looklingliaoren").text(data.pickPerson);
+		$("#lookbeizhu").text(data.cmoDesc);
+		
+		if(data.pickProject!=null){
+			$("#lookcailiaobiaoDiv table").remove();
+				//console.log(list[i])
+        		$("#lookcailiaobiaoDiv").append(
+        				"<table  class='table table-bordered table-condensed' id='lookcailiaobiao'>"+
+                    	"<thead>"+
+                    		"<tr>"+
+                            	"<td>采购部门</td>"+
+                                "<td dataId='' id='lookcgbumen'></td>"+
+                                "<td  colspan='2'>部门采购金额</td>"+
+                                "<td id='lookbumencgMoney' colspan='2'></td>"+
+                            	"<th colspan='4' style='text-align:right;'></th>"+
+                        	"</tr>"+
+                        	"<tr>"+
+                            	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
+	                            "<th>材料型号</th>"+
+	                            "<th style='width:6%;'>单位</th>"+
+	                            "<th style='width:8%;'>单价</th>"+
+	                            "<th style='width:8%;'>领料数量</th>"+
+	                            "<th>剩余数量</th>"+
+	                            "<th>出库金额</th>"+
+                        	"</tr>"+
+                    	"</thead>"+
+                    	"<tbody>"+
+                    	"</tbody>"+
+                    "</table>"
+                    )
+		  		$.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByname',
+		            dataType: 'json',
+		            data: {
+		            	name:data.pickProject
+		            },
+		            success: function (json) {
+		            	console.log(json)
+		            	for(var i=0;i<json.length;i++){
+		            		var omName=json[i].omName
+		            		var sumPrice=json[i].sumPrice;
+		            		var taskCode=json[i].taskCode;
+		            		if($.inArray(taskCode, arrayClId)==-1){
+		            			arrayClId.push(taskCode)
+		            		} 
+		            		$("#lookcgbumen").text(json[i].omName)
+		            		$("#lookcgbumen").attr("dataId",taskCode)
+		            		$("#lookbumencgMoney").text(json[i].sumPrice)
+		            		
+		            		$.ajax({
+		                        type: 'POST',
+		                        url: getContextPath()+'/GsClOut/selectClByNo',
+		                        dataType: 'json',
+		                        async:false,
+		                        data: {
+		                        	no:data.cmoId
+		                        },
+		                        success: function (json) {
+		                        	console.log(json)
+		                        	for(var k=0;k<json.length;k++){
+		                        		$("#lookcailiaobiao tbody").append("<tr dataId="+json[k].mdlId+"><td>"
+		                		  				+""+json[k].materialName+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].materialType+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].specificationModel+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].cmoUnit+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].cmoUnitPrice+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].cmoNumber+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].remainNumber+""
+		                		  				+"</td><td>"
+		                		  				+""+json[k].cmoMoney+""
+		                		  				+"</td></tr>")
+		                        	} 
+		                        }
+		              		});
+		            		
+		            	}
+		            }
+		  		});
+		  		
+	  		}
+	}
+	
+	
+  //初始化材料列表
+	var arrayClId=new Array();
+	function initMaterial(obj){
+		if(obj!=null){
+			$("#cailiaobiaoDiv table").remove();
+        		$("#cailiaobiaoDiv").append(
+        				"<table  class='table table-bordered table-condensed' id='cailiaobiao'>"+
+                    	"<thead>"+
+                    		"<tr>"+
+                    			"<td></td>"+
+                            	"<td>采购部门</td>"+
+                                "<td dataId='' id='cgbumen'></td>"+
+                                "<td  colspan='2'>部门采购金额</td>"+
+                                "<td id='bumencgMoney' colspan='2'></td>"+
+                            	"<th colspan='4' style='text-align:right;'></th>"+
+                        	"</tr>"+
+                        	"<tr>"+
+                        		"<th><input type='checkbox' id='allchk' name='checkbox' onclick='allCheck(this)'></th>"+
+                            	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
+	                            "<th>材料型号</th>"+
+	                            "<th style='width:6%;'>单位</th>"+
+	                            "<th>数量</th>"+
+	                            "<th style='width:8%;'>单价</th>"+
+	                            "<th style='width:8%;'>领料数量</th>"+
+                        	"</tr>"+
+                    	"</thead>"+
+                    	"<tbody>"+
+                    	"</tbody>"+
+                    "</table>"
+                    )
+		  		$.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByname',
+		            dataType: 'json',
+		            data: {
+		            	name:obj
+		            },
+		            success: function (json) {
+		            	for(var i=0;i<json.length;i++){
+		            		var omName=json[i].omName
+		            		var sumPrice=json[i].sumPrice;
+		            		var taskCode=json[i].taskCode;
+		            		if($.inArray(taskCode, arrayClId)==-1){
+		            			arrayClId.push(taskCode)
+		            		} 
+		            		$("#cgbumen").text(json[i].omName)
+		            		$("#cgbumen").attr("dataId",taskCode)
+		            		$("#bumencgMoney").text(json[i].sumPrice)
+		            		
+		            		$.ajax({
+		                        type: 'POST',
+		                        url: getContextPath()+'/md/selectMaterialDemandById',
+		                        dataType: 'json',
+		                        async:false,
+		                        data: {
+		                        	id:json[i].pmbId
+		                        },
+		                        success: function (json) {
+		                        	console.log(json)
+		                        	if(json.length!=0){
+			                        	for(var k=0;k<json.length;k++){
+			                        		var num=json[k].remainNumber==null?json[k].num:json[k].remainNumber
+			                        		$("#cailiaobiao tbody").append("<tr><td>"
+			                        				+"<input type='checkbox' name='checkboxs' onclick='selOne()'></td><td>"
+			                		  				+""+json[k].materialName+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].materialType+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].modeType+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].buyCompany+""
+			                		  				+"</td><td>"
+			                		  				+""+num+""
+			                		  				+"</td><td>"
+			                		  				+""+json[k].price+""
+			                		  				+"</td><td>"
+			                		  				+'<input type="text" dataId='+json[k].mdlId+' class="form-control" id="num"  style="width:100%;">'
+			                		  				+"</td></tr>")
+			                        	} 
+		                        	}else{
+		                        		$("#cailiaobiao tbody").append("<tr><td colspan='7' style='text-align:center;color:red;font-size:24px'>材料为空</td></tr>")
+		                        	}
+		                        }
+		              		});
+		            		
+		            	}
+		            }
+		  		});
+		  		
+	  		}else{
+	  			toastr.error("采购合同号为空");
+	  		}
+	}
+	
+	//全选
+	function allCheck(checkbox){
+		if(checkbox.checked==true){
+			$("input[name='checkboxs']").prop("checked","true"); 
+		}else{
+			$("input[name='checkboxs']").removeAttr("checked");
+		}
+	}
+	function selOne(){
+		var f=true;
+		var checkboxs=document.getElementsByName('checkboxs');
+		var sel=document.getElementById('allchk');
+		for(var i=0;i<checkboxs.length;i++){
+			if(checkboxs[i].checked!=f){
+			  sel.checked=false;
+			  break;
+			}
+		sel.checked=f;
+		}
+	}
+
+	
+	
+
+
+
+
+</script>
+</html>
