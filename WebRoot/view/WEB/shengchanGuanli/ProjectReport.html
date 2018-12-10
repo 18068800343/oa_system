@@ -442,13 +442,21 @@
 		},
 		"columns": [
             { "data": "prjCode"}, 
-            { "data": "prjName"}, 
+            { "data": null}, 
             { "data": "prjLongTime"}, 
             { "data": "fillTime"}, 
             { "data": "temperature"},
             { "data": "weather"}, 
         ],
         "columnDefs": [
+						{	
+							 "class": "tcenter",
+							  "targets": 1,
+							  "searchable": true,
+							  "render": function(data, type, full) {
+									return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjName+'</a>'
+							 }
+						},
 						{	
 								 "class": "tcenter",
 								    "targets": 6,
@@ -981,7 +989,25 @@
     //     .siblings().removeClass('selected')
     //     .end();
     // })
-
+	function gotoPrj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data);
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:data.prjName,
+				no:data.prjCode
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.prjCode+'');
+			}
+		})
+    }
     
 
 </script>
