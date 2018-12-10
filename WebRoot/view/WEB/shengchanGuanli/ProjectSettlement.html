@@ -548,8 +548,8 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-		            { "data": "prjName"}, 
-		            { "data": "prjNo"}, 
+					{ "data": "prjNo"}, 
+		            { "data": null}, 
 		            { "data": "prjType"}, 
 		            { "data": "department"}, 
 		            { "data": "contractMoney"}, 
@@ -558,6 +558,14 @@
 		            { "data": null}
 		        ],
 		        "columnDefs": [
+								{	
+									 "class": "tcenter",
+									  "targets": 1,
+									  "searchable": true,
+									  "render": function(data, type, full) {
+											return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjName+'</a>'
+									 }
+								},
 								{	
 										 "class": "tcenter",
 										    "targets": 7,
@@ -957,5 +965,26 @@
 		});
     	$("#allMsg1").modal("show");
     }
+    
+    function gotoPrj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data);
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:data.prjName,
+				no:data.prjNo
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.prjNo+'');
+			}
+		})
+    }
+    
 </script>
 </html>
