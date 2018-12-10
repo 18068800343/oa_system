@@ -29,5 +29,5 @@ public interface BudgetFpplicationFormDao {
 	
 	float getBudgeCost(@Param("department")String department,@Param("year")String year);
 	
-	float getAllCost(@Param("no")String no);
+	BudgetFpplicationForm getAllCost(@Param("no")String no);
 }

@@ -24,6 +24,8 @@ public interface SubContractDao {
 	void updateHistory(@Param("fbId")String fbId);
 
 	List<FbContract> getFBNameAndNo();
+	
+	List<FbContract> getFBNameAndNo2();
 
 	FbContract getFBNameByNo(@Param("fbNo")String fbNo);
 

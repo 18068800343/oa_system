@@ -22,5 +22,7 @@ public interface ContractPaymentService {
 	List<Accessory> selectAccessoryById(String id);
 
 	List<Pay> selectHistoryBypayCode(String payCode);
+	
+	Pay getFbPayPlanAndMoney(String no);
 
 }

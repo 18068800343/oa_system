@@ -39,4 +39,6 @@ public interface PrjProgressFillService {
 	public int countOfDepartmentCost(String department,String id);
 
 	public List<PrjProgressFill> selectPrjProgressFillByYear(String status, String y);
+	
+	public PrjProgressFill selectAllCostAndJd(String taskNo);
 }

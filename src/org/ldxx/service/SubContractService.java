@@ -28,6 +28,8 @@ public interface SubContractService {
 	void updateHistory(String fbId);
 
 	List<FbContract> getFBNameAndNo();
+	
+	List<FbContract> getFBNameAndNo2();
 
 	FbContract getFBNameByNo(String fbNo);
 

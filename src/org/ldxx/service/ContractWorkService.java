@@ -11,4 +11,6 @@ public interface ContractWorkService {
 	public List<ContractWork> selectContractWork(String type);
 	
 	public ContractWork selectContractWorkByNo(String no);
+	
+	public ContractWork getContractMoney(String no);
 }

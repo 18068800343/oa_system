@@ -147,4 +147,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.selectPrjProgressFillByYear(status,y);
 	}
 
+	@Override
+	public PrjProgressFill selectAllCostAndJd(String taskNo) {
+		return dao.selectAllCostAndJd(taskNo);
+	}
+
 }

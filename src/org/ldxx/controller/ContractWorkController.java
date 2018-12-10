@@ -380,4 +380,12 @@ public class ContractWorkController {
 		ContractWork cw=service.selectContractWorkByNo(no);
 		return cw;
 	}
+	
+	@RequestMapping("/getContractMoney")
+	@ResponseBody
+	public ContractWork getContractMoney(String no){
+		ContractWork cw=service.getContractMoney(no);
+		return cw;
+	}
+	
 }

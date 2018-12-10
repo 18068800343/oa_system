@@ -1,7 +1,5 @@
 package org.ldxx.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,8 +130,8 @@ public class BudgetFpplicationFormController {
 	
 	@RequestMapping("/getAllCost")
 	@ResponseBody
-	public float getAllCost(String no){
-		float cost=bservice.getAllCost(no);
+	public BudgetFpplicationForm getAllCost(String no){
+		BudgetFpplicationForm cost=bservice.getAllCost(no);
 		return cost;
 	}
 }

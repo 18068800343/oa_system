@@ -132,7 +132,7 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	}
 
 	@Override
-	public float getAllCost(String no) {
+	public BudgetFpplicationForm getAllCost(String no) {
 		return bdao.getAllCost(no);
 	}
 }

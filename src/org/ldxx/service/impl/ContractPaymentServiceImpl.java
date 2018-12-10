@@ -78,4 +78,9 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 		return list;
 	}
 
+	@Override
+	public Pay getFbPayPlanAndMoney(String no) {
+		return payDao.getFbPayPlanAndMoney(no);
+	}
+
 }

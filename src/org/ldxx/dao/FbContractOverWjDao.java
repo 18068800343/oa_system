@@ -10,4 +10,6 @@ public interface FbContractOverWjDao {
 	public int addFbContractOverWj(@Param("fb")FbContractOverWj fbContractOverWj);
 	
 	public List<FbContractOverWj> selectFbContractOverWj();
+	
+	public FbContractOverWj getFbOverMoney(@Param("no")String no);
 }

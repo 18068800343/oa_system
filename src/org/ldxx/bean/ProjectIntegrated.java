@@ -23,12 +23,21 @@ public class ProjectIntegrated {
 	private float contractEndMoney;//合同结算金额
 	private float totalKpMoney;//累积开票金额
 	private float totalMoney;//累计收款
-	private String prjCost;//项目成本
+	private float prjCost;//项目成本
 	private String prjPlan;//项目进度
+	private String fbName;//分包项目名称
 	private float fbContractMoney;//分包合同金额
 	private float fbEndMoney;//分包结算金额
 	private String fbPlan;//分包进度
 	private float practicalFbPayMoney;//实际分包付款金额
+	
+	
+	public String getFbName() {
+		return fbName;
+	}
+	public void setFbName(String fbName) {
+		this.fbName = fbName;
+	}
 	public String getPrjNo() {
 		return prjNo;
 	}
@@ -113,10 +122,10 @@ public class ProjectIntegrated {
 	public void setTotalMoney(float totalMoney) {
 		this.totalMoney = totalMoney;
 	}
-	public String getPrjCost() {
+	public float getPrjCost() {
 		return prjCost;
 	}
-	public void setPrjCost(String prjCost) {
+	public void setPrjCost(float prjCost) {
 		this.prjCost = prjCost;
 	}
 	public String getPrjPlan() {

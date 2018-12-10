@@ -56,4 +56,10 @@
   		update pay set generation_advances_money=generation_advances_money+#{programMoney}
   		where pay_id=#{id}
   	</update>
+  	
+  	<select id="getFbPayPlanAndMoney" resultType="pay">
+  		SELECT MAX(a.fb_contract_schedule) as fb_contract_schedule,sum(a.this_time_actual_pay_money)as this_time_actual_pay_money 
+  		FROM pay as a LEFT JOIN mode_status as b on a.pay_id=b.mode_id 
+		where a.contract_no=#{no} and b.status=2 and a.history=1
+  	</select>
 </mapper>

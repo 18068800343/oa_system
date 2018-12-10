@@ -286,4 +286,11 @@ public class PrjProgressFillController {
 		return i;
 	}
 	
+	@RequestMapping("/selectAllCostAndJd")
+	@ResponseBody
+	public PrjProgressFill selectAllCostAndJd(String taskNo){
+		PrjProgressFill pf=service.selectAllCostAndJd(taskNo);
+		return pf;
+	}
+	
 }
