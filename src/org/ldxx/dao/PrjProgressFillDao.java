@@ -44,4 +44,7 @@ public interface PrjProgressFillDao {
 	public List<PrjProgressFill> selectPrjProgressFillByYear(@Param("status")String status,@Param("y") String y);
 	
 	public PrjProgressFill selectAllCostAndJd(@Param("no")String taskNo);
+	
+	public List<PrjProgressFill> selectDepartmentIncome(@Param("department")String department,@Param("start")String start,@Param("end")String end);
+	
 }

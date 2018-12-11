@@ -39,4 +39,9 @@ public class DepartmentTargetServiceImpl implements DepartmentTargetService{
 		return dao.selectDepartmentTargetByOmId(id);
 	}
 
+	@Override
+	public DepartmentTarget selectDepartmentTargetByOmIdAndYear(String id, String year) {
+		return dao.selectDepartmentTargetByOmIdAndYear(id, year);
+	}
+
 }

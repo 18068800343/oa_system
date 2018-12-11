@@ -16,4 +16,6 @@ public interface DepartmentTargetDao {
 	public int orNotSplit(@Param("id")String otId);
 	
 	public List<DepartmentTarget> selectDepartmentTargetByOmId(@Param("id")String id);
+	
+	public DepartmentTarget selectDepartmentTargetByOmIdAndYear(@Param("id")String id,@Param("year")String year);
 }

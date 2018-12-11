@@ -45,4 +45,6 @@ public interface CjContractDao {
 	public List<CjSplitMoney> selectCjSplitMoneyById(@Param("id")String id);
 
 	public CjContract selectCjByCjNo(@Param("no")String no);
+	
+	public List<CjContract> selectNoAndMoneyByDepartment(@Param("department")String department);
 }

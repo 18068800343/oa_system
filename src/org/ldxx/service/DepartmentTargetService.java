@@ -15,4 +15,6 @@ public interface DepartmentTargetService {
 	public int orNotSplit(String otId);
 	
 	public List<DepartmentTarget> selectDepartmentTargetByOmId(String id);
+	
+	public DepartmentTarget selectDepartmentTargetByOmIdAndYear(String id,String year);
 }

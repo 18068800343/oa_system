@@ -152,4 +152,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.selectAllCostAndJd(taskNo);
 	}
 
+	@Override
+	public List<PrjProgressFill> selectDepartmentIncome(String department, String start, String end) {
+		return dao.selectDepartmentIncome(department, start, end);
+	}
+
 }
