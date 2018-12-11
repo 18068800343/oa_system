@@ -61,7 +61,16 @@ public class ContractWork {
 	private String prjGrade;//公路等级
 	
 
+	private String cj_contract_end_time;
 	
+	public String getCj_contract_end_time() {
+		return cj_contract_end_time;
+	}
+
+	public void setCj_contract_end_time(String cj_contract_end_time) {
+		this.cj_contract_end_time = cj_contract_end_time;
+	}
+
 	public List<Accessory> getAccessory1() {
 		return accessory1;
 	}
