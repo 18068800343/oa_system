@@ -136,8 +136,9 @@
                 </div> -->
             </div>
             <ul class="nav navbar-nav navbar-right" >
-              <li><a href="#"><span class="lodingmsg">登录人</span></a></li>
-              <li><a href="./login.html"><span class="lodingmsg">退出</span></a></li>
+            	<li><a href="#"><span id="omName" class="lodingmsg"></span></a></li>
+              <li><a href="#"><span id="uName" class="lodingmsg"></span></a></li>
+              <li><a href="#"><span onclick="exit()" class="lodingmsg">退出</span></a></li>
             </ul>
         </header>
         <!-- banner -->
@@ -434,6 +435,25 @@
 	<script src="../js/main.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajax({
+    		type:"post",
+    		url:getContextPath()+"/login/getUser",
+    		dataType:"json",
+    		data:{
+    		},
+    		success:function(json){
+    			console.log(json)
+    			if(json!=null){
+    				$("#omName").text(json.omName)
+    				$("#uName").text(json.username)
+    			}else{
+    				$("#uName").text("登录")
+    			}
+    		}
+    	})
+	})
+	
 		$(function(){
 			var nowHeight=$(window).height();
 			$('.mian_iframe').height(nowHeight-65);
@@ -501,6 +521,22 @@
         function cjhtglClick(){
         	$("#cjhtgl").trigger("click");
         }
+        
+        //退出
+        function exit(){
+        	$.ajax({
+        		type:"post",
+        		url:getContextPath()+"/login/exit",
+        		async:false,
+        		data:{
+        		},
+        		success:function(json){
+        			console.log(json)
+        			location.href = "./login.html";
+        		}
+        	})
+        }
+        
 	</script>
 </body>
 </html>

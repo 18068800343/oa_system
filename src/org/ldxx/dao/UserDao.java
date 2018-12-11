@@ -31,4 +31,8 @@ public interface UserDao {
 
 	List<User> selectUserByomId(@Param("omId")String omId);
 
+	String countUsername(@Param("username")String username);
+
+	User selectUserByusername(@Param("username")String username);
+
 }

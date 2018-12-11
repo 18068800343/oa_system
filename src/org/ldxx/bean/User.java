@@ -55,9 +55,28 @@ public class User {
     
     private String certificateGrade;
 
+    private String omName;//部门
+    private String dutyName2;//职称
     
     
-    public String getCertificateGrade() {
+    
+    public String getOmName() {
+		return omName;
+	}
+
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+
+	public String getDutyName2() {
+		return dutyName2;
+	}
+
+	public void setDutyName2(String dutyName2) {
+		this.dutyName2 = dutyName2;
+	}
+
+	public String getCertificateGrade() {
 		return certificateGrade;
 	}
 

@@ -30,4 +30,8 @@ public interface UserService {
 
 	List<User> selectUserByomId(String omId);
 
+	String countUsername(String username);
+
+	User selectUserByusername(String username);
+
 }

@@ -77,4 +77,14 @@ public class UserServiceImpl implements UserService {
 		return userDao.selectUserByomId(omId);
 	}
 
+	@Override
+	public String countUsername(String username) {
+		return userDao.countUsername(username);
+	}
+
+	@Override
+	public User selectUserByusername(String username) {
+		return userDao.selectUserByusername(username);
+	}
+
 }
