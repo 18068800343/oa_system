@@ -17,4 +17,6 @@ public interface FinancialReceiptsService {
 	public int updateStatus(String status,String id);
 
 	public List<FinancialReceipts> selectFinancialReceiptsByYear( String y);
+	
+	public FinancialReceipts selectResultMoney(String no);
 }

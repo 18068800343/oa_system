@@ -15,10 +15,12 @@ import java.util.Map;
 
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.DepartmentTarget;
+import org.ldxx.bean.FinancialReceipts;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.DepartmentTargetService;
+import org.ldxx.service.FinancialReceiptsService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.PrjProgressFillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,8 @@ public class CompanyManageController {
 	private DepartmentTargetService dService;
 	@Autowired
 	private CjContractService cService;
+	@Autowired
+	private FinancialReceiptsService fService;
 	
 	@RequestMapping("/selectCompanyManage")
 	@ResponseBody
@@ -84,8 +88,11 @@ public class CompanyManageController {
 				 float cMoney=cj.get(ii).getContractMoney();
 				 allContractMoney=allContractMoney+cMoney;
 				 String contractNo=cj.get(ii).getContractNo();
-				 
+				 FinancialReceipts fr=fService.selectResultMoney(contractNo);
+				 float resultMoney=fr.getResultMoney();
+				 moneyReceipt=moneyReceipt+resultMoney;
 			 }
+			 accruedAssets=allContractMoney-moneyReceipt;
 		 }
 		
 		

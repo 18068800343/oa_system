@@ -44,4 +44,9 @@ public class FinancialReceiptsServiceImpl implements FinancialReceiptsService{
 		return dao.selectFinancialReceiptsByYear(y);
 	}
 
+	@Override
+	public FinancialReceipts selectResultMoney(String no) {
+		return dao.selectResultMoney(no);
+	}
+
 }
