@@ -47,4 +47,5 @@ public interface PrjProgressFillDao {
 	
 	public List<PrjProgressFill> selectDepartmentIncome(@Param("department")String department,@Param("start")String start,@Param("end")String end);
 	
+	public PrjProgressFillInfo selectYearCostByDepartment(@Param("department")String department,@Param("year")String year);
 }

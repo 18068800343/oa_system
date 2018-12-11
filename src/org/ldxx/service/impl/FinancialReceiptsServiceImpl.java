@@ -45,8 +45,13 @@ public class FinancialReceiptsServiceImpl implements FinancialReceiptsService{
 	}
 
 	@Override
-	public FinancialReceipts selectResultMoney(String no) {
-		return dao.selectResultMoney(no);
+	public FinancialReceipts selectResultMoney(String no,String year) {
+		return dao.selectResultMoney(no,year);
+	}
+
+	@Override
+	public FinancialReceipts selectResultMoneyAll(String no) {
+		return dao.selectResultMoneyAll(no);
 	}
 
 }

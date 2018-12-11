@@ -19,6 +19,8 @@ public interface FinancialReceiptsDao {
 
 	public List<FinancialReceipts> selectFinancialReceiptsByYear(@Param("y") String y);
 	
-	public FinancialReceipts selectResultMoney(@Param("no")String no);
+	public FinancialReceipts selectResultMoney(@Param("no")String no,@Param("year")String year);
+	
+	public FinancialReceipts selectResultMoneyAll(@Param("no")String no);
 	
 }

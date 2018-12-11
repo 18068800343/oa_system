@@ -18,5 +18,7 @@ public interface FinancialReceiptsService {
 
 	public List<FinancialReceipts> selectFinancialReceiptsByYear( String y);
 	
-	public FinancialReceipts selectResultMoney(String no);
+	public FinancialReceipts selectResultMoney(String no,String year);
+	
+	public FinancialReceipts selectResultMoneyAll(String no);
 }

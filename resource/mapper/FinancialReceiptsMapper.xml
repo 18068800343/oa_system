@@ -5,11 +5,11 @@
   		insert into financial_receipts(fr_id,prj_name,prj_no,year,yezhu,start_time,end_time,
   														prj_leader,ht_contract,contract_no,contract_money,contract_money_end,
   														total_money,kp_money,fp_no,collection_terms,prj_plan,
-  														result_money,department_info,finance_info,status)
+  														result_money,receipt_time,department_info,finance_info,status)
   		values(#{fr.frId},#{fr.prjName},#{fr.prjNo},#{fr.year},#{fr.yezhu},#{fr.startTime},#{fr.endTime},
   				   #{fr.prjLeader},#{fr.htContract},#{fr.contractNo},#{fr.contractMoney},#{fr.contractMoneyEnd},
   				   #{fr.totalMoney},#{fr.kpMoney},#{fr.fpNo},#{fr.collectionTerms},#{fr.prjPlan},
-  				   #{fr.resultMoney},#{fr.departmentInfo},#{fr.financeInfo},#{fr.status})
+  				   #{fr.resultMoney},#{fr.receiptTime},#{fr.departmentInfo},#{fr.financeInfo},#{fr.status})
   	</insert>
   	
   	<select id="selectFinancialReceipts" resultType="FinancialReceipts">
@@ -36,7 +36,11 @@
   		select * from financial_receipts where year like #{y}
   	</select>
   	
-  	<select id="FinancialReceiptsService" resultType="FinancialReceipts">
-  		select MAX(result_money)as result_money from financial_receipts where contract_no=#{no}
+  	<select id="selectResultMoney" resultType="FinancialReceipts">
+  		select SUM(result_money)as result_money from financial_receipts where contract_no=#{no} and receipt_time like #{year}
+  	</select>
+  	
+  	<select id="selectResultMoneyAll" resultType="FinancialReceipts">
+  		select SUM(result_money)as result_money from financial_receipts where contract_no=#{no}
   	</select>
 </mapper>

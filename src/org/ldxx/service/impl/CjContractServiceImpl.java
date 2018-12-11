@@ -146,8 +146,8 @@ public class CjContractServiceImpl implements CjContractService{
 	}
 
 	@Override
-	public List<CjContract> selectNoAndMoneyByDepartment(String department) {
-		return dao.selectNoAndMoneyByDepartment(department);
+	public List<CjContract> selectNoAndMoneyByDepartment(String department,String year) {
+		return dao.selectNoAndMoneyByDepartment(department,year);
 	}
 
 }

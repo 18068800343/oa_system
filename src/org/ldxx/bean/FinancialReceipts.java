@@ -30,8 +30,15 @@ public class FinancialReceipts {
 	private String departmentInfo;
 	private String financeInfo;
 	private String status;
+	private String receiptTime;
 	
 	
+	public String getReceiptTime() {
+		return receiptTime;
+	}
+	public void setReceiptTime(String receiptTime) {
+		this.receiptTime = receiptTime;
+	}
 	public String getContractNo() {
 		return contractNo;
 	}

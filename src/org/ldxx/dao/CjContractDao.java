@@ -46,5 +46,5 @@ public interface CjContractDao {
 
 	public CjContract selectCjByCjNo(@Param("no")String no);
 	
-	public List<CjContract> selectNoAndMoneyByDepartment(@Param("department")String department);
+	public List<CjContract> selectNoAndMoneyByDepartment(@Param("department")String department,@Param("year")String year);
 }

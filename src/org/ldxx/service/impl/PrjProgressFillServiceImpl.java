@@ -157,4 +157,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.selectDepartmentIncome(department, start, end);
 	}
 
+	@Override
+	public PrjProgressFillInfo selectYearCostByDepartment(String department, String year) {
+		return dao.selectYearCostByDepartment(department, year);
+	}
+
 }

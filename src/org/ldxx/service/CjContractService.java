@@ -40,5 +40,5 @@ public interface CjContractService {
 
 	public CjContract selectCjByCjNo(String no);
 	
-	public List<CjContract> selectNoAndMoneyByDepartment(String department);
+	public List<CjContract> selectNoAndMoneyByDepartment(String department,String year);
 }
