@@ -348,7 +348,7 @@ public class BiddingListController {
 			data.add(projectList.get(i).getPlMoney());
 			dataList.add(data);
 		}
-		String[] array = { "编号", "投标部门", "项目名称", "项目类型", "是否中标", "中标金额"};
+		String[] array = { "编号", "投标部门", "项目名称", "项目类型", "是否中标", "中标金额(万元)"};
 		exportData.ExportWithResponse(xlsName, xlsName, array.length, array, dataList, response);
 	}
 
