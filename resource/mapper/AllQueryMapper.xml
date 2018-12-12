@@ -1,29 +1,163 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.AllQueryDao" >
-	<select id="selectJobByType"  resultType="job">
-		select a.job_id,a.job_first,a.job_second,a.job_lv_id,a.job_type,b.job_lv_name,b.job_lv_size from job as a left join job_lv as b on a.job_lv_id=b.job_lv_id where a.job_type=#{type}
-	</select>
-	
-	<insert id="addJob" parameterType="job">
-		insert into job(job_id,job_first,job_second,job_lv_id,job_type)
-		values(#{job.jobId},#{job.jobFirst},#{job.jobSecond},#{job.jobLvId},#{job.jobType})
-	</insert>
-	
-	<delete id="deleteJob" parameterType="String">
-		delete from job where job_id=#{id}
-	</delete>
-	
-	<update id="updateJob" parameterType="job">
-		update job set job_first=#{job.jobFirst},job_second=#{job.jobSecond},job_lv_id=#{job.jobLvId},job_type=#{job.jobType}
-		where job_id=#{job.jobId}
-	</update>
-	
-	<select id="countOfJobSecond" resultType="int">
-		select count(job_id) from job where job_second=#{second} and job_type=#{type}
-	</select>
-	
-	<select id="countOfJobSecondToEdit" resultType="int">
-		select count(job_id) from job where job_second=#{second} and job_type=#{type} and job_id !=#{id}
+	<select id="selectAllQueryByTime"  resultType="AllQuery">
+ SELECT
+    tb1.prj_owner_unit,
+	tb1.prj_no,
+    tb1.main_prj_leader,
+	tb1.contract_no,
+	tb1.contract_name,
+	tb1.contract_long_time,
+	tb1.cjmoney,
+	tb1.temporary_money,
+    tb1.end_money contractJueSuanMoney,
+	xmjd.ibq,
+	xmjd.iall,
+	bff.all_cost,
+	kpin.all_kp_money,
+	tb1.result_money,
+    tb1.cc_name,
+    tb1.om_name,
+	fb.fb_no,
+	fb.contract_name fb_contract,
+	fb.contract_name_yi,
+    ccfb.cc_name fbYiName,
+	fb.now_fb_all_money,
+    payIn.already_accumulate_money leiJiPayMoney,
+    fcowIn.over_work_money fbJueSuanMoney,
+    IF(fcowIn.over_work_money is NULL or fcowIn.over_work_money='','0',(fcowIn.over_work_money-payIn.already_accumulate_money)) weiPayMoney
+    FROM
+	(
+		SELECT
+			tk.*, cj.contract_name,
+      cc.cc_name,
+      om.om_name,
+			cj.contract_money cjmoney,
+			cj.contract_no,
+			cj.history AS cjhistory,
+			cj.cj_id,
+      cw.end_money,
+			cj.contract_end_time,
+			cj.contract_start_time,
+			cj.contract_long_time,
+			cj.temporary_money,
+			fr.receipt_time,
+			fr.result_money
+		FROM
+			task tk
+		LEFT JOIN cj_contract cj ON cj.task_code = tk.prj_no
+    LEFT JOIN consociation_company cc on tk.prj_owner_unit =cc.cc_id
+    LEFT JOIN organization_management om on om.om_id = tk.main_department
+		LEFT JOIN (
+			SELECT
+				cwin.*
+			FROM
+				contract_work cwin
+			LEFT JOIN mode_status AS mscw ON mscw.mode_id = cwin.cw_id
+			WHERE
+				mscw.`status` = '2'
+		) AS cw ON cw.cj_contract_code = cj.contract_no
+		LEFT JOIN (
+			SELECT
+				a.*
+			FROM
+				(
+					SELECT
+						receipt_time,
+						result_money,
+						contract_no
+					FROM
+						financial_receipts
+					ORDER BY
+						receipt_time DESC
+				) AS a
+			GROUP BY
+				a.contract_no
+		) fr ON cj.contract_no = fr.contract_no
+		
+	) AS tb1
+LEFT JOIN mode_status ms ON tb1.prj_id = ms.mode_id
+AND tb1.cjhistory = '1'
+LEFT JOIN (
+	SELECT
+		(
+			(
+				SUBSTRING_INDEX(ppfc.income_bq, '%', 1) / 100
+			) * ppfc.contract_money
+		) ibq,
+		(
+			(
+				SUBSTRING_INDEX(ppfc.income_all, '%', 1) / 100
+			) * ppfc.contract_money
+		) iall,
+		ppf.task_no,
+		ppfc.cj_id,
+		ppf.this_time
+	FROM
+		prj_progress_fill_cj ppfc
+	LEFT JOIN prj_progress_fill ppf ON ppfc.ppf_id = ppf.ppf_id
+	ORDER BY
+		ppf.this_time DESC
+	LIMIT 1
+) AS xmjd ON xmjd.task_no = tb1.prj_no
+AND xmjd.cj_id = tb1.cj_id
+LEFT JOIN fb_contract fb ON fb.cj_contract_code = tb1.contract_no
+AND fb.history = '1'
+LEFT JOIN consociation_company ccfb on ccfb.cc_id = fb.contract_name_yi
+LEFT JOIN (
+	SELECT
+		pay.already_accumulate_money,
+    pay.contract_no,
+    pay.pay_id
+	FROM
+		pay pay
+	LEFT JOIN mode_status mspay ON pay.pay_id = mspay.mode_id
+	WHERE
+		mspay. STATUS = '2' and pay.history='1'
+) AS payIn ON payIn.contract_no = fb.fb_no
+LEFT JOIN (
+	SELECT
+		fcow.over_work_money,
+    fcow.fb_contract,
+    fcow.fcow_id
+	FROM
+		fb_contract_over_wj fcow
+	LEFT JOIN mode_status msfcow ON fcow.fcow_id= msfcow.mode_id
+	WHERE
+		msfcow. STATUS = '2'
+) AS fcowIn ON fcowIn.fb_contract = fb.fb_no
+LEFT JOIN (
+	SELECT
+		bff.all_cost,
+		bff.bf_id,
+		bff.task_no
+	FROM
+		budget_fpplication_form bff
+	LEFT JOIN mode_status msbff ON bff.bf_id = msbff.mode_id
+	WHERE
+		msbff. STATUS = '2'
+) AS bff ON bff.task_no = tb1.prj_no
+LEFT JOIN (
+	SELECT
+		kp.all_kp_money,
+		kp.prj_no,
+		kp.contract_no,
+		kp.time
+	FROM
+		kp_application kp
+	LEFT JOIN mode_status mskp ON mskp.mode_id = kp.kp_id
+	WHERE
+		mskp.`status` = '2'
+	GROUP BY
+		kp.contract_no
+	ORDER BY
+		kp.time DESC
+) AS kpin ON kpin.contract_no = tb1.contract_no
+AND kpin.prj_no = tb1.prj_no
+WHERE
+	tb1.history = '1'
+AND ms. STATUS IN ('2', '3')
+AND tb1.prj_end_time &gt;= #{year_time};
 	</select>
 </mapper>
