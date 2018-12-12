@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -99,8 +100,8 @@ public class BudgetFpplicationFormController {
 	
 	@RequestMapping("/selectBudgeByStatus")
 	@ResponseBody
-	public List<BudgetFpplicationForm> selectBudgeByStatus(String status){
-		return bservice.selectBudgeByStatus(status);
+	public List<BudgetFpplicationForm> selectBudgeByStatus(String status,String timeMin,String timeMax,@RequestParam(defaultValue="0")float costMin,@RequestParam(defaultValue="0")float costMax){
+		return bservice.selectBudgeByStatus(status,timeMin,timeMax,costMin,costMax);
 	}
 	
 	@RequestMapping("/selectBudgeById")

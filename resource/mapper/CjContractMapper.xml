@@ -37,7 +37,28 @@
 		left join organization_management as d3 on a.assist_department1=d3.om_id
 		left join organization_management as d4 on a.assist_department2=d4.om_id
 		left join organization_management as d5 on a.assist_department3=d5.om_id
-		where b.status=#{status}
+		<where>
+			<if test="startMin!=''">
+				contract_start_time &gt;= #{startMin} and contract_start_time &lt;= #{startMax} and 
+			</if>
+			<if test="endMin!=''">
+				contract_end_time &gt;= #{endMin} and contract_end_time &lt;= #{endMax} and 
+			</if>
+			<if test="mainDp!='%'.toString()">
+				main_department =#{mainDp} and 
+			</if>
+			<if test="xbDp!='%'.toString()">
+				assist_department1 =#{xbDp} or assist_department2 =#{xbDp} or assist_department3 =#{xbDp} and 
+			</if>
+			<if test="contractMoneyMin!=0">
+				contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and
+			</if>
+			<if test="zdMoneyMin!=0">
+				temporary_money &gt;=#{zdMoneyMin} and temporary_money &lt;= #{zdMoneyMax} and 
+			</if>
+			b.status=#{status} and a.history=1
+		</where>
+		
 	</select>
 	
 	<select id="selectCjHistory" resultType="CjContract">

@@ -83,11 +83,6 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	}
 
 	@Override
-	public List<BudgetFpplicationForm> selectBudgeByStatus(String status) {
-		return bdao.selectBudgeByStatus(status);
-	}
-
-	@Override
 	public BudgetFpplicationForm selectBudgeById(String id) {
 		BudgetFpplicationForm budge=bdao.selectBudgeById(id);
 		List<CostBudget> costBudget=cdao.selectCostBudgetById(id);
@@ -134,5 +129,11 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	@Override
 	public BudgetFpplicationForm getAllCost(String no) {
 		return bdao.getAllCost(no);
+	}
+
+	@Override
+	public List<BudgetFpplicationForm> selectBudgeByStatus(String status, String timeMin, String timeMax, float costMin,
+			float costMax) {
+		return bdao.selectBudgeByStatus(status, timeMin, timeMax, costMin, costMax);
 	}
 }

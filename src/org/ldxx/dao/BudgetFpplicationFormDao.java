@@ -13,7 +13,7 @@ public interface BudgetFpplicationFormDao {
 
 	int updateBudge(@Param("budge")BudgetFpplicationForm budge);
 
-	List<BudgetFpplicationForm> selectBudgeByStatus(@Param("status")String status);
+	List<BudgetFpplicationForm> selectBudgeByStatus(@Param("status")String status,@Param("timeMin")String timeMin,@Param("timeMax")String timeMax,@Param("costMin")float costMin,@Param("costMax")float costMax);
 
 	BudgetFpplicationForm selectBudgeById(@Param("id")String id);
 

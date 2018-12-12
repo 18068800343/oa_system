@@ -12,7 +12,7 @@ public interface BudgetFpplicationFormService {
 
 	int updateBudge(BudgetFpplicationForm budge);
 
-	List<BudgetFpplicationForm> selectBudgeByStatus(String status);
+	List<BudgetFpplicationForm> selectBudgeByStatus(String status,String timeMin,String timeMax,float costMin,float costMax);
 
 	BudgetFpplicationForm selectBudgeById(String id);
 

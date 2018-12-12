@@ -19,11 +19,19 @@
 				state=#{budge.state}
 			where bf_id=#{budge.bfId}
 	</update> -->
-	<select id="selectBudgeByStatus" parameterType="String" resultType="BudgetFpplicationForm">
+	<select id="selectBudgeByStatus"  resultType="BudgetFpplicationForm">
 		select b.*,c.om_name from budget_fpplication_form b 
 			left join mode_status m on b.bf_id=m.mode_id 
 			left join organization_management c on b.department=c.om_id
-			where m.status=#{status} and b.state=1
+			<where>
+				<if test="timeMin!=''">
+					Budget_date &gt;= #{timeMin}	and Budget_date &lt;= #{timeMax} and 
+				</if>
+				<if test="costMin!=0">
+					all_cost &gt;= #{costMin} and all_cost &lt;= #{costMax} and 
+				</if>
+				m.status=#{status} and b.state=1
+			</where>
 	</select>
 	<select id="selectBudgeById" resultType="BudgetFpplicationForm">
 		select *,c.om_name from budget_fpplication_form b left join organization_management c on b.department=c.om_id where bf_id=#{id} 
