@@ -57,7 +57,14 @@
                 <div class="zhuti-content">
                     <div class="UpperPart">
                         <div class="UpperPartL">
-                            
+                            <form class="form-inline" style="font-size:18px;">
+			                    <label>状态筛选:</label>
+			                    <select class="zhuangtai form-control">
+			                        <option>审批中</option>
+			                        <option>审批通过</option>
+			                        <option>审批未通过</option>
+			                    </select>
+			                </form>
                         </div>
                         <div class="UpperPartR">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报履约评价表</button>
@@ -799,7 +806,14 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL">
-                
+                <form class="form-inline" style="font-size:18px;">
+                    <label>状态筛选:</label>
+                    <select class="zhuangtai2 form-control">
+                        <option>审批中</option>
+                        <option>审批通过</option>
+                        <option>审批未通过</option>
+                    </select>
+                </form>
             </div>
             <div class="UpperPartR">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">新建采购结算申请</button>
@@ -1241,7 +1255,14 @@
                 <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL">
-                
+                <form class="form-inline" style="font-size:18px;">
+			                    <label>状态筛选:</label>
+			                    <select class="zhuangtai3 form-control">
+			                        <option>审批中</option>
+			                        <option>审批通过</option>
+			                        <option>审批未通过</option>
+			                    </select>
+			                </form>
             </div>
             <div class="UpperPartR">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">新建采购合同履约申请表</button>
@@ -2053,6 +2074,9 @@
         $('#editable-select4').editableSelect({ 
             effects: 'slide' 
         });
+        $(".zhuangtai").trigger("change");
+        $(".zhuangtai2").trigger("change");
+        $(".zhuangtai3").trigger("change");
 	});
  <!-- 履约评价 -->
     var table=$('#mainContent').dataTable({
@@ -3163,7 +3187,64 @@
             }
         });
     }
-    
+	//初始化
+    $(".zhuangtai3").change(function(){
+        var zt=$(".zhuangtai3").val();
+        if(zt=="审批中"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/materialPerformance/selectmaterialPerformanceByStatus',
+                dataType: 'json',
+                data: {
+                	status:1,
+                },
+                success: function (json) {
+                    $('#mainContent3').dataTable().fnClearTable();
+                    $('#mainContent3').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").hide();
+                    $(".iconxiugai").show();
+                    $(".iconzhongzhi").show();
+                    $(".iconlywj").show();
+                }
+            });
+            
+        }else if(zt=="审批未通过"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/materialPerformance/selectmaterialPerformanceByStatus',
+                dataType: 'json',
+                data: {
+                	status:0,
+                },
+                success: function (json) {
+                    $('#mainContent3').dataTable().fnClearTable();
+                    $('#mainContent3').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").show();
+                    $(".iconxiugai").hide();
+                    $(".iconzhongzhi").hide();
+                    $(".iconlywj").hide();
+                }
+            });
+            
+        }else if(zt=="审批通过"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/materialPerformance/selectmaterialPerformanceByStatus',
+                dataType: 'json',
+                data: {
+                	status:2,
+                },
+                success: function (json) {
+                    $('#mainContent3').dataTable().fnClearTable();
+                    $('#mainContent3').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").hide();
+                	$(".iconxiugai").hide();
+                	$(".iconzhongzhi").hide();
+                    $(".iconlywj").hide();
+                }
+            });
+        }
+    })
     
 	//初始化负责人部门
 	function initbumen3(){
@@ -3940,6 +4021,64 @@
             }
         });
     }
+	//初始化
+    $(".zhuangtai2").change(function(){
+        var zt=$(".zhuangtai2").val();
+        if(zt=="审批中"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/materialPurchaseSettlement/selectmaterialPurchaseSettlement',
+                dataType: 'json',
+                data: {
+                	status:1,
+                },
+                success: function (json) {
+                    $('#mainContent2').dataTable().fnClearTable();
+                    $('#mainContent2').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").hide();
+                    $(".iconxiugai").show();
+                    $(".iconzhongzhi").show();
+                    $(".iconlywj").show();
+                }
+            });
+            
+        }else if(zt=="审批未通过"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/materialPurchaseSettlement/selectmaterialPurchaseSettlement',
+                dataType: 'json',
+                data: {
+                	status:0,
+                },
+                success: function (json) {
+                    $('#mainContent2').dataTable().fnClearTable();
+                    $('#mainContent2').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").show();
+                    $(".iconxiugai").hide();
+                    $(".iconzhongzhi").hide();
+                    $(".iconlywj").hide();
+                }
+            });
+            
+        }else if(zt=="审批通过"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/materialPurchaseSettlement/selectmaterialPurchaseSettlement',
+                dataType: 'json',
+                data: {
+                	status:2,
+                },
+                success: function (json) {
+                    $('#mainContent2').dataTable().fnClearTable();
+                    $('#mainContent2').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").hide();
+                	$(".iconxiugai").hide();
+                	$(".iconzhongzhi").hide();
+                    $(".iconlywj").hide();
+                }
+            });
+        }
+    })
   
   
 	function addcgjsFile(){
@@ -4472,6 +4611,64 @@
             }
         });
     }
+	//初始化
+    $(".zhuangtai").change(function(){
+        var zt=$(".zhuangtai").val();
+        if(zt=="审批中"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/MaterialSubcontract/selectmSubcontractByStatus',
+                dataType: 'json',
+                data: {
+                	status:1,
+                },
+                success: function (json) {
+                    $('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").hide();
+                    $(".iconxiugai").show();
+                    $(".iconzhongzhi").show();
+                    $(".iconlywj").show();
+                }
+            });
+            
+        }else if(zt=="审批未通过"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/MaterialSubcontract/selectmSubcontractByStatus',
+                dataType: 'json',
+                data: {
+                	status:0,
+                },
+                success: function (json) {
+                    $('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").show();
+                    $(".iconxiugai").hide();
+                    $(".iconzhongzhi").hide();
+                    $(".iconlywj").hide();
+                }
+            });
+            
+        }else if(zt=="审批通过"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/MaterialSubcontract/selectmSubcontractByStatus',
+                dataType: 'json',
+                data: {
+                	status:2,
+                },
+                success: function (json) {
+                    $('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").hide();
+                	$(".iconxiugai").hide();
+                	$(".iconzhongzhi").hide();
+                    $(".iconlywj").hide();
+                }
+            });
+        }
+    })
 
 	//选择项目
 	$("#chosexm").click(function(){
