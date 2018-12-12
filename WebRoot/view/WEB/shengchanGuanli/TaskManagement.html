@@ -64,7 +64,7 @@
                         <div class="UpperPartL" style="font-size:18px;">
                             <form class="form-inline">
                                 <label>状态筛选:</label>
-                                <select class="zhuangtai form-control">
+                                <select id="zhuangtai" class="zhuangtai form-control">
                                     <option>正常进行</option>
                                     <option>审批中</option>
                                     <option>项目终止</option>
@@ -80,7 +80,7 @@
                     		<div class="sousuoClick" style="display:flex;justify-content: space-between;margin-bottom:12px;">
                     				<div></div>
                     				<div>
-                   						<button type="button" class="btn btn-info"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>搜索</button>
+                   						<button type="button" class="btn btn-info" onclick="seachAll()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>搜索</button>
                     					<button type="button" class="btn btn-primary" style="width:100px;" id="zhedieBtn"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
                     				</div>
                     		</div>
@@ -112,7 +112,7 @@
                     							<form class="form-inline">
 														  <div class="form-group" style="display:flex;align-items:center;">
 														    	<label for="exampleInput">主办部门:&nbsp;</label>
-														    	<select class="form-control" id="seach_main_department"  style="width:30%;"></select>
+														    	<select class="form-control" id="seach_main_department"  style="width:64%;"></select>
 														  </div>
 													</form>
                     					</div>
@@ -120,7 +120,7 @@
                    									<form class="form-inline">
 														  <div class="form-group" style="display:flex;align-items:center;">
 														    	<label for="exampleInput">协办部门:&nbsp;</label>
-														    	<select class="form-control" id="seach_xb_department"  style="width:30%;"></select>
+														    	<select class="form-control" id="seach_xb_department"  style="width:64%;"></select>
 														  </div>
 													</form>
                    							</div>
@@ -129,8 +129,8 @@
                    					<div class="yihang2" >
                    							<div style="width:25%;">
                    									<form class="form-inline">
-														  <div class="form-group">
-														    <label for="exampleInput">项&nbsp;目&nbsp;金&nbsp;额&nbsp;:&nbsp;</label>
+														  <div class="form-group" style="display:flex;align-items:center;">
+														    <label for="exampleInput">项&nbsp;目&nbsp;金&nbsp;额&nbsp;：&nbsp;</label>
 														    	<input type="text" class="form-control" id="seach_prj_money_min"  style="width:30%;">
 														    	<label>-</label>
 														    	<input type="text" class="form-control" id="seach_prj_money_max"  style="width:30%;">
@@ -139,8 +139,8 @@
                    							</div>
                    							<div style="width:25%;">
                    									<form class="form-inline">
-														  <div class="form-group">
-														    <label for="exampleInput">合&nbsp;同&nbsp;金&nbsp;额&nbsp;:&nbsp;</label>
+														  <div class="form-group" style="display:flex;align-items:center;">
+														    <label for="exampleInput">合&nbsp;同&nbsp;金&nbsp;额&nbsp;：&nbsp;</label>
 														    	<input type="text" class="form-control" id="seach_contract_money_min" style="width:30%;">
 														    	<label>-</label>
 														    	<input type="text" class="form-control" id="seach_contract_money_max"  style="width:30%;">
@@ -149,11 +149,11 @@
                    							</div>
                    							<div style="width:25%;">
                    									<form class="form-inline">
-														  <div class="form-group">
-														    <label for="exampleInput">暂&nbsp;定&nbsp;金:&nbsp;</label>
-														    	<input type="text" class="form-control" id="seach_zd_money_min" style="width:30%;">
+														  <div class="form-group" style="display:flex;align-items:center;">
+														    <label for="exampleInput">暂&nbsp;定&nbsp;金：</label>
+														    	<input type="text" class="form-control" id="seach_zd_money_min" style="width:31%;">
 														    	<label>-</label>
-														    	<input type="text" class="form-control" id="seach_zd_money_max"  style="width:30%;">
+														    	<input type="text" class="form-control" id="seach_zd_money_max"  style="width:31%;">
 														  </div>
 													</form>
                    							</div>
@@ -837,16 +837,26 @@
         laydate.render({
             elem: '#xgendTime' //指定元素
         });
+        laydate.render({
+            elem: '#seach_start_time_min' //指定元素
+        });
+        laydate.render({
+            elem: '#seach_start_time_max' //指定元素
+        });
+        laydate.render({
+            elem: '#seach_end_time_min' //指定元素
+        });
+        laydate.render({
+            elem: '#seach_end_time_max' //指定元素
+        });
         $('#editable-select').editableSelect({ 
             effects: 'slide' 
         });
-        $('#editable-selectT').editableSelect({ 
-            effects: 'slide' 
-        });
+        
         initType();
         leixingSelect2();
         leixingSelect3();
-        initTable();
+       /*initTable(); */
         initbzhiwu();
         initbushei();
         initbumen();
@@ -999,7 +1009,7 @@
 	});
     
     
-	function initTable(){
+	/* function initTable(){
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/task/selectTaskByStatus',
@@ -1012,8 +1022,37 @@
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
-    }
+    } */
 
+  //初始化提交部门
+	function initbumen(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	$("#seach_main_department").append("<option value='%'>全部</option>");
+            	$("#seach_xb_department").append("<option value='%'>全部</option>");
+                for(var i=0;i<json.length;i++){
+                	$("#tijiaobumen").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#zhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#xgzhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#seach_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#seach_xb_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#zhuban").trigger('change');
+                	$("#xgzhuban").trigger('change');
+                }
+                $("#zhuangtai").trigger("change");
+            }
+		});
+	}
+    
 	function initType(){
 		$.ajax({
             type: 'POST',
@@ -1033,8 +1072,20 @@
 	}
 
     //初始化
-    $(".zhuangtai").change(function(){
-        var zt=$(".zhuangtai").val();
+    $("#zhuangtai").change(function(){
+        var zt=$("#zhuangtai").val();
+        var startMin=$("#seach_start_time_min").val();
+        var startMax=$("#seach_start_time_max").val();
+        var endMin=$("#seach_end_time_min").val();
+        var endMax=$("#seach_end_time_max").val();
+        var mainDp=$("#seach_main_department").val();
+        var xbDp=$("#seach_xb_department").val();
+        var prjMoneyMin=$("#seach_prj_money_min").val();
+        var prjMoneyMax=$("#seach_prj_money_max").val();
+        var contractMoneyMin=$("#seach_contract_money_min").val();
+        var contractMoneyMax=$("#seach_contract_money_max").val();
+        var zdMoneyMin=$("#seach_zd_money_min").val();
+        var zdMoneyMax=$("#seach_zd_money_max").val();
         if(zt=="正常进行"){
         	$.ajax({
                 type: 'POST',
@@ -1042,6 +1093,18 @@
                 dataType: 'json',
                 data: {
                 	status:2,
+                	startMin:startMin,
+                	startMax:startMax,
+                	endMin:endMin,
+                	endMax:endMax,
+                	mainDp:mainDp,
+                	xbDp:xbDp,
+                	prjMoneyMin:prjMoneyMin,
+                	prjMoneyMax:prjMoneyMax,
+                	contractMoneyMin:contractMoneyMin,
+                	contractMoneyMax:contractMoneyMax,
+                	zdMoneyMin:zdMoneyMin,
+                	zdMoneyMax:zdMoneyMax
                 },
                 success: function (json) {
                     $('#mainContent').dataTable().fnClearTable();
@@ -1060,6 +1123,18 @@
                 dataType: 'json',
                 data: {
                 	status:3,
+                	startMin:startMin,
+                	startMax:startMax,
+                	endMin:endMin,
+                	endMax:endMax,
+                	mainDp:mainDp,
+                	xbDp:xbDp,
+                	prjMoneyMin:prjMoneyMin,
+                	prjMoneyMax:prjMoneyMax,
+                	contractMoneyMin:contractMoneyMin,
+                	contractMoneyMax:contractMoneyMax,
+                	zdMoneyMin:zdMoneyMin,
+                	zdMoneyMax:zdMoneyMax
                 },
                 success: function (json) {
                     $('#mainContent').dataTable().fnClearTable();
@@ -1078,6 +1153,18 @@
                 dataType: 'json',
                 data: {
                 	status:1,
+                	startMin:startMin,
+                	startMax:startMax,
+                	endMin:endMin,
+                	endMax:endMax,
+                	mainDp:mainDp,
+                	xbDp:xbDp,
+                	prjMoneyMin:prjMoneyMin,
+                	prjMoneyMax:prjMoneyMax,
+                	contractMoneyMin:contractMoneyMin,
+                	contractMoneyMax:contractMoneyMax,
+                	zdMoneyMin:zdMoneyMin,
+                	zdMoneyMax:zdMoneyMax
                 },
                 success: function (json) {
                     $('#mainContent').dataTable().fnClearTable();
@@ -1087,6 +1174,10 @@
             
         }
     })
+    
+    function seachAll(){
+    	 $("#zhuangtai").trigger("change");
+    }
     
 	//超级搜索折叠div
     var zhediepanduan=true;
@@ -1201,29 +1292,6 @@
 		});
     }
     
-    //初始化提交部门
-	function initbumen(){
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
-            dataType: 'json',
-            data: {
-
-            },
-            error: function (msg) {
-            	toastr.error("请求失败");
-            },
-            success: function (json) {
-                for(var i=0;i<json.length;i++){
-                	$("#tijiaobumen").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-                	$("#zhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-                	$("#xgzhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-                	$("#zhuban").trigger('change');
-                	$("#xgzhuban").trigger('change');
-                }
-            }
-		});
-	}
 	$("#zhuban").change(function(){
 		var bumen=$("#zhuban").val();
 		$.ajax({

@@ -12,7 +12,7 @@ public interface TaskService {
 	
 	public int updateTask(Task task);
 	
-	public List<Task> selectTaskByStatus(String status);
+	public List<Task> selectTaskByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,float prjMoneyMin,float prjMoneyMax,float contractMoneyMin,float contractMoneyMax,float zdMoneyMin,float zdMoneyMax);
 	
 	public Task selectTaskById(String id);
 

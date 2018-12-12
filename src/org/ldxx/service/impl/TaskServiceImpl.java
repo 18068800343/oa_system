@@ -64,11 +64,6 @@ public class TaskServiceImpl implements TaskService{
 	}
 
 	@Override
-	public List<Task> selectTaskByStatus(String status) {
-		return tdao.selectTaskByStatus(status);
-	}
-
-	@Override
 	public Task selectTaskById(String id) {
 		Task task=tdao.selectTaskById(id);
 		List<Enterprise> enterprise=edao.selectEnterpriseById(id);
@@ -160,6 +155,13 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public List<Task> getTaskIdNameNo() {
 		return tdao.getTaskIdNameNo();
+	}
+
+	@Override
+	public List<Task> selectTaskByStatus(String status, String startMin, String startMax, String endMin, String endMax,
+			String mainDp, String xbDp, float prjMoneyMin, float prjMoneyMax, float contractMoneyMin,
+			float contractMoneyMax, float zdMoneyMin, float zdMoneyMax) {
+		return tdao.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 
 }

@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -305,8 +306,11 @@ public class TaskController {
 	
 	@RequestMapping("/selectTaskByStatus")
 	@ResponseBody
-	public List<Task>selectTaskByStatus(String status){
-		return tService.selectTaskByStatus(status);
+	public List<Task>selectTaskByStatus(String status,String startMin,String startMax,String endMin,
+			String endMax,String mainDp,String xbDp,@RequestParam(defaultValue="0")float prjMoneyMin,@RequestParam(defaultValue="0")float prjMoneyMax,
+			@RequestParam(defaultValue="0")float contractMoneyMin,@RequestParam(defaultValue="0")float contractMoneyMax,
+			@RequestParam(defaultValue="0")float zdMoneyMin,@RequestParam(defaultValue="0")float zdMoneyMax){
+		return tService.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 	
 	@RequestMapping("/selectIdAndNameByStatus")
