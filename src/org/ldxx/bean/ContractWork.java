@@ -61,14 +61,15 @@ public class ContractWork {
 	private String prjGrade;//公路等级
 	
 
-	private String cj_contract_end_time;
+	private String cjContractEndTime;//履约完结时间
 	
-	public String getCj_contract_end_time() {
-		return cj_contract_end_time;
+	
+	public String getCjContractEndTime() {
+		return cjContractEndTime;
 	}
 
-	public void setCj_contract_end_time(String cj_contract_end_time) {
-		this.cj_contract_end_time = cj_contract_end_time;
+	public void setCjContractEndTime(String cjContractEndTime) {
+		this.cjContractEndTime = cjContractEndTime;
 	}
 
 	public List<Accessory> getAccessory1() {

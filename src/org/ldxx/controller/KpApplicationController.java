@@ -108,7 +108,11 @@ public class KpApplicationController {
 			jindu=jd2+"%";
 		}else{
 			PrjProgressFill pf=pService.selectLastPrjProgressFill(nos);
-			jindu=pf.getAllMoney();
+			if(pf!=null){
+				jindu=pf.getAllMoney();
+			}else{
+				jindu="0%";
+			}
 		}
 		map.put("jindu", jindu);
 		return map;

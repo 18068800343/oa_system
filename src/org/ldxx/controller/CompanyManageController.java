@@ -61,7 +61,7 @@ public class CompanyManageController {
 		String year=endTime.split("-")[0];
 		String y=year+"%";
 		String startTime=year+"-01-01 00:00:01";
-		endTime=endTime=" 23:59:59";
+		endTime=endTime+" 23:59:59";
 		
 		 List<OrganizationManagement> om=oService.getOrgIdAndName();
 		 
@@ -103,10 +103,16 @@ public class CompanyManageController {
 					 temporaryMoney=temporaryMoney+zdMoney;
 					 String contractNo=cj.get(ii).getContractNo();
 					 FinancialReceipts fr=fService.selectResultMoney(contractNo,y);
-					 float resultMoney=fr.getResultMoney();//本年度累计总收款
+					 float resultMoney=0;
+					 if(fr!=null){
+						 resultMoney=fr.getResultMoney();//本年度累计总收款
+					 }
 					 moneyReceipt=moneyReceipt+resultMoney;
 					 FinancialReceipts fr2=fService.selectResultMoneyAll(contractNo);
-					 float resultMoneyAll=fr2.getResultMoney();//合同累计总收款
+					 float resultMoneyAll=0;
+					 if(fr2!=null){
+						 resultMoneyAll=fr2.getResultMoney();//合同累计总收款
+					 }
 					 moneyReceiptAll=moneyReceiptAll+resultMoneyAll;
 				 }
 				 accruedAssets=allContractMoney-moneyReceiptAll;
