@@ -123,7 +123,7 @@ public class FbContractOverController {
 	
 	@RequestMapping("/selectFbContractOver")
 	@ResponseBody
-	public List<FbContractOver> selectFbContractOver(){
-		return service.selectFbContractOver();
+	public List<FbContractOver> selectFbContractOver(String state){
+		return service.selectFbContractOver(state);
 	}
 }

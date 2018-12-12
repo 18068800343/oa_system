@@ -127,17 +127,17 @@ public class FbContractOverWjController {
 	
 	@RequestMapping("/selectFbContractOverWj")
 	@ResponseBody
-	public List<FbContractOverWj> selectFbContractOverWj(){
-		return service.selectFbContractOverWj();
+	public List<FbContractOverWj> selectFbContractOverWj(String state){
+		return service.selectFbContractOverWj(state);
 	}
 	
 	
 	@RequestMapping("/exportFbOverWj")
 	@ResponseBody
-	public void exportFbOverWj(HttpServletResponse response) throws Exception{
+	public void exportFbOverWj(HttpServletResponse response,String state) throws Exception{
 		String xlsName = "分包合同履约表";  
 		ExportData exportData=new ExportData();
-		List<FbContractOverWj> fb=service.selectFbContractOverWj();
+		List<FbContractOverWj> fb=service.selectFbContractOverWj(state);
 		 List<List<String>> dataList=new ArrayList<>();
 		for(int i=0;i<fb.size();i++){
 			List<String> data=new ArrayList<>();

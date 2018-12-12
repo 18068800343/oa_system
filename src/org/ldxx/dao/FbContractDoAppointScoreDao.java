@@ -9,6 +9,6 @@ public interface FbContractDoAppointScoreDao {
 
 	public int addFbContractDoAppointScore(@Param("fb")FbContractDoAppointScore FbContractDoAppoint);
 	
-	public List<FbContractDoAppointScore> selectFbContractDoAppointScore();
+	public List<FbContractDoAppointScore> selectFbContractDoAppointScore(@Param("state")String state);
 	
 }

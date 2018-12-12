@@ -59,7 +59,11 @@
                 <div class="zhuti-content">
                     <div class="UpperPart">
                         <div class="UpperPartL">
-                            
+                            <select id="state" class="form-control" style="width:180px;">
+                            	<option value="2">审批通过</option>
+                            	<option value="1">审批中</option>
+                            	<option value="0">审批未通过</option>
+                            </select>
                         </div>
                         <div class="UpperPartR">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报履约评价表</button>
@@ -527,7 +531,11 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL">
-                
+                <select id="state2" class="form-control" style="width:180px;">
+                 	<option value="2">审批通过</option>
+                 	<option value="1">审批中</option>
+                 	<option value="0">审批未通过</option>
+                </select>
             </div>
             <div class="UpperPartR">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">新建分包结算申请</button>
@@ -911,7 +919,11 @@
                 <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL">
-                
+                 <select id="state3" class="form-control" style="width:180px;">
+                    	<option value="2">审批通过</option>
+                    	<option value="1">审批中</option>
+                    	<option value="0">审批未通过</option>
+                  </select>
             </div>
             <div class="UpperPartR">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">新建合同履约申请表</button>
@@ -1475,7 +1487,8 @@
     	initSelect();
     	initFb3();
     	initUser();
-    	initTable();
+    	/* initTable(); */
+    	$("#state").trigger("change");
     	initDepartment();
     	initPrj();
     	initFb();
@@ -2160,21 +2173,60 @@
         
 	});
 
-	function initTable(){
-        $.ajax({
+    $("#state").on("change",function(){
+    	$.ajax({
             type: 'POST',
             url: getContextPath()+'/fbScore/selectFbContractDoAppointScore',
             dataType: 'json',
             data: {
+            	state:$("#state").val()
             },
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
-    }
+    })
+	/* function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/fbScore/selectFbContractDoAppointScore',
+            dataType: 'json',
+            data: {
+            	state:state
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    } */
+    
+    function initTable2(){
+   	 $("#state2").trigger("change");
+   }
+    
+    function initTable3(){
+   	 $("#state3").trigger("change");
+   }
 	
-	function initTable2(){
+    $("#state2").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/fbOver/selectFbContractOver',
+            dataType: 'json',
+            data: {
+            	state:$("#state2").val()
+            },
+            success: function (json) {
+                $('#mainContent2').dataTable().fnClearTable();
+                $('#mainContent2').DataTable().rows.add(json).draw(false);
+            }
+        });
+    })
+    
+    
+	/* function initTable2(){
         $.ajax({
             type: 'POST',
             url: getContextPath()+'/fbOver/selectFbContractOver',
@@ -2186,9 +2238,23 @@
                 $('#mainContent2').DataTable().rows.add(json).draw(false);
             }
         });
-    }
+    } */
 	
-	function initTable3(){
+    $("#state3").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/fbOverWj/selectFbContractOverWj',
+            dataType: 'json',
+            data: {
+            	state:$("#state3").val()
+            },
+            success: function (json) {
+                $('#mainContent3').dataTable().fnClearTable();
+                $('#mainContent3').DataTable().rows.add(json).draw(false);
+            }
+        });
+    })
+	/* function initTable3(){
         $.ajax({
             type: 'POST',
             url: getContextPath()+'/fbOverWj/selectFbContractOverWj',
@@ -2200,7 +2266,7 @@
                 $('#mainContent3').DataTable().rows.add(json).draw(false);
             }
         });
-    }
+    } */
 
     function getCreat(bb){
         var EnterpriseRating= $(bb).parent().prev().text();
@@ -2929,7 +2995,8 @@
     }
     
     function exportThis(){
-    	window.location.href=encodeURI(getContextPath()+'/fbOverWj/exportFbOverWj');
+    	var state=$("#state3").val();
+    	window.location.href=encodeURI(getContextPath()+'/fbOverWj/exportFbOverWj?state='+state);
     }
     
     

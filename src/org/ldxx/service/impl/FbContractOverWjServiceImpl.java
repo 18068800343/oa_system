@@ -38,8 +38,8 @@ public class FbContractOverWjServiceImpl implements FbContractOverWjService{
 	}
 
 	@Override
-	public List<FbContractOverWj> selectFbContractOverWj() {
-		return dao.selectFbContractOverWj();
+	public List<FbContractOverWj> selectFbContractOverWj(String state) {
+		return dao.selectFbContractOverWj(state);
 	}
 
 	@Override

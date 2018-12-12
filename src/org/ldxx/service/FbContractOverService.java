@@ -8,5 +8,5 @@ public interface FbContractOverService {
 
 	public int addFbContractOver(FbContractOver fbContractOver);
 	
-	public List<FbContractOver> selectFbContractOver();
+	public List<FbContractOver> selectFbContractOver(String state);
 }

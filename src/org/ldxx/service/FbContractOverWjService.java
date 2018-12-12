@@ -9,7 +9,7 @@ public interface FbContractOverWjService {
 
 	public int addFbContractOverWj(FbContractOverWj fbContractOverWj);
 	
-	public List<FbContractOverWj> selectFbContractOverWj();
+	public List<FbContractOverWj> selectFbContractOverWj(String state);
 	
 	public FbContractOverWj getFbOverMoney(String no);
 }
