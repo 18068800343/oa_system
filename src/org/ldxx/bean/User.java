@@ -59,9 +59,27 @@ public class User {
     private String dutyName2;//职称
     private String uPermissions;//权限编码
     
+    private String userRole;
     
+    private String userRoleNames;
     
-    public String getuPermissions() {
+    public String getUserRoleNames() {
+		return userRoleNames;
+	}
+
+	public void setUserRoleNames(String userRoleNames) {
+		this.userRoleNames = userRoleNames;
+	}
+
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
+	}
+
+	public String getuPermissions() {
 		return uPermissions;
 	}
 

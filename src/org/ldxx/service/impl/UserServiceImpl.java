@@ -2,7 +2,9 @@ package org.ldxx.service.impl;
 
 import java.util.List;
 
+import org.ldxx.bean.Role;
 import org.ldxx.bean.User;
+import org.ldxx.dao.RoleDao;
 import org.ldxx.dao.UserDao;
 import org.ldxx.service.UserService;
 import org.ldxx.util.TimeUUID;
@@ -16,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private RoleDao roleDao;
 	
 	@Override
 	public int addUser(User user) {
@@ -86,5 +91,27 @@ public class UserServiceImpl implements UserService {
 	public User selectUserByusername(String username) {
 		return userDao.selectUserByusername(username);
 	}
-
+	@Override
+	public List<User> selectUserAndRoles() {
+		List<User> users = userDao.selectAllUser();
+		
+		for(User user:users){
+			String userRoleNames = "";
+			String userRole = user.getUserRole();
+			if(null!=userRole&&!"".equals(userRole)){
+				String[] userRoles = userRole.split("_");
+				
+				for(String roleCode:userRoles){
+					List<Role> roles = roleDao.selectRoleByRoleCode(roleCode);
+					if(roles.size()>0){
+						userRoleNames=userRoleNames+","+roles.get(0).getRoleName();
+					}
+				}
+				
+			}
+			userRoleNames = userRoleNames.substring(1, userRoleNames.length());
+			user.setUserRoleNames(userRoleNames);
+		}
+		return users;
+	}
 }

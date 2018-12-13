@@ -72,12 +72,7 @@
 			            				<th>操作</th>
 			            		</tr>
 			            	</thead>
-			            		<tr>
-			            			<td>123</td>
-			            			<td>张三</td>
-			            			<td>秘书</td>
-			            			<td><span class="glyphicon glyphicon-check zhuashou" aria-hidden="true"  style="font-size:18px;" title="分配角色" data-toggle="modal" data-target="#myModal"></span></td>
-			            		</tr>
+			            	<tbody></tbody>
 			            </table>
 			        </div>
 			    		
@@ -233,6 +228,7 @@
     $(document).ready( function () {
     	initRoleList();
     	initParentRole();
+    	selectUserAndRoles();
     	$('#treeview1').treeview({
             data: defaultData
           });
@@ -346,7 +342,22 @@
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
-		
+		"columns": [
+		            { "data": "username"}, 
+		            { "data": "uName"},
+		            { "data": "userRoleNames"}, 
+		            { "data": null}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 3,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;;margin-left:5px;" title="查看历史详细信息" onclick="lookHistory(this)"></i>'
+										        }
+										  }
+								],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
@@ -470,5 +481,22 @@
              }
          });
       })
+         function selectUserAndRoles(){
+    	  $.ajax({
+              type: 'POST',
+              url: getContextPath()+'/user/selectUserAndRoles',
+              dataType: 'json',
+              data: {
+              },
+              error: function (msg) {
+              	toastr.error("请求失败");
+              },
+              success: function (json) {
+            	  $('#mainContent').dataTable().fnClearTable();
+                  $('#mainContent').DataTable().rows.add(json).draw(false);
+              }
+          });
+      }
+      
 </script>
 </html>

@@ -92,4 +92,10 @@ public class UserController {
 	public List<User> selectUserByomId(String omId){
 		return userservice.selectUserByomId(omId);
 	}
+	
+	@RequestMapping("/selectUserAndRoles")
+	@ResponseBody
+	public List<User> selectUserAndRoles(){
+		return userservice.selectUserAndRoles();
+	}
 }

@@ -34,4 +34,6 @@ public interface UserService {
 
 	User selectUserByusername(String username);
 
+	List<User> selectUserAndRoles();
+
 }
