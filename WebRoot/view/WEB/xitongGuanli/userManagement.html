@@ -143,20 +143,19 @@
                         <table class="table table-bordered">
                             <tr>
                                 <td>角色名称</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" id='inputRoleName'></td>
                                 <td>上级角色</td>
                                 <td>
-                                	<select class="form-control" style="width:180px;">
-                                		<option>老板</option>
+                                	<select class="form-control" style="width:180px;" id='parentRole'>
                                 	</select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>是否抽象</td>
                                 <td>
-                                		<select class="form-control" style="width:180px;">
-	                                		<option>是</option>
-	                                		<option>否</option>
+                                		<select class="form-control" style="width:180px;" id="ifCouXiang">
+	                                		<option value="0">是</option>
+	                                		<option value="1">否</option>
 	                                	</select>
                                 </td>
                                 <td></td>
@@ -168,7 +167,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success">保存</button>
+            <button type="button" class="btn btn-success" id="saveRole">保存</button>
         </div>
         </div>
     </div>
@@ -232,12 +231,12 @@
 <script src="../../js/ace-extra.min.js"></script>
 <script>
     $(document).ready( function () {
+    	initRoleList();
+    	initParentRole();
     	$('#treeview1').treeview({
             data: defaultData
           });
-    	$('#treeview2').treeview({
-            data: defaultData
-          });
+    	
     	var sampleData = initiateDemoData();//see below
     	$('#tree1').ace_tree({
 				dataSource: sampleData['dataSource1'],
@@ -385,15 +384,16 @@
  			var defaultData = [
 		          {
 		            text: '一级',
+		            nodeid:'11',
 		            nodes: [{
 		                text: '二级1',
-		                nodes: [{
-		                    text: '三级',
-		                  }]
+		                nodeid:'12',
 		              },{
 		                  text: '二级2',
+		                  nodeId:'13',
 		                  nodes: [{
 		                      text: '三级',
+		                      nodeid:'14',
 		                    },{
 		                      text: '三级2',
 		                    }]
@@ -409,6 +409,66 @@
 		          }
 		        ];
 			
- 			
+      function initRoleList(){
+    	  $.ajax({
+              type: 'POST',
+              url: getContextPath()+'/role/getRolesList',
+              dataType: 'json',
+              data: {
+              },
+              error: function (msg) {
+              	toastr.error("请求失败");
+              },
+              success: function (json) {
+            	  var json = json;
+            	  $('#treeview2').treeview({
+                      data: json,
+                      'levels':1
+                   });
+              }
+          });
+      }	
+      function initParentRole(){
+    	  $.ajax({
+              type: 'POST',
+              url: getContextPath()+'/role/getParentRoles',
+              dataType: 'json',
+              data: {
+              },
+              error: function (msg) {
+              	toastr.error("请求失败");
+              },
+              success: function (json) {
+            	  var json = json;
+            	  $("#parentRole").empty();
+            	  $("#parentRole").append("<option value='0'>无</option>");
+            	  for(var i in json){
+            		  $("#parentRole").append("<option value='"+json[i].roleCode+"'>"+json[i].roleName+"</option>");
+            	  }
+              }
+          });
+      }
+      $("#saveRole").bind("click",function(){
+    	 var inputRoleName = $("#inputRoleName").val();
+    	 var parentRole = $("#parentRole").val();
+    	 var ifCouXiang = $("#ifCouXiang").val();
+    	 $.ajax({
+             type: 'POST',
+             url: getContextPath()+'/role/addRole',
+             dataType: 'json',
+             data: {
+            	 inputRoleName:inputRoleName,
+            	 parentRole:parentRole,
+            	 ifCouXiang:ifCouXiang
+             },
+             error: function (msg) {
+             	alert("请求失败"); 
+             },
+             success: function (json) {
+           	  $("#myModal2").modal('hide');
+           	 initRoleList();
+             }
+         });
+      })
 </script>
 </html>
