@@ -41,7 +41,8 @@ public class OrganizationManagementController {
 	@RequestMapping("/updateOrganizationManagement")/*修改组织机构*/
 	@ResponseBody
 	public int updateOrganizationManagement(OrganizationManagement organizationManagement){
-		return omservice.updateOrganizationManagement(organizationManagement);
+		int i=omservice.updateOrganizationManagement(organizationManagement);
+		return i;
 	}
 	
 	@RequestMapping("/getAllOrganizationManagement")/*查看所有的组织机构*/
@@ -66,4 +67,12 @@ public class OrganizationManagementController {
 	public OrganizationManagement getOrgIdByName(String omName){
 		return omservice.getOrgIdByName(omName);
 	}
+	
+	@RequestMapping("/selectProductionDepartment")/*查询所有生产部门*/
+	@ResponseBody
+	public List<OrganizationManagement> selectProductionDepartment(){
+		List<OrganizationManagement> list=omservice.selectProductionDepartment();
+		return list;
+	}
+	
 }

@@ -14,6 +14,15 @@ public class OrganizationManagement {
 	
 	private String omFax;
 	
+	private String sfProduction;//是否为生产部门
+	
+	
+	public String getSfProduction() {
+		return sfProduction;
+	}
+	public void setSfProduction(String sfProduction) {
+		this.sfProduction = sfProduction;
+	}
 	public String getOmId() {
 		return omId;
 	}

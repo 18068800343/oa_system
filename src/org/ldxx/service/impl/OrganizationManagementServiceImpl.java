@@ -60,4 +60,9 @@ public class OrganizationManagementServiceImpl implements OrganizationManagement
 		return omdao.selectOrgById(omId);
 	}
 
+	@Override
+	public List<OrganizationManagement> selectProductionDepartment() {
+		return omdao.selectProductionDepartment();
+	}
+
 }

@@ -22,5 +22,7 @@ public interface OrganizationManagementService {
 	OrganizationManagement getOrgIdByName(String omName);
 	
 	OrganizationManagement selectOrgById(String omId);
+	
+	List<OrganizationManagement> selectProductionDepartment();
 
 }

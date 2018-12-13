@@ -63,7 +63,7 @@ public class CompanyManageController {
 		String startTime=year+"-01-01 00:00:01";
 		endTime=endTime+" 23:59:59";
 		
-		 List<OrganizationManagement> om=oService.getOrgIdAndName();
+		 List<OrganizationManagement> om=oService.selectProductionDepartment();
 		 
 		 try {
 			for(int i=0;i<om.size();i++){
