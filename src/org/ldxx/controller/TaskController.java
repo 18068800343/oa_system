@@ -66,55 +66,7 @@ public class TaskController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		Task t=task.get(0);
-		t.setPrjId(id);
 		
-		String type=t.getPrjType2();
-		String code=type.split(" ")[0];
-		int count=tService.typeCount();
-		count=count+1;
-		String prjNo=uuid.getPrjCode(code, count);
-		t.setPrjNo(prjNo);
-		int i=tService.addTask(t);
-		/*FlowUtill flowUtill = new FlowUtill();
-		CurrentFlow currentFlow = new CurrentFlow();
-		currentFlow.setUrl("addTask-"+id);
-		currentFlow.setParams("1");
-		currentFlow.setTitle(t.getPrjName());
-		currentFlow.setStarter(id);
-		currentFlow.setStartername(t.getPrjName());
-		currentFlow.setActor("1");
-		currentFlow.setActorname("李四");
-		currentFlow.setFkDept("1");
-		currentFlow.setDeptname("工程建设一部");
-		currentFlow.setNodename("节点名称");
-		currentFlow.setPri(1);
-		currentFlow.setSdtofnode(new Date());
-		currentFlow.setSdtofflow(new Date());
-		currentFlow.setActor("1");
-		currentFlow.setActorname("张三");
-		currentFlow.setMemo("测试保存");
-		
-		FlowHistroy flowHistroy = new FlowHistroy();
-		flowHistroy.setActor(id);
-		flowHistroy.setActorname(t.getPrjName());
-		flowHistroy.setActorresult(0);
-		flowHistroy.setView("意见");
-		
-		try {
-			flowUtill.zancunFlow(currentFlow,flowHistroy);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-		
-		return i;
-	}
-	
-	@RequestMapping("/addTask2")/*任务单提交*/
-	@ResponseBody
-	public String addTask2(@RequestBody List<Task> task){
-		TimeUUID uuid=new TimeUUID();
-		String id=uuid.getTimeUUID();
-		Task t=task.get(0);
 		t.setPrjId(id);
 		
 		String type=t.getPrjType2();
@@ -177,7 +129,92 @@ public class TaskController {
 		currentFlow.setPri(1);
 		currentFlow.setSdtofnode(new Date());
 		currentFlow.setSdtofflow(new Date());
+		currentFlow.setFlowEndState(2);
+		FlowHistroy flowHistroy = new FlowHistroy();
+		flowHistroy.setActor(id);
+		flowHistroy.setActorname(t.getPrjName());
+		flowHistroy.setActorresult(0);
+		flowHistroy.setView("意见");
+		String string = "";
+		try {
+			string = flowUtill.zancunFlow(currentFlow, flowHistroy);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return i;
+	}
+	
+	@RequestMapping("/addTask2")/*任务单提交*/
+	@ResponseBody
+	public String addTask2(@RequestBody List<Task> task){
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		Task t=task.get(0);
 		
+		t.setPrjId(id);
+		
+		String type=t.getPrjType2();
+		String code=type.split(" ")[0];
+		int count=tService.typeCount();
+		count=count+1;
+		String prjNo=uuid.getPrjCode(code, count);
+		t.setPrjNo(prjNo);
+		int i=tService.addTask(t);
+		if(i>0){
+			String prjName=t.getPrjName();
+			if(code.startsWith("A")){//添加检测评估资料
+				TestingEvaluation te=new TestingEvaluation();
+				te.setTeId(uuid.getTimeUUID());
+				te.setPrjName(prjName);
+				te.setPrjNo(prjNo);
+				tDao.addTestingEvaluationSave(te);
+			}else if(code.startsWith("B")){
+				if(code.equals("B3")){//添加维修加固设计资料
+					MaintenanceReinforcement mr=new MaintenanceReinforcement();
+					mr.setMrId(uuid.getTimeUUID());
+					mr.setPrjName(prjName);
+					mr.setPrjNo(prjNo);
+					mDao.addMaintenanceReinforcement(mr);
+				}else{//添加设计文件资料
+					DesignDocuments dd=new DesignDocuments();
+					dd.setDdId(uuid.getTimeUUID());
+					dd.setPrjName(prjName);
+					dd.setPrjNo(prjNo);
+					dDao.addDesignDocumentsSave(dd);
+				}
+			}else if(code.startsWith("C")){//添加施工文档资料
+				ConstructionDocuments cd=new ConstructionDocuments();
+				cd.setCdId(uuid.getTimeUUID());
+				cd.setPrjName(prjName);
+				cd.setPrjNo(prjNo);
+				cDao.addConstructionDocumentsSave(cd);
+			}else if(code.startsWith("K")){//添加科技文档资料
+				TechnicalDocumentation td=new TechnicalDocumentation();
+				td.setTdId(uuid.getTimeUUID());
+				td.setPrjName(prjName);
+				td.setPrjNo(prjNo);
+				dao.addConstructionDocumentsSave(td);
+			}
+		}
+		FlowUtill flowUtill = new FlowUtill();
+		CurrentFlow currentFlow = new CurrentFlow();
+		currentFlow.setParams("1");
+		currentFlow.setTitle(t.getPrjName());
+		currentFlow.setActor("88b6f133f129");
+		currentFlow.setActorname("索隆");;
+		currentFlow.setMemo("流程发起");
+		currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
+		currentFlow.setParams("{'cs':'1'}");
+		currentFlow.setStarter("88b6f133f129");
+		currentFlow.setStartername("索隆");
+		currentFlow.setFkDept("1");
+		currentFlow.setDeptname("工程建设一部");
+		currentFlow.setNodename("节点名称");
+		currentFlow.setPri(1);
+		currentFlow.setSdtofnode(new Date());
+		currentFlow.setSdtofflow(new Date());
+		currentFlow.setFlowEndState(2);
 		FlowHistroy flowHistroy = new FlowHistroy();
 		flowHistroy.setActor(id);
 		flowHistroy.setActorname(t.getPrjName());

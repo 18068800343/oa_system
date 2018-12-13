@@ -335,7 +335,7 @@ public class FlowUtill {
 					log.error("查找currentFlow出错");
 					throw new FlowException("find currentFlow error");
 				}
-				flowHistroy.setOperateType(1);
+				flowHistroy.setOperateType(2);
 				flowHistroy.setDoDate(new Date());
  				INSTANCE.flowHistroyMapper.insert(flowHistroy);
 			} catch (Exception e) {
@@ -444,9 +444,12 @@ public class FlowUtill {
 		 */
 		currentFlow.setWfstate(0);
 		BusinessExample example = new BusinessExample();
+		String modeId = "";
 		String url = currentFlow.getUrl();
 		if(null!=url&&url.contains("-")){
-			url = url.split("-")[0];
+		String[] urls = url.split("-");
+			url = urls[0];
+			modeId = urls[1];
 		}else{
 			log.error("url为null或者url格式有误");
 			throw new FlowException("url format error");
@@ -464,6 +467,9 @@ public class FlowUtill {
 		FlowNode flowNode = INSTANCE.flowNodeMapper.selectStartFlowNode(business.getFloTmpId());
 		currentFlow.setFloNodeId(flowNode.getId());
 		currentFlow.setId(new TimeUUID().getTimeUUID());
+		currentFlow.setBusId(business.getId());
+		currentFlow.setDoDate(new Date());
+		currentFlow.setModeId(modeId);
 		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 		try {
 			INSTANCE.currentFlowMapper.insert(currentFlow);
