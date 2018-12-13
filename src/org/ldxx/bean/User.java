@@ -57,10 +57,19 @@ public class User {
 
     private String omName;//部门
     private String dutyName2;//职称
+    private String uPermissions;//权限编码
     
     
     
-    public String getOmName() {
+    public String getuPermissions() {
+		return uPermissions;
+	}
+
+	public void setuPermissions(String uPermissions) {
+		this.uPermissions = uPermissions;
+	}
+
+	public String getOmName() {
 		return omName;
 	}
 
