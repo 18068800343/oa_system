@@ -6,7 +6,30 @@
 			left join mode_status m on m.mode_id=f.fb_id
 			left join organization_management o on o.om_id=f.main_manage_department
 			left join consociation_company c on c.cc_id=f.contract_name_yi
-			where m.status=#{status} and f.history=1
+			<where>
+				<if test="startMin!=''">
+					contract_start_time &gt;= #{startMin} and contract_start_time &lt;= #{startMax} and 
+				</if>
+				<if test="endMin!=''">
+					contract_end_time &gt;= #{endMin} and contract_end_time &lt;= #{endMax} and 
+				</if>
+				<if test="mainDp!='%'.toString()">
+					main_manage_department =#{mainDp} and 
+				</if>
+				<if test="spType!='%'.toString()">
+					rate_type = #{spType} and 
+				</if>
+				<if test="contractMoneyMin!=0">
+					contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and 
+				</if>
+				<if test="fbMoneyMin!=0">
+					now_fb_all_money &gt;=#{fbMoneyMin} and now_fb_all_money &lt;=#{fbMoneyMax} and 
+				</if>
+				<if test="zdMoneyMin!=0">
+					temporary_money &gt;=#{zdMoneyMin} and temporary_money &lt;= #{zdMoneyMax} and  
+				</if>
+				   m.status=#{status} and f.history=1
+			</where>
 	</select>
 	<insert id="saveSubContract" parameterType="fbContract">
 		insert into fb_contract(fb_id,contract_name,fb_no,fbc_type,contract_name_jia,contract_name_yi,prj_name,work_no,cj_contract_name,

@@ -31,8 +31,11 @@ public class SubContractController {
 	
 	@RequestMapping("/selectSubContract")
 	@ResponseBody
-	public List<FbContract> selectSubContract(String status){
-		return scService.selectSubContract(status);
+	public List<FbContract> selectSubContract(String status,String startMin,String startMax,String endMin,
+			String endMax,String mainDp,String spType,@RequestParam(defaultValue="0")float fbMoneyMin,@RequestParam(defaultValue="0")float fbMoneyMax,
+			@RequestParam(defaultValue="0")float contractMoneyMin,@RequestParam(defaultValue="0")float contractMoneyMax,
+			@RequestParam(defaultValue="0")float zdMoneyMin,@RequestParam(defaultValue="0")float zdMoneyMax){
+		return scService.selectSubContract(status, startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 	
 	@RequestMapping("/saveSubContract")//保存

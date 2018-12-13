@@ -22,11 +22,6 @@ public class SubContractServiceImpl implements SubContractService {
 	private AccessoryDao adao;
 
 	@Override
-	public List<FbContract> selectSubContract(String status) {
-		return scDao.selectSubContract(status);
-	}
-
-	@Override
 	public int saveSubContract(FbContract fbContract) {
 		int i=scDao.saveSubContract(fbContract);
 		if(i>0){
@@ -136,6 +131,13 @@ public class SubContractServiceImpl implements SubContractService {
 	@Override
 	public List<FbContract> getFBNameAndNo2() {
 		return scDao.getFBNameAndNo2();
+	}
+
+	@Override
+	public List<FbContract> selectSubContract(String status, String startMin, String startMax, String endMin,
+			String endMax, String mainDp, String spType, float fbMoneyMin, float fbMoneyMax, float contractMoneyMin,
+			float contractMoneyMax, float zdMoneyMin, float zdMoneyMax) {
+		return scDao.selectSubContract(status, startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 
 }
