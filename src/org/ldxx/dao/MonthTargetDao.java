@@ -18,4 +18,6 @@ public interface MonthTargetDao {
 	public int yearTargetCount(@Param("id")String id);
 	
 	public List<MonthTarget> selectMonthTargetByMonthSum(@Param("id")String id,@Param("month")int month);
+	
+	public List<MonthTarget> selectMonthTargetByYearAndMonth(@Param("year")String year,@Param("month")int month);
 }

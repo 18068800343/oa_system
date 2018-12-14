@@ -2,6 +2,8 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.FinancialReceipts;
 
 public interface FinancialReceiptsService {
@@ -21,4 +23,8 @@ public interface FinancialReceiptsService {
 	public FinancialReceipts selectResultMoney(String no,String year);
 	
 	public FinancialReceipts selectResultMoneyAll(String no);
+	
+	public float selectResultMoneyBySignTime(String time);
+	
+	public List<CjContract> selectResultMoneyByCjAndTime(String time);
 }

@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.MonthTarget;
 
 public interface MonthTargetService {
@@ -17,4 +18,6 @@ public interface MonthTargetService {
 	public int ifTarget(String id);
 	
 	public List<MonthTarget> selectMonthTargetByMonthSum(String id,int month);
+	
+	public List<MonthTarget> selectMonthTargetByYearAndMonth(String year,int month);
 }

@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CjContract;
 
 public interface CjContractService {
@@ -41,4 +42,7 @@ public interface CjContractService {
 	public CjContract selectCjByCjNo(String no);
 	
 	public List<CjContract> selectNoAndMoneyByDepartment(String department,String year);
+	
+	public float selectCjContractMoneyBySignTime(String time);
+	
 }

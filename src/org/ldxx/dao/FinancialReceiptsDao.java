@@ -3,6 +3,7 @@ package org.ldxx.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.FinancialReceipts;
 
 public interface FinancialReceiptsDao {
@@ -22,5 +23,9 @@ public interface FinancialReceiptsDao {
 	public FinancialReceipts selectResultMoney(@Param("no")String no,@Param("year")String year);
 	
 	public FinancialReceipts selectResultMoneyAll(@Param("no")String no);
+	
+	public List<FinancialReceipts> selectResultMoneyBySignTime(@Param("time")String time);
+	
+	public List<CjContract> selectResultMoneyByCjAndTime(@Param("time")String time);
 	
 }

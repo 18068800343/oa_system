@@ -16,6 +16,7 @@ public class PrjProgressFill {
 	private String taskNo;
 	private String prjType;
 	private float contractMoney;
+	private float prjMoney;
 	private String prjLeader;
 	private float provisionalSum;
 	private String prjStartTime;
@@ -39,6 +40,12 @@ public class PrjProgressFill {
 	private List<Accessory> accessory;
 	
 	
+	public float getPrjMoney() {
+		return prjMoney;
+	}
+	public void setPrjMoney(float prjMoney) {
+		this.prjMoney = prjMoney;
+	}
 	public float getAllIncome() {
 		return allIncome;
 	}

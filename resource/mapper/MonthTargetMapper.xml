@@ -32,4 +32,12 @@
   			SELECT * FROM month_target where ot_id in(
 				select t_id from department_target where ot_id=#{id})
   		</select>
+  		
+  		<select id="selectMonthTargetByYearAndMonth" resultType="MonthTarget">
+  			SELECT * FROM	month_target
+			WHERE ot_id IN (
+				SELECT b.t_id FROM operation_target AS a
+				LEFT JOIN department_target AS b ON a.ot_id = b.ot_id
+				WHERE a.year = #{year}) and month=#{month}
+  		</select>
 </mapper>

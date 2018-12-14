@@ -80,4 +80,17 @@ public class OtherContractServiceImpl implements OtherContractService{
 		return dao.selectOtherContractByNo(no);
 	}
 
+	@Override
+	public float selectOtherContractMoneyBySignTime(String time) {
+		float money=0;
+		List<OtherContract> other=dao.selectOtherContractMoneyBySignTime(time);
+		if(other!=null){
+			for(int i=0;i<other.size();i++){
+				float otherMoney=other.get(i).getContractMoney();
+				money=money+otherMoney;
+			}
+		}
+		return money;
+	}
+
 }

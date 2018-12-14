@@ -2,6 +2,7 @@ package org.ldxx.service.impl;
 
 import java.util.List;
 
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.FinancialReceipts;
 import org.ldxx.dao.FinancialReceiptsDao;
 import org.ldxx.service.FinancialReceiptsService;
@@ -52,6 +53,24 @@ public class FinancialReceiptsServiceImpl implements FinancialReceiptsService{
 	@Override
 	public FinancialReceipts selectResultMoneyAll(String no) {
 		return dao.selectResultMoneyAll(no);
+	}
+
+	@Override
+	public float selectResultMoneyBySignTime(String time) {
+		float money=0;
+		List<FinancialReceipts> fr=dao.selectResultMoneyBySignTime(time);
+		if(fr!=null){
+			for(int i=0;i<fr.size();i++){
+				float resultMoney=fr.get(i).getResultMoney();
+				money=money+resultMoney;
+			}
+		}
+		return money;
+	}
+
+	@Override
+	public List<CjContract> selectResultMoneyByCjAndTime(String time) {
+		return dao.selectResultMoneyByCjAndTime(time);
 	}
 
 }

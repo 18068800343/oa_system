@@ -85,11 +85,8 @@
                                 <td><input type="text" class="form-control" disabled id="contractMoney" style="width:70%;"></td>
                             </tr>
                             <tr>
-                                <td>项目负责人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td>
-                                    <input type="text" class="form-control" id="prj_leader" style="width:60%;" disabled>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择负责人</button>
-                                </td>
+                                <td>项目金额(万元)</td>
+                                <td><input type="text" class="form-control" disabled id="prjMoney" style="width:60%;"></td>
                                 <td>暂定金(万元)</td>
                                 <td><input type="text" class="form-control" style="width:70%;" id="provisional_sum" disabled></td>
                             </tr>
@@ -119,6 +116,15 @@
                                 <td><input type="text" class="form-control" style="width:60%;" id="all_cost"></td>
                                 <td>总累计收入</td>
                                 <td><input type="text" class="form-control" style="width:70%;" id="all_income"></td>
+                            </tr>
+                            <tr>
+                            	<td>项目负责人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <input type="text" class="form-control" id="prj_leader" style="width:60%;" disabled>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择负责人</button>
+                                </td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </table>
                         
@@ -650,8 +656,8 @@
                             <td id="look_contract_money"></td>
                         </tr>
                         <tr>
-                            <td>项目负责人</td>
-                            <td id="look_prj_leader"></td>
+                            <td>项目金额(万元)</td>
+                            <td id="look_prj_money"></td>
                             <td>暂定金(万元)</td>
                             <td id="look_provisional_sum"></td>
                         </tr>
@@ -678,6 +684,12 @@
                             <td id="look_all_cost"></td>
                             <td>总实际收入(万元)</td>
                             <td id="look_in_come"></td>
+                        </tr>
+                        <tr>
+                        	<td>项目负责人</td>
+                            <td id="look_prj_leader"></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </table>
                     
@@ -1053,6 +1065,7 @@
             	var cj=json.cj;
                 	//$('#task_no').val(task.prjNo);
             	    //$('#prjType2').val(task.prjType2);
+            	    $('#prjMoney').val(task.prjEstimateMoney)
                 	$('#contractMoney').val(task.contractMoney);
                 	$('#provisional_sum').val(task.provisionalSum);
                 	$('#prj_start_time').val(task.prjStartTime);
@@ -1612,6 +1625,7 @@
                     	var cj=json.cj;
 	                    	$('#prjName').val(task.prjName);
 	                    	$('#prjType2').val(task.prjType2);
+	                    	$('#prjMoney').val(task.prjEstimateMoney);
 	                    	$('#contractMoney').val(task.contractMoney);
 	                    	$('#provisional_sum').val(task.provisionalSum);
 	                    	$('#prj_start_time').val(task.prjStartTime);
@@ -1993,6 +2007,7 @@
     	var this_time=$("#this_time").val();
     	var all_money=$("#all_money").val();
     	/* var all_cost=$("#all_cost").val(); */
+    	var prjMoney=$("#prjMoney").val();
     	var this_time_money=$("#this_time_money").val();
     	
     	var PrjProgressFill={
@@ -2001,6 +2016,7 @@
     			taskNo:undefined,
     			prjType:undefined,
     			contractMoney:0,
+    			prjMoney:0,
     			prjLeader:undefined,
     			provisionalSum:0,
     			prjStartTime:undefined,
@@ -2024,6 +2040,7 @@
     	PrjProgressFill.taskNo=task_no;
     	PrjProgressFill.prjType=prjType2;
     	PrjProgressFill.contractMoney=contractMoney;
+    	PrjProgressFill.prjMoney=prjMoney;
     	PrjProgressFill.prjLeader=prj_leader;
     	PrjProgressFill.provisionalSum=provisional_sum;
     	PrjProgressFill.prjStartTime=prj_start_time;
@@ -2211,6 +2228,7 @@
     	var task_no=$("#task_no").val();
     	var prjType2=$("#prjType2").val();
     	var contractMoney=$("#contractMoney").val();
+    	var prjMoney=$("#prjMoney").val();
     	var prj_leader=$("#prj_leader").val();
     	var provisional_sum=$("#provisional_sum").val();
     	var prj_start_time=$("#prj_start_time").val();
@@ -2218,7 +2236,7 @@
     	var budget_money_all=$("#budget_money_all").val();
     	var this_time=$("#this_time").val();
     	var all_money=$("#all_money").val();
-    	var all_cost=$("#all_cost").val();
+    	/* var all_cost=$("#all_cost").val(); */
     	var this_time_money=$("#this_time_money").val();
     	
     	var PrjProgressFill={
@@ -2227,6 +2245,7 @@
     			taskNo:undefined,
     			prjType:undefined,
     			contractMoney:0,
+    			PrjMoney:0,
     			prjLeader:undefined,
     			provisionalSum:0,
     			prjStartTime:undefined,
@@ -2250,6 +2269,7 @@
     	PrjProgressFill.taskNo=task_no;
     	PrjProgressFill.prjType=prjType2;
     	PrjProgressFill.contractMoney=contractMoney;
+    	PrjProgressFill.prjMoney=prjMoney;
     	PrjProgressFill.prjLeader=prj_leader;
     	PrjProgressFill.provisionalSum=provisional_sum;
     	PrjProgressFill.prjStartTime=prj_start_time;
@@ -2467,6 +2487,7 @@
             	$("#look_all_money").text(json.allMoney);
             	$("#look_all_cost").text(json.allCost);
             	$("#look_in_come").text(json.allIncome);
+            	$("#look_prj_money").text(json.prjMoney);
             	$("#look_prj_this_income").text(json.prjThisIncome);
             	$("#look_accessory tbody").html('');
             	for(var i=0;i<accessory.length;i++){
