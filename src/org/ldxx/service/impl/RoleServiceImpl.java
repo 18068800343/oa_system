@@ -32,7 +32,22 @@ public class RoleServiceImpl implements RoleService {
 		}
 		return newRoles;
 	}
-
+	@Override
+	public List<Role> selectRoleListById() {
+		List<Role> roles = roleDao.selectRoleOneByCodeLength(4);
+		List<Role> newRoles = new ArrayList<>();
+		for(Role role:roles){
+			role.setParentRoleCode("0");
+			String code = role.getRoleCode();
+			List<Role> roles2 = roleDao.selectRoleByCodeLike(code+"%",8);
+			for(Role role2 :roles2){
+				role2.setParentRoleCode(role.getRoleCode());
+			}
+			role.setNodes(roles2);
+			newRoles.add(role);
+		}
+		return newRoles;
+	}
 	@Override
 	public List<Role> selectParentRoles() {
 		List<Role> roles = roleDao.selectRoleOneByCodeLength(4);

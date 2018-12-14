@@ -15,5 +15,7 @@ public interface RoleService {
 	List<Role> selectParentRoles();
 	
 	String addRoleByInput(String inputRoleName, String parentRole, String ifCouXiang) throws Exception;
+
+	List<Role> selectRoleListById();
 	
 }

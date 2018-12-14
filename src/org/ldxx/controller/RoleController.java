@@ -21,7 +21,12 @@ public class RoleController {
 		List<Role> roles = service.selectRoleList();
 		return roles;
 	}
-	
+	@RequestMapping("/initRoleListById")
+	@ResponseBody
+	public List<Role> initRoleListById(){
+		List<Role> roles = service.selectRoleListById();
+		return roles;
+	}
 	@RequestMapping("/getParentRoles")
 	@ResponseBody
 	public List<Role> getParentRoles(){

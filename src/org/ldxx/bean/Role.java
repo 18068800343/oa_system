@@ -9,14 +9,22 @@ public class Role {
 	private String roleCode;
 	private String roleName;
 	private String roleSort;
+	private String parentRoleCode;
+	private List<Role> nodes;
 	
+	public String getParentRoleCode() {
+		return parentRoleCode;
+	}
+	public void setParentRoleCode(String parentRoleCode) {
+		this.parentRoleCode = parentRoleCode;
+	}
 	public String getRoleSort() {
 		return roleSort;
 	}
 	public void setRoleSort(String roleSort) {
 		this.roleSort = roleSort;
 	}
-	private List<Role> nodes;
+	
 	
 	public String getText() {
 		return text;

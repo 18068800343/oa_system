@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="../../js/ace-rtl.min.css" />
 	<link rel="stylesheet" href="../../js/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
 	<link rel="stylesheet" href="../../font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../../css/css.css" />
     <style lang="">
         .UpperPart{
             display: flex;
@@ -109,11 +110,7 @@
             <h4 class="modal-title" id="myModalLabel"><b>分配角色</b></h4>
         </div>
         <div class="modal-body">
-                <div>     
-                    <form class="form-inline">
-                        <ul id="tree1"></ul>
-                    </form>  
-                </div>
+               <div class="f-tree"></div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -224,113 +221,15 @@
 <script src="../../js/ace-elements.min.js"></script>
 <script src="../../js/ace.min.js"></script>
 <script src="../../js/ace-extra.min.js"></script>
+<script type="text/javascript" src="../../js/config.js" ></script>
+<script type="text/javascript" src="../../js/data.js" ></script>
 <script>
     $(document).ready( function () {
     	initRoleList();
     	initParentRole();
     	selectUserAndRoles();
-    	$('#treeview1').treeview({
-            data: defaultData
-          });
     	
-    	var sampleData = initiateDemoData();//see below
-    	$('#tree1').ace_tree({
-				dataSource: sampleData['dataSource1'],
-				multiSelect: true,
-				cacheItems: true,
-				'open-icon' : 'ace-icon tree-minus',
-				'close-icon' : 'ace-icon tree-plus',
-				'itemSelect' : true,
-				'folderSelect': false,
-				'selected-icon' : 'ace-icon fa fa-check',
-				'unselected-icon' : 'ace-icon fa fa-times',
-				loadingHTML : '<div class="tree-loading"><i class="ace-icon fa fa-refresh fa-spin blue"></i></div>'
-			});
-			function initiateDemoData(){
-				var tree_data = {
-					'for-sale' : {text: 'For Sale', type: 'folder'}	,
-					'vehicles' : {text: 'Vehicles', type: 'folder'}	,
-					'rentals' : {text: 'Rentals', type: 'folder'}	,
-					'real-estate' : {text: 'Real Estate', type: 'folder'}	,
-					'pets' : {text: 'Pets', type: 'folder'}	,
-					'tickets' : {text: 'Tickets', type: 'item'}	,
-					'services' : {text: 'Services', type: 'item'}	,
-					'personals' : {text: 'Personals', type: 'item'}
-				}
-				tree_data['for-sale']['additionalParameters'] = {
-					'children' : {
-						'appliances' : {text: 'Appliances', type: 'item'},
-						'arts-crafts' : {text: 'Arts & Crafts', type: 'item'},
-						'clothing' : {text: 'Clothing', type: 'item'},
-						'computers' : {text: 'Computers', type: 'item'},
-						'jewelry' : {text: 'Jewelry', type: 'item'},
-						'office-business' : {text: 'Office & Business', type: 'item'},
-						'sports-fitness' : {text: 'Sports & Fitness', type: 'item'}
-					}
-				}
-				tree_data['vehicles']['additionalParameters'] = {
-					'children' : {
-						'cars' : {text: 'Cars', type: 'folder'},
-						'motorcycles' : {text: 'Motorcycles', type: 'item'},
-						'boats' : {text: 'Boats', type: 'item'}
-					}
-				}
-				tree_data['vehicles']['additionalParameters']['children']['cars']['additionalParameters'] = {
-					'children' : {
-						'classics' : {text: 'Classics', type: 'item'},
-						'convertibles' : {text: 'Convertibles', type: 'item'},
-						'coupes' : {text: 'Coupes', type: 'item'},
-						'hatchbacks' : {text: 'Hatchbacks', type: 'item'},
-						'hybrids' : {text: 'Hybrids', type: 'item'},
-						'suvs' : {text: 'SUVs', type: 'item'},
-						'sedans' : {text: 'Sedans', type: 'item'},
-						'trucks' : {text: 'Trucks', type: 'item'}
-					}
-				}
-
-				tree_data['rentals']['additionalParameters'] = {
-					'children' : {
-						'apartments-rentals' : {text: 'Apartments', type: 'item'},
-						'office-space-rentals' : {text: 'Office Space', type: 'item'},
-						'vacation-rentals' : {text: 'Vacation Rentals', type: 'item'}
-					}
-				}
-				tree_data['real-estate']['additionalParameters'] = {
-					'children' : {
-						'apartments' : {text: 'Apartments', type: 'item'},
-						'villas' : {text: 'Villas', type: 'item'},
-						'plots' : {text: 'Plots', type: 'item'}
-					}
-				}
-				tree_data['pets']['additionalParameters'] = {
-					'children' : {
-						'cats' : {text: 'Cats', type: 'item'},
-						'dogs' : {text: 'Dogs', type: 'item'},
-						'horses' : {text: 'Horses', type: 'item'},
-						'reptiles' : {text: 'Reptiles', type: 'item'}
-					}
-				}
-
-				var dataSource1 = function(options, callback){
-					var $data = null
-					if(!("text" in options) && !("type" in options)){
-						$data = tree_data;//the root tree
-						callback({ data: $data });
-						return;
-					}
-					else if("type" in options && options.type == "folder") {
-						if("additionalParameters" in options && "children" in options.additionalParameters)
-							$data = options.additionalParameters.children || {};
-						else $data = {}//no data
-					}
-					
-					if($data != null)//this setTimeout is only for mimicking some random delay
-						setTimeout(function(){callback({ data: $data });} , parseInt(Math.random() * 500) + 200);
-				}
-
-				return {'dataSource1': dataSource1}
-			}
-			
+    	
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -347,6 +246,7 @@
 		            { "data": "uName"},
 		            { "data": "userRoleNames"}, 
 		            { "data": null}, 
+		            {"data":"userRole","visible": false},
 		        ],
 		        "columnDefs": [
 								{	
@@ -354,9 +254,10 @@
 										    "targets": 3,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;;margin-left:5px;" title="查看历史详细信息" onclick="lookHistory(this)"></i>'
-										        }
-										  }
+										    	
+									    	return '<span class="glyphicon glyphicon-check zhuashou" aria-hidden="true"  style="font-size:18px;" title="分配角色" data-id="'+data.userRole+'" data-toggle="modal" data-target="#myModal" onclick="initRoleListById(this)"></span>'
+									        }
+								}
 								],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
@@ -391,34 +292,6 @@
         });
     }
 	
-			//定义树状菜单
- 			var defaultData = [
-		          {
-		            text: '一级',
-		            nodeid:'11',
-		            nodes: [{
-		                text: '二级1',
-		                nodeid:'12',
-		              },{
-		                  text: '二级2',
-		                  nodeId:'13',
-		                  nodes: [{
-		                      text: '三级',
-		                      nodeid:'14',
-		                    },{
-		                      text: '三级2',
-		                    }]
-		                }]
-		          },{
-		            text: '一级',
-		          },{
-		            text: '一级',
-		          },{
-		            text: '一级',
-		          },{
-		            text: '一级',
-		          }
-		        ];
 			
       function initRoleList(){
     	  $.ajax({
@@ -439,6 +312,49 @@
               }
           });
       }	
+      
+      function initRoleListById(dom){
+    	  var userRole = $(dom).attr("data-id");
+    	  $.ajax({
+              type: 'POST',
+              url: getContextPath()+'/role/initRoleListById',
+              dataType: 'json',
+              data: {
+              },
+              error: function (msg) {
+              	toastr.error("请求失败");
+              },
+              success: function (json) {
+            	  var json = json;
+            	  var tree_data = []
+            	  for(var i in json){
+            		  var a  = {}
+            		  a.id = json[i].roleCode;
+            		  a.pid = json[i].parentRoleCode;
+            		  a.title = json[i].roleName;
+            		  tree_data.push(a);
+            		  var array = json[i].nodes;
+            		  if(null!=array&&array.length>0){
+            			  for(var k in array){
+            				  var b  = {}
+            				  b.id = array[k].roleCode;
+                    		  b.pid = array[k].parentRoleCode;
+                    		  b.title = array[k].roleName;
+                    		  tree_data.push(b);
+            			  }
+            		  }
+            		  
+            	  }
+            	  config.tree({
+              		type:1,//1有选择框，没有则不传type或传0
+              		wrapper:'.f-tree',//容器
+              		data:tree_data,//数据
+              		check:[1,20,21]//选中的数据，可以不传
+              	});
+              }
+          });
+      }	
+      
       function initParentRole(){
     	  $.ajax({
               type: 'POST',
@@ -477,6 +393,7 @@
              },
              success: function (json) {
            	  $("#myModal2").modal('hide');
+           	 initParentRole();
            	 initRoleList();
              }
          });
