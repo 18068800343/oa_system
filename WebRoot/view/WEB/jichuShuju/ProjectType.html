@@ -240,11 +240,11 @@ var table=$('#mainContent').DataTable({
 	        ],
 	        "columnDefs": [
 							{	
-								 "class": "details-control",
+								 "class": "tcenter",
 								    "targets": 0,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return '<B style="font-size:22px;cursor:pointer;" onclick="showerji(this)">o</B>';
+								  	  		return '<span class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="font-size:22px;cursor:pointer;" onclick="showerji(this)"></span>';
 								  	  		
 								        }
 								  },
@@ -409,6 +409,7 @@ function initTable(){
 	})
 	//初始化二级类型
 	var stateArray=[];
+	var flag=true;
 	function showerji(aa){
 		var dom = $(aa).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
@@ -421,6 +422,7 @@ function initTable(){
 	            type: 'POST',
 	            url: getContextPath()+'/projectType/selectOne_TwoPrj',
 	            dataType: 'json',
+	            async:false,
 	            data:{
 	            	idFirst:data.idFirst,
 	            },
@@ -431,7 +433,16 @@ function initTable(){
 	            }
 			});
 		
-        } 
+        }
+		if(flag==true){
+			$(obj).removeClass("glyphicon-chevron-down");
+			$(obj).addClass("glyphicon-chevron-up");
+			flag=false;
+		}else{
+			$(obj).removeClass("glyphicon-chevron-up");
+			$(obj).addClass("glyphicon-chevron-down");
+			flag=true;
+		}
 	}
 	//添加2级项目类型
 	var yijiid;

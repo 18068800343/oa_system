@@ -222,11 +222,11 @@ var table=$('#mainContent').dataTable({
 	        ],
 	        "columnDefs": [
 							{	
-								 "class": "details-control",
+								 "class": "tcenter",
 								    "targets": 0,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return '<B style="font-size:22px;cursor:pointer;" onclick="showerji(this)">o</B>';
+								  	  		return '<span class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="font-size:22px;cursor:pointer;" onclick="showerji(this)"></span>';
 								  	  		
 								        }
 								  },
@@ -378,6 +378,7 @@ function initTable(){
 	})
 	//初始化二级类型
 	var array=[];
+	var flag=true;
 	function showerji(aa){
 		var dom = $(aa).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
@@ -391,6 +392,7 @@ function initTable(){
 	            type: 'POST',
 	            url: getContextPath()+'/costSubjects/selectOne_TwocostSubjects',
 	            dataType: 'json',
+	            async:false,
 	            data:{
 	            	idFirst:data.idFirst,
 	            },
@@ -400,6 +402,15 @@ function initTable(){
 	        			}
 	            }
 	        }); 
+		}
+		if(flag==true){
+			$(aa).removeClass("glyphicon-chevron-down");
+			$(aa).addClass("glyphicon-chevron-up");
+			flag=false;
+		}else{
+			$(aa).removeClass("glyphicon-chevron-up");
+			$(aa).addClass("glyphicon-chevron-down");
+			flag=true;
 		}
 	}
 	//添加2级项目类型
