@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.reflection.wrapper.BaseWrapper;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ConstructionDocuments;
@@ -18,6 +20,7 @@ import org.ldxx.bean.MaintenanceReinforcement;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.TechnicalDocumentation;
 import org.ldxx.bean.TestingEvaluation;
+import org.ldxx.bean.User;
 import org.ldxx.dao.ConstructionDocumentsDao;
 import org.ldxx.dao.DesignDocumentsDao;
 import org.ldxx.dao.MaintenanceReinforcementDao;
@@ -147,7 +150,7 @@ public class TaskController {
 	
 	@RequestMapping("/addTask2")/*任务单提交*/
 	@ResponseBody
-	public String addTask2(@RequestBody List<Task> task){
+	public String addTask2(@RequestBody List<Task> task,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		Task t=task.get(0);
@@ -197,17 +200,18 @@ public class TaskController {
 				dao.addConstructionDocumentsSave(td);
 			}
 		}
+		User user = (User) session.getAttribute("user");
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setParams("1");
 		currentFlow.setTitle(t.getPrjName());
-		currentFlow.setActor("88b6f133f129");
-		currentFlow.setActorname("索隆");;
-		currentFlow.setMemo("流程发起");
+		currentFlow.setActor(user.getUserId());
+		currentFlow.setActorname(user.getUsername());;
+		currentFlow.setMemo(t.getPrjName()+"流程发起");
 		currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
 		currentFlow.setParams("{'cs':'1'}");
-		currentFlow.setStarter("88b6f133f129");
-		currentFlow.setStartername("索隆");
+		currentFlow.setStarter(user.getUserId());
+		currentFlow.setStartername(user.getUsername());
 		currentFlow.setFkDept("1");
 		currentFlow.setDeptname("工程建设一部");
 		currentFlow.setNodename("节点名称");

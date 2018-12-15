@@ -10,11 +10,9 @@
     <link href="../../style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/bootstrap-treeview.css" />
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="../../js/ace-skins.min.css" />
-	<link rel="stylesheet" href="../../js/ace-rtl.min.css" />
-	<link rel="stylesheet" href="../../js/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
 	<link rel="stylesheet" href="../../font-awesome/4.5.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" href="../../css/css.css" />
+	<link href="../../toastr/toastr.css" rel="stylesheet">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -114,7 +112,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success">保存</button>
+            <button type="button" class="btn btn-success" id="savePersonRoles">保存</button>
         </div>
         </div>
     </div>
@@ -218,9 +216,7 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/bootstrap-treeview.js" ></script>
 <script src="../../js/tree.min.js"></script>
-<script src="../../js/ace-elements.min.js"></script>
-<script src="../../js/ace.min.js"></script>
-<script src="../../js/ace-extra.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
 <script type="text/javascript" src="../../js/config.js" ></script>
 <script type="text/javascript" src="../../js/data.js" ></script>
 <script>
@@ -246,6 +242,7 @@
 		            { "data": "uName"},
 		            { "data": "userRoleNames"}, 
 		            { "data": null}, 
+		            {"data":"userId","visible": false},
 		            {"data":"userRole","visible": false},
 		        ],
 		        "columnDefs": [
@@ -255,7 +252,7 @@
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										    	
-									    	return '<span class="glyphicon glyphicon-check zhuashou" aria-hidden="true"  style="font-size:18px;" title="分配角色" data-id="'+data.userRole+'" data-toggle="modal" data-target="#myModal" onclick="initRoleListById(this)"></span>'
+									    	return '<span class="glyphicon glyphicon-check zhuashou" aria-hidden="true"  style="font-size:18px;" title="分配角色" data-id="'+data.userRole+'" data-uid="'+data.userId+'" data-toggle="modal" data-target="#myModal" onclick="initRoleListById(this)"></span>'
 									        }
 								}
 								],
@@ -312,9 +309,13 @@
               }
           });
       }	
-      
+      var pageUId ;
       function initRoleListById(dom){
+    	  $(".f-tree").empty();
+    	  pageUId=undefined;
     	  var userRole = $(dom).attr("data-id");
+    	  var checkArray = userRole.split("_")
+    	  pageUId = $(dom).attr("data-uid");
     	  $.ajax({
               type: 'POST',
               url: getContextPath()+'/role/initRoleListById',
@@ -325,8 +326,9 @@
               	toastr.error("请求失败");
               },
               success: function (json) {
+            	 
             	  var json = json;
-            	  var tree_data = []
+            	  var tree_data = [];
             	  for(var i in json){
             		  var a  = {}
             		  a.id = json[i].roleCode;
@@ -345,15 +347,45 @@
             		  }
             		  
             	  }
-            	  config.tree({
+            	config.tree({
               		type:1,//1有选择框，没有则不传type或传0
               		wrapper:'.f-tree',//容器
               		data:tree_data,//数据
-              		check:[1,20,21]//选中的数据，可以不传
+              		check:checkArray//选中的数据，可以不传
               	});
+            	  tree_data = [];
               }
           });
       }	
+      
+      $("#savePersonRoles").bind('click',function(){
+    	  var selects = $(".f-iconRadioTrue");
+    	  var personRoles = ""; 
+    	  $(selects).each(function(){
+    		 var e = $(this).next().val();
+    		 personRoles+=e+"_";
+    	  });
+    	  updateParentRole(personRoles);
+      })
+      
+      function updateParentRole(personRoles){
+    	  $.ajax({
+              type: 'POST',
+              url: getContextPath()+'/role/updateParentRole',
+              dataType: 'json',
+              data: {
+            	  personId:pageUId,
+            	  personRoles:personRoles
+              },
+              error: function (msg) {
+              	toastr.error("请求失败");
+              },
+              success: function (json) {
+            	  var json = json;
+            	  toastr.success("修改成功");
+              }
+          });
+      }
       
       function initParentRole(){
     	  $.ajax({

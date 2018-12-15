@@ -11,6 +11,8 @@ public interface RoleDao {
 
 	public int addRole(@Param("role")Role role);
 	
+	public int updatePersonRole(@Param("personId")String personId,@Param("personRoles")String personRoles);
+	
 	public List<Role> selectRoleOneByCodeLength(@Param("length")Integer length);
 	
 	public List<Role> selectRoleTwoByCodeLength(@Param("length")Integer length);

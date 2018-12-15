@@ -132,9 +132,6 @@
     </if>
   </delete>
   <insert id="insert" parameterType="org.ldxx.bean.FlowNode" >
-    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into flownode (Flo_Node_Left, Flo_Tmp_ID, FlowNodeName, 
       Tip, Step, NodeWorkType, 
       TSpanDay, TSpanHour, WarningDay, 
@@ -159,11 +156,11 @@
       #{hisstas,jdbcType=VARCHAR}, #{hisdeptstrs,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.ldxx.bean.FlowNode" >
-    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into flownode
     <trim prefix="(" suffix=")" suffixOverrides="," >
+     <if test="floNodeLeft != null" >
+        ID,
+      </if>
       <if test="floNodeLeft != null" >
         Flo_Node_Left,
       </if>
@@ -262,6 +259,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+     <if test="floNodeLeft != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
       <if test="floNodeLeft != null" >
         #{floNodeLeft,jdbcType=VARCHAR},
       </if>

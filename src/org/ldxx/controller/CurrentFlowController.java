@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.User;
 import org.ldxx.model.CurrentFlowVo;
 import org.ldxx.model.FlowHistoryVo;
@@ -28,8 +30,10 @@ public class CurrentFlowController {
 	
 	@RequestMapping("/getCurrentFlowListStatus1ByUser")
 	@ResponseBody
-	public List<CurrentFlowVo> getCurrentFlowListByUser(String userId,String statu){
- 		List<CurrentFlowVo> list = currentFlowService.getCurrentFlowListByUser(userId, statu);
+	public List<CurrentFlowVo> getCurrentFlowListByUser(String userId,String statu,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String id = user.getUserId();
+ 		List<CurrentFlowVo> list = currentFlowService.getCurrentFlowListByUser(id, statu);
 		return list;
 	}
 	

@@ -17,5 +17,7 @@ public interface RoleService {
 	String addRoleByInput(String inputRoleName, String parentRole, String ifCouXiang) throws Exception;
 
 	List<Role> selectRoleListById();
+
+	int updatePersonRole(String personId, String personRoles);
 	
 }
