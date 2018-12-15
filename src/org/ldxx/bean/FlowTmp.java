@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.util.List;
+
 public class FlowTmp {
     private String id;
 
@@ -29,7 +31,18 @@ public class FlowTmp {
 
     private String pspeclevel;
 
-    public String getId() {
+    private List<FlowNode> flowNodes;
+    
+    
+    public List<FlowNode> getFlowNodes() {
+		return flowNodes;
+	}
+
+	public void setFlowNodes(List<FlowNode> flowNodes) {
+		this.flowNodes = flowNodes;
+	}
+
+	public String getId() {
         return id;
     }
 

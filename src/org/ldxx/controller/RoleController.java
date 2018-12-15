@@ -27,6 +27,13 @@ public class RoleController {
 		List<Role> roles = service.selectRoleListById();
 		return roles;
 	}
+	@RequestMapping("/updateParentRole")
+	@ResponseBody
+	public int  updateParentRole(String personId,String personRoles){
+		personRoles = personRoles.substring(0,personRoles.length()-1);
+		int i = service.updatePersonRole(personId, personRoles);
+		return i;
+	}
 	@RequestMapping("/getParentRoles")
 	@ResponseBody
 	public List<Role> getParentRoles(){

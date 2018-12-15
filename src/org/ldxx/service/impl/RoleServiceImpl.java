@@ -19,7 +19,11 @@ public class RoleServiceImpl implements RoleService {
 		int i = roleDao.addRole(role);
 		return i;
 	}
-
+	@Override
+	public int updatePersonRole(String personId,String personRoles) {
+		int i = roleDao.updatePersonRole(personId, personRoles);
+		return i;
+	}
 	@Override
 	public List<Role> selectRoleList() {
 		List<Role> roles = roleDao.selectRoleOneByCodeLength(4);
