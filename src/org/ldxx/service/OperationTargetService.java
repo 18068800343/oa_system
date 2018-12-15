@@ -15,4 +15,6 @@ public interface OperationTargetService {
 	public List<OperationTarget> selectOperationTarget();
 	
 	public float getSumCostByYear(String year);
+	
+	public List<OperationTarget> selectOperationTargetByYear(String year);
 }

@@ -20,4 +20,6 @@ public interface MonthTargetService {
 	public List<MonthTarget> selectMonthTargetByMonthSum(String id,int month);
 	
 	public List<MonthTarget> selectMonthTargetByYearAndMonth(String year,int month);
+	
+	public List<MonthTarget> selectMonthTargetByYearAndMonthAndDepartment(String year,int month,String department);
 }

@@ -40,4 +40,13 @@
 				LEFT JOIN department_target AS b ON a.ot_id = b.ot_id
 				WHERE a.year = #{year}) and month=#{month}
   		</select>
+  		
+  		<select id="selectMonthTargetByYearAndMonthAndDepartment" resultType="MonthTarget">
+  			SELECT * FROM	month_target
+			WHERE ot_id IN (
+				SELECT b.t_id FROM operation_target AS a
+				LEFT JOIN department_target AS b ON a.ot_id = b.ot_id
+				LEFT JOIN mode_status as c on a.ot_id=c.mode_id
+				WHERE c.status=2 and a.year = #{year} and b.om_id = #{department}) and month=#{month}
+  		</select>
 </mapper>

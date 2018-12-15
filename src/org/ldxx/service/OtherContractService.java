@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.OtherContract;
 
 public interface OtherContractService {
@@ -23,5 +24,7 @@ public interface OtherContractService {
 	public OtherContract selectOtherContractByNo(String no);
 	
 	public float selectOtherContractMoneyBySignTime(String time);
+	
+	public float selectOtherContractMoneyBySignTimeAndDepartment(String time,String department);
 
 }

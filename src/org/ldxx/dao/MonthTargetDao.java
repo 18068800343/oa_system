@@ -20,4 +20,7 @@ public interface MonthTargetDao {
 	public List<MonthTarget> selectMonthTargetByMonthSum(@Param("id")String id,@Param("month")int month);
 	
 	public List<MonthTarget> selectMonthTargetByYearAndMonth(@Param("year")String year,@Param("month")int month);
+	
+	public List<MonthTarget> selectMonthTargetByYearAndMonthAndDepartment(@Param("year")String year,@Param("month")int month,@Param("department")String department);
+	
 }

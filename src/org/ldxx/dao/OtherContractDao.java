@@ -24,4 +24,6 @@ public interface OtherContractDao {
 	public OtherContract selectOtherContractByNo(@Param("no")String no);
 	
 	public List<OtherContract> selectOtherContractMoneyBySignTime(@Param("time")String time);
+	
+	public List<OtherContract> selectOtherContractMoneyBySignTimeAndDepartment(@Param("time")String time,@Param("department")String department);
 }

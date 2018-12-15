@@ -61,4 +61,9 @@ public class MonthTargetServiceImpl implements MonthTargetService{
 		return dao.selectMonthTargetByYearAndMonth(year, month);
 	}
 
+	@Override
+	public List<MonthTarget> selectMonthTargetByYearAndMonthAndDepartment(String year, int month, String department) {
+		return dao.selectMonthTargetByYearAndMonthAndDepartment(year, month, department);
+	}
+
 }

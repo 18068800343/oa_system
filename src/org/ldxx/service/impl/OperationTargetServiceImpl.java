@@ -52,4 +52,9 @@ public class OperationTargetServiceImpl implements OperationTargetService{
 		return odao.getSumCostByYear(y);
 	}
 
+	@Override
+	public List<OperationTarget> selectOperationTargetByYear(String year) {
+		return odao.selectOperationTargetByYear(year);
+	}
+
 }
