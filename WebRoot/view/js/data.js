@@ -7,4 +7,13 @@ var treeData = [
 	{id:4,title:'二级单01',pid:3},
 	{id:5,title:'二级单02',pid:3},
 	{id:6,title:'二级单03',pid:3},
+	{id:12,title:'一级菜单02',pid:2},
+	{id:17,title:'一级菜单03',pid:2},
+	{id:18,title:'一级菜单04',pid:2},
+	{id:112,title:'一级菜单02',pid:12},
+	{id:117,title:'一级菜单03',pid:12},
+	{id:118,title:'一级菜单04',pid:12},
+	{id:1112,title:'一级菜单02',pid:112},
+	{id:1117,title:'一级菜单03',pid:112},
+	{id:1118,title:'一级菜单04',pid:112},
 ]

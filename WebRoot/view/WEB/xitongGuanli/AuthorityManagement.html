@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="../../font3/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/bootstrap-treeview.css" />
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../js/ace-skins.min.css" />
 	<link rel="stylesheet" href="../../js/ace-rtl.min.css" />
 	<link rel="stylesheet" href="../../js/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
 	<link rel="stylesheet" href="../../font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../../css/css.css" />
     <style lang="">
         .UpperPart{
             display: flex;
@@ -55,13 +57,11 @@
             <h4 class="modal-title" id="myModalLabel"><b>修改</b></h4>
         </div>
         <div class="modal-body">
-                <div>     
-                    <ul id="tree1"></ul>
-                </div>
-        </div>
+               <div class="f-tree"></div>
+        </div> 
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success">保存</button>
+            <button type="button" class="btn btn-success" onclick="savePermissions()">保存</button>
         </div>
         </div>
     </div>
@@ -122,128 +122,16 @@
 <script src="../../js/common-scripts.js"></script>
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/bootstrap-treeview.js" ></script>
 <script src="../../js/tree.min.js"></script>
 <script src="../../js/ace-elements.min.js"></script>
 <script src="../../js/ace.min.js"></script>
 <script src="../../js/ace-extra.min.js"></script>
+<script type="text/javascript" src="../../js/config.js" ></script>
+<script type="text/javascript" src="../../js/data.js" ></script>
 <script>
     $(document).ready( function () {
     	initTable();
-    	
-    	var sampleData = initiateDemoData();//see below
-    	$('#tree1').ace_tree({
-				dataSource: sampleData['dataSource1'],
-				multiSelect: true,
-				cacheItems: true,
-				'open-icon' : 'ace-icon tree-minus',
-				'close-icon' : 'ace-icon tree-plus',
-				'itemSelect' : true,
-				'folderSelect': false,
-				'selected-icon' : 'ace-icon fa fa-check',
-				'unselected-icon' : 'ace-icon fa fa-times',
-				loadingHTML : '<div class="tree-loading"><i class="ace-icon fa fa-refresh fa-spin blue"></i></div>'
-			});
-			function initiateDemoData(){
-				var tree_data = {
-					'for-sale' : {text: 'For Sale', type: 'folder'}	,
-					'vehicles' : {text: 'Vehicles', type: 'folder'}	,
-					'rentals' : {text: 'Rentals', type: 'folder'}	,
-					'real-estate' : {text: 'Real Estate', type: 'folder'}	,
-					'pets' : {text: 'Pets', type: 'folder'}	,
-					'tickets' : {text: 'Tickets', type: 'item'}	,
-					'services' : {text: 'Services', type: 'item'}	,
-					'personals' : {text: 'Personals', type: 'item'}
-				}
-				tree_data['for-sale']['additionalParameters'] = {
-					'children' : {
-						'appliances' : {text: 'Appliances', type: 'item'},
-						'arts-crafts' : {text: 'Arts & Crafts', type: 'item'},
-						'clothing' : {text: 'Clothing', type: 'item'},
-						'computers' : {text: 'Computers', type: 'item'},
-						'jewelry' : {text: 'Jewelry', type: 'item'},
-						'office-business' : {text: 'Office & Business', type: 'item'},
-						'sports-fitness' : {text: 'Sports & Fitness', type: 'item'}
-					}
-				}
-				tree_data['vehicles']['additionalParameters'] = {
-					'children' : {
-						'cars' : {text: 'Cars', type: 'folder'},
-						'motorcycles' : {text: 'Motorcycles', type: 'item'},
-						'boats' : {text: 'Boats', type: 'item'}
-					}
-				}
-				tree_data['vehicles']['additionalParameters']['children']['cars']['additionalParameters'] = {
-					'children' : {
-						'classics' : {text: 'Classics', type: 'folder'},
-						'convertibles' : {text: 'Convertibles', type: 'item'},
-						'coupes' : {text: 'Coupes', type: 'item'},
-						'hatchbacks' : {text: 'Hatchbacks', type: 'item'},
-						'hybrids' : {text: 'Hybrids', type: 'item'},
-					}
-				}
-				tree_data['vehicles']['additionalParameters']['children']['cars']['additionalParameters']['children']['classics']['additionalParameters']= {
-						'children' : {
-							'123123' : {text: '123123', type: 'folder'},
-							'convertibles' : {text: 'Convertibles', type: 'item'},
-							'coupes' : {text: 'Coupes', type: 'item'},
-							'hatchbacks' : {text: 'Hatchbacks', type: 'item'},
-							'hybrids' : {text: 'Hybrids', type: 'item'},
-						}
-					}
-				tree_data['vehicles']['additionalParameters']['children']['cars']['additionalParameters']['children']['classics']['additionalParameters']['children']['123123']['additionalParameters']= {
-						'children' : {
-							'classics' : {text: 'Classics', type: 'item'},
-							'convertibles' : {text: 'Convertibles', type: 'item'},
-							'coupes' : {text: 'Coupes', type: 'item'},
-							'hatchbacks' : {text: 'Hatchbacks', type: 'item'},
-							'hybrids' : {text: 'Hybrids', type: 'item'},
-						}
-					}
-
-				tree_data['rentals']['additionalParameters'] = {
-					'children' : {
-						'apartments-rentals' : {text: 'Apartments', type: 'item'},
-						'office-space-rentals' : {text: 'Office Space', type: 'item'},
-						'vacation-rentals' : {text: 'Vacation Rentals', type: 'item'}
-					}
-				}
-				tree_data['real-estate']['additionalParameters'] = {
-					'children' : {
-						'apartments' : {text: 'Apartments', type: 'item'},
-						'villas' : {text: 'Villas', type: 'item'},
-						'plots' : {text: 'Plots', type: 'item'}
-					}
-				}
-				tree_data['pets']['additionalParameters'] = {
-					'children' : {
-						'cats' : {text: 'Cats', type: 'item'},
-						'dogs' : {text: 'Dogs', type: 'item'},
-						'horses' : {text: 'Horses', type: 'item'},
-						'reptiles' : {text: 'Reptiles', type: 'item'}
-					}
-				}
-
-				var dataSource1 = function(options, callback){
-					var $data = null
-					if(!("text" in options) && !("type" in options)){
-						$data = tree_data;//the root tree
-						callback({ data: $data });
-						return;
-					}
-					else if("type" in options && options.type == "folder") {
-						if("additionalParameters" in options && "children" in options.additionalParameters)
-							$data = options.additionalParameters.children || {};
-						else $data = {}//no data
-					}
-					
-					if($data != null)//this setTimeout is only for mimicking some random delay
-						setTimeout(function(){callback({ data: $data });} , parseInt(Math.random() * 500) + 200);
-				}
-
-				return {'dataSource1': dataSource1}
-			}
-			
-			
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -272,7 +160,7 @@
 								    "targets": 8,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return ' <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改权限" data-toggle="modal" data-target="#change" id="Changedanwei"></i>'
+								  	  		return ' <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改权限" onclick="checkpermissions(this)" data-toggle="modal" data-target="#change" id="Changedanwei"></i>'
 								        }
 								  },
 								  {	
@@ -321,17 +209,18 @@
     }
 
 		
-	
+	//查看权限
 	function lookpermissions(obj){
 		var dom=$(obj).parents("tr");
 		var data=$("#mainContent").DataTable().row(dom).data();
-		console.log(data)
+		//console.log(data.uPermissions)
+		var ups=data.uPermissions;
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/permissions/getNameByPermissions',
             dataType: 'json',
             data: {
-            	uPermissions:data.uPermissions
+            	uPermissions:ups
             },
             success: function (json) {
                 var roleidArray = new Array();
@@ -339,16 +228,119 @@
 				  roleidArray[i]=json[i].name;
 				}
 				roleidArray = roleidArray.join("  ,  ");
-				console.log(roleidArray)
-				 $("#permissions tbody").empty();
-                $("#permissions tbody").append("<tr>"
-                		+"<td>"+roleidArray+"</td>"
-                		+"</tr>")
+				$("#permissions tbody").empty();
+				if(json.length!=0){
+	                $("#permissions tbody").append("<tr>"
+	                		+"<td>"+roleidArray+"</td>"
+	                		+"</tr>")
+				}else{
+					$("#permissions tbody").append("<tr>"
+	                		+"<td>无任何权限</td>"
+	                		+"</tr>")
+				}
             }
         });
+			
 		
 	}
     
+	
+	//修改权限
+	var userId;
+	function checkpermissions(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		userId=data.userId;
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/permissions/getAllPermissions',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                //console.log(JSON.stringify(json.list))
+                var tree_data = []
+                var arr1 = json.list1;
+                if(arr1!=null&&arr1.length>0){
+	                for(var i in arr1){
+	                	var pId1=arr1[i].id;
+	                	var a  = {};
+                		a.id=arr1[i].id;
+                		a.pid = 0;
+                		a.title=arr1[i].name;
+                		tree_data.push(a);
+                		
+	                	var arr2 = json.list2;
+	                	if(arr2!=null&&arr2.length>0){
+	                		for(var j in arr2){
+	                			if(arr2[j].coding.substr(0,2)==arr1[i].coding.substr(0,2)){
+	                				var pId2=arr2[j].id;
+				                	var b  = {};
+			                		b.id=arr2[j].id;
+			                		b.pid = pId1;
+			                		b.title=arr2[j].name;
+			                		tree_data.push(b);
+			                		
+			                		var arr3 = json.list3;
+			   	                	if(arr3!=null&&arr3.length>0){
+			   	                		for(var k in arr3){
+			   	                			if(arr3[k].coding.substr(0,3)==arr2[j].coding.substr(0,3)){
+			   		                			var pId3=arr3[k].id;
+			   				                	var c  = {};
+			   			                		c.id=arr3[k].id;
+			   			                		c.pid = pId2;
+			   			                		c.title=arr3[k].name;
+			   			                		tree_data.push(c);
+			   			                		
+			   			                		var arr4 = json.list4;
+			   			                		if(arr4!=null&&arr4.length>0){
+						   	                		for(var m in arr4){
+						   	                			if(arr4[m].coding.substr(0,4)==arr3[k].coding.substr(0,4)){
+						   		                			var pId4=arr4[m].id;
+						   				                	var d = {};
+						   			                		d.id=arr4[m].id;
+						   			                		d.pid = pId3;
+						   			                		d.title=arr4[m].name;
+						   			                		tree_data.push(d);
+						   			                		
+						   	                			}
+						   	                		}
+						   	                	} 
+			   	                			}
+			   	                		}
+			   	                	}
+	                			}
+	                			
+	                		}
+	                	}
+	                	
+	                }
+                	
+                }
+               	console.log(tree_data)
+               	$(".f-tree").empty();
+                config.tree({
+              		type:1,//1有选择框，没有则不传type或传0
+              		wrapper:'.f-tree',//容器
+              		data:tree_data,//数据
+              		check:[1,20,21]//选中的数据，可以不传
+              	});
+                
+            }
+        });
+	} 
+	
+	//修改保存（未完成）
+	function savePermissions(){
+		console.log(userId)
+		var selects = $(".f-iconRadioTrue");
+  	  	var personRoles = ""; 
+  	  	$(selects).each(function(){
+  			 var e = $(this).next().val();
+  			 personRoles+=e+",";
+  	  	});
+  	  	console.log(personRoles)
+	}
 
 </script>
 </html>

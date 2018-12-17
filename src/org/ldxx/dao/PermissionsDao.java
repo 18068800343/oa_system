@@ -10,4 +10,6 @@ public interface PermissionsDao {
 
 	Permissions getNameByPermissions(@Param("uPermission")String uPermission);
 
+	List<Permissions> getAllPermissions();
+
 }
