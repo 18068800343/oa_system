@@ -19,5 +19,7 @@ public interface RoleService {
 	List<Role> selectRoleListById();
 
 	int updatePersonRole(String personId, String personRoles);
+
+	List<Role> selectRolesSort();
 	
 }

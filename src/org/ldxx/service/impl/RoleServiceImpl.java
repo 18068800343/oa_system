@@ -36,6 +36,12 @@ public class RoleServiceImpl implements RoleService {
 		}
 		return newRoles;
 	}
+	
+	@Override
+	public List<Role> selectRolesSort() {
+		List<Role> roles = roleDao.selectRolesSort();
+		return roles;
+	}
 	@Override
 	public List<Role> selectRoleListById() {
 		List<Role> roles = roleDao.selectRoleOneByCodeLength(4);

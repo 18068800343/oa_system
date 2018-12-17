@@ -137,14 +137,14 @@
                         <table class="table table-bordered table-condensed">
                             <tr>
                                 <td>步骤名称</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" id="floNodeName"></td>
                                 <td>步骤编码</td>
-                                <td><input type="text" class="form-control" disabled></td>
+                                <td><input type="text" class="form-control" id="floNodeCode" placeholder="自动生成" disabled></td>
                             </tr>
                             <tr>
                            		<td>上一步</td>
                                 <td>
-                                		<select class="form-control" style="width:180px;">
+                                		<select class="form-control" style="width:180px;" id="flowNodes">
 	                                        <option value="">1</option>
 	                                        <option value="">2</option>
 	                                    </select>
@@ -167,7 +167,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success">保存</button>
+            <button type="button" class="btn btn-success" id="savaFloNode">保存</button>
         </div>
         </div>
     </div>
@@ -187,14 +187,14 @@
                         <table class="table table-bordered table-condensed">
                             <tr>
                                 <td>步骤名称</td>
-                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control" id="xgFloNodeName"></td>
                                 <td>步骤编码</td>
-                                <td><input type="text" class="form-control" disabled></td>
+                                <td><input type="text" class="form-control" id="xgFloNodeId" disabled></td>
                             </tr>
                             <tr>
                            		<td>上一步</td>
                                 <td>
-                                		<select class="form-control" style="width:180px;">
+                                		<select class="form-control" style="width:180px;" id="xgFlowNodes">
 	                                        <option value="">1</option>
 	                                        <option value="">2</option>
 	                                    </select>
@@ -217,7 +217,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success">保存</button>
+            <button type="button" class="btn btn-success" id="saveUpdateFloNode">保存</button>
         </div>
         </div>
     </div>
@@ -334,7 +334,7 @@
                 	var td1 = '<td>'+json[i].id+'</td>';
                 	var td2 = '<td id="fn'+json[i].id+'">'+json[i].flowname+'</td>';
                 	var td3 = '<td id="fm'+json[i].id+'">'+json[i].flowmemo+'</td>';
-                	var td4 = '<td><i class="iconfont icon-xiugai" style="font-size:22px;cursor:pointer;" data-flowmemo="'+json[i].flowmemo+'" data-flowname="'+json[i].flowname+'" data-id="'+json[i].id+'" onclick="updateFlowTmpi(this)" name="updateFlowTmp" title="修改" data-toggle="modal" data-target="#change"></i><i class="iconfont icon-shanchu" style="font-size:22px;cursor:pointer;" data-id="'+json[i].id+'" onclick="deleteFlowTmpi(this)" title="删除"></i><i class="iconfont icon-icon_add" style="font-size:22px;cursor:pointer;" title="增加步骤" data-toggle="modal" data-target="#myModal2"></i></td>';
+                	var td4 = '<td><i class="iconfont icon-xiugai" style="font-size:22px;cursor:pointer;" data-flowmemo="'+json[i].flowmemo+'" data-flowname="'+json[i].flowname+'" data-id="'+json[i].id+'" onclick="updateFlowTmpi(this)" name="updateFlowTmp" title="修改" data-toggle="modal" data-target="#change"></i><i class="iconfont icon-shanchu" style="font-size:22px;cursor:pointer;" data-id="'+json[i].id+'" onclick="deleteFlowTmpi(this)" title="删除"></i><i class="iconfont icon-icon_add" style="font-size:22px;cursor:pointer;" title="增加步骤" data-toggle="modal" data-id="'+json[i].id+'" onclick="addFlowNode(this)" id="addFlowNode" data-target="#myModal2"></i></td>';
                 	$("#mainContent2 tbody:first").append("<tr >"+td+td1+td2+td3+td4+"</tr>");
                 	var flowNodes = json[i].flowNodes;
                 	if(undefined!=flowNodes&&""!=flowNodes&&flowNodes.length>0){
@@ -369,10 +369,10 @@
                     	var ftr = "<tr>"
 			                        +"<td>"+flowNodes[k].id+"</td>"
 			                        +"<td>"+flowNodes[k].flownodename+"</td>"
-			                        +"<td></td>"
+			                        +"<td>"+flowNodes[k].nodeActorNames+"</td>"
 			                        +"<td>"
-			                        +"<i class='iconfont icon-xiugai' style='font-size:22px;cursor:pointer;' title='修改' data-toggle='modal' data-target='#change2'></i>"
-			                        +"<i class='iconfont icon-shanchu' style='font-size:22px;cursor:pointer;' title='删除'></i>"
+			                        +"<i class='iconfont icon-xiugai' style='font-size:22px;cursor:pointer;' title='修改' data-toggle='modal' data-id='"+flowNodes[k].id+"' data-lastId='"+flowNodes[k].floNodeLeft+"' data-tmpId='"+json[i].id+"'  data-code='"+flowNodes[k].id+"' data-name='"+flowNodes[k].flownodename+"' data-roleIds ='"+flowNodes[k].roleIds+"' onclick='updateFloNode(this)' data-target='#change2'></i>"
+			                        +"<i class='iconfont icon-shanchu' style='font-size:22px;cursor:pointer;' title='删除' data-id='"+flowNodes[k].id+"' onclick='deleteFloNode(this)'></i>"
 			                        +"</td>"
                    			      +"</tr>";
                        $("#flowNodeTable"+json[i].id+" tbody").append(ftr);
@@ -470,6 +470,141 @@
 	        });
     });
    	
+    var page_floTmpId;
+    function addFlowNode(dom){
+    	page_floTmpId=undefined;
+    	var floTmpId = $(dom).attr("data-id");
+    	page_floTmpId=floTmpId;
+    	initFloNodesByFloTmpId(floTmpId);
+    	initAllRole();
+    }
    
+    function initFloNodesByFloTmpId(floTmpId){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/flowNode/getFloNodeByFloTmpId',
+            dataType: 'json',
+            async:false,
+            data: {
+            	floTmpId:floTmpId
+            },
+            success: function (json) {
+            	$("#flowNodes").empty();
+            	$("#xgFlowNodes").empty();
+            	$("#flowNodes").append("<option value=''>无</option>");
+           		$("#xgFlowNodes").append("<option value=''>无</option>");
+            	for(var i in json){
+            		$("#flowNodes").append("<option value='"+json[i].id+"'>"+json[i].flownodename+"</option>");
+            		$("#xgFlowNodes").append("<option value='"+json[i].id+"'>"+json[i].flownodename+"</option>");
+            	}
+            }
+        });
+    }
+    function initAllRole(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/role/selectRolesSort',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            success: function (json) {
+            	$("#sel_productTag").empty();
+            	$("#xgsel_productTag").empty();
+            	for(var i in json){
+            		$("#sel_productTag").append("<option value='"+json[i].id+"'>"+json[i].roleName+"</option>");
+            	}	
+            	for(var i in json){
+            		$("#xgsel_productTag").append("<option value='"+json[i].id+"'>"+json[i].roleName+"</option>");
+            	}	
+            }
+        });
+    }
+    $("#savaFloNode").click(function(){
+    	var floNodeName = $("#floNodeName").val();
+    	var lastFloNode = $("#flowNodes").val();
+    	var floNodeRoles = $("#sel_productTag").val();
+    	if(floNodeRoles==undefined||floNodeRoles==null){
+    		floNodeRoles=[];
+    	}
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/flowNode/addFlowNode',
+            dataType: 'json',
+            data: {
+            	floNodeName:floNodeName,
+            	lastFloNode:lastFloNode,
+            	floNodeRoles:floNodeRoles.toString(),
+            	page_floTmpId:page_floTmpId
+            },
+            success: function (json) {
+            	$("#myModal2").modal("hide");
+            	toastr.success("增加成功");
+                initTable();
+            }
+        });
+    });
+    var page_update_floTmpId;
+    function updateFloNode(dom){
+    	page_update_floTmpId=undefined;
+    	var floTmpId = $(dom).attr("data-tmpId");
+    	page_update_floTmpId=floTmpId;
+    	initFloNodesByFloTmpId(floTmpId);
+    	initAllRole();
+    	var floNodeName = $(dom).attr("data-name");
+    	var floNodeId = $(dom).attr("data-id");
+    	var lastId = $(dom).attr("data-lastId");
+    	var roleIds = $(dom).attr("data-roleIds");
+    	$("#xgFlowNodes").val(lastId)
+    	$("#xgFloNodeName").val(floNodeName);
+    	$("#xgFloNodeId").val(floNodeId);
+    	$("#xgsel_productTag").val(roleIds.split(","));
+    }
+    $("#saveUpdateFloNode").click(function(){
+    	var lastId = $("#xgFlowNodes").val()
+    	var floNodeName = $("#xgFloNodeName").val();
+    	var floNodeId = $("#xgFloNodeId").val();
+    	var roleIds = $("#xgsel_productTag").val();
+    	if(roleIds==undefined||roleIds==null){
+    		roleIds=[];
+    	}
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/flowNode/updateFlowNode',
+            dataType: 'json',
+            data: {
+            	floNodeName:floNodeName,
+            	lastFloNode:lastId,
+            	floNodeRoles:roleIds.toString(),
+            	floNodeId:floNodeId,
+            	page_update_floTmpId:page_update_floTmpId
+            },
+            success: function (json) {
+            	$("#change2").modal("hide");
+            	toastr.success("修改成功");
+                initTable();
+            }
+        });
+    });
+    
+    function deleteFloNode(dom){
+    	var floNodeId = $(dom).attr("data-id");
+    	if(confirm("确认删除吗")){
+    		$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/flowNode/deleteFloNode',
+                dataType: 'json',
+                data: {
+                	floNodeId:floNodeId,
+                },
+                success: function (json) {
+                	toastr.success("删除成功");
+                	$(dom).parent().parent().remove();
+                }
+            });
+  		 }else{
+  		    return;
+  		 }
+    }
 </script>
 </html>

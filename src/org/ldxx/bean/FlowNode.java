@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.util.List;
+
 public class FlowNode {
     private String id;
 
@@ -67,7 +69,38 @@ public class FlowNode {
 
     private String hisdeptstrs;
 
-    public String getId() {
+    private String nodeActorNames;
+    
+    private List<NodeActors> nodeActors;
+    
+    private Object[] roleIds;
+    
+    
+    public Object[] getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(Object[] roleIds) {
+		this.roleIds = roleIds;
+	}
+
+	public String getNodeActorNames() {
+		return nodeActorNames;
+	}
+
+	public void setNodeActorNames(String nodeActorNames) {
+		this.nodeActorNames = nodeActorNames;
+	}
+
+	public List<NodeActors> getNodeActors() {
+		return nodeActors;
+	}
+
+	public void setNodeActors(List<NodeActors> nodeActors) {
+		this.nodeActors = nodeActors;
+	}
+
+	public String getId() {
         return id;
     }
 

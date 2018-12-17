@@ -53,4 +53,11 @@ public class RoleController {
 		return aString;
 	}
 	
+	@RequestMapping("/selectRolesSort")
+	@ResponseBody
+	public List<Role> selectRolesSort(){
+		List<Role> roles = service.selectRolesSort();
+		return roles;
+	}
+	
 }

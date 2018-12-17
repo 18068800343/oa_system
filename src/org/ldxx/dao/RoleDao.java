@@ -22,4 +22,6 @@ public interface RoleDao {
 	public List<Role> selectRolesSort();
 	
 	public List<Role> selectRoleByRoleCode(String roleCode);
+	
+	public Role selectRoleById(String id);
 }
