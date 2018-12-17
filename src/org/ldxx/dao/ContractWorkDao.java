@@ -9,7 +9,7 @@ public interface ContractWorkDao {
 
 	public int addContractWork(@Param("work")ContractWork work);
 	
-	public List<ContractWork> selectContractWork(@Param("type")String type);
+	public List<ContractWork> selectContractWork(@Param("type")String type,@Param("status")String status);
 	
 	public ContractWork selectContractWorkByNo(@Param("no")String no);
 	

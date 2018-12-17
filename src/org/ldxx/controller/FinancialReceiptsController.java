@@ -60,4 +60,11 @@ public class FinancialReceiptsController {
 		return i;
 	}
 	
+	@RequestMapping("/selectTotalMoneyByCj")
+	@ResponseBody
+	public FinancialReceipts selectTotalMoneyByCj(String no){
+		FinancialReceipts fr=service.selectTotalMoneyByCj(no);
+		return fr;
+	}
+	
 }

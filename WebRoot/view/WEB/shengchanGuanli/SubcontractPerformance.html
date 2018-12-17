@@ -992,9 +992,9 @@
                             </tr>
                             <tr>
                                 <td>合同金额(万元)</td>
-                                <td><input type="text" class="form-control" style="width:60%;" id="contractMoney"></td>
+                                <td><input type="text" class="form-control" style="width:60%;" id="contractMoney" disabled></td>
                                 <td>暂定金(万元)</td>
-                                <td><input type="text" class="form-control" style="width:60%;" id="provisionalMoney"></td>
+                                <td><input type="text" class="form-control" style="width:60%;" id="provisionalMoney" disabled></td>
                             </tr>
                             <tr>
                                 <td>结算金额(万元)</td>
@@ -2432,7 +2432,7 @@
 	          		});
 			  	})
 			  	
-			  	$('#fbContractName').editableSelect().on('select.editable-select', function (e, dom) {
+			  	/* $('#fbContractName').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/subcontract/getFBNoByName',
@@ -2444,7 +2444,7 @@
 	                    	$('#fbContract').val(json.fbNo);
 	                    }
 	          		});
-	          	})
+	          	}) */
 	          	$('#fbContract').editableSelect().on('select.editable-select', function (e, dom) {
 	          		$.ajax({
 	                    type: 'POST',
@@ -2455,6 +2455,8 @@
 	                    },
 	                    success: function (json) {
 	                    	$('#fbContractName').val(json.contractName);
+	                    	$("#contractMoney").val(json.contractMoney);
+	                    	$("#provisionalMoney").val(json.temporaryMoney);
 	                    }
 	          		});
 			  	})
@@ -3239,10 +3241,12 @@
 
     function saveFbName3(){
     	var tr=$("input[name='fbName3']:checked").parents("tr");
-    	var prjname=$("input[name='fbName3']:checked").parent().next().text();
-		var prjNo=$("input[name='fbName3']:checked").parent().next().next().text();
-    	$('#fbContractName').val(prjname);
-    	$('#fbContract').val(prjNo);
+    	var data=$('#fb_table3').DataTable().row(tr).data();
+    	console.log(data)
+    	$('#fbContractName').val(data.contractName);
+    	$('#fbContract').val(data.fbNo);
+    	$("#contractMoney").val(data.contractMoney);
+    	$("#provisionalMoney").val(data.temporaryMoney);
     	$("#choose_fb3").modal("hide");
     }
     //合同履约选择承接

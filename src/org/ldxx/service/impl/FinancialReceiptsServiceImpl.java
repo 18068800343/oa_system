@@ -73,4 +73,9 @@ public class FinancialReceiptsServiceImpl implements FinancialReceiptsService{
 		return dao.selectResultMoneyByCjAndTime(time);
 	}
 
+	@Override
+	public FinancialReceipts selectTotalMoneyByCj(String no) {
+		return dao.selectTotalMoneyByCj(no);
+	}
+
 }

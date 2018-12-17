@@ -51,8 +51,8 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 	}
 
 	@Override
-	public List<ContractWork> selectContractWork(String type) {
-		return dao.selectContractWork(type);
+	public List<ContractWork> selectContractWork(String type,String status) {
+		return dao.selectContractWork(type,status);
 	}
 
 	@Override

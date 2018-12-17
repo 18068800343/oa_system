@@ -8,7 +8,7 @@ public interface ContractWorkService {
 
 	public int addContractWork(ContractWork work);
 	
-	public List<ContractWork> selectContractWork(String type);
+	public List<ContractWork> selectContractWork(String type,String status);
 	
 	public ContractWork selectContractWorkByNo(String no);
 	

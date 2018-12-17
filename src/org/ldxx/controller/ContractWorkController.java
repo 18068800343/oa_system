@@ -150,8 +150,8 @@ public class ContractWorkController {
 	
 	@RequestMapping("/selectContractWork")
 	@ResponseBody
-	public List<ContractWork> selectContractWork(String type){
-		List<ContractWork> list=service.selectContractWork(type);
+	public List<ContractWork> selectContractWork(String type,String status){
+		List<ContractWork> list=service.selectContractWork(type,status);
 		return list;
 	}
 	

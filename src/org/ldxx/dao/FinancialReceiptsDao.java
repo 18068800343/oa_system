@@ -28,4 +28,6 @@ public interface FinancialReceiptsDao {
 	
 	public List<CjContract> selectResultMoneyByCjAndTime(@Param("time")String time);
 	
+	public FinancialReceipts selectTotalMoneyByCj(@Param("no")String no);
+	
 }
