@@ -36,4 +36,6 @@ public interface UserService {
 
 	List<User> selectUserAndRoles();
 
+	int countuserCode();
+
 }

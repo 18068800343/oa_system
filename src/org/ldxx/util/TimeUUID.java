@@ -55,6 +55,19 @@ public class TimeUUID {
 		String PrjNo=bidder+type+year+y;
 		return PrjNo;
 	}
+	//用户编码
+	public String getUserCode(int count){
+		String y=String.valueOf(count);
+		if(y.length()==1){
+			y="000"+y;
+		}else if(y.length()==2){
+			y="00"+y;
+		}else if(y.length()==3){
+			y="0"+y;
+		}
+		String userCode="U"+y+"#";
+		return userCode;
+	}
 	
 	public static void main(String[] args) {
 		TimeUUID uuid=new TimeUUID();

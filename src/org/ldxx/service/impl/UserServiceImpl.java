@@ -114,4 +114,9 @@ public class UserServiceImpl implements UserService {
 		}
 		return users;
 	}
+
+	@Override
+	public int countuserCode() {
+		return userDao.countuserCode();
+	}
 }

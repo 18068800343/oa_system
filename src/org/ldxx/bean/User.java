@@ -6,6 +6,8 @@ public class User {
     private String username;
 
     private String password;
+    
+    private String userCode;//用户编码
 
     private String workId;
 
@@ -63,7 +65,17 @@ public class User {
     
     private String userRoleNames;
     
-    public String getUserRoleNames() {
+    
+    
+    public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+	public String getUserRoleNames() {
 		return userRoleNames;
 	}
 

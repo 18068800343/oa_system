@@ -28,7 +28,9 @@ public class UserController {
 	public Map<String,Object> addUser(User user){
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
-		user.setCardId(uuid.getTimeUUID());
+		user.setUserId(uuid.getTimeUUID());
+		int count=userservice.countuserCode();
+		user.setUserCode(uuid.getUserCode(count+1));
 		int i = userservice.countOfusername(user.getUsername());
 		if(i>0){/*用户名已存在*/
 			i= 2;
