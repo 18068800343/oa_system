@@ -164,4 +164,14 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 
+	@Override
+	public List<Task> selectTaskByPrjType(String type,String time) {
+		return tdao.selectTaskByPrjType(type,time);
+	}
+
+	@Override
+	public Task selectTaskByNoAndType(String type, String no) {
+		return tdao.selectTaskByNoAndType(type, no);
+	}
+
 }

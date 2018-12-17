@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.Task;
 
 public interface TaskService {
@@ -49,4 +50,8 @@ public interface TaskService {
 	public Task selectIdByNameAndNo(String name, String no);
 	
 	public List<Task> getTaskIdNameNo();
+	
+	public List<Task> selectTaskByPrjType(String type,String time);
+	
+	public Task selectTaskByNoAndType(String type,String no);
 }

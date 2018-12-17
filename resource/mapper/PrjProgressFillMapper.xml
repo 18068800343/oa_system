@@ -110,4 +110,11 @@
 		SELECT ppf_id FROM prj_progress_fill as a LEFT JOIN mode_status as b on a.ppf_id=b.mode_id
 		where b.status=2 and this_time like #{time}) and c.type=2 and c.department=#{department}
   	</select>
+  	
+  	<select id="selectThisTimeIncomeByDepartmentAndPrjType" resultType="PrjProgressFill">
+  		SELECT c.money as prj_this_income,d.prj_money from prj_progress_fill_info as c LEFT JOIN prj_progress_fill as d
+		on c.ppf_id=d.ppf_id where c.ppf_id in(
+		SELECT ppf_id FROM prj_progress_fill as a LEFT JOIN mode_status as b on a.ppf_id=b.mode_id
+		where b.status=2 and this_time like #{time} and prj_type like #{type}) and c.type=2 and c.department=#{department}
+  	</select>
 </mapper>

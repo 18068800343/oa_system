@@ -9,6 +9,7 @@
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
     <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link href="../../font3/bootstrap-select.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
     <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
@@ -30,7 +31,6 @@
         .echbiaoti{
         	font-size:24px;
         	font-weigh:700;
-        	margin-left:2%;
         }
     </style>
 </head>
@@ -133,6 +133,18 @@
 		            </div>
 		        </div>
 		        <div class="LowerPart" style="margin-top:3px;">
+		        	<div class="form-inline">
+		        			<label>项目筛选：</label>
+							<input type="checkbox" name="item2" value="A" style="width:20px;height:20px;margin-left:  5px;">A 检测 
+							<input type="checkbox" name="item2" value="B" style="width:20px;height:20px;margin-left:10px;">B 设计
+							<input type="checkbox" name="item2" value="C" style="width:20px;height:20px;margin-left:10px;">C 施工
+							<input type="checkbox" name="item2" value="E" style="width:20px;height:20px;margin-left:10px;">E 设计施工一体化项目
+							<input type="checkbox" name="item2" value="K" style="width:20px;height:20px;margin-left:10px;">K 科研
+							<input type="checkbox" name="item2" value="Q" style="width:20px;height:20px;margin-left:10px;">Q 其他       	
+							<input type="checkbox" name="item2" value="X" style="width:20px;height:20px;margin-left:10px;">X 信息化
+							<button type="button" class="btn btn-primary"  style="margin-left: 10px;" onclick="seach2()">查询</button>		
+		        		</div>
+		        		<br/>
 		        		<p class="echbiaoti">新签合同额</p>
 		            	<div style="overflow-x:auto;" class="yihang"  id="tab2_contract">
 	            			<!-- <div style="border:1px solid #ccc;">
@@ -205,6 +217,18 @@
 		            </div>
 		        </div>
 		        <div class="LowerPart" style="margin-top:3px;">
+		        	<div class="form-inline">
+		        			<label>项目筛选：</label>
+							<input type="checkbox" name="item3" value="A" style="width:20px;height:20px;margin-left:  5px;">A 检测 
+							<input type="checkbox" name="item3" value="B" style="width:20px;height:20px;margin-left:10px;">B 设计
+							<input type="checkbox" name="item3" value="C" style="width:20px;height:20px;margin-left:10px;">C 施工
+							<input type="checkbox" name="item3" value="E" style="width:20px;height:20px;margin-left:10px;">E 设计施工一体化项目
+							<input type="checkbox" name="item3" value="K" style="width:20px;height:20px;margin-left:10px;">K 科研
+							<input type="checkbox" name="item3" value="Q" style="width:20px;height:20px;margin-left:10px;">Q 其他       	
+							<input type="checkbox" name="item3" value="X" style="width:20px;height:20px;margin-left:10px;">X 信息化
+							<button type="button" class="btn btn-primary"  style="margin-left: 10px;" onclick="seach3()">查询</button>		
+		        		</div>
+		        		<br/>
 		        	<p class="echbiaoti">新签合同额</p>
 		            <div style="overflow-x:auto;" class="yihang" id="tab3_contract">
 	            			<!-- <div style="border:1px solid #ccc;">
@@ -274,6 +298,7 @@
 <script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/myTool.js"></script>
 <script src="../../toastr/toastr.js"></script>
+<script src="../../js/bootstrap-select.js"></script>
 <script src="../../js/echarts.min.js"></script>
 <script>
     $(document).ready( function () {
@@ -588,6 +613,362 @@
     	});
     }
     
+    function seach2(){
+    	myTool.mask.show('查询中...');
+    	var boxList=new Array();
+    	$('input[name="item2"]:checked').each(function(){
+    		var boxValue=$(this).val();
+    		boxList.push(boxValue);
+    	})
+    	if(boxList.length==0){
+    		toastr.error("请选择项目类型");
+    		return;
+    	}
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/Statistics/seachTab2',
+            dataType: 'json',
+            data: {
+            	prjType:boxList.toString()
+            },
+            success: function (json) {
+            	var om=json.om;
+            	var resultContract=json.resultContract;
+            	var resultIncome=json.resultIncome;
+            	var resultReceipt=json.resultReceipt;
+            	$("#tab2_contract").html("");
+            	$("#tab2_income").html("");
+            	$("#tab2_receipt").html("");
+            	for(var i=0;i<om.length;i++){
+            		var echartName="echartB"+(i+1);
+            		$("#tab2_contract").append('<div style="border:1px solid #ccc;">'+
+		    				 '<div id="'+echartName+'" style="width:460px;height:300px;"></div>'+
+		    				 '</div>');
+            		//合同额
+            		var myChart = echarts.init(document.getElementById(echartName));
+                    // 指定图表的配置项和数据
+                    optionB1 = {
+                    		title: {
+                    	        text: om[i]
+                    	    },
+                    	    tooltip: {
+                    	        trigger: 'axis'
+                    	    },
+                    	    legend: {
+                    	        data:['实际值']
+                    	    },
+                    	    grid: {
+                    	        left: '3%',
+                    	        right: '4%',
+                    	        bottom: '3%',
+                    	        containLabel: true
+                    	    },
+                    	    toolbox: {
+                    	        feature: {
+                    	            saveAsImage: {}
+                    	        }
+                    	    },
+                    	    xAxis: {
+                    	        type: 'category',
+                    	        boundaryGap: false,
+                    	        data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+                    	    },
+                    	    yAxis: {
+                    	        type: 'value'
+                    	    },
+                    	    series: [
+                    	        {
+                    	            name:'实际值',
+                    	            type:'line',
+                    	            data:resultContract[i]
+                    	        }
+                    	    ]
+                	};
+                    myChart.setOption(optionB1);
+                    
+            	}
+            	
+            	for(var i=0;i<om.length;i++){
+            		 //收入
+                    var echartName2="echartB2"+(i+1);
+            		$("#tab2_income").append('<div style="border:1px solid #ccc;">'+
+		    				 '<div id="'+echartName2+'" style="width:460px;height:300px;"></div>'+
+		    				 '</div>');
+            		
+            		var myChart2 = echarts.init(document.getElementById(echartName2));
+                    // 指定图表的配置项和数据
+                    optionB2 = {
+                    		title: {
+                    	        text: om[i]
+                    	    },
+                    	    tooltip: {
+                    	        trigger: 'axis'
+                    	    },
+                    	    legend: {
+                    	        data:['实际值']
+                    	    },
+                    	    grid: {
+                    	        left: '3%',
+                    	        right: '4%',
+                    	        bottom: '3%',
+                    	        containLabel: true
+                    	    },
+                    	    toolbox: {
+                    	        feature: {
+                    	            saveAsImage: {}
+                    	        }
+                    	    },
+                    	    xAxis: {
+                    	        type: 'category',
+                    	        boundaryGap: false,
+                    	        data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+                    	    },
+                    	    yAxis: {
+                    	        type: 'value'
+                    	    },
+                    	    series: [
+                    	        {
+                    	            name:'实际值',
+                    	            type:'line',
+                    	            data:resultIncome[i]
+                    	        }
+                    	    ]
+                	};
+                    myChart2.setOption(optionB2);
+            	}
+            	
+            	
+            	for(var i=0;i<om.length;i++){
+            		//收款
+                    var echartName3="echartB3"+(i+1);
+            		$("#tab2_receipt").append('<div style="border:1px solid #ccc;">'+
+		    				 '<div id="'+echartName3+'" style="width:460px;height:300px;"></div>'+
+		    				 '</div>');
+            		var myChart3 = echarts.init(document.getElementById(echartName3));
+                    // 指定图表的配置项和数据
+                    optionB3 = {
+                    		title: {
+                    	        text: om[i]
+                    	    },
+                    	    tooltip: {
+                    	        trigger: 'axis'
+                    	    },
+                    	    legend: {
+                    	        data:['实际值']
+                    	    },
+                    	    grid: {
+                    	        left: '3%',
+                    	        right: '4%',
+                    	        bottom: '3%',
+                    	        containLabel: true
+                    	    },
+                    	    toolbox: {
+                    	        feature: {
+                    	            saveAsImage: {}
+                    	        }
+                    	    },
+                    	    xAxis: {
+                    	        type: 'category',
+                    	        boundaryGap: false,
+                    	        data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+                    	    },
+                    	    yAxis: {
+                    	        type: 'value'
+                    	    },
+                    	    series: [
+                    	        {
+                    	            name:'实际值',
+                    	            type:'line',
+                    	            data:resultReceipt[i]
+                    	        }
+                    	    ]
+                	};
+                    myChart3.setOption(optionB3);
+            	}
+            	myTool.mask.hide();
+            }
+    	});
+    }
+    
+    function seach3(){
+    	myTool.mask.show('查询中...');
+    	var boxList=new Array();
+    	$('input[name="item3"]:checked').each(function(){
+    		var boxValue=$(this).val();
+    		boxList.push(boxValue);
+    	})
+    	if(boxList.length==0){
+    		toastr.error("请选择项目类型");
+    		return;
+    	}
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/Statistics/seachTab3',
+            dataType: 'json',
+            data: {
+            	prjType:boxList.toString()
+            },
+            success: function (json) {
+            	var om=json.om;
+            	var resultContract=json.resultContract;
+            	var resultIncome=json.resultIncome;
+            	var resultReceipt=json.resultReceipt;
+            	var year=json.year;
+            	$("#tab3_contract").html("");
+            	$("#tab3_income").html("");
+            	$("#tab3_receipt").html("");
+            	for(var i=0;i<om.length;i++){
+            		var echartName="echartC"+(i+1);
+            		$("#tab3_contract").append('<div style="border:1px solid #ccc;">'+
+		    				 '<div id="'+echartName+'" style="width:460px;height:300px;"></div>'+
+		    				 '</div>');
+            		//合同额
+            		var myChart = echarts.init(document.getElementById(echartName));
+                    // 指定图表的配置项和数据
+                    optionB1 = {
+                    		title: {
+                    	        text: om[i]
+                    	    },
+                    	    tooltip: {
+                    	        trigger: 'axis'
+                    	    },
+                    	    legend: {
+                    	        data:['实际值']
+                    	    },
+                    	    grid: {
+                    	        left: '3%',
+                    	        right: '4%',
+                    	        bottom: '3%',
+                    	        containLabel: true
+                    	    },
+                    	    toolbox: {
+                    	        feature: {
+                    	            saveAsImage: {}
+                    	        }
+                    	    },
+                    	    xAxis: {
+                    	        type: 'category',
+                    	        boundaryGap: false,
+                    	        data: year
+                    	    },
+                    	    yAxis: {
+                    	        type: 'value'
+                    	    },
+                    	    series: [
+                    	        {
+                    	            name:'实际值',
+                    	            type:'line',
+                    	            data:resultContract[i]
+                    	        }
+                    	    ]
+                	};
+                    myChart.setOption(optionB1);
+                    
+            	}
+            	
+            	for(var i=0;i<om.length;i++){
+            		 //收入
+                    var echartName2="echartC2"+(i+1);
+            		$("#tab3_income").append('<div style="border:1px solid #ccc;">'+
+		    				 '<div id="'+echartName2+'" style="width:460px;height:300px;"></div>'+
+		    				 '</div>');
+            		
+            		var myChart2 = echarts.init(document.getElementById(echartName2));
+                    // 指定图表的配置项和数据
+                    optionB2 = {
+                    		title: {
+                    	        text: om[i]
+                    	    },
+                    	    tooltip: {
+                    	        trigger: 'axis'
+                    	    },
+                    	    legend: {
+                    	        data:['实际值']
+                    	    },
+                    	    grid: {
+                    	        left: '3%',
+                    	        right: '4%',
+                    	        bottom: '3%',
+                    	        containLabel: true
+                    	    },
+                    	    toolbox: {
+                    	        feature: {
+                    	            saveAsImage: {}
+                    	        }
+                    	    },
+                    	    xAxis: {
+                    	        type: 'category',
+                    	        boundaryGap: false,
+                    	        data: year
+                    	    },
+                    	    yAxis: {
+                    	        type: 'value'
+                    	    },
+                    	    series: [
+                    	        {
+                    	            name:'实际值',
+                    	            type:'line',
+                    	            data:resultIncome[i]
+                    	        }
+                    	    ]
+                	};
+                    myChart2.setOption(optionB2);
+            	}
+            	
+            	
+            	for(var i=0;i<om.length;i++){
+            		//收款
+                    var echartName3="echartC3"+(i+1);
+            		$("#tab3_receipt").append('<div style="border:1px solid #ccc;">'+
+		    				 '<div id="'+echartName3+'" style="width:460px;height:300px;"></div>'+
+		    				 '</div>');
+            		var myChart3 = echarts.init(document.getElementById(echartName3));
+                    // 指定图表的配置项和数据
+                    optionB3 = {
+                    		title: {
+                    	        text: om[i]
+                    	    },
+                    	    tooltip: {
+                    	        trigger: 'axis'
+                    	    },
+                    	    legend: {
+                    	        data:['实际值']
+                    	    },
+                    	    grid: {
+                    	        left: '3%',
+                    	        right: '4%',
+                    	        bottom: '3%',
+                    	        containLabel: true
+                    	    },
+                    	    toolbox: {
+                    	        feature: {
+                    	            saveAsImage: {}
+                    	        }
+                    	    },
+                    	    xAxis: {
+                    	        type: 'category',
+                    	        boundaryGap: false,
+                    	        data: year
+                    	    },
+                    	    yAxis: {
+                    	        type: 'value'
+                    	    },
+                    	    series: [
+                    	        {
+                    	            name:'实际值',
+                    	            type:'line',
+                    	            data:resultReceipt[i]
+                    	        }
+                    	    ]
+                	};
+                    myChart3.setOption(optionB3);
+            	}
+            	myTool.mask.hide();
+            }
+    	});
+    }
+    
+    
     var count2=0;
     var t2;
     //初始化标签页2（月份）
@@ -816,12 +1197,24 @@
 		})
     }
 	
+	
     var count3=0;
     var t3;
   	//初始化标签页3（年度）
 	function initTab3(){
+		myTool.mask.show('查询中...');
 		initTab3ContractMoney();
+		initTab3Income();
+		initTab3Receipt();
+		t3=window.setInterval('closeMyTool3()',1000); 
     }
+  	
+  	function closeMyTool3(){
+  		if(count3>=3){
+  			myTool.mask.hide();
+  			window.clearInterval(t3);
+  		}
+  	}
     
 	function initTab3ContractMoney(){
 		$.ajax({
@@ -893,11 +1286,142 @@
     }
     
 	function initTab3Income(){
-    	
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/Statistics/initTab3Income',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	var om=json.om;
+            	var result=json.result;
+            	var mb=json.mb;
+            	var year=json.year;
+            	for(var i=0;i<om.length;i++){
+            		var echartName="echartC2"+(i+1);
+            		$("#tab3_income").append('<div style="border:1px solid #ccc;">'+
+		    				 '<div id="'+echartName+'" style="width:460px;height:300px;"></div>'+
+		    				 '</div>');
+            		
+            		var myChart = echarts.init(document.getElementById(echartName));
+                    // 指定图表的配置项和数据
+                    optionB1 = {
+                    		title: {
+                    	        text: om[i]
+                    	    },
+                    	    tooltip: {
+                    	        trigger: 'axis'
+                    	    },
+                    	    legend: {
+                    	        data:['实际值','目标值']
+                    	    },
+                    	    grid: {
+                    	        left: '3%',
+                    	        right: '4%',
+                    	        bottom: '3%',
+                    	        containLabel: true
+                    	    },
+                    	    toolbox: {
+                    	        feature: {
+                    	            saveAsImage: {}
+                    	        }
+                    	    },
+                    	    xAxis: {
+                    	        type: 'category',
+                    	        boundaryGap: false,
+                    	        data: year
+                    	    },
+                    	    yAxis: {
+                    	        type: 'value'
+                    	    },
+                    	    series: [
+                    	        {
+                    	            name:'实际值',
+                    	            type:'line',
+                    	            data:result[i]
+                    	        },
+                    	        {
+                    	            name:'目标值',
+                    	            type:'line',
+                    	            data:mb[i]
+                    	        }
+                    	    ]
+                	};
+                    myChart.setOption(optionB1);
+            	}
+            	count3++;
+            }
+    	});
     }
 	
 	function initTab3Receipt(){
-    	
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/Statistics/initTab3Receipt',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	console.log(json)
+            	var om=json.om;
+            	var result=json.result;
+            	var mb=json.mb;
+            	var year=json.year;
+            	for(var i=0;i<om.length;i++){
+            		var echartName="echartC3"+(i+1);
+            		$("#tab3_receipt").append('<div style="border:1px solid #ccc;">'+
+		    				 '<div id="'+echartName+'" style="width:460px;height:300px;"></div>'+
+		    				 '</div>');
+            		
+            		var myChart = echarts.init(document.getElementById(echartName));
+                    // 指定图表的配置项和数据
+                    optionB1 = {
+                    		title: {
+                    	        text: om[i]
+                    	    },
+                    	    tooltip: {
+                    	        trigger: 'axis'
+                    	    },
+                    	    legend: {
+                    	        data:['实际值','目标值']
+                    	    },
+                    	    grid: {
+                    	        left: '3%',
+                    	        right: '4%',
+                    	        bottom: '3%',
+                    	        containLabel: true
+                    	    },
+                    	    toolbox: {
+                    	        feature: {
+                    	            saveAsImage: {}
+                    	        }
+                    	    },
+                    	    xAxis: {
+                    	        type: 'category',
+                    	        boundaryGap: false,
+                    	        data: year
+                    	    },
+                    	    yAxis: {
+                    	        type: 'value'
+                    	    },
+                    	    series: [
+                    	        {
+                    	            name:'实际值',
+                    	            type:'line',
+                    	            data:result[i]
+                    	        },
+                    	        {
+                    	            name:'目标值',
+                    	            type:'line',
+                    	            data:mb[i]
+                    	        }
+                    	    ]
+                	};
+                    myChart.setOption(optionB1);
+            	}
+            	count3++;
+            }
+    	});
     }
 
 </script>

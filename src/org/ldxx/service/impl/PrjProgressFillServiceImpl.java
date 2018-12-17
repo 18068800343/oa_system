@@ -194,4 +194,20 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return money;
 	}
 
+	@Override
+	public float selectThisTimeIncomeByDepartmentAndPrjType(String department, String time, String type) {
+		float money=0;
+		List<PrjProgressFill> list=dao.selectThisTimeIncomeByDepartmentAndPrjType(department, time, type);
+		if(list!=null){
+			for(int i=0;i<list.size();i++){
+				float contractMoney=list.get(i).getPrjMoney();
+				String income=list.get(i).getPrjThisIncome();
+				income=income.replace("%", "");
+				float bl=Float.valueOf(income);
+				money=money+(contractMoney*bl/100);
+			}
+		}
+		return money;
+	}
+
 }

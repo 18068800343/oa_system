@@ -167,7 +167,8 @@
                                 
                                 <tr>
                                     <th>编号</th>
-                                    <th style="width:20%;">项目名称</th>
+                                    <th style="width:15%;">项目名称</th>
+                                    <th>项目来源</th>
                                     <th>项目所属公司</th>
                                     <th>项目类型</th>
                                     <th>项目业主单位</th>
@@ -258,8 +259,15 @@
                                 <td><input type="text" class="form-control" id="year" style="width:100%;"></td>
                                 <td>项目结束时间</td>
                                 <td><input type="text" class="form-control" id="year2" style="width:100%;"></td>
-                                <td></td>
-                                <td></td>
+                                <td>项目来源</td>
+                                <td>
+                                	<select class="form-control" style="width:100%;" id="prj_source">
+                                        <option value="招标">招标</option>
+                                        <option value="竞标">竞标</option>
+                                        <option value="委托">委托</option>
+                                        <option value="其他">其他</option>
+                                    </select>  
+                                </td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -406,8 +414,15 @@
                                 <td><input type="text" class="form-control"  style="width:100%;" id="xgendTime"></td>
                                 <!-- <td>预估合同金额</td>
                                 <td><input type="text" class="form-control" style="width:180px;"></td> -->
-                                <td></td>
-                                <td></td>
+                                <td>项目来源</td>
+                                <td>
+                                	<select class="form-control" style="width:100%;" id="xg_prj_source">
+                                        <option value="招标">招标</option>
+                                        <option value="竞标">竞标</option>
+                                        <option value="委托">委托</option>
+                                        <option value="其他">其他</option>
+                                    </select>  
+                                </td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -528,9 +543,9 @@
 	                            <td id="lookstartTime"></td>
 	                            <td>项目结束时间</td>
 	                            <td id="lookendTime"></td>
+	                            <td>项目来源</td>
+	                            <td id="look_prj_source"></td>
 	                            <td>预估合同金额</td>
-	                            <td></td>
-	                            <td></td>
 	                            <td></td>
 	                        </tr>
                     	</tbody>
@@ -912,12 +927,13 @@
 		"columns": [
 		            { "data": "prjNo"}, 
 		            { "data": "prjName"},
+		            { "data": "prjSource"},
 		            { "data": "prjCompany"}, 
 		            { "data": "prjType2"}, 
 		            { "data": "ccName"}, 
 		            { "data": "prjEstimateMoney"}, 
 		            { "data": "contractMoney"}, 
-		            { "data": "contractMoney"}, 
+		            { "data": null}, 
 		            { "data": "prjStartTime"}, 
 		            { "data": "omName"}, 
 		            { "data": null},
@@ -925,7 +941,7 @@
 		        "columnDefs": [
 								{	
 										 "class": "tcenter",
-									     "targets": 7,
+									     "targets": 8,
 									     "searchable": true,
 									     "render": function(data, type, full) { 
 							  	  		 return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;margin-left:5px;" title="查看详细信息"   id="lookContract" onclick="lookContract(this)"></i>'
@@ -933,7 +949,7 @@
 						        },
 						        {	
 									     "class": "tcenter",
-									     "targets": 10,
+									     "targets": 11,
 									     "searchable": true,
 									     "render": function(data, type, full) {
 							  	  		 return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;margin-left:5px;" title="查看详细信息"   id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;;margin-left:5px;" title="修改"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi" style="font-size:18px;cursor:pointer;display:none;;margin-left:5px;" title="重启" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu iconzhongzhi" style="font-size:18px;cursor:pointer;;margin-left:5px;" title="项目中止"  data-toggle="modal" data-target="#myModal4"></i></i>'
@@ -1566,6 +1582,7 @@
         	var gongsi=$("#gongsi").find("option:selected").val();
         	var shejijieduan=$("#shejijieduan").find("option:selected").val();
         	var yezhudanwei=$("#yezhudanwei").val();
+        	var prjSource=$("#prj_source").val();
         	var jine=$("#jine").val();
         	var hetonge=$("#hetonge").val();
         	var zandingjin=$("#zandingjin").val();
@@ -1587,6 +1604,7 @@
     	    		prjName:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
+	            	prjSource:undefined,
 	            	prjOwnerUnit:undefined,
 	            	workContent:undefined,
 	            	prjEstimateMoney:undefined,
@@ -1611,6 +1629,7 @@
     	    xindanwei.prjName=taskName,
     	    xindanwei.prjManagementModel=moshi,
     	    xindanwei.prjCompany=gongsi,
+    	    xindanwei.prjSource=prjSource,
     	    xindanwei.prjOwnerUnit=yezhudanwei,
     	    xindanwei.workContent=gaikuang,
     	    xindanwei.prjEstimateMoney=jine,
@@ -1690,6 +1709,7 @@
         	var gongsi=$("#gongsi").find("option:selected").val();
         	var shejijieduan=$("#shejijieduan").find("option:selected").val();
         	var yezhudanwei=$("#yezhudanwei").val();
+        	var prjSource=$("#prj_source");
         	var jine=$("#jine").val();
         	var hetonge=$("#hetonge").val();
         	var zandingjin=$("#zandingjin").val();
@@ -1711,6 +1731,7 @@
     	    		prjName:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
+	            	prjSource:undefined,
 	            	prjOwnerUnit:undefined,
 	            	workContent:undefined,
 	            	prjEstimateMoney:undefined,
@@ -1734,6 +1755,7 @@
     	    xindanwei.prjName=taskName;
     	    xindanwei.prjManagementModel=moshi;
     	    xindanwei.prjCompany=gongsi;
+    	    xindanwei.prjSource=prjSource;
     	    xindanwei.prjOwnerUnit=yezhudanwei;
     	    xindanwei.workContent=gaikuang;
     	    xindanwei.prjEstimateMoney=jine;
@@ -1853,6 +1875,7 @@
 	            	$("#xgtaskbianhao").val(json.prjNo);
 	            	$("#xgmoshi").val(json.prjManagementModel);
 	            	$("#xggongsi").val(json.prjCompany);
+	            	$("#xg_prj_source").val(json.prjSource);
 	            	$("#xgyezhudanwei").val(json.prjOwnerUnit);
 	            	$("#xgyezhudanwei").trigger("change");
 	            	$("#xgjine").val(json.prjEstimateMoney);
@@ -1968,6 +1991,7 @@
         	var gongsi=$("#xggongsi").find("option:selected").val();
         	var shejijieduan=$("#xgshejijieduan").find("option:selected").val();
         	var yezhudanwei=$("#xgyezhudanwei").val();
+        	var prjSource=$("#xg_prj_source").val();
         	var jine=$("#xgjine").val();
         	var hetonge=$("#xghetonge").val();
         	var zandingjin=$("#xgzandingjin").val();
@@ -1989,6 +2013,7 @@
     	    		prjName:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
+	            	prjSource:undefined,
 	            	prjOwnerUnit:undefined,
 	            	workContent:undefined,
 	            	prjEstimateMoney:undefined,
@@ -2012,6 +2037,7 @@
     	    xindanwei.prjName=taskName;
     	    xindanwei.prjManagementModel=moshi;
     	    xindanwei.prjCompany=gongsi;
+    	    xindanwei.prjSource=prjSource;
     	    xindanwei.prjOwnerUnit=yezhudanwei;
     	    xindanwei.workContent=gaikuang;
     	    xindanwei.prjEstimateMoney=jine;
@@ -2086,6 +2112,7 @@
         	var gongsi=$("#xggongsi").find("option:selected").val();
         	var shejijieduan=$("#xgshejijieduan").find("option:selected").val();
         	var yezhudanwei=$("#xgyezhudanwei").val();
+        	var prjSource=$("#xg_prj_source").val();
         	var jine=$("#xgjine").val();
         	var hetonge=$("#xghetonge").val();
         	var zandingjin=$("#xgzandingjin").val();
@@ -2107,6 +2134,7 @@
     	    		prjName:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
+	            	prjSource:undefined,
 	            	prjOwnerUnit:undefined,
 	            	workContent:undefined,
 	            	prjEstimateMoney:undefined,
@@ -2130,6 +2158,7 @@
     	    xindanwei.prjName=taskName;
     	    xindanwei.prjManagementModel=moshi;
     	    xindanwei.prjCompany=gongsi;
+    	    xindanwei.prjSource=prjSource;
     	    xindanwei.prjOwnerUnit=yezhudanwei;
     	    xindanwei.workContent=gaikuang;
     	    xindanwei.prjEstimateMoney=jine;
@@ -2201,6 +2230,7 @@
             	$("#lookmoshi").text(task.prjManagementModel);
             	$("#lookgongsi").text(task.prjCompany);
             	$("#lookleixing").text(task.prjType2);
+            	$("#look_prj_source").text(task.prjSource);
             	$("#lookshejijieduan").text(task.jsPhases);
             	$("#lookyezhudanwei").text(task.ccName);
             	$("#lookjine").text(task.prjEstimateMoney);
@@ -2260,6 +2290,7 @@
             	$("#lookgongsi").text(task.prjCompany);
             	$("#lookleixing").text(task.prjType2);
             	$("#lookyezhudanwei").text(task.ccName);
+            	$("#look_prj_source").text(task.prjSource);
             	$("#lookjine").text(task.prjEstimateMoney);
             	$("#lookhetonge").text(task.contractMoney);
             	$("#lookzandingjin").text(task.provisionalSum);

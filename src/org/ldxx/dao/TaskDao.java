@@ -50,4 +50,8 @@ public interface TaskDao {
 	public Task selectIdByNameAndNo(@Param("name")String name,@Param("no") String no);
 	
 	public List<Task> getTaskIdNameNo();//获取正在运行以及完结的任务单列表
+	
+	public List<Task> selectTaskByPrjType(@Param("type")String type,@Param("time")String time);
+	
+	public Task selectTaskByNoAndType(@Param("type")String type,@Param("no")String no);
 }

@@ -14,6 +14,8 @@ public class Task {
     private String prjManagementModel;
 
     private String prjCompany;
+    
+    private String prjSource;
 
     private String prjOwnerUnit;
 
@@ -81,6 +83,15 @@ public class Task {
     private String ccName;
     
     
+    
+	public String getPrjSource() {
+		return prjSource;
+	}
+
+	public void setPrjSource(String prjSource) {
+		this.prjSource = prjSource;
+	}
+
 	public String getMainPrjLeader() {
 		return mainPrjLeader;
 	}

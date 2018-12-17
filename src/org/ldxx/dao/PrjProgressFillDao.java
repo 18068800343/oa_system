@@ -50,4 +50,6 @@ public interface PrjProgressFillDao {
 	public PrjProgressFillInfo selectYearCostByDepartment(@Param("department")String department,@Param("year")String year);
 
 	public List<PrjProgressFill> selectThisTimeIncomeByDepartment(@Param("department")String department,@Param("time")String time);
+	
+	public List<PrjProgressFill> selectThisTimeIncomeByDepartmentAndPrjType(@Param("department")String department,@Param("time")String time,@Param("type")String type);
 }
