@@ -9,13 +9,14 @@
     <link rel="stylesheet" href="../../font3/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../style/bootstrap-treeview.css" />
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+     <link rel="stylesheet" href="../../style/bootstrap-treeview.css" /> 
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../js/ace-skins.min.css" />
 	<link rel="stylesheet" href="../../js/ace-rtl.min.css" />
 	<link rel="stylesheet" href="../../js/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
 	<link rel="stylesheet" href="../../font-awesome/4.5.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" href="../../css/css.css" />
+	<link rel="stylesheet" href="../../css/css.css" /> 
     <style lang="">
         .UpperPart{
             display: flex;
@@ -123,6 +124,7 @@
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/bootstrap-treeview.js" ></script>
+<script src="../../toastr/toastr.js"></script>
 <script src="../../js/tree.min.js"></script>
 <script src="../../js/ace-elements.min.js"></script>
 <script src="../../js/ace.min.js"></script>
@@ -133,6 +135,7 @@
     $(document).ready( function () {
     	initTable();
 	});
+    
     var table=$('#mainContent').dataTable({
         "deferRender": true,
         "processing": true,
@@ -215,6 +218,7 @@
 		var data=$("#mainContent").DataTable().row(dom).data();
 		//console.log(data.uPermissions)
 		var ups=data.uPermissions;
+		$("#permissions tbody").empty();
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/permissions/getNameByPermissions',
@@ -228,7 +232,7 @@
 				  roleidArray[i]=json[i].name;
 				}
 				roleidArray = roleidArray.join("  ,  ");
-				$("#permissions tbody").empty();
+				
 				if(json.length!=0){
 	                $("#permissions tbody").append("<tr>"
 	                		+"<td>"+roleidArray+"</td>"
@@ -240,8 +244,6 @@
 				}
             }
         });
-			
-		
 	}
     
 	
@@ -258,66 +260,92 @@
             data: {
             },
             success: function (json) {
-                //console.log(JSON.stringify(json.list))
-                var tree_data = []
+                //console.log(json)
+                /* var tree_data = []
                 var arr1 = json.list1;
+               	var pId1=[];
                 if(arr1!=null&&arr1.length>0){
 	                for(var i in arr1){
-	                	var pId1=arr1[i].id;
+	                	pId1[i]=arr1[i].coding;
 	                	var a  = {};
-                		a.id=arr1[i].id;
+                		a.id=arr1[i].coding;
                 		a.pid = 0;
                 		a.title=arr1[i].name;
                 		tree_data.push(a);
-                		
-	                	var arr2 = json.list2;
-	                	if(arr2!=null&&arr2.length>0){
-	                		for(var j in arr2){
-	                			if(arr2[j].coding.substr(0,2)==arr1[i].coding.substr(0,2)){
-	                				var pId2=arr2[j].id;
-				                	var b  = {};
-			                		b.id=arr2[j].id;
-			                		b.pid = pId1;
-			                		b.title=arr2[j].name;
-			                		tree_data.push(b);
-			                		
-			                		var arr3 = json.list3;
-			   	                	if(arr3!=null&&arr3.length>0){
-			   	                		for(var k in arr3){
-			   	                			if(arr3[k].coding.substr(0,3)==arr2[j].coding.substr(0,3)){
-			   		                			var pId3=arr3[k].id;
-			   				                	var c  = {};
-			   			                		c.id=arr3[k].id;
-			   			                		c.pid = pId2;
-			   			                		c.title=arr3[k].name;
-			   			                		tree_data.push(c);
-			   			                		
-			   			                		var arr4 = json.list4;
-			   			                		if(arr4!=null&&arr4.length>0){
-						   	                		for(var m in arr4){
-						   	                			if(arr4[m].coding.substr(0,4)==arr3[k].coding.substr(0,4)){
-						   		                			var pId4=arr4[m].id;
-						   				                	var d = {};
-						   			                		d.id=arr4[m].id;
-						   			                		d.pid = pId3;
-						   			                		d.title=arr4[m].name;
-						   			                		tree_data.push(d);
-						   			                		
-						   	                			}
-						   	                		}
-						   	                	} 
-			   	                			}
-			   	                		}
-			   	                	}
-	                			}
-	                			
-	                		}
-	                	}
-	                	
 	                }
-                	
                 }
-               	console.log(tree_data)
+                var arr2 = json.list2;
+       			var pId2=[];
+                for(var j in pId1){
+                	if(arr2!=null&&arr2.length>0){
+                		for(var k in arr2){
+                			if(arr2[k].coding.substr(0,2)==pId1[j].substr(0,2)){
+                				pId2[k]=arr2[k].coding;
+			                	var b  = {};
+		                		b.id=arr2[k].coding;
+		                		b.pid = pId1[j];
+		                		b.title=arr2[k].name;
+		                		tree_data.push(b);
+		                		
+                			}
+                		}
+                	}
+                }
+                var arr3 = json.list3;
+           		var pId3=[];
+        		for(var n in pId2){
+	                	if(arr3!=null&&arr3.length>0){
+	                		for(var m in arr3){
+	                			var cal=arr3[m].coding;
+	                			if(cal.substr(0,3)==pId2[n].substr(0,3)){
+		                			pId3[m]=arr3[m].coding;
+				                	var c  = {};
+			                		c.id=arr3[m].coding;
+			                		c.pid = pId2[n];
+			                		c.title=arr3[m].name;
+			                		tree_data.push(c);
+	                			}
+	                		}
+	                		
+	                	}
+        			}
+        		var arr4 = json.list4;
+       			var pId4=[];
+        		for(var ii in pId3){
+            		if(arr4!=null&&arr4.length>0){
+               		for(var jj in arr4){
+               			var val=arr4[jj].coding
+               			if(val.substr(0,4)==pId3[ii].substr(0,4)){
+	                			pId4[jj]=arr4[jj].coding;
+			                	var d = {};
+		                		d.id=arr4[jj].coding;
+		                		d.pid = pId3[ii];
+		                		d.title=arr4[jj].name;
+		                		tree_data.push(d);
+		                		
+               			}
+               		}
+               	}
+        		}
+        		var arr5 = json.list5;
+        		var pId5=[];
+        		for(var mm in pId4){
+	           		if(arr5!=null&&arr5.length>0){
+	               		for(var nn in arr5){
+	               			if(arr5[nn].coding.substr(0,5)==pId4[mm].substr(0,5)){
+		                			pId5[nn]=arr5[nn].coding;
+				                	var e = {};
+			                		e.id=arr5[nn].coding;
+			                		e.pid = pId4[mm];
+			                		e.title=arr5[nn].name;
+			                		tree_data.push(e);
+			                		
+	               			}
+	               		}
+	               	} 
+        		}
+               	console.log(tree_data) */
+               	
                	$(".f-tree").empty();
                 config.tree({
               		type:1,//1有选择框，没有则不传type或传0
@@ -328,18 +356,35 @@
                 
             }
         });
-	} 
+	}  
 	
-	//修改保存（未完成）
+	//修改保存
 	function savePermissions(){
 		console.log(userId)
 		var selects = $(".f-iconRadioTrue");
-  	  	var personRoles = ""; 
-  	  	$(selects).each(function(){
+  	  	var arr = []; 
+  	  	$(selects).each(function(i){
   			 var e = $(this).next().val();
-  			 personRoles+=e+",";
+  			arr[i]=e;
   	  	});
-  	  	console.log(personRoles)
+  	  var permissions = arr.join(',');
+	  	  $.ajax({
+	          type: 'POST',
+	          url: getContextPath()+'/permissions/updatePermissionsSave',
+	          dataType: 'json',
+	          data: {
+	        	  uId:userId,
+	        	  uPermissions:permissions
+	          },
+	          success: function (json) {
+	        	  if(json>0){
+		        	  toastr.success("修改成功");
+		        	  $("#change").modal("hide")
+	        	  }else{
+	        		  toastr.error("修改失败")
+	        	  }
+	          }
+	      });
 	}
 
 </script>
