@@ -30,4 +30,6 @@ public interface NodeActorsMapper {
     int updateByPrimaryKey(NodeActors record);
     
     List<NodeActorsVo> getNextNodeActors(@Param("id")String id,@Param("userId")String userId);
+    
+    List<NodeActors> getNextNodeActorsByFloNodeId(@Param("id")String id);
 }

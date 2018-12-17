@@ -19,7 +19,11 @@ import org.ldxx.bean.FlowHistroyExample;
 import org.ldxx.bean.FlowNode;
 import org.ldxx.bean.FlowNodeExample;
 import org.ldxx.bean.ModeStatus;
+import org.ldxx.bean.NodeActors;
 import org.ldxx.bean.NodeActorsVo;
+import org.ldxx.bean.User;
+import org.ldxx.dao.RoleDao;
+import org.ldxx.dao.UserDao;
 import org.ldxx.exception.FlowException;
 import org.ldxx.mapper.BusinessMapper;
 import org.ldxx.mapper.CurrentFlowMapper;
@@ -28,6 +32,7 @@ import org.ldxx.mapper.FlowHistroyMapper;
 import org.ldxx.mapper.FlowNodeMapper;
 import org.ldxx.mapper.ModeStatusMapper;
 import org.ldxx.mapper.NodeActorsMapper;
+import org.ldxx.mapper.RolesMapper;
 import org.ldxx.util.BeanUtil;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +60,8 @@ public class FlowUtill {
         INSTANCE.flowEdgeMapper=this.flowEdgeMapper;
         INSTANCE.modeStatusMapper=this.modeStatusMapper;
         INSTANCE.nodeActorsMapper=this.nodeActorsMapper;
+        INSTANCE.roleDao = this.roleDao;
+        INSTANCE.userDao = this.userDao;
     } 
 	@Autowired
 	NodeActorsMapper nodeActorsMapper;
@@ -70,8 +77,10 @@ public class FlowUtill {
 	CurrentFlowMapper currentFlowMapper;
 	@Autowired
 	FlowHistroyMapper flowHistroyMapper;
-	
-	
+	@Autowired
+	RoleDao roleDao;
+	@Autowired
+	UserDao userDao;
 	/**
 	 * 新流程发起，初始提交
 	 * @param currentFlow url,Title,Starter,StartName,Sender,SenderName,FK_Dept,DeptName,NodeName,PRI,SDTOfNode,SDTOfFlow,Actor,ActorType,Memo
@@ -132,8 +141,30 @@ public class FlowUtill {
 		if("end".equals(floNodeId)){
 			arrays=null;
 		}else{
-			List<NodeActorsVo> nodeActorsVos = INSTANCE.nodeActorsMapper.getNextNodeActors(floNodeId,currentFlow.getActor());
-			arrays = JSONArray.fromObject(nodeActorsVos);
+			
+			//List<NodeActorsVo> nodeActorsVos = INSTANCE.nodeActorsMapper.getNextNodeActors(floNodeId,currentFlow.getActor());
+			
+			
+			List<NodeActors> nodeActors = INSTANCE.nodeActorsMapper.getNextNodeActorsByFloNodeId(floNodeId);
+			List<User> usersSubmit = new ArrayList<>();
+			if(null!=nodeActors&&nodeActors.size()>0){
+			List<User> users = INSTANCE.userDao.selectAllUser();
+				for(NodeActors nodeActors2:nodeActors){
+					String roleCode = INSTANCE.roleDao.selectRoleById(nodeActors2.getRolecode()).getRoleCode();
+					Iterator<User> iterator = users.iterator();
+					
+				    while (iterator.hasNext()) {
+				    	User user = iterator.next();
+				    	String userRole = user.getUserRole();
+						if(userRole.contains(roleCode)){
+							usersSubmit.add(user);
+							iterator.remove();
+						}
+				    	
+					}
+				}
+			}
+			arrays = JSONArray.fromObject(usersSubmit);
 		}
 		jsonObject.put("receiver", arrays);
 		jsonObject.put("url", currentFlow.getUrl());
@@ -255,8 +286,26 @@ public class FlowUtill {
 		if("end".equals(floNodeId)){
 			arrays=null;
 		}else{
-			List<NodeActorsVo> nodeActorsVos = INSTANCE.nodeActorsMapper.getNextNodeActors(floNodeId,currentFlow.getActor());
-			arrays = JSONArray.fromObject(nodeActorsVos);
+			List<NodeActors> nodeActors = INSTANCE.nodeActorsMapper.getNextNodeActorsByFloNodeId(floNodeId);
+			List<User> usersSubmit = new ArrayList<>();
+			if(null!=nodeActors&&nodeActors.size()>0){
+			List<User> users = INSTANCE.userDao.selectAllUser();
+				for(NodeActors nodeActors2:nodeActors){
+					String roleCode = INSTANCE.roleDao.selectRoleById(nodeActors2.getRolecode()).getRoleCode();
+					Iterator<User> iterator = users.iterator();
+					
+				    while (iterator.hasNext()) {
+				    	User user = iterator.next();
+				    	String userRole = user.getUserRole();
+						if(userRole.contains(roleCode)){
+							usersSubmit.add(user);
+							iterator.remove();
+						}
+				    	
+					}
+				}
+			}
+			arrays = JSONArray.fromObject(usersSubmit);
 		}
 		jsonObject.put("receiver", arrays);
 		jsonObject.put("url", currentFlow.getUrl());
