@@ -550,6 +550,7 @@ public class FlowUtill {
 					flowHistroy.setActorname(historyActorName);
 					flowHistroy.setView(view);
 					flowHistroy.setOperateType(2);
+					flowHistroy.setDoDate(new Date());
 					INSTANCE.flowHistroyMapper.insert(flowHistroy); 
 					CurrentFlowExample example2 = new CurrentFlowExample();
 					example2.createCriteria().andIdEqualTo(currentFlowNow.getId());
