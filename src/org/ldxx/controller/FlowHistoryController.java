@@ -35,6 +35,14 @@ public class FlowHistoryController {
 		return flowHistoryService.getFlowHistoryByUser(userId,status);
 	}
 	
+	@RequestMapping("/getDistinctFlowHistoryByUser")
+	@ResponseBody
+	public List<FlowHistoryVo> getDistinctFlowHistoryByUser(String status,HttpSession session){
+		User user = (User) session.getAttribute("user");
+	    String userId = user.getUserId();
+	    user.getuName();
+		return flowHistoryService.getDistinctFlowHistoryByUser(userId,status);
+	}
 	
 	@RequestMapping("/getFlowHistoryByUserAlreadyEnd")
 	@ResponseBody

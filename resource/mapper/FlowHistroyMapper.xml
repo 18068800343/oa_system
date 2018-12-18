@@ -549,6 +549,19 @@
 		SELECT
 			a.*,
 			c.BusinessName,
+			b.`status`
+		FROM
+			flowhistroy a
+		LEFT JOIN mode_status b ON a.mode_id = b.mode_id
+		LEFT JOIN business c ON a.Bus_ID = c.ID where a.Actor=#{userId}
+		<if test="status != null and status !='' ">
+        and b.`status`=#{status}
+       	</if>
+  </select>
+   <select id="getDistinctFlowHistoryByUser" resultType="flowHistoryVo">
+		SELECT
+			a.*,
+			c.BusinessName,
 			b.`status`,count(DISTINCT a.URL)
 		FROM
 			flowhistroy a

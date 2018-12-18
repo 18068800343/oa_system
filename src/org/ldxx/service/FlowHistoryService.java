@@ -12,4 +12,6 @@ public interface FlowHistoryService {
 	List<FlowHistoryVo> getFlowHistoryByUser(String userId,String status);
 	
 	List<FlowHistoryVo> getFlowHistoryByUserAlreadyEnd(String userId);
+
+	List<FlowHistoryVo> getDistinctFlowHistoryByUser(String userId, String status);
 }
