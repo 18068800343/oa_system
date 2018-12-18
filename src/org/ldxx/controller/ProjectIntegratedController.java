@@ -95,8 +95,8 @@ public class ProjectIntegratedController {
 					float fbActualPay=0;
 					if(cp!=null){
 						fbPlan=cp.getFbContractSchedule();//分包进度
-						fbActualPay=cp.getThisTimeActualPayMoney();//分包实际付款金额
-					}
+						/*fbActualPay=cp.getAlreadyAccumulateMoney();//分包实际累计付款金额*/	
+				}
 					ProjectIntegrated pi=new ProjectIntegrated();
 					pi.setPrjNo(no);
 					pi.setPrjName(prjName);

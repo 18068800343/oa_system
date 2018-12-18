@@ -163,4 +163,12 @@ public class FbContractOverWjController {
 	        exportData.ExportWithResponse(xlsName,xlsName,  
 	        		array.length, array, dataList, response);
 	}
+	
+	@RequestMapping("/getAllPayMoneyByFbNo")
+	@ResponseBody
+	public List<FbContractOverWj> getAllPayMoneyByFbNo(String no){
+		List<FbContractOverWj> fb=service.getAllPayMoneyByFbNo(no);
+		return fb;
+	}
+	
 }

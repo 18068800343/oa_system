@@ -88,4 +88,9 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 		return payDao.getTotalPayMoney(no);
 	}
 
+	@Override
+	public int addPayResultInfo(String id, float resultPay, String payTime) {
+		return payDao.addPayResultInfo(id, resultPay, payTime);
+	}
+
 }

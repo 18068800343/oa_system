@@ -7,7 +7,7 @@
 			left join fb_contract f on a.contract_name=f.contract_name and f.history=1
 			left join consociation_company c on c.cc_id=f.contract_name_yi
 			left join user b on a.compiler_person=b.user_id
-		where m.status=#{status} and a.history=1
+		where m.status=#{status}
 	</select>
  	<insert id="addPaySave" parameterType="org.ldxx.bean.Pay" >
     insert into pay (pay_id,pay_code, contract_name,contract_no, 
@@ -18,7 +18,7 @@
       already_accumulate_money,generation_advances_money,this_time_ask_money, 
       pay_method, receieve_money_company, this_time_actual_pay_money, 
       pay_list_explain, compiler_person, compiler_time, 
-      make_time,history)
+      make_time)
     values (#{pay.payId,jdbcType=VARCHAR},#{pay.payCode,jdbcType=VARCHAR}, #{pay.contractName,jdbcType=VARCHAR}, 
       #{pay.contractNo,jdbcType=VARCHAR},#{pay.contractMoney,jdbcType=VARCHAR}, #{pay.alreadyKpMoney,jdbcType=VARCHAR}, #{pay.thisTimeKpMoney,jdbcType=VARCHAR}, 
       #{pay.mainContractCode,jdbcType=VARCHAR}, #{pay.mainContractName,jdbcType=VARCHAR}, #{pay.mainContractMoney,jdbcType=VARCHAR}, 
@@ -27,7 +27,7 @@
       #{pay.alreadyAccumulateMoney,jdbcType=VARCHAR}, #{pay.GenerationAdvancesMoney,jdbcType=VARCHAR}, #{pay.thisTimeAskMoney,jdbcType=VARCHAR}, 
       #{pay.payMethod,jdbcType=VARCHAR}, #{pay.receieveMoneyCompany,jdbcType=VARCHAR}, #{pay.thisTimeActualPayMoney,jdbcType=VARCHAR}, 
       #{pay.payListExplain,jdbcType=VARCHAR},#{pay.compilerPerson,jdbcType=VARCHAR}, #{pay.compilerTime,jdbcType=VARCHAR}, 
-      now(),1)
+      now())
   	</insert>
   	<update id="updateHistory">
   		update pay set history=0 where pay_id=#{payId}
@@ -42,14 +42,14 @@
   	</select>
   
   	<select id="selectHistoryBypayCode" resultType="pay">
-  		select *,f.fb_no,f.contract_money as fbcontractMoney,b.u_name from pay a
-  		left join fb_contract f on a.contract_name=f.contract_name and f.history=1
-  		left join user b on a.compiler_person=b.user_id
-  		where pay_code=#{payCode} and a.history=0
+  		SELECT a.pay_code,a.contract_name,a.contract_no,a.this_time_ask_money,c.result_pay,c.pay_time FROM pay_result_info as c
+		LEFT JOIN mode_status as b on c.pay_id=b.mode_id
+		LEFT JOIN pay as a on a.pay_id=c.pay_id
+		where b.status=2 and a.pay_id=#{id}
   	</select>
   	
   	<select id="selectPayByNo" resultType="pay">
-  		select pay_id from pay a left join mode_status m on m.mode_id=a.pay_id where m.status=2 and a.history=1 and contract_no=#{fbNo}
+  		select pay_id from pay a left join mode_status m on m.mode_id=a.pay_id where m.status=2 and contract_no=#{fbNo}
   	</select>
   	
   	<update id="updateGenerationAdvancesMoney">
@@ -58,14 +58,18 @@
   	</update>
   	
   	<select id="getFbPayPlanAndMoney" resultType="pay">
-  		SELECT MAX(a.fb_contract_schedule) as fb_contract_schedule,sum(a.this_time_actual_pay_money)as this_time_actual_pay_money 
+  		SELECT MAX(a.fb_contract_schedule) as fb_contract_schedule 
   		FROM pay as a LEFT JOIN mode_status as b on a.pay_id=b.mode_id 
-		where a.contract_no=#{no} and b.status=2 and a.history=1
+		where a.contract_no=#{no} and b.status=2
   	</select>
   	
   	<select id="getTotalPayMoney" resultType="pay">
   		SELECT IFNULL(SUM(this_time_actual_pay_money),0) as already_accumulate_money FROM pay as a 
 		LEFT JOIN mode_status as b on a.pay_id=b.mode_id
-		where b.status=2 and a.history=1 and a.contract_no=#{no}
+		where b.status=2 and a.contract_no=#{no}
   	</select>
+  	
+  	<insert id="addPayResultInfo">
+  		insert into pay_result_info(pay_id,result_pay,pay_time) values(#{id},#{resultPay},#{payTime})
+  	</insert>
 </mapper>

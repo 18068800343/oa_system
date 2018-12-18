@@ -184,89 +184,8 @@ public class ContractPaymentController {
 	
 	@RequestMapping("/updatePaySave")//修改保存
 	@ResponseBody
-	public int updatePaySave(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2,@RequestParam("file3") MultipartFile [] file3) throws IllegalStateException, IOException{
-		payService.updateHistory(pay.getPayId());
-		Pay p = payService.selectPayById(pay.getPayId());
-		TimeUUID uuid=new TimeUUID();
-		String id=uuid.getTimeUUID();
-		pay.setPayId(id);
-		pay.setPayCode(p.getPayCode());
-		pay.setContractName(p.getContractName());
-		pay.setContractNo(p.getContractNo());
-		pay.setContractMoney(p.getContractMoney());
-		pay.setAlreadyKpMoney(p.getAlreadyKpMoney());
-		pay.setThisTimeKpMoney(p.getThisTimeKpMoney());
-		pay.setMainContractCode(p.getMainContractCode());
-		pay.setMainContractName(p.getMainContractName());
-		pay.setMainContractMoney(p.getMainContractMoney());
-		pay.setPrjListCode(p.getPrjListCode());
-		pay.setPrjName(p.getPrjName());
-		pay.setFbContractSchedule(p.getFbContractSchedule());
-		pay.setIfContractDoCost(p.getIfContractDoCost());
-		pay.setContractDoCostMoney(p.getContractDoCostMoney());
-		pay.setAlreadyAccumulateMoney(p.getAlreadyAccumulateMoney());
-		pay.setGenerationAdvancesMoney(p.getGenerationAdvancesMoney());
-		pay.setThisTimeAskMoney(p.getThisTimeAskMoney());
-		pay.setPayMethod(p.getPayMethod());
-		pay.setReceieveMoneyCompany(p.getReceieveMoneyCompany());
-		pay.setPayListExplain(p.getPayListExplain());
-		pay.setCompilerPerson(p.getCompilerPerson());
-		pay.setCompilerTime(p.getCompilerTime());
-		
-		String path="D:"+File.separator+"oa"+File.separator+"pay"+File.separator+id;
-		List<Accessory> list=new ArrayList<>();
-		List<Accessory> list2=new ArrayList<>();
-		List<Accessory> list3=new ArrayList<>();
-		File f=new File(path);
-		if(!f.exists()){
-			f.mkdirs();
-		}
-		if(file1.length>0){
-			for(int i=0;i<file1.length;i++){
-				Accessory accessory=new Accessory();
-				String fileName=file1[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f1=new File(filePath);
-				file1[i].transferTo(f1);
-				accessory.setaId(id);
-				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
-				accessory.setaType("开票附件");
-				list.add(accessory);
-			}
-			pay.setAccessory(list);
-		}
-		if(file2.length>0){
-			for(int i=0;i<file2.length;i++){
-				Accessory accessory2=new Accessory();
-				String fileName=file2[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f2=new File(filePath);
-				file2[i].transferTo(f2);
-				accessory2.setaId(id);
-				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
-				accessory2.setaType("附件上传");
-				list2.add(accessory2);
-			}
-			pay.setAccessory2(list2);
-		}
-		if(file3.length>0){
-			for(int i=0;i<file3.length;i++){
-				Accessory accessory3=new Accessory();
-				String fileName=file3[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f2=new File(filePath);
-				file3[i].transferTo(f2);
-				accessory3.setaId(id);
-				accessory3.setAcName(fileName);
-				accessory3.setAcUrl(filePath);
-				accessory3.setaType("法律顾问签字");
-				list3.add(accessory3);
-			}
-			pay.setAccessory3(list3);
-		}
-		int i=payService.addPaySave(pay);
+	public int updatePaySave(String payId,float resultPay,String payTime) throws IllegalStateException, IOException{
+		int i=payService.addPayResultInfo(payId, resultPay, payTime);
 		return i;
 	}
 	
@@ -292,8 +211,8 @@ public class ContractPaymentController {
 	
 	@RequestMapping("/selectHistoryBypayCode")
 	@ResponseBody
-	public List<Pay> selectHistoryBypayCode(String payCode){
-		return payService.selectHistoryBypayCode(payCode);
+	public List<Pay> selectHistoryBypayCode(String payId){
+		return payService.selectHistoryBypayCode(payId);
 	}
 	
 	@RequestMapping("/getTotalPayMoney")

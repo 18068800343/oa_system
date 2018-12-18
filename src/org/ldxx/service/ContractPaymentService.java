@@ -2,7 +2,6 @@ package org.ldxx.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.Pay;
 
@@ -22,10 +21,12 @@ public interface ContractPaymentService {
 
 	List<Accessory> selectAccessoryById(String id);
 
-	List<Pay> selectHistoryBypayCode(String payCode);
+	List<Pay> selectHistoryBypayCode(String payId);
 	
 	Pay getFbPayPlanAndMoney(String no);
 	
 	public Pay getTotalPayMoney(String no);
+	
+	public int addPayResultInfo(String id,float resultPay,String payTime);
 
 }

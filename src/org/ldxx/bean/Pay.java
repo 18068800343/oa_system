@@ -41,10 +41,6 @@ public class Pay {
 
     private String payMethod;//付款性质
 
-    private String receieveMoneyCompany;//收款单位
-
-    private Float thisTimeActualPayMoney;//本次实际付款
-
     private String payListExplain;//付款单说明
 
     private String compilerPerson;//编制人
@@ -55,6 +51,9 @@ public class Pay {
 
     private String history;
 
+    private float resultPay;//实际支付金额
+    
+    private String payTime;//支付时间
     
     private List<Accessory> accessory;
     private List<Accessory> accessory2;
@@ -66,8 +65,19 @@ public class Pay {
     private String uName;//编制人               
     
     
-    
-    public String getCcName() {
+    public float getResultPay() {
+		return resultPay;
+	}
+	public void setResultPay(float resultPay) {
+		this.resultPay = resultPay;
+	}
+	public String getPayTime() {
+		return payTime;
+	}
+	public void setPayTime(String payTime) {
+		this.payTime = payTime;
+	}
+	public String getCcName() {
 		return ccName;
 	}
 	public void setCcName(String ccName) {
@@ -198,18 +208,6 @@ public class Pay {
 	}
 	public void setPayMethod(String payMethod) {
 		this.payMethod = payMethod;
-	}
-	public String getReceieveMoneyCompany() {
-		return receieveMoneyCompany;
-	}
-	public void setReceieveMoneyCompany(String receieveMoneyCompany) {
-		this.receieveMoneyCompany = receieveMoneyCompany;
-	}
-	public Float getThisTimeActualPayMoney() {
-		return thisTimeActualPayMoney;
-	}
-	public void setThisTimeActualPayMoney(Float thisTimeActualPayMoney) {
-		this.thisTimeActualPayMoney = thisTimeActualPayMoney;
 	}
 	public String getPayListExplain() {
 		return payListExplain;

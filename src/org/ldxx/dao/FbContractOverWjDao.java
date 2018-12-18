@@ -12,4 +12,6 @@ public interface FbContractOverWjDao {
 	public List<FbContractOverWj> selectFbContractOverWj(@Param("state")String state);
 	
 	public FbContractOverWj getFbOverMoney(@Param("no")String no);
+	
+	public List<FbContractOverWj> getAllPayMoneyByFbNo(@Param("no")String no);
 }

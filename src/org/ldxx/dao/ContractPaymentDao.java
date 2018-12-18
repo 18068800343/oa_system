@@ -17,7 +17,7 @@ public interface ContractPaymentDao {
 
 	int fkNocount();
 
-	List<Pay> selectHistoryBypayCode(@Param("payCode")String payCode);
+	List<Pay> selectHistoryBypayCode(@Param("id")String payId);
 	
 	Pay selectPayByNo(@Param("fbNo")String fbNo);
 
@@ -26,4 +26,6 @@ public interface ContractPaymentDao {
 	Pay getFbPayPlanAndMoney(@Param("no")String no);
 	
 	public Pay getTotalPayMoney(@Param("no")String no);
+	
+	public int addPayResultInfo(@Param("id")String id,@Param("resultPay")float resultPay,@Param("payTime")String payTime);
 }
