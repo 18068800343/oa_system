@@ -57,7 +57,14 @@
                 
                     <div class="UpperPart">
                             <div class="UpperPartL">
-
+								<form class="form-inline">
+				                    <label>状态筛选:</label>
+				                    <select class="zhuangtai form-control">
+				                        <option>正常进行</option>
+				                        <option>审批中</option>
+				                        <option>项目终止</option>
+				                    </select>
+				                </form>
                             </div>
                             <div class="UpperPartR">
                                 <button type="button" class="btn btn-primary Pdbca" data-toggle="modal" data-target="#myModal">新建开标记录</button>
@@ -762,7 +769,14 @@
                 
                     <div class="UpperPart">
                             <div class="UpperPartL">
-
+								<form class="form-inline">
+				                    <label>状态筛选:</label>
+				                    <select class="zhuangtai2 form-control">
+				                        <option>正常进行</option>
+				                        <option>审批中</option>
+				                        <option>项目终止</option>
+				                    </select>
+				                </form>
                             </div>
                             <!-- <div class="UpperPartR">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建开标记录</button>
@@ -936,7 +950,7 @@
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/city-picker.data.js"></script>
 <script src="../../js/city-picker.js"></script>
-<script src="../js/quanxian.js"></script>
+<script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
@@ -958,6 +972,8 @@
         $('#editable-select').editableSelect({ 
             effects: 'slide' 
         });
+        $(".zhuangtai").trigger("change");
+        $(".zhuangtai2").trigger("change");
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -1328,6 +1344,66 @@
         });
     }
 	
+	//初始化
+    $(".zhuangtai").change(function(){
+        var zt=$(".zhuangtai").val();
+        if(zt=="正常进行"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/OpeningRecord/selectOpeningRecord',
+                dataType: 'json',
+                data: {
+                	status:2,
+                },
+                success: function (json) {
+                    $('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").hide();
+                    $(".iconxiugai").show();
+                    $(".iconzhongzhi").show();
+                    $(".iconlywj").show();
+                }
+            });
+            
+        }else if(zt=="项目终止"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/OpeningRecord/selectOpeningRecord',
+                dataType: 'json',
+                data: {
+                	status:3,
+                },
+                success: function (json) {
+                    $('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").show();
+                    $(".iconxiugai").hide();
+                    $(".iconzhongzhi").hide();
+                    $(".iconlywj").hide();
+                }
+            });
+            
+        }else if(zt=="审批中"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/OpeningRecord/selectOpeningRecord',
+                dataType: 'json',
+                data: {
+                	status:1,
+                },
+                success: function (json) {
+                    $('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").hide();
+                	$(".iconxiugai").hide();
+                	$(".iconzhongzhi").hide();
+                    $(".iconlywj").hide();
+                }
+            });
+        }
+    })
+	
+	
 	function initTable2(){
         $.ajax({
             type: 'POST',
@@ -1337,12 +1413,59 @@
             	status:2
             },
             success: function (json) {
-            	console.log(json)
+            	//console.log(json)
                 $('#mainContent2').dataTable().fnClearTable();
                 $('#mainContent2').DataTable().rows.add(json).draw(false);
             }
         });
     }
+  //初始化统计分析
+    $(".zhuangtai2").change(function(){
+        var zt=$(".zhuangtai2").val();
+        if(zt=="正常进行"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/OpeningRecord/selectOpeningRecord',
+                dataType: 'json',
+                data: {
+                	status:2,
+                },
+                success: function (json) {
+                    $('#mainContent2').dataTable().fnClearTable();
+                    $('#mainContent2').DataTable().rows.add(json).draw(false);
+                }
+            });
+            
+        }else if(zt=="项目终止"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/OpeningRecord/selectOpeningRecord',
+                dataType: 'json',
+                data: {
+                	status:3,
+                },
+                success: function (json) {
+                    $('#mainContent2').dataTable().fnClearTable();
+                    $('#mainContent2').DataTable().rows.add(json).draw(false);
+                }
+            });
+            
+        }else if(zt=="审批中"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/OpeningRecord/selectOpeningRecord',
+                dataType: 'json',
+                data: {
+                	status:1,
+                },
+                success: function (json) {
+                    $('#mainContent2').dataTable().fnClearTable();
+                    $('#mainContent2').DataTable().rows.add(json).draw(false);
+                }
+            });
+        	
+        }
+    })
 	
 	//修改保存城市
 	function savechooseCity(){

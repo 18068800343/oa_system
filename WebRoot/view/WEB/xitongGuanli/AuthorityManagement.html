@@ -98,16 +98,10 @@
             <h4 class="modal-title" id="myModalLabel"><b>查看用户权限</b></h4>
         </div>
         <div class="modal-body">
-            <div>     
+            <div>
                 <form class="form-inline">
-                    <table class="table table-bordered table-condensed" id="permissions">
-                        <thead>
-                        	<tr>
-                        		<th>权限名</th>
-                        	</tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="yihang3" style="display:flex;flex-wrap:wrap;" id="permissionsDiv" >
+                    </div>
                 </form>  
             </div>
         </div>
@@ -601,7 +595,7 @@
 		var data=$("#mainContent").DataTable().row(dom).data();
 		//console.log(data.uPermissions)
 		var ups=data.uPermissions;
-		$("#permissions tbody").empty();
+		$("#permissionsDiv").empty();
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/permissions/getNameByPermissions',
@@ -611,19 +605,16 @@
             },
             success: function (json) {
                 var roleidArray = new Array();
-				for(i = 0; i < json.length; i++) {
-				  roleidArray[i]=json[i].name;
-				}
-				roleidArray = roleidArray.join("  ,  ");
-				
 				if(json.length!=0){
-	                $("#permissions tbody").append("<tr>"
-	                		+"<td>"+roleidArray+"</td>"
-	                		+"</tr>")
+					for(i = 0; i < json.length; i++) {
+		                $("#permissionsDiv").append(
+		                		"<p style='width:220px'>"+json[i].name+"</p>"
+		                		)
+					}
 				}else{
-					$("#permissions tbody").append("<tr>"
-	                		+"<td>无任何权限</td>"
-	                		+"</tr>")
+					$("#permissionsDiv").append(
+	                		"<p>无任何权限</p>"
+	                		)
 				}
 				hidMask();
             	$("#permissions").modal("show");
