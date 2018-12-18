@@ -270,19 +270,18 @@
             <div class="modal-body">
                 <iframe name="view_frame" id="rightMain" src="./shengchanGuanli/TaskManagementLook.html?prjId=" frameborder="false" scrolling="auto" style="border: none;" width="100%" height=700 allowtransparency="true"></iframe>
                 
-                </div>
-                <div id="midBox">
+                <!-- <div id="midBox">
                     <div id="titles">标题</div>
                     <div id="srcontent">
                         <textarea cols="30" rows="8" class="form-control" id="view" placeholder="请输入内容"></textarea>
                     </div>
-                </div> 
+                </div>  -->
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
                 <button type="button" class="btn btn-default">退回</button>
                 <button type="button" class="btn btn-default">保存</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -430,7 +429,7 @@
             success: function (json) {
             	console.log(json);
             	for(var i=0;i<6;i++){
-            		$("#tb1").append("<tr><td style='width:50px;'><span data-toggle='modal' data-target='.dada' style='cursor:pointer;' class='lianjieColor'>"+json[i].businessname+"</span></td></tr>")
+            		$("#tb1").append("<tr><td style='width:50px;'><span data-toggle='modal' data-target='.dada' style='cursor:pointer;' data-url='"+json[i].url+"' onclick='initIframe(this)' class='lianjieColor'>"+json[i].businessname+"</span></td></tr>")
             	}
             }
         });
@@ -470,10 +469,20 @@
             success: function (json) {
             	console.log(json);
             	for(var i=0;i<json.length;i++){
-            		$("#tb2").append("<tr><td><span data-toggle='modal' data-target='.dadayb' style='cursor:pointer;' class='lianjieColor'>"+json[i].businessname+"</span></td></tr>");
+            		$("#tb2").append("<tr><td><span data-toggle='modal' data-target='.dadayb' style='cursor:pointer;' class='lianjieColor' data-url='"+json[i].url+"' onclick='initIframeDb(this)'>"+json[i].businessname+"</span></td></tr>");
             	}
             }
         });
     }
+	function initIframeDb(dom){
+		var url = $(dom).attr("data-url");
+    	var strs = url.split("-");
+    	$("#rightMainyb").attr("src","./"+strs[0]+"?prjId="+strs[1]);
+	}
+	function initIframe(dom){
+		var url = $(dom).attr("data-url");
+    	var strs = url.split("-");
+    	$("#rightMain").attr("src","./"+strs[0]+"?prjId="+strs[1]);
+	}
 </script> 
 </html>
