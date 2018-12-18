@@ -136,6 +136,7 @@ public class FlowUtill {
 			throw new FlowException("deque do error");
 		}
 		currentFlow.setFlowNodeLast(null);
+		currentFlow.setReadreceipts(0);
 		INSTANCE.currentFlowMapper.insert(currentFlow);
 		JSONObject jsonObject = new JSONObject();
 		JSONArray arrays = new JSONArray();
@@ -219,7 +220,7 @@ public class FlowUtill {
 						currentFlow.setActorname(next_name);
 						currentFlow.setFloNodeId(nextFloNodeId);
 						currentFlow.setDeptname(currentFlowOld.getDeptname());
-						
+						currentFlow.setReadreceipts(0);
 						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 						modeStatus.setModeId(modeId);
 						//1：流程运转中
@@ -359,6 +360,7 @@ public class FlowUtill {
 						currentFlow.setActorname(next_name);
 						currentFlow.setFloNodeId(nextFloNodeId);
 						currentFlow.setDeptname(currentFlowOld.getDeptname());
+						currentFlow.setReadreceipts(0);
 						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 						modeStatus.setModeId(modeId);
 						//1：流程运转中
@@ -445,6 +447,7 @@ public class FlowUtill {
 				currentFlow.setActorname(currentFlow.getStartername());
 				CurrentFlowExample example2 = new CurrentFlowExample();
 				example2.createCriteria().andIdEqualTo(currentFlowId);
+				currentFlow.setReadreceipts(0);
 				INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 				
 				flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
@@ -475,6 +478,7 @@ public class FlowUtill {
 					INSTANCE.flowHistroyMapper.insert(flowHistroy); 
 					CurrentFlowExample example2 = new CurrentFlowExample();
 					example2.createCriteria().andIdEqualTo(currentFlowId);
+					currentFlow.setReadreceipts(0);
 					INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 					jsonObject.put("result", "1");
 					return jsonObject.toString();	
@@ -554,6 +558,7 @@ public class FlowUtill {
 					INSTANCE.flowHistroyMapper.insert(flowHistroy); 
 					CurrentFlowExample example2 = new CurrentFlowExample();
 					example2.createCriteria().andIdEqualTo(currentFlowNow.getId());
+					currentFlowNow.setReadreceipts(0);
 					INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlowNow, example2);
 				
 			} catch (Exception e) {
@@ -600,6 +605,7 @@ public class FlowUtill {
 		currentFlow.setBusId(business.getId());
 		currentFlow.setDoDate(new Date());
 		currentFlow.setModeId(modeId);
+		currentFlow.setReadreceipts(0);
 		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 		try {
 			INSTANCE.currentFlowMapper.insert(currentFlow);
