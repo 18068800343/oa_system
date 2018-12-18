@@ -152,12 +152,15 @@
             "data": "deptname"
         },{
             "data": "url"
+        },{
+            "data": "id",
+            "visible":false
         }],
          "columnDefs": [{
             "targets": 4,
             "searchable": false,
             "render": function (data, type, full) {
-            	return '<i class="iconfont icon-search Paba" style="font-size:18px;cursor:pointer;" title="查看办理业务" data-id="'+data+'" name="lookYw" data-toggle="modal" data-target=".dada"></i><i class="iconfont icon-shanchu Pabb" style="font-size:18px;cursor:pointer;" title="删除"></i><i class="iconfont icon-quxiao quxiao Pabc" style="font-size:18px;cursor:pointer;" title="撤回" id="quxiao"></i>'
+            	return '<i class="iconfont icon-search Paba" style="font-size:18px;cursor:pointer;" title="查看办理业务" data-id="'+data+'" name="lookYw" data-toggle="modal" data-target=".dada"></i><i class="iconfont icon-shanchu Pabb" style="font-size:18px;cursor:pointer;" title="删除"></i><i class="iconfont icon-quxiao quxiao Pabc" style="font-size:18px;cursor:pointer;" data-url="'+data+'" title="撤回" onclick="chexiao(this)" id="quxiao"></i>'
                
             }
         }], 
@@ -195,12 +198,33 @@
             }
         });
     }
-	$('#mainContent').delegate('#quxiao','click', function () {
+	/* $('#mainContent').delegate('#quxiao','click', function () {
 		var statu = confirm("确认撤回吗?");
 		  if(!statu){
 		   return false;
+		  }else{
+			  
 		  }
-	})
+	}) */
+	function chexiao(dom){
+		var url = $(dom).attr("data-url");
+		var statu = confirm("确认撤回吗?");
+		  if(!statu){
+		   return false;
+		  }else{
+			  $.ajax({
+		        	type: 'POST',
+		            url: getContextPath()+'/currentFlow/chexiaoGetCurrentFlow',
+		            data:{
+		            	url:url
+		            },
+		            success: function (json) {
+		            	
+		            }
+		        });
+		  }
+	}
+	
 	$("#statusChange").change(function(){
 		var status = $("#statusChange").val();
 		initTable(status);
