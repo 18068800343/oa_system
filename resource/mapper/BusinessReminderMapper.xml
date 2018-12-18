@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.BusinessReminderDao" >
+	
+	
+	<select id="selectBusinessReminder" resultType="CurrentFlow">
+		SELECT d.*,f.FlowNodeName  FROM currentflow d
+		LEFT JOIN flownode f on d.Flo_Node_ID=f.ID
+		WHERE URL in(
+			SELECT a.URL FROM flowhistroy a
+			LEFT JOIN mode_status b ON a.mode_id = b.mode_id
+			LEFT JOIN business c ON a.Bus_ID = c.ID where a.Actor=#{userId}
+			<if test="status != null and status !='' ">
+	        and b.`status`=#{status}
+	       	</if> )
+		
+	</select>
+	
+</mapper>

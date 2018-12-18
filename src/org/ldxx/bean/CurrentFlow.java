@@ -2,6 +2,9 @@ package org.ldxx.bean;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+
 public class CurrentFlow {
     private String id;
 
@@ -56,8 +59,20 @@ public class CurrentFlow {
     private Integer flowEndState;
 
     private String flowNodeLast;
+    
+    private String flowNodeName;//待审批步骤
+    
 
-    public String getId() {
+    
+    public String getFlowNodeName() {
+		return flowNodeName;
+	}
+
+	public void setFlowNodeName(String flowNodeName) {
+		this.flowNodeName = flowNodeName;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -241,6 +256,7 @@ public class CurrentFlow {
         this.readreceipts = readreceipts;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getDoDate() {
         return doDate;
     }
