@@ -34,7 +34,14 @@ public class ContractPaymentController {
 	@RequestMapping("/selectPayByStatus")
 	@ResponseBody
 	public List<Pay> selectPayByStatus(String status){
-		return payService.selectPayByStatus(status);
+		List<Pay> pay=payService.selectPayByStatus(status);
+		for(int i=0;i<pay.size();i++){
+			String fbNo=pay.get(i).getContractNo();
+			Pay p=payService.getTotalPayMoney(fbNo);
+			float alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
+			pay.get(i).setAlreadyAccumulateMoney(alreadyAccumulateMoney);
+		}
+		return pay;
 	}
 
 	@RequestMapping("/selectPayById")

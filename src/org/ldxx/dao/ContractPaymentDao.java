@@ -28,4 +28,6 @@ public interface ContractPaymentDao {
 	public Pay getTotalPayMoney(@Param("no")String no);
 	
 	public int addPayResultInfo(@Param("id")String id,@Param("resultPay")float resultPay,@Param("payTime")String payTime);
+
+	
 }

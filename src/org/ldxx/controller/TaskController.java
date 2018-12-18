@@ -352,11 +352,12 @@ public class TaskController {
 	
 	@RequestMapping("/selectTaskByStatus")
 	@ResponseBody
-	public List<Task>selectTaskByStatus(String status,String startMin,String startMax,String endMin,
-			String endMax,String mainDp,String xbDp,@RequestParam(defaultValue="0")float prjMoneyMin,@RequestParam(defaultValue="0")float prjMoneyMax,
+	public List<Task>selectTaskByStatus(String status,@RequestParam(defaultValue="")String startMin,@RequestParam(defaultValue="")String startMax,@RequestParam(defaultValue="")String endMin,
+			@RequestParam(defaultValue="")String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")float prjMoneyMin,@RequestParam(defaultValue="0")float prjMoneyMax,
 			@RequestParam(defaultValue="0")float contractMoneyMin,@RequestParam(defaultValue="0")float contractMoneyMax,
 			@RequestParam(defaultValue="0")float zdMoneyMin,@RequestParam(defaultValue="0")float zdMoneyMax){
-		return tService.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
+		List<Task> task=tService.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
+		return task;
 	}
 	
 	@RequestMapping("/selectIdAndNameByStatus")

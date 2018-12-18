@@ -15,8 +15,8 @@
       main_contract_code, main_contract_name, main_contract_money, 
       prj_list_code, prj_name, fb_contract_schedule, 
       if_contract_do_cost, contract_do_cost_money, 
-      already_accumulate_money,generation_advances_money,this_time_ask_money, 
-      pay_method, receieve_money_company, this_time_actual_pay_money, 
+      generation_advances_money,this_time_ask_money, 
+      pay_method,
       pay_list_explain, compiler_person, compiler_time, 
       make_time)
     values (#{pay.payId,jdbcType=VARCHAR},#{pay.payCode,jdbcType=VARCHAR}, #{pay.contractName,jdbcType=VARCHAR}, 
@@ -24,8 +24,8 @@
       #{pay.mainContractCode,jdbcType=VARCHAR}, #{pay.mainContractName,jdbcType=VARCHAR}, #{pay.mainContractMoney,jdbcType=VARCHAR}, 
       #{pay.prjListCode,jdbcType=VARCHAR}, #{pay.prjName,jdbcType=VARCHAR}, #{pay.fbContractSchedule,jdbcType=VARCHAR}, 
       #{pay.ifContractDoCost,jdbcType=VARCHAR}, #{pay.contractDoCostMoney,jdbcType=VARCHAR}, 
-      #{pay.alreadyAccumulateMoney,jdbcType=VARCHAR}, #{pay.GenerationAdvancesMoney,jdbcType=VARCHAR}, #{pay.thisTimeAskMoney,jdbcType=VARCHAR}, 
-      #{pay.payMethod,jdbcType=VARCHAR}, #{pay.receieveMoneyCompany,jdbcType=VARCHAR}, #{pay.thisTimeActualPayMoney,jdbcType=VARCHAR}, 
+      #{pay.GenerationAdvancesMoney,jdbcType=VARCHAR}, #{pay.thisTimeAskMoney,jdbcType=VARCHAR}, 
+      #{pay.payMethod,jdbcType=VARCHAR},
       #{pay.payListExplain,jdbcType=VARCHAR},#{pay.compilerPerson,jdbcType=VARCHAR}, #{pay.compilerTime,jdbcType=VARCHAR}, 
       now())
   	</insert>
@@ -64,8 +64,9 @@
   	</select>
   	
   	<select id="getTotalPayMoney" resultType="pay">
-  		SELECT IFNULL(SUM(this_time_actual_pay_money),0) as already_accumulate_money FROM pay as a 
-		LEFT JOIN mode_status as b on a.pay_id=b.mode_id
+		SELECT IFNULL(SUM(result_pay),0)as already_accumulate_money FROM pay_result_info as c
+		LEFT JOIN mode_status as b on c.pay_id=b.mode_id
+		LEFT JOIN pay as a on a.pay_id=c.pay_id
 		where b.status=2 and a.contract_no=#{no}
   	</select>
   	

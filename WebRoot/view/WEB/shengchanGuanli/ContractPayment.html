@@ -87,7 +87,7 @@
                                     <input type="text" class="form-control" id="fukuandanhao" disabled style="width:60%;">
                                 </td> -->
                                 <td style="width:15%;">合同金额(万元)</td>
-                                <td style="width:30%;"><input type="text" class="form-control" id="hetongMoney" style="width:60%;"></td>
+                                <td style="width:30%;"><input type="text" class="form-control" id="hetongMoney" style="width:60%;" disabled></td>
                                 <td style="width:15%;">合同进度</td>
                                 <td style="width:30%;"><input type="text" class="form-control" id="hetongjindu" style="width:60%;"></td>
                             </tr>
@@ -140,7 +140,7 @@
                             </tr>
                             <tr>
                                 <td style="width:15%;">已累计付款金额(万元)</td>
-                                <td style="width:30%;"><input type="text" class="form-control" id="yileijinfuMoney" style="width:60%;"></td>
+                                <td style="width:30%;"><input type="text" class="form-control" id="yileijinfuMoney" style="width:60%;" disabled></td>
                                 <td style="width:15%;">付款申请代垫款(万元)</td>
                                 <td style="width:30%;"><input type="text" class="form-control" id="daidianMoney" style="width:60%;"></td>
                             </tr>
@@ -532,7 +532,7 @@
                             <td id="HistoryhetongjiesuanMoney2"></td>
                         </tr>
                         <tr>
-                            <td>已累进付金额(万元)</td>
+                            <td>已累计付款金额(万元)</td>
                             <td id="HistoryyileijinfuMoney2"></td>
                             <td>付款申请代垫款(万元)</td>
                             <td id="HistorydaidianMoney2"></td>
@@ -724,7 +724,7 @@
                             <td id="lookhetongjiesuanMoney"></td>
                         </tr>
                         <tr>
-                            <td>已累进付金额(万元)</td>
+                            <td>已累计付款金额(万元)</td>
                             <td id="lookyileijinfuMoney"></td>
                             <td>付款申请代垫款(万元)</td>
                             <td id="lookdaidianMoney"></td>
@@ -866,7 +866,7 @@
                             <td id="HistoryhetongjiesuanMoney"></td>
                         </tr>
                         <tr>
-                            <td>已累进付金额(万元)</td>
+                            <td>已累计付款金额(万元)</td>
                             <td id="HistoryyileijinfuMoney"></td>
                             <td>付款申请代垫款(万元)</td>
                             <td id="HistorydaidianMoney"></td>
@@ -1501,7 +1501,9 @@
 	        				$("#zhuhetongMoney").val(json.mainContractMoney);
 	        				$("#xiangmuming").val(json.prjName);
 	        				$("#renwudanhao").val(json.workNo);
+	        				$("#hetongMoney").val(json.contractMoney);
 	        				isjinxinghetongjiesuan($('#hetonghao').val());
+	        				getTotalPayMoney($('#hetonghao').val());
 	                    }
 	          		});
 			  	})
@@ -1868,6 +1870,20 @@
 		
 	}
 	
+	function getTotalPayMoney(obj){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/pay/getTotalPayMoney',
+            dataType: 'json',
+            data: {
+            	no:obj,
+            },
+            success: function (json) {
+                $("#yileijinfuMoney").val(json.alreadyAccumulateMoney)
+            }
+        });
+	}
+	
 	
 	//修改回显
 	var xiugaiId;
@@ -2115,7 +2131,7 @@
 		$("#lookhetonghao").text(data.contractNo);
 		$("#lookfukuandanhao").text(data.payCode);
 		$("#lookhetongMoney").text(data.contractMoney);
-		$("#lookyikaipiaoMoney").text(data.alreadyAccumulateMoney);
+		$("#lookyikaipiaoMoney").text(data.alreadyKpMoney);
 		$("#lookthiskaipiaoMoney").text(data.thisTimeKpMoney);
 		$("#lookzhuhetongming").text(data.mainContractName);
 		$("#lookzhuhetongNo").text(data.mainContractCode);
@@ -2385,7 +2401,9 @@
 				$("#zhuhetongMoney").val(json.mainContractMoney);
 				$("#xiangmuming").val(json.prjName);
 				$("#renwudanhao").val(json.workNo);
-				isjinxinghetongjiesuan(json.fbNo);				
+				$("#hetongMoney").val(json.contractMoney);
+				isjinxinghetongjiesuan(json.fbNo);
+				getTotalPayMoney(json.fbNo);
             }
   		});
     	$("#choose_fb").modal("hide");

@@ -66,19 +66,31 @@ public class ProjectIntegratedController {
 			float contractMoney=t.getContractMoney();//合同金额
 			float zdMoney=t.getProvisionalSum();//暂定金
 			BudgetFpplicationForm bff=bservice.getAllCost(no);
-			float ysCost=bff.getAllCost();//预算成本
+			float ysCost=0;//预算成本
+			if(bff!=null){
+				 ysCost=bff.getAllCost();
+			}
 			List<CjContract> cj=cService.selectContractByTaskNo(no);
 			PrjProgressFill pf=pService.selectAllCostAndJd(no);
-			String prjJd=pf.getAllMoney();//项目进度
-			float prjCost=pf.getAllCost();//项目成本
+			String prjJd="0%";
+			float prjCost=0;
+			if(pf!=null){
+				prjJd=pf.getAllMoney();//项目进度
+				prjCost=pf.getAllCost();//项目成本
+			}
+			
 			for(int i=0;i<cj.size();i++){
 				String contractName=cj.get(i).getContractName();//承接合同名称
 				String contractNo=cj.get(i).getContractNo();//承接合同编号
 				float htMoney=cj.get(i).getContractMoney();//承接合同金额
 				float cjZdMoney=cj.get(i).getTemporaryMoney();//承接合同暂定金
 				ContractWork cw=service.getContractMoney(contractNo);
-				float contractEndMoney=cw.getEndMoney();//合同结算金额
-				float allReceieveMoney=cw.getAllReceieveMoney();//合同累计收款
+				float contractEndMoney=0;
+				float allReceieveMoney=0;	
+				if(cw!=null){
+					contractEndMoney=cw.getEndMoney();//合同结算金额
+					allReceieveMoney=cw.getAllReceieveMoney();//合同累计收款
+				}
 				float allKp=kService.getAllMoney(contractNo, no);//累计开票金额
 				List<FbContract> fb=sService.getFBNameAndNo2();
 				for(int ii=0;ii<fb.size();ii++){
@@ -96,7 +108,9 @@ public class ProjectIntegratedController {
 					if(cp!=null){
 						fbPlan=cp.getFbContractSchedule();//分包进度
 						/*fbActualPay=cp.getAlreadyAccumulateMoney();//分包实际累计付款金额*/	
-				}
+					}
+					Pay p2=cpService.getTotalPayMoney(fbNo);
+					fbActualPay=p2.getAlreadyAccumulateMoney();
 					ProjectIntegrated pi=new ProjectIntegrated();
 					pi.setPrjNo(no);
 					pi.setPrjName(prjName);
