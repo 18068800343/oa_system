@@ -296,5 +296,11 @@ public class ContractPaymentController {
 		return payService.selectHistoryBypayCode(payCode);
 	}
 	
+	@RequestMapping("/getTotalPayMoney")
+	@ResponseBody
+	public Pay getTotalPayMoney(String no){
+		return payService.getTotalPayMoney(no);
+	}
+	
 
 }

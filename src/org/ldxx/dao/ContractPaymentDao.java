@@ -24,4 +24,6 @@ public interface ContractPaymentDao {
 	int updateGenerationAdvancesMoney(@Param("programMoney")Float programMoney, @Param("id")String id);
 
 	Pay getFbPayPlanAndMoney(@Param("no")String no);
+	
+	public Pay getTotalPayMoney(@Param("no")String no);
 }

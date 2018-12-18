@@ -961,17 +961,18 @@
                                     <!-- <select class="form-control" style="width:80%;" id="cjContractName">
                                     </select> -->
                                     <input type="text" class="form-control" style="width:60%;" disabled id="cjContractName">
-                                    <button type="button" class="btn btn-primary weui-uploader__input" onclick="select_cj3()">选择承接</button>
+                                    <!-- <button type="button" class="btn btn-primary weui-uploader__input" onclick="select_cj3()">选择承接</button> -->
                                 </td>
                                 <td>承接合同编号</td>
                                 <td>
-                                	<select class="form-control" style="width:60%;" id="cjContract">
-                                    </select>
+                                	<input type="text" class="form-control" style="width:60%;" disabled id="cjContract">
+                                	<!-- <select class="form-control" style="width:60%;" id="cjContract">
+                                    </select> -->
                                 </td>
                             </tr>
                             <tr>
                                 <td>任务单号</td>
-                                <td><input type="text" class="form-control" style="width:60%;" id=prjCode></td>
+                                <td><input type="text" class="form-control" style="width:60%;" id="prjCode" disabled></td>
                                 <td>项目负责人</td>
                                 <td>
                                     <input type="text" id="prjChargePerson" style="width:60%;" class="form-control" disabled>
@@ -997,14 +998,14 @@
                                 <td><input type="text" class="form-control" style="width:60%;" id="provisionalMoney" disabled></td>
                             </tr>
                             <tr>
-                                <td>结算金额(万元)</td>
-                                <td><input type="text" class="form-control" style="width:60%;" id="overWorkMoney"></td>
+                                <td>累计付款(万元)</td>
+                                <td><input type="text" class="form-control" style="width:60%;" id="allPayMoney" disabled></td>
                                 <td>结算说明</td>
                                 <td><input type="text" class="form-control" style="width:60%;" id="overWorkExplain"></td>
                             </tr>
                             <tr>
-                                <td>累计付款(万元)</td>
-                                <td><input type="text" class="form-control" style="width:60%;" id="allPayMoney"></td>
+                            	<td>结算金额(万元)</td>
+                                <td><input type="text" class="form-control" style="width:60%;" id="overWorkMoney"></td>
                                 <td>履约评级</td>
                                 <td><input type="text" class="form-control" style="width:60%;" id="doAppointScore"></td>
                             </tr>
@@ -2309,13 +2310,13 @@
 	        success: function (json) {
 	        	$("#new_cj_name").html('');
 	        	$("#new_cj_no").html('');
-	        	$("#cjContractName").html('');
-	        	$("#cjContract").html('');
+	        	/* $("#cjContractName").html('');
+	        	$("#cjContract").html(''); */
 	        	for(var i=0;i<json.length;i++){
 	        		$("#new_cj_name").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
 	        		$("#new_cj_no").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
-	        		$("#cjContractName").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
-	        		$("#cjContract").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
+	        		/* $("#cjContractName").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
+	        		$("#cjContract").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>"); */
 	        	}
 	        	$('#new_cj_name').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
@@ -2346,7 +2347,7 @@
 	          		});
 			  	})
 			  	
-			  	$('#cjContractName').editableSelect().on('select.editable-select', function (e, dom) {
+			  	/* $('#cjContractName').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/cj/selectCjContractByName',
@@ -2373,7 +2374,7 @@
 	                    	$('#prjCode').val(json.taskCode);
 	                    }
 	          		});
-			  	})
+			  	}) */
 			  	
 	        }
 			});
@@ -2399,7 +2400,7 @@
 	        	for(var i=0;i<json.length;i++){
 	        		$("#new_fb_name").append("<option value="+json[i].contarctName+">"+json[i].contractName+"</option>");
 	        		$("#new_fb_no").append("<option value="+json[i].fbNo+">"+json[i].fbNo+"</option>");
-	        		$("#fbContractName").append("<option value="+json[i].contarctName+">"+json[i].contractName+"</option>");
+	        		/* $("#fbContractName").append("<option value="+json[i].contarctName+">"+json[i].contractName+"</option>"); */
 	        		$("#fbContract").append("<option value="+json[i].fbNo+">"+json[i].fbNo+"</option>");
 	        	}
 	        	
@@ -2454,9 +2455,13 @@
 	                    	fbNo:$('#fbContract').val()
 	                    },
 	                    success: function (json) {
+	                    	getAllPayMoney($('#fbContract').val());
 	                    	$('#fbContractName').val(json.contractName);
 	                    	$("#contractMoney").val(json.contractMoney);
 	                    	$("#provisionalMoney").val(json.temporaryMoney);
+	                    	$("#cjContractName").val(json.cjContractName);
+	                    	$("#cjContract").val(json.cjContractCode);
+	                    	$("#prjCode").val(json.workNo);
 	                    }
 	          		});
 			  	})
@@ -3242,13 +3247,32 @@
     function saveFbName3(){
     	var tr=$("input[name='fbName3']:checked").parents("tr");
     	var data=$('#fb_table3').DataTable().row(tr).data();
-    	console.log(data)
     	$('#fbContractName').val(data.contractName);
     	$('#fbContract').val(data.fbNo);
+    	getAllPayMoney(data.fbNo);
     	$("#contractMoney").val(data.contractMoney);
     	$("#provisionalMoney").val(data.temporaryMoney);
+    	$("#cjContractName").val(data.cjContractName);
+    	$("#cjContract").val(data.cjContractCode);
+    	$("#prjCode").val(data.workNo);
     	$("#choose_fb3").modal("hide");
     }
+    
+    function getAllPayMoney(obj){
+    	$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/pay/getTotalPayMoney',
+	            dataType: 'json',
+	            data: {
+	            	no:obj
+	            },
+	            success: function (json) {
+	                $("#allPayMoney").val(json.alreadyAccumulateMoney)
+	            }
+	        });
+    }
+    
+    
     //合同履约选择承接
     function select_cj3(){
       	 $.ajax({
