@@ -322,7 +322,7 @@ public class TaskController {
 			e.printStackTrace();
 			return "fail";
 		}
-		return string;
+		return "1";
 	}
 	@RequestMapping("/deleteTask")
 	@ResponseBody
