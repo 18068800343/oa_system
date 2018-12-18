@@ -47,7 +47,17 @@ public class FlowHistroy {
 
     private String view;
 
-    public String getId() {
+    private String flowNodeName;
+    
+    public String getFlowNodeName() {
+		return flowNodeName;
+	}
+
+	public void setFlowNodeName(String flowNodeName) {
+		this.flowNodeName = flowNodeName;
+	}
+
+	public String getId() {
         return id;
     }
 

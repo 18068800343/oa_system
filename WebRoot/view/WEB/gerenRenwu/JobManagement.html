@@ -185,7 +185,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="tuihuisubmit()">提交</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="tuihuisubmit()">确定</button>
             </div>
         </div>
     </div>
@@ -218,7 +218,7 @@
 		"columns": [{
             "data": "businessname"
         },{
-            "data": "businessname"
+            "data": "title"
         },{
             "data": "deptname"
         },{
@@ -228,7 +228,7 @@
             "targets": 3,
             "searchable": false,
             "render": function (data, type, full) {
-                return '<i class="iconfont icon-yewubanli Paaa+" name="mode" data-id="'+data+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
+                return '<i class="iconfont icon-yewubanli Paaa+" name="mode" data-id="'+data+'"  style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
             }
         }], 
         "order": [[1, 'asc']],
@@ -348,22 +348,45 @@
             },
             dataType: 'json',
             success: function (json) {
-              $("#tijiaogei").modal('show'); 
-      		  $("#tijiaoren tbody").empty("");
+              if(json.result==2){
+              $("#tuihuigei").modal('show'); 
+      		  $("#tuihuigei tbody").empty("");
       		  for(var i=0;i<json.list.length;i++){
-   			  $("#tijiaoren tbody").append('<tr><td>'
-   					  +'<input type="radio" name="tuihuiren">'
-   					  +'</td><td>'
-   					  +json.list[i].actorname
-   					  +'</td><td>'
-   					  +json.list[i].deptname
-   					  +'</td></tr>');
+      			$("#tuihuigei tbody").append('<tr><td>'
+  					  +'<input type="radio" name="tuihuiZhi"  data-id="'+json.list[i].floNodeId+'">'
+  					  +'</td><td data-name="'+json.list[i].deptname+'">'
+  					  +json.list[i].flowNodeName
+  					  +'</td><td  data-id="'+json.list[i].actor+'">'
+  					  +json.list[i].actorname
+  					  +'</td><td>'
+  					  +json.list[i].view
+  					  +'</td></tr>');
    		      }
+              }
             }
         });
     });
     function tuihuisubmit(){
-    	
+    	var tuihuiFloNodeId = $("input[name='tuihuiZhi']:checked").attr("data-id");
+    	var tuihuiDeptName = $("input[name='tuihuiZhi']:checked").parent().next().attr("data-name");
+    	var tuihuiActor = $("input[name='tuihuiZhi']:checked").parent().next().next().attr("data-id");
+    	var tuihuiActorName = $("input[name='tuihuiZhi']:checked").parent().next().next().text();
+    	 $.ajax({
+             type: 'POST',
+             url: getContextPath()+'/task/returnPerson',
+             dataType: 'json',
+             data:{
+           	  url:page_url,
+           	  tuihuiFloNodeId:tuihuiFloNodeId,
+           	  tuihuiDeptName:tuihuiDeptName,
+           	  tuihuiActor:tuihuiActor,
+           	  tuihuiActorName:tuihuiActorName,
+           	  view:$("#view").val()
+             },
+             success: function (json) {
+           	  toastr.success('提交成功');
+             }
+         });
     }
     function tijiaorenwudan2(){
   	  var uid=$("input[name='tijiaorenming']:checked").attr("data-id");

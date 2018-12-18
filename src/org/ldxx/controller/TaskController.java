@@ -32,6 +32,7 @@ import org.ldxx.service.EnterpriseService;
 import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
+import org.omg.CORBA.Current;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -470,6 +471,40 @@ public class TaskController {
 		}
 		return result;
 	}
+	
+/*	@RequestMapping("/tuiHuiGei")退回流程
+	@ResponseBody
+	public String tuiHuiGei(String url,String view){
+		FlowUtill flowUtill = new FlowUtill();
+		String currentFlowId = "";
+		String result = "";
+		try {
+			currentFlowId = url.split("-")[1];
+			result = flowUtill.TuiHuiFlow(currentFlowId,view);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}*/
+	
+	@RequestMapping("/returnPerson")/*退回流程*/
+	@ResponseBody
+	public String returnPerson(String url,String view,String tuihuiFloNodeId,String tuihuiDeptName,String tuihuiActor,String tuihuiActorName){
+		FlowUtill flowUtill = new FlowUtill();
+		CurrentFlow currentFlow = new CurrentFlow();
+		currentFlow.setFloNodeId(tuihuiFloNodeId);
+		currentFlow.setDeptname(tuihuiDeptName);
+		currentFlow.setActor(tuihuiActor);
+		currentFlow.setActorname(tuihuiActorName);
+		String result = "";
+		try {
+			result = flowUtill.TuiHuiZhi(url,view,currentFlow);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	@RequestMapping("/selectCjByTaskName")
 	@ResponseBody
 	public Map<String,Object> selectCjByTaskName(String name){

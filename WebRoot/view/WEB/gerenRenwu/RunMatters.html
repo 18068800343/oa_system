@@ -45,9 +45,9 @@
                 <form class="form-inline">
                     <div class="form-group">
                         <span style="font-size:16px;">事项名称:</span>
-                        <select name="" id="" style="width:180px;font-size:16px;" class="form-control">
-                            <option value="">提交的表单</option>
-                            <option value="">已审批的业务</option>
+                        <select name="" id="statusChange" style="width:180px;font-size:16px;" class="form-control">
+                            <option value="1">提交的表单</option>
+                            <option value="2">已审批的业务</option>
                         </select>
                     </div>
                 </form>
@@ -90,8 +90,9 @@
             <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>
                     <tr>
-                        <th>已办事项名称</th>
-                        <th>已办事项类型</th>
+                        <th>已办业务名称</th>
+                        <th>已办实体名称</th>
+                        <th>意见</th>
                         <th>部门</th>
                         <th style="width:60px;">操作</th>
                     </tr>
@@ -111,7 +112,7 @@
                 <h4 class="modal-title" id="gridSystemModalLabel">处理业务</h4>
             </div>
             <div class="modal-body">
-                <iframe name="view_frame" id="rightMain" src="../shengchanGuanli/TaskManagementChange.html?prjId=b2a2d02be9da&prjNo=20180003B2" frameborder="false" scrolling="auto" style="border: none;" width="100%" height=700 allowtransparency="true"></iframe>
+                <iframe name="view_frame" id="rightMain" src="../shengchanGuanli/TaskManagementLook.html?prjId=" frameborder="false" scrolling="auto" style="border: none;" width="100%" height=700 allowtransparency="true"></iframe>
                 
             </div>
             <div class="modal-footer">
@@ -128,7 +129,7 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script>
     $(document).ready( function () {
-    	initTable()
+    	$("#statusChange").trigger('change');
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -143,17 +144,19 @@
 		"columns": [{
             "data": "businessname"
         },{
-            "data": "businessname"
+            "data": "title"
+        },{
+            "data": "view"
         },{
             "data": "deptname"
         },{
-            "data": "deptname"
+            "data": "url"
         }],
          "columnDefs": [{
-            "targets": 3,
+            "targets": 4,
             "searchable": false,
             "render": function (data, type, full) {
-            	return '<i class="iconfont icon-search Paba+" style="font-size:18px;cursor:pointer;" title="查看办理业务" data-toggle="modal" data-target=".dada"></i><i class="iconfont icon-shanchu Pabb+" style="font-size:18px;cursor:pointer;" title="删除"></i><i class="iconfont icon-quxiao quxiao Pabc+" style="font-size:18px;cursor:pointer;" title="撤回" id="quxiao"></i>'
+            	return '<i class="iconfont icon-search Paba+" style="font-size:18px;cursor:pointer;" title="查看办理业务" data-id="'+data+'" name="lookYw" data-toggle="modal" data-target=".dada"></i><i class="iconfont icon-shanchu Pabb+" style="font-size:18px;cursor:pointer;" title="删除"></i><i class="iconfont icon-quxiao quxiao Pabc+" style="font-size:18px;cursor:pointer;" title="撤回" id="quxiao"></i>'
                
             }
         }], 
@@ -176,17 +179,18 @@
         }},
         
 	});
-	function initTable(){
+	function initTable(status){
         $.ajax({
         	type: 'POST',
             url: getContextPath()+'/flowHistory/getFlowHistoryByUser',
             data:{
-            	status:"1"
+            	status:status
             },
             success: function (json) {
             	console.log(json);
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                bindclick();
             }
         });
     }
@@ -196,6 +200,19 @@
 		   return false;
 		  }
 	})
+	$("#statusChange").change(function(){
+		var status = $("#statusChange").val();
+		initTable(status);
+	});
 
+    var page_url;
+    function bindclick(){
+    	$("body").on("click","i[name='lookYw']",function(){
+        	var data_id = $(this).attr("data-id");
+        	var strs = data_id.split("-")
+        	page_url=data_id;
+        	$("#rightMain").attr("src","../"+strs[0]+"?prjId="+strs[1]);
+        });
+    }
 </script>
 </html>
