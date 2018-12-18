@@ -55,6 +55,16 @@ public class CurrentFlowVo {
 
     private String modeId;
     
+    private String editOrView;
+    
+	public String getEditOrView() {
+		return editOrView;
+	}
+
+	public void setEditOrView(String editOrView) {
+		this.editOrView = editOrView;
+	}
+
 	public String getModeId() {
 		return modeId;
 	}
