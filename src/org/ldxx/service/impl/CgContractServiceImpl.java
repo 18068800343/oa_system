@@ -179,4 +179,9 @@ public class CgContractServiceImpl implements CgContractService {
 		return cgDao.selectByCgNo(no);
 	}
 
+	@Override
+	public List<CgContract> selectCgContractByWorkNo(String no) {
+		return cgDao.selectCgContractByWorkNo(no);
+	}
+
 }

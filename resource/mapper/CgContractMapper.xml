@@ -53,14 +53,14 @@
 	</select>
 	
 	<select id="getCGNameAndNo" resultType="CgContract">
-		select cg_id,contract_name,cg_no,cgd_no,prj_name,work_no,c.sp_name from cg_contract a
+		select cg_id,contract_name,cg_no,cgd_no,prj_name,work_no,c.sp_name,cg_contract_money from cg_contract a
 			left join mode_status b on a.cg_id =b.mode_id
 			left join sourcing_purchasing c on c.sp_id=a.contract_name_yi 
 		 where b.status=2 and a.history=1
 	</select>
 	
 	<select id="getCGNameByNo" resultType="CgContract">
-		select cg_id,cgd_no,contract_name,work_no,prj_name from cg_contract where cg_no=#{cgNo} and history=1
+		select cg_id,cgd_no,contract_name,work_no,prj_name,cg_contract_money from cg_contract where cg_no=#{cgNo} and history=1
 	</select>
 	
 	<select id="getCGNoByName" resultType="CgContract">
@@ -87,5 +87,12 @@
 		select *,c.sp_name  from cg_contract a 
 		left join sourcing_purchasing c on c.sp_id=a.contract_name_yi  
 		where cg_no=#{no} and history=1
+	</select>
+	
+	<select id="selectCgContractByWorkNo" resultType="CgContract">
+		SELECT contract_name,cg_no,cgc_type,cg_contract_money,c.sp_name FROM cg_contract as a
+		LEFT JOIN mode_status as b on a.cg_id=b.mode_id
+		LEFT JOIN sourcing_purchasing as c on c.sp_id=a.contract_name_yi
+		where b.status=2 and work_no like #{no} and a.history=1
 	</select>
 </mapper>

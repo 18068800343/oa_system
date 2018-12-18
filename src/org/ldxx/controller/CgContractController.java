@@ -360,4 +360,12 @@ public class CgContractController {
 	public CgContract selectByCgNo(String no){
 		return cgService.selectByCgNo(no);
 	}
+	
+	@RequestMapping("/selectCgContractByWorkNo")//通过任务单过滤采购合同
+	@ResponseBody
+	public List<CgContract> selectCgContractByWorkNo(String no){
+		no="%"+no+"%";
+		List<CgContract> list=cgService.selectCgContractByWorkNo(no);
+		return list;
+	}
 }
