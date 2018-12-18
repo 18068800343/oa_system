@@ -607,5 +607,12 @@ public class TaskController {
 		List<Task> list=tService.getTaskIdNameNo();
 		return list;
 	}
+	
+	@RequestMapping("/updateById") //通过id修改主办协办部门的项目负责人、主任工程师、其他负责人
+	@ResponseBody
+	public int updateById(Task task){
+		int i=tService.updateById(task);
+		return i;
+	}
 }
 

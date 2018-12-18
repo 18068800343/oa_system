@@ -54,4 +54,6 @@ public interface TaskDao {
 	public List<Task> selectTaskByPrjType(@Param("type")String type,@Param("time")String time);
 	
 	public Task selectTaskByNoAndType(@Param("type")String type,@Param("no")String no);
+
+	public int updateById(@Param("task")Task task);
 }

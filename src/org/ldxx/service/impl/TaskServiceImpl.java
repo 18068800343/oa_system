@@ -174,4 +174,9 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.selectTaskByNoAndType(type, no);
 	}
 
+	@Override
+	public int updateById(Task task) {
+		return tdao.updateById(task);
+	}
+
 }

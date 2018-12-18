@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../font3/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <style lang="">
@@ -139,6 +140,9 @@
                     	<tbody>
                     	</tbody>
                     </table>
+                    <div class="modal-footer">
+			            <button type="button" class="btn btn-success" onclick="save()">保存</button>
+			        </div>
         
     </div>
 
@@ -147,6 +151,7 @@
 <script src="../../js/common-scripts.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
+<script src="../../toastr/toastr.js"></script>
 <script>  
     $(document).ready( function () {
     	initTable();
@@ -213,6 +218,10 @@
             			+"</td><td>其他负责人</td><td>"
             			+'<select class="form-control" style="width:100%;" id="qtfzr"></select>'
             			+"</td></tr>")
+            		editzhubanren(task.mainPrjLeader,1)	
+            		editzhubanren(task.mainEngineer,2)
+            		editzhubanren(task.mainOther,3)
+            		
             	
             	if(task.name1!=null&&task.name1!=''){
             		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
@@ -226,6 +235,10 @@
                 			+"</td><td>其他负责人</td><td>"
                 			+'<select class="form-control" style="width:100%;" id="xbqtfzr1"></select>'
             				+"</td></tr>")
+            				
+            		editxb1ren(task.assist1PrjLeader,1);
+            		editxb1ren(task.assist1Engineer,2);
+            		editxb1ren(task.assist1Other,3);
             	}
 				if(task.name2!=null&&task.name2!=''){
 					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
@@ -239,6 +252,9 @@
 	            			+"</td><td>其他负责人</td><td>"
 	            			+'<select class="form-control" style="width:100%;" id="xbqtfzr2"></select>'
 							+"</td></tr>")
+					editxb2ren(task.assist2PrjLeader,1);
+            		editxb2ren(task.assist2Engineer,2);
+            		editxb2ren(task.assist2Other,3);
             	}
 				if(task.name3!=null&&task.name3!=''){
 					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
@@ -252,6 +268,9 @@
 	            			+"</td><td>其他负责人</td><td>"
 	            			+'<select class="form-control" style="width:100%;" id="xbqtfzr3"></select>'
 							+"</td></tr>")
+					editxb3ren(task.assist3PrjLeader,1);
+            		editxb3ren(task.assist3Engineer,2);
+            		editxb3ren(task.assist3Other,3);
 				}
             	
             	$("#looklianxibiaoge tbody").empty("");
@@ -350,6 +369,198 @@
 			}
 		}) 
 	}
+  
+  
+  //回显主办三个人
+  function editzhubanren(obj,obj2){
+	  //console.log(obj)
+	  $.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			data:{ 
+				omId:zhubanbumen
+				},
+			success:function(json){
+				if(obj2==1){
+					$("#xmfzr").empty();
+					for(var i=0;i<json.length;i++){
+						$("#xmfzr").append("<option value='" + json[i].userId + "'>"
+			                    + json[i].uName + "</option>")
+					}
+					$("#xmfzr").val(obj)
+				}else if(obj2==2){
+					$("#zrgcs").empty();
+					for(var i=0;i<json.length;i++){
+			            $("#zrgcs").append("<option value='" + json[i].userId + "'>"
+	                    + json[i].uName + "</option>")
+					$("#zrgcs").val(obj)
+					}
+				}else if(obj2==3){
+					$("#qtfzr").empty();
+					for(var i=0;i<json.length;i++){
+	                    $("#qtfzr").append("<option value='" + json[i].userId + "'>"
+	                    + json[i].uName + "</option>")
+					$("#qtfzr").val(obj)
+					}
+				}
+			}
+		})
+  }
+  
+  //回显协办1三个人
+  function editxb1ren(obj,obj2){
+	  $.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			data:{ 
+				omId:xiebanbumen1
+				},
+			success:function(json){
+				if(obj2==1){
+					$("#xbxmfzr1").empty();
+					for(var i=0;i<json.length;i++){
+						$("#xbxmfzr1").append("<option value='" + json[i].userId + "'>"
+			                    + json[i].uName + "</option>")
+					}
+					$("#xbxmfzr1").val(obj)
+				}else if(obj2==2){
+					$("#xbzrgcs1").empty();
+					for(var i=0;i<json.length;i++){
+			            $("#xbzrgcs1").append("<option value='" + json[i].userId + "'>"
+	                    + json[i].uName + "</option>")
+					$("#xbzrgcs1").val(obj)
+					}
+				}else if(obj2==3){
+					$("#xbqtfzr1").empty();
+					for(var i=0;i<json.length;i++){
+	                    $("#xbqtfzr1").append("<option value='" + json[i].userId + "'>"
+	                    + json[i].uName + "</option>")
+					$("#xbqtfzr1").val(obj)
+					}
+				}
+			}
+		})
+  }
+  
+//回显协办2三个人
+  function editxb2ren(obj,obj2){
+	  $.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			data:{ 
+				omId:xiebanbumen2
+				},
+			success:function(json){
+				if(obj2==1){
+					$("#xbxmfzr2").empty();
+					for(var i=0;i<json.length;i++){
+						$("#xbxmfzr2").append("<option value='" + json[i].userId + "'>"
+			                    + json[i].uName + "</option>")
+					}
+					$("#xbxmfzr2").val(obj)
+				}else if(obj2==2){
+					$("#xbzrgcs2").empty();
+					for(var i=0;i<json.length;i++){
+			            $("#xbzrgcs2").append("<option value='" + json[i].userId + "'>"
+	                    + json[i].uName + "</option>")
+					$("#xbzrgcs2").val(obj)
+					}
+				}else if(obj2==3){
+					$("#xbqtfzr2").empty();
+					for(var i=0;i<json.length;i++){
+	                    $("#xbqtfzr2").append("<option value='" + json[i].userId + "'>"
+	                    + json[i].uName + "</option>")
+					$("#xbqtfzr2").val(obj)
+					}
+				}
+			}
+		})
+  }
+  
+//回显协办3三个人
+  function editxb3ren(obj,obj2){
+	  $.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			data:{ 
+				omId:xiebanbumen3
+				},
+			success:function(json){
+				if(obj2==1){
+					$("#xbxmfzr3").empty();
+					for(var i=0;i<json.length;i++){
+						$("#xbxmfzr3").append("<option value='" + json[i].userId + "'>"
+			                    + json[i].uName + "</option>")
+					}
+					$("#xbxmfzr3").val(obj)
+				}else if(obj2==2){
+					$("#xbzrgcs3").empty();
+					for(var i=0;i<json.length;i++){
+			            $("#xbzrgcs3").append("<option value='" + json[i].userId + "'>"
+	                    + json[i].uName + "</option>")
+					$("#xbzrgcs3").val(obj)
+					}
+				}else if(obj2==3){
+					$("#xbqtfzr3").empty();
+					for(var i=0;i<json.length;i++){
+	                    $("#xbqtfzr3").append("<option value='" + json[i].userId + "'>"
+	                    + json[i].uName + "</option>")
+					$("#xbqtfzr3").val(obj)
+					}
+				}
+			}
+		})
+  }
+  
+  
+  
+  //保存
+  function save(){
+	  var xmfzr=$("#xmfzr").val()
+	  var zrgcs=$("#zrgcs").val();
+	  var qtfzr=$("#qtfzr").val();
+	  var xbxmfzr1=$("#xbxmfzr1").val();
+	  var xbzrgcs1=$("#xbzrgcs1").val();
+	  var xbqtfzr1=$("#xbqtfzr1").val();
+	  var xbxmfzr2=$("#xbxmfzr2").val();
+	  var xbzrgcs2=$("#xbzrgcs2").val();
+	  var xbqtfzr2=$("#xbqtfzr2").val();
+	  var xbxmfzr3=$("#xbxmfzr3").val();
+	  var xbzrgcs3=$("#xbzrgcs3").val();
+	  var xbqtfzr3=$("#xbqtfzr3").val();
+	  
+	  $.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/updateById",
+			dataTyepe:"json",
+			data:{ 
+				prjId:id,
+				mainPrjLeader:xmfzr,
+				mainEngineer:zrgcs,
+				mainOther:qtfzr,
+				assist1PrjLeader:xbxmfzr1,
+				assist1Engineer:xbzrgcs1,
+				assist1Other:xbqtfzr1,
+				assist2PrjLeader:xbxmfzr2,
+				assist2Engineer:xbzrgcs2,
+				assist2Other:xbqtfzr2,
+				assist3PrjLeader:xbxmfzr3,
+				assist3Engineer:xbzrgcs3,
+				assist3Other:xbqtfzr3
+				},
+			success:function(json){
+				if(json>0){
+					toastr.success("修改成功")
+				}else{
+					toastr.error("修改失败")
+				}
+			}
+		}) 
+  }
     
 </script>
 </html>

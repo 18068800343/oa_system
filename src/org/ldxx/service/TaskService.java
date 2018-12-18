@@ -54,4 +54,6 @@ public interface TaskService {
 	public List<Task> selectTaskByPrjType(String type,String time);
 	
 	public Task selectTaskByNoAndType(String type,String no);
+
+	public int updateById(Task task);
 }
