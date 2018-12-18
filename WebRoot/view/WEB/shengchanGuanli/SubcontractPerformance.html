@@ -951,7 +951,7 @@
                                 </td>
                                 <td style="width:18%;">分包合同号</td>
                                 <td>
-                                	<select class="form-control" style="width:60%;"  id="fbContract">
+                                	<select class="form-control" style="width:75%;"  id="fbContract">
                                     </select>
                                 </td>
                             </tr>
@@ -965,7 +965,7 @@
                                 </td>
                                 <td>承接合同编号</td>
                                 <td>
-                                	<input type="text" class="form-control" style="width:60%;" disabled id="cjContract">
+                                	<input type="text" class="form-control" style="width:75%;" disabled id="cjContract">
                                 	<!-- <select class="form-control" style="width:60%;" id="cjContract">
                                     </select> -->
                                 </td>
@@ -975,8 +975,8 @@
                                 <td><input type="text" class="form-control" style="width:60%;" id="prjCode" disabled></td>
                                 <td>项目负责人</td>
                                 <td>
-                                    <input type="text" id="prjChargePerson" style="width:60%;" class="form-control" disabled>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren2">项目负责人</button>
+                                    <input type="text" id="prjChargePerson" style="width:75%;" class="form-control" disabled>
+                                    <!-- <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren2">项目负责人</button> -->
                                 </td>
                             </tr>
                             <tr>
@@ -987,27 +987,27 @@
                                 </td>
                                 <td>分包负责人</td>
                                 <td>
-                                     <input type="text" id="fbChargePerson" style="width:60%;" class="form-control" disabled>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren3">分包负责人</button>
+                                     <input type="text" id="fbChargePerson" style="width:75%;" class="form-control" disabled>
+                                    <!-- <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren3">分包负责人</button> -->
                                 </td>
                             </tr>
                             <tr>
                                 <td>合同金额(万元)</td>
                                 <td><input type="text" class="form-control" style="width:60%;" id="contractMoney" disabled></td>
                                 <td>暂定金(万元)</td>
-                                <td><input type="text" class="form-control" style="width:60%;" id="provisionalMoney" disabled></td>
+                                <td><input type="text" class="form-control" style="width:75%;" id="provisionalMoney" disabled></td>
                             </tr>
                             <tr>
                                 <td>累计付款(万元)</td>
                                 <td><input type="text" class="form-control" style="width:60%;" id="allPayMoney" disabled></td>
                                 <td>结算说明</td>
-                                <td><input type="text" class="form-control" style="width:60%;" id="overWorkExplain"></td>
+                                <td><input type="text" class="form-control" style="width:75%;" id="overWorkExplain"></td>
                             </tr>
                             <tr>
                             	<td>结算金额(万元)</td>
                                 <td><input type="text" class="form-control" style="width:60%;" id="overWorkMoney"></td>
                                 <td>履约评级</td>
-                                <td><input type="text" class="form-control" style="width:60%;" id="doAppointScore"></td>
+                                <td><input type="text" class="form-control" style="width:75%;" id="doAppointScore"></td>
                             </tr>
                             <tr>
                                 <td>项目概况、工作内容、实际工期</td>
@@ -1488,7 +1488,7 @@
         });
     	initSelect();
     	initFb3();
-    	initUser();
+    	/* initUser(); */
     	/* initTable(); */
     	$("#state").trigger("change");
     	initDepartment();
@@ -2463,6 +2463,7 @@
 	                    	$("#cjContractName").val(json.cjContractName);
 	                    	$("#cjContract").val(json.cjContractCode);
 	                    	$("#prjCode").val(json.workNo);
+	                    	selectAllPrjLeader(json.workNo);
 	                    }
 	          		});
 			  	})
@@ -2471,7 +2472,22 @@
     	});
     }
     
-    function initUser(){
+    function selectAllPrjLeader(obj){
+		 $.ajax({
+	           type: 'POST',
+	         	url: getContextPath()+'/task/selectPrjLeaderByPrjNo',
+	           dataType: 'json',
+	           data: {
+	        	   nos:obj
+	           },
+	           success: function (json) {
+	              var leader=json.leader;
+	              $("#prjChargePerson").val(leader);
+	           }
+	       });
+	}
+    
+    /* function initUser(){
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/user/selectAllUser',
@@ -2480,13 +2496,13 @@
             },
             success: function (json) {
             	for(var i=0;i<json.length;i++){
-	            	/* $("#leader").append("<option value="+json[i].uName+">"+json[i].uName+"</option>") */
+	            	 $("#leader").append("<option value="+json[i].uName+">"+json[i].uName+"</option>")
 	            	$("#prjChargePerson").append("<option value="+json[i].uName+">"+json[i].uName+"</option>")
 	            	$("#fbChargePerson").append("<option value="+json[i].uName+">"+json[i].uName+"</option>")
             	}
             }
     	});
-    }
+    } */
     
   //初始化提交部门
 	function initDepartment(){
@@ -2501,13 +2517,29 @@
             	toastr.error("请求失败");
             },
             success: function (json) {
+            	$("#contractNameYi").html("");
                 for(var i=0;i<json.length;i++){
                 	$("#contractNameYi").append("<option value="+json[i].ccId+">"+json[i].ccName+"</option>");
                 }
+                $("#contractNameYi").trigger("change");
             }
 		});
 	}
   
+    $("#contractNameYi").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/cooperator/selectOneCooperator',
+            dataType: 'json',
+            data: {
+				id:$("#contractNameYi").val()
+            },
+            success: function (json) {
+            	$("#fbChargePerson").val(json.legalPersonName);
+            }
+		});
+    })
+    
 	//初始化实际负责人部门
 	function initbumen(){
 		$.ajax({
@@ -3256,6 +3288,7 @@
     	$("#cjContractName").val(data.cjContractName);
     	$("#cjContract").val(data.cjContractCode);
     	$("#prjCode").val(data.workNo);
+    	selectAllPrjLeader(data.workNo)
     	$("#choose_fb3").modal("hide");
     }
     

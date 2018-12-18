@@ -56,4 +56,6 @@ public interface TaskService {
 	public Task selectTaskByNoAndType(String type,String no);
 
 	public int updateById(Task task);
+	
+	public Task selectPrjLeaderByPrjNo(String no);
 }

@@ -178,5 +178,10 @@ public class TaskServiceImpl implements TaskService{
 	public int updateById(Task task) {
 		return tdao.updateById(task);
 	}
+	
+	@Override
+	public Task selectPrjLeaderByPrjNo(String no) {
+		return tdao.selectPrjLeaderByPrjNo(no);
+	}
 
 }

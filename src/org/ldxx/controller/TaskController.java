@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.reflection.wrapper.BaseWrapper;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ConstructionDocuments;
@@ -613,6 +614,31 @@ public class TaskController {
 	public int updateById(Task task){
 		int i=tService.updateById(task);
 		return i;
+	}
+	
+	@RequestMapping("/selectPrjLeaderByPrjNo")
+	@ResponseBody
+	public Map<String,String> selectPrjLeaderByPrjNo(String nos){
+		Map<String,String> map=new HashMap<>();
+		List<String> list=new ArrayList<>();
+		for(int i=0;i<nos.split(",").length;i++){
+			String no=nos.split(",")[i];
+			Task t=tService.selectPrjLeaderByPrjNo(no);
+			if(t!=null){
+				String leader=t.getMainPrjLeader();
+				if(list.size()!=0){
+					for(int j=0;j<list.size();j++){
+						if(!leader.equals(list.get(j))){
+							list.add(leader);
+						}
+					}
+				}else{
+					list.add(leader);
+				}
+			}
+		}
+		map.put("leader", StringUtils.strip(list.toString(),"[]"));
+		return map;
 	}
 }
 
