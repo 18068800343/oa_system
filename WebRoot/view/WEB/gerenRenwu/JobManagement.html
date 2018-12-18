@@ -277,6 +277,7 @@
         	$("#rightMain").attr("src","../"+strs[0]+"?prjId="+strs[1]);
         });
     }
+    
     $("#getReceiver").on("click",function(){
     	$.ajax({
             type: 'POST',
@@ -288,7 +289,7 @@
             success: function (json) {
             	console.log(json);
             	lianjie=json.url;
-            	if(json.receiver!=null&&json.receiver.length==1){
+            	if(json.receiver!=null&&json.receiver.length>1){
 	        		  $("#tijiaogei").modal('show'); 
 	        		  $("#tijiaoren tbody").empty("");
 	        		  for(var i=0;i<json.receiver.length;i++){
@@ -307,12 +308,12 @@
 	        		  if(json.receiver==undefined){
 	        			  userId="";uName="";omName="";dutyName="";omId="";dutyId="";
 	        		  }else{
-	        			  userId=json.receiver.userId
-	        			  json.receiver.uName;
-	        			  json.receiver.omName;
-	        			  json.receiver.dutyName;
-	        			  json.receiver.omId;
-	        			  json.receiver.dutyId;
+	        			  userId=json.receiver[0].userId
+	        			  uName=json.receiver[0].uName;
+	        			  omName=json.receiver[0].omName;
+	        			  dutyName=json.receiver[0].dutyName;
+	        			  omId=json.receiver[0].omId;
+	        			  dutyId=json.receiver[0].dutyId;
 	        		  }
 	        		  $.ajax({
 	        	          type: 'POST',
@@ -325,7 +326,8 @@
 	        	        	  omName:omName,
 	        	        	  dutyName:dutyName,
 	        	        	  omId:json.omId,
-	        	        	  dutyId:dutyId
+	        	        	  dutyId:dutyId,
+	        	        	  view:$("#view").val()
 	        	          },
 	        	          success: function (json) {
 	        	        	  toastr.success('提交成功');

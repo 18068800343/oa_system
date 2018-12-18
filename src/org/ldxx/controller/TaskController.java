@@ -34,6 +34,7 @@ import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -148,6 +149,7 @@ public class TaskController {
 		return i;
 	}
 	
+	@Transactional
 	@RequestMapping("/addTask2")/*任务单提交*/
 	@ResponseBody
 	public String addTask2(@RequestBody List<Task> task,HttpSession session){
@@ -211,9 +213,9 @@ public class TaskController {
 		currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
 		currentFlow.setParams("{'cs':'1'}");
 		currentFlow.setStarter(user.getUserId());
-		currentFlow.setStartername(user.getUsername());
+		currentFlow.setStartername(user.getuName());
 		currentFlow.setFkDept("1");
-		currentFlow.setDeptname("工程建设一部");
+		currentFlow.setDeptname(user.getOmName());
 		currentFlow.setNodename("节点名称");
 		currentFlow.setPri(1);
 		currentFlow.setSdtofnode(new Date());
@@ -223,7 +225,7 @@ public class TaskController {
 		flowHistroy.setActor(id);
 		flowHistroy.setActorname(t.getPrjName());
 		flowHistroy.setActorresult(0);
-		flowHistroy.setView("意见");
+		flowHistroy.setView("");
 		String string = "";
 		try {
 			string = flowUtill.submitGetReceiver(currentFlow);
@@ -278,14 +280,15 @@ public class TaskController {
 	
 	@RequestMapping("/addTask4")/*任务单保存*/
 	@ResponseBody
-	public String addTask4(String url,String userId,String uName){
+	public String addTask4(String url,String userId,String uName,HttpSession session){
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl(url);
 		FlowHistroy	flowHistroy = new FlowHistroy();
-	    flowHistroy.setActor("88b6f133f129");
-	    flowHistroy.setActorname("索隆");
-	    flowHistroy.setView("发起流程");
+		User user = (User) session.getAttribute("user");
+	    flowHistroy.setActor(user.getUserId());
+	    flowHistroy.setActorname(user.getuName());
+	    flowHistroy.setView("");
 	    flowHistroy.setId(new TimeUUID().getTimeUUID());
 		String string = "";
 		try {
@@ -294,20 +297,21 @@ public class TaskController {
 			e.printStackTrace();
 			return "fail";
 		}
-		return string;
+		return "1";
 	}
 	
 	@RequestMapping("/addTask5")/*任务单保存*/
 	@ResponseBody
-	public String addTask5(String url,String userId,String uName,String omName){
+	public String addTask5(String url,String userId,String uName,String omName,String view,HttpSession session){
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl(url);
 		currentFlow.setDeptname(omName);
 		FlowHistroy	flowHistroy = new FlowHistroy();
-	    flowHistroy.setActor("88b6f133f129");
-	    flowHistroy.setActorname("索隆");
-	    flowHistroy.setView("发起流程");
+		User user = (User) session.getAttribute("user");
+	    flowHistroy.setActor(user.getUserId());
+	    flowHistroy.setActorname(user.getuName());
+	    flowHistroy.setView(view);
 	    flowHistroy.setId(new TimeUUID().getTimeUUID());
 		String string = "";
 		try {

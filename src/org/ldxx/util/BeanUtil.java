@@ -17,7 +17,10 @@ public class BeanUtil {
 		flowHistroy.setRdt(currentFlow.getRdt());
 		flowHistroy.setFkDept(currentFlow.getFkDept());
 		flowHistroy.setActor(currentFlow.getActor());
-		flowHistroy.setActorname(currentFlow.getActorname());
+		if("".equals(flowHistroy.getActorname())||null==flowHistroy.getActorname()){
+			flowHistroy.setActorname(currentFlow.getActorname());
+		}
+		
 		flowHistroy.setDeptname(currentFlow.getDeptname());
 		flowHistroy.setNodename(currentFlow.getNodename());
 		flowHistroy.setPri(currentFlow.getPri());

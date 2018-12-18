@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.User;
 import org.ldxx.model.FlowHistoryVo;
 import org.ldxx.service.FlowHistoryService;
@@ -26,9 +28,13 @@ public class FlowHistoryController {
 	
 	@RequestMapping("/getFlowHistoryByUser")
 	@ResponseBody
-	public List<FlowHistoryVo> getFlowHistoryByUser(String userId){
-		return flowHistoryService.getFlowHistoryByUser(userId,"");
+	public List<FlowHistoryVo> getFlowHistoryByUser(String status,HttpSession session){
+		User user = (User) session.getAttribute("user");
+	    String userId = user.getUserId();
+	    user.getuName();
+		return flowHistoryService.getFlowHistoryByUser(userId,status);
 	}
+	
 	
 	@RequestMapping("/getFlowHistoryByUserAlreadyEnd")
 	@ResponseBody
