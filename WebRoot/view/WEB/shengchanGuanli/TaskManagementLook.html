@@ -141,7 +141,7 @@
                     	</tbody>
                     </table>
                     <div class="modal-footer">
-			            <button type="button" class="btn btn-success" onclick="save()">保存</button>
+			            <button type="button" class="btn btn-success" onclick="save()" id="baocuna">保存</button>
 			        </div>
         
     </div>
@@ -165,6 +165,8 @@
     // 调用方法
     	id=GetQueryString("prjId");
     	no=GetQueryString("prjNo");
+    	editOrView=GetQueryString("editOrView");
+    	console.log(id,editOrView)
     	
     	var zhubanbumen;
         var xiebanbumen1;
@@ -206,81 +208,163 @@
             	$("#lookendTime").text(task.prjEndTime);
             	$("#lookgaikuang").text(task.workContent);
             	
-            	$("#look_xieban_table tbody").html('');
-            	$("#look_xieban_table tbody").append("<tr><td style='width:80px;'>主办部门</td><td style='width:100px;'>"
-            			+task.omName
-            			+"</td><td>金额</td><td>"
-            			+task.mainDepartmentMoney
-            			+"</td><td>项目负责人</td><td>"
-            			+'<select class="form-control" style="width:100%;" id="xmfzr"></select>'
-            			+"</td><td>主任工程师</td><td>"
-            			+'<select class="form-control" style="width:100%;" id="zrgcs"></select>'
-            			+"</td><td>其他负责人</td><td>"
-            			+'<select class="form-control" style="width:100%;" id="qtfzr"></select>'
-            			+"</td></tr>")
-            		editzhubanren(task.mainPrjLeader,1)	
-            		editzhubanren(task.mainEngineer,2)
-            		editzhubanren(task.mainOther,3)
+            	if(editOrView=="view"){
+            		$("#baocuna").hide();
+            		$("#look_xieban_table tbody").html('');
+                	$("#look_xieban_table tbody").append("<tr><td style='width:80px;'>主办部门</td><td style='width:100px;'>"
+                			+task.omName
+                			+"</td><td>金额</td><td>"
+                			+task.mainDepartmentMoney
+                			+"</td><td>项目负责人</td><td>"
+                			+'<select class="form-control" style="width:100%;" id="xmfzr" disabled></select>'
+                			+"</td><td>主任工程师</td><td>"
+                			+'<select class="form-control" style="width:100%;" id="zrgcs" disabled></select>'
+                			+"</td><td>其他负责人</td><td>"
+                			+'<select class="form-control" style="width:100%;" id="qtfzr" disabled></select>'
+                			+"</td></tr>")
+                		editzhubanren(task.mainPrjLeader,1)	
+                		editzhubanren(task.mainEngineer,2)
+                		editzhubanren(task.mainOther,3)
+                		if(task.name1!=null&&task.name1!=''){
+                    		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
+                    				+task.name1
+                    				+"</td><td>金额</td><td>"
+                    				+task.assistDepartment1Money
+                    				+"</td><td>项目负责人</td><td>"
+                        			+'<select class="form-control" style="width:100%;" id="xbxmfzr1" disabled></select>'
+                        			+"</td><td>主任工程师</td><td>"
+                        			+'<select class="form-control" style="width:100%;" id="xbzrgcs1" disabled></select>'
+                        			+"</td><td>其他负责人</td><td>"
+                        			+'<select class="form-control" style="width:100%;" id="xbqtfzr1" disabled></select>'
+                    				+"</td></tr>")
+                    				
+                    		editxb1ren(task.assist1PrjLeader,1);
+                    		editxb1ren(task.assist1Engineer,2);
+                    		editxb1ren(task.assist1Other,3);
+                    	}
+        				if(task.name2!=null&&task.name2!=''){
+        					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
+        							+task.name2
+        							+"</td><td>金额</td><td>"
+        							+task.assistDepartment2Money
+        							+"</td><td>项目负责人</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr2" disabled></select>'
+        	            			+"</td><td>主任工程师</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbzrgcs2" disabled></select>'
+        	            			+"</td><td>其他负责人</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbqtfzr2" disabled></select>'
+        							+"</td></tr>")
+        					editxb2ren(task.assist2PrjLeader,1);
+                    		editxb2ren(task.assist2Engineer,2);
+                    		editxb2ren(task.assist2Other,3);
+                    	}
+        				if(task.name3!=null&&task.name3!=''){
+        					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
+        							+task.name3
+        							+"</td><td>金额</td><td>"
+        							+task.assistDepartment3Money
+        							+"</td><td>项目负责人</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr3" disabled></select>'
+        	            			+"</td><td>主任工程师</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbzrgcs3" disabled></select>'
+        	            			+"</td><td>其他负责人</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbqtfzr3" disabled></select>'
+        							+"</td></tr>")
+        					editxb3ren(task.assist3PrjLeader,1);
+                    		editxb3ren(task.assist3Engineer,2);
+                    		editxb3ren(task.assist3Other,3);
+        				}
+        				
+        				$("#looklianxibiaoge tbody").empty("");
+                    	for(var i=0;i<task.enterprise.length;i++){
+                    		$("#looklianxibiaoge").append("<tr><td>"
+        											    			+task.enterprise[i].eMan
+        											    			+"</td><td>"
+        											    			+task.enterprise[i].eTel
+        											    			+"</td></tr>")
+                    	}
+                    	
+            	}
+            	if(editOrView=="edit"){
+            		$("#baocuna").show();
+            		$("#look_xieban_table tbody").html('');
+                	$("#look_xieban_table tbody").append("<tr><td style='width:80px;'>主办部门</td><td style='width:100px;'>"
+                			+task.omName
+                			+"</td><td>金额</td><td>"
+                			+task.mainDepartmentMoney
+                			+"</td><td>项目负责人</td><td>"
+                			+'<select class="form-control" style="width:100%;" id="xmfzr"></select>'
+                			+"</td><td>主任工程师</td><td>"
+                			+'<select class="form-control" style="width:100%;" id="zrgcs"></select>'
+                			+"</td><td>其他负责人</td><td>"
+                			+'<select class="form-control" style="width:100%;" id="qtfzr"></select>'
+                			+"</td></tr>")
+                		editzhubanren(task.mainPrjLeader,1)	
+                		editzhubanren(task.mainEngineer,2)
+                		editzhubanren(task.mainOther,3)
+                		if(task.name1!=null&&task.name1!=''){
+                    		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
+                    				+task.name1
+                    				+"</td><td>金额</td><td>"
+                    				+task.assistDepartment1Money
+                    				+"</td><td>项目负责人</td><td>"
+                        			+'<select class="form-control" style="width:100%;" id="xbxmfzr1"></select>'
+                        			+"</td><td>主任工程师</td><td>"
+                        			+'<select class="form-control" style="width:100%;" id="xbzrgcs1"></select>'
+                        			+"</td><td>其他负责人</td><td>"
+                        			+'<select class="form-control" style="width:100%;" id="xbqtfzr1"></select>'
+                    				+"</td></tr>")
+                    				
+                    		editxb1ren(task.assist1PrjLeader,1);
+                    		editxb1ren(task.assist1Engineer,2);
+                    		editxb1ren(task.assist1Other,3);
+                    	}
+        				if(task.name2!=null&&task.name2!=''){
+        					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
+        							+task.name2
+        							+"</td><td>金额</td><td>"
+        							+task.assistDepartment2Money
+        							+"</td><td>项目负责人</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr2"></select>'
+        	            			+"</td><td>主任工程师</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbzrgcs2"></select>'
+        	            			+"</td><td>其他负责人</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbqtfzr2"></select>'
+        							+"</td></tr>")
+        					editxb2ren(task.assist2PrjLeader,1);
+                    		editxb2ren(task.assist2Engineer,2);
+                    		editxb2ren(task.assist2Other,3);
+                    	}
+        				if(task.name3!=null&&task.name3!=''){
+        					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
+        							+task.name3
+        							+"</td><td>金额</td><td>"
+        							+task.assistDepartment3Money
+        							+"</td><td>项目负责人</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr3"></select>'
+        	            			+"</td><td>主任工程师</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbzrgcs3"></select>'
+        	            			+"</td><td>其他负责人</td><td>"
+        	            			+'<select class="form-control" style="width:100%;" id="xbqtfzr3"></select>'
+        							+"</td></tr>")
+        					editxb3ren(task.assist3PrjLeader,1);
+                    		editxb3ren(task.assist3Engineer,2);
+                    		editxb3ren(task.assist3Other,3);
+        				}
+        				
+        				$("#looklianxibiaoge tbody").empty("");
+                    	for(var i=0;i<task.enterprise.length;i++){
+                    		$("#looklianxibiaoge").append("<tr><td>"
+        											    			+task.enterprise[i].eMan
+        											    			+"</td><td>"
+        											    			+task.enterprise[i].eTel
+        											    			+"</td></tr>")
+                    	}
+                    	
+            	}
+            	
             		
             	
-            	if(task.name1!=null&&task.name1!=''){
-            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
-            				+task.name1
-            				+"</td><td>金额</td><td>"
-            				+task.assistDepartment1Money
-            				+"</td><td>项目负责人</td><td>"
-                			+'<select class="form-control" style="width:100%;" id="xbxmfzr1"></select>'
-                			+"</td><td>主任工程师</td><td>"
-                			+'<select class="form-control" style="width:100%;" id="xbzrgcs1"></select>'
-                			+"</td><td>其他负责人</td><td>"
-                			+'<select class="form-control" style="width:100%;" id="xbqtfzr1"></select>'
-            				+"</td></tr>")
-            				
-            		editxb1ren(task.assist1PrjLeader,1);
-            		editxb1ren(task.assist1Engineer,2);
-            		editxb1ren(task.assist1Other,3);
-            	}
-				if(task.name2!=null&&task.name2!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
-							+task.name2
-							+"</td><td>金额</td><td>"
-							+task.assistDepartment2Money
-							+"</td><td>项目负责人</td><td>"
-	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr2"></select>'
-	            			+"</td><td>主任工程师</td><td>"
-	            			+'<select class="form-control" style="width:100%;" id="xbzrgcs2"></select>'
-	            			+"</td><td>其他负责人</td><td>"
-	            			+'<select class="form-control" style="width:100%;" id="xbqtfzr2"></select>'
-							+"</td></tr>")
-					editxb2ren(task.assist2PrjLeader,1);
-            		editxb2ren(task.assist2Engineer,2);
-            		editxb2ren(task.assist2Other,3);
-            	}
-				if(task.name3!=null&&task.name3!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"
-							+task.name3
-							+"</td><td>金额</td><td>"
-							+task.assistDepartment3Money
-							+"</td><td>项目负责人</td><td>"
-	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr3"></select>'
-	            			+"</td><td>主任工程师</td><td>"
-	            			+'<select class="form-control" style="width:100%;" id="xbzrgcs3"></select>'
-	            			+"</td><td>其他负责人</td><td>"
-	            			+'<select class="form-control" style="width:100%;" id="xbqtfzr3"></select>'
-							+"</td></tr>")
-					editxb3ren(task.assist3PrjLeader,1);
-            		editxb3ren(task.assist3Engineer,2);
-            		editxb3ren(task.assist3Other,3);
-				}
-            	
-            	$("#looklianxibiaoge tbody").empty("");
-            	for(var i=0;i<task.enterprise.length;i++){
-            		$("#looklianxibiaoge").append("<tr><td>"
-											    			+task.enterprise[i].eMan
-											    			+"</td><td>"
-											    			+task.enterprise[i].eTel
-											    			+"</td></tr>")
-            	}
             }
         }); 
     }
