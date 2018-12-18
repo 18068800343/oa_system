@@ -6,7 +6,7 @@ import org.ldxx.bean.OpeningRecord;
 
 public interface OpeningRecordService {
 
-	List<OpeningRecord> selectOpeningRecord(String status);
+	List<OpeningRecord> selectOpeningRecord();
 
 	int addOpeningRecordSave(OpeningRecord record);
 

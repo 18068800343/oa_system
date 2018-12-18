@@ -12,7 +12,7 @@ public interface ProjectOverService {
 
 	int updatePrjOverById(ProjectOver projectOver);
 
-	List<ProjectOver> selectPrjOver(String status);
+	List<ProjectOver> selectPrjOver();
 
 	ProjectOver selectPrjOverById(String poId);
 

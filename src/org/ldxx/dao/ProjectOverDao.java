@@ -13,7 +13,7 @@ public interface ProjectOverDao {
 
 	int updatePrjOverById(@Param("projectOver") ProjectOver projectOver);
 
-	List<ProjectOver> selectPrjOver(@Param("status")String status);
+	List<ProjectOver> selectPrjOver();
 
 	ProjectOver selectPrjOverById(@Param("poId")String poId);
 

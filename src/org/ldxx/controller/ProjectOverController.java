@@ -30,8 +30,8 @@ public class ProjectOverController {
 	
 	@RequestMapping("/selectPrjOver")
 	@ResponseBody
-	public List<ProjectOver> selectPrjOver(String status){
-		return prjOverService.selectPrjOver(status);
+	public List<ProjectOver> selectPrjOver(){
+		return prjOverService.selectPrjOver();
 	}
 	
 	@RequestMapping("/addPrjOver")//添加保存

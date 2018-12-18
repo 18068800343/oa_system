@@ -38,8 +38,8 @@ public class OpeningRecordController {
 	
 	@RequestMapping("/selectOpeningRecord")
 	@ResponseBody
-	public List<OpeningRecord> selectOpeningRecord(String status){
-		return service.selectOpeningRecord(status);
+	public List<OpeningRecord> selectOpeningRecord(){
+		return service.selectOpeningRecord();
 	}
 	
 	@RequestMapping("/selectOpeningRecordById")

@@ -25,8 +25,8 @@ public class OpeningRecordServiceImpl implements OpeningRecordService {
 	private OpeningInformationDao idao;
 
 	@Override
-	public List<OpeningRecord> selectOpeningRecord(String status) {
-		List<OpeningRecord> list=dao.selectOpeningRecord(status);
+	public List<OpeningRecord> selectOpeningRecord() {
+		List<OpeningRecord> list=dao.selectOpeningRecord();
 		for(int i=0;i<list.size();i++){
 			String id = list.get(i).getOrId();
 			List<OpeningInformation> openingInformation=idao.selectOpeningInformationById(id);

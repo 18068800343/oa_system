@@ -7,7 +7,7 @@ import org.ldxx.bean.OpeningRecord;
 
 public interface OpeningRecordDao {
 
-	List<OpeningRecord> selectOpeningRecord(@Param("status")String status);
+	List<OpeningRecord> selectOpeningRecord();
 
 	int addOpeningRecordSave(@Param("record")OpeningRecord record);
 
