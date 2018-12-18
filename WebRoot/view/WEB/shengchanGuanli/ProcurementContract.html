@@ -126,16 +126,13 @@
                                 	<!-- <input type="text" id="fbhetong" class="form-control" style="width:60%;" disabled>
                                 	<button type="button" class="btn btn-primary weui-uploader__input" data-toggle="modal" data-target="#fbcontract">关联分包合同</button> -->
                                 	<input type="text" class="form-control" id="fbhetong" disabled style="width:60%;">
-                                    <button type="button" class="btn btn-primary weui-uploader__input" onclick="chooseFb()">关联分包</button>
+                                    <button type="button" id="chooseFb" class="btn btn-primary weui-uploader__input" onclick="chooseFb()">关联分包</button>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:15%;">代购类型</td>
                                 <td style="width:30%;">
                                     <select class="form-control" id="daigouType" style="width:60%;">
-                                        <option>无息代购</option>
-                                        <option>有息代购</option>
-                                        <option>对方打款</option>
                                     </select>
                                 </td>
                                 <td style="width:15%;">代购金额(万元)</td>
@@ -346,16 +343,13 @@
                                 	<!-- <input type="text" id="xgfbhetong" class="form-control" style="width:60%;" disabled>
                                 	<button type="button" class="btn btn-primary weui-uploader__input" data-toggle="modal" data-target="#xgfbcontract">关联分包合同</button> -->
                                 	<input type="text" class="form-control" id="xgfbhetong" disabled style="width:60%;">
-                                    <button type="button" class="btn btn-primary weui-uploader__input" onclick="xgchooseFb()">关联分包</button>
+                                    <button type="button" id="xgchooseFb" class="btn btn-primary weui-uploader__input" onclick="xgchooseFb()">关联分包</button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>代购类型</td>
                                 <td>
                                     <select class="form-control" id="xgdaigouType" style="width:60%;">
-                                        <option>无息代购</option>
-                                        <option>有息代购</option>
-                                        <option>对方打款</option>
                                     </select>
                                 </td>
                                 <td>代购金额(万元)</td>
@@ -1023,6 +1017,7 @@
             effects: 'slide' 
         }); */
         $("#sousuodiv").hide();//超级搜索折叠div
+        $("#isdaigou").trigger("change");
 	});
     
   //超级搜索折叠div
@@ -2154,6 +2149,44 @@
 			$("#new_form").ajaxSubmit(options);
 	}
 	
+	$("#isdaigou").on("change",function(){
+		var isdaigou=$("#isdaigou").val();
+		if(isdaigou=="是"){
+			$("#daigouType").html("");
+			$("#daigouType").append("<option value='无息代购'>无息代购</option><option value='有息代购'>有息代购</option><option value='对方打款'>对方打款</option>")
+			$("#chooseFb").attr("disabled",false);
+			$("#daigouType").attr("disabled",false);
+			$("#daigouMoney").attr("disabled",false);
+		}else if(isdaigou=="否"){
+			$("#daigouType").html("");
+			$("#fbhetong").val("");
+			$("#daigouMoney").val("0");
+			$("#daigouType").append("<option value='无'>无</option>")
+			$("#chooseFb").attr("disabled",true);
+			$("#daigouType").attr("disabled",true);
+			$("#daigouMoney").attr("disabled",true);
+		}
+	})
+	
+	$("#xgisdaigou").on("change",function(){
+		var isdaigou=$("#xgisdaigou").val();
+		if(isdaigou=="是"){
+			$("#xgdaigouType").html("");
+			$("#xgdaigouType").append("<option value='无息代购'>无息代购</option><option value='有息代购'>有息代购</option><option value='对方打款'>对方打款</option>")
+			$("#xgchooseFb").attr("disabled",false);
+			$("#xgdaigouType").attr("disabled",false);
+			$("#xgdaigouMoney").attr("disabled",false);
+		}else if(isdaigou=="否"){
+			$("#xgdaigouType").html("");
+			$("#xgfbhetong").val("");
+			$("#xgdaigouMoney").val("0");
+			$("#xgdaigouType").append("<option value='无'>无</option>")
+			$("#xgchooseFb").attr("disabled",true);
+			$("#xgdaigouType").attr("disabled",true);
+			$("#xgdaigouMoney").attr("disabled",true);
+		}
+	})
+	
 	
 	//修改回显
 	var editId;
@@ -2287,7 +2320,7 @@
 		$("#xgyear").val(data.contractSignTime);
 		$("#xghetonggaishu").val(data.contractSummary);
 		$("#xggaikuang").val(data.workContent);
-		
+		$("#xgisdaigou").trigger("change");
 		/* $.ajax({
 			type:"post",
 			url:getContextPath()+"/cgcontract/selectAccessoryById",
