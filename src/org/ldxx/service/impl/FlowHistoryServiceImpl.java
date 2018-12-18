@@ -25,6 +25,12 @@ public class FlowHistoryServiceImpl implements FlowHistoryService {
 		List<FlowHistoryVo> list = flowHistroyMapper.getFlowHistoryVoByUserId(userId,status);
 		return list;
 	}
+	
+	@Override
+	public List<FlowHistoryVo> getDistinctFlowHistoryByUser(String userId,String status) {
+		List<FlowHistoryVo> list = flowHistroyMapper.getDistinctFlowHistoryByUser(userId,status);
+		return list;
+	}
 
 	@Override
 	public List<FlowHistoryVo> getFlowHistoryByUserAlreadyEnd(String userId) {

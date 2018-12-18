@@ -37,6 +37,8 @@ public interface FlowHistroyMapper {
     
     List<FlowHistoryVo> getFlowHistoryVoByUserId(@Param("userId")String userId,@Param("status")String status);
     
+    List<FlowHistoryVo> getDistinctFlowHistoryByUser(@Param("userId")String userId,@Param("status")String status);
+    
     List<FlowHistoryVo> getFlowHistoryVoByUserIdAlreadyEnd(@Param("userId")String userId);
     
     List<FlowHistoryVo> getTuiHuiFlowHistoryVo(@Param("url")String url,@Param("flowNodeLast")String flowNodeLast);
