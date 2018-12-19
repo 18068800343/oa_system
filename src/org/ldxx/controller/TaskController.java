@@ -291,7 +291,7 @@ public class TaskController {
 	
 	@RequestMapping("/addTask4")/*任务单保存*/
 	@ResponseBody
-	public String addTask4(String url,String userId,String uName,HttpSession session){
+	public String addTask4(String url,String userId,String uName,HttpSession session,String view,String omName){
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl(url);
@@ -299,7 +299,8 @@ public class TaskController {
 		User user = (User) session.getAttribute("user");
 	    flowHistroy.setActor(user.getUserId());
 	    flowHistroy.setActorname(user.getuName());
-	    flowHistroy.setView("");
+	    flowHistroy.setView(view);
+	    flowHistroy.setDeptname(omName);
 	    flowHistroy.setId(new TimeUUID().getTimeUUID());
 		String string = "";
 		try {
