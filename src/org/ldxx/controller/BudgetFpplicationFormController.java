@@ -10,8 +10,10 @@ import javax.servlet.http.HttpSession;
 import org.ldxx.bean.BudgetFpplicationForm;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.User;
 import org.ldxx.service.BudgetFpplicationFormService;
+import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ public class BudgetFpplicationFormController {
 
 	@Autowired
 	private BudgetFpplicationFormService bservice;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/saveBudge")
 	@ResponseBody
@@ -46,6 +50,8 @@ public class BudgetFpplicationFormController {
 		budge.setBfNo(code);
 		int i=bservice.saveBudge(budge);
 		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(budge.getDepartment());
+			String omNo=om.getOmNo();
 			String string="";
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
@@ -59,7 +65,7 @@ public class BudgetFpplicationFormController {
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept(budge.getDepartment());
+			currentFlow.setFkDept(omNo);
 			currentFlow.setDeptname(user.getOmName());
 			currentFlow.setNodename("节点名称");
 			currentFlow.setPri(1);
@@ -93,6 +99,8 @@ public class BudgetFpplicationFormController {
 		int i=bservice.saveBudge(budge);
 		String string = i+"";
 		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(budge.getDepartment());
+			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
@@ -105,7 +113,7 @@ public class BudgetFpplicationFormController {
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept(budge.getDepartment());
+			currentFlow.setFkDept(omNo);
 			currentFlow.setDeptname(user.getOmName());
 			currentFlow.setNodename("节点名称");
 			currentFlow.setPri(1);
@@ -118,7 +126,7 @@ public class BudgetFpplicationFormController {
 			flowHistroy.setActorresult(0);
 			flowHistroy.setView("");
 			try {
-				string = flowUtill.submitGetReceiver(currentFlow,"1");
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -15,10 +15,12 @@ import org.ldxx.bean.CjContract;
 import org.ldxx.bean.CjSplitMoney;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjWorkingHours;
 import org.ldxx.bean.PrjWorkingHoursP;
 import org.ldxx.bean.User;
 import org.ldxx.service.CjContractService;
+import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,8 @@ public class CjContractController {
 
 	@Autowired
 	private CjContractService service;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/addCjContractBySave")
 	@ResponseBody
@@ -91,6 +95,8 @@ public class CjContractController {
 		}
 		int i=service.addCjContract(cj);
 		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(cj.getMainDepartment());
+			String omNo=om.getOmNo();
 			String string="";
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
@@ -104,7 +110,7 @@ public class CjContractController {
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept(cj.getMainDepartment());
+			currentFlow.setFkDept(omNo);
 			currentFlow.setDeptname(user.getOmName());
 			currentFlow.setNodename("节点名称");
 			currentFlow.setPri(1);
@@ -180,6 +186,8 @@ public class CjContractController {
 		int i=service.addCjContract(cj);
 		String string = i+"";
 		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(cj.getMainDepartment());
+			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
@@ -192,7 +200,7 @@ public class CjContractController {
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept(cj.getMainDepartment());
+			currentFlow.setFkDept(omNo);
 			currentFlow.setDeptname(user.getOmName());
 			currentFlow.setNodename("节点名称");
 			currentFlow.setPri(1);
@@ -205,7 +213,7 @@ public class CjContractController {
 			flowHistroy.setActorresult(0);
 			flowHistroy.setView("");
 			try {
-				string = flowUtill.submitGetReceiver(currentFlow,"1");
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

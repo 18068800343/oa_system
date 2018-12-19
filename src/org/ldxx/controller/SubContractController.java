@@ -15,8 +15,10 @@ import org.ldxx.bean.CjContract;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FbContract;
 import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.User;
 import org.ldxx.service.CjContractService;
+import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.SubContractService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
@@ -39,6 +41,8 @@ public class SubContractController {
 	private SubContractService scService;
 	@Autowired
 	private CjContractService cjService;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/selectSubContract")
 	@ResponseBody
@@ -107,6 +111,8 @@ public class SubContractController {
 		if(i>0){
 			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
 			String mainDepartment=cj.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
 			String string="";
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
@@ -120,7 +126,7 @@ public class SubContractController {
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept(mainDepartment);
+			currentFlow.setFkDept(omNo);
 			currentFlow.setDeptname(user.getOmName());
 			currentFlow.setNodename("节点名称");
 			currentFlow.setPri(1);
@@ -200,6 +206,8 @@ public class SubContractController {
 		if(i>0){
 			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
 			String mainDepartment=cj.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
@@ -212,7 +220,7 @@ public class SubContractController {
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept(mainDepartment);
+			currentFlow.setFkDept(omNo);
 			currentFlow.setDeptname(user.getOmName());
 			currentFlow.setNodename("节点名称");
 			currentFlow.setPri(1);
@@ -225,7 +233,7 @@ public class SubContractController {
 			flowHistroy.setActorresult(0);
 			flowHistroy.setView("");
 			try {
-				string = flowUtill.submitGetReceiver(currentFlow,"1");
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
