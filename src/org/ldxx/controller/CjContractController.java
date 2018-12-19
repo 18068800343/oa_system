@@ -3,16 +3,23 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.CjSplitMoney;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.PrjWorkingHours;
 import org.ldxx.bean.PrjWorkingHoursP;
+import org.ldxx.bean.User;
 import org.ldxx.service.CjContractService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +40,7 @@ public class CjContractController {
 	
 	@RequestMapping("/addCjContractBySave")
 	@ResponseBody
-	public int addCjContractBySave(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
+	public int addCjContractBySave(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
@@ -83,13 +90,45 @@ public class CjContractController {
 			cj.setAccessory2(list2);
 		}
 		int i=service.addCjContract(cj);
+		if(i>0){
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(cj.getContractName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(cj.getContractName()+"流程发起");
+			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept("1");
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(id);
+			flowHistroy.setActorname(cj.getContractName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	
 	@RequestMapping("/addCjContractBySubmit")
 	@ResponseBody
-	public int addCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
+	public String addCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
@@ -139,7 +178,39 @@ public class CjContractController {
 			cj.setAccessory2(list2);
 		}
 		int i=service.addCjContract(cj);
-		return i;
+		String string = i+"";
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(cj.getContractName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(cj.getContractName()+"流程发起");
+			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept("1");
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(id);
+			flowHistroy.setActorname(cj.getContractName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,"1");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/selectCjContractByStatus")

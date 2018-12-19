@@ -647,7 +647,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitPerson()">提交</button>
             </div>
         </div>
     </div>
@@ -1173,7 +1173,7 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/bootstrap-select.js"></script>
-<script src="../../js/quanxian.js"></script>
+<script src="../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
         laydate.render({
@@ -1958,9 +1958,9 @@ function checkquxiaoSplit(){
 	            processData: false,
 	            contentType: false,
 	            async: false,
+	            dataType: 'json',
 		        success: function (json) {
 					if(json>0){
-						//$("#myModal").modal("hide");
 						toastr.success("保存成功");
 						quxiaoa();
 					}else{
@@ -1970,6 +1970,7 @@ function checkquxiaoSplit(){
 		})
   	}  	
   	
+  	var lianjie;
   	function new_submit(){
   		var splitArray=new Array();
   		$("#new_split_table tbody").find("tr").each(function(){
@@ -2088,18 +2089,85 @@ function checkquxiaoSplit(){
 	            processData: false,
 	            contentType: false,
 	            async: false,
+	            dataType: 'json',
 		        success: function (json) {
-					if(json>0){
+		        	console.log(json)
+		        	if(json=='0'){
+		        		toastr.error("保存失败");
+		        	}else{
+		        		lianjie=json.url;
+		            	if(json.receiver!=null&&json.receiver.length>=1){
+			        		  $("#tijiaogei").modal('show');
+			        		  $("#tijiaoren tbody").empty("");
+			        		  for(var i=0;i<json.receiver.length;i++){
+			        			  $("#tijiaoren tbody").append('<tr><td>'
+			        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+			        					  +'</td><td>'
+			        					  +json.receiver[i].omName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].dutyName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].uName
+			        					  +'</td></tr>');
+			        		  }
+			        	  }else if(json.receiver.length==1){
+			        		  $.ajax({
+			        	          type: 'POST',
+			        	          url: getContextPath()+'/task/addTask4',
+			        	          dataType: 'json',
+			        	          data:{
+			        	        	  url:json.url,
+			        	        	  userId:json.receiver.userId,
+			        	        	  uName:json.receiver.uName,
+			        	        	  omName:json.receiver.omName,
+			        	        	  dutyName:json.receiver.dutyName,
+			        	        	  omId:json.receiver.omId,
+			        	        	  dutyId:json.receiver.dutyId
+			        	          },
+			        	          success: function (json) {
+			        	        	  toastr.success('提交成功');
+			        	          }
+			        	      }); 
+			        	  }
+		        	}
+		        	
+					/* if(json>0){
 						//$("#myModal").modal("hide");
 						toastr.success("保存成功");
 						quxiaoa();
 					}else{
 						toastr.error("保存失败");
-					}
+					} */
 		        }
 		})
   	} 
   	
+  	function submitPerson(){
+  		var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+  	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+  	  $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/addTask4',
+            dataType: 'json',
+            data:{
+          	  url:lianjie,
+          	  userId:uid,
+          	  uName:uname,
+          	  omName:bmmc,
+          	  dutyName:zw,
+          	  omId:omid,
+          	  dutyId:dutyid
+            },
+            success: function (json) {
+          	  toastr.success('提交成功');
+            }
+        });  
+  	}
   	
   	
   	function lookDetall(obj){
