@@ -119,7 +119,12 @@
                             <td colspan="3"></td>
                         </tr> -->
                     </table> 
-
+					<table class="table table-bordered table-condensed"  id="look_all_table">
+				                        		
+				    </table>
+				    <table class="table table-bordered table-condensed"  id="look_all_table2">
+				                        		
+				    </table>
 </div>
     
 
@@ -155,10 +160,10 @@
 	function initTable(obj){
 		$.ajax({
             type: 'POST',
-            url: getContextPath()+'/subcontract/getFBNameByNo',
+            url: getContextPath()+'/subcontract/selectSubContractById',
             dataType: 'json',
             data: {
-            	fbNo:lookId
+            	id:lookId
             },
             success: function (json) {
             	//console.log(json);
@@ -198,12 +203,22 @@
 					success:function(json){
 						console.log(json);
 						$("#look_all_table").empty();
-			               for(var i=0;i<json.length;i++){
-			            	   $("#look_all_table").append("<tr>"+
-			            	   														"<td>合同文本"+(i+1)+"</td>"+
-															            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
-															            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-															            	    "</tr>");
+						 for(var i=0;i<json.length;i++){
+			            	   if(json[i].aType=="分包合同文本"){
+				            	   $("#look_all_table").append("<tr>"+
+			      	   										"<td>分包合同文本</td>"+
+									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+									            	    "</tr>");
+			            	   }
+			            	   if(json[i].aType=="法律顾问签字"){
+				            	   $("#look_all_table2").append("<tr>"+
+			      	   										"<td>法律顾问签字</td>"+
+									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+									            	    "</tr>");
+			            	   }
+			               
 			               }
 					}
 				})
