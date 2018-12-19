@@ -112,8 +112,8 @@ public class CjContractController {
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
 			FlowHistroy flowHistroy = new FlowHistroy();
-			flowHistroy.setActor(id);
-			flowHistroy.setActorname(cj.getContractName());
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
 			flowHistroy.setActorresult(0);
 			flowHistroy.setView("");
 			try {
@@ -200,8 +200,8 @@ public class CjContractController {
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
 			FlowHistroy flowHistroy = new FlowHistroy();
-			flowHistroy.setActor(id);
-			flowHistroy.setActorname(cj.getContractName());
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
 			flowHistroy.setActorresult(0);
 			flowHistroy.setView("");
 			try {
