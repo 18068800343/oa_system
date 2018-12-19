@@ -68,6 +68,8 @@ public class FlowNode {
     private String hisstas;
 
     private String hisdeptstrs;
+    
+    private String editOrView;
 
     private String nodeActorNames;
     
@@ -75,8 +77,15 @@ public class FlowNode {
     
     private Object[] roleIds;
     
-    
-    public Object[] getRoleIds() {
+    public String getEditOrView() {
+		return editOrView;
+	}
+
+	public void setEditOrView(String editOrView) {
+		this.editOrView = editOrView;
+	}
+
+	public Object[] getRoleIds() {
 		return roleIds;
 	}
 

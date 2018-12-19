@@ -54,6 +54,7 @@ public class FlowNodeController {
 		flowNode.setFloNodeLeft(lastFloNode);
 		flowNode.setFloTmpId(page_floTmpId);
 		flowNode.setFlownodename(floNodeName);
+		flowNode.setReturnrole(3);
 		//floNodeId 
 		String floNodeId = new TimeUUID().getTimeUUID();
 		flowNode.setId(floNodeId);
