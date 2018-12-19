@@ -187,6 +187,7 @@ public class FlowUtill {
 	public String submitFlow(CurrentFlow currentFlowOld,FlowHistroy flowHistroy,String next_user_id,String next_name) throws Exception{
 		    currentFlowOld.setRdt(new Date());
 			ModeStatus modeStatus = new ModeStatus(); 	
+			String end = "start";
 			INSTANCE.init();
 			/**0：流程刚发起,暂存状态
 			 * 1：流程刚发起,提交状态
@@ -235,6 +236,7 @@ public class FlowUtill {
 							INSTANCE.modeStatusMapper.insert(modeStatus);
 						}
 					}else{
+						end = "end";
 						INSTANCE.currentFlowMapper.deleteByExample(example2);
 						modeStatus.setModeId(modeId);
 						//5:流程结束
@@ -259,7 +261,7 @@ public class FlowUtill {
 				log.error("数据库插入错误");
 				throw new FlowException("database do error");
 			}
-		return "success";
+		return end;
 	}
 	
 	
