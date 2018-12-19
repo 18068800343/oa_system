@@ -409,6 +409,12 @@ public class CjContractController {
 		return service.selectCjByCjNo(no);
 	}
 	
+	@RequestMapping("/selectCjContractById")//通过承接id查询承接合同详细信息
+	@ResponseBody
+	public CjContract selectCjContractById(String id){
+		return service.selectCjContractById(id);
+	}
+	
 	@RequestMapping("/updateHistoryById")
 	@ResponseBody
 	public int updateHistoryById(String id){
