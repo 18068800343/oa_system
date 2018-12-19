@@ -574,7 +574,7 @@ public class FlowUtill {
 				log.error("数据库插入错误");
 				throw new FlowException("database do error");
 			}
-		return "success";
+		return "1";
 	}
 	
 	@Transactional
