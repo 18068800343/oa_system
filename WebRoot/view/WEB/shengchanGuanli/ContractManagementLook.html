@@ -317,69 +317,79 @@
          if(r!=null)return  unescape(r[2]); return null;
     }
     // 调用方法
-    	id=GetQueryString("");
-    	no=GetQueryString("");
+    	id=GetQueryString("no");//传入自定义参数
+    	//no=GetQueryString("");
 
-		
+		//console.log(id)
   	
-  	function initTable(obj){
-  		var tr=$(obj).parents("tr");
-  		var data=$("#mainContent").DataTable().row(tr).data();
+  	function initTable(){
   		
-  		$("#look_contract_name").text(data.contractName);
-  		$("#look_contract_no").text(data.contractNo);
-  		$("#look_work_no").text(data.taskCode);
-  		$("#look_prj_name").text(data.prjName);
-  		$("#look_prj_type").text(data.prjType);
-  		$("#look_jiafangName").text(data.ccName);
-  		$("#look_yifangName").text(data.contractNameYi);
-  		$("#look_year").text(data.contractStartTime);
-  		$("#look_year2").text(data.contractEndTime);
-  		$("#look_yifang_department").text(data.omName);
-  		$("#look_work_date").text(data.contractLongTime);
-  		$("#look_receieve_money_condition").text(data.receieveMoneyCondition);
-  		$("#look_contract_money").text(data.contractMoney);
-  		$("#look_temporary_money").text(data.temporaryMoney);
-  		$("#look_year3").text(data.contractSignTime);
-  		$("#look_work_info").text(data.workInfo);
-  		$("#look_xieban tbody").html('');
-  		$("#look_xieban tbody").append("<tr><td>主办部门</td><td>"+data.name+"</td><td>金额</td><td>"+data.mainDepartmentMoney+"</td></tr>")
-  		if(data.assistDepartment1!=null&&data.assistDepartment1!=""){
-  			$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>金额</td><td>"+data.assistDepartment1Money+"</td></tr>")
-    	}
-    	if(data.assistDepartment2!=null&&data.assistDepartment2!=""){
-    		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>金额</td><td>"+data.assistDepartment2Money+"</td></tr>")
-    	}
-    	if(data.assistDepartment3!=null&&data.assistDepartment3!=""){
-    		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>金额</td><td>"+data.assistDepartment3Money+"</td></tr>")
-    	}
   		$.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/announcement/selectAccessoryById',
-	        dataType: 'json',
-	        data: {
-	           id:data.cjId
-	        },
-	        success: function (json) {
-	        	$("#look_accessory tbody").html('');
-	        	for(var i=0;i<json.length;i++){
-	          		$("#look_accessory tbody").append("<tr><td>附件"+(i+1)+"</td><td>"+json[i].acName+"</td><td style='width:150px;'><button type='button' class='btn btn-primary' data="+json[i].acUrl+" data2="+json[i].acName+" onclick='downloadFile(this)'>下载附件</button></td></tr>")
-	        	}
-	        }
-    	});
+            type: 'POST',
+            url: getContextPath()+'/cj/selectCjContractByNo',
+            dataType: 'json',
+            data: {
+            	no:id
+            },
+            success: function (json) {
+            	var data=json;
+            	$("#look_contract_name").text(data.contractName);
+          		$("#look_contract_no").text(data.contractNo);
+          		$("#look_work_no").text(data.taskCode);
+          		$("#look_prj_name").text(data.prjName);
+          		$("#look_prj_type").text(data.prjType);
+          		$("#look_jiafangName").text(data.ccName);
+          		$("#look_yifangName").text(data.contractNameYi);
+          		$("#look_year").text(data.contractStartTime);
+          		$("#look_year2").text(data.contractEndTime);
+          		$("#look_yifang_department").text(data.omName);
+          		$("#look_work_date").text(data.contractLongTime);
+          		$("#look_receieve_money_condition").text(data.receieveMoneyCondition);
+          		$("#look_contract_money").text(data.contractMoney);
+          		$("#look_temporary_money").text(data.temporaryMoney);
+          		$("#look_year3").text(data.contractSignTime);
+          		$("#look_work_info").text(data.workInfo);
+          		$("#look_xieban tbody").html('');
+          		$("#look_xieban tbody").append("<tr><td>主办部门</td><td>"+data.name+"</td><td>金额</td><td>"+data.mainDepartmentMoney+"</td></tr>")
+          		if(data.assistDepartment1!=null&&data.assistDepartment1!=""){
+          			$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>金额</td><td>"+data.assistDepartment1Money+"</td></tr>")
+            	}
+            	if(data.assistDepartment2!=null&&data.assistDepartment2!=""){
+            		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>金额</td><td>"+data.assistDepartment2Money+"</td></tr>")
+            	}
+            	if(data.assistDepartment3!=null&&data.assistDepartment3!=""){
+            		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>金额</td><td>"+data.assistDepartment3Money+"</td></tr>")
+            	}
+          		$.ajax({
+        	        type: 'POST',
+        	        url: getContextPath()+'/announcement/selectAccessoryById',
+        	        dataType: 'json',
+        	        data: {
+        	           id:data.cjId
+        	        },
+        	        success: function (json) {
+        	        	$("#look_accessory tbody").html('');
+        	        	for(var i=0;i<json.length;i++){
+        	          		$("#look_accessory tbody").append("<tr><td>附件"+(i+1)+"</td><td>"+json[i].acName+"</td><td style='width:150px;'><button type='button' class='btn btn-primary' data="+json[i].acUrl+" data2="+json[i].acName+" onclick='downloadFile(this)'>下载附件</button></td></tr>")
+        	        	}
+        	        }
+            	});
+          		
+            	$.ajax({
+        	        type: 'POST',
+        	        url: getContextPath()+'/cj/selectCjHistory',
+        	        dataType: 'json',
+        	        data: {
+        	           no:data.contractNo
+        	        },
+        	        success: function (json) {
+        	        	$('#history_table').dataTable().fnClearTable();
+                        $('#history_table').DataTable().rows.add(json).draw(false);
+        	        }
+            	});
+            }
+  		});
   		
-    	$.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/cj/selectCjHistory',
-	        dataType: 'json',
-	        data: {
-	           no:data.contractNo
-	        },
-	        success: function (json) {
-	        	$('#history_table').dataTable().fnClearTable();
-                $('#history_table').DataTable().rows.add(json).draw(false);
-	        }
-    	});
   		
   	}
   	
