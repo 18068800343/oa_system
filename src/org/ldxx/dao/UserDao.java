@@ -37,4 +37,6 @@ public interface UserDao {
 
 	int countuserCode();
 
+	int updatePasswordById(@Param("userId")String userId,@Param("new_password") String new_password);
+
 }

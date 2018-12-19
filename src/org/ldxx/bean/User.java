@@ -56,6 +56,8 @@ public class User {
     private String certificate;
     
     private String certificateGrade;
+    
+    private String deleteState;//删除状态，0：已删除；1：未删除
 
     private String omName;//部门
     private String dutyName2;//职称
@@ -67,7 +69,16 @@ public class User {
     
     
     
-    public String getUserCode() {
+
+	public String getDeleteState() {
+		return deleteState;
+	}
+
+	public void setDeleteState(String deleteState) {
+		this.deleteState = deleteState;
+	}
+
+	public String getUserCode() {
 		return userCode;
 	}
 

@@ -38,4 +38,6 @@ public interface UserService {
 
 	int countuserCode();
 
+	int updatePasswordById(String userId, String new_password);
+
 }

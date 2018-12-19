@@ -6,6 +6,7 @@
     <link href="../favicon.ico" rel="shortcut icon">
 	<link href="../style/bootstrap.min.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
+    <link href="../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../font2/iconfont.css">
     <link rel="stylesheet" href="../style/jquery.dataTables.min.css">
     <style lang="">
@@ -141,7 +142,7 @@
             </div>
             <div style="display:flex;">
             		<div id="omName" class="lodingmsg" ></div>&nbsp;&nbsp;&nbsp;
-            		<div  id="uName" class="lodingmsg"></div>&nbsp;&nbsp;&nbsp;
+            		<div  id="uName" onclick="tanchulai()" class="lodingmsg"></div>&nbsp;&nbsp;&nbsp;
             		<div onclick="exit()" id="tuichu" class="lodingmsg"></div>&nbsp;&nbsp;
             </div>
         </header>
@@ -155,6 +156,38 @@
             </div>
         </div> -->
         <!-- 顶部菜单 -->
+        
+        <!-- 修改Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改密码</b></h4>
+        </div>
+        <div class="modal-body">
+                <div style="text-align:center;">     
+                    <form class="form-inline">
+                    	<div>
+                    		<span>原密码:</span>   
+                       		<input type="text" class="form-control"  id="old_password">
+                    	</div>
+                    	<div style="margin-top:20px;">
+	                        <span>新密码:</span>   
+	                        <input type="text" class="form-control"  id="new_password">
+                    	</div>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="save_new_password()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改model结束 -->
+        
         <nav>
             
                 <div>
@@ -441,7 +474,9 @@
 	<script src="../js/main.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/quanxian.js"></script>
+	<script src="../toastr/toastr.js"></script>
 	<script type="text/javascript">
+	var user;
 	$(document).ready(function(){
 		$.ajax({
     		type:"post",
@@ -449,6 +484,7 @@
     		data:{
     		},
     		success:function(json){
+    			user=json;
     			if(json!=null &&json!=""){
     				$("#omName").text(json.omName)
     				$("#uName").text(json.uName)
@@ -543,6 +579,37 @@
         			location.href = "./login.html";
         		}
         	})
+        }
+        
+        function tanchulai(){
+        	$("#old_password").val("")
+        	$("#new_password").val("")
+        	$("#change").modal("show")
+        }
+        
+        function save_new_password(){
+        	var old_password=$("#old_password").val();
+        	var new_password=$("#new_password").val();
+        	//console.log(user)
+        	var password=old_password+","+new_password
+        	 $.ajax({
+        		type:"post",
+        		url:getContextPath()+"/user/updatePasswordById",
+        		data:{
+        			userId:user.userId,
+        			password:password
+        		},
+        		success:function(json){
+        			if(json>0){
+        				toastr.success("修改成功")
+        				$("#change").modal("hide")
+        			}else if(json==-1){
+        				toastr.error("原密码不正确")
+        			}else if(json==-2){
+        				toastr.error("新密码与原密码请保持不一致")
+        			}
+        		}
+        	}) 
         }
         
 	</script>

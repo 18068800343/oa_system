@@ -119,4 +119,9 @@ public class UserServiceImpl implements UserService {
 	public int countuserCode() {
 		return userDao.countuserCode();
 	}
+
+	@Override
+	public int updatePasswordById(String userId, String new_password) {
+		return userDao.updatePasswordById(userId,new_password);
+	}
 }

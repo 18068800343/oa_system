@@ -100,4 +100,22 @@ public class UserController {
 	public List<User> selectUserAndRoles(){
 		return userservice.selectUserAndRoles();
 	}
+	
+	@SuppressWarnings("unused")
+	@RequestMapping("/updatePasswordById")
+	@ResponseBody
+	public int updatePasswordById(String userId,String password){
+		String old_password = password.split(",")[0];
+		String new_password = password.split(",")[1];
+		User user = userservice.selectUserById(userId);
+		int i=0;
+		if(!user.getPassword().equals(old_password)){
+			i=-1;
+		}else if(user.getPassword().equals(new_password)){
+			i=-2;
+		}else{
+			i=userservice.updatePasswordById(userId,new_password);
+		}
+		return i;
+	}
 }

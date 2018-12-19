@@ -5,17 +5,20 @@
 		insert into user 
 			(user_Id,username,password,user_code,work_id,record_no,u_name,sex,birthday,nation,
 			marriage,political_status,entry_time,card_id,address,postal_code,phone_no,email,
-			diploma,school,specialty,graduation_time,om_id,duty_id,duty_name,certificate,certificate_grade)
+			diploma,school,specialty,graduation_time,om_id,duty_id,duty_name,certificate,certificate_grade,delete_state)
 		values(#{user.userId,jdbcType=VARCHAR},#{user.username,jdbcType=VARCHAR},#{user.password,jdbcType=VARCHAR},#{user.userCode,jdbcType=VARCHAR},#{user.workId,jdbcType=VARCHAR},#{user.recordNo,jdbcType=VARCHAR},
 			#{user.uName,jdbcType=VARCHAR},#{user.sex,jdbcType=VARCHAR},#{user.birthday,jdbcType=VARCHAR},#{user.nation,jdbcType=VARCHAR},#{user.marriage,jdbcType=VARCHAR},#{user.politicalStatus,jdbcType=VARCHAR},
 			#{user.entryTime,jdbcType=VARCHAR},#{user.cardId,jdbcType=VARCHAR},#{user.address,jdbcType=VARCHAR},#{user.postalCode,jdbcType=VARCHAR},#{user.phoneNo,jdbcType=VARCHAR},#{user.email,jdbcType=VARCHAR},
 			#{user.diploma,jdbcType=VARCHAR},#{user.school,jdbcType=VARCHAR},#{user.specialty,jdbcType=VARCHAR},#{user.graduationTime,jdbcType=VARCHAR},#{user.omId,jdbcType=VARCHAR},#{user.dutyId,jdbcType=VARCHAR},
-			#{user.dutyName,jdbcType=VARCHAR},#{user.certificate,jdbcType=VARCHAR},#{user.certificateGrade,jdbcType=VARCHAR})
+			#{user.dutyName,jdbcType=VARCHAR},#{user.certificate,jdbcType=VARCHAR},#{user.certificateGrade,jdbcType=VARCHAR},1)
 	</insert>
 
-	<delete id="deleteUser" parameterType="String">
+	<!-- <delete id="deleteUser" parameterType="String">
 		delete from user where user_id=#{userId}
-	</delete>
+	</delete> -->
+	<update id="deleteUser" parameterType="String">
+		update user set delete_state=0 where user_id=#{userId}
+	</update>
 
 	<update id="updateUser" parameterType="user" >
 	  update user
@@ -53,6 +56,7 @@
 		left join organization_management as b on a.om_id=b.om_id
 		left join duty as c on a.duty_id=c.duty_id
 		left JOIN permissions_user as d on a.user_id=d.u_id
+		where a.delete_state=1
 	</select>
 	
 	<select id="selectUserById" parameterType="String" resultType="user">
@@ -84,7 +88,7 @@
 	</select>
 	
 	<select id="selectUserByomId" parameterType="String" resultType="user">
-		select user_id,u_name,work_id,birthday,sex,duty_name,duty_id from user where om_id=#{omId}
+		select user_id,u_name,work_id,birthday,sex,duty_name,duty_id from user where om_id=#{omId} and delete_state=1
 	</select>
 	
 	<select id="countUsername" resultType="String">
@@ -102,4 +106,8 @@
 	<select id="countuserCode" resultType="int">
 		select count(1) from (select distinct user_code from user) as a
 	</select>
+	
+	<update id="updatePasswordById">
+		update user set password=#{new_password} where user_id=#{userId}
+	</update>
 </mapper>
