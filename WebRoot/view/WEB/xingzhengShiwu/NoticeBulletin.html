@@ -281,7 +281,9 @@
 				                            </tr>
 				                            <tr>
 				                                <td>内容  </td>
-				                                <td colspan="3" id="look_info_all"></td>
+				                                <td colspan="3" id="">
+				                                	<textarea style="width:100%;" rows="4" class="form-control" id="look_info_all"></textarea>
+				                                </td>
 				                            </tr>
 				                        </table>
 				                        <br/>
@@ -578,7 +580,9 @@
                             </tr>
                             <tr>
                                 <td>内容</td>
-                                <td colspan="3" id="look_this_info"></td>
+                                <td colspan="3" id="">
+                                	<textarea style="width:100%;" rows="4" id="look_this_info"></textarea>
+                                </td>
                             </tr>
                         </table>
                         <table class="table table-bordered table-condensed" id="look_table">
@@ -1418,7 +1422,32 @@
 		$("#look_type_all").text(data.aType);
 		$("#look_importance_all").text(data.aImportance);
 		$("#look_user_all").text(data.issuer);
-		$("#look_info_all").text(data.aDesc);
+		//$("#look_info_all").text(data.aDesc);
+		KindEditor.ready(function(K) {
+            window.editor5 = K.create('#look_info_all',{
+                items : [
+                        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+                        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                        'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                        'anchor', 'link', 'unlink', '|', 'about'
+                ],
+                allowFileManager:true,
+                afterBlur:function(){this.sync();},
+                readonlyMode : true
+            });
+         
+         // 取得HTML内容
+            html = editor5.html();
+            // 同步数据后可以直接取得textarea的value
+            editor5.sync();
+            // 设置HTML内容
+            editor5.html(data.aDesc);
+        });
+		
 		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/organizationManagement/getOrgNameById',
@@ -1487,7 +1516,11 @@
                         'anchor', 'link', 'unlink', '|', 'about'
                 ],
                 allowFileManager:true,
-                afterBlur:function(){this.sync();}
+                afterBlur:function(){this.sync()},
+                allowImageUpload: true, //上传图片框本地上传的功能，false为隐藏，默认为true
+				allowImageRemote : false, //上传图片框网络图片的功能，false为隐藏，默认为true
+				formatUploadUrl:false,
+			    uploadJson : '/kindEditor/upLoad',//文件上传请求后台路径
             });
          // 取得HTML内容
             html = editor4.html();
@@ -1891,8 +1924,31 @@
 	        }
 	    });
 		$("#look_this_isuser").text(data.uName);
-		$("#look_this_info").text(data.aDesc);
-		
+		//$("#look_this_info").text(data.aDesc);
+		KindEditor.ready(function(K) {
+            window.editor5 = K.create('#look_this_info',{
+                items : [
+                        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+                        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                        'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                        'anchor', 'link', 'unlink', '|', 'about'
+                ],
+                allowFileManager:true,
+                afterBlur:function(){this.sync();},
+                readonlyMode : true
+            });
+         
+         // 取得HTML内容
+            html = editor5.html();
+            // 同步数据后可以直接取得textarea的value
+            editor5.sync();
+            // 设置HTML内容
+            editor5.html(data.aDesc);
+        });
 		var id=data.aId;
 		$.ajax({
 			type: 'POST',
