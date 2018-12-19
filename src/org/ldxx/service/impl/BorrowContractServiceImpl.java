@@ -61,5 +61,14 @@ public class BorrowContractServiceImpl implements BorrowContractService {
 	public List<BorrowContract> selectBorrowContractHistory(String no) {
 		return dao.selectBorrowContractHistory(no);
 	}
+
+	@Override
+	public int updateHistoryById(String id) {
+		int i= dao.updateHistoryById(id);
+		if(i>0){
+			i=dao.updateHistoryNow(id);
+		}
+		return i;
+	}
 	
 }

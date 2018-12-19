@@ -97,11 +97,6 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	}
 
 	@Override
-	public int changeStateById(String bfId) {
-		return bdao.changeStateById(bfId);
-	}
-
-	@Override
 	public List<BudgetFpplicationForm> selectBudgeHistory(String no) {
 		return bdao.selectBudgeHistory(no);
 	}

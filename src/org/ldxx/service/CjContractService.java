@@ -46,5 +46,7 @@ public interface CjContractService {
 	public float selectCjContractMoneyBySignTime(String time);
 	
 	public CjContract getCjContractMainDepartmentLeader(String no);
+
+	public int updateHistoryById(String id);
 	
 }

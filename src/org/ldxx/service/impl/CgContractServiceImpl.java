@@ -114,8 +114,12 @@ public class CgContractServiceImpl implements CgContractService {
 	}
 
 	@Override
-	public void updateHistoryById(String cgId) {
-		cgDao.updateHistoryById(cgId);
+	public int updateHistoryById(String id) {
+		int i= cgDao.updateHistoryById(id);
+		if(i>0){
+			i=cgDao.updateHistoryNow(id);
+		}
+		return i;
 	}
 
 	@Override

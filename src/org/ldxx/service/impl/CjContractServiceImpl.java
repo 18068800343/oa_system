@@ -168,4 +168,13 @@ public class CjContractServiceImpl implements CjContractService{
 		return dao.getCjContractMainDepartmentLeader(no);
 	}
 
+	@Override
+	public int updateHistoryById(String id) {
+		int i= dao.updateHistoryById(id);
+		if(i>0){
+			i=dao.updateHistoryNow(id);
+		}
+		return i;
+	}
+
 }

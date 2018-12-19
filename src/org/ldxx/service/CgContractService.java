@@ -28,7 +28,7 @@ public interface CgContractService {
 
 	CgContract selectCgnoById(String id);
 
-	void updateHistoryById(String cgId);
+	int updateHistoryById(String id);
 
 	List<CgContract> selectHistoryByNo(String cgNo);
 

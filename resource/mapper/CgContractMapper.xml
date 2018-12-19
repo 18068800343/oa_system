@@ -38,10 +38,6 @@
 		select cg_no from cg_contract where cg_id=#{id}
 	</select>
 	
-	<update id="updateHistoryById">
-		update cg_contract set history=0 where cg_id=#{cgId}
-	</update>
-	
 	<select id="selectHistoryByNo" parameterType="String" resultType="CgContract">
 		select a.*,c.sp_name from  cg_contract a
 			left join sourcing_purchasing c on c.sp_id=a.contract_name_yi 
@@ -95,4 +91,13 @@
 		LEFT JOIN sourcing_purchasing as c on c.sp_id=a.contract_name_yi
 		where b.status=2 and work_no like #{no} and a.history=1
 	</select>
+	
+	<update id="updateHistoryById">
+		UPDATE cg_contract SET history=0  where cg_no =(select a.cg_no from (SELECT cg_no from cg_contract WHERE cg_id=#{id}) AS a)
+	</update>
+	
+	<update id="updateHistoryNow">
+		UPDATE cg_contract SET history=1  where cg_id=#{id}
+	</update>
+	
 </mapper>

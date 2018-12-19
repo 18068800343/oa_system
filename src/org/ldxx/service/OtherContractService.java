@@ -27,4 +27,6 @@ public interface OtherContractService {
 	
 	public float selectOtherContractMoneyBySignTimeAndDepartment(String time,String department);
 
+	public int updateHistoryById(String id);
+
 }

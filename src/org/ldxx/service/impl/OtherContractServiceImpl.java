@@ -106,4 +106,13 @@ public class OtherContractServiceImpl implements OtherContractService{
 		return money;
 	}
 
+	@Override
+	public int updateHistoryById(String id) {
+		int i= dao.updateHistoryById(id);
+		if(i>0){
+			i=dao.updateHistoryNow(id);
+		}
+		return i;
+	}
+
 }

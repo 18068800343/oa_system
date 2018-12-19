@@ -88,10 +88,6 @@ public class SubContractServiceImpl implements SubContractService {
 		return scDao.fbNocount();
 	}
 
-	@Override
-	public void updateHistory(String fbId) {
-		scDao.updateHistory(fbId);
-	}
 
 	@Override
 	public List<FbContract> getFBNameAndNo() {
@@ -138,6 +134,15 @@ public class SubContractServiceImpl implements SubContractService {
 			String endMax, String mainDp, String spType, float fbMoneyMin, float fbMoneyMax, float contractMoneyMin,
 			float contractMoneyMax, float zdMoneyMin, float zdMoneyMax) {
 		return scDao.selectSubContract(status, startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
+	}
+
+	@Override
+	public int updateHistoryById(String id) {
+		int i= scDao.updateHistoryById(id);
+		if(i>0){
+			i=scDao.updateHistoryNow(id);
+		}
+		return i;
 	}
 
 }

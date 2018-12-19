@@ -22,7 +22,7 @@ public interface CgContractDao {
 
 	CgContract selectCgnoById(@Param("id")String id);
 
-	void updateHistoryById(@Param("cgId")String cgId);
+	int updateHistoryById(@Param("id")String id);
 
 	List<CgContract> selectHistoryByNo(@Param("cgNo")String cgNo);
 
@@ -43,5 +43,7 @@ public interface CgContractDao {
 	CgContract selectByCgNo(@Param("no")String no);
 	
 	List<CgContract> selectCgContractByWorkNo(@Param("no")String no);
+
+	int updateHistoryNow(@Param("id")String id);
 
 }

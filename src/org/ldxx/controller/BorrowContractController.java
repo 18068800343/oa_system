@@ -252,5 +252,12 @@ public class BorrowContractController {
 	public List<BorrowContract> selectBorrowContractHistory(String no){
 		return service.selectBorrowContractHistory(no);
 	}
+	
+	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
+	@ResponseBody
+	public int updateHistoryById(String id){
+		return service.updateHistoryById(id);
+	}
+	
 
 }

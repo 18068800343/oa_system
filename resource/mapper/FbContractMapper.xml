@@ -77,9 +77,7 @@
 	<select id="fbNocount" resultType="int">
 		select count(1) from (select distinct fb_no from fb_contract) as a
 	</select>
-	<update id="updateHistory">
-		update fb_contract set history=0 where fb_id=#{fbId}
-	</update>
+	
 	<select id="getFBNameAndNo" resultType="fbContract">
 		select f.fb_id,f.contract_name,f.fb_no,f.contract_name_yi,c.cc_name,f.contract_start_time,f.contract_end_time,
 			contract_money,temporary_money,cj_contract_code,cj_contract_name,work_no from fb_contract f
@@ -129,6 +127,12 @@
 		where m.status=2 and f.history=1 and cj_contract_code=#{no}
 	</select>
 	
+	<update id="updateHistoryById">
+		UPDATE fb_contract SET history=0  where fb_no =(select a.fb_no from (SELECT fb_no from fb_contract WHERE fb_id=#{id}) AS a)
+	</update>
+	<update id="updateHistoryNow">
+		update fb_contract set history=1 where fb_id=#{id}
+	</update>
 	
   <!-- <update id="updateSubContract" parameterType="org.ldxx.bean.FbContract" >
     update fb_contract

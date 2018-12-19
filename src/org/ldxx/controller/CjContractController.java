@@ -409,4 +409,11 @@ public class CjContractController {
 		return service.selectCjByCjNo(no);
 	}
 	
+	@RequestMapping("/updateHistoryById")
+	@ResponseBody
+	public int updateHistoryById(String id){
+		int i=service.updateHistoryById(id);
+		return i;
+	}
+	
 }

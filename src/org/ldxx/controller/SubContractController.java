@@ -253,7 +253,6 @@ public class SubContractController {
 	public Map<String,Object> updateSubContractsave(FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]) throws IllegalStateException, IOException{
 		Map<String,Object> map = new HashMap<>();
 		String id=new TimeUUID().getTimeUUID();
-		scService.updateHistory(fbContract.getFbId());
 		fbContract.setFbId(id);
 		
 		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
@@ -304,7 +303,6 @@ public class SubContractController {
 	public Map<String,Object> updateSubContractsubmit(FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]) throws IllegalStateException, IOException{
 		Map<String,Object> map = new HashMap<>();
 		String id=new TimeUUID().getTimeUUID();
-		scService.updateHistory(fbContract.getFbId());
 		fbContract.setFbId(id);
 		
 		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
@@ -422,6 +420,12 @@ public class SubContractController {
 	@ResponseBody
 	public List<FbContract> getFBNoBycjNo(String no){
 		return scService.getFBNoBycjNo(no);
+	}
+	
+	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
+	@ResponseBody
+	public int updateHistoryById(String id){
+		return scService.updateHistoryById(id);
 	}
 	
 }

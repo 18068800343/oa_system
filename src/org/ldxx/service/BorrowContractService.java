@@ -14,4 +14,6 @@ public interface BorrowContractService {
 
 	List<BorrowContract> selectBorrowContractHistory(String no);
 
+	int updateHistoryById(String id);
+
 }

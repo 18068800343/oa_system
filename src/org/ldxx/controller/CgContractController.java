@@ -163,7 +163,6 @@ public class CgContractController {
 	public int updateCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		cgService.updateHistoryById(cg.getCgId());
 		cg.setCgId(id);
 		
 		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
@@ -212,7 +211,6 @@ public class CgContractController {
 	public int updateCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		cgService.updateHistoryById(cg.getCgId());
 		cg.setCgId(id);
 		
 		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
@@ -368,4 +366,11 @@ public class CgContractController {
 		List<CgContract> list=cgService.selectCgContractByWorkNo(no);
 		return list;
 	}
+	
+	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
+	@ResponseBody
+	public int updateHistoryById(String id){
+		return cgService.updateHistoryById(id);
+	}
+	
 }
