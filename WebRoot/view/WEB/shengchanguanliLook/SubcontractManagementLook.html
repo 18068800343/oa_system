@@ -144,62 +144,72 @@
          if(r!=null)return  unescape(r[2]); return null;
     }
     // 调用方法
-    	lookId=GetQueryString("");
-
+    	lookId=GetQueryString("prjId");
+    	console.log(lookId);
 	
 	
 	
 	//查看详细信息
 	var fbNo;
 	function initTable(obj){
-		dom=$(obj).parents("tr");
-		var data=$('#mainContent').DataTable().row(dom).data();
-		console.log(data)
-		lookId=data.fbId;
-		fbNo=data.fbNo;
-		initTableHistory();
-		
-		$("#lookhetongName").text(data.contractName)
-		$("#lookfbNo").text(data.fbNo);
-		$("#lookType").text(data.fbcType)
-		$("#lookjiafang").text(data.contractNameJia)
-		$("#lookyifang").text(data.ccName)
-		$("#lookprjName").text(data.prjName)
-		$("#looktask_no").text(data.workNo)
-		$("#lookchengjiehetongName").text(data.cjContractName)
-		$("#lookchengjiehetonghao").text(data.cjContractCode)
-		$("#lookzhuhetongMoney").text(data.mainContractMoney)
-		$('#lookleijifenbaoMoney').text(data.nowFbAllMoney)
-		$("#lookyear").text(data.contractStartTime)
-		$("#lookyear2").text(data.contractEndTime)
-		$("#lookjiafangbumen").text(data.omName)
-		$("#lookhetonggongqi").text(data.contractLongTime)
-		$("#lookfukuanfangshi").text(data.payMode)
-		$("#lookhetongMoney").text(data.contractMoney)
-		$("#lookzandingMoney").text(data.temporaryMoney)
-		$("#looklvyuebaozhengMoney").text(data.performanceBond)
-		$("#lookgaikuang").text(data.workContent)
-		
 		$.ajax({
-			type:"post",
-			url:getContextPath()+"/subcontract/selectAccessoryById",
-			dataType:"json",
-			async:false,
-			data:{
-				id:lookId,
-			},
-			success:function(json){
-				console.log(json);
-				$("#look_all_table").empty();
-	               for(var i=0;i<json.length;i++){
-	            	   $("#look_all_table").append("<tr>"+
-	            	   														"<td>合同文本"+(i+1)+"</td>"+
-													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
-													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-													            	    "</tr>");
-	               }
-			}
-		})
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBNameByNo',
+            dataType: 'json',
+            data: {
+            	fbNo:lookId
+            },
+            success: function (json) {
+            	//console.log(json);
+            	data=json;
+            	lookId=data.fbId;
+				fbNo=data.fbNo;
+				
+				$("#lookhetongName").text(data.contractName)
+				$("#lookfbNo").text(data.fbNo);
+				$("#lookType").text(data.fbcType)
+				$("#lookjiafang").text(data.contractNameJia)
+				$("#lookyifang").text(data.ccName)
+				$("#lookprjName").text(data.prjName)
+				$("#looktask_no").text(data.workNo)
+				$("#lookchengjiehetongName").text(data.cjContractName)
+				$("#lookchengjiehetonghao").text(data.cjContractCode)
+				$("#lookzhuhetongMoney").text(data.mainContractMoney)
+				$('#lookleijifenbaoMoney').text(data.nowFbAllMoney)
+				$("#lookyear").text(data.contractStartTime)
+				$("#lookyear2").text(data.contractEndTime)
+				$("#lookjiafangbumen").text(data.omName)
+				$("#lookhetonggongqi").text(data.contractLongTime)
+				$("#lookfukuanfangshi").text(data.payMode)
+				$("#lookhetongMoney").text(data.contractMoney)
+				$("#lookzandingMoney").text(data.temporaryMoney)
+				$("#looklvyuebaozhengMoney").text(data.performanceBond)
+				$("#lookgaikuang").text(data.workContent)
+				
+				$.ajax({
+					type:"post",
+					url:getContextPath()+"/subcontract/selectAccessoryById",
+					dataType:"json",
+					async:false,
+					data:{
+						id:lookId,
+					},
+					success:function(json){
+						console.log(json);
+						$("#look_all_table").empty();
+			               for(var i=0;i<json.length;i++){
+			            	   $("#look_all_table").append("<tr>"+
+			            	   														"<td>合同文本"+(i+1)+"</td>"+
+															            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+															            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+															            	    "</tr>");
+			               }
+					}
+				})
+            }
+  		});
+		
+		
 	}
 	
 	
