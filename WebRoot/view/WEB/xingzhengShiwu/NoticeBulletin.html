@@ -12,6 +12,7 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <link rel="stylesheet" href="../../kindeditor/themes/default/default.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -712,6 +713,8 @@
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script type="text/javascript" src="../../kindeditor/kindeditor-all.js" ></script>
+<script type="text/javascript" src="../../kindeditor/lang/zh-CN.js" ></script>
 <script>
     $(document).ready( function () {
     	$('#editable-select').editableSelect({ 
@@ -726,6 +729,13 @@
         initUser();
         initUser4();
         initbumen();
+        
+        
+        
+        
+
+       
+        
 	});
     
     
@@ -1288,12 +1298,35 @@
 		$("#xgpeople2").modal("hide");
 	})
 	
+	KindEditor.ready(function(K) {
+            window.editor = K.create('#info_all',{
+                items : [
+                        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+                        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                        'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                        'anchor', 'link', 'unlink', '|', 'about'
+                ],
+                allowFileManager:true,
+                afterBlur:function(){this.sync()}
+            });
+         	
+        });
 	function save_all(){
+		
 		var title=$("#title_all").val();
 		var type=$("#type_all").val();
 		var importance=$("#importance_all").val();
 		var user=$("#user_all").val();
-		var info=$("#info_all").val();
+		
+		//var info=$("#info_all").val();
+		// 将编辑器的HTML数据同步到textarea
+		editor.sync();
+		var info = $('#info_all').val(); // jQuery
+		
 		var department=$("#fabubumen").val();
 		if(title==''){
 			toastr.error("标题不能为空");
@@ -1335,7 +1368,10 @@
 		var type=$("#type_all").val();
 		var importance=$("#importance_all").val();
 		var user=$("#user_all").val();
-		var info=$("#info_all").val();
+		//var info=$("#info_all").val();
+		// 同步数据后可以直接取得textarea的value
+		editor.sync();
+		var info = $('#info_all').val();  // jQuery
 		var department=$("#fabubumen").val();
 		if(title==''){
 			toastr.error("标题不能为空");
@@ -1431,14 +1467,35 @@
 	function updateAll(obj){
 		var dom=$(obj).parents("tr");
 		var data=$("#mainContent").DataTable().row(dom).data();
-		//console.log(data)
+		console.log(data)
 		$("#edit_title_all").val(data.aTitle);
 		$("#edit_type_all").val(data.aType);
 		$("#edit_importance_all").val(data.aImportance);
-		$("#edit_user_all").val(data.uName);
-		$("#edit_info_all").val(data.aDesc);
+		$("#edit_user_all").val(data.issuer);
+		//$("#edit_info_all").val(data.aDesc);
 		$("#xgfabubumen").val(data.aDepartment);
-		
+		KindEditor.ready(function(K) {
+            window.editor4 = K.create('#edit_info_all',{
+                items : [
+                        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+                        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                        'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                        'anchor', 'link', 'unlink', '|', 'about'
+                ],
+                allowFileManager:true,
+                afterBlur:function(){this.sync();}
+            });
+         // 取得HTML内容
+            html = editor4.html();
+            // 同步数据后可以直接取得textarea的value
+            editor4.sync();
+            // 设置HTML内容
+            editor4.html(data.aDesc);
+        });
 		all_id=data.aId;
 		$.ajax({
 			type: 'POST',
@@ -1497,7 +1554,12 @@
 		var aType=$("#edit_type_all").val();
 		var aImportance=$("#edit_importance_all").val();
 		var issuer=$("#edit_user_all").val();
-		var aDesc=$("#edit_info_all").val();
+		//var aDesc=$("#edit_info_all").val();
+		
+		// 同步数据后可以直接取得textarea的value
+		editor.sync();
+		var aDesc= $('#edit_info_all').val(); // jQuery
+		
 		var aDepartment=$("#fabubumen").val();
 		if(aTitle==''){
 			toastr.error("标题不能为空");
@@ -1538,7 +1600,11 @@
 		var aType=$("#edit_type_all").val();
 		var aImportance=$("#edit_importance_all").val();
 		var issuer=$("#edit_user_all").val();
-		var aDesc=$("#edit_info_all").val();
+		//var aDesc=$("#edit_info_all").val();
+		// 同步数据后可以直接取得textarea的value
+		editor.sync();
+		var aDesc = $('#edit_info_all').val(); // jQuery
+		
 		var aDepartment=$("#fabubumen").val();
 		if(aTitle==''){
 			toastr.error("标题不能为空");
@@ -1686,13 +1752,35 @@
         });*/
 	}
 	
+	KindEditor.ready(function(K) {
+        window.editor3 = K.create('#new_this_info',{
+            items : [
+                    'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+                    'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                    'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                    'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                    'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                    'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                    'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                    'anchor', 'link', 'unlink', '|', 'about'
+            ],
+            allowFileManager:true,
+            afterBlur:function(){this.sync();}
+        });
+    });
+	
 	function new_save_this(){
 		var aTitle=$("#new_title_this").val();
 		var aType=$("#new_type_this").val();
 		var aImportance=$("#new_this_importance").val();
 		var isuser=$("#new_this_isuser").val();
 		var aDepartment=$("#new_this_department").val();
-		var aDesc=$("#new_this_info").val();
+		
+		//var aDesc=$("#new_this_info").val();
+		// 同步数据后可以直接取得textarea的value
+		editor3.sync();
+		var aDesc = $('#new_this_info').val(); // jQuery
+		
 		if(aTitle==''){
 			toastr.error("标题不能为空");
 			return;
@@ -1739,7 +1827,10 @@
 		var aImportance=$("#new_this_importance").val();
 		var isuser=$("#new_this_isuser").val();
 		var aDepartment=$("#new_this_department").val();
-		var aDesc=$("#new_this_info").val();
+		//var aDesc=$("#new_this_info").val();
+		// 同步数据后可以直接取得textarea的value
+		editor.sync();
+		var aDesc = $('#new_this_info').val(); // jQuery
 		if(aTitle==''){
 			toastr.error("标题不能为空");
 			return;
@@ -1843,10 +1934,32 @@
 		$("#edit_type_this").val(data.aType);
 		$("#edit_importance_this").val(data.aImportance);
 		$("#edit_department_this").val(data.aDepartment);
-		$("#edit_isuser_this").val(data.uName);
+		$("#edit_isuser_this").val(data.issuer);
 		//initUser3(data.issuer);
-		$("#edit_info_this").val(data.aDesc);
-		
+		//$("#edit_info_this").val(data.aDesc);
+		 KindEditor.ready(function(K) {
+	            window.editor2 = K.create('#edit_info_this',{
+	                items : [
+	                        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+	                        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+	                        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+	                        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+	                        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+	                        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+	                        'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+	                        'anchor', 'link', 'unlink', '|', 'about'
+	                ],
+	                allowFileManager:true,
+	                afterBlur:function(){this.sync();}
+	            });
+	         // 取得HTML内容
+	            html = editor2.html();
+	            // 同步数据后可以直接取得textarea的value
+	            editor2.sync();
+	            // 设置HTML内容
+	            editor2.html(data.aDesc);
+	        });
+		 
 		id_this=data.aId;
 		$.ajax({
 			type: 'POST',
@@ -1905,7 +2018,12 @@
 		var aType=$("#edit_type_this").val();
 		var aImportance=$("#edit_importance_this").val();
 		var aDepartment=$("#edit_department_this").val();
-		var aDesc=$("#edit_info_this").val();
+		//var aDesc=$("#edit_info_this").val();
+		
+		// 同步数据后可以直接取得textarea的value
+		editor.sync();
+		var aDesc = $('#edit_info_this').val(); // jQuery
+		
 		var issuer=$("#edit_isuser_this").val();
 		if(aTitle==''){
 			toastr.error("标题不能为空");
@@ -1951,7 +2069,11 @@
 		var aType=$("#edit_type_this").val();
 		var aImportance=$("#edit_importance_this").val();
 		var aDepartment=$("#edit_department_this").val();
-		var aDesc=$("#edit_info_this").val();
+		//var aDesc=$("#edit_info_this").val();
+		// 同步数据后可以直接取得textarea的value
+		editor.sync();
+		var aDesc = $('#edit_info_this').val(); // jQuery
+		
 		var issuer=$("#edit_isuser_this").val();
 		if(aTitle==''){
 			toastr.error("标题不能为空");
