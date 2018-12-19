@@ -314,7 +314,7 @@
 	         <div class="modal-footer">
 	            <button type="button" class="btn btn-default" onclick="quxiao()">取消</button>
 	            <button type="button" class="btn btn-default" onclick="saveBudge()">保存</button>
-	            <button type="button" class="btn btn-success" onclick="submitBudge()" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
+	            <button type="button" class="btn btn-success" onclick="submitBudge()">提交</button>
 	        </div>
 	    </div>
 	    <!-- 修改 -->
@@ -661,7 +661,7 @@
         
     </div>
 <!-- Modal -->
-<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="margin-bottom:250px;">
+<!-- <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="margin-bottom:250px;">
     <div class="modal-dialog modal-lg" role="document" style="width:1000px">
         <div class="modal-content">
         <div class="modal-header">
@@ -683,7 +683,7 @@
         </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- model结束 -->
 <!-- 提交 modal -->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
@@ -694,26 +694,23 @@
                 <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
             </div>
             <div class="modal-body">
-                <form class="form-inline">
-                    <div class="form-group">
-                        <div>
-                            <span>提交给:</span>
-                            <select style="width:180px;" class="form-control" id="editable-selectT">
-                                <option value="">123123</option>
-                                <option value="">456456</option>
-                            </select>
-                        </div>
-                        <div style="display:flex;margin-top:5px;">
-                            <div style="margin-top:5px;">
-                                <textarea cols="70" rows="5" class="form-control" placeholder="请输入内容"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <table class="table table-bordered table-condensed" id="tijiaoren">
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
+                        </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitPerson()">提交</button>
             </div>
         </div>
     </div>
@@ -1997,16 +1994,54 @@
 	            contentType: "application/json", 
 	            data:JSON.stringify(yusuandan),
 	            success: function (json) {
-	            	//console.log(json)
+	            	if(json=='0'){
+		        		toastr.error("保存失败");
+		        	}else{
+		        		quxiao();
+		        		lianjie=json.url;
+		            	if(json.receiver!=null&&json.receiver.length>=1){
+			        		  $("#tijiaogei").modal('show');
+			        		  $("#tijiaoren tbody").empty("");
+			        		  for(var i=0;i<json.receiver.length;i++){
+			        			  $("#tijiaoren tbody").append('<tr><td>'
+			        					  +'<input type="radio" name="tijiaorenming" style="width:22px;weight:22px;" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+			        					  +'</td><td>'
+			        					  +json.receiver[i].omName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].dutyName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].uName
+			        					  +'</td></tr>');
+			        		  }
+			        	  }else if(json.receiver.length==1){
+			        		  $.ajax({
+			        	          type: 'POST',
+			        	          url: getContextPath()+'/task/addTask4',
+			        	          dataType: 'json',
+			        	          data:{
+			        	        	  url:json.url,
+			        	        	  userId:json.receiver.userId,
+			        	        	  uName:json.receiver.uName,
+			        	        	  omName:json.receiver.omName,
+			        	        	  dutyName:json.receiver.dutyName,
+			        	        	  omId:json.receiver.omId,
+			        	        	  dutyId:json.receiver.dutyId
+			        	          },
+			        	          success: function (json) {
+			        	        	  toastr.success('提交成功');
+			        	          }
+			        	      }); 
+			        	  }
+		        	}  
+	            	/* //console.log(json)
 	            	if(json==0){
 	            		toastr.error("填报失败")
 	            	}else{
 	            		toastr.success("填报成功")
 	            		//$('#myModal').modal('hide');
 	            		quxiao();
-						/* initTable(); */
 		            	 //$('#mainContent').DataTable().row.add().draw(false);     //新增行立即显示
-	            	}
+	            	} */
 	            }
 	        });
     	}else{
@@ -2015,6 +2050,33 @@
     	
 	}
 	
+	
+	function submitPerson(){
+  		var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+  	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+  	  $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/addTask4',
+            dataType: 'json',
+            data:{
+          	  url:lianjie,
+          	  userId:uid,
+          	  uName:uname,
+          	  omName:bmmc,
+          	  dutyName:zw,
+          	  omId:omid,
+          	  dutyId:dutyid
+            },
+            success: function (json) {
+          	  toastr.success('提交成功');
+            }
+        });  
+  	}
 	
 	//查看详细信息
 	var bfNo;
@@ -2539,55 +2601,15 @@
 	            contentType: "application/json", 
 	            data:JSON.stringify(xgyusuandan),
 	            success: function (json) {
-	            	if(json=='0'){
-		        		toastr.error("保存失败");
-		        	}else{
-		        		lianjie=json.url;
-		            	if(json.receiver!=null&&json.receiver.length>=1){
-			        		  $("#tijiaogei").modal('show');
-			        		  $("#tijiaoren tbody").empty("");
-			        		  for(var i=0;i<json.receiver.length;i++){
-			        			  $("#tijiaoren tbody").append('<tr><td>'
-			        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
-			        					  +'</td><td>'
-			        					  +json.receiver[i].omName
-			        					  +'</td><td>'
-			        					  +json.receiver[i].dutyName
-			        					  +'</td><td>'
-			        					  +json.receiver[i].uName
-			        					  +'</td></tr>');
-			        		  }
-			        	  }else if(json.receiver.length==1){
-			        		  $.ajax({
-			        	          type: 'POST',
-			        	          url: getContextPath()+'/task/addTask4',
-			        	          dataType: 'json',
-			        	          data:{
-			        	        	  url:json.url,
-			        	        	  userId:json.receiver.userId,
-			        	        	  uName:json.receiver.uName,
-			        	        	  omName:json.receiver.omName,
-			        	        	  dutyName:json.receiver.dutyName,
-			        	        	  omId:json.receiver.omId,
-			        	        	  dutyId:json.receiver.dutyId
-			        	          },
-			        	          success: function (json) {
-			        	        	  toastr.success('提交成功');
-			        	          }
-			        	      }); 
-			        	  }
-		        	}      	
-			            	
-	            	/* //console.log(json)
 	            	if(json==0){
 	            		toastr.error("填报失败")
 	            	}else{
 	            		toastr.success("填报成功")
 	            		//$('#change').modal('hide');
 	            		quxiao2();
-						/* initTable(); */
+						initTable();
 		            	 //$('#mainContent').DataTable().row.add().draw(false);     //新增行立即显示
-	            	} */
+	            	}
 	            }
 	        });
     	}else{
