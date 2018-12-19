@@ -229,8 +229,9 @@ public class TaskController {
 		flowHistroy.setActorresult(0);
 		flowHistroy.setView("");
 		String string = "";
+		String deptNo = "01";
 		try {
-			string = flowUtill.submitGetReceiver(currentFlow);
+			string = flowUtill.submitGetReceiver(currentFlow,deptNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -271,8 +272,9 @@ public class TaskController {
 		flowHistroy.setView("意见");
 		tService.addTask(t);
 		String string = "";
+		String deptNo="02";
 		try {
-			string = flowUtill.submitGetReceiver(currentFlow);
+			string = flowUtill.submitGetReceiver(currentFlow,deptNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

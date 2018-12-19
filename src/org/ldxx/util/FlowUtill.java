@@ -90,7 +90,7 @@ public class FlowUtill {
 	 */
 	
 	@Transactional
-	public String submitGetReceiver(CurrentFlow currentFlow) throws Exception{
+	public String submitGetReceiver(CurrentFlow currentFlow,String deptNo) throws Exception{
 		currentFlow.setRdt(new Date());
 		INSTANCE.init();
 		/**0：流程刚发起,暂存状态

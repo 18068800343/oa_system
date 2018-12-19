@@ -56,8 +56,9 @@ public class FlowController {
 		currentFlow.setId(new TimeUUID().getTimeUUID());
 		
 		String string = "";
+		String deptNo = "01";
 		try {
-			string = flowUtill.submitGetReceiver(currentFlow);
+			string = flowUtill.submitGetReceiver(currentFlow,deptNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
