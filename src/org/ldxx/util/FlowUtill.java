@@ -154,10 +154,13 @@ public class FlowUtill {
 				for(NodeActors nodeActors2:nodeActors){
 					String roleCode = INSTANCE.roleDao.selectRoleById(nodeActors2.getRolecode()).getRoleCode();
 					Iterator<User> iterator = users.iterator();
-					
+					if(roleCode.contains("*")){
+			    		roleCode=roleCode+"r"+deptNo+".";
+			    	}
 				    while (iterator.hasNext()) {
 				    	User user = iterator.next();
 				    	String userRole = user.getUserRole();
+				    	
 						if(userRole.contains(roleCode)){
 							usersSubmit.add(user);
 							iterator.remove();
@@ -270,7 +273,7 @@ public class FlowUtill {
 	public String shenpiGetReceiver(CurrentFlow currentFlow) throws Exception{
 		currentFlow.setRdt(new Date());
 		INSTANCE.init();
-		
+		String deptNo = currentFlow.getFkDept();
 		String floNodeId = "";
 	    floNodeId = currentFlow.getFloNodeId();
 	    currentFlow.setFloNodeId(floNodeId);
@@ -295,7 +298,9 @@ public class FlowUtill {
 				for(NodeActors nodeActors2:nodeActors){
 					String roleCode = INSTANCE.roleDao.selectRoleById(nodeActors2.getRolecode()).getRoleCode();
 					Iterator<User> iterator = users.iterator();
-					
+					if(roleCode.contains("*")){
+			    		roleCode=roleCode+"r"+deptNo+".";
+			    	}
 				    while (iterator.hasNext()) {
 				    	User user = iterator.next();
 				    	String userRole = user.getUserRole();
