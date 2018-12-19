@@ -35,7 +35,7 @@ public class BudgetFpplicationFormController {
 	
 	@RequestMapping("/saveBudge")
 	@ResponseBody
-	public Map<String,Object> saveBudge(@RequestBody List<BudgetFpplicationForm> budges){
+	public int saveBudge(@RequestBody List<BudgetFpplicationForm> budges,HttpSession session){
 		Map<String,Object> map = new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -45,9 +45,39 @@ public class BudgetFpplicationFormController {
 		String code="YS"+uuid.getPrjCode("", count+1);
 		budge.setBfNo(code);
 		int i=bservice.saveBudge(budge);
-		map.put("result", i);
-		map.put("budge", budge);
-		return map;
+		if(i>0){
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(budge.getPrjId()+"预算");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(budge.getPrjId()+"预算流程发起");
+			currentFlow.setUrl("shengchanguanliLook/BudgetManagement.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(budge.getDepartment());
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return i;
 	}
 	
 	@RequestMapping("/submitBudge")
@@ -75,7 +105,7 @@ public class BudgetFpplicationFormController {
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept("1");
+			currentFlow.setFkDept(budge.getDepartment());
 			currentFlow.setDeptname(user.getOmName());
 			currentFlow.setNodename("节点名称");
 			currentFlow.setPri(1);
