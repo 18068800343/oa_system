@@ -163,4 +163,9 @@ public class CjContractServiceImpl implements CjContractService{
 		return money;
 	}
 
+	@Override
+	public CjContract getCjContractMainDepartmentLeader(String no) {
+		return dao.getCjContractMainDepartmentLeader(no);
+	}
+
 }

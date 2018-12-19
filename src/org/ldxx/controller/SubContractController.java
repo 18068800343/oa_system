@@ -11,10 +11,12 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FbContract;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.User;
+import org.ldxx.service.CjContractService;
 import org.ldxx.service.SubContractService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
@@ -35,6 +37,8 @@ public class SubContractController {
 
 	@Autowired
 	private SubContractService scService;
+	@Autowired
+	private CjContractService cjService;
 	
 	@RequestMapping("/selectSubContract")
 	@ResponseBody
@@ -101,6 +105,8 @@ public class SubContractController {
 		}
 		int i=scService.saveSubContract(fbContract);
 		if(i>0){
+			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
+			String mainDepartment=cj.getMainDepartment();
 			String string="";
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
@@ -110,11 +116,11 @@ public class SubContractController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getUsername());;
 			currentFlow.setMemo(fbContract.getContractName()+"流程发起");
-			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+id);
+			currentFlow.setUrl("shengchanguanliLook/SubcontractManagementLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept("1111");
+			currentFlow.setFkDept(mainDepartment);
 			currentFlow.setDeptname(user.getOmName());
 			currentFlow.setNodename("节点名称");
 			currentFlow.setPri(1);
@@ -192,6 +198,8 @@ public class SubContractController {
 		int i=scService.saveSubContract(fbContract);
 		String string = i+"";
 		if(i>0){
+			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
+			String mainDepartment=cj.getMainDepartment();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
@@ -200,11 +208,11 @@ public class SubContractController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getUsername());;
 			currentFlow.setMemo(fbContract.getContractName()+"流程发起");
-			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+id);
+			currentFlow.setUrl("shengchanguanliLook/SubcontractManagementLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept("1111");
+			currentFlow.setFkDept(mainDepartment);
 			currentFlow.setDeptname(user.getOmName());
 			currentFlow.setNodename("节点名称");
 			currentFlow.setPri(1);

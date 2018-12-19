@@ -50,4 +50,6 @@ public interface CjContractDao {
 
 	public List<CjContract> selectCjContractMoneyBySignTime(@Param("time")String time);
 	
+	public CjContract getCjContractMainDepartmentLeader(@Param("no")String no);
+	
 }

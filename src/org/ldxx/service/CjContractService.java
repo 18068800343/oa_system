@@ -45,4 +45,6 @@ public interface CjContractService {
 	
 	public float selectCjContractMoneyBySignTime(String time);
 	
+	public CjContract getCjContractMainDepartmentLeader(String no);
+	
 }
