@@ -11,6 +11,13 @@
     <link href="../../style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link href="../../toastr/toastr.css" rel="stylesheet">
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -95,7 +102,7 @@
                         <th>已办实体名称</th>
                         <th>意见</th>
                         <th>部门</th>
-                        <th style="width:60px;">操作</th>
+                        <th style="width:100px;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -130,6 +137,7 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/quanxian.js"></script>
 <script src="../../toastr/toastr.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
 <script>
     $(document).ready( function () {
     	$("#statusChange").trigger('change');
@@ -167,9 +175,9 @@
             "render": function (data, type, full) {
             	var dom;
             	if(full.operateType==1){
-            	 dom = '<i class="iconfont icon-search Paba" style="font-size:18px;cursor:pointer;" title="查看办理业务" data-id="'+data+'" name="lookYw" data-toggle="modal" data-target=".dada"></i><i class="iconfont icon-shanchu Pabb" style="font-size:18px;cursor:pointer;" title="删除"></i><i class="iconfont icon-quxiao quxiao Pabc" style="font-size:18px;cursor:pointer;" data-url="'+data+'"  data-id="'+full.id+'" title="撤回" onclick="chexiao(this)" id="quxiao"></i>'
+            	 dom = '<i class="iconfont icon-search Paba" style="font-size:18px;cursor:pointer;margin-left:5px;" title="查看办理业务" data-id="'+data+'" name="lookYw" data-toggle="modal" data-target=".dada"></i><i class="iconfont icon-shanchu Pabb" style="font-size:18px;cursor:pointer;margin-left:5px;" title="删除" onclick="deleteFlowHistory(this)"></i><i class="iconfont icon-quxiao quxiao Pabc" style="font-size:18px;cursor:pointer;margin-left:5px;" data-url="'+data+'"  data-id="'+full.id+'" title="撤回" onclick="chexiao(this)" id="quxiao"></i>'
             	}else{
-            	 dom = '<i class="iconfont icon-search Paba" style="font-size:18px;cursor:pointer;" title="查看办理业务" data-id="'+data+'" name="lookYw" data-toggle="modal" data-target=".dada"></i><i class="iconfont icon-shanchu Pabb" style="font-size:18px;cursor:pointer;" title="删除"></i>'	
+            	 dom = '<i class="iconfont icon-search Paba" style="font-size:18px;cursor:pointer;margin-left:5px;" title="查看办理业务" data-id="'+data+'" name="lookYw" data-toggle="modal" data-target=".dada"></i><i class="iconfont icon-shanchu Pabb" style="font-size:18px;cursor:pointer;margin-left:5px;" title="删除" onclick="deleteFlowHistory(this)"></i>'	
             	}
             	return dom;
                
@@ -241,6 +249,35 @@
 		            }
 		        });
 		  }
+	}
+	
+	function deleteFlowHistory(obj){
+		var tr=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(tr).data();
+		var id=data.id;
+		$.SmartMessageBox({
+            title: "删除提示",
+            content: "确认删除？",
+            buttons: '[取消][确定]'
+        }, function (ButtonPressed) {
+        	if (ButtonPressed === "确定") {
+        		$.ajax({
+                	type: 'POST',
+                    url: getContextPath()+'/flowHistory/deleteFlowHistory',
+                    data:{
+                    	id:id
+                    },
+                    success: function (json) {
+                    	if(json>0){
+                    		toastr.success('删除成功');
+                    		$("#mainContent").DataTable().row(tr).remove().draw(false);
+                    	}else{
+                    		toastr.error('删除失败');
+                    	}
+                    }
+                });
+        	}
+        })
 	}
 	
 	function chexiaoDo(url,id){
