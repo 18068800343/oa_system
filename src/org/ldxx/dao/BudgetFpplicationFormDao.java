@@ -17,7 +17,6 @@ public interface BudgetFpplicationFormDao {
 
 	BudgetFpplicationForm selectBudgeById(@Param("id")String id);
 
-	int changeStateById(@Param("bfId")String bfId);
 
 	List<BudgetFpplicationForm> selectBudgeHistory(@Param("no")String no);
 
@@ -30,4 +29,8 @@ public interface BudgetFpplicationFormDao {
 	float getBudgeCost(@Param("department")String department,@Param("year")String year);
 	
 	BudgetFpplicationForm getAllCost(@Param("no")String no);
+
+	int updateHistoryById(@Param("id")String id);
+	
+	int changeStateById(@Param("id")String id);
 }

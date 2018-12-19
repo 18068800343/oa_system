@@ -29,5 +29,7 @@ public interface BudgetFpplicationFormService {
 	float getBudgeCost(String department,String year);
 	
 	BudgetFpplicationForm getAllCost(String no);
+
+	int updateHistoryById(String id);
 	
 }

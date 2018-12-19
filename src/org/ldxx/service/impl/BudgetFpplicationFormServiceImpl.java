@@ -136,4 +136,13 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 			float costMax) {
 		return bdao.selectBudgeByStatus(status, timeMin, timeMax, costMin, costMax);
 	}
+
+	@Override
+	public int updateHistoryById(String id) {
+		int i=bdao.updateHistoryById(id);
+		if(i>0){
+			i=bdao.changeStateById(id);
+		}
+		return i;
+	}
 }

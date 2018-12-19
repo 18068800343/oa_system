@@ -39,9 +39,7 @@
 	<select id="selectBudgeHistory" resultType="BudgetFpplicationForm">
 		select * from budget_fpplication_form where bf_no=#{no} and state=0
 	</select>
-	<update id="changeStateById" parameterType="String">
-		update budget_fpplication_form  set state=0 where bf_id=#{bfId}
-	</update>
+	
 	<select id="countNo" resultType="int">
 		select count(1) from (select distinct bf_no from budget_fpplication_form) as a
 	</select>
@@ -65,4 +63,11 @@
 		select all_cost from budget_fpplication_form as a left join mode_status as b on a.bf_id=b.mode_id
 		where a.task_no=#{no} and a.state=1 and b.status=2
 	</select>
+	
+	<update id="updateHistoryById">
+		UPDATE budget_fpplication_form SET history=0  where bf_no =(select a.bf_no from (SELECT bf_no from budget_fpplication_form WHERE bf_id=#{id}) AS a)
+	</update>
+	<update id="changeStateById" parameterType="String">
+		update budget_fpplication_form  set state=1 where bf_id=#{id}
+	</update>
 </mapper>

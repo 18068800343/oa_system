@@ -58,4 +58,8 @@ public interface TaskDao {
 	public int updateById(@Param("task")Task task);
 	
 	public Task selectPrjLeaderByPrjNo(@Param("no")String no);
+
+	public int updateHistoryById(@Param("id")String id);
+
+	public int updateHistoryNow(@Param("id")String id);
 }
