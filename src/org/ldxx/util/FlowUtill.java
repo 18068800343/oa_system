@@ -300,7 +300,7 @@ public class FlowUtill {
 				for(NodeActors nodeActors2:nodeActors){
 					String roleCode = INSTANCE.roleDao.selectRoleById(nodeActors2.getRolecode()).getRoleCode();
 					Iterator<User> iterator = users.iterator();
-					if(roleCode.endsWith("*")){
+					if(roleCode.endsWith("*.")){
 			    		roleCode=roleCode+"r"+deptNo+".";
 			    	}
 				    while (iterator.hasNext()) {
