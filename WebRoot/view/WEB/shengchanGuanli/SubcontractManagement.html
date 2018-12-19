@@ -348,7 +348,7 @@
                     <div class="modal-footer">
 			            <button type="button" class="btn btn-default" onclick="quxiao()">取消</button>
 			            <button type="button" class="btn btn-default" onclick="saveSubContract()">保存</button>
-			            <button type="button" class="btn btn-success" onclick="submitSubContract()" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
+			            <button type="button" class="btn btn-success" onclick="submitSubContract()" data-dismiss="modal" data-toggle="modal">提交</button>
 			        </div>
 	    </div>
 	    
@@ -649,7 +649,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitPerson()">提交</button>
             </div>
         </div>
     </div>
@@ -1793,15 +1793,11 @@ function quxiao3(){
             		rateType:rateType
             },
             success: function (json) {
-            	//console.log(json);
             	if(json.result==0){
 					toastr.error("添加失败")
 				}else if(json.result>0){
-					//location.reload([true]);
 					toastr.success("添加成功")
-					//$("#myModal").modal("hide")
 					quxiao();
-					initTable();
 				}
             }
         };
@@ -1894,7 +1890,47 @@ function quxiao3(){
             		rateType:rateType
             },
             success: function (json) {
-            	//console.log(json);
+            	if(json=='0'){
+	        		toastr.error("保存失败");
+	        	}else{
+	        		quxiao();
+	        		lianjie=json.url;
+	            	if(json.receiver!=null&&json.receiver.length>=1){
+		        		  $("#tijiaogei").modal('show');
+		        		  $("#tijiaoren tbody").empty("");
+		        		  for(var i=0;i<json.receiver.length;i++){
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" name="tijiaorenming" style="width:22px;weight:22px;" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+		        					  +'</td><td>'
+		        					  +json.receiver[i].omName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].dutyName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].uName
+		        					  +'</td></tr>');
+		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver.userId,
+		        	        	  uName:json.receiver.uName,
+		        	        	  omName:json.receiver.omName,
+		        	        	  dutyName:json.receiver.dutyName,
+		        	        	  omId:json.receiver.omId,
+		        	        	  dutyId:json.receiver.dutyId
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
+		        	  }
+	        	}
+            	
+            	/* //console.log(json);
             	if(json.result==0){
 					toastr.error("提交失败")
 				}else if(json.result>0){
@@ -1903,12 +1939,38 @@ function quxiao3(){
 					//$("#myModal").modal("hide")
 					quxiao();
 					initTable();
-				}
+				} */
             }
         };
 		$("#new_form").ajaxSubmit(options);
 	}
 	
+	function submitPerson(){
+  		var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+  	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+  	  $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/addTask4',
+            dataType: 'json',
+            data:{
+          	  url:lianjie,
+          	  userId:uid,
+          	  uName:uname,
+          	  omName:bmmc,
+          	  dutyName:zw,
+          	  omId:omid,
+          	  dutyId:dutyid
+            },
+            success: function (json) {
+          	  toastr.success('提交成功');
+            }
+        });  
+  	}
 	
 	//修改回显
 	var xiugaiId;

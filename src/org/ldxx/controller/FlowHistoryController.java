@@ -49,5 +49,12 @@ public class FlowHistoryController {
 	public List<FlowHistoryVo> getFlowHistoryByUserAlreadyEnd(String userId){
 		return flowHistoryService.getFlowHistoryByUser(userId,"");
 	}
+	
+	@RequestMapping("/deleteFlowHistory")
+	@ResponseBody
+	public int deleteFlowHistory(String id){
+		int i=flowHistoryService.deleteFlowHistory(id);
+		return i;
+	}
 
 }

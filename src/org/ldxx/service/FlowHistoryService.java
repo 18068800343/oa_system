@@ -14,4 +14,6 @@ public interface FlowHistoryService {
 	List<FlowHistoryVo> getFlowHistoryByUserAlreadyEnd(String userId);
 
 	List<FlowHistoryVo> getDistinctFlowHistoryByUser(String userId, String status);
+	
+	int deleteFlowHistory(String id);
 }

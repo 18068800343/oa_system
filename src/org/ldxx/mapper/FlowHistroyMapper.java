@@ -43,4 +43,5 @@ public interface FlowHistroyMapper {
     
     List<FlowHistoryVo> getTuiHuiFlowHistoryVo(@Param("url")String url,@Param("flowNodeLast")String flowNodeLast);
     
+    int deleteFlowHistory(@Param("id")String id);
 }

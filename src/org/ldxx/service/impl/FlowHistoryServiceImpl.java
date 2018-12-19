@@ -38,5 +38,10 @@ public class FlowHistoryServiceImpl implements FlowHistoryService {
 		return list;
 	}
 
+	@Override
+	public int deleteFlowHistory(String id) {
+		return flowHistroyMapper.deleteFlowHistory(id);
+	}
+
 	
 }
