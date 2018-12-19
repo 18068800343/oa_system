@@ -29,9 +29,6 @@
       #{pay.payListExplain,jdbcType=VARCHAR},#{pay.compilerPerson,jdbcType=VARCHAR}, #{pay.compilerTime,jdbcType=VARCHAR}, 
       now())
   	</insert>
-  	<update id="updateHistory">
-  		update pay set history=0 where pay_id=#{payId}
-  	</update>
   	<select id="selectPayById" resultType="pay">
   		select *,b.u_name from pay a
   		left join user b on a.compiler_person=b.user_id
@@ -73,4 +70,14 @@
   	<insert id="addPayResultInfo">
   		insert into pay_result_info(pay_id,result_pay,pay_time) values(#{id},#{resultPay},#{payTime})
   	</insert>
+  	
+  	<update id="updateHistoryById">
+  		UPDATE pay SET history=0  where pay_code =(select a.pay_code from (SELECT pay_code from pay WHERE pay_id=#{id}) AS a)
+  	</update>
+  	
+  	<update id="updateHistoryNow">
+  		update pay set history=1 where pay_id=#{id}
+  	</update>
+  	
+  	
 </mapper>

@@ -11,8 +11,6 @@ public interface ContractPaymentDao {
 
 	int addPaySave(@Param("pay")Pay pay);
 
-	void updateHistory(@Param("payId")String payId);
-
 	Pay selectPayById(@Param("id")String id);
 
 	int fkNocount();
@@ -28,6 +26,10 @@ public interface ContractPaymentDao {
 	public Pay getTotalPayMoney(@Param("no")String no);
 	
 	public int addPayResultInfo(@Param("id")String id,@Param("resultPay")float resultPay,@Param("payTime")String payTime);
+
+	int updateHistoryById(@Param("id")String id);
+
+	int updateHistoryNow(@Param("id")String id);
 
 	
 }

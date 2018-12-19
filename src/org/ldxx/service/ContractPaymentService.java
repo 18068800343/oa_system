@@ -11,8 +11,6 @@ public interface ContractPaymentService {
 
 	int addPaySave(Pay pay);
 
-	void updateHistory(String payId);
-
 	Pay selectPayById(String id);
 
 	int fkNocount();
@@ -28,5 +26,7 @@ public interface ContractPaymentService {
 	public Pay getTotalPayMoney(String no);
 	
 	public int addPayResultInfo(String id,float resultPay,String payTime);
+
+	int updateHistoryById(String id);
 
 }

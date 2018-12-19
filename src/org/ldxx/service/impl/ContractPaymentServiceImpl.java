@@ -47,10 +47,6 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 		return i;
 	}
 
-	@Override
-	public void updateHistory(String payId) {
-		payDao.updateHistory(payId);
-	}
 
 	@Override
 	public Pay selectPayById(String id) {
@@ -91,6 +87,15 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 	@Override
 	public int addPayResultInfo(String id, float resultPay, String payTime) {
 		return payDao.addPayResultInfo(id, resultPay, payTime);
+	}
+
+	@Override
+	public int updateHistoryById(String id) {
+		int i= payDao.updateHistoryById(id);
+		if(i>0){
+			i=payDao.updateHistoryNow(id);
+		}
+		return i;
 	}
 
 }
