@@ -83,20 +83,38 @@
                 <h4 class="modal-title" id="myModalLabel">通知公告</h4>
             </div>
             <div class="modal-body">
-                <table class="tb2 table table-hover">
-                    <tr>
-                        <td style="width:50px;">标题</td>
-                        <td>张三出差细节通知</td>
-                    </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>张三出差细节通知哈根安徽骨灰奥i规划按时间</td>
-                    </tr>
-                    <tr>
-                        <td>附件</td>
-                        <td>张三出差细节通知附件</td>
-                    </tr>
-                </table>
+                <form class="form-inline" id="tzgg1">
+                       <table class="table table-bordered table-condensed" >
+                           <tr>
+                               <td style="width:100px;">标题  </td>
+                               <td id="look_title_all"></td>
+                               <td style="width:100px;">类型</td>
+                               <td id="look_type_all"></td>
+                           </tr>
+                           <tr>
+                               <td>重要程度</td>
+                               <td id="look_importance_all"></td>
+                               <td>发布部门</td>
+                               <td id="lookfabubumen" ></td>
+                           </tr>
+                           <tr>
+                               <td>发布人</td>
+                               <td id="look_user_all"></td>
+                               <td></td>
+                               <td></td>
+                           </tr>
+                           <tr>
+                               <td>内容  </td>
+                               <td colspan="3" id="look_info_all"></td>
+                           </tr>
+                       </table>
+                       <br/>
+                       <table class="table table-bordered table-condensed"  id="look_all_table">
+                       		
+                       </table> 
+                   </form> 
+                   
+                   
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -338,7 +356,7 @@
             success: function (json) {
             	//console.log(json)
             	for(var i=0;i<json.length;i++){
-            		$("#gundong").append('<li><span data-toggle="modal" data-target="#tzgg" style="cursor: pointer;" class="lianjieColor">'+json[i].aTitle+'</span></li>')
+            		$("#gundong").append('<li><span data-id='+json[i].aId+' data-toggle="modal" data-target="#tzgg" style="cursor: pointer;" class="lianjieColor" onclick="showtzgg(this)">'+json[i].aTitle+'</span></li>')
             	}
                
             }
@@ -352,13 +370,81 @@
             	status:2
             },
             success: function (json) {
+            	console.log(json)
             	for(var i=0;i<json.length;i++){
-            		$("#gundong").append('<li><span data-toggle="modal" data-target="#tzgg" style="cursor: pointer;" class="lianjieColor">'+json[i].aTitle+'</span></li>')
+            		$("#gundong").append('<li><span data-id='+json[i].aId+'  data-toggle="modal" data-target="#tzgg" style="cursor: pointer;" class="lianjieColor" onclick="showtzgg(this)">'+json[i].aTitle+'</span></li>')
             	}
             }
         });
     	
 	});
+	
+	function showtzgg(aa){
+		var data_id=$(aa).attr("data-id");
+		//console.log(data_id);
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/announcement/selectAnnouncementById',
+	        dataType: 'json',
+	        data: {
+	        	id:data_id
+	        },
+	        success: function (json) {
+	        	console.log(json);
+	        	var data=json;
+	        	$("#look_title_all").text(data.aTitle);
+	    		$("#look_type_all").text(data.aType);
+	    		$("#look_importance_all").text(data.aImportance);
+	    		$("#look_user_all").text(data.issuer);
+	    		$("#look_info_all").text(data.aDesc);
+	    		$.ajax({
+	    	        type: 'POST',
+	    	        url: getContextPath()+'/organizationManagement/getOrgNameById',
+	    	        dataType: 'json',
+	    	        data: {
+	    	        	omId:data.aDepartment
+	    	        },
+	    	        success: function (json) {
+	    	        	$("#lookfabubumen").text(json.omName)
+	    	        }
+	    	    });
+	    		
+	    		
+	    		
+	    		var id=data.aId;
+	    		$.ajax({
+	    			type: 'POST',
+	                url: getContextPath()+'/announcement/selectAccessoryById',
+	                dataType: 'json',
+	                data: {
+	                	id:id
+	                },
+	                success: function (json) {
+	                	$("#look_all_table").empty();
+	                   for(var i=0;i<json.length;i++){
+	                	   $("#look_all_table").append("<tr>"+
+	                	   														"<td>附件"+(i+1)+"</td>"+
+	    												            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+	    												            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+	    												            	    "</tr>");
+	                   }
+	                }
+	    		}) 
+	        }
+	    });
+		
+		
+	}
+
+
+	function download_all(obj){
+		var url=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+	
     function clock(){
         $("#scrollDiv ul").animate({marginTop:"-25px"},5,function(){
             $(this).css({marginTop:"0px"}).find("li:first").appendTo(this);                                                         
@@ -507,5 +593,10 @@
             }
         });
 	}
+	
+	
+	
+	
+
 </script> 
 </html>
