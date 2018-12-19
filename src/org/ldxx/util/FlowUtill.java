@@ -299,7 +299,7 @@ public class FlowUtill {
 				    while (iterator.hasNext()) {
 				    	User user = iterator.next();
 				    	String userRole = user.getUserRole();
-						if(userRole.contains(roleCode)){
+						if(userRole!=null&&userRole.contains(roleCode)){
 							usersSubmit.add(user);
 							iterator.remove();
 						}
