@@ -55,6 +55,7 @@ public class FlowNodeController {
 		flowNode.setFloTmpId(page_floTmpId);
 		flowNode.setFlownodename(floNodeName);
 		flowNode.setReturnrole(3);
+		flowNode.setEditOrView("view");
 		//floNodeId 
 		String floNodeId = new TimeUUID().getTimeUUID();
 		flowNode.setId(floNodeId);
@@ -119,10 +120,10 @@ public class FlowNodeController {
 		NodeActorsExample example = new NodeActorsExample();
 		example.createCriteria().andFloNodeIdEqualTo(floNodeId);
 		nodeActorsMapper.deleteByExample(example);
-		flowNodeMapper.deleteByPrimaryKey(floNodeId);
 		FlowEdgeExample example3 = new FlowEdgeExample();
 		example3.createCriteria().andFloNodeRightEqualTo(floNodeId);
 		flowEdgeMapper.deleteByExample(example3);
+		flowNodeMapper.deleteByPrimaryKey(floNodeId);
 		return "1";
 	}
 }
