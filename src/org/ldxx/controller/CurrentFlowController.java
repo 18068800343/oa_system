@@ -96,7 +96,7 @@ public class CurrentFlowController {
 			currentFlow.setActor(id);
 			currentFlow.setActorname(uName);
 			currentFlow.setDeptname(omName);
-			
+			currentFlow.setReadreceipts(1);
 			FlowHistroyExample example2 = new FlowHistroyExample();
 			example2.createCriteria().andFloNodeIdEqualTo(floNodeLast).andUrlEqualTo(url).andOperateTypeEqualTo(1);
 			List<FlowHistroy> flowHistroys = flowHistroyMapper.selectByExample(example2);
