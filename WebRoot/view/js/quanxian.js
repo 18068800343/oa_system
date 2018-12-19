@@ -62,6 +62,41 @@
 	//15	公司通知公告修改	Pbac+
 	$(".Pbac").hide();
 	
+	$.ajax({
+		type:"post",
+		url:getContextPath()+"/login/getUser",
+		data:{
+		},
+		success:function(json){
+			if(json!=null &&json!=""){
+				var arr = json.uPermissions.split(',');
+				
+				for(var i=0;i<arr.length;i++){
+					var arr2 = arr[i].replace("+","");
+					//console.log(arr2);
+					if(arr2=='Pbab'){
+						$(".Pbab").show();
+						break
+					}else{
+						$(".Pbab").hide();
+					}
+				}
+				for(var i=0;i<arr.length;i++){
+					var arr2 = arr[i].replace("+","");
+					//console.log(arr2);
+					if(arr2=='Pbac'){
+						$(".Pbac").show();
+						break
+					}else{
+						$(".Pbac").hide();
+					}
+				}
+			}else{
+				
+			}
+		}
+	});
+	
 	//16	部门通知公告新建	Pbad+
 	$(".Pbad").hide();
 	
@@ -70,6 +105,42 @@
 	
 	//18	部门通知公告修改	Pbaf+
 	$(".Pbaf").hide();
+	
+	$.ajax({
+		type:"post",
+		url:getContextPath()+"/login/getUser",
+		data:{
+		},
+		success:function(json){
+			if(json!=null &&json!=""){
+				var arr = json.uPermissions.split(',');
+				
+				for(var i=0;i<arr.length;i++){
+					var arr2 = arr[i].replace("+","");
+					//console.log(arr2);
+					if(arr2=='Pbae'){
+						$(".Pbae").show();
+						break
+					}else{
+						$(".Pbae").hide();
+					}
+				}
+				for(var i=0;i<arr.length;i++){
+					var arr2 = arr[i].replace("+","");
+					//console.log(arr2);
+					if(arr2=='Pbac'){
+						$(".Pbaf").show();
+						break
+					}else{
+						$(".Pbaf").hide();
+					}
+					
+				}
+			}else{
+				
+			}
+		}
+	});
 	
 	//19	项目印章管理菜单栏	Pbb+
 	$(".Pbb").hide();
