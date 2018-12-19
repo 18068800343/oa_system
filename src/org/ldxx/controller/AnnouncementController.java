@@ -341,5 +341,10 @@ public class AnnouncementController {
 		return list;
 	}
 	
-	
+	@RequestMapping("/selectAnnouncementById")//通过id查询信息
+	@ResponseBody
+	public Announcement selectAnnouncementById(String id){
+		Announcement announcement=service.selectAnnouncementById(id);
+		return announcement;
+	}
 }

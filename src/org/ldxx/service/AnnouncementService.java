@@ -20,4 +20,6 @@ public interface AnnouncementService {
 	public List<Accessory> selectAccessory(String id);
 	
 	public int deleteAccessoryByIdAndName(Accessory accessory);
+
+	public Announcement selectAnnouncementById(String id);
 }

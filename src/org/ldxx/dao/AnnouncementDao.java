@@ -14,4 +14,6 @@ public interface AnnouncementDao {
 	public int updateAnnouncement(@Param("announcement")Announcement announcement);
 	
 	public List<Announcement> selectAnnouncement(@Param("type")String type,@Param("status")String status);
+
+	public Announcement selectAnnouncementById(@Param("id")String id);
 }

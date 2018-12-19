@@ -76,4 +76,9 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 		return dao.deleteAccessoryByIdAndName(accessory);
 	}
 
+	@Override
+	public Announcement selectAnnouncementById(String id) {
+		return adao.selectAnnouncementById(id);
+	}
+
 }
