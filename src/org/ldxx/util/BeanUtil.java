@@ -20,8 +20,9 @@ public class BeanUtil {
 		if("".equals(flowHistroy.getActorname())||null==flowHistroy.getActorname()){
 			flowHistroy.setActorname(currentFlow.getActorname());
 		}
-		
-		flowHistroy.setDeptname(currentFlow.getDeptname());
+		if("".equals(flowHistroy.getDeptname())||null==flowHistroy.getDeptname()){
+			flowHistroy.setDeptname(currentFlow.getDeptname());
+		}
 		flowHistroy.setNodename(currentFlow.getNodename());
 		flowHistroy.setPri(currentFlow.getPri());
 		flowHistroy.setModeId(currentFlow.getModeId());
