@@ -253,7 +253,7 @@
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										    	
-									    	return '<span class="glyphicon glyphicon-check zhuashou Pmea" aria-hidden="true"  style="font-size:18px;" title="分配角色" data-id="'+data.userRole+'" data-uid="'+data.userId+'" data-toggle="modal" data-target="#myModal" onclick="initRoleListById(this)"></span>'
+									    	return '<span class="glyphicon glyphicon-check zhuashou Pmea" aria-hidden="true"  style="font-size:18px;display:none;" title="分配角色" data-id="'+data.userRole+'" data-uid="'+data.userId+'" data-toggle="modal" data-target="#myModal" onclick="initRoleListById(this)"></span>'
 									        }
 								}
 								],
@@ -286,6 +286,9 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                
+                
             }
         });
     }
@@ -444,6 +447,29 @@
               success: function (json) {
             	  $('#mainContent').dataTable().fnClearTable();
                   $('#mainContent').DataTable().rows.add(json).draw(false);
+                  $.ajax({
+                		type:"post",
+                		url:getContextPath()+"/login/getUser",
+                		async:false,
+                		data:{
+                		},
+                		success:function(json){
+                			
+                			if(json!=null &&json!=""){
+                				var arr = json.uPermissions.split(',');
+                				
+                				for(var i=0;i<arr.length;i++){
+                					var arr2 = arr[i].replace("+","");
+                					//console.log(arr2);
+                					if(arr[i].indexOf("Pmea") >= 0 ){
+                						$(".Pmea").show();
+                					}
+                				}
+                				
+                			}
+                			
+                		}
+                	});
               }
           });
       }
