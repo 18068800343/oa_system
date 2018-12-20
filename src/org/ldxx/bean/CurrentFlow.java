@@ -59,8 +59,8 @@ public class CurrentFlow {
     private Integer flowEndState;
 
     private Integer flowNopassState;
-    private String flowNodeLast;
     
+    private String flowNodeLast;
     
     public Integer getFlowNopassState() {
 		return flowNopassState;
@@ -71,8 +71,6 @@ public class CurrentFlow {
 	}
 
 	private String flowNodeName;//待审批步骤
-    
-
     
     public String getFlowNodeName() {
 		return flowNodeName;

@@ -109,8 +109,10 @@ public class UserServiceImpl implements UserService {
 				}
 				
 			}
-			userRoleNames = userRoleNames.substring(1, userRoleNames.length());
-			user.setUserRoleNames(userRoleNames);
+			if(userRoleNames.length()>1){
+				userRoleNames = userRoleNames.substring(1, userRoleNames.length());
+				user.setUserRoleNames(userRoleNames);
+			}
 		}
 		return users;
 	}

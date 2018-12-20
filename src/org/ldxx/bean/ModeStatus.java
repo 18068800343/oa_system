@@ -6,8 +6,18 @@ public class ModeStatus {
     private String status;
 
     private String remark;
+    
+    private String flowStatus;
+    
+    public String getFlowStatus() {
+		return flowStatus;
+	}
 
-    public String getModeId() {
+	public void setFlowStatus(String flowStatus) {
+		this.flowStatus = flowStatus;
+	}
+
+	public String getModeId() {
         return modeId;
     }
 

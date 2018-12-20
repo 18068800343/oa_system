@@ -161,7 +161,8 @@ public class FlowUtill {
 				    	User user = iterator.next();
 				    	String userRole = user.getUserRole();
 				    	
-						if(userRole.contains(roleCode)){
+				    	
+						if(null!=userRole&&userRole.contains(roleCode)){
 							usersSubmit.add(user);
 							iterator.remove();
 						}
@@ -616,6 +617,11 @@ public class FlowUtill {
 		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 		try {
 			INSTANCE.currentFlowMapper.insert(currentFlow);
+			ModeStatus modeStatus = new ModeStatus();
+			modeStatus.setModeId(modeId);
+			modeStatus.setStatus("");
+			modeStatus.setFlowStatus("1");
+			INSTANCE.modeStatusMapper.insert(modeStatus);
 			/*INSTANCE.flowHistroyMapper.insert(flowHistroy);*/
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
