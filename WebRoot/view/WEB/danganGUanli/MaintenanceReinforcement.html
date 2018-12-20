@@ -835,7 +835,7 @@
 										    "targets": 3,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-icon-test Pjfc" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookTe(this)"  id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai Pjfb" style="font-size:20px;cursor:pointer;margin-left:5px;" title="修改" onclick="change(this)"></i> <i class="iconfont icon-shanchu Pjfa" style="font-size:20px;cursor:pointer;margin-left:5px;"  title="删除" onclick="deleteTe(this)"  id="delyiji"></i> '
+										  	  		return '<i class="iconfont icon-icon-test Pjfc" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookTe(this)"  id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai Pjfb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="修改" onclick="change(this)"></i> <i class="iconfont icon-shanchu Pjfa" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;"  title="删除" onclick="deleteTe(this)"  id="delyiji"></i> '
 										        }
 										  },
 										  {	
@@ -880,6 +880,36 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					//console.log(arr2);
+            					if(arr[i].indexOf("Pjfc") >= 0 ){
+            						$(".Pjfc").show();
+            					}
+            					if(arr[i].indexOf("Pjfb") >= 0 ){
+            						$(".Pjfb").show();
+            					}
+            					if(arr[i].indexOf("Pjfa") >= 0 ){
+            						$(".Pjfa").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
             }
         });
     }

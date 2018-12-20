@@ -125,7 +125,7 @@
 										    "targets": 0,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	 return '<span class="glyphicon glyphicon-chevron-down Pjha" aria-hidden="true" style="font-size:22px;cursor:pointer;" onclick="showerji(this)"></span>'
+										    	 return '<span class="glyphicon glyphicon-chevron-down Pjha" aria-hidden="true" style="font-size:22px;cursor:pointer;display:none;" onclick="showerji(this)"></span>'
 										    	}
 										  }
 								],
@@ -158,6 +158,30 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					//console.log(arr2);
+            					if(arr[i].indexOf("Pjha") >= 0 ){
+            						$(".Pjha").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
             }
         });
     }

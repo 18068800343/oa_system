@@ -156,7 +156,7 @@
 								    "targets": 0,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								    	 return '<span class="glyphicon glyphicon-chevron-down Pjab" aria-hidden="true" style="font-size:22px;cursor:pointer;" onclick="showerji(this)" title="档案明细"></span>'
+								    	 return '<span class="glyphicon glyphicon-chevron-down Pjab" aria-hidden="true" style="font-size:22px;cursor:pointer;display:none;" onclick="showerji(this)" title="档案明细"></span>'
 								    	}
 								  },
 								  {
@@ -164,7 +164,7 @@
 									    "targets": 4,
 									    "searchable": true,
 									    "render": function(data, type, full) {
-									    	 return '<span class="glyphicon glyphicon-pencil Pjaa" aria-hidden="true" style="cursor:pointer;" title="接收人签字"  data-toggle="modal" data-target="#change"></span>'
+									    	 return '<span class="glyphicon glyphicon-pencil Pjaa" aria-hidden="true" style="cursor:pointer;display:none;" title="接收人签字"  data-toggle="modal" data-target="#change"></span>'
 									    	}
 									  }
 								],
@@ -197,6 +197,33 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					//console.log(arr2);
+            					if(arr[i].indexOf("Pjab") >= 0 ){
+            						$(".Pjab").show();
+            					}
+            					if(arr[i].indexOf("Pjaa") >= 0 ){
+            						$(".Pjaa").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
             }
         });
     }
