@@ -5,14 +5,14 @@
     insert into other_contract (o_id, contract_code, contract_name, 
       contract_name_jia, contract_name_yi, contract_money, 
       abutment_department, contract_start_time, 
-      contract_end_time, contract_probably_text, abutment_signed_time
+      contract_end_time, contract_probably_text, abutment_signed_time,history
       )
     values (#{other.oId}, #{other.contractCode,jdbcType=VARCHAR}, 
     		   #{other.contractName,jdbcType=VARCHAR}, #{other.contractNameJia,jdbcType=VARCHAR}, 
     		   #{other.contractNameYi,jdbcType=VARCHAR}, #{other.contractMoney}, 
       		   #{other.abutmentDepartment,jdbcType=VARCHAR}, #{other.contractStartTime,jdbcType=VARCHAR}, 
       		   #{other.contractEndTime,jdbcType=VARCHAR}, #{other.contractProbablyText,jdbcType=VARCHAR}, 
-               #{other.abutmentSignedTime,jdbcType=VARCHAR}
+               #{other.abutmentSignedTime,jdbcType=VARCHAR},1
               )
   </insert>
 
@@ -55,7 +55,10 @@
 	</select>
 	
 	<select id="selectOtherContractById" resultType="org.ldxx.bean.OtherContract">
-		select * from other_contract where o_id=#{id}
+		select a.*,b.om_name,c.cc_name from other_contract as a 
+		LEFT JOIN organization_management as b on a.abutment_department=b.om_id
+		LEFT JOIN consociation_company as c on a.contract_name_yi=c.cc_id
+		where o_id=#{id}
 	</select>
 	
 	<select id="selectOtherContractByNo" resultType="org.ldxx.bean.OtherContract">

@@ -3,11 +3,20 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.OtherContract;
+import org.ldxx.bean.User;
+import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.OtherContractService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,10 +31,12 @@ public class OtherContractConroller {
 
 	@Autowired
 	private OtherContractService service;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/addOtherContractBySave")
 	@ResponseBody
-	public int addOtherContractBySave(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
+	public int addOtherContractBySave(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
@@ -73,12 +84,46 @@ public class OtherContractConroller {
 			other.setAccessory2(list2);
 		}
 		int i=service.addOtherContract(other);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(other.getAbutmentDepartment());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(other.getContractName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(other.getContractName()+"流程发起");
+			currentFlow.setUrl("shengchanguanliLook/OtherContract.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	@RequestMapping("/addOtherContractBySubmit")
 	@ResponseBody
-	public int addOtherContractBySubmit(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
+	public String addOtherContractBySubmit(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
@@ -124,7 +169,41 @@ public class OtherContractConroller {
 			other.setAccessory2(list2);
 		}
 		int i=service.addOtherContract(other);
-		return i;
+		String string = i+"";
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(other.getAbutmentDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(other.getContractName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(other.getContractName()+"流程发起");
+			currentFlow.setUrl("shengchanguanliLook/OtherContract.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/updateOtherContractBySave")
