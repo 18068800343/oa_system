@@ -178,51 +178,64 @@
    }
    // 调用方法
    	id=GetQueryString("prjId");
-
+	console.log(id);
     
     function initTable(){
-    	
-    	$("#look_contract_no").text(data.contractCode);
-    	$("#look_contract_name").text(data.contractName);
-    	$("#look_organization_jia").text(data.contractNameJia);
-    	$("#look_organization_yi").text(data.ccName);
-    	$("#look_contract_money").text(data.contractMoney);
-    	$("#look_department").text(data.omName);
-    	$("#look_year2").text(data.contractStartTime);
-    	$("#look_year3").text(data.contractEndTime);
-    	$("#look_contract_info").text(data.contractProbablyText);
-    	$("#look_year").text(data.abutmentSignedTime);
-    	
-    	$.ajax({
+   		$.ajax({
 	        type: 'POST',
-	        url: getContextPath()+'/announcement/selectAccessoryById',
+	        url: getContextPath()+'/other/selectOtherContractById',
 	        dataType: 'json',
 	        data: {
-	           id:data.oId
+	           no:id
 	        },
 	        success: function (json) {
-	        	$("#look_accessory tbody").html('');
-	        	$("#look_accessory2 tbody").html('');
-	        	for(var i=0;i<json.length;i++){
-	        		if(json[i].aType=="其他合同文本"){
-		          		$("#look_accessory tbody").append("<tr>"+
-								"<td>附件"+(i+1)+"</td>"+
-			         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-			         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
-			         	    "</tr>")
-	        		}
-	          		if(json[i].aType=="法律顾问签字"){
-		            	   $("#look_accessory2 tbody").append("<tr>"+
-									"<td>附件"+(i+1)+"</td>"+
-				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
-				         	    "</tr>");
-	            	}
-	        	}
+	        	data=json;
+	        	$("#look_contract_no").text(data.contractCode);
+	        	$("#look_contract_name").text(data.contractName);
+	        	$("#look_organization_jia").text(data.contractNameJia);
+	        	$("#look_organization_yi").text(data.ccName);
+	        	$("#look_contract_money").text(data.contractMoney);
+	        	$("#look_department").text(data.omName);
+	        	$("#look_year2").text(data.contractStartTime);
+	        	$("#look_year3").text(data.contractEndTime);
+	        	$("#look_contract_info").text(data.contractProbablyText);
+	        	$("#look_year").text(data.abutmentSignedTime);
+	        	
+	        	$.ajax({
+	    	        type: 'POST',
+	    	        url: getContextPath()+'/announcement/selectAccessoryById',
+	    	        dataType: 'json',
+	    	        data: {
+	    	           id:data.oId
+	    	        },
+	    	        success: function (json) {
+	    	        	$("#look_accessory tbody").html('');
+	    	        	$("#look_accessory2 tbody").html('');
+	    	        	for(var i=0;i<json.length;i++){
+	    	        		if(json[i].aType=="其他合同文本"){
+	    		          		$("#look_accessory tbody").append("<tr>"+
+	    								"<td>附件"+(i+1)+"</td>"+
+	    			         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+	    			         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+	    			         	    "</tr>")
+	    	        		}
+	    	          		if(json[i].aType=="法律顾问签字"){
+	    		            	   $("#look_accessory2 tbody").append("<tr>"+
+	    									"<td>附件"+(i+1)+"</td>"+
+	    				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+	    				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+	    				         	    "</tr>");
+	    	            	}
+	    	        	}
+	    	        }
+	        	});
 	        }
     	});
     	
-    	$.ajax({
+    	
+    	
+    	
+    	/* $.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/other/selectCjHistory',
 	        dataType: 'json',
@@ -233,7 +246,7 @@
 	        	$('#history_table').dataTable().fnClearTable();
                 $('#history_table').DataTable().rows.add(json).draw(false);
 	        }
-    	});
+    	}); */
     }
     
     function downloadFile(obj){
