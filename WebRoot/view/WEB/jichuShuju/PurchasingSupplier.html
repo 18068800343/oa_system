@@ -533,7 +533,7 @@ $(document).ready( function () {
 										    "targets": 7,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-icon-test Pled" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i><i class="iconfont icon-xiugai Plee" style="font-size:18px;margin-left:5px;cursor:pointer;"  title="修改" data-toggle="modal" data-target="#change" id="Changedanwei"></i><i class="iconfont icon-shanchu Plec" style="font-size:18px;margin-left:5px;cursor:pointer;"  title="删除" id="delDanwei"></i>';
+										  	  		return '<i class="iconfont icon-icon-test Pled" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i><i class="iconfont icon-xiugai Plee" style="font-size:18px;margin-left:5px;cursor:pointer;display:none;"  title="修改" data-toggle="modal" data-target="#change" id="Changedanwei"></i><i class="iconfont icon-shanchu Plec" style="font-size:18px;margin-left:5px;cursor:pointer;display:none;"  title="删除" id="delDanwei"></i>';
 										  	  		
 										        }
 										  }
@@ -570,6 +570,36 @@ $(document).ready( function () {
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					//console.log(arr2);
+            					if(arr[i].indexOf("Pled") >= 0 ){
+            						$(".Pled").show();
+            					}
+            					if(arr[i].indexOf("Plee") >= 0 ){
+            						$(".Plee").show();
+            					}
+            					if(arr[i].indexOf("Plec") >= 0 ){
+            						$(".Plec").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
             }
         });
     }
