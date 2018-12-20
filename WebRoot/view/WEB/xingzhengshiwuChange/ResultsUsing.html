@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+			<li>行政事务</li>
+			<li class="active">成果文件用印管理</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        	<form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:35%;">
+                                    <!-- <select class="form-control" id="xgprjName" style="width:180px;"></select> -->
+                                    <input type="text" class="form-control" data1="" style="width:60%;" id="xgprjName" disabled>
+                                	<button type="button" class="btn btn-primary"  id="xgchosexm">选择项目</button>
+                                </td>
+                                <td style="width:15%;">任务单号</td>
+                                <td style="width:35%;">
+                                	<select class="form-control" style="width:60%;" id="xgtask_no"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%;">项目负责人</td>
+                                <td style="width:35%;">
+                                	<!-- <input type="text" id="xgprj_ownerunit" style="width:60%;" class="form-control" disabled> -->
+                                	<input type="text" id="xgprj_ownerunit" data3="" style="width:60%;" class="form-control" disabled>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren3">选择负责人</button>
+                                </td>
+                                <td style="width:15%;">项目阶段</td>
+                                <td style="width:35%;">
+                                    <select class="form-control" id="xgprj_phase" style="width:60%;">
+                                    	<option>初步设计</option>
+                                    	<option>施工图设计</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%;">分项主任工程师</td>
+                                <td style="width:35%;">
+                                    <input type="text" id="xgdivisionEngineer" style="width:60%;" class="form-control">
+                                </td>
+                                <td style="width:15%;">(副)总工程师</td>
+                                <td style="width:35%;">
+                                    <input type="text" id="xgheadEngineer" style="width:60%;" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%;">用章管理人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:35%;">
+                                    <input type="text" id="xguserSignetMan" data2="" style="width:60%;" class="form-control" disabled>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren">选择管理人</button>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>项目情况说明  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td colspan="3">
+                                    <textarea class="form-control" id="xgprj_desc" style="width:100%;" rows="4" cols="50"></textarea>
+                                </td>
+                            </tr>
+                        </table> 
+                    </form>  
+                    
+
+
+<!-- xg项目 Modalxg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgxiangmumd">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xgxiangmubiao">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>编号</th>
+                                    <th>项目名称</th>
+                                    <th>项目所属公司</th>
+                                    <th>项目类型</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="xgquedingxm">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!--xg项目  modelxg结束 -->  
+<!--修改选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgaddGuanliren3">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">修改选择项目负责人</h4>
+            </div>
+            <div class="modal-body">
+            
+                <form class="form-inline">
+                    <div class="form-group">
+                        	<span>部门:</span>
+                            <select style="width:180px;"id="xgbumen3" class="form-control" ></select>
+                    </div>
+                </form>
+                
+                <div>
+                     <table class="table table-bordered table-condensed"  id="xgbmmingzibiao3" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="savexgGuanliren3()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改选人 modal结束 -->
+<!--修改选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgaddGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">修改选择用章管理人</h4>
+            </div>
+            <div class="modal-body">
+            
+                <form class="form-inline">
+                    <div class="form-group">
+                        	<span>部门:</span>
+                            <select style="width:180px;"id="xgbumen" class="form-control" ></select>
+                    </div>
+                </form>
+                
+                <div>
+                     <table class="table table-bordered table-condensed"  id="xgbmmingzibiao" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="savexgGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改选人 modal结束 -->
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+    	initSelect();
+    	bumenSelect();
+        laydate.render({
+            elem: '#year' //指定元素
+        });
+        
+        function GetQueryString(name){
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)return  unescape(r[2]); return null;
+       }
+       // 调用方法
+       	id=GetQueryString("");
+       
+	});
+    
+    var table3xg=$('#xgxiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+		            { "data": "prjNo"}, 
+		            { "data": "prjName"},
+		            { "data": "prjCompany"}, 
+		            { "data": "prjType2"}, 
+		            
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xgxiangmuName" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    //选部门选人
+    var xgbmtableren=$('#xgbmmingzibiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xgmingzi" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+  //选部门选人
+    var xgbmtableren3=$('#xgbmmingzibiao3').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xgmingzi3" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+
+
+	
+	//初始化部门
+	function bumenSelect(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#xgbumen").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>"); 
+	        		$("#xgbumen3").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>"); 
+	        	} 
+	        	$("#xgbumen").trigger('change');
+	        	$("#xgbumen3").trigger('change');
+	        }
+	    });
+	}
+	
+	$("#xgbumen").change(function(){
+		var bumen=$("#xgbumen").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#xgbmmingzibiao').dataTable().fnClearTable();
+                $('#xgbmmingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	$("#xgbumen3").change(function(){
+		var bumen=$("#xgbumen3").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#xgbmmingzibiao3').dataTable().fnClearTable();
+                $('#xgbmmingzibiao3').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+
+	//保存修改用印管理人
+	function savexgGuanliren(){
+		var tr=$("input[name='xgmingzi']:checked").parents("tr");
+		var data=$("#xgbmmingzibiao").DataTable().row(tr).data();
+		//console.log(data)
+		$("#xguserSignetMan").val(data.uName);
+		$("#xguserSignetMan").attr("data2",data.userId);
+		$("#xgaddGuanliren").modal("hide");
+	}
+	//保存修改项目负责人
+	function savexgGuanliren3(){
+		var tr=$("input[name='xgmingzi3']:checked").parents("tr");
+		var data=$("#xgbmmingzibiao3").DataTable().row(tr).data();
+		//console.log(data)
+		$("#xgprj_ownerunit").val(data.uName);
+		$("#xgprj_ownerunit").attr("data3",data.userId);
+		$("#xgaddGuanliren3").modal("hide");
+	}
+	
+
+	$("#xgchosexm").click(function(){
+		$("#xgxiangmumd").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            },
+	            success: function (json) {
+	                $('#xgxiangmubiao').dataTable().fnClearTable();
+	                $('#xgxiangmubiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+	})
+	$("#xgquedingxm").click(function(){
+		var tr=$("input[name='xgxiangmuName']:checked").parents("tr");
+		var data=$("#xgxiangmubiao").DataTable().row(tr).data();
+		console.log(data)
+		/* var prjName=$("input[name='xgxiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xgxiangmuName']:checked").parent().next().text(); */
+		$("#xgprjName").val(data.prjName);
+		$("#xgprjName").attr("data1",data.prjId);
+		$("#xgtask_no").val(data.prjNo);
+		$("#xgxiangmumd").modal("hide");
+	})
+	//初始化任务单号
+	function initSelect(){
+		$.ajax({
+        type: 'POST',
+        url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+        dataType: 'json',
+        data: {
+        },
+        error: function (msg) {
+        	toastr.error("请求失败");
+        },
+        success: function (json) {
+        	//console.log(json)
+        	$("#xgtask_no").html('');
+        	for(var i=0;i<json.length;i++){
+        		$("#xgtask_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+        	}
+          	$('#xgtask_no').editableSelect().on('select.editable-select', function (e, dom) {
+          		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    data: {
+                    	prjNo:$('#xgtask_no').val()
+                    },
+                    success: function (json) {
+                    	for(var i=0;i<json.length;i++){
+	                    	$('#xgprjName').val(json[i].prjName);
+                    	}
+                    }
+          		});
+		  	})
+        }
+		});
+	}
+	
+	
+	
+
+	
+	//修改回显
+	var checkId;
+	var tr;
+	function initTable(obj){
+		
+		
+		checkId=data.usId;
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/ResultsUsing/selectResultsUsingById",
+			dataType:"json",
+			data:{
+				usId:checkId,
+				status:2
+			},
+			success:function(json){
+				//console.log(json);
+				$("#xgprjName").attr("data1",json.prjId);
+				$("#xgprjName").val(json.prjName);
+				$("#xgtask_no").val(json.usNo);
+				$("#xgprj_ownerunit").attr("data3",json.prjHead);
+				$("#xgprj_ownerunit").val(json.uName2);//项目负责人
+				$("#xgprj_phase").val(json.projectPhase);//项目阶段
+				$("#xgdivisionEngineer").val(json.divisionEngineer);//主任
+				$("#xgheadEngineer").val(json.headEngineer);//副总工程师
+				$("#xgprj_desc").val(json.projectDesc);
+				$("#xguserSignetMan").attr("data2",json.userSignetMan);
+				$("#xguserSignetMan").val(json.uName);
+			}
+		})
+	}
+	
+	//保存修改
+	function liuchengGaibian(){
+		var xgprjName=$("#xgprjName").attr("data1");
+		var xgtask_no=$("#xgtask_no").val();
+		var xgprj_ownerunit=$("#xgprj_ownerunit").attr("data3");//项目负责人
+		var xgprj_phase=$("#xgprj_phase").val();//项目阶段
+		var xgdivisionEngineer=$("#xgdivisionEngineer").val();//主任
+		var xgheadEngineer=$("#xgheadEngineer").val();//副总工程师
+		var xgyongzhang=$("#xguserSignetMan").attr("data2");
+		var xgprj_desc=$("#xgprj_desc").val();
+		console.log($("#xgprj_ownerunit").val())
+		var rsJson={
+				"usId":checkId,
+				"prjName":$("#xgprjName").val(),
+				"usNo":xgtask_no,
+				"uName2":$("#xgprj_ownerunit").val(),
+				"projectPhase":xgprj_phase,
+				"divisionEngineer":xgdivisionEngineer,
+				"headEngineer":xgheadEngineer,
+		}
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/ResultsUsing/updateResultsUsingByIdSave",
+			dataType:"json",
+			data:{
+				usId:checkId,
+				prjId:xgprjName,
+				usNo:xgtask_no,
+				prjHead:xgprj_ownerunit,
+				projectPhase:xgprj_phase,
+				divisionEngineer:xgdivisionEngineer,
+				headEngineer:xgheadEngineer,
+				userSignetMan:xgyongzhang,
+				projectDesc:xgprj_desc,
+			},
+			success:function(json){
+				//console.log(json);
+				if(json.result==0){
+					toastr.error("修改失败")
+				}else if(json.result==1){
+					//location.reload([true]);
+					toastr.success("修改成功")
+					$("#change").modal("hide")
+					$('#mainContent').DataTable().row(tr).data(rsJson);//修改行立即显示
+					//initTable();
+				}
+			}
+		})
+	}
+	
+	
+	//提交修改
+	function checkSubmit(){
+		var xgprjName=$("#xgprjName").attr("data1");
+		var xgtask_no=$("#xgtask_no").val();
+		var xgprj_ownerunit=$("#xgprj_ownerunit").attr("data3");//项目负责人
+		var xgprj_phase=$("#xgprj_phase").val();//项目阶段
+		var xgdivisionEngineer=$("#xgdivisionEngineer").val();//主任
+		var xgheadEngineer=$("#xgheadEngineer").val();//副总工程师
+		var xgyongzhang=$("#xguserSignetMan").attr("data2");
+		var xgprj_desc=$("#xgprj_desc").val();
+		
+		var rsJson={
+				"usId":checkId,
+				"prjName":$("#xgprjName").val(),
+				"usNo":xgtask_no,
+				"uName2":$("#xgprj_ownerunit").val(),
+				"projectPhase":xgprj_phase,
+				"divisionEngineer":xgdivisionEngineer,
+				"headEngineer":xgheadEngineer,
+		}
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/ResultsUsing/updateResultsUsingByIdSubmit",
+			dataType:"json",
+			data:{
+				usId:checkId,
+				prjId:xgprjName,
+				usNo:xgtask_no,
+				prjHead:xgprj_ownerunit,
+				projectPhase:xgprj_phase,
+				divisionEngineer:xgdivisionEngineer,
+				headEngineer:xgheadEngineer,
+				userSignetMan:xgyongzhang,
+				projectDesc:xgprj_desc,
+			},
+			success:function(json){
+				//console.log(json);
+				if(json.result==0){
+					toastr.error("修改失败")
+				}else if(json.result==1){
+					//location.reload([true]);
+					toastr.success("修改成功")
+					$("#change").modal("hide")
+					$('#mainContent').DataTable().row(tr).data(rsJson);//修改行立即显示
+				}
+			}
+		})
+	}
+	
+
+
+</script>
+</html>
