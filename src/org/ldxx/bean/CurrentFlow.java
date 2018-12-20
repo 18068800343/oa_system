@@ -58,9 +58,19 @@ public class CurrentFlow {
 
     private Integer flowEndState;
 
+    private Integer flowNopassState;
     private String flowNodeLast;
     
-    private String flowNodeName;//待审批步骤
+    
+    public Integer getFlowNopassState() {
+		return flowNopassState;
+	}
+
+	public void setFlowNopassState(Integer flowNopassState) {
+		this.flowNopassState = flowNopassState;
+	}
+
+	private String flowNodeName;//待审批步骤
     
 
     
