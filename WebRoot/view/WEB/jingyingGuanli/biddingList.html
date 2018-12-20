@@ -536,7 +536,7 @@
 								    "targets": 6,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return '<i class="iconfont icon-icon-test Pdbec" style="font-size:20px;cursor:pointer;" onclick="lookbidding(this)" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>   <i class="iconfont icon-xiugai Pdbed" style="font-size:18px;cursor:pointer;" onclick="updatePrj(this)" title="修改" data-toggle="modal" data-target="#change" id="Changedanwei"></i>   <i class="iconfont icon-shanchu Pdbee" style="font-size:18px;cursor:pointer;" onclick="deleteProject(this)" title="删除" id="delOrg"></i>'
+								  	  		return '<i class="iconfont icon-icon-test Pdbec" style="font-size:20px;cursor:pointer;display:none;" onclick="lookbidding(this)" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>   <i class="iconfont icon-xiugai Pdbed" style="font-size:18px;cursor:pointer;display:none;" onclick="updatePrj(this)" title="修改" data-toggle="modal" data-target="#change" id="Changedanwei"></i>   <i class="iconfont icon-shanchu Pdbee" style="font-size:18px;cursor:pointer;display:none;" onclick="deleteProject(this)" title="删除" id="delOrg"></i>'
 								        }
 								  }
 						],
@@ -669,6 +669,37 @@
             	//console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					//console.log(arr2);
+            					if(arr[i].indexOf("Pdbec") >= 0 ){
+            						$(".Pdbec").show();
+            					}
+            					if(arr[i].indexOf("Pdbed") >= 0 ){
+            						$(".Pdbed").show();
+            					}
+            					if(arr[i].indexOf("Pdbee") >= 0 ){
+            						$(".Pdbee").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
+                
             }
         });
     }
