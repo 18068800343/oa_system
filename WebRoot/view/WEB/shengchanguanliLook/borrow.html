@@ -80,7 +80,7 @@
                     	</thead>
                     	<tbody></tbody>
                     </table>
-                    <table style="width:100%;"  class="table table-bordered table-condensed" id="history_table">
+                    <!-- <table style="width:100%;"  class="table table-bordered table-condensed" id="history_table">
 				         	<thead>
 				         			<tr>
 				                       <th colspan="6">历史信息</th>
@@ -96,11 +96,11 @@
 			                </thead>
 			                <tbody>
 			                </tbody>   
-			         </table>
+			         </table> -->
 			         
 			         
 			         <!--  -->
-			         <table class="table table-bordered table-condensed">
+			         <!-- <table class="table table-bordered table-condensed">
                     	<tr>
                             		<td>甲方</td>
                             		<td>华通</td>
@@ -151,7 +151,7 @@
                     		</tr>
                     	</thead>
                     	<tbody></tbody>
-                    </table>
+                    </table> -->
     </div>
 
 </body>
@@ -179,49 +179,63 @@
 
     
     function initTable(){
-    	
-  		initTableHistory(data.bNo)
-  		$("#lookjiafang").text(data.unitJia);
-    	$("#lookyifang").text(data.ccName);
-    	$("#lookzhuhetonghao").text(data.cjNo);
-    	$("#lookfbhetonghao").text(data.fbNo);
-    	$("#lookthisborrowMoney").text(data.thisBorrowMoney);
-    	$("#looklixizhifu").text(data.interestPaymentMethod);
-    	$("#lookyear").text(data.borrowTime);
-    	$("#lookyifangleijijieMoney").text(data.accumulatedBorrowingMoney);
-    	$("#lookjiekuanyongtu").text(data.borrowingPurposes);
-    	$("#lookborrowNo").text(data.bNo)
-    	
     	$.ajax({
-			type:"post",
-			url:getContextPath()+"/accessory/selectAccessoryById",
-			dataType:"json",
-			async:false,
-			data:{
-				id:data.bId,
-			},
-			success:function(json){
-				//console.log(json);
-				$("#look_accessory tbody").empty();
-				$("#look_accessory2 tbody").empty();
-	               for(var i=0;i<json.length;i++){
-	            	   if(json[i].aType=="借款合同文本"){
-		            	   $("#look_accessory tbody").append("<tr>"+
-	      	   										"<td>附件</td>"+
-							            	    	"<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-							            	    "</tr>");
-	            	   }
-	            	   if(json[i].aType=="法律顾问签字"){
-		            	   $("#look_accessory2 tbody").append("<tr>"+
-	      	   										"<td>附件</td>"+
-							            	    	"<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-							            	    "</tr>");
-	            	   }
-	               }
-			}
-		})
+	        type: 'POST',
+	        url: getContextPath()+'/BorrowContract/selectBorrowById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	$("#lookjiafang").text(data.unitJia);
+		    	$("#lookyifang").text(data.ccName);
+		    	$("#lookzhuhetonghao").text(data.cjNo);
+		    	$("#lookfbhetonghao").text(data.fbNo);
+		    	$("#lookthisborrowMoney").text(data.thisBorrowMoney);
+		    	$("#looklixizhifu").text(data.interestPaymentMethod);
+		    	$("#lookyear").text(data.borrowTime);
+		    	$("#lookyifangleijijieMoney").text(data.accumulatedBorrowingMoney);
+		    	$("#lookjiekuanyongtu").text(data.borrowingPurposes);
+		    	$("#lookborrowNo").text(data.bNo)
+		    	$.ajax({
+					type:"post",
+					url:getContextPath()+"/accessory/selectAccessoryById",
+					dataType:"json",
+					async:false,
+					data:{
+						id:data.bId,
+					},
+					success:function(json){
+						//console.log(json);
+						$("#look_accessory tbody").empty();
+						$("#look_accessory2 tbody").empty();
+			               for(var i=0;i<json.length;i++){
+			            	   if(json[i].aType=="借款合同文本"){
+				            	   $("#look_accessory tbody").append("<tr>"+
+			      	   										"<td>附件</td>"+
+									            	    	"<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+									            	    "</tr>");
+			            	   }
+			            	   if(json[i].aType=="法律顾问签字"){
+				            	   $("#look_accessory2 tbody").append("<tr>"+
+			      	   										"<td>附件</td>"+
+									            	    	"<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+									            	    "</tr>");
+			            	   }
+			               }
+					}
+				})
+		    	
+	        }
+	    });
+  		//initTableHistory(data.bNo)
+  		
+    	
+    	
     	
     }
     
