@@ -224,7 +224,7 @@ public class CjContractController {
 	@RequestMapping("/selectCjContractByStatus")
 	@ResponseBody
 	public List<CjContract> selectCjContractByStatus(String status,String startMin,String startMax,String endMin,
-			String endMax,String mainDp,String xbDp,@RequestParam(defaultValue="0")float contractMoneyMin,
+			String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")float contractMoneyMin,
 			@RequestParam(defaultValue="0")float contractMoneyMax,@RequestParam(defaultValue="0")float zdMoneyMin,
 			@RequestParam(defaultValue="0")float zdMoneyMax){
 		List<CjContract> list=service.selectCjContractByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
