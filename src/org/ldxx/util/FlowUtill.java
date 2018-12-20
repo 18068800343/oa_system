@@ -227,13 +227,19 @@ public class FlowUtill {
 						currentFlow.setDeptname(currentFlowOld.getDeptname());
 						currentFlow.setReadreceipts(0);
 						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
-						modeStatus.setModeId(modeId);
-						//1：流程运转中
-						modeStatus.setStatus("1");
+						
+						//如果是取消流程
+						
+						
 						ModeStatus modeStatus2 = INSTANCE.modeStatusMapper.selectByPrimaryKey(modeId);
 						if(null!=modeStatus2){
-							INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus);
+							modeStatus2.setFlowStatus("1");
+							INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus2);
 						}else{
+							modeStatus.setModeId(modeId);
+							//1：流程运转中
+							modeStatus.setStatus("1");
+							modeStatus.setFlowStatus("1");
 							INSTANCE.modeStatusMapper.insert(modeStatus);
 						}
 					}else{
@@ -242,6 +248,7 @@ public class FlowUtill {
 						modeStatus.setModeId(modeId);
 						//5:流程结束
 						modeStatus.setStatus(currentFlow.getFlowEndState()+"");
+						modeStatus.setFlowStatus("2");
 						ModeStatus modeStatus2 = INSTANCE.modeStatusMapper.selectByPrimaryKey(modeId);
 						if(null!=modeStatus2){
 							INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus);
@@ -311,7 +318,6 @@ public class FlowUtill {
 							usersSubmit.add(user);
 							iterator.remove();
 						}
-				    	
 					}
 				}
 			}
