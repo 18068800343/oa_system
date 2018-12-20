@@ -586,7 +586,7 @@
 										    "targets": 9,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-icon-test Pmdd" style="font-size:20px;cursor:pointer;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>   <i class="iconfont icon-xiugai Pmdc" style="font-size:18px;cursor:pointer;" title="修改" data-toggle="modal" data-target="#change" id="Changedanwei"></i>   <i class="iconfont icon-shanchu Pmdb" style="font-size:18px;cursor:pointer;" title="删除" id="delOrg"></i>'
+										  	  		return '<i class="iconfont icon-icon-test Pmdd" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>   <i class="iconfont icon-xiugai Pmdc" style="font-size:18px;cursor:pointer;display:none;" title="修改" data-toggle="modal" data-target="#change" id="Changedanwei"></i>   <i class="iconfont icon-shanchu Pmdb" style="font-size:18px;cursor:pointer;display:none;" title="删除" id="delOrg"></i>'
 										        }
 										  }
 								],
@@ -619,6 +619,36 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					//console.log(arr2);
+            					if(arr[i].indexOf("Pmdd") >= 0 ){
+            						$(".Pmdd").show();
+            					}
+            					if(arr[i].indexOf("Pmdc") >= 0 ){
+            						$(".Pmdc").show();
+            					}
+            					if(arr[i].indexOf("Pmdb") >= 0 ){
+            						$(".Pmdb").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
             }
         });
     }

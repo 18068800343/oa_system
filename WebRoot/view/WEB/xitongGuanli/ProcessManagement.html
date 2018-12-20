@@ -48,7 +48,7 @@
                     
                 </div>
                 <div class="UpperPartR" style="margin-top:12px;">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建流程管理</button>
+                    <button type="button" class="btn btn-primary Pmga" data-toggle="modal" data-target="#myModal">新建流程管理</button>
                 </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -334,8 +334,38 @@
                 	var td1 = '<td>'+json[i].id+'</td>';
                 	var td2 = '<td id="fn'+json[i].id+'">'+json[i].flowname+'</td>';
                 	var td3 = '<td id="fm'+json[i].id+'">'+json[i].flowmemo+'</td>';
-                	var td4 = '<td><i class="iconfont icon-xiugai" style="font-size:22px;cursor:pointer;margin-left:5px;" data-flowmemo="'+json[i].flowmemo+'" data-flowname="'+json[i].flowname+'" data-id="'+json[i].id+'" onclick="updateFlowTmpi(this)" name="updateFlowTmp" title="修改" data-toggle="modal" data-target="#change"></i><i class="iconfont icon-shanchu" style="font-size:22px;cursor:pointer;margin-left:5px;" data-id="'+json[i].id+'" onclick="deleteFlowTmpi(this)" title="删除"></i><i class="iconfont icon-icon_add" style="font-size:22px;cursor:pointer;margin-left:5px;" title="增加步骤" data-toggle="modal" data-id="'+json[i].id+'" onclick="addFlowNode(this)" id="addFlowNode" data-target="#myModal2"></i></td>';
+                	var td4 = '<td><i class="iconfont icon-xiugai Pmgb" style="font-size:22px;cursor:pointer;margin-left:5px;display:none;" data-flowmemo="'+json[i].flowmemo+'" data-flowname="'+json[i].flowname+'" data-id="'+json[i].id+'" onclick="updateFlowTmpi(this)" name="updateFlowTmp" title="修改" data-toggle="modal" data-target="#change"></i><i class="iconfont icon-shanchu Pmgc" style="font-size:22px;cursor:pointer;margin-left:5px;display:none;" data-id="'+json[i].id+'" onclick="deleteFlowTmpi(this)" title="删除"></i><i class="iconfont icon-icon_add Pmgd" style="font-size:22px;cursor:pointer;margin-left:5px;display:none;" title="增加步骤" data-toggle="modal" data-id="'+json[i].id+'" onclick="addFlowNode(this)" id="addFlowNode" data-target="#myModal2"></i></td>';
                 	$("#mainContent2 tbody:first").append("<tr >"+td+td1+td2+td3+td4+"</tr>");
+                	
+                	$.ajax({
+                		type:"post",
+                		url:getContextPath()+"/login/getUser",
+                		data:{
+                		},
+                		success:function(json){
+                			
+                			if(json!=null &&json!=""){
+                				var arr = json.uPermissions.split(',');
+                				
+                				for(var i=0;i<arr.length;i++){
+                					var arr2 = arr[i].replace("+","");
+                					//console.log(arr2);
+                					if(arr[i].indexOf("Pmgb") >= 0 ){
+                						$(".Pmgb").show();
+                					}
+                					if(arr[i].indexOf("Pmgc") >= 0 ){
+                						$(".Pmgc").show();
+                					}
+                					if(arr[i].indexOf("Pmgd") >= 0 ){
+                						$(".Pmgd").show();
+                					}
+                				}
+                				
+                			}
+                			
+                		}
+                	});
+                	
                 	var flowNodes = json[i].flowNodes;
                 	if(undefined!=flowNodes&&""!=flowNodes&&flowNodes.length>0){
                     var tr = "<tr style='display:none;' id='hideT"+json[i].id+"'>"
@@ -371,11 +401,38 @@
 			                        +"<td>"+flowNodes[k].flownodename+"</td>"
 			                        +"<td>"+flowNodes[k].nodeActorNames+"</td>"
 			                        +"<td>"
-			                        +"<i class='iconfont icon-xiugai' style='font-size:22px;cursor:pointer;margin-left:5px;' title='修改' data-toggle='modal' data-id='"+flowNodes[k].id+"' data-lastId='"+flowNodes[k].floNodeLeft+"' data-tmpId='"+json[i].id+"'  data-code='"+flowNodes[k].id+"' data-name='"+flowNodes[k].flownodename+"' data-roleIds ='"+flowNodes[k].roleIds+"' onclick='updateFloNode(this)' data-target='#change2'></i>"
-			                        +"<i class='iconfont icon-shanchu' style='font-size:22px;cursor:pointer;margin-left:5px;' title='删除' data-id='"+flowNodes[k].id+"' onclick='deleteFloNode(this)'></i>"
+			                        +"<i class='iconfont icon-xiugai Pmge' style='font-size:22px;cursor:pointer;margin-left:5px;display:none;' title='修改' data-toggle='modal' data-id='"+flowNodes[k].id+"' data-lastId='"+flowNodes[k].floNodeLeft+"' data-tmpId='"+json[i].id+"'  data-code='"+flowNodes[k].id+"' data-name='"+flowNodes[k].flownodename+"' data-roleIds ='"+flowNodes[k].roleIds+"' onclick='updateFloNode(this)' data-target='#change2'></i>"
+			                        +"<i class='iconfont icon-shanchu Pmgf' style='font-size:22px;cursor:pointer;margin-left:5px;display:none;' title='删除' data-id='"+flowNodes[k].id+"' onclick='deleteFloNode(this)'></i>"
 			                        +"</td>"
                    			      +"</tr>";
                        $("#flowNodeTable"+json[i].id+" tbody").append(ftr);
+                       
+                       $.ajax({
+                   		type:"post",
+                   		url:getContextPath()+"/login/getUser",
+                   		data:{
+                   		},
+                   		success:function(json){
+                   			
+                   			if(json!=null &&json!=""){
+                   				var arr = json.uPermissions.split(',');
+                   				
+                   				for(var i=0;i<arr.length;i++){
+                   					var arr2 = arr[i].replace("+","");
+                   					//console.log(arr2);
+                   					if(arr[i].indexOf("Pmge") >= 0 ){
+                   						$(".Pmge").show();
+                   					}
+                   					if(arr[i].indexOf("Pmgf") >= 0 ){
+                   						$(".Pmgf").show();
+                   					}
+                   				}
+                   				
+                   			}
+                   			
+                   		}
+                   	});
+                       
                     }
                 	}
                 }

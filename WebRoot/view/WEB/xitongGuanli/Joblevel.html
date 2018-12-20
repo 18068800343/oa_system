@@ -353,7 +353,7 @@
 										    "targets": 2,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-xiugai Pmcc" style="font-size:18px;cursor:pointer;" title="修改" onclick="editDuty(this)"></i>&nbsp<i class="iconfont icon-shanchu Pmcb" style="font-size:18px;cursor:pointer;" onclick="deleteDuty(this)" title="删除"></i>';
+										  	  		return '<i class="iconfont icon-xiugai Pmcc" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="editDuty(this)"></i>&nbsp<i class="iconfont icon-shanchu Pmcb" style="font-size:18px;cursor:pointer;display:none;" onclick="deleteDuty(this)" title="删除"></i>';
 										        }
 										  }
 								],
@@ -400,7 +400,7 @@
 										    "targets": 3,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-xiugai Pmcf" style="font-size:18px;cursor:pointer;" title="修改" onclick="editDutyJob(this)"></i>&nbsp<i class="iconfont icon-shanchu Pmce" style="font-size:18px;cursor:pointer;" onclick="deleteDutyJob(this)" title="删除"></i>';
+										  	  		return '<i class="iconfont icon-xiugai Pmcf" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="editDutyJob(this)"></i>&nbsp<i class="iconfont icon-shanchu Pmce" style="font-size:18px;cursor:pointer;display:none;" onclick="deleteDutyJob(this)" title="删除"></i>';
 										        }
 										  }
 								],
@@ -461,6 +461,33 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					//console.log(arr2);
+            					if(arr[i].indexOf("Pmcc") >= 0 ){
+            						$(".Pmcc").show();
+            					}
+            					if(arr[i].indexOf("Pmcb") >= 0 ){
+            						$(".Pmcb").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
             }
         });
     }
@@ -480,6 +507,33 @@
             success: function (json) {
                 $('#mainContent2').dataTable().fnClearTable();
                 $('#mainContent2').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					//console.log(arr2);
+            					if(arr[i].indexOf("Pmcf") >= 0 ){
+            						$(".Pmcf").show();
+            					}
+            					if(arr[i].indexOf("Pmce") >= 0 ){
+            						$(".Pmce").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
             }
         });
     }

@@ -215,7 +215,7 @@
 										    "targets": 5,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-xiugai Pmac" style="font-size:22px;cursor:pointer;margin-left:10px;" title="修改" data-toggle="modal" data-target="#change" onclick="getchangeOrg(this)"></i><i class="iconfont icon-shanchu Pmab" style="font-size:22px;cursor:pointer;margin-left:10px;" title="删除" id="delOrg"></i>'
+										  	  		return '<i class="iconfont icon-xiugai Pmac" style="font-size:22px;cursor:pointer;margin-left:10px;display:none;" title="修改" data-toggle="modal" data-target="#change" onclick="getchangeOrg(this)"></i><i class="iconfont icon-shanchu Pmab" style="font-size:22px;cursor:pointer;margin-left:10px;display:none;" title="删除" id="delOrg"></i>'
 										        }
 										  }
 								],
@@ -248,6 +248,33 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					//console.log(arr2);
+            					if(arr[i].indexOf("Pmac") >= 0 ){
+            						$(".Pmac").show();
+            					}
+            					if(arr[i].indexOf("Pmab") >= 0 ){
+            						$(".Pmab").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
             }
         });
     }
