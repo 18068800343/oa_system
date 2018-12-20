@@ -62,41 +62,6 @@
 	//15	公司通知公告修改	Pbac+
 	$(".Pbac").hide();
 	
-	$.ajax({
-		type:"post",
-		url:getContextPath()+"/login/getUser",
-		data:{
-		},
-		success:function(json){
-			if(json!=null &&json!=""){
-				var arr = json.uPermissions.split(',');
-				
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbab'){
-						$(".Pbab").show();
-						break
-					}else{
-						$(".Pbab").hide();
-					}
-				}
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbac'){
-						$(".Pbac").show();
-						break
-					}else{
-						$(".Pbac").hide();
-					}
-				}
-			}else{
-				
-			}
-		}
-	});
-	
 	//16	部门通知公告新建	Pbad+
 	$(".Pbad").hide();
 	
@@ -105,42 +70,6 @@
 	
 	//18	部门通知公告修改	Pbaf+
 	$(".Pbaf").hide();
-	
-	$.ajax({
-		type:"post",
-		url:getContextPath()+"/login/getUser",
-		data:{
-		},
-		success:function(json){
-			if(json!=null &&json!=""){
-				var arr = json.uPermissions.split(',');
-				
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbae'){
-						$(".Pbae").show();
-						break
-					}else{
-						$(".Pbae").hide();
-					}
-				}
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbac'){
-						$(".Pbaf").show();
-						break
-					}else{
-						$(".Pbaf").hide();
-					}
-					
-				}
-			}else{
-				
-			}
-		}
-	});
 	
 	//19	项目印章管理菜单栏	Pbb+
 	$(".Pbb").hide();
@@ -151,86 +80,12 @@
 	$(".Pbbb").hide();
 	//22	刻制申请修改	Pbbc+
 	$(".Pbbc").hide();
-	
-	$.ajax({
-		type:"post",
-		url:getContextPath()+"/login/getUser",
-		data:{
-		},
-		success:function(json){
-			if(json!=null &&json!=""){
-				var arr = json.uPermissions.split(',');
-				
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbbb'){
-						$(".Pbbb").show();
-						break
-					}else{
-						$(".Pbbb").hide();
-					}
-				}
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbbc'){
-						$(".Pbbc").show();
-						break
-					}else{
-						$(".Pbbc").hide();
-					}
-					
-				}
-			}else{
-				
-			}
-		}
-	});
-	
 	//23	使用管理填报	Pbbd+
 	$(".Pbbd").hide();
 	//24	使用管理查看详细信息	Pbbe+
 	$(".Pbbe").hide();
 	//25	使用管理修改	Pbbf+
 	$("Pbbf").hide();
-	
-	$.ajax({
-		type:"post",
-		url:getContextPath()+"/login/getUser",
-		data:{
-		},
-		success:function(json){
-			if(json!=null &&json!=""){
-				var arr = json.uPermissions.split(',');
-				
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbbe'){
-						$(".Pbbe").show();
-						break
-					}else{
-						$(".Pbbe").hide();
-					}
-				}
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbbf'){
-						$(".Pbbf").show();
-						break
-					}else{
-						$(".Pbbf").hide();
-					}
-					
-				}
-			}else{
-				
-			}
-		}
-	});
-	
 	//26	成果文件用印管理菜单栏	Pbc+
 	$(".Pbc").hide();
 	//27	成果文件用印填报	Pbca+
@@ -239,43 +94,6 @@
 	$(".Pbcb").hide();
 	//29	成果文件用印修改	Pbcc+
 	$(".Pbcc").hide();
-	
-	$.ajax({
-		type:"post",
-		url:getContextPath()+"/login/getUser",
-		data:{
-		},
-		success:function(json){
-			if(json!=null &&json!=""){
-				var arr = json.uPermissions.split(',');
-				
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbcb'){
-						$(".Pbcb").show();
-						break
-					}else{
-						$(".Pbcb").hide();
-					}
-				}
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbcc'){
-						$(".Pbcc").show();
-						break
-					}else{
-						$(".Pbcc").hide();
-					}
-					
-				}
-			}else{
-				
-			}
-		}
-	});
-	
 	//30	培训管理菜单栏	Pbd+
 	$(".Pbd").hide();
 	//31	外出培训申请菜单栏	Pbda+
@@ -286,43 +104,6 @@
 	$(".Pbdab").hide();
 	//34	外出培训申请修改	Pbdac+
 	$(".Pbdac").hide();
-	
-	$.ajax({
-		type:"post",
-		url:getContextPath()+"/login/getUser",
-		data:{
-		},
-		success:function(json){
-			if(json!=null &&json!=""){
-				var arr = json.uPermissions.split(',');
-				
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbdab'){
-						$(".Pbdab").show();
-						break
-					}else{
-						$(".Pbdab").hide();
-					}
-				}
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbdac'){
-						$(".Pbdac").show();
-						break
-					}else{
-						$(".Pbdac").hide();
-					}
-					
-				}
-			}else{
-				
-			}
-		}
-	});
-	
 	//35	外部培训申请菜单栏	Pbdb+
 	$(".Pbdb").hide();
 	//36	外部培训申请填报	Pbdba+
@@ -331,43 +112,6 @@
 	$(".Pbdbb").hide();
 	//38	外部培训申请修改	Pbdbc+
 	$(".Pbdbc").hide();
-	
-	$.ajax({
-		type:"post",
-		url:getContextPath()+"/login/getUser",
-		data:{
-		},
-		success:function(json){
-			if(json!=null &&json!=""){
-				var arr = json.uPermissions.split(',');
-				
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbdbb'){
-						$(".Pbdbb").show();
-						break
-					}else{
-						$(".Pbdbb").hide();
-					}
-				}
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbdbc'){
-						$(".Pbdbc").show();
-						break
-					}else{
-						$(".Pbdbc").hide();
-					}
-					
-				}
-			}else{
-				
-			}
-		}
-	});
-	
 	//39	内部培训申请菜单栏	Pbdc+
 	$(".Pbdc").hide();
 	//40	内部培训申请填报	Pbdca+
@@ -376,43 +120,6 @@
 	$(".Pbdcb").hide();
 	//42	内部培训申请修改	Pbdcc+
 	$(".Pbdcc").hide();
-	
-	$.ajax({
-		type:"post",
-		url:getContextPath()+"/login/getUser",
-		data:{
-		},
-		success:function(json){
-			if(json!=null &&json!=""){
-				var arr = json.uPermissions.split(',');
-				
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbdcb'){
-						$(".Pbdcb").show();
-						break
-					}else{
-						$(".Pbdcb").hide();
-					}
-				}
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbdcc'){
-						$(".Pbdcc").show();
-						break
-					}else{
-						$(".Pbdcc").hide();
-					}
-					
-				}
-			}else{
-				
-			}
-		}
-	});
-	
 	//43	培训资料管理菜单栏	Pbdd+
 	$("Pbdd").hide();
 	//44	培训资料管理填报	Pbdda+
@@ -421,43 +128,6 @@
 	$(".Pbddb").hide();
 	//46	培训资料管理修改	Pbddc+
 	$(".Pbddc").hide();
-	
-	$.ajax({
-		type:"post",
-		url:getContextPath()+"/login/getUser",
-		data:{
-		},
-		success:function(json){
-			if(json!=null &&json!=""){
-				var arr = json.uPermissions.split(',');
-				
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbddb'){
-						$(".Pbddb").show();
-						break
-					}else{
-						$(".Pbddb").hide();
-					}
-				}
-				for(var i=0;i<arr.length;i++){
-					var arr2 = arr[i].replace("+","");
-					//console.log(arr2);
-					if(arr2=='Pbddc'){
-						$(".Pbddc").show();
-						break
-					}else{
-						$(".Pbddc").hide();
-					}
-					
-				}
-			}else{
-				
-			}
-		}
-	});
-	
 	//47	财务管理菜单栏	Pc+
 	$(".Pc").hide();
 	//48	财务收款菜单栏	Pca+
