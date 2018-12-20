@@ -572,7 +572,7 @@
 										    "targets": 7,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-icon-test Pcab" style="font-size:18px;cursor:pointer;" title="查看" onclick="look(this)"></i>';
+										  	  		return '<i class="iconfont icon-icon-test Pcab" style="font-size:18px;cursor:pointer;display:none;" title="查看" onclick="look(this)"></i>';
 										        }
 										  }
 								],
@@ -652,6 +652,30 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					//console.log(arr2);
+            					if(arr[i].indexOf("Pcab") >= 0 ){
+            						$(".Pcab").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
             }
         });
     }
