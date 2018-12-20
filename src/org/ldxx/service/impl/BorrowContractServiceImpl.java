@@ -70,5 +70,10 @@ public class BorrowContractServiceImpl implements BorrowContractService {
 		}
 		return i;
 	}
+
+	@Override
+	public BorrowContract selectBorrowById(String id) {
+		return dao.selectBorrowById(id);
+	}
 	
 }
