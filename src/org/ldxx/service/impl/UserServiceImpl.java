@@ -2,8 +2,10 @@ package org.ldxx.service.impl;
 
 import java.util.List;
 
+import org.ldxx.bean.Accessory;
 import org.ldxx.bean.Role;
 import org.ldxx.bean.User;
+import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.RoleDao;
 import org.ldxx.dao.UserDao;
 import org.ldxx.service.UserService;
@@ -21,10 +23,19 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private RoleDao roleDao;
+	@Autowired
+	private AccessoryDao adao;
 	
 	@Override
 	public int addUser(User user) {
-		return userDao.addUser(user);
+		int i= userDao.addUser(user);
+		 if(i>0){
+			List<Accessory> accessory = user.getAccessory();
+			if(accessory!=null&&accessory.size()>0){
+				i = adao.addAccessory(accessory);
+			}
+		}
+		return i;
 	}
 
 	@Override
@@ -34,7 +45,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int updateUser(User user) {
-		return userDao.updateUser(user);
+		int i= userDao.updateUser(user);
+		 if(i>0){
+			List<Accessory> accessory = user.getAccessory();
+			if(accessory!=null&&accessory.size()>0){
+				i = adao.addAccessory(accessory);
+			}
+		}
+		return i;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.util.List;
+
 public class User {
     private String userId;
 
@@ -51,7 +53,9 @@ public class User {
 
     private String dutyId;
 
-    private String dutyName;
+    private String dutyName;//岗位
+    
+    private String position;//职称
 
     private String certificate;
     
@@ -60,7 +64,7 @@ public class User {
     private String deleteState;//删除状态，0：已删除；1：未删除
 
     private String omName;//部门
-    private String dutyName2;//职称
+    private String dutyName2;//职务名称
     private String uPermissions;//权限编码
     
     private String userRole;
@@ -68,7 +72,24 @@ public class User {
     private String userRoleNames;
     
     
+    private List<Accessory> accessory;
+
     
+	public List<Accessory> getAccessory() {
+		return accessory;
+	}
+
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
 
 	public String getDeleteState() {
 		return deleteState;

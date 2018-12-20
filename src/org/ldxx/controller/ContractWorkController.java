@@ -353,7 +353,7 @@ public class ContractWorkController {
 	
 	@RequestMapping("/addContractWork3BySave")
 	@ResponseBody
-	public int addContractWork3BySave( String work,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1) throws IllegalStateException, IOException{
+	public int addContractWork3BySave( String work,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
@@ -400,12 +400,47 @@ public class ContractWorkController {
 			cwork.setAccessory1(list1);
 		}
 		int i=service.addContractWork(cwork);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(cwork.getMainDepartment());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(cwork.getCjContractName()+"合同竣工履约申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(cwork.getCjContractName()+"合同竣工履约申请流程发起");
+			currentFlow.setUrl("shengchanguanliLook/UndertakeContractHTLVSQ.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	@RequestMapping("/addContractWork3BySubmit")
 	@ResponseBody
-	public int addContractWork3BySubmit(String work,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1) throws IllegalStateException, IOException{
+	public String addContractWork3BySubmit(String work,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
@@ -452,7 +487,42 @@ public class ContractWorkController {
 			cwork.setAccessory1(list1);
 		}
 		int i=service.addContractWork(cwork);
-		return i;
+		String string = i+"";
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(cwork.getMainDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(cwork.getCjContractName()+"合同竣工履约申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(cwork.getCjContractName()+"合同竣工履约申请流程发起");
+			currentFlow.setUrl("shengchanguanliLook/UndertakeContractJGSQ.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/selectContractWorkByNo")
