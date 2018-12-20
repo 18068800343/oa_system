@@ -13,4 +13,6 @@ public interface ContractWorkService {
 	public ContractWork selectContractWorkByNo(String no);
 	
 	public ContractWork getContractMoney(String no);
+
+	public ContractWork selectContractWorkByid(String id);
 }

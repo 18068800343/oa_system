@@ -14,4 +14,6 @@ public interface ContractWorkDao {
 	public ContractWork selectContractWorkByNo(@Param("no")String no);
 	
 	public ContractWork getContractMoney(@Param("no")String no);
+
+	public ContractWork selectContractWorkByid(@Param("id")String id);
 }

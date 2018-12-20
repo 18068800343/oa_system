@@ -65,4 +65,9 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 		return dao.getContractMoney(no);
 	}
 
+	@Override
+	public ContractWork selectContractWorkByid(String id) {
+		return dao.selectContractWorkByid(id);
+	}
+
 }
