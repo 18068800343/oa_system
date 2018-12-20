@@ -201,7 +201,7 @@
 										    "targets": 3,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-icon-test Pfac" style="font-size:20px;cursor:pointer;margin-left:5px;" title="查看详细信息"   onclick="lookDetall(this)"></i><i class="iconfont icon-shanchu Pfad" style="font-size:20px;cursor:pointer;margin-left:5px;" title="删除" onclick="deleteCd(this)"></i>'
+										  	  		return '<i class="iconfont icon-icon-test Pfac" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息"   onclick="lookDetall(this)"></i><i class="iconfont icon-shanchu Pfad" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="删除" onclick="deleteCd(this)"></i>'
 										        }
 										  }
 								],
@@ -235,6 +235,33 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					//console.log(arr2);
+            					if(arr[i].indexOf("Pfac") >= 0 ){
+            						$(".Pfac").show();
+            					}
+            					if(arr[i].indexOf("Pfad") >= 0 ){
+            						$(".Pfad").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
             }
         });
     }
