@@ -72,7 +72,7 @@
                             <td id="lookhetongjiesuanMoney"></td>
                         </tr>
                         <tr>
-                            <td>已累进付金额(万元)</td>
+                            <td>已累计付款金额(万元)</td>
                             <td id="lookyileijinfuMoney"></td>
                             <td>付款申请代垫款(万元)</td>
                             <td id="lookdaidianMoney"></td>
@@ -83,12 +83,12 @@
                             <td>付款性质</td>
                             <td id="lookfukuantype"></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>收款单位</td>
                             <td id="lookshoukuandanwei"></td>
                             <td>本次实际付款(万元)</td>
                             <td id="lookbencishijifukuan"></td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td>付款单说明</td>
                             <td id="lookfukuandanshuoming"></td>
@@ -137,7 +137,7 @@
                     </table>
                     
                     <!-- 历史信息表格 -->
-				    <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory">
+				    <!-- <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory">
                         <thead>
                             <tr>
                                 <th colspan="6">历史信息</th>
@@ -153,7 +153,7 @@
                         <tbody>
                             
                         </tbody>
-                    </table>
+                    </table> -->
         
     </div>
 <!-- 历史详细信息 -->
@@ -211,7 +211,7 @@
                             <td id="HistoryhetongjiesuanMoney"></td>
                         </tr>
                         <tr>
-                            <td>已累进付金额(万元)</td>
+                            <td>已累计付款金额(万元)</td>
                             <td id="HistoryyileijinfuMoney"></td>
                             <td>付款申请代垫款(万元)</td>
                             <td id="HistorydaidianMoney"></td>
@@ -222,12 +222,12 @@
                             <td>付款性质</td>
                             <td id="Historyfukuantype"></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>收款单位</td>
                             <td id="Historyshoukuandanwei"></td>
                             <td>本次实际付款(万元)</td>
                             <td id="Historybencishijifukuan"></td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td>付款单说明</td>
                             <td id="Historyfukuandanshuoming"></td>
@@ -307,73 +307,84 @@
 	//查看详细信息
 	var payCode;
 	function initTable(){
-		
-		payCode=data.payCode;
-		initHistoryPay();
-		
-		$("#lookhetongming").text(data.contractName);
-		$("#lookhetonghao").text(data.contractNo);
-		$("#lookfukuandanhao").text(data.payCode);
-		$("#lookhetongMoney").text(data.contractMoney);
-		$("#lookyikaipiaoMoney").text(data.alreadyAccumulateMoney);
-		$("#lookthiskaipiaoMoney").text(data.thisTimeKpMoney);
-		$("#lookzhuhetongming").text(data.mainContractName);
-		$("#lookzhuhetongNo").text(data.mainContractCode);
-		$("#lookzhuhetongMoney").text(data.mainContractMoney);
-		$("#lookxiangmuming").text(data.prjName);
-		$("#lookrenwudanhao").text(data.prjListCode);
-		$("#lookhetongjindu").text(data.fbContractSchedule);
-		$("#lookisjinxinghetongjiesuan").text(data.ifContractDoCost);
-		$("#lookhetongjiesuanMoney").text(data.contractDoCostMoney);
-		$("#lookyileijinfuMoney").text(data.alreadyAccumulateMoney);
-		$("#lookdaidianMoney").text(data.generationAdvancesMoney)
-		$("#lookbencishenqingfukuan").text(data.thisTimeAskMoney);
-		$("#lookfukuantype").text(data.payMethod);
-		$("#lookshoukuandanwei").text(data.receieveMoneyCompany);
-		$("#lookbencishijifukuan").text(data.thisTimeActualPayMoney);
-		$("#lookfukuandanshuoming").text(data.payListExplain);
-		$("#lookyear").text(data.compilerTime);
-		$("#lookuserSignetMan").text(data.uName);
-		
-		
 		$.ajax({
-			type:"post",
-			url:getContextPath()+"/pay/selectAccessoryById",
-			dataType:"json",
-			async:false,
-			data:{
-				id:data.payId,
-			},
-			success:function(json){
-				console.log(json);
-				$("#look_accessory1 tbody").empty();
-				$("#look_accessory2 tbody").empty();
-				$("#look_accessory3 tbody").empty();
-	            for(var i=0;i<json.length;i++){
-	            	   if(json[i].aType=="开票附件"){
-		            	   $("#look_accessory1 tbody").append("<tr>"+
-									"<td>附件</td>"+
-				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-				         	    "</tr>");
-	            	   }
-	            	   if(json[i].aType=="附件上传"){
-		            	   $("#look_accessory2 tbody").append("<tr>"+
-									"<td>附件</td>"+
-				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-				         	    "</tr>");
-	            	   }
-	            	   if(json[i].aType=="法律顾问签字"){
-		            	   $("#look_accessory3 tbody").append("<tr>"+
-									"<td>附件</td>"+
-				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-				         	    "</tr>");
-	            	   }
-	               }
-			}
-		})
+	        type: 'POST',
+	        url: getContextPath()+'/pay/selectPayById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json
+	        	payCode=data.payCode;
+				//initHistoryPay();
+				
+				$("#lookhetongming").text(data.contractName);
+				$("#lookhetonghao").text(data.contractNo);
+				$("#lookfukuandanhao").text(data.payCode);
+				$("#lookhetongMoney").text(data.contractMoney);
+				$("#lookyikaipiaoMoney").text(data.alreadyKpMoney);
+				$("#lookthiskaipiaoMoney").text(data.thisTimeKpMoney);
+				$("#lookzhuhetongming").text(data.mainContractName);
+				$("#lookzhuhetongNo").text(data.mainContractCode);
+				$("#lookzhuhetongMoney").text(data.mainContractMoney);
+				$("#lookxiangmuming").text(data.prjName);
+				$("#lookrenwudanhao").text(data.prjListCode);
+				$("#lookhetongjindu").text(data.fbContractSchedule);
+				$("#lookisjinxinghetongjiesuan").text(data.ifContractDoCost);
+				$("#lookhetongjiesuanMoney").text(data.contractDoCostMoney);
+				$("#lookyileijinfuMoney").text(data.alreadyAccumulateMoney);
+				$("#lookdaidianMoney").text(data.generationAdvancesMoney)
+				$("#lookbencishenqingfukuan").text(data.thisTimeAskMoney);
+				$("#lookfukuantype").text(data.payMethod);
+				$("#lookfukuandanshuoming").text(data.payListExplain);
+				$("#lookyear").text(data.compilerTime);
+				$("#lookuserSignetMan").text(data.uName);
+				
+				
+				$.ajax({
+					type:"post",
+					url:getContextPath()+"/pay/selectAccessoryById",
+					dataType:"json",
+					async:false,
+					data:{
+						id:data.payId,
+					},
+					success:function(json){
+						console.log(json);
+						$("#look_accessory1 tbody").empty();
+						$("#look_accessory2 tbody").empty();
+						$("#look_accessory3 tbody").empty();
+			            for(var i=0;i<json.length;i++){
+			            	   if(json[i].aType=="开票附件"){
+				            	   $("#look_accessory1 tbody").append("<tr>"+
+											"<td>附件</td>"+
+						         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+						         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+						         	    "</tr>");
+			            	   }
+			            	   if(json[i].aType=="附件上传"){
+				            	   $("#look_accessory2 tbody").append("<tr>"+
+											"<td>附件</td>"+
+						         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+						         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+						         	    "</tr>");
+			            	   }
+			            	   if(json[i].aType=="法律顾问签字"){
+				            	   $("#look_accessory3 tbody").append("<tr>"+
+											"<td>附件</td>"+
+						         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+						         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+						         	    "</tr>");
+			            	   }
+			               }
+					}
+				})
+				
+	        }
+	    });
+		
 	}
 	//下载附件
 	function download_all(obj){
