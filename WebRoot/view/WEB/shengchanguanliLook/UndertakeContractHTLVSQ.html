@@ -150,72 +150,85 @@
    }
    // 调用方法
    	id=GetQueryString("prjId");
-  		
+  		console.log(id)
   		function initTable(){
-  			
-  			$("#look_cj_name2").text(data.cjContractName);
-  			$("#look_cj_no2").text(data.cjContractCode);
-  			$("#look_prj_no2").text(data.prjCode);
-  			$("#look_jiafang2").text(data.jiaFang);
-  			$("#look_contract_money2").text(data.contractMoney);
-  			$("#look_end_money2").text(data.endMoney);
-  			$("#look_all_money2").text(data.allReceieveMoney);
-  			$("#look_work_info2").text(data.workText);
-  			$("#look_prj_leader2").text(data.prjChargeMan);
-  			$("#look_rating").text(data.rating);
-  			$("#look_prj_manager2").text(data.prjManager);//项目经理
-  	  		$("#look_deputy1_prj_manager2").text(data.deputyPrjManager1);//项目副经理1
-  	  		$("#look_deputy2_prj_manager2").text(data.deputyPrjManager2);//项目副经理2
-  	  		$("#look_prj_general2").text(data.prjGeneral);//项目总工
-  	  		$("#look_prj_duration2").text(data.prjDuration);//项目工期
-  	  		$("#look_prj_grade2").text(data.prjGrade);//公路等级
-  			$("#look_department2 tbody").html('');
-  			$("#look_department2 tbody").append("<tr><td>主办部门</td><td>"+data.name+"</td><td>金额</td><td>"+data.mainDepartmentMoney+"</td></tr>")
-  			if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
-  				$("#look_department2 tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>金额</td><td>"+data.assistDepartment1Money+"</td></tr>")
-  			}
-  			if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
-  				$("#look_department2 tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>金额</td><td>"+data.assistDepartment2Money+"</td></tr>")
-  			}
-  			if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
-  				$("#look_department2 tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>金额</td><td>"+data.assistDepartment3Money+"</td></tr>")
-  			}
-  			
   			$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/work/selectDepartmentAndPerson',
-                dataType: 'json',
-                data: {
-                	id:data.cwId
-                },
-                success: function (json) {
-                	var enterprise=json.enterprise;
-                	var accessory=json.accessory;
-                	$("#look_person2 tbody").html('');
-                	$("#look_accessory2 tbody").html('');
-                	$("#look_accessory21 tbody").html('');
-                	for(var i=0;i<enterprise.length;i++){
-                		$("#look_person2 tbody").append("<tr><td>"+enterprise[i].eMan+"</td><td>"+enterprise[i].eTel+"</td></tr>")
-                	}
-					for(var j=0;j<accessory.length;j++){
-						//$("#look_accessory2 tbody").append("<tr><td>附件"+(j+1)+"</td><td>"+accessory[j].acName+"</td><td><button type='button' data="+accessory[j].acUrl+" class='btn btn-primary' onclick='downLoadFile(this)'>下载附件</button></td></tr>")
-						if(accessory[j].aType=="合同文本"){
-			            	   $("#look_accessory2 tbody").append("<tr>"+
-		      	   										"<td>附件</td>"+
-								            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
-								            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
-								            	    "</tr>");
-		            	   }
-		            	 if(accessory[j].aType=="法律顾问签字"){
-			            	   $("#look_accessory21 tbody").append("<tr>"+
-		      	   										"<td>附件</td>"+
-								            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
-								            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
-								            	    "</tr>");
-		            	   }
-                	}
-                }
-      		});
+  		        type: 'POST',
+  		        url: getContextPath()+'/work/selectContractWorkByid',
+  		        dataType: 'json',
+  		        data:{
+  		        	id:id
+  		        },
+  		        success: function (json) {
+  		        	console.log(json)
+  		        	data=json;
+  		        	$("#look_cj_name2").text(data.cjContractName);
+  		  			$("#look_cj_no2").text(data.cjContractCode);
+  		  			$("#look_prj_no2").text(data.prjCode);
+  		  			$("#look_jiafang2").text(data.jiaFang);
+  		  			$("#look_contract_money2").text(data.contractMoney);
+  		  			$("#look_end_money2").text(data.endMoney);
+  		  			$("#look_all_money2").text(data.allReceieveMoney);
+  		  			$("#look_work_info2").text(data.workText);
+  		  			$("#look_prj_leader2").text(data.prjChargeMan);
+  		  			$("#look_rating").text(data.rating);
+  		  			$("#look_prj_manager2").text(data.prjManager);//项目经理
+  		  	  		$("#look_deputy1_prj_manager2").text(data.deputyPrjManager1);//项目副经理1
+  		  	  		$("#look_deputy2_prj_manager2").text(data.deputyPrjManager2);//项目副经理2
+  		  	  		$("#look_prj_general2").text(data.prjGeneral);//项目总工
+  		  	  		$("#look_prj_duration2").text(data.prjDuration);//项目工期
+  		  	  		$("#look_prj_grade2").text(data.prjGrade);//公路等级
+  		  			$("#look_department2 tbody").html('');
+  		  			$("#look_department2 tbody").append("<tr><td>主办部门</td><td>"+data.name+"</td><td>金额</td><td>"+data.mainDepartmentMoney+"</td></tr>")
+  		  			if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
+  		  				$("#look_department2 tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>金额</td><td>"+data.assistDepartment1Money+"</td></tr>")
+  		  			}
+  		  			if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
+  		  				$("#look_department2 tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>金额</td><td>"+data.assistDepartment2Money+"</td></tr>")
+  		  			}
+  		  			if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
+  		  				$("#look_department2 tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>金额</td><td>"+data.assistDepartment3Money+"</td></tr>")
+  		  			}
+  		  			
+  		  			$.ajax({
+  		                type: 'POST',
+  		                url: getContextPath()+'/work/selectDepartmentAndPerson',
+  		                dataType: 'json',
+  		                data: {
+  		                	id:data.cwId
+  		                },
+  		                success: function (json) {
+  		                	var enterprise=json.enterprise;
+  		                	var accessory=json.accessory;
+  		                	$("#look_person2 tbody").html('');
+  		                	$("#look_accessory2 tbody").html('');
+  		                	$("#look_accessory21 tbody").html('');
+  		                	for(var i=0;i<enterprise.length;i++){
+  		                		$("#look_person2 tbody").append("<tr><td>"+enterprise[i].eMan+"</td><td>"+enterprise[i].eTel+"</td></tr>")
+  		                	}
+  							for(var j=0;j<accessory.length;j++){
+  								//$("#look_accessory2 tbody").append("<tr><td>附件"+(j+1)+"</td><td>"+accessory[j].acName+"</td><td><button type='button' data="+accessory[j].acUrl+" class='btn btn-primary' onclick='downLoadFile(this)'>下载附件</button></td></tr>")
+  								if(accessory[j].aType=="合同文本"){
+  					            	   $("#look_accessory2 tbody").append("<tr>"+
+  				      	   										"<td>附件</td>"+
+  										            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
+  										            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
+  										            	    "</tr>");
+  				            	   }
+  				            	 if(accessory[j].aType=="法律顾问签字"){
+  					            	   $("#look_accessory21 tbody").append("<tr>"+
+  				      	   										"<td>附件</td>"+
+  										            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
+  										            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
+  										            	    "</tr>");
+  				            	   }
+  		                	}
+  		                }
+  		      		});
+  		  			
+  		        }
+  		    });
+  			
   			
   		}
   		
