@@ -3,6 +3,7 @@ package org.ldxx.service.impl;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.FbContract;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.SubContractDao;
@@ -143,6 +144,11 @@ public class SubContractServiceImpl implements SubContractService {
 			i=scDao.updateHistoryNow(id);
 		}
 		return i;
+	}
+
+	@Override
+	public CjContract getCjContractMainPrjLeaderByFbNo(String fbNo) {
+		return scDao.getCjContractMainPrjLeaderByFbNo(fbNo);
 	}
 
 }

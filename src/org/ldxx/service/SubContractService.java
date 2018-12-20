@@ -3,6 +3,7 @@ package org.ldxx.service;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.FbContract;
 
 public interface SubContractService {
@@ -43,5 +44,6 @@ public interface SubContractService {
 
 	int updateHistoryById(String id);
 
+	CjContract getCjContractMainPrjLeaderByFbNo(String fbNo);
 
 }

@@ -107,6 +107,7 @@ public class OtherContractConroller {
 			currentFlow.setSdtofnode(new Date());
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getuName());
@@ -192,6 +193,7 @@ public class OtherContractConroller {
 			currentFlow.setSdtofnode(new Date());
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getuName());

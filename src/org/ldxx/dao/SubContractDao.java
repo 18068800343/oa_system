@@ -3,6 +3,7 @@ package org.ldxx.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.FbContract;
 
 public interface SubContractDao {
@@ -41,5 +42,6 @@ public interface SubContractDao {
 
 	int updateHistoryNow(@Param("id")String id);
 
-
+	CjContract getCjContractMainPrjLeaderByFbNo(@Param("fbNo")String fbNo);
+	
 }
