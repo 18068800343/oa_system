@@ -51,12 +51,8 @@
                             <td id="lookcjhetonghao"></td>
                         </tr>
                         <tr>
-                        	<td style="width:100px;">采购结算申请单号</td>
-                            <td id="lookcgjshao"></td>
                             <td>审计结算类型</td>
                             <td id="lookjiesuantype"></td>
-                        </tr>
-                        <tr>
                             <td>时间</td>
                             <td id="lookyear"></td>
                         </tr>
@@ -68,7 +64,7 @@
                     <table class="table table-bordered table-condensed" id="look_cgjs_accessory">
 					</table>
                      <!-- 历史信息表格 -->
-				    <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory2">
+				    <!-- <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory2">
                         <thead>
                             <tr>
                                 <th colspan="6">历史信息</th>
@@ -84,10 +80,10 @@
                         <tbody>
                             
                         </tbody>
-                    </table>
+                    </table> -->
                     
 <!-- 采购结算申请历史所有信息 -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="History2">
+<!-- <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="History2">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
@@ -141,7 +137,7 @@
         </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- allMsg结束 -->
 
         
@@ -222,13 +218,29 @@
 		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
 	}
 	
-    
+	function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   console.log(id)
+   
     //查看详细信息
     var no;
     function initTable(){
-    	
-		//console.log(data)
-		no=data.cgjsNo;
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/materialPurchaseSettlement/selectmaterialPurchaseSettlementById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	data=json;
+	        	no=data.cgjsNo;
 		
 		$("#lookprjName2").text(data.prjName);
     	$("#looktaskNo2").text(data.taskNo);
@@ -241,7 +253,7 @@
     	$("#lookyear").text(data.settlementTime);
     	$("#lookgaishu").text(data.purchaseSettlementDesc);
     	
-    	initTableHistory2();
+    	//initTableHistory2();
     	
     	$.ajax({
 			type:"post",
@@ -265,6 +277,10 @@
 	               }
 			}
 		})
+	        }
+	    });
+		//console.log(data)
+		
     }
   //初始化历史列表
 	function initTableHistory2(){

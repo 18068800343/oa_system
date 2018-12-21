@@ -33,9 +33,9 @@
 <!-- 3 -->
 				<table class="table table-bordered table-condensed">
                         <tr>
-                            <td>采购合同名称</td>
+                            <td style="width:150px;">采购合同名称</td>
                             <td id="lookcghetongming"></td>
-                            <td style="width:100px;">采购合同号</td>
+                            <td  style="width:150px;">采购合同号</td>
                             <td id="lookcghetonghao"></td>
                         </tr>
                         <tr>
@@ -44,12 +44,12 @@
                             <td>项目负责人</td>
                             <td id="lookprjperson3"></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td style="width:100px;">承接合同名称</td>
                             <td id="lookcjhetongming"></td>
                             <td>承接合同编号</td>
                             <td id="lookcjhetongbianhao"></td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td>合同乙方</td>
                             <td id="lookyifang"></td>
@@ -59,24 +59,22 @@
                         <tr>
                             <td>合同金额(万元)</td>
                             <td id="lookhetongMoney"></td>
-                            <td>暂定金(万元)</td>
-                            <td id="lookzandingMoney"></td>
-                        </tr>
-                        <tr>
+                            <!-- <td>暂定金(万元)</td>
+                            <td id="lookzandingMoney"></td> -->
                             <td>结算金额(万元)</td>
                             <td id="lookjiesuanMoney"></td>
+                        </tr>
+                        <tr>
                             <td>结算说明</td>
                             <td id="lookjiesuandesc"></td>
-                        </tr>
-                        <tr>
                             <td>累计付款(万元)</td>
                             <td id="lookljfukuan"></td>
-                            <td>履约评级</td>
-                            <td id="looklypingji"></td>
                         </tr>
                         <tr>
-                           	<td>采购合同履约申请单号</td>
-                            <td id="lookcglydanhao"></td>
+                            <td>履约评级</td>
+                            <td id="looklypingji"></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>项目概况、工作内容、实际工期</td>
@@ -90,7 +88,7 @@
 				                        		
 				    </table>
 				    <!-- 历史信息表格 -->
-				    <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory3">
+				    <!-- <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory3">
                         <thead>
                             <tr>
                                 <th colspan="6">历史信息</th>
@@ -106,9 +104,9 @@
                         <tbody>
                             
                         </tbody>
-                    </table>
+                    </table> -->
 <!-- 采购合同履约历史信息开始 -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="History3">
+<!-- <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="History3">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
@@ -169,10 +167,10 @@
                             <td>项目概况、工作内容、实际工期</td>
                             <td colspan="3" id="Historyprjgaikuang"></td>
                         </tr>
-<!--                         <tr>
+                        <tr>
                             <td>附件</td>
                             <td colspan="3">asrasrasr</td>
-                        </tr> -->
+                        </tr>
                     </table>
 					<table class="table table-bordered table-condensed"  id="History_all_table">
 				                        		
@@ -188,7 +186,7 @@
         </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- 历史结束 -->
 
         
@@ -255,34 +253,78 @@
         }},
 	});
  
-<!-- **************************************履约评价******************************************** -->
-	
+<!-- **************************************合同履约******************************************** -->
+function GetQueryString(name){
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null)return  unescape(r[2]); return null;
+}
+// 调用方法
+	id=GetQueryString("prjId");
+	console.log(id)
 	//查看详细信息
 	var code;
 	function initTable(){
-		
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/materialPerformance/selectmaterialPerformanceById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	code=data.materialContractCode
+				
+	        	$("#lookcghetongming").text(data.cgContract);
+	    		$("#lookcghetonghao").text(data.cgNo);
+	    		$("#lookrenwudanhao").text(data.taskNo);
+	    		$("#lookprjperson3").text(data.prjPerson);
+	    		$("#lookyifang").text(data.spName);
+	    		$("#lookfbperson").text(data.fbPerson);
+	    		$("#lookhetongMoney").text(data.contractMoney);
+	    		$("#lookjiesuanMoney").text(data.settlementMoney);
+	    		$("#lookjiesuandesc").text(data.settlementDesc);
+	    		$("#lookljfukuan").text(data.accumulativePaymentMoney);
+	    		$("#looklypingji").text(data.performanceGrade);
+	    		$("#lookprjgaikuang").text(data.performanceDesc);
+	    		$.ajax({
+	    			type:"post",
+	    			url:getContextPath()+"/materialPerformance/selectAccessoryById",
+	    			dataType:"json",
+	    			async:false,
+	    			data:{
+	    				id:data.pId,
+	    			},
+	    			success:function(json){
+	    				console.log(json);
+	    				$("#look_all_table").empty();
+	    				$("#look_all_table2").empty();
+	    	               for(var i=0;i<json.length;i++){
+	    	            	   if(json[i].aType=="合同文本"){
+	    		            	   $("#look_all_table").append("<tr>"+
+	    	      	   										"<td style='width:15%;'>合同文本</td>"+
+	    							            	    	"<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+	    							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+	    							            	    "</tr>");
+	    	            	   }
+	    	            	   if(json[i].aType=="法律顾问签字"){
+	    		            	   $("#look_all_table2").append("<tr>"+
+	    	      	   										"<td style='width:15%;'>法律顾问签字</td>"+
+	    							            	    	"<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+	    							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+	    							            	    "</tr>");
+	    	            	   }
+	    	               }
+	    			}
+	    		})
+	        }
+	    });
 		//console.log(data)
-		code=data.materialContractCode
 		
-		$("#lookprjName").text(data.prjName);
-		$("#looktaskNo").text(data.taskNo);
-		$("#lookprjfuzeren").text(data.prjPerson);
-		$("#lookdepartment").text(data.omName);
-		$("#lookclcgbianhao").text(data.materialContractCode);
-		$("#lookhetongleijiMoney").text(data.contractAllMoney);
-		$("#lookhetongshijijiesuanMoney").text(data.contractEndMoney);
-		$("#lookfukuantype").text(data.payMode);
-		$("#lookshijifuzeren").text(data.actualChargePerson);
 		
-		$("#lookpj1").text(data.scoreProductQualityEase);
-		$("#lookpj2").text(data.scoreGiveProductionTime)
-		$("#lookpj3").text(data.scoreMaterialReport)
-		$("#lookpj4").text(data.scoreCustomerUse)
-		$("#lookpj5").text(data.scorePayModeEvaluate)
-		$("#lookpj6").text(data.scoreSafetyCivilizationEnvironment)
-		$("#lookpj7").text(data.allScore)
-		
-		initTableHistory();
+		//initTableHistory();
 	}
 	
 	//初始化历史列表
