@@ -79,7 +79,7 @@ public class PrjProgressFillController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+id+File.separator+"PrjProgressFill";
+				String path="D:"+File.separator+"oa"+File.separator+"PrjProgressFill"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -171,7 +171,7 @@ public class PrjProgressFillController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+id+File.separator+"PrjProgressFill";
+				String path="D:"+File.separator+"oa"+File.separator+"PrjProgressFill"+File.separator+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -200,7 +200,7 @@ public class PrjProgressFillController {
 			pf.setStatus(3);
 		}
 		int i=service.addPrjProgressFill(pf);
-		String string="";
+		String string=i+"";
 		if(i>0){
 			Task ta=tService.selectPrjLeaderByPrjNo(pf.getTaskNo());
 			String mainDepartment=ta.getMainDepartment();
