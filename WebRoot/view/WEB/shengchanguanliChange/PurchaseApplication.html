@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>生产管理</li>
+            <li>材料采购管理</li>
+			<li class="active">材料采购申请</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        <div class="UpperPart">
+            <div class="UpperPartL">
+                
+            </div>
+            <div class="UpperPartR">
+                <button type="button" class="btn btn-primary Pedaa" data-toggle="modal" data-target="#myModal">填报材料采购申请</button>
+            </div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document" style="width:75%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报材料采购申请</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:11%;">申请部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:39%;">
+                                    <select class="form-control" style="width:70%;" id="department">
+                                    </select>
+                                </td>
+                                <td style="width:10%;">申请人</td>
+                                <td style="width:40%;">
+                                	<input type="text" id="person" class="form-control" disabled style="width:70%;">
+                                    <button type="button" class="btn btn-default"  id="choseren">选择申请人</button>
+                                    <!-- <select class="form-control" style="width:70%;" id="person">
+                                    </select> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>申请项目  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <!-- <select class="form-control" style="width:70%;" id="prj_name">
+                                    </select> -->  
+                                    <input type="text" class="form-control" id="prj_name" disabled  style="width:70%;">
+                               		<button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="chosexm">选择项目</button>  
+                                </td>
+                                <td>任务单号</td>
+                                <td>
+                                	<select class="form-control" style="width:70%;" id="prj_no">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>承接合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:70%;" id="cj_name">
+                                    </select>
+                                </td>
+                                <td>承接合同编号</td>
+                                <td>
+                                	<select class="form-control" style="width:70%;" id="cj_no">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>申请原因</td>
+                                <td colspan="3"><textarea style="width:80%;" rows="5" id="reasons"></textarea></td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+
+                <div>
+                    <table class="table table-bordered table-condensed"  id="cl_table">
+                    	<thead>
+                    		<tr>
+	                            <td style="font-size:24px;" colspan="8">添加材料需求  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                        	<td style="width:5%;"><button type="button" class="btn btn btn-primary" onclick="add()">添加</button></td>
+                        	</tr>
+                        	<tr>
+	                            <td style="width:10%;">材料名称</td>
+	                            <td style="width:10%;">材料类型</td>
+	                            <td style="width:10%;">规格型号</td>
+	                            <td style="width:6%;">单位</td>
+	                            <td style="width:8%;">数量</td>
+	                            <td style="width:15%;">项目部推荐供应商</td>
+	                            <td style="width:15%;">公司确定供应商</td>
+	                            <td style="width:10%;">备注</td>
+	                            <td style="width:6%;">操作</td>
+                        	</tr>
+                        </thead>
+                        <tbody>
+                        	<tr>
+	                        	<td><input type="text" class="form-control" id="cl_name"></td>
+	                            <td>
+	                            	<select class="form-control" id="cl_type"></select>
+	                            </td>
+	                            <td><input type="text" class="form-control" id="mode_type"></td>
+	                            <td>
+	                                <select class="form-control" id="unit">
+	                                    <option value="个">个</option>
+	                                    <option value="只">只</option>
+	                                    <option value="套">套</option>
+	                                    <option value="副">副</option>
+	                                    <option value="双">双</option>
+	                                    <option value="万元">万元</option>
+	                                    <option value="桶">桶</option>
+	                                </select>
+	                            </td>
+	                            <td><input type="text" class="form-control" id="num"></td>
+	                            <td>
+	                            	<select class=" form-control" style="width:100%;" id="department_tj">
+	                                </select>
+	                            </td>
+	                            <td>
+	                            	<select class=" form-control" style="width:100%;" id="company_sure">
+	                                </select>
+	                            </td>
+	                            <td><input type="text" class="form-control" id="desc"></td>
+	                            <td></td>
+                        	</tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="save()">保存</button>
+            <button type="button" class="btn btn-success" onclick="submit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+<!-- Modal项目 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xiangmumd">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xiangmubiao">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>编号</th>
+                                    <th>项目名称</th>
+                                    <th>项目所属公司</th>
+                                    <th>项目类型</th>
+                                    <th>甲方单位</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="quedingxm">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+<!-- Modal选人 -->
+<div class="modal fade" id="people" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel"></h4>
+	      </div>
+	      <div class="modal-body">
+	       			<!-- <select class="form-control" style="width:180px;" id=""></select> -->
+	       			<table class="table table-bordered table-condensed" id="mingzibiao">
+	       				<thead>
+	       					<tr>
+	       						<th></th>
+	       						<th>姓名</th>
+	       						<th>工号</th>
+	       						<th>出生日期</th>
+	       						<th>性别</th>
+	       						<th>职务</th>
+	       					</tr>
+	       				</thead>
+	       				<tbody></tbody>
+	       			</table>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" id="querenciren">确定</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+<!-- Modal选人结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-condensed" id="tijiaoren">
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
+                        </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
+<!-- 修改Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改材料采购申请</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:20%;">申请部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:30%;">
+                                	<input type="text" class="form-control" id="edit_department" disabled>
+                                    <!-- <select class="form-control" style="width:70%;" id="edit_department" disabled>
+                                    </select> -->
+                                </td>
+                                <td style="width:20%;">申请人</td>
+                                <td style="width:30%;">
+                                	<input type="text" class="form-control" id="edit_person" disabled>
+                                    <!-- <select class="form-control" style="width:70%;" id="edit_person" disabled>
+                                    </select> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>申请项目  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                	<input type="text" class="form-control" id="edit_prj_name" disabled>
+                                    <!-- <select class="form-control" style="width:70%;" id="edit_prj_name" disabled>
+                                    </select> -->
+                                </td>
+                                <td>任务单号</td>
+                                <td>
+                                	<input type="text" class="form-control" id="edit_prj_no" disabled>
+                                	<!-- <select class="form-control" style="width:70%;" id="edit_prj_no" disabled>
+                                    </select> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>承接合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                	<input type="text" class="form-control" id="edit_cj_name" disabled>
+                                    <!-- <select class="form-control" style="width:70%;" id="edit_cj_name" disabled>
+                                    </select> -->
+                                </td>
+                                <td>承接合同编号</td>
+                                <td>
+                                	<input type="text" class="form-control" id="edit_cj_no" disabled>
+                                	<!-- <select class="form-control" style="width:70%;" id="edit_cj_no" disabled>
+                                    </select> -->
+                                </td>
+                            </tr>
+                            <tr>
+                            	 <td>申请单编号</td>
+                            	 <td>
+                            	 	<input type="text" class="form-control" id="edit_code" disabled>
+                            	 </td>
+                            	 <td></td>
+                            	 <td></td>
+                            </tr>
+                            <tr>
+                                <td>申请原因</td>
+                                <td colspan="3"><textarea style="width:80%;" rows="5" id="edit_reasons" disabled></textarea></td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+
+                <div>
+                    <table class="table table-bordered table-condensed"  id="edit_cl_table">
+                    	<thead>
+                    		<tr>
+	                            <td style="font-size:24px;" colspan="8">添加材料需求  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                        	<td style="width:5%;"><button type="button" class="btn btn btn-primary" onclick="add2()">添加</button></td>
+                        	</tr>
+                        	<tr>
+	                            <td>材料名称</td>
+	                            <td>材料类型</td>
+	                            <td>规格型号</td>
+	                            <td style="width:8%;">单位</td>
+	                            <td style="width:8%;">数量</td>
+	                            <td>单价</td>
+	                            <td>项目部推荐供应商</td>
+	                            <td>公司确定供应商</td>
+	                            <td>备注</td>
+	                            <td>操作</td>
+                        	</tr>
+                        </thead>
+                        <tbody>
+                        	
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="edit_save()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改model结束 -->
+
+        </div>
+        <div class="LowerPart" style="margin-top:3px;">
+            <table class="table table-bordered table-condensed" id="mainContent">
+                <thead>
+                    <tr>
+                        <th>申请单编号</th>
+                        <th>申请项目</th>
+                        <th>任务单号</th>
+                        <th>承接合同名称</th>
+                        <th>承接合同编号</th>
+                        <th>申请部门</th>
+                        <th>申请人</th>
+                        <th style="width:75px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>   
+            </table>
+        </div>
+    </div>
+<!-- allMsg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:20%;">申请部门</td>
+                                <td style="width:30%;" id="look_department"></td>
+                                <td style="width:20%;">申请人</td>
+                                <td style="width:30%;" id="look_person"></td>
+                            </tr>
+                            <tr>
+                                <td>申请项目</td>
+                                <td id="look_prj_name"></td>
+                                <td>任务单号</td>
+                                <td id="look_prj_no"></td>
+                            </tr>
+                            <tr>
+                                <td>承接合同名称</td>
+                                <td id="look_cj_name"></td>
+                                <td>承接合同编号</td>
+                                <td id="look_cj_no"></td>
+                            </tr>
+                            <tr>
+                            	 <td>申请单编号</td>
+                            	 <td id="look_code"></td>
+                            	 <td></td>
+                            	 <td></td>
+                            </tr>
+                            <tr>
+                                <td>申请原因</td>
+                                <td colspan="3" id="look_reasons"></td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+
+                <div>
+                    <table class="table table-bordered table-condensed"  id="look_cl_table">
+                    	<thead>
+                    		<tr>
+                    			<td>总价格：</td><td id="sum_price" style="color:red;"></td>
+                    			<td colspan="7"></td>
+                    		</tr>
+                        	<tr>
+	                            <td>材料名称</td>
+	                            <td>材料类型</td>
+	                            <td>规格型号</td>
+	                            <td style="width:8%;">单位</td>
+	                            <td style="width:8%;">数量</td>
+	                            <td>单价</td>
+	                            <td>项目部推荐供应商</td>
+	                            <td>公司确定供应商</td>
+	                            <td>备注</td>
+                        	</tr>
+                        </thead>
+                        <tbody>
+                        	
+                        </tbody>
+                    </table>
+                </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg结束 -->
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script>
+    $(document).ready( function () {
+    	initDepartment();
+    	initPrj();
+    	initSupplier();
+    	initTable();
+    	initClType();
+	});
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "taskCode"}, 
+		            { "data": null}, 
+		            { "data": "applyCode"}, 
+		            { "data": null}, 
+		            { "data": "cjContractCode"}, 
+		            { "data": "omName"}, 
+		            { "data": "uName"}, 
+		            { "data": null},
+		        ],
+		        "columnDefs": [
+								{	
+								 "class": "tcenter",
+								  "targets": 1,
+								  "searchable": true,
+								  "render": function(data, type, full) {
+										return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.applyPrj+'</a>'
+								  }
+								},
+								{	
+								  "class": "tcenter",
+								   "targets":3,
+								   "searchable": true,
+								   "render": function(data, type, full) {
+										return '<a onclick="gotoCj(this)" style="color:	#4876FF;cursor: pointer;">'+data.cjContractName+'</a>'
+								   }
+								},
+								{	
+										 "class": "tcenter",
+										    "targets": 7,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	return '<i class="iconfont icon-icon-test Pedab" style="font-size:18px;cursor:pointer;" onclick="look(this)" title="查看"></i>';
+										    	/* return '<i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" onclick="look(this)" title="查看"></i>&nbsp<i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="材料修改" onclick="update(this)"></i>'; */
+										        }
+										  }
+								],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table3=$('#xiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+		            { "data": "prjNo"},
+		            { "data": "prjName"},
+		            { "data": "prjCompany"},
+		            { "data": "prjType2"},
+		            { "data": "ccName"},
+		            
+		        ],
+		        "columnDefs": [
+								{
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xiangmuName" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    //已知部门选人
+    var tableren=$('#mingzibiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="mingzi" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/PrjMaterialBuy/selectPrjMaterialBuy',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+
+    function getCreat(bb){
+        var EnterpriseRating= $(bb).parent().prev().text();
+        var Remarks= $(bb).parent().prev().prev().text();
+        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
+        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
+        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
+        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
+        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
+        $("#CEnterprise-rating").val(EnterpriseRating);
+        $("#CRemarks").val(Remarks);
+        $("#CContact-phone1").val(ContactPhone1);
+        $("#CContacts").val(Contacts);
+        $("#Caddress").val(address);
+        $("#CProprietor-unit").val(ProprietorUnit);
+        $("#CCode").val(Code);
+        rowIndex = bb.parentNode.parentNode.rowIndex; 
+    }
+    
+    function initDepartment(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+                for(var i=0;i<json.length;i++){
+                	$("#department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                }
+                $("#department").trigger("change");
+            }
+		});
+    }
+
+  /*   $("#department").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/user/selectUserByomId',
+            dataType: 'json',
+            data: {
+            	omId:$("#department").val()
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	$("#person").html('');
+                for(var i=0;i<json.length;i++){
+                	$("#person").append("<option value="+json[i].userId+">"+json[i].uName+"</option>");
+                }
+            }
+		});
+    }) */
+    
+    //已知部门，获取部门所属人员
+	$("#choseren").click(function(){
+		$("#people").modal("show");
+		$('#people').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/user/selectUserByomId',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	omId:$("#department").val()
+	            },
+	            success: function (json) {
+	            	//console.log(json)
+	                $('#mingzibiao').dataTable().fnClearTable();
+	                $('#mingzibiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+	})
+	//添加人员到input框
+	$("#querenciren").click(function(){
+		var a=$("input[name='mingzi']:checked").parent().next().text();
+		$("#person").val(a);
+		$("#people").modal("hide");
+	})
+	
+	
+    //选择项目
+	$("#chosexm").click(function(){
+		$("#xiangmumd").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            },
+	            success: function (json) {
+	            	//console.log(json)
+	                $('#xiangmubiao').dataTable().fnClearTable();
+	                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+	})
+	$("#quedingxm").click(function(){
+		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
+		var jiafang=$("input[name='xiangmuName']:checked").parent().next().next().next().next().next().text();
+		$("#prj_name").val(prjname);
+		$("#prj_no").val(prjNo);
+		$("#xiangmumd").modal("hide");
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectCjByTaskName',
+            dataType: 'json',
+            data: {
+            	name:$('#prj_name').val()
+            },
+            success: function (json) {
+            	var task=json.task;
+            	var cj=json.cj;
+            	$('#prj_no').val(task.prjNo);
+            	$("#cj_name").html('');
+            	$("#cj_name").next().html('');
+            	$("#cj_no").html('');
+            	$("#cj_no").next().html('');
+            	for(var i=0;i<cj.length;i++){
+            		$("#cj_name").append('<option>'+cj[i].contractName+'</option>');
+            		$("#cj_name").next().append('<li value="'+cj[i].contractName+'" class="es-visible">'+cj[i].contractName+'</li>');
+                	$("#cj_no").append('<option>'+cj[i].contractNo+'</option>');
+                	$("#cj_no").next().append('<li value="'+cj[i].contractNo+'" class="es-visible">'+cj[i].contractNo+'</li>');
+            	}
+            	
+            	$('#cj_name').editableSelect().on('select.editable-select', function (e, dom) {
+            		$.ajax({
+                        type: 'POST',
+                        url: getContextPath()+'/cj/selectCjContractByName',
+                        dataType: 'json',
+                        data: {
+                        	name:$('#cj_name').val()
+                        },
+                        success: function (json) {
+                        	$('#cj_no').val(json.contractNo);
+                        }
+              		});
+              	})
+              	$('#cj_no').editableSelect().on('select.editable-select', function (e, dom) {
+              		$.ajax({
+                        type: 'POST',
+                        url: getContextPath()+'/cj/selectCjContractByNo',
+                        dataType: 'json',
+                        data: {
+                        	no:$('#cj_no').val()
+                        },
+                        success: function (json) {
+                        	$('#cj_name').val(json.contractName);
+                        }
+              		});
+    		  	})
+            	
+            	
+            }
+  		})
+	})
+    
+    /* 初始化任务单号，项目名称 以及承接编号 承接名称 change事件 */
+    function initPrj(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+            dataType: 'json',
+            data: {
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+                for(var i=0;i<json.length;i++){
+                	//$("#prj_name").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
+                	$("#prj_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+                }
+                
+	                  /* $('#prj_name').editableSelect().on('select.editable-select', function (e, dom) {
+		        		$.ajax({
+		                    type: 'POST',
+		                    url: getContextPath()+'/task/selectCjByTaskName',
+		                    dataType: 'json',
+		                    data: {
+		                    	name:$('#prj_name').val()
+		                    },
+		                    success: function (json) {
+		                    	var task=json.task;
+		                    	var cj=json.cj;
+		                    	$('#prj_no').val(task.prjNo);
+		                    	$("#cj_name").html('');
+		                    	$("#cj_name").next().html('');
+		                    	$("#cj_no").html('');
+		                    	$("#cj_no").next().html('');
+		                    	for(var i=0;i<cj.length;i++){
+		                    		$("#cj_name").append('<option>'+cj[i].contractName+'</option>');
+		                    		$("#cj_name").next().append('<li value="'+cj[i].contractName+'" class="es-visible">'+cj[i].contractName+'</li>');
+			                    	$("#cj_no").append('<option>'+cj[i].contractNo+'</option>');
+			                    	$("#cj_no").next().append('<li value="'+cj[i].contractNo+'" class="es-visible">'+cj[i].contractNo+'</li>');
+		                    	}
+		                    	
+		                    	$('#cj_name').editableSelect().on('select.editable-select', function (e, dom) {
+		                    		$.ajax({
+		                                type: 'POST',
+		                                url: getContextPath()+'/cj/selectCjContractByName',
+		                                dataType: 'json',
+		                                data: {
+		                                	name:$('#cj_name').val()
+		                                },
+		                                success: function (json) {
+		                                	$('#cj_no').val(json.contractNo);
+		                                }
+		                      		});
+		                      	})
+		                      	$('#cj_no').editableSelect().on('select.editable-select', function (e, dom) {
+		                      		$.ajax({
+		                                type: 'POST',
+		                                url: getContextPath()+'/cj/selectCjContractByNo',
+		                                dataType: 'json',
+		                                data: {
+		                                	no:$('#cj_no').val()
+		                                },
+		                                success: function (json) {
+		                                	$('#cj_name').val(json.contractName);
+		                                }
+		                      		});
+		            		  	})
+		                    	
+		                    	
+		                    }
+		          		})
+		          	}) */  
+		          	$('#prj_no').editableSelect().on('select.editable-select', function (e, dom) {
+		          		$.ajax({
+		                    type: 'POST',
+		                    url: getContextPath()+'/task/selectCjByTaskNo',
+		                    dataType: 'json',
+		                    data: {
+		                    	no:$('#prj_no').val()
+		                    },
+		                    success: function (json) {
+		                    	var task=json.task;
+		                    	var cj=json.cj;
+		                    	$('#prj_name').val(task.prjName);
+		                    	$("#cj_name").html('');
+		                    	$("#cj_name").next().html('');
+		                    	$("#cj_no").html('');
+		                    	$("#cj_no").next().html('');
+		                    	for(var i=0;i<cj.length;i++){
+		                    		$("#cj_name").append('<option>'+cj[i].contractName+'</option>');
+			                    	$("#cj_name").next().append('<li value="'+cj[i].contractName+'" class="es-visible">'+cj[i].contractName+'</li>');
+			                    	$("#cj_no").append('<option>'+cj[i].contractNo+'</option>');
+			                    	$("#cj_no").next().append('<li value="'+cj[i].contractNo+'" class="es-visible">'+cj[i].contractNo+'</li>');
+		                    	}
+		                    	
+		                    	$('#cj_name').editableSelect().on('select.editable-select', function (e, dom) {
+		                    		$.ajax({
+		                                type: 'POST',
+		                                url: getContextPath()+'/cj/selectCjContractByName',
+		                                dataType: 'json',
+		                                data: {
+		                                	name:$('#cj_name').val()
+		                                },
+		                                success: function (json) {
+		                                	$('#cj_no').val(json.contractNo);
+		                                }
+		                      		});
+		                      	})
+		                      	$('#cj_no').editableSelect().on('select.editable-select', function (e, dom) {
+		                      		$.ajax({
+		                                type: 'POST',
+		                                url: getContextPath()+'/cj/selectCjContractByNo',
+		                                dataType: 'json',
+		                                data: {
+		                                	no:$('#cj_no').val()
+		                                },
+		                                success: function (json) {
+		                                	$('#cj_name').val(json.contractName);
+		                                }
+		                      		});
+		            		  	})
+		                    	
+				  		}
+	            	})
+				})
+				
+            }
+    	})
+    }
+    
+    function initClType(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#cl_type").append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            	}
+            }
+  		});
+    }
+    
+    function initClType2(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#cl_type"+obj).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            	}
+            }
+  		});
+    }
+    
+    function initSupplier(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/supplier/selectIdAndName',
+            dataType: 'json',
+            data: {
+            	
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#department_tj").append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+            		$("#company_sure").append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+            	}
+            }
+  		});
+    }
+    
+    function initSupplier2(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/supplier/selectIdAndName',
+            dataType: 'json',
+            data: {
+            	
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#department_tj"+obj).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+            		$("#company_sure"+obj).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+            	}
+            }
+  		});
+    }
+    
+    function initSupplier3(obj,obj2,obj3){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/supplier/selectIdAndName',
+            dataType: 'json',
+            data: {
+            	
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#edit_department_tj"+obj).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+            		$("#edit_company_sure"+obj).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+            	}
+            	if(obj2!=''){
+            		$("#edit_department_tj"+obj).val(obj2);
+            	}
+            	if(obj3!=''){
+            		$("#edit_company_sure"+obj).val(obj3);
+            	}
+            }
+  		});
+    }
+    
+    function add(){
+    	var length=$("#cl_table tbody").find("tr").length;
+    	$("#cl_table tbody").append("<tr>"+
+        												'<td><input type="text" class="form-control"></td>'+
+        												'<td>'+
+        													'<select class="form-control" id="cl_type'+length+'"></select>'+
+        												'</td>'+
+        												'<td><input type="text" class="form-control"></td>'+
+        												'<td>'+
+            												'<select class="form-control">'+
+	               												'<option value="个">个</option>'+
+	                											'<option value="只">只</option>'+
+	                											'<option value="套">套</option>'+
+	                											'<option value="副">副</option>'+
+	                											'<option value="双">双</option>'+
+	                											'<option value="万元">万元</option>'+
+	                											'<option value="桶">桶</option>'+
+            												'</select>'+
+        												'</td>'+
+												        '<td><input type="text" class="form-control"></td>'+
+												        '<td>'+
+												        	'<select class="form-control" style="width:100%;" id="department_tj'+length+'">'+
+												            '</select>'+
+												        '</td>'+
+												        '<td>'+
+												        	'<select class="form-control" style="width:100%;" id="company_sure'+length+'">'+
+												            '</select>'+
+												        '</td>'+
+												        '<td><input type="text" class="form-control"></td>'+
+												        '<td><button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button></td>'+
+    												"</tr>")
+    				initSupplier2(length);
+    				initClType2(length);
+    }
+    
+    function add2(){
+    	var length=$("#edit_cl_table tbody").find("tr").length;
+    	$("#edit_cl_table tbody").append("<tr>"+
+        												'<td><input type="text" class="form-control"></td>'+
+        												'<td><input type="text" class="form-control"></td>'+
+        												'<td><input type="text" class="form-control"></td>'+
+        												'<td>'+
+            												'<select class="form-control">'+
+	               												'<option value="个">个</option>'+
+	                											'<option value="只">只</option>'+
+	                											'<option value="套">套</option>'+
+	                											'<option value="副">副</option>'+
+	                											'<option value="双">双</option>'+
+            												'</select>'+
+        												'</td>'+
+												        '<td><input type="text" class="form-control"></td>'+
+												        '<td><input type="text" class="form-control"></td>'+
+												        '<td>'+
+												        	'<select class="form-control" style="width:100%;" id="edit_department_tj'+length+'">'+
+												            '</select>'+
+												        '</td>'+
+												        '<td>'+
+												        	'<select class="form-control" style="width:100%;" id="edit_company_sure'+length+'">'+
+												            '</select>'+
+												        '</td>'+
+												        '<td><input type="text" class="form-control"></td>'+
+												        '<td><button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button></td>'+
+    												"</tr>")
+    				initSupplier3(length,"","");
+    }
+    
+    function removeThis(obj){
+    	var tr=$(obj).parent().parent();
+    	$(tr).remove();
+    	toastr.success("移除成功");
+    }
+    
+    var PrjMaterialBuy={
+    		pmbId:undefined,
+    		applyDepartment:undefined,
+    		applyPerson:undefined,
+    		applyCode:undefined,
+    		applyPrj:undefined,
+    		taskCode:undefined,
+    		cjContractCode:undefined,
+    		cjContractName:undefined,
+    		applyReason:undefined,
+    		sumPrice:undefined,
+    		md:undefined,
+    		sumPrice:0
+    }
+    
+    
+    function save(){
+    	var department=$("#department").val();
+    	var person=$("#person").val();
+    	var prj_name=$("#prj_name").val();
+    	var prj_no=$("#prj_no").val();
+    	var cj_name=$("#cj_name").val();
+    	var cj_no=$("#cj_no").val();
+    	var reasons=$("#reasons").val();
+    	
+    	PrjMaterialBuy.applyDepartment=department;
+    	PrjMaterialBuy.applyPerson=person;
+    	PrjMaterialBuy.applyCode=prj_no;
+    	PrjMaterialBuy.applyPrj=prj_name;
+    	PrjMaterialBuy.cjContractCode=cj_no;
+    	PrjMaterialBuy.cjContractName=cj_name;
+    	PrjMaterialBuy.applyReason=reasons;
+    	
+    	var materialDemand=new Array();
+    	$("#cl_table tbody").find("tr").each(function(){
+    		var md={
+    				mdlId:undefined,
+    				materialName:undefined,
+    				materialType:undefined,
+    				modeType:undefined,
+    				buyCompany:undefined,
+    				price:0,
+    				num:0,
+    				provideCompany:undefined,
+    				sureMaterialMode:undefined,
+    				infos:undefined
+    		}
+    		var name=$(this).find("input").eq(0).val();
+    		var modeType=$(this).find("input").eq(1).val();
+    		var num=$(this).find("input").eq(2).val();
+    		var price=$(this).find("input").eq(3).val();
+    		var infos=$(this).find("input").eq(4).val();
+    		
+    		var type=$(this).find("select").eq(0).val();
+    		var unit=$(this).find("select").eq(1).val();
+    		var department_tj=$(this).find("select").eq(2).val();
+    		var company_sure=$(this).find("select").eq(3).val();
+    		md.mdlId=mdlId;
+    		md.materialName=name;
+    		md.materialType=type;
+    		md.modeType=modeType;
+    		md.buyCompany=unit;
+    		md.num=num;
+    		md.price=price;
+    		md.provideCompany=department_tj;
+    		md.sureMaterialMode=company_sure;
+    		md.infos=infos;
+    		materialDemand.push(md);
+    	})
+    	PrjMaterialBuy.md=materialDemand;
+    	
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/PrjMaterialBuy/addPrjMaterialBuyBySave',
+            dataType: 'json',
+            contentType:'application/json',
+            data:JSON.stringify(PrjMaterialBuy),
+            success: function (json) {
+				if(json>0){
+					$("#myModal").modal("hide");
+					toastr.success("保存成功");
+				}else{
+					toastr.error("保存失败");
+				}
+            }
+  		});
+    }
+    
+    function submit(){
+    	var department=$("#department").val();
+    	var person=$("#person").val();
+    	var prj_name=$("#prj_name").val();
+    	var prj_no=$("#prj_no").val();
+    	var cj_name=$("#cj_name").val();
+    	var cj_no=$("#cj_no").val();
+    	var reasons=$("#reasons").val();
+    	
+    	PrjMaterialBuy.applyDepartment=department;
+    	PrjMaterialBuy.applyPerson=person;
+    	PrjMaterialBuy.applyCode=prj_no;
+    	PrjMaterialBuy.applyPrj=prj_name;
+    	PrjMaterialBuy.cjContractCode=cj_no;
+    	PrjMaterialBuy.cjContractName=cj_name;
+    	PrjMaterialBuy.applyReason=reasons;
+    	
+    	var materialDemand=new Array();
+    	$("#cl_table tbody").find("tr").each(function(){
+    		var md={
+    				mdlId:undefined,
+    				materialName:undefined,
+    				materialType:undefined,
+    				modeType:undefined,
+    				buyCompany:undefined,
+    				price:0,
+    				num:0,
+    				provideCompany:undefined,
+    				sureMaterialMode:undefined,
+    				infos:undefined
+    		}
+    		var name=$(this).find("input").eq(0).val();
+    		var modeType=$(this).find("input").eq(1).val();
+    		var num=$(this).find("input").eq(2).val();
+    		var price=$(this).find("input").eq(3).val();
+    		var infos=$(this).find("input").eq(4).val();
+    		
+    		var type=$(this).find("select").eq(0).val();
+    		var unit=$(this).find("select").eq(1).val();
+    		var department_tj=$(this).find("select").eq(2).val();
+    		var company_sure=$(this).find("select").eq(3).val();
+    		md.mdlId=mdlId;
+    		md.materialName=name;
+    		md.materialType=type;
+    		md.modeType=modeType;
+    		md.buyCompany=unit;
+    		md.num=num;
+    		md.price=price;
+    		md.provideCompany=department_tj;
+    		md.sureMaterialMode=company_sure;
+    		md.infos=infos;
+    		materialDemand.push(md);
+    	})
+    	PrjMaterialBuy.md=materialDemand;
+    	
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/PrjMaterialBuy/addPrjMaterialBuyBySubmit',
+            dataType: 'json',
+            contentType:'application/json',
+            data:JSON.stringify(PrjMaterialBuy),
+            success: function (json) {
+				if(json>0){
+					$("#myModal").modal("hide");
+					toastr.success("提交成功");
+				}else{
+					toastr.error("提交失败");
+				}
+            }
+  		});
+    }
+    
+    var mdlId;
+    function update(obj){
+    	var tr=$(obj).parents("tr");
+    	var data=$("#mainContent").DataTable().row(tr).data();
+    	mdlId=data.pmbId;
+    	
+    	$("#edit_department").val(data.omName);
+    	$("#edit_person").val(data.uName);
+    	$("#edit_prj_name").val(data.applyPrj);
+    	$("#edit_prj_no").val(data.applyCode);
+    	$("#edit_cj_name").val(data.cjContractName);
+    	$("#edit_cj_no").val(data.cjContractCode);
+    	$("#edit_reasons").val(data.applyReason);
+    	$("#edit_code").val(data.taskCode);
+    	
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/md/selectMaterialDemandById',
+            dataType: 'json',
+            data: {
+            	id:data.pmbId
+            },
+            success: function (json) {
+            	$("#edit_cl_table tbody").html('');
+            	if(json!=null){
+            		for(var i=0;i<json.length;i++){
+            			var length=$("#edit_cl_table tbody").find("tr").length;
+            	    	$("#edit_cl_table tbody").append("<tr>"+
+            	        												'<td><input type="text" class="form-control" value='+json[i].materialName+'></td>'+
+            	        												'<td><input type="text" class="form-control" value='+json[i].materialType+'></td>'+
+            	        												'<td><input type="text" class="form-control" value='+json[i].materialType+'></td>'+
+            	        												'<td>'+
+            	            												'<select class="form-control" id="unit'+length+'">'+
+            		               												'<option value="个">个</option>'+
+            		                											'<option value="只">只</option>'+
+            		                											'<option value="套">套</option>'+
+            		                											'<option value="副">副</option>'+
+            		                											'<option value="双">双</option>'+
+            	            												'</select>'+
+            	        												'</td>'+
+            													        '<td><input type="text" class="form-control" value='+json[i].num+'></td>'+
+            													        '<td><input type="text" class="form-control" value='+json[i].price+'></td>'+
+            													        '<td>'+
+            													        	'<select class="form-control" style="width:100%;" id="edit_department_tj'+length+'">'+
+            													            '</select>'+
+            													        '</td>'+
+            													        '<td>'+
+            													        	'<select class="form-control" style="width:100%;" id="edit_company_sure'+length+'">'+
+            													            '</select>'+
+            													        '</td>'+
+            													        '<td><input type="text" class="form-control" value='+json[i].infos+'></td>'+
+            													        '<td></td>'+
+            	    												"</tr>")
+            	    				initSupplier3(length,json[i].provideCompany,json[i].sureMaterialMode);
+            	    				$("#unit"+length).val(json[i].buyCompany);
+            		}	
+            	}
+            	
+            }
+  		});
+    	$("#change").modal("show");
+    }
+    
+    function edit_save(){
+    	var materialDemand=new Array();
+    	$("#edit_cl_table tbody").find("tr").each(function(){
+    		var md={
+    				mdlId:undefined,
+    				materialName:undefined,
+    				materialType:undefined,
+    				modeType:undefined,
+    				buyCompany:undefined,
+    				price:0,
+    				num:0,
+    				provideCompany:undefined,
+    				sureMaterialMode:undefined,
+    				infos:undefined
+    		}
+    		var name=$(this).find("input").eq(0).val();
+    		var modeType=$(this).find("input").eq(1).val();
+    		var num=$(this).find("input").eq(2).val();
+    		var price=$(this).find("input").eq(3).val();
+    		var infos=$(this).find("input").eq(4).val();
+    		
+    		var type=$(this).find("select").eq(0).val();
+    		var unit=$(this).find("select").eq(1).val();
+    		var department_tj=$(this).find("select").eq(2).val();
+    		var company_sure=$(this).find("select").eq(3).val();
+    		md.mdlId=mdlId;
+    		md.materialName=name;
+    		md.materialType=type;
+    		md.modeType=modeType;
+    		md.buyCompany=unit;
+    		md.num=num;
+    		md.price=price;
+    		md.provideCompany=department_tj;
+    		md.sureMaterialMode=company_sure;
+    		md.infos=infos;
+    		materialDemand.push(md);
+    	})
+    	
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/PrjMaterialBuy/updateBuy',
+            dataType: 'json',
+            contentType:'application/json',
+            data:JSON.stringify(materialDemand),
+            success: function (json) {
+            	if(json>0){
+            		$("#change").modal("hide");
+					toastr.success("保存成功");
+            	}else{
+					toastr.error("保存失败");
+            	}
+            }
+    	})
+    }
+    
+    
+    function look(obj){
+    	var tr=$(obj).parents("tr");
+    	var data=$("#mainContent").DataTable().row(tr).data();
+    	
+    	$("#look_department").text(data.omName);
+    	$("#look_person").text(data.uName);
+    	$("#look_prj_name").text(data.applyPrj);
+    	$("#look_prj_no").text(data.applyCode);
+    	$("#look_cj_name").text(data.cjContractName);
+    	$("#look_cj_no").text(data.cjContractCode);
+    	$("#look_reasons").text(data.applyReason);
+    	$("#look_code").text(data.taskCode);
+    	$("#sum_price").text(data.sumPrice);
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/md/selectMaterialDemandById',
+            dataType: 'json',
+            data: {
+            	id:data.pmbId
+            },
+            success: function (json) {
+            	$("#look_cl_table tbody").html('');
+            	if(json!=null){
+            		for(var i=0;i<json.length;i++){
+            			var length=$("#look_cl_table tbody").find("tr").length;
+            	    	$("#look_cl_table tbody").append("<tr>"+
+            	        												'<td>'+json[i].materialName+'</td>'+
+            	        												'<td>'+json[i].materialType+'</td>'+
+            	        												'<td>'+json[i].modeType+'</td>'+
+            	        												'<td>'+json[i].buyCompany+'</td>'+
+            													        '<td>'+json[i].num+'</td>'+
+            													        '<td>'+json[i].price+'</td>'+
+            													        '<td>'+json[i].name+'</td>'+
+            													        '<td>'+json[i].name2+'</td>'+
+            													        '<td>'+json[i].infos+'</td>'+
+            	    												"</tr>")
+            		}
+            	}
+            }
+    	}) 
+    	$("#allMsg1").modal("show");
+    }
+    
+    
+    function gotoPrj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		console.log(data);
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:data.applyPrj,
+				no:data.applyCode
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.applyCode+'');
+			}
+		})
+    }
+    
+    function gotoCj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//var t = encodeURI(encodeURI(data.prjId));
+		console.log(data)
+		 $.ajax({
+			type:"POST",
+			url:getContextPath()+"/cj/selectCjByCjNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				no:data.cjContractCode
+				},
+			success:function(json){
+				//console.log(json)
+				$(obj).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+json.cjId+'');
+			}
+		})
+    }
+    
+</script>
+</html>
+ 
+
+

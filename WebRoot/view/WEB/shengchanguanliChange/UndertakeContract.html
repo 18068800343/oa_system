@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        body{
+            background: #fff;
+        }
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>生产管理</li>
+            <li>合同履约</li>
+			<li class="active">承接合同</li>
+		</ul>
+    </div>
+
+    <div>
+        <!-- Modal -->
+				<form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:20%;">承接合同名称 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <!-- <select class="form-control"  style="width:80%;" id="contract_name2">
+                                    </select> -->
+                                    <input type="text"  style="width:60%;" class="form-control" disabled id="contract_name2">
+                                    <button type="button" class="btn btn-primary weui-uploader__input" onclick="select_cj2()">选择承接合同</button>
+                                </td>
+                            	<td style="width:20%;">承接合同编号<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control"  style="width:80%;" id="contract_no2">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>项目编号</td>
+                                <td><input type="text"  style="width:80%;" class="form-control" disabled id="prj_no"></td>
+                                <td>合同甲方</td>
+                                <td>
+                                    <select class="form-control" style="width:80%;"  id="jiafang2">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>合同金额(万元)</td>
+                                <td><input type="text" style="width:80%;" class="form-control" id="contract_money2" disabled></td>
+                                <td>结算金额(万元)</td>
+                                <td><input type="text" style="width:80%;" class="form-control" id="end_money2"></td>
+                            </tr>
+                            <tr>
+                                <td>累计收款(万元)</td>
+                                <td><input type="text"  style="width:80%;"  class="form-control"  id="all_money2" disabled></td>
+                                <td>业主评级</td>
+                                <td><input type="text" style="width:80%;"  class="form-control" id="rating"></td>
+                            </tr>
+                            <tr>
+                                <td>项目负责人</td>
+                                <td>
+                                    <select class="form-control" style="width:80%;"  id="prj_leader2">
+                                        <option>12</option>
+                                        <option>23</option>
+                                        <option>34</option>
+                                        <option>45</option>
+                                        <option>56</option>
+                                    </select>
+                                </td>
+                                <td>项目经理</td>
+                                <td>
+                                	<select class="form-control" style="width:80%;"  id="prj_manager2">
+                                        <option>小明</option>
+                                        <option>小白</option>
+                                        <option>小李</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>项目副经理1</td>
+                                <td>
+                                    <select class="form-control" style="width:80%;"  id="deputy1_prj_manager2">
+                                        <option>索隆</option>
+                                        <option>娜美</option>
+                                        <option>白胡子</option>
+                                    </select>
+                                </td>
+                                <td>项目副经理2</td>
+                                <td>
+                                	<select class="form-control" style="width:80%;"  id="deputy2_prj_manager2">
+                                        <option>山治</option>
+                                        <option>乔巴</option>
+                                        <option>乌索普</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>项目总工</td>
+                                <td>
+                                    <select class="form-control" style="width:80%;"  id="prj_general2">
+                                        <option>鸣人</option>
+                                        <option>路飞</option>
+                                        <option>香克斯</option>
+                                    </select>
+                                </td>
+                                <td>项目工期</td>
+                                <td>
+                                	<select class="form-control" style="width:80%;"  id="prj_duration2">
+                                        <option>一期</option>
+                                        <option>二期</option>
+                                        <option>三期</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                            	<td>公路等级</td>
+                                <td>
+                                	<select class="form-control" style="width:80%;"  id="prj_grade2">
+                                        <option>一级</option>
+                                        <option>二级</option>
+                                        <option>三级</option>
+                                    </select>
+                                </td>
+                                <td>履约完结时间</td>
+                                <td><input type="text" class="form-control" id="cj_contract_end_time"></td>
+                            </tr>
+                            <tr>
+                                <td>项目概况、工作内容、实际工期</td>
+                                <td colspan="3">
+                                     <textarea class="form-control" rows="4" style="width:100%;" id="work_info2"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+
+                         <table class="table table-bordered table-condensed" id="new_accessory2">
+							<thead>
+								<tr>
+	                                <td style="width:15%;">合同文本附件:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td colspan="2">
+	                                    <button type="button" class="btn btn-primary" onclick="new_accessory2()">增加附件</button>
+	                                </td>
+                            	</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+						<table class="table table-bordered table-condensed" id="new_accessory21">
+							<thead>
+								<tr>
+	                                <td style="width:15%;">法律顾问签字:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td colspan="2">
+	                                    <button type="button" class="btn btn-primary" onclick="new_accessory21()">增加附件</button>
+	                                </td>
+                            	</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+						
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td>联系人</td>
+                                <td>
+                                    <input type="text" class="form-control"  id="person2">
+                                </td>
+                                <td>联系方式</td>
+                                <td>
+                                    <input type="text" class="form-control" id="phone2">
+                                    <button type="button" class="btn btn-primary" onclick="addPerson2()">添加</button>
+                                </td>
+                            </tr>
+                        </table>
+                       
+                        <table class="table table-bordered table-condensed" id="person_table2">
+                            <thead>
+                                <tr>
+                                    <th colspan="3">联系人,联系方式列表</th>
+                                </tr>
+                                <tr>
+                                    <th>联系人</th>
+                                    <th>联系方式</th>
+                                    <th style="width:20%;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-condensed" id="xieban2">
+                             <thead>
+                               <tr>
+                                    <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen2()">添加协办部门</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="width:30%;">主办部门</td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <select class="form-control" style="width:150px;" id="zhuban2">
+                                                
+                                            </select>
+                                            <input type="text" class="form-control" style="width:150px;" placeholder="金额" id="zhubanjine2">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form> 
+<!-- model结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-condensed" id="tijiaoren2">
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
+                        </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
+<!-- allMsg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg2">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            <td style="width:20%;">承接合同名称</td>
+                            <td id="look_cj_name2"></td>
+                            <td style="width:20%;">承接合同编号</td>
+                            <td id="look_cj_no2"></td>
+                        </tr>
+                        <tr>
+                            <td>任务单号</td>
+                            <td id="look_prj_no2"></td>
+                            <td>合同甲方</td>
+                            <td id="look_jiafang2"></td>
+                        </tr>
+                        <tr>
+                            <td>合同金额(万元)</td>
+                            <td id="look_contract_money2"></td>
+                            <td>结算金额(万元)</td>
+                            <td id="look_end_money2"></td>
+                        </tr>
+                        <tr>
+                            <td>累计收款(万元)</td>
+                            <td id="look_all_money2"></td>
+                            <td>业主评级</td>
+                            <td id="look_rating"></td>
+                        </tr>
+                        <tr>
+                            <td>项目负责人</td>
+                            <td id="look_prj_leader2"></td>
+                            <td>项目经理</td>
+                            <td id="look_prj_manager2"></td>
+                        </tr>
+                        <tr>
+                            <td>项目副经理1</td>
+                            <td id="look_deputy1_prj_manager2"></td>
+                            <td>项目副经理2</td>
+                            <td id="look_deputy2_prj_manager2"></td>
+                        </tr>
+                        <tr>
+                            <td>项目总工</td>
+                            <td id="look_prj_general2"></td>
+                            <td>项目工期</td>
+                            <td id="look_prj_duration2"></td>
+                        </tr>
+                        <tr>
+                        	<td>公路等级</td>
+                            <td id="look_prj_grade2"></td>
+                            <td>履约完结时间</td>
+                            <td id="look_cj_contract_end_time"></td>
+                        </tr>
+                        <tr>
+                            <td>项目概况、工作内容、实际工期</td>
+                            <td colspan="3" id="look_work_info2"></td>
+                        </tr>
+                    </table>
+ 					<br/>
+                    <table class="table table-bordered table-condensed" id="look_person2">
+                        <thead>
+                            <tr>
+                                <th>联系人</th>
+                                <th>联系方式</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+					<br/>
+					 <table class="table table-bordered table-condensed" id="look_accessory2">
+                        <thead>
+								<tr>
+	                                <td style="width:18%;">合同文本:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td colspan="3"></td>
+                            	</tr>
+							</thead>
+                        <tbody></tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="look_accessory21">
+                        <thead>
+								<tr>
+	                                <td style="width:18%;">法律顾问签字:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td colspan="3"></td>
+                            	</tr>
+							</thead>
+                        <tbody></tbody>
+                    </table>
+					<br/>
+                    <table class="table table-bordered table-condensed" id="look_department2">
+                        <thead>
+                            <tr>
+                                <th colspan="2">部门</th>
+                                <th colspan="2">金额(万元)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg结束 -->   
+        
+    </div>
+            <!-- Modal选择承接合同 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_cj">
+    <div class="modal-dialog modal-lg" role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择承接合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="cj_table">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>承接合同名称</th>
+                                    <th>承接合同编号</th>
+                                    <th>甲方单位</th>
+                                    <th>合同起日期</th>
+                                    <th>合同讫日期</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveCjName()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+
+<!-- Modal选择承接合同 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_cj2">
+    <div class="modal-dialog modal-lg" role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择承接合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="cj_table2">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>承接合同名称</th>
+                                    <th>承接合同编号</th>
+                                    <th>甲方单位</th>
+                                    <th>合同起日期</th>
+                                    <th>合同讫日期</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveCjName2()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+
+<!-- Modal选择承接合同 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_cj3">
+    <div class="modal-dialog modal-lg" role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择承接合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="cj_table3">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>承接合同名称</th>
+                                    <th>承接合同编号</th>
+                                    <th>甲方单位</th>
+                                    <th>合同起日期</th>
+                                    <th>合同讫日期</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveCjName3()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-condensed" id="tijiaoren">
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
+                        </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitPerson()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
+    
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script>
+    $(document).ready( function () {
+    	laydate.render({
+            elem: '#cj_contract_end_time' //指定元素
+        });
+        initbumen();
+        initCooperator();
+        initSelect();
+        initTable2();
+	});
+
+    var table2=$('#mainContent2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "cjContractCode"}, 
+		            { "data": null}, 
+		            { "data": "contractMoney"}, 
+		            { "data": "prjCode"}, 
+		            { "data": "jiaFang"}, 
+		            { "data": null},
+		        ],
+		        "columnDefs": [
+								{	
+								 "class": "tcenter",
+								 "targets":1,
+								 "searchable": true,
+								 "render": function(data, type, full) {
+										return '<a onclick="gotoCj2(this)" style="color:	#4876FF;cursor: pointer;">'+data.cjContractName+'</a>'
+								 }
+								},
+								{	
+										 "class": "tcenter",
+										    "targets": 5,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	return '<i class="iconfont icon-icon-test Pecgab" style="font-size:18px;cursor:pointer;" onclick="look2(this)" title="查看"></i>';
+										        }
+										  }
+								],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+
+    
+
+    
+    var table5=$('#cj_table2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": null}, 
+            { "data": "contractName"},
+            { "data": "contractNo"}, 
+            { "data": "ccName"}, 
+            { "data": "contractStartTime"},
+            { "data": "contractEndTime"}
+        ],
+        "columnDefs": [
+						{
+								 "class": "tcenter",
+								    "targets": 0,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<input type="radio" name="cjName2" style="width:16px;height:16px;">'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    
+
+
+	function initTable2(){
+    	$("#state").trigger("change");
+	}
+
+
+    
+    //初始化提交部门
+	function initbumen(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+                for(var i=0;i<json.length;i++){
+                	$("#zhuban2").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#zhuban3").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                }
+            }
+		});
+	}
+    
+    
+     //增加部门
+    function addBumen(){
+    	var num=$("#xieban tr").length-1;
+    	if($("#xieban tr").length<=4){
+	    	$("#xieban tbody").append("<tr><td>"+"协办部门</td><td>"
+	                +'<form class="form-inline">'
+	                    +'<select class="form-control" id="xieban'+num+'" style="width:150px;">'
+	                    +'</select>'
+	                    +'  <input type="text" id="xiebanMoney'+num+'" class="form-control" style="width:150px;" placeholder="金额">'
+	                    +"<button style='margin-left:15px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button>"
+	                +'</form>'
+	                +"</td></tr>")
+	                $.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+	                    dataType: 'json',
+	                    data: {
+	
+	                    },
+	                    error: function (msg) {
+	                    	toastr.error("请求失败");
+	                    },
+	                    success: function (json) {
+	                    	$("#xieban"+num).empty();
+	                        for(var i=0;i<json.length;i++){
+	                        	$("#xieban"+num).append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        }
+	                    }
+	        		});
+    	}else{
+    		toastr.error("协办部门已达上限")
+    	}
+    }
+     
+  //增加部门
+    function addBumen2(){
+    	var num=$("#xieban2 tr").length-1;
+    	if($("#xieban2 tr").length<=4){
+	    	$("#xieban2 tbody").append("<tr><td>"+"协办部门</td><td>"
+	                +'<form class="form-inline">'
+	                    +'<select class="form-control" id="xieban2_'+num+'" style="width:150px;">'
+	                    +'</select>'
+	                    +'  <input type="text" id="xiebanMoney2_'+num+'" class="form-control" style="width:150px;" placeholder="金额">'
+	                    +"<button style='margin-left:15px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button>"
+	                +'</form>'
+	                +"</td></tr>")
+	                $.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+	                    dataType: 'json',
+	                    data: {
+	
+	                    },
+	                    error: function (msg) {
+	                    	toastr.error("请求失败");
+	                    },
+	                    success: function (json) {
+	                    	$("#xieban2_"+num).empty();
+	                        for(var i=0;i<json.length;i++){
+	                        	$("#xieban2_"+num).append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        }
+	                    }
+	        		});
+    	}else{
+    		toastr.error("协办部门已达上限")
+    	}
+    }
+  
+  //增加部门
+    function addBumen3(){
+    	var num=$("#xieban3 tr").length-1;
+    	if($("#xieban3 tr").length<=4){
+	    	$("#xieban3 tbody").append("<tr><td>"+"协办部门</td><td>"
+	                +'<form class="form-inline">'
+	                    +'<select class="form-control" id="xieban3_'+num+'" style="width:150px;">'
+	                    +'</select>'
+	                    +'  <input type="text" id="xiebanMoney3_'+num+'" class="form-control" style="width:150px;" placeholder="金额">'
+	                    +"<button style='margin-left:15px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button>"
+	                +'</form>'
+	                +"</td></tr>")
+	                $.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+	                    dataType: 'json',
+	                    data: {
+	
+	                    },
+	                    error: function (msg) {
+	                    	toastr.error("请求失败");
+	                    },
+	                    success: function (json) {
+	                    	$("#xieban3_"+num).empty();
+	                        for(var i=0;i<json.length;i++){
+	                        	$("#xieban3_"+num).append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        }
+	                    }
+	        		});
+    	}else{
+    		toastr.error("协办部门已达上限")
+    	}
+    }
+    
+    function removeXieBan(obj){
+  		var tr=$(obj).parent().parent().parent();
+  		$(tr).remove();
+  	}
+    
+    function addPerson(){
+    	var person=$("#person").val();
+    	var phone=$("#phone").val();
+    	if(person==''||phone==''){
+    		toastr.error("联系人与联系方式不能为空");
+    		return;
+    	}
+    	$("#person_table tbody").append("<tr><td>"+person+"</td><td>"+phone+"</td><td><button type='button' class='btn btn-primary' onclick='removePerson(this)'>移除</button></td></tr>");
+    	$("#person").val('');
+    	$("#phone").val('');
+    }
+    
+    function addPerson2(){
+    	var person=$("#person2").val();
+    	var phone=$("#phone2").val();
+    	if(person==''||phone==''){
+    		toastr.error("联系人与联系方式不能为空");
+    		return;
+    	}
+    	$("#person_table2 tbody").append("<tr><td>"+person+"</td><td>"+phone+"</td><td><button type='button' class='btn btn-primary' onclick='removePerson(this)'>移除</button></td></tr>");
+    	$("#person2").val('');
+    	$("#phone2").val('');
+    }
+    
+    function addPerson3(){
+    	var person=$("#person3").val();
+    	var phone=$("#phone3").val();
+    	if(person==''||phone==''){
+    		toastr.error("联系人与联系方式不能为空");
+    		return;
+    	}
+    	$("#person_table3 tbody").append("<tr><td>"+person+"</td><td>"+phone+"</td><td><button type='button' class='btn btn-primary' onclick='removePerson(this)'>移除</button></td></tr>");
+    	$("#person3").val('');
+    	$("#phone3").val('');
+    }
+    
+    function removePerson(obj){
+    	var tr=$(obj).parent().parent();
+  		$(tr).remove();
+    }
+    
+  //初始化甲方
+    function initCooperator(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cooperator/selectCooperatorIdAndName',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	$("#jiafang").html('');
+	        	$("#jiafang2").html('');
+	        	$("#jiafang3").html('');
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#jiafang").append( "<option value='" + json[i].ccId + "'>"
+		                    + json[i].ccName + "</option>")
+		            $("#jiafang2").append( "<option value='" + json[i].ccId + "'>"
+		                    + json[i].ccName + "</option>")
+                    $("#jiafang3").append( "<option value='" + json[i].ccId + "'>"
+                    + json[i].ccName + "</option>")
+	        	}
+	        }
+	    });
+	}
+  
+  //初始化承接合同名称和承接合同号
+	 function initSelect(){
+			$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cj/selectNameAndNo',
+	        dataType: 'json',
+	        data: {
+	        },
+	        error: function (msg) {
+	        	toastr.error("请求失败");
+	        },
+	        success: function (json) {
+	        	$("#contract_no").html('');
+	        	$("#contract_no2").html('');
+	        	$("#contract_no3").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		$("#contract_no").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
+	        		$("#contract_no2").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
+	        		$("#contract_no3").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
+	        	}
+	        	
+	          	$('#contract_no').editableSelect().on('select.editable-select', function (e, dom) {
+	          		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/cj/selectCjContractByNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	no:$('#contract_no').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#contract_name').val(json.contractName);
+	                    	$('#work_no').val(json.taskCode);
+	                    }
+	          		});
+			  	})
+			  	
+	          	$('#contract_no2').editableSelect().on('select.editable-select', function (e, dom) {
+	          		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/cj/selectCjContractByNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	no:$('#contract_no2').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#contract_name2').val(json.contractName);
+	                    	$('#prj_no').val(json.taskCode);
+	                    	$("#contract_money2").val(json.contractMoney);
+	                    	$("#all_money2").val("");
+	                    	getTotalMoney($('#contract_no2').val());
+	                    }
+	          		});
+			  	})
+			  	
+	          	$('#contract_no3').editableSelect().on('select.editable-select', function (e, dom) {
+	          		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/cj/selectCjContractByNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	no:$('#contract_no3').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#contract_name3').val(json.contractName);
+	                    	$('#prj_no3').val(json.taskCode);
+	                    	$('#contract_money3').val(json.contractMoney);
+	                    }
+	          		});
+			  	})
+			  	
+	        }
+			});
+		}
+  
+		var contractWork={
+  				cwId:undefined,
+  				prjCode:undefined,
+  				cjContractName:undefined,
+  				cjContractCode:undefined,
+  				contractNameJia:undefined,
+  				workText:undefined,
+  				contractMoney:0,
+  				endMoney:0,
+  				allReceieveMoney:0,
+  				prjChargeMan:undefined,
+  				rating:undefined,
+  				type:undefined,
+  				mainDepartment:undefined,
+  				mainDepartmentMoney:0,
+  				assistDepartment1:undefined,
+  				assistDepartment1Money:0,
+  				assistDepartment2:undefined,
+  				assistDepartment2Money:0,
+  				assistDepartment3:undefined,
+  				assistDepartment3Money:0,
+  				accessory:undefined,
+  				enterprise:undefined,
+  				prjManager:undefined,//项目经理
+  				deputyPrjManager1:undefined,//项目副经理1
+  				deputyPrjManager2:undefined,//项目副经理2
+  				prjGeneral:undefined,//项目总工
+	  			prjDuration:undefined,//项目工期
+	  			prjGrade:undefined,//公路等级
+	  			cjContractEndTime:undefined//履约完结时间
+  		}
+
+  		
+  	
+  		
+
+  		
+  		function new_accessory2(){
+  			var length=$("#new_accessory2 tr").length;
+  			$("#new_accessory2 tbody").append("<tr><td>新附件</td><td><input type='file' id='file"+length+"' name='file' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removePerson(this)'>移除</button></td></tr>")
+  		}
+  		function new_accessory21(){
+  			var length=$("#new_accessory21 tr").length;
+  			$("#new_accessory21 tbody").append("<tr><td>新附件</td><td><input type='file' id='file"+length+"' name='file1' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removePerson(this)'>移除</button></td></tr>")
+  		}
+  		
+
+  		function GetQueryString(name){
+  	        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+  	        var r = window.location.search.substr(1).match(reg);
+  	        if(r!=null)return  unescape(r[2]); return null;
+  	   }
+  	   // 调用方法
+  	   	id=GetQueryString("");
+  		
+  		function initTable(obj){
+  			
+  			$("#look_cj_name2").text(data.cjContractName);
+  			$("#look_cj_no2").text(data.cjContractCode);
+  			$("#look_prj_no2").text(data.prjCode);
+  			$("#look_jiafang2").text(data.jiaFang);
+  			$("#look_contract_money2").text(data.contractMoney);
+  			$("#look_end_money2").text(data.endMoney);
+  			$("#look_all_money2").text(data.allReceieveMoney);
+  			$("#look_work_info2").text(data.workText);
+  			$("#look_prj_leader2").text(data.prjChargeMan);
+  			$("#look_rating").text(data.rating);
+  			$("#look_prj_manager2").text(data.prjManager);//项目经理
+  	  		$("#look_deputy1_prj_manager2").text(data.deputyPrjManager1);//项目副经理1
+  	  		$("#look_deputy2_prj_manager2").text(data.deputyPrjManager2);//项目副经理2
+  	  		$("#look_prj_general2").text(data.prjGeneral);//项目总工
+  	  		$("#look_prj_duration2").text(data.prjDuration);//项目工期
+  	  		$("#look_prj_grade2").text(data.prjGrade);//公路等级
+  	  		$("#look_cj_contract_end_time").text(data.cjContractEndTime);
+  			$("#look_department2 tbody").html('');
+  			$("#look_department2 tbody").append("<tr><td>主办部门</td><td>"+data.name+"</td><td>金额</td><td>"+data.mainDepartmentMoney+"</td></tr>")
+  			if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
+  				$("#look_department2 tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>金额</td><td>"+data.assistDepartment1Money+"</td></tr>")
+  			}
+  			if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
+  				$("#look_department2 tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>金额</td><td>"+data.assistDepartment2Money+"</td></tr>")
+  			}
+  			if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
+  				$("#look_department2 tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>金额</td><td>"+data.assistDepartment3Money+"</td></tr>")
+  			}
+  			
+  			$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/work/selectDepartmentAndPerson',
+                dataType: 'json',
+                data: {
+                	id:data.cwId
+                },
+                success: function (json) {
+                	var enterprise=json.enterprise;
+                	var accessory=json.accessory;
+                	$("#look_person2 tbody").html('');
+                	$("#look_accessory2 tbody").html('');
+                	$("#look_accessory21 tbody").html('');
+                	for(var i=0;i<enterprise.length;i++){
+                		$("#look_person2 tbody").append("<tr><td>"+enterprise[i].eMan+"</td><td>"+enterprise[i].eTel+"</td></tr>")
+                	}
+					for(var j=0;j<accessory.length;j++){
+						//$("#look_accessory2 tbody").append("<tr><td>附件"+(j+1)+"</td><td>"+accessory[j].acName+"</td><td><button type='button' data="+accessory[j].acUrl+" class='btn btn-primary' onclick='downLoadFile(this)'>下载附件</button></td></tr>")
+						if(accessory[j].aType=="合同文本"){
+			            	   $("#look_accessory2 tbody").append("<tr>"+
+		      	   										"<td>附件</td>"+
+								            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
+								            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
+								            	    "</tr>");
+		            	   }
+		            	 if(accessory[j].aType=="法律顾问签字"){
+			            	   $("#look_accessory21 tbody").append("<tr>"+
+		      	   										"<td>附件</td>"+
+								            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
+								            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
+								            	    "</tr>");
+		            	   }
+                	}
+                }
+      		});
+  			
+  		}
+  		
+
+  		
+  		function downLoadFile(obj){
+  			var filePath=$(obj).attr("data");
+  			var fileName=$(obj).parents("tr").find("td").eq(1).text();
+  			window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
+  		}
+  		
+  		function liuchengGaibian(){
+  			var prjCode=$("#prj_no").val();
+  			var cjContractName=$("#contract_name2").val();
+  			var cjContractCode=$("#contract_no2").val();
+  			var contractNameJia=$("#jiafang2").val();
+  			var workText=$("#work_info2").val();
+  			var contractMoney=$("#contract_money2").val();
+  			var endMoney=$("#end_money2").val();
+  			var allReceieveMoney=$("#all_money2").val();
+  			var prjChargeMan=$("#prj_leader2").val();
+  			var rating=$("#rating").val();
+  			var type='2';
+  			var mainDepartment=$("#zhuban2").val();
+  			var mainDepartmentMoney=$("#zhubanjine2").val();
+  			var assistDepartment1=$("#xieban2_1").val();
+  			var assistDepartment1Money=$("#xiebanMoney2_1").val();
+  			var assistDepartment2=$("#xieban2_2").val();
+  		  	var assistDepartment2Money=$("#xiebanMoney2_2").val();
+  		  	var assistDepartment3=$("#xieban2_3").val();
+  	  		var assistDepartment3Money=$("#xiebanMoney2_3").val();
+  	  		var prjManager=$("#prj_manager2").val();//项目经理
+  	  		var deputyPrjManager1=$("#deputy1_prj_manager2").val();//项目副经理1
+  	  		var deputyPrjManager2=$("#deputy2_prj_manager2").val();//项目副经理2
+  	  		var prjGeneral=$("#prj_general2").val();//项目总工
+  	  		var prjDuration=$("#prj_duration2").val();//项目工期
+  	  		var prjGrade=$("#prj_grade2").val();//公路等级
+  			var lyEndTime=$("#cj_contract_end_time").val();//履约完结时间
+  	  		
+  	  		var person=new Array();
+	  	  	$("#person_table2 tbody").find("tr").each(function(){
+	    		var td = $(this).children();
+	    		var name = td.eq(0).text();
+	    	    var tel = td.eq(1).text();
+	    	    
+	    	    var enterprise={
+	    	    		eId:undefined,
+	    				eMan:undefined,
+	    				eTel:undefined
+	    	    }
+	    	    enterprise.eId=null;
+	    	    enterprise.eMan=name;
+	    	    enterprise.eTel=tel;
+	    	    person.push(enterprise);
+	  	  	})
+	  	  	contractWork.cwId=null;
+	  	  	contractWork.prjCode=prjCode;
+	  		contractWork.cjContractName=cjContractName;
+	  		contractWork.cjContractCode=cjContractCode;
+	  		contractWork.contractNameJia=contractNameJia;
+	  		contractWork.workText=workText;
+	  		contractWork.contractMoney=contractMoney;
+	  		contractWork.endMoney=endMoney;
+	  		contractWork.allReceieveMoney=allReceieveMoney;
+	  		contractWork.prjChargeMan=prjChargeMan;
+	  		contractWork.rating=rating;
+	  		contractWork.type=type;
+	  		contractWork.mainDepartment=mainDepartment;
+	  		contractWork.mainDepartmentMoney=mainDepartmentMoney;
+	  		contractWork.assistDepartment1=assistDepartment1;
+	  		contractWork.assistDepartment1Money=assistDepartment1Money;
+	  		contractWork.assistDepartment2=assistDepartment2;
+	  		contractWork.assistDepartment2Money=assistDepartment2Money;
+	  		contractWork.assistDepartment3=assistDepartment3;
+	  		contractWork.assistDepartment3Money=assistDepartment3Money;
+	  		contractWork.enterprise=person;
+	  		contractWork.prjManager=prjManager;//项目经理
+	  		contractWork.deputyPrjManager1=deputyPrjManager1;//项目副经理1
+	  		contractWork.deputyPrjManager2=deputyPrjManager2;//项目副经理2
+	  		contractWork.prjGeneral=prjGeneral;//项目总工
+	  		contractWork.prjDuration=prjDuration;//项目工期
+	  		contractWork.prjGrade=prjGrade;//公路等级
+	  		contractWork.cjContractEndTime=lyEndTime;//履约完结时间
+	  		
+	  		var formData = new FormData();
+	  		formData.append("work", JSON.stringify(contractWork));
+	  		
+	  		$("#new_accessory2 tbody").find("tr").each(function(){
+	  			formData.append("file", $(this).find("input")[0].files[0]);
+	  		})
+	  		$("#new_accessory21 tbody").find("tr").each(function(){
+	  			formData.append("file1", $(this).find("input")[0].files[0]);
+	  		})
+	  			
+	  		if(person.length>0){
+		  		$.ajax({
+		  			type: 'POST',
+		            url: getContextPath()+'/work/addContractWork2BySave',
+		            data: formData,  
+		            cache: false,
+		            processData: false,
+		            contentType: false,
+		            async: false,
+		            dataType: 'json',
+		            success: function (json) {
+		            	if(json>0){
+		            		$("#myModal2").modal("hide");
+		            		toastr.success("保存成功")
+		            	}else{
+		            		toastr.error("保存失败")
+		            	}
+		            }
+		  		})
+	  		}else{
+	  			toastr.error("联系人不能为空")
+	  			return;
+	  		}
+  		}
+  		
+  		function submit2(){
+  			var prjCode=$("#prj_no").val();
+  			var cjContractName=$("#contract_name2").val();
+  			var cjContractCode=$("#contract_no2").val();
+  			var contractNameJia=$("#jiafang2").val();
+  			var workText=$("#work_info2").val();
+  			var contractMoney=$("#contract_money2").val();
+  			var endMoney=$("#end_money2").val();
+  			var allReceieveMoney=$("#all_money2").val();
+  			var prjChargeMan=$("#prj_leader2").val();
+  			var rating=$("#rating").val();
+  			var type='2';
+  			var mainDepartment=$("#zhuban2").val();
+  			var mainDepartmentMoney=$("#zhubanjine2").val();
+  			var assistDepartment1=$("#xieban2_1").val();
+  			var assistDepartment1Money=$("#xiebanMoney2_1").val();
+  			var assistDepartment2=$("#xieban2_2").val();
+  		  	var assistDepartment2Money=$("#xiebanMoney2_2").val();
+  		  	var assistDepartment3=$("#xieban2_3").val();
+  	  		var assistDepartment3Money=$("#xiebanMoney2_3").val();
+  	  		var prjManager=$("#prj_manager2").val();//项目经理
+	  		var deputyPrjManager1=$("#deputy1_prj_manager2").val();//项目副经理1
+	  		var deputyPrjManager2=$("#deputy2_prj_manager2").val();//项目副经理2
+	  		var prjGeneral=$("#prj_general2").val();//项目总工
+	  		var prjDuration=$("#prj_duration2").val();//项目工期
+	  		var prjGrade=$("#prj_grade2").val();//公路等级
+	  		var lyEndTime=$("#cj_contract_end_time").val();//履约完结时间
+  		
+  	  		var person=new Array();
+	  	  	$("#person_table2 tbody").find("tr").each(function(){
+	    		var td = $(this).children();
+	    		var name = td.eq(0).text();
+	    	    var tel = td.eq(1).text();
+	    	    
+	    	    var enterprise={
+	    	    		eId:undefined,
+	    				eMan:undefined,
+	    				eTel:undefined
+	    	    }
+	    	    enterprise.eId=null;
+	    	    enterprise.eMan=name;
+	    	    enterprise.eTel=tel;
+	    	    person.push(enterprise);
+	  	  	})
+	  	  	contractWork.cwId=null;
+	  	  	contractWork.prjCode=prjCode;
+	  		contractWork.cjContractName=cjContractName;
+	  		contractWork.cjContractCode=cjContractCode;
+	  		contractWork.contractNameJia=contractNameJia;
+	  		contractWork.workText=workText;
+	  		contractWork.contractMoney=contractMoney;
+	  		contractWork.endMoney=endMoney;
+	  		contractWork.allReceieveMoney=allReceieveMoney;
+	  		contractWork.prjChargeMan=prjChargeMan;
+	  		contractWork.rating=rating;
+	  		contractWork.type=type;
+	  		contractWork.mainDepartment=mainDepartment;
+	  		contractWork.mainDepartmentMoney=mainDepartmentMoney;
+	  		contractWork.assistDepartment1=assistDepartment1;
+	  		contractWork.assistDepartment1Money=assistDepartment1Money;
+	  		contractWork.assistDepartment2=assistDepartment2;
+	  		contractWork.assistDepartment2Money=assistDepartment2Money;
+	  		contractWork.assistDepartment3=assistDepartment3;
+	  		contractWork.assistDepartment3Money=assistDepartment3Money;
+	  		contractWork.enterprise=person;
+	  		contractWork.prjManager=prjManager;//项目经理
+	  		contractWork.deputyPrjManager1=deputyPrjManager1;//项目副经理1
+	  		contractWork.deputyPrjManager2=deputyPrjManager2;//项目副经理2
+	  		contractWork.prjGeneral=prjGeneral;//项目总工
+	  		contractWork.prjDuration=prjDuration;//项目工期
+	  		contractWork.prjGrade=prjGrade;//公路等级
+	  		contractWork.cjContractEndTime=lyEndTime;//履约完结时间
+	  		
+	  		var formData = new FormData();
+	  		formData.append("work", JSON.stringify(contractWork));
+	  		
+	  		$("#new_accessory2 tbody").find("tr").each(function(){
+	  			formData.append("file", $(this).find("input")[0].files[0]);
+	  		})
+	  		$("#new_accessory21 tbody").find("tr").each(function(){
+	  			formData.append("file1", $(this).find("input")[0].files[0]);
+	  		})
+	  		if(person.length>0){
+		  		$.ajax({
+		  			type: 'POST',
+		            url: getContextPath()+'/work/addContractWork2BySubmit',
+		            data: formData,  
+		            cache: false,
+		            processData: false,
+		            contentType: false,
+		            async: false,
+		            dataType: 'json',
+		            success: function (json) {
+		            	if(json=='0'){
+			        		toastr.error("保存失败");
+			        	}else{
+			        		//quxiaoa();
+			        		$("#myModal2").modal("hide")
+			        		lianjie=json.url;
+			            	if(json.receiver!=null&&json.receiver.length>=1){
+				        		  $("#tijiaogei").modal('show');
+				        		  $("#tijiaoren tbody").empty("");
+				        		  for(var i=0;i<json.receiver.length;i++){
+				        			  $("#tijiaoren tbody").append('<tr><td>'
+				        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+				        					  +'</td><td>'
+				        					  +json.receiver[i].omName
+				        					  +'</td><td>'
+				        					  +json.receiver[i].dutyName
+				        					  +'</td><td>'
+				        					  +json.receiver[i].uName
+				        					  +'</td></tr>');
+				        		  }
+				        	  }else if(json.receiver.length==1){
+				        		  $.ajax({
+				        	          type: 'POST',
+				        	          url: getContextPath()+'/task/addTask4',
+				        	          dataType: 'json',
+				        	          data:{
+				        	        	  url:json.url,
+				        	        	  userId:json.receiver.userId,
+				        	        	  uName:json.receiver.uName,
+				        	        	  omName:json.receiver.omName,
+				        	        	  dutyName:json.receiver.dutyName,
+				        	        	  omId:json.receiver.omId,
+				        	        	  dutyId:json.receiver.dutyId
+				        	          },
+				        	          success: function (json) {
+				        	        	  toastr.success('提交成功');
+				        	          }
+				        	      }); 
+				        	  }
+			        	}
+		            	
+		            }
+		  		})
+	  		}else{
+	  			toastr.error("联系人不能为空")
+	  			return;
+	  		}
+  		}
+  		
+  		function submitPerson(){
+  	  		var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+  	  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+  	  	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+  	  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+  	  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+  	  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+  	  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+  	  	  $.ajax({
+  	            type: 'POST',
+  	            url: getContextPath()+'/task/addTask4',
+  	            dataType: 'json',
+  	            data:{
+  	          	  url:lianjie,
+  	          	  userId:uid,
+  	          	  uName:uname,
+  	          	  omName:bmmc,
+  	          	  dutyName:zw,
+  	          	  omId:omid,
+  	          	  dutyId:dutyid
+  	            },
+  	            success: function (json) {
+  	          	  toastr.success('提交成功');
+  	            }
+  	        });  
+  	  	}
+  		
+
+  		
+  		
+  	    
+  	  function select_cj2(){
+  		$('#choose_cj2').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+	    	 $.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/cj/selectNameAndNo',
+		            dataType: 'json',
+		            async:false,
+		            data: {
+		            },
+		            success: function (json) {
+		                $('#cj_table2').dataTable().fnClearTable();
+		                $('#cj_table2').DataTable().rows.add(json).draw(false);
+		            }
+		        });
+	    	$("#choose_cj2").modal("show");
+	    }
+		
+	    function saveCjName2(){
+	    	var tr=$("input[name='cjName2']:checked").parents("tr");
+	    	var data=$("#cj_table2").DataTable().row(tr).data();
+	    	if(data==null){
+	    		toastr.error("请选择")
+	    		return;
+	    	}
+	    	$("#contract_name2").val(data.contractName);
+	    	$("#contract_no2").val(data.contractNo);
+	    	$("#prj_no").val(data.taskCode);
+	    	$("#contract_money2").val(data.contractMoney);
+	    	$("#all_money2").val("");
+	    	getTotalMoney(data.contractNo);
+	    	$("#choose_cj2").modal("hide");
+	    }
+	    
+	    
+	    function getTotalMoney(obj){
+	    	 $.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/FinancialReceipts/selectTotalMoneyByCj',
+		            dataType: 'json',
+		            data: {
+		            	no:obj
+		            },
+		            success: function (json) {
+		                $("#all_money2").val(json.totalMoney)
+		            }
+		        });
+	    }
+	    
+	    
+
+
+
+	    
+	    
+</script>
+</html>
