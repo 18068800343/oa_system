@@ -67,7 +67,7 @@
                                 </td>
                                 <td style="width:10%;">申请人</td>
                                 <td style="width:40%;">
-                                	<input type="text" id="person" class="form-control" disabled style="width:70%;">
+                                	<input type="text" id="person" data_id="" class="form-control" disabled style="width:70%;">
                                     <button type="button" class="btn btn-default"  id="choseren">选择申请人</button>
                                     <!-- <select class="form-control" style="width:70%;" id="person">
                                     </select> -->
@@ -747,8 +747,11 @@
 	})
 	//添加人员到input框
 	$("#querenciren").click(function(){
-		var a=$("input[name='mingzi']:checked").parent().next().text();
-		$("#person").val(a);
+		var tr=$("input[name='mingzi']:checked").parents("tr");
+  		var data=$("#mingzibiao").DataTable().row(tr).data();
+		//var a=$("input[name='mingzi']:checked").parent().next().text();
+		$("#person").attr("data_id",data.userId);
+		$("#person").val(data.uName)
 		$("#people").modal("hide");
 	})
 	
@@ -771,11 +774,13 @@
 	        });
 	})
 	$("#quedingxm").click(function(){
-		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var tr=$("input[name='xiangmuName']:checked").parents("tr");
+  		var data=$("#xiangmubiao").DataTable().row(tr).data();
+		/* var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
 		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
-		var jiafang=$("input[name='xiangmuName']:checked").parent().next().next().next().next().next().text();
-		$("#prj_name").val(prjname);
-		$("#prj_no").val(prjNo);
+		var jiafang=$("input[name='xiangmuName']:checked").parent().next().next().next().next().next().text(); */
+		$("#prj_name").val(data.prjName);
+		$("#prj_no").val(data.prjNo);
 		$("#xiangmumd").modal("hide");
 		$.ajax({
             type: 'POST',
@@ -1137,13 +1142,17 @@
     
     function save(){
     	var department=$("#department").val();
-    	var person=$("#person").val();
+    	//var person=$("#person").val();
+    	var person=$("#person").attr("data_id");
     	var prj_name=$("#prj_name").val();
     	var prj_no=$("#prj_no").val();
     	var cj_name=$("#cj_name").val();
     	var cj_no=$("#cj_no").val();
     	var reasons=$("#reasons").val();
-    	
+    	if(person==""){
+			toastr.error("申请人不能为空")
+			return;
+		}
     	PrjMaterialBuy.applyDepartment=department;
     	PrjMaterialBuy.applyPerson=person;
     	PrjMaterialBuy.applyCode=prj_no;
@@ -1171,6 +1180,18 @@
     		var num=$(this).find("input").eq(2).val();
     		//var price=$(this).find("input").eq(3).val();
     		var infos=$(this).find("input").eq(3).val();
+    		if(name==""){
+    			toastr.error("材料名称不能为空")
+    			return;
+    		}
+    		if(modeType==""){
+    			toastr.error("规格型号不能为空")
+    			return;
+    		}
+    		if(num=="" || num<=0){
+    			toastr.error("数量不能为0或者为空")
+    			return;
+    		}
     		
     		var type=$(this).find("select").eq(0).val();
     		var unit=$(this).find("select").eq(1).val();
@@ -1209,13 +1230,17 @@
     
     function submit(){
     	var department=$("#department").val();
-    	var person=$("#person").val();
+    	//var person=$("#person").val();
+    	var person=$("#person").attr("data_id");
     	var prj_name=$("#prj_name").val();
     	var prj_no=$("#prj_no").val();
     	var cj_name=$("#cj_name").val();
     	var cj_no=$("#cj_no").val();
     	var reasons=$("#reasons").val();
-    	
+    	if(person==""){
+			toastr.error("申请人不能为空")
+			return;
+		}
     	PrjMaterialBuy.applyDepartment=department;
     	PrjMaterialBuy.applyPerson=person;
     	PrjMaterialBuy.applyCode=prj_no;
@@ -1243,7 +1268,18 @@
     		var num=$(this).find("input").eq(2).val();
     		//var price=$(this).find("input").eq(3).val();
     		var infos=$(this).find("input").eq(3).val();
-    		
+    		if(name==""){
+    			toastr.error("材料名称不能为空")
+    			return;
+    		}
+    		if(modeType==""){
+    			toastr.error("规格型号不能为空")
+    			return;
+    		}
+    		if(num=="" || num<=0){
+    			toastr.error("数量不能小于等于0或者为空")
+    			return;
+    		}
     		var type=$(this).find("select").eq(0).val();
     		var unit=$(this).find("select").eq(1).val();
     		var department_tj=$(this).find("select").eq(2).val();
