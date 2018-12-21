@@ -123,7 +123,70 @@
    // 调用方法
    	id=GetQueryString("prjId");
 
-    
+   	function initTable(){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/fbOverWj/selectFbContractOverWjById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	data=json;
+	        	$("#look_fbContractName").text(data.fbContractName);
+	        	$("#look_fbContract").text(data.fbContract);
+	        	$("#look_prjCode").text(data.prjCode);
+	        	$("#look_prjChargePerson").text(data.prjChargePerson);
+	        	$("#look_cjContractName").text(data.cjContractName);
+	        	$("#look_cjContract").text(data.cjContract);
+	        	$("#look_contractNameYi").text(data.contractNameYi);
+	        	$("#look_fbChargePerson").text(data.fbChargePerson);
+	        	$("#look_prjProbablyText").text(data.prjProbablyText);
+	        	$("#look_contractMoney").text(data.contractMoney);
+	        	$("#look_provisionalMoney").text(data.provisionalMoney);
+	        	$("#look_overWorkMoney").text(data.overWorkMoney);
+	        	$("#look_overWorkExplain").text(data.overWorkExplain);
+	        	$("#look_allPayMoney").text(data.allPayMoney);
+	        	$("#look_doAppointScore").text(data.doAppointScore);
+	        	
+	        	$.ajax({
+	                type: 'POST',
+	                url: getContextPath()+'/work/selectDepartmentAndPerson',
+	                dataType: 'json',
+	                async:false,
+	                data: {
+	                	id:data.fcowId
+	                },
+	                success: function (json) {
+	                	var accessory=json.accessory;
+	                	$("#look_accessory3 tbody").html('');
+	                	$("#look_accessory4 tbody").html('');
+	    				for(var j=0;j<accessory.length;j++){
+	    					if(accessory[j].aType=="合同文本"){
+	    		            	   $("#look_accessory3 tbody").append("<tr>"+
+	    	      	   										"<td>附件</td>"+
+	    							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
+	    							            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
+	    							            	    "</tr>");
+	    	            	   }
+	    	            	if(accessory[j].aType=="法律顾问签字"){
+	    		            	   $("#look_accessory4 tbody").append("<tr>"+
+	    	      	   										"<td>附件</td>"+
+	    							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
+	    							            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
+	    							            	    "</tr>");
+	    	            	   }
+	                	}
+	                }
+	      		});
+	        	
+	        	
+	        }
+	    });
+    	
+    	
+    }
 
     
     function new_accessory(){
@@ -154,57 +217,7 @@
 	}
     
     
-    function initTable(){
-    	
-    	
-    	$("#look_fbContractName").text(data.fbContractName);
-    	$("#look_fbContract").text(data.fbContract);
-    	$("#look_prjCode").text(data.prjCode);
-    	$("#look_prjChargePerson").text(data.prjChargePerson);
-    	$("#look_cjContractName").text(data.cjContractName);
-    	$("#look_cjContract").text(data.cjContract);
-    	$("#look_contractNameYi").text(data.contractNameYi);
-    	$("#look_fbChargePerson").text(data.fbChargePerson);
-    	$("#look_prjProbablyText").text(data.prjProbablyText);
-    	$("#look_contractMoney").text(data.contractMoney);
-    	$("#look_provisionalMoney").text(data.provisionalMoney);
-    	$("#look_overWorkMoney").text(data.overWorkMoney);
-    	$("#look_overWorkExplain").text(data.overWorkExplain);
-    	$("#look_allPayMoney").text(data.allPayMoney);
-    	$("#look_doAppointScore").text(data.doAppointScore);
-    	
-    	$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/work/selectDepartmentAndPerson',
-            dataType: 'json',
-            async:false,
-            data: {
-            	id:data.fcowId
-            },
-            success: function (json) {
-            	var accessory=json.accessory;
-            	$("#look_accessory3 tbody").html('');
-            	$("#look_accessory4 tbody").html('');
-				for(var j=0;j<accessory.length;j++){
-					if(accessory[j].aType=="合同文本"){
-		            	   $("#look_accessory3 tbody").append("<tr>"+
-	      	   										"<td>附件</td>"+
-							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
-							            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
-							            	    "</tr>");
-	            	   }
-	            	if(accessory[j].aType=="法律顾问签字"){
-		            	   $("#look_accessory4 tbody").append("<tr>"+
-	      	   										"<td>附件</td>"+
-							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
-							            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
-							            	    "</tr>");
-	            	   }
-            	}
-            }
-  		});
-    	
-    }
+    
     
     function exportThis(){
     	window.location.href=encodeURI(getContextPath()+'/fbOverWj/exportFbOverWj');
