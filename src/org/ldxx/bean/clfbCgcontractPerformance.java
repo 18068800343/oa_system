@@ -10,7 +10,6 @@ import java.util.List;
 public class clfbCgcontractPerformance {
 	
 	private String pId;
-	private String pNo;//购合同履约申请单号
 	private String cgContract;//采购合同名
 	private String cgNo;//采购合同号
 	private String cjContract;//承接合同名
@@ -53,13 +52,6 @@ public class clfbCgcontractPerformance {
 		this.pId = pId;
 	}
 
-	public String getpNo() {
-		return pNo;
-	}
-
-	public void setpNo(String pNo) {
-		this.pNo = pNo;
-	}
 
 	public String getCgContract() {
 		return cgContract;

@@ -11,13 +11,9 @@ public interface MaterialPurchaseSettlementService {
 
 	int addmaterialPurchaseSettlementSave(clfbContractPurchaseSettlement c);
 
-	int updateHistory(String cpId);
 
 	clfbContractPurchaseSettlement selectmaterialPurchaseSettlementById(String id);
 
-	int cgjsNocount();
-
-	List<clfbContractPurchaseSettlement> selectHistoryByNo(String no);
 
 	List<Accessory> selectAccessoryById(String id);
 

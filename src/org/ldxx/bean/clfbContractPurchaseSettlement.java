@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class clfbContractPurchaseSettlement {
 	private String cpId;
-	private String cgjsNo;//采购结算申请单号
 	private String taskNo;//任务单号
 	private String prjName;//项目名
 	private String cgContract;//采购合同名
@@ -43,12 +42,6 @@ public class clfbContractPurchaseSettlement {
 	}
 	public void setCgNo(String cgNo) {
 		this.cgNo = cgNo;
-	}
-	public String getCgjsNo() {
-		return cgjsNo;
-	}
-	public void setCgjsNo(String cgjsNo) {
-		this.cgjsNo = cgjsNo;
 	}
 	public String getCpId() {
 		return cpId;

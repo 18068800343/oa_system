@@ -3,18 +3,26 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgContract;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.ProjectList;
+import org.ldxx.bean.User;
 import org.ldxx.bean.clfbCgcontractPerformance;
 import org.ldxx.service.MaterialPerformanceService;
+import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.util.ExportData;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +42,8 @@ public class MaterialPerformanceController {
 	
 	@Autowired
 	private MaterialPerformanceService mpService;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/selectmaterialPerformanceByStatus")
 	@ResponseBody
@@ -48,10 +58,6 @@ public class MaterialPerformanceController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		c.setpId(id);
-		
-		int count=mpService.pNocount();
-		String no="CGLY"+uuid.getPrjCode("", count+1);
-		c.setpNo(no);
 		
 		String path="D:"+File.separator+"oa"+File.separator+"materialPerformance"+File.separator+id;
 		File f=new File(path);
@@ -99,15 +105,11 @@ public class MaterialPerformanceController {
 	
 	@RequestMapping("/addmaterialPerformanceSubmit")//添加提交
 	@ResponseBody
-	public Map<String,Object> addmaterialPerformanceSubmit(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
+	public String addmaterialPerformanceSubmit(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		c.setpId(id);
-		
-		int count=mpService.pNocount();
-		String no="CGLY"+uuid.getPrjCode("", count+1);
-		c.setpNo(no);
 		
 		String path="D:"+File.separator+"oa"+File.separator+"materialPerformance"+File.separator+id;
 		File f=new File(path);
@@ -147,16 +149,51 @@ public class MaterialPerformanceController {
 			c.setAccessory2(list2);
 		}
 		int i=mpService.addmaterialPerformanceSave(c);
-		map.put("result", i);
+		String string = i+"";
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(c.getCgContract()+"材料采购合同履约");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(c.getCgContract()+"材料采购合同履约流程发起");
+			currentFlow.setUrl("shengchanguanliLook/SubcontractMaterialHTLY.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
+		/*map.put("result", i);
 		map.put("clfbCgcontractPerformance", c);
-		return map;
+		return map;*/
 	}
 	
 	@RequestMapping("/updatematerialPerformanceSave")//修改保存
 	@ResponseBody
 	public Map<String,Object> updatematerialPerformanceSave(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile file[],@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
-		//mpService.updateHistoryById(c.getpId());//修改历史状态
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		c.setpId(id);
@@ -209,7 +246,6 @@ public class MaterialPerformanceController {
 	@ResponseBody
 	public Map<String,Object> updatematerialPerformanceSubmit(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile file[],@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
-		//mpService.updateHistoryById(c.getpId());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		c.setpId(id);
@@ -275,12 +311,6 @@ public class MaterialPerformanceController {
 		return i;
 	}
 	
-	@RequestMapping("/selectHistoryByNo")
-	@ResponseBody
-	public List<clfbCgcontractPerformance> selectHistoryByNo(String no){
-		return mpService.selectHistoryByNo(no);
-	}
-
 	
 	@RequestMapping("/exportmaterialPerformance")//导出 
 	@ResponseBody
@@ -293,17 +323,13 @@ public class MaterialPerformanceController {
 		for (int i = 0; i < projectList.size(); i++) {
 			List<String> data = new ArrayList<>();
 			data.add(i + 1 + "");
-			data.add(projectList.get(i).getpNo());
 			data.add(projectList.get(i).getCgNo());
 			data.add(projectList.get(i).getCgContract());
 			data.add(projectList.get(i).getTaskNo());
 			data.add(projectList.get(i).getPrjPerson());
-			data.add(projectList.get(i).getCjContract());
-			data.add(projectList.get(i).getCjNo());
 			data.add(projectList.get(i).getContractYi());
 			data.add(projectList.get(i).getFbPerson());
 			data.add(projectList.get(i).getContractMoney()+"");
-			data.add(projectList.get(i).getProvisionalMoney()+"");
 			data.add(projectList.get(i).getSettlementMoney()+"");
 			data.add(projectList.get(i).getSettlementDesc());
 			data.add(projectList.get(i).getAccumulativePaymentMoney()+"");
@@ -311,8 +337,15 @@ public class MaterialPerformanceController {
 			data.add(projectList.get(i).getPerformanceDesc());
 			dataList.add(data);
 		}
-		String[] array = { "编号","采购合同履约申请单号" , "采购合同号", "采购合同名称", "任务单号", "项目负责人","承接合同名", "承接合同编号", "合同乙方", "分包负责人", "合同金额", "暂定金", "结算金额",
+		String[] array = { "编号", "采购合同号", "采购合同名称", "任务单号", "项目负责人", "合同乙方", "分包负责人", "合同金额", "结算金额",
 				"结算说明","累计付款","履约评级","项目概况、工作内容、实际工期"};
 		exportData.ExportWithResponse(xlsName, xlsName, array.length, array, dataList, response);
+	}
+	
+	@RequestMapping("/selectmaterialPerformanceById")
+	@ResponseBody
+	public List<clfbCgcontractPerformance> selectmaterialPerformanceById(String id){
+		List<clfbCgcontractPerformance> list=mpService.selectmaterialPerformanceById(id);
+		return list;
 	}
 }

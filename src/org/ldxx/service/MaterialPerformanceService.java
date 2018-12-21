@@ -9,16 +9,12 @@ public interface MaterialPerformanceService {
 
 	List<clfbCgcontractPerformance> selectmaterialPerformanceByStatus(String status);
 
-	int pNocount();
-
 	int addmaterialPerformanceSave(clfbCgcontractPerformance c);
-
-	void updateHistoryById(String pId);
 
 	List<Accessory> selectAccessoryById(String id);
 
 	int deleteAccessoryByIdAndName(Accessory accessory);
 
-	List<clfbCgcontractPerformance> selectHistoryByNo(String no);
+	List<clfbCgcontractPerformance> selectmaterialPerformanceById(String id);
 
 }

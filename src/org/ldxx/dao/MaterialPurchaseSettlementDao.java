@@ -11,12 +11,7 @@ public interface MaterialPurchaseSettlementDao {
 
 	int addmaterialPurchaseSettlementSave(@Param("c")clfbContractPurchaseSettlement c);
 
-	int updateHistory(@Param("cpId")String cpId);
-
 	clfbContractPurchaseSettlement selectmaterialPurchaseSettlementById(@Param("id")String id);
 
-	int cgjsNocount();
-
-	List<clfbContractPurchaseSettlement> selectHistoryByNo(@Param("no")String no);
 
 }

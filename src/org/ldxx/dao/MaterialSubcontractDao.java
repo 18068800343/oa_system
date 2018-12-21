@@ -11,11 +11,6 @@ public interface MaterialSubcontractDao {
 
 	int addmSubcontractSave(@Param("c")ClfbContractEvaluate c);
 
-	void updateHistory(@Param("ceId")String ceId);
-
-	List<ClfbContractEvaluate> selectHistoryBypayCode(@Param("code")String code);
-
-	int MCodecount();
 
 	ClfbContractEvaluate selectmSubcontractById(@Param("id")String id);
 

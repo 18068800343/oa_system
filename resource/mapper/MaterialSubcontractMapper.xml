@@ -5,30 +5,21 @@
 		select *,b.om_name from clfb_contract_evaluate c
 			left join mode_status m on m.mode_id=c.ce_id
 			left join organization_management b  on c.department=b.om_id
-		where m.status=#{status} and c.history=1
+		where m.status=#{status} 
 	</select>
 	<insert id="addmSubcontractSave" parameterType="ClfbContractEvaluate">
 		insert into clfb_contract_evaluate (ce_id,task_no,prj_name,prj_person,department,
 			material_contract_code,contract_all_money,contract_end_money,pay_mode,
 			actual_charge_person,score_product_quality_ease,score_give_production_time,
-			score_material_report,score_customer_use,score_pay_mode_evaluate,score_safety_civilization_environment,all_score,make_time,history)
+			score_material_report,score_customer_use,score_pay_mode_evaluate,score_safety_civilization_environment,all_score,make_time)
 		values(#{c.ceId},#{c.taskNo},#{c.prjName},#{c.prjPerson},#{c.department},#{c.materialContractCode},
 			#{c.contractAllMoney},#{c.contractEndMoney},#{c.payMode},#{c.actualChargePerson},#{c.scoreProductQualityEase},
 			#{c.scoreGiveProductionTime},#{c.scoreMaterialReport},#{c.scoreCustomerUse},#{c.scorePayModeEvaluate},
-			#{c.scoreSafetyCivilizationEnvironment},#{c.allScore},now(),1)
+			#{c.scoreSafetyCivilizationEnvironment},#{c.allScore},now())
 	</insert>
-	<update id="updateHistory">
-		update clfb_contract_evaluate set history=0  where ce_id=#{ceId}
-	</update>
-	<select id="selectHistoryBypayCode" resultType="ClfbContractEvaluate">
-		select  *,b.om_name from clfb_contract_evaluate c
-		left join organization_management b  on c.department=b.om_id
-		where material_contract_code=#{code} and history=0
-	</select>
-	<select id="MCodecount" resultType="int">
-		select count(1) from (select distinct material_contract_code from clfb_contract_evaluate ) as a
-	</select>
 	<select id="selectmSubcontractById" resultType="ClfbContractEvaluate">
-		select * from clfb_contract_evaluate where ce_id=#{id}
+		select a.*,b.om_name from clfb_contract_evaluate a
+		left join organization_management b  on a.department=b.om_id
+		where ce_id=#{id}
 	</select>
 </mapper>

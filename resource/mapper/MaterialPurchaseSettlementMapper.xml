@@ -4,24 +4,15 @@
 	<select id="selectmaterialPurchaseSettlement" resultType="clfbContractPurchaseSettlement">
 		select * from clfb_contract_purchaseSettlement c
 		left join mode_status m on m.mode_id=c.cp_id
-		where m.status=#{status} and c.history=1
+		where m.status=#{status}
 	</select>
 	<insert id="addmaterialPurchaseSettlementSave" parameterType="clfbContractPurchaseSettlement">
-		insert into clfb_contract_purchaseSettlement(cp_id,cgjs_no,task_no,prj_name,cg_contract,cg_no,cj_contract,cj_no,audit_settlement_type,settlement_time,
-		purchaseSettlementDesc,make_time,history)
-		values(#{c.cpId},#{c.cgjsNo},#{c.taskNo},#{c.prjName},#{c.cgContract},#{c.cgNo},#{c.cjContract},#{c.cjNo},#{c.auditSettlementType},
-		#{c.settlementTime},#{c.purchaseSettlementDesc},now(),1)
+		insert into clfb_contract_purchaseSettlement(cp_id,task_no,prj_name,cg_contract,cg_no,cj_contract,cj_no,audit_settlement_type,settlement_time,
+		purchaseSettlementDesc,make_time)
+		values(#{c.cpId},#{c.taskNo},#{c.prjName},#{c.cgContract},#{c.cgNo},#{c.cjContract},#{c.cjNo},#{c.auditSettlementType},
+		#{c.settlementTime},#{c.purchaseSettlementDesc},now())
 	</insert>
-	<update id="updateHistory">
-		update clfb_contract_purchaseSettlement set history=0 where cp_id=#{cpId}
-	</update>
 	<select id="selectmaterialPurchaseSettlementById" resultType="clfbContractPurchaseSettlement">
 		select * from clfb_contract_purchaseSettlement where cp_id=#{id}
-	</select>
-	<select id="cgjsNocount" resultType="int">
-		select count(1) from (select distinct cgjs_no from clfb_contract_purchaseSettlement ) as a;
-	</select>
-	<select id="selectHistoryByNo" resultType="clfbContractPurchaseSettlement">
-		select * from clfb_contract_purchaseSettlement c where c.cgjs_no=#{no} and c.history=0
 	</select>
 </mapper>

@@ -27,21 +27,6 @@ public class MaterialSubcontractServiceImpl implements MaterialSubcontractServic
 	}
 
 	@Override
-	public void updateHistory(String ceId) {
-		msDao.updateHistory(ceId);
-	}
-
-	@Override
-	public List<ClfbContractEvaluate> selectHistoryBypayCode(String code) {
-		return msDao.selectHistoryBypayCode(code);
-	}
-
-	@Override
-	public int MCodecount() {
-		return msDao.MCodecount();
-	}
-
-	@Override
 	public ClfbContractEvaluate selectmSubcontractById(String id) {
 		return msDao.selectmSubcontractById(id);
 	}

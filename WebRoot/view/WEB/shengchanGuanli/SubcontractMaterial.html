@@ -727,7 +727,7 @@
                         </tr>
                     </table>
                     <!-- 历史信息表格 -->
-				    <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory">
+				    <!-- <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory">
                         <thead>
                             <tr>
                                 <th colspan="6">历史信息</th>
@@ -743,7 +743,7 @@
                         <tbody>
                             
                         </tbody>
-                    </table>
+                    </table> -->
                 </form> 
             </div>
         </div>
@@ -1187,12 +1187,8 @@
                             <td id="lookcjhetonghao"></td>
                         </tr>
                         <tr>
-                        	<td style="width:100px;">采购结算申请单号</td>
-                            <td id="lookcgjshao"></td>
                             <td>审计结算类型</td>
                             <td id="lookjiesuantype"></td>
-                        </tr>
-                        <tr>
                             <td>时间</td>
                             <td id="lookyear"></td>
                         </tr>
@@ -1204,7 +1200,7 @@
                     <table class="table table-bordered table-condensed" id="look_cgjs_accessory">
 					</table>
                      <!-- 历史信息表格 -->
-				    <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory2">
+				    <!-- <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory2">
                         <thead>
                             <tr>
                                 <th colspan="6">历史信息</th>
@@ -1220,7 +1216,7 @@
                         <tbody>
                             
                         </tbody>
-                    </table>
+                    </table> -->
                 </form>  
             </div>
         </div>
@@ -1768,12 +1764,12 @@
                             <td>项目负责人</td>
                             <td id="lookprjperson3"></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td style="width:100px;">承接合同名称</td>
                             <td id="lookcjhetongming"></td>
                             <td>承接合同编号</td>
                             <td id="lookcjhetongbianhao"></td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td>合同乙方</td>
                             <td id="lookyifang"></td>
@@ -1783,24 +1779,22 @@
                         <tr>
                             <td>合同金额(万元)</td>
                             <td id="lookhetongMoney"></td>
-                            <td>暂定金(万元)</td>
-                            <td id="lookzandingMoney"></td>
-                        </tr>
-                        <tr>
+                            <!-- <td>暂定金(万元)</td>
+                            <td id="lookzandingMoney"></td> -->
                             <td>结算金额(万元)</td>
                             <td id="lookjiesuanMoney"></td>
+                        </tr>
+                        <tr>
                             <td>结算说明</td>
                             <td id="lookjiesuandesc"></td>
-                        </tr>
-                        <tr>
                             <td>累计付款(万元)</td>
                             <td id="lookljfukuan"></td>
-                            <td>履约评级</td>
-                            <td id="looklypingji"></td>
                         </tr>
                         <tr>
-                           	<td>采购合同履约申请单号</td>
-                            <td id="lookcglydanhao"></td>
+                            <td>履约评级</td>
+                            <td id="looklypingji"></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>项目概况、工作内容、实际工期</td>
@@ -1818,7 +1812,7 @@
 				                        		
 				    </table>
 				    <!-- 历史信息表格 -->
-				    <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory3">
+				    <!-- <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory3">
                         <thead>
                             <tr>
                                 <th colspan="6">历史信息</th>
@@ -1834,7 +1828,7 @@
                         <tbody>
                             
                         </tbody>
-                    </table>
+                    </table> -->
                 </form>  
             </div>
         </div>
@@ -2077,6 +2071,38 @@
     </div>
 </div>
 <!-- model项目结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-condensed" id="tijiaoren">
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
+                        </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitPerson()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
+
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
@@ -3776,14 +3802,53 @@
 	            	performanceDesc:prjgaikuang,
 	            },
 	            success: function (json) {
-	            	console.log(json);
+	            	if(json=='0'){
+		        		toastr.error("保存失败");
+		        	}else{
+		        		$("#myModal3").modal("hide")
+		        		lianjie=json.url;
+		            	if(json.receiver!=null&&json.receiver.length>=1){
+			        		  $("#tijiaogei").modal('show');
+			        		  $("#tijiaoren tbody").empty("");
+			        		  for(var i=0;i<json.receiver.length;i++){
+			        			  $("#tijiaoren tbody").append('<tr><td>'
+			        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+			        					  +'</td><td>'
+			        					  +json.receiver[i].omName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].dutyName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].uName
+			        					  +'</td></tr>');
+			        		  }
+			        	  }else if(json.receiver.length==1){
+			        		  $.ajax({
+			        	          type: 'POST',
+			        	          url: getContextPath()+'/task/addTask4',
+			        	          dataType: 'json',
+			        	          data:{
+			        	        	  url:json.url,
+			        	        	  userId:json.receiver.userId,
+			        	        	  uName:json.receiver.uName,
+			        	        	  omName:json.receiver.omName,
+			        	        	  dutyName:json.receiver.dutyName,
+			        	        	  omId:json.receiver.omId,
+			        	        	  dutyId:json.receiver.dutyId
+			        	          },
+			        	          success: function (json) {
+			        	        	  toastr.success('提交成功');
+			        	          }
+			        	      }); 
+			        	  }
+		        	}
+	            	/* console.log(json);
 	            	if(json.result>0){
 						$("#myModal3").modal("hide")
 						toastr.success("添加成功")
 						initTable3();
 					}else{
 						toastr.error("添加失败")
-					}
+					} */
 	            }
 	        };
 			$("#new_form").ajaxSubmit(options);
@@ -3975,31 +4040,25 @@
 	
 	
 	//查看详细信息
-	var pNo;
 	function lookcgly(obj){
 		var dom=$(obj).parents('tr');
 		var data=$('#mainContent3').DataTable().row(dom).data();
-		console.log(data)
-		pNo=data.pNo;
+		//console.log(data)
 		
 		$("#lookcghetongming").text(data.cgContract);
 		$("#lookcghetonghao").text(data.cgNo);
 		$("#lookrenwudanhao").text(data.taskNo);
 		$("#lookprjperson3").text(data.prjPerson);
-		$("#lookcjhetongming").text(data.cjContract);
-		$("#lookcjhetongbianhao").text(data.cjNo);
 		$("#lookyifang").text(data.spName);
 		$("#lookfbperson").text(data.fbPerson);
 		$("#lookhetongMoney").text(data.contractMoney);
-		$("#lookzandingMoney").text(data.provisionalMoney);
 		$("#lookjiesuanMoney").text(data.settlementMoney);
 		$("#lookjiesuandesc").text(data.settlementDesc);
 		$("#lookljfukuan").text(data.accumulativePaymentMoney);
 		$("#looklypingji").text(data.performanceGrade);
-		$("#lookcglydanhao").text(data.pNo)
 		$("#lookprjgaikuang").text(data.performanceDesc);
 		
-		initTableHistory3();
+		//initTableHistory3();
 		
 		$.ajax({
 			type:"post",
@@ -4041,7 +4100,7 @@
 	}
   
 	//初始化历史列表
-	function initTableHistory3(){
+	/* function initTableHistory3(){
         $.ajax({
             type: 'POST',
             url: getContextPath()+'/materialPerformance/selectHistoryByNo',
@@ -4055,9 +4114,9 @@
                 $('#lookHistory3').DataTable().rows.add(json).draw(false);
             }
         });
-    }
+    } */
 	//查看历史详细信息
-	function lookHistorycgly(obj){
+	/* function lookHistorycgly(obj){
 		var dom=$(obj).parents('tr');
 		var data=$('#lookHistory3').DataTable().row(dom).data();
 		console.log(data)
@@ -4114,7 +4173,7 @@
 	               }
 			}
 		})
-	}
+	} */
 	
 	
 	
@@ -4492,13 +4551,52 @@
 	        },
 	        success: function (json) {
 	        	//console.log(json)
-	        	if(json.result>0){
+	        	if(json=='0'){
+	        		toastr.error("保存失败");
+	        	}else{
+	        		$("#myModal2").modal("hide")
+	        		lianjie=json.url;
+	            	if(json.receiver!=null&&json.receiver.length>=1){
+		        		  $("#tijiaogei").modal('show');
+		        		  $("#tijiaoren tbody").empty("");
+		        		  for(var i=0;i<json.receiver.length;i++){
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+		        					  +'</td><td>'
+		        					  +json.receiver[i].omName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].dutyName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].uName
+		        					  +'</td></tr>');
+		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver.userId,
+		        	        	  uName:json.receiver.uName,
+		        	        	  omName:json.receiver.omName,
+		        	        	  dutyName:json.receiver.dutyName,
+		        	        	  omId:json.receiver.omId,
+		        	        	  dutyId:json.receiver.dutyId
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
+		        	  }
+	        	}
+	        	/* if(json.result>0){
 	        		$("#myModal2").modal('hide')
 	        		toastr.success("添加成功")
 	        		initTable2();
 	        	}else{
 	        		toastr.error("添加失败")
-	        	}
+	        	} */
 	        }
 	    };
     	$("#cgjs_form").ajaxSubmit(options);
@@ -4634,14 +4732,13 @@
     	$("#looktaskNo2").text(data.taskNo);
     	$("#lookcghetong").text(data.cgContract);
     	$("#lookcghetonghao2").text(data.cgNo);
-    	$("#lookcgjshao").text(data.cgjsNo)
     	$("#lookcjhetong").text(data.cjContract);
     	$("#lookcjhetonghao").text(data.cjNo);
     	$("#lookjiesuantype").text(data.auditSettlementType);
     	$("#lookyear").text(data.settlementTime);
     	$("#lookgaishu").text(data.purchaseSettlementDesc);
     	
-    	initTableHistory2();
+    	//initTableHistory2();初始化历史
     	
     	$.ajax({
 			type:"post",
@@ -4667,7 +4764,7 @@
 		})
     }
   //初始化历史列表
-	function initTableHistory2(){
+	/* function initTableHistory2(){
         $.ajax({
             type: 'POST',
             url: getContextPath()+'/materialPurchaseSettlement/selectHistoryByNo',
@@ -4681,10 +4778,10 @@
                 $('#lookHistory2').DataTable().rows.add(json).draw(false);
             }
         });
-    }
+    } */
     
   //查看历史详细信息
-  function lookHistorycgjiesuan(obj){
+  /* function lookHistorycgjiesuan(obj){
 	 	var dom=$(obj).parents('tr');
 	 	var data=$('#lookHistory2').DataTable().row(dom).data();
 		console.log(data)
@@ -4727,7 +4824,7 @@
 	               }
 			}
 		})
-	  }
+	  } */
   
   
   
@@ -5330,7 +5427,46 @@
             	
             },
             success: function (json) {
-            	console.log(json);
+            	if(json=='0'){
+	        		toastr.error("保存失败");
+	        	}else{
+	        		$("#myModal").modal("hide")
+	        		lianjie=json.url;
+	            	if(json.receiver!=null&&json.receiver.length>=1){
+		        		  $("#tijiaogei").modal('show');
+		        		  $("#tijiaoren tbody").empty("");
+		        		  for(var i=0;i<json.receiver.length;i++){
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+		        					  +'</td><td>'
+		        					  +json.receiver[i].omName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].dutyName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].uName
+		        					  +'</td></tr>');
+		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver.userId,
+		        	        	  uName:json.receiver.uName,
+		        	        	  omName:json.receiver.omName,
+		        	        	  dutyName:json.receiver.dutyName,
+		        	        	  omId:json.receiver.omId,
+		        	        	  dutyId:json.receiver.dutyId
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
+		        	  }
+	        	}
+            	/* console.log(json);
             	if(json==0){
 					toastr.error("添加失败")
 				}else if(json>0){
@@ -5338,12 +5474,39 @@
 					$("#myModal").modal("hide")
 					toastr.success("添加成功")
 					initTable();
-				} 
+				} */ 
             }
 		}) 
 		
 	}
 	
+	
+	function submitPerson(){
+	  		var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+	  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+	  	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+	  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+	  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+	  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+	  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+	  	  $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/addTask4',
+	            dataType: 'json',
+	            data:{
+	          	  url:lianjie,
+	          	  userId:uid,
+	          	  uName:uname,
+	          	  omName:bmmc,
+	          	  dutyName:zw,
+	          	  omId:omid,
+	          	  dutyId:dutyid
+	            },
+	            success: function (json) {
+	          	  toastr.success('提交成功');
+	            }
+	        });  
+	  	}
 	
 	
 	//修改回显
@@ -5584,11 +5747,11 @@
 		$("#lookpj6").text(data.scoreSafetyCivilizationEnvironment)
 		$("#lookpj7").text(data.allScore)
 		
-		initTableHistory();
+		//initTableHistory();
 	}
 	
 	//初始化历史列表
-	function initTableHistory(){
+	/* function initTableHistory(){
         $.ajax({
             type: 'POST',
             url: getContextPath()+'/MaterialSubcontract/selectHistoryBypayCode',
@@ -5605,10 +5768,10 @@
                 $('#lookHistory').DataTable().rows.add(json).draw(false);
             }
         });
-    }
+    } */
 	
 	//查看历史详细信息
-	function lookHistorylypingjia(obj){
+	/* function lookHistorylypingjia(obj){
 		var dom=$(obj).parents('tr');
 		var data=$('#lookHistory').DataTable().row(dom).data();
 		console.log(data)
@@ -5636,7 +5799,7 @@
 		$("#Historypj6").text(data.scoreSafetyCivilizationEnvironment)
 		$("#Historypj7").text(data.allScore)
         
-	}
+	} */
 	
 	
 	

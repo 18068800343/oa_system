@@ -3,13 +3,24 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.Task;
+import org.ldxx.bean.User;
 import org.ldxx.bean.clfbContractPurchaseSettlement;
 import org.ldxx.service.MaterialPurchaseSettlementService;
+import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.TaskService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +41,8 @@ public class MaterialPurchaseSettlementController {
 	
 	@Autowired
 	private MaterialPurchaseSettlementService mService;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/selectmaterialPurchaseSettlement")//初始化
 	@ResponseBody
@@ -45,11 +58,6 @@ public class MaterialPurchaseSettlementController {
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCpId(id);
-		int count=mService.cgjsNocount();
-		count=count+1;
-		String code=uuid.getPrjCode("", count);
-		code="CGJS"+code;
-		c.setCgjsNo(code);
 		
 		String path = "D:"+File.separator+"oa"+File.separator+"materialPurchaseSettlement";
 		File f=new File(path);
@@ -80,16 +88,11 @@ public class MaterialPurchaseSettlementController {
 	
 	@RequestMapping("/addmaterialPurchaseSettlementSubmit")//添加提交
 	@ResponseBody
-	public Map<String,Object> addmaterialPurchaseSettlementSubmit(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[]) throws IllegalStateException, IOException{
+	public String addmaterialPurchaseSettlementSubmit(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[],HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<String, Object>();
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCpId(id);
-		int count=mService.cgjsNocount();
-		count=count+1;
-		String code=uuid.getPrjCode("", count);
-		code="CGJS"+code;
-		c.setCgjsNo(code);
 		
 		String path = "D:"+File.separator+"oa"+File.separator+"materialPurchaseSettlement";
 		File f=new File(path);
@@ -114,9 +117,45 @@ public class MaterialPurchaseSettlementController {
 		}
 		
 		int i=mService.addmaterialPurchaseSettlementSave(c);
-		map.put("result",i);
+		String string = i+"";
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(c.getCgContract()+"材料采购结算申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(c.getCgContract()+"材料采购结算申请流程发起");
+			currentFlow.setUrl("shengchanguanliLook/SubcontractMaterialJSSQ.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
+		/*map.put("result",i);
 		map.put("clfbContractPurchaseSettlement", c);
-		return map;
+		return map;*/
 	}
 	
 	
@@ -124,7 +163,6 @@ public class MaterialPurchaseSettlementController {
 	@ResponseBody
 	public Map<String,Object> updatematerialPurchaseSettlementSave(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[]) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<String, Object>();
-		mService.updateHistory(c.getCpId());
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCpId(id);
@@ -162,7 +200,6 @@ public class MaterialPurchaseSettlementController {
 	@ResponseBody
 	public Map<String,Object> updatematerialPurchaseSettlementSubmit(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[]) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<String, Object>();
-		mService.updateHistory(c.getCpId());
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCpId(id);
@@ -219,12 +256,6 @@ public class MaterialPurchaseSettlementController {
 	@ResponseBody
 	public clfbContractPurchaseSettlement selectmaterialPurchaseSettlementById(String id){
 		return mService.selectmaterialPurchaseSettlementById(id);
-	}
-	
-	@RequestMapping("/selectHistoryByNo")//通过采购结算单号查询所有历史信息
-	@ResponseBody
-	public List<clfbContractPurchaseSettlement> selectHistoryByNo(String no){
-		return mService.selectHistoryByNo(no);
 	}
 
 }

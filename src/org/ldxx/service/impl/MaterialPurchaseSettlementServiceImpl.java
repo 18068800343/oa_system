@@ -30,32 +30,20 @@ public class MaterialPurchaseSettlementServiceImpl implements MaterialPurchaseSe
 		int i=mDao.addmaterialPurchaseSettlementSave(c);
 		if(i>0){
 			List<Accessory> accessory = c.getAccessory();
-			if(accessory.size()>0&&accessory!=null){
+			if(accessory!=null && accessory.size()!=0){
 				i=adao.addAccessory(accessory);
 			}
 		}
 		return i;
 	}
 
-	@Override
-	public int updateHistory(String cpId) {
-		return mDao.updateHistory(cpId);
-	}
 
 	@Override
 	public clfbContractPurchaseSettlement selectmaterialPurchaseSettlementById(String id) {
 		return mDao.selectmaterialPurchaseSettlementById(id);
 	}
 
-	@Override
-	public int cgjsNocount() {
-		return mDao.cgjsNocount();
-	}
 
-	@Override
-	public List<clfbContractPurchaseSettlement> selectHistoryByNo(String no) {
-		return mDao.selectHistoryByNo(no);
-	}
 
 	@Override
 	public List<Accessory> selectAccessoryById(String id) {

@@ -27,11 +27,6 @@ public class MaterialPerformanceServiceImpl implements MaterialPerformanceServic
 	}
 
 	@Override
-	public int pNocount() {
-		return mpDao.pNocount();
-	}
-
-	@Override
 	public int addmaterialPerformanceSave(clfbCgcontractPerformance c) {
 		int i=mpDao.addmaterialPerformanceSave(c);
 		if(i>0){
@@ -47,10 +42,6 @@ public class MaterialPerformanceServiceImpl implements MaterialPerformanceServic
 		return i;
 	}
 
-	@Override
-	public void updateHistoryById(String pId) {
-		mpDao.updateHistoryById(pId);
-	}
 
 	@Override
 	public List<Accessory> selectAccessoryById(String id) {
@@ -63,7 +54,8 @@ public class MaterialPerformanceServiceImpl implements MaterialPerformanceServic
 	}
 
 	@Override
-	public List<clfbCgcontractPerformance> selectHistoryByNo(String no) {
-		return mpDao.selectHistoryByNo(no);
+	public List<clfbCgcontractPerformance> selectmaterialPerformanceById(String id) {
+		return mpDao.selectmaterialPerformanceById(id);
 	}
+
 }

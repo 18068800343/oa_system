@@ -10,12 +10,6 @@ public interface MaterialSubcontractService {
 
 	int addmSubcontractSave(ClfbContractEvaluate c);
 
-	void updateHistory(String ceId);
-
-	List<ClfbContractEvaluate> selectHistoryBypayCode(String code);
-
-	int MCodecount();
-
 	ClfbContractEvaluate selectmSubcontractById(String id);
 
 }
