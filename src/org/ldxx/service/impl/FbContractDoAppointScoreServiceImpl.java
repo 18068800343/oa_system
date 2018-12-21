@@ -24,4 +24,9 @@ public class FbContractDoAppointScoreServiceImpl implements FbContractDoAppointS
 		return dao.selectFbContractDoAppointScore(state);
 	}
 
+	@Override
+	public FbContractDoAppointScore selectFbContractDoAppointScoreById(String id) {
+		return dao.selectFbContractDoAppointScoreById(id);
+	}
+
 }

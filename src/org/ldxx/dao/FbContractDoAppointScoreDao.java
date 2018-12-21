@@ -11,4 +11,6 @@ public interface FbContractDoAppointScoreDao {
 	
 	public List<FbContractDoAppointScore> selectFbContractDoAppointScore(@Param("state")String state);
 	
+	public FbContractDoAppointScore selectFbContractDoAppointScoreById(@Param("id")String id);
+	
 }
