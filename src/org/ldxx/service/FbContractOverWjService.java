@@ -13,4 +13,6 @@ public interface FbContractOverWjService {
 	public FbContractOverWj getFbOverMoney(String no);
 	
 	public List<FbContractOverWj> getAllPayMoneyByFbNo(String no);
+	
+	public FbContractOverWj selectFbContractOverWjById(String id);
 }

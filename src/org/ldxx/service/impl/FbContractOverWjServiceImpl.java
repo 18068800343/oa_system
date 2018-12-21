@@ -52,4 +52,9 @@ public class FbContractOverWjServiceImpl implements FbContractOverWjService{
 		return dao.getAllPayMoneyByFbNo(no);
 	}
 
+	@Override
+	public FbContractOverWj selectFbContractOverWjById(String id) {
+		return dao.selectFbContractOverWjById(id);
+	}
+
 }
