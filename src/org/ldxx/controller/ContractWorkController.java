@@ -412,7 +412,7 @@ public class ContractWorkController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getUsername());
 			currentFlow.setMemo(cwork.getCjContractName()+"合同竣工履约申请流程发起");
-			currentFlow.setUrl("shengchanguanliLook/UndertakeContractHTLVSQ.html-"+id);
+			currentFlow.setUrl("shengchanguanliLook/UndertakeContractJGSQ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());

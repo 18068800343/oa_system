@@ -53,7 +53,7 @@ public class MaterialPurchaseSettlementController {
 	
 	@RequestMapping("/addmaterialPurchaseSettlementSave")//添加保存
 	@ResponseBody
-	public Map<String,Object> addmaterialPurchaseSettlementSave(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[]) throws IllegalStateException, IOException{
+	public Map<String,Object> addmaterialPurchaseSettlementSave(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[],HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<String, Object>();
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
@@ -81,6 +81,41 @@ public class MaterialPurchaseSettlementController {
 			c.setAccessory(list);
 		}
 		int i=mService.addmaterialPurchaseSettlementSave(c);
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			String string="";
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(c.getCgContract()+"材料采购结算申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(c.getCgContract()+"材料采购结算申请流程发起");
+			currentFlow.setUrl("shengchanGuanli/SubcontractMaterialJSSQ.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		map.put("result",i);
 		map.put("clfbContractPurchaseSettlement", c);
 		return map;

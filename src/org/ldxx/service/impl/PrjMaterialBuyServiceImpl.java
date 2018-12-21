@@ -81,4 +81,14 @@ public class PrjMaterialBuyServiceImpl implements PrjMaterialBuyService{
 		return dao.selectDepartmentlike(bumen);
 	}
 
+	@Override
+	public PrjMaterialBuy selectPrjMaterialBuyById(String id) {
+		PrjMaterialBuy buy= dao.selectPrjMaterialBuyById(id);
+		if(buy!=null){
+			List<MaterialDemand> list = mdao.getMdById(id);
+			buy.setMd(list);
+		}
+		return buy;
+	}
+
 }

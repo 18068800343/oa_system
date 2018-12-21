@@ -45,11 +45,46 @@ public class MaterialSubcontractController {
 	
 	@RequestMapping("/addmSubcontractSave")//添加保存
 	@ResponseBody
-	public int addmSubcontractSave(ClfbContractEvaluate c){
+	public int addmSubcontractSave(ClfbContractEvaluate c,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCeId(id);
 		int i=msService.addmSubcontractSave(c);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(c.getDepartment());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(c.getPrjName()+"材料采购合同履约评价");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(c.getPrjName()+"材料采购合同履约评价流程发起");
+			currentFlow.setUrl("shengchanGuanli/SubcontractMaterialLYPJ.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
@@ -60,12 +95,6 @@ public class MaterialSubcontractController {
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCeId(id);
-		
-		/*int count=msService.MCodecount();
-		count=count+1;
-		String code=uuid.getPrjCode("", count);
-		code="CLCG"+code;
-		c.setMaterialContractCode(code);*/
 		
 		int i=msService.addmSubcontractSave(c);
 		String string = i+"";

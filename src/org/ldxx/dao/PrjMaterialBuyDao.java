@@ -25,4 +25,6 @@ public interface PrjMaterialBuyDao {
 
 	public List<PrjMaterialBuy> selectDepartmentlike(@Param("bumen")String bumen);
 
+	public PrjMaterialBuy selectPrjMaterialBuyById(@Param("id")String id);
+
 }

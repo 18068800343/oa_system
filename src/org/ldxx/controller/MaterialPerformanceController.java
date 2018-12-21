@@ -53,7 +53,7 @@ public class MaterialPerformanceController {
 	
 	@RequestMapping("/addmaterialPerformanceSave")//添加保存
 	@ResponseBody
-	public Map<String,Object> addmaterialPerformanceSave(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
+	public Map<String,Object> addmaterialPerformanceSave(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -97,6 +97,41 @@ public class MaterialPerformanceController {
 			c.setAccessory2(list2);
 		}
 		int i=mpService.addmaterialPerformanceSave(c);
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			String string="";
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(c.getCgContract()+"材料采购合同履约");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(c.getCgContract()+"材料采购合同履约流程发起");
+			currentFlow.setUrl("shengchanGuanli/SubcontractMaterialHTLY.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		map.put("result", i);
 		map.put("clfbCgcontractPerformance", c);
 		return map;
