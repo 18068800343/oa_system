@@ -10,4 +10,6 @@ public interface FbContractOverDao {
 	public int addFbContractOver(@Param("fb")FbContractOver fbContractOver);
 	
 	public List<FbContractOver> selectFbContractOver(@Param("state")String state);
+	
+	public FbContractOver selectFbContractOverById(@Param("id")String id);
 }

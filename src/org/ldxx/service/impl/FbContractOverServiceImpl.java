@@ -42,4 +42,9 @@ public class FbContractOverServiceImpl implements FbContractOverService{
 		return dao.selectFbContractOver(state);
 	}
 
+	@Override
+	public FbContractOver selectFbContractOverById(String id) {
+		return dao.selectFbContractOverById(id);
+	}
+
 }

@@ -53,7 +53,7 @@ public class FbContractDoAppointScoreController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getUsername());;
 			currentFlow.setMemo(FbContractDoAppoint.getCjContractName()+"履约评价流程发起");
-			currentFlow.setUrl("shengchanGuanliLook/SubcontractPerformanceLYPJ.html-"+id);
+			currentFlow.setUrl("shengchanguanliLook/SubcontractPerformanceLYPJ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());

@@ -3,11 +3,22 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CjContract;
+import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FbContractOver;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.User;
+import org.ldxx.service.CjContractService;
 import org.ldxx.service.FbContractOverService;
+import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,10 +37,14 @@ public class FbContractOverController {
 
 	@Autowired
 	private FbContractOverService service;
+	@Autowired
+	private OrganizationManagementService oService;
+	@Autowired
+	private CjContractService cService;
 	
 	@RequestMapping("/addFbContractOverBySave")
 	@ResponseBody
-	public int addFbContractOverBySave(FbContractOver fbContractOver,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1) throws IllegalStateException, IOException{
+	public int addFbContractOverBySave(FbContractOver fbContractOver,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		fbContractOver.setFcoId(id);
@@ -71,12 +86,49 @@ public class FbContractOverController {
 			fbContractOver.setAccessory2(list1);
 		}
 		int i=service.addFbContractOver(fbContractOver);
+		if(i>0){
+			CjContract cj=cService.getCjContractMainDepartmentLeader(fbContractOver.getCjContract());
+			String mainDepartment=cj.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(fbContractOver.getFbName()+"分包结算申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(fbContractOver.getFbName()+"分包结算申请流程发起");
+			currentFlow.setUrl("shengchanguanliLook/SubcontractPerformanceJSSQ.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	@RequestMapping("/addFbContractOverBySubmit")
 	@ResponseBody
-	public int addFbContractOverBySubmit(FbContractOver fbContractOver,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1) throws IllegalStateException, IOException{
+	public String addFbContractOverBySubmit(FbContractOver fbContractOver,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		fbContractOver.setFcoId(id);
@@ -118,12 +170,55 @@ public class FbContractOverController {
 			fbContractOver.setAccessory2(list1);
 		}
 		int i=service.addFbContractOver(fbContractOver);
-		return i;
+		String string=i+"";
+		if(i>0){
+			CjContract cj=cService.getCjContractMainDepartmentLeader(fbContractOver.getCjContract());
+			String mainDepartment=cj.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(fbContractOver.getFbName()+"分包结算申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(fbContractOver.getFbName()+"分包结算申请流程发起");
+			currentFlow.setUrl("shengchanguanliLook/SubcontractPerformanceJSSQ.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/selectFbContractOver")
 	@ResponseBody
 	public List<FbContractOver> selectFbContractOver(String state){
 		return service.selectFbContractOver(state);
+	}
+	
+	@RequestMapping("/selectFbContractOverById")
+	@ResponseBody
+	public FbContractOver selectFbContractOverById(String id){
+		return service.selectFbContractOverById(id);
 	}
 }

@@ -7,8 +7,6 @@ public class FbContractOver {/*分包结算申请*/
 
     private String prjCode;//任务单号
 
-    private String prjName;//任务名称
-
     private String cjContract;//承接单号
     private String cjName;//承接名称
 
@@ -79,14 +77,6 @@ public class FbContractOver {/*分包结算申请*/
 
     public void setPrjCode(String prjCode) {
         this.prjCode = prjCode == null ? null : prjCode.trim();
-    }
-
-    public String getPrjName() {
-        return prjName;
-    }
-
-    public void setPrjName(String prjName) {
-        this.prjName = prjName == null ? null : prjName.trim();
     }
 
     public String getCjContract() {

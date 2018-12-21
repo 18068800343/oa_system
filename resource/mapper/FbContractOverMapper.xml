@@ -2,19 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.FbContractOverDao" >
   <insert id="addFbContractOver" parameterType="FbContractOver">
-  	insert into fb_contract_over (fco_id,prj_code, prj_name, cj_contract, 
-      fb_contract, settlement_type, settlement_time, work_info
+  	insert into fb_contract_over (fco_id,prj_code, cj_contract, cj_name,
+      fb_contract,fb_name, settlement_type, settlement_time, work_info
       )
-    values (#{fb.fcoId},#{fb.prjCode}, #{fb.prjName}, #{fb.cjContract}, 
-      #{fb.fbContract}, #{fb.settlementType}, #{fb.settlementTime}, #{fb.workInfo}
+    values (#{fb.fcoId},#{fb.prjCode},#{fb.cjContract}, #{fb.cjName},
+      #{fb.fbContract}, #{fb.fbName},#{fb.settlementType}, #{fb.settlementTime}, #{fb.workInfo}
       )
   </insert>
   
   <select id="selectFbContractOver" resultType="FbContractOver">
-  	select a.*,c.contract_name as cjName,d.contract_name as fbName from fb_contract_over as a 
+  	select a.* from fb_contract_over as a 
   	left join mode_status as b on a.fco_id=b.mode_id
-  	left join cj_contract as c on a.cj_contract=c.cj_id
-  	left join fb_contract as d on a.fb_contract=d.fb_id
   	where b.status=#{state}
+  </select>
+  
+  <select id="selectFbContractOverById" resultType="FbContractOver">
+  	SELECT * FROM fb_contract_over where fco_id=#{id}
   </select>
 </mapper>

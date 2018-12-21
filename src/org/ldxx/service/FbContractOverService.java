@@ -9,4 +9,6 @@ public interface FbContractOverService {
 	public int addFbContractOver(FbContractOver fbContractOver);
 	
 	public List<FbContractOver> selectFbContractOver(String state);
+	
+	public FbContractOver selectFbContractOverById(String id);
 }
