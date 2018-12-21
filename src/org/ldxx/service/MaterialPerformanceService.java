@@ -15,6 +15,6 @@ public interface MaterialPerformanceService {
 
 	int deleteAccessoryByIdAndName(Accessory accessory);
 
-	List<clfbCgcontractPerformance> selectmaterialPerformanceById(String id);
+	clfbCgcontractPerformance selectmaterialPerformanceById(String id);
 
 }

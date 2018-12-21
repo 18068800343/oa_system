@@ -11,6 +11,6 @@ public interface MaterialPerformanceDao {
 
 	int addmaterialPerformanceSave(@Param("c")clfbCgcontractPerformance c);
 
-	List<clfbCgcontractPerformance> selectmaterialPerformanceById(@Param("id")String id);
+	clfbCgcontractPerformance selectmaterialPerformanceById(@Param("id")String id);
 
 }

@@ -344,8 +344,7 @@ public class MaterialPerformanceController {
 	
 	@RequestMapping("/selectmaterialPerformanceById")
 	@ResponseBody
-	public List<clfbCgcontractPerformance> selectmaterialPerformanceById(String id){
-		List<clfbCgcontractPerformance> list=mpService.selectmaterialPerformanceById(id);
-		return list;
+	public clfbCgcontractPerformance selectmaterialPerformanceById(String id){
+		return mpService.selectmaterialPerformanceById(id);
 	}
 }

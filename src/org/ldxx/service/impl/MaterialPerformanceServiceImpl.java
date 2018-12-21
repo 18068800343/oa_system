@@ -54,7 +54,7 @@ public class MaterialPerformanceServiceImpl implements MaterialPerformanceServic
 	}
 
 	@Override
-	public List<clfbCgcontractPerformance> selectmaterialPerformanceById(String id) {
+	public clfbCgcontractPerformance selectmaterialPerformanceById(String id) {
 		return mpDao.selectmaterialPerformanceById(id);
 	}
 
