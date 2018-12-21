@@ -3,24 +3,33 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.BudgetFpplicationForm;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ContractWork;
+import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.Enterprise;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.PrjProgressFillCj;
 import org.ldxx.bean.PrjProgressFillInfo;
 import org.ldxx.bean.Task;
+import org.ldxx.bean.User;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.BudgetFpplicationFormService;
 import org.ldxx.service.CjContractService;
+import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.PrjProgressFillService;
 import org.ldxx.service.TaskService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,10 +54,12 @@ public class PrjProgressFillController {
 	private BudgetFpplicationFormService bService;
 	@Autowired
 	private CjContractService cService;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/addPrjProgressFillBySave")
 	@ResponseBody
-	public int addPrjProgressFillBySave(String ppf,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addPrjProgressFillBySave(String ppf,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		Map<String, Class> classMap = new HashMap<String, Class>();
@@ -68,7 +79,7 @@ public class PrjProgressFillController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"PrjProgressFill";
+				String path="D:"+File.separator+"oa"+File.separator+id+File.separator+"PrjProgressFill";
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -97,13 +108,50 @@ public class PrjProgressFillController {
 			pf.setStatus(3);
 		}
 		int i=service.addPrjProgressFill(pf);
+		if(i>0){
+			Task ta=tService.selectPrjLeaderByPrjNo(pf.getTaskNo());
+			String mainDepartment=ta.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(pf.getPrjName()+"进度管理");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(pf.getPrjName()+"进度管理流程保存");
+			currentFlow.setUrl("shengchanguanliLook/ProgressManagement.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	
 	@RequestMapping("/addPrjProgressFillBySubmit")
 	@ResponseBody
-	public int addPrjProgressFillBySubmit(String ppf,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public String addPrjProgressFillBySubmit(String ppf,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		Map<String, Class> classMap = new HashMap<String, Class>();
@@ -123,7 +171,7 @@ public class PrjProgressFillController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"PrjProgressFill";
+				String path="D:"+File.separator+"oa"+File.separator+id+File.separator+"PrjProgressFill";
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -152,7 +200,44 @@ public class PrjProgressFillController {
 			pf.setStatus(3);
 		}
 		int i=service.addPrjProgressFill(pf);
-		return i;
+		String string="";
+		if(i>0){
+			Task ta=tService.selectPrjLeaderByPrjNo(pf.getTaskNo());
+			String mainDepartment=ta.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(pf.getPrjName()+"进度管理");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(pf.getPrjName()+"进度管理流程发起");
+			currentFlow.setUrl("shengchanguanliLook/ProgressManagement.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/selectPrjProgressFill")
@@ -163,7 +248,7 @@ public class PrjProgressFillController {
 	
 	@RequestMapping("/selectPrjProgressFillInfo")
 	@ResponseBody
-	public PrjProgressFill selectPrjProgressFillInfo(String id,String no){
+	public PrjProgressFill selectPrjProgressFillInfo(String id){
 		PrjProgressFill ppf=service.selectPrjProgressFillById(id);
 		List<PrjProgressFillInfo> ppfi=service.selectPrjProgressFillInfo(id, "1");
 		List<PrjProgressFillInfo> ppfi2=service.selectPrjProgressFillInfo(id, "2");
@@ -173,6 +258,7 @@ public class PrjProgressFillController {
 		List<PrjProgressFillInfo> ppfi6=service.selectPrjProgressFillInfo(id, "6");
 		List<PrjProgressFillCj> ppcj=service.selectPrjProgressFillCjById(id);
 		List<Accessory> accessory=aService.selectAccessoryById(id);
+		String no=ppf.getTaskNo();
 		BudgetFpplicationForm bf=bService.selectBudgeByNo(no);
 		ppf.setBudgetMoneyAll(bf.getAllCost());
 		ppf.setPpfi(ppfi);
