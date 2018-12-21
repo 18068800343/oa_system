@@ -484,6 +484,20 @@ public class TaskController {
 		}
 		return result;
 	}
+	@RequestMapping("/boHui")/*任务单保存*/
+	@ResponseBody
+	public String boHui(String url,String view){
+		FlowUtill flowUtill = new FlowUtill();
+		//String currentFlowId = "";
+		String result = "";
+		try {
+			//currentFlowId = url.split("-")[1];
+			result = flowUtill.boHuiFlow(url, view);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 /*	@RequestMapping("/tuiHuiGei")退回流程
 	@ResponseBody

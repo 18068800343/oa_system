@@ -785,6 +785,41 @@ public class FlowUtill {
 		}
 		return endFlowHistorys;
 	}
+	
+	public String boHuiFlow(String url,String view){
+		CurrentFlowExample example = new CurrentFlowExample();
+		example.createCriteria().andUrlEqualTo(url);
+		List<CurrentFlow> list = INSTANCE.currentFlowMapper.selectByExample(example);
+		if(list.size()>0){
+			CurrentFlow currentFlow = list.get(0);
+			//当前流程步骤
+			//String floNodeId= currentFlow.getFloNodeId();
+			//当前流程上一步
+			String lastFloNodeId = currentFlow.getFlowNodeLast();
+			if(null==lastFloNodeId||"".equals(lastFloNodeId)){
+				return "noLast";
+			}
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
+			flowHistroy.setView(view);
+			
+			INSTANCE.currentFlowMapper.deleteByPrimaryKey(currentFlow.getId());
+			INSTANCE.flowHistroyMapper.updateByPrimaryKeySelective(flowHistroy);
+			
+			ModeStatus modeStatus = new ModeStatus();
+			modeStatus = INSTANCE.modeStatusMapper.selectByPrimaryKey(currentFlow.getModeId());
+			if(null!=modeStatus){
+				modeStatus.setStatus(currentFlow.getFlowNopassState()+"");
+				modeStatus.setFlowStatus("0");
+				INSTANCE.modeStatusMapper.updateByPrimaryKeySelective(modeStatus);
+				return "true";
+			}else{
+				return "fail";
+			}
+		}else{
+			return "fail";
+		}
+	}
 	/*List<FlowEdge> flowEdges = INSTANCE.flowEdgeMapper.selectByExample(example3);
 	//正常情况下根据流程方向判断下一步的步骤ID
 	if(null!=flowEdges){
