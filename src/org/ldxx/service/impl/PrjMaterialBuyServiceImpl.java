@@ -41,8 +41,8 @@ public class PrjMaterialBuyServiceImpl implements PrjMaterialBuyService{
 	}
 
 	@Override
-	public List<PrjMaterialBuy> selectPrjMaterialBuy() {
-		return dao.selectPrjMaterialBuy();
+	public List<PrjMaterialBuy> selectPrjMaterialBuy(String status) {
+		return dao.selectPrjMaterialBuy(status);
 	}
 
 	@Override

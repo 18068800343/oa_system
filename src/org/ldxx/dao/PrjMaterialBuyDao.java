@@ -9,7 +9,7 @@ public interface PrjMaterialBuyDao {
 
 	public int addPrjMaterialBuy(@Param("buy")PrjMaterialBuy buy);
 	
-	public List<PrjMaterialBuy> selectPrjMaterialBuy();
+	public List<PrjMaterialBuy> selectPrjMaterialBuy(@Param("status")String status);
 	
 	public int selectPrjMaterialBuyCount();
 	

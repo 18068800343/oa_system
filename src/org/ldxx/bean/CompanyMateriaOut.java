@@ -17,7 +17,7 @@ public class CompanyMateriaOut {
 	private String pickDate;//领料日期
 	private String pickPerson;//领料人
 	private String cmoDesc;//备注
-	private String type;//出库类型  1：公司出库
+	private String type;//出库类型  1：公司出库;2:项目出库;3::结余转出
 	private String getPerson;//收货人
 	private String getInfos;//验收及处理意见
 	private String getStatus;//收货状态 0：未确认收货 1：确认收货

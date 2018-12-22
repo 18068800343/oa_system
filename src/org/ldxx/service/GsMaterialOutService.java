@@ -6,7 +6,7 @@ import org.ldxx.bean.CompanyMateriaOut;
 
 public interface GsMaterialOutService {
 
-	List<CompanyMateriaOut> selectGsMaterialOut();
+	List<CompanyMateriaOut> selectGsMaterialOut(String status);
 
 	int addGsMaterialOutSave(CompanyMateriaOut cm);
 	

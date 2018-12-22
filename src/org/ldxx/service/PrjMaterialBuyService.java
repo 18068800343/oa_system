@@ -8,7 +8,7 @@ public interface PrjMaterialBuyService {
 
 	public int addPrjMaterialBuy(PrjMaterialBuy buy);
 	
-	public List<PrjMaterialBuy> selectPrjMaterialBuy();
+	public List<PrjMaterialBuy> selectPrjMaterialBuy(String status);
 	
 	public int selectPrjMaterialBuyCount();
 	

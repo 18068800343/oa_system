@@ -146,8 +146,8 @@ public class PrjMaterialBuyController {
 	
 	@RequestMapping("/selectPrjMaterialBuy")
 	@ResponseBody
-	public List<PrjMaterialBuy> selectPrjMaterialBuy(){
-		List<PrjMaterialBuy> list=service.selectPrjMaterialBuy();
+	public List<PrjMaterialBuy> selectPrjMaterialBuy(String status){
+		List<PrjMaterialBuy> list=service.selectPrjMaterialBuy(status);
 		return list;
 	}
 	

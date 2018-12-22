@@ -3,11 +3,13 @@ package org.ldxx.service.impl;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.ClRemain;
 import org.ldxx.bean.CompanyMateriaOut;
 import org.ldxx.bean.GsClOut;
 import org.ldxx.bean.MaterialDemand;
 import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.dao.AccessoryDao;
+import org.ldxx.dao.ClRemainDao;
 import org.ldxx.dao.GsClOutDao;
 import org.ldxx.dao.GsMaterialOutDao;
 import org.ldxx.dao.MaterialDemandDao;
@@ -33,10 +35,12 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 	private MaterialDemandDao mddao;
 	@Autowired
 	private PrjMaterialBuyService buyservice;
+	@Autowired
+	private ClRemainDao clRemaindao;
 	
 	@Override
-	public List<CompanyMateriaOut> selectGsMaterialOut() {
-		return dao.selectGsMaterialOut();
+	public List<CompanyMateriaOut> selectGsMaterialOut(String status) {
+		return dao.selectGsMaterialOut(status);
 	}
 
 	@Override
@@ -60,6 +64,17 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 				for(int j=0;j<md.size();j++){
 					//修改材料剩余数量
 					i=mddao.updateMaterialDemand(md.get(j).getMdlId(), md.get(j).getRemainNumber());
+				}
+			}
+			List<ClRemain> clRemain = cm.getClRemain();
+			if(clRemain!=null){//修改结余材料的数目
+				for(int k=0;k<clRemain.size();k++){
+					ClRemain cr=new ClRemain();
+					cr.setCrId(clRemain.get(k).getCrId());
+					cr.setCmoNumber(clRemain.get(k).getCmoNumber());
+					cr.setRemainNumber(clRemain.get(k).getRemainNumber());
+					cr.setCmoMoney(clRemain.get(k).getCmoMoney());
+					i=clRemaindao.updateClRemainNum(cr);
 				}
 			}
 		}

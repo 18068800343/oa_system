@@ -39,13 +39,19 @@ public class GsMaterialWastetreatmentServiceImpl implements GsMaterialWastetreat
 
 
 	@Override
-	public List<GsMaterialWastetreatment> selectGsMaterialWastetreatment(String type) {
-		return dao.selectGsMaterialWastetreatment(type);
+	public List<GsMaterialWastetreatment> selectGsMaterialWastetreatment(String type,String status) {
+		return dao.selectGsMaterialWastetreatment(type,status);
 	}
 
 
 	@Override
 	public List<GsMaterialWastetreatmentCl> selectGsMaterialWastetreatmentClById(String id) {
 		return dao.selectGsMaterialWastetreatmentClById(id);
+	}
+
+
+	@Override
+	public GsMaterialWastetreatment selectGsMaterialWastetreatmentById(String id) {
+		return dao.selectGsMaterialWastetreatmentById(id);
 	}
 }

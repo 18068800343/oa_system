@@ -9,8 +9,10 @@ public interface GsMaterialWastetreatmentService {
 
 	int addGsMaterialWastetreatmentSave(GsMaterialWastetreatment mw);
 
-	List<GsMaterialWastetreatment> selectGsMaterialWastetreatment(String type);
+	List<GsMaterialWastetreatment> selectGsMaterialWastetreatment(String type,String status);
 
 	List<GsMaterialWastetreatmentCl> selectGsMaterialWastetreatmentClById(String id);
+
+	GsMaterialWastetreatment selectGsMaterialWastetreatmentById(String id);
 
 }
