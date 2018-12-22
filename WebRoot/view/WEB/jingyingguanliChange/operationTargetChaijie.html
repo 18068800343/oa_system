@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+        @media screen and (max-width: 1920px) {
+		    #chakangs {
+		        margin-bottom:100px !important;
+		    }
+		}
+		@media screen and (max-width: 1920px) {
+		    #fenjiebumen{
+		        margin-bottom:100px !important;
+		    }
+		}
+		.details-control{
+        	text-align:center;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>经营管理</li>
+			<li class="active">经营目标管理</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+
+        <div>
+            <div class="tab-content">
+                
+                    <div class="UpperPart">
+                            
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>新建经营目标</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:100px;">年份</td>
+                                <td><input type="text" class="form-control"  id="year"></td>
+                                <td>合同额目标(万元)</td>
+                                <td><input type="text" class="form-control"  id="add_contractAmount"></td>
+                            </tr>
+                            <tr>
+                            	<td>收入目标(万元)</td>
+                                <td><input type="text" class="form-control" id="add_revenueTarget"></td>
+                                <td>收款目标(万元)</td>
+                                <td><input type="text" class="form-control" id="add_collectionTarget"></td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="add_save()">保存</button>
+            <button type="button" class="btn btn-success" onclick="add_submit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>导入开票记录</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                    	<label style="width:20%;"></label>
+                        <input style="width:60%;" type="file" name="file" id="file" class="form-control">
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="file_submit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+
+<!-- 修改Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改经营目标</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                      <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:100px;">年份</td>
+                                <td><input type="text" class="form-control"  id="xgyear"></td>
+                                <td>合同额目标(万元)</td>
+                                <td><input type="text" class="form-control"  id="xg_contractAmount"></td>
+                            </tr>
+                            <tr>
+                            	<td>收入目标(万元)</td>
+                                <td><input type="text" class="form-control" id="xg_revenueTarget"></td>
+                                <td>收款目标(万元)</td>
+                                <td><input type="text" class="form-control"  id="xg_collectionTarget"></td>
+                            </tr>
+                        </table> 
+                    </form>
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="xg_save()">保存</button>
+            <button type="button" class="btn btn-success" onclick="xg_submit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改model结束 -->
+<!-- 拆解Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="chakangongsi">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>拆解经营目标</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                      
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success"   onclick="quedingchaijie()">保存</button>
+            <button type="button" class="btn btn-success"   onclick="quedingchaijie()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 拆解model结束 -->
+                
+                        </div>
+                        <div class="LowerPart" style="margin-top:3px;">
+                            <form class="form-inline">
+		                        <table class="table table-bordered table-condensed" id="cjdbm">
+		                            	<thead>
+		                            		<tr>
+		                            			<th>部门</th>
+		                            			<th>新增合同额(万元)</th>
+		                            			<th>收入目标(万元)</th>
+		                            			<th>收款目标(万元)</th>
+		                            		</tr>
+		                            	</thead>
+		                            	<tbody>
+		                            		
+		                            	</tbody>
+		                        </table> 
+		                    </form>
+                        </div> 
+            </div>   
+        </div>
+<!-- 查看公司 -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="chakangs">
+    <div class="modal-dialog " role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>查看公司月指标</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="table_Corporation">
+	                        <thead>
+	                        	<tr>
+	                        		<th style="width:10%;">月份</th>
+	                        		<th style="width:30%;">合同额目标（万元）</th>
+	                        		<th style="width:30%;">收入目标（万元）</th>
+	                        		<th style="width:30%;">收款目标（万元）</th>
+	                        	</tr>
+	                        </thead>
+	                        <tbody>
+	                        	
+	                        </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 查看公司结束 -->
+
+<!-- 修改二级菜单部门 -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="chakanbm">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="bumene">
+	                        <tr>
+                                <td style="width:100px;">部门</td>
+                                <td><input type="text" class="form-control"  disabled></td>
+                                <td>合同额目标(万元)</td>
+                                <td><input type="text" class="form-control" ></td>
+                            </tr>
+                            <tr>
+                            	<td>收入目标(万元)</td>
+                                <td><input type="text" class="form-control"></td>
+                                <td>收款目标(万元)</td>
+                                <td><input type="text" class="form-control" ></td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改二级结束 -->
+<!-- 分解到部门 -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="fenjiebumen">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>月指标</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+	                        <thead>
+	                        	<tr>
+	                        		<th style="width:40%;">月份</th>
+	                        		<th style="width:60%;">目标额（万元）</th>
+	                        	</tr>
+	                        </thead>
+	                        <tbody>
+	                        	<tr>
+	                            	<td>1</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>2</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>3</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>4</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>5</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>6</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>7</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>8</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>9</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>10</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>11</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>12</td>
+	                            	<td><input type="text" class="form-control" ></td>
+	                            </tr>
+	                        </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" >保存</button>
+            <button type="button" class="btn btn-default" >提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 分解到部门结束 -->
+     
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script>
+    $(document).ready( function () {
+    	laydate.render({
+            elem: '#year' //指定元素,
+            ,type: 'year'
+        });
+        laydate.render({
+            elem: '#xgyear' //指定元素
+            ,type: 'year'
+        });
+        initTable();
+        bumenedu();
+        chaijiebumen();
+	});
+    
+	function bumenedu(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$('#bumene tbody').append("<tr><td>"
+            				+json[i].omName
+            				+"</td><td>"
+            				+"<input type='text' class='form-control' >"
+            				+"</td><td>"
+            				+"<button type='button' class='btn btn-default' data-toggle='modal' data-target='#fenjiebumen'>查看</button>"
+            				+"</td></tr>");
+            	}
+            }
+        });
+    }
+
+	
+	function add_save(){
+		var contractAmount=$("#add_contractAmount").val();
+		var revenueTarget=$("#add_revenueTarget").val();
+		var collectionTarget=$("#add_collectionTarget").val();
+		/* var budgetCost=$("#add_budgetCost").val();
+		var actualCost=$("#add_actualCost").val(); */
+		var year=$("#year").val();
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/operationTarget/addOperationTargetBySave',
+            dataType: 'json',
+            data: {
+            	contractAmount:contractAmount,
+            	revenueTarget:revenueTarget,
+            	collectionTarget:collectionTarget,
+            	/* budgetCost:budgetCost,
+            	actualCost:actualCost, */
+            	year:year
+            },
+            success: function (json) {
+            		if(json==0){
+            			toastr.error("新建保存失败")
+            		}else if(json==1){
+            			$("#myModal").modal("hide");
+            			toastr.success("新建保存成功")
+            		}else if(json==2){
+            			toastr.error("年份重复")
+            		}
+            }
+		});
+	}
+	
+	function add_submit(){
+		var contractAmount=$("#add_contractAmount").val();
+		var revenueTarget=$("#add_revenueTarget").val();
+		var collectionTarget=$("#add_collectionTarget").val();
+		/* var budgetCost=$("#add_budgetCost").val();
+		var actualCost=$("#add_actualCost").val(); */
+		var year=$("#year").val();
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/operationTarget/addOperationTargetBySubmit',
+            dataType: 'json',
+            data: {
+            	contractAmount:contractAmount,
+            	revenueTarget:revenueTarget,
+            	collectionTarget:collectionTarget,
+            	/* budgetCost:budgetCost,
+            	actualCost:actualCost, */
+            	year:year
+            },
+            success: function (json) {
+            		if(json==0){
+            			toastr.error("新建保存失败")
+            		}else if(json==1){
+            			$("#myModal").modal("hide");
+            			toastr.success("新建保存成功")
+            		}else if(json==2){
+            			toastr.error("年份重复")
+            		}
+            }
+		});
+	}
+	
+	var otId;
+	function update(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		otId=data.otId;
+		$("#xgyear").val(data.year).attr("disabled",true);
+		$("#xg_contractAmount").val(data.contractAmount);
+		$("#xg_revenueTarget").val(data.revenueTarget);
+		$("#xg_collectionTarget").val(data.collectionTarget);
+		
+		$("#change").modal("show");
+	}
+	
+	function xg_save(){
+		var year=$("#xgyear").val();
+		var contractAmount=$("#xg_contractAmount").val();
+		var revenueTarget=$("#xg_revenueTarget").val();
+		var collectionTarget=$("#xg_collectionTarget").val();
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/operationTarget/updateOperationTargetBySave',
+            dataType: 'json',
+            data: {
+            	otId:otId,
+            	year:year,
+            	contractAmount:contractAmount,
+            	revenueTarget:revenueTarget,
+            	collectionTarget:collectionTarget
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	if(json==0){
+            		toastr.error("修改失败");
+            	}else{
+					$("#change").modal("hide");            		
+            		toastr.success("修改成功");
+            	}
+            }
+		});
+	}
+	
+	function xg_submit(){
+		var year=$("#xgyear").val();
+		var contractAmount=$("#xg_contractAmount").val();
+		var revenueTarget=$("#xg_revenueTarget").val();
+		var collectionTarget=$("#xg_collectionTarget").val();
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/operationTarget/updateOperationTargetBySubmit',
+            dataType: 'json',
+            data: {
+            	otId:otId,
+            	year:year,
+            	contractAmount:contractAmount,
+            	revenueTarget:revenueTarget,
+            	collectionTarget:collectionTarget
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	if(json==0){
+            		toastr.error("修改失败");
+            	}else{
+					$("#change").modal("hide");            		
+            		toastr.success("修改成功");
+            	}
+            }
+		});
+	}
+	
+	//初始化拆解部门
+	function chaijiebumen(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+                for(var i=0;i<json.length;i++){
+                	$("#cjdbm tbody").append("<tr><td><input type='text' class='form-control' data="+json[i].omId+" value="+json[i].omName+" disabled></td><td><input type='text' class='form-control' ></td><td><input type='text' class='form-control' ></td><td><input type='text' class='form-control' ></td></tr>");
+                }
+            }
+		});
+	}
+	
+	//拆解到部门
+		var gongsiid;
+		var contractAmount;//合同额
+		var revenueTarget;//收入目标
+		var collectionTarget;//收款目标
+		$('#mainContent').delegate('#chaojie','click', function () {
+			var dom = $(this).parents('tr');
+			var data=$('#mainContent').DataTable().row(dom).data();
+			
+			$("#chakangongsi").modal("show");
+		})
+		function initTable(){
+			gongsiid=data.otId
+			contractAmount=data.contractAmount;
+        	revenueTarget=data.revenueTarget;
+        	collectionTarget=data.collectionTarget;
+		}
+		function quedingchaijie(){
+			var xinchai=new Array();
+			var mubiaoSum=0;
+			var shouruSum=0;
+			var shoukuanSum=0;
+			$("#cjdbm tbody").find("tr").each(function(){
+				var tdArr = $(this).children();
+	    		var name = tdArr.eq(0).find("input").attr("data");
+	    	    var mubiao = tdArr.eq(1).find("input").val();
+	    	    var shouru = tdArr.eq(2).find("input").val();
+	    	    var shoukuan = tdArr.eq(3).find("input").val();
+	    	    
+	    	    mubiaoSum=mubiaoSum+Number(mubiao);
+	    	    shouruSum=shouruSum+Number(shouru);
+	    	    shoukuanSum=shoukuanSum+Number(shoukuan);
+	    	    var chaojiemubiaoe={
+	    	    		otId:undefined,
+	    	    		omId:undefined,
+	    	    		contractAmount:undefined,
+	    	    		revenueTarget:undefined,
+	    	    		collectionTarget:undefined
+	    	    }
+	    	    chaojiemubiaoe.otId=gongsiid;
+	    	    chaojiemubiaoe.omId=name;
+	    	    chaojiemubiaoe.contractAmount=mubiao;
+	    	    chaojiemubiaoe.revenueTarget=shouru;
+	    	    chaojiemubiaoe.collectionTarget=shoukuan;
+	    	    xinchai.push(chaojiemubiaoe);
+			})
+			
+			if(mubiaoSum!=contractAmount){
+				toastr.error("新增合同额分配有误");
+				return;
+			}
+			if(shouruSum!=revenueTarget){
+				toastr.error("收入目标分配有误");
+				return;
+			}
+			if(shoukuanSum!=collectionTarget){
+				toastr.error("收款目标分配有误");
+				return;
+			}
+			$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/operationTarget/addDepartmentTargetBySave',
+	            dataType: 'json',
+	            contentType: "application/json", 
+	            data:JSON.stringify(xinchai),
+	            success: function (json) {
+	            		if(json==0){
+	            			toastr.error("拆解失败");
+	            		}else{
+	            			$("#chakangongsi").modal("hide");
+	            			toastr.success("拆解成功");
+	            		}
+	            }
+			}); 
+		}
+	//初始化二级
+	var gongsiid2;
+	var stateArray=[];
+	var flag=true;
+	function showerji(aa){
+		var dom = $(aa).parents('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+		gongsiid2=data.otId
+		if(stateArray.indexOf(data.otId)>=0){
+			stateArray.splice($.inArray(data.otId,stateArray),1);// $.inArray(data.idFirst,stateArray)获取idFirst在数组中的索引值 ；stateArray.splice(索引值，数量)删除数组中指定索引值的元素
+			$(".qwe"+data.otId).remove();
+		}else{
+			myTool.mask.show('查询中..');
+			stateArray.push(data.otId);
+			$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/operationTarget/selectDepartmentTarget',
+	            dataType: 'json',
+	            async:false,
+	            data:{
+	            	id:gongsiid2,
+	            	year:data.year
+	            },
+	            success: function (json) {
+	            	for(var i=0;i<json.length;i++){
+	            		$(aa).parent().parent().after('<tr class="qwe'+data.otId+'"><td style="border:none;"></td><td>'+json[i].omName+'</td><td>'+json[i].contractAmount+'</td><td>'+json[i].actualContractAmount+'</td><td>'+json[i].revenueTarget+'</td><td>'+json[i].realIncome+'</td><td>'+json[i].collectionTarget+'</td><td>'+json[i].actualPayment+'</td><td>'+json[i].budgetCost+'</td><td>'+json[i].actualCost+'</td><td><i class="iconfont icon-icon-test" style="font-size:18px;cursor:pointer;" title="查看" onclick="look2(this)"></i></td></tr>');
+	            		/* $(aa).parent().parent().after('<tr class="qwe'+data.otId+'"><td style="border:none;"></td><td>'+json[i].omName+'</td><td>'+json[i].contractAmount+'</td><td>'+json[i].revenueTarget+'</td><td>'+json[i].collectionTarget+'</td><td><i class="iconfont icon-shanchu" style="font-size:18px;cursor:pointer;" title="删除"  onclick="delerji(this)" data-id='+json[i].tId+'></i>  <i class="iconfont icon-xiugai" style="font-size:18px;cursor:pointer;" title="修改" data-toggle="modal" data-target="#changeerji" onclick="showxgerji(this)" data-id='+json[i].tId+' data-id2='+json[i].dId+'></i></td></tr>'); */
+        			}
+	            	$(aa).parent().parent().after('<tr class="qwe'+data.otId+'" style="font-weight:700;font-size:18px;"><td style="border:none;"></td><td>部门名称</td><td>部门合同额目标(万元)</td><td>部门实际合同额(万元)</td><td>部门收入目标(万元)</td><td>部门实际收入(万元)</td><td>部门收款目标(万元)</td><td>部门实际收款(万元)</td><td>部门预计成本(万元)</td><td>部门实际成本(万元)</td><td>操作</td></tr>');
+	                myTool.mask.hide();
+	            }
+	        }); 
+			
+		}
+		if(flag==true){
+			$(aa).removeClass("glyphicon-chevron-down");
+			$(aa).addClass("glyphicon-chevron-up");
+			flag=false;
+		}else{
+			$(aa).removeClass("glyphicon-chevron-up");
+			$(aa).addClass("glyphicon-chevron-down");
+			flag=true;
+		}
+	}
+	
+	
+	function look(obj){
+		var dom = $(obj).parents('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+		var id=data.otId;
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/operationTarget/getCorporationTarget',
+            dataType: 'json',
+            data:{
+            	id:id
+            },
+            success: function (json) {
+            	if(json.length==0){
+            		toastr.error("存在部门未分配完成");
+            	}else{
+            		$("#table_Corporation tbody").html('');
+            		for(var i=0;i>json.length;i++){
+            			$("#table_Corporation tbody").append("<tr><td>"+json[i].month+"</td><td>"+json[i].contractAmount+"</td><td>"+json[i].revenueTarget+"</td><td>"+json[i].collectionTarget+"</td></tr>")	
+            		}
+            		$("#chakangs").modal("show");	
+            	}
+            	
+            }
+		});
+		
+	}
+	
+	function file_submit(){
+		
+	}
+	
+</script>
+</html>

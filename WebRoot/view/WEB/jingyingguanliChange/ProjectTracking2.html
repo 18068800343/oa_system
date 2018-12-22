@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+        .lookhetong a{
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>经营管理</li>
+			<li class="active">项目跟踪</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+
+			 <!-- Modal -->
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><b>新建项目跟踪日志</b></h4>
+                        </div>
+                        <div class="modal-body">
+                                <div>     
+                                    <form class="form-inline">
+                                        <table class="table table-bordered table-condensed">
+                                            <tr>
+                                                <td style="width:20%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                                <td style="width:30%;"><input type="text" style="width:70%;" class="form-control"  id="new_prj_name_log"></td>
+                                                <td style="width:20%;">经营编号</td>
+                                                <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="new_business_no_log"></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:20%;">客户名称</td>
+                                                <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="new_client_name"></td>
+                                                <td style="width:20%;">主办部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                                <td style="width:30%;">
+                                                    <select class="form-control" style="width:70%;" id="new_main_department">
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>日志</td>
+                                                <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="new_log"></textarea></td>
+                                            </tr>
+                                        </table> 
+                                    </form>  
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-default" onclick="new_save_log()">保存</button>
+                            <button type="button" class="btn btn-success" onclick="new_submit_log()">提交</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- model结束 -->
+                
+                <!-- 修改Modal -->
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="edit_modal">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><b>修改项目跟踪日志</b></h4>
+                        </div>
+                        <div class="modal-body">
+                                <div>     
+                                    <form class="form-inline">
+                                        <table class="table table-bordered table-condensed">
+                                            <tr>
+                                                <td style="width:20%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                                <td style="width:30%;"><input type="text" class="form-control" style="width:70%;" id="edit_prj_name_log"></td>
+                                                <td style="width:20%;">经营编号</td>
+                                                <td style="width:30%;"><input type="text" class="form-control" style="width:70%;" id="edit_business_no_log"></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:20%;">客户名称</td>
+                                                <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="edit_client_name"></td>
+                                                <td style="width:20%;">主办部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                                <td style="width:30%;">
+                                                    <select class="form-control" style="width:70%;" id="edit_main_department">
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>日志</td>
+                                                <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="edit_log"></textarea></td>
+                                            </tr>
+                                        </table> 
+                                    </form>  
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-default" onclick="edit_save_log()">保存</button>
+                            <button type="button" class="btn btn-success" onclick="edit_submit_log()">提交</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 修改model结束 -->
+                
+                
+                 <!-- 查看Modal -->
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="look_modal">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><b>查看项目跟踪日志</b></h4>
+                        </div>
+                        <div class="modal-body">
+                                <div>     
+                                    <form class="form-inline">
+                                        <table class="table table-bordered table-condensed">
+                                            <tr>
+                                                <td style="width:100px;">项目名称</td>
+                                                <td id="look_prj_name_log"></td>
+                                                <td style="width:100px;">经营编号</td>
+                                                <td id="look_business_no_log"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>客户名称</td>
+                                                <td id="look_client_name"></td>
+                                                <td>主办部门</td>
+                                                <td id="look_main_department"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>日志</td>
+                                                <td colspan="3" id="look_log"></td>
+                                            </tr>
+                                        </table> 
+                                    </form>  
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 查看model结束 -->
+        
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script>
+    $(document).ready( function () {
+    	laydate.render({
+            elem: '#year' //指定元素
+        });
+        $('#editable-select').editableSelect({ 
+            effects: 'slide' 
+        });
+        initTable();
+        
+        initDepartment();
+	});
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("");
+    
+    
+
+
+	function initDepartment(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
+	        dataType: 'json',
+	        data: {
+	           
+	        },
+	        success: function (json) {
+	        	$("#new_department").html('');
+	        	$("#edit_department").html('');
+	        	$("#look_department").html('');
+	        	$("#new_main_department").html('');
+	        	$("#edit_main_department").html('');
+	        	$("#look_main_department").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		$("#new_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		$("#edit_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		$("#look_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		$("#new_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		$("#edit_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		$("#look_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        	}
+	        }
+		});
+	}
+	
+	
+	function new_save(){
+		var new_prj_name=$("#new_prj_name").val();
+		var new_prj_no=$("#new_prj_no").val();
+		var new_prj_status=$("#new_prj_status").val();
+		var new_prj_lv=$("#new_prj_lv").val();
+		var new_business_type=$("#new_business_type").val();
+		var new_prj_addr=$("#new_prj_addr").val();
+		var new_prj_scale=$("#new_prj_scale").val();
+		var year=$("#year").val();
+		var new_isbid=$("#new_isbid").val();
+		var new_department=$("#new_department").val();
+		var omName=$("#new_department").text();
+		var new_prj_desc=$("#new_prj_desc").val();
+		var new_desc=$("#new_desc").val();
+		if(new_prj_name==''){
+			toastr.error("项目名称不能为空");
+			return;
+		}
+		if(new_prj_status==''){
+			toastr.error("项目状态不能为空");
+			return;
+		}
+		if(omName==''){
+			toastr.error("跟踪部门不能为空");
+			return;
+		}
+		if(new_prj_desc==''){
+			toastr.error("项目概况不能为空");
+			return;
+		}
+		
+		var options={
+				type: 'POST',
+		        url: getContextPath()+'/trace/addProjectTraceOfSave',
+		        dataType: 'json',
+		        data: {
+		        	prjName:new_prj_name,
+		        	prjNo:new_prj_no,
+		        	prjStates:new_prj_status,
+		        	prjLv:new_prj_lv,
+		        	businessType:new_business_type,
+		        	prjAddr:new_prj_addr,
+		        	predictPrjScale:new_prj_scale,
+		        	fillTime:year,
+		        	isbid:new_isbid,
+		        	traceDepartment:new_department,
+		        	omName:omName,
+		        	prjDesc:new_prj_desc,
+		        	ptInfo:new_desc
+		        },
+		        success: function (json) {
+		        	if(json.result==0){
+		        		toastr.error("保存失败");
+		        	}else{
+		        		/*$('#mainContent').DataTable().row.add(json.trace).draw(false); */
+		        		toastr.success("保存成功");
+		        		$("#myModal").modal("hide");
+		        	}
+		        }
+		}
+		$("#new_form").ajaxSubmit(options);
+	}
+	
+	
+	function new_submit(){
+		var new_prj_name=$("#new_prj_name").val();
+		var new_prj_no=$("#new_prj_no").val();
+		var new_prj_status=$("#new_prj_status").val();
+		var new_prj_lv=$("#new_prj_lv").val();
+		var new_business_type=$("#new_business_type").val();
+		var new_prj_addr=$("#new_prj_addr").val();
+		var new_prj_scale=$("#new_prj_scale").val();
+		var year=$("#year").val();
+		var new_isbid=$("#new_isbid").val();
+		var new_department=$("#new_department").val();
+		var omName=$("#new_department").text();
+		var new_prj_desc=$("#new_prj_desc").val();
+		var new_desc=$("#new_desc").val();
+		if(new_prj_name==''){
+			toastr.error("项目名称不能为空");
+			return;
+		}
+		if(new_prj_status==''){
+			toastr.error("项目状态不能为空");
+			return;
+		}
+		if(omName==''){
+			toastr.error("跟踪部门不能为空");
+			return;
+		}
+		if(new_prj_desc==''){
+			toastr.error("项目概况不能为空");
+			return;
+		}
+		
+		var options={
+				type: 'POST',
+		        url: getContextPath()+'/trace/addProjectTraceOfSubmit',
+		        dataType: 'json',
+		        data: {
+		        	prjName:new_prj_name,
+		        	prjNo:new_prj_no,
+		        	prjStates:new_prj_status,
+		        	prjLv:new_prj_lv,
+		        	businessType:new_business_type,
+		        	prjAddr:new_prj_addr,
+		        	predictPrjScale:new_prj_scale,
+		        	fillTime:year,
+		        	isbid:new_isbid,
+		        	traceDepartment:new_department,
+		        	omName:omName,
+		        	prjDesc:new_prj_desc,
+		        	ptInfo:new_desc
+		        },
+		        success: function (json) {
+		        	if(json.result==0){
+		        		toastr.error("提交失败");
+		        	}else{
+		        		/* $('#mainContent').DataTable().row.add(json.trace).draw(false); */
+		        		toastr.success("提交成功");
+		        		$("#myModal").modal("hide");
+		        	}
+		        }
+		}
+		$("#new_form").ajaxSubmit(options);
+	}
+	
+
+	
+	function initFileInput(){
+		$("#file_tr_td").empty();
+		$("#file_tr_td2").empty();
+		$("#file_tr_td").append("<input name='file' type='file' class='form-control'>");
+	}
+	
+	function deleteFile(){
+		var statu = confirm("确认删除吗?");
+		  if(!statu){
+		   return false;
+		  }
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/trace/deleteAccessory',
+	        dataType: 'json',
+	        data: {
+	        	aId:aId,
+	        	acName:acName,
+	        	acUrl:acUrl
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("删除失败");
+	        	}else{
+	        		toastr.success("删除成功");
+	        		initFileInput();
+	        	}
+	        }
+		});
+	}
+	
+	
+
+	
+
+	function download(){
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+url);
+	}
+	
+	
+	function edit_save(){
+		var edit_prj_name=$("#edit_prj_name").val();
+		var edit_prj_no=$("#edit_prj_no").val();
+		var edit_prj_status=$("#edit_prj_status").val();
+		var edit_prj_lv=$("#edit_prj_lv").val();
+		var edit_business_type=$("#edit_business_type").val();
+		var edit_prj_addr=$("#edit_prj_addr").val();
+		var edit_prj_scale=$("#edit_prj_scale").val();
+		var edit_year=$("#edit_year").val();
+		var edit_isbid=$("#edit_isbid").val();
+		var edit_department=$("#edit_department").val();
+		var edit_prj_desc=$("#edit_prj_desc").val();
+		var edit_desc=$("#edit_desc").val();
+		if(edit_prj_name==''){
+			toastr.error("项目名称不能为空");
+			return;
+		}
+		if(edit_prj_status==''){
+			toastr.error("项目状态不能为空");
+			return;
+		}
+		if(edit_department==''){
+			toastr.error("跟踪部门不能为空");
+			return;
+		}
+		if(edit_prj_desc==''){
+			toastr.error("项目概况不能为空");
+			return;
+		}
+		
+		var options={
+				type: 'POST',
+		        url: getContextPath()+'/trace/updateProjectTraceOfSave',
+		        dataType: 'json',
+		        data: {
+					ptId:edit_id,		        	
+		        	prjName:edit_prj_name,
+		        	prjNo:edit_prj_no,
+		        	prjStates:edit_prj_status,
+		        	prjLv:edit_prj_lv,
+		        	businessType:edit_business_type,
+		        	prjAddr:edit_prj_addr,
+		        	predictPrjScale:edit_prj_scale,
+		        	fillTime:edit_year,
+		        	isbid:edit_isbid,
+		        	traceDepartment:edit_department,
+		        	prjDesc:edit_prj_desc,
+		        	ptInfo:edit_desc
+		        },
+		        success: function (json) {
+		        	if(json.result==0){
+		        		toastr.error("修改保存失败");
+		        	}else{
+		        		/* $('#mainContent').DataTable().row.add(json.trace).draw(false); */
+		        		toastr.success("修改保存成功");
+		        		$("#change").modal("hide");
+		        	}
+		        }
+		}
+		$("#edit_form").ajaxSubmit(options);
+	}
+	
+	
+	function edit_submit(){
+		var edit_prj_name=$("#edit_prj_name").val();
+		var edit_prj_no=$("#edit_prj_no").val();
+		var edit_prj_status=$("#edit_prj_status").val();
+		var edit_prj_lv=$("#edit_prj_lv").val();
+		var edit_business_type=$("#edit_business_type").val();
+		var edit_prj_addr=$("#edit_prj_addr").val();
+		var edit_prj_scale=$("#edit_prj_scale").val();
+		var edit_year=$("#edit_year").val();
+		var edit_isbid=$("#edit_isbid").val();
+		var edit_department=$("#edit_department").val();
+		var edit_prj_desc=$("#edit_prj_desc").val();
+		var edit_desc=$("#edit_desc").val();
+		if(edit_prj_name==''){
+			toastr.error("项目名称不能为空");
+			return;
+		}
+		if(edit_prj_status==''){
+			toastr.error("项目状态不能为空");
+			return;
+		}
+		if(edit_department==''){
+			toastr.error("跟踪部门不能为空");
+			return;
+		}
+		if(edit_prj_desc==''){
+			toastr.error("项目概况不能为空");
+			return;
+		}
+		var options={
+				type: 'POST',
+		        url: getContextPath()+'/trace/updateProjectTraceOfSubmit',
+		        dataType: 'json',
+		        data: {
+		        	ptId:edit_id,
+		        	prjName:edit_prj_name,
+		        	prjNo:edit_prj_no,
+		        	prjStates:edit_prj_status,
+		        	prjLv:edit_prj_lv,
+		        	businessType:edit_business_type,
+		        	prjAddr:edit_prj_addr,
+		        	predictPrjScale:edit_prj_scale,
+		        	fillTime:edit_year,
+		        	isbid:edit_isbid,
+		        	traceDepartment:edit_department,
+		        	prjDesc:edit_prj_desc,
+		        	ptInfo:edit_desc
+		        },
+		        success: function (json) {
+		        	if(json.result==0){
+		        		toastr.error("添加提交失败");
+		        	}else{
+		        		toastr.success("添加提交成功");
+		        		$("#change").modal("hide");
+		        	}
+		        }
+		}
+		$("#edit_form").ajaxSubmit(options);
+	}
+	
+	
+	/***************************************************** 项目跟踪日志 ***********************************************/
+	
+	function new_save_log(){
+		var new_prj_name_log=$("#new_prj_name_log").val();
+		var new_business_no_log=$("#new_business_no_log").val();
+		var new_client_name=$("#new_client_name").val();
+		var new_main_department=$("#new_main_department").val();
+		var new_log=$("#new_log").val();
+		if(new_prj_name_log==''){
+			toastr.error("项目名称不能为空");
+			return;
+		}
+		if(new_main_department==''){
+			toastr.error("主办部门不能为空");
+			return;
+		}
+		
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/traceLog/addProjectTraceLogBySave',
+	        dataType: 'json',
+	        data: {
+	        	manageNo:new_business_no_log,
+	        	prjName:new_prj_name_log,
+	        	clientName:new_client_name,
+	        	sponsorDepartment:new_main_department,
+	        	ptlLog:new_log
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("添加保存失败");
+	        	}else{
+	        		toastr.success("添加保存成功");
+					$("#myModal2").modal("hide");
+	        	}
+	        }
+		});
+	}
+	
+	
+	function new_submit_log(){
+		var new_prj_name_log=$("#new_prj_name_log").val();
+		var new_business_no_log=$("#new_business_no_log").val();
+		var new_client_name=$("#new_client_name").val();
+		var new_main_department=$("#new_main_department").val();
+		var new_log=$("#new_log").val();
+		if(new_prj_name_log==''){
+			toastr.error("项目名称不能为空");
+			return;
+		}
+		if(new_main_department==''){
+			toastr.error("主办部门不能为空");
+			return;
+		}
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/traceLog/addProjectTraceLogBySubmit',
+	        dataType: 'json',
+	        data: {
+	        	manageNo:new_business_no_log,
+	        	prjName:new_prj_name_log,
+	        	clientName:new_client_name,
+	        	sponsorDepartment:new_main_department,
+	        	ptlLog:new_log
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("添加提交失败");
+	        	}else{
+	        		toastr.success("添加提交成功");
+					$("#myModal2").modal("hide");
+	        	}
+	        }
+		});
+	}
+	
+	
+	function lookThisLog(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent2").DataTable().row(dom).data();
+		
+		$("#look_prj_name_log").text(data.prjName);
+		$("#look_business_no_log").text(data.manageNo);
+		$("#look_client_name").text(data.clientName);
+		$("#look_main_department").text(data.sponsorDepartment);
+		$("#look_log").text(data.ptlLog);
+		
+		$("#look_modal").modal("show");
+	}
+	
+	var ptlId;
+	function  initTable(obj){
+		
+		ptlId=data.ptlId;
+		
+		$("#edit_prj_name_log").val(data.prjName);
+		$("#edit_business_no_log").val(data.manageNo);
+		$("#edit_client_name").val(data.clientName);
+		$("#edit_main_department").val(data.sponsorDepartment);
+		$("#edit_log").val(data.ptlLog);
+		
+		
+	}
+	
+	
+	function liuchengGaibian(){
+		var prjName=$("#edit_prj_name_log").val();
+		var manageNo=$("#edit_business_no_log").val();
+		var clientName=$("#edit_client_name").val();
+		var sponsorDepartment=$("#edit_main_department").val();
+		var ptlLog=$("#edit_log").val();
+		if(prjName==''){
+			toastr.error("项目名称不能为空");
+			return;
+		}
+		if(sponsorDepartment==''){
+			toastr.error("主办部门不能为空");
+			return;
+		}
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/traceLog/updateProjectTraceLogBySave',
+	        dataType: 'json',
+	        data: {
+	        	manageNo:manageNo,
+	        	prjName:prjName,
+	        	clientName:clientName,
+	        	sponsorDepartment:sponsorDepartment,
+	        	ptlLog:ptlLog,
+	        	ptlId:ptlId
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("修改保存失败");
+	        	}else{
+	        		toastr.success("修改保存成功");
+					$("#edit_modal").modal("hide");
+	        	}
+	        }
+		});
+	}
+	
+	
+	function edit_submit_log(){
+		var prjName=$("#edit_prj_name_log").val();
+		var manageNo=$("#edit_business_no_log").val();
+		var clientName=$("#edit_client_name").val();
+		var sponsorDepartment=$("#edit_main_department").val();
+		var ptlLog=$("#edit_log").val();
+		if(prjName==''){
+			toastr.error("项目名称不能为空");
+			return;
+		}
+		if(sponsorDepartment==''){
+			toastr.error("主办部门不能为空");
+			return;
+		}
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/traceLog/updateProjectTraceLogBySubmit',
+	        dataType: 'json',
+	        data: {
+	        	manageNo:manageNo,
+	        	prjName:prjName,
+	        	clientName:clientName,
+	        	sponsorDepartment:sponsorDepartment,
+	        	ptlLog:ptlLog,
+	        	ptlId:ptlId
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("修改提交失败");
+	        	}else{
+	        		toastr.success("修改提交成功");
+					$("#edit_modal").modal("hide");
+	        	}
+	        }
+		});
+	}
+	
+    function getCreat(bb){
+        var EnterpriseRating= $(bb).parent().prev().text();
+        var Remarks= $(bb).parent().prev().prev().text();
+        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
+        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
+        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
+        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
+        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
+        $("#CEnterprise-rating").val(EnterpriseRating);
+        $("#CRemarks").val(Remarks);
+        $("#CContact-phone1").val(ContactPhone1);
+        $("#CContacts").val(Contacts);
+        $("#Caddress").val(address);
+        $("#CProprietor-unit").val(ProprietorUnit);
+        $("#CCode").val(Code);
+        rowIndex = bb.parentNode.parentNode.rowIndex; 
+    }
+
+    // $("#mainContent tbody tr").click(function (){
+    //     $(this).addClass('selected')
+    //     .siblings().removeClass('selected')
+    //     .end();
+    // })
+
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+
+</script>
+</html>
