@@ -50,12 +50,54 @@ public class GsMaterialWastetreatmentController {
 	
 	@RequestMapping("/addGsMaterialWastetreatmentSave")
 	@ResponseBody
-	public Map<String,Object> addGsMaterialWastetreatmentSave(@RequestBody GsMaterialWastetreatment mw){
+	public Map<String,Object> addGsMaterialWastetreatmentSave(@RequestBody GsMaterialWastetreatment mw,HttpSession session){
 		Map<String,Object> map=new HashMap<String,Object>();
 		TimeUUID uid=new TimeUUID();
 		String id = uid.getTimeUUID();
 		mw.setCmwId(id);
 		int i=service.addGsMaterialWastetreatmentSave(mw);
+		if(i>0){
+			Task task = tService.selectTaskPrjName(mw.getPrjNo());
+			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			if(mw.getType().equals("0")){
+				currentFlow.setTitle(mw.getPrjName()+"公司材料废旧品处理");
+				currentFlow.setMemo(mw.getPrjName()+"公司材料废旧品处理流程发起");
+				currentFlow.setUrl("shengchanguanliLook/WasteDisposal.html-"+id);
+			}else{
+				currentFlow.setTitle(mw.getPrjName()+"公司材料退货处理");
+				currentFlow.setMemo(mw.getPrjName()+"公司材料退货处理流程发起");
+				currentFlow.setUrl("shengchanguanliLook/tuihuo.html-"+id);
+			}
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		map.put("result", i);
 		map.put("GsMaterialWastetreatment", mw);
 		return map;

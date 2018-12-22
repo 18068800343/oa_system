@@ -82,11 +82,17 @@ public class GsMaterialOutController {
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
-			currentFlow.setTitle(materiaOut.getPickProject()+"公司材料出库");
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getUsername());;
-			currentFlow.setMemo(materiaOut.getPickProject()+"公司材料出库流程发起");
-			currentFlow.setUrl("shengchanguanliLook/MaterialOut.html-"+id);
+			if(materiaOut.getType().equals("1")){
+				currentFlow.setTitle(materiaOut.getPickProject()+"公司材料出库");
+				currentFlow.setMemo(materiaOut.getPickProject()+"公司材料出库流程发起");
+				currentFlow.setUrl("shengchanguanliLook/MaterialOut.html-"+id);
+			}else if(materiaOut.getType().equals("3")){
+				currentFlow.setTitle(materiaOut.getPickProject()+"公司材料结余转出");
+				currentFlow.setMemo(materiaOut.getPickProject()+"公司材料结余转出流程发起");
+				currentFlow.setUrl("shengchanguanliLook/BalanceManagement.html-"+id);
+			}
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
