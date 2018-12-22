@@ -226,6 +226,8 @@ public class FlowUtill {
 						currentFlow.setFloNodeId(nextFloNodeId);
 						currentFlow.setDeptname(currentFlowOld.getDeptname());
 						currentFlow.setReadreceipts(0);
+						currentFlow.setSdtofnode(new Date());
+						currentFlow.setDoDate(new Date());
 						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 						
 						//如果是取消流程
@@ -375,6 +377,8 @@ public class FlowUtill {
 						currentFlow.setFloNodeId(nextFloNodeId);
 						currentFlow.setDeptname(currentFlowOld.getDeptname());
 						currentFlow.setReadreceipts(0);
+						currentFlow.setSdtofnode(new Date());
+						currentFlow.setDoDate(new Date());
 						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 						modeStatus.setModeId(modeId);
 						//1：流程运转中
@@ -462,6 +466,7 @@ public class FlowUtill {
 				CurrentFlowExample example2 = new CurrentFlowExample();
 				example2.createCriteria().andIdEqualTo(currentFlowId);
 				currentFlow.setReadreceipts(0);
+				
 				INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 				
 				flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
@@ -573,6 +578,7 @@ public class FlowUtill {
 					CurrentFlowExample example2 = new CurrentFlowExample();
 					example2.createCriteria().andIdEqualTo(currentFlowNow.getId());
 					currentFlowNow.setReadreceipts(0);
+					currentFlowNow.setDoDate(new Date());
 					INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlowNow, example2);
 				
 			} catch (Exception e) {
@@ -662,6 +668,8 @@ public class FlowUtill {
 		currentFlow.setWfstate(0);
 		CurrentFlowExample example1 = new CurrentFlowExample();
 		example.createCriteria().andUrlEqualTo(url);
+		currentFlow.setSdtofnode(new Date());
+		currentFlow.setDoDate(new Date());
 		INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example1);
 		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 		INSTANCE.flowHistroyMapper.insert(flowHistroy);
@@ -722,6 +730,7 @@ public class FlowUtill {
 		currentFlow.setWfstate(0);
 		CurrentFlowExample example1 = new CurrentFlowExample();
 		example.createCriteria().andUrlEqualTo(url);
+		currentFlow.setDoDate(new Date());
 		INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example1);
 		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 		INSTANCE.flowHistroyMapper.insert(flowHistroy);
