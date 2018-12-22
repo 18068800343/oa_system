@@ -5,10 +5,14 @@ import java.util.List;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CompanyMateriaOut;
 import org.ldxx.bean.GsClOut;
+import org.ldxx.bean.MaterialDemand;
+import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.GsClOutDao;
 import org.ldxx.dao.GsMaterialOutDao;
+import org.ldxx.dao.MaterialDemandDao;
 import org.ldxx.service.GsMaterialOutService;
+import org.ldxx.service.PrjMaterialBuyService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +29,10 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 	
 	@Autowired
 	private GsClOutDao gdao;
+	@Autowired
+	private MaterialDemandDao mddao;
+	@Autowired
+	private PrjMaterialBuyService buyservice;
 	
 	@Override
 	public List<CompanyMateriaOut> selectGsMaterialOut() {
@@ -46,6 +54,13 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 					gsClOut.get(k).setPickDate(date);
 				}
 				i=gdao.addgsClOut(gsClOut);
+			}
+			List<MaterialDemand> md = cm.getMd();
+			if(md!=null){
+				for(int j=0;j<md.size();j++){
+					//修改材料剩余数量
+					i=mddao.updateMaterialDemand(md.get(j).getMdlId(), md.get(j).getRemainNumber());
+				}
 			}
 		}
 		return i;
@@ -125,6 +140,20 @@ public class GsMaterialOutServiceImpl implements GsMaterialOutService {
 	@Override
 	public List<CompanyMateriaOut> selectGsMaterialRemainByno(int remainType, String no) {
 		return dao.selectGsMaterialRemainByno(remainType,no);
+	}
+
+	@Override
+	public CompanyMateriaOut selectGsMaterialOutById(String id) {
+		CompanyMateriaOut cm= dao.selectGsMaterialOutById(id);
+		List<PrjMaterialBuy> list = buyservice.selectBuyByname(cm.getPickProject());
+		if(list!=null){
+			cm.setPrjMaterialBuy(list);
+		}
+		List<GsClOut> gsclout = gdao.selectClByNo(cm.getCmoId());
+		if(gsclout!=null){
+			cm.setGsClOut(gsclout);
+		}
+		return cm;
 	}
 
 }

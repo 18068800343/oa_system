@@ -26,8 +26,28 @@ public class CompanyMateriaOut {
 	private List<GsClOut> gsClOut;
 	private List<outRemain> oRemain;
 	private List<ClRemain> clRemain;
+	private List<PrjMaterialBuy> prjMaterialBuy;
+	
+	private List<MaterialDemand> md;
 	
 	
+	
+	public List<PrjMaterialBuy> getPrjMaterialBuy() {
+		return prjMaterialBuy;
+	}
+
+	public void setPrjMaterialBuy(List<PrjMaterialBuy> prjMaterialBuy) {
+		this.prjMaterialBuy = prjMaterialBuy;
+	}
+
+	public List<MaterialDemand> getMd() {
+		return md;
+	}
+
+	public void setMd(List<MaterialDemand> md) {
+		this.md = md;
+	}
+
 	public List<ClRemain> getClRemain() {
 		return clRemain;
 	}

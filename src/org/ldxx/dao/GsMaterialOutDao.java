@@ -40,5 +40,7 @@ public interface GsMaterialOutDao {
 	List<CompanyMateriaOut> selectGsMaterialRemainByname(@Param("remainType")int remainType,@Param("name")String name);
 
 	List<CompanyMateriaOut> selectGsMaterialRemainByno(@Param("remainType")int remainType,@Param("no") String no);
+
+	CompanyMateriaOut selectGsMaterialOutById(@Param("id")String id);
 	
 }

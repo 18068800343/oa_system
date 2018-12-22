@@ -35,4 +35,6 @@ public interface GsMaterialOutService {
 	List<CompanyMateriaOut> selectGsMaterialRemainByname(int remainType,String name);
 
 	List<CompanyMateriaOut> selectGsMaterialRemainByno(int remainType, String no);
+
+	CompanyMateriaOut selectGsMaterialOutById(String id);
 }
