@@ -81,7 +81,7 @@ public class SignetUsersController {
 
 		}
 		int i=suserService.addsUser(sUser);
-		if(i>0){
+		/*if(i>0){
 			User user = (User) session.getAttribute("user");
 			OrganizationManagement om=oService.selectOrgById(user.getOmId());
 			String omNo=om.getOmNo();
@@ -115,7 +115,7 @@ public class SignetUsersController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		map.put("result", i);
 		map.put("sUser", sUser);
 		return map;

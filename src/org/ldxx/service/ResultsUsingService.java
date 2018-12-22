@@ -14,6 +14,6 @@ public interface ResultsUsingService {
 
 	int updateResultsUsingByIdSave(ResultManagementSignet rs);
 
-	ResultManagementSignet selectResultsUsingById(String usId, String status);
+	ResultManagementSignet selectResultsUsingById(String usId);
 
 }

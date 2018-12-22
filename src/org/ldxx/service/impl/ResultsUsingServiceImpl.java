@@ -37,7 +37,7 @@ public class ResultsUsingServiceImpl implements ResultsUsingService {
 	}
 
 	@Override
-	public ResultManagementSignet selectResultsUsingById(String usId,String status) {
-		return rUsingDao.selectResultsUsingById(usId,status);
+	public ResultManagementSignet selectResultsUsingById(String usId) {
+		return rUsingDao.selectResultsUsingById(usId);
 	}
 }
