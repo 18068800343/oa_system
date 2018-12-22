@@ -805,6 +805,7 @@ public class FlowUtill {
 			flowHistroy.setDoDate(new Date());
 			flowHistroy.setId(new TimeUUID().getTimeUUID());
 			flowHistroy.setOperateType(0);
+			flowHistroy.setFlowNodeLast(currentFlow.getFlowNodeLast());
 			INSTANCE.currentFlowMapper.deleteByPrimaryKey(currentFlow.getId());
 			
 			INSTANCE.flowHistroyMapper.insert(flowHistroy);
@@ -812,7 +813,11 @@ public class FlowUtill {
 			ModeStatus modeStatus = new ModeStatus();
 			modeStatus = INSTANCE.modeStatusMapper.selectByPrimaryKey(currentFlow.getModeId());
 			if(null!=modeStatus){
-				modeStatus.setStatus(currentFlow.getFlowNopassState()+"");
+				String cuNopassState = currentFlow.getFlowNopassState()+"";
+				if("".equals(cuNopassState)){
+					cuNopassState = "0";
+				}
+				modeStatus.setStatus(cuNopassState);
 				modeStatus.setFlowStatus("0");
 				INSTANCE.modeStatusMapper.updateByPrimaryKeySelective(modeStatus);
 				return "true";

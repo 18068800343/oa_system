@@ -46,6 +46,8 @@ public class FlowHistoryVo {
 	    private String actorname;
 
 	    private Integer actorresult;
+	    
+	    private String flowStatus;
 
 	    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")  
 	    private Date doDate;
@@ -58,7 +60,15 @@ public class FlowHistoryVo {
 
 	    private Integer operateType;
 
-	    public String getFlowNodeName() {
+	    public String getFlowStatus() {
+			return flowStatus;
+		}
+
+		public void setFlowStatus(String flowStatus) {
+			this.flowStatus = flowStatus;
+		}
+
+		public String getFlowNodeName() {
 			return flowNodeName;
 		}
 
