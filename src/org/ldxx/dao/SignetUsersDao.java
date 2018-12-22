@@ -14,7 +14,7 @@ public interface SignetUsersDao {
 
 	int updatesUser(@Param("sUser")SignetUsers sUser);
 
-	List<SignetUsers> selectUser(@Param("status")String status);
+	List<SignetUsers> selectUser();
 
 	SignetUsers selectUsersById(@Param("suId")String suId);
 
