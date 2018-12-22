@@ -21,15 +21,12 @@ public class PrjClosingAuditServiceImpl implements PrjClosingAuditService{
 	@Transactional
 	@Override
 	public int addPrjClosingAudit(PrjClosingAudit audit) {
-		TimeUUID uuid=new TimeUUID();
-		String id=uuid.getTimeUUID();
-		audit.setPcId(id);
 		int i=dao.addPrjClosingAudit(audit);
 		if(i>0){
 			List<PrjClosingAuditPerson> person=audit.getPerson();
 			if(person.size()!=0){
 				for(int a=0;a<person.size();a++){
-					person.get(a).setPcId(id);
+					person.get(a).setPcId(audit.getPcId());
 				}
 				i=dao.addPrjClosingAuditPerson(person);
 			}
