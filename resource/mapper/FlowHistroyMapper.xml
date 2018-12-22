@@ -587,7 +587,17 @@
   <select id="getTuiHuiFlowHistoryVo" resultType="flowHistoryVo">
 		select a.*,b.FlowNodeName from flowhistroy a left join flownode b on a.Flo_Node_ID = b.ID where a.URL=#{url} and a.Flow_Node_Last=#{flowNodeLast} and a.operate_type=1;
   </select>
-  
+  <select id="getFlowHistorysLeftJoinByUrl" resultType="flowHistoryNowAndLast">
+		SELECT
+			fa.*, fb.Actor actorLast,
+			fb.ActorName actorNameLast,
+			fb.`view` viewLast,
+			fb.operate_type viewLastType
+		FROM
+			flowhistroy fa
+		LEFT JOIN flowhistroy fb ON fa.Flow_Node_Last = fb.Flo_Node_ID
+		where fa.URL = #{url}
+  </select>
   <update id="deleteFlowHistory" parameterType="String">
   		update flowhistroy set `delete`='0' where ID=#{id}
   </update>

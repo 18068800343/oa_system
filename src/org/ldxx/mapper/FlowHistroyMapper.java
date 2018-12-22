@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.FlowHistroyExample;
+import org.ldxx.model.FlowHistoryNowAndLast;
 import org.ldxx.model.FlowHistoryVo;
 
 public interface FlowHistroyMapper {
@@ -44,4 +45,6 @@ public interface FlowHistroyMapper {
     List<FlowHistoryVo> getTuiHuiFlowHistoryVo(@Param("url")String url,@Param("flowNodeLast")String flowNodeLast);
     
     int deleteFlowHistory(@Param("id")String id);
+    
+    List<FlowHistoryNowAndLast> getFlowHistorysLeftJoinByUrl(String url);
 }
