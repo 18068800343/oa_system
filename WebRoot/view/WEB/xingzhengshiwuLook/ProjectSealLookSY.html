@@ -33,7 +33,7 @@
     	<ul class="breadcrumb">
     		<li><i class="iconfont icon-knowledgebase"></i></li>
 			<li>行政事务</li>
-			<li class="active">项目印章管理</li>
+			<li class="active">项目印章管理-使用管理</li>
 		</ul>
     </div>
 
@@ -95,33 +95,46 @@
 	
 	//查看详细信息使用管理
 	function lookUsing(){
-		
-		$("#lookbeginTime").text(data2.beginTime);
-		$("#lookendTime").text(data2.endTime);
-		$("#lookxiaohuiTime").text(data2.destroyTime);
-		$("#lookusePrj").text(data2.useProject);
-		$("#looktask_no2").text(data2.taskNo);
-		
-		$("#lookbaoguan").text(data2.custodyMan);
 		$.ajax({
-			type:"post",
-			url:getContextPath()+"/signetUsers/selectAccessoryById",
-			dataType:"json",
-			data:{
-				id:id,
-			},
-			success:function(json){
-				//console.log(json);
-				$("#look_table2").empty();
-	               for(var i=0;i<json.length;i++){
-	            	   $("#look_table2").append("<tr>"+
-	            	   														"<td>附件"+(i+1)+"</td>"+
-													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download2(this)'>下载附件</button></td>"+
-													            	    "</tr>");
-	               }
-			}
-		}) 
+	        type: 'POST',
+	        url: getContextPath()+'/signetUsers/selectUsersById',
+	        dataType: 'json',
+	        data:{
+	        	suId:id
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	data2=json;
+	        	$("#lookbeginTime").text(data2.beginTime);
+	    		$("#lookendTime").text(data2.endTime);
+	    		$("#lookxiaohuiTime").text(data2.destroyTime);
+	    		$("#lookusePrj").text(data2.useProject);
+	    		$("#looktask_no2").text(data2.taskNo);
+	    		
+	    		$("#lookbaoguan").text(data2.custodyMan);
+	    		$.ajax({
+	    			type:"post",
+	    			url:getContextPath()+"/signetUsers/selectAccessoryById",
+	    			dataType:"json",
+	    			data:{
+	    				id:id,
+	    			},
+	    			success:function(json){
+	    				//console.log(json);
+	    				$("#look_table2").empty();
+	    	               for(var i=0;i<json.length;i++){
+	    	            	   $("#look_table2").append("<tr>"+
+	    	            	   														"<td>附件"+(i+1)+"</td>"+
+	    													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+	    													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download2(this)'>下载附件</button></td>"+
+	    													            	    "</tr>");
+	    	               }
+	    			}
+	    		}) 
+	        }
+	    });
+		
+		
 	}
 	
 	function download2(obj){

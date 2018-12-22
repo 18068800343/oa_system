@@ -33,7 +33,7 @@
     	<ul class="breadcrumb">
     		<li><i class="iconfont icon-knowledgebase"></i></li>
 			<li>行政事务</li>
-			<li class="active">项目印章管理</li>
+			<li class="active">项目印章管理-刻制申请</li>
 		</ul>
     </div>
 
@@ -92,7 +92,7 @@
    }
    // 调用方法
    	id=GetQueryString("prjId");
-	
+   	console.log(id)
 	
 	
 	<!-- **************************************** 项目印章刻制申请的增删改查   ****************************************************-->
@@ -100,36 +100,49 @@
 	
 	//查看详细信息刻制申请
 	function lookPrjSeal(){
-		
-		$("#lookxiangmu").text(data.prjId);
-		$("#looktask_no").text(data.taskNo);
-		$("#lookbumen").text(data.omName);
-		$("#lookyinzhangshouquanren").text(data.signetMan);
-		
-		
-		$("#lookyear").text(data.applicationDate);
-		$("#lookquancheng").text(data.signetName);
-		
 		$.ajax({
-			type:"post",
-			url:getContextPath()+"/prjSeal/selectAccessoryById",
-			dataType:"json",
-			async:false,
-			data:{
-				id:id,
-			},
-			success:function(json){
-				//console.log(json);
-				$("#look_all_table").empty();
-	               for(var i=0;i<json.length;i++){
-	            	   $("#look_all_table").append("<tr>"+
-	            	   														"<td>附件"+(i+1)+"</td>"+
-													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-													            	    "</tr>");
-	               }
-			}
-		})
+	        type: 'POST',
+	        url: getContextPath()+'/prjSeal/selectPrjSealById',
+	        dataType: 'json',
+	        data:{
+	        	smId:id
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	data=json;
+	        	$("#lookxiangmu").text(data.prjId);
+	    		$("#looktask_no").text(data.taskNo);
+	    		$("#lookbumen").text(data.omName);
+	    		$("#lookyinzhangshouquanren").text(data.signetMan);
+	    		
+	    		
+	    		$("#lookyear").text(data.applicationDate);
+	    		$("#lookquancheng").text(data.signetName);
+	    		$.ajax({
+	    			type:"post",
+	    			url:getContextPath()+"/prjSeal/selectAccessoryById",
+	    			dataType:"json",
+	    			async:false,
+	    			data:{
+	    				id:id,
+	    			},
+	    			success:function(json){
+	    				//console.log(json);
+	    				$("#look_all_table").empty();
+	    	               for(var i=0;i<json.length;i++){
+	    	            	   $("#look_all_table").append("<tr>"+
+	    	            	   														"<td>附件"+(i+1)+"</td>"+
+	    													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+	    													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+	    													            	    "</tr>");
+	    	               }
+	    			}
+	    		})
+	        }
+	    });
+		
+		
+		
 	}
 	
 	function download_all(obj){
