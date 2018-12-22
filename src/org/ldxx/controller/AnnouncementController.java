@@ -3,13 +3,22 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.Announcement;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.User;
 import org.ldxx.service.AnnouncementService;
+import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,10 +34,12 @@ public class AnnouncementController {
 
 	@Autowired 
 	private AnnouncementService service;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/addAnnouncementByAllAndSave")/*公司公告新建保存*/
 	@ResponseBody
-	public int addAnnouncementByAllAndSave(Announcement announcement,@RequestParam("file")MultipartFile [] file){
+	public int addAnnouncementByAllAndSave(Announcement announcement,@RequestParam("file")MultipartFile [] file,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		if(file.length>0){
@@ -36,7 +47,7 @@ public class AnnouncementController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String acName=file[i].getOriginalFilename();
-				String url="D:/oa/announcement/"+id;
+				String url="D:"+File.separator+"oa"+File.separator+"announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
@@ -58,13 +69,48 @@ public class AnnouncementController {
 		}
 		announcement.setaId(id);
 		int i=service.addAnnouncement(announcement);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(announcement.getaDepartment());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(announcement.getaTitle());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(announcement.getaTitle()+"公司公告保存");
+			currentFlow.setUrl("xingzhengshiwuLook/NoticeBulletinLookGS.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	
 	@RequestMapping("/addAnnouncementByThisAndSave")/*部门公告新建保存*/
 	@ResponseBody
-	public int addAnnouncementByThisAndSave(Announcement announcement,@RequestParam("file")MultipartFile [] file){
+	public int addAnnouncementByThisAndSave(Announcement announcement,@RequestParam("file")MultipartFile [] file,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		List<Accessory> list=new ArrayList<>();
@@ -72,7 +118,7 @@ public class AnnouncementController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String acName=file[i].getOriginalFilename();
-				String url="D:/oa/announcement/"+id;
+				String url="D:"+File.separator+"oa"+File.separator+"announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
@@ -94,13 +140,48 @@ public class AnnouncementController {
 		}
 		announcement.setaId(id);
 		int i=service.addAnnouncement(announcement);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(announcement.getaDepartment());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(announcement.getaTitle());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(announcement.getaTitle()+"部门公告保存");
+			currentFlow.setUrl("xingzhengshiwuLook/NoticeBulletinLookBM.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	
 	@RequestMapping("/addAnnouncementByAllAndSubmit")/*公司公告新建提交*/
 	@ResponseBody
-	public int addAnnouncementByAllAndSubmit(Announcement announcement,@RequestParam("file")MultipartFile [] file){
+	public String addAnnouncementByAllAndSubmit(Announcement announcement,@RequestParam("file")MultipartFile [] file,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		List<Accessory> list=new ArrayList<>();
@@ -108,7 +189,7 @@ public class AnnouncementController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String acName=file[i].getOriginalFilename();
-				String url="D:/oa/announcement/"+id;
+				String url="D:"+File.separator+"oa"+File.separator+"announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
@@ -123,19 +204,54 @@ public class AnnouncementController {
 					file[i].transferTo(acFile);
 				} catch (Exception e) {
 					e.printStackTrace();
-					return 0;
+					return "0";
 				}
 			}
 			announcement.setAccessory(list);
 		}
 		announcement.setaId(id);
 		int i=service.addAnnouncement(announcement);
-		return i;
+		String string=i+"";
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(announcement.getaDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(announcement.getaTitle());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(announcement.getaTitle()+"公司公告提交");
+			currentFlow.setUrl("xingzhengshiwuLook/NoticeBulletinLookGS.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/addAnnouncementByThisAndSubmit")/*部门公告新建提交*/
 	@ResponseBody
-	public int addAnnouncementByThisAndSubmit(Announcement announcement,@RequestParam("file")MultipartFile [] file){
+	public String addAnnouncementByThisAndSubmit(Announcement announcement,@RequestParam("file")MultipartFile [] file,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		List<Accessory> list=new ArrayList<>();
@@ -143,7 +259,7 @@ public class AnnouncementController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String acName=file[i].getOriginalFilename();
-				String url="D:/oa/announcement/"+id;
+				String url="D:"+File.separator+"oa"+File.separator+"announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
@@ -158,14 +274,49 @@ public class AnnouncementController {
 					file[i].transferTo(acFile);
 				} catch (Exception e) {
 					e.printStackTrace();
-					return 0;
+					return "0";
 				}
 			}
 			announcement.setAccessory(list);
 		}
 		announcement.setaId(id);
 		int i=service.addAnnouncement(announcement);
-		return i;
+		String string=i+"";
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(announcement.getaDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(announcement.getaTitle());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(announcement.getaTitle()+"部门公告提交");
+			currentFlow.setUrl("xingzhengshiwuLook/NoticeBulletinLookBM.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	

@@ -130,8 +130,8 @@ public class PrjClosingAuditController {
 	
 	@RequestMapping("/selectPrjClosingAudit")
 	@ResponseBody
-	public List<PrjClosingAudit> selectPrjClosingAudit(){
-		List<PrjClosingAudit> list=service.selectPrjClosingAudit();
+	public List<PrjClosingAudit> selectPrjClosingAudit(String status){
+		List<PrjClosingAudit> list=service.selectPrjClosingAudit(status);
 		return list;
 	}
 	
