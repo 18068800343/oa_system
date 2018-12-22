@@ -33,7 +33,7 @@
     	<ul class="breadcrumb">
     		<li><i class="iconfont icon-knowledgebase"></i></li>
 			<li>行政事务</li>
-			<li class="active">通知公告</li>
+			<li class="active">部门通知公告</li>
 		</ul>
     </div>  
 
@@ -90,8 +90,7 @@
         if(r!=null)return  unescape(r[2]); return null;
    }
    // 调用方法
-   	id=GetQueryString("");
-   	no=GetQueryString("");
+   	id=GetQueryString("prjId");
 
 	
 	
@@ -103,47 +102,57 @@
 	}
 
 
-	
-	
 	function lookThis(){
-		
-		$("#look_title_this").text(data.aTitle);
-		$("#look_type_this").text(data.aType);
-		$("#look_this_importance").text(data.aImportance);
 		$.ajax({
 	        type: 'POST',
-	        url: getContextPath()+'/organizationManagement/getOrgNameById',
+	        url: getContextPath()+'/announcement/selectAnnouncementById',
 	        dataType: 'json',
-	        data: {
-	        	omId:data.aDepartment
+	        data:{
+	        	id:id
 	        },
 	        success: function (json) {
-	        	//console.log(json)
-	        	$("#look_this_department").text(json.omName)
+	        	console.log(json)
+	        	data=json;
+	        	$("#look_title_this").text(data.aTitle);
+				$("#look_type_this").text(data.aType);
+				$("#look_this_importance").text(data.aImportance);
+				$.ajax({
+			        type: 'POST',
+			        url: getContextPath()+'/organizationManagement/getOrgNameById',
+			        dataType: 'json',
+			        data: {
+			        	omId:data.aDepartment
+			        },
+			        success: function (json) {
+			        	//console.log(json)
+			        	$("#look_this_department").text(json.omName)
+			        }
+			    });
+				$("#look_this_isuser").text(data.issuer);
+				$("#look_this_info").text(data.aDesc);
+				
+				var id=data.aId;
+				$.ajax({
+					type: 'POST',
+		            url: getContextPath()+'/announcement/selectAccessoryById',
+		            dataType: 'json',
+		            data: {
+		            	id:id
+		            },
+		            success: function (json) {
+		            	$("#look_table").empty();
+		               for(var i=0;i<json.length;i++){
+		            	   $("#look_table").append("<tr>"+
+		            	   														"<td>附件"+(i+1)+"</td>"+
+														            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+														            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_this(this)'>下载附件</button></td>"+
+														            	    "</tr>");
+		               }
+		            }
+				})
 	        }
 	    });
-		$("#look_this_isuser").text(data.uName);
-		$("#look_this_info").text(data.aDesc);
 		
-		var id=data.aId;
-		$.ajax({
-			type: 'POST',
-            url: getContextPath()+'/announcement/selectAccessoryById',
-            dataType: 'json',
-            data: {
-            	id:id
-            },
-            success: function (json) {
-            	$("#look_table").empty();
-               for(var i=0;i<json.length;i++){
-            	   $("#look_table").append("<tr>"+
-            	   														"<td>附件"+(i+1)+"</td>"+
-												            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
-												            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_this(this)'>下载附件</button></td>"+
-												            	    "</tr>");
-               }
-            }
-		})
 		
 	}
 	
