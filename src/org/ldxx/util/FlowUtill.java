@@ -802,9 +802,12 @@ public class FlowUtill {
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 			flowHistroy.setView(view);
-			
+			flowHistroy.setDoDate(new Date());
+			flowHistroy.setId(new TimeUUID().getTimeUUID());
+			flowHistroy.setOperateType(0);
 			INSTANCE.currentFlowMapper.deleteByPrimaryKey(currentFlow.getId());
-			INSTANCE.flowHistroyMapper.updateByPrimaryKeySelective(flowHistroy);
+			
+			INSTANCE.flowHistroyMapper.insert(flowHistroy);
 			
 			ModeStatus modeStatus = new ModeStatus();
 			modeStatus = INSTANCE.modeStatusMapper.selectByPrimaryKey(currentFlow.getModeId());

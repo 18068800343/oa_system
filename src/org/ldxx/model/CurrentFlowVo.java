@@ -57,6 +57,16 @@ public class CurrentFlowVo {
     
     private String editOrView;
     
+    private String flowNodeLast;
+    
+	public String getFlowNodeLast() {
+		return flowNodeLast;
+	}
+
+	public void setFlowNodeLast(String flowNodeLast) {
+		this.flowNodeLast = flowNodeLast;
+	}
+
 	public String getEditOrView() {
 		return editOrView;
 	}

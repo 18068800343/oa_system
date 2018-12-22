@@ -85,7 +85,8 @@
                     <tr>
                         <th>代办流程名称</th>
                         <th>代办任务名称</th>
-                        <th>部门</th>
+                        <th>发起人</th>
+                        <th>发起人所属部门</th>
                         <th style="width:60px;">操作</th>
                     </tr>
                 </thead>
@@ -103,7 +104,7 @@
         </div>
     </div>
 <!--  modal -->
-<div class="modal fade bs-example-modal-lg dada" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal ">
+<div class="modal fade bs-example-modal-lg dada" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
     <div class="modal-dialog modal-lg" role="document" style="width:1000px">
         <div class="modal-content">
             <div class="modal-header">
@@ -222,18 +223,23 @@
         },{
             "data": "title"
         },{
+            "data": "actorname"
+        },{
             "data": "deptname"
         },{
             "data": "url"
         },{
             "data": "editOrView",
             "visible":false
+        },{
+            "data": "flowNodeLast",
+            "visible":false
         }],
          "columnDefs": [{
-            "targets": 3,
+            "targets": 4,
             "searchable": false,
             "render": function (data, type, full) {
-                return '<i class="iconfont icon-yewubanli Paaa" name="mode" data-id="'+data+'" data-edit="'+full.editOrView+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
+                return '<i class="iconfont icon-yewubanli Paaa" name="mode" data-id="'+data+'" data-edit="'+full.editOrView+'" data-flowNodeLast="'+full.flowNodeLast+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
             }
         }], 
         "order": [[1, 'asc']],
@@ -274,11 +280,13 @@
             });
     });
     var page_url;
+    var page_flowNodeLast;
     function bindclick(){
     	$("body").on("click","i[name='mode']",function(){
         	var data_id = $(this).attr("data-id");
         	var strs = data_id.split("-")
         	var edit = $(this).attr("data-edit");
+        	page_flowNodeLast =  $(this).attr("data-flowNodeLast");
         	page_url=data_id;
         	$("#rightMain").attr("src","../"+strs[0]+"?prjId="+strs[1]+"&editOrView="+edit);
         });
@@ -450,6 +458,10 @@
     }
     
     function boHui(){
+    	if(page_flowNodeLast==null||page_flowNodeLast==undefined||page_flowNodeLast==""){
+    		toastr.error('该步骤为第一步,无法驳回');
+    		return false;
+    	}
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/task/boHui',
@@ -459,9 +471,9 @@
             },
             dataType: 'json',
             success: function (json) {
-              if(json.result==2){
-            	  
-              }
+            	  $("#myModal").modal("hide");
+            	  toastr.success('驳回成功');
+            	  initTable1();
             }
         });
     }

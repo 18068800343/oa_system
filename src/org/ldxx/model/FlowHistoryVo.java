@@ -2,6 +2,10 @@ package org.ldxx.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class FlowHistoryVo {
 	    private String id;
 
@@ -43,6 +47,7 @@ public class FlowHistoryVo {
 
 	    private Integer actorresult;
 
+	    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")  
 	    private Date doDate;
 
 	    private String modeId;
@@ -232,7 +237,6 @@ public class FlowHistoryVo {
 	    public Date getDoDate() {
 	        return doDate;
 	    }
-
 	    public void setDoDate(Date doDate) {
 	        this.doDate = doDate;
 	    }
