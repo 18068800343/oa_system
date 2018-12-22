@@ -40,8 +40,8 @@ public class PrjClosingAuditServiceImpl implements PrjClosingAuditService{
 	}
 
 	@Override
-	public List<PrjClosingAudit> selectPrjClosingAudit() {
-		return dao.selectPrjClosingAudit();
+	public List<PrjClosingAudit> selectPrjClosingAudit(String status) {
+		return dao.selectPrjClosingAudit(status);
 	}
 
 	@Override

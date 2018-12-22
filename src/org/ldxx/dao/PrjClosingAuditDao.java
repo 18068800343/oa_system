@@ -12,7 +12,7 @@ public interface PrjClosingAuditDao {
 	
 	public int addPrjClosingAuditPerson(@Param("person")List<PrjClosingAuditPerson> person);
 	
-	public List<PrjClosingAudit> selectPrjClosingAudit();
+	public List<PrjClosingAudit> selectPrjClosingAudit(@Param("status")String status);
 	
 	public PrjClosingAudit selectPrjClosingAuditById(@Param("id")String id);
 	

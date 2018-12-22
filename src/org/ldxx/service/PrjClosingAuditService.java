@@ -11,7 +11,7 @@ public interface PrjClosingAuditService {
 	
 	public int addPrjClosingAuditPerson(List<PrjClosingAuditPerson> person);
 	
-	public List<PrjClosingAudit> selectPrjClosingAudit();
+	public List<PrjClosingAudit> selectPrjClosingAudit(String status);
 	
 	public PrjClosingAudit selectPrjClosingAuditById(String id);
 	
