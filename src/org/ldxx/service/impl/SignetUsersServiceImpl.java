@@ -61,8 +61,8 @@ public class SignetUsersServiceImpl implements SignetUsersService {
 	}
 	
 	@Override
-	public SignetUsers selectUsersById(String suId,String status) {
-		SignetUsers sm=sUserDao.selectUsersById(suId,status);
+	public SignetUsers selectUsersById(String suId) {
+		SignetUsers sm=sUserDao.selectUsersById(suId);
 		List<Accessory> accessory=adao.selectAccessoryById(suId);
 		sm.setAccessory(accessory);
 		return sm;

@@ -15,7 +15,7 @@ public interface ProjectSealService {
 
 	int updatePrjSealById(SignetManage signetManage);
 
-	SignetManage selectPrjSealById(String smId, String status);
+	SignetManage selectPrjSealById(String smId);
 
 	List<Accessory> selectAccessoryById(String id);
 

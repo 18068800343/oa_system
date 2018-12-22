@@ -60,8 +60,8 @@ public class ProjectSealServiceImpl implements ProjectSealService {
 	}
 
 	@Override
-	public SignetManage selectPrjSealById(String smId,String status) {
-		SignetManage signetManage = prjSealDao.selectPrjSealById(smId,status);
+	public SignetManage selectPrjSealById(String smId) {
+		SignetManage signetManage = prjSealDao.selectPrjSealById(smId);
 		List<Accessory> accessory=adao.selectAccessoryById(smId);
 		signetManage.setAccessory(accessory);
 		return signetManage;

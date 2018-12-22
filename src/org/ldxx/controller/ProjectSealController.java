@@ -3,13 +3,22 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.SignetManage;
+import org.ldxx.bean.User;
+import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.ProjectSealService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +37,8 @@ public class ProjectSealController {
 	
 	@Autowired
 	private ProjectSealService prjSealService;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/selectPrjSeal")
 	@ResponseBody
@@ -37,12 +48,12 @@ public class ProjectSealController {
 	
 	@RequestMapping("/addPrjSea")/*添加保存印章*/
 	@ResponseBody
-	public Map<String,Object> addPrjSeal(@RequestParam("file")MultipartFile file[],SignetManage signetManage){
+	public Map<String,Object> addPrjSeal(@RequestParam("file")MultipartFile file[],SignetManage signetManage,HttpSession session){
 		Map<String,Object> map = new HashMap<>();
 		List<Accessory> list=new ArrayList<>();
 		String id = new TimeUUID().getTimeUUID();
 		signetManage.setSmId(id);
-		String path = "D:/oa/prjSeal/" + id;
+		String path = "D:"+File.separator+"oa"+File.separator+"prjSeal"+File.separator+id;
 		
 		for(int i=0;i<file.length;i++) {
 			String filename = file[i].getOriginalFilename();
@@ -67,6 +78,41 @@ public class ProjectSealController {
 
 		}
 		int i = prjSealService.addPrjSeal(signetManage);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(signetManage.getOmId());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(signetManage.getPrjId()+"印章刻制申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(signetManage.getPrjId()+"印章刻制申请保存");
+			currentFlow.setUrl("xingzhengshiwuLook/ProjectSealLookKZ.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		map.put("result", i);
 		map.put("signetManage", signetManage);
 		return map;
@@ -74,12 +120,12 @@ public class ProjectSealController {
 	
 	@RequestMapping("/addPrjSealSubmit")/*添加提交印章*/
 	@ResponseBody
-	public Map<String,Object> addPrjSeal2(@RequestParam("file")MultipartFile file[],SignetManage signetManage){
+	public String addPrjSeal2(@RequestParam("file")MultipartFile file[],SignetManage signetManage,HttpSession session){
 		Map<String,Object> map = new HashMap<>();
 		List<Accessory> list=new ArrayList<>();
 		String id = new TimeUUID().getTimeUUID();
 		signetManage.setSmId(id);
-		String path = "D:/oa/prjSeal/" + id;
+		String path = "D:"+File.separator+"oa"+File.separator+"prjSeal"+File.separator+id;
 		
 		for(int i=0;i<file.length;i++) {
 			String filename = file[i].getOriginalFilename();
@@ -104,9 +150,42 @@ public class ProjectSealController {
 
 		}
 		int i = prjSealService.addPrjSeal(signetManage);
-		map.put("result", i);
-		map.put("signetManage", signetManage);
-		return map;
+		String string=i+"";
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(signetManage.getOmId());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(signetManage.getPrjId()+"印章刻制申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(signetManage.getPrjId()+"印章刻制申请流程提交");
+			currentFlow.setUrl("xingzhengshiwuLook/ProjectSealLookKZ.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/deletePrjSealById")
@@ -204,8 +283,8 @@ public class ProjectSealController {
 	
 	@RequestMapping("/selectPrjSealById")
 	@ResponseBody
-	public SignetManage selectPrjSealById(String smId,String status){
-		return prjSealService.selectPrjSealById(smId,status);
+	public SignetManage selectPrjSealById(String smId){
+		return prjSealService.selectPrjSealById(smId);
 	}
 
 	@RequestMapping("/selectAccessoryById")

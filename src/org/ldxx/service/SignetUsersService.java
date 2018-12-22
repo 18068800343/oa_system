@@ -16,7 +16,7 @@ public interface SignetUsersService {
 
 	List<SignetUsers> selectUser(String status);
 
-	SignetUsers selectUsersById(String suId, String status);
+	SignetUsers selectUsersById(String suId);
 
 	List<Accessory> selectAccessoryById(String id);
 
