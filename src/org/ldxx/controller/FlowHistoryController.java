@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.User;
+import org.ldxx.mapper.FlowHistroyMapper;
+import org.ldxx.model.FlowHistoryNowAndLast;
 import org.ldxx.model.FlowHistoryVo;
 import org.ldxx.service.FlowHistoryService;
 import org.ldxx.service.UserService;
@@ -25,6 +27,8 @@ public class FlowHistoryController {
 	
 	@Autowired
 	private FlowHistoryService flowHistoryService;
+	@Autowired
+	private FlowHistroyMapper flowHistroyMapper;
 	
 	@RequestMapping("/getFlowHistoryByUser")
 	@ResponseBody
@@ -55,6 +59,12 @@ public class FlowHistoryController {
 	public int deleteFlowHistory(String id){
 		int i=flowHistoryService.deleteFlowHistory(id);
 		return i;
+	}
+	@RequestMapping("/getHistoryNowAndLast")
+	@ResponseBody
+	public List<FlowHistoryNowAndLast> getHistoryNowAndLast(String url){
+		List<FlowHistoryNowAndLast> list =flowHistroyMapper.getFlowHistorysLeftJoinByUrl(url);
+		return list;
 	}
 
 }
