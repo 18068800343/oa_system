@@ -29,15 +29,12 @@ public class WasteDisposeServiceImpl implements WasteDisposeService{
 	@Transactional
 	@Override
 	public int addWasteDispose(WasteDispose wd) {
-		TimeUUID uuid=new TimeUUID();
-		String id=uuid.getTimeUUID();
-		wd.setWpId(id);
 		int i=dao.addWasteDispose(wd);
 		if(i>0){
 			List<WasteDisposeCl> wdc=wd.getWdc();
 			List<outRemain> or=wd.getoRemain();
 			for(int a=0;a<wdc.size();a++){
-				wdc.get(a).setWpId(id);
+				wdc.get(a).setWpId(wd.getWpId());
 			}
 			i=dao.addWasteDisposeCl(wdc);
 			i=gDao.updateRemainForWaste(or);
@@ -48,6 +45,16 @@ public class WasteDisposeServiceImpl implements WasteDisposeService{
 	@Override
 	public List<WasteDisposeCl> selectWdById(String id) {
 		return dao.selectWdById(id);
+	}
+
+	@Override
+	public WasteDispose selectWasteDisposeById(String id) {
+		WasteDispose wd=dao.selectWasteDisposeById(id);
+		if(wd!=null){
+			List<WasteDisposeCl> wdcl = dao.selectWdById(id);
+			wd.setWdc(wdcl);
+		}
+		return wd;
 	}
 
 }

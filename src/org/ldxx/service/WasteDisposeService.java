@@ -12,4 +12,6 @@ public interface WasteDisposeService {
 	public int addWasteDispose(WasteDispose wd);
 	
 	public List<WasteDisposeCl> selectWdById(String id);
+
+	public WasteDispose selectWasteDisposeById(String id);
 }

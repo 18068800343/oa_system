@@ -15,4 +15,6 @@ public interface WasteDisposeDao {
 	public int addWasteDispose(@Param("wd")WasteDispose wd);
 	
 	public int addWasteDisposeCl(@Param("wdc")List<WasteDisposeCl> wdc);
+
+	public WasteDispose selectWasteDisposeById(@Param("id")String id);
 }

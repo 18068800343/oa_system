@@ -150,13 +150,45 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-default">保存</button> -->
-            <button type="button" class="btn btn-success" id="wasteDispose" disabled>提交</button>
+            <button type="button" class="btn btn-success" id="wasteDispose" disabled>保存</button>
+            <button type="button" class="btn btn-success" id="wasteDisposeSubmit" disabled>提交</button> 
         </div>
         </div>
     </div>
 </div>
 <!-- model结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-condensed" id="tijiaoren">
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
+                        </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitPerson()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
+
 <!-- Modal选择采购合同 -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_cg">
     <div class="modal-dialog modal-lg" role="document" style="width:60%;">
@@ -844,6 +876,7 @@
                     	no:$('#cg_no').val()
                     },
                     success: function (json) {
+                    	console.log(json)
                     	var cg=json.cg;
                     	var cm=json.cm;
                     	$("#cg_name").val(cg[0].contractName);
@@ -919,8 +952,10 @@
             	var length=$("#waste_table tbody").find("tr").length;
         		if(length==0){
         			$("#wasteDispose").attr("disabled",true);
+        			$("#wasteDisposeSubmit").attr("disabled",true)
         		}else{
         			$("#wasteDispose").attr("disabled",false);
+        			$("#wasteDisposeSubmit").attr("disabled",false)
         		}
             }
   		});
@@ -960,8 +995,10 @@
             	var length=$("#waste_table tbody").find("tr").length;
         		if(length==0){
         			$("#wasteDispose").attr("disabled",true);
+        			$("#wasteDisposeSubmit").attr("disabled",true)
         		}else{
         			$("#wasteDispose").attr("disabled",false);
+        			$("#wasteDisposeSubmit").attr("disabled",false)
         		}
             }
   		});
@@ -973,8 +1010,10 @@
 		var length=$("#waste_table tbody").find("tr").length;
 		if(length==0){
 			$("#wasteDispose").attr("disabled",true);
+			$("#wasteDisposeSubmit").attr("disabled",true)
 		}else{
 			$("#wasteDispose").attr("disabled",false);
+			$("#wasteDisposeSubmit").attr("disabled",false)
 		}
 	}
 	
@@ -1048,8 +1087,10 @@
             	var length=$("#waste_table tbody").find("tr").length;
         		if(length==0){
         			$("#wasteDispose").attr("disabled",true);
+        			$("#wasteDisposeSubmit").attr("disabled",true)
         		}else{
         			$("#wasteDispose").attr("disabled",false);
+        			$("#wasteDisposeSubmit").attr("disabled",false)
         		}
             }
         });
@@ -1165,6 +1206,183 @@
         });
 		
 	})
+	
+	
+	$("#wasteDisposeSubmit").on("click",function(){
+		var WasteDispose={
+				wpId:undefined,
+				cgNo:undefined,
+				cgName:undefined,
+				taskNo:undefined,
+				pickProject:undefined,
+				wastePerson:undefined,
+				wasteTime:undefined,
+				wasteReason:undefined,
+				wasteType:undefined,
+				wasteMoney:0,
+				wasteDesc:undefined,
+				wdc:undefined,
+				oRemain:undefined
+		}
+		var cgNo=$("#cg_no").val();
+		var cgName=$("#cg_name").val();
+		var taskNo=$("#prj_no").val();
+		var pickProject=$("#prj_name").val();
+		var disposePerson=$("#person").val();
+		var disposeTime=$("#year").val();
+		var disposeReason=$("#reason").val();
+		var disposeType=$("#dispose_type").val();
+		var disposeMoney=$("#dispose_money").val();
+		var disposeDesc=$("#dispose_desc").val();
+		WasteDispose.cgNo=cgNo;
+		WasteDispose.cgName=cgName;
+		WasteDispose.taskNo=taskNo;
+		WasteDispose.pickProject=pickProject;
+		WasteDispose.wastePerson=disposePerson;
+		WasteDispose.wasteTime=disposeTime;
+		WasteDispose.wasteReason=disposeReason;
+		WasteDispose.wasteType=disposeType;
+		WasteDispose.wasteMoney=disposeMoney;
+		WasteDispose.wasteDesc=disposeDesc;
+		
+		var WasteDisposeClArray=new Array();
+		var oRemainArray=new Array();
+		$("#waste_table tbody").find("tr").each(function(){
+			var materialName=$(this).find("td").eq(0).text();
+			var materialType=$(this).find("td").eq(1).text();
+			var specificationModel=$(this).find("td").eq(2).text();
+			var cmoUnit=$(this).find("td").eq(3).text();
+			var wasteNum=$(this).find("td").eq(4).text();
+			var cmoUnitPrice=$(this).find("td").eq(5).text();
+			var wasteMoney=$(this).find("td").eq(6).text();
+			var wasteWantMoney=$(this).find("input").eq(0).val();
+			var gsId=$(this).find("input").eq(0).attr("data");
+			var wasteActualMoney=$(this).find("input").eq(1).val();
+			var reg=/^\+?[1-9][0-9]*$/;
+    		if(!reg.test(wasteWantMoney)){
+    			toastr.error("请输入拟折价出售金额")
+        		return;
+    		}
+    		if(!reg.test(wasteActualMoney)){
+    			toastr.error("请输入实际折价出售金额")
+        		return;
+    		}
+    		var oRemain={
+    				id:undefined,
+    				remain:0
+    		}
+    		oRemain.id=gsId;
+    		oRemainArray.push(oRemain);
+			var WasteDisposeCl={
+					wpId:undefined,		
+					materialName:undefined,		
+					materialType:undefined,		
+					specificationModel:undefined,		
+					cmoUnit:undefined,		
+					cmoNumber:0,
+					cmoUnitPrice:0,
+					cmoMoney:0,
+					wasteWantMoney:0,
+					wasteActualMoney:0
+			}
+			WasteDisposeCl.materialName=materialName;
+			WasteDisposeCl.materialType=materialType;
+			WasteDisposeCl.specificationModel=specificationModel;
+			WasteDisposeCl.cmoUnit=cmoUnit;
+			WasteDisposeCl.cmoNumber=wasteNum;
+			WasteDisposeCl.cmoUnitPrice=cmoUnitPrice;
+			WasteDisposeCl.cmoMoney=wasteMoney;
+			WasteDisposeCl.wasteWantMoney=wasteWantMoney;
+			WasteDisposeCl.wasteActualMoney=wasteActualMoney;
+			WasteDisposeClArray.push(WasteDisposeCl);
+		})
+		WasteDispose.wdc=WasteDisposeClArray;
+		WasteDispose.oRemain=oRemainArray;
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/wd/addWasteDisposeSubmit',
+            dataType: 'json',
+            contentType:'application/json',
+            data:JSON.stringify(WasteDispose),
+            success: function (json) {
+            	if(json=='0'){
+	        		toastr.error("保存失败");
+	        	}else{
+	        		$("#myModal").modal("hide");
+	        		lianjie=json.url;
+	            	if(json.receiver!=null&&json.receiver.length>=1){
+		        		  $("#tijiaogei").modal('show');
+		        		  $("#tijiaoren tbody").empty("");
+		        		  for(var i=0;i<json.receiver.length;i++){
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+		        					  +'</td><td>'
+		        					  +json.receiver[i].omName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].dutyName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].uName
+		        					  +'</td></tr>');
+		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver.userId,
+		        	        	  uName:json.receiver.uName,
+		        	        	  omName:json.receiver.omName,
+		        	        	  dutyName:json.receiver.dutyName,
+		        	        	  omId:json.receiver.omId,
+		        	        	  dutyId:json.receiver.dutyId
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
+		        	  }
+	        	}
+                /* if(json>0){
+                	$("#myModal").modal("hide");
+                	location.reload([true]);
+                	toastr.success("提交成功");
+                }else{
+                	toastr.error("提交失败")
+                } */
+            }
+        });
+		
+	})
+	
+	function submitPerson(){
+  		var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+  	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+  	  $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/addTask4',
+            dataType: 'json',
+            data:{
+          	  url:lianjie,
+          	  userId:uid,
+          	  uName:uname,
+          	  omName:bmmc,
+          	  dutyName:zw,
+          	  omId:omid,
+          	  dutyId:dutyid
+            },
+            success: function (json) {
+          	  toastr.success('提交成功');
+            }
+        });  
+  	}
+	
 	
 	function look(obj){
 		var tr=$(obj).parent().parent();
