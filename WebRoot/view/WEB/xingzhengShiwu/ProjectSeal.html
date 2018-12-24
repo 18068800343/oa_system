@@ -696,7 +696,7 @@
                                     <th>开始时间</th>
                                     <th>结束时间</th>
                                     <th>销毁时间</th>
-                                    <th style="width:50px;">操作</th>
+                                    <th style="width:80px;">操作</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -939,6 +939,7 @@
             { "data": "beginTime"}, 
             { "data": "endTime"}, 
             { "data": "destroyTime"}, 
+            { "data": null}
         ],
         "columnDefs": [
 						{	
@@ -1409,13 +1410,8 @@
             url: getContextPath()+'/signetUsers/selectsUser',
             dataType: 'json',
             data: {
-            	status:2
-            },
-            error: function (msg) {
-                errMessage("请求UserController失败");
             },
             success: function (json) {
-            	//console.log(json)
                 $('#mainContent2').dataTable().fnClearTable();
                 $('#mainContent2').DataTable().rows.add(json).draw(false);
                 
@@ -1858,6 +1854,7 @@
 		var beginTime=$("#beginTime").val();
 		var endTime=$("#endTime").val();
 		var baoguanren=$("#baoguanren").attr("data1");
+		var uName=$("#baoguanren").val();
 		var usePrj=$("#usePrj").val();
 		var task_no2=$("#task_no2").val();
 		var xiaohuiTime=$("#xiaohuiTime").val();
@@ -1890,15 +1887,17 @@
 				useProject:usePrj,
 				taskNo:task_no2,
 				destroyTime:xiaohuiTime,
+				uName:uName
 			},
 			success:function(json){
-				//console.log(json);
 				if(json.result==0){
 					toastr.error("添加失败")
 				}else if(json.result>0){
-					//location.reload([true]);
+					var result=json.sUser;
+					$("#mainContent2").DataTable().row.add(result).draw(false);
+					$(".Pbbe").show();
+					$(".Pbbf").show();
 					toastr.success("添加成功")
-					$("#mainContent2").DataTable().row().add(json.ResultManagementSignet).draw(false);
 					$("#shiyonggl").modal("hide")
 					//initTable2();
 				}

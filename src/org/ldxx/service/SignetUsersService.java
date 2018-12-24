@@ -14,7 +14,7 @@ public interface SignetUsersService {
 
 	int updatesUser(SignetUsers sUser);
 
-	List<SignetUsers> selectUser(String status);
+	List<SignetUsers> selectUser();
 
 	SignetUsers selectUsersById(String suId);
 

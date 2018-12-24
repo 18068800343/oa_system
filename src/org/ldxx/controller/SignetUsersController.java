@@ -44,8 +44,8 @@ public class SignetUsersController {
 	
 	@RequestMapping("/selectsUser")
 	@ResponseBody
-	public List<SignetUsers> selectUser(String status){
-		List<SignetUsers> list= suserService.selectUser(status);
+	public List<SignetUsers> selectUser(){
+		List<SignetUsers> list= suserService.selectUser();
 		return list;
 	}
 	

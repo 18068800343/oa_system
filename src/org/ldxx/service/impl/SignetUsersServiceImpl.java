@@ -56,8 +56,8 @@ public class SignetUsersServiceImpl implements SignetUsersService {
 	}
 
 	@Override
-	public List<SignetUsers> selectUser(String status) {
-		return sUserDao.selectUser(status);
+	public List<SignetUsers> selectUser() {
+		return sUserDao.selectUser();
 	}
 	
 	@Override
