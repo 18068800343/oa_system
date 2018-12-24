@@ -107,26 +107,52 @@
         if(r!=null)return  unescape(r[2]); return null;
    }
    // 调用方法
-   	id=GetQueryString("");
+   	id=GetQueryString("prjId");
 	
 	function lookAll(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/DataArchive/selectDataArchiveById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	 $("#look_class_name").text(data.daName);
+		   		 $("#look_join_user").text(data.attendees);
+		   		 $("#look_addr").text(data.trainingLocation);
+		   		 $("#look_year").text(data.trainingTime);
+		   		 $("#look_summarize").text(data.credentialDesc);
+		   		 $("#look_ziliao tbody").html('');
+		   		$.ajax({
+	    			type: 'POST',
+	                url: getContextPath()+'/accessory/selectAccessoryById',
+	                dataType: 'json',
+	                data: {
+	                	id:id
+	                },
+	                success: function (json) {
+	                	$("#look_zhengshu tbody").html('');
+	                	console.log(json)
+	                	for(var i=0;i<json.length;i++){
+	                		if(json[i].aType=="资料"){
+	                			$("#look_ziliao tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+	                		}
+	                		if(json[i].aType=="证书"){
+	                			$("#look_zhengshu tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")
+	                		}
+	                		
+	                		
+	                	}
+		           		 
+	                }
+	    		})
+	        }
+	    });
 		 
-		 $("#look_class_name").text(data.daName);
-		 $("#look_join_user").text(data.attendees);
-		 $("#look_addr").text(data.trainingLocation);
-		 $("#look_year").text(data.trainingTime);
-		 $("#look_summarize").text(data.credentialDesc);
-		 $("#look_ziliao tbody").html('');
-		 $("#look_zhengshu tbody").html('');
-		 var acc=data.accessory;
-		 var acc2=data.accessory2;
-		 for(var i=0;i<acc.length;i++){
-			 $("#look_ziliao tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-		 }
-		 for(var ii=0;ii<acc2.length;ii++){
-			 $("#look_zhengshu tbody").append("<tr><td>附件"+(ii+1)+"</td><td><input style='width:100%;' type='text' value="+acc2[ii].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc2[ii].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-		 }
-		$("#look").modal("show");
+		 
 	}
 	
 	function downloadFile(obj){
