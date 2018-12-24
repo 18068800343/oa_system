@@ -34,4 +34,9 @@ public class ProjectTraceLogServiceImpl  implements ProjectTraceLogService{
 		return pdao.selectProjectTraceLog(status);
 	}
 
+	@Override
+	public ProjectTraceLog selectProjectTraceLogById(String id) {
+		return pdao.selectProjectTraceLogById(id);
+	}
+
 }
