@@ -14,5 +14,5 @@ public interface ProjectTraceService {
 	
 	public List<ProjectTrace> selectProjectTrace(String status);
 	
-	public ProjectTrace selectProjectTraceById(String id,String status);
+	public ProjectTrace selectProjectTraceById(String id);
 }

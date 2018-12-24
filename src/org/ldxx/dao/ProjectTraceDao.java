@@ -15,7 +15,7 @@ public interface ProjectTraceDao {
 	
 	public List<ProjectTrace> selectProjectTrace(@Param("status")String status);
 	
-	public ProjectTrace selectProjectTraceById(@Param("id")String id,@Param("status")String status);
+	public ProjectTrace selectProjectTraceById(@Param("id")String id);
 
 	public ProjectTrace selectprjStatesByname(@Param("prjName")String prjName);//通过项目名查找项目跟踪状态
 }

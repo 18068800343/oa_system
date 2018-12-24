@@ -62,8 +62,8 @@ public class ProjectTraceServiceImpl implements ProjectTraceService{
 	}
 
 	@Override
-	public ProjectTrace selectProjectTraceById(String id,String status) {
-		ProjectTrace trace=dao.selectProjectTraceById(id,status);
+	public ProjectTrace selectProjectTraceById(String id) {
+		ProjectTrace trace=dao.selectProjectTraceById(id);
 		return trace;
 	}
 

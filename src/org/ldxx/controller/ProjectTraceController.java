@@ -297,8 +297,8 @@ public class ProjectTraceController {
 	
 	@RequestMapping("/selectProjectTraceById")
 	@ResponseBody
-	public ProjectTrace selectProjectTraceById(String id,String status){
-		return service.selectProjectTraceById(id,status);
+	public ProjectTrace selectProjectTraceById(String id){
+		return service.selectProjectTraceById(id);
 	}
 	
 }
