@@ -100,38 +100,64 @@
         if(r!=null)return  unescape(r[2]); return null;
    }
    // 调用方法
-   	id=GetQueryString("");
+   	id=GetQueryString("prjId");
 	
 	
 	 function lookAll(){
 		 $.ajax({
 		        type: 'POST',
-		        url: getContextPath()+'/organizationManagement/getOrgNameById',
+		        url: getContextPath()+'/InternalTraining/selectInternalTrainingById',
 		        dataType: 'json',
-		        data: {
-		        	omId:data.department
+		        data:{
+		        	id:id
 		        },
 		        success: function (json) {
-		        	//console.log(json)
-		        	$("#lookdepartment").text(json.omName)
+		        	console.log(json)
+		        	data=json;
+		        	$.ajax({
+				        type: 'POST',
+				        url: getContextPath()+'/organizationManagement/getOrgNameById',
+				        dataType: 'json',
+				        data: {
+				        	omId:data.department
+				        },
+				        success: function (json) {
+				        	//console.log(json)
+				        	$("#lookdepartment").text(json.omName)
+				        }
+				    });
+		        	$("#lookclassName").text(data.courseName);
+			   		 $("#lookyear").text(data.trainingDate);
+			   		 $("#lookaddr").text(data.trainingLocation);
+			   		 $("#lookmoney").text(data.trainingMoney);
+			   		 $("#lookclass_info").text(data.trainingDesc);
+			   		 $("#looktarget").text(data.trainingReason);
+			   		 $("#lookuser").text(data.trainingMan);
+			   		 $("#lookduty").text(data.duty);
+				   		$.ajax({
+			    			type: 'POST',
+			                url: getContextPath()+'/accessory/selectAccessoryById',
+			                dataType: 'json',
+			                data: {
+			                	id:id
+			                },
+			                success: function (json) {
+			                	$("#looktable").html('');
+				           		 var acc=json;
+				           		 for(var i=0;i<acc.length;i++){
+				           			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+				           		 }
+			                }
+			    		})
+			    		
 		        }
 		    });
-		 $("#lookclassName").text(data.courseName);
-		 $("#lookyear").text(data.trainingDate);
-		 $("#lookaddr").text(data.trainingLocation);
-		 $("#lookmoney").text(data.trainingMoney);
-		 $("#lookclass_info").text(data.trainingDesc);
-		 $("#looktarget").text(data.trainingReason);
-		 $("#lookuser").text(data.uName);;
-		 $("#lookduty").text(data.dutyName);;
 		 
-		 $("#looktable").html('');
-		 var acc=data.accessory;
-		 for(var i=0;i<acc.length;i++){
-			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-		 }
 		 
-		 $("#allMsg1").modal("show");
+		 
+		 
+		 
+		 
 	 }
 	 
 	 function downloadFile(obj){
