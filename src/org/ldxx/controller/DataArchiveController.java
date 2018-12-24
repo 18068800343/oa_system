@@ -320,4 +320,10 @@ public class DataArchiveController {
 		return service.selectDataArchive();
 	}
 	
+	@RequestMapping("/selectDataArchiveById")
+	@ResponseBody
+	public DataArchive selectDataArchiveById(String id){
+		return service.selectDataArchiveById(id);
+	}
+	
 }
