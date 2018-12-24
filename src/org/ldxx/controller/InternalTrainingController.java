@@ -3,12 +3,21 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.InternalTraining;
+import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.User;
 import org.ldxx.service.AnnouncementService;
 import org.ldxx.service.InternalTrainingService;
+import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +36,12 @@ public class InternalTrainingController {
 	@Autowired 
 	private AnnouncementService aservice;
 	
+	@Autowired
+	private OrganizationManagementService oService;
+	
 	@RequestMapping("/addInternalTrainingBySave")
 	@ResponseBody
-	public int addInternalTrainingBySave(InternalTraining training,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addInternalTrainingBySave(InternalTraining training,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		String path="D:"+File.separator+"oa"+File.separator+"InternalTraining"+File.separator+id;
@@ -54,12 +66,47 @@ public class InternalTrainingController {
 		training.setItId(id);
 		training.setAccessory(accList);
 		int i=iservice.addInternalTraining(training);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(training.getDepartment());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle("");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo("流程发起");
+			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	@RequestMapping("/addInternalTrainingBySubmit")
 	@ResponseBody
-	public int addInternalTrainingBySubmit(InternalTraining training,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addInternalTrainingBySubmit(InternalTraining training,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		String path="D:"+File.separator+"oa"+File.separator+"InternalTraining"+File.separator+id;
