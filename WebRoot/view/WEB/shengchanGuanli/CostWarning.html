@@ -331,10 +331,39 @@
 										    "targets": 8,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    		return '<i class="iconfont icon-icon-test Pefa" style="font-size:20px;cursor:pointer;margin-left:5px;" title="查看详细信息" onclick="look(this)"></i><i class="iconfont icon-icon_edit luru Pefb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="录入原因" onclick="addReason(this)"></i><i class="iconfont icon-search reason" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看录入原因" onclick="lookReason(this)"></i>';
+										    		return '<i class="iconfont icon-icon-test Pefa" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="look(this)"></i><i class="iconfont icon-icon_edit luru Pefb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="录入原因" onclick="addReason(this)"></i><i class="iconfont icon-search reason" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看录入原因" onclick="lookReason(this)"></i>';
 										        }
 										  }
 								],
+								"fnDrawCallback" : function() {
+									$.ajax({
+				                		type:"post",
+				                		url:getContextPath()+"/login/getUser",
+				                		async:false,
+				                		data:{
+				                		},
+				                		success:function(json){
+				                			
+				                			if(json!=null &&json!=""){
+				                				var arr = json.uPermissions.split(',');
+				                				
+				                				for(var i=0;i<arr.length;i++){
+				                					var arr2 = arr[i].replace("+","");
+				                					//console.log(arr2);
+				                					if(arr[i].indexOf("Pefa") >= 0 ){
+				                						$(".Pefa").show();
+				                					}
+				                					if(arr[i].indexOf("Pefb") >= 0 ){
+				                						$(".Pefb").show();
+				                					}
+				                				}
+				                				
+				                			}
+				                			
+				                		}
+				                	});
+									
+								},
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",

@@ -502,10 +502,36 @@
 									    "targets": 4,
 									    "searchable": true,
 									    "render": function(data, type, full) {
-									  	  		return '<i class="iconfont icon-icon-test Pedbdb" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookFj(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  '
+									  	  		return '<i class="iconfont icon-icon-test Pedbdb" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookFj(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  '
 									        }
 									  }
 							],
+							"fnDrawCallback" : function() {
+								$.ajax({
+			                		type:"post",
+			                		url:getContextPath()+"/login/getUser",
+			                		async:false,
+			                		data:{
+			                		},
+			                		success:function(json){
+			                			
+			                			if(json!=null &&json!=""){
+			                				var arr = json.uPermissions.split(',');
+			                				
+			                				for(var i=0;i<arr.length;i++){
+			                					var arr2 = arr[i].replace("+","");
+			                					//console.log(arr2);
+			                					if(arr[i].indexOf("Pedbdb") >= 0 ){
+			                						$(".Pedbdb").show();
+			                					}
+			                				}
+			                				
+			                			}
+			                			
+			                		}
+			                	});
+								
+							},
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",

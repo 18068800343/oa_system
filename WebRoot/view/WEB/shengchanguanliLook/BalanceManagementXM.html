@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+        #xinjianCailiao input,#xinjianCailiao2 input{
+            width:160px;
+        }
+        #xinjianCailiao select,#xinjianCailiao2 select{
+            width:160px;
+        }
+        #xinjianCailiaoZ input,#xinjianCailiao2Z input{
+            width:160px;
+        }
+        #xinjianCailiaoZ select,#xinjianCailiao2Z select{
+            width:160px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>生产管理</li>
+            <li>材料采购管理</li>
+            <li>项目材料管理</li>
+            <li class="active">结余管理</li>
+		</ul>
+    </div>
+
+        <div>
+           		<!-- allMsg -->
+           		<table class="table table-bordered table-condensed" id="mainContent2">
+		                <thead>
+		                    <tr>
+		                        <th>材料名称</th>
+		                        <th>材料类型</th>
+		                        <th>规格型号</th>
+		                        <th>单位</th>
+		                        <th>数量</th>
+		                        <th>单价</th>
+		                        <th>金额</th>
+		                        <th>收货日期</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                </tbody> 
+            		</table>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+    <div class="modal-dialog modal-lg" role="document" style="width:1500px">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>结余信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                     
+                </form> 
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="remainThis">结余</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg结束 -->
+<!-- allMsg2 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg2">
+    <div class="modal-dialog modal-lg" role="document" style="width:1500px">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>结余信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered table-condensed" id="mainContent3">
+		                <thead>
+		                    <tr>
+		                        <th>材料名称</th>
+		                        <th>材料类型</th>
+		                        <th>规格型号</th>
+		                        <th>单位</th>
+		                        <th>结余总数</th>
+		                        <th>单价</th>
+		                        <th>金额</th>
+		                        <th>结余余数</th>
+		                        <th>结余日期</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                </tbody> 
+            		</table> 
+                </form> 
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg2结束 -->
+    	</div>
+    	
+    	
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script>
+    $(document).ready( function () {
+    	 
+    	openRemain();
+    	
+	});
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+
+    var table2=$('#mainContent2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "materialName"}, 
+		            { "data": "materialType"}, 
+		            { "data": "specificationModel"}, 
+		            { "data": "cmoUnit"}, 
+		            { "data": "remainNumber"}, 
+		            { "data": "cmoUnitPrice"}, 
+		            { "data": null},
+		            { "data": "pickDate"}
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 6,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+											    	var price=data.cmoUnitPrice;
+											    	var num=data.remainNumber;
+											    	var sum=Number(price)*Number(num);
+											    	return sum;
+										        }
+										  }
+								],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+	});
+    
+    
+    
+    function openRemain(){
+		
+		var remainType=data.remainType;
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/GsClOut/selectClByNo',
+            dataType: 'json',
+            data: {
+            	id:id
+            },
+            success: function (json) {
+                $('#mainContent2').dataTable().fnClearTable();
+                $('#mainContent2').DataTable().rows.add(json).draw(false);
+            }
+        });
+		
+		
+	}
+    
+
+	
+	function look(obj){
+		var tr=$(obj).parent().parent();
+		var data=$("#mainContent").DataTable().row(tr).data();
+		var cmoId=data.cmoId;
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/ClRemain/selectClRemainById',
+            dataType: 'json',
+            data:{
+            	id:cmoId
+            },
+            success: function (json) {
+            	$('#mainContent3').dataTable().fnClearTable();
+                $('#mainContent3').DataTable().rows.add(json).draw(false);
+            }
+        });
+		$("#allMsg2").modal("show");
+	}
+	
+	function utilize(obj){
+		var tr=$(obj).parent().parent();
+		var data=$("#mainContent").DataTable().row(tr).data();
+		var cmoId=data.cmoId;
+		$("#out_prj_name").val(data.pickProject);
+		$("#out_prj_no").val(data.taskNo);
+		$("#out_cg_name").val(data.cgName);
+		$("#out_cg_no").val(data.cgNo);
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/ClRemain/selectGsClOutById',
+            dataType: 'json',
+            data:{
+            	id:cmoId
+            },
+            success: function (json) {
+            	$("#remain_out_table tbody").html('');
+            	for(var i=0;i<json.length;i++){
+            		if(json[i].remainNumber!=0){
+            			$("#remain_out_table tbody").append("<tr>"+
+								"<td style='width:15%;'>"+json[i].materialName+"</td>"+
+								"<td style='width:15%;'>"+json[i].materialType+"</td>"+
+								"<td style='width:15%;'>"+json[i].specificationModel+"</td>"+
+								"<td style='width:10%;'>"+json[i].cmoUnit+"</td>"+
+								"<td style='width:10%;'>"+json[i].remainNumber+"</td>"+
+								"<td style='width:15%;'><input type='text' data="+json[i].gsId+" class='form-control' style='width:70%;'></td>"+
+								"<td style='width:10%;'>"+json[i].cmoUnitPrice+"</td>"+
+								"<td style='width:10%;'><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
+							"</tr>")
+            		}
+            	}
+            	var length=$("#remain_out_table tbody").find("tr").length;
+        		if(length==0){
+        			$("#jyButton").attr("disabled",true);
+        		}else{
+        			$("#jyButton").attr("disabled",false);
+        		}
+            }
+        });
+		
+		$("#allMsg3").modal("show");
+	}
+	
+	function removeThis(obj){
+		var tr=$(obj).parent().parent();
+		$(tr).remove();
+		var length=$("#remain_out_table tbody").find("tr").length;
+		if(length==0){
+			$("#jyButton").attr("disabled",true);
+		}else{
+			$("#jyButton").attr("disabled",false);
+		}
+	}
+	
+
+    
+</script>
+</html>
