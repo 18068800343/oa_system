@@ -86,4 +86,9 @@ public class DataArchiveServiceImpl implements DataArchiveService{
 		return list;
 	}
 
+	@Override
+	public DataArchive selectDataArchiveById(String id) {
+		return dao.selectDataArchiveById(id);
+	}
+
 }

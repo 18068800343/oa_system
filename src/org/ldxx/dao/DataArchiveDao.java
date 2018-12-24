@@ -14,4 +14,6 @@ public interface DataArchiveDao {
 	public int updateDataArchive(@Param("archive")DataArchive archive);
 	
 	public List<DataArchive> selectDataArchive();
+	
+	public DataArchive selectDataArchiveById(@Param("id")String id);
 }

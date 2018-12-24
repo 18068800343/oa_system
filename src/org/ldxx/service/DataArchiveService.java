@@ -13,4 +13,6 @@ public interface DataArchiveService {
 	public int updateDataArchive(DataArchive archive);
 	
 	public List<DataArchive> selectDataArchive();
+	
+	public DataArchive selectDataArchiveById(String id);
 }

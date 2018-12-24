@@ -3,12 +3,21 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.DataArchive;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.User;
 import org.ldxx.service.AnnouncementService;
 import org.ldxx.service.DataArchiveService;
+import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +36,12 @@ public class DataArchiveController {
 	@Autowired 
 	private AnnouncementService aservice;
 	
+	@Autowired
+	private OrganizationManagementService oService;
+	
 	@RequestMapping("/addDataArchiveBySave")
 	@ResponseBody
-	public int addDataArchiveBySave(DataArchive archive,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
+	public int addDataArchiveBySave(DataArchive archive,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		archive.setDaId(id);
@@ -72,12 +84,47 @@ public class DataArchiveController {
 		archive.setAccessory(accList);
 		archive.setAccessory2(accList2);
 		int aa=service.addDataArchive(archive);
+		if(aa>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			String string="";
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(archive.getDaName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(archive.getDaName()+"保存");
+			currentFlow.setUrl("xingzhengshiwuLook/TrainingManagement4Look.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return aa;
 	}
 	
 	@RequestMapping("/addDataArchiveBySubmit")
 	@ResponseBody
-	public int addDataArchiveBySubmit(DataArchive archive,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
+	public String addDataArchiveBySubmit(DataArchive archive,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		archive.setDaId(id);
@@ -120,7 +167,42 @@ public class DataArchiveController {
 		archive.setAccessory(accList);
 		archive.setAccessory2(accList2);
 		int aa=service.addDataArchive(archive);
-		return aa;
+		String string = aa+"";
+		if(aa>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(archive.getDaName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(archive.getDaName()+"流程发起");
+			currentFlow.setUrl("xingzhengshiwuLook/TrainingManagement4Look.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/deleteDataArchive")
