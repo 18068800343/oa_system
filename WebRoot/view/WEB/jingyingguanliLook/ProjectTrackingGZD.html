@@ -108,7 +108,7 @@
    }
    // 调用方法
    	id=GetQueryString("prjId");
-
+	console.log(id)
    	
    	
 	var url;
@@ -120,11 +120,11 @@
 	        dataType: 'json',
 	        data: {
 	           id:id,
-	           status:2
 	        },
 	        success: function (json) {
+	        	console.log(json)
 	        	$("#download_td").html('');
-	        	var accessory=json.accessory;
+	        	
 	        	$("#look_prj_name").text(json.prjName);
 	    		$("#look_prj_no").text(json.prjNo);
 	    		$("#look_prj_status").text(json.prjStates);
@@ -134,18 +134,29 @@
 	    		$("#look_prj_scale").text(json.predictPrjScale);
 	    		$("#look_year").text(json.fillTime);
 	    		$("#look_isbid").text(json.isbid);
-	    		$("#look_department").text(json.traceDepartment);
+	    		$("#look_department").text(json.omName);
 	    		$("#look_prj_desc").text(json.prjDesc);
 	    		$("#look_desc").text(json.ptInfo);
-	    		if(accessory.length==0){
-	    			$("#look_url").val("无").attr("disabled",true);
-	    			$("#download_td").html('');
-	    		}else{
-	    			fileName=accessory[0].acName;
-		    		$("#look_url").val(fileName).attr("disabled",true);
-		    		url=accessory[0].acUrl;
-		    		$("#download_td").append("<button type='button' class='btn btn-primary' onclick='download()'>下载附件</button>");	
-	    		}
+	    		$.ajax({
+	    			type: 'POST',
+	                url: getContextPath()+'/accessory/selectAccessoryById',
+	                dataType: 'json',
+	                data: {
+	                	id:id
+	                },
+	                success: function (json) {
+	                	var accessory=json;
+	                	if(accessory.length==0){
+	    	    			$("#look_url").val("无").attr("disabled",true);
+	    	    			$("#download_td").html('');
+	    	    		}else{
+	    	    			fileName=accessory[0].acName;
+	    		    		$("#look_url").val(fileName).attr("disabled",true);
+	    		    		url=accessory[0].acUrl;
+	    		    		$("#download_td").append("<button type='button' class='btn btn-primary' onclick='download()'>下载附件</button>");	
+	    	    		}
+	                }
+	    		})
 	    		
 	        }
 		});
