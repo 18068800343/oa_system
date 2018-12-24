@@ -74,10 +74,10 @@ public class OutTrainController {
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
-			currentFlow.setTitle(outTrain.getOtTitle()+"外出培训申请");
+			currentFlow.setTitle(outTrain.getOtTitle());
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getUsername());;
-			currentFlow.setMemo(outTrain.getOtTitle()+"外出培训申请保存");
+			currentFlow.setMemo(outTrain.getOtTitle()+"保存");
 			currentFlow.setUrl("xingzhengshiwuLook/TrainingManagementLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
@@ -139,10 +139,10 @@ public class OutTrainController {
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
-			currentFlow.setTitle(outTrain.getOtTitle()+"外出培训申请");
+			currentFlow.setTitle(outTrain.getOtTitle());
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
-			currentFlow.setMemo(outTrain.getOtTitle()+"外出培训申请流程提交");
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(outTrain.getOtTitle()+"流程提交");
 			currentFlow.setUrl("xingzhengshiwuLook/TrainingManagementLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
