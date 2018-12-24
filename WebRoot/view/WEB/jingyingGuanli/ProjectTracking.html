@@ -167,25 +167,23 @@
                 <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
             </div>
             <div class="modal-body">
-                <form class="form-inline">
-                    <table class="table table-bordered table-condensed" id="tijiaoren">
-                       	<thead>
-                       			<tr>
-	                            	<th></th>
-	                                <th>部门</th>
-	                                <th>职务</th>
-	                                <th>审批人</th>
-	                            </tr>
-                       	 </thead>
-                           <tbody>
-                           	
-                           </tbody>
-                       </table>
-                </form>
+                <table class="table table-bordered table-condensed" id="tijiaoren">
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
+                        </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitPerson()">提交</button>
             </div>
         </div>
     </div>
@@ -908,6 +906,7 @@
 		        url: getContextPath()+'/trace/addProjectTraceOfSave',
 		        dataType: 'json',
 		        data: {
+		        	ptId:null,
 		        	prjName:new_prj_name,
 		        	prjNo:new_prj_no,
 		        	prjStates:new_prj_status,
@@ -918,7 +917,7 @@
 		        	fillTime:year,
 		        	isbid:new_isbid,
 		        	traceDepartment:new_department,
-		        	omName:omName,
+		        	//omName:omName,
 		        	prjDesc:new_prj_desc,
 		        	ptInfo:new_desc
 		        },
@@ -972,6 +971,7 @@
 		        url: getContextPath()+'/trace/addProjectTraceOfSubmit',
 		        dataType: 'json',
 		        data: {
+		        	ptId:null,
 		        	prjName:new_prj_name,
 		        	prjNo:new_prj_no,
 		        	prjStates:new_prj_status,
@@ -982,22 +982,90 @@
 		        	fillTime:year,
 		        	isbid:new_isbid,
 		        	traceDepartment:new_department,
-		        	omName:omName,
+		        	//omName:omName,
 		        	prjDesc:new_prj_desc,
 		        	ptInfo:new_desc
 		        },
 		        success: function (json) {
-		        	if(json.result==0){
+		        	if(json=='0'){
+		        		toastr.error("保存失败");
+		        	}else{
+		        		$("#myModal").modal("hide");
+		        		lianjie=json.url;
+		            	if(json.receiver!=null&&json.receiver.length>=1){
+			        		  $("#tijiaogei").modal('show');
+			        		  $("#tijiaoren tbody").empty("");
+			        		  for(var i=0;i<json.receiver.length;i++){
+			        			  $("#tijiaoren tbody").append('<tr><td>'
+			        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+			        					  +'</td><td>'
+			        					  +json.receiver[i].omName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].dutyName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].uName
+			        					  +'</td></tr>');
+			        		  }
+			        	  }else if(json.receiver.length==1){
+			        		  $.ajax({
+			        	          type: 'POST',
+			        	          url: getContextPath()+'/task/addTask4',
+			        	          dataType: 'json',
+			        	          data:{
+			        	        	  url:json.url,
+			        	        	  userId:json.receiver.userId,
+			        	        	  uName:json.receiver.uName,
+			        	        	  omName:json.receiver.omName,
+			        	        	  dutyName:json.receiver.dutyName,
+			        	        	  omId:json.receiver.omId,
+			        	        	  dutyId:json.receiver.dutyId
+			        	          },
+			        	          success: function (json) {
+			        	        	  toastr.success('提交成功');
+			        	          }
+			        	      }); 
+			        	  }
+		        	}
+		        	/* if(json.result==0){
 		        		toastr.error("提交失败");
 		        	}else{
-		        		/* $('#mainContent').DataTable().row.add(json.trace).draw(false); */
+		        		//$('#mainContent').DataTable().row.add(json.trace).draw(false); 
 		        		toastr.success("提交成功");
 		        		$("#myModal").modal("hide");
-		        	}
+		        	} */
 		        }
 		}
 		$("#new_form").ajaxSubmit(options);
 	}
+	
+	function submitPerson(){
+  		var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+  	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+  	  $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/addTask4',
+            dataType: 'json',
+            data:{
+          	  url:lianjie,
+          	  userId:uid,
+          	  uName:uname,
+          	  omName:bmmc,
+          	  dutyName:zw,
+          	  omId:omid,
+          	  dutyId:dutyid
+            },
+            success: function (json) {
+          	  toastr.success('提交成功');
+            }
+        });  
+  	}
+	
+	
 	
 	var edit_id;
 	var edit_dom;

@@ -65,7 +65,9 @@ public class ProjectTraceServiceImpl implements ProjectTraceService{
 	public ProjectTrace selectProjectTraceById(String id,String status) {
 		ProjectTrace trace=dao.selectProjectTraceById(id,status);
 		List<Accessory> accessory=adao.selectAccessoryById(id);
-		trace.setAccessory(accessory);
+		if(accessory!=null){
+			trace.setAccessory(accessory);
+		}
 		return trace;
 	}
 

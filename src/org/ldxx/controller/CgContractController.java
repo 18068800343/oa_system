@@ -43,8 +43,6 @@ public class CgContractController {
 	private CgContractService cgService;
 	@Autowired
 	private OrganizationManagementService oService;
-	@Autowired
-	private TaskService tService;
 	
 	@RequestMapping("/selectCgContractByStatus")
 	@ResponseBody
