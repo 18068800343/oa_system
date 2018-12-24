@@ -3,13 +3,24 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgContract;
+import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FbContract;
+import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.MaterialDemand;
+import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.Task;
+import org.ldxx.bean.User;
 import org.ldxx.service.CgContractService;
+import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.TaskService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +41,10 @@ public class CgContractController {
 	
 	@Autowired
 	private CgContractService cgService;
+	@Autowired
+	private OrganizationManagementService oService;
+	@Autowired
+	private TaskService tService;
 	
 	@RequestMapping("/selectCgContractByStatus")
 	@ResponseBody
@@ -40,7 +55,7 @@ public class CgContractController {
 
 	@RequestMapping("/addCgContractSave")//保存
 	@ResponseBody
-	public int addCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1) throws IllegalStateException, IOException{
+	public int addCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
@@ -91,13 +106,48 @@ public class CgContractController {
 			cg.setAccessory1(list1);
 		}
 		int i=cgService.addCgContract(cg);
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			String string="";
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(cg.getContractName()+"采购合同申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(cg.getContractName()+"采购合同申请流程发起");
+			currentFlow.setUrl("shengchanguanliLook/ProcurementContract.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	
 	@RequestMapping("/addCgContractSubmit")//提交
 	@ResponseBody
-	public int addCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1) throws IllegalStateException, IOException{
+	public String addCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
@@ -148,7 +198,42 @@ public class CgContractController {
 			cg.setAccessory1(list1);
 		}
 		int i=cgService.addCgContract(cg);
-		return i;
+		String string = i+"";
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(cg.getContractName()+"采购合同申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(cg.getContractName()+"采购合同申请流程发起");
+			currentFlow.setUrl("shengchanguanliLook/ProcurementContract.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	
