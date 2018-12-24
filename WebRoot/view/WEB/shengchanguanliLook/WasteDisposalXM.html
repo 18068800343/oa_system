@@ -111,44 +111,56 @@
 
 	
 	function initTable(){
-		
-		$("#look_cg_no").text(data.cgNo);
-		$("#look_cg_name").text(data.cgName);
-		$("#look_prj_no").text(data.taskNo);
-		$("#look_prj_name").text(data.pickProject);
-		$("#look_person").text(data.wastePerson);
-		$("#look_year").text(data.wasteTime);
-		$("#look_reason").text(data.wasteReason);
-		$("#look_dispose_type").text(data.wasteType);
-		$("#look_dispose_money").text(data.wasteMoney);
-		$("#look_dispose_desc").text(data.wasteDesc);
-		
 		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/wd/selectWdById',
-            dataType: 'json',
-            data:{
-            	id:data.wpId
-            },
-            success: function (json) {
-            	$("#look_waste_table tbody").html('');
-            	for(var i=0;i<json.length;i++){
-            		if(json[i].cmoNumber>0){
-		            	$("#look_waste_table tbody").append("<tr>"+
-		            														"<td>"+json[i].materialName+"</td>"+
-		            														"<td>"+json[i].materialType+"</td>"+
-		            														"<td>"+json[i].specificationModel+"</td>"+
-		            														"<td>"+json[i].cmoUnit+"</td>"+
-		            														"<td>"+json[i].cmoNumber+"</td>"+
-		            														"<td>"+json[i].cmoUnitPrice+"</td>"+
-		            														"<td>"+json[i].cmoMoney+"</td>"+
-		            														"<td>"+json[i].wasteWantMoney+"</td>"+
-		            														"<td>"+json[i].wasteActualMoney+"</td>"+
-		            													"</tr>");
-            		}
-            	}
-            }
-        });
+	        type: 'POST',
+	        url: getContextPath()+'/wd/selectWasteDisposeById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	data=json;
+	        	$("#look_cg_no").text(data.cgNo);
+	    		$("#look_cg_name").text(data.cgName);
+	    		$("#look_prj_no").text(data.taskNo);
+	    		$("#look_prj_name").text(data.pickProject);
+	    		$("#look_person").text(data.wastePerson);
+	    		$("#look_year").text(data.wasteTime);
+	    		$("#look_reason").text(data.wasteReason);
+	    		$("#look_dispose_type").text(data.wasteType);
+	    		$("#look_dispose_money").text(data.wasteMoney);
+	    		$("#look_dispose_desc").text(data.wasteDesc);
+	    		
+	    		$.ajax({
+	                type: 'POST',
+	                url: getContextPath()+'/wd/selectWdById',
+	                dataType: 'json',
+	                data:{
+	                	id:data.wpId
+	                },
+	                success: function (json) {
+	                	$("#look_waste_table tbody").html('');
+	                	for(var i=0;i<json.length;i++){
+	                		if(json[i].cmoNumber>0){
+	    		            	$("#look_waste_table tbody").append("<tr>"+
+	    		            														"<td>"+json[i].materialName+"</td>"+
+	    		            														"<td>"+json[i].materialType+"</td>"+
+	    		            														"<td>"+json[i].specificationModel+"</td>"+
+	    		            														"<td>"+json[i].cmoUnit+"</td>"+
+	    		            														"<td>"+json[i].cmoNumber+"</td>"+
+	    		            														"<td>"+json[i].cmoUnitPrice+"</td>"+
+	    		            														"<td>"+json[i].cmoMoney+"</td>"+
+	    		            														"<td>"+json[i].wasteWantMoney+"</td>"+
+	    		            														"<td>"+json[i].wasteActualMoney+"</td>"+
+	    		            													"</tr>");
+	                		}
+	                	}
+	                }
+	            });
+	        }
+	    });
+		
 		
 	}
 	
