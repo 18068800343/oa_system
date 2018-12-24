@@ -13,4 +13,6 @@ public interface OutTrainService {
 	public int updateOutTrain(OutTrain outTrain);
 	
 	public List<OutTrain> selectOutTrain();
+	
+	public OutTrain selectOutTrainById(String id);
 }

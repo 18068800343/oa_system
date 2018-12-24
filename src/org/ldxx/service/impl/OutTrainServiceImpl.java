@@ -62,4 +62,9 @@ public class OutTrainServiceImpl implements OutTrainService{
 		return list;
 	}
 
+	@Override
+	public OutTrain selectOutTrainById(String id) {
+		return odao.selectOutTrainById(id);
+	}
+
 }

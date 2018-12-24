@@ -3,12 +3,21 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.OutTrain;
+import org.ldxx.bean.User;
 import org.ldxx.service.AnnouncementService;
+import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.OutTrainService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +36,12 @@ public class OutTrainController {
 	@Autowired 
 	private AnnouncementService aservice;
 	
+	@Autowired
+	private OrganizationManagementService oService;
+	
 	@RequestMapping("/addOutTrainBySave")
 	@ResponseBody
-	public int addOutTrainBySave(OutTrain outTrain,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int addOutTrainBySave(OutTrain outTrain,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		String path="D:"+File.separator+"oa"+File.separator+"OutTrain"+File.separator+id;
@@ -54,12 +66,47 @@ public class OutTrainController {
 		outTrain.setOtId(id);
 		outTrain.setAccessory(accList);
 		int i=oservice.addOutTrain(outTrain);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(outTrain.getProposerDepartment());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(outTrain.getOtTitle()+"外出培训申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(outTrain.getOtTitle()+"外出培训申请保存");
+			currentFlow.setUrl("xingzhengshiwuLook/TrainingManagementLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	@RequestMapping("/addOutTrainBySubmit")
 	@ResponseBody
-	public int addOutTrainBySubmit(OutTrain outTrain,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public String addOutTrainBySubmit(OutTrain outTrain,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		String path="D:"+File.separator+"oa"+File.separator+"OutTrain"+File.separator+id;
@@ -84,7 +131,42 @@ public class OutTrainController {
 		outTrain.setOtId(id);
 		outTrain.setAccessory(accList);
 		int i=oservice.addOutTrain(outTrain);
-		return i;
+		String string="";
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(outTrain.getProposerDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(outTrain.getOtTitle()+"外出培训申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(outTrain.getOtTitle()+"外出培训申请流程提交");
+			currentFlow.setUrl("xingzhengshiwuLook/TrainingManagementLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	
@@ -166,5 +248,11 @@ public class OutTrainController {
 	@ResponseBody
 	public List<OutTrain> selectOutTrain(){
 		return oservice.selectOutTrain();
+	}
+	
+	@RequestMapping("/selectOutTrainById")
+	@ResponseBody
+	public OutTrain selectOutTrainById(String id){
+		return oservice.selectOutTrainById(id);
 	}
 }
