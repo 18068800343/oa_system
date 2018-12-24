@@ -80,18 +80,29 @@
    }
    // 调用方法
    	id=GetQueryString("prjId");
-
+   	console.log(id)
 
 	
 	function lookThisLog(){
-		var dom=$(obj).parents("tr");
-		var data=$("#mainContent2").DataTable().row(dom).data();
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/traceLog/selectProjectTraceLogById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	$("#look_prj_name_log").text(data.prjName);
+	    		$("#look_business_no_log").text(data.manageNo);
+	    		$("#look_client_name").text(data.clientName);
+	    		$("#look_main_department").text(data.omName);
+	    		$("#look_log").text(data.ptlLog);
+	        }
+	    });
 		
-		$("#look_prj_name_log").text(data.prjName);
-		$("#look_business_no_log").text(data.manageNo);
-		$("#look_client_name").text(data.clientName);
-		$("#look_main_department").text(data.sponsorDepartment);
-		$("#look_log").text(data.ptlLog);
+		
 		
 	}
 	
