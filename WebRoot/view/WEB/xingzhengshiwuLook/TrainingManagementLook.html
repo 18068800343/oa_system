@@ -43,19 +43,19 @@
                 <form class="form-inline" id="look_form" method="post" enctype="multipart/form-data">
                     <table class="table table-bordered table-condensed">
                         <tr>
-                            <td style="width:100px;">主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                            <td style="width:100px;">主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题 </td>
                             <td id="looktitle"></td>
                             <td style="width:100px;">所属部门</td>
                             <td id="lookdepartment"></td>
                         </tr>
                         <tr>
-                            <td>申请人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                            <td>申请人员</td>
                             <td id="lookuser"></td>
                             <td>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务</td>
                             <td id="lookduty" ></td>
                         </tr>
                         <tr>
-                            <td>课程名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                            <td>课程名称</td>
                             <td id="lookclassName"></td>
                             <td>申请时间</td>
                             <td id="lookyear"></td>
@@ -108,57 +108,68 @@
         if(r!=null)return  unescape(r[2]); return null;
    }
    // 调用方法
-   	id=GetQueryString("");
+   	id=GetQueryString("prjId");
 	
 	
 	function lookAll(){
-		
-		$("#looktitle").text(data.otTitle);
-		
 		$.ajax({
 	        type: 'POST',
-	        url: getContextPath()+'/organizationManagement/getOrgNameById',
+	        url: getContextPath()+'/outTrain/selectOutTrainById',
 	        dataType: 'json',
-	        data: {
-	        	omId:data.proposerDepartment
+	        data:{
+	        	id:id
 	        },
 	        success: function (json) {
-	        	//console.log(json)
-	        	$("#lookdepartment").text(json.omName);
+	        	console.log(json)
+	        	data=json;
+	        	$("#looktitle").text(data.otTitle);
+	        	$.ajax({
+	    	        type: 'POST',
+	    	        url: getContextPath()+'/organizationManagement/getOrgNameById',
+	    	        dataType: 'json',
+	    	        data: {
+	    	        	omId:data.proposerDepartment
+	    	        },
+	    	        success: function (json) {
+	    	        	//console.log(json)
+	    	        	$("#lookdepartment").text(json.omName);
+	    	        }
+	    	    });
+	        	$("#lookuser").text(data.proposer);
+	        	$("#lookduty").text(data.dutyId);
+	        	
+	        	$("#lookclassName").text(data.courseName);
+	    		$("#lookyear").text(data.applicationDate);
+	    		$("#lookyear2").text(data.otDate);
+	    		$("#lookstudyMoney").text(data.trainingMoney);
+	    		$("#lookstudyAddr").text(data.trainingLocation);
+	    		$("#lookstudy_infos").text(data.courseDesc);
+	    		$("#lookstudy_target").text(data.trainingReason);
+	    		
+	    		$("#buttons").html('');
+	    		$("#buttons").append("<button type='button' class='btn btn-default' data-dismiss='modal'>取消</button>")
+	    		
+	    		$("#looktable").html('');
+	    		$.ajax({
+	    			type: 'POST',
+	                url: getContextPath()+'/accessory/selectAccessoryById',
+	                dataType: 'json',
+	                data: {
+	                	id:id
+	                },
+	                success: function (json) {
+	                	 var acc=json;
+	    	    		 for(var i=0;i<acc.length;i++){
+	    	    			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+	    	    		 }
+	                }
+	    		})
+	    		
+	    		 
 	        }
 	    });
 		
-		$("#lookuser").text(data.uName);
-		$.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/duty/selectDutyBydutyId',
-	        dataType: 'json',
-	        data: {
-	        	dutyId:data.dutyId
-	        },
-	        success: function (data) {
-	        	//console.log(data)
-	        	$("#lookduty").text(data.dutyName);
-	        }
-	    });
-		$("#lookclassName").text(data.courseName);
-		$("#lookyear").text(data.applicationDate);
-		$("#lookyear2").text(data.otDate);
-		$("#lookstudyMoney").text(data.trainingMoney);
-		$("#lookstudyAddr").text(data.trainingLocation);
-		$("#lookstudy_infos").text(data.courseDesc);
-		$("#lookstudy_target").text(data.trainingReason);
-		
-		$("#buttons").html('');
-		$("#buttons").append("<button type='button' class='btn btn-default' data-dismiss='modal'>取消</button>")
-		
-		$("#looktable").html('');
-		 var acc=data.accessory;
-		 for(var i=0;i<acc.length;i++){
-			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-		 }
-		
-		
+	
 	}
 	
 	function downloadFile(obj){
