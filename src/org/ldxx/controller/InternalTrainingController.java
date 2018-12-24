@@ -74,11 +74,11 @@ public class InternalTrainingController {
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
-			currentFlow.setTitle("");
+			currentFlow.setTitle(training.getCourseName());
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
-			currentFlow.setMemo("流程发起");
-			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+id);
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(training.getCourseName()+"保存");
+			currentFlow.setUrl("xingzhengshiwuLook/TrainingManagement3Look.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
@@ -106,7 +106,7 @@ public class InternalTrainingController {
 	
 	@RequestMapping("/addInternalTrainingBySubmit")
 	@ResponseBody
-	public int addInternalTrainingBySubmit(InternalTraining training,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
+	public String addInternalTrainingBySubmit(InternalTraining training,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		String path="D:"+File.separator+"oa"+File.separator+"InternalTraining"+File.separator+id;
@@ -131,7 +131,42 @@ public class InternalTrainingController {
 		training.setItId(id);
 		training.setAccessory(accList);
 		int i=iservice.addInternalTraining(training);
-		return i;
+		String string="";
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(training.getDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(training.getCourseName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(training.getCourseName()+"流程发起");
+			currentFlow.setUrl("xingzhengshiwuLook/TrainingManagement3Look.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	
@@ -213,5 +248,11 @@ public class InternalTrainingController {
 	@ResponseBody
 	public List<InternalTraining> selectInternalTraining(){
 		return iservice.selectInternalTraining();
+	}
+	
+	@RequestMapping("/selectInternalTrainingById")
+	@ResponseBody
+	public InternalTraining selectInternalTrainingById(String id){
+		return iservice.selectInternalTrainingById(id);
 	}
  }

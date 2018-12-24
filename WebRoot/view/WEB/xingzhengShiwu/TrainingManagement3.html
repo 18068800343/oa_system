@@ -165,27 +165,27 @@
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-condensed" id="tijiaoren">
-                   	<thead>
-                   			<tr>
-                         	<th></th>
-                             <th>部门</th>
-                             <th>职务</th>
-                             <th>审批人</th>
-                         </tr>
-                   	</thead>
-                    <tbody>
-                    	
-                    </tbody>
-                  </table>
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
+                        </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitPerson()">提交</button>
             </div>
         </div>
     </div>
 </div>
-<!-- 提交 modal结束 --> 
+<!-- 提交 modal结束 -->
 <!-- 修改Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
     <div class="modal-dialog modal-lg" role="document">
@@ -685,9 +685,11 @@
   		
 	})
 	$("#querenciren").click(function(){
-		var a=$("input[name='mingzi']:checked").parent().next().text();
-		$("#new_user").val(a);
-		$.ajax({
+		var tr=$("input[name='mingzi']:checked").parents("tr");
+		var data=$("#mingzibiao").DataTable().row(tr).data();
+		$("#new_user").val(data.uName);
+		$("#new_duty").val(data.dutyName);
+		/* $.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/duty/selectDutyBydutyId',
 	        dataType: 'json',
@@ -695,16 +697,17 @@
 	        	dutyId:aaid
 	        },
 	        success: function (data) {
-	        	//console.log(data)
 	        	$("#new_duty").val(data.dutyName)
 	        }
-	    });
+	    }); */
 		$("#people").modal("hide");
 	})
 	$("#xgquerenciren").click(function(){
-		var a=$("input[name='xgmingzi']:checked").parent().next().text();
-		$("#edit_user").val(a);
-		$.ajax({
+		var tr=$("input[name='xgmingzi']:checked").parents("tr");
+		var data=$("#xgmingzibiao").DataTable().row(tr).data();
+		$("#edit_user").val(data.uName);
+		$("#edit_duty").val(data.dutyName);
+		/* $.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/duty/selectDutyBydutyId',
 	        dataType: 'json',
@@ -715,7 +718,7 @@
 	        	//console.log(data)
 	        	$("#edit_duty").val(data.dutyName)
 	        }
-	    });
+	    }); */
 		$("#xgpeople").modal("hide");
 	})
 	
@@ -820,16 +823,84 @@
 		            	trainingReason:trainingReason
 		            },
 		            success: function (json) {
-		            	if(json==0){
+		            	if(json=='0'){
+			        		toastr.error("保存失败");
+			        	}else{
+			        		$("#myModal").modal("hide");
+			        		lianjie=json.url;
+			            	if(json.receiver!=null&&json.receiver.length>=1){
+				        		  $("#tijiaogei").modal('show');
+				        		  $("#tijiaoren tbody").empty("");
+				        		  for(var i=0;i<json.receiver.length;i++){
+				        			  $("#tijiaoren tbody").append('<tr><td>'
+				        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+				        					  +'</td><td>'
+				        					  +json.receiver[i].omName
+				        					  +'</td><td>'
+				        					  +json.receiver[i].dutyName
+				        					  +'</td><td>'
+				        					  +json.receiver[i].uName
+				        					  +'</td></tr>');
+				        		  }
+				        	  }else if(json.receiver.length==1){
+				        		  $.ajax({
+				        	          type: 'POST',
+				        	          url: getContextPath()+'/task/addTask4',
+				        	          dataType: 'json',
+				        	          data:{
+				        	        	  url:json.url,
+				        	        	  userId:json.receiver.userId,
+				        	        	  uName:json.receiver.uName,
+				        	        	  omName:json.receiver.omName,
+				        	        	  dutyName:json.receiver.dutyName,
+				        	        	  omId:json.receiver.omId,
+				        	        	  dutyId:json.receiver.dutyId
+				        	          },
+				        	          success: function (json) {
+				        	        	  toastr.success('提交成功');
+				        	          }
+				        	      }); 
+				        	  }
+			        	}
+		            	
+		            	/* if(json==0){
 		            	    toastr.error("填报提交失败");
 		            	}else{
 		            		$("#myModal").modal("hide");
 		            		toastr.success("填报提交成功");
-		            	}
+		            	} */
 		            }
 		 		}
 			 $("#new_form").ajaxSubmit(options);
 	 }
+	 
+	 function submitPerson(){
+	  		var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+	  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+	  	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+	  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+	  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+	  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+	  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+	  	  $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/addTask4',
+	            dataType: 'json',
+	            data:{
+	          	  url:lianjie,
+	          	  userId:uid,
+	          	  uName:uname,
+	          	  omName:bmmc,
+	          	  dutyName:zw,
+	          	  omId:omid,
+	          	  dutyId:dutyid
+	            },
+	            success: function (json) {
+	          	  toastr.success('提交成功');
+	            }
+	        });  
+	  	}
+	 
 	 
 	 function lookAll(obj){
 		 var dom=$(obj).parents("tr");
