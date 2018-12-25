@@ -1,11 +1,20 @@
 package org.ldxx.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.RiskAssessment;
+import org.ldxx.bean.User;
+import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.RiskAssessmentService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,18 +32,55 @@ public class RiskAssessmentController {
 
 	@Autowired
 	private RiskAssessmentService raService;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/addRiskAssessment")/*保存*/
 	@ResponseBody
-	public Map<String,Object> addRiskAssessment(RiskAssessment riskassessment){
+	public Map<String,Object> addRiskAssessment(RiskAssessment riskassessment,HttpSession session){
 		Map<String,Object> map = new HashMap<>();
 		int i =raService.isExistByprjId(riskassessment.getPrjName());
+		String id = new TimeUUID().getTimeUUID();
 		if(i==0){
-			String id = new TimeUUID().getTimeUUID();
 			riskassessment.setRaId(id);
 			i = raService.addRiskAssessment(riskassessment);
 		}else{
-			i=2;
+			i=-2;
+		}
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			String string="";
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(riskassessment.getPrjName()+"项目风险评估");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(riskassessment.getPrjName()+"项目风险评估申请流程发起");
+			currentFlow.setUrl("jingyingguanliLook/riskAssessment.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		map.put("result", i);
 		map.put("riskassessment", riskassessment);
@@ -43,19 +89,55 @@ public class RiskAssessmentController {
 	
 	@RequestMapping("/addRiskAssessmentSubmit")/*提交*/
 	@ResponseBody
-	public Map<String,Object> addRiskAssessmentSubmit(RiskAssessment riskassessment){
+	public String addRiskAssessmentSubmit(RiskAssessment riskassessment,HttpSession session){
 		Map<String,Object> map = new HashMap<>();
 		int i =raService.isExistByprjId(riskassessment.getPrjName());
+		String id = new TimeUUID().getTimeUUID();
 		if(i==0){
-			String id = new TimeUUID().getTimeUUID();
 			riskassessment.setRaId(id);
 			i = raService.addRiskAssessment(riskassessment);
 		}else{
-			i=2;
+			i=-2;
 		}
-		map.put("result", i);
+		String string = i+"";
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(riskassessment.getPrjName()+"项目风险评估");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(riskassessment.getPrjName()+"项目风险评估流程发起");
+			currentFlow.setUrl("jingyingguanliLook/riskAssessment.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
+		/*map.put("result", i);
 		map.put("riskassessment", riskassessment);
-		return map;
+		return map;*/
 	}
 	
 	@RequestMapping("/deleteRiskAssessmentById")
