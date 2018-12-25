@@ -60,7 +60,7 @@ public class MaterialSubcontractController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(c.getPrjName()+"材料采购合同履约评价");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(c.getPrjName()+"材料采购合同履约评价流程发起");
 			currentFlow.setUrl("shengchanGuanli/SubcontractMaterialLYPJ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -107,7 +107,7 @@ public class MaterialSubcontractController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(c.getPrjName()+"材料采购合同履约评价");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(c.getPrjName()+"材料采购合同履约评价流程发起");
 			currentFlow.setUrl("shengchanguanliLook/SubcontractMaterialLYPJ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");

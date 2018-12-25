@@ -114,7 +114,7 @@ public class CgContractController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(cg.getContractName()+"采购合同申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(cg.getContractName()+"采购合同申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/ProcurementContract.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -206,7 +206,7 @@ public class CgContractController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(cg.getContractName()+"采购合同申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(cg.getContractName()+"采购合同申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/ProcurementContract.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -243,7 +243,7 @@ public class CgContractController {
 	
 	@RequestMapping("/updateCgContractSave")
 	@ResponseBody
-	public int updateCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1) throws IllegalStateException, IOException{
+	public int updateCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
@@ -286,12 +286,47 @@ public class CgContractController {
 			cg.setAccessory1(list1);
 		}
 		int i=cgService.addCgContract(cg);
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			String string="";
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(cg.getContractName()+"采购合同变更");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(cg.getContractName()+"采购合同变更流程发起");
+			currentFlow.setUrl("shengchanguanliLook/ProcurementContract.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	@RequestMapping("/updateCgContractSubmit")
 	@ResponseBody
-	public int updateCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1) throws IllegalStateException, IOException{
+	public String updateCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
@@ -334,7 +369,42 @@ public class CgContractController {
 			cg.setAccessory1(list1);
 		}
 		int i=cgService.addCgContract(cg);
-		return i;
+		String string = i+"";
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(cg.getContractName()+"采购合同变更");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(cg.getContractName()+"采购合同变更流程发起");
+			currentFlow.setUrl("shengchanguanliLook/ProcurementContract.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/selectCgContractById")
@@ -454,6 +524,52 @@ public class CgContractController {
 	@ResponseBody
 	public int updateHistoryById(String id){
 		return cgService.updateHistoryById(id);
+	}
+	
+	@RequestMapping("/updateCgContractById")//修改
+	@ResponseBody
+	public int updateCgContractById(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+		String id=cg.getCgId();
+		
+		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[i].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("采购合同文本");
+				list.add(accessory);
+			}
+			cg.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1=new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory1=new Accessory();
+				String fileName1=file1[i].getOriginalFilename();
+				String filePath1=path+File.separator+fileName1;
+				File f2=new File(filePath1);
+				file1[i].transferTo(f2);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName1);
+				accessory1.setAcUrl(filePath1);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			cg.setAccessory1(list1);
+		}
+		int i=cgService.updateCgContractById(cg);
+		return i;
 	}
 	
 }

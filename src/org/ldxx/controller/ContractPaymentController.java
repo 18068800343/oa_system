@@ -153,7 +153,7 @@ public class ContractPaymentController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(pay.getContractName()+"分包合同付款");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(pay.getContractName()+"分包合同付款流程保存");
 			currentFlow.setUrl("shengchanguanliLook/ContractPayment.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -259,7 +259,7 @@ public class ContractPaymentController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(pay.getContractName()+"分包合同付款");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());
+			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(pay.getContractName()+"分包合同付款流程发起");
 			currentFlow.setUrl("shengchanguanliLook/ContractPayment.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");

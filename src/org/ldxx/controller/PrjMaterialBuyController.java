@@ -66,7 +66,7 @@ public class PrjMaterialBuyController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(buy.getApplyPrj()+"材料采购申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(buy.getApplyPrj()+"材料采购申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/PurchaseApplication.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -116,7 +116,7 @@ public class PrjMaterialBuyController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(buy.getApplyPrj()+"材料采购申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());
+			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(buy.getApplyPrj()+"材料采购申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/PurchaseApplication.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");

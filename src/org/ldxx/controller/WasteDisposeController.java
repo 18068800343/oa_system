@@ -74,7 +74,7 @@ public class WasteDisposeController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(wd.getPickProject()+"项目材料废旧品申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(wd.getPickProject()+"项目材料废旧品申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/WasteDisposalXM.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -120,7 +120,7 @@ public class WasteDisposeController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(wd.getPickProject()+"项目材料废旧品申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(wd.getPickProject()+"项目材料废旧品申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/WasteDisposalXM.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");

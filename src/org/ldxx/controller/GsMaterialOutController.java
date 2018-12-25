@@ -83,7 +83,7 @@ public class GsMaterialOutController {
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			if(materiaOut.getType().equals("1")){
 				currentFlow.setTitle(materiaOut.getPickProject()+"公司材料出库");
 				currentFlow.setMemo(materiaOut.getPickProject()+"公司材料出库流程发起");
@@ -148,7 +148,7 @@ public class GsMaterialOutController {
 				currentFlow.setUrl("shengchanguanliLook/BalanceManagement.html-"+id);
 			}
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());
+			currentFlow.setActorname(user.getuName());
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());

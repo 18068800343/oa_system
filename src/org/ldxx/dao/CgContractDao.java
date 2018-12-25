@@ -46,4 +46,6 @@ public interface CgContractDao {
 
 	int updateHistoryNow(@Param("id")String id);
 
+	int updateCgContractById(@Param("cg")CgContract cg);
+
 }

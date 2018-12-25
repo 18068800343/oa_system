@@ -56,4 +56,6 @@ public interface CgContractService {
 	
 	List<CgContract> selectCgContractByWorkNo(String no);
 
+	int updateCgContractById(CgContract cg);
+
 }

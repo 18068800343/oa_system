@@ -188,4 +188,31 @@ public class CgContractServiceImpl implements CgContractService {
 		return cgDao.selectCgContractByWorkNo(no);
 	}
 
+	@Override
+	public int updateCgContractById(CgContract cg) {
+		int i=cgDao.updateCgContractById(cg);
+		if(i>0){
+			String isProgram = cg.getIsProgram();
+			if(isProgram.equals("是")){	//当是否代购为是时，金额统计到付款申请代垫款中。
+				Pay pay=payDao.selectPayByNo(cg.getFbNo());
+				if(pay!=null){
+					i=payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
+				}
+			}
+			List<Accessory> list = adao.selectAccessoryById(cg.getCgId());
+			if(list!=null&& list.size()>0){
+				i=adao.deleteAccessory(cg.getCgId());
+			}
+			List<Accessory> accessory=cg.getAccessory();
+			if(accessory!=null){
+				i=adao.addAccessory(accessory);
+			}
+			List<Accessory> accessory1=cg.getAccessory1();
+			if(accessory1!=null&&accessory1.size()>0){
+				i=adao.addAccessory(accessory1);
+			}
+		}
+		return i;
+	}
+
 }

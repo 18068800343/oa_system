@@ -75,5 +75,32 @@ public class BorrowContractServiceImpl implements BorrowContractService {
 	public BorrowContract selectBorrowById(String id) {
 		return dao.selectBorrowById(id);
 	}
+
+	@Override
+	public int updateBorrowContractById(BorrowContract bc) {
+		int i=dao.updateBorrowContractById(bc);
+		if(i>0){
+			String borrowingPurposes = bc.getBorrowingPurposes();
+			if(borrowingPurposes.equals("其他借款")){	//当用途是其他借款时，金额统计到付款申请代垫款中。
+				Pay pay=payDao.selectPayByNo(bc.getFbNo());
+				if(pay!=null){
+					i=payDao.updateGenerationAdvancesMoney(bc.getThisBorrowMoney(),pay.getPayId());
+				}
+			}
+			List<Accessory> list = adao.selectAccessoryById(bc.getbId());
+			if(list!=null&&list.size()>0){
+				i = adao.deleteAccessory(bc.getbId());
+			}
+			List<Accessory> accessory = bc.getAccessory();
+			if(accessory!=null&&accessory.size()>0){
+				i = adao.addAccessory(accessory);
+			}
+			List<Accessory> accessory2 = bc.getAccessory2();
+			if(accessory2!=null&&accessory2.size()>0){
+				i = adao.addAccessory(accessory2);
+			}
+		}
+		return i;
+	}
 	
 }
