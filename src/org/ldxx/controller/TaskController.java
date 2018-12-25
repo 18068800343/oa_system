@@ -44,6 +44,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import net.sf.json.JSONObject;
+
 
 @Controller
 @RequestMapping("task")
@@ -293,7 +295,7 @@ public class TaskController {
 	
 	@RequestMapping("/addTask4")/*任务单保存*/
 	@ResponseBody
-	public String addTask4(String url,String userId,String uName,HttpSession session,String view,String omName){
+	public JSONObject addTask4(String url,String userId,String uName,HttpSession session,String view,String omName){
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl(url);
@@ -304,17 +306,17 @@ public class TaskController {
 	    flowHistroy.setView(view);
 	    flowHistroy.setDeptname(omName);
 	    flowHistroy.setId(new TimeUUID().getTimeUUID());
-		String string = "";
+		JSONObject jsonObject = new JSONObject();
 		try {
-			string = flowUtill.submitFlow(currentFlow, flowHistroy, userId, uName);
+			jsonObject = flowUtill.submitFlow(currentFlow, flowHistroy, userId, uName);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "fail";
+			return jsonObject;
 		}
-		return string;
+		return jsonObject;
 	}
 	
-	@RequestMapping("/addTask5")/*任务单保存*/
+/*	@RequestMapping("/addTask5")任务单保存
 	@ResponseBody
 	public String addTask5(String url,String userId,String uName,String omName,String view,HttpSession session){
 		FlowUtill flowUtill = new FlowUtill();
@@ -335,7 +337,7 @@ public class TaskController {
 			return "fail";
 		}
 		return "1";
-	}
+	}*/
 	@RequestMapping("/deleteTask")
 	@ResponseBody
 	public int deleteTask(String id){

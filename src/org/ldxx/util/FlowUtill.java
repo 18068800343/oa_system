@@ -185,10 +185,12 @@ public class FlowUtill {
 	 */
 	
 	@Transactional
-	public String submitFlow(CurrentFlow currentFlowOld,FlowHistroy flowHistroy,String next_user_id,String next_name) throws Exception{
+	public JSONObject submitFlow(CurrentFlow currentFlowOld,FlowHistroy flowHistroy,String next_user_id,String next_name) throws Exception{
 		    currentFlowOld.setRdt(new Date());
 			ModeStatus modeStatus = new ModeStatus(); 	
-			String end = "start";
+			String end = "kaishi";
+			JSONObject jsonObject = new JSONObject();
+			
 			INSTANCE.init();
 			/**0：流程刚发起,暂存状态
 			 * 1：流程刚发起,提交状态
@@ -245,7 +247,8 @@ public class FlowUtill {
 							INSTANCE.modeStatusMapper.insert(modeStatus);
 						}
 					}else{
-						end = "end";
+						end = "jieshu";
+						jsonObject.put("modeId", modeId);
 						INSTANCE.currentFlowMapper.deleteByExample(example2);
 						modeStatus.setModeId(modeId);
 						//5:流程结束
@@ -271,7 +274,8 @@ public class FlowUtill {
 				log.error("数据库插入错误");
 				throw new FlowException("database do error");
 			}
-		return end;
+			jsonObject.put("end", end);
+		return jsonObject;
 	}
 	
 	
