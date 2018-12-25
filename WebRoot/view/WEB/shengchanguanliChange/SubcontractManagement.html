@@ -562,7 +562,8 @@
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
-    	/* initTable(); */
+    	initTable();
+    	
     	initSelect2();
     	initbumen();
     	inityifang();
@@ -600,16 +601,16 @@
             effects: 'slide' 
         });
         
-        function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
+        
        
 	});
-
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
  
 
     
@@ -754,20 +755,7 @@
             "sLast": "最后一页"
         }},
 	});
-	/* function initTable(){
-        $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/subcontract/selectSubContract',
-            dataType: 'json',
-            data: {
-            	status:2
-            },
-            success: function (json) {
-                $('#mainContent').dataTable().fnClearTable();
-                $('#mainContent').DataTable().rows.add(json).draw(false);
-            }
-        });
-    } */
+
     
   //初始化部门
 	function initbumen(){
@@ -1283,42 +1271,96 @@
   	}
 	
 	//修改回显
-	var xiugaiId;
-	function initTable(obj){
+	function initTable(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/subcontract/selectSubContractById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	data=json;
+	        	$("#xghetongName").val(data.contractName)
+	    		$("#xgfbNo").val(data.fbNo);
+	    		$("#xgType").val(data.fbcType)
+	    		$("#xgjiafang").val(data.contractNameJia)
+	    		$("#xgyifang").val(data.contractNameYi)
+	    		$("#xgprjName").val(data.prjName)
+	    		$("#xgtask_no").val(data.workNo)
+	    		$("#xgchengjiehetongName").val(data.cjContractName)
+	    		$("#xgchengjiehetonghao").val(data.cjContractCode)
+	    		$("#xgzhuhetongMoney").val(data.mainContractMoney)
+	    		$('#xgleijifenbaoMoney').val(data.nowFbAllMoney)
+	    		$("#xgyear").val(data.contractStartTime)
+	    		$("#xgyear2").val(data.contractEndTime)
+	    		$("#xgjiafangbumen").val(data.mainManageDepartment)
+	    		$("#xghetonggongqi").val(data.contractLongTime)
+	    		$("#xgfukuanfangshi").val(data.payMode)
+	    		$("#xghetongMoney").val(data.contractMoney)
+	    		$("#xgzandingMoney").val(data.temporaryMoney)
+	    		$("#xglvyuebaozhengMoney").val(data.performanceBond)
+	    		$("#xggaikuang").val(data.workContent)
+	    		$("#xgrate").val(data.rate);
+	    		$("#xgrateType").val(data.rateType);
+	    		/* $.ajax({
+					type:"post",
+					url:getContextPath()+"/subcontract/selectAccessoryById",
+					dataType:"json",
+					async:false,
+					data:{
+						id:id,
+					},
+					success:function(json){
+						//console.log(json);
+						$("#edit_huixian_table tbody").empty();
+			               for(var i=0;i<json.length;i++){
+			            	   $("#edit_huixian_table tbody").append("<tr>"+
+			            	   														"<td>合同文本"+(i+1)+"</td>"+
+															            	    	"<td ><input type='text' style='width:70%;' class='form-control'  value='"+json[i].acName+"' disabled></td>"+
+															            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
+															            	    "</tr>");
+			               }
+					}
+				}) */
+				$.ajax({
+        			type:"post",
+        			url:getContextPath()+"/subcontract/selectAccessoryById",
+        			dataType:"json",
+        			async:false,
+        			data:{
+        				id:id,
+        			},
+        			success:function(json){
+        				console.log(json);
+        				$("#edit_huixian_table").empty();
+        				$("#edit_huixian_table3").empty();
+        	               for(var i=0;i<json.length;i++){
+        	            	   if(json[i].aType=="分包合同文本"){
+        		            	   $("#edit_huixian_table").append("<tr>"+
+        	      	   										"<td>分包合同文本</td>"+
+        							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+        							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+        							            	    "</tr>");
+        	            	   }
+        	            	   if(json[i].aType=="法律顾问签字"){
+        		            	   $("#edit_huixian_table3").append("<tr>"+
+        	      	   										"<td>法律顾问签字</td>"+
+        							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+        							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+        							            	    "</tr>");
+        	            	   }
+        	               }
+        			}
+        		})
+	        }
+	    });
 		
-		//console.log(data)
-		xiugaiId=data.fbId;
-		
-		$("#xghetongName").val(data.contractName)
-		$("#xgfbNo").val(data.fbNo);
-		$("#xgType").val(data.fbcType)
-		$("#xgjiafang").val(data.contractNameJia)
-		$("#xgyifang").val(data.contractNameYi)
-		$("#xgprjName").val(data.prjName)
-		$("#xgtask_no").val(data.workNo)
-		$("#xgchengjiehetongName").val(data.cjContractName)
-		$("#xgchengjiehetonghao").val(data.cjContractCode)
-		$("#xgzhuhetongMoney").val(data.mainContractMoney)
-		$('#xgleijifenbaoMoney').val(data.nowFbAllMoney)
-		$("#xgyear").val(data.contractStartTime)
-		$("#xgyear2").val(data.contractEndTime)
-		$("#xgjiafangbumen").val(data.mainManageDepartment)
-		$("#xghetonggongqi").val(data.contractLongTime)
-		$("#xgfukuanfangshi").val(data.payMode)
-		$("#xghetongMoney").val(data.contractMoney)
-		$("#xgzandingMoney").val(data.temporaryMoney)
-		$("#xglvyuebaozhengMoney").val(data.performanceBond)
-		$("#xggaikuang").val(data.workContent)
-		$("#xgrate").val(data.rate);
-		$("#xgrateType").val(data.rateType);
 		
 		
-			 $("#diyi").removeClass("active");
-	         $("#disan").addClass("active");
-	         $("#diyi a").show();
-	         $("#disan a").show();
-	         $("#home").removeClass("active");
-	         $("#messages").addClass("active");
+		
+		
 	}
 	
 	//删除附件
@@ -1348,8 +1390,84 @@
 		});
 	}
 	
-	//修改保存
 	function liuchengGaibian(){
+		var xghetongName=$("#xghetongName").val()
+		var xgfbNo=$("#xgfbNo").val();
+		var xgType=$("#xgType").val()
+		var xgjiafang=$("#xgjiafang").val()
+		var xgyifang=$("#xgyifang").val()
+		var xgprjName=$("#xgprjName").val()
+		var xgtask_no=$("#xgtask_no").val()
+		var xgchengjiehetongName=$("#xgchengjiehetongName").val()
+		var xgchengjiehetonghao=$("#xgchengjiehetonghao").val()
+		var xgzhuhetongMoney=$("#xgzhuhetongMoney").val()
+		var xgleijifenbaoMoney=$('#xgleijifenbaoMoney').val()
+		var xgyear=$("#xgyear").val()
+		var xgyear2=$("#xgyear2").val()
+		var xgjiafangbumen=$("#xgjiafangbumen").val()
+		var xghetonggongqi=$("#xghetonggongqi").val()
+		var xgfukuanfangshi=$("#xgfukuanfangshi").val()
+		var xghetongMoney=$("#xghetongMoney").val()
+		var xgzandingMoney=$("#xgzandingMoney").val()
+		var xglvyuebaozhengMoney=$("#xglvyuebaozhengMoney").val()
+		var xggaikuang=$("#xggaikuang").val()
+		var xgrate=$("#xgrate").val();
+		var xgrateType=$("#xgrateType").val();
+		
+		if(xghetongName==''){
+			toastr.error("分包合同名称为空");
+			return;
+		}
+		
+		if($("#edit_huixian_table").find('tbody tr').length<1 || $("#xgfile").val()==''){
+			toastr.error("上传附件为空")
+			return;
+		}
+		
+		var options={
+            type: 'POST',
+            url: getContextPath()+'/subcontract/updateFbById',
+            dataType: 'json',
+            data: { 
+            		fbId:xiugaiId,
+            		contractName:xghetongName,
+            		fbNo:xgfbNo,
+            		fbcType:xgType,
+            		contractNameJia:xgjiafang,
+            		contractNameYi:xgyifang,
+            		workNo:xgtask_no,
+            		prjName:xgprjName,
+            		cjContractCode:xgchengjiehetonghao,
+            		cjContractName:xgchengjiehetongName,
+            		mainContractMoney:xgzhuhetongMoney,
+            		nowFbAllMoney:xgleijifenbaoMoney,
+            		contractStartTime:xgyear,
+            		contractEndTime:xgyear2,
+            		mainManageDepartment:xgjiafangbumen,
+            		contractLongTime:xghetonggongqi,
+            		payMode:xgfukuanfangshi,
+            		contractMoney:xghetongMoney,
+            		temporaryMoney:xgzandingMoney,
+            		performanceBond:xglvyuebaozhengMoney,
+            		workContent:xggaikuang,
+            		rate:xgrate,
+            		rateType:xgrateType
+            },
+            success: function (json) {
+            	//console.log(json);
+            	if(json.result==0){
+					toastr.error("修改失败")
+				}else if(json.result>0){
+					toastr.success("修改成功")
+					quxiao2();
+					initTable();
+				}
+            }
+        };
+		$("#edit_form").ajaxSubmit(options);
+	}
+	//修改保存
+	function liuchengGaibianBC(){
 		var xghetongName=$("#xghetongName").val()
 		var xgfbNo=$("#xgfbNo").val();
 		var xgType=$("#xgType").val()
@@ -1450,7 +1568,7 @@
 	}
 	
 	//提交修改
-	function checksubmit(){
+	function liuchengGaibianTJ(){
 		var xghetongName=$("#xghetongName").val()
 		var xgfbNo=$("#xgfbNo").val();
 		var xgType=$("#xgType").val()

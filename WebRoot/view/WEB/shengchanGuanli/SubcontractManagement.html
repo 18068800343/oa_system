@@ -2041,7 +2041,36 @@ function quxiao3(){
 		$("#xggaikuang").val(data.workContent)
 		$("#xgrate").val(data.rate);
 		$("#xgrateType").val(data.rateType);
-		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/subcontract/selectAccessoryById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:id,
+			},
+			success:function(json){
+				console.log(json);
+				$("#edit_huixian_table").empty();
+				$("#edit_huixian_table3").empty();
+	               for(var i=0;i<json.length;i++){
+	            	   if(json[i].aType=="分包合同文本"){
+		            	   $("#edit_huixian_table").append("<tr>"+
+	      	   										"<td>分包合同文本</td>"+
+							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+							            	    "</tr>");
+	            	   }
+	            	   if(json[i].aType=="法律顾问签字"){
+		            	   $("#edit_huixian_table3").append("<tr>"+
+	      	   										"<td>法律顾问签字</td>"+
+							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+							            	    "</tr>");
+	            	   }
+	               }
+			}
+		})
 		/* $.ajax({
 			type:"post",
 			url:getContextPath()+"/subcontract/selectAccessoryById",
