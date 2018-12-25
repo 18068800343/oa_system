@@ -66,7 +66,7 @@ public class FlowController {
 		return string;
 	}
 	
-	@ResponseBody
+/*	@ResponseBody
 	@RequestMapping("/submitFlow2")
 	public String submitFlow2(HttpServletRequest request,FlowHistroy flowHistroy){
 		FlowUtill flowUtill = new FlowUtill();
@@ -86,5 +86,5 @@ public class FlowController {
 			e.printStackTrace();
 		}
 		return string;
-	}
+	}*/
 }
