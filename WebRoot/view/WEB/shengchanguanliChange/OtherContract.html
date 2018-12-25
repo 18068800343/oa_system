@@ -50,7 +50,7 @@
     </div>
 
     <div class="zhuti-content">
-        <div class="UpperPart">
+        <div>
             
             
 <!-- Modal -->
@@ -647,16 +647,16 @@
         initCooperator();
         initDepartment();
         
-        function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
+        initTable();
        
 	});
-
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
     
     var table2=$('#history_table').dataTable({
         "deferRender": true,
@@ -703,95 +703,7 @@
         }},
         
 	});
-    
-	function initTable(){
-        $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/other/selectOtherContract',
-            dataType: 'json',
-            data: {
-            	status:2
-            },
-            success: function (json) {
-                $('#mainContent').dataTable().fnClearTable();
-                $('#mainContent').DataTable().rows.add(json).draw(false);
-            }
-        });
-    }
 
-    function getCreat(bb){
-        var EnterpriseRating= $(bb).parent().prev().text();
-        var Remarks= $(bb).parent().prev().prev().text();
-        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
-        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
-        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
-        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
-        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
-        $("#CEnterprise-rating").val(EnterpriseRating);
-        $("#CRemarks").val(Remarks);
-        $("#CContact-phone1").val(ContactPhone1);
-        $("#CContacts").val(Contacts);
-        $("#Caddress").val(address);
-        $("#CProprietor-unit").val(ProprietorUnit);
-        $("#CCode").val(Code);
-        rowIndex = bb.parentNode.parentNode.rowIndex; 
-    }
-
-
-    $(".zhuangtai").change(function(){
-        var zt=$(".zhuangtai").val();
-        if(zt=="合同取消"){
-            $.ajax({
-                type: 'POST',
-                url: getContextPath()+'/other/selectOtherContract',
-                dataType: 'json',
-                data: {
-                	status:3
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").show();
-                    $(".cancel").show();
-                    $(".iconquxiao").hide();
-                    $(".iconxiugai").hide();
-                    $(".iconwanjie").hide();
-                }
-            });
-            
-        }else if(zt=="审批中"){
-            $.ajax({
-                type: 'POST',
-                url: getContextPath()+'/other/selectOtherContract',
-                dataType: 'json',
-                data: {
-                	status:1
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").hide();
-                    $(".cancel").hide();
-                    $(".iconquxiao").hide();
-                    $(".iconxiugai").hide();
-                    $(".iconwanjie").hide();
-                }
-            });
-        }else{
-        	 $.ajax({
-                 type: 'POST',
-                 url: getContextPath()+'/other/selectOtherContract',
-                 dataType: 'json',
-                 data: {
-                 	status:2
-                 },
-                 success: function (json) {
-                     $('#mainContent').dataTable().fnClearTable();
-                     $('#mainContent').DataTable().rows.add(json).draw(false);
-                 }
-             });
-        }
-    })
     
     function lookCancel(obj){
   		$("#look_cancel").modal("show");
@@ -1009,22 +921,61 @@
   	}
     
     
-    var edit_id;
-    function initTable(obj){
-    	var tr=$(obj).parents("tr");
-  		var data=$("#mainContent").DataTable().row(tr).data();
-  		edit_id=data.oId;
+   console.log(id)
+    function initTable(){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/other/selectOtherContractById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	      		
+	        	$("#edit_contract_no").val(data.contractCode);
+	        	$("#edit_contract_name").val(data.contractName);
+	        	$("#edit_organization_jia").val(data.contractNameJia);
+	        	$("#edit_organization_yi").val(data.contractNameYi);
+	        	$("#edit_contract_money").val(data.contractMoney);
+	        	$("#edit_department").val(data.abutmentDepartment);
+	        	$("#edit_year2").val(data.contractStartTime);
+	        	$("#edit_year3").val(data.contractEndTime);
+	        	$("#edit_contract_info").val(data.contractProbablyText);
+	        	$("#edit_year").val(data.abutmentSignedTime);
+	        	$.ajax({
+	    	        type: 'POST',
+	    	        url: getContextPath()+'/announcement/selectAccessoryById',
+	    	        dataType: 'json',
+	    	        data: {
+	    	           id:id
+	    	        },
+	    	        success: function (json) {
+	    	        	$("#edit_accessory tbody").html('');
+	    	        	$("#edit_accessory2 tbody").html('');
+	    	        	for(var i=0;i<json.length;i++){
+	    	        		if(json[i].aType=="其他合同文本"){
+	    		          		$("#edit_accessory tbody").append("<tr>"+
+	    								"<td>附件"+(i+1)+"</td>"+
+	    			         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+	    			         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+	    			         	    "</tr>")
+	    	        		}
+	    	          		if(json[i].aType=="法律顾问签字"){
+	    		            	   $("#edit_accessory2 tbody").append("<tr>"+
+	    									"<td>附件"+(i+1)+"</td>"+
+	    				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+	    				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+	    				         	    "</tr>");
+	    	            	}
+	    	        	}
+	    	        }
+	        	});
+	        	
+	        }
+	    });
   		
-    	$("#edit_contract_no").val(data.contractCode);
-    	$("#edit_contract_name").val(data.contractName);
-    	$("#edit_organization_jia").val(data.contractNameJia);
-    	$("#edit_organization_yi").val(data.contractNameYi);
-    	$("#edit_contract_money").val(data.contractMoney);
-    	$("#edit_department").val(data.abutmentDepartment);
-    	$("#edit_year2").val(data.contractStartTime);
-    	$("#edit_year3").val(data.contractEndTime);
-    	$("#edit_contract_info").val(data.contractProbablyText);
-    	$("#edit_year").val(data.abutmentSignedTime);
     	
     	/* $.ajax({
 	        type: 'POST',
@@ -1040,7 +991,7 @@
 	        	}
 	        }
     	}); */
-    	$("#change").modal("show");
+    	
     }
     
     function delteFile(obj){
@@ -1065,7 +1016,7 @@
   		});
     }
     
-    function liuchengGaibian(){
+    function liuchengGaibianBC(){
     	var contractCode=$("#edit_contract_no").val();
     	var contractName=$("#edit_contract_name").val();
     	var contractNameJia=$("#edit_organization_jia").val();
@@ -1109,7 +1060,7 @@
     	$("#edit_form").ajaxSubmit(options);
     }
     
-    function edit_submit(){
+    function liuchengGaibianTJ(){
     	var contractCode=$("#edit_contract_no").val();
     	var contractName=$("#edit_contract_name").val();
     	var contractNameJia=$("#edit_organization_jia").val();

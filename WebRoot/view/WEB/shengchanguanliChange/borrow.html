@@ -575,17 +575,17 @@
         laydate.render({
             elem: '#xgyear' //指定元素
         });
-        function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
+        
        
        
 	});
-
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
     
     var table2=$('#history_table').dataTable({
         "deferRender": true,
@@ -929,20 +929,64 @@ function lookCancel(obj){
     //修改
     var edit_id;
     function initTable(obj){
-    	
-  		edit_id=data.oId;
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/BorrowContract/selectBorrowById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	edit_id=data.oId;
+	        	$("#xgjiafang").val(data.unitJia);
+	        	$("#xgyifang").val(data.unitYi);
+	        	$("#xgzhuhetonghao").val(data.cjNo);
+	        	//$("#xgfbhetonghao").val(data.fbNo);
+	        	editfbhetonghao(data.fbNo);
+	        	$("#xgthisborrowMoney").val(data.thisBorrowMoney);
+	        	$("#xglixizhifu").val(data.interestPaymentMethod);
+	        	$("#xgyear").val(data.borrowTime);
+	        	$("#xgyifangleijijieMoney").val(data.accumulatedBorrowingMoney);
+	        	$("#xgjiekuanyongtu").val(data.borrowingPurposes);
+	        	$("#xgborrowNo").val(data.bNo)
+	        	$.ajax({
+					type:"post",
+					url:getContextPath()+"/accessory/selectAccessoryById",
+					dataType:"json",
+					async:false,
+					data:{
+						id:id,
+					},
+					success:function(json){
+						//console.log(json);
+						$("#edit_accessory tbody").empty();
+						$("#edit_accessory2 tbody").empty();
+			               for(var i=0;i<json.length;i++){
+			            	   if(json[i].aType=="借款合同文本"){
+				            	   $("#edit_accessory tbody").append("<tr>"+
+			      	   										"<td>附件</td>"+
+									            	    	"<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+									            	    "</tr>");
+			            	   }
+			            	   if(json[i].aType=="法律顾问签字"){
+				            	   $("#edit_accessory2 tbody").append("<tr>"+
+			      	   										"<td>附件</td>"+
+									            	    	"<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+									            	    "</tr>");
+			            	   }
+			               }
+					}
+				})
+		
+	        }
+	    });
   		
-  		$("#xgjiafang").val(data.unitJia);
-    	$("#xgyifang").val(data.unitYi);
-    	$("#xgzhuhetonghao").val(data.cjNo);
-    	//$("#xgfbhetonghao").val(data.fbNo);
-    	editfbhetonghao(data.fbNo);
-    	$("#xgthisborrowMoney").val(data.thisBorrowMoney);
-    	$("#xglixizhifu").val(data.interestPaymentMethod);
-    	$("#xgyear").val(data.borrowTime);
-    	$("#xgyifangleijijieMoney").val(data.accumulatedBorrowingMoney);
-    	$("#xgjiekuanyongtu").val(data.borrowingPurposes);
-    	$("#xgborrowNo").val(data.bNo)
+  		
+  		
   		
     }
     
