@@ -126,12 +126,14 @@
                                 <td style="width:15%;"><input type="text" class="form-control" v id="xgzandingjin"></td>
                             </tr>
                             <tr>
-                                <td>项目开始时间</td>
-                                <td><input type="text" class="form-control" style="width:100%;" id="xgstartTime"></td>
-                                <td>项目结束时间</td>
-                                <td><input type="text" class="form-control"  style="width:100%;" id="xgendTime"></td>
-                                <!-- <td>预估合同金额</td>
-                                <td><input type="text" class="form-control" style="width:180px;"></td> -->
+                               <td>项目起止时间</td>
+                                <td colspan="3">
+                                	<div   class="yihang">
+	                                	<input type="text" class="form-control" id="xgstartTime" style="width:35%;">
+	                                	&nbsp;&nbsp;-&nbsp;&nbsp;
+	                                	<input type="text" class="form-control" id="xgendTime" style="width:35%;">
+                                	</div>
+                                </td>
                                 <td>项目来源</td>
                                 <td>
                                 	<select class="form-control" style="width:100%;" id="xg_prj_source">
@@ -197,11 +199,11 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="modal-footer">
+                    <!-- <div class="modal-footer">
                         <button type="button" class="btn btn-default"  onclick="quxiao2()">取消</button>
                         <button type="button" class="btn btn-default" onclick="xgsaverenwudan()">保存</button>
                         <button type="button" class="btn btn-success" onclick="xgaddrenwudan()">提交</button>
-                    </div>
+                    </div> -->
     </div>
 
 <!-- 提交 modal -->
@@ -851,20 +853,22 @@
         if(r!=null)return  unescape(r[2]); return null;
    }
    // 调用方法
-   	id=GetQueryString("");
-   
-    var xiugaiid;
+   	id=GetQueryString("prjId");
+   	no=GetQueryString("prjNo");
+    console.log(id)
     function initTable(){
     	
-		xiugaiid=data.prjId;
 	  		$.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/',
+	            url: getContextPath()+'/task/selectTaskHistory',
 	            dataType: 'json',
 	            data: {
-	            	id:data.prjId
+	            	id:id,
+	            	no:no
 	            },
 	            success: function (json) {
+	            	 console.log(json)
+	            	 json=json.task
 	            	$("#xgerjileixing").val(json.prjType2);
 	        		$("#xgtaskName").val(json.prjName);
 	            	$("#xgtaskbianhao").val(json.prjNo);
@@ -884,7 +888,7 @@
 	            	
 	            	$("#xglianxibiaoge tbody").empty();
 	            	$("#xgxieban .xieban").empty();
-	            	for(var i=0;i<json.enterprise.length;i++){
+	            	for(var i=0;i<json.task.enterprise.length;i++){
 	            		$("#xglianxibiaoge tbody").append("<tr><td>"
 												    			+'<input type="text" class="form-control" value="'+json.enterprise[i].eMan+'" disabled>'
 												    			+"</td><td>"
@@ -939,7 +943,7 @@
     	$(tr).remove();
     }
     
-    function xgaddrenwudan(){
+    function liuchengGaibianTJ(){//提交
     	var danwei= new Array();
     	var lianxibiao= new Array();
     	$("#xglianxibiaoge tbody").find("tr").each(function(){
@@ -1346,6 +1350,9 @@
   		var cjId = $(s).attr("data-id");
   		$(s).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+cjId+'')
   	}
+  	
+
+  	
 </script>
 
 </html>
