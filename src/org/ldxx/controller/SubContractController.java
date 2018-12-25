@@ -120,7 +120,7 @@ public class SubContractController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(fbContract.getContractName());
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(fbContract.getContractName()+"流程发起");
 			currentFlow.setUrl("shengchanguanliLook/SubcontractManagementLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -214,7 +214,7 @@ public class SubContractController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(fbContract.getContractName());
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(fbContract.getContractName()+"流程发起");
 			currentFlow.setUrl("shengchanguanliLook/SubcontractManagementLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -250,7 +250,7 @@ public class SubContractController {
 	
 	@RequestMapping("/updateSubContractsave")
 	@ResponseBody
-	public Map<String,Object> updateSubContractsave(FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]) throws IllegalStateException, IOException{
+	public Map<String,Object> updateSubContractsave(HttpSession session,FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]) throws IllegalStateException, IOException{
 		Map<String,Object> map = new HashMap<>();
 		String id=new TimeUUID().getTimeUUID();
 		fbContract.setFbId(id);
@@ -293,6 +293,42 @@ public class SubContractController {
 			fbContract.setAccessory1(list1);
 		}
 		int i=scService.saveSubContract(fbContract);
+		if(i>0){
+			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
+			String mainDepartment=cj.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(fbContract.getContractName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());
+			currentFlow.setMemo(fbContract.getContractName()+"保存");
+			currentFlow.setUrl("shengchanguanliLook/SubcontractManagementLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		map.put("result", i);
 		map.put("fbContract", fbContract);
 		return map;
@@ -300,7 +336,7 @@ public class SubContractController {
 	
 	@RequestMapping("/updateSubContractsubmit")
 	@ResponseBody
-	public Map<String,Object> updateSubContractsubmit(FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]) throws IllegalStateException, IOException{
+	public String updateSubContractsubmit(HttpSession session,FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]) throws IllegalStateException, IOException{
 		Map<String,Object> map = new HashMap<>();
 		String id=new TimeUUID().getTimeUUID();
 		fbContract.setFbId(id);
@@ -343,9 +379,43 @@ public class SubContractController {
 			fbContract.setAccessory1(list1);
 		}
 		int i=scService.saveSubContract(fbContract);
-		map.put("result", i);
-		map.put("fbContract", fbContract);
-		return map;
+		String string = i+"";
+		if(i>0){
+			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
+			String mainDepartment=cj.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(fbContract.getContractName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());
+			currentFlow.setMemo(fbContract.getContractName()+"流程发起");
+			currentFlow.setUrl("shengchanguanliLook/SubcontractManagementLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/selectSubContractById")
@@ -426,6 +496,64 @@ public class SubContractController {
 	@ResponseBody
 	public int updateHistoryById(String id){
 		return scService.updateHistoryById(id);
+	}
+	
+	@RequestMapping("/updateFbById")
+	@ResponseBody
+	public int updateFbById(FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]){
+		Map<String,Object> map = new HashMap<>();
+		String id=fbContract.getFbId();
+		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				String filename = file[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				try {
+					file[i].transferTo(f1);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("分包合同文本");
+				list.add(accessory);
+			}
+			fbContract.setAccessory(list);
+		}
+		if(file1.length>0){
+			List<Accessory> list1 = new ArrayList<>();
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory1=new Accessory();
+				String fileName=file1[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				try {
+					file1[i].transferTo(f1);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName);
+				accessory1.setAcUrl(filePath);
+				accessory1.setaType("法律顾问签字");
+				list1.add(accessory1);
+			}
+			fbContract.setAccessory1(list1);
+		}
+		int i=scService.updateSubContract(fbContract);
+		return i;
 	}
 	
 }

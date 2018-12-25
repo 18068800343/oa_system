@@ -108,7 +108,7 @@ public class BudgetFpplicationFormController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(budge.getPrjId());
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(budge.getPrjId()+"预算流程发起");
 			currentFlow.setUrl("shengchanguanliLook/BudgetManagement.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -208,7 +208,7 @@ public class BudgetFpplicationFormController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(budge.getPrjId()+"预算变更");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());
+			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(budge.getPrjId()+"预算变更流程发起");
 			currentFlow.setUrl("shengchanguanliLook/BudgetManagement.html-"+newId);
 			currentFlow.setParams("{'cs':'1'}");

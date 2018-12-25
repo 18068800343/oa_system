@@ -50,9 +50,16 @@ public class CjContractServiceImpl implements CjContractService{
 	public int updateCjContract(CjContract cj) {
 		int i=dao.updateCjContract(cj);
 		if(i>0){
+			i=dao.deleteCjSplitMoneyById(cj.getCjId());
+			List<CjSplitMoney> cs=cj.getCjSplitMoney();
+			i=dao.addCjSplitMoneySave(cs);
 			List<Accessory> accessory=cj.getAccessory();
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);
+			}
+			List<Accessory> accessory2=cj.getAccessory2();
+			if(accessory2!=null){
+				i=adao.addAccessory(accessory2);
 			}
 		}
 		return i;

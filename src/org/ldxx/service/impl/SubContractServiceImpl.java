@@ -62,6 +62,7 @@ public class SubContractServiceImpl implements SubContractService {
 		return adao.selectAccessoryById(id);
 	}
 
+	@Transactional
 	@Override
 	public int updateSubContract(FbContract fbContract) {
 		int i= scDao.updateSubContract(fbContract);

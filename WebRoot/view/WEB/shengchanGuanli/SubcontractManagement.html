@@ -2284,7 +2284,47 @@ function quxiao3(){
             		rateType:xgrateType
             },
             success: function (json) {
-            	//console.log(json);
+            	if(json=='0'){
+	        		toastr.error("保存失败");
+	        	}else{
+	        		quxiao2();
+	        		lianjie=json.url;
+	            	if(json.receiver!=null&&json.receiver.length>=1){
+		        		  $("#tijiaogei").modal('show');
+		        		  $("#tijiaoren tbody").empty("");
+		        		  for(var i=0;i<json.receiver.length;i++){
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" name="tijiaorenming" style="width:22px;weight:22px;" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+		        					  +'</td><td>'
+		        					  +json.receiver[i].omName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].dutyName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].uName
+		        					  +'</td></tr>');
+		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver.userId,
+		        	        	  uName:json.receiver.uName,
+		        	        	  omName:json.receiver.omName,
+		        	        	  dutyName:json.receiver.dutyName,
+		        	        	  omId:json.receiver.omId,
+		        	        	  dutyId:json.receiver.dutyId
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
+		        	  }
+	        	}
+            	
+            	/* //console.log(json);
             	if(json.result==0){
 					toastr.error("提交失败")
 				}else if(json.result>0){
@@ -2293,7 +2333,7 @@ function quxiao3(){
 					//$("#change").modal("hide")
 					quxiao2();
 					initTable();
-				}
+				} */
             }
         };
 		$("#edit_form").ajaxSubmit(options);

@@ -104,8 +104,8 @@ public class CjContractController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(cj.getContractName());
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
-			currentFlow.setMemo(cj.getContractName()+"流程发起");
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(cj.getContractName()+"变更");
 			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
@@ -195,8 +195,8 @@ public class CjContractController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(cj.getContractName());
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
-			currentFlow.setMemo(cj.getContractName()+"流程发起");
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(cj.getContractName()+"变更流程发起");
 			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
@@ -277,7 +277,7 @@ public class CjContractController {
 	
 	@RequestMapping("/updateCjContractBySave")
 	@ResponseBody
-	public int updateCjContractBySave(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
+	public int updateCjContractBySave(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
@@ -324,12 +324,47 @@ public class CjContractController {
 			cj.setAccessory2(list2);
 		}
 		int i=service.addCjContract(cj);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(cj.getMainDepartment());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(cj.getContractName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());
+			currentFlow.setMemo(cj.getContractName()+"变更");
+			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	@RequestMapping("/updateCjContractBySubmit")
 	@ResponseBody
-	public int updateCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
+	public int updateCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
@@ -376,6 +411,41 @@ public class CjContractController {
 			cj.setAccessory2(list2);
 		}
 		int i=service.addCjContract(cj);
+		String string = i+"";
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(cj.getMainDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(cj.getContractName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());
+			currentFlow.setMemo(cj.getContractName()+"变更流程发起");
+			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
@@ -421,6 +491,67 @@ public class CjContractController {
 	@ResponseBody
 	public int updateHistoryById(String id){
 		int i=service.updateHistoryById(id);
+		return i;
+	}
+	
+	@RequestMapping("/updateCjContractById")
+	@ResponseBody
+	public int updateCjContractById(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2){
+		Map<String,Class> map=new HashMap<>();
+		map.put("cjSplitMoney", CjSplitMoney.class);
+		JSONObject jsonObject=JSONObject.fromObject(cjContract);
+		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
+		String id=cj.getCjId();
+		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int ii=0;ii<file.length;ii++){
+				Accessory accessory=new Accessory();
+				String fileName=file[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				try {
+					file[ii].transferTo(f2);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("承接合同文本");
+				list.add(accessory);
+			}
+			cj.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int ii=0;ii<file2.length;ii++){
+				Accessory accessory2=new Accessory();
+				String fileName=file2[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				try {
+					file2[ii].transferTo(f2);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				accessory2.setaId(id);
+				accessory2.setAcName(fileName);
+				accessory2.setAcUrl(filePath);
+				accessory2.setaType("法律顾问签字");
+				list2.add(accessory2);
+			}
+			cj.setAccessory2(list2);
+		}
+		int i=service.updateCjContract(cj);
 		return i;
 	}
 	

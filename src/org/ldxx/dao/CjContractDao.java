@@ -56,4 +56,5 @@ public interface CjContractDao {
 
 	public int updateHistoryNow(@Param("id")String id);
 	
+	public int deleteCjSplitMoneyById(@Param("id")String id);
 }
