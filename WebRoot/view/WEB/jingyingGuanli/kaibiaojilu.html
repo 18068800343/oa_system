@@ -172,6 +172,22 @@
                             	<tr>
                             		<td style="width:15%;">记录日期</td>
                             		<td style="width:35%;"><input type="text" id="year2" style="width:60%;" class="form-control"></td>
+                            		<td style="width:15%;">是否中标</td>
+                            		<td style="width:35%;">
+                            			<select class="form-control" id="is_zhongbiao" style="width:60%;">
+	                            			<option>是</option>
+	                            			<option>否</option>
+                            			</select>
+                            		</td>
+                            	</tr>
+                            	<tr>
+                            		<td style="width:15%;">是否废标</td>
+                            		<td style="width:35%;">
+                            			<select class="form-control" id="is_feibiao" style="width:60%;">
+	                            			<option>是</option>
+	                            			<option>否</option>
+                            			</select>
+                            		</td>
                             		<td></td>
                             		<td></td>
                             	</tr>
@@ -441,6 +457,22 @@
                             	<tr>
                             		<td style="width:15%;">记录日期</td>
                             		<td style="width:35%;"><input type="text" id="xgyear2" style="width:60%;" class="form-control"></td>
+                            		<td style="width:15%;">是否中标</td>
+                            		<td style="width:35%;">
+                            			<select class="form-control" id="xgis_zhongbiao" style="width:60%;">
+	                            			<option>是</option>
+	                            			<option>否</option>
+                            			</select>
+                            		</td>
+                            	</tr>
+                            	<tr>
+                            		<td style="width:15%;">是否废标</td>
+                            		<td style="width:35%;">
+                            			<select class="form-control" id="xgis_feibiao" style="width:60%;">
+	                            			<option>是</option>
+	                            			<option>否</option>
+                            			</select>
+                            		</td>
                             		<td></td>
                             		<td></td>
                             	</tr>
@@ -709,6 +741,12 @@
                             	<tr>
                             		<td>记录日期</td>
                             		<td id="lookyear2"></td>
+                            		<td>是否中标</td>
+                            		<td id="lookis_zhongbiao"></td>
+                            	</tr>
+                            	<tr>
+                            		<td>是否废标</td>
+                            		<td id="lookis_feibiao"></td>
                             		<td></td>
                             		<td></td>
                             	</tr>
@@ -1713,6 +1751,8 @@
 		$("#lookcesuanchengben").text(data.calculateCost);
 		$("#lookshijichengben").text(data.actualCost);
 		$("#lookgsbaojia").text(data.companyOffer);
+		$("#lookis_zhongbiao").text(data.isWinning);
+		$("#lookis_feibiao").text(data.isScrap)
 		
 		$.ajax({
 			type:"POST",
@@ -1817,6 +1857,9 @@
 		var shijichengben=$("#shijichengben").val();
 		var gsbaojia=$("#gsbaojia").val();
 		var prjStates=$("#prjStates").val();
+		var iswinning=$("#is_zhongbiao").val();
+		var isfeibiao=$("#is_feibiao").val();
+		
 		if(prjName==''){
 			toastr.error("项目名称不能为空");
 			return;
@@ -1864,6 +1907,8 @@
 				actualCost:undefined,
 				companyOffer:undefined,
 				prjStates:undefined,
+				isWinning:undefined,
+				isScrap:undefined,
 		}
 		record.orId=null;
 		record.prjName=prjName;
@@ -1890,6 +1935,8 @@
 		record.actualCost=shijichengben;
 		record.companyOffer=gsbaojia;
 		record.prjStates=prjStates;
+		record.isWinning=iswinning;
+		record.isScrap=isfeibiao;
 		var formData = new FormData();
   		formData.append("record", JSON.stringify(record));
   		
@@ -1907,7 +1954,9 @@
                 if(json.result>0){
                 	toastr.success("添加成功")
                 	$("#myModal").modal('hide')
-        	    	//$('#mainContent').DataTable().row.add(json.OpeningRecord).draw(false);     //新增行立即显示
+                	$(".Pdbcb").show()
+                	$(".Pdbcc").show()
+        	    	$('#mainContent').DataTable().row.add(json.OpeningRecord).draw(false);     //新增行立即显示
                 }else{
                 	toastr.error("添加失败")
                 }
@@ -1968,6 +2017,8 @@
 		var shijichengben=$("#shijichengben").val();
 		var gsbaojia=$("#gsbaojia").val();
 		var prjStates=$("#prjStates").val();
+		var iswinning=$("#is_zhongbiao").val();
+		var isfeibiao=$("#is_feibiao").val();
 		if(prjName==''){
 			toastr.error("项目名称不能为空");
 			return;
@@ -2015,6 +2066,8 @@
 				actualCost:undefined,
 				companyOffer:undefined,
 				prjStates:undefined,
+				isWinning:undefined,
+				isScrap:undefined,
 		}
 		record.orId=null;
 		record.prjName=prjName;
@@ -2041,6 +2094,8 @@
 		record.actualCost=shijichengben;
 		record.companyOffer=gsbaojia;
 		record.prjStates=prjStates;
+		record.isWinning=iswinning;
+		record.isScrap=isfeibiao;
 		var formData = new FormData();
   		formData.append("record", JSON.stringify(record));
   		
@@ -2057,6 +2112,8 @@
                 if(json.result>0){
                 	toastr.success("添加成功")
                 	$("#myModal").modal('hide')
+                	$(".Pdbcb").show()
+                	$(".Pdbcc").show()
         	    	//$('#mainContent').DataTable().row.add(json.OpeningRecord).draw(false);     //新增行立即显示
                 }else{
                 	toastr.error("添加失败")
@@ -2099,7 +2156,8 @@
 		$("#xgcesuanchengben").val(data.calculateCost);
 		$("#xgshijichengben").val(data.actualCost);
 		$("#xggsbaojia").val(data.companyOffer);
-		
+		$("#xgis_zhongbiao").val(data.isWinning);
+		$("#xgis_feibiao").val(data.isScrap)
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
@@ -2225,6 +2283,8 @@
 		var xgshijichengben=$("#xgshijichengben").val();
 		var xggsbaojia=$("#xggsbaojia").val();
 		var xgprjStates=$("#xgprjStates").val();
+		var xgiszhongbiao=$("#xgis_zhongbiao").val();
+		var xgisfeibiao=$("#xgis_feibiao").val()
 		if(xgprjName==''){
 			toastr.error("项目名称不能为空");
 			return;
@@ -2272,6 +2332,8 @@
 				actualCost:undefined,
 				companyOffer:undefined,
 				prjStates:undefined,
+				isWinning:undefined,
+				isScrap:undefined,
 		}
 		record.orId=xiugaiId;
 		record.prjName=xgprjName;
@@ -2298,6 +2360,8 @@
 		record.actualCost=xgshijichengben;
 		record.companyOffer=xggsbaojia;
 		record.prjStates=xgprjStates;
+		record.isWinning=xgiszhongbiao;
+		record.isScrap=xgisfeibiao;
 		//console.log(record)
 		var formData = new FormData();
   		formData.append("record", JSON.stringify(record));
@@ -2315,8 +2379,10 @@
             success: function (json) {
                 if(json.result>0){
                 	toastr.success("修改成功")
-                	$("#change").modal('hide')
                 	$('#mainContent').DataTable().row(tr).data(record);//修改行立即显示
+                	$("#change").modal('hide')
+                	$(".Pdbcb").show()
+                	$(".Pdbcc").show()
                 }else{
                 	toastr.error("修改失败")
                 }
@@ -2376,6 +2442,8 @@
 		var xgcesuanchengben=$("#xgcesuanchengben").val();
 		var xgshijichengben=$("#xgshijichengben").val();
 		var xgprjStates=$("#xgprjStates").val();
+		var xgiszhongbiao=$("#xgis_zhongbiao").val();
+		var xgisfeibiao=$("#xgis_feibiao").val()
 		if(xgprjName==''){
 			toastr.error("项目名称不能为空");
 			return;
@@ -2422,6 +2490,8 @@
 				calculateCost:undefined,
 				actualCost:undefined,
 				prjStates:undefined,
+				isWinning:undefined,
+				isScrap:undefined,
 		}
 		record.orId=xiugaiId;
 		record.prjName=xgprjName;
@@ -2447,6 +2517,8 @@
 		record.calculateCost=xgcesuanchengben;
 		record.actualCost=xgshijichengben;
 		record.prjStates=xgprjStates;
+		record.isWinning=xgiszhongbiao;
+		record.isScrap=xgisfeibiao;
 		//console.log(record)
 		var formData = new FormData();
   		formData.append("record", JSON.stringify(record));
@@ -2466,6 +2538,8 @@
                 	toastr.success("修改成功")
                 	$("#change").modal('hide')
                 	$('#mainContent').DataTable().row(tr).data(record);//修改行立即显示
+                	$(".Pdbcb").show()
+                	$(".Pdbcc").show()
                 }else{
                 	toastr.error("修改失败")
                 }

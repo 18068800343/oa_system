@@ -28,6 +28,8 @@ public class OpeningRecord {
 	private Float calculateCost;//测算成本
 	private Float actualCost;//实际成本
 	private String prjStates;//项目跟踪状态
+	private String isWinning;//是否中标
+	private String isScrap;//是否废标
 	
 	
 	private List<OpeningInformation> openingInformation;
@@ -36,6 +38,18 @@ public class OpeningRecord {
 	
 	
 	
+	public String getIsWinning() {
+		return isWinning;
+	}
+	public void setIsWinning(String isWinning) {
+		this.isWinning = isWinning;
+	}
+	public String getIsScrap() {
+		return isScrap;
+	}
+	public void setIsScrap(String isScrap) {
+		this.isScrap = isScrap;
+	}
 	public String getPrjStates() {
 		return prjStates;
 	}
