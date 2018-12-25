@@ -260,14 +260,12 @@
                             </tr>
                             <tr>
                                 <td style="width:15%;">参加人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td style="width:35%;">
-                                	<input type="text" style="width:60%;" class="form-control" id="edit_users" disabled>
+                                <td style="width:35%;" colspan="3">
+                                	<input type="text" style="width:80%;" class="form-control" id="edit_users" disabled>
                                 	<button type="button" class="btn btn-primary"  id="xgchoseren">选择人员</button>
                                     <!-- <select class="selectpicker show-tick form-control"  style="width:100%;" id="edit_users" multiple data-live-search="true">
                                     </select> -->
                                 </td>
-                                <td></td>
-                                <td></td>
                             </tr>
                             <tr>
                                 <td>课程内容</td>
@@ -582,7 +580,7 @@
 										    "targets": 0,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<input type="checkbox" name="xgmingzi" style="width:16px;height:16px;">'
+										  	  		return '<input type="checkbox" name="xgmingzi" onclick="xgChooseBox(this)" style="width:16px;height:16px;">'
 										        }
 										  }
 								],
@@ -668,6 +666,7 @@
 	}
 	//已知部门，获取部门所属人员
 	$("#choseren").click(function(){
+		arr=[];
 		$("#people").modal("show");
 		$('#people').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
             if ($('.modal.in').size() >= 1) {
@@ -689,7 +688,9 @@
 	            }
 	        });
 	})
+	
 	$("#xgchoseren").click(function(){
+		xgarr=[];
 		$("#xgpeople").modal("show");
 		$('#xgpeople').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
             if ($('.modal.in').size() >= 1) {
@@ -712,11 +713,10 @@
 	        });
 	})
 	
-	var arr=[];
+	var arr=new Array();
 	function chooseBox(obj){
-		var result=$(obj).prop('checked');
-		var name=$(obj).val();
-		if(result=="true"){
+		var name=$(obj).parent().next().text();
+		if($(obj).prop('checked')){
 			arr.push(name)
 		}else{
 			arr.splice($.inArray(name,arr),1);
@@ -734,8 +734,20 @@
 		 $("#new_users").val(arr.toString());
 		 $("#people").modal("hide");
 	})
+	
+	var xgarr=new Array();
+	function xgChooseBox(obj){
+		var name=$(obj).parent().next().text();
+		if($(obj).prop('checked')){
+			xgarr.push(name)
+		}else{
+			xgarr.splice($.inArray(name,xgarr),1);
+		}
+	}
+	
+	
 	$("#xgquerenciren").click(function(){
-		var arr=[]
+		/* 
 		$("input[name='xgmingzi']:checked").each(function(i){
 			arr[i]=$(this).parent().next().text();
 		})
@@ -746,8 +758,8 @@
 				}else{
 					b+=arr[i]
 				}
-			}
-		 $("#edit_users").val(b);
+			} */
+		$("#edit_users").val(xgarr.toString());
 		$("#xgpeople").modal("hide");
 	})
 	
