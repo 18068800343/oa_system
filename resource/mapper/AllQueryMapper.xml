@@ -24,9 +24,8 @@
 	fb.contract_name_yi,
     ccfb.cc_name fbYiName,
 	fb.now_fb_all_money,
-    payIn.already_accumulate_money leiJiPayMoney,
-    fcowIn.over_work_money fbJueSuanMoney,
-    IF(fcowIn.over_work_money is NULL or fcowIn.over_work_money='','0',(fcowIn.over_work_money-payIn.already_accumulate_money)) weiPayMoney
+    fcowIn.over_work_money fbJueSuanMoney
+    
     FROM
 	(
 		SELECT
@@ -107,14 +106,13 @@ AND fb.history = '1'
 LEFT JOIN consociation_company ccfb on ccfb.cc_id = fb.contract_name_yi
 LEFT JOIN (
 	SELECT
-		pay.already_accumulate_money,
     pay.contract_no,
     pay.pay_id
 	FROM
 		pay pay
 	LEFT JOIN mode_status mspay ON pay.pay_id = mspay.mode_id
 	WHERE
-		mspay. STATUS = '2' and pay.history='1'
+		mspay. STATUS = '2' 
 ) AS payIn ON payIn.contract_no = fb.fb_no
 LEFT JOIN (
 	SELECT

@@ -31,6 +31,7 @@ public class AllQueryController {
 		List<AllQuery> i=service.selectAllQueryByTimeAndDepart(year_Time, month_time, depart);
 		for(AllQuery allQuery:i){
 			String fbNo = allQuery.getFbNo();
+			
 		}
 		return i;
 	}
