@@ -639,7 +639,7 @@ public class FlowUtill {
 			ModeStatus modeStatus = new ModeStatus();
 			modeStatus.setModeId(modeId);
 			modeStatus.setStatus("");
-			modeStatus.setFlowStatus("1");
+			modeStatus.setFlowStatus("4");
 			INSTANCE.modeStatusMapper.insert(modeStatus);
 			/*INSTANCE.flowHistroyMapper.insert(flowHistroy);*/
 		} catch (Exception e) {
