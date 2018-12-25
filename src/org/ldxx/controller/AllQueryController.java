@@ -29,6 +29,9 @@ public class AllQueryController {
 		String year_Time = timeArr[0]+"%";
 		String month_time = nowDate;
 		List<AllQuery> i=service.selectAllQueryByTimeAndDepart(year_Time, month_time, depart);
+		for(AllQuery allQuery:i){
+			String fbNo = allQuery.getFbNo();
+		}
 		return i;
 	}
 	

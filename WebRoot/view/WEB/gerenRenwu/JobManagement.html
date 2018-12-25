@@ -68,7 +68,7 @@
                         <span>事项名称:</span>
                         <select style="width:180px;" id="shenpi" class="form-control">
                             <option value="1">需要审批业务</option>
-                            <option value="0">未完成表单草稿</option>
+                            <option value="4">未完成表单草稿</option>
                         </select>
                     </div>
                 </form>
@@ -91,14 +91,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="lianjieColor"><span data-toggle="modal" data-target=".dada" style="cursor:pointer;">G104秦淮河大桥建造审批</span></td>
-                        <td>任务单</td>
-                        <td>工程一部</td>
-                        <td>
-                            <i class="iconfont icon-yewubanli" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>
-                        </td>
-                    </tr>
                 </tbody>   
             </table>
         </div>
@@ -228,12 +220,6 @@
             "data": "deptname"
         },{
             "data": "url"
-        },{
-            "data": "editOrView",
-            "visible":false
-        },{
-            "data": "flowNodeLast",
-            "visible":false
         }],
          "columnDefs": [{
             "targets": 4,
@@ -279,8 +265,10 @@
                 }
             });
     });
+    //全局变量
     var page_url;
     var page_flowNodeLast;
+    var page_edit;
     function bindclick(){
     	$("body").on("click","i[name='mode']",function(){
         	var data_id = $(this).attr("data-id");
@@ -288,6 +276,7 @@
         	var edit = $(this).attr("data-edit");
         	page_flowNodeLast =  $(this).attr("data-flowNodeLast");
         	page_url=data_id;
+        	page_edit=edit;
         	$("#rightMain").attr("src","../"+strs[0]+"?prjId="+strs[1]+"&editOrView="+edit);
         });
     }
@@ -318,6 +307,7 @@
 	        					  +'</td></tr>');
 	        		  }
 	        	  }else if(json.receiver==undefined||json.receiver.length==1){
+	        		  doChildIframeMethod();
 	        		  var userId;var uName;var omName;var dutyName;var omId;var dutyId;
 	        		  if(json.receiver==undefined){
 	        			  userId="";uName="";omName="";dutyName="";omId="";dutyId="";
@@ -349,8 +339,10 @@
 	        	        	  initTable1();
 	        	          }
 	        	      }); 
-	        	  }else if(json.receiver!=null||json.receiver.length==0){
+	        	  }else if(json.receiver!=null&&json.receiver.length==0){
 	        		  toastr.error('下一步无操作人');
+	        	  }else if(json.end=="end"){
+	        		  doChangeData();
 	        	  }
             }
         });
@@ -409,6 +401,7 @@
          });
     }
     function tijiaorenwudan2(){
+      doChildIframeMethod();
   	  var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
   	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
 	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
@@ -478,5 +471,22 @@
         });
     }
 
+    function doChildIframeMethod(){
+    	var childWindow = $("#rightMain")[0].contentWindow; //表示获取了嵌入在iframe中的子页面的window对象。  []将JQuery对象转成DOM对象，用DOM对象的contentWindow获取子页面window对象。
+    	try {
+    		childWindow.save();
+    		}
+    		catch(err){
+    		}
+    }
+    
+    function doChangeData(){
+    	var childWindow = $("#rightMain")[0].contentWindow; //表示获取了嵌入在iframe中的子页面的window对象。  []将JQuery对象转成DOM对象，用DOM对象的contentWindow获取子页面window对象。
+    	try {
+    		childWindow.changeData();
+    		}
+    		catch(err){
+    		}
+    }
 </script>
 </html>
