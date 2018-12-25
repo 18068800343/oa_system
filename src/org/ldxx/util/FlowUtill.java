@@ -300,7 +300,9 @@ public class FlowUtill {
 		INSTANCE.currentFlowMapper.updateByPrimaryKey(currentFlow);
 		JSONObject jsonObject = new JSONObject();
 		JSONArray arrays = new JSONArray();
+		String end="";
 		if("end".equals(floNodeId)){
+			end=floNodeId;
 			arrays=null;
 		}else{
 			List<NodeActors> nodeActors = INSTANCE.nodeActorsMapper.getNextNodeActorsByFloNodeId(floNodeId);
@@ -327,6 +329,7 @@ public class FlowUtill {
 		}
 		jsonObject.put("receiver", arrays);
 		jsonObject.put("url", currentFlow.getUrl());
+		jsonObject.put("end",end);
 		return jsonObject.toString();
 	}
 	
