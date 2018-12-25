@@ -56,9 +56,6 @@
 	
 	  <!-- Tab panes -->
 	  <div class="tab-content">
-	    
-	    <!-- 修改 -->
-	    <div role="tabpanel" class="tab-pane" id="messages">
 	    <form class="form-inline" method="post" id="edit_form" enctype="multipart/form-data">
 	    		<table class="table table-bordered table-condensed">
 	                       <tr>
@@ -210,11 +207,14 @@
 		                   </tbody>
 		               </table>
 		  </form>
-		               <div class="modal-footer">
+	    <!-- 修改 -->
+	    <div role="tabpanel" class="tab-pane" id="messages">
+	    
+		               <!-- <div class="modal-footer">
 				            <button type="button" class="btn btn-default"  onclick="quxiaob()">取消</button>
 				            <button type="button" class="btn btn-success" onclick="edit_save()">保存</button>
 				            <button type="button" class="btn btn-success" onclick="edit_submit()">提交</button>
-				        </div>
+				        </div> -->
 	    </div>
 	    
 
@@ -601,7 +601,6 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/bootstrap-select.js"></script>
-<script src="../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
         laydate.render({
@@ -645,16 +644,16 @@
         initCooperator();
         initDetailContract();
         
-        function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
+        
        	initTable();
 	});
-    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
 
 function quxiaoSplit(){
 	$("#split").modal('hide')
@@ -710,132 +709,7 @@ function checkquxiaoSplit(){
         
 	});
     
-	/* function initTable(){
-        $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/cj/selectCjContractByStatus',
-            dataType: 'json',
-            data: {
-            	status:2
-            },
-            success: function (json) {
-                $('#mainContent').dataTable().fnClearTable();
-                $('#mainContent').DataTable().rows.add(json).draw(false);
-            }
-        });
-    } */
 
-    function getCreat(bb){
-        var EnterpriseRating= $(bb).parent().prev().text();
-        var Remarks= $(bb).parent().prev().prev().text();
-        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
-        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
-        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
-        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
-        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
-        $("#CEnterprise-rating").val(EnterpriseRating);
-        $("#CRemarks").val(Remarks);
-        $("#CContact-phone1").val(ContactPhone1);
-        $("#CContacts").val(Contacts);
-        $("#Caddress").val(address);
-        $("#CProprietor-unit").val(ProprietorUnit);
-        $("#CCode").val(Code);
-        rowIndex = bb.parentNode.parentNode.rowIndex; 
-    }
-	
-	function seachAll(){
-		$("#zhuangtai").trigger("change");
-	}
-
-    $("#zhuangtai").change(function(){
-        var zt=$("#zhuangtai").val();
-        var startMin=$("#seach_start_time_min").val();
-        var startMax=$("#seach_start_time_max").val();
-        var endMin=$("#seach_end_time_min").val();
-        var endMax=$("#seach_end_time_max").val();
-        var mainDp=$("#seach_main_department").val();
-        var xbDp=$("#seach_xb_department").val();
-        var contractMoneyMin=$("#seach_contract_money_min").val();
-        var contractMoneyMax=$("#seach_contract_money_max").val();
-        var zdMoneyMin=$("#seach_zd_money_min").val();
-        var zdMoneyMax=$("#seach_zd_money_max").val(); 
-        if(zt=="合同取消"){
-            $.ajax({
-                type: 'POST',
-                url: getContextPath()+'/cj/selectCjContractByStatus',
-                dataType: 'json',
-                data: {
-                	status:3,
-                	startMin:startMin,
-                	startMax:startMax,
-                	endMin:endMin,
-                	endMax:endMax,
-                	mainDp:mainDp,
-                	xbDp:xbDp,
-                	contractMoneyMin:contractMoneyMin,
-                	contractMoneyMax:contractMoneyMax,
-                	zdMoneyMin:zdMoneyMin,
-                	zdMoneyMax:zdMoneyMax
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").show();
-                    $(".cancel").show();
-                    $(".iconquxiao").hide();
-                    $(".iconxiugai").hide();
-                    $(".iconwanjie").hide();
-                }
-            });
-            
-        }else if(zt=="审批中"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/cj/selectCjContractByStatus',
-                dataType: 'json',
-                data: {
-                	status:1,
-                	startMin:startMin,
-                	startMax:startMax,
-                	endMin:endMin,
-                	endMax:endMax,
-                	mainDp:mainDp,
-                	xbDp:xbDp,
-                	contractMoneyMin:contractMoneyMin,
-                	contractMoneyMax:contractMoneyMax,
-                	zdMoneyMin:zdMoneyMin,
-                	zdMoneyMax:zdMoneyMax
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                }
-            });
-        }else{
-        	 $.ajax({
-                 type: 'POST',
-                 url: getContextPath()+'/cj/selectCjContractByStatus',
-                 dataType: 'json',
-                 data: {
-                 	status:2,
-                 	startMin:startMin,
-                	startMax:startMax,
-                	endMin:endMin,
-                	endMax:endMax,
-                	mainDp:mainDp,
-                	xbDp:xbDp,
-                	contractMoneyMin:contractMoneyMin,
-                	contractMoneyMax:contractMoneyMax,
-                	zdMoneyMin:zdMoneyMin,
-                	zdMoneyMax:zdMoneyMax
-                 },
-                 success: function (json) {
-                     $('#mainContent').dataTable().fnClearTable();
-                     $('#mainContent').DataTable().rows.add(json).draw(false);
-                 }
-             });
-        }
-    })
     
      //增加部门
     function addBumen(){
@@ -1610,87 +1484,219 @@ function checkquxiaoSplit(){
   		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
   	}
   	
-  	var edit_id;
+  	
   	function initTable(){
+  		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cj/selectCjContractById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	$("#edit_contract_name").val(data.contractName);
+	      		$("#edit_contract_no").val(data.contractNo);
+	      		$("#edit_work_no").val(data.taskCode);
+	      		$("#edit_prj_name").val(data.prjName);
+	      		$("#edit_prj_type").val(data.prjType);
+	      		$("#edit_jiafangName").val(data.contractNameJia);
+	      		$("#edit_yifangName").val(data.contractNameYi);
+	      		$("#edit_year").val(data.contractStartTime);
+	      		$("#edit_year2").val(data.contractEndTime);
+	      		$("#edit_yifang_department").val(data.yiCjDepartment);
+	      		$("#edit_work_date").val(data.contractLongTime);
+	      		$("#edit_receieve_money_condition").val(data.receieveMoneyCondition);
+	      		$("#edit_contract_money").val(data.contractMoney);
+	      		$("#edit_temporary_money").val(data.temporaryMoney);
+	      		$("#edit_year3").val(data.contractSignTime);
+	      		$("#edit_work_info").val(data.workInfo);
+	      		$("#xgzhuban").val(data.mainDepartment);
+	        	$("#xgzhubanjine").val(data.mainDepartmentMoney);
+	        	var cs=data.cjSplitMoney;
+	        	$("#edit_split_table tbody").empty();
+	        	for(var i=0;i<cs.length;i++){
+	    				$("#edit_split_table tbody").append("<tr><td>"
+	    						+""+cs[i].year+""
+	    						+"</td><td>"
+	    						+""+cs[i].money+""
+	    						+"</td><td>"
+	    						+"<button type='button' class='btn btn-primary' onclick='deleteSplitMoney(this)'>移除</button>"
+	    						+"</td></tr>")
+	    		}
+	        	$("#xgxieban .xieban").empty();
+	      		if(data.assistDepartment1!=null&&data.assistDepartment1!=""){
+	        		$("#xgxieban tbody").append("<tr class='xieban'><td>"+"协办部门1"+"</td><td>"
+	    	                +'<form class="form-inline">'
+	    	                    +'<select class="form-control" id="xgxieban1" style="width:150px;">'
+	    	                    +'</select>'
+	    	                    +'<input type="text" id="xgxiebanMoney1" class="form-control" style="width:150px;" placeholder="金额">'
+	    	                	+"<button type='button' style='margin-left:15px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
+	    	                +'</form>'
+	    	                +"</td></tr>");
+	        		xiebanhuixian(data.assistDepartment1,1);
+	        		$("#xgxiebanMoney1").val(data.assistDepartment1Money);
+	        	}
+	        	if(data.assistDepartment2!=null&&data.assistDepartment2!=""){
+	        		$("#xgxieban tbody").append("<tr class='xieban'><td>"+"协办部门2"+"</td><td>"
+	    	                +'<form class="form-inline">'
+	    	                    +'<select class="form-control" id="xgxieban2" style="width:150px;">'
+	    	                    +'</select>'
+	    	                    +'<input type="text" id="xgxiebanMoney2" class="form-control" style="width:150px;" placeholder="金额">'
+	    	                	+"<button type='button' style='margin-left:15px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
+	    	                +'</form>'
+	    	                +"</td></tr>");
+	        		xiebanhuixian(data.assistDepartment2,2);
+	        		$("#xgxiebanMoney2").val(data.assistDepartment2Money);
+	        	}
+	        	if(data.assistDepartment3!=null&&data.assistDepartment3!=""){
+	        		$("#xgxieban tbody").append("<tr class='xieban'><td>协办部门3</td><td>"
+	    	                +'<form class="form-inline">'
+	    	                    +'<select class="form-control" id="xgxieban3" style="width:150px;">'
+	    	                    +'</select>'
+	    	                    +'<input type="text" id="xgxiebanMoney3" class="form-control" style="width:150px;" placeholder="金额">'
+	    	                	+"<button type='button' style='margin-left:15px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
+	    	                +'</form>'
+	    	                +"</td></tr>");
+	        		xiebanhuixian(data.assistDepartment3,3);
+	        		$("#xgxiebanMoney3").val(data.assistDepartment3Money);
+	        	}
+	        	
+	        }
+	    });
   		
-  		edit_id=data.cjId;
-  		
-  		$("#edit_contract_name").val(data.contractName);
-  		$("#edit_contract_no").val(data.contractNo);
-  		$("#edit_work_no").val(data.taskCode);
-  		$("#edit_prj_name").val(data.prjName);
-  		$("#edit_prj_type").val(data.prjType);
-  		$("#edit_jiafangName").val(data.contractNameJia);
-  		$("#edit_yifangName").val(data.contractNameYi);
-  		$("#edit_year").val(data.contractStartTime);
-  		$("#edit_year2").val(data.contractEndTime);
-  		$("#edit_yifang_department").val(data.yiCjDepartment);
-  		$("#edit_work_date").val(data.contractLongTime);
-  		$("#edit_receieve_money_condition").val(data.receieveMoneyCondition);
-  		$("#edit_contract_money").val(data.contractMoney);
-  		$("#edit_temporary_money").val(data.temporaryMoney);
-  		$("#edit_year3").val(data.contractSignTime);
-  		$("#edit_work_info").val(data.workInfo);
-  		$("#xgzhuban").val(data.mainDepartment);
-    	$("#xgzhubanjine").val(data.mainDepartmentMoney);
-    	
-    	var cs=data.cjSplitMoney;
-    	$("#edit_split_table tbody").empty();
-    	for(var i=0;i<cs.length;i++){
-				$("#edit_split_table tbody").append("<tr><td>"
-						+""+cs[i].year+""
-						+"</td><td>"
-						+""+cs[i].money+""
-						+"</td><td>"
-						+"<button type='button' class='btn btn-primary' onclick='deleteSplitMoney(this)'>移除</button>"
-						+"</td></tr>")
+  	}
+  	
+  	function liuchengGaibian(){
+  		var splitArray=new Array();
+  		$("#edit_split_table tbody").find("tr").each(function(){
+				var years=$(this).find("td").eq(0).text();
+				var moneys=$(this).find("td").eq(1).text();
+				var arr={
+						cjId:null,
+						year:undefined,
+						money:undefined
+				}
+				arr.cjId=null;
+				arr.year=years;
+				arr.money=moneys;
+				splitArray.push(arr)
+			})
+		var contract_name=$("#edit_contract_name").val();
+  		var contract_no=$("#edit_contract_no").val();
+  		var work_no=$("#edit_work_no").val();
+  		var prj_name=$("#edit_prj_name").val();
+  		var prj_type=$("#edit_prj_type").val();
+  		var jiafangName=$("#edit_jiafangName").val();
+  		var yifangName=$("#edit_yifangName").val();
+  		var year=$("#edit_year").val();
+  		var year2=$("#edit_year2").val();
+  		var yifang_department=$("#edit_yifang_department").val();
+  		var work_date=$("#edit_work_date").val();
+  		var receieve_money_condition=$("#edit_receieve_money_condition").val();
+  		var contract_money=$("#edit_contract_money").val();
+  		var temporary_money=$("#edit_temporary_money").val();
+  		var year3=$("#edit_year3").val();
+  		var work_info=$("#edit_work_info").val();
+  		var zhuban=$("#xgzhuban").val();
+  		var zhubanjine=$("#xgzhubanjine").val();
+    	var xieban1=$("#xgxieban1").find("option:selected").val();
+    	var xieban1jine=$("#xgxiebanMoney1").val();
+    	var xieban2=$("#xgxieban2").find("option:selected").val();
+    	var xieban2jine=$("#xgxiebanMoney2").val();
+    	var xieban3=$("#xgxieban3").find("option:selected").val();
+    	var xieban3jine=$("#xgxiebanMoney3").val();
+	  	var split_state=0;
+	  	if($("#edit_split_table tbody").find('tr').length>0){
+			split_state=1;
 		}
+	  	var cjContract={
+	  			cjId:null,
+	  			taskCode:undefined,
+	  			contractName:undefined,
+	  			contractNo:undefined,
+	  			prjName:undefined,
+	  			prjType:undefined,
+	  			contractNameJia:undefined,
+	  			contractNameYi:undefined,
+	  			contractStartTime:undefined,
+	  			contractEndTime:undefined,
+	  			yiCjDepartment:undefined,
+	  			contractLongTime:undefined,
+	  			receieveMoneyCondition:undefined,
+	  			contractMoney:undefined,
+	  			temporaryMoney:undefined,
+	  			contractSignTime:undefined,
+	  			workInfo:undefined,
+	  			mainDepartment:undefined,
+	  			mainDepartmentMoney:undefined,
+	  			assistDepartment1:undefined,
+	  			assistDepartment1Money:undefined,
+	  			assistDepartment2:undefined,
+	  			assistDepartment2Money:undefined,
+	  			assistDepartment3:undefined,
+	  			assistDepartment3Money:undefined,
+	  			splitState:undefined,
+	  			cjSplitMoney:undefined
+			}
+	  	cjContract.cjId=id;
+	  	cjContract.taskCode=work_no;
+	  	cjContract.contractName=contract_name;
+	  	cjContract.contractNo=contract_no;
+	  	cjContract.prjName=prj_name;
+	  	cjContract.prjType=prj_type;
+	  	cjContract.contractNameJia=jiafangName;
+	  	cjContract.contractNameYi=yifangName;
+	  	cjContract.contractStartTime=year;
+	  	cjContract.contractEndTime=year2;
+	  	cjContract.yiCjDepartment=yifang_department;
+	  	cjContract.contractLongTime=work_date;
+	  	cjContract.receieveMoneyCondition=receieve_money_condition;
+	  	cjContract.contractMoney=contract_money;
+	  	cjContract.temporaryMoney=temporary_money;
+	  	cjContract.contractSignTime=year3;
+	  	cjContract.workInfo=work_info;
+	  	cjContract.mainDepartment=zhuban;
+	  	cjContract.mainDepartmentMoney=zhubanjine;
+	  	cjContract.assistDepartment1=xieban1;
+	  	cjContract.assistDepartment1Money=xieban1jine;
+	  	cjContract.assistDepartment2=xieban2;
+	  	cjContract.assistDepartment2Money=xieban2jine;
+	  	cjContract.assistDepartment3=xieban3;
+	  	cjContract.assistDepartment3Money=xieban3jine;
+	  	cjContract.splitState=split_state;
+	  	cjContract.cjSplitMoney=splitArray;
+	  	console.log(cjContract)
+	  	var formData = new FormData();
+		formData.append("cjContract", JSON.stringify(cjContract));
+			
+		$("#edit_accessory tbody").find("tr").each(function(){
+				formData.append("file", $(this).find("input")[0].files[0]);
+		})
+		$("#edit_accessory2 tbody").find("tr").each(function(){
+				formData.append("file2", $(this).find("input")[0].files[0]);
+		})
     	
-    	$("#xgxieban .xieban").empty();
-  		if(data.assistDepartment1!=null&&data.assistDepartment1!=""){
-    		$("#xgxieban tbody").append("<tr class='xieban'><td>"+"协办部门1"+"</td><td>"
-	                +'<form class="form-inline">'
-	                    +'<select class="form-control" id="xgxieban1" style="width:150px;">'
-	                    +'</select>'
-	                    +'<input type="text" id="xgxiebanMoney1" class="form-control" style="width:150px;" placeholder="金额">'
-	                	+"<button type='button' style='margin-left:15px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
-	                +'</form>'
-	                +"</td></tr>");
-    		xiebanhuixian(data.assistDepartment1,1);
-    		$("#xgxiebanMoney1").val(data.assistDepartment1Money);
-    	}
-    	if(data.assistDepartment2!=null&&data.assistDepartment2!=""){
-    		$("#xgxieban tbody").append("<tr class='xieban'><td>"+"协办部门2"+"</td><td>"
-	                +'<form class="form-inline">'
-	                    +'<select class="form-control" id="xgxieban2" style="width:150px;">'
-	                    +'</select>'
-	                    +'<input type="text" id="xgxiebanMoney2" class="form-control" style="width:150px;" placeholder="金额">'
-	                	+"<button type='button' style='margin-left:15px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
-	                +'</form>'
-	                +"</td></tr>");
-    		xiebanhuixian(data.assistDepartment2,2);
-    		$("#xgxiebanMoney2").val(data.assistDepartment2Money);
-    	}
-    	if(data.assistDepartment3!=null&&data.assistDepartment3!=""){
-    		$("#xgxieban tbody").append("<tr class='xieban'><td>协办部门3</td><td>"
-	                +'<form class="form-inline">'
-	                    +'<select class="form-control" id="xgxieban3" style="width:150px;">'
-	                    +'</select>'
-	                    +'<input type="text" id="xgxiebanMoney3" class="form-control" style="width:150px;" placeholder="金额">'
-	                	+"<button type='button' style='margin-left:15px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
-	                +'</form>'
-	                +"</td></tr>");
-    		xiebanhuixian(data.assistDepartment3,3);
-    		$("#xgxiebanMoney3").val(data.assistDepartment3Money);
-    	}
-  		
-  		//$("#change").modal("show");
-    		 $("#diyi").removeClass("active");
-	         $("#disan").addClass("active");
-	         $("#diyi a").show();
-	         $("#disan a").show();
-	         $("#home").removeClass("active");
-	         $("#messages").addClass("active");
+    	
+    	$.ajax({
+			type: 'POST',
+		        url: getContextPath()+'/cj/updateCjContractById',
+		     	data: formData,  
+	            cache: false,
+	            processData: false,
+	            contentType: false,
+	            async: false,
+		        success: function (json) {
+					if(json>0){
+						//$("#myModal").modal("hide");
+						toastr.success("保存成功");
+						quxiaob();
+					}else{
+						toastr.error("保存失败");
+					}
+		        }
+		})
   	}
   	
   	function delteFile(obj){
@@ -1715,7 +1721,7 @@ function checkquxiaoSplit(){
   		});
   	}
   	
-  	function liuchengGaibian(){
+  	function liuchengGaibianBC(){
   		var splitArray=new Array();
   		$("#edit_split_table tbody").find("tr").each(function(){
 				var years=$(this).find("td").eq(0).text();
@@ -1846,7 +1852,7 @@ function checkquxiaoSplit(){
 		})
   	} 
   	
-  	function edit_submit(){
+  	function liuchengGaibianTJ(){
   		var splitArray=new Array();
   		$("#edit_split_table tbody").find("tr").each(function(){
 				var years=$(this).find("td").eq(0).text();

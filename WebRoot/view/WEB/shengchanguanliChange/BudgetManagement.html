@@ -571,16 +571,17 @@
             effects: 'slide' 
         });
         
-        function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
+        xiebanhuixian()
        
 	});
-    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   
   //超级搜索折叠div
 
  function format ( d ) {
@@ -742,130 +743,6 @@
         }},
 	});
     
-	/* function initTable(){
-        $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/budge/selectBudgeByStatus',
-            dataType: 'json',
-            data: {
-            	status:2,
-            },
-            success: function (json) {
-                $('#mainContent').dataTable().fnClearTable();
-                $('#mainContent').DataTable().rows.add(json).draw(false);
-            }
-        });
-    } */
-	
-	
-	
-	$('#mainContent tbody').on('click', 'td.tubiaoming', function () {
-		var tr = $(this).closest('tr');
-		var row = table.row(tr);
-		var data=$('#mainContent').DataTable().row(tr).data();
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-        }else {
-            // Open this row
-			$.ajax({
-				type:"post",
-				url:getContextPath()+"/budge/selectBudgeById",
-				dataType:"json",
-				async:false,
-				data:{
-					id:data.bfId,
-				},
-				success:function(json){
-					//console.log(json);
-					row.child(format(json)).show();
-				}
-			})
-            tr.addClass('shown');
-        } 
-    } );
-	
-	
-	function seachAll(){
-		$(".zhuangtai").trigger("change");
-	}
-	
-	//初始化
-    $(".zhuangtai").change(function(){
-        var zt=$(".zhuangtai").val();
-        var seachTimeMin=$("#seach_time_min").val();
-        var seachTimeMax=$("#seach_time_max").val();
-        var seachCostMin=$("#seach_cost_min").val();
-        var seachCostMax=$("#seach_cost_max").val();
-        if(zt=="正常进行"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/budge/selectBudgeByStatus',
-                dataType: 'json',
-                data: {
-                	status:2,
-                	timeMin:seachTimeMin,
-                	timeMax:seachTimeMax,
-                	costMin:seachCostMin,
-                	costMax:seachCostMax
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").hide();
-                    $(".iconxiugai").show();
-                    $(".iconzhongzhi").show();
-                    $(".iconlywj").show();
-                }
-            });
-            
-        }else if(zt=="项目终止"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/budge/selectBudgeByStatus',
-                dataType: 'json',
-                data: {
-                	status:3,
-                	timeMin:seachTimeMin,
-                	timeMax:seachTimeMax,
-                	costMin:seachCostMin,
-                	costMax:seachCostMax
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").show();
-                    $(".iconxiugai").hide();
-                    $(".iconzhongzhi").hide();
-                    $(".iconlywj").hide();
-                }
-            });
-            
-        }else if(zt=="审批中"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/budge/selectBudgeByStatus',
-                dataType: 'json',
-                data: {
-                	status:1,
-                	timeMin:seachTimeMin,
-                	timeMax:seachTimeMax,
-                	costMin:seachCostMin,
-                	costMax:seachCostMax
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").hide();
-                	$(".iconxiugai").hide();
-                	$(".iconzhongzhi").hide();
-                    $(".iconlywj").hide();
-                }
-            });
-        	
-        }
-    })
 	
 	
 	//选择项目
@@ -1568,12 +1445,6 @@
 	var id;
 	function lookThis(obj){
 		
-		$("#diyi").removeClass("active");
-        $("#disi").addClass("active");
-        $("#diyi a").show();
-        $("#disi a").show();
-        $("#home").removeClass("active");
-        $("#settings").addClass("active");
 		
 		var dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
@@ -1716,7 +1587,7 @@
 	}
 	
 	//回显负责部门
-	function editDepartment(obj1,obj2){
+	/* function editDepartment(obj1,obj2){
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/task/selectTaskPrjNo",
@@ -1764,76 +1635,236 @@
             	$("#checkbumen").val(obj2)
 			}
 		})
-	}
+	} */
+	function xiebanhuixian(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            async:false,
+            data: {
+
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	$("#edit_department").empty();
+            	$("#xgbumen").empty();
+                for(var i=0;i<json.length;i++){
+                	$("#edit_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#xgbumen").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                }
+            }
+		});
+    }
 	
 	//修改回显
-	var xgId;
-	function initTable(obj){
-		
-		
-		console.log(data)
-		xgId=data.bfId;
-		$("#xgprjName").val(data.prjId);
-		$("#xgrenwudan").val(data.taskNo);
-		$("#xgjiafangdanwei").val(data.prjUnit);
-		//$("#edit_department").val(data.department)
-		editDepartment(data.prjId,data.department)
-		$("#xgyear").val(data.budgetDate);
-		$("#xgshenbaoren").val(data.declarer);
-		$("#xgbfNo").val(data.bfNo)
+	function initTable(){
 		$.ajax({
-			type:"post",
-			url:getContextPath()+"/budge/selectBudgeById",
-			dataType:"json",
-			data:{
-				id:xgId,
-			},
-			success:function(json){
-				//console.log(json);
-				//费用预算
-				$("#xgfyyusuan tbody").empty("");
-            	for(var i=0;i<json.costBudget.length;i++){
-            		$("#xgfyyusuan").append("<tr><td>"
-								    			+json.costBudget[i].classify
-								    			+"</td><td>"
-								    			+json.costBudget[i].prjDetail
-								    			+"</td><td data1="+json.costBudget[i].department+">"
-								    			+json.costBudget[i].name2
-								    			+"</td><td>"
-								    			+json.costBudget[i].costAmount
-								    			+"</td><td>"
-								    			+json.costBudget[i].cbDesc
-								    			+"</td><td>"
-								    			+"<i class='iconfont icon-xiugai' style='font-size:18px;cursor:pointer;' title='修改' onclick='checkxgfyyusuan(this)' data-toggle='modal' data-target='#changeysfy'></i>"
-								    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' title='删除' onclick='delfyyusuan(this)'></i>"
-								    			+"</td></tr>")
-            	}
-            	//人工预算
-            	$("#xgrgyusuan tbody").empty("");
-            	for(var i=0;i<json.artificialBudget.length;i++){
-            		$("#xgrgyusuan").append("<tr><td>"
-								    			+json.artificialBudget[i].prjMemberType
-								    			+"</td><td>"
-								    			+json.artificialBudget[i].aName
-								    			+"</td><td>"
-								    			+json.artificialBudget[i].roleCoefficient
-								    			+"</td><td>"
-								    			+json.artificialBudget[i].estimatedDays
-								    			+"</td><td>"
-								    			+json.artificialBudget[i].aDesc
-								    			+"</td><td>"
-								    			+"<i class='iconfont icon-xiugai' style='font-size:18px;cursor:pointer;' title='修改' onclick='checkxgRgyusuan(this)' data-toggle='modal' data-target='#changergys'></i>"
-								    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' title='删除' onclick='delxgRgyusuan(this)'></i>"
-								    			+"</td></tr>")
-            	} 
-            	
-			}
-		})
+	        type: 'POST',
+	        url: getContextPath()+'/budge/selectBudgeById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+				$("#xgprjName").val(data.prjId);
+				$("#xgrenwudan").val(data.taskNo);
+				$("#xgjiafangdanwei").val(data.prjUnit);
+				$("#edit_department :selected").val(data.omName)
+				//editDepartment(data.prjId,data.department)
+				$("#xgyear").val(data.budgetDate);
+				$("#xgshenbaoren").val(data.declarer);
+				$("#xgbfNo").val(data.bfNo)
+				$.ajax({
+					type:"post",
+					url:getContextPath()+"/budge/selectBudgeById",
+					dataType:"json",
+					data:{
+						id:id
+					},
+					success:function(json){
+						//console.log(json);
+						//费用预算
+						$("#xgfyyusuan tbody").empty("");
+		            	for(var i=0;i<json.costBudget.length;i++){
+		            		$("#xgfyyusuan").append("<tr><td>"
+										    			+json.costBudget[i].classify
+										    			+"</td><td>"
+										    			+json.costBudget[i].prjDetail
+										    			+"</td><td data1="+json.costBudget[i].department+">"
+										    			+json.costBudget[i].name2
+										    			+"</td><td>"
+										    			+json.costBudget[i].costAmount
+										    			+"</td><td>"
+										    			+json.costBudget[i].cbDesc
+										    			+"</td><td>"
+										    			+"<i class='iconfont icon-xiugai' style='font-size:18px;cursor:pointer;' title='修改' onclick='checkxgfyyusuan(this)' data-toggle='modal' data-target='#changeysfy'></i>"
+										    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' title='删除' onclick='delfyyusuan(this)'></i>"
+										    			+"</td></tr>")
+		            	}
+		            	//人工预算
+		            	$("#xgrgyusuan tbody").empty("");
+		            	for(var i=0;i<json.artificialBudget.length;i++){
+		            		$("#xgrgyusuan").append("<tr><td>"
+										    			+json.artificialBudget[i].prjMemberType
+										    			+"</td><td>"
+										    			+json.artificialBudget[i].aName
+										    			+"</td><td>"
+										    			+json.artificialBudget[i].roleCoefficient
+										    			+"</td><td>"
+										    			+json.artificialBudget[i].estimatedDays
+										    			+"</td><td>"
+										    			+json.artificialBudget[i].aDesc
+										    			+"</td><td>"
+										    			+"<i class='iconfont icon-xiugai' style='font-size:18px;cursor:pointer;' title='修改' onclick='checkxgRgyusuan(this)' data-toggle='modal' data-target='#changergys'></i>"
+										    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' title='删除' onclick='delxgRgyusuan(this)'></i>"
+										    			+"</td></tr>")
+		            	} 
+		            	
+					}
+				})
+	        }
+	    });
+		
+		
+		
+		
 		
 	}
 	
-	//修改保存
+	//流程修改
 	function liuchengGaibian(){
+		var xgyusuandan= new Array();
+    	var xgfyyusuan= new Array();
+    	var xgrgyusuan=new Array();
+    	//xg预算费用
+    	var allMoney=0
+    	$("#xgfyyusuan tbody").find("tr").each(function(){
+    		var data = $(this).children();
+    		var xgfenlei  = data.eq(0).text();
+    	    var xgmingxi = data.eq(1).text();
+    	    var xgbumen = data.eq(2).attr("data1");
+    	    var xgmoney = data.eq(3).text();
+    	    var xgdesc = data.eq(4).text();
+    	    allMoney+=Number(xgmoney)
+    	    
+    	    var xgxinfyyusuan={
+    	    		cbId:undefined,
+    	    		classify:undefined,
+    	    		prjDetail:undefined,
+    	    		department:undefined,
+    	    		costAmount:undefined,
+    	    		cbDesc:undefined
+    	    }
+    	    xgxinfyyusuan.cbId=null;
+    	    xgxinfyyusuan.classify=xgfenlei;
+    	    xgxinfyyusuan.prjDetail=xgmingxi;
+    	    xgxinfyyusuan.department=xgbumen;
+    	    xgxinfyyusuan.costAmount=xgmoney;
+    	    xgxinfyyusuan.cbDesc=xgdesc;
+    	    xgfyyusuan.push(xgxinfyyusuan);
+    	    //console.log(fyyusuan)
+    	})
+    	//xg人工费用
+    	$("#xgrgyusuan tbody").find("tr").each(function(){
+    		var data2 = $(this).children();
+    		var xgleixing = data2.eq(0).text();
+    	    var xgximing = data2.eq(1).text();
+    	    var xgjiaosexishu = data2.eq(2).text();
+    	    var xgdays = data2.eq(3).text();
+    	    var xgdesc2 = data2.eq(4).text();
+    	    
+    	    var xgxinrgyusuan={
+    	    		aId:undefined,
+    	    		prjMemberType:undefined,
+    	    		aName:undefined,
+    	    		roleCoefficient:undefined,
+    	    		estimatedDays:undefined,
+    	    		aDesc:undefined
+    	    }
+    	    xgxinrgyusuan.aId=null;
+    	    xgxinrgyusuan.prjMemberType=xgleixing;
+    	    xgxinrgyusuan.aName=xgximing;
+    	    xgxinrgyusuan.roleCoefficient=xgjiaosexishu;
+    	    xgxinrgyusuan.estimatedDays=xgdays;
+    	    xgxinrgyusuan.aDesc=xgdesc2;
+    	    xgrgyusuan.push(xgxinrgyusuan);
+    	    //console.log(rgyusuan)
+    	})
+    	if(xgfyyusuan.length!=0 && xgrgyusuan.length!=0){
+    		var xgprjName=$("#xgprjName").val();
+    		var xgrenwudan=$("#xgrenwudan").val();
+    		var xgjiafangdanwei=$("#xgjiafangdanwei").val();
+    		var xgriqi=$("#xgyear").val();
+    		var xgshenbaoren=$("#xgshenbaoren").val();
+    		var xgbfNo=$("#xgbfNo").val();
+    		var edit_department=$("#edit_department").val();
+    		if(xgrenwudan.trim()==''){
+    			toastr.error("任务单号为空")
+    			return;
+    		}
+    		if(xgriqi==''){
+    			toastr.error("预算编制为空")
+    			return;
+    		}
+    		if(xgshenbaoren.trim()==''){
+    			toastr.error("申报人为空")
+    			return;
+    		}
+    		
+    		var xgxinyusuandan={
+    				bfId:undefined,
+    				prjId:undefined,
+    				taskNo:undefined,
+    				prjUnit:undefined,
+    				budgetDate:undefined,
+    				bfNo:undefined,
+    				declarer:undefined,
+    				costBudget:undefined,
+    				artificialBudget:undefined,
+    				allCost:0,
+    				department:undefined,
+    		}
+    		xgxinyusuandan.bfId=id;
+    		xgxinyusuandan.prjId=xgprjName;
+    		xgxinyusuandan.taskNo=xgrenwudan;
+    		xgxinyusuandan.prjUnit=xgjiafangdanwei;
+    		xgxinyusuandan.budgetDate=xgriqi;
+    		xgxinyusuandan.bfNo=xgbfNo;
+    		xgxinyusuandan.declarer=xgshenbaoren;
+    		xgxinyusuandan.costBudget=xgfyyusuan;
+    		xgxinyusuandan.artificialBudget=xgrgyusuan;
+    		xgxinyusuandan.allCost=allMoney;
+    		xgxinyusuandan.department=edit_department;
+    		xgyusuandan.push(xgxinyusuandan);
+    		//console.log(xgyusuandan)
+    		
+    		$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/budge/updateBudgetById',
+	            dataType: 'json',
+	            contentType: "application/json", 
+	            data:JSON.stringify(xgyusuandan),
+	            success: function (json) {
+	            	//console.log(json)
+	            	if(json==0){
+	            		toastr.error("填报失败")
+	            	}else{
+	            		toastr.success("填报成功")
+		            	 //$('#mainContent').DataTable().row.add().draw(false);     //新增行立即显示
+	            	}
+	            }
+	        });
+    	}else{
+    		toastr.error("费用预算或人工预算为空")
+    	}
+	}
+	//修改保存
+	function liuchengGaibianBC(){
 		var xgyusuandan= new Array();
     	var xgfyyusuan= new Array();
     	var xgrgyusuan=new Array();
@@ -1964,7 +1995,7 @@
 	}
 	
 	//修改提交
-	function checkSubmit(){
+	function liuchengGaibianTJ(){
 		var xgyusuandan= new Array();
     	var xgfyyusuan= new Array();
     	var xgrgyusuan=new Array();
@@ -2084,7 +2115,7 @@
 	            		toastr.success("填报成功")
 	            		//$('#change').modal('hide');
 	            		quxiao2();
-						initTable();
+						//initTable();
 		            	 //$('#mainContent').DataTable().row.add().draw(false);     //新增行立即显示
 	            	}
 	            }
