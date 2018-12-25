@@ -2743,8 +2743,106 @@
 	            	workContent:xggaikuang,
 	            },
 	            success: function (json) {
-	            	console.log(json);
-	            	if(json==0){
+	            	//console.log(json);
+	            	if(json=='0'){
+		        		toastr.error("保存失败");
+		        	}else{
+		        		$("#change").modal("hide");
+		        		$("#xgcailiaobiaoDiv table").each(function(){
+							//保存部门采购金额
+							$(this).find("thead").eq(0).find("tr").eq(0).each(function(){
+								var xgid=$(this).find("td").eq(1).attr("dataId");
+								var xgbumenMoney=$(this).find("td").eq(3).text();
+								$.ajax({
+							        type: 'POST',
+							        url: getContextPath()+'/cgcontract/updateDepartmentMoney',
+							        dataType: 'json',
+							        data: {
+							        	id:xgid,
+							        	price:xgbumenMoney
+							        },
+							        success: function (json) {
+							        	//console.log(json)
+							        	if(json=0){
+							        		toastr.error("部门采购金额添加失败")
+							        	}
+							        }
+							    });
+							})
+							//保存材料单价
+							$(this).find("tbody").find("tr").each(function(){
+								var xgmdlId=$(this).eq(0).attr("dataId")
+								var xgclname=$(this).find("td").eq(0).find("input").val();
+								var xgcltype=$(this).find("td").eq(1).find("input").val();
+								var xgclxinghao=$(this).find("td").eq(2).find("input").val();
+								var xgdanwei=$(this).find("td").eq(3).find("input").val();
+								var xgdanjia=$(this).find("td").eq(5).find("input").val();
+								var xgnum=$(this).find("td").eq(4).find("input").val();
+								var xgxm=$(this).find("td").eq(7).find("option:selected").val();
+								var xggs=$(this).find("td").eq(8).find("option:selected").val();
+								var xgbeizhu=$(this).find("td").eq(9).find("input").val();
+								$.ajax({
+							        type: 'POST',
+							        url: getContextPath()+'/cgcontract/updateMaterial',
+							        dataType: 'json',
+							        data: {
+							        	mdlId:xgmdlId,
+							        	materialName:xgclname,
+							        	materialType:xgcltype,
+							        	modeType:xgclxinghao,
+							        	buyCompany:xgdanwei,
+							        	price:xgdanjia,
+							        	num:xgnum,
+							        	provideCompany:xgxm,
+							        	sureMaterialMode:xggs,
+							        	infos:xgbeizhu
+							        },
+							        success: function (json) {
+							        	//console.log(json)
+							        	if(json=0){
+							        		toastr.error("材料单价修改失败")
+							        	}
+							        }
+							    });
+							})
+						})
+						
+		        		lianjie=json.url;
+		            	if(json.receiver!=null&&json.receiver.length>=1){
+			        		  $("#tijiaogei").modal('show');
+			        		  $("#tijiaoren tbody").empty("");
+			        		  for(var i=0;i<json.receiver.length;i++){
+			        			  $("#tijiaoren tbody").append('<tr><td>'
+			        					  +'<input type="radio" style="width:20px;height:20px;" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+			        					  +'</td><td>'
+			        					  +json.receiver[i].omName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].dutyName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].uName
+			        					  +'</td></tr>');
+			        		  }
+			        	  }else if(json.receiver.length==1){
+			        		  $.ajax({
+			        	          type: 'POST',
+			        	          url: getContextPath()+'/task/addTask4',
+			        	          dataType: 'json',
+			        	          data:{
+			        	        	  url:json.url,
+			        	        	  userId:json.receiver.userId,
+			        	        	  uName:json.receiver.uName,
+			        	        	  omName:json.receiver.omName,
+			        	        	  dutyName:json.receiver.dutyName,
+			        	        	  omId:json.receiver.omId,
+			        	        	  dutyId:json.receiver.dutyId
+			        	          },
+			        	          success: function (json) {
+			        	        	  toastr.success('提交成功');
+			        	          }
+			        	      }); 
+			        	  }
+		        	}
+	            	/* if(json==0){
 						toastr.error("修改失败")
 					}else if(json>0){
 						//location.reload([true]);
@@ -2811,7 +2909,7 @@
 							})
 						})
 						
-					}
+					} */
 	            }
 	        };
 			$("#edit_form").ajaxSubmit(options);

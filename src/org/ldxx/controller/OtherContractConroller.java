@@ -260,10 +260,10 @@ public class OtherContractConroller {
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
-			currentFlow.setTitle(other.getContractName());
+			currentFlow.setTitle(other.getContractName()+"其他合同变更");
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
-			currentFlow.setMemo(other.getContractName()+"流程发起");
+			currentFlow.setMemo(other.getContractName()+"其他合同变更流程发起");
 			currentFlow.setUrl("shengchanguanliLook/OtherContract.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
@@ -342,10 +342,10 @@ public class OtherContractConroller {
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
-			currentFlow.setTitle(other.getContractName());
+			currentFlow.setTitle(other.getContractName()+"其他合同变更");
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());
-			currentFlow.setMemo(other.getContractName()+"流程发起");
+			currentFlow.setMemo(other.getContractName()+"其他合同变更流程发起");
 			currentFlow.setUrl("shengchanguanliLook/OtherContract.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
