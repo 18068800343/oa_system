@@ -52,7 +52,7 @@
         <div class="tab-content">
               <!-- Modal -->
             <form class="form-inline">
-                                    <table class="table table-bordered table-condensed">
+                                    <table class="table table-bordered table-condensed" id="editTable">
                                         <tr>   
                                             <td style="width:15%;">承接合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                             <td>
@@ -349,14 +349,15 @@
     	initCj();
     	initbumen();
     	
-    	 function GetQueryString(name){
-    	        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-    	        var r = window.location.search.substr(1).match(reg);
-    	        if(r!=null)return  unescape(r[2]); return null;
-    	   }
-    	   // 调用方法
-    	   	id=GetQueryString("");
+    	 
     });
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
    
     var table1=$('#fb_table').dataTable({
         "deferRender": true,
@@ -1274,26 +1275,85 @@
     	});
     }
     
-    function initTable(obj){
-    	var tr=$(obj).parents("tr");
-    	var data=$("#mainContent").DataTable().row(tr).data();
+    function initTable(){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/fbScore/selectFbContractDoAppointScoreById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	data=json;
+	        	$("#new_cj_name").val(data.cjContractName);
+	        	$("#new_cj_no").val(data.cjContractCode);
+	        	$("#new_prj_no").val(data.taskListCode);
+	        	$("#new_fb_name").val(data.fbContractName);
+	        	$("#new_fb_no").val(data.fbNo);
+	        	$("#new_fb_department").val(data.fbDepartment);
+	        	$("#leader").val(data.actualChargePerson);
+	        	var pj1=data.scoreMaterialSituation;
+	    		var td_dom=$("#editTable").find("tbody tr").eq(4).find("td").eq(2).find("input");
+	    		$(td_dom).each(function(){
+	    			var value=$(this).val();
+	    			if(pj1==value){
+	    				$(this).prop("checked","checked");
+	    			}
+	    		}) 
+	    		var pj2=data.scoreManageAbility;
+	    		var td_dom=$("#editTable").find("tbody tr").eq(5).find("td").eq(1).find("input");
+	    		$(td_dom).each(function(){
+	    			var value=$(this).val();
+	    			if(pj2==value){
+	    				$(this).prop("checked","checked");
+	    			}
+	    		})
+	    		var pj3=data.scoreQualityControl;
+	    		var td_dom=$("#editTable").find("tbody tr").eq(6).find("td").eq(1).find("input");
+	    		$(td_dom).each(function(){
+	    			var value=$(this).val();
+	    			if(pj3==value){
+	    				$(this).prop("checked","checked");
+	    			}
+	    		})
+	    		var pj4=data.scoreCompanyReputation;
+	    		var td_dom=$("#editTable").find("tbody tr").eq(7).find("td").eq(1).find("input");
+	    		$(td_dom).each(function(){
+	    			var value=$(this).val();
+	    			if(pj4==value){
+	    				$(this).prop("checked","checked");
+	    			}
+	    		})
+	    		var pj5=data.scoreJinduControl;
+	    		var td_dom=$("#editTable").find("tbody tr").eq(8).find("td").eq(1).find("input");
+	    		$(td_dom).each(function(){
+	    			var value=$(this).val();
+	    			if(pj5==value){
+	    				$(this).prop("checked","checked");
+	    			}
+	    		})
+	    		var pj6=data.safetyCivilizationEnvironment;
+	    		var td_dom=$("#editTable").find("tbody tr").eq(9).find("td").eq(1).find("input");
+	    		$(td_dom).each(function(){
+	    			var value=$(this).val();
+	    			if(pj6==value){
+	    				$(this).prop("checked","checked");
+	    			}
+	    		})
+	    		var pj7=data.allScore;
+	    		var td_dom=$("#editTable").find("tbody tr").eq(10).find("td").eq(1).find("input");
+	    		$(td_dom).each(function(){
+	    			var value=$(this).val();
+	    			if(pj7==value){
+	    				$(this).prop("checked","checked");
+	    			}
+	    		})
+	    		
+	        }
+	    });
     	
-    	$("#look_cj_name").text(data.cjContractName);
-    	$("#look_cj_no").text(data.cjContractCode);
-    	$("#look_prj_no").text(data.taskListCode);
-    	$("#look_fb_name").text(data.fbContractName);
-    	$("#look_fb_no").text(data.fbContractCode);
-    	$("#look_fb_department").text(data.fbDepartment);
-    	$("#look_leader").text(data.actualChargePerson);
-    	$("#score").text(data.scoreMaterialSituation);
-    	$("#score2").text(data.scoreManageAbility);
-    	$("#score3").text(data.scoreQualityControl);
-    	$("#score4").text(data.scoreCompanyReputation);
-    	$("#score5").text(data.scoreJinduControl);
-    	$("#score6").text(data.safetyCivilizationEnvironment);
-    	$("#score7").text(data.allScore);
     	
-    	$("#allMsg1").modal("show");
     }
     
     function look2(obj){
