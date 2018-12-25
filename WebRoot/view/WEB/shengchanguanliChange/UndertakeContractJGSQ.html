@@ -542,7 +542,7 @@
         initbumen();
         initCooperator();
         initSelect();
-        initTable2();
+        initTable();
 	});
 
     var table2=$('#mainContent2').dataTable({
@@ -748,6 +748,34 @@
     	}else{
     		toastr.error("协办部门已达上限")
     	}
+    }
+  //回显协办部门
+    function xiebanhuixian(obj1,obj2,obj3){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            async:false,
+            data: {
+
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	$("#xgxieban1").empty();
+            	$("#xgxieban2").empty();
+            	$("#xgxieban3").empty();
+                for(var i=0;i<json.length;i++){
+                	$("#xgxieban1").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#xgxieban2").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#xgxieban3").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                }
+                $("#xgxieban1").val(obj1);
+                $("#xgxieban2").val(obj2);
+                $("#xgxieban3").val(obj3);
+            }
+		});
     }
   
   //增加部门
@@ -982,78 +1010,133 @@
   	   }
   	   // 调用方法
   	   	id=GetQueryString("prjId");
-  		
-  		function initTable(obj){
-  			
-  			$("#cj_name2").text(data.cjContractName);
-  			$("#cj_no2").text(data.cjContractCode);
-  			$("#prj_no2").text(data.prjCode);
-  			$("#jiafang2").text(data.jiaFang);
-  			$("#contract_money2").text(data.contractMoney);
-  			$("#end_money2").text(data.endMoney);
-  			$("#all_money2").text(data.allReceieveMoney);
-  			$("#work_info2").text(data.workText);
-  			$("#prj_leader2").text(data.prjChargeMan);
-  			$("#rating").text(data.rating);
-  			$("#prj_manager2").text(data.prjManager);//项目经理
-  	  		$("#deputy1_prj_manager2").text(data.deputyPrjManager1);//项目副经理1
-  	  		$("#deputy2_prj_manager2").text(data.deputyPrjManager2);//项目副经理2
-  	  		$("#prj_general2").text(data.prjGeneral);//项目总工
-  	  		$("#prj_duration2").text(data.prjDuration);//项目工期
-  	  		$("#prj_grade2").text(data.prjGrade);//公路等级
-  	  		$("#cj_contract_end_time").text(data.cjContractEndTime);
-  			$("#department2 tbody").html('');
-  			$("#department2 tbody").append("<tr><td>主办部门</td><td>"+data.name+"</td><td>金额</td><td>"+data.mainDepartmentMoney+"</td></tr>")
-  			if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
-  				$("#department2 tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>金额</td><td>"+data.assistDepartment1Money+"</td></tr>")
-  			}
-  			if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
-  				$("#department2 tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>金额</td><td>"+data.assistDepartment2Money+"</td></tr>")
-  			}
-  			if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
-  				$("#department2 tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>金额</td><td>"+data.assistDepartment3Money+"</td></tr>")
-  			}
-  			
+  		console.log(id)
+  		function initTable(){
   			$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/work/selectDepartmentAndPerson',
-                dataType: 'json',
-                data: {
-                	id:data.cwId
-                },
-                success: function (json) {
-                	var enterprise=json.enterprise;
-                	var accessory=json.accessory;
-                	$("#look_person2 tbody").html('');
-                	$("#look_accessory2 tbody").html('');
-                	$("#look_accessory21 tbody").html('');
-                	for(var i=0;i<enterprise.length;i++){
-                		$("#look_person2 tbody").append("<tr><td>"+enterprise[i].eMan+"</td><td>"+enterprise[i].eTel+"</td></tr>")
-                	}
-					for(var j=0;j<accessory.length;j++){
-						//$("#look_accessory2 tbody").append("<tr><td>附件"+(j+1)+"</td><td>"+accessory[j].acName+"</td><td><button type='button' data="+accessory[j].acUrl+" class='btn btn-primary' onclick='downLoadFile(this)'>下载附件</button></td></tr>")
-						if(accessory[j].aType=="合同文本"){
-			            	   $("#look_accessory2 tbody").append("<tr>"+
-		      	   										"<td>附件</td>"+
-								            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
-								            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
-								            	    "</tr>");
-		            	   }
-		            	 if(accessory[j].aType=="法律顾问签字"){
-			            	   $("#look_accessory21 tbody").append("<tr>"+
-		      	   										"<td>附件</td>"+
-								            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
-								            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
-								            	    "</tr>");
-		            	   }
-                	}
-                }
-      		});
+  		        type: 'POST',
+  		        url: getContextPath()+'/work/selectContractWorkByid',
+  		        dataType: 'json',
+  		        data:{
+  		        	id:id
+  		        },
+  		        success: function (json) {
+  		        	console.log(json)
+  		        	data=json;
+  		        	$("#contract_name2").val(data.cjContractName);
+  		  			$("#contract_no2").val(data.cjContractCode);
+  		  			$("#prj_no").val(data.prjCode);
+  		  			$("#jiafang2 :selected").val(data.jiaFang);
+  		  			$("#contract_money2").val(data.contractMoney);
+  		  			$("#end_money2").val(data.endMoney);
+  		  			$("#all_money2").val(data.allReceieveMoney);
+  		  			$("#work_info2").val(data.workText);
+  		  			$("#prj_leader2  :selected").val(data.prjChargeMan);
+  		  			$("#rating").val(data.rating);
+  		  			$("#prj_manager2  :selected").val(data.prjManager);//项目经理
+  		  	  		$("#deputy1_prj_manager2  :selected").val(data.deputyPrjManager1);//项目副经理1
+  		  	  		$("#deputy2_prj_manager2  :selected").val(data.deputyPrjManager2);//项目副经理2
+  		  	  		$("#prj_general2  :selected").val(data.prjGeneral);//项目总工
+  		  	  		$("#prj_duration2").val(data.prjDuration);//项目工期
+  		  	  		$("#prj_grade2  :selected").val(data.prjGrade);//公路等级
+  		  	  		$("#cj_contract_end_time").val(data.cjContractEndTime);
+  		  			/* $("#department2 tbody").html('');
+  		  			$("#department2 tbody").append("<tr><td>主办部门</td><td>"+data.name+"</td><td>金额</td><td>"+data.mainDepartmentMoney+"</td></tr>")
+  		  			if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
+  		  				$("#department2 tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>金额</td><td>"+data.assistDepartment1Money+"</td></tr>")
+  		  			}
+  		  			if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
+  		  				$("#department2 tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>金额</td><td>"+data.assistDepartment2Money+"</td></tr>")
+  		  			}
+  		  			if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
+  		  				$("#department2 tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>金额</td><td>"+data.assistDepartment3Money+"</td></tr>")
+  		  			} */
+  		  			
+  		  		if(json.assistDepartment1!=null&&json.assistDepartment1!=""){
+            		$("#xieban2 tbody").append("<tr class='xieban'><td>"+"协办部门1"+"</td><td>"
+        	                +'<form class="form-inline">'
+        	                    +'<select class="form-control" id="xgxieban21" style="width:150px;">'
+        	                    +'</select>'
+        	                    +'<input type="text" id="xgxiebanMoney21" class="form-control" style="width:150px;" placeholder="金额">'
+        	                	+"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
+        	                +'</form>'
+        	                +"</td></tr>");
+            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
+            		$("#xgxiebanMoney21").val(json.assistDepartment1Money);
+            	}
+            	if(json.assistDepartment2!=null&&json.assistDepartment2!=""){
+            		$("#xieban2 tbody").append("<tr class='xieban'><td>"+"协办部门2"+"</td><td>"
+        	                +'<form class="form-inline">'
+        	                    +'<select class="form-control" id="xgxieban22" style="width:150px;">'
+        	                    +'</select>'
+        	                    +'<input type="text" id="xgxiebanMoney22" class="form-control" style="width:150px;" placeholder="金额">'
+        	                	+"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
+        	                +'</form>'
+        	                +"</td></tr>");
+            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
+            		$("#xgxiebanMoney22").val(json.assistDepartment2Money);
+            	}
+            	if(json.assistDepartment3!=null&&json.assistDepartment3!=""){
+            		$("#xieban2 tbody").append("<tr class='xieban'><td>协办部门3</td><td>"
+        	                +'<form class="form-inline">'
+        	                    +'<select class="form-control" id="xgxieban23" style="width:150px;">'
+        	                    +'</select>'
+        	                    +'<input type="text" id="xgxiebanMoney23" class="form-control" style="width:150px;" placeholder="金额">'
+        	                	+"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
+        	                +'</form>'
+        	                +"</td></tr>");
+            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
+            		$("#xgxiebanMoney23").val(json.assistDepartment3Money);
+            	}
+            	
+	  		  		$.ajax({
+	  	                type: 'POST',
+	  	                url: getContextPath()+'/work/selectDepartmentAndPerson',
+	  	                dataType: 'json',
+	  	                data: {
+	  	                	id:data.cwId
+	  	                },
+	  	                success: function (json) {
+	  	                	var enterprise=json.enterprise;
+	  	                	var accessory=json.accessory;
+	  	                	$("#person_table2 tbody").html('');
+	  	                	$("#new_accessory2 tbody").html('');
+	  	                	$("#new_accessory21 tbody").html('');
+	  	                	for(var i=0;i<enterprise.length;i++){
+	  	                		$("#person_table2 tbody").append("<tr><td>"+enterprise[i].eMan+"</td><td>"+enterprise[i].eTel+"</td></tr>")
+	  	                	}
+	  						for(var j=0;j<accessory.length;j++){
+	  							//$("#look_accessory2 tbody").append("<tr><td>附件"+(j+1)+"</td><td>"+accessory[j].acName+"</td><td><button type='button' data="+accessory[j].acUrl+" class='btn btn-primary' onclick='downLoadFile(this)'>下载附件</button></td></tr>")
+	  							if(accessory[j].aType=="合同文本"){
+	  				            	   $("#new_accessory2 tbody").append("<tr>"+
+	  			      	   										"<td>附件</td>"+
+	  									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
+	  									            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
+	  									            	    "</tr>");
+	  			            	   }
+	  			            	 if(accessory[j].aType=="法律顾问签字"){
+	  				            	   $("#new_accessory21 tbody").append("<tr>"+
+	  			      	   										"<td>附件</td>"+
+	  									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
+	  									            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
+	  									            	    "</tr>");
+	  			            	   }
+	  	                	}
+	  	                }
+	  	      		});
+  		  		
+  		        }
+  		    });
+  			
+  			
+  			
   			
   		}
   		
 
-  		
+  		function deleteXieBan(obj){
+  	    	var tr=$(obj).parent().parent().parent();
+  	    	$(tr).remove();
+  	    }
   		function downLoadFile(obj){
   			var filePath=$(obj).attr("data");
   			var fileName=$(obj).parents("tr").find("td").eq(1).text();
