@@ -72,6 +72,7 @@ public class BudgetFpplicationFormController {
 			currentFlow.setSdtofnode(new Date());
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getuName());
@@ -120,6 +121,7 @@ public class BudgetFpplicationFormController {
 			currentFlow.setSdtofnode(new Date());
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getUsername());
@@ -142,12 +144,47 @@ public class BudgetFpplicationFormController {
 	
 	@RequestMapping("/updateBudgeSave")
 	@ResponseBody
-	public Map<String,Object> updateBudgeSave(@RequestBody List<BudgetFpplicationForm> budges){
+	public Map<String,Object> updateBudgeSave(@RequestBody List<BudgetFpplicationForm> budges,HttpSession session){
 		Map<String,Object> map = new HashMap<>();
 		BudgetFpplicationForm budge = budges.get(0);
 		String newId=new TimeUUID().getTimeUUID();
 		budge.setBfId(newId);
 		int i=bservice.saveBudge(budge);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(budge.getDepartment());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(budge.getPrjId()+"预算变更");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());
+			currentFlow.setMemo(budge.getPrjId()+"预算变更");
+			currentFlow.setUrl("shengchanguanliLook/BudgetManagement.html-"+newId);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		map.put("result", i);
 		map.put("budge", budge);
 		return map;
@@ -155,15 +192,48 @@ public class BudgetFpplicationFormController {
 	
 	@RequestMapping("/updateBudgeSubmit")
 	@ResponseBody
-	public Map<String,Object> updateBudgeSubmit(@RequestBody List<BudgetFpplicationForm> budges,HttpSession session){
+	public String updateBudgeSubmit(@RequestBody List<BudgetFpplicationForm> budges,HttpSession session){
 		Map<String,Object> map = new HashMap<>();
 		BudgetFpplicationForm budge = budges.get(0);
 		String newId=new TimeUUID().getTimeUUID();
 		budge.setBfId(newId);
 		int i=bservice.saveBudge(budge);
-		map.put("result", i);
-		map.put("budge", budge);
-		return map;
+		String string = i+"";
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(budge.getDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(budge.getPrjId()+"预算变更");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());
+			currentFlow.setMemo(budge.getPrjId()+"预算变更流程发起");
+			currentFlow.setUrl("shengchanguanliLook/BudgetManagement.html-"+newId);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getUsername());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/selectBudgeByStatus")
@@ -208,6 +278,14 @@ public class BudgetFpplicationFormController {
 	@ResponseBody
 	public int updateHistoryById(String id){
 		int i=bservice.updateHistoryById(id);
+		return i;
+	}
+	
+	@RequestMapping("/updateBudgetById")
+	@ResponseBody
+	public int updateBudgetById(@RequestBody List<BudgetFpplicationForm> budge){
+		BudgetFpplicationForm b=budge.get(0);
+		int i=bservice.updateBudge(b);
 		return i;
 	}
 }

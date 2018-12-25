@@ -60,6 +60,7 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 		return i;
 	}
 
+	@Transactional
 	@Override
 	public int updateBudge(BudgetFpplicationForm budge) {
 		int i=cdao.deleteCostBudgetById(budge.getBfId());
@@ -140,4 +141,5 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 		}
 		return i;
 	}
+
 }
