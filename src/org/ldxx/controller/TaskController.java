@@ -311,7 +311,7 @@ public class TaskController {
 			e.printStackTrace();
 			return "fail";
 		}
-		return "1";
+		return string;
 	}
 	
 	@RequestMapping("/addTask5")/*任务单保存*/
