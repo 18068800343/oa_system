@@ -119,10 +119,6 @@ public class OtherContractServiceImpl implements OtherContractService{
 	public int updateOtherContractById(OtherContract other) {
 		int i = dao.updateOtherContract(other);
 		if(i>0){
-			List<Accessory> acc = adao.selectAccessoryById(other.getoId());
-			if(acc!=null){
-				i = adao.deleteAccessory(other.getoId());
-			}
 			List<Accessory> accessory=other.getAccessory();
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);

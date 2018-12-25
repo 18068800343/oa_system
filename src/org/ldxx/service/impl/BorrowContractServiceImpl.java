@@ -87,10 +87,6 @@ public class BorrowContractServiceImpl implements BorrowContractService {
 					i=payDao.updateGenerationAdvancesMoney(bc.getThisBorrowMoney(),pay.getPayId());
 				}
 			}
-			List<Accessory> list = adao.selectAccessoryById(bc.getbId());
-			if(list!=null&&list.size()>0){
-				i = adao.deleteAccessory(bc.getbId());
-			}
 			List<Accessory> accessory = bc.getAccessory();
 			if(accessory!=null&&accessory.size()>0){
 				i = adao.addAccessory(accessory);

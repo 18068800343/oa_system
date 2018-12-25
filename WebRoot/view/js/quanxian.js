@@ -7,7 +7,7 @@
 		success:function(json){
 			if(json!=null &&json!=""){
 				var arr = json.uPermissions.split(',');
-				console.log(arr);
+				//console.log(arr);
 				for(var i=0;i<arr.length;i++){
 					var arr2 = arr[i].replace("+","");
 					$("."+arr2+"").show();

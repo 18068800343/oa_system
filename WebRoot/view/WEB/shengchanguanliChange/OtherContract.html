@@ -717,10 +717,10 @@
     }
     
     function editAccessory(){
-    	$("#edit_accessory tbody").append("<tr><td>新附件</td><td><input type='file' name='file' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeAccessory(this)'>移除附件</button></td></tr>")
+    	$("#edit_accessory tbody").append("<tr><td>新附件</td><td><input style='width:70%;' type='file' name='file' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeAccessory(this)'>移除附件</button></td></tr>")
     }
     function editAccessory2(){
-    	$("#edit_accessory2 tbody").append("<tr><td>新附件</td><td><input type='file' name='file2' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeAccessory(this)'>移除附件</button></td></tr>")
+    	$("#edit_accessory2 tbody").append("<tr><td>新附件</td><td><input style='width:70%;' type='file' name='file2' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeAccessory(this)'>移除附件</button></td></tr>")
     }
     
     function removeAccessory(obj){
@@ -922,6 +922,7 @@
     
     
    console.log(id)
+   var edit_id;
     function initTable(){
     	$.ajax({
 	        type: 'POST',
@@ -933,7 +934,7 @@
 	        success: function (json) {
 	        	console.log(json)
 	        	data=json;
-	      		
+	        	edit_id=data.oId;
 	        	$("#edit_contract_no").val(data.contractCode);
 	        	$("#edit_contract_name").val(data.contractName);
 	        	$("#edit_organization_jia").val(data.contractNameJia);
@@ -946,7 +947,7 @@
 	        	$("#edit_year").val(data.abutmentSignedTime);
 	        	$.ajax({
 	    	        type: 'POST',
-	    	        url: getContextPath()+'/announcement/selectAccessoryById',
+	    	        url: getContextPath()+'/accessory/selectAccessoryById',
 	    	        dataType: 'json',
 	    	        data: {
 	    	           id:id
@@ -959,14 +960,14 @@
 	    		          		$("#edit_accessory tbody").append("<tr>"+
 	    								"<td>附件"+(i+1)+"</td>"+
 	    			         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-	    			         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+	    			         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
 	    			         	    "</tr>")
 	    	        		}
 	    	          		if(json[i].aType=="法律顾问签字"){
 	    		            	   $("#edit_accessory2 tbody").append("<tr>"+
 	    									"<td>附件"+(i+1)+"</td>"+
 	    				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-	    				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+	    				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
 	    				         	    "</tr>");
 	    	            	}
 	    	        	}
@@ -975,48 +976,34 @@
 	        	
 	        }
 	    });
-  		
-    	
-    	/* $.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/announcement/selectAccessoryById',
-	        dataType: 'json',
-	        data: {
-	           id:edit_id
-	        },
-	        success: function (json) {
-	        	$("#edit_accessory tbody").html('');
-	        	for(var i=0;i<json.length;i++){
-	          		$("#edit_accessory tbody").append("<tr><td>附件"+(i+1)+"</td><td><input type='text' style='width:60%;' value="+json[i].acName+" class='form-control' disabled></td><td style='width:150px;'><button type='button' class='btn btn-primary' data="+json[i].aId+" data2="+json[i].acName+" onclick='delteFile(this)'>删除附件</button></td></tr>")
-	        	}
-	        }
-    	}); */
-    	
     }
     
-    function delteFile(obj){
-    	var id=$(obj).attr("data");
-  		var name=$(obj).attr("data2");
-  		$.ajax({
+    function deletefile(obj){
+    	var id=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var url=$(obj).attr("data2");
+		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
 	        dataType: 'json',
 	        data: {
-	           aId:id,
-	           acName:name
+	        	aId:id,
+	        	acName:name,
+	        	acUrl:url
 	        },
 	        success: function (json) {
-	        	if(json>0){
-	        		$(obj).parent().parent().remove();
-	        		toastr.success("删除成功");
-	        	}else{
+	        	if(json==0){
 	        		toastr.error("删除失败");
+	        	}else{
+	        		toastr.success("删除成功");
+	        		$(obj).parent().parent().remove();
+	        		//$('#change').modal('hide');
 	        	}
 	        }
-  		});
+		});
     }
     
-    function liuchengGaibianBC(){
+    function liuchengGaibian(){
     	var contractCode=$("#edit_contract_no").val();
     	var contractName=$("#edit_contract_name").val();
     	var contractNameJia=$("#edit_organization_jia").val();
@@ -1030,7 +1017,7 @@
     	
     	var options={
     			type: 'POST',
-                url: getContextPath()+'/other/updateOtherContractBySave',
+                url: getContextPath()+'/other/updateOtherContractById',
                 dataType: 'json',
                 data: {
 					oId:edit_id,     	

@@ -199,10 +199,6 @@ public class CgContractServiceImpl implements CgContractService {
 					i=payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
 				}
 			}
-			List<Accessory> list = adao.selectAccessoryById(cg.getCgId());
-			if(list!=null&& list.size()>0){
-				i=adao.deleteAccessory(cg.getCgId());
-			}
 			List<Accessory> accessory=cg.getAccessory();
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);

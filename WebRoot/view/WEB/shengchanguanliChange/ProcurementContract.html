@@ -309,7 +309,7 @@
                                 	<!-- <input type="text" id="xgfbhetong" class="form-control" style="width:60%;" disabled>
                                 	<button type="button" class="btn btn-primary weui-uploader__input" data-toggle="modal" data-target="#xgfbcontract">关联分包合同</button> -->
                                 	<input type="text" class="form-control" id="xgfbhetong" disabled style="width:60%;">
-                                    <button type="button" id="xgchooseFb" class="btn btn-primary weui-uploader__input" onclick="xgchooseFb()">关联分包</button>
+                                    <button type="button" id="xgchooseFbbutton" class="btn btn-primary weui-uploader__input" onclick="xgchooseFb()">关联分包</button>
                                 </td>
                             </tr>
                             <tr>
@@ -1993,7 +1993,7 @@
 		if(isdaigou=="是"){
 			$("#xgdaigouType").html("");
 			$("#xgdaigouType").append("<option value='无息代购'>无息代购</option><option value='有息代购'>有息代购</option><option value='对方打款'>对方打款</option>")
-			$("#xgchooseFb").attr("disabled",false);
+			$("#xgchooseFbbutton").attr("disabled",false);
 			$("#xgdaigouType").attr("disabled",false);
 			$("#xgdaigouMoney").attr("disabled",false);
 		}else if(isdaigou=="否"){
@@ -2001,7 +2001,7 @@
 			$("#xgfbhetong").val("");
 			$("#xgdaigouMoney").val("0");
 			$("#xgdaigouType").append("<option value='无'>无</option>")
-			$("#xgchooseFb").attr("disabled",true);
+			$("#xgchooseFbbutton").attr("disabled",true);
 			$("#xgdaigouType").attr("disabled",true);
 			$("#xgdaigouMoney").attr("disabled",true);
 		}
@@ -2127,29 +2127,29 @@
 	    		  		});
 	    		  		$.ajax({
 	    					type:"post",
-	    					url:getContextPath()+"/cgcontract/selectAccessoryById",
+	    					url:getContextPath()+"/accessory/selectAccessoryById",
 	    					dataType:"json",
 	    					async:false,
 	    					data:{
 	    						id:editId,
 	    					},
 	    					success:function(json){
-	    						console.log(json);
+	    						//console.log(json);
 	    						$("#edit_accessory tbody").empty();
 	    						$("#edit_accessory1 tbody").empty();
 	    			            for(var i=0;i<json.length;i++){
 	    			            	   if(json[i].aType=="采购合同文本"){
 	    				            	   $("#edit_accessory tbody").append("<tr>"+
 	    			      	   										"<td>采购合同文本</td>"+
-	    									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
-	    									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+	    									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+	    									            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
 	    									            	    "</tr>");
 	    			            	   }
 	    			            	   if(json[i].aType=="法律顾问签字"){
 	    				            	   $("#edit_accessory1 tbody").append("<tr>"+
 	    			      	   										"<td>法律顾问签字</td>"+
-	    									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
-	    									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+	    									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+	    									            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
 	    									            	    "</tr>");
 	    			            	   }
 	    			               }
@@ -2181,26 +2181,6 @@
 	        }
 	    });
 		
-		/* $.ajax({
-			type:"post",
-			url:getContextPath()+"/cgcontract/selectAccessoryById",
-			dataType:"json",
-			async:false,
-			data:{
-				id:editId,
-			},
-			success:function(json){
-				//console.log(json);
-				$("#edit_accessory tbody").empty();
-	               for(var i=0;i<json.length;i++){
-	            	   $("#edit_accessory tbody").append("<tr>"+
-	            	   														"<td>合同文本"+(i+1)+"</td>"+
-													            	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-													            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
-													            	    "</tr>");
-	               }
-			}
-		}) */
 	}
 	
 	
@@ -2280,7 +2260,7 @@
 		
 		var options={
 	            type: 'POST',
-	            url: getContextPath()+'/cgcontract/updateCgContractSave',
+	            url: getContextPath()+'/cgcontract/updateCgContractById',
 	            dataType: 'json',
 	            data: {
 	            	cgId:editId,
@@ -3077,10 +3057,10 @@
 	}
 	
 	function addFile2(){
-		$("#edit_accessory tbody").append("<tr><td>新附件</td><td><input type='file' name='file' id='xgfile' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+		$("#edit_accessory tbody").append("<tr><td>新附件</td><td colspan='2'><input style='width:70%;' type='file' name='file' id='xgfile' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
 	}
 	function addFile3(){
-		$("#edit_accessory1 tbody").append("<tr><td>新附件</td><td><input type='file' name='file1' id='xgfile1' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+		$("#edit_accessory1 tbody").append("<tr><td>新附件</td><td colspan='2'><input style='width:70%;' type='file' name='file1' id='xgfile1' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
 	}
 	
 	function removeFile(obj){
