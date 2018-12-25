@@ -173,34 +173,19 @@
 
 			<div class="notice-bulletin mission">
 				<div class="finished">
-					<table class="tb2 table table-hover">
-						<tr class="tb2-finished">
+					<table class="tb5 table table-hover" id="tb5">
+						
+						<tr class="tb5-finished">
 							<th>
                                 <i class="iconfont icon-huishouzhan" style="font-size:18px;"></i>回收站
                                 <span data-toggle="modal" data-target="#myModal4" style="cursor: pointer;margin-left:55%;">查看更多</span>
                             </th>
 						</tr>
+						<tbody id="tb5T">
 						<tr>
-							<td>废弃1</td>
+							<td>无</td>
 						</tr>
-						<tr>
-							<td>废弃2</td>
-						</tr>
-						<tr>
-							<td>废弃3</td>
-						</tr>
-						<tr>
-							<td>废弃4</td>
-						</tr>
-						<tr>
-							<td>废弃5</td>
-						</tr>
-						<tr>
-							<td>废弃6</td>
-                        </tr>
-                        <tr>
-							<td>废弃7</td>
-						</tr>
+						</tbody>
 					</table>
 				</div>
 				<!-- Modal -->
@@ -212,34 +197,23 @@
 							<h4 class="modal-title" id="myModalLabel"><i class="iconfont icon-huishouzhan" style="font-size:18px;"></i>回收站</h4>
 						</div>
 						<div class="modal-body">
-							<table class="tb2 table table-hover">
-								<tr>
-									<td>废弃1</td>
-								</tr>
-								<tr>
-									<td>废弃2</td>
-								</tr>
-								<tr>
-									<td>废弃3</td>
-								</tr>
-								<tr>
-									<td>废弃4</td>
-								</tr>
-								<tr>
-									<td>废弃5</td>
-								</tr>
-								<tr>
-									<td>废弃6</td>
-								</tr>
-								<tr>
-									<td>废弃7</td>
-								</tr>
-								<tr>
-									<td>废弃8</td>
-								</tr>
-								<tr>
-									<td>废弃9</td>
-								</tr>
+							<table class="tb6 table table-hover" id="tb6">
+							   <thead>
+	                   			  <tr>
+	                              <th>title</th>
+	                              <th>操作人</th>
+	                              <th>意见</th>
+	                              <th>操作类型</th>
+	                       		  </tr>
+			                   	</thead>
+		                        <tbody id="tb6T">
+		                       		<tr>
+									  <td>废弃1</td>
+									  <td>废弃1</td>
+									  <td>废弃1</td>
+									  <td>废弃1</td>
+									</tr>
+		                        </tbody>
 							</table>
 						</div>
 						<div class="modal-footer">
@@ -349,6 +323,7 @@
     	initTable1();
     	initTable2();
     	initTable3();
+    	initTable5();
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/announcement/selectAnnouncement',
@@ -600,6 +575,36 @@
             }
         });
     }
+	function initTable5(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/flowHistory/getFlowHistoryDeleteByUser',
+            data:{
+            	userId:"88b6f133f129",
+            	status:''
+            },
+            dataType: 'json',
+            success: function (json) {
+            	$("#tb5T").empty('');
+            	$("#tb6T").empty('');
+            	console.log(json);
+            	 if(json.length>9){
+            		json.length=10;
+            		
+            	}
+           	    if(json.length>0){
+            	 for(var i=0;i<json.length;i++){
+            		 var op =getCnByOt(json[i].operateType);
+             		$("#tb5T").append("<tr><td><span data-toggle='modal' data-target='.dadayb' style='cursor:pointer;' class='lianjieColor' data-url='"+json[i].url+"' onclick='initIframeDb(this)'>"+json[i].title+"</span></td></tr>");
+             		$("#tb6T").append("<tr><td><span data-toggle='modal' data-target='.dadayb' style='cursor:pointer;' class='lianjieColor' data-url='"+json[i].url+"' onclick='initIframeDb(this)'>"+json[i].title+"</span></td><td>"+json[i].actorname+"</td><td>"+json[i].view+"</td><td>"+op+"</td></tr>");
+            	 } 
+            	}
+           	    
+           	 
+           	 
+            }
+        });
+    }
 	function initIframeDb(dom){
 		var url = $(dom).attr("data-url");
     	var strs = url.split("-");
@@ -627,7 +632,17 @@
 	}
 	
 	
-	
+	  function getCnByOt(s){
+		  if(s==1){
+			  return "提交";
+		  }else if(s==2){
+			  return "退回";
+		  }else if(s==3){
+			  return "撤销";
+		  }else if(s==0){
+			  return "驳回";
+		  }
+	  }
 	
 
 </script> 

@@ -38,6 +38,8 @@ public interface FlowHistroyMapper {
     
     List<FlowHistoryVo> getFlowHistoryVoByUserId(@Param("userId")String userId,@Param("status")String status);
     
+    List<FlowHistoryVo> getFlowHistoryDeleteVoByUserId(@Param("userId")String userId,@Param("status")String status);
+    
     List<FlowHistoryVo> getDistinctFlowHistoryByUser(@Param("userId")String userId,@Param("status")String status);
     
     List<FlowHistoryVo> getFlowHistoryVoByUserIdAlreadyEnd(@Param("userId")String userId);

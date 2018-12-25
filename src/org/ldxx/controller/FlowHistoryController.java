@@ -39,6 +39,15 @@ public class FlowHistoryController {
 		return flowHistoryService.getFlowHistoryByUser(userId,status);
 	}
 	
+	@RequestMapping("/getFlowHistoryDeleteByUser")
+	@ResponseBody
+	public List<FlowHistoryVo> getFlowHistoryDeleteByUser(String status,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String userId = user.getUserId();
+		user.getuName();
+		return flowHistroyMapper.getFlowHistoryDeleteVoByUserId(userId, status);
+	}
+	
 	@RequestMapping("/getDistinctFlowHistoryByUser")
 	@ResponseBody
 	public List<FlowHistoryVo> getDistinctFlowHistoryByUser(String status,HttpSession session){
