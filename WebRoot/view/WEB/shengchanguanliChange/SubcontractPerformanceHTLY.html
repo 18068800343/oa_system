@@ -574,15 +574,16 @@
     	initCj();
     	initbumen();
     	
-    	function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
+    	
        
     });
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
    
     var table1=$('#fb_table').dataTable({
         "deferRender": true,
@@ -1735,63 +1736,7 @@
     	$("#form_fb2").ajaxSubmit(options);
     }
     
-    function initTable(obj){
-    	
-    	
-    	$("#look_fbContractName").text(data.fbContractName);
-    	$("#look_fbContract").text(data.fbContract);
-    	$("#look_prjCode").text(data.prjCode);
-    	$("#look_prjChargePerson").text(data.prjChargePerson);
-    	$("#look_cjContractName").text(data.cjContractName);
-    	$("#look_cjContract").text(data.cjContract);
-    	$("#look_contractNameYi").text(data.contractNameYi);
-    	$("#look_fbChargePerson").text(data.fbChargePerson);
-    	$("#look_prjProbablyText").text(data.prjProbablyText);
-    	$("#look_contractMoney").text(data.contractMoney);
-    	$("#look_provisionalMoney").text(data.provisionalMoney);
-    	$("#look_overWorkMoney").text(data.overWorkMoney);
-    	$("#look_overWorkExplain").text(data.overWorkExplain);
-    	$("#look_allPayMoney").text(data.allPayMoney);
-    	$("#look_doAppointScore").text(data.doAppointScore);
-    	
-    	$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/work/selectDepartmentAndPerson',
-            dataType: 'json',
-            async:false,
-            data: {
-            	id:data.fcowId
-            },
-            success: function (json) {
-            	var accessory=json.accessory;
-            	$("#look_accessory3 tbody").html('');
-            	$("#look_accessory4 tbody").html('');
-				for(var j=0;j<accessory.length;j++){
-					if(accessory[j].aType=="合同文本"){
-		            	   $("#look_accessory3 tbody").append("<tr>"+
-	      	   										"<td>附件</td>"+
-							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
-							            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
-							            	    "</tr>");
-	            	   }
-	            	if(accessory[j].aType=="法律顾问签字"){
-		            	   $("#look_accessory4 tbody").append("<tr>"+
-	      	   										"<td>附件</td>"+
-							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
-							            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
-							            	    "</tr>");
-	            	   }
-            	}
-            }
-  		});
-    	
-    	$("#allMsg3").modal("show");
-    }
     
-    function exportThis(){
-    	var state=$("#state3").val();
-    	window.location.href=encodeURI(getContextPath()+'/fbOverWj/exportFbOverWj?state='+state);
-    }
     
     
   //选择项目
@@ -2046,6 +1991,71 @@
 	        });
     }
     
+    function initTable(obj){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/fbOverWj/selectFbContractOverWjById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	$("#fbContractName").val(data.fbContractName);
+	        	$("#fbContract").val(data.fbContract);
+	        	$("#prjCode").val(data.prjCode);
+	        	$("#prjChargePerson").val(data.prjChargePerson);
+	        	$("#cjContractName").val(data.cjContractName);
+	        	$("#cjContract").val(data.cjContract);
+	        	$("#contractNameYi").val(data.contractNameYi);
+	        	$("#fbChargePerson").val(data.fbChargePerson);
+	        	$("#prjProbablyText").val(data.prjProbablyText);
+	        	$("#contractMoney").val(data.contractMoney);
+	        	$("#provisionalMoney").val(data.provisionalMoney);
+	        	$("#overWorkMoney").val(data.overWorkMoney);
+	        	$("#overWorkExplain").val(data.overWorkExplain);
+	        	$("#allPayMoney").val(data.allPayMoney);
+	        	$("#doAppointScore").val(data.doAppointScore);
+	        	$.ajax({
+	                type: 'POST',
+	                url: getContextPath()+'/work/selectDepartmentAndPerson',
+	                dataType: 'json',
+	                async:false,
+	                data: {
+	                	id:id
+	                },
+	                success: function (json) {
+	                	var accessory=json.accessory;
+	                	$("#new_accessory2 tbody").html('');
+	                	$("#new_accessory3 tbody").html('');
+	    				for(var j=0;j<accessory.length;j++){
+	    					if(accessory[j].aType=="合同文本"){
+	    		            	   $("#new_accessory2 tbody").append("<tr>"+
+	    	      	   										"<td>附件</td>"+
+	    							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
+	    							            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
+	    							            	    "</tr>");
+	    	            	   }
+	    	            	if(accessory[j].aType=="法律顾问签字"){
+	    		            	   $("#new_accessory3 tbody").append("<tr>"+
+	    	      	   										"<td>附件</td>"+
+	    							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
+	    							            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
+	    							            	    "</tr>");
+	    	            	   }
+	                	}
+	                }
+	      		});
+	        }
+	    });
+    	
+    }
+    
+    function exportThis(){
+    	var state=$("#state3").val();
+    	window.location.href=encodeURI(getContextPath()+'/fbOverWj/exportFbOverWj?state='+state);
+    }
     
     //合同履约选择承接
     function select_cj3(){
