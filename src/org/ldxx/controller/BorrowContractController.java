@@ -113,7 +113,7 @@ public class BorrowContractController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle("借款合同："+bc.getFbNo());
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo("借款合同："+bc.getFbNo()+"流程保存");
 			currentFlow.setUrl("shengchanguanliLook/borrow.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -203,7 +203,7 @@ public class BorrowContractController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle("借款合同："+bc.getFbNo());
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo("借款合同："+bc.getFbNo()+"流程提交");
 			currentFlow.setUrl("shengchanguanliLook/borrow.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -233,7 +233,7 @@ public class BorrowContractController {
 	
 	@RequestMapping("/updateBorrowContractSave")
 	@ResponseBody
-	public Map<String,Object> updateBorrowContractSave(BorrowContract bc,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
+	public Map<String,Object> updateBorrowContractSave(BorrowContract bc,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -277,6 +277,43 @@ public class BorrowContractController {
 			bc.setAccessory2(list2);
 		}
 		int i=service.addBorrowContractSave(bc);
+		if(i>0){
+			CjContract cj=cService.getCjContractMainDepartmentLeader(bc.getCjNo());
+			String mainDepartment=cj.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle("借款合同变更："+bc.getFbNo());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo("借款合同变更："+bc.getFbNo()+"流程保存");
+			currentFlow.setUrl("shengchanguanliLook/borrow.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		map.put("result", i);
 		map.put("BorrowContract", bc);
 		return map;
@@ -284,7 +321,7 @@ public class BorrowContractController {
 	
 	@RequestMapping("/updateBorrowContractSubmit")
 	@ResponseBody
-	public Map<String,Object> updateBorrowContractSubmit(BorrowContract bc,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
+	public String updateBorrowContractSubmit(BorrowContract bc,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -328,9 +365,47 @@ public class BorrowContractController {
 			bc.setAccessory2(list2);
 		}
 		int i=service.addBorrowContractSave(bc);
-		map.put("result", i);
+		String string = i+"";
+		if(i>0){
+			CjContract cj=cService.getCjContractMainDepartmentLeader(bc.getCjNo());
+			String mainDepartment=cj.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle("借款合同变更："+bc.getFbNo());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo("借款合同变更："+bc.getFbNo()+"流程提交");
+			currentFlow.setUrl("shengchanguanliLook/borrow.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
+		/*map.put("result", i);
 		map.put("BorrowContract", bc);
-		return map;
+		return map;*/
 	}
 	
 	@RequestMapping("/selectBorrowContractHistory")
@@ -350,6 +425,55 @@ public class BorrowContractController {
 	public BorrowContract selectBorrowById(String id){
 		BorrowContract bc=service.selectBorrowById(id);
 		return bc;
+	}
+	
+	@RequestMapping("/updateBorrowContractById")//修改接口
+	@ResponseBody
+	public Map<String,Object> updateBorrowContractById(BorrowContract bc,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
+		Map<String,Object> map=new HashMap<>();
+		String id=bc.getbId();
+		
+		String path = "D:"+File.separator+"oa"+File.separator+"BorrowContract"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				String filename = file[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("借款合同文本");
+				list.add(accessory);
+			}
+			bc.setAccessory(list);
+		}
+		if(file2.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int i=0;i<file2.length;i++){
+				String filename = file2[i].getOriginalFilename();
+				String filePath=path+File.separator+filename;
+				File f1=new File(filePath);
+				file2[i].transferTo(f1);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(filename);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("法律顾问签字");
+				list2.add(accessory);
+			}
+			bc.setAccessory2(list2);
+		}
+		int i=service.updateBorrowContractById(bc);
+		map.put("result", i);
+		map.put("BorrowContract", bc);
+		return map;
 	}
 	
 }

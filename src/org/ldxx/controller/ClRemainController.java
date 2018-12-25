@@ -61,7 +61,7 @@ public class ClRemainController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(GsMaterialOut.getPickProject()+"项目材料结余申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(GsMaterialOut.getPickProject()+"项目材料结余申请流程发起");
 			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+gs_out_id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -112,7 +112,7 @@ public class ClRemainController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(GsMaterialOut.getPickProject()+"项目材料结余申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(GsMaterialOut.getPickProject()+"项目材料结余申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/BalanceManagementXM.html-"+gs_out_id);
 			currentFlow.setParams("{'cs':'1'}");

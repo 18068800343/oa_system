@@ -57,7 +57,7 @@ public class RiskAssessmentController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(riskassessment.getPrjName()+"项目风险评估");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(riskassessment.getPrjName()+"项目风险评估申请流程发起");
 			currentFlow.setUrl("jingyingguanliLook/riskAssessment.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -109,7 +109,7 @@ public class RiskAssessmentController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(riskassessment.getPrjName()+"项目风险评估");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(riskassessment.getPrjName()+"项目风险评估流程发起");
 			currentFlow.setUrl("jingyingguanliLook/riskAssessment.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");

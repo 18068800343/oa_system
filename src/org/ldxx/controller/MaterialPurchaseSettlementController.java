@@ -91,7 +91,7 @@ public class MaterialPurchaseSettlementController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(c.getCgContract()+"材料采购结算申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(c.getCgContract()+"材料采购结算申请流程发起");
 			currentFlow.setUrl("shengchanGuanli/SubcontractMaterialJSSQ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -162,7 +162,7 @@ public class MaterialPurchaseSettlementController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(c.getCgContract()+"材料采购结算申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(c.getCgContract()+"材料采购结算申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/SubcontractMaterialJSSQ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");

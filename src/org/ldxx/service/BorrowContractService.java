@@ -19,4 +19,6 @@ public interface BorrowContractService {
 	
 	BorrowContract selectBorrowById(String id);
 
+	int updateBorrowContractById(BorrowContract bc);
+
 }

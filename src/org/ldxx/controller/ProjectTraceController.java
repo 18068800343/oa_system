@@ -87,7 +87,7 @@ public class ProjectTraceController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(trace.getPrjName()+"项目跟踪单申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(trace.getPrjName()+"项目跟踪单申请流程发起");
 			currentFlow.setUrl("jingyingguanliLook/ProjectTrackingGZD.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -160,7 +160,7 @@ public class ProjectTraceController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(trace.getPrjName()+"项目跟踪单申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(trace.getPrjName()+"项目跟踪单申请流程发起");
 			currentFlow.setUrl("jingyingguanliLook/ProjectTrackingGZD.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");

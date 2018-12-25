@@ -236,7 +236,7 @@ public class ContractWorkController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(cwork.getCjContractName()+"合同交工履约申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());
+			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(cwork.getCjContractName()+"合同交工履约申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/UndertakeContractHTLVSQ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -323,7 +323,7 @@ public class ContractWorkController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(cwork.getCjContractName()+"合同交工履约申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(cwork.getCjContractName()+"合同交工履约申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/UndertakeContractHTLVSQ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -410,7 +410,7 @@ public class ContractWorkController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(cwork.getCjContractName()+"合同竣工履约申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());
+			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(cwork.getCjContractName()+"合同竣工履约申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/UndertakeContractJGSQ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -497,7 +497,7 @@ public class ContractWorkController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(cwork.getCjContractName()+"合同竣工履约申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(cwork.getCjContractName()+"合同竣工履约申请流程发起");
 			currentFlow.setUrl("shengchanguanliLook/UndertakeContractJGSQ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");

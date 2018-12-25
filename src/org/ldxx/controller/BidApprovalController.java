@@ -74,7 +74,7 @@ public class BidApprovalController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(ba.getPrjName()+"项目投标审批");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(ba.getPrjName()+"项目投标审批流程发起");
 			currentFlow.setUrl("jingyingguanliLook/toubiaoShenpi.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -130,7 +130,7 @@ public class BidApprovalController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(ba.getPrjName()+"项目投标审批");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(ba.getPrjName()+"项目投标审批流程发起");
 			currentFlow.setUrl("jingyingguanliLook/toubiaoShenpi.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");

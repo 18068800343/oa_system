@@ -66,7 +66,7 @@ public class GsMaterialWastetreatmentController {
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			if(mw.getType().equals("0")){
 				currentFlow.setTitle(mw.getPrjName()+"公司材料废旧品处理");
 				currentFlow.setMemo(mw.getPrjName()+"公司材料废旧品处理流程发起");
@@ -130,7 +130,7 @@ public class GsMaterialWastetreatmentController {
 				currentFlow.setUrl("shengchanguanliLook/tuihuo.html-"+id);
 			}
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());
+			currentFlow.setActorname(user.getuName());
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());

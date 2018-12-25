@@ -48,7 +48,7 @@ public class ProjectTraceLogController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(traceLog.getPrjName()+"项目跟踪日志申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(traceLog.getPrjName()+"项目跟踪日志申请流程发起");
 			currentFlow.setUrl("jingyingguanliLook/ProjectTrackingGZRZ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -96,7 +96,7 @@ public class ProjectTraceLogController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(traceLog.getPrjName()+"项目跟踪日志申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(traceLog.getPrjName()+"项目跟踪日志申请流程发起");
 			currentFlow.setUrl("jingyingguanliLook/ProjectTrackingGZRZ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");

@@ -29,4 +29,6 @@ public interface OtherContractService {
 
 	public int updateHistoryById(String id);
 
+	public int updateOtherContractById(OtherContract other);
+
 }
