@@ -49,14 +49,14 @@ public class TaskServiceImpl implements TaskService{
 	@Transactional
 	@Override
 	public int updateTask(Task task) {
-		int i=edao.deleteEnterprise(task.getPrjId());
-		List<Enterprise> enterprise=task.getEnterprise();
-		for(int ii=0;ii<enterprise.size();ii++){
-			enterprise.get(ii).seteId(task.getPrjId());
-		}
+		int i=tdao.updateTask(task);
 		if(i>0){
-			i=tdao.updateTask(task);
-			if(i>0){
+			i=edao.deleteEnterprise(task.getPrjId());
+			List<Enterprise> enterprise=task.getEnterprise();
+			if(enterprise.size()>0){
+				for(int ii=0;ii<enterprise.size();ii++){
+					enterprise.get(ii).seteId(task.getPrjId());
+				}
 				i=edao.addEnterprise(task.getEnterprise());
 			}
 		}

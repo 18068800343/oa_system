@@ -674,5 +674,14 @@ public class TaskController {
 	public int updateHistoryById(String id){
 		return tService.updateHistoryById(id);
 	}
+	
+	@RequestMapping("/updateTaskById")
+	@ResponseBody
+	public int updateTaskById(@RequestBody List<Task> task){
+		Task t=task.get(0);
+		int i=tService.updateTask(t);
+		return i;
+	}
+	
 }
 

@@ -203,6 +203,18 @@
                         	</thead>
                         	<tbody></tbody>
                         </table>
+                        <table class="table table-bordered table-condensed" style="display:none;">
+                        	<tbody>
+                        		<tr>
+                        			<td>
+                        				<input type="file" name="file">
+                        			</td>
+                        			<td>
+                        				<input type="file" name="file1">
+                        			</td>
+                        		</tr>
+                        	</tbody>
+                        </table>
                     </form>
         
     </div>
@@ -1333,19 +1345,18 @@
         				id:id,
         			},
         			success:function(json){
-        				console.log(json);
-        				$("#edit_huixian_table").empty();
-        				$("#edit_huixian_table3").empty();
+        				$("#edit_huixian_table tbody").empty();
+        				$("#edit_huixian_table3 tbody").empty();
         	               for(var i=0;i<json.length;i++){
         	            	   if(json[i].aType=="分包合同文本"){
-        		            	   $("#edit_huixian_table").append("<tr>"+
+        		            	   $("#edit_huixian_table tbody").append("<tr>"+
         	      	   										"<td>分包合同文本</td>"+
         							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
         							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
         							            	    "</tr>");
         	            	   }
         	            	   if(json[i].aType=="法律顾问签字"){
-        		            	   $("#edit_huixian_table3").append("<tr>"+
+        		            	   $("#edit_huixian_table3 tbody").append("<tr>"+
         	      	   										"<td>法律顾问签字</td>"+
         							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
         							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
@@ -1416,20 +1427,16 @@
 		
 		if(xghetongName==''){
 			toastr.error("分包合同名称为空");
-			return;
-		}
-		
-		if($("#edit_huixian_table").find('tbody tr').length<1 || $("#xgfile").val()==''){
-			toastr.error("上传附件为空")
-			return;
+			return '0';
 		}
 		
 		var options={
             type: 'POST',
             url: getContextPath()+'/subcontract/updateFbById',
             dataType: 'json',
+            contentType: "application/json", 
             data: { 
-            		fbId:xiugaiId,
+            		fbId:id,
             		contractName:xghetongName,
             		fbNo:xgfbNo,
             		fbcType:xgType,
@@ -1454,14 +1461,15 @@
             		rateType:xgrateType
             },
             success: function (json) {
-            	//console.log(json);
+            	return json;
+            	/* //console.log(json);
             	if(json.result==0){
 					toastr.error("修改失败")
 				}else if(json.result>0){
 					toastr.success("修改成功")
 					quxiao2();
 					initTable();
-				}
+				} */
             }
         };
 		$("#edit_form").ajaxSubmit(options);

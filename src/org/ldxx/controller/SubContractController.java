@@ -500,7 +500,7 @@ public class SubContractController {
 	
 	@RequestMapping("/updateFbById")
 	@ResponseBody
-	public int updateFbById(FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]){
+	public int updateFbById(FbContract fbContract,@RequestParam("file")MultipartFile [] file,@RequestParam("file1")MultipartFile [] file1){
 		Map<String,Object> map = new HashMap<>();
 		String id=fbContract.getFbId();
 		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
