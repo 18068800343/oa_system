@@ -242,7 +242,13 @@ public class CgContractController {
 	@RequestMapping("/submitCgCancel")//采购合同取消
 	@ResponseBody
 	public String submitCgCancel(ContractReason cr,String cgName,HttpSession session){
-		int i=cService.addContractReason(cr);
+		int count=cService.countId(cr.getId());
+		int i=0;
+		if(count==0){
+			i=cService.addContractReason(cr);
+		}else{
+			i=cService.updateContractReasonById(cr);
+		}
 		String string = i+"";
 		if(i>0){
 			User user = (User) session.getAttribute("user");
