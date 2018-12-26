@@ -14,7 +14,6 @@ public class AllQuery {
 	private String ccName;
 	//合同工期
 	private String contractLongTime;
-	
 	//主办部门
 	private String omName;
 	//项目负责人
@@ -25,7 +24,6 @@ public class AllQuery {
 	private String temporaryMoney;
 	//部门所占金额
 	private String departContractMoney;
-	
 	//累计收入
 	private String iall;
 	//当月收入
@@ -36,19 +34,18 @@ public class AllQuery {
     private String leiJiChengBen;
     //已开票金额
 	private String allKpMoney;
-	
 	//累计收款
 	private String resultMoney;
 	//合同状态
 	private String contractStatus;
 	//合同决算金额
 	private String contractJueSuanMoney;
+	//承接合同状态
+	private String cjStatus;
 	//分包合同编号
 	private String fbNo;
 	//分包合同名称
 	private String fbContract;
-	
-	
 	//分包合同乙方单位
 	private String fbYiName;
 	//分包合同金额
@@ -60,6 +57,12 @@ public class AllQuery {
 	//分包未付金额
 	private String weiPayMoney;
 	
+	public String getCjStatus() {
+		return cjStatus;
+	}
+	public void setCjStatus(String cjStatus) {
+		this.cjStatus = cjStatus;
+	}
 	public String getFbYiName() {
 		return fbYiName;
 	}

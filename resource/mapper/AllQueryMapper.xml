@@ -3,28 +3,36 @@
 <mapper namespace="org.ldxx.dao.AllQueryDao" >
 	<select id="selectAllQueryByTime"  resultType="AllQuery">
  SELECT
-    tb1.prj_owner_unit,
-	tb1.prj_no,
-    tb1.main_prj_leader,
-	tb1.contract_no,
-	tb1.contract_name,
-	tb1.contract_long_time,
-	tb1.cjmoney,
-	tb1.temporary_money,
-    tb1.end_money contractJueSuanMoney,
-	xmjd.ibq,
-	xmjd.iall,
-	bff.all_cost,
-	kpin.all_kp_money,
-	tb1.result_money,
-    tb1.cc_name,
-    tb1.om_name,
-	fb.fb_no,
-	fb.contract_name fb_contract,
-	fb.contract_name_yi,
-    ccfb.cc_name fbYiName,
-	fb.now_fb_all_money,
-    fcowIn.over_work_money fbJueSuanMoney
+  DISTINCT
+    IFNULL(tb1.prj_owner_unit,'') ccName,
+    IFNULL(tb1.prj_no,'') prjNo,
+    IFNULL(tb1.main_prj_leader,'')  mainPrjLeader,
+	  IFNULL(tb1.contract_no,'') contractNo,
+	  IFNULL(tb1.contract_name,'') contractName,
+	  IFNULL(tb1.contract_long_time,'') contractLongTime,
+	  IFNULL(tb1.cjmoney,'') cjmoney,
+	  IFNULL(tb1.temporary_money,'') temporaryMoney,
+    IFNULL(tb1.end_money,'')  contractJueSuanMoney,
+    CASE tb1.status
+           WHEN 1 THEN '审核中' 
+           WHEN 2 THEN '正在进行' 
+           WHEN 3 THEN '取消'
+           WHEN 6 THEN '已完结'  
+           ELSE  '' END cjStatus,
+	  IFNULL(xmjd.ibq,'') ibq,
+	  IFNULL(xmjd.iall,'') iall,
+    IFNULL(xmjd.cjDepartMoney,'') cjDepartMoney,
+  	IFNULL(bff.all_cost,'') allCost,
+	  IFNULL(kpin.all_kp_money,'') allKpMoney,
+	  IFNULL(tb1.result_money,'') resultMoney,
+    IFNULL(tb1.cc_name,'') ccName,
+    IFNULL(tb1.om_name,'') omName,
+		IFNULL(fb.fb_no,'') fbNo,
+		IFNULL(fb.contract_name,'')  fbContract,
+		IFNULL(fb.contract_name_yi,'') ,
+		IFNULL(ccfb.cc_name,'')    fbYiName,
+		IFNULL(fb.now_fb_all_money,'') nowFbAllMoney,
+		IFNULL(fcowIn.over_work_money,'') fbJueSuanMoney
     
     FROM
 	(
@@ -36,19 +44,21 @@
 			cj.contract_no,
 			cj.history AS cjhistory,
 			cj.cj_id,
-      cw.end_money,
+			cw.end_money,
 			cj.contract_end_time,
 			cj.contract_start_time,
 			cj.contract_long_time,
 			cj.temporary_money,
+			mscj.status,
 			fr.receipt_time,
 			fr.result_money
 		FROM
 			task tk
-		LEFT JOIN cj_contract cj ON cj.task_code = tk.prj_no
-    LEFT JOIN consociation_company cc on tk.prj_owner_unit =cc.cc_id
-    LEFT JOIN organization_management om on om.om_id = tk.main_department
-		LEFT JOIN (
+			LEFT JOIN cj_contract cj ON cj.task_code = tk.prj_no
+			LEFT JOIN mode_status mscj on cj.cj_id = mscj.mode_id
+			LEFT JOIN consociation_company cc on tk.prj_owner_unit =cc.cc_id
+			LEFT JOIN organization_management om on om.om_id = tk.main_department
+			LEFT JOIN (
 			SELECT
 				cwin.*
 			FROM
@@ -56,8 +66,8 @@
 			LEFT JOIN mode_status AS mscw ON mscw.mode_id = cwin.cw_id
 			WHERE
 				mscw.`status` = '2'
-		) AS cw ON cw.cj_contract_code = cj.contract_no
-		LEFT JOIN (
+		 ) AS cw ON cw.cj_contract_code = cj.contract_no
+     LEFT JOIN (
 			SELECT
 				a.*
 			FROM
@@ -75,11 +85,11 @@
 				a.contract_no
 		) fr ON cj.contract_no = fr.contract_no
 		
-	) AS tb1
-LEFT JOIN mode_status ms ON tb1.prj_id = ms.mode_id
-AND tb1.cjhistory = '1'
-LEFT JOIN (
-	SELECT
+		) AS tb1
+		LEFT JOIN mode_status ms ON tb1.prj_id = ms.mode_id
+		AND tb1.cjhistory = '1'
+		LEFT JOIN (
+		SELECT
 		(
 			(
 				SUBSTRING_INDEX(ppfc.income_bq, '%', 1) / 100
@@ -92,70 +102,72 @@ LEFT JOIN (
 		) iall,
 		ppf.task_no,
 		ppfc.cj_id,
-		ppf.this_time
-	FROM
+		ppf.this_time,
+    ppfio.cjDepartMoney
+  	FROM
 		prj_progress_fill_cj ppfc
-	LEFT JOIN prj_progress_fill ppf ON ppfc.ppf_id = ppf.ppf_id
-	ORDER BY
+		LEFT JOIN prj_progress_fill ppf ON ppfc.ppf_id = ppf.ppf_id
+    LEFT join ( select ppfi.ppf_id,SUM(money) cjDepartMoney from prj_progress_fill_info ppfi where ppfi.department=#{omName} GROUP BY ppf_id) ppfio on ppfio.ppf_id=ppf.ppf_id
+		ORDER BY
 		ppf.this_time DESC
-	LIMIT 1
-) AS xmjd ON xmjd.task_no = tb1.prj_no
-AND xmjd.cj_id = tb1.cj_id
-LEFT JOIN fb_contract fb ON fb.cj_contract_code = tb1.contract_no
-AND fb.history = '1'
-LEFT JOIN consociation_company ccfb on ccfb.cc_id = fb.contract_name_yi
-LEFT JOIN (
-	SELECT
+		LIMIT 1
+		) AS xmjd ON xmjd.task_no = tb1.prj_no
+		AND xmjd.cj_id = tb1.cj_id
+		LEFT JOIN fb_contract fb ON fb.cj_contract_code = tb1.contract_no
+		AND fb.history = '1'
+		LEFT JOIN consociation_company ccfb on ccfb.cc_id = fb.contract_name_yi
+		LEFT JOIN (
+		SELECT
     pay.contract_no,
     pay.pay_id
-	FROM
+	  FROM
 		pay pay
-	LEFT JOIN mode_status mspay ON pay.pay_id = mspay.mode_id
-	WHERE
-		mspay. STATUS = '2' 
-) AS payIn ON payIn.contract_no = fb.fb_no
-LEFT JOIN (
-	SELECT
+		LEFT JOIN mode_status mspay ON pay.pay_id = mspay.mode_id
+		WHERE
+			mspay. STATUS = '2' 
+		) AS payIn ON payIn.contract_no = fb.fb_no
+		LEFT JOIN (
+		SELECT
 		fcow.over_work_money,
     fcow.fb_contract,
     fcow.fcow_id
-	FROM
+	  FROM
 		fb_contract_over_wj fcow
-	LEFT JOIN mode_status msfcow ON fcow.fcow_id= msfcow.mode_id
-	WHERE
-		msfcow. STATUS = '2'
-) AS fcowIn ON fcowIn.fb_contract = fb.fb_no
-LEFT JOIN (
-	SELECT
+		LEFT JOIN mode_status msfcow ON fcow.fcow_id= msfcow.mode_id
+		WHERE
+			msfcow. STATUS = '2'
+		) AS fcowIn ON fcowIn.fb_contract = fb.fb_no
+		LEFT JOIN (
+		SELECT
 		bff.all_cost,
 		bff.bf_id,
 		bff.task_no
-	FROM
+	  FROM
 		budget_fpplication_form bff
-	LEFT JOIN mode_status msbff ON bff.bf_id = msbff.mode_id
-	WHERE
-		msbff. STATUS = '2'
-) AS bff ON bff.task_no = tb1.prj_no
-LEFT JOIN (
-	SELECT
+		LEFT JOIN mode_status msbff ON bff.bf_id = msbff.mode_id
+		WHERE
+			msbff. STATUS = '2'
+		) AS bff ON bff.task_no = tb1.prj_no
+		LEFT JOIN (
+		SELECT
 		kp.all_kp_money,
 		kp.prj_no,
 		kp.contract_no,
 		kp.time
-	FROM
+  	FROM
 		kp_application kp
-	LEFT JOIN mode_status mskp ON mskp.mode_id = kp.kp_id
-	WHERE
+		LEFT JOIN mode_status mskp ON mskp.mode_id = kp.kp_id
+		WHERE
 		mskp.`status` = '2'
-	GROUP BY
+		GROUP BY
 		kp.contract_no
-	ORDER BY
+		ORDER BY
 		kp.time DESC
-) AS kpin ON kpin.contract_no = tb1.contract_no
-AND kpin.prj_no = tb1.prj_no
-WHERE
-	tb1.history = '1'
-AND ms. STATUS IN ('2', '3')
-AND tb1.prj_end_time &gt;= #{year_time};
+		) AS kpin ON kpin.contract_no = tb1.contract_no
+		AND kpin.prj_no = tb1.prj_no
+		WHERE
+		tb1.history = '1'
+		AND ms. STATUS IN ('2', '3')
+	    AND tb1.prj_end_time &gt;= #{year_time};
 	</select>
 </mapper>

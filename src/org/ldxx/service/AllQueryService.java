@@ -7,5 +7,5 @@ import org.ldxx.bean.AllQuery;
 
 public interface AllQueryService {
 
-	public List<AllQuery> selectAllQueryByTimeAndDepart(String year_Time, String month_time,String depart);
+	public List<AllQuery> selectAllQueryByTimeAndDepart(String year_Time, String month_time,String depart,String omName);
 }

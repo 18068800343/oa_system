@@ -22,13 +22,13 @@ public class AllQueryController {
 	
 	@RequestMapping("/allQueryTable")
 	@ResponseBody
-	public List<AllQuery> addAccessory(String depart){
+	public List<AllQuery> addAccessory(String depart,String omName){
 		SimpleDateFormat simpleDateFormat =new SimpleDateFormat("YY-MM");
 		String nowDate = simpleDateFormat.format(new Date());
 		String[] timeArr = nowDate.split("-");
 		String year_Time = timeArr[0]+"%";
 		String month_time = nowDate;
-		List<AllQuery> i=service.selectAllQueryByTimeAndDepart(year_Time, month_time, depart);
+		List<AllQuery> i=service.selectAllQueryByTimeAndDepart(year_Time, month_time, depart,"检测部");
 		for(AllQuery allQuery:i){
 			String fbNo = allQuery.getFbNo();
 			
