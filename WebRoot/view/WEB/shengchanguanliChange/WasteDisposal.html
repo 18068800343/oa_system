@@ -72,7 +72,7 @@
                             <tr>
                             	<td>申请人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                	<input type="text" id="shenqingren" class="form-control" style="width:60%;" >
+                                	<input type="text" id="shenqingren" class="form-control" style="width:60%;" disabled>
                                 	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择申请人</button>	
                                 </td>
                                 <td>申请时间</td>
@@ -419,7 +419,7 @@
         if(r!=null)return  unescape(r[2]); return null;
    }
    // 调用方法
-   	id=GetQueryString("");
+   	id=GetQueryString("prjId");
    
    
     var table3=$('#xiangmubiao').dataTable({
@@ -574,7 +574,7 @@
         	toastr.error("请求失败");
         },
         success: function (json) {
-        	console.log(json)
+        	//console.log(json)
         	$("#prjName").html('');
         	$("#prjNo").html('');
         	for(var i=0;i<json.length;i++){
@@ -582,24 +582,7 @@
         		$("#prjNo").append("<option value="+json[i].taskNo+">"+json[i].taskNo+"</option>");
         	}
         	
-        	/* $('#prjName').editableSelect().on('select.editable-select', function (e, dom) {
-        		$.ajax({
-                    type: 'POST',
-                    url: getContextPath()+'/GsMaterialRemain/selectGsMaterialRemainByname',
-                    dataType: 'json',
-                    data: {
-                    	remainType:1,
-                    	name:$('#prjName').val()
-                    },
-                    success: function (json) {
-                    	$("#prjNo").empty();
-                    	for(var i=0;i<json.length;i++){
-                    		$("#prjNo").val(json[i].taskNo)
-                    		initClBy(json[i].cmoId)
-                    	}
-                    }
-          		});
-          	}) */
+
           	$('#prjNo').editableSelect().on('select.editable-select', function (e, dom) {
         		$.ajax({
                     type: 'POST',
@@ -772,6 +755,62 @@
 		})
 	}
 	
+	console.log(id)
+	//查看详细信息
+	function initTable(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatmentById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	$("#prjName").val(data.prjName)
+	    		$("#prjNo").val(data.prjNo)
+	    		$("#shenqingren").val(data.applyPerson);
+	    		$("#year").val(data.applyDate);
+	    		$("#chuliyuanyin").val(data.dealReason);
+	    		$("#chulifangshi").val(data.dealMode);
+	    		$("#chengbenfeiyong").val(data.costMoney);
+	    		$("#beizhu").val(data.cmwDesc);
+	    		$.ajax({
+	                type: 'POST',
+	                url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatmentClById',
+	                dataType: 'json',
+	                data:{
+	                	id:id
+	                },
+	                success: function (json) {
+	                	console.log(json)
+	                	$("#waste_table tbody").html('');
+	                	for(var i=0;i<json.length;i++){
+	                		$("#waste_table tbody").append("<tr>"+
+									"<td>"+json[i].materialName+"</td>"+
+									"<td>"+json[i].materialType+"</td>"+
+									"<td>"+json[i].materialModel+"</td>"+
+									"<td>"+json[i].unit+"</td>"+
+									"<td>"+json[i].dealNumber+"</td>"+
+									"<td>"+json[i].price+"</td>"+
+									"<td>"+json[i].money+"</td>"+
+									"<td><input type='text' class='form-control' data="+json[i].crId+" value='"+json[i].actualDiscountMoney+"'></td>"+
+									"<td><input type='text' class='form-control' value='"+json[i].actualDiscountMoney+"'></td>"+
+									"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
+								"</tr>");
+	    		            	
+	                	}
+	                }
+	            });
+	    		
+	        }
+	    });
+		
+		
+		
+	} 
+	
 	
 	//保存
 	function liuchengGaibian(){
@@ -884,48 +923,6 @@
 	
 	
 	
-
-	//查看详细信息
-	function initTable(obj){
-		var dom = $(obj).parents('tr');
-		var data=$('#mainContent').DataTable().row(dom).data();
-		console.log(data)
-		$("#prjName").text(data.prjName)
-		$("#prjNo").text(data.prjNo)
-		$("#shenqingren").text(data.applyPerson);
-		$("#year").text(data.applyDate);
-		$("#chuliyuanyin").text(data.dealReason);
-		$("#chulifangshi").text(data.dealMode);
-		$("#chengbenfeiyong").text(data.costMoney);
-		$("#beizhu").text(data.cmwDesc);
-		
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatmentClById',
-            dataType: 'json',
-            data:{
-            	id:data.cmwId
-            },
-            success: function (json) {
-            	console.log(json)
-            	$("#waste_table tbody").html('');
-            	for(var i=0;i<json.length;i++){
-		            	$("#waste_table tbody").append("<tr>"+
-		            														"<td>"+json[i].materialName+"</td>"+
-		            														"<td>"+json[i].materialType+"</td>"+
-		            														"<td>"+json[i].materialModel+"</td>"+
-		            														"<td>"+json[i].unit+"</td>"+
-		            														"<td>"+json[i].dealNumber+"</td>"+
-		            														"<td>"+json[i].price+"</td>"+
-		            														"<td>"+json[i].money+"</td>"+
-		            														"<td>"+json[i].quasiDiscountMoney+"</td>"+
-		            														"<td>"+json[i].actualDiscountMoney+"</td>"+
-		            													"</tr>");
-            	}
-            }
-        });
-		
-	} 
 	
 	
 

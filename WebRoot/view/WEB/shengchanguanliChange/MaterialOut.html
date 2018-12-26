@@ -57,7 +57,7 @@
     </div>
 
     <div class="zhuti-content">
-        <div class="UpperPart">
+        <div>
             	<form class="form-inline">
                         <table class="table table-bordered table-condensed" id="xinjianCailiao">
                             <tr>
@@ -78,15 +78,15 @@
                             <tr>
                             	<td>领料项目</td>
                                 <td>
-                                	<!-- <input type="text" class="form-control" id="prjName" disabled> -->
-                                	<select class="form-control" id="prjName" disabled style="width:65%;">
-                                    </select> 
+                                	<input type="text" class="form-control" id="prjName" disabled style="width:65%;">
+                                	<!-- <select class="form-control" id="prjName" disabled style="width:65%;">
+                                    </select>  -->
                                 </td>
                                 <td>任务单号</td>
                                 <td>
-                                	<!-- <input type="text" class="form-control" id="taskNo" disabled style="width:65%;"> --> 
-                                	 <select class="form-control" id="taskNo" disabled style="width:65%;">
-                                    </select> 
+                                		<input type="text" class="form-control" id="taskNo" disabled style="width:65%;">
+                                	 <!-- <select class="form-control" id="taskNo" disabled style="width:65%;">
+                                    </select>  -->
                                 </td>
                             </tr>
                             <tr>
@@ -429,7 +429,7 @@
         if(r!=null)return  unescape(r[2]); return null;
    }
    // 调用方法
-   	id=GetQueryString("");
+   	id=GetQueryString("prjId");
    
 
     var table2=$('#cg_table').dataTable({
@@ -1274,102 +1274,117 @@
 	
 	
 	//查看详细信息
-	function initTable(obj){
+	function initTable(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/gsMaterialOut/selectGsMaterialOutById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	$("#cgNo").val(data.cgNo);
+	    		$("#cgName").val(data.cgName);
+	    		$("#taskNo").val(data.taskNo);
+	    		$("#prjName").val(data.pickProject);
+	    		$("#year").val(data.pickDate);
+	    		$("#lingliaoren").val(data.pickPerson);
+	    		$("#beizhu").val(data.cmoDesc);
+	    		if(data.pickProject!=null){
+	    			$("#cailiaobiaoDiv table").remove();
+	    				//console.log(list[i])
+	            		$("#cailiaobiaoDiv").append(
+	            				"<table  class='table table-bordered table-condensed' id='cailiaobiao'>"+
+	                        	"<thead>"+
+	                        		"<tr>"+
+	                                	"<td>采购部门</td>"+
+	                                    "<td dataId='' id='lookcgbumen'></td>"+
+	                                    "<td  colspan='2'>部门采购金额</td>"+
+	                                    "<td id='lookbumencgMoney' colspan='2'></td>"+
+	                                	"<th colspan='4' style='text-align:right;'></th>"+
+	                            	"</tr>"+
+	                            	"<tr>"+
+	                                	"<th>材料名称</th>"+
+	                                	"<th>材料类型</th>"+
+	    	                            "<th>材料型号</th>"+
+	    	                            "<th style='width:6%;'>单位</th>"+
+	    	                            "<th style='width:8%;'>单价</th>"+
+	    	                            "<th style='width:8%;'>领料数量</th>"+
+	    	                            "<th>剩余数量</th>"+
+	    	                            "<th>出库金额</th>"+
+	                            	"</tr>"+
+	                        	"</thead>"+
+	                        	"<tbody>"+
+	                        	"</tbody>"+
+	                        "</table>"
+	                        )
+	    		  		$.ajax({
+	    		            type: 'POST',
+	    		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByname',
+	    		            dataType: 'json',
+	    		            data: {
+	    		            	name:data.pickProject
+	    		            },
+	    		            success: function (json) {
+	    		            	console.log(json)
+	    		            	for(var i=0;i<json.length;i++){
+	    		            		var omName=json[i].omName
+	    		            		var sumPrice=json[i].sumPrice;
+	    		            		var taskCode=json[i].taskCode;
+	    		            		if($.inArray(taskCode, arrayClId)==-1){
+	    		            			arrayClId.push(taskCode)
+	    		            		} 
+	    		            		$("#cgbumen").text(json[i].omName)
+	    		            		$("#cgbumen").attr("dataId",taskCode)
+	    		            		$("#bumencgMoney").text(json[i].sumPrice)
+	    		            		
+	    		            		$.ajax({
+	    		                        type: 'POST',
+	    		                        url: getContextPath()+'/GsClOut/selectClByNo',
+	    		                        dataType: 'json',
+	    		                        async:false,
+	    		                        data: {
+	    		                        	no:data.cmoId
+	    		                        },
+	    		                        success: function (json) {
+	    		                        	console.log(json)
+	    		                        	for(var k=0;k<json.length;k++){
+	    		                        		$("#cailiaobiao tbody").append("<tr dataId="+json[k].mdlId+"><td>"
+	    		                		  				+""+json[k].materialName+""
+	    		                		  				+"</td><td>"
+	    		                		  				+""+json[k].materialType+""
+	    		                		  				+"</td><td>"
+	    		                		  				+""+json[k].specificationModel+""
+	    		                		  				+"</td><td>"
+	    		                		  				+""+json[k].cmoUnit+""
+	    		                		  				+"</td><td>"
+	    		                		  				+""+json[k].cmoUnitPrice+""
+	    		                		  				+"</td><td>"
+	    		                		  				+"<input type='text' class='form-control' value='"+json[k].cmoNumber+"' style='width:100px;'>"
+	    		                		  				+"</td><td>"
+	    		                		  				+""+json[k].remainNumber+""
+	    		                		  				+"</td><td>"
+	    		                		  				+""+json[k].cmoMoney+""
+	    		                		  				+"</td></tr>")
+	    		                		  				
+	    		                        	} 
+	    		                        }
+	    		              		});
+	    		            		
+	    		            	}
+	    		            }
+	    		  		});
+	    		  		
+	    	  		}
+	    		
+	        }
+	    });
 		
 		
-		$("#cgNo").text(data.cgNo);
-		$("#cgName").text(data.cgName);
-		$("#taskNo").text(data.taskNo);
-		$("#prjName").text(data.pickProject);
-		$("#year").text(data.pickDate);
-		$("#lingliaoren").text(data.pickPerson);
-		$("#beizhu").text(data.cmoDesc);
 		
-		if(data.pickProject!=null){
-			$("#cailiaobiaoDiv table").remove();
-				//console.log(list[i])
-        		$("#cailiaobiaoDiv").append(
-        				"<table  class='table table-bordered table-condensed' id='cailiaobiao'>"+
-                    	"<thead>"+
-                    		"<tr>"+
-                            	"<td>采购部门</td>"+
-                                "<td dataId='' id='lookcgbumen'></td>"+
-                                "<td  colspan='2'>部门采购金额</td>"+
-                                "<td id='lookbumencgMoney' colspan='2'></td>"+
-                            	"<th colspan='4' style='text-align:right;'></th>"+
-                        	"</tr>"+
-                        	"<tr>"+
-                            	"<th>材料名称</th>"+
-                            	"<th>材料类型</th>"+
-	                            "<th>材料型号</th>"+
-	                            "<th style='width:6%;'>单位</th>"+
-	                            "<th style='width:8%;'>单价</th>"+
-	                            "<th style='width:8%;'>领料数量</th>"+
-	                            "<th>剩余数量</th>"+
-	                            "<th>出库金额</th>"+
-                        	"</tr>"+
-                    	"</thead>"+
-                    	"<tbody>"+
-                    	"</tbody>"+
-                    "</table>"
-                    )
-		  		$.ajax({
-		            type: 'POST',
-		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByname',
-		            dataType: 'json',
-		            data: {
-		            	name:data.pickProject
-		            },
-		            success: function (json) {
-		            	console.log(json)
-		            	for(var i=0;i<json.length;i++){
-		            		var omName=json[i].omName
-		            		var sumPrice=json[i].sumPrice;
-		            		var taskCode=json[i].taskCode;
-		            		if($.inArray(taskCode, arrayClId)==-1){
-		            			arrayClId.push(taskCode)
-		            		} 
-		            		$("#cgbumen").text(json[i].omName)
-		            		$("#cgbumen").attr("dataId",taskCode)
-		            		$("#bumencgMoney").text(json[i].sumPrice)
-		            		
-		            		$.ajax({
-		                        type: 'POST',
-		                        url: getContextPath()+'/GsClOut/selectClByNo',
-		                        dataType: 'json',
-		                        async:false,
-		                        data: {
-		                        	no:data.cmoId
-		                        },
-		                        success: function (json) {
-		                        	console.log(json)
-		                        	for(var k=0;k<json.length;k++){
-		                        		$("#cailiaobiao tbody").append("<tr dataId="+json[k].mdlId+"><td>"
-		                		  				+""+json[k].materialName+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].materialType+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].specificationModel+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].cmoUnit+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].cmoUnitPrice+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].cmoNumber+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].remainNumber+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].cmoMoney+""
-		                		  				+"</td></tr>")
-		                        	} 
-		                        }
-		              		});
-		            		
-		            	}
-		            }
-		  		});
-		  		
-	  		}
+		
 	}
 	
 	
