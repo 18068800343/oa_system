@@ -117,7 +117,10 @@ public class OperationTargetController {
 			if(noList!=null){
 				for(int j=0;j<noList.size();j++){
 					PrjProgressFill ppf=pService.getCost(noList.get(j).getTaskNo());
-					float cost=ppf.getAllCost();
+					float cost=0;
+					if(ppf!=null){
+						cost=ppf.getAllCost();
+					}
 					actualCost=actualCost+cost;
 				}
 			}
@@ -320,15 +323,17 @@ public class OperationTargetController {
 				if(noList!=null){
 					for(int j=0;j<noList.size();j++){
 						PrjProgressFill ppf=pService.getCost(noList.get(j).getTaskNo());
-						String ppfId=ppf.getPpfId();
-						int count=pService.countOfDepartmentCost(omName, ppfId);
-						if(count==0){
-							float money=0;
-							actualCost=actualCost+money;
-						}else{
-							float money=pService.getDepartmentCost(omName, ppfId);
-							actualCost=actualCost+money;
+						float money=0;
+						if(ppf!=null){
+							String ppfId=ppf.getPpfId();
+							int count=pService.countOfDepartmentCost(omName, ppfId);
+							if(count==0){
+								money=0;
+							}else{
+								money=pService.getDepartmentCost(omName, ppfId);
+							}
 						}
+						actualCost=actualCost+money;
 					}
 				}
 				list.get(i).setActualCost(actualCost);
