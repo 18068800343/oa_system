@@ -52,4 +52,6 @@ public interface PrjProgressFillDao {
 	public List<PrjProgressFill> selectThisTimeIncomeByDepartment(@Param("department")String department,@Param("time")String time);
 	
 	public List<PrjProgressFill> selectThisTimeIncomeByDepartmentAndPrjType(@Param("department")String department,@Param("time")String time,@Param("type")String type);
+
+	public List<PrjProgressFill> selectNewest();
 }

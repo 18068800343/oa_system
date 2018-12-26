@@ -62,7 +62,7 @@ public class MaterialSubcontractController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(c.getPrjName()+"材料采购合同履约评价流程发起");
-			currentFlow.setUrl("shengchanGuanli/SubcontractMaterialLYPJ.html-"+id);
+			currentFlow.setUrl("shengchanguanliLook/SubcontractMaterialLYPJ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
@@ -138,24 +138,92 @@ public class MaterialSubcontractController {
 	
 	@RequestMapping("/updatemSubcontractSave")//修改保存
 	@ResponseBody
-	public int updatemSubcontractSave(ClfbContractEvaluate c){
-		String ceId = c.getCeId();
+	public int updatemSubcontractSave(ClfbContractEvaluate c,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCeId(id);
 		int i=msService.addmSubcontractSave(c);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(c.getDepartment());
+			String omNo=om.getOmNo();
+			String string="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(c.getPrjName()+"材料合同履约评价变更");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(c.getPrjName()+"材料合同履约评价变更流程发起");
+			currentFlow.setUrl("shengchanguanliLook/SubcontractMaterialLYPJ.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
 	@RequestMapping("/updatemSubcontractSubmit")//修改提交
 	@ResponseBody
-	public int updatemSubcontractSubmit(ClfbContractEvaluate c){
-		String ceId = c.getCeId();
+	public String updatemSubcontractSubmit(ClfbContractEvaluate c,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCeId(id);
 		int i=msService.addmSubcontractSave(c);
-		return i;
+		String string = i+"";
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(c.getDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(c.getPrjName()+"材料合同履约评价变更");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(c.getPrjName()+"材料合同履约评价变更流程发起");
+			currentFlow.setUrl("shengchanguanliLook/SubcontractMaterialLYPJ.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 
@@ -163,6 +231,13 @@ public class MaterialSubcontractController {
 	@ResponseBody
 	public ClfbContractEvaluate selectmSubcontractById(String id){
 		return msService.selectmSubcontractById(id);
+	}
+	
+	@RequestMapping("/updatemSubcontractById")//修改
+	@ResponseBody
+	public int updatemSubcontractById(ClfbContractEvaluate c){
+		int i=msService.updatemSubcontractById(c);
+		return i;
 	}
 	
 }

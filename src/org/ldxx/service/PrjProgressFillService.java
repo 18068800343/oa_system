@@ -52,4 +52,6 @@ public interface PrjProgressFillService {
 	public float selectThisTimeIncomeByDepartment(String department,String time);
 	
 	public float selectThisTimeIncomeByDepartmentAndPrjType(String department,String time,String type);
+
+	public List<PrjProgressFill> selectNewest();
 }

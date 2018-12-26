@@ -30,5 +30,10 @@ public class MaterialSubcontractServiceImpl implements MaterialSubcontractServic
 	public ClfbContractEvaluate selectmSubcontractById(String id) {
 		return msDao.selectmSubcontractById(id);
 	}
+
+	@Override
+	public int updatemSubcontractById(ClfbContractEvaluate c) {
+		return msDao.updatemSubcontractById(c);
+	}
 	
 }

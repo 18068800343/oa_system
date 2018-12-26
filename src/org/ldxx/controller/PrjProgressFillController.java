@@ -379,4 +379,11 @@ public class PrjProgressFillController {
 		return pf;
 	}
 	
+	@RequestMapping("/selectNewest")
+	@ResponseBody
+	public List<PrjProgressFill> selectNewest(){
+		List<PrjProgressFill> ppf=service.selectNewest();
+		return ppf;
+	}
+	
 }
