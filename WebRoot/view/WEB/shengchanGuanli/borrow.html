@@ -308,7 +308,7 @@
                         <table class="table table-bordered table-condensed">
                             <tr>
                                 <td>借款合同取消原因</td>
-                                <td colspan="3"><textarea name="" id="" cols="50" rows="5"></textarea></td>
+                                <td colspan="3"><textarea name="" id="stop_Reason" cols="50" rows="5"></textarea></td>
                             </tr>
                         </table>
                     </form>  
@@ -316,8 +316,8 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-default">保存</button>
-            <button type="button" class="btn btn-success">提交</button>
+            <!-- <button type="button" class="btn btn-default">保存</button> -->
+            <button type="button" class="btn btn-success" onclick="submit_stop_resaon()">提交</button>
         </div>
         </div>
     </div>
@@ -335,9 +335,13 @@
                 <div>     
                     <form class="form-inline">
                         <table class="table table-bordered table-condensed">
+                        	<tr>
+                                <td>合同重新启用原因</td>
+                                <td colspan="3"><textarea name="" id="stop_Reason_s" cols="50" rows="5" disabled></textarea></td>
+                            </tr>
                             <tr>
                                 <td>合同重新启用原因</td>
-                                <td colspan="3"><textarea name="" id="" cols="50" rows="5"></textarea></td>
+                                <td colspan="3"><textarea name="" id="restart_Reason" cols="50" rows="5"></textarea></td>
                             </tr>
                         </table>
                     </form>  
@@ -345,8 +349,8 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-default">保存</button>
-            <button type="button" class="btn btn-success">提交</button>
+            <!-- <button type="button" class="btn btn-default">保存</button> -->
+            <button type="button" class="btn btn-success" onclick="subStartReason()">提交</button>
         </div>
         </div>
     </div>
@@ -648,7 +652,7 @@
 								    "targets": 6,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return '<i class="iconfont icon-icon-test Pecdb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookBc(this)" data-toggle="modal" data-target="#allMsg"  id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai Pecdc" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="合同变更" onclick="checkBorrowContract(this)" data-toggle="modal" data-target="#change"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi Pecdf" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="重启" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu iconzhongzhi Pecdd" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="借款合同取消"  data-toggle="modal" data-target="#myModal2"></i><i class="iconfont icon-icon-test cancel Pecde" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="查看取消原因"  onclick="lookCancel(this)"></i>'
+								  	  		return '<i class="iconfont icon-icon-test Pecdb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookBc(this)" data-toggle="modal" data-target="#allMsg"  id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai Pecdc" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="合同变更" onclick="checkBorrowContract(this)" data-toggle="modal" data-target="#change"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi Pecdf" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="重启" onclick="restartBorrow(this)" data-toggle="modal" data-target="#"></i><i class="iconfont icon-tuichu iconzhongzhi Pecdd" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="借款合同取消" onclick="stopBorrow(this)"  ></i><i class="iconfont icon-icon-test cancel Pecde" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="查看取消原因" ></i>'
 								        }
 								  }
 						],
@@ -828,9 +832,6 @@
         }
     })
 	
-function lookCancel(obj){
-  		$("#look_cancel").modal("show");
-  	}
 	
 	//初始化乙方
     function inityifang(){
@@ -1411,6 +1412,148 @@ function lookCancel(obj){
 			}
 		})
 	}
+	
+	
+	
+	//取消原因
+    var quxiaoId;
+	function stopBorrow(obj){
+  		$("#myModal2").modal("show");
+  		var tr=$(obj).parents("tr");
+  		var data=$("#mainContent").DataTable().row(tr).data();
+  		quxiaoId=data.bId;
+  	}
+	
+	//提交取消原因
+	function submit_stop_resaon(){
+		var stop_Reason=$("#stop_Reason").val();
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/BorrowContract/addBorrowContractStopReason',
+	        dataType: 'json',
+	        data: {
+	           id:quxiaoId,
+	           stopReason:stop_Reason,
+	        },
+	        success: function (json) {
+	        	if(json=='0'){
+	        		toastr.error("保存失败");
+	        	}else{
+	        		$("#myModal2").modal("hide");
+	        		lianjie=json.url;
+	            	if(json.receiver!=null&&json.receiver.length>=1){
+		        		  $("#tijiaogei").modal('show');
+		        		  $("#tijiaoren tbody").empty("");
+		        		  for(var i=0;i<json.receiver.length;i++){
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" style="width:20px;height:20px;" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+		        					  +'</td><td>'
+		        					  +json.receiver[i].omName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].dutyName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].uName
+		        					  +'</td></tr>');
+		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver.userId,
+		        	        	  uName:json.receiver.uName,
+		        	        	  omName:json.receiver.omName,
+		        	        	  dutyName:json.receiver.dutyName,
+		        	        	  omId:json.receiver.omId,
+		        	        	  dutyId:json.receiver.dutyId
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
+		        	  }
+	        	}
+	        }
+    	});
+	}
+	
+	var startId;
+	function restartBorrow(obj){
+		$("#myModal3").modal("show");
+		var tr=$(obj).parents("tr");
+  		var data=$("#mainContent").DataTable().row(tr).data();
+  		//console.log(data.oId)
+  		startId=data.bId;
+  		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/ContractReason/selectContractReasonById',
+	        dataType: 'json',
+	        data: {
+	           id:data.bId
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	$("#stop_Reason_s").val(json.stopReason)
+	        }
+    	});
+	}
+	
+	function subStartReason(){
+		var restart_Reason=$("#restart_Reason").val();
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/BorrowContract/addBorrowContractRestartReason',
+	        dataType: 'json',
+	        data: {
+	           id:startId,
+	           restartReason:restart_Reason,
+	        },
+	        success: function (json) {
+	        	if(json=='0'){
+	        		toastr.error("保存失败");
+	        	}else{
+	        		$("#myModal3").modal("hide");
+	        		lianjie=json.url;
+	            	if(json.receiver!=null&&json.receiver.length>=1){
+		        		  $("#tijiaogei").modal('show');
+		        		  $("#tijiaoren tbody").empty("");
+		        		  for(var i=0;i<json.receiver.length;i++){
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" style="width:20px;height:20px;" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+		        					  +'</td><td>'
+		        					  +json.receiver[i].omName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].dutyName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].uName
+		        					  +'</td></tr>');
+		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver.userId,
+		        	        	  uName:json.receiver.uName,
+		        	        	  omName:json.receiver.omName,
+		        	        	  dutyName:json.receiver.dutyName,
+		        	        	  omId:json.receiver.omId,
+		        	        	  dutyId:json.receiver.dutyId
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
+		        	  }
+	        	}
+	        }
+    	});
+	}
+	
     
 </script>
 </html>
