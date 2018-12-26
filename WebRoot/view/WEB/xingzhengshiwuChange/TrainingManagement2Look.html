@@ -196,18 +196,21 @@
        	laydate.render({
        		elem: '#edit_year' //指定元素
         });
-        initTable();
-        initDepartment();
         
-        function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
+        initDepartment();
+        initTable();
+        
        
 	});
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   
   //已知部门选人
     var xgtableren=$('#xgmingzibiao').dataTable({
         "deferRender": true,
@@ -263,6 +266,7 @@
             type: 'POST',
             url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
             dataType: 'json',
+            async:false,
             data: {
             },
             success: function (json) {
@@ -318,38 +322,65 @@
 	
 	
 	
-	var edit_id;
-	function initTable(obj){
+	
+	function initTable(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/OutTrainAll/selectOutTrainAllById',
+	        dataType: 'json',
+	        async:false,
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	$("#edit_title").val(data.otaTitle);
+	    		$("#edit_department").val(data.omId);
+	    		$("#edit_training_name").val(data.trainingName);
+	    		$("#edit_training_lv").val(data.trainingLv);
+	    		$("#edit_className").val(data.courseName);
+	    		$("#edit_year").val(data.trainingDate);
+	    		$("#edit_addr").val(data.trainingLocation);
+	    		$("#edit_money").val(data.trainingMoney);
+	    		$("#edit_course_desc").val(data.courseDesc);
+	    		$("#edit_training_reason").val(data.trainingReason);
+	    		$("#edit_users").val(data.attendees);
+	    		$("#edit_button").html('');
+	    		$("#edit_button").append('<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
+	    		        '<button type="button" class="btn btn-success" onclick="edit_save()">保存</button>'+
+	    		        '<button type="button" class="btn btn-success" onclick="edit_submit()">提交</button>');
+	    		
+	    		$("#edit_table").html('');
+	    		 $("#edit_table").append('<thead>'+
+	    	     			'<tr><td style="width:30%;">附件</td>'+
+	    	     			'<td><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_uploaderBox()">添加附件</button></td>'+
+	    	                '<td style="width:20%;">&nbsp</td></tr>'+
+	    				'</thead><tbody></tbody>');
+	    		 $.ajax({
+	    		        type: 'POST',
+	    		        url: getContextPath()+'/announcement/selectAccessoryById',
+	    		        dataType: 'json',
+	    		        data: {
+	    		           id:id
+	    		        },
+	    		        success: function (json) {
+	    		        	
+	    		        	for(var i=0;i<json.length;i++){
+	    		        		acc=json;
+	    		        		$("#edit_table tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc[i].aId+" data2="+acc[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
+	    		        	}
+	    		        }
+	    	    	});
+	            
+	    		 
+	        }
+	    });
 		
-		edit_id=data.otaId;
-		$("#edit_title").val(data.otaTitle);
-		$("#edit_department").val(data.omId);
-		$("#edit_training_name").val(data.trainingName);
-		$("#edit_training_lv").val(data.trainingLv);
-		$("#edit_className").val(data.courseName);
-		$("#edit_year").val(data.trainingDate);
-		$("#edit_addr").val(data.trainingLocation);
-		$("#edit_money").val(data.trainingMoney);
-		$("#edit_course_desc").val(data.courseDesc);
-		$("#edit_training_reason").val(data.trainingReason);
-		$("#edit_users").val(data.attendees);
-		$("#edit_button").html('');
-		$("#edit_button").append('<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
-		        '<button type="button" class="btn btn-success" onclick="edit_save()">保存</button>'+
-		        '<button type="button" class="btn btn-success" onclick="edit_submit()">提交</button>');
 		
-		$("#edit_table").html('');
-		 $("#edit_table").append('<thead>'+
-	     			'<tr><td style="width:30%;">附件</td>'+
-	     			'<td><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_uploaderBox()">添加附件</button></td>'+
-	                '<td style="width:20%;">&nbsp</td></tr>'+
-				'</thead><tbody></tbody>');
-        var acc=data.accessory;
-		 for(var i=0;i<acc.length;i++){
-			 $("#edit_table tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc[i].aId+" data2="+acc[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
-		 }   
+		  
 		
-		$("#change2").modal("show");
+		
 	}
 	
 	function deleteFile(obj){

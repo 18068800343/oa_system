@@ -76,11 +76,11 @@
 <form class="form-inline" id="edit_form" method="post" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed">
                             <tr>
-                                <td style="width:100px;">培训课程名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:150px;">培训课程名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
                                     <input type="text" class="form-control" id="edit_class_name">
                                 </td>
-                                <td style="width:100px;">参加人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:150px;">参加人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
                                 	<input type="text" class="form-control" id="edit_join_user" disabled>
                                 	<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#xgaddGuanliren">选择人员</button>
@@ -188,15 +188,18 @@
         initBaoGuanRen();
         initTable();
         
-        function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
+        
        
 	});
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   
   //不知部门选人
     var xgtableren=$('#xgbmmingzibiao').dataTable({
         "deferRender": true,
@@ -251,6 +254,7 @@
 	        type: 'POST',
 	        url: getContextPath()+'/organizationManagement/getOrgIdAndName',
 	        dataType: 'json',
+	        async:false,
 	        data: {
 	        },
 	        success: function (json) {
@@ -296,28 +300,53 @@
 
 	
 	
-	var edit_id;
-	function initTable(obj){
-		 var dom=$(obj).parents("tr");
-		 var data=$('#mainContent').DataTable().row(dom).data();
-		 edit_id=data.daId;
-		 
-		 $("#edit_class_name").val(data.daName);
-		 $("#edit_join_user").val(data.attendees);
-		 $("#edit_addr").val(data.trainingLocation);
-		 $("#edit_year").val(data.trainingTime);
-		 $("#edit_summarize").val(data.credentialDesc);
-		 $("#xg_ziliao tbody").html('');
-		 $("#xg_zhengshu tbody").html('');
-		 var acc=data.accessory;
-		 var acc2=data.accessory2;
-		 for(var i=0;i<acc.length;i++){
-			 $("#xg_ziliao tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc[i].aId+" data2="+acc[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
-		 }
-		 for(var ii=0;ii<acc2.length;ii++){
-			 $("#xg_zhengshu tbody").append("<tr><td>附件"+(ii+1)+"</td><td><input style='width:100%;' type='text' value="+acc2[ii].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc2[ii].aId+" data2="+acc2[ii].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
-		 }
-		$("#change").modal("show");
+	
+	function initTable(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/DataArchive/selectDataArchiveById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	data=json;
+	        	 $("#edit_class_name").val(data.daName);
+		   		 $("#edit_join_user").val(data.attendees);
+		   		 $("#edit_addr").val(data.trainingLocation);
+		   		 $("#edit_year").val(data.trainingTime);
+		   		 $("#edit_summarize").val(data.credentialDesc);
+		   		 $("#xg_ziliao tbody").html('');
+		   		 $("#xg_zhengshu tbody").html('');
+		   		 var acc=data.accessory;
+		   		 var acc2=data.accessory2;
+		   		 $.ajax({
+		   		        type: 'POST',
+		   		        url: getContextPath()+'/announcement/selectAccessoryById',
+		   		        dataType: 'json',
+		   		        data: {
+		   		           id:id
+		   		        },
+		   		        success: function (json) {
+		   		        	console.log(json)
+		   		        	for(var i=0;i<json.length;i++){
+		   		        		console.log(json)
+		   		        		acc=json;
+		   		        		if(json[i].aType=="资料"){
+		   		        		 $("#xg_ziliao tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc[i].aId+" data2="+acc[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
+		   		        		}
+		   		        		if(json[i].aType=="证书"){
+		   		        			$("#xg_zhengshu tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc[i].aId+" data2="+acc[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
+		   		        		}
+		   		        	}
+		   		        }
+		   	    	});
+	   		 
+	        }
+	    });
+		
+		
 	}
 	
 

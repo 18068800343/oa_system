@@ -182,17 +182,7 @@
 <!-- Modal xg选人结束 -->
 
 <!-- ***************************************************************填报使用管理******************************************* --> 
-                <!-- xgModal -->
-                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel"><b>修改使用管理</b></h4>
-                        </div>
-                        <div class="modal-body">
-                                <div>     
-                                    <form id="edit_form2" class="form-inline" method="post" enctype="multipart/form-data">
+            <form id="edit_form2" class="form-inline" method="post" enctype="multipart/form-data">
                                         <table class="table table-bordered table-condensed">
                                         	<tr>
 			                                	<td style="width:15%;">使用的项目:</td>
@@ -231,6 +221,18 @@
                         
                         				</table>
                                     </form>  
+                                    
+                <!-- xgModal -->
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><b>修改使用管理</b></h4>
+                        </div>
+                        <div class="modal-body">
+                                <div>     
+                                    
                                 </div>
                         </div>
                         <div class="modal-footer">
@@ -370,8 +372,8 @@
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
-    	initTable();
-    	initTable2();
+    	
+    	
     	//xiangmuSelect();
     	bumenSelect();
     	initBaoGuanRen();
@@ -397,19 +399,16 @@
         laydate.render({
             elem: '#xgxiaohuiTime' //指定元素
         });
-        
-        
-        function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
-        
+        initTable();
         
 	});
-    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
     
     
     var table4xg=$('#xgxiangmubiao2').dataTable({
@@ -586,6 +585,7 @@
 	        type: 'POST',
 	        url: getContextPath()+'/organizationManagement/getOrgIdAndName',
 	        dataType: 'json',
+	        async:false,
 	        data: {
 	        },
 	        success: function (json) {
@@ -635,6 +635,7 @@
 	        type: 'POST',
 	        url: getContextPath()+'/organizationManagement/getOrgIdAndName',
 	        dataType: 'json',
+	        async:false,
 	        data: {
 	        },
 	        success: function (json) {
@@ -667,19 +668,16 @@
 	
 	
 	//修改回显使用管理
-	var suId;
-	var tr;
+	
 	function initTable(){
 		
-		//console.log(data)
-		suId=data.suId;
 		$.ajax({
 			type:"post",
 			url:getContextPath()+"/signetUsers/selectUsersById",
 			dataType:"json",
+			async:false,
 			data:{
-				suId:suId,
-				status:2
+				suId:id
 			},
 			success:function(json){
 				//console.log(json);
@@ -699,7 +697,7 @@
 			dataType:"json",
 			async:false,
 			data:{
-				id:suId,
+				id:id
 			},
 			success:function(json){
 				//console.log(json);

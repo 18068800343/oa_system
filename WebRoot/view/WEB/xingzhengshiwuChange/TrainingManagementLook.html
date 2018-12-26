@@ -186,16 +186,16 @@
             elem: '#edit_year2' //指定元素
         });
     	
-    	function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
+    	
        
 	});
-
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
     
     //已知部门选人
     var xgtableren=$('#xgmingzibiao').dataTable({
@@ -252,6 +252,7 @@
             type: 'POST',
             url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
             dataType: 'json',
+            async:false,
             data: {
             },
             success: function (json) {
@@ -318,52 +319,65 @@
 
 
 	
-	var id;
-	function initTable(obj){
-		
-		id=data.otId;
-		console.log(data)
-		
-		$("#edit_title").val(data.otTitle);
-		$("#edit_department").val(data.proposerDepartment);
-		//editSelect(data.proposer);
-		$("#edit_user").val(data.uName);
-		
+	console.log(id)
+	function initTable(){
 		$.ajax({
 	        type: 'POST',
-	        url: getContextPath()+'/duty/selectDutyBydutyId',
+	        url: getContextPath()+'/outTrain/selectOutTrainById',
 	        dataType: 'json',
-	        data: {
-	        	dutyId:data.dutyId
+	        async:false,
+	        data:{
+	        	id:id
 	        },
-	        success: function (data) {
-	        	//console.log(data)
-	        	$("#edit_duty").val(data.dutyName)
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	$("#edit_title").val(data.otTitle);
+	    		$("#edit_department").val(data.proposerDepartment);
+	    		//editSelect(data.proposer);
+	    		$("#edit_user").val(data.proposer);
+	    		$("#edit_duty").val(data.dutyId)
+	    		
+	    		$("#edit_className").val(data.courseName);
+	    		$("#edit_year").val(data.applicationDate);
+	    		$("#edit_year2").val(data.otDate);
+	    		$("#edit_studyMoney").val(data.trainingMoney);
+	    		$("#edit_studyAddr").val(data.trainingLocation);
+	    		$("#edit_study_infos").val(data.courseDesc);
+	    		$("#edit_study_target").val(data.trainingReason);
+	    		$("#buttons").html('');
+	    		$("#buttons").append('<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
+	                '<button type="button" class="btn btn-success" id="button1" onclick="edit_save()">保存</button>'+
+	                '<button type="button" class="btn btn-success" id="button2" onclick="edit_submit()">提交</button>')
+	    		
+	             $("#edit_table").html('');
+	    		 $("#edit_table").append('<thead>'+
+	    	     			'<tr><td style="width:30%;">附件</td>'+
+	    	     			'<td><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_uploaderBox()">添加附件</button></td>'+
+	    	                '<td style="width:20%;">&nbsp</td></tr>'+
+	    				'</thead><tbody></tbody>');
+	    		 $.ajax({
+	    		        type: 'POST',
+	    		        url: getContextPath()+'/announcement/selectAccessoryById',
+	    		        dataType: 'json',
+	    		        data: {
+	    		           id:id
+	    		        },
+	    		        success: function (json) {
+	    		        	
+	    		        	for(var i=0;i<json.length;i++){
+	    		        		acc=json;
+	    		        		$("#edit_table tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc[i].aId+" data2="+acc[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
+	    		        	}
+	    		        }
+	    	    	});
+	    		 
 	        }
 	    });
 		
-		$("#edit_className").val(data.courseName);
-		$("#edit_year").val(data.applicationDate);
-		$("#edit_year2").val(data.otDate);
-		$("#edit_studyMoney").val(data.trainingMoney);
-		$("#edit_studyAddr").val(data.trainingLocation);
-		$("#edit_study_infos").val(data.courseDesc);
-		$("#edit_study_target").val(data.trainingReason);
-		$("#buttons").html('');
-		$("#buttons").append('<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
-            '<button type="button" class="btn btn-success" id="button1" onclick="edit_save()">保存</button>'+
-            '<button type="button" class="btn btn-success" id="button2" onclick="edit_submit()">提交</button>')
 		
-         $("#edit_table").html('');
-		 $("#edit_table").append('<thead>'+
-	     			'<tr><td style="width:30%;">附件</td>'+
-	     			'<td><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_uploaderBox()">添加附件</button></td>'+
-	                '<td style="width:20%;">&nbsp</td></tr>'+
-				'</thead><tbody></tbody>');
-         var acc=data.accessory;
-		 for(var i=0;i<acc.length;i++){
-			 $("#edit_table tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc[i].aId+" data2="+acc[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
-		 }   
+		
+		
             
 		
 	}

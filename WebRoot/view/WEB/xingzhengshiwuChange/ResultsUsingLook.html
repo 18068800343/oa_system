@@ -230,23 +230,24 @@
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
-    	initTable();
+    	
     	initSelect();
     	bumenSelect();
         laydate.render({
             elem: '#year' //指定元素
         });
         
-        function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
+        initTable();
        
 	});
-    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   
     var table3xg=$('#xgxiangmubiao').dataTable({
         "deferRender": true,
         "processing": true,
@@ -399,6 +400,7 @@
 	        type: 'POST',
 	        url: getContextPath()+'/organizationManagement/getOrgIdAndName',
 	        dataType: 'json',
+	        async:false,
 	        data: {
 	        },
 	        success: function (json) {
@@ -535,23 +537,17 @@
 
 	
 	//修改回显
-	var checkId;
-	var tr;
 	function initTable(obj){
-		
-		
-		checkId=data.usId;
-		
 		$.ajax({
 			type:"post",
 			url:getContextPath()+"/ResultsUsing/selectResultsUsingById",
 			dataType:"json",
+			async:false,
 			data:{
-				usId:checkId,
-				status:2
+				usId:id,
 			},
 			success:function(json){
-				//console.log(json);
+				console.log(json);
 				$("#xgprjName").attr("data1",json.prjId);
 				$("#xgprjName").val(json.prjName);
 				$("#xgtask_no").val(json.usNo);
