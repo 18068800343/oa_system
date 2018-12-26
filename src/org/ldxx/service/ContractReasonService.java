@@ -9,4 +9,6 @@ public interface ContractReasonService {
 	public int addContractReason(ContractReason cr);
 	
 	public int updateContractReasonById(ContractReason cr);
+	
+	public int countId(String id);
 }
