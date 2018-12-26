@@ -51,19 +51,7 @@
     </div>
 
     <div class="zhuti-content">
-        <div class="UpperPart">
-            
-<!-- Modal -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
-    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
-        <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel"><b>废旧品处理</b></h4>
-        </div>
-        <div class="modal-body">
-                <div>     
-                    <form class="form-inline">
+    	<form class="form-inline">
                         <table class="table table-bordered table-condensed" >
                             <tr>
                                  <td style="width:18%;">采购合同名称 </td>
@@ -83,15 +71,17 @@
                             <tr>
                                 <td>任务单号</td>
                                 <td>
-                                	<select class="form-control" style="width:66%;" id="prj_no">
+                                	<!-- <select class="form-control" style="width:66%;" id="prj_no">
                                     	
-                                    </select>
+                                    </select> -->
+                                    <input type="text" id="prj_no" class="form-control" disabled style="width:66%;">
                                 </td>
                                 <td>项目名称</td>
                                 <td>
-                                	<select class="form-control" style="width:80%;" id="prj_name">
+                                	<!-- <select class="form-control" style="width:80%;" id="prj_name">
                                     	
-                                    </select>
+                                    </select> -->
+                                    <input type="text" id="prj_name" class="form-control" disabled style="width:66%;">
                                 </td>
                             </tr>
                             <tr>
@@ -141,6 +131,20 @@
                         	<tbody></tbody>
                         </table>
                     </form>  
+                    
+        <div>
+            
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>废旧品处理</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    
                 </div>
         </div>
         <div class="modal-footer">
@@ -425,7 +429,7 @@
         if(r!=null)return  unescape(r[2]); return null;
    }
    // 调用方法
-   	id=GetQueryString("");
+   	id=GetQueryString("prjId");
    
 
     var table2=$('#cg_table').dataTable({
@@ -941,44 +945,59 @@
 	})
 	
 	function initTable(){
-		
-		$("#cg_no").text(data.cgNo);
-		$("#cg_name").text(data.cgName);
-		$("#prj_no").text(data.taskNo);
-		$("#prj_name").text(data.pickProject);
-		$("#person").text(data.wastePerson);
-		$("#year").text(data.wasteTime);
-		$("#reason").text(data.wasteReason);
-		$("#dispose_type").text(data.wasteType);
-		$("#dispose_money").text(data.wasteMoney);
-		$("#dispose_desc").text(data.wasteDesc);
-		
 		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/wd/selectWdById',
-            dataType: 'json',
-            data:{
-            	id:data.wpId
-            },
-            success: function (json) {
-            	$("#waste_table tbody").html('');
-            	for(var i=0;i<json.length;i++){
-            		if(json[i].cmoNumber>0){
-		            	$("#waste_table tbody").append("<tr>"+
-		            														"<td>"+json[i].materialName+"</td>"+
-		            														"<td>"+json[i].materialType+"</td>"+
-		            														"<td>"+json[i].specificationModel+"</td>"+
-		            														"<td>"+json[i].cmoUnit+"</td>"+
-		            														"<td>"+json[i].cmoNumber+"</td>"+
-		            														"<td>"+json[i].cmoUnitPrice+"</td>"+
-		            														"<td>"+json[i].cmoMoney+"</td>"+
-		            														"<td>"+json[i].wasteWantMoney+"</td>"+
-		            														"<td>"+json[i].wasteActualMoney+"</td>"+
-		            													"</tr>");
-            		}
-            	}
-            }
-        });
+	        type: 'POST',
+	        url: getContextPath()+'/wd/selectWasteDisposeById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	$("#cg_no").val(data.cgNo);
+	    		$("#cg_name").val(data.cgName);
+	    		$("#prj_no").val(data.taskNo);
+	    		$("#prj_name").val(data.pickProject);
+	    		$("#person").val(data.wastePerson);
+	    		$("#year").val(data.wasteTime);
+	    		$("#reason").val(data.wasteReason);
+	    		$("#dispose_type").val(data.wasteType);
+	    		$("#dispose_money").val(data.wasteMoney);
+	    		$("#dispose_desc").val(data.wasteDesc);
+	    		$.ajax({
+	                type: 'POST',
+	                url: getContextPath()+'/wd/selectWdById',
+	                dataType: 'json',
+	                data:{
+	                	id:id
+	                },
+	                success: function (json) {
+	                	$("#waste_table tbody").html('');
+	                	for(var i=0;i<json.length;i++){
+	                		if(json[i].cmoNumber>0){
+	                			$("#waste_table tbody").append("<tr>"+
+										"<td>"+json[i].materialName+"</td>"+
+										"<td>"+json[i].materialType+"</td>"+
+										"<td>"+json[i].specificationModel+"</td>"+
+										"<td>"+json[i].cmoUnit+"</td>"+
+										"<td>"+json[i].cmoNumber+"</td>"+
+										"<td>"+json[i].cmoUnitPrice+"</td>"+
+										"<td>"+json[i].cmoMoney+"</td>"+
+										"<td><input type='text' class='form-control' data="+json[i].gsId+" value='"+json[i].wasteWantMoney+"'></td>"+
+										"<td><input type='text' class='form-control' value='"+json[i].wasteActualMoney+"'></td>"+
+										"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
+									"</tr>");
+	                		}
+	                	}
+	                }
+	            });
+	    		
+	        }
+	    });
+		
+		
+		
 		
 		
 	}

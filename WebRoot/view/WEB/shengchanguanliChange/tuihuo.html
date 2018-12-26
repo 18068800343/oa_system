@@ -52,18 +52,7 @@
     </div>
 
     <div class="zhuti-content">
-        
-        <!-- Modal -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
-    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
-        <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel"><b>填报</b></h4>
-        </div>
-        <div class="modal-body">
-                <div>     
-                    <form class="form-inline">
+        <form class="form-inline">
                         <table class="table table-bordered table-condensed" id="xinjianCailiao">
                         	<tr>
                                 <td style="width:18%;">项目名称</td>
@@ -128,6 +117,17 @@
                         	<tbody></tbody>
                         </table>
                     </form>  
+        <!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    
                 </div>
         </div>
         <div class="modal-footer">
@@ -242,6 +242,14 @@
         });
 	});
 
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   
     var table3=$('#xiangmubiao').dataTable({
         "deferRender": true,
         "processing": true,
@@ -684,53 +692,63 @@
         });
 	}
 	
-	function GetQueryString(name){
-        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-        var r = window.location.search.substr(1).match(reg);
-        if(r!=null)return  unescape(r[2]); return null;
-   }
-   // 调用方法
-   	id=GetQueryString("");
-	
 
+	
+	console.log(id)
 	//查看详细信息
 	function initTable(){
-		
-		console.log(data)
-		$("#lookprjName").text(data.prjName)
-		$("#lookprjNo").text(data.prjNo)
-		$("#lookshenqingren").text(data.applyPerson);
-		$("#lookyear").text(data.applyDate);
-		$("#lookchuliyuanyin").text(data.dealReason);
-		$("#lookchulifangshi").text(data.dealMode);
-		$("#lookchengbenfeiyong").text(data.costMoney);
-		$("#lookbeizhu").text(data.cmwDesc);
-		
 		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatmentClById',
-            dataType: 'json',
-            data:{
-            	id:data.cmwId
-            },
-            success: function (json) {
-            	console.log(json)
-            	$("#look_waste_table tbody").html('');
-            	for(var i=0;i<json.length;i++){
-		            	$("#look_waste_table tbody").append("<tr>"+
-		            														"<td>"+json[i].materialName+"</td>"+
-		            														"<td>"+json[i].materialType+"</td>"+
-		            														"<td>"+json[i].materialModel+"</td>"+
-		            														"<td>"+json[i].unit+"</td>"+
-		            														"<td>"+json[i].dealNumber+"</td>"+
-		            														"<td>"+json[i].price+"</td>"+
-		            														"<td>"+json[i].money+"</td>"+
-		            														"<td>"+json[i].quasiDiscountMoney+"</td>"+
-		            														"<td>"+json[i].actualDiscountMoney+"</td>"+
-		            													"</tr>");
-            	}
-            }
-        });
+	        type: 'POST',
+	        url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatmentById',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	data=json;
+	        	$("#prjName").val(data.prjName)
+	    		$("#prjNo").val(data.prjNo)
+	    		$("#shenqingren").val(data.applyPerson);
+	    		$("#year").val(data.applyDate);
+	    		$("#chuliyuanyin").val(data.dealReason);
+	    		$("#chulifangshi").val(data.dealMode);
+	    		$("#chengbenfeiyong").val(data.costMoney);
+	    		$("#beizhu").val(data.cmwDesc);
+	    		$.ajax({
+	                type: 'POST',
+	                url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatmentClById',
+	                dataType: 'json',
+	                data:{
+	                	id:id
+	                },
+	                success: function (json) {
+	                	//console.log(json)
+	                	$("#look_waste_table tbody").html('');
+	                	for(var i=0;i<json.length;i++){
+	                		$("#waste_table tbody").append("<tr>"+
+									"<td>"+json[i].materialName+"</td>"+
+									"<td>"+json[i].materialType+"</td>"+
+									"<td>"+json[i].materialModel+"</td>"+
+									"<td>"+json[i].unit+"</td>"+
+									"<td>"+json[i].dealNumber+"</td>"+
+									"<td>"+json[i].price+"</td>"+
+									"<td>"+json[i].money+"</td>"+
+									"<td><input type='text' class='form-control' data="+json[i].crId+" value='"+json[i].quasiDiscountMoney+"'></td>"+
+									"<td><input type='text' class='form-control' value='"+json[i].actualDiscountMoney+"'></td>"+
+									"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
+								"</tr>");
+	    		            	
+	                	}
+	                }
+	            });
+	    		
+	        }
+	    });
+		
+		
+		
+		
 		
 	} 
 	
