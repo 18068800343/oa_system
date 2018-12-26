@@ -210,4 +210,10 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return money;
 	}
 
+	@Override
+	public List<PrjProgressFill> selectNewest() {
+		List<PrjProgressFill> list=dao.selectNewest();
+		return list;
+	}
+
 }
