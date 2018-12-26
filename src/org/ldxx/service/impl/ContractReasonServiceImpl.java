@@ -22,4 +22,9 @@ public class ContractReasonServiceImpl implements ContractReasonService{
 		return dao.addContractReason(cr);
 	}
 
+	@Override
+	public int updateContractReasonById(ContractReason cr) {
+		return dao.updateContractReasonById(cr);
+	}
+
 }

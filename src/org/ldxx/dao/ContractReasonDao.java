@@ -9,4 +9,6 @@ public interface ContractReasonDao {
 	public ContractReason selectContractReasonById(@Param("id")String id);
 	
 	public int addContractReason(@Param("cr")ContractReason cr);
+	
+	public int updateContractReasonById(@Param("cr")ContractReason cr);
 }
