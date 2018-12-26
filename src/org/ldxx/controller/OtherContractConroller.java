@@ -9,11 +9,13 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.ContractReason;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.OtherContract;
 import org.ldxx.bean.User;
+import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.OtherContractService;
 import org.ldxx.util.FlowUtill;
@@ -33,6 +35,8 @@ public class OtherContractConroller {
 	private OtherContractService service;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private ContractReasonService crService;
 	
 	@RequestMapping("/addOtherContractBySave")
 	@ResponseBody
@@ -445,5 +449,98 @@ public class OtherContractConroller {
 		}
 		int i=service.updateOtherContractById(other);
 		return i;
+	}
+	
+	
+	
+	
+	@RequestMapping("/addOtherContractRestartReason")//合同重启原因
+	@ResponseBody
+	public String OtherContractRestartReason(ContractReason cr,HttpSession session) throws IllegalStateException, IOException{
+		int i=crService.updateContractReasonById(cr);
+		String string = i+"";
+		if(i>0){
+			OtherContract other= service.selectOtherContractById(cr.getId());
+			OrganizationManagement om=oService.selectOrgById(other.getAbutmentDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setTitle("其他合同："+other.getContractName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo("其他合同:"+other.getContractName()+"重新启用流程发起");
+			currentFlow.setUrl("shengchanguanliLook/OtherContract.html-"+cr.getId());
+			currentFlow.setParams("其他合同启用原因："+cr.getRestartReason());
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(3);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
+	}
+	
+	@RequestMapping("/addOtherContractStopReason")//合同取消原因
+	@ResponseBody
+	public String addOtherContractStopReason(ContractReason cr,HttpSession session) throws IllegalStateException, IOException{
+		int count=crService.countId(cr.getId());
+		int i=0;
+		if(count==0){
+			i=crService.addContractReason(cr);
+		}else{
+			i=crService.updateContractReasonById(cr);
+		}
+		String string = i+"";
+		if(i>0){
+			OtherContract other= service.selectOtherContractById(cr.getId());
+			OrganizationManagement om=oService.selectOrgById(other.getAbutmentDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setTitle("其他合同："+other.getContractName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo("其他合同："+other.getContractName()+"取消流程发起");
+			currentFlow.setUrl("shengchanguanliLook/OtherContract.html-"+cr.getId());
+			currentFlow.setParams("其他合同取消原因："+cr.getStopReason());
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(3);
+			currentFlow.setFlowNopassState(2);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 }
