@@ -121,7 +121,6 @@ public class SubContractController {
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
-			currentFlow.setParams("1");
 			currentFlow.setTitle(fbContract.getContractName());
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());
@@ -137,6 +136,7 @@ public class SubContractController {
 			currentFlow.setSdtofnode(new Date());
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getuName());
@@ -215,7 +215,6 @@ public class SubContractController {
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
-			currentFlow.setParams("1");
 			currentFlow.setTitle(fbContract.getContractName());
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());
@@ -231,6 +230,7 @@ public class SubContractController {
 			currentFlow.setSdtofnode(new Date());
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getuName());
@@ -248,11 +248,11 @@ public class SubContractController {
 	
 	@RequestMapping("/submitFbCancel")//合同取消
 	@ResponseBody
-	public String submitCjCancel(ContractReason cr,String fbName,String department,HttpSession session){
+	public String submitCjCancel(ContractReason cr,String fbName,String cjNo,HttpSession session){
 		int i=cService.addContractReason(cr);
 		String string = i+"";
 		if(i>0){
-			CjContract cj=cjService.getCjContractMainDepartmentLeader(department);
+			CjContract cj=cjService.getCjContractMainDepartmentLeader(cjNo);
 			String mainDepartment=cj.getMainDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
@@ -260,12 +260,11 @@ public class SubContractController {
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("合同取消原因："+cr.getStopReason());
-			currentFlow.setTitle(fbName);
+			currentFlow.setTitle(fbName+"取消流程发起");
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(fbName+"取消流程发起");
 			currentFlow.setUrl("shengchanguanliLook/SubcontractManagementLook.html-"+cr.getId());
-			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
 			currentFlow.setFkDept(omNo);
@@ -274,7 +273,8 @@ public class SubContractController {
 			currentFlow.setPri(1);
 			currentFlow.setSdtofnode(new Date());
 			currentFlow.setSdtofflow(new Date());
-			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowEndState(3);
+			currentFlow.setFlowNopassState(2);
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getuName());
@@ -291,11 +291,11 @@ public class SubContractController {
 	
 	@RequestMapping("/submitFbRestart")//合同重新启用
 	@ResponseBody
-	public String submitCjRestart(ContractReason cr,String fbName,String department,HttpSession session){
+	public String submitCjRestart(ContractReason cr,String fbName,String cjNo,HttpSession session){
 		int i=cService.updateContractReasonById(cr);
 		String string = i+"";
 		if(i>0){
-			CjContract cj=cjService.getCjContractMainDepartmentLeader(department);
+			CjContract cj=cjService.getCjContractMainDepartmentLeader(cjNo);
 			String mainDepartment=cj.getMainDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
@@ -303,12 +303,11 @@ public class SubContractController {
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("合同重新启用原因："+cr.getRestartReason());
-			currentFlow.setTitle(fbName);
+			currentFlow.setTitle(fbName+"重新启用流程发起");
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(fbName+"重新启用流程发起");
 			currentFlow.setUrl("shengchanguanliLook/SubcontractManagementLook.html-"+cr.getId());
-			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
 			currentFlow.setFkDept(omNo);
@@ -318,6 +317,7 @@ public class SubContractController {
 			currentFlow.setSdtofnode(new Date());
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(3);
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getuName());

@@ -238,13 +238,12 @@ public class CjContractController {
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
-			currentFlow.setParams("合同取消原因："+cr.getStopReason());
 			currentFlow.setTitle(cjName);
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(cjName+"取消流程发起");
 			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+cr.getId());
-			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setParams("合同取消原因："+cr.getStopReason());
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
 			currentFlow.setFkDept(omNo);
@@ -253,8 +252,8 @@ public class CjContractController {
 			currentFlow.setPri(1);
 			currentFlow.setSdtofnode(new Date());
 			currentFlow.setSdtofflow(new Date());
-			currentFlow.setFlowEndState(2);
-			currentFlow.setFlowNopassState(0);
+			currentFlow.setFlowEndState(3);
+			currentFlow.setFlowNopassState(2);
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getuName());
@@ -286,7 +285,6 @@ public class CjContractController {
 			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(cjName+"重新启用流程发起");
 			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+cr.getId());
-			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
 			currentFlow.setFkDept(omNo);
@@ -296,7 +294,7 @@ public class CjContractController {
 			currentFlow.setSdtofnode(new Date());
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
-			currentFlow.setFlowNopassState(0);
+			currentFlow.setFlowNopassState(3);
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getuName());
