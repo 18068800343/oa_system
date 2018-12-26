@@ -874,7 +874,7 @@
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
-    	initTable();
+    	
     	initSelect();
     	//initbumen();
     	inityifang();
@@ -894,16 +894,17 @@
         
         $("#isdaigou").trigger("change");
         
-        function GetQueryString(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-       }
-       // 调用方法
-       	id=GetQueryString("");
         
+       	initTable();
 	});
-    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   
     <!-- 历史表格 -->
     var table2=$('#lookHistory').dataTable({
         "deferRender": true,
@@ -1043,81 +1044,9 @@
         }},
         
 	});
-	function initTable(){
-        $.ajax({
-            type: 'POST',
-            url:getContextPath()+'/cgcontract/selectCgContractByStatus',
-            dataType: 'json',
-            data: {
-            	status:2
-            },
-            success: function (json) {
-                $('#mainContent').dataTable().fnClearTable();
-                $('#mainContent').DataTable().rows.add(json).draw(false);
-            }
-        });
-    }
 
-	
-	//初始化
-    $(".zhuangtai").change(function(){
-        var zt=$(".zhuangtai").val();
-        if(zt=="正常进行"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/cgcontract/selectCgContractByStatus',
-                dataType: 'json',
-                data: {
-                	status:2,
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").hide();
-                    $(".iconxiugai").show();
-                    $(".iconzhongzhi").show();
-                    $(".iconlywj").show();
-                }
-            });
-            
-        }else if(zt=="合同取消"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/cgcontract/selectCgContractByStatus',
-                dataType: 'json',
-                data: {
-                	status:3,
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").show();
-                    $(".iconxiugai").hide();
-                    $(".iconzhongzhi").hide();
-                    $(".iconlywj").hide();
-                }
-            });
-            
-        }else if(zt=="审批中"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/cgcontract/selectCgContractByStatus',
-                dataType: 'json',
-                data: {
-                	status:1,
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").hide();
-                	$(".iconxiugai").hide();
-                	$(".iconzhongzhi").hide();
-                    $(".iconlywj").hide();
-                }
-            });
-        	
-        }
-    })
+
+
     
     function chooseFb(){
     	$.ajax({
@@ -1184,81 +1113,7 @@
     	$("#xgchoose_fb").modal("hide");
     }
     
-    //初始化分包合同名称和分包合同号
-	 /* function initSelectfb(){
-		$.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/subcontract/getFBNameAndNo',
-	        dataType: 'json',
-	        data: {
-	        },
-	        success: function (json) {
-	        	$("#fbName").html('');
-	        	$("#fbNo").html('');
-	        	$("#xgfbName").html('');
-	        	$("#xgfbNo").html('');
-	        	for(var i=0;i<json.length;i++){
-	        		$("#fbName").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
-	        		$("#fbNo").append("<option value="+json[i].fbNo+">"+json[i].fbNo+"</option>");
-	        		$("#xgfbName").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
-	        		$("#xgfbNo").append("<option value="+json[i].fbNo+">"+json[i].fbNo+"</option>");
-	        	}
-	        	$('#fbName').editableSelect().on('select.editable-select', function (e, dom) {
-	        		$.ajax({
-	                    type: 'POST',
-	                    url: getContextPath()+'/subcontract/getFBNoByName',
-	                    dataType: 'json',
-	                    data: {
-	                    	contractName:$('#fbName').val()
-	                    },
-	                    success: function (json) {
-	                    	$('#fbNo').val(json.fbNo);
-	                    }
-	          		});
-	          	})
-	          	$('#fbNo').editableSelect().on('select.editable-select', function (e, dom) {
-	          		$.ajax({
-	                    type: 'POST',
-	                    url: getContextPath()+'/subcontract/getFBNameByNo',
-	                    dataType: 'json',
-	                    data: {
-	                    	fbNo:$('#fbNo').val()
-	                    },
-	                    success: function (json) {
-	                    	$('#fbName').val(json.contractName);
-	                    }
-	          		});
-			  	})
-			  	
-			  	 $('#xgfbName').editableSelect().on('select.editable-select', function (e, dom) {
-	        		$.ajax({
-	                    type: 'POST',
-	                    url: getContextPath()+'/subcontract/getFBNoByName',
-	                    dataType: 'json',
-	                    data: {
-	                    	contractName:$('#xgfbName').val()
-	                    },
-	                    success: function (json) {
-	                    	$('#xgfbNo').val(json.fbNo);
-	                    }
-	          		});
-	          	})
-	          	$('#xgfbNo').editableSelect().on('select.editable-select', function (e, dom) {
-	          		$.ajax({
-	                    type: 'POST',
-	                    url: getContextPath()+'/subcontract/getFBNameByNo',
-	                    dataType: 'json',
-	                    data: {
-	                    	fbNo:$('#xgfbNo').val()
-	                    },
-	                    success: function (json) {
-	                    	$('#xgfbName').val(json.contractName);
-	                    }
-	          		});
-			  	}) 
-	        }
-			});
-		} */
+
 		
 		function lookCancel(obj){
 	  		$("#look_cancel").modal("show");
@@ -1753,7 +1608,7 @@
 						//location.reload([true]);
 						toastr.success("添加成功")
 						$("#myModal").modal("hide")
-						initTable();
+					
 						
 						$("#cailiaobiaoDiv table").each(function(){
 							//保存部门采购金额
@@ -1903,7 +1758,7 @@
 						//location.reload([true]);
 						toastr.success("添加成功")
 						$("#myModal").modal("hide")
-						initTable();
+						
 						
 						$("#cailiaobiaoDiv table").each(function(){
 							//保存部门采购金额
@@ -2009,8 +1864,7 @@
 	
 	
 	//修改回显
-	var editId;
-	function initTable(obj){
+	function initTable(){
 		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/cgcontract/selectCgContractById',
