@@ -57,13 +57,22 @@ public class ContractWork {
 	private String deputyPrjManager1;//项目副经理1
 	private String deputyPrjManager2;//项目副经理2
 	private String prjGeneral;//项目总工
-	private String prjDuration;//项目工期
+	private String prjDuration;//项目工期开始时间
+	private String prjDurationEnd;//项目工期结束时间
 	private String prjGrade;//公路等级
 	
 
 	private String cjContractEndTime;//履约完结时间
 	
 	
+	public String getPrjDurationEnd() {
+		return prjDurationEnd;
+	}
+
+	public void setPrjDurationEnd(String prjDurationEnd) {
+		this.prjDurationEnd = prjDurationEnd;
+	}
+
 	public String getCjContractEndTime() {
 		return cjContractEndTime;
 	}
