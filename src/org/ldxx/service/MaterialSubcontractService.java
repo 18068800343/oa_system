@@ -12,4 +12,6 @@ public interface MaterialSubcontractService {
 
 	ClfbContractEvaluate selectmSubcontractById(String id);
 
+	int updatemSubcontractById(ClfbContractEvaluate c);
+
 }
