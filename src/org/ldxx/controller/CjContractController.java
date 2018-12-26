@@ -227,7 +227,7 @@ public class CjContractController {
 		return string;
 	}
 	
-	@RequestMapping("/submitCjCancel")
+	@RequestMapping("/submitCjCancel")//合同取消
 	@ResponseBody
 	public String submitCjCancel(ContractReason cr,String cjName,String department,HttpSession session){
 		int i=cService.addContractReason(cr);
@@ -238,7 +238,7 @@ public class CjContractController {
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
-			currentFlow.setParams(cr.getStopReason());
+			currentFlow.setParams("合同取消原因："+cr.getStopReason());
 			currentFlow.setTitle(cjName);
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());
@@ -269,6 +269,47 @@ public class CjContractController {
 		return string;
 	}
 	
+	@RequestMapping("/submitCjRestart")//合同重新启用
+	@ResponseBody
+	public String submitCjRestart(ContractReason cr,String cjName,String department,HttpSession session){
+		int i=cService.updateContractReasonById(cr);
+		String string = i+"";
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(department);
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("合同重新启用原因："+cr.getRestartReason());
+			currentFlow.setTitle(cjName);
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());
+			currentFlow.setMemo(cjName+"重新启用流程发起");
+			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+cr.getId());
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
+	}
 	
 	@RequestMapping("/selectCjContractByStatus")
 	@ResponseBody

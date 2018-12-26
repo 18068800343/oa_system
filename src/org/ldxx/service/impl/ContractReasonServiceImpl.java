@@ -6,7 +6,9 @@ import org.ldxx.bean.ContractReason;
 import org.ldxx.dao.ContractReasonDao;
 import org.ldxx.service.ContractReasonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ContractReasonServiceImpl implements ContractReasonService{
 
 	@Autowired
