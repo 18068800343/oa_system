@@ -552,7 +552,7 @@
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
-    	initTable();
+    	
     	bumenSelect();
     	laydate.render({
             elem: '#year' //指定元素
@@ -582,6 +582,7 @@
             effects: 'slide' 
         });
         //$(".zhuangtai").trigger("change");
+        initTable();
 	});
    
     function GetQueryString(name){
@@ -590,7 +591,7 @@
         if(r!=null)return  unescape(r[2]); return null;
    }
    // 调用方法
-   	id=GetQueryString("");
+   	id=GetQueryString("prjId");
    
     var table3=$('#xiangmubiao').dataTable({
         "deferRender": true,
@@ -953,6 +954,7 @@
 	        type: 'POST',
 	        url: getContextPath()+'/organizationManagement/getOrgIdAndName',
 	        dataType: 'json',
+	        async:false,
 	        data: {
 	        },
 	        success: function (json) {
@@ -1222,18 +1224,14 @@
 	}
 	
 	//修改回显
-	var xgId;
-	var tr;
-	function initTable(obj){
-		
-		xgId=data.baId;
-		
+	function initTable(){
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/BidApproval/selectBidApprovalById",
 			dataType:"json",
+			async:false,
 			data:{
-				id:xgId,
+				id:id
 			},
 			success:function(json){
 				$("#xgprjName").val(json.prjName);

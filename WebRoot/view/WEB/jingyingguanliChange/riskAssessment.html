@@ -469,7 +469,7 @@
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
-    	initTable();
+    	
     	initSelect();
     	laydate.render({
             elem: '#year' //指定元素
@@ -487,6 +487,7 @@
             effects: 'slide' 
         });
         //$(".zhuangtai").trigger("change");
+        initTable();
 	});
     function GetQueryString(name){
         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -494,7 +495,7 @@
         if(r!=null)return  unescape(r[2]); return null;
    }
    // 调用方法
-   	id=GetQueryString("");
+   	id=GetQueryString("prjId");
    
     var table3=$('#xiangmubiao').dataTable({
         "deferRender": true,
@@ -588,111 +589,8 @@
         }},
         
 	});
-	function initTable(){
-        $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/riskAssessment/selectAllRiskAssessment',
-            dataType: 'json',
-            data: {
-            	status:2
-            },
-            error: function (msg) {
-                errMessage("请求UserController失败");
-            },
-            success: function (json) {
-                $('#mainContent').dataTable().fnClearTable();
-                $('#mainContent').DataTable().rows.add(json).draw(false);
-                
-                $.ajax({
-            		type:"post",
-            		url:getContextPath()+"/login/getUser",
-            		data:{
-            		},
-            		success:function(json){
-            			
-            			if(json!=null &&json!=""){
-            				var arr = json.uPermissions.split(',');
-            				
-            				for(var i=0;i<arr.length;i++){
-            					var arr2 = arr[i].replace("+","");
-            					//console.log(arr2);
-            					if(arr[i].indexOf("Pdbbb") >= 0 ){
-            						$(".Pdbbb").show();
-            					}
-            					if(arr[i].indexOf("Pdbbc") >= 0 ){
-            						$(".Pdbbc").show();
-            					}
-            				}
-            				
-            			}
-            			
-            		}
-            	});
-                
-            }
-        });
-    }
 	
-	//初始化
-    $(".zhuangtai").change(function(){
-        var zt=$(".zhuangtai").val();
-        if(zt=="正常进行"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/riskAssessment/selectAllRiskAssessment',
-                dataType: 'json',
-                data: {
-                	status:2,
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").hide();
-                    $(".iconxiugai").show();
-                    $(".iconzhongzhi").show();
-                    $(".iconlywj").show();
-                }
-            });
-            
-        }else if(zt=="项目终止"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/riskAssessment/selectAllRiskAssessment',
-                dataType: 'json',
-                data: {
-                	status:3,
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").show();
-                    $(".iconxiugai").hide();
-                    $(".iconzhongzhi").hide();
-                    $(".iconlywj").hide();
-                }
-            });
-            
-        }else if(zt=="审批中"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/riskAssessment/selectAllRiskAssessment',
-                dataType: 'json',
-                data: {
-                	status:1,
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").hide();
-                	$(".iconxiugai").hide();
-                	$(".iconzhongzhi").hide();
-                    $(".iconlywj").hide();
-                }
-            });
-        	
-        }
-    })
-    
+	
 	
 	//选择项目
 	$("#chosexm").click(function(){
@@ -987,17 +885,13 @@
 	} */
 	
 	//修改
-	var xiugaiId;
-	var tr;
-	function initTable(obj){
-		
-		xiugaiId=data.raId;
+	function initTable(){
 		$.ajax({
 			 type:"post",
 			 url:getContextPath()+"/riskAssessment/selectRiskAssessmentById",
 			 dataType:"json",
 			 data:{
-				 raId:xiugaiId
+				 raId:id
 			 },
 			 success:function(json){ 
 				 //console.log(json)
