@@ -3,10 +3,10 @@
 <mapper namespace="org.ldxx.dao.InternalTrainingDao" >
   <insert id="addInternalTraining" parameterType="InternalTraining">
   		insert into internal_training( it_id, training_man, department, duty, course_name, training_date, training_location, 
-    												training_money,training_desc,training_reason)
+    												training_money,training_desc,training_reason,training_in_user)
     	values(#{training.itId},#{training.trainingMan},#{training.department},#{training.duty},#{training.courseName},
     	#{training.trainingDate},#{training.trainingLocation},#{training.trainingMoney},
-    	#{training.trainingDesc},#{training.trainingReason})
+    	#{training.trainingDesc},#{training.trainingReason},#{training.trainingInUser})
   </insert>
   
   <delete id="deleteInternalTraining" parameterType="String">
@@ -17,13 +17,12 @@
   		update internal_training set training_man=#{training.trainingMan},department=#{training.department},
   				duty=#{training.duty},course_name=#{training.courseName},training_date=#{training.trainingDate},
   				training_location=#{training.trainingLocation},training_money=#{training.trainingMoney},
-  				training_desc=#{training.trainingDesc},training_reason=#{training.trainingReason}
+  				training_desc=#{training.trainingDesc},training_reason=#{training.trainingReason},training_in_user=#{training.trainingInUser}
   		where it_id=#{training.itId}
   </update>
   
   <select id="selectInternalTraining" resultType="InternalTraining">
-  		select it_id, training_man, department, duty, course_name, training_date, training_location, training_money, 
-  		training_desc,training_reason,d.duty_name,c.u_name 
+  		select a.*,d.duty_name,c.u_name 
   		from internal_training as a
   		left join mode_status as b on a.it_id=b.mode_id 
   		left join user as c on a.training_man=c.user_id

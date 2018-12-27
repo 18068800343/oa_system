@@ -28,6 +28,18 @@ public class InternalTraining {
     private String trainingDesc;
     
     private String trainingReason;
+    
+    private String trainingInUser;//参加人员
+
+    
+    
+	public String getTrainingInUser() {
+		return trainingInUser;
+	}
+
+	public void setTrainingInUser(String trainingInUser) {
+		this.trainingInUser = trainingInUser;
+	}
 
 	public String getItId() {
 		return itId;
