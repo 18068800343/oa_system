@@ -110,7 +110,7 @@
                             	<td style="width:15%;">项目印章  <i class="iconfont icon-xingxing-copy" style="color:red;"></i>拟授权人</td>
                                 <td style="width:35%;">
                                 	<input type="text" class="form-control" style="width:60%;" id="yinzhangshouquanren" disabled>
-                                	<button type="button" class="btn btn-primary"  id="choseren">选择人员</button>
+                                	<button type="button" class="btn btn-primary"  id="choseren" data-toggle="modal" data-target="#people">选择人员</button>
                                 </td>
                             </tr>
                             <tr>
@@ -191,7 +191,7 @@
                                 <td style="width:15%;">项目印章  <i class="iconfont icon-xingxing-copy" style="color:red;"></i>拟授权人</td>
                                 <td style="width:35%;">
                                 	<input type="text" class="form-control" style="width:60%;" id="xgyinzhangshouquanren" disabled>
-                                	<button type="button" class="btn btn-primary"  id="xgchoseren">选择人员</button>
+                                	<button type="button" class="btn btn-primary"  id="xgchoseren" data-toggle="modal" data-target="#xgpeople">选择人员</button>
                                 </td>
                             </tr>
                             <tr>
@@ -321,6 +321,12 @@
 	      </div>
 	      <div class="modal-body">
 	       			<!-- <select class="form-control" style="width:180px;" id=""></select> -->
+	       		<form class="form-inline">
+                    <div class="form-group">
+                        	<span>部门:</span>
+                            <select style="width:180px;"id="bumena" class="form-control" ></select>
+                    </div>
+                </form>
 	       			<table class="table table-bordered table-condensed" id="mingzibiao">
 	       				<thead>
 	       					<tr>
@@ -353,6 +359,12 @@
 	      </div>
 	      <div class="modal-body">
 	       			<!-- <select class="form-control" style="width:180px;" id=""></select> -->
+	       		<form class="form-inline">
+                    <div class="form-group">
+                        	<span>部门:</span>
+                            <select style="width:180px;"id="xgbumena" class="form-control" ></select>
+                    </div>
+                </form>
 	       			<table class="table table-bordered table-condensed" id="xgmingzibiao">
 	       				<thead>
 	       					<tr>
@@ -1681,55 +1693,6 @@
 	
 	
 	
-	//已知部门，获取部门所属人员
-	$("#choseren").click(function(){
-		$("#people").modal("show");
-		 $.ajax({
-	            type: 'POST',
-	            url: getContextPath()+'/user/selectUserByomId',
-	            dataType: 'json',
-	            async:false,
-	            data: {
-	            	omId:$("#bumen").val()
-	            },
-	            success: function (json) {
-	            	//console.log(json)
-	                $('#mingzibiao').dataTable().fnClearTable();
-	                $('#mingzibiao').DataTable().rows.add(json).draw(false);
-	            }
-	        });
-	})
-	$("#xgchoseren").click(function(){
-		$("#xgpeople").modal("show");
-		var renid;
-		 $.ajax({
-	            type: 'POST',
-	            url: getContextPath()+'/user/selectUserByomId',
-	            dataType: 'json',
-	            async:false,
-	            data: {
-	            	omId:$("#xgbumen").val()
-	            },
-	            success: function (json) {
-	            	//console.log(json)
-	                $('#xgmingzibiao').dataTable().fnClearTable();
-	                $('#xgmingzibiao').DataTable().rows.add(json).draw(false);
-	            }
-	        });
-	})
-	//添加人员到input框
-	$("#querenciren").click(function(){
-		var a=$("input[name='mingzi']:checked").parent().next().text();
-		$("#yinzhangshouquanren").val(a);
-		$("#people").modal("hide");
-	})
-	$("#xgquerenciren").click(function(){
-		var a=$("input[name='xgmingzi']:checked").parent().next().text();
-		$("#xgyinzhangshouquanren").val(a);
-		$("#xgpeople").modal("hide");
-	})
-	
-	
 	//初始化保管人
 	function initBaoGuanRen(){
 		$.ajax({
@@ -1745,12 +1708,66 @@
 		                    + json[i].omName + "</option>");
 	        		$("#xgbumen2").append( "<option value='" + json[i].omId + "'>"
 		                    + json[i].omName + "</option>"); 
+	        		$("#bumena").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>");
+	        		$("#xgbumena").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>"); 
 	        	} 
 	        	$("#bumen2").trigger('change');
 	        	$("#xgbumen2").trigger('change');
+	        	$("#bumena").trigger('change');
+	        	$("#xgbumena").trigger('change');
 	        }
 	    });
 	}
+	//已知部门，获取部门所属人员
+	$("#bumena").change(function(){
+		var bumen=$("#bumena").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#mingzibiao').dataTable().fnClearTable();
+                $('#mingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+$("#xgbumena").change(function(){
+		var bumen=$("#xgbumena").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#xgmingzibiao').dataTable().fnClearTable();
+                $('#xgmingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	/* $("#xgchoseren").click(function(){
+		
+	}) */
+	//添加人员到input框
+	$("#querenciren").click(function(){
+		var a=$("input[name='mingzi']:checked").parent().next().text();
+		$("#yinzhangshouquanren").val(a);
+		$("#people").modal("hide");
+	})
+	$("#xgquerenciren").click(function(){
+		var a=$("input[name='xgmingzi']:checked").parent().next().text();
+		$("#xgyinzhangshouquanren").val(a);
+		$("#xgpeople").modal("hide");
+	})
+	
 	$("#bumen2").change(function(){
 		var bumen=$("#bumen2").val();
 		$.ajax({
