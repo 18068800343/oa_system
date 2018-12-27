@@ -319,7 +319,11 @@ public class OperationTargetController {
 				OrganizationManagement om=oService.getOrgNameById(om_id);
 				String omName=om.getOmName();
 				float actualCost=0;//获取部门实际成本
-				List<PrjProgressFill> noList=pService.selectDistinctTaskNo(year);
+				PrjProgressFillInfo fillInfo=pService.selectYearCostByDepartment(omName, "%"+year+"%");
+				if(fillInfo!=null){
+					actualCost=Float.valueOf(fillInfo.getMoney());
+				}
+			/*List<PrjProgressFill> noList=pService.selectDistinctTaskNo(year);
 				if(noList!=null){
 					for(int j=0;j<noList.size();j++){
 						PrjProgressFill ppf=pService.getCost(noList.get(j).getTaskNo());
@@ -335,7 +339,7 @@ public class OperationTargetController {
 						}
 						actualCost=actualCost+money;
 					}
-				}
+				}*/
 				list.get(i).setActualCost(actualCost);
 				
 				float budgetCost=bService.getBudgeCost(om_id, y); //获取预算成本

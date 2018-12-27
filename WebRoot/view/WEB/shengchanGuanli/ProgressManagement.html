@@ -214,11 +214,11 @@
                                     <th colspan="7">承接合同表</th>
                                 </tr>
                                 <tr>
-                                    <th style="width:32%;">合同名称</th>
-                                    <th style="width:12%;">合同金额(万元)</th>
-                                    <th style="width:12%;">暂定金(万元)</th>
-                                    <th style="width:17%;">合同本期收入</th>
-                                    <th style="width:17%;">总累计收入(万元)</th>
+                                    <th style="width:27%;">合同名称</th>
+                                    <th style="width:18%;">合同金额(万元)</th>
+                                    <th style="width:15%;">暂定金(万元)</th>
+                                    <th style="width:15%;">合同本期收入</th>
+                                    <th style="width:15%;">总累计收入</th>
                                     <th style="width:10%;"></th>
                                 </tr>
                             </thead>
@@ -1109,7 +1109,7 @@
             				+"</td><td style='width:20%;'>"
                 			+task.omName
                 			+"</td><td style='width:10%;'>"
-                			+"金额"
+                			+"比例"
                 			+"</td><td style='width:50%;'>"
                 			+"<input type='text' data='1' class='form-control'> &nbsp&nbsp<button type='button' onclick='getBq(this)' class='btn btn-default'>计算本期</button>"
                 			+"</td></tr>")
@@ -1118,7 +1118,7 @@
             				+"</td><td style='width:20%;'>"
                 			+task.omName
                 			+"</td><td style='width:10%;'>"
-                			+"金额"
+                			+"比例"
                 			+"</td><td style='width:50%;'>"
                 			+"<input type='text' data='1'  id='zb2' class='form-control' disabled>"
                 			+"</td></tr>")
@@ -1165,7 +1165,7 @@
                 				+"</td><td>"
                     			+task.name1
                     			+"</td><td>"
-                    			+"金额"
+                    			+"比例"
                     			+"</td><td>"
                     			+"<input type='text' data='0'  class='form-control'> &nbsp&nbsp<button type='button' onclick='getBq1(this)' class='btn btn-default'>计算本期</button>"
                     			+"</td></tr>")
@@ -1174,7 +1174,7 @@
                 				+"</td><td>"
                     			+task.name1
                     			+"</td><td>"
-                    			+"金额"
+                    			+"比例"
                     			+"</td><td>"
                     			+"<input type='text' data='0' id='xb1_1' class='form-control' disabled>"
                     			+"</td></tr>")
@@ -1222,7 +1222,7 @@
                 				+"</td><td>"
                     			+task.name2
                     			+"</td><td>"
-                    			+"金额"
+                    			+"比例"
                     			+"</td><td>"
                     			+"<input type='text' data='0' class='form-control'> &nbsp&nbsp<button type='button' onclick='getBq2(this)' class='btn btn-default'>计算本期</button>"
                     			+"</td></tr>")
@@ -1231,7 +1231,7 @@
                 				+"</td><td>"
                     			+task.name2
                     			+"</td><td>"
-                    			+"金额"
+                    			+"比例"
                     			+"</td><td>"
                     			+"<input type='text' data='0' id='xb2_2' class='form-control' disabled>"
                     			+"</td></tr>")
@@ -1948,7 +1948,8 @@
 
 		}else{
 		      //如果显示时。。。
-			$("#all_money").val($("#firstsheji").val()/1*0.45+$("#shigongsheji").val()/1*0.55+"%")
+		    var sum=$("#firstsheji").val()/1*0.45+$("#shigongsheji").val()/1*0.55;
+			$("#all_money").val(sum.toFixed(2)+"%");
 		}
 		if($('#AB1jieduan').is(':hidden')){
 
@@ -2477,6 +2478,10 @@
     		ppcj.cjId=cjId;
     		ppcjArray.push(ppcj);
     	})
+    	if(ppcjArray==null||ppcjArray==''){
+    		toastr.error("暂无承接合同信息");
+    		return;
+    	}
     	PrjProgressFill.ppcj=ppcjArray;
     	
     	var formData = new FormData();
@@ -2760,6 +2765,9 @@
     
     function getBq(obj){
     	var zb=$(obj).parent().find("input").eq(0).val();
+    	 if(zb.indexOf("%")==-1){
+      	   $(obj).parent().find("input").eq(0).val(zb+"%");
+         }
     	var department=$(obj).parent().parent().find("td").eq(1).text();
     	$.ajax({
             type: 'POST',
@@ -2778,6 +2786,9 @@
     }
     function getBq1(obj){
     	var zb=$(obj).parent().find("input").eq(0).val();
+    	 if(zb.indexOf("%")==-1){
+        	   $(obj).parent().find("input").eq(0).val(zb+"%");
+         }
     	var department=$(obj).parent().parent().find("td").eq(1).text();
     	$.ajax({
             type: 'POST',
@@ -2796,6 +2807,9 @@
     }
     function getBq2(obj){
     	var zb=$(obj).parent().find("input").eq(0).val();
+    	 if(zb.indexOf("%")==-1){
+        	   $(obj).parent().find("input").eq(0).val(zb+"%");
+        }
     	var department=$(obj).parent().parent().find("td").eq(1).text();
     	$.ajax({
             type: 'POST',
@@ -2814,6 +2828,9 @@
     }
     function getBq3(obj){
     	var zb=$(obj).parent().find("input").eq(0).val();
+    	 if(zb.indexOf("%")==-1){
+        	   $(obj).parent().find("input").eq(0).val(zb+"%");
+        }
     	var department=$(obj).parent().parent().find("td").eq(1).text();
     	$.ajax({
             type: 'POST',

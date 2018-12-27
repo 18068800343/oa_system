@@ -36,7 +36,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			for(int a=0;a<ppfi2.size();a++){
 				ppfi2.get(a).setPpfId(id);
 			}
-			List<PrjProgressFillInfo> ppfi3=ppf.getPpfi3();
+			/*List<PrjProgressFillInfo> ppfi3=ppf.getPpfi3();
 			for(int a=0;a<ppfi3.size();a++){
 				ppfi3.get(a).setPpfId(id);
 			}
@@ -51,13 +51,13 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			List<PrjProgressFillInfo> ppfi6=ppf.getPpfi6();
 			for(int a=0;a<ppfi6.size();a++){
 				ppfi6.get(a).setPpfId(id);
-			}
+			}*/
 			i=dao.addPrjProgressFillInfo(ppfi);
 			i=dao.addPrjProgressFillInfo(ppfi2);
-			i=dao.addPrjProgressFillInfo(ppfi3);
+			/*i=dao.addPrjProgressFillInfo(ppfi3);
 			i=dao.addPrjProgressFillInfo(ppfi4);
 			i=dao.addPrjProgressFillInfo(ppfi5);
-			i=dao.addPrjProgressFillInfo(ppfi6);
+			i=dao.addPrjProgressFillInfo(ppfi6);*/
 			List<PrjProgressFillCj>ppcj=ppf.getPpcj();
 			for(int a=0;a<ppcj.size();a++){
 				ppcj.get(a).setPpfId(id);
