@@ -142,10 +142,24 @@
                                 <td colspan="3"><textarea class="form-control" rows="3" style="width:100%;" id="new_desc"></textarea></td>
                             </tr>
                             <tr>
-                                <td>业务附件</td>
-                                <td colspan="3"><input name="file" type="file" class="form-control"></td>
+                               <!--  <td>业务附件</td>
+                                <td colspan="3"><input name="file" type="file" class="form-control"></td> -->
                             </tr>
                         </table>
+                        <table class="table table-bordered table-condensed" id="new_accessory">
+                    		<thead>
+                    			<tr>
+                    				<th colspan="2">
+                    					业务附件
+                    				</th>
+                    				 <th>
+                                		<button type="button" class="btn btn-primary" id="uploaderBox">添加附件</button>
+                            		</th>
+                    			</tr>
+                    			
+                    		</thead>
+                    		<tbody></tbody>
+                    	</table>
                     </form>  
                 </div>
         </div>
@@ -243,12 +257,26 @@
                                 <td>备注</td>
                                 <td colspan="3"><textarea class="form-control" rows="3" style="width:100%;" id="edit_desc"></textarea></td>
                             </tr>
-                            <tr id="file_tr">
+                            <!-- <tr id="file_tr">
                                 <td>业务附件</td>
                                 <td id="file_tr_td" colspan="2"><input type="text" style="width:100%;" class="form-control" id="edit_fileName"></td>
                                 <td id="file_tr_td2"><button type="button" class="btn btn-primary" onclick="deleteFile()">删除附件</button></td>
-                            </tr>
+                            </tr> -->
                         </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory">
+                    		<thead>
+                    			<tr>
+                    				<th colspan="2">
+                    					业务附件
+                    				</th>
+                    				 <th>
+                                		<button type="button" class="btn btn-primary" id="xguploaderBox">添加附件</button>
+                            		</th>
+                    			</tr>
+                    			
+                    		</thead>
+                    		<tbody></tbody>
+                    	</table>
                     </form>  
                 </div>
         </div>
@@ -1099,7 +1127,7 @@
 	    		$("#edit_prj_desc").val(json.prjDesc);
 	    		$("#edit_desc").val(json.ptInfo);
 				var accessory=json.accessory;
-				if(accessory.length!=0){
+				/* if(accessory.length!=0){
 					var acc=accessory[0];
 					aId=acc.aId;
 					acName=acc.acName;
@@ -1111,7 +1139,7 @@
 		    		$("#edit_fileName").val(acc.acName).attr("disabled",true);
 				}else{
 					initFileInput();
-				}
+				} */
 	    		
 	    		$("#change").modal("show");
 	        }
@@ -1546,6 +1574,19 @@
 		});
 	}
 	
+	 $("#uploaderBox").on("click", function(e) {
+	        var newFileInput = "<tr><td>附件</td><td><input  type='file' name='file' class='form-control' /></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>";
+	        $("#new_accessory").append($(newFileInput));
+	    });
+	 $("#xguploaderBox").on("click", function(e) {
+	        var newFileInput = "<tr><td>附件</td><td><input  type='file' name='file' class='form-control' /></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>";
+	        $("#edit_accessory").append($(newFileInput));
+	    });
+	 function removeFile(obj){
+	    	var tr=$(obj).parent().parent();
+	    	$(tr).remove();
+	    }
+	 
     function getCreat(bb){
         var EnterpriseRating= $(bb).parent().prev().text();
         var Remarks= $(bb).parent().prev().prev().text();
