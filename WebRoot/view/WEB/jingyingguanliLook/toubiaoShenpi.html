@@ -83,6 +83,45 @@
                     	<tbody>
                     	</tbody>
                  </table>
+        <!-- Modal选人 -->
+<div class="modal fade" id="people" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel"></h4>
+	      </div>
+	      <div class="modal-body">
+	       			<!-- <select class="form-control" style="width:180px;" id=""></select> -->
+	       			<form class="form-inline">
+	                    <div class="form-group">
+	                        	<span>部门:</span>
+	                            <select style="width:180px;"id="bumensqry" class="form-control" ></select>
+	                    </div>
+	                </form>
+	       			<table class="table table-bordered table-condensed" id="mingzibiao">
+	       				<thead>
+	       					<tr>
+	       						<th></th>
+	       						<th>姓名</th>
+	       						<th>工号</th>
+	       						<th>出生日期</th>
+	       						<th>性别</th>
+	       						<th>职务</th>
+	       					</tr>
+	       				</thead>
+	       				<tbody></tbody>
+	       			</table>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" id="querenciren">确定</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+<!-- Modal选人结束 -->
+
     </div>
 </body>
 <script src="../../js/jquery.js"></script>
@@ -96,6 +135,54 @@
     $(document).ready( function () {
     	initTable();
     	
+	});
+    //已知部门选人
+    var tableren=$('#mingzibiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="mingzi" style="width:16px;height:16px;" id="chked">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
 	});
     
     function GetQueryString(name){
@@ -133,43 +220,18 @@
 				if(editOrView=="view"){
             		$("#baocuna").hide();
             		$("#look_xieban_table tbody").html('');
-                	$("#look_xieban_table tbody").append("<tr><td style='width:80px;'>协作部门分管领导</td><td style='width:100px;'>"
-                			+'<select class="form-control" style="width:100%;" id="xmfzr" disabled></select>'
+                	$("#look_xieban_table tbody").append("<tr><td style='width:150px;'>协作部门分管领导</td><td>"
+                			+'<input type="text" style="width:80%;" class="form-control" id="lindao" disabled>'
                 			+"</td></tr>")
-                		editzhubanren(task.mainPrjLeader,1)	
-                		editzhubanren(task.mainEngineer,2)
-                		editzhubanren(task.mainOther,3)
-                		/* if(task.name1!=null&&task.name1!=''){
-                    		$("#look_xieban_table tbody").append("<tr><td>部门负责人</td><td>"
-                        			+'<select class="form-control" style="width:100%;" id="xbxmfzr1" disabled></select>'
-                    				+"</td></tr>")
-                    				
-                    		editxb1ren(task.assist1PrjLeader,1);
-                    		editxb1ren(task.assist1Engineer,2);
-                    		editxb1ren(task.assist1Other,3);
-                    	} */
-        				
-        				
-                    	
+                		
             	}
             	if(editOrView=="edit"){
             		$("#baocuna").hide();
             		$("#look_xieban_table tbody").html('');
-                	$("#look_xieban_table tbody").append("<tr><td style='width:80px;'>协作部门分管领导</td><td style='width:100px;'>"
-                			+'<select class="form-control" style="width:100%;" id="xmfzr"></select>'
+                	$("#look_xieban_table tbody").append("<tr><td style='width:150px;'>协作部门分管领导</td><td>"
+                			+'<input type="text" style="width:80%;" class="form-control" id="lindao" disabled><button type="button" class="btn btn-primary"  id="chooseld" data-toggle="modal" data-target="#people">选择协作部门分管领导</button>'
                 			+"</td></tr>")
-                		editzhubanren(task.mainPrjLeader,1)	
-                		editzhubanren(task.mainEngineer,2)
-                		editzhubanren(task.mainOther,3)
-                		/* if(task.name1!=null&&task.name1!=''){
-                    		$("#look_xieban_table tbody").append("<tr><td>部门负责人</td><td>"
-                        			+'<select class="form-control" style="width:100%;" id="xbxmfzr1"></select>'
-                    				+"</td></tr>")
-                    				
-                    		editxb1ren(task.assist1PrjLeader,1);
-                    		editxb1ren(task.assist1Engineer,2);
-                    		editxb1ren(task.assist1Other,3);
-                    	} */
+                		
         				
                     	
             	}
@@ -192,272 +254,49 @@
 				omId:zhubanbumen
 				},
 			success:function(json){
-				$("#guanliren").empty();
+				$("#bumensqry").empty();
 				for(var i=0;i<json.length;i++){
-					$("#xmfzr").append("<option value='" + json[i].userId + "'>"
+					$("#bumensqry").append("<option value='" + json[i].userId + "'>"
 		                    + json[i].uName + "</option>")
-                    $("#zrgcs").append("<option value='" + json[i].userId + "'>"
-                    + json[i].uName + "</option>")
-                    $("#qtfzr").append("<option value='" + json[i].userId + "'>"
-                    + json[i].uName + "</option>")
 				}
 			}
 		})
-		//协办1
+	
+  //已知部门，获取部门所属人员
+	$("#bumensqry").change(function(){
+		$('#people').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		var bumen=$("#bumensqry").val();
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/user/selectUserByomId",
 			dataTyepe:"json",
+			async:false,
 			data:{ 
-				omId:xiebanbumen1
+				omId:bumen 
 				},
 			success:function(json){
-				$("#guanliren").empty();
-				for(var i=0;i<json.length;i++){
-					$("#xbxmfzr1").append("<option value='" + json[i].userId + "'>"
-		                    + json[i].uName + "</option>")
-                    $("#xbzrgcs1").append("<option value='" + json[i].userId + "'>"
-                    + json[i].uName + "</option>")
-                    $("#xbqtfzr1").append("<option value='" + json[i].userId + "'>"
-                    + json[i].uName + "</option>")
-				}
+				$('#mingzibiao').dataTable().fnClearTable();
+                $('#mingzibiao').DataTable().rows.add(json).draw(false);
 			}
 		})
-		//协办2
-		$.ajax({
-			type:"POST",
-			url:getContextPath()+"/user/selectUserByomId",
-			dataTyepe:"json",
-			data:{ 
-				omId:xiebanbumen2
-				},
-			success:function(json){
-				$("#guanliren").empty();
-				for(var i=0;i<json.length;i++){
-					$("#xbxmfzr2").append("<option value='" + json[i].userId + "'>"
-		                    + json[i].uName + "</option>")
-                    $("#xbzrgcs2").append("<option value='" + json[i].userId + "'>"
-                    + json[i].uName + "</option>")
-                    $("#xbqtfzr2").append("<option value='" + json[i].userId + "'>"
-                    + json[i].uName + "</option>")
-				}
-			}
-		})
-		//协办3
-		$.ajax({
-			type:"POST",
-			url:getContextPath()+"/user/selectUserByomId",
-			dataTyepe:"json",
-			data:{ 
-				omId:xiebanbumen3
-				},
-			success:function(json){
-				$("#guanliren").empty();
-				for(var i=0;i<json.length;i++){
-					$("#xbxmfzr3").append("<option value='" + json[i].userId + "'>"
-		                    + json[i].uName + "</option>")
-                    $("#xbzrgcs3").append("<option value='" + json[i].userId + "'>"
-                    + json[i].uName + "</option>")
-                    $("#xbqtfzr3").append("<option value='" + json[i].userId + "'>"
-                    + json[i].uName + "</option>")
-				}
-			}
-		}) 
-	}
-  
-  
-  //回显主办三个人
-  function editzhubanren(obj,obj2){
-	  //console.log(obj)
-	  $.ajax({
-			type:"POST",
-			url:getContextPath()+"/user/selectUserByomId",
-			dataTyepe:"json",
-			data:{ 
-				omId:zhubanbumen
-				},
-			success:function(json){
-				if(obj2==1){
-					$("#xmfzr").empty();
-					for(var i=0;i<json.length;i++){
-						$("#xmfzr").append("<option value='" + json[i].userId + "'>"
-			                    + json[i].uName + "</option>")
-					}
-					$("#xmfzr").val(obj)
-				}else if(obj2==2){
-					$("#zrgcs").empty();
-					for(var i=0;i<json.length;i++){
-			            $("#zrgcs").append("<option value='" + json[i].userId + "'>"
-	                    + json[i].uName + "</option>")
-					$("#zrgcs").val(obj)
-					}
-				}else if(obj2==3){
-					$("#qtfzr").empty();
-					for(var i=0;i<json.length;i++){
-	                    $("#qtfzr").append("<option value='" + json[i].userId + "'>"
-	                    + json[i].uName + "</option>")
-					$("#qtfzr").val(obj)
-					}
-				}
-			}
-		})
-  }
-  
-  //回显协办1三个人
-  function editxb1ren(obj,obj2){
-	  $.ajax({
-			type:"POST",
-			url:getContextPath()+"/user/selectUserByomId",
-			dataTyepe:"json",
-			data:{ 
-				omId:xiebanbumen1
-				},
-			success:function(json){
-				if(obj2==1){
-					$("#xbxmfzr1").empty();
-					for(var i=0;i<json.length;i++){
-						$("#xbxmfzr1").append("<option value='" + json[i].userId + "'>"
-			                    + json[i].uName + "</option>")
-					}
-					$("#xbxmfzr1").val(obj)
-				}else if(obj2==2){
-					$("#xbzrgcs1").empty();
-					for(var i=0;i<json.length;i++){
-			            $("#xbzrgcs1").append("<option value='" + json[i].userId + "'>"
-	                    + json[i].uName + "</option>")
-					$("#xbzrgcs1").val(obj)
-					}
-				}else if(obj2==3){
-					$("#xbqtfzr1").empty();
-					for(var i=0;i<json.length;i++){
-	                    $("#xbqtfzr1").append("<option value='" + json[i].userId + "'>"
-	                    + json[i].uName + "</option>")
-					$("#xbqtfzr1").val(obj)
-					}
-				}
-			}
-		})
-  }
-  
-//回显协办2三个人
-  function editxb2ren(obj,obj2){
-	  $.ajax({
-			type:"POST",
-			url:getContextPath()+"/user/selectUserByomId",
-			dataTyepe:"json",
-			data:{ 
-				omId:xiebanbumen2
-				},
-			success:function(json){
-				if(obj2==1){
-					$("#xbxmfzr2").empty();
-					for(var i=0;i<json.length;i++){
-						$("#xbxmfzr2").append("<option value='" + json[i].userId + "'>"
-			                    + json[i].uName + "</option>")
-					}
-					$("#xbxmfzr2").val(obj)
-				}else if(obj2==2){
-					$("#xbzrgcs2").empty();
-					for(var i=0;i<json.length;i++){
-			            $("#xbzrgcs2").append("<option value='" + json[i].userId + "'>"
-	                    + json[i].uName + "</option>")
-					$("#xbzrgcs2").val(obj)
-					}
-				}else if(obj2==3){
-					$("#xbqtfzr2").empty();
-					for(var i=0;i<json.length;i++){
-	                    $("#xbqtfzr2").append("<option value='" + json[i].userId + "'>"
-	                    + json[i].uName + "</option>")
-					$("#xbqtfzr2").val(obj)
-					}
-				}
-			}
-		})
-  }
-  
-//回显协办3三个人
-  function editxb3ren(obj,obj2){
-	  $.ajax({
-			type:"POST",
-			url:getContextPath()+"/user/selectUserByomId",
-			dataTyepe:"json",
-			data:{ 
-				omId:xiebanbumen3
-				},
-			success:function(json){
-				if(obj2==1){
-					$("#xbxmfzr3").empty();
-					for(var i=0;i<json.length;i++){
-						$("#xbxmfzr3").append("<option value='" + json[i].userId + "'>"
-			                    + json[i].uName + "</option>")
-					}
-					$("#xbxmfzr3").val(obj)
-				}else if(obj2==2){
-					$("#xbzrgcs3").empty();
-					for(var i=0;i<json.length;i++){
-			            $("#xbzrgcs3").append("<option value='" + json[i].userId + "'>"
-	                    + json[i].uName + "</option>")
-					$("#xbzrgcs3").val(obj)
-					}
-				}else if(obj2==3){
-					$("#xbqtfzr3").empty();
-					for(var i=0;i<json.length;i++){
-	                    $("#xbqtfzr3").append("<option value='" + json[i].userId + "'>"
-	                    + json[i].uName + "</option>")
-					$("#xbqtfzr3").val(obj)
-					}
-				}
-			}
-		})
-  }
-  
-  
-  
-  //保存
-  function save(){
-	  var xmfzr=$("#xmfzr").val()
-	  var zrgcs=$("#zrgcs").val();
-	  var qtfzr=$("#qtfzr").val();
-	  var xbxmfzr1=$("#xbxmfzr1").val();
-	  var xbzrgcs1=$("#xbzrgcs1").val();
-	  var xbqtfzr1=$("#xbqtfzr1").val();
-	  var xbxmfzr2=$("#xbxmfzr2").val();
-	  var xbzrgcs2=$("#xbzrgcs2").val();
-	  var xbqtfzr2=$("#xbqtfzr2").val();
-	  var xbxmfzr3=$("#xbxmfzr3").val();
-	  var xbzrgcs3=$("#xbzrgcs3").val();
-	  var xbqtfzr3=$("#xbqtfzr3").val();
-	  
-	  $.ajax({
-			type:"POST",
-			url:getContextPath()+"/task/updateById",
-			dataTyepe:"json",
-			data:{ 
-				prjId:id,
-				mainPrjLeader:xmfzr,
-				mainEngineer:zrgcs,
-				mainOther:qtfzr,
-				assist1PrjLeader:xbxmfzr1,
-				assist1Engineer:xbzrgcs1,
-				assist1Other:xbqtfzr1,
-				assist2PrjLeader:xbxmfzr2,
-				assist2Engineer:xbzrgcs2,
-				assist2Other:xbqtfzr2,
-				assist3PrjLeader:xbxmfzr3,
-				assist3Engineer:xbzrgcs3,
-				assist3Other:xbqtfzr3
-				},
-			success:function(json){
-				if(json>0){
-					toastr.success("修改成功")
-				}else{
-					toastr.error("修改失败")
-				}
-			}
-		}) 
-  }
-  
-  
+	})
+	//添加人员到input框
+	$("#querenciren").click(function(){
+		var tr=$("input[name='mingzi']:checked").parents("tr");
+		var data=$("#mingzibiao").DataTable().row(tr).data();
+		var a=data.uName;
+		
+		$("#user").val(a);
+		
+		$("#people").modal("hide");
+	})
+	
+	
+	
 	function changeData(){
 		$.ajax({
 	        type: 'POST',
