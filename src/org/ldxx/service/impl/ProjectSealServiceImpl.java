@@ -29,48 +29,27 @@ public class ProjectSealServiceImpl implements ProjectSealService {
 	@Override
 	public int addPrjSeal(SignetManage signetManage) {
 		int i=prjSealDao.addPrjSeal(signetManage);
-		if(i>0){
-			List<Accessory> accessory = signetManage.getAccessory();
-			if(accessory!=null){
-				i = adao.addAccessory(accessory);
-			}
-		}
 		return i;
 	}
 
 	@Override
 	public int deletePrjSealById(String id) {
 		int i=prjSealDao.deletePrjSealById(id);
-		if(i>0){
-			i=adao.deleteAccessory(id);
-		}
 		return i;
 	}
 
 	@Override
 	public int updatePrjSealById(SignetManage signetManage) {
 		int i= prjSealDao.updatePrjSealById(signetManage);
-		if(i>0){
-			List<Accessory> accessory = signetManage.getAccessory();
-			if(accessory!=null){
-				i=adao.addAccessory(accessory);
-			}
-		}
 		return i;
 	}
 
 	@Override
 	public SignetManage selectPrjSealById(String smId) {
 		SignetManage signetManage = prjSealDao.selectPrjSealById(smId);
-		List<Accessory> accessory=adao.selectAccessoryById(smId);
-		signetManage.setAccessory(accessory);
 		return signetManage;
 	}
 
-	@Override
-	public List<Accessory> selectAccessoryById(String id) {
-		return adao.selectAccessoryById(id);
-	}
 
 	@Override
 	public int deleteAccessoryByIdAndName(Accessory accessory) {

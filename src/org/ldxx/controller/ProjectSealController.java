@@ -48,35 +48,11 @@ public class ProjectSealController {
 	
 	@RequestMapping("/addPrjSea")/*添加保存印章*/
 	@ResponseBody
-	public Map<String,Object> addPrjSeal(@RequestParam("file")MultipartFile file[],SignetManage signetManage,HttpSession session){
+	public Map<String,Object> addPrjSeal(SignetManage signetManage,HttpSession session){
 		Map<String,Object> map = new HashMap<>();
-		List<Accessory> list=new ArrayList<>();
 		String id = new TimeUUID().getTimeUUID();
 		signetManage.setSmId(id);
-		String path = "D:"+File.separator+"oa"+File.separator+"prjSeal"+File.separator+id;
 		
-		for(int i=0;i<file.length;i++) {
-			String filename = file[i].getOriginalFilename();
-			File f = new File(path);
-			if (!f.exists()) {
-				f.mkdirs();
-			}
-			String path1 = path + File.separator + filename;
-			File f1 = new File(path1);
-			try {
-				file[i].transferTo(f1);
-				Accessory accessory=new Accessory();
-				accessory.setaId(id);
-				accessory.setAcName(filename);
-				accessory.setAcUrl(path1);
-				list.add(accessory);
-				signetManage.setAccessory(list);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
-			}
-
-		}
 		int i = prjSealService.addPrjSeal(signetManage);
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(signetManage.getOmId());
@@ -120,35 +96,11 @@ public class ProjectSealController {
 	
 	@RequestMapping("/addPrjSealSubmit")/*添加提交印章*/
 	@ResponseBody
-	public String addPrjSeal2(@RequestParam("file")MultipartFile file[],SignetManage signetManage,HttpSession session){
+	public String addPrjSeal2(SignetManage signetManage,HttpSession session){
 		Map<String,Object> map = new HashMap<>();
-		List<Accessory> list=new ArrayList<>();
 		String id = new TimeUUID().getTimeUUID();
 		signetManage.setSmId(id);
-		String path = "D:"+File.separator+"oa"+File.separator+"prjSeal"+File.separator+id;
 		
-		for(int i=0;i<file.length;i++) {
-			String filename = file[i].getOriginalFilename();
-			File f = new File(path);
-			if (!f.exists()) {
-				f.mkdirs();
-			}
-			String path1 = path + File.separator + filename;
-			File f1 = new File(path1);
-			try {
-				file[i].transferTo(f1);
-				Accessory accessory=new Accessory();
-				accessory.setaId(id);
-				accessory.setAcName(filename);
-				accessory.setAcUrl(path1);
-				list.add(accessory);
-				signetManage.setAccessory(list);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
-			}
-
-		}
 		int i = prjSealService.addPrjSeal(signetManage);
 		String string=i+"";
 		if(i>0){
@@ -194,52 +146,14 @@ public class ProjectSealController {
 		return prjSealService.deletePrjSealById(smId);
 	}
 	
-	@RequestMapping("/deleteAccessory")
-	@ResponseBody
-	public int deleteAccessory(Accessory accessory){
-		int i=prjSealService.deleteAccessoryByIdAndName(accessory);
-		if(i>0){
-			File f=new File(accessory.getAcUrl());
-			f.delete();
-		}
-		return i;
-	}
 	
 	@RequestMapping("/updatePrjSealById")/*修改保存*/
 	@ResponseBody
-	public Map<String,Object> updatePrjSealById(@RequestParam(value="file",required=false) MultipartFile file[],SignetManage signetManage){
+	public Map<String,Object> updatePrjSealById(SignetManage signetManage){
 		Map<String,Object> map = new HashMap<>();
-		List<Accessory> list=new ArrayList<>();
-		String id = signetManage.getSmId();
-		String path = "D:/oa/prjSeal/" + id;
-		
-		for (int i=0;i<file.length;i++) {
-			String filename = file[i].getOriginalFilename();
-			File f = new File(path);
-			if (!f.exists()) {
-				f.mkdirs();
-			}
-			String path1 = path + File.separator + filename;
-			File f1 = new File(path1);
-			try {
-				file[i].transferTo(f1);
-				Accessory accessory=new Accessory();
-				accessory.setaId(id);
-				accessory.setAcName(filename);
-				accessory.setAcUrl(path1);
-				list.add(accessory);
-				signetManage.setAccessory(list);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
-			}
-
-		}
 		int i = prjSealService.updatePrjSealById(signetManage);
-		if(i>0){
-			map.put("result", i);
-			map.put("signetManage", signetManage);
-		}
+		map.put("result", i);
+		map.put("signetManage", signetManage);
 		return map;
 	}
 	
@@ -247,37 +161,9 @@ public class ProjectSealController {
 	@ResponseBody
 	public Map<String,Object> updatePrjSealByIdSubmit(@RequestParam(value="file",required=false) MultipartFile file[],SignetManage signetManage){
 		Map<String,Object> map = new HashMap<>();
-		List<Accessory> list=new ArrayList<>();
-		String id = signetManage.getSmId();
-		String path = "D:/oa/prjSeal/" + id;
-		
-		for (int i=0;i<file.length;i++) {
-			String filename = file[i].getOriginalFilename();
-			File f = new File(path);
-			if (!f.exists()) {
-				f.mkdirs();
-			}
-			String path1 = path + File.separator + filename;
-			File f1 = new File(path1);
-			try {
-				file[i].transferTo(f1);
-				Accessory accessory=new Accessory();
-				accessory.setaId(id);
-				accessory.setAcName(filename);
-				accessory.setAcUrl(path1);
-				list.add(accessory);
-				signetManage.setAccessory(list);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				map.put("result", 0);
-			}
-
-		}
 		int i = prjSealService.updatePrjSealById(signetManage);
-		if(i>0){
-			map.put("result", i);
-			map.put("signetManage", signetManage);
-		}
+		map.put("result", i);
+		map.put("signetManage", signetManage);
 		return map;
 	}
 	
@@ -285,12 +171,5 @@ public class ProjectSealController {
 	@ResponseBody
 	public SignetManage selectPrjSealById(String smId){
 		return prjSealService.selectPrjSealById(smId);
-	}
-
-	@RequestMapping("/selectAccessoryById")
-	@ResponseBody
-	public List<Accessory> selectAccessoryById(String id){
-		List<Accessory> list=prjSealService.selectAccessoryById(id);
-		return list;
 	}
 }

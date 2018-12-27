@@ -21,7 +21,9 @@ public class SignetManage {
 
     private String signetMan;
 
-    private String smDesc;
+    
+    private String signetAttribute;//印章属性
+    private String signetDesc;//备注
     
     
     private String omName;
@@ -30,6 +32,22 @@ public class SignetManage {
     
     
     
+
+	public String getSignetAttribute() {
+		return signetAttribute;
+	}
+
+	public void setSignetAttribute(String signetAttribute) {
+		this.signetAttribute = signetAttribute;
+	}
+
+	public String getSignetDesc() {
+		return signetDesc;
+	}
+
+	public void setSignetDesc(String signetDesc) {
+		this.signetDesc = signetDesc;
+	}
 
 	public String getTaskNo() {
 		return taskNo;
@@ -106,11 +124,4 @@ public class SignetManage {
         this.signetMan = signetMan == null ? null : signetMan.trim();
     }
 
-    public String getSmDesc() {
-        return smDesc;
-    }
-
-    public void setSmDesc(String smDesc) {
-        this.smDesc = smDesc == null ? null : smDesc.trim();
-    }
 }

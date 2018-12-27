@@ -17,8 +17,6 @@ public interface ProjectSealService {
 
 	SignetManage selectPrjSealById(String smId);
 
-	List<Accessory> selectAccessoryById(String id);
-
 	int deleteAccessoryByIdAndName(Accessory accessory);
 
 }

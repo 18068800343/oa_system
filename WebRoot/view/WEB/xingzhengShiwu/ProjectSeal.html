@@ -94,7 +94,7 @@
                                 	<input type="text" class="form-control" style="width:60%;" id="xiangmu" disabled>
                                 	<button type="button" class="btn btn-primary"  id="chosexm">选择项目</button>
                                 </td>
-                                <td style="width:15%;">任务单号</td>
+                                <td style="width:15%;">印章编号<!-- 任务单号 --></td>
                                 <td style="width:35%;">
                                 	<!-- <input type="text" class="form-control" id="task_no"> -->
                                 	<select class="form-control" style="width:60%;" id="task_no">
@@ -120,12 +120,29 @@
                                 <td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="quancheng"></td>
                             </tr>
                             <tr>
+                            	<td style="width:15%;">印章属性 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                            <td style="width:35%;">
+	                                    <select class="form-control" style="width:60%;" id="yzshuxing">
+	                                    	<option>项目部章</option>
+	                                    	<option>资料专用章</option>
+	                                    </select>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>备注:</td>
+                                <td colspan="3">
+                                     <textarea class="form-control" rows="4" style="width:100%;" id="desc"></textarea>
+                                </td>
+                            </tr>
+                            <!-- <tr>
                             	<td>附件</td>
                             	<td  colspan="3">
-                            		<!-- <input type="file" name="file" class="form-control" id="file" > -->
+                            		<input type="file" name="file" class="form-control" id="file" >
                             		<button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
                             	</td>
-                            </tr>
+                            </tr> -->
                         </table> 
                     </form>  
                 </div>
@@ -158,7 +175,7 @@
                                 	<input type="text" class="form-control" style="width:60%;" id="xgxiangmu" disabled>
                                 	<button type="button" class="btn btn-primary"  id="xgchosexm">选择项目</button>
                                 </td>
-                                <td style="width:15%;">任务单号</td>
+                                <td style="width:15%;">印章编号<!-- 任务单号 --></td>
                                 <td style="width:35%;">
                                 	<!-- <input type="text" class="form-control" id="xgtask_no"> -->
                                 	<select class="form-control" style="width:60%;" id="xgtask_no">
@@ -184,15 +201,31 @@
                                 <td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgquancheng"></td>
                             </tr>
                             <tr>
+                            	<td style="width:15%;">印章属性 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                            <td style="width:35%;">
+	                                    <select class="form-control" style="width:60%;" id="xgyzshuxing">
+	                                    	<option>项目部章</option>
+	                                    	<option>资料专用章</option>
+	                                    </select>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>备注:</td>
+                                <td colspan="3">
+                                     <textarea class="form-control" rows="4" style="width:100%;" id="xgdesc"></textarea>
+                                </td>
+                            </tr>
+                            <!-- <tr>
                             	<td>附件</td>
                             	<td colspan="3">
                             		<button type="button" class="btn btn-primary weui-uploader__input" id="xguploaderBox">添加附件</button>
                             	</td>
-                            </tr>
+                            </tr> -->
                         </table>
-                        <table class="table table-bordered table-condensed"  id="edit_all_table">
-				                        		
-				         </table>
+                        <!-- <table class="table table-bordered table-condensed"  id="edit_all_table">
+				         </table> -->
                     </form>  
                 </div>
         </div>
@@ -357,7 +390,7 @@
                             <tr>
                                 <td style="width:100px;">申请项目</td>
                                 <td id="lookxiangmu"></td>
-                                <td>任务单号</td>
+                                <td>印章编号<!-- 任务单号 --></td>
                                 <td id="looktask_no"></td>
                             </tr>
                             <tr>
@@ -372,6 +405,16 @@
                             	<td style="width:100px;">专用章全称</td>
                                 <td id="lookquancheng"></td>
                             </tr>
+                            <tr>
+                            	<td>印章属性</td>
+	                            <td id="lookyzshuxing"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>备注:</td>
+                                <td colspan="3" id="lookdesc"></td>
+                            </tr>
                         </table>
                         <!-- <table class="table table-bordered table-condensed">
 	                        	<tr>
@@ -380,9 +423,8 @@
 	                        		<td id="download_file"></td>
 	                        	</tr>
                         </table> -->
-                        <table class="table table-bordered table-condensed"  id="look_all_table">
-				                        		
-				        </table>
+                        <!-- <table class="table table-bordered table-condensed"  id="look_all_table">
+				        </table> -->
                     </form>  
                 </div>
         </div>
@@ -1951,7 +1993,11 @@
 				}else if(json.result>0){
 					//location.reload([true]);
 					toastr.success("提交成功")
+					var result=json.sUser;
+					$("#mainContent2").DataTable().row.add(result).draw(false);
 					$("#shiyonggl").modal("hide")
+					$(".Pbbe").show();
+					$(".Pbbf").show();
 					//initTable2();
 				}
 			}
@@ -2130,8 +2176,10 @@
 					toastr.error("修改失败")
 				}else{
 					toastr.success("修改成功");
-					$("#myModal2").modal("hide");
 					$('#mainContent2').DataTable().row(tr).data(addJson);//修改行立即显示
+					$(".Pbbe").show();
+					$(".Pbbf").show();
+					$("#myModal2").modal("hide");
 					//initTable2();
 				}
 			}
@@ -2196,8 +2244,10 @@
 					toastr.error("修改失败")
 				}else{
 					toastr.success("修改成功");
-					$("#myModal2").modal("hide");
 					$('#mainContent2').DataTable().row(tr).data(addJson);//修改行立即显示
+					$(".Pbbe").show();
+					$(".Pbbf").show();
+					$("#myModal2").modal("hide");
 					//initTable2();
 				}
 			}
@@ -2248,7 +2298,7 @@
 	
 	
 	
-	<!-- **************************************** 项目印章刻制申请的增删改查   ****************************************************-->
+	<!-- **************************************** 项目印章刻制申请   ****************************************************-->
 	
 	
 	//添加项目印章刻制申请保存
@@ -2260,6 +2310,8 @@
 		var year=$("#year").val();
 		var bianhao=$("#bianhao").val();
 		var quancheng=$("#quancheng").val();
+		var yzshuxing=$("#yzshuxing").val();
+		var desc=$("#desc").val();
 		if(xiangmu==''){
 			toastr.error("申请项目不能为空");
 			return;
@@ -2280,7 +2332,7 @@
 			toastr.error("申请日期不能为空");
 			return;
 		}
-		var options4={
+		$.ajax({
 			type:"post",
 			url:getContextPath()+"/prjSeal/addPrjSea",
 			dataType:"json",
@@ -2291,7 +2343,9 @@
 				signetMan:yinzhangshouquanren,
 				applicationDate:year,
 				smNo:bianhao,
-				signetName:quancheng
+				signetName:quancheng,
+				signetAttribute:yzshuxing,
+				signetDesc:desc,
 			},
 			success:function(json){
 				if(json.result==0){
@@ -2299,13 +2353,15 @@
 				}else if(json.result>0){
 					//location.reload([true]);
 					//$('#mainContent').DataTable().row.add(json.signetManage).draw(false);
+					$(".Pbbb").show();
+					$(".Pbbc").show();
 					$('#myModal').modal('hide');
 					toastr.success("添加成功")
 					initTable();
 				}
 			}
-		}
-		$("#new_form").ajaxSubmit(options4);
+		})
+		/* $("#new_form").ajaxSubmit(options4); */
 	}
 	//添加印章申请提交
 	function addPrjSealSubmit(){
@@ -2316,6 +2372,8 @@
 		var year=$("#year").val();
 		var bianhao=$("#bianhao").val();
 		var quancheng=$("#quancheng").val();
+		var yzshuxing=$("#yzshuxing").val();
+		var desc=$("#desc").val();
 		if(xiangmu==''){
 			toastr.error("申请项目不能为空");
 			return;
@@ -2336,7 +2394,7 @@
 			toastr.error("申请日期不能为空");
 			return;
 		}
-		var options5={
+		$.ajax({
 			type:"post",
 			url:getContextPath()+"/prjSeal/addPrjSealSubmit",
 			dataType:"json",
@@ -2347,7 +2405,9 @@
 				signetMan:yinzhangshouquanren,
 				applicationDate:year,
 				smNo:bianhao,
-				signetName:quancheng
+				signetName:quancheng,
+				signetAttribute:yzshuxing,
+				signetDesc:desc,
 			},
 			success:function(json){
 				if(json=='0'){
@@ -2399,8 +2459,8 @@
 					toastr.success("提交成功")
 				} */
 			}
-		}
-		$("#new_form").ajaxSubmit(options5);
+		})
+		/* $("#new_form").ajaxSubmit(options5); */
 	}
 	
 	function submitPerson(){
@@ -2475,8 +2535,10 @@
 		
 		$("#lookyear").text(data.applicationDate);
 		$("#lookquancheng").text(data.signetName);
+		$("#lookyzshuxing").text(data.signetAttribute);
+		$("#lookdesc").text(data.signetDesc);
 		
-		$.ajax({
+		/* $.ajax({
 			type:"post",
 			url:getContextPath()+"/prjSeal/selectAccessoryById",
 			dataType:"json",
@@ -2495,20 +2557,22 @@
 													            	    "</tr>");
 	               }
 			}
-		})
+		}) */
 	}
 	
-	function download_all(obj){
+	/* function download_all(obj){
 		var url=$(obj).attr("data1");
 		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
 		
 		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
-	}
+	} */
 	
 	
 	//修改项目印章刻制申请回显
 	var xiugaiId;
+	var yztr;
 	function checkSeal(obj){
+		yztr = $(obj).closest('tr');
 		dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
 		xiugaiId=data.smId;
@@ -2523,8 +2587,10 @@
 		$("#xgyear").val(data.applicationDate);
 		$("#xgbianhao").val(data.smNo);
 		$("#xgquancheng").val(data.signetName);
+		$("#xgyzshuxing").val(data.signetAttribute);
+		$("#xgdesc").val(data.signetDesc);
 		
-		$.ajax({
+		/* $.ajax({
 			type:"post",
 			url:getContextPath()+"/prjSeal/selectAccessoryById",
 			dataType:"json",
@@ -2543,7 +2609,7 @@
 													            	    "</tr>");
 	               }
 			}
-		})
+		}) */
 	}
 	
 	/* function initFileInput(){
@@ -2552,7 +2618,7 @@
 		$("#xgfujian").append("<input name='file' type='file' class='form-control'>");
 	} */
 	
-	function deletefile(obj){
+	/* function deletefile(obj){
 		var id=$(obj).attr("data1");
 		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
 		var url=$(obj).attr("data2");
@@ -2578,7 +2644,7 @@
 	        	}
 	        }
 		});
-	}
+	} */
 	
 	
 	//保存修改
@@ -2590,6 +2656,9 @@
 		var xgyear=$("#xgyear").val();
 		var xgbianhao=$("#xgbianhao").val();
 		var xgquancheng=$("#xgquancheng").val();
+		var xgyzshuxing=$("#xgyzshuxing").val();
+		var xgdesc=$("#xgdesc").val();
+		
 		if(xgxiangmu==''){
 			toastr.error("申请项目不能为空");
 			return;
@@ -2610,7 +2679,16 @@
 			toastr.error("申请日期不能为空");
 			return;
 		}
-		var options6={
+		var addJson={
+				"smId":xiugaiId,
+				"prjId":xgxiangmu,
+				"taskNo":xgtaskNo,
+				"omName":$("#xgbumen").find("option:selected").text(),
+				"applicationDate":xgyear,
+				"signetName":xgquancheng,
+				"signetMan":xgyinzhangshouquanren,
+		}
+		$.ajax({
 			type:"post",
 			url:getContextPath()+"/prjSeal/updatePrjSealById",
 			dataType:"json",
@@ -2622,20 +2700,25 @@
 				signetMan:xgyinzhangshouquanren,
 				applicationDate:xgyear,
 				smNo:xgbianhao,
-				signetName:xgquancheng
+				signetName:xgquancheng,
+				signetAttribute:xgyzshuxing,
+				signetDesc:xgdesc,
 			},
 			success:function(json){
 				if(json.result==0){
 					toastr.error("修改失败")
 				}else if(json.result==1){
 					//location.reload([true]);
-					$('#change').modal('hide');
 					toastr.success("修改成功")
-					initTable();
+					$('#mainContent').DataTable().row(yztr).data(addJson);//修改行立即显示
+					$(".Pbbb").show();
+					$(".Pbbc").show();
+					$('#change').modal('hide');
+					//initTable();
 				}
 			}
-		}
-		$("#edit_form").ajaxSubmit(options6);
+		})
+		/* $("#edit_form").ajaxSubmit(options6); */
 	}
 	
 	//提交修改
@@ -2647,6 +2730,9 @@
 		var xgyear=$("#xgyear").val();
 		var xgbianhao=$("#xgbianhao").val();
 		var xgquancheng=$("#xgquancheng").val();
+		var xgyzshuxing=$("#xgyzshuxing").val();
+		var xgdesc=$("#xgdesc").val();
+		
 		if(xgxiangmu==''){
 			toastr.error("申请项目不能为空");
 			return;
@@ -2667,7 +2753,16 @@
 			toastr.error("申请日期不能为空");
 			return;
 		}
-		var options7={
+		var addJson={
+				"smId":xiugaiId,
+				"prjId":xgxiangmu,
+				"taskNo":xgtaskNo,
+				"omName":$("#xgbumen").find("option:selected").text(),
+				"applicationDate":xgyear,
+				"signetName":xgquancheng,
+				"signetMan":xgyinzhangshouquanren,
+		}
+		$.ajax({
 			type:"post",
 			url:getContextPath()+"/prjSeal/updatePrjSealByIdSubmit",
 			dataType:"json",
@@ -2679,20 +2774,25 @@
 				signetMan:xgyinzhangshouquanren,
 				applicationDate:xgyear,
 				smNo:xgbianhao,
-				signetName:xgquancheng
+				signetName:xgquancheng,
+				signetAttribute:xgyzshuxing,
+				signetDesc:xgdesc,
 			},
 			success:function(json){
 				if(json.result==0){
 					toastr.error("修改失败")
 				}else if(json.result==1){
 					//location.reload([true]);
-					$('#change').modal('hide');
 					toastr.success("修改成功")
-					initTable();
+					$('#mainContent').DataTable().row(yztr).data(addJson);//修改行立即显示
+					$(".Pbbb").show();
+					$(".Pbbc").show();
+					$('#change').modal('hide');
+					//initTable();
 				}
 			}
-		}
-		$("#edit_form").ajaxSubmit(options7);
+		})
+		/* $("#edit_form").ajaxSubmit(options7); */
 	}
 	
 	
