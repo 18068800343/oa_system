@@ -28,11 +28,21 @@ public class OutTrain {
     private String courseDesc;
     
     private String trainingReason;
+    
+    private String inUsers;//参加人员（多个）
 
     private List<Accessory> accessory;
     
     
     
+	public String getInUsers() {
+		return inUsers;
+	}
+
+	public void setInUsers(String inUsers) {
+		this.inUsers = inUsers;
+	}
+
 	public List<Accessory> getAccessory() {
 		return accessory;
 	}
