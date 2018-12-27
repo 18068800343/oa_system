@@ -76,11 +76,12 @@
                                 	<input type="text" id="prj_ownerunit" data3="" style="width:60%;" class="form-control" disabled>
                                     <!-- <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren3">选择负责人</button> -->
                                 </td>
-                                <td style="width:15%;">项目阶段</td>
+                                <td style="width:15%;">项目成果</td>
                                 <td style="width:35%;">
                                     <select class="form-control" id="prj_phase" style="width:60%;">
                                     	<option>初步设计</option>
                                     	<option>施工图设计</option>
+                                    	<option>检测文件</option>
                                     </select>
                                 </td>
                             </tr>
@@ -100,8 +101,13 @@
                                 	<input type="text" id="userSignetMan" data2="" style="width:60%;" class="form-control" disabled>
                                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择管理人</button>
                                 </td>
-                                <td></td>
-                                <td></td>
+                                <td style="width:15%;">印章类型</td>
+                                <td style="width:35%;">
+                                    <select class="form-control" id="yztype" style="width:60%;">
+                                    	<option>华通文件章</option>
+                                    	<option>设计专用章</option>
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td>项目情况说明  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -178,7 +184,7 @@
                             <tr>
                                 <td>项目负责人</td>
                                 <td id="lookprj_ownerunit"></td>
-                                <td>项目阶段</td>
+                                <td>项目成果</td>
                                 <td id="lookprj_phase"></td>
                             </tr>
                             <tr>
@@ -190,8 +196,8 @@
                             <tr>
                                 <td>用章管理人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td id="lookuserSignetMan"></td>
-                                <td></td>
-                                <td></td>
+                                <td>印章类型</td>
+                                <td id="lookyztype"></td>
                             </tr>
                             <tr>
                                 <td>项目情况说明  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -354,11 +360,12 @@
                                 	<input type="text" id="xgprj_ownerunit" data3="" style="width:60%;" class="form-control" disabled>
                                    <!--  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren3">选择负责人</button> -->
                                 </td>
-                                <td style="width:15%;">项目阶段</td>
+                                <td style="width:15%;">项目成果</td>
                                 <td style="width:35%;">
                                     <select class="form-control" id="xgprj_phase" style="width:60%;">
                                     	<option>初步设计</option>
                                     	<option>施工图设计</option>
+                                    	<option>检测文件</option>
                                     </select>
                                 </td>
                             </tr>
@@ -378,8 +385,13 @@
                                     <input type="text" id="xguserSignetMan" data2="" style="width:60%;" class="form-control" disabled>
                                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren">选择管理人</button>
                                 </td>
-                                <td></td>
-                                <td></td>
+                                <td style="width:15%;">印章类型</td>
+                                <td style="width:35%;">
+                                    <select class="form-control" id="xgyztype" style="width:60%;">
+                                    	<option>华通文件章</option>
+                                    	<option>设计专用章</option>
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td>项目情况说明  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -571,7 +583,7 @@
 		"columns": [
             { "data": "usNo"},
             { "data": null}, 
-            { "data": "uName2"}, 
+            { "data": "prjHead"}, 
             { "data": "projectPhase"}, 
             { "data": "divisionEngineer"}, 
             { "data": "headEngineer"}, 
@@ -582,7 +594,7 @@
 							  "targets": 1,
 							  "searchable": true,
 							  "render": function(data, type, full) {
-									return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjName+'</a>'
+									return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjId+'</a>'
 							  }
 						},
 						{	
@@ -1226,6 +1238,7 @@
 		var headEngineer=$("#headEngineer").val();//副总工程师
 		var yongzhang=$("#userSignetMan").attr("data2");
 		var prj_desc=$("#prj_desc").val();
+		var yztype=$("#yztype").val();
 		
 		$.ajax({
 			type:"post",
@@ -1236,12 +1249,12 @@
 				prjId:prjName,
 				usNo:task_no,
 				prjHead:prj_ownerunit,
-				//omId:bumen,
 				projectPhase:prj_phase,
 				divisionEngineer:divisionEngineer,
 				headEngineer:headEngineer,
 				userSignetMan:yongzhang,
 				projectDesc:prj_desc,
+				usType:yztype,
 			},
 			success:function(json){
 				//console.log(json);
@@ -1249,9 +1262,11 @@
 					toastr.error("添加失败")
 				}else if(json.result==1){
 					//location.reload([true]);
+					$("#mainContent2").DataTable().row.add(json.ResultManagementSignet).draw(false);
+					$(".Pbcb").show();
+					$(".Pbcc").show();
 					toastr.success("添加成功")
 					$("#myModal").modal("hide")
-					//initTable();
 				}
 			}
 		})
@@ -1267,6 +1282,7 @@
 		var headEngineer=$("#headEngineer").val();//副总工程师
 		var yongzhang=$("#userSignetMan").attr("data2");
 		var prj_desc=$("#prj_desc").val();
+		var yztype=$("#yztype").val();
 		
 		$.ajax({
 			type:"post",
@@ -1283,6 +1299,7 @@
 				headEngineer:headEngineer,
 				userSignetMan:yongzhang,
 				projectDesc:prj_desc,
+				usType:yztype,
 			},
 			success:function(json){
 				if(json=='0'){
@@ -1376,21 +1393,19 @@
 			dataType:"json",
 			data:{
 				usId:checkId,
-				status:2
 			},
 			success:function(json){
 				//console.log(json);
-				$("#xgprjName").attr("data1",json.prjId);
-				$("#xgprjName").val(json.prjName);
+				$("#xgprjName").val(json.prjId);
 				$("#xgtask_no").val(json.usNo);
-				$("#xgprj_ownerunit").attr("data3",json.prjHead);
-				$("#xgprj_ownerunit").val(json.uName2);//项目负责人
+				$("#xgprj_ownerunit").val(json.prjHead);//项目负责人
 				$("#xgprj_phase").val(json.projectPhase);//项目阶段
 				$("#xgdivisionEngineer").val(json.divisionEngineer);//主任
 				$("#xgheadEngineer").val(json.headEngineer);//副总工程师
 				$("#xgprj_desc").val(json.projectDesc);
 				$("#xguserSignetMan").attr("data2",json.userSignetMan);
 				$("#xguserSignetMan").val(json.uName);
+				$("#xgyztype").val(json.usType);
 			}
 		})
 	}
@@ -1405,12 +1420,13 @@
 		var xgheadEngineer=$("#xgheadEngineer").val();//副总工程师
 		var xgyongzhang=$("#xguserSignetMan").attr("data2");
 		var xgprj_desc=$("#xgprj_desc").val();
-		console.log($("#xgprj_ownerunit").val())
+		var xgyztype=$("#xgyztype").val();
+		//console.log($("#xgprj_ownerunit").val())
 		var rsJson={
 				"usId":checkId,
-				"prjName":$("#xgprjName").val(),
+				"prjId":xgprjName,
 				"usNo":xgtask_no,
-				"uName2":$("#xgprj_ownerunit").val(),
+				"prjHead":xgprj_ownerunit,
 				"projectPhase":xgprj_phase,
 				"divisionEngineer":xgdivisionEngineer,
 				"headEngineer":xgheadEngineer,
@@ -1430,6 +1446,7 @@
 				headEngineer:xgheadEngineer,
 				userSignetMan:xgyongzhang,
 				projectDesc:xgprj_desc,
+				usType:xgyztype,
 			},
 			success:function(json){
 				//console.log(json);
@@ -1437,9 +1454,11 @@
 					toastr.error("修改失败")
 				}else if(json.result==1){
 					//location.reload([true]);
+					$('#mainContent').DataTable().row(tr).data(rsJson);//修改行立即显示
+					$(".Pbcb").show();
+					$(".Pbcc").show();
 					toastr.success("修改成功")
 					$("#change").modal("hide")
-					$('#mainContent').DataTable().row(tr).data(rsJson);//修改行立即显示
 					//initTable();
 				}
 			}
@@ -1457,12 +1476,13 @@
 		var xgheadEngineer=$("#xgheadEngineer").val();//副总工程师
 		var xgyongzhang=$("#xguserSignetMan").attr("data2");
 		var xgprj_desc=$("#xgprj_desc").val();
+		var xgyztype=$("#xgyztype").val();
 		
 		var rsJson={
 				"usId":checkId,
-				"prjName":$("#xgprjName").val(),
+				"prjId":xgprjName,
 				"usNo":xgtask_no,
-				"uName2":$("#xgprj_ownerunit").val(),
+				"prjHead":xgprj_ownerunit,
 				"projectPhase":xgprj_phase,
 				"divisionEngineer":xgdivisionEngineer,
 				"headEngineer":xgheadEngineer,
@@ -1482,6 +1502,7 @@
 				headEngineer:xgheadEngineer,
 				userSignetMan:xgyongzhang,
 				projectDesc:xgprj_desc,
+				usType:xgyztype,
 			},
 			success:function(json){
 				//console.log(json);
@@ -1489,9 +1510,11 @@
 					toastr.error("修改失败")
 				}else if(json.result==1){
 					//location.reload([true]);
+					$('#mainContent').DataTable().row(tr).data(rsJson);//修改行立即显示
+					$(".Pbcb").show();
+					$(".Pbcc").show();
 					toastr.success("修改成功")
 					$("#change").modal("hide")
-					$('#mainContent').DataTable().row(tr).data(rsJson);//修改行立即显示
 				}
 			}
 		})
@@ -1513,14 +1536,15 @@
 			},
 			success:function(json){
 				//console.log(json);
-				$("#lookprjName").text(json.prjName);
+				$("#lookprjName").text(json.prjId);
 				$("#looktask_no").text(json.usNo);
-				$("#lookprj_ownerunit").text(json.uName2);//项目负责人
+				$("#lookprj_ownerunit").text(json.prjHead);//项目负责人
 				$("#lookprj_phase").text(json.projectPhase);//项目阶段
 				$("#lookdivisionEngineer").text(json.divisionEngineer);//主任
 				$("#lookheadEngineer").text(json.headEngineer);//副总工程师
 				$("#lookprj_desc").text(json.projectDesc);
 				$("#lookuserSignetMan").text(json.uName);
+				$("#lookyztype").text(json.usType);
 			}
 		})
 	}

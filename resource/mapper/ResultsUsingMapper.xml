@@ -2,19 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.ResultsUsingDao" >
   <select id="selectResultsUsing" resultType="org.ldxx.bean.ResultManagementSignet">
-  	select a.*,b.prj_name,b.prj_owner_unit,b.main_department,c.u_name as uName2
-  		from result_management_signet a 
-  			left join task b on a.prj_id=b.prj_id
-  			left join mode_status m on a.us_id=m.mode_id
-  			left join user c on a.prj_head=c.user_id
+  	select a.*,b.u_name from result_management_signet a 
+  		left join user b on a.user_signet_man=b.user_id 
+  		left join mode_status m on a.us_id=m.mode_id
   		where m.status=#{status}
   </select>
   <insert id="addResultsUsing" parameterType="org.ldxx.bean.ResultManagementSignet" >
     insert into result_management_signet (us_id,prj_id,us_no,prj_head,project_phase, division_engineer, 
-      head_engineer, user_signet_man, us_status,project_desc)
+      head_engineer, user_signet_man,project_desc,us_type)
     values (#{rs.usId,jdbcType=VARCHAR},#{rs.prjId,jdbcType=VARCHAR},#{rs.usNo,jdbcType=VARCHAR},#{rs.prjHead,jdbcType=VARCHAR}, #{rs.projectPhase,jdbcType=VARCHAR}, #{rs.divisionEngineer,jdbcType=VARCHAR}, 
-      #{rs.headEngineer,jdbcType=VARCHAR}, #{rs.userSignetMan,jdbcType=VARCHAR}, #{rs.usStatus,jdbcType=INTEGER}, 
-      #{rs.projectDesc,jdbcType=LONGVARCHAR})
+      #{rs.headEngineer,jdbcType=VARCHAR}, #{rs.userSignetMan,jdbcType=VARCHAR}, 
+      #{rs.projectDesc,jdbcType=LONGVARCHAR},#{rs.usType,jdbcType=VARCHAR})
   </insert>
   <delete id="deleteResultsUsingById" parameterType="String">
   	delete from result_management_signet where us_id=#{usId}
@@ -28,8 +26,8 @@
       division_engineer = #{rs.divisionEngineer,jdbcType=VARCHAR},
       head_engineer = #{rs.headEngineer,jdbcType=VARCHAR},
       user_signet_man = #{rs.userSignetMan,jdbcType=VARCHAR},
-      us_status = #{rs.usStatus,jdbcType=INTEGER},
-      project_desc = #{rs.projectDesc,jdbcType=LONGVARCHAR}
+      project_desc = #{rs.projectDesc,jdbcType=LONGVARCHAR},
+      us_type=#{rs.usType,jdbcType=VARCHAR}
     where us_id = #{rs.usId,jdbcType=VARCHAR}
   </update>
   <select id="selectResultsUsingById" parameterType="String" resultType="org.ldxx.bean.ResultManagementSignet">

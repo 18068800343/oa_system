@@ -3,7 +3,7 @@ package org.ldxx.bean;
 public class ResultManagementSignet {
     private String usId;
 
-    private String prjId;//项目id
+    private String prjId;//项目
     
     private String usNo;//编号
     
@@ -19,22 +19,18 @@ public class ResultManagementSignet {
 
     private String projectDesc;
 
-    private Integer usStatus;
+    private String usType;//印章类型
     
-    
-    private String prjName;//项目名
-    private String prjOwnerUnit;//项目负责人
     private String uName;
-    private String uName2;
 
     
     
-    public String getuName2() {
-		return uName2;
+    public String getUsType() {
+		return usType;
 	}
 
-	public void setuName2(String uName2) {
-		this.uName2 = uName2;
+	public void setUsType(String usType) {
+		this.usType = usType;
 	}
 
 	public String getuName() {
@@ -60,23 +56,6 @@ public class ResultManagementSignet {
 
 	public void setPrjHead(String prjHead) {
 		this.prjHead = prjHead;
-	}
-
-	public String getPrjName() {
-		return prjName;
-	}
-
-	public void setPrjName(String prjName) {
-		this.prjName = prjName;
-	}
-
-
-	public String getPrjOwnerUnit() {
-		return prjOwnerUnit;
-	}
-
-	public void setPrjOwnerUnit(String prjOwnerUnit) {
-		this.prjOwnerUnit = prjOwnerUnit;
 	}
 
 	public String getUsId() {
@@ -127,13 +106,6 @@ public class ResultManagementSignet {
         this.userSignetMan = userSignetMan == null ? null : userSignetMan.trim();
     }
 
-    public Integer getUsStatus() {
-        return usStatus;
-    }
-
-    public void setUsStatus(Integer usStatus) {
-        this.usStatus = usStatus;
-    }
 
     public String getProjectDesc() {
         return projectDesc;
