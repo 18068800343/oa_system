@@ -110,7 +110,7 @@
                                 <td  style="width:15%;">参加人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td  style="width:35%;" colspan="3">
                                 	<input type="text" style="width:80%;" class="form-control" id="new_users" disabled>
-                                	<button type="button" class="btn btn-primary"  id="choseren">选择人员</button>
+                                	<button type="button" class="btn btn-primary"  id="choseren" data-toggle="modal" data-target="#people">选择人员</button>
                                     <!-- <select class="selectpicker show-tick form-control"  style="width:100%;" id="new_users" multiple data-live-search="true">
                                     </select> -->
                                 </td>
@@ -155,6 +155,12 @@
 	      </div>
 	      <div class="modal-body">
 	       			<!-- <select class="form-control" style="width:180px;" id=""></select> -->
+	       			<form class="form-inline">
+	                    <div class="form-group">
+	                        	<span>部门:</span>
+	                            <select style="width:180px;"id="bumencjry" class="form-control" ></select>
+	                    </div>
+	                </form>
 	       			<table class="table table-bordered table-condensed" id="mingzibiao">
 	       				<thead>
 	       					<tr>
@@ -264,7 +270,7 @@
                                 <td style="width:15%;">参加人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;" colspan="3">
                                 	<input type="text" style="width:80%;" class="form-control" id="edit_users" disabled>
-                                	<button type="button" class="btn btn-primary"  id="xgchoseren">选择人员</button>
+                                	<button type="button" class="btn btn-primary"  id="xgchoseren" data-toggle="modal" data-target="#xgpeople">选择人员</button>
                                     <!-- <select class="selectpicker show-tick form-control"  style="width:100%;" id="edit_users" multiple data-live-search="true">
                                     </select> -->
                                 </td>
@@ -302,6 +308,12 @@
 	      </div>
 	      <div class="modal-body">
 	       			<!-- <select class="form-control" style="width:180px;" id=""></select> -->
+	       			<form class="form-inline">
+	                    <div class="form-group">
+	                        	<span>部门:</span>
+	                            <select style="width:180px;"id="xgbumencjry" class="form-control" ></select>
+	                    </div>
+	                </form>
 	       			<table class="table table-bordered table-condensed" id="xgmingzibiao">
 	       				<thead>
 	       					<tr>
@@ -657,17 +669,67 @@
             success: function (json) {
                 $("#new_department").html('');
                 $("#edit_department").html('');
+                $("#bumencjry").html('');
+                $("#xgbumencjry").html('');
                 for(var i=0;i<json.length;i++){
                 	$("#new_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
                 	$("#edit_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
+                	$("#bumencjry").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
+                	$("#xgbumencjry").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
                 }
                 $("#new_department").trigger("change");
                 $("#edit_department").trigger("change");
+                $("#bumencjry").trigger("change");
+                $("#xgbumencjry").trigger("change");
             }
         });
 	}
 	//已知部门，获取部门所属人员
-	$("#choseren").click(function(){
+	$("#bumencjry").change(function(){
+		arr=[];
+		$('#people').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		var bumen=$("#bumencjry").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#mingzibiao').dataTable().fnClearTable();
+                $('#mingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	$("#xgbumencjry").change(function(){
+		xgarr=[];
+		$('#xgpeople').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		var bumen=$("#xgbumencjry").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#xgmingzibiao').dataTable().fnClearTable();
+                $('#xgmingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	/* $("#choseren").click(function(){
 		arr=[];
 		$("#people").modal("show");
 		$('#people').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
@@ -689,9 +751,9 @@
 	                $('#mingzibiao').DataTable().rows.add(json).draw(false);
 	            }
 	        });
-	})
+	}) */
 	
-	$("#xgchoseren").click(function(){
+	/* $("#xgchoseren").click(function(){
 		xgarr=[];
 		$("#xgpeople").modal("show");
 		$('#xgpeople').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
@@ -713,7 +775,7 @@
 	                $('#xgmingzibiao').DataTable().rows.add(json).draw(false);
 	            }
 	        });
-	})
+	}) */
 	
 	var arr=new Array();
 	function chooseBox(obj){
