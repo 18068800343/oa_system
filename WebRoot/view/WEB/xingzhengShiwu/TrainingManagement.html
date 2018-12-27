@@ -74,7 +74,7 @@
                             <td style="width:15%;">申请人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             <td style="width:35%;">
                             		<input type="text" style="width:60%;" class="form-control" id="user" disabled>
-                                	<button type="button" class="btn btn-primary"  id="choseren">选择人员</button>
+                                	<button type="button" class="btn btn-primary"  id="choseren" data-toggle="modal" data-target="#people">选择人员</button>
                             </td>
                             <td style="width:15%;">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务</td>
                             <td style="width:35%;">
@@ -150,6 +150,12 @@
 	      </div>
 	      <div class="modal-body">
 	       			<!-- <select class="form-control" style="width:180px;" id=""></select> -->
+	       			<form class="form-inline">
+	                    <div class="form-group">
+	                        	<span>部门:</span>
+	                            <select style="width:180px;"id="bumensqry" class="form-control" ></select>
+	                    </div>
+	                </form>
 	       			<table class="table table-bordered table-condensed" id="mingzibiao">
 	       				<thead>
 	       					<tr>
@@ -227,7 +233,7 @@
                             <td style="width:15%;">申请人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             <td style="width:35%;">
                             		<input type="text" style="width:60%;" class="form-control" id="edit_user" disabled>
-                                	<button type="button" class="btn btn-primary"  id="xgchoseren">选择人员</button>
+                                	<button type="button" class="btn btn-primary"  id="xgchoseren" data-toggle="modal" data-target="#xgpeople">选择人员</button>
                             </td>
                             <td style="width:15%;">职&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp务</td>
                             <td style="width:35%;">
@@ -293,6 +299,12 @@
 	      </div>
 	      <div class="modal-body">
 	       			<!-- <select class="form-control" style="width:180px;" id=""></select> -->
+	       			<form class="form-inline">
+	                    <div class="form-group">
+	                        	<span>部门:</span>
+	                            <select style="width:180px;"id="xgbumensqry" class="form-control" ></select>
+	                    </div>
+	                </form>
 	       			<table class="table table-bordered table-condensed" id="xgmingzibiao">
 	       				<thead>
 	       					<tr>
@@ -841,19 +853,57 @@
                 $("#edit_department").html('');
                 $("#bumenxr").empty();
                 $("#edit_bumenxr").empty();
+                $("#bumensqry").empty();
+                $("#xgbumensqry").empty();
                 for(var i=0;i<json.length;i++){
                 	$("#department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
                 	$("#edit_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
                 	$("#bumenxr").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
                 	$("#edit_bumenxr").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
+                	$("#bumensqry").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
+                	$("#xgbumensqry").append("<option value="+json[i].omId+">"+json[i].omName+"</option>")
                 }
                 $("#bumenxr").trigger('change');
                 $("#edit_bumenxr").trigger('change');
+                $("#bumensqry").trigger('change');
+                $("#xgbumensqry").trigger('change');
             }
         });
 	}
 	//已知部门，获取部门所属人员
-	$("#choseren").click(function(){
+	$("#bumensqry").change(function(){
+		var bumen=$("#bumensqry").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#mingzibiao').dataTable().fnClearTable();
+                $('#mingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	$("#xgbumensqry").change(function(){
+		var bumen=$("#xgbumensqry").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#xgmingzibiao').dataTable().fnClearTable();
+                $('#xgmingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	/* $("#choseren").click(function(){
 		$("#people").modal("show");
 		$('#people').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
             if ($('.modal.in').size() >= 1) {
@@ -866,7 +916,7 @@
 	            dataType: 'json',
 	            async:false,
 	            data: {
-	            	omId:$("#department").val()
+	            	omId:$("#bumensqry").val()
 	            },
 	            success: function (json) {
 	            	//console.log(json)
@@ -874,8 +924,8 @@
 	                $('#mingzibiao').DataTable().rows.add(json).draw(false);
 	            }
 	        });
-	})
-	$("#xgchoseren").click(function(){
+	}) */
+	/* $("#xgchoseren").click(function(){
 		$("#xgpeople").modal("show");
 		$('#xgpeople').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
             if ($('.modal.in').size() >= 1) {
@@ -889,7 +939,7 @@
 	            dataType: 'json',
 	            async:false,
 	            data: {
-	            	omId:$("#edit_department").val()
+	            	omId:$("#xgbumensqry").val()
 	            },
 	            success: function (json) {
 	            	//console.log(json)
@@ -897,7 +947,7 @@
 	                $('#xgmingzibiao').DataTable().rows.add(json).draw(false);
 	            }
 	        });
-	})
+	}) */
 	//添加人员到input框
 	var aaid;
 	$('#mingzibiao').delegate('#chked','click', function () {
