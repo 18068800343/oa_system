@@ -37,7 +37,7 @@ public class ReceiveMoneyController {
 	public int addReceiveMoney(ReceiveMoney receiveMoney,HttpSession session){
 		User user = (User) session.getAttribute("user");
 		receiveMoney.setRmId(new TimeUUID().getTimeUUID());
-		receiveMoney.setDoTime(TimeUUID.getTimeByFmt("yyyy-mm-dd hh:mm:ss", new Date()));
+		receiveMoney.setDoTime(TimeUUID.getTimeByFmt("yyyy-MM-dd hh:mm:ss", new Date()));
 		receiveMoney.setDoPerson(user.getuName());
 		receiveMoney.setStatus("0");
 		return receiveMoneyDao.addReceiveMoney(receiveMoney);

@@ -8,13 +8,13 @@ import org.ldxx.bean.ReceiveMoney;
 
 public interface ReceiveMoneyDao {
 
-	int addReceiveMoney(ReceiveMoney receiveMoney);
+	int addReceiveMoney(@Param("receiveMoney")ReceiveMoney receiveMoney);
 
-	int deleteReceiveMoneyById(String id);
+	int deleteReceiveMoneyById(@Param("id")String id);
 
 	List<ReceiveMoney> selectReceiveList();
 	
-	List<ReceiveMoney> selectReceiveListByStatus(String status);
+	List<ReceiveMoney> selectReceiveListByStatus(@Param("status")String status);
 
 	int updateReceiveMoney(@Param("receiveMoney")ReceiveMoney receiveMoney);
 
