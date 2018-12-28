@@ -231,6 +231,7 @@ public class BidApprovalController {
 	@RequestMapping("/updateSubmissionTime")
 	@ResponseBody
 	public int updateSubmissionTime(BidApproval ba){
-		return service.updateSpPeoson(ba);
+		int i=service.updateSubmissionTime(ba);
+		return i;
 	}
 }

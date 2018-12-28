@@ -7,29 +7,27 @@ public class OpeningRecord {
 	private String orId;
 	private String prjName;//项目名称
 	private String prjNo;//投标审批单号
+	private String tenderer;//招标人
 	private String prjArea;//项目地区
 	private String prjType;//项目类型
-	private Float ownerControlledPrice;//业主控制价(项目限价)
-	private Float bidEvaluationBenchmarkPrice;//评标基准价
-	private String bidOpeningTime;//开标时间
-	private String percentageFluctuation;//基准价折扣率
-	private String winningUnit;//中标单位
-	private String bidProjectManager;//中标项目经理
-	private Float bidPrice;//中标价格
-	private String floatingMediumPrice;//中标价折扣率
-	private String recordDate;//记录日期
-	private String conclusion;//总结
-	private String unitReasonBid;//废标单位原因
-	private String tenderer;//招标人
 	private String bidEvaluationMethod;//评标办法
 	private String thisInUnit;//本次参投单位
-	private Float companyOffer;//公司报价
 	private String companyDiscountRate;//公司报价折扣率
 	private Float calculateCost;//测算成本
+	private Float ownerControlledPrice;//业主控制价(项目限价)
+	private Float bidEvaluationBenchmarkPrice;//评标基准价
+	private String percentageFluctuation;//基准价折扣率
+	private String winningUnit;//中标单位
+	private String bidOpeningTime;//开标时间
+	private Float bidPrice;//中标价格
+	private String bidRate;//中标费率
 	private Float actualCost;//实际成本
-	private String prjStates;//项目跟踪状态
-	private String isWinning;//是否中标
 	private String isScrap;//是否废标
+	private String preparer;//填表人
+	private String generalLeader;//总负责人
+	private String conclusion;//总结
+	private String unitReasonBid;//本单位废标原因
+	private String unitReasonBidOther;//其他单位废标原因
 	
 	
 	private List<OpeningInformation> openingInformation;
@@ -37,30 +35,41 @@ public class OpeningRecord {
 	private List<Accessory> accessory;
 	
 	
-	
-	public String getIsWinning() {
-		return isWinning;
+	public String getBidRate() {
+		return bidRate;
 	}
-	public void setIsWinning(String isWinning) {
-		this.isWinning = isWinning;
+	public void setBidRate(String bidRate) {
+		this.bidRate = bidRate;
+	}
+	public String getBidOpeningTime() {
+		return bidOpeningTime;
+	}
+	public void setBidOpeningTime(String bidOpeningTime) {
+		this.bidOpeningTime = bidOpeningTime;
+	}
+	public String getPreparer() {
+		return preparer;
+	}
+	public void setPreparer(String preparer) {
+		this.preparer = preparer;
+	}
+	public String getGeneralLeader() {
+		return generalLeader;
+	}
+	public void setGeneralLeader(String generalLeader) {
+		this.generalLeader = generalLeader;
+	}
+	public String getUnitReasonBidOther() {
+		return unitReasonBidOther;
+	}
+	public void setUnitReasonBidOther(String unitReasonBidOther) {
+		this.unitReasonBidOther = unitReasonBidOther;
 	}
 	public String getIsScrap() {
 		return isScrap;
 	}
 	public void setIsScrap(String isScrap) {
 		this.isScrap = isScrap;
-	}
-	public String getPrjStates() {
-		return prjStates;
-	}
-	public void setPrjStates(String prjStates) {
-		this.prjStates = prjStates;
-	}
-	public Float getCompanyOffer() {
-		return companyOffer;
-	}
-	public void setCompanyOffer(Float companyOffer) {
-		this.companyOffer = companyOffer;
 	}
 	public List<Accessory> getAccessory() {
 		return accessory;
@@ -158,12 +167,6 @@ public class OpeningRecord {
 	public void setPrjType(String prjType) {
 		this.prjType = prjType;
 	}
-	public String getBidOpeningTime() {
-		return bidOpeningTime;
-	}
-	public void setBidOpeningTime(String bidOpeningTime) {
-		this.bidOpeningTime = bidOpeningTime;
-	}
 	public String getPercentageFluctuation() {
 		return percentageFluctuation;
 	}
@@ -175,24 +178,6 @@ public class OpeningRecord {
 	}
 	public void setWinningUnit(String winningUnit) {
 		this.winningUnit = winningUnit;
-	}
-	public String getBidProjectManager() {
-		return bidProjectManager;
-	}
-	public void setBidProjectManager(String bidProjectManager) {
-		this.bidProjectManager = bidProjectManager;
-	}
-	public String getFloatingMediumPrice() {
-		return floatingMediumPrice;
-	}
-	public void setFloatingMediumPrice(String floatingMediumPrice) {
-		this.floatingMediumPrice = floatingMediumPrice;
-	}
-	public String getRecordDate() {
-		return recordDate;
-	}
-	public void setRecordDate(String recordDate) {
-		this.recordDate = recordDate;
 	}
 	public String getConclusion() {
 		return conclusion;
