@@ -3,8 +3,9 @@
 <mapper namespace="org.ldxx.dao.BidApprovalDao" >
 
 	<select id="selectBidApproval" resultType="BidApproval">
-		select * from bid_approval a
+		select a.*,c.cc_name  from bid_approval a
 		left join mode_status b on a.ba_id=b.mode_id
+		left join consociation_company as c on a.owner_unit=c.cc_id
 		where status=#{status}
 	</select>
 	
@@ -13,9 +14,9 @@
 	</select>
 	
 	<insert id="addBidApproval" parameterType="BidApproval">
-		insert into bid_approval(ba_id,prj_name,prj_no,prj_states,owner_unit,prj_type,bidder,pretrial_submission_time,field_time,pretender_meeting_time,
+		insert into bid_approval(ba_id,prj_name,prj_no,owner_unit,prj_type,bidder,pretrial_submission_time,field_time,pretender_meeting_time,
 			submission_time,project_applicants,purchase_tender_personnel)
-		values(#{ba.baId},#{ba.prjName},#{ba.prjNo},#{ba.prjStates},#{ba.ownerUnit},#{ba.prjType},#{ba.bidder},#{ba.pretrialSubmissionTime},#{ba.fieldTime}
+		values(#{ba.baId},#{ba.prjName},#{ba.prjNo},#{ba.ownerUnit},#{ba.prjType},#{ba.bidder},#{ba.pretrialSubmissionTime},#{ba.fieldTime}
 			,#{ba.pretenderMeetingTime},#{ba.submissionTime},#{ba.projectApplicants},#{ba.purchaseTenderPersonnel})
 	</insert>
 	
@@ -46,8 +47,10 @@
 	</update>
 	
 	<select id="selectprjNameAndNo" resultType="BidApproval">
-		select prj_name,prj_no,owner_unit,prj_type,prj_states from bid_approval a left join mode_status b on a.ba_id=b.mode_id
-		where status=#{status}
+		select a.prj_name,a.prj_no,c.cc_name,a.prj_type from bid_approval a 
+		left join mode_status b on a.ba_id=b.mode_id
+		left join consociation_company as c on a.owner_unit=c.cc_id
+		where b.status=#{status}
 	</select>
 	
 	<select id="selectNoByName" resultType="BidApproval">
@@ -58,4 +61,17 @@
 		select prj_name,prj_type,owner_unit,prj_states from bid_approval where prj_no=#{no}
 	</select>
 
+	<update id="updateSpPeoson" parameterType="BidApproval">
+		update bid_approval set 
+			business_people=#{ba.businessPeople},
+			bid_people=#{ba.bidPeople},
+			next_department=#{ba.nextDepartment}
+		where ba_id=#{ba.baId}
+	</update>
+	
+	<update id="updateSubmissionTime" parameterType="BidApproval">
+		update bid_approval set 
+			submission_time=#{ba.submissionTime} 
+		where ba_id=#{ba.baId}
+	</update>
 </mapper>

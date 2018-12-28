@@ -160,8 +160,8 @@ public class PrjProgressFillController {
 		/*classMap.put("ppfi3", PrjProgressFillInfo.class);
 		classMap.put("ppfi4", PrjProgressFillInfo.class);
 		classMap.put("ppfi5", PrjProgressFillInfo.class);
-		classMap.put("ppfi6", PrjProgressFillInfo.class);
-		classMap.put("ppcj", PrjProgressFillCj.class);*/
+		classMap.put("ppfi6", PrjProgressFillInfo.class);*/
+		classMap.put("ppcj", PrjProgressFillCj.class);
 		JSONObject jsonObject=JSONObject.fromObject(ppf);
 		PrjProgressFill pf=(PrjProgressFill)JSONObject.toBean(jsonObject, PrjProgressFill.class,classMap);
 		pf.setPpfId(id);

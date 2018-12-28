@@ -13,7 +13,7 @@ public interface ProjectTraceLogDao {
 	
 	public int updateProjectTraceLog(@Param("traceLog")ProjectTraceLog traceLog);
 	
-	public List<ProjectTraceLog> selectProjectTraceLog(@Param("status")String status);
+	public List<ProjectTraceLog> selectProjectTraceLog();
 
 	public ProjectTraceLog selectProjectTraceLogById(@Param("id")String id);
 }

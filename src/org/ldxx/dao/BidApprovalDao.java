@@ -24,5 +24,9 @@ public interface BidApprovalDao {
 	BidApproval selectNameByNo(@Param("no")String no);
 
 	BidApproval selectBidApprovalById(@Param("id")String id);
+	
+	int updateSpPeoson(@Param("ba")BidApproval ba);
+	
+	int updateSubmissionTime(@Param("ba")BidApproval ba);
 
 }

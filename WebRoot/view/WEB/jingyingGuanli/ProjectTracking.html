@@ -47,7 +47,7 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">项目跟踪单</a></li>
-                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">项目跟踪日志</a></li>
+                <li role="presentation" onclick="initTable2()"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">项目跟踪日志</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
@@ -57,7 +57,7 @@
                                 
                             </div>
                             <div class="UpperPartR">
-                                <button type="button" class="btn btn-primary Pdaa" data-toggle="modal" data-target="#myModal">新建项目跟踪单</button>
+                                <button type="button" class="btn btn-primary Pdaa" onclick="openModal()">新建项目跟踪单</button>
                             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -74,19 +74,20 @@
                             <tr>
                                 <td style="width:20%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="new_prj_name"></td>
-                                <td style="width:20%;">项目编号</td>
-                                <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="new_prj_no"></td>
-                            </tr>
-                            <tr>
-                                <td style="width:20%;">项目状态  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <!-- <td style="width:20%;">项目编号</td>
+                                <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="new_prj_no"></td> -->
+                            	<td style="width:20%;">项目状态  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;">
                                     <select id="new_prj_status" class="form-control" style="width:70%;">
-                                        <option value="跟踪">跟踪</option>
-                                        <option value="投标">投标</option>
-                                        <option value="立项">立项</option>
+                                        <option value="计划阶段">计划阶段</option>
+                                        <option value="立项阶段">立项阶段</option>
+                                        <option value="拟招标文件">拟招标文件</option>
+                                        <option value="招标待发">招标待发</option>
                                     </select>
                                 </td>
-                                <td style="width:20%;">项目级别</td>
+                            </tr>
+                     <!--  <tr>
+                               <td style="width:20%;">项目级别</td>
                                 <td style="width:30%;">
                                     <select  id="new_prj_lv" class="form-control" style="width:70%;">
                                         <option value="大型">大型</option>
@@ -94,44 +95,66 @@
                                         <option value="小型">小型</option>
                                         <option value="其它">其它</option>
                                     </select>
-                                </td>
-                            </tr>
+                                </td> 
+                            </tr>-->
                             <tr>
+                            	 <td style="width:20%;">项目地址</td>
+                                <td style="width:30%;">
+                                	<div class="docs-methods">
+                                			<form class="form-inline">
+	                                            <div id="distpicker">
+	                                                <div class="form-group">
+	                                                    <div style="position: relative;">
+	                                                        <input id="new_prj_addr" style="width:70%" class="form-control" readonly type="text" value="" data-toggle="city-picker">
+	                                                    </div>
+	                                                </div>
+	                                            </div>
+	                                        </form>
+	                                    </div>
+                                </td>
                                 <td style="width:20%;">业务类型</td>
                                 <td style="width:30%;">
                                     <select id="new_business_type" class="form-control" style="width:70%;">
-                                        <option value="试验检测">试验检测</option>
-                                        <option value="设计">设计</option>
-                                        <option value="施工">施工</option>
-                                        <option value="科研开发">科研开发</option>
-                                        <option value="总承包项目">总承包项目</option>
-                                        <option value="其他业务">其他业务</option>
+                                        <option value="JC 检测类">JC 检测类</option>
+                                        <option value="XJSG 新建施工">XJSG 新建施工</option>
+                                        <option value="JGSG 加固施工">JGSG 加固施工</option>
+                                        <option value="SJ 设计">SJ 设计</option>
+                                        <option value="EPC EPC">EPC EPC</option>
+                                        <option value="QT 其他">QT 其他</option>
                                     </select>
-                                </td>
-                                <td style="width:20%;">项目地址</td>
-                                <td style="width:30%;">
-                                    <input type="text" style="width:70%;" class="form-control" id="new_prj_addr">
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width:20%;">预估项目规模</td>
+                                <td style="width:20%;">预估项目规模(万元)</td>
                                 <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="new_prj_scale"></td>
                                 <td style="width:20%;">填报时间</td>
                                 <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="year"></td>
                             </tr>
                             <tr>
-                                <td style="width:20%;">是否投标</td>
+                                <td style="width:20%;">发包方式</td>
                                 <td style="width:30%;">
                                     <select class="form-control" style="width:70%;" id="new_isbid">
-                                        <option value="是">是</option>
-                                        <option value="否">否</option>
+                                        <option value="直接委托">直接委托</option>
+                                        <option value="邀请招标">邀请招标</option>
+                                        <option value="公开招标">公开招标</option>
                                     </select>
                                 </td>
-                                <td style="width:20%;">跟踪部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:20%;">跟踪部门</td>
                                 <td style="width:30%;">
-                                    <select class="form-control" style="width:70%;" id="new_department">
-                                    </select>
+                                    <!-- <select class="form-control" style="width:70%;" id="new_department">
+                                    </select> -->
+                                    <input type="text" style="width:70%;" class="form-control" id="new_department" disabled>
                                 </td>
+                            </tr>
+                            <tr>
+                            	<td style="width:20%;">跟踪人</td>
+                                <td style="width:30%;">
+                                    <!-- <select class="form-control" style="width:70%;" id="new_person">
+                                    </select> -->
+                                    <input type="text" style="width:70%;" class="form-control" id="new_person" disabled>
+                                </td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>项目概况  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -142,24 +165,10 @@
                                 <td colspan="3"><textarea class="form-control" rows="3" style="width:100%;" id="new_desc"></textarea></td>
                             </tr>
                             <tr>
-                               <!--  <td>业务附件</td>
-                                <td colspan="3"><input name="file" type="file" class="form-control"></td> -->
+                                <td>业务附件</td>
+                                <td colspan="3"><input name="file" type="file" class="form-control"></td>
                             </tr>
                         </table>
-                        <table class="table table-bordered table-condensed" id="new_accessory">
-                    		<thead>
-                    			<tr>
-                    				<th colspan="2">
-                    					业务附件
-                    				</th>
-                    				 <th>
-                                		<button type="button" class="btn btn-primary" id="uploaderBox">添加附件</button>
-                            		</th>
-                    			</tr>
-                    			
-                    		</thead>
-                    		<tbody></tbody>
-                    	</table>
                     </form>  
                 </div>
         </div>
@@ -257,26 +266,12 @@
                                 <td>备注</td>
                                 <td colspan="3"><textarea class="form-control" rows="3" style="width:100%;" id="edit_desc"></textarea></td>
                             </tr>
-                            <!-- <tr id="file_tr">
+                            <tr id="file_tr">
                                 <td>业务附件</td>
                                 <td id="file_tr_td" colspan="2"><input type="text" style="width:100%;" class="form-control" id="edit_fileName"></td>
                                 <td id="file_tr_td2"><button type="button" class="btn btn-primary" onclick="deleteFile()">删除附件</button></td>
-                            </tr> -->
+                            </tr>
                         </table>
-                        <table class="table table-bordered table-condensed" id="edit_accessory">
-                    		<thead>
-                    			<tr>
-                    				<th colspan="2">
-                    					业务附件
-                    				</th>
-                    				 <th>
-                                		<button type="button" class="btn btn-primary" id="xguploaderBox">添加附件</button>
-                            		</th>
-                    			</tr>
-                    			
-                    		</thead>
-                    		<tbody></tbody>
-                    	</table>
                     </form>  
                 </div>
         </div>
@@ -304,10 +299,10 @@
                     <form class="form-inline" method="post" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed">
                             <tr>
-                                <td style="width:100px;">项目名称</td>
-                                <td id="look_prj_name"></td>
-                                <td style="width:100px;">项目编号</td>
-                                <td id="look_prj_no"></td>
+                                <td style="width:20%;">项目名称</td>
+                                <td id="look_prj_name" style="width:30%;"></td>
+                                <td style="width:20%;">项目编号</td>
+                                <td id="look_prj_no" style="width:30%;"></td>
                             </tr>
                             <tr>
                                 <td>项目状态</td>
@@ -332,6 +327,12 @@
                                 <td id="look_isbid"></td>
                                 <td>跟踪部门</td>
                                 <td id="look_department"></td>
+                            </tr>
+                            <tr>
+                            	<td>跟踪人</td>
+                                <td id="look_person"></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>项目概况</td>
@@ -363,12 +364,13 @@
                             <table class="table table-bordered table-condensed" id="mainContent">
                                 <thead>
                                     <tr>
-                                        <th style="width:10%;">项目编号</th>
-                                        <th style="width:25%;">项目名称</th>
+                                        <th style="width:15%;">项目编号</th>
+                                        <th style="width:20%;">项目名称</th>
                                         <th style="width:10%;">项目状态</th>
                                         <th style="width:10%;">填报时间</th>
                                         <th style="width:10%;">跟踪部门</th>
-                                        <th style="width:25%;">预估项目规模（金额）</th>
+                                        <th style="width:15%;">预估项目规模(万元)</th>
+                                        <th style="width:10%;">项目规模</th>
                                         <th style="width:10%;">操作</th>
                                     </tr>
                                 </thead>
@@ -449,7 +451,7 @@
                             
                </div>
                <div class="UpperPartR">
-                      <button type="button" class="btn btn-primary Pdad" data-toggle="modal" data-target="#myModal2">新建项目跟踪日志</button>
+                      <button type="button" class="btn btn-primary Pdad" onclick="openModal2()">新建项目跟踪日志</button>
                 </div>
                 <!-- Modal -->
                 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
@@ -465,11 +467,25 @@
                                         <table class="table table-bordered table-condensed">
                                             <tr>
                                                 <td style="width:20%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                                <td style="width:30%;"><input type="text" style="width:70%;" class="form-control"  id="new_prj_name_log"></td>
-                                                <td style="width:20%;">经营编号</td>
-                                                <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="new_business_no_log"></td>
+                                                <td style="width:30%;">
+                                                	<select style="width:80%;" class="form-control"  id="new_prj_name_log">
+                                                		
+                                                	</select>
+                                                </td>
+                                                <td style="width:20%;">项目编号</td>
+                                                <td style="width:30%;">
+                                                	<select style="width:80%;" class="form-control" id="new_business_no_log">
+                                                		
+                                                	</select>
+                                                </td>
                                             </tr>
                                             <tr>
+                                            	<td>跟踪人</td>
+                                            	<td><input type="text" style="width:80%;" class="form-control" id="new_log_person" disabled></td>
+                                            	<td></td>
+                                            	<td></td>
+                                            </tr>
+                                            <!-- <tr>
                                                 <td style="width:20%;">客户名称</td>
                                                 <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="new_client_name"></td>
                                                 <td style="width:20%;">主办部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -477,7 +493,7 @@
                                                     <select class="form-control" style="width:70%;" id="new_main_department">
                                                     </select>
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                             <tr>
                                                 <td>日志</td>
                                                 <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="new_log"></textarea></td>
@@ -488,8 +504,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-default" onclick="new_save_log()">保存</button>
-                            <button type="button" class="btn btn-success" onclick="new_submit_log()">提交</button>
+                            <button type="button" class="btn btn-success" onclick="new_save_log()">保存</button>
                         </div>
                         </div>
                     </div>
@@ -510,18 +525,23 @@
                                         <table class="table table-bordered table-condensed">
                                             <tr>
                                                 <td style="width:20%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                                <td style="width:30%;"><input type="text" class="form-control" style="width:70%;" id="edit_prj_name_log"></td>
+                                                <td style="width:30%;">
+                                                	<select class="form-control" style="width:80%;" id="edit_prj_name_log">
+                                                		
+                                                	</select>
+                                                </td>
                                                 <td style="width:20%;">经营编号</td>
-                                                <td style="width:30%;"><input type="text" class="form-control" style="width:70%;" id="edit_business_no_log"></td>
+                                                <td style="width:30%;">
+                                                	<select class="form-control" style="width:80%;" id="edit_business_no_log">
+                                                		
+                                                	</select>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td style="width:20%;">客户名称</td>
-                                                <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="edit_client_name"></td>
-                                                <td style="width:20%;">主办部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                                <td style="width:30%;">
-                                                    <select class="form-control" style="width:70%;" id="edit_main_department">
-                                                    </select>
-                                                </td>
+                                                <td>跟踪人</td>
+                                                <td><input type="text" style="width:80%;" class="form-control" id="edit_log_person" disabled></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
                                                 <td>日志</td>
@@ -533,8 +553,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-default" onclick="edit_save_log()">保存</button>
-                            <button type="button" class="btn btn-success" onclick="edit_submit_log()">提交</button>
+                            <button type="button" class="btn btn-success" onclick="edit_save_log()">保存</button>
                         </div>
                         </div>
                     </div>
@@ -555,16 +574,16 @@
                                     <form class="form-inline">
                                         <table class="table table-bordered table-condensed">
                                             <tr>
-                                                <td style="width:100px;">项目名称</td>
-                                                <td id="look_prj_name_log"></td>
-                                                <td style="width:100px;">经营编号</td>
-                                                <td id="look_business_no_log"></td>
+                                                <td style="width:20%;">项目名称</td>
+                                                <td id="look_prj_name_log" style="width:30%;"></td>
+                                                <td style="width:20%;">经营编号</td>
+                                                <td id="look_business_no_log" style="width:30%;"></td>
                                             </tr>
                                             <tr>
-                                                <td>客户名称</td>
-                                                <td id="look_client_name"></td>
-                                                <td>主办部门</td>
-                                                <td id="look_main_department"></td>
+                                                <td>跟踪人</td>
+                                                <td id="look_log_person"></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
                                                 <td>日志</td>
@@ -587,12 +606,10 @@
                         <table class="table table-bordered table-condensed" id="mainContent2">
                             <thead>
                                 <tr>
-                                    <th>经营编号</th>
+                                    <th>项目编号</th>
                                     <th>项目名称</th>
-                                    <th>客户名称</th>
-                                    <th>主办部门</th>
-                                    <th>时间</th>
-                                    <th style="width:100px;">操作</th>
+                                    <th>跟踪人</th>
+                                    <th style="width:120px;">操作</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -646,6 +663,8 @@
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
+<script src="../../js/city-picker.data.js"></script>
+<script src="../../js/city-picker.js"></script>
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
@@ -656,8 +675,8 @@
             effects: 'slide' 
         });
         initTable();
-        initTable2();
         initDepartment();
+        initLogPrj();
 	});
     
     
@@ -676,14 +695,15 @@
 		            { "data": "prjName"}, 
 		            { "data": "prjStates"}, 
 		            { "data": "fillTime"}, 
-		            { "data": "omName"}, 
+		            { "data": "traceDepartment"}, 
 		            { "data": "predictPrjScale"}, 
+		            { "data": "prjLv"}, 
 		            { "data": null},
 		        ],
 		        "columnDefs": [
 								{	
 										 "class": "tcenter",
-										    "targets": 6,
+										    "targets": 7,
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										    	return '<i class="iconfont icon-icon-test Pdab" style="font-size:18px;cursor:pointer;display:none;" onclick="lookThis(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai Pdac" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="updateThis(this)"></i>';
@@ -751,18 +771,16 @@
 		"columns": [
 		            { "data": "manageNo"}, 
 		            { "data": "prjName"}, 
-		            { "data": "clientName"}, 
-		            { "data": "omName"}, 
-		            { "data": "ptlTime"},
+		            { "data": "ptlName"},
 		            { "data": null},
 		        ],
 		        "columnDefs": [
 								{	
 										 "class": "tcenter",
-										    "targets": 5,
+										    "targets": 3,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test Pdae" style="font-size:18px;cursor:pointer;display:none;" onclick="lookThisLog(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai Pdaf" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="updateThisLog(this)"></i>';
+										    	return '<i class="iconfont logLook icon-icon-test Pdae" style="font-size:18px;cursor:pointer;display:none;" onclick="lookThisLog(this)" title="查看"></i> &nbsp <i class="iconfont logEdit icon-xiugai Pdaf" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="updateThisLog(this)"></i>';
 										        }
 										  }
 								],
@@ -835,7 +853,6 @@
             url: getContextPath()+'/traceLog/selectProjectTraceLog',
             dataType: 'json',
             data: {
-            	status:2
             },
             success: function (json) {
                 $('#mainContent2').dataTable().fnClearTable();
@@ -898,19 +915,46 @@
 		});
 	}
 	
+	function openModal(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/login/getUser',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	$("#new_department").val(json.omName);
+	        	$("#new_person").val(json.uName);
+	        	$("#myModal").modal("show");
+	        }
+		})
+	}
+	
+	function openModal2(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/login/getUser',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	$("#new_log_person").val(json.uName);
+	        	$("#myModal2").modal("show");
+	        }
+		})
+	}
 	
 	function new_save(){
 		var new_prj_name=$("#new_prj_name").val();
-		var new_prj_no=$("#new_prj_no").val();
+		/* var new_prj_no=$("#new_prj_no").val(); */
 		var new_prj_status=$("#new_prj_status").val();
-		var new_prj_lv=$("#new_prj_lv").val();
+		/* var new_prj_lv=$("#new_prj_lv").val(); */
 		var new_business_type=$("#new_business_type").val();
 		var new_prj_addr=$("#new_prj_addr").val();
 		var new_prj_scale=$("#new_prj_scale").val();
 		var year=$("#year").val();
 		var new_isbid=$("#new_isbid").val();
 		var new_department=$("#new_department").val();
-		var omName=$("#new_department").text();
 		var new_prj_desc=$("#new_prj_desc").val();
 		var new_desc=$("#new_desc").val();
 		if(new_prj_name==''){
@@ -919,10 +963,6 @@
 		}
 		if(new_prj_status==''){
 			toastr.error("项目状态不能为空");
-			return;
-		}
-		if(omName==''){
-			toastr.error("跟踪部门不能为空");
 			return;
 		}
 		if(new_prj_desc==''){
@@ -937,16 +977,14 @@
 		        data: {
 		        	ptId:null,
 		        	prjName:new_prj_name,
-		        	prjNo:new_prj_no,
 		        	prjStates:new_prj_status,
-		        	prjLv:new_prj_lv,
 		        	businessType:new_business_type,
 		        	prjAddr:new_prj_addr,
 		        	predictPrjScale:new_prj_scale,
 		        	fillTime:year,
 		        	isbid:new_isbid,
 		        	traceDepartment:new_department,
-		        	//omName:omName,
+		        	ptUser:new_person,
 		        	prjDesc:new_prj_desc,
 		        	ptInfo:new_desc
 		        },
@@ -966,16 +1004,16 @@
 	
 	function new_submit(){
 		var new_prj_name=$("#new_prj_name").val();
-		var new_prj_no=$("#new_prj_no").val();
+		/* var new_prj_no=$("#new_prj_no").val(); */
 		var new_prj_status=$("#new_prj_status").val();
-		var new_prj_lv=$("#new_prj_lv").val();
+		/* var new_prj_lv=$("#new_prj_lv").val(); */
 		var new_business_type=$("#new_business_type").val();
 		var new_prj_addr=$("#new_prj_addr").val();
 		var new_prj_scale=$("#new_prj_scale").val();
 		var year=$("#year").val();
 		var new_isbid=$("#new_isbid").val();
 		var new_department=$("#new_department").val();
-		var omName=$("#new_department").text();
+		var new_person=$("#new_person").val();
 		var new_prj_desc=$("#new_prj_desc").val();
 		var new_desc=$("#new_desc").val();
 		if(new_prj_name==''){
@@ -984,10 +1022,6 @@
 		}
 		if(new_prj_status==''){
 			toastr.error("项目状态不能为空");
-			return;
-		}
-		if(omName==''){
-			toastr.error("跟踪部门不能为空");
 			return;
 		}
 		if(new_prj_desc==''){
@@ -1002,16 +1036,14 @@
 		        data: {
 		        	ptId:null,
 		        	prjName:new_prj_name,
-		        	prjNo:new_prj_no,
 		        	prjStates:new_prj_status,
-		        	prjLv:new_prj_lv,
 		        	businessType:new_business_type,
 		        	prjAddr:new_prj_addr,
 		        	predictPrjScale:new_prj_scale,
 		        	fillTime:year,
 		        	isbid:new_isbid,
 		        	traceDepartment:new_department,
-		        	//omName:omName,
+		        	ptUser:new_person,
 		        	prjDesc:new_prj_desc,
 		        	ptInfo:new_desc
 		        },
@@ -1127,7 +1159,7 @@
 	    		$("#edit_prj_desc").val(json.prjDesc);
 	    		$("#edit_desc").val(json.ptInfo);
 				var accessory=json.accessory;
-				/* if(accessory.length!=0){
+				if(accessory.length!=0){
 					var acc=accessory[0];
 					aId=acc.aId;
 					acName=acc.acName;
@@ -1139,7 +1171,7 @@
 		    		$("#edit_fileName").val(acc.acName).attr("disabled",true);
 				}else{
 					initFileInput();
-				} */
+				}
 	    		
 	    		$("#change").modal("show");
 	        }
@@ -1196,7 +1228,6 @@
 	        },
 	        success: function (json) {
 	        	$("#download_td").html('');
-	        	var accessory=json.accessory;
 	        	$("#look_prj_name").text(json.prjName);
 	    		$("#look_prj_no").text(json.prjNo);
 	    		$("#look_prj_status").text(json.prjStates);
@@ -1207,17 +1238,29 @@
 	    		$("#look_year").text(json.fillTime);
 	    		$("#look_isbid").text(json.isbid);
 	    		$("#look_department").text(json.traceDepartment);
+	    		$("#look_person").text(json.ptUser);
 	    		$("#look_prj_desc").text(json.prjDesc);
 	    		$("#look_desc").text(json.ptInfo);
-	    		if(accessory.length==0){
-	    			$("#look_url").val("无").attr("disabled",true);
-	    			$("#download_td").html('');
-	    		}else{
-	    			fileName=accessory[0].acName;
-		    		$("#look_url").val(fileName).attr("disabled",true);
-		    		url=accessory[0].acUrl;
-		    		$("#download_td").append("<button type='button' class='btn btn-primary' onclick='download()'>下载附件</button>");	
-	    		}
+	    		$.ajax({
+	    			type: 'POST',
+	                url: getContextPath()+'/accessory/selectAccessoryById',
+	                dataType: 'json',
+	                data: {
+	                	id:look_id
+	                },
+	                success: function (json) {
+	                	var accessory=json;
+	                	if(accessory.length==0){
+	    	    			$("#look_url").val("无").attr("disabled",true);
+	    	    			$("#download_td").html('');
+	    	    		}else{
+	    	    			fileName=accessory[0].acName;
+	    		    		$("#look_url").val(fileName).attr("disabled",true);
+	    		    		url=accessory[0].acUrl;
+	    		    		$("#download_td").append("<button type='button' class='btn btn-primary' onclick='download()'>下载附件</button>");	
+	    	    		}
+	                }
+	    		})
 	    		
 	    		$("#look").modal("show");
 	        }
@@ -1355,19 +1398,95 @@
 	
 	
 	/***************************************************** 项目跟踪日志 ***********************************************/
+	function initLogPrj(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/trace/selectProjectTrace',
+            dataType: 'json',
+            data: {
+            	status:2
+            },
+            success: function (json) {
+            	$("#new_prj_name_log").html("");
+            	$("#new_business_no_log").html("");
+            	$("#edit_prj_name_log").html("");
+            	$("#edit_business_no_log").html("");
+                for(var i=0;i<json.length;i++){
+                	$("#new_prj_name_log").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>")
+                	$("#new_business_no_log").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>")
+                	$("#edit_prj_name_log").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>")
+                	$("#edit_business_no_log").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>")
+                }
+                $('#new_prj_name_log').editableSelect().on('select.editable-select', function (e, dom) {
+              		$.ajax({
+                        type: 'POST',
+                        url: getContextPath()+'/trace/selectProjectTraceByName',
+                        dataType: 'json',
+                        data: {
+                        	name:$('#new_prj_name_log').val()
+                        },
+                        success: function (json) {
+                        	$('#new_business_no_log').val(json.prjNo);
+                        }
+              		});
+    		  	})
+    		  	
+    		  	 $('#new_business_no_log').editableSelect().on('select.editable-select', function (e, dom) {
+              		$.ajax({
+                        type: 'POST',
+                        url: getContextPath()+'/trace/selectProjectTraceByNo',
+                        dataType: 'json',
+                        data: {
+                        	no:$('#new_business_no_log').val()
+                        },
+                        success: function (json) {
+                        	$('#new_prj_name_log').val(json.prjName);
+                        }
+              		});
+    		  	})
+    		  	
+    		  	$('#edit_prj_name_log').editableSelect().on('select.editable-select', function (e, dom) {
+              		$.ajax({
+                        type: 'POST',
+                        url: getContextPath()+'/trace/selectProjectTraceByName',
+                        dataType: 'json',
+                        data: {
+                        	name:$('#edit_prj_name_log').val()
+                        },
+                        success: function (json) {
+                        	$('#edit_business_no_log').val(json.prjNo);
+                        }
+              		});
+    		  	})
+    		  	
+    		  	 $('#edit_business_no_log').editableSelect().on('select.editable-select', function (e, dom) {
+              		$.ajax({
+                        type: 'POST',
+                        url: getContextPath()+'/trace/selectProjectTraceByNo',
+                        dataType: 'json',
+                        data: {
+                        	no:$('#edit_business_no_log').val()
+                        },
+                        success: function (json) {
+                        	$('#edit_prj_name_log').val(json.prjName);
+                        }
+              		});
+    		  	})
+    		  	
+            }
+        });
+	}
+	
 	
 	function new_save_log(){
 		var new_prj_name_log=$("#new_prj_name_log").val();
 		var new_business_no_log=$("#new_business_no_log").val();
-		var new_client_name=$("#new_client_name").val();
-		var new_main_department=$("#new_main_department").val();
+		var new_log_person=$("#new_log_person").val();
+		/* var new_client_name=$("#new_client_name").val();
+		var new_main_department=$("#new_main_department").val(); */
 		var new_log=$("#new_log").val();
 		if(new_prj_name_log==''){
 			toastr.error("项目名称不能为空");
-			return;
-		}
-		if(new_main_department==''){
-			toastr.error("主办部门不能为空");
 			return;
 		}
 		
@@ -1378,15 +1497,19 @@
 	        data: {
 	        	manageNo:new_business_no_log,
 	        	prjName:new_prj_name_log,
-	        	clientName:new_client_name,
-	        	sponsorDepartment:new_main_department,
+	        	ptlName:new_log_person,
 	        	ptlLog:new_log
 	        },
 	        success: function (json) {
-	        	if(json==0){
+	        	var result=json.result;
+	        	if(result==0){
 	        		toastr.error("添加保存失败");
 	        	}else{
+	        		var log=json.log;
 	        		toastr.success("添加保存成功");
+	        		$("#mainContent2").DataTable().row.add(log).draw(false);
+	        		$(".logEdit").show();
+	        		$(".logLook").show();
 					$("#myModal2").modal("hide");
 	        	}
 	        }
@@ -1394,7 +1517,7 @@
 	}
 	
 	
-	function new_submit_log(){
+	/* function new_submit_log(){
 		var new_prj_name_log=$("#new_prj_name_log").val();
 		var new_business_no_log=$("#new_business_no_log").val();
 		var new_client_name=$("#new_client_name").val();
@@ -1459,15 +1582,9 @@
 		        	      }); 
 		        	  }
 	        	}
-	        	/* if(json==0){
-	        		toastr.error("添加提交失败");
-	        	}else{
-	        		toastr.success("添加提交成功");
-					$("#myModal2").modal("hide");
-	        	} */
 	        }
 		});
-	}
+	} */
 	
 	
 	function lookThisLog(obj){
@@ -1476,23 +1593,22 @@
 		
 		$("#look_prj_name_log").text(data.prjName);
 		$("#look_business_no_log").text(data.manageNo);
-		$("#look_client_name").text(data.clientName);
-		$("#look_main_department").text(data.sponsorDepartment);
+		$("#look_log_person").text(data.ptlName);
 		$("#look_log").text(data.ptlLog);
 		
 		$("#look_modal").modal("show");
 	}
 	
 	var ptlId;
+	var logdom;
 	function  updateThisLog(obj){
-		var dom=$(obj).parents("tr");
-		var data=$("#mainContent2").DataTable().row(dom).data();
+		logdom=$(obj).parents("tr");
+		var data=$("#mainContent2").DataTable().row(logdom).data();
 		ptlId=data.ptlId;
 		
 		$("#edit_prj_name_log").val(data.prjName);
 		$("#edit_business_no_log").val(data.manageNo);
-		$("#edit_client_name").val(data.clientName);
-		$("#edit_main_department").val(data.sponsorDepartment);
+		$("#edit_log_person").val(data.ptlName);
 		$("#edit_log").val(data.ptlLog);
 		
 		$("#edit_modal").modal("show");
@@ -1502,15 +1618,10 @@
 	function edit_save_log(){
 		var prjName=$("#edit_prj_name_log").val();
 		var manageNo=$("#edit_business_no_log").val();
-		var clientName=$("#edit_client_name").val();
-		var sponsorDepartment=$("#edit_main_department").val();
+		var ptlName=$("#edit_log_person").val();
 		var ptlLog=$("#edit_log").val();
 		if(prjName==''){
 			toastr.error("项目名称不能为空");
-			return;
-		}
-		if(sponsorDepartment==''){
-			toastr.error("主办部门不能为空");
 			return;
 		}
 		$.ajax({
@@ -1520,15 +1631,19 @@
 	        data: {
 	        	manageNo:manageNo,
 	        	prjName:prjName,
-	        	clientName:clientName,
-	        	sponsorDepartment:sponsorDepartment,
+	        	ptlName:ptlName,
 	        	ptlLog:ptlLog,
 	        	ptlId:ptlId
 	        },
 	        success: function (json) {
-	        	if(json==0){
+	        	var result=json.result;
+	        	if(result==0){
 	        		toastr.error("修改保存失败");
 	        	}else{
+	        		var log=json.log;
+	        		$("#mainContent2").DataTable().row(logdom).data(log).draw(false);
+	        		$(".logEdit").show();
+	        		$(".logLook").show();
 	        		toastr.success("修改保存成功");
 					$("#edit_modal").modal("hide");
 	        	}
@@ -1537,7 +1652,7 @@
 	}
 	
 	
-	function edit_submit_log(){
+	/* function edit_submit_log(){
 		var prjName=$("#edit_prj_name_log").val();
 		var manageNo=$("#edit_business_no_log").val();
 		var clientName=$("#edit_client_name").val();
@@ -1572,21 +1687,8 @@
 	        	}
 	        }
 		});
-	}
+	} */
 	
-	 $("#uploaderBox").on("click", function(e) {
-	        var newFileInput = "<tr><td>附件</td><td><input  type='file' name='file' class='form-control' /></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>";
-	        $("#new_accessory").append($(newFileInput));
-	    });
-	 $("#xguploaderBox").on("click", function(e) {
-	        var newFileInput = "<tr><td>附件</td><td><input  type='file' name='file' class='form-control' /></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>";
-	        $("#edit_accessory").append($(newFileInput));
-	    });
-	 function removeFile(obj){
-	    	var tr=$(obj).parent().parent();
-	    	$(tr).remove();
-	    }
-	 
     function getCreat(bb){
         var EnterpriseRating= $(bb).parent().prev().text();
         var Remarks= $(bb).parent().prev().prev().text();

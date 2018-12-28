@@ -11,4 +11,5 @@ public interface ProjectScaleDao {
 	
 	public int updateScale(@Param("type")String type,@Param("scale")String scale,@Param("small")int small,@Param("big")int big);
 
+	public ProjectScale selectProjectScale(@Param("type")String type,@Param("money")float money);
 }

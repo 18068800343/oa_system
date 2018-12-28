@@ -15,4 +15,10 @@ public interface ProjectTraceService {
 	public List<ProjectTrace> selectProjectTrace(String status);
 	
 	public ProjectTrace selectProjectTraceById(String id);
+	
+	public int dateCount(String time);
+	
+	public ProjectTrace selectProjectTraceByNo(String no);
+	
+	public ProjectTrace selectProjectTraceByName(String name);
 }

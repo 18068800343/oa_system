@@ -7,12 +7,6 @@ public class ProjectTraceLog {
 
     private String manageNo;
 
-    private String clientName;
-
-    private String sponsorDepartment;
-    
-    private String omName;
-
     private String ptlName;
 
     private String ptlTime;
@@ -21,14 +15,6 @@ public class ProjectTraceLog {
 
     
     
-	public String getOmName() {
-		return omName;
-	}
-
-	public void setOmName(String omName) {
-		this.omName = omName;
-	}
-
 	public String getPtlId() {
 		return ptlId;
 	}
@@ -51,22 +37,6 @@ public class ProjectTraceLog {
 
 	public void setManageNo(String manageNo) {
 		this.manageNo = manageNo;
-	}
-
-	public String getClientName() {
-		return clientName;
-	}
-
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}
-
-	public String getSponsorDepartment() {
-		return sponsorDepartment;
-	}
-
-	public void setSponsorDepartment(String sponsorDepartment) {
-		this.sponsorDepartment = sponsorDepartment;
 	}
 
 	public String getPtlName() {

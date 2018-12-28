@@ -4,7 +4,7 @@ public class BidApproval {
 	private String baId;
 	private String prjName;//项目名称
 	private String prjNo;//项目编号
-	private String ownerUnit;//业主单位
+	private String ownerUnit;//业主单位id
 	private String prjType;//项目类型
 	private String bidder;//投标人
 	private String pretrialSubmissionTime;//资格预审递交时间
@@ -14,9 +14,37 @@ public class BidApproval {
 	private String projectApplicants;//项目报名人员
 	private String purchaseTenderPersonnel;//项目购买标书人员
 	private String prjStates;//项目跟踪状态
+	private String businessPeople;//商务负责人
+	private String bidPeople;//报价负责人
+	private String nextDepartment;//下一步
+	
+	private String ccName;//业主单位名称
 	
 	
-	
+	public String getCcName() {
+		return ccName;
+	}
+	public void setCcName(String ccName) {
+		this.ccName = ccName;
+	}
+	public String getBusinessPeople() {
+		return businessPeople;
+	}
+	public void setBusinessPeople(String businessPeople) {
+		this.businessPeople = businessPeople;
+	}
+	public String getBidPeople() {
+		return bidPeople;
+	}
+	public void setBidPeople(String bidPeople) {
+		this.bidPeople = bidPeople;
+	}
+	public String getNextDepartment() {
+		return nextDepartment;
+	}
+	public void setNextDepartment(String nextDepartment) {
+		this.nextDepartment = nextDepartment;
+	}
 	public String getPrjStates() {
 		return prjStates;
 	}

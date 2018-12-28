@@ -12,7 +12,7 @@ public interface ProjectTraceLogService {
 	
 	public int updateProjectTraceLog(ProjectTraceLog traceLog);
 	
-	public List<ProjectTraceLog> selectProjectTraceLog(String status);
+	public List<ProjectTraceLog> selectProjectTraceLog();
 
 	public ProjectTraceLog selectProjectTraceLogById(String id);
 }

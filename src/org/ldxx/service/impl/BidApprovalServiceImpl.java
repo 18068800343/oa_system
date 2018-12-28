@@ -77,4 +77,14 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 		return dao.selectBidApprovalById(id);
 	}
 
+	@Override
+	public int updateSpPeoson(BidApproval ba) {
+		return dao.updateSpPeoson(ba);
+	}
+
+	@Override
+	public int updateSubmissionTime(BidApproval ba) {
+		return dao.updateSubmissionTime(ba);
+	}
+
 }

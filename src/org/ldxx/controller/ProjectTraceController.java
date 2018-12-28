@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,10 +15,12 @@ import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.ProjectScale;
 import org.ldxx.bean.ProjectTrace;
 import org.ldxx.bean.User;
 import org.ldxx.service.AnnouncementService;
 import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.ProjectScaleService;
 import org.ldxx.service.ProjectTraceService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
@@ -39,11 +42,12 @@ public class ProjectTraceController {
 
 	@Autowired
 	private ProjectTraceService service;
-
 	@Autowired 
 	private AnnouncementService aservice;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private ProjectScaleService pService;
 	
 	@RequestMapping("/addProjectTraceOfSave")
 	@ResponseBody
@@ -53,9 +57,33 @@ public class ProjectTraceController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		trace.setPtId(id);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+		String time=sdf.format(new Date());
+		int count=service.dateCount(trace.getFillTime());
+		String prjNo="GZ"+time+(count+1);
+		trace.setPrjNo(prjNo);
+		
+		String type=trace.getBusinessType();
+		String prjType="";
+		if(type.equals("JC 检测类")){
+			prjType="检测项目";
+		}else if(type.equals("XJSG 新建施工")){
+			prjType="新建施工";
+		}else if(type.equals("JGSG 加固施工")){
+			prjType="加固施工";
+		}else if(type.equals("SJ 设计")){
+			prjType="设计项目";
+		}else if(type.equals("EPC EPC")){
+			prjType="新建施工";
+		}else if(type.equals("QT 其他")){
+			prjType="信息化项目";
+		}
+		ProjectScale ps=pService.selectProjectScale(prjType, trace.getPredictPrjScale());
+		String scale=ps.getPrjScale();
+		trace.setPrjLv(scale);
 		if(file!=null){
 			String fileName=file.getOriginalFilename();
-			String path="D:/oa/ProjectTrace/"+id;
+			String path="D:"+File.separator+"oa"+File.separator+"ProjectTrace"+File.separator+id;
 			File f=new File(path);
 			if(!f.exists()){
 				f.mkdirs();
@@ -78,10 +106,10 @@ public class ProjectTraceController {
 		}
 		int i=service.addProjectTrace(trace);
 		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(trace.getTraceDepartment());
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
 			String omNo=om.getOmNo();
 			String string="";
-			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
@@ -126,9 +154,34 @@ public class ProjectTraceController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		trace.setPtId(id);
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+		String time=sdf.format(new Date());
+		int count=service.dateCount(trace.getFillTime());
+		String prjNo="GZ"+time+(count+1);
+		trace.setPrjNo(prjNo);
+		
+		String type=trace.getBusinessType();
+		String prjType="";
+		if(type.equals("JC 检测类")){
+			prjType="检测项目";
+		}else if(type.equals("XJSG 新建施工")){
+			prjType="新建施工";
+		}else if(type.equals("JGSG 加固施工")){
+			prjType="加固施工";
+		}else if(type.equals("SJ 设计")){
+			prjType="设计项目";
+		}else if(type.equals("EPC EPC")){
+			prjType="新建施工";
+		}else if(type.equals("QT 其他")){
+			prjType="信息化项目";
+		}
+		ProjectScale ps=pService.selectProjectScale(prjType, trace.getPredictPrjScale());
+		String scale=ps.getPrjScale();
+		trace.setPrjLv(scale);
 		if(file!=null){
 			String fileName=file.getOriginalFilename();
-			String path="D:/oa/ProjectTrace/"+id;
+			String path="D:"+File.separator+"oa"+File.separator+"ProjectTrace"+File.separator+id;
 			File f=new File(path);
 			if(!f.exists()){
 				f.mkdirs();
@@ -152,9 +205,9 @@ public class ProjectTraceController {
 		int i=service.addProjectTrace(trace);
 		String string = i+"";
 		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(trace.getTraceDepartment());
-			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
@@ -301,4 +354,15 @@ public class ProjectTraceController {
 		return service.selectProjectTraceById(id);
 	}
 	
+	@RequestMapping("/selectProjectTraceByNo")
+	@ResponseBody
+	public ProjectTrace selectProjectTraceByNo(String no){
+		return service.selectProjectTraceByNo(no);
+	}
+	
+	@RequestMapping("/selectProjectTraceByName")
+	@ResponseBody
+	public ProjectTrace selectProjectTraceByName(String name){
+		return service.selectProjectTraceByName(name);
+	}
 }

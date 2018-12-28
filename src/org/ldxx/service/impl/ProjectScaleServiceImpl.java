@@ -85,6 +85,11 @@ public class ProjectScaleServiceImpl implements ProjectScaleService {
 		return i;
 	}
 
+	@Override
+	public ProjectScale selectProjectScale(String type, float money) {
+		return projectScaleDao.selectProjectScale(type, money);
+	}
+
 
 
 }

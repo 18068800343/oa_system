@@ -1,7 +1,9 @@
 package org.ldxx.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,53 +33,19 @@ public class ProjectTraceLogController {
 	
 	@RequestMapping("/addProjectTraceLogBySave")
 	@ResponseBody
-	public int addProjectTraceLogBySave(ProjectTraceLog traceLog,HttpServletRequest request,HttpSession session){
+	public Map<String,Object> addProjectTraceLogBySave(ProjectTraceLog traceLog,HttpServletRequest request,HttpSession session){
+		Map<String,Object> map=new HashMap<String, Object>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		traceLog.setPtlId(id);
-		String name=(String) request.getSession().getAttribute("name");
-		traceLog.setPtlName(name);
 		int i=pservice.addProjectTraceLog(traceLog);
-		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(traceLog.getSponsorDepartment());
-			String omNo=om.getOmNo();
-			String string="";
-			User user = (User) session.getAttribute("user");
-			FlowUtill flowUtill = new FlowUtill();
-			CurrentFlow currentFlow = new CurrentFlow();
-			currentFlow.setParams("1");
-			currentFlow.setTitle(traceLog.getPrjName()+"项目跟踪日志申请");
-			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getuName());;
-			currentFlow.setMemo(traceLog.getPrjName()+"项目跟踪日志申请流程发起");
-			currentFlow.setUrl("jingyingguanliLook/ProjectTrackingGZRZ.html-"+id);
-			currentFlow.setParams("{'cs':'1'}");
-			currentFlow.setStarter(user.getUserId());
-			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept(omNo);
-			currentFlow.setDeptname(user.getOmName());
-			currentFlow.setNodename("节点名称");
-			currentFlow.setPri(1);
-			currentFlow.setSdtofnode(new Date());
-			currentFlow.setSdtofflow(new Date());
-			currentFlow.setFlowEndState(2);
-			currentFlow.setFlowNopassState(0);
-			FlowHistroy flowHistroy = new FlowHistroy();
-			flowHistroy.setActor(user.getUserId());
-			flowHistroy.setActorname(user.getuName());
-			flowHistroy.setActorresult(0);
-			flowHistroy.setView("");
-			try {
-				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return i; 
+		map.put("result", i);
+		map.put("log", traceLog);
+		return map; 
 	}
 	
 	
-	@RequestMapping("/addProjectTraceLogBySubmit")
+	/*@RequestMapping("/addProjectTraceLogBySubmit")
 	@ResponseBody
 	public String addProjectTraceLogBySubmit(ProjectTraceLog traceLog,HttpServletRequest request,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
@@ -122,7 +90,7 @@ public class ProjectTraceLogController {
 			}
 		}
 		return string;
-	}
+	}*/
 	
 	@RequestMapping("/deleteProjectTraceLog")
 	@ResponseBody
@@ -133,27 +101,28 @@ public class ProjectTraceLogController {
 	
 	@RequestMapping("/updateProjectTraceLogBySave")
 	@ResponseBody
-	public int updateProjectTraceLogBySave(ProjectTraceLog traceLog,HttpServletRequest request){
-		String name=(String) request.getSession().getAttribute("name");
-		traceLog.setPtlName(name);
+	public Map<String,Object> updateProjectTraceLogBySave(ProjectTraceLog traceLog,HttpServletRequest request){
+		Map<String,Object> map=new HashMap<>();
 		int i=pservice.updateProjectTraceLog(traceLog);
-		return i; 
+		map.put("result", i);
+		map.put("log", traceLog);
+		return map; 
 	}
 	
 	
-	@RequestMapping("/updateProjectTraceLogBySubmit")
+	/*@RequestMapping("/updateProjectTraceLogBySubmit")
 	@ResponseBody
 	public int updateProjectTraceLogBySubmit(ProjectTraceLog traceLog,HttpServletRequest request){
 		String name=(String) request.getSession().getAttribute("name");
 		traceLog.setPtlName(name);
 		int i=pservice.updateProjectTraceLog(traceLog);
 		return i; 
-	}
+	}*/
 	
 	@RequestMapping("/selectProjectTraceLog")
 	@ResponseBody
-	public List<ProjectTraceLog> selectProjectTraceLog(String status){
-		List<ProjectTraceLog> list=pservice.selectProjectTraceLog(status);
+	public List<ProjectTraceLog> selectProjectTraceLog(){
+		List<ProjectTraceLog> list=pservice.selectProjectTraceLog();
 		return list; 
 	}
 	

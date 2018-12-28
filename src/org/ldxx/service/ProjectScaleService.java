@@ -9,4 +9,6 @@ public interface ProjectScaleService {
 	public ProjectScale getProjectScale(String type,String scale);
 	
 	public int updateScale(Scale scale);
+	
+	public ProjectScale selectProjectScale(String type,float money);
 }

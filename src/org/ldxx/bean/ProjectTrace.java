@@ -23,8 +23,6 @@ public class ProjectTrace {
 
     private String traceDepartment;
     
-    private String omName;
-
     private Float predictPrjScale;
 
     private String prjDesc;
@@ -158,14 +156,4 @@ public class ProjectTrace {
 		this.accessory = accessory;
 	}
 
-	public String getOmName() {
-		return omName;
-	}
-
-	public void setOmName(String omName) {
-		this.omName = omName;
-	}
-
-	
-    
 }

@@ -67,4 +67,19 @@ public class ProjectTraceServiceImpl implements ProjectTraceService{
 		return trace;
 	}
 
+	@Override
+	public int dateCount(String time) {
+		return dao.dateCount(time);
+	}
+
+	@Override
+	public ProjectTrace selectProjectTraceByNo(String no) {
+		return dao.selectProjectTraceByNo(no);
+	}
+
+	@Override
+	public ProjectTrace selectProjectTraceByName(String name) {
+		return dao.selectProjectTraceByName(name);
+	}
+
 }

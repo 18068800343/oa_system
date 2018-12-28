@@ -222,4 +222,15 @@ public class BidApprovalController {
 		return service.selectNameByNo(no);
 	}
 
+	@RequestMapping("/updateSpPeoson")
+	@ResponseBody
+	public int updateSpPeoson(BidApproval ba){
+		return service.updateSpPeoson(ba);
+	}
+	
+	@RequestMapping("/updateSubmissionTime")
+	@ResponseBody
+	public int updateSubmissionTime(BidApproval ba){
+		return service.updateSpPeoson(ba);
+	}
 }

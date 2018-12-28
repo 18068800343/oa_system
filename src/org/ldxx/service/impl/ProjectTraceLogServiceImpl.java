@@ -30,8 +30,8 @@ public class ProjectTraceLogServiceImpl  implements ProjectTraceLogService{
 	}
 
 	@Override
-	public List<ProjectTraceLog> selectProjectTraceLog(String status) {
-		return pdao.selectProjectTraceLog(status);
+	public List<ProjectTraceLog> selectProjectTraceLog() {
+		return pdao.selectProjectTraceLog();
 	}
 
 	@Override
