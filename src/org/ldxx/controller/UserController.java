@@ -11,6 +11,7 @@ import org.ldxx.bean.Accessory;
 import org.ldxx.bean.User;
 import org.ldxx.dao.UserDao;
 import org.ldxx.service.UserService;
+import org.ldxx.util.BeanUtil;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 /**
  * 人员用户管理
  * @author hp
@@ -159,7 +161,13 @@ public class UserController {
 	@RequestMapping("/selectFgldByRoleName")
 	@ResponseBody
 	public List<User> selectFgldByRoleName(){
-		return userDao.selectFgldByRoleName("分管领导");
+		List<User> list = userDao.selectFgldByRoleName("分管领导");
+		for(User user:list){
+			String userRole = user.getUserRole();
+			String flowOmNo = BeanUtil.getOmNoByUserRole(userRole, "r02*.");
+			user.setFlowOmNo(flowOmNo);
+		}
+		return list;
 	}
 	
 	@SuppressWarnings("unused")

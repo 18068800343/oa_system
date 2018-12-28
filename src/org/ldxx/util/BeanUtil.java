@@ -29,4 +29,14 @@ public class BeanUtil {
 		flowHistroy.setBusId(currentFlow.getBusId());
 		return flowHistroy;
 	}
+	
+	public  static String getOmNoByUserRole(String userRoleCode,String role_code){
+		String[] strings = userRoleCode.split("_");
+		for(String string : strings){
+			if(string.length()>5&&string.contains(role_code)){
+				return string.substring(6,8);
+			}
+		}
+		return "";
+	}
 }

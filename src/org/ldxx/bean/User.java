@@ -74,7 +74,16 @@ public class User {
     
     private List<Accessory> accessory;
 
+    private String flowOmNo;
     
+	public String getFlowOmNo() {
+		return flowOmNo;
+	}
+
+	public void setFlowOmNo(String flowOmNo) {
+		this.flowOmNo = flowOmNo;
+	}
+
 	public List<Accessory> getAccessory() {
 		return accessory;
 	}
