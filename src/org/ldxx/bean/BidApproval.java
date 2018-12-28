@@ -17,10 +17,23 @@ public class BidApproval {
 	private String businessPeople;//商务负责人
 	private String bidPeople;//报价负责人
 	private String nextDepartment;//下一步
-	
+	private String file_level;
+	private String fg_lindao;
 	private String ccName;//业主单位名称
 	
 	
+	public String getFile_level() {
+		return file_level;
+	}
+	public void setFile_level(String file_level) {
+		this.file_level = file_level;
+	}
+	public String getFg_lindao() {
+		return fg_lindao;
+	}
+	public void setFg_lindao(String fg_lindao) {
+		this.fg_lindao = fg_lindao;
+	}
 	public String getCcName() {
 		return ccName;
 	}

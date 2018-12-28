@@ -234,4 +234,11 @@ public class BidApprovalController {
 		int i=service.updateSubmissionTime(ba);
 		return i;
 	}
+	
+	@RequestMapping("/updateFlowEdit")
+	@ResponseBody
+	public int updateFlowEdit(BidApproval ba){
+		int i=service.updateSubmissionTime(ba);
+		return i;
+	}
 }
