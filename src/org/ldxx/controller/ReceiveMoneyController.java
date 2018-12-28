@@ -42,4 +42,14 @@ public class ReceiveMoneyController {
 		receiveMoney.setStatus("0");
 		return receiveMoneyDao.addReceiveMoney(receiveMoney);
 	}
+	
+	@RequestMapping("/updateReceiveMoney")
+	@ResponseBody
+	public int updateReceiveMoney(ReceiveMoney receiveMoney,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		receiveMoney.setDoTime(TimeUUID.getTimeByFmt("yyyy-mm-dd hh:mm:ss", new Date()));
+		receiveMoney.setDoPerson(user.getuName());
+		receiveMoney.setStatus("0");
+		return receiveMoneyDao.updateReceiveMoney(receiveMoney);
+	}
 }

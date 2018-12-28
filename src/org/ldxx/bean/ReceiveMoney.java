@@ -10,7 +10,7 @@ public class ReceiveMoney {
 	private String ccName;
 	//收款金额
 	private Double receiveMoney;
-	
+	//收款时间
 	private String rmTime;
 	//操作人
 	private String doPerson;
