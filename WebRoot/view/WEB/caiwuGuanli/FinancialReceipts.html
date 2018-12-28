@@ -85,7 +85,7 @@
                         	<tr>
                                 <td style="width:15%;">甲方单位</td>
                                 <td style="width:35%;">
-                                    <select id="" class="form-control" style="width:65%;">
+                                    <select id="jiafangdanwei" class="form-control" style="width:65%;">
                                     	<option>华通</option>
                                     	<option>华汇</option>
                                     </select>
@@ -207,7 +207,7 @@
                             <tr>
                                 <td style="width:15%;">甲方单位</td>
                                 <td style="width:35%;">
-                                    <select id="" class="form-control" style="width:65%;">
+                                    <select id="xgjiafangdanwei" class="form-control" style="width:65%;">
                                     	<option>华通</option>
                                     	<option>华汇</option>
                                     </select>
@@ -300,6 +300,7 @@
     	laydate.render({
             elem: '#xgshoukuantime' //指定元素
         });
+    	leixingSelect2()
     	initTable();
     	initSelect();
 	});
@@ -416,7 +417,30 @@
         });
     }
 
-
+	 //项目业主单位
+    function leixingSelect2(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cooperator/selectCooperatorIdAndName',
+	        dataType: 'json',
+	        data: {
+	           
+	        },
+	        success: function (json) {
+	        	$("#jiafangdanwei").html('');
+	        	$("#xgjiafangdanwei").html('');
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#jiafangdanwei").append( "<option value='" + json[i].ccId + "'>"
+		                    + json[i].ccName + "</option>")
+		            $("#xgjiafangdanwei").append( "<option value='" + json[i].ccId + "'>"
+		                    + json[i].ccName + "</option>")
+	        	}
+	        	 $("#jiafangdanwei").trigger("change");
+	        	 $("#xgjiafangdanwei").trigger("change");
+	        }
+	    });
+	}
+	 
     var flag=true;
     $("#changeModel").click(function(){
         if(flag==true){
