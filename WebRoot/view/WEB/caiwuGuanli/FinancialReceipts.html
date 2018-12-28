@@ -92,7 +92,7 @@
                                 </td>
                                 <td style="width:15%;">收款金额</td>
                                 <td style="width:35%;">
-                                	<input type="text" class="form-control" id="" style="width:65%;">
+                                	<input type="text" class="form-control" id="shoukuanjine" style="width:65%;">
                                 </td>
                             </tr>
                             <tr>
@@ -214,7 +214,7 @@
                                 </td>
                                 <td style="width:15%;">收款金额</td>
                                 <td style="width:35%;">
-                                	<input type="text" class="form-control" id="" style="width:65%;">
+                                	<input type="text" class="form-control" id="xgshoukuanjine" style="width:65%;">
                                 </td>
                             </tr>
                             <tr>
@@ -300,9 +300,9 @@
     	laydate.render({
             elem: '#xgshoukuantime' //指定元素
         });
-    	leixingSelect2()
+    	leixingSelect2();
     	initTable();
-    	initSelect();
+    	//initSelect();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -315,11 +315,11 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-		            { "data": "totalMoney"}, 
-		            { "data": "totalMoney"}, 
-		            { "data": "totalMoney"}, 
-		            { "data": "totalMoney"}, 
-		            { "data": "totalMoney"}, 
+		            { "data": "ccName"}, 
+		            { "data": "receiveMoney"}, 
+		            { "data": "rmTime"}, 
+		            { "data": "doPerson"}, 
+		            { "data": "doTime"}, 
 		            { "data": null}
 		        ],
 		        "columnDefs": [
@@ -382,14 +382,14 @@
 	function initTable(){
         $.ajax({
             type: 'POST',
-            url:getContextPath()+"/FinancialReceipts/selectFinancialReceipts",
+            url:getContextPath()+"/receiveMoney/getReceiveMoneyList",
             dataType: 'json',
             data: {
             },
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
-                
+                console.log(json)
                 $.ajax({
             		type:"post",
             		url:getContextPath()+"/login/getUser",
@@ -441,6 +441,36 @@
 	    });
 	}
 	 
+	 //新增
+	 function saveFr(){
+		 var danwei=$("#jiafangdanwei").val();
+		 
+		 var shoukuanjine=$("#shoukuanjine").val();
+		 var shoukuantime=$("#shoukuantime").val();
+		 $.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/receiveMoney/addReceiveMoney',
+		        dataType: 'json',
+		        data: {
+		           ccId:danwei,
+		           ccName:$("#jiafangdanwei option:selected").text(),
+		           receiveMoney:shoukuanjine,
+		           rmTime:shoukuantime
+		        },
+		        success: function (json) {
+		        	$('#mainContent').DataTable().row.add(json).draw(false);     //新增行立即显示
+		        }
+		    });
+	 }
+    //修改
+    function updateAll(obj){
+    	tr=$(obj).parents("tr");
+    	var data=$("#mainContent").DataTable().row(tr).data();
+    	console.log(data)
+    	$("#xgjiafangdanwei").find("option").val(data.ccName)
+    	$("#xgshoukuanjine").val(data.receiveMoney)
+    	$("#xgshoukuantime").val(data.rmTime)
+    }
     var flag=true;
     $("#changeModel").click(function(){
         if(flag==true){
