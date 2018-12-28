@@ -10,6 +10,8 @@ public class ReceiveMoney {
 	private String ccName;
 	//收款金额
 	private Double receiveMoney;
+	
+	private String rmTime;
 	//操作人
 	private String doPerson;
 	//操作时间
@@ -17,6 +19,12 @@ public class ReceiveMoney {
 	
 	private String status;
 	
+	public String getRmTime() {
+		return rmTime;
+	}
+	public void setRmTime(String rmTime) {
+		this.rmTime = rmTime;
+	}
 	public String getStatus() {
 		return status;
 	}
