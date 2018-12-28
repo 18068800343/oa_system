@@ -9,7 +9,7 @@ public class ReceiveMoney {
 	//甲方单位名称
 	private String ccName;
 	//收款金额
-	private String receiveMoney;
+	private double receiveMoney;
 	//收款时间
 	private String rmTime;
 	//操作人
@@ -49,10 +49,10 @@ public class ReceiveMoney {
 	public void setCcName(String ccName) {
 		this.ccName = ccName;
 	}
-	public String getReceiveMoney() {
+	public double getReceiveMoney() {
 		return receiveMoney;
 	}
-	public void setReceiveMoney(String receiveMoney) {
+	public void setReceiveMoney(double receiveMoney) {
 		this.receiveMoney = receiveMoney;
 	}
 	public String getDoPerson() {
