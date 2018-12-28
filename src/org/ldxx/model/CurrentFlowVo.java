@@ -59,6 +59,16 @@ public class CurrentFlowVo {
     
     private String flowNodeLast;
     
+    private String step;
+    
+	public String getStep() {
+		return step;
+	}
+
+	public void setStep(String step) {
+		this.step = step;
+	}
+
 	public String getFlowNodeLast() {
 		return flowNodeLast;
 	}

@@ -69,6 +69,10 @@ public class TimeUUID {
 		return userCode;
 	}
 	
+	public static String getTimeByFmt(String fmt,Date date){
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(fmt);
+		return simpleDateFormat.format(date);
+	}
 	public static void main(String[] args) {
 		TimeUUID uuid=new TimeUUID();
 		String aa=uuid.getPrjCode("", 80);

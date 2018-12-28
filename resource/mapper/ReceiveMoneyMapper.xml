@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.ReceiveMoneyDao" >
+	<insert id="addReceiveMoney" parameterType="org.ldxx.bean.ReceiveMoney">
+		insert into receive_money (rm_id,cc_id,cc_name,receive_money,do_person,do_time,status)
+		values(#{receiveMoney.rmId},
+			#{receiveMoney.ccId},
+			#{receiveMoney.ccName},
+			#{receiveMoney.receiveMoney},
+			#{receiveMoney.doPerson},
+			#{receiveMoney.doTime},
+			#{receiveMoney.status})
+	</insert>
+	<delete id="deleteReceiveMoneyById" parameterType="String">
+		delete from receive_money where rm_id=#{id}
+	</delete>
+	<update id="updateReceiveMoney" parameterType="org.ldxx.bean.ReceiveMoney">
+		update receive_money
+		<set> 
+			<if test="receiveMoney.ccId!=null and receiveMoney.ccId!=''">
+				cc_id=#{receiveMoney.ccId},
+			</if>
+			<if test="receiveMoney.ccCame!=null and receiveMoney.ccCame!=''">
+				cc_name=#{receiveMoney.ccName},
+			</if>
+			<if test="receiveMoney.receiveMoney!=null and receiveMoney.receiveMoney!=''">
+				receive_money=#{receiveMoney.receiveMoney},
+			</if>
+			<if test="receiveMoney.doPerson!=null and receiveMoney.doPerson!=''">
+				do_person=#{receiveMoney.doPerson},
+			</if>
+			<if test="receiveMoney.doTime!=null and receiveMoney.doTime!=''">
+				do_time=#{receiveMoney.doTime},
+			</if>
+			<if test="receiveMoney.status!=null and receiveMoney.status!=''">
+				status=#{receiveMoney.status}
+			</if>
+		</set>
+		where rm_id=#{receiveMoney.rmId}
+	</update>
+	<select id="selectReceiveList" resultType="org.ldxx.bean.ReceiveMoney">
+		select * from receive_money where IFNULL(receive_money.status,'0') != '6';
+	</select> 
+	<select id="selectReceiveListByStatus" resultType="org.ldxx.bean.ReceiveMoney">
+		select * from receive_money where IFNULL(receive_money.status,'0') = #{status};
+	</select> 
+</mapper>
