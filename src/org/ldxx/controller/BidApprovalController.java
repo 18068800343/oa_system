@@ -12,6 +12,7 @@ import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.User;
+import org.ldxx.dao.BidApprovalDao;
 import org.ldxx.service.BidApprovalService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.util.FlowUtill;
@@ -34,7 +35,8 @@ public class BidApprovalController {
 	private BidApprovalService service;
 	@Autowired
 	private OrganizationManagementService oService;
-	
+	@Autowired
+	private BidApprovalDao bidApprovalDao;
 	
 	@RequestMapping("/selectBidApproval")
 	@ResponseBody
@@ -238,7 +240,7 @@ public class BidApprovalController {
 	@RequestMapping("/updateFlowEdit")
 	@ResponseBody
 	public int updateFlowEdit(BidApproval ba){
-		int i=service.updateSubmissionTime(ba);
+		int i=bidApprovalDao.updateFlowEdit(ba);
 		return i;
 	}
 }

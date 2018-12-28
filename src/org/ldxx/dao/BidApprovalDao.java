@@ -28,5 +28,6 @@ public interface BidApprovalDao {
 	int updateSpPeoson(@Param("ba")BidApproval ba);
 	
 	int updateSubmissionTime(@Param("ba")BidApproval ba);
-
+	
+	int updateFlowEdit(@Param("ba")BidApproval ba);
 }
