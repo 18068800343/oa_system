@@ -12,6 +12,8 @@ public class OutTrain {
     private String uName;
 
     private String proposerDepartment;
+    
+    private String omName;
 
     private String dutyId;
 
@@ -35,6 +37,14 @@ public class OutTrain {
     
     
     
+	public String getOmName() {
+		return omName;
+	}
+
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+
 	public String getInUsers() {
 		return inUsers;
 	}

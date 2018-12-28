@@ -15,4 +15,6 @@ public interface OutTrainService {
 	public List<OutTrain> selectOutTrain();
 	
 	public OutTrain selectOutTrainById(String id);
+
+	public List<OutTrain> getOutTrainName();
 }

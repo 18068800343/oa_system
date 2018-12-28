@@ -16,4 +16,6 @@ public interface OutTrainDao {
 	public List<OutTrain> selectOutTrain();
 	
 	public OutTrain selectOutTrainById(@Param("id")String id);
+
+	public List<OutTrain> getOutTrainName();
 }

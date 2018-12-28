@@ -69,7 +69,7 @@
 				        <div class="modal-body">
 				                <div>     
 				                    <form class="form-inline" id="new_form_all" method="post" enctype="multipart/form-data">
-				                        <table class="table table-bordered table-condensed" id="all_table">
+				                        <table class="table table-bordered table-condensed" id="">
 				                            <tr>
 				                                <td style="width:15%;">标题  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 				                                <td style="width:35%;">
@@ -116,13 +116,19 @@
 				                                    <textarea style="width:100%;" rows="4" class="form-control" id="info_all"></textarea>
 				                                </td>
 				                            </tr>
-				                            <tr>
-				                                <td>附件</td>
-				                                <td colspan="3">
-				                                    <button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
-				                                </td>
-				                            </tr>
+				                            
 				                        </table> 
+				                        <table class="table table-bordered table-condensed" id="all_table">
+				                        	<thead>
+				                        		<tr>
+					                                <td style="width:15%;">附件</td>
+					                                <td colspan="3">
+					                                    <button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
+					                                </td>
+					                            </tr>
+				                        	</thead>
+				                        	<tbody></tbody>
+				                        </table>
 				                    </form>  
 				                </div>
 				        </div>
@@ -226,15 +232,18 @@
 			                                    <textarea style="width:100%;" rows="4" class="form-control" id="edit_info_all"></textarea>
 			                                </td>
 			                            </tr>
-			                            <tr>
-			                                <td>附件</td>
-			                                <td colspan="3">
-			                                    <button type="button" class="btn btn-primary weui-uploader__input" id="xguploaderBox">添加附件</button>
-			                                </td>
-			                            </tr>
+			                            
 			                        </table>
 			                        <table class="table table-bordered table-condensed"  id="edit_all_table">
-				                        		
+				                        <thead>
+				                        	<tr>
+				                                <td style="width:15%;">附件</td>
+				                                <td colspan="3">
+				                                    <button type="button" class="btn btn-primary weui-uploader__input" id="xguploaderBox">添加附件</button>
+				                                </td>
+			                           		</tr>
+				                        </thead>	
+				                        <tbody></tbody>
 				                    </table> 
 			                    </form>  
 			                </div>
@@ -408,7 +417,7 @@
         <div class="modal-body">
                 <div>     
                     <form class="form-inline" id="new_form_this" method="post" enctype="multipart/form-data">
-                        <table class="table table-bordered table-condensed" id="add_this_table">
+                        <table class="table table-bordered table-condensed" id="">
                             <tr>
                                 <td style="width:15%;">标题  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
@@ -454,10 +463,16 @@
                                     <textarea style="width:100%;" rows="4" id="new_this_info"></textarea>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>附件</td>
-                                <td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox2">添加附件</button></td>
-                            </tr>
+                            
+                        </table>
+                        <table class="table table-bordered table-condensed" id="add_this_table">
+                        	<thead>
+                        		<tr>
+	                                <td style="width:15%;">附件</td>
+	                                <td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox2">添加附件</button></td>
+	                            </tr>
+                        	</thead>
+                        	<tbody></tbody>
                         </table>
                     </form>  
                 </div>
@@ -528,13 +543,17 @@
                                     <textarea style="width:100%;" rows="4" id="edit_info_this"></textarea>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>附件</td>
-                                <td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" id="xguploaderBox2">添加附件</button></td>
-                            </tr>
+                            
                         </table>
                         <table class="table table-bordered table-condensed"  id="edit_table">
-                        
+                        	<thead>
+                        		<tr>
+	                                <td style='width:15%;'>附件</td>
+	                                <td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" id="xguploaderBox2">添加附件</button></td>
+                           		</tr>
+                        	</thead>
+                        	<tbody>
+                        	</tbody>
                         </table>
                     </form>  
                 </div>
@@ -991,7 +1010,7 @@
 		            { "data": "aTitle"}, 
 		            { "data": "aType"}, 
 		           /*  { "data": "aDesc"},  */
-		            { "data": "uName"}, 
+		            { "data": "issuer"}, 
 		            { "data": "time"}, 
 		            { "data": null},
 		        ],
@@ -1703,7 +1722,9 @@
 	
 	
 	var all_id;
+	var tr;
 	function updateAll(obj){
+		tr = $(obj).closest('tr');
 		var dom=$(obj).parents("tr");
 		var data=$("#mainContent").DataTable().row(dom).data();
 		console.log(data)
@@ -1749,12 +1770,12 @@
             	id:all_id
             },
             success: function (json) {
-            	$("#edit_all_table").empty();
+            	$("#edit_all_table tbody").empty();
                for(var i=0;i<json.length;i++){
-            	   $("#edit_all_table").append("<tr>"+
-            	   														"<td>附件"+(i+1)+"</td>"+
-												            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
-												            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='delete_all(this)'>删除附件</button></td>"+
+            	   $("#edit_all_table tbody").append("<tr>"+
+            	   														"<td style='width:15%;'>附件"+(i+1)+"</td>"+
+												            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+json[i].acName+"' disabled></td>"+
+												            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='delete_all(this)'>删除附件</button></td>"+
 												            	    "</tr>");
                }
             }
@@ -1792,6 +1813,10 @@
 		});
 	}
 	
+	var myDate = new Date();
+	function getNow(s) {
+	    return s < 10 ? '0' + s: s;
+	}
 	
 	function edit_save_all(){
 		var aTitle=$("#edit_title_all").val();
@@ -1804,14 +1829,26 @@
 		editor.sync();
 		var aDesc= $('#edit_info_all').val(); // jQuery
 		
-		var aDepartment=$("#fabubumen").val();
+		var aDepartment=$("#xgfabubumen").val();
 		if(aTitle==''){
 			toastr.error("标题不能为空");
 			return;
 		}
-		if(aDesc==''){
+		/* if(aDesc==''){
 			toastr.error("内容不能为空");
 			return;
+		} */
+		
+		var addJson={
+				"aId":all_id,
+            	"aTitle":aTitle,
+            	"aType":aType,
+            	"aImportance":aImportance,
+            	"aDepartment":aDepartment,
+            	"omName":$("#xgfabubumen").find("option:selected").text(),
+            	"issuer":issuer,
+            	"aDesc":aDesc,
+            	"time":myDate.getFullYear()+'-'+getNow(myDate.getMonth()+1)+"-"+getNow(myDate.getDate())+" "+getNow(myDate.getHours())+':'+getNow(myDate.getMinutes())+":"+getNow(myDate.getSeconds())
 		}
 		var options={
 				type: 'POST',
@@ -1830,6 +1867,9 @@
 	            	if(json==0){
 	            		toastr.error("修改保存失败");
 	            	}else{
+	            		$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+	            		$(".Pbab").show();
+						$(".Pbac").show();
 	            		$("#change_all").modal("hide");
 	            		toastr.success("修改保存成功");
 	            	}
@@ -2174,7 +2214,7 @@
 	        	$("#look_this_department").text(json.omName)
 	        }
 	    });
-		$("#look_this_isuser").text(data.uName);
+		$("#look_this_isuser").text(data.issuer);
 		//$("#look_this_info").text(data.aDesc);
 		KindEditor.ready(function(K) {
             window.editor5 = K.create('#look_this_info',{
@@ -2226,7 +2266,9 @@
 	}
 	
 	var id_this;
+	var edit_tr;
 	function updateThis(obj){
+		edit_tr = $(obj).closest('tr');
 		var dom=$(obj).parents("tr");
 		var data=$('#mainContent2').DataTable().row(dom).data();
 		
@@ -2269,12 +2311,12 @@
             	id:id_this
             },
             success: function (json) {
-            	$("#edit_table").empty();
+            	$("#edit_table tbody").empty();
                for(var i=0;i<json.length;i++){
-            	   $("#edit_table").append("<tr>"+
-            	   														"<td>附件"+(i+1)+"</td>"+
-												            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
-												            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_this(this)'>删除附件</button></td>"+
+            	   $("#edit_table tbody").append("<tr>"+
+            	   														"<td style='width:15%;'>附件"+(i+1)+"</td>"+
+												            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+json[i].acName+"' disabled></td>"+
+												            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_this(this)'>删除附件</button></td>"+
 												            	    "</tr>");
                }
             }
@@ -2337,6 +2379,17 @@
 			toastr.error("内容不能为空");
 			return;
 		}
+		var addJson={
+				"aId":id_this,
+            	"aTitle":aTitle,
+            	"aType":aType,
+            	"aImportance":aImportance,
+            	"aDepartment":aDepartment,
+            	"omName":$("#edit_department_this").find("option:selected").text(),
+            	"issuer":issuer,
+            	"aDesc":aDesc,
+            	"time":myDate.getFullYear()+'-'+getNow(myDate.getMonth()+1)+"-"+getNow(myDate.getDate())+" "+getNow(myDate.getHours())+':'+getNow(myDate.getMinutes())+":"+getNow(myDate.getSeconds())
+		}
 		var options={
 				type: 'POST',
 	            url: getContextPath()+'/announcement/updateAnnouncementByThisAndSave',
@@ -2354,6 +2407,9 @@
 	            	if(json==0){
 	            		toastr.error("修改保存失败");
 	            	}else{
+	            		$('#mainContent2').DataTable().row(edit_tr).data(addJson);//修改行立即显示
+	            		$(".Pbae").show();
+						$(".Pbaf").show();
 	            		$("#change_myModal").modal("hide");
 	            		toastr.success("修改保存成功");
 	            	}
@@ -2415,8 +2471,8 @@
 	
 	
     $("#uploaderBox").on("click", function(e) {
-        $("#all_table").append("<tr>"+
-        											"<td> </td>"+
+        $("#all_table tbody").append("<tr>"+
+        											"<td>新附件</td>"+
         											"<td colspan='2'><input name='file' type='file'/></td>"+
         											"<td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td>"+
         								      "</tr>");
@@ -2424,7 +2480,7 @@
     });
     
     $("#xguploaderBox").on("click", function(e) {
-    	$("#edit_all_table").append("<tr>"+
+    	$("#edit_all_table tbody").append("<tr>"+
 															"<td>新附件</td>"+
 															"<td colspan='2'><input name='file' type='file'/></td>"+
 															"<td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td>"+
@@ -2432,8 +2488,8 @@
     });
     
     $("#uploaderBox2").on("click", function(e) {
-        $("#add_this_table").append("<tr>"+
-															"<td> </td>"+
+        $("#add_this_table tbody").append("<tr>"+
+															"<td>新附件</td>"+
 															"<td colspan='2'><input name='file' type='file'/></td>"+
 															"<td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td>"+
 													  "</tr>")
@@ -2441,7 +2497,7 @@
     });
 
     $("#xguploaderBox2").on("click",function(){
-    	$("#edit_table").append("<tr>"+
+    	$("#edit_table tbody").append("<tr>"+
 													"<td>新附件</td>"+
 													"<td colspan='2'><input name='file' type='file'/></td>"+
 													"<td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td>"+

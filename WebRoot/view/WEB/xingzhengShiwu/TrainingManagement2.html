@@ -110,7 +110,7 @@
                                 <td  style="width:15%;">参加人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td  style="width:35%;" colspan="3">
                                 	<input type="text" style="width:80%;" class="form-control" id="new_users" disabled>
-                                	<button type="button" class="btn btn-primary"  id="choseren" data-toggle="modal" data-target="#people">选择人员</button>
+                                	<button type="button" class="btn btn-primary"  id="choseren" >选择人员</button>
                                     <!-- <select class="selectpicker show-tick form-control"  style="width:100%;" id="new_users" multiple data-live-search="true">
                                     </select> -->
                                 </td>
@@ -123,15 +123,17 @@
                                 <td>预期培训目标</td>
                                 <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="new_training_reason"></textarea></td>
                             </tr>
-                            <tr>
-                            <td>附件</td>
-                            <td colspan="3">
-                                <button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
-                            </td>
-                        </tr>
                         </table>
                         <table class="table table-bordered table-condensed" id="new_table">
-                    	
+                    		<thead>
+                    			<tr>
+	                    			<td style="width:15%;">附件</td>
+	                            	<td colspan="3">
+	                                	<button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
+	                            	</td>
+	                            </tr>
+                    		</thead>
+                    		<tbody></tbody>
                     	</table>  
                     </form>  
                 </div>
@@ -270,7 +272,7 @@
                                 <td style="width:15%;">参加人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;" colspan="3">
                                 	<input type="text" style="width:80%;" class="form-control" id="edit_users" disabled>
-                                	<button type="button" class="btn btn-primary"  id="xgchoseren" data-toggle="modal" data-target="#xgpeople">选择人员</button>
+                                	<button type="button" class="btn btn-primary"  id="xgchoseren" >选择人员</button>
                                     <!-- <select class="selectpicker show-tick form-control"  style="width:100%;" id="edit_users" multiple data-live-search="true">
                                     </select> -->
                                 </td>
@@ -285,6 +287,12 @@
                             </tr>
                         </table>
                         <table class="table table-bordered table-condensed" id="edit_table">
+                        	<thead>
+				     			<tr><td style="width:15%;">附件</td>
+				     			<td><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_uploaderBox()">添加附件</button></td>
+				                <td style="width:20%;">&nbsp</td></tr>
+							</thead>
+							<tbody></tbody>
                     	</table>  
                     </form>  
                 </div>
@@ -686,12 +694,6 @@
 	}
 	//已知部门，获取部门所属人员
 	$("#bumencjry").change(function(){
-		arr=[];
-		$('#people').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
-            if ($('.modal.in').size() >= 1) {
-                $('body').addClass('modal-open')
-            }
-        })
 		var bumen=$("#bumencjry").val();
 		$.ajax({
 			type:"POST",
@@ -707,8 +709,46 @@
 			}
 		})
 	})
+	 $("#choseren").click(function(){
+		arr=[];
+		$("#people").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/user/selectUserByomId',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	omId:$("#bumencjry").val()
+	            },
+	            success: function (json) {
+	            	//console.log(json)
+	                $('#mingzibiao').dataTable().fnClearTable();
+	                $('#mingzibiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+	}) 
+	
+	var arr=new Array();
+	function chooseBox(obj){
+		var dom = $(obj).parents('tr');
+		var data=$('#mingzibiao').DataTable().row(dom).data();
+		var name=data.uName;
+		if($(obj).prop('checked')){
+			arr.push(name)
+		}else{
+			arr.splice($.inArray(name,arr),1);
+		}
+	}
+	
+	//添加人员到input框  多选
+	$("#querenciren").click(function(){
+		$("#new_users").val("")
+		 $("#new_users").val(arr.toString());
+		 $("#people").modal("hide");
+	})
+	
+	
 	$("#xgbumencjry").change(function(){
-		xgarr=[];
 		$('#xgpeople').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
             if ($('.modal.in').size() >= 1) {
                 $('body').addClass('modal-open')
@@ -729,45 +769,16 @@
 			}
 		})
 	})
-	/* $("#choseren").click(function(){
-		arr=[];
-		$("#people").modal("show");
-		$('#people').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
-            if ($('.modal.in').size() >= 1) {
-                $('body').addClass('modal-open')
-            }
-        })
-		 $.ajax({
-	            type: 'POST',
-	            url: getContextPath()+'/user/selectUserByomId',
-	            dataType: 'json',
-	            async:false,
-	            data: {
-	            	omId:$("#new_department").val()
-	            },
-	            success: function (json) {
-	            	//console.log(json)
-	                $('#mingzibiao').dataTable().fnClearTable();
-	                $('#mingzibiao').DataTable().rows.add(json).draw(false);
-	            }
-	        });
-	}) */
-	
-	/* $("#xgchoseren").click(function(){
+	 $("#xgchoseren").click(function(){
 		xgarr=[];
 		$("#xgpeople").modal("show");
-		$('#xgpeople').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
-            if ($('.modal.in').size() >= 1) {
-                $('body').addClass('modal-open')
-            }
-        })
 		 $.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/user/selectUserByomId',
 	            dataType: 'json',
 	            async:false,
 	            data: {
-	            	omId:$("#edit_department").val()
+	            	omId:$("#xgbumencjry").val()
 	            },
 	            success: function (json) {
 	            	//console.log(json)
@@ -775,33 +786,13 @@
 	                $('#xgmingzibiao').DataTable().rows.add(json).draw(false);
 	            }
 	        });
-	}) */
-	
-	var arr=new Array();
-	function chooseBox(obj){
-		var name=$(obj).parent().next().text();
-		if($(obj).prop('checked')){
-			arr.push(name)
-		}else{
-			arr.splice($.inArray(name,arr),1);
-		}
-	}
-	
-	//添加人员到input框  多选
-	$("#querenciren").click(function(){
-		/* var arr=[];
-		$("#mingzibiao").find("input[name='mingzi']:checked").each(function(i){
-			var name=$(this).parent().next().text();
-			console.log(name)
-			arr.push(name);
-		}) */
-		 $("#new_users").val(arr.toString());
-		 $("#people").modal("hide");
-	})
+	}) 
 	
 	var xgarr=new Array();
 	function xgChooseBox(obj){
-		var name=$(obj).parent().next().text();
+		var dom = $(obj).parents('tr');
+		var data=$('#xgmingzibiao').DataTable().row(dom).data();
+		var name=data.uName;
 		if($(obj).prop('checked')){
 			xgarr.push(name)
 		}else{
@@ -811,18 +802,7 @@
 	
 	
 	$("#xgquerenciren").click(function(){
-		/* 
-		$("input[name='xgmingzi']:checked").each(function(i){
-			arr[i]=$(this).parent().next().text();
-		})
-		 var b="";
-		 for(var i=0;i<arr.length;i++){
-				if(i<arr.length-1){
-					b+=arr[i]+","
-				}else{
-					b+=arr[i]
-				}
-			} */
+		$("#edit_users").val("")
 		$("#edit_users").val(xgarr.toString());
 		$("#xgpeople").modal("hide");
 	})
@@ -1010,10 +990,13 @@
   	}
 	
 	var edit_id;
+	var tr;
 	function updateAll(obj){
+		tr = $(obj).closest('tr');
 		var dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
 		edit_id=data.otaId;
+		console.log(data)
 		$("#edit_title").val(data.otaTitle);
 		$("#edit_department").val(data.omId);
 		$("#edit_training_name").val(data.trainingName);
@@ -1030,16 +1013,20 @@
 		        '<button type="button" class="btn btn-success" onclick="edit_save()">保存</button>'+
 		        '<button type="button" class="btn btn-success" onclick="edit_submit()">提交</button>');
 		
-		$("#edit_table").html('');
-		 $("#edit_table").append('<thead>'+
-	     			'<tr><td style="width:30%;">附件</td>'+
-	     			'<td><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_uploaderBox()">添加附件</button></td>'+
-	                '<td style="width:20%;">&nbsp</td></tr>'+
-				'</thead><tbody></tbody>');
-        var acc=data.accessory;
-		 for(var i=0;i<acc.length;i++){
-			 $("#edit_table tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc[i].aId+" data2="+acc[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
-		 }   
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/accessory/selectAccessoryById",
+			dataType:"json",
+			data:{
+				id:edit_id,
+			},
+			success:function(json){
+				$("#edit_table tbody").empty();
+	            for(var i=0;i<json.length;i++){
+	            	$("#edit_table tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:80%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+json[i].aId+" data2="+json[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
+	        	}
+			}
+		})
 		
 		$("#change2").modal("show");
 	}
@@ -1100,6 +1087,21 @@
     		toastr.error("培训机构名称不能为空");
     		return;
     	}
+		var addJson={
+				"otaId":edit_id,
+				"otaTitle":otaTitle,
+				"courseName":courseName,
+				"trainingName":trainingName,
+				"omName":$("#edit_department").find("option:selected").text(),
+				"trainingLocation":trainingLocation,
+				"trainingReason":trainingReason,
+				"trainingDate":trainingDate,
+				"trainingMoney":trainingMoney,
+				"attendees":users,
+				"omId":omId,
+				"trainingLv":trainingLv,
+				"courseDesc":courseDesc,
+		}
 		var options={
 				type: 'POST',
 				url: getContextPath()+'/OutTrainAll/updateOutTrainAllBySave',
@@ -1122,6 +1124,9 @@
 	            	if(json==0){
 	            	    toastr.error("修改保存失败");
 	            	}else{
+	            		$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+	            		$(".Pbdbb").show();
+						$(".Pbdbc").show();
 	            		$("#change2").modal("hide");
 	            		toastr.success("修改保存成功");
 	            	}
@@ -1254,7 +1259,7 @@
     
     $("#uploaderBox").on("click", function(e) {
         var newFileInput = "<tr><td>新附件</td><td><input  type='file' name='file' class='form-control' /></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>";
-        $("#new_table").append($(newFileInput));
+        $("#new_table tbody").append($(newFileInput));
     });
     
     function edit_uploaderBox(){

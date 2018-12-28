@@ -67,4 +67,9 @@ public class OutTrainAllServiceImpl implements OutTrainAllService{
 		return odao.selectOutTrainAllById(id);
 	}
 
+	@Override
+	public List<OutTrainAll> getOutTrainAllName() {
+		return odao.getOutTrainAllName();
+	}
+
 }

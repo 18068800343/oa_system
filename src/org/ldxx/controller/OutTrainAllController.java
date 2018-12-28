@@ -12,6 +12,7 @@ import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.OutTrain;
 import org.ldxx.bean.OutTrainAll;
 import org.ldxx.bean.User;
 import org.ldxx.service.AnnouncementService;
@@ -32,10 +33,8 @@ public class OutTrainAllController {
 
 	@Autowired
 	private OutTrainAllService oservice;
-	
 	@Autowired 
 	private AnnouncementService aservice;
-	
 	@Autowired
 	private OrganizationManagementService oService;
 	
@@ -250,5 +249,11 @@ public class OutTrainAllController {
 	@ResponseBody
 	public OutTrainAll selectOutTrainAllById(String id){
 		return oservice.selectOutTrainAllById(id);
+	}
+	
+	@RequestMapping("/getOutTrainAllName")
+	@ResponseBody
+	public List<OutTrainAll> getOutTrainAllName(){
+		return oservice.getOutTrainAllName();
 	}
 }

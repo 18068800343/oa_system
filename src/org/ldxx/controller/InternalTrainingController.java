@@ -13,6 +13,7 @@ import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.InternalTraining;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.OutTrainAll;
 import org.ldxx.bean.User;
 import org.ldxx.service.AnnouncementService;
 import org.ldxx.service.InternalTrainingService;
@@ -254,5 +255,11 @@ public class InternalTrainingController {
 	@ResponseBody
 	public InternalTraining selectInternalTrainingById(String id){
 		return iservice.selectInternalTrainingById(id);
+	}
+	
+	@RequestMapping("/getInternalTrainingName")
+	@ResponseBody
+	public List<InternalTraining> getInternalTrainingName(){
+		return iservice.getInternalTrainingName();
 	}
  }

@@ -15,5 +15,7 @@ public interface InternalTrainingService {
 	public List<InternalTraining> selectInternalTraining();
 	
 	public InternalTraining selectInternalTrainingById(String id);
+
+	public List<InternalTraining> getInternalTrainingName();
 	
 }

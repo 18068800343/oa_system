@@ -255,4 +255,10 @@ public class OutTrainController {
 	public OutTrain selectOutTrainById(String id){
 		return oservice.selectOutTrainById(id);
 	}
+	
+	@RequestMapping("/getOutTrainName")
+	@ResponseBody
+	public List<OutTrain> getOutTrainName(){
+		return oservice.getOutTrainName();
+	}
 }

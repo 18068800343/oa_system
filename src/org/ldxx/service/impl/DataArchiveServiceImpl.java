@@ -26,6 +26,7 @@ public class DataArchiveServiceImpl implements DataArchiveService{
 	public int addDataArchive(DataArchive archive) {
 		List<Accessory> list=archive.getAccessory();
 		List<Accessory> list2=archive.getAccessory2();
+		List<Accessory> list3=archive.getAccessory3();
 		int i=dao.addDataArchive(archive);
 		if(i>0){
 			if(list.size()>0){
@@ -33,6 +34,9 @@ public class DataArchiveServiceImpl implements DataArchiveService{
 			}
 			if(list2.size()>0){
 				i=adao.addAccessory(list2);
+			}
+			if(list3.size()>0){
+				i=adao.addAccessory(list3);
 			}
 		}
 		return i;
@@ -61,6 +65,7 @@ public class DataArchiveServiceImpl implements DataArchiveService{
 	public int updateDataArchive(DataArchive archive) {
 		List<Accessory> list=archive.getAccessory();
 		List<Accessory> list2=archive.getAccessory2();
+		List<Accessory> list3=archive.getAccessory3();
 		int i=dao.updateDataArchive(archive);
 		if(i>0){
 			if(list.size()>0){
@@ -68,6 +73,9 @@ public class DataArchiveServiceImpl implements DataArchiveService{
 			}
 			if(list2.size()>0){
 				i=adao.addAccessory(list2);
+			}
+			if(list3.size()>0){
+				i=adao.addAccessory(list3);
 			}
 		}
 		return i;
@@ -80,8 +88,10 @@ public class DataArchiveServiceImpl implements DataArchiveService{
 			String id=list.get(i).getDaId();
 			List<Accessory> acc=adao.selectAccessoryByIdAndType(id, "资料");
 			List<Accessory> acc2=adao.selectAccessoryByIdAndType(id, "证书");
+			List<Accessory> acc3=adao.selectAccessoryByIdAndType(id, "自我总结");
 			list.get(i).setAccessory(acc);
 			list.get(i).setAccessory2(acc2);
+			list.get(i).setAccessory3(acc3);
 		}
 		return list;
 	}

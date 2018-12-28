@@ -7,7 +7,7 @@ public class DataArchive {
 
     private String daName;
 
-    private String attendees;
+    private String safekeepingDepartment;
     
     private String uName;
 
@@ -20,6 +20,27 @@ public class DataArchive {
     private List<Accessory> accessory;
     
     private List<Accessory> accessory2;
+    
+    private List<Accessory> accessory3;
+    
+    private String omName;
+    
+
+	public List<Accessory> getAccessory3() {
+		return accessory3;
+	}
+
+	public void setAccessory3(List<Accessory> accessory3) {
+		this.accessory3 = accessory3;
+	}
+
+	public String getOmName() {
+		return omName;
+	}
+
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
 
 	public String getDaId() {
 		return daId;
@@ -46,12 +67,12 @@ public class DataArchive {
 		this.daName = daName;
 	}
 
-	public String getAttendees() {
-		return attendees;
+	public String getSafekeepingDepartment() {
+		return safekeepingDepartment;
 	}
 
-	public void setAttendees(String attendees) {
-		this.attendees = attendees;
+	public void setSafekeepingDepartment(String safekeepingDepartment) {
+		this.safekeepingDepartment = safekeepingDepartment;
 	}
 
 	public String getTrainingLocation() {

@@ -15,4 +15,6 @@ public interface OutTrainAllService {
 	public List<OutTrainAll> selectOutTrainAll();
 	
 	public OutTrainAll selectOutTrainAllById(String id);
+
+	public List<OutTrainAll> getOutTrainAllName();
 }

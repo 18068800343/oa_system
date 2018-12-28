@@ -65,4 +65,9 @@ public class InternalTrainingServiceImpl implements InternalTrainingService{
 		return i;
 	}
 
+	@Override
+	public List<InternalTraining> getInternalTrainingName() {
+		return idao.getInternalTrainingName();
+	}
+
 }

@@ -110,15 +110,17 @@
                                 <td>培训目标</td>
                                 <td colspan="3"><textarea class="form-control" rows="4" style="width:100%;" id="new_target"></textarea></td>
                             </tr>
-                           <tr>
-                            <td>附件</td>
-                            <td colspan="3">
-                                <button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
-                            </td>
-                        </tr>
                         </table> 
                         <table class="table table-bordered table-condensed" id="new_table">
-                    	
+                    		<thead>
+                    			<tr>
+	                    			<td style="width:15%;">附件</td>
+	                            	<td colspan="3">
+                                		<button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
+                            		</td>
+                            	</tr>
+                    		</thead>
+                    		<tbody></tbody>
                     	</table> 
                     </form>  
                 </div>
@@ -303,6 +305,14 @@
                             </tr>
                         </table>
                         <table class="table table-bordered table-condensed" id="edit_table">
+                        	<thead>
+				     			<tr>
+				     				<td style="width:15%;">附件</td>
+					     			<td><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_uploaderBox()">添加附件</button></td>
+					     			<td style="width:20%;">&nbsp</td>
+				                </tr>
+							</thead>
+							<tbody></tbody>
                     	</table>  
                     </form> 
                 </div>
@@ -1283,11 +1293,20 @@
 		 $("#lookduty").text(data.duty);
 		 $("#look_in_users").text(data.trainingInUser)
 		 
-		 $("#looktable").html('');
-		 var acc=data.accessory;
-		 for(var i=0;i<acc.length;i++){
-			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-		 }
+		 $.ajax({
+				type:"post",
+				url:getContextPath()+"/accessory/selectAccessoryById",
+				dataType:"json",
+				data:{
+					id:data.itId,
+				},
+				success:function(json){
+					$("#looktable").empty();
+		            for(var i=0;i<json.length;i++){
+		            	$("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+		        	}
+				}
+			})
 		 
 		 $("#allMsg1").modal("show");
 	 }
@@ -1300,7 +1319,9 @@
 	 
 	 
 	 var edit_id;
+	 var tr;
 	 function updateAll(obj){
+		 tr = $(obj).closest('tr');
 		 var dom=$(obj).parents("tr");
 		 var data=$('#mainContent').DataTable().row(dom).data();
 		 edit_id=data.itId;
@@ -1320,16 +1341,20 @@
          $("#edit_button").append(' <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
 					            			 '<button type="button" class="btn btn-success" onclick="edit_save()">保存</button>'+
 					            			 '<button type="button" class="btn btn-success" onclick="edit_submit()">提交</button>');
-         $("#edit_table").html('');
-		 $("#edit_table").append('<thead>'+
-	     			'<tr><td style="width:30%;">附件</td>'+
-	     			'<td><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_uploaderBox()">添加附件</button></td>'+
-	                '<td style="width:20%;">&nbsp</td></tr>'+
-				'</thead><tbody></tbody>');
-         var acc=data.accessory;
-		 for(var i=0;i<acc.length;i++){
-			 $("#edit_table tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc[i].aId+" data2="+acc[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
-		 }   
+         $.ajax({
+				type:"post",
+				url:getContextPath()+"/accessory/selectAccessoryById",
+				dataType:"json",
+				data:{
+					id:edit_id,
+				},
+				success:function(json){
+					$("#edit_table tbody").empty();
+		            for(var i=0;i<json.length;i++){
+		            	$("#edit_table tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:80%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+json[i].aId+" data2="+json[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
+		        	}
+				}
+			})
          
 		 $("#change").modal("show");
 	 }
@@ -1391,6 +1416,19 @@
 				toastr.error("培训费用只能为数字");
 	    		return;
 			}
+			var addJson={
+					"itId":edit_id,
+					"trainingMan":trainingMan,
+					"department":department,
+					"duty":duty,
+					"courseName":courseName,
+					"trainingLocation":trainingLocation,
+					"trainingReason":trainingReason,
+					"trainingDate":trainingDate,
+					"trainingMoney":trainingMoney,
+					"trainingDesc":trainingDesc,
+					"trainingInUser":edit_in_users,
+			}
 		 var options={
 				 type: 'POST',
 					url: getContextPath()+'/InternalTraining/updateInternalTrainingBySave',
@@ -1412,6 +1450,9 @@
 		            	if(json==0){
 		            	    toastr.error("保存失败");
 		            	}else{
+		            		$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+		            		$(".Pbdcb").show();
+							$(".Pbdcc").show();
 		            		$("#change").modal("hide");
 		            		toastr.success("保存成功");
 		            	}
@@ -1498,15 +1539,20 @@
     }
     
     $("#uploaderBox").on("click", function(e) {
-        var newFileInput = "<tr><td>新附件</td><td><input  type='file' name='file' class='form-control' /></td></tr>";
-        $("#new_table").append($(newFileInput));
+        var newFileInput = "<tr><td>新附件</td><td><input  type='file' name='file' style='width:80%;' class='form-control' /></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>";
+        $("#new_table tbody").append($(newFileInput));
     });
     
     function edit_uploaderBox(){
-        var newFileInput = "<tr><td>新附件</td><td><input  type='file' name='file' class='form-control' /></td><td></td></tr>";
+        var newFileInput = "<tr><td>新附件</td><td><input  type='file' name='file' style='width:80%;' class='form-control' /></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>";
         $("#edit_table tbody").append($(newFileInput));
     }
 
+    function removeFile(obj){
+  		var tr=$(obj).parents("tr");
+  		$(tr).remove();
+  	}
+    
     // $("#mainContent tbody tr").click(function (){
     //     $(this).addClass('selected')
     //     .siblings().removeClass('selected')

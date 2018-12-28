@@ -16,5 +16,7 @@ public interface InternalTrainingDao {
 	public List<InternalTraining> selectInternalTraining();
 	
 	public InternalTraining selectInternalTrainingById(@Param("id")String id);
+
+	public List<InternalTraining> getInternalTrainingName();
 	
 }
