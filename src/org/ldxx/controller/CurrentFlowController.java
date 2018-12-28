@@ -12,6 +12,7 @@ import org.ldxx.bean.CurrentFlowExample;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.FlowHistroyExample;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowChaoSongMapper;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.mapper.FlowHistroyMapper;
 import org.ldxx.model.CurrentFlowVo;
@@ -39,6 +40,8 @@ public class CurrentFlowController {
 	FlowHistroyMapper flowHistroyMapper;
 	@Autowired
 	CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	CurrentFlowChaoSongMapper currentFlowChaoSongMapper;
 	@RequestMapping("/getCurrentFlowListStatus1ByUser")
 	@ResponseBody
 	public List<CurrentFlowVo> getCurrentFlowListByUser(String userId,String statu,HttpSession session){
@@ -47,7 +50,16 @@ public class CurrentFlowController {
  		List<CurrentFlowVo> list = currentFlowService.getCurrentFlowListByUser(id, statu);
 		return list;
 	}
-	
+	@RequestMapping("/getCurrentFlowChaoSongListByUser")
+	@ResponseBody
+	public List<CurrentFlowVo> getCurrentFlowChaoSongListByUser(String userId,String statu,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String id = user.getUserId();
+ 		List<CurrentFlowVo> list = currentFlowService.getCurrentFlowListByUser(id, statu);
+ 		List<CurrentFlowVo> list1 = currentFlowChaoSongMapper.getCurrentFlowVoChaoSongByUserId(userId);
+ 		list.addAll(list1);
+		return list;
+	}
 	@RequestMapping("/updateReadReceipts")
 	@ResponseBody
 	public String updateReadReceipts(String url,HttpSession session){

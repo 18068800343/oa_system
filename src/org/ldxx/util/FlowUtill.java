@@ -27,6 +27,7 @@ import org.ldxx.dao.RoleDao;
 import org.ldxx.dao.UserDao;
 import org.ldxx.exception.FlowException;
 import org.ldxx.mapper.BusinessMapper;
+import org.ldxx.mapper.CurrentFlowChaoSongMapper;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.mapper.FlowEdgeMapper;
 import org.ldxx.mapper.FlowHistroyMapper;
@@ -57,6 +58,7 @@ public class FlowUtill {
         INSTANCE.businessMapper=this.businessMapper;
         INSTANCE.flowNodeMapper=this.flowNodeMapper;
         INSTANCE.currentFlowMapper=this.currentFlowMapper;
+        INSTANCE.currentFlowChaoSongMapper=this.currentFlowChaoSongMapper;
         INSTANCE.flowHistroyMapper=this.flowHistroyMapper;
         INSTANCE.flowEdgeMapper=this.flowEdgeMapper;
         INSTANCE.modeStatusMapper=this.modeStatusMapper;
@@ -76,6 +78,8 @@ public class FlowUtill {
 	FlowNodeMapper flowNodeMapper;
 	@Autowired
 	CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	CurrentFlowChaoSongMapper currentFlowChaoSongMapper;
 	@Autowired
 	FlowHistroyMapper flowHistroyMapper;
 	@Autowired
@@ -840,6 +844,23 @@ public class FlowUtill {
 			}else{
 				return "fail";
 			}
+		}else{
+			return "fail";
+		}
+	}
+	public String chaoSongFlow(String url,List<User> users){
+		CurrentFlowExample example = new CurrentFlowExample();
+		example.createCriteria().andUrlEqualTo(url);
+		List<CurrentFlow> list = INSTANCE.currentFlowMapper.selectByExample(example);
+		if(list.size()>0){
+			CurrentFlow currentFlow = list.get(0);
+			for(User user:users){
+				currentFlow.setActor(user.getUserId());
+				currentFlow.setActorname(user.getuName());
+				currentFlow.setWfstate(1);
+				INSTANCE.currentFlowChaoSongMapper.insert(currentFlow);
+			}
+			return "ok";
 		}else{
 			return "fail";
 		}

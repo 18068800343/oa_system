@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.User;
+import org.ldxx.dao.UserDao;
 import org.ldxx.service.UserService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService userservice;
-	
+	@Autowired
+	private UserDao userDao;
 	@RequestMapping("/addUser")
 	@ResponseBody
 	public Map<String,Object> addUser(User user,@RequestParam("file") MultipartFile [] file) throws Exception{
@@ -152,6 +154,12 @@ public class UserController {
 	@ResponseBody
 	public List<User> selectUserAndRoles(){
 		return userservice.selectUserAndRoles();
+	}
+	
+	@RequestMapping("/selectFgldByRoleName")
+	@ResponseBody
+	public List<User> selectFgldByRoleName(){
+		return userDao.selectFgldByRoleName("分管领导");
 	}
 	
 	@SuppressWarnings("unused")
