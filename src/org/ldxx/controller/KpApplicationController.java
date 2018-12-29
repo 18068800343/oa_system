@@ -1,11 +1,13 @@
 package org.ldxx.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.KpApplication;
+import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.Task;
 import org.ldxx.service.CjContractService;
@@ -116,6 +118,24 @@ public class KpApplicationController {
 		}
 		map.put("jindu", jindu);
 		return map;
+	}
+	
+	@RequestMapping("/getAllKpMoneyByFpNoAndTaskNo")//通过任务单号和合同编号获取累计开票金额和发票编码
+	@ResponseBody
+	public List<KpApplication> getAllKpMoneyByFpNoAndTaskNo(String taskno,String contractno){
+		List<KpApplication> kpList=service.getAllKpMoneyByFpNoAndTaskNo(taskno,contractno);
+		return kpList;
+	}
+	
+	@RequestMapping("/getAllKpMoneyByFpNos")//通过多个发票编码查询累计收款
+	@ResponseBody
+	public List<KpApplication> getAllKpMoneyByFpNos(String nos){
+		List<KpApplication> list=new ArrayList<KpApplication>();
+		for(int a=0;a<nos.split(",").length;a++){
+			KpApplication kp=service.getAllKpMoneyByFpNo(nos.split(",")[a]);
+			list.add(kp);
+		}
+		return list;
 	}
 	
 }

@@ -44,4 +44,10 @@ public class KpApplicationServiceImpl implements KpApplicationService{
 		return dao.getAllKpMoneyByFpNo(no);
 	}
 
+	@Override
+	public List<KpApplication> getAllKpMoneyByFpNoAndTaskNo(String taskno, String contractno) {
+		String tno="%"+taskno+"%";
+		return dao.getAllKpMoneyByFpNoAndTaskNo(tno,contractno);
+	}
+
 }

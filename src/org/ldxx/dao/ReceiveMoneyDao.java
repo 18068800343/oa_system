@@ -18,4 +18,6 @@ public interface ReceiveMoneyDao {
 
 	int updateReceiveMoney(@Param("receiveMoney")ReceiveMoney receiveMoney);
 
+	int updateStatus(@Param("id")String id, @Param("status")String status);
+
 }

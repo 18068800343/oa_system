@@ -18,4 +18,6 @@ public interface KpApplicationDao {
 	public  List<KpApplication> getKpNo(@Param("no")String no);
 	
 	public KpApplication getAllKpMoneyByFpNo(@Param("no")String no);
+
+	public List<KpApplication> getAllKpMoneyByFpNoAndTaskNo(@Param("taskno")String taskno,@Param("contractno") String contractno);
 }

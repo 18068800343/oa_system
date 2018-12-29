@@ -28,8 +28,8 @@ public class ReceiveMoneyController {
 	
 	@RequestMapping("/getReceiveMoneyListByStatus")
 	@ResponseBody
-	public List<ReceiveMoney> getReceiveMoneyListByStatus(String depart,String omName){
-		return receiveMoneyDao.selectReceiveList();
+	public List<ReceiveMoney> getReceiveMoneyListByStatus(String status){
+		return receiveMoneyDao.selectReceiveListByStatus(status);
 	}
 	
 	@RequestMapping("/addReceiveMoney")
@@ -58,5 +58,11 @@ public class ReceiveMoneyController {
 	@ResponseBody
 	public int deleteReceiveMoney(String id){
 		return receiveMoneyDao.deleteReceiveMoneyById(id);
+	}
+	
+	@RequestMapping("/updateStatus")
+	@ResponseBody
+	public int updateStatus(String id,String status){
+		return receiveMoneyDao.updateStatus(id,status);
 	}
 }

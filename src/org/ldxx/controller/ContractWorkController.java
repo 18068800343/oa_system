@@ -546,4 +546,11 @@ public class ContractWorkController {
 		return cw;
 	}
 	
+	@RequestMapping("/selectContractWorkByno")//通过承接合同编号查找结算金额和累计收款
+	@ResponseBody
+	public ContractWork selectContractWorkBytaskNoAndCno(String no,String type){
+		ContractWork cw=service.selectContractWorkBytaskNoAndCno(no,type);
+		return cw;
+	}
+	
 }

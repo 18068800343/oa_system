@@ -10,6 +10,7 @@
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
     <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link href="../../font3/bootstrap-select.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <style lang="">
         .UpperPart{
@@ -114,7 +115,7 @@
         </div>
         <div class="modal-body">
                 <div>     
-                    <form class="form-inline">
+                    <form class="form-inline" id="lookcaiwu">
                         <table class="table table-bordered">
                             <tr>
                                 <td style="width:15%;">项目名称</td>
@@ -142,7 +143,7 @@
                                 <td><input type="text" class="form-control"  style="width:65%;" id="look_prj_leader" disabled></td>
                                 <td>华通合同名称</td>
                                 <td>
-                                		<input type="text" class="form-control"  style="width:65%;" id="look_HT_contract" disabled>
+                                		<input type="text" class="form-control" data2=""  style="width:65%;" id="look_HT_contract" disabled>
                                 		<button type="button" class="btn btn-primary"  id="choseht">选择项目</button>
                                 </td>
                             </tr>
@@ -155,14 +156,17 @@
                             <tr>
                             	<td>累计收款（万元）</td>
                                 <td><input type="text" class="form-control"  style="width:65%;" id="look_total_money" disabled></td>
-                                <td>已开票应收金额（万元）</td>
-                                <td><input type="text" class="form-control"  style="width:65%;" id="look_kp_money" disabled></td> 
+                                <td>合同收款条件</td>
+                                <td ><input type="text" class="form-control"  style="width:65%;" id="look_collection_terms" disabled></td>
                             </tr>
                             <tr>
                             	<td>发票编号</td>
-                                <td><input type="text" class="form-control"  style="width:65%;" id="look_fp_no" disabled></td>
-                                <td>合同收款条件</td>
-                                <td ><input type="text" class="form-control"  style="width:65%;" id="look_collection_terms" disabled></td>
+                                <td>
+                                	<input type="text" class="form-control"  style="width:65%;" id="look_fp_no" disabled>
+                                	<button type="button" class="btn btn-primary" onclick="chooseNo()">选择发票编号</button>	
+                                </td>
+                                <td>已开票应收金额（万元）</td>
+                                <td><input type="text" class="form-control"  style="width:65%;" id="look_kp_money" disabled></td> 
                             </tr>
                             <tr>
                             	<td>项目完成进度</td>
@@ -203,6 +207,38 @@
     </div>
 </div>
 <!-- model结束 -->
+<!-- 添加 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="chooseNo">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择采购单号</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                        	<tr>
+                        		<td style="width:20%;">发票编号：</td>
+                        		<td>
+                        			<select class="selectpicker show-tick form-control"  style="width:100%;"  id="selectpicker_no" multiple data-live-search="true">
+                        				
+                                    </select>
+                        		</td>
+                        	</tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" onclick="quxiao()">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveNo()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+
 
         </div>
         <div class="LowerPart" style="margin-top:3px;">
@@ -212,6 +248,8 @@
                         <th>甲方单位</th>
                         <th>收款金额</th>
                         <th>收款时间</th>
+                        <th>操作人</th>
+                        <th>操作时间</th>
                         <th style="width:80px;">操作</th>
                     </tr>
                 </thead>
@@ -381,6 +419,7 @@
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../js/bootstrap-select.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -399,15 +438,17 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-		            { "data": "prjLeader"}, 
-		            { "data": "prjLeader"}, 
-		            { "data": "prjLeader"}, 
+				 	{ "data": "ccName"}, 
+		            { "data": "receiveMoney"}, 
+		            { "data": "rmTime"}, 
+		            { "data": "doPerson"}, 
+		            { "data": "doTime"}, 
 		            { "data": null}
 		        ],
 		        "columnDefs": [
 									{	
 										 "class": "details-control",
-										    "targets": 3,
+										    "targets": 5,
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										  	  		return '<i class="iconfont icon-icon-test Pcba Pcbb" style="font-size:18px;cursor:pointer;display:none;" title="查看" onclick="look(this)"></i>';
@@ -560,7 +601,7 @@
 		var status=$("#status").val();
     	$.ajax({
             type: 'POST',
-            url:getContextPath()+"/FinancialReceipts/selectFinancialReceiptsByStatus",
+            url:getContextPath()+"/receiveMoney/getReceiveMoneyListByStatus",
             dataType: 'json',
             data: {
             	status:status
@@ -643,9 +684,10 @@
     var frId;
     var tr;
     function look(obj){
+    	$("#look").modal("show");
     	tr=$(obj).parents("tr");
     	var data=$("#mainContent").DataTable().row(tr).data();
-    	frId=data.frId;
+    	frId=data.rmId;
     	if($("#status").val()=='0'){
     		$("#tuihui").show();
     		$("#renling").hide();
@@ -653,32 +695,108 @@
     		$("#tuihui").hide();
     		$("#renling").show();
     	}
-    	
-    	$("#look_prj_name").val(data.prjName);
-    	$("#look_prj_no").val(data.prjNo);
-    	$("#look_year").val(data.year);
-    	$("#look_yezhu").val(data.yezhu);
-    	$("#look_start_time").val(data.startTime);
-    	$("#look_end_time").val(data.endTime);
-    	$("#look_prj_leader").val(data.prjLeader);
-    	$("#look_HT_contract").val(data.contractName);
-    	$("#look_contract_money").val(data.contractMoney);
-    	$("#look_contract_money_end").val(data.contractMoneyEnd);
-    	$("#look_total_money").val(data.totalMoney);
-    	$("#look_kp_money").val(data.kpMoney);
-    	$("#look_fp_no").val(data.fpNo);
-    	$("#look_collection_terms").val(data.collectionTerms);
-    	$("#look_prj_plan").val(data.prjPlan);
-    	$("#look_result_money").val(data.resultMoney);
-    	$("#look_department_info").val(data.departmentInfo);
-    	$("#look_finance_info").val(data.financeInfo);
-    	$("#look").modal("show");
+    	$("#look_result_money").val(data.receiveMoney);
+    	$.ajax({
+            type: 'POST',
+            url:getContextPath()+"/AlreadySkOmInfo/selectAlreadySkInfoByskId",
+            dataType: 'json',
+            data: {
+            	skId:data.rmId,
+            },
+            success: function (json) {
+            	$("#look_prj_name").val(json.prjName);
+            	$("#look_prj_no").val(json.taskNo);
+            	$("#look_year").val(json.taskNo.substring(0,4));
+            	$("#look_HT_contract").val(json.contractName);
+            	$("#look_HT_contract").attr("data2",json.contractNo);
+            	$("#look_yezhu").val(json.yezhu);
+            	$("#look_start_time").val(json.prjStartTime);
+            	$("#look_end_time").val(json.prjEndTime);
+            	$("#look_prj_leader").val(json.prjLeader); 
+            	$("#look_contract_money").val(json.contractMoney);
+            	$("#look_contract_money_end").val(json.contractJsMoney);
+            	$("#look_total_money").val(json.allSkMoney);
+            	$("#look_kp_money").val(json.alreadyMoney);
+            	$("#look_fp_no").val(json.fpNo);
+            	$("#look_collection_terms").val(json.contractSkCondition);
+            	$("#look_prj_plan").val(json.prjJindu);
+            	$("#look_department_info").val(json.backDesc);
+            	$("#look_finance_info").val(json.cdesc); 
+                var asoList=json.asoList;
+            	$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/ppf/selectAllByName',
+                    dataType: 'json',
+                    data: {
+                    	name:$('#look_prj_name').val()
+                    },
+                    success: function (json) {
+                    	var task=json.task;
+                    	console.log()
+                        	$("#xieban1 tbody").empty();
+                        	for(var i=0;i<asoList.length;i++){
+                        		if(task.mainDepartment==asoList[i].omId){
+		                        	$("#xieban1 tbody").append("<tr><td style='width:20%;'>"
+		                    				+"主办部门"
+		                    				+"</td><td style='width:20%;'data-id="+task.mainDepartment+">"
+		                        			+task.omName
+		                        			+"</td><td style='width:10%;'>"
+		                        			+"金额"
+		                        			+"</td><td style='width:50%;'>"
+		                        			+"<input type='text' data='1' value="+asoList[i].omAlreadyMoney+" class='form-control'>"
+		                        			+"</td></tr>")
+                        		}
+                        		if(task.assistDepartment1==asoList[i].omId){
+		                        	if(task.name1!=null){
+		                        		$("#xieban1 tbody").append("<tr><td>"
+		                        				+"协办部门"
+		                        				+"</td><td data-id="+task.assistDepartment1+">"
+		                            			+task.name1
+		                            			+"</td><td>"
+		                            			+"金额"
+		                            			+"</td><td>"
+		                            			+"<input type='text' data='0' value="+asoList[i].omAlreadyMoney+"  class='form-control'>"
+		                            			+"</td></tr>")
+		                        	}
+                        		}
+                        		if(task.assistDepartment2==asoList[i].omId){
+                        			if(task.name2!=null){
+                						$("#xieban1 tbody").append("<tr><td>"
+                                				+"协办部门"
+                                				+"</td><td data-id="+task.assistDepartment2+">"
+                                    			+task.name2
+                                    			+"</td><td>"
+                                    			+"金额"
+                                    			+"</td><td>"
+                                    			+"<input type='text' data='0' value="+asoList[i].omAlreadyMoney+" class='form-control'>"
+                                    			+"</td></tr>")
+                                	}
+                        		}
+                        		if(task.assistDepartment2==asoList[i].omId){
+                        			if(task.name3!=null){
+                						$("#xieban1 tbody").append("<tr><td>"
+                                				+"协办部门"
+                                				+"</td><td data-id="+task.assistDepartment3+">"
+                                    			+task.name3
+                                    			+"</td><td>"
+                                    			+"金额"
+                                    			+"</td><td>"
+                                    			+"<input type='text' data='0' value="+asoList[i].omAlreadyMoney+" class='form-control'>"
+                                    			+"</td></tr>")
+                                	}
+                        		}
+                        	}
+        					
+                    }
+          		});
+            }
+        });
     }
     
     $("#tuihui").on("click",function(){
     	$.ajax({
             type: 'POST',
-            url:getContextPath()+"/FinancialReceipts/updateStatus",
+            url:getContextPath()+"/receiveMoney/updateStatus",
             dataType: 'json',
             data: {
             	status:1,
@@ -698,28 +816,115 @@
     
     $("#renling").on("click",function(){
     	var jine=0;
+    	var bumemArr=new Array();
     	$("#xieban1 tbody").find("tr").each(function(){
     		 jinem=$(this).find("input").val()/1;
     		jine+=jinem;
+    		var bumenId=$(this).find("td").eq(1).attr("data-id");
+    		var bumenName=$(this).find("td").eq(1).text();
+    		var bumenMoney=$(this).find("td").eq(3).find("input").val();
+    		var AlreadySkOmInfo={
+        			aoId:undefined,
+        			cId:undefined,
+        			omId:undefined,
+        			omName:undefined,
+        			omAlreadyMoney:undefined,
+        			operatorPerson:undefined,
+    		}
+    		AlreadySkOmInfo.omId=bumenId;
+    		AlreadySkOmInfo.omName=bumenName;
+    		AlreadySkOmInfo.omAlreadyMoney=bumenMoney;
+    		bumemArr.push(AlreadySkOmInfo)
     	})
-    	console.log(jine)
+    	//console.log(jine)
     	if(jine/1==$("#look_result_money").val()){
+    		var look_prj_name=$("#look_prj_name").val();
+        	var look_prj_no=$("#look_prj_no").val();
+        	var look_HT_contract=$("#look_HT_contract").val();
+        	var look_HT_contract_no=$("#look_HT_contract").attr("data2");
+        	var look_total_money=$("#look_total_money").val();//累计收款
+        	var look_result_money=$("#look_result_money").val();//实际收款
+        	var look_year=$("#look_year").val();
+        	var look_yezhu=$("#look_yezhu").val();
+        	var look_start_time=$("#look_start_time").val();
+        	var look_end_time=$("#look_end_time").val();
+        	var look_prj_leader=$("#look_prj_leader").val(); 
+        	var look_contract_money=$("#look_contract_money").val();
+        	var look_contract_money_end=$("#look_contract_money_end").val();
+        	var look_kp_money=$("#look_kp_money").val();
+        	var look_fp_no=$("#look_fp_no").val();
+        	var look_collection_terms=$("#look_collection_terms").val();
+        	var look_prj_plan=$("#look_prj_plan").val();
+        	var look_department_info=$("#look_department_info").val();
+        	var look_finance_info=$("#look_finance_info").val()
+        	
+        	var AlreadySkInfo={
+        			cId:undefined,
+        			skId:undefined,
+        			prjName:undefined,
+        			taskNo:undefined,
+        			contractName:undefined,
+        			contractNo:undefined,
+        			alreadySkMoney:0,
+        			allSkMoney:0,
+    				operatorPerson:undefined,
+    				asoList:undefined,
+    				status:undefined,
+    				years:undefined,//年份
+    				yezhu:undefined,//业主单位
+    				prjStartTime:undefined,//开始时间
+    				prjEndTime:undefined,//结束时间
+    				prjLeader:undefined,//项目负责人
+    				contractMoney:0,//合同金额
+    				contractJsMoney:0,// 合同结算额
+    				contractSkCondition:undefined,//合同收款条件
+    				fpNo:undefined,//发票编号
+    				alreadyMoney:0,//已开票应收金额
+    				prjJindu:undefined,//项目完成进度
+    				shijiMoney:0,//实际收款
+    				backDesc:undefined,//部门反馈
+    				cdesc:undefined,//财务备注信息
+    		}
+        	AlreadySkInfo.cId=null;
+        	AlreadySkInfo.skId=frId;
+        	AlreadySkInfo.prjName=look_prj_name;
+        	AlreadySkInfo.taskNo=look_prj_no;
+        	AlreadySkInfo.contractName=look_HT_contract;
+        	AlreadySkInfo.contractNo=look_HT_contract_no;
+        	AlreadySkInfo.alreadySkMoney=look_result_money;
+        	AlreadySkInfo.allSkMoney=look_total_money;
+        	AlreadySkInfo.operatorPerson=null;
+        	AlreadySkInfo.asoList=bumemArr;
+        	AlreadySkInfo.status="0";
+        	AlreadySkInfo.years=look_year;
+        	AlreadySkInfo.yezhu=look_yezhu;
+        	AlreadySkInfo.prjStartTime=look_start_time;
+        	AlreadySkInfo.prjEndTime=look_end_time;
+        	AlreadySkInfo.prjLeader=look_prj_leader;
+        	AlreadySkInfo.contractMoney=look_contract_money;
+        	AlreadySkInfo.contractJsMoney=look_contract_money_end;
+        	AlreadySkInfo.contractSkCondition=look_collection_terms;
+        	AlreadySkInfo.fpNo=look_fp_no;
+        	AlreadySkInfo.alreadyMoney=look_kp_money;
+        	AlreadySkInfo.prjJindu=look_prj_plan;
+        	AlreadySkInfo.backDesc=look_department_info;
+        	AlreadySkInfo.cdesc=look_finance_info;
+        	console.log(AlreadySkInfo)
     		$.ajax({
                 type: 'POST',
-                url:getContextPath()+"/FinancialReceipts/updateStatus",
+                url:getContextPath()+"/AlreadySkOmInfo/addAlreadySkInfo",
                 dataType: 'json',
-                data: {
-                	status:0,
-                	id:frId
-                },
+                contentType: "application/json", 
+	            data:JSON.stringify(AlreadySkInfo),
                 success: function (json) {
+                	//console.log(json)
                 	if(json>0){
                 		toastr.success("认领成功");
                 		$("#mainContent").DataTable().row(tr).remove().draw(false);
                 		$("#look").modal("hide");
                 	}else{
                 		toastr.error("认领失败");
-                	}
+                	} 
                 }
             });
     		
@@ -753,9 +958,15 @@
 	$("#quedingxm").click(function(){
 		var tr=$("input[name='xiangmuName']:checked").parents("tr");
 		var data=$("#xiangmubiao").DataTable().row(tr).data();
+		console.log(data)
 		$("#look_prj_name").val(data.prjName);
-		$("#look_prj_name").attr("data1",data.prjNo);
-		//console.log(data)
+		$("#look_prj_no").val(data.prjNo)
+		var no=data.prjNo;
+		$("#look_year").val(no.substring(0,4));
+		$("#look_yezhu").val(data.ccName);
+		$("#look_start_time").val(data.prjStartTime)
+		$("#look_end_time").val(data.prjEndTime)
+		$("#look_prj_leader").val(data.mainPrjLeader)
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/ppf/selectAllByName',
@@ -775,7 +986,7 @@
                 	
                 	$("#xieban1 tbody").append("<tr><td style='width:20%;'>"
             				+"主办部门"
-            				+"</td><td style='width:20%;'>"
+            				+"</td><td style='width:20%;'data-id="+task.mainDepartment+">"
                 			+task.omName
                 			+"</td><td style='width:10%;'>"
                 			+"金额"
@@ -786,7 +997,7 @@
                 	if(task.name1!=null){
                 		$("#xieban1 tbody").append("<tr><td>"
                 				+"协办部门"
-                				+"</td><td>"
+                				+"</td><td data-id="+task.assistDepartment1+">"
                     			+task.name1
                     			+"</td><td>"
                     			+"金额"
@@ -798,7 +1009,7 @@
 					if(task.name2!=null){
 						$("#xieban1 tbody").append("<tr><td>"
                 				+"协办部门"
-                				+"</td><td>"
+                				+"</td><td data-id="+task.assistDepartment2+">"
                     			+task.name2
                     			+"</td><td>"
                     			+"金额"
@@ -810,7 +1021,7 @@
 					if(task.name3!=null){
 						$("#xieban1 tbody").append("<tr><td>"
                 				+"协办部门"
-                				+"</td><td>"
+                				+"</td><td data-id="+task.assistDepartment3+">"
                     			+task.name3
                     			+"</td><td>"
                     			+"金额"
@@ -835,16 +1046,15 @@
             }
         })
 		$("#hetongmd").modal("show");
-		console.log($("#look_prj_name").attr("data1"))
+		
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/task/getContracts',
             dataType: 'json',
             data: {
-            	id:$("#look_prj_name").attr("data1")
+            	id:$("#look_prj_no").val()
             },
             success: function (json) {
-            	console.log(json)
             	var obj  = json;
             	if(json==0){
             		
@@ -859,11 +1069,93 @@
 	$("#quedinght").click(function(){
 		var tr=$("input[name='hetongName']:checked").parents("tr");
 		var data=$("#hetongbiao").DataTable().row(tr).data();
+		console.log(data)
 		$("#look_HT_contract").val(data.contractName);
 		$("#look_HT_contract").attr("data2",data.contractNo);
+		$("#look_contract_money").val(data.contractMoney)
+		$("#look_collection_terms").val(data.receieveMoneyCondition)//合同收款条件
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/work/selectContractWorkByno',//从合同履约的承接合同交工处获得合同结算额和累计收款
+            dataType: 'json',
+            data: {
+            	no:data.contractNo,
+            	type:2
+            },
+            success: function (json) {
+            	$("#look_contract_money_end").val(json.endMoney)//合同结算额
+            	$("#look_total_money").val(json.allReceieveMoney)//累计收款
+            }
+        });
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/kp/getAllKpMoneyByFpNoAndTaskNo',//从开票申请处获得开票金额和发票编号
+            dataType: 'json',
+            data: {
+            	taskno:	$("#look_prj_no").val(),
+            	contractno:$("#look_HT_contract").attr("data2"),
+            },
+            success: function (json) {
+            	console.log(json)
+            	if(json!=null){
+	            	var allmon=0;
+	            	$("#selectpicker_no").html('');
+	            	for(var i=0;i<json.length;i++){
+	            		allmon+=json[i].kpMoney;
+		            	$("#selectpicker_no").append("<option  value="+json[i].fpNo+">"+json[i].fpNo+"</option>")
+	            	}
+	            	//$("#look_kp_money").val(allmon)
+	            	$('#selectpicker_no').selectpicker('refresh');
+            	}
+            }
+        });
 		
 		$("#hetongmd").modal("hide");
 	})
+	
+	function chooseNo(){
+		$('.selectpicker').selectpicker('deselectAll'); 
+		$("#chooseNo").modal("show");
+	}
+    function quxiao(){
+		$('#chooseNo').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+        $('#chooseNo').modal("hide");
+	}
+    
+    
+    function saveNo(){
+		$('#chooseNo').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+	    var no_list=$("#selectpicker_no").val();
+		$("#look_fp_no").val(no_list)
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/kp/getAllKpMoneyByFpNos',//通过发票编号从开票申请获得开票金额
+            dataType: 'json',
+            data: {
+            	nos:no_list.toString(),
+            },
+            success: function (json) {
+            	var allmon=0;
+            	for(var i=0;i<json.length;i++){
+            		allmon+=json[i].kpMoney;
+            	}
+	            $("#look_kp_money").val(allmon)
+            }
+        });
+		$('#chooseNo').modal("hide");
+    }
+	
     
     function gotoPrj(obj){
     	dom=$(obj).parents("tr");

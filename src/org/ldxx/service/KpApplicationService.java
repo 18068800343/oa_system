@@ -17,4 +17,6 @@ public interface KpApplicationService {
 	public  List<KpApplication> getKpNo(String no);
 	
 	public KpApplication getAllKpMoneyByFpNo(String no);
+
+	public List<KpApplication> getAllKpMoneyByFpNoAndTaskNo(String taskno, String contractno);
 }

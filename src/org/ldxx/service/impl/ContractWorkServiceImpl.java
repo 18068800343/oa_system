@@ -70,4 +70,9 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 		return dao.selectContractWorkByid(id);
 	}
 
+	@Override
+	public ContractWork selectContractWorkBytaskNoAndCno(String no, String type) {
+		return dao.selectContractWorkBytaskNoAndCno(no,type);
+	}
+
 }
