@@ -1,10 +1,12 @@
 package org.ldxx.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.BidApproval;
@@ -15,6 +17,7 @@ import org.ldxx.bean.User;
 import org.ldxx.dao.BidApprovalDao;
 import org.ldxx.service.BidApprovalService;
 import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.util.ExportData;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -242,5 +245,40 @@ public class BidApprovalController {
 	public int updateFlowEdit(BidApproval ba){
 		int i=bidApprovalDao.updateFlowEdit(ba);
 		return i;
+	}
+	
+	@RequestMapping("/selectBidApprovalByTypeAndDepartment")
+	@ResponseBody
+	public List<BidApproval> selectBidApprovalByTypeAndDepartment(String type,String department){
+		type="%"+type+"%";
+		department="%"+department+"%";
+		List<BidApproval> list=service.selectBidApprovalByTypeAndDepartment(type, department);
+		return list;
+	}
+	
+	@RequestMapping("/exportBidApproval")
+	@ResponseBody
+	public void exportBidApproval(String type,String department,HttpServletResponse response) throws Exception{
+		type="%"+type+"%";
+		department="%"+department+"%";
+		List<BidApproval> list=service.selectBidApprovalByTypeAndDepartment(type, department);
+		String xlsName = "投标项目信息表";
+		ExportData exportData = new ExportData();
+		List<List<String>> dataList = new ArrayList<>();
+		for(int i=0;i<list.size();i++){
+			List<String> data = new ArrayList<>();
+			data.add(i + 1 + "");
+			data.add(list.get(i).getPrjName());
+			data.add(list.get(i).getCcName());
+			data.add(list.get(i).getPrjType());
+			data.add(list.get(i).getBidder());
+			data.add(list.get(i).getProjectApplicants());
+			data.add(list.get(i).getBusinessPeople());
+			data.add(list.get(i).getXbDepartment());
+			data.add(list.get(i).getSubmissionTime());
+			dataList.add(data);
+		}
+		String[] array = { "序号", "项目名称","业主单位", "项目类型", "投标人","报名人员","商务负责人", "协办部门","投标文件递交时间"};
+		exportData.ExportWithResponse(xlsName, xlsName, array.length, array, dataList, response);
 	}
 }

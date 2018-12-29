@@ -17,11 +17,18 @@ public class BidApproval {
 	private String businessPeople;//商务负责人
 	private String bidPeople;//报价负责人
 	private String nextDepartment;//下一步
+	private String xbDepartment;//协作部门
 	private String fileLevel;
 	private String fgLindao;
 	private String ccName;//业主单位名称
 	
 	
+	public String getXbDepartment() {
+		return xbDepartment;
+	}
+	public void setXbDepartment(String xbDepartment) {
+		this.xbDepartment = xbDepartment;
+	}
 	public String getFileLevel() {
 		return fileLevel;
 	}
