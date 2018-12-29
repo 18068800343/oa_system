@@ -15,9 +15,9 @@
 	
 	<insert id="addBorrowContractSave" parameterType="BorrowContract">
 		insert into borrow_contract(b_id,b_no,unit_jia,unit_yi,cj_no,fb_no,this_borrow_money,rate,interest_payment_method,
-		borrow_time,accumulated_borrowing_money,borrowing_purposes,history,make_time)
+		borrow_time,borrow_end_time,accumulated_borrowing_money,borrowing_purposes,history,make_time)
 		values(#{bc.bId},#{bc.bNo},#{bc.unitJia},#{bc.unitYi},#{bc.cjNo},#{bc.fbNo},#{bc.thisBorrowMoney},#{bc.rate},
-		#{bc.interestPaymentMethod},#{bc.borrowTime},#{bc.accumulatedBorrowingMoney},#{bc.borrowingPurposes},1,now())
+		#{bc.interestPaymentMethod},#{bc.borrowTime},#{bc.borrowEndTime},#{bc.accumulatedBorrowingMoney},#{bc.borrowingPurposes},1,now())
 	</insert>
 	
 	<update id="updateBorrowContractById">
@@ -32,6 +32,7 @@
 			rate=#{bc.rate},
 			interest_payment_method=#{bc.interestPaymentMethod},
 			borrow_time=#{bc.borrowTime},
+			borrow_end_time=#{bc.borrowEndTime},
 			accumulated_borrowing_money=#{bc.accumulatedBorrowingMoney},
 			borrowing_purposes=#{bc.borrowingPurposes}
 		where b_id=#{bc.bId}
@@ -59,6 +60,12 @@
 	
 	<select id="selectAllBorrowByFbNo" resultType="BorrowContract">
 		SELECT IFNULL(SUM(this_borrow_money),0) as accumulated_borrowing_money FROM borrow_contract as a
+		LEFT JOIN mode_status as b on a.b_id=b.mode_id
+		where fb_no=#{no} and b.status=2
+	</select>
+	
+	<select id="getRateAndMoney" resultType="BorrowContract">
+		SELECT this_borrow_money,rate,borrow_time,borrow_end_time FROM borrow_contract as a
 		LEFT JOIN mode_status as b on a.b_id=b.mode_id
 		where fb_no=#{no} and b.status=2
 	</select>

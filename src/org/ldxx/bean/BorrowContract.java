@@ -14,7 +14,8 @@ public class BorrowContract {
 	private Float thisBorrowMoney;// 本次借款金额
 	private String interestPaymentMethod;// 利息支付方式
 	private String rate;//利率
-	private String borrowTime;// 借款期限
+	private String borrowTime;// 借款开始时间
+	private String borrowEndTime;// 借款结束时间
 	private Float accumulatedBorrowingMoney;// 乙方累计借款额
 	private String borrowingPurposes;// 借款用途
 	private String makeTime; // 当前时间
@@ -24,6 +25,14 @@ public class BorrowContract {
 	private List<Accessory> accessory2;
 
 	
+	public String getBorrowEndTime() {
+		return borrowEndTime;
+	}
+
+	public void setBorrowEndTime(String borrowEndTime) {
+		this.borrowEndTime = borrowEndTime;
+	}
+
 	public String getRate() {
 		return rate;
 	}

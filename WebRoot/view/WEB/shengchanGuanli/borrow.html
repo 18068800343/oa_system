@@ -117,16 +117,22 @@
                             		<td style="width:30%;">
                             			<input type="text" style="width:70%;" id="thisborrowMoney" class="form-control">
                             		</td>
-                            		<td style="width:15%;">借款期限</td>
+                            		<td style="width:15%;">借款开始时间</td>
                             		<td style="width:30%;">
-                            			<input type="text" style="width:70%;" class="form-control" id="year">
+                            				<input type="text" style="width:70%;" class="form-control" id="year">
                             		</td>
                             	</tr>
                             	<tr>
+                            		<td style="width:15%;">借款结束时间</td>
+                            		<td style="width:30%;">
+                            				<input type="text" style="width:70%;" class="form-control" id="end_year">
+                            		</td>
                             		<td style="width:15%;">乙方累计借款额</td>
                             		<td style="width:30%;">
                             			<input type="text" style="width:70%;" id="yifangleijijieMoney" class="form-control" disabled>
                             		</td>
+                            	</tr>
+                            	<tr>
                             		<td style="width:15%;">借款用途</td>
                             		<td style="width:30%;">
                             			<select class="form-control" style="width:70%;" id="jiekuanyongtu">
@@ -134,6 +140,8 @@
                                         	<option>其他借款</option>
                                         </select>
                             		</td>
+                            		<td></td>
+                            		<td></td>
                             	</tr>
                         </table>
                         <table class="table table-bordered table-condensed" id="new_accessory">
@@ -249,16 +257,22 @@
                             		<td>
                             			<input type="text" id="xgthisborrowMoney" style="width:70%;" class="form-control">
                             		</td>
-                            		<td>借款期限</td>
+                            		<td>借款开始时间</td>
                             		<td>
                             			<input type="text" class="form-control" style="width:70%;" id="xgyear">
                             		</td>
                             	</tr>
                             	<tr>
+                            		<td>借款结束时间</td>
+                            		<td>
+                            			<input type="text" class="form-control" style="width:70%;" id="xgEndyear">
+                            		</td>
                             		<td>乙方累计借款额</td>
                             		<td>
                             			<input type="text" id="xgyifangleijijieMoney" style="width:70%;" class="form-control" disabled>
                             		</td>
+                            	</tr>
+                            	<tr>
                             		<td>借款用途</td>
                             		<td>
                             			<select class="form-control" style="width:70%;" id="xgjiekuanyongtu">
@@ -266,12 +280,8 @@
                                         	<option>其他借款</option>
                                         </select>
                             		</td>
-                            	</tr>
-                            	<tr>
                             		<td>借款合同号</td>
                             		<td><input type="text" id="xgborrowNo" style="width:70%;" class="form-control" disabled></td>
-                            		<td></td>
-                            		<td></td>
                             	</tr>
                         </table>
                         <table class="table table-bordered table-condensed" id="edit_accessory">
@@ -405,7 +415,7 @@
                         <th style="width:10%;">主合同号</th>
                         <th style="width:20%;">分包合同号</th>
                         <th style="width:20%;">本次借款金额(万元)</th>
-                        <th style="width:10%;">借款期限</th>
+                        <th style="width:10%;">借款结束时间</th>
                         <th style="width:10%;">操作</th>
                     </tr>
                 </thead>
@@ -447,20 +457,20 @@
                             	<tr>
                             		<td>本次借款金额(万元)</td>
                             		<td id="lookthisborrowMoney"></td>
-                            		<td>借款期限</td>
+                            		<td>借款开始时间</td>
                             		<td id="lookyear"></td>
                             	</tr>
                             	<tr>
+                            		<td>借款结束时间</td>
+                            		<td id="lookEndyear"></td>
                             		<td>乙方累计借款额</td>
                             		<td id="lookyifangleijijieMoney"></td>
-                            		<td>借款用途</td>
-                            		<td id="lookjiekuanyongtu"></td>
                             	</tr>
                             	<tr>
+                            		<td>借款用途</td>
+                            		<td id="lookjiekuanyongtu"></td>
                             		<td>借款合同号</td>
                             		<td id="lookborrowNo"></td>
-                            		<td></td>
-                            		<td></td>
                             	</tr>
                     </table>
                     <table class="table table-bordered table-condensed" id="look_accessory">
@@ -643,7 +653,12 @@
         laydate.render({
             elem: '#xgyear' //指定元素
         });
-        
+        laydate.render({
+            elem: '#end_year' //指定元素
+        });
+        laydate.render({
+            elem: '#xgEndyear' //指定元素
+        });
         $(".zhuangtai").trigger("change");
 	});
     var table=$('#mainContent').dataTable({
@@ -738,7 +753,7 @@
 		},
 		"columns": [
             { "data": "unitJia"}, 
-            { "data": "ccName"}, 
+            { "data": "unitYi"}, 
             { "data": "thisBorrowMoney"},
             { "data": "borrowTime"}, 
             { "data": "makeTime"}, 
@@ -1023,8 +1038,16 @@
     	var lixizhifu=$("#lixizhifu").val();
     	var rate=$("#rate").val();
     	var year=$("#year").val();
+    	var endTime=$("#end_year").val();
     	var yifangleijijieMoney=$("#yifangleijijieMoney").val();
     	var jiekuanyongtu=$("#jiekuanyongtu").val();
+    	
+    	var start= new Date(Date.parse(year));
+    	var end=new Date(Date.parse(endTime));
+    	if(start>=end){
+    		toastr.error("开始时间不能小于结束时间");
+			return;
+    	}
     	
     	var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(thisborrowMoney)){
@@ -1048,6 +1071,7 @@
 	            	interestPaymentMethod:lixizhifu,
 	            	rate:rate,
 	            	borrowTime:year,
+	            	borrowEndTime:endTime,
 	            	accumulatedBorrowingMoney:yifangleijijieMoney,
 	            	borrowingPurposes:jiekuanyongtu,
 	            },
@@ -1075,8 +1099,16 @@
     	var lixizhifu=$("#lixizhifu").val();
     	var rate=$("#rate").val();
     	var year=$("#year").val();
+    	var endTime=$("#end_year").val();
     	var yifangleijijieMoney=$("#yifangleijijieMoney").val();
     	var jiekuanyongtu=$("#jiekuanyongtu").val();
+    	
+    	var start= new Date(Date.parse(year));
+    	var end=new Date(Date.parse(endTime));
+    	if(start>=end){
+    		toastr.error("开始时间不能小于结束时间");
+			return;
+    	}
     	
     	var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(thisborrowMoney)){
@@ -1100,6 +1132,7 @@
 	            	interestPaymentMethod:lixizhifu,
 	            	rate:rate,
 	            	borrowTime:year,
+	            	borrowEndTime:endTime,
 	            	accumulatedBorrowingMoney:yifangleijijieMoney,
 	            	borrowingPurposes:jiekuanyongtu,
 	            },
@@ -1202,6 +1235,7 @@
     	$("#xglixizhifu").val(data.interestPaymentMethod);
     	$("#xgrate").val(data.rate);
     	$("#xgyear").val(data.borrowTime);
+    	$("#xgEndyear").val(data.borrowEndTime);
     	$("#xgyifangleijijieMoney").val(data.accumulatedBorrowingMoney);
     	$("#xgjiekuanyongtu").val(data.borrowingPurposes);
     	$("#xgborrowNo").val(data.bNo)
@@ -1221,10 +1255,17 @@
     	var lixizhifu=$("#xglixizhifu").val();
     	var rate=$("xgrate").val();
     	var year=$("#xgyear").val();
+    	var endTime=$("#xgEndyear").val();
     	var yifangleijijieMoney=$("#xgyifangleijijieMoney").val();
     	var jiekuanyongtu=$("#xgjiekuanyongtu").val();
     	var xgborrowNo=$("#xgborrowNo").val();
     	
+    	var start= new Date(Date.parse(year));
+    	var end=new Date(Date.parse(endTime));
+    	if(start>=end){
+    		toastr.error("开始时间不能小于结束时间");
+			return;
+    	}
     	var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(thisborrowMoney)){
 			toastr.error("本次借款金额只能输入数字和两位小数");
@@ -1248,6 +1289,7 @@
 	            	interestPaymentMethod:lixizhifu,
 	            	rate:rate,
 	            	borrowTime:year,
+	            	borrowEndTime:endTime,
 	            	accumulatedBorrowingMoney:yifangleijijieMoney,
 	            	borrowingPurposes:jiekuanyongtu,
 	            },
@@ -1273,10 +1315,17 @@
     	var lixizhifu=$("#xglixizhifu").val();
     	var rate=$("xgrate").val();
     	var year=$("#xgyear").val();
+    	var endTime=$("#xgEndyear").val();
     	var yifangleijijieMoney=$("#xgyifangleijijieMoney").val();
     	var jiekuanyongtu=$("#xgjiekuanyongtu").val();
     	var xgborrowNo=$("#xgborrowNo").val();
     	
+    	var start= new Date(Date.parse(year));
+    	var end=new Date(Date.parse(endTime));
+    	if(start>=end){
+    		toastr.error("开始时间不能小于结束时间");
+			return;
+    	}
     	var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(thisborrowMoney)){
 			toastr.error("本次借款金额只能输入数字和两位小数");
@@ -1301,6 +1350,7 @@
 	            	interestPaymentMethod:lixizhifu,
 	            	rate:rate,
 	            	borrowTime:year,
+	            	borrowEndTime:endTime,
 	            	accumulatedBorrowingMoney:yifangleijijieMoney,
 	            	borrowingPurposes:jiekuanyongtu,
 	            },
@@ -1361,13 +1411,14 @@
   		var data=$("#mainContent").DataTable().row(tr).data();
   		initTableHistory(data.bNo)
   		$("#lookjiafang").text(data.unitJia);
-    	$("#lookyifang").text(data.ccName);
+    	$("#lookyifang").text(data.unitYi);
     	$("#lookzhuhetonghao").text(data.cjNo);
     	$("#lookfbhetonghao").text(data.fbNo);
     	$("#lookthisborrowMoney").text(data.thisBorrowMoney);
     	$("#looklixizhifu").text(data.interestPaymentMethod);
     	$("#look_rate").text(data.rate);
     	$("#lookyear").text(data.borrowTime);
+    	$("#lookEndyear").text(data.borrowEndTime);
     	$("#lookyifangleijijieMoney").text(data.accumulatedBorrowingMoney);
     	$("#lookjiekuanyongtu").text(data.borrowingPurposes);
     	$("#lookborrowNo").text(data.bNo)

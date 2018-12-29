@@ -22,5 +22,7 @@ public interface BorrowContractService {
 	int updateBorrowContractById(BorrowContract bc);
 	
 	BorrowContract selectAllBorrowByFbNo(String no);
+	
+	List<BorrowContract> getRateAndMoney(String no);
 
 }

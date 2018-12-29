@@ -25,4 +25,5 @@ public interface BorrowContractDao {
 	
 	BorrowContract selectAllBorrowByFbNo(@Param("no")String no);
 
+	List<BorrowContract> getRateAndMoney(@Param("no")String no);
 }

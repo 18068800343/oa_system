@@ -576,4 +576,23 @@ public class BorrowContractController {
 		return string;
 	}
 	
+	@RequestMapping("/getRemainPayMoney")
+	@ResponseBody
+	public float getRemainPayMoney(String no){
+		float RemainPayMoney=0;
+		float rateMoney=0;//借款金额及利息总和
+		List<BorrowContract> list=service.getRateAndMoney(no);
+		if(list!=null){
+			for(int i=0;i<list.size();i++){
+				float thisAllMoney=0;//单次借款利息
+				float thisMoney=list.get(i).getThisBorrowMoney();
+				String rateString=list.get(i).getRate();
+				float rate=(Float.valueOf((rateString.replace("%", ""))))/100;
+				thisAllMoney=thisMoney*(1+rate);
+				rateMoney=rateMoney+thisAllMoney;
+			}
+		}
+		return RemainPayMoney;
+	}
+	
 }
