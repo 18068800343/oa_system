@@ -111,7 +111,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" onclick="saveFr()">保存</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="saveFr()">保存</button>
             <!-- <button type="button" class="btn btn-success">提交</button> -->
         </div>
         </div>
@@ -232,7 +232,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary">保存</button>
+            <button type="button" class="btn btn-primary" onclick="xiugaicaiwu()">保存</button>
             <!-- <button type="button" class="btn btn-success">提交</button> -->
         </div>
         </div>
@@ -304,7 +304,7 @@
     	initTable();
     	//initSelect();
 	});
-    var table=$('#mainContent').dataTable({
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -329,7 +329,12 @@
 										    "targets": 5,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-xiugai Pcab" style="font-size:18px;cursor:pointer;display:none;" title="修改" data-toggle="modal" data-target="#change" onclick="updateAll(this)"></i><i class="iconfont icon-shanchu Pcab" style="font-size:22px;cursor:pointer;margin-left:10px;display:none;" title="删除" id="delOrg"></i>';
+										    	if(full.status=='0'){
+										    		return '<i class="iconfont icon-xiugai Pcab" style="font-size:18px;cursor:pointer;display:none;" title="修改" data-toggle="modal" data-target="#change" onclick="updateAll(this)"></i><i class="iconfont icon-shanchu Pcab" style="font-size:22px;cursor:pointer;margin-left:10px;display:none;" title="删除" id="delOrg"></i>';
+										    	}else{
+										    		return '';
+										    	}
+										  	  		
 										        }
 										  }
 								],
@@ -389,7 +394,7 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
-                console.log(json)
+                //console.log(json)
                 $.ajax({
             		type:"post",
             		url:getContextPath()+"/login/getUser",
@@ -442,6 +447,7 @@
 	}
 	 
 	 //新增
+	 var doren;
 	 function saveFr(){
 		 var danwei=$("#jiafangdanwei").val();
 		 
@@ -458,19 +464,89 @@
 		           rmTime:shoukuantime
 		        },
 		        success: function (json) {
+		        	//location.reload([true]);
+		        	console.log(json)
 		        	$('#mainContent').DataTable().row.add(json).draw(false);     //新增行立即显示
 		        }
 		    });
 	 }
     //修改
+    var tr;
+    var rmId;
+    var doPerson;
+    var doTime;
     function updateAll(obj){
     	tr=$(obj).parents("tr");
     	var data=$("#mainContent").DataTable().row(tr).data();
     	console.log(data)
+    	rmId=data.rmId;
+    	doPerson=data.doPerson;
+    	doTime=data.doTime;
     	$("#xgjiafangdanwei").find("option").val(data.ccName)
     	$("#xgshoukuanjine").val(data.receiveMoney)
     	$("#xgshoukuantime").val(data.rmTime)
     }
+    function xiugaicaiwu(){
+		 var danwei=$("#xgjiafangdanwei").val();
+		 
+		 var shoukuanjine=$("#xgshoukuanjine").val();
+		 var shoukuantime=$("#xgshoukuantime").val();
+		 var addJson = {
+		            "rmId": rmId,
+		            "ccId": danwei,
+		            "ccName": $("#xgjiafangdanwei option:selected").text(),
+		            "receiveMoney": shoukuanjine,
+		            "rmTime": shoukuantime,
+		            "doPerson": doPerson,
+		            "doTime":doTime
+		        };
+		 $.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/receiveMoney/updateReceiveMoney',
+		        dataType: 'json',
+		        data: {
+		        	rmId:rmId,
+		           ccId:danwei,
+		           ccName:$("#xgjiafangdanwei option:selected").text(),
+		           receiveMoney:shoukuanjine,
+		           rmTime:shoukuantime
+		        },
+		        success: function (json) {
+		        	location.reload([true]);
+		        	//$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+		        }
+		    });
+	 }
+    
+  //删除
+	$('#mainContent').delegate('#delOrg','click', function () {
+		var dom = $(this).parents('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+  		//console.log(data)
+		var statu = confirm("确认删除?");
+		  if(!statu){
+		   return false;
+		  }
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/receiveMoney/deleteReceiveMoney',
+            dataType: 'json',
+            data: {
+            	id:data.rmId
+            },
+            success: function (json) {
+				console.log(json)
+            	if(json!=0){
+            		$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
+            		 toastr.success('删除成功');
+            	}else{
+            		 toastr.error('删除失败');
+            	}
+            }
+        });
+	})
+	
+	
     var flag=true;
     $("#changeModel").click(function(){
         if(flag==true){
