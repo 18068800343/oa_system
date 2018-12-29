@@ -30,4 +30,6 @@ public interface BidApprovalDao {
 	int updateSubmissionTime(@Param("ba")BidApproval ba);
 	
 	int updateFlowEdit(@Param("ba")BidApproval ba);
+	
+	List<BidApproval> selectBidApprovalByTypeAndDepartment(@Param("type")String type,@Param("department")String department);
 }

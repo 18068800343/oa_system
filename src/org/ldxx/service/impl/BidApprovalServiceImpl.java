@@ -87,4 +87,9 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 		return dao.updateSubmissionTime(ba);
 	}
 
+	@Override
+	public List<BidApproval> selectBidApprovalByTypeAndDepartment(String type, String department) {
+		return dao.selectBidApprovalByTypeAndDepartment(type, department);
+	}
+
 }
