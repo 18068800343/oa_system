@@ -34,13 +34,14 @@ public class ReceiveMoneyController {
 	
 	@RequestMapping("/addReceiveMoney")
 	@ResponseBody
-	public int addReceiveMoney(ReceiveMoney receiveMoney,HttpSession session){
+	public ReceiveMoney addReceiveMoney(ReceiveMoney receiveMoney,HttpSession session){
 		User user = (User) session.getAttribute("user");
 		receiveMoney.setRmId(new TimeUUID().getTimeUUID());
 		receiveMoney.setDoTime(TimeUUID.getTimeByFmt("yyyy-MM-dd hh:mm:ss", new Date()));
 		receiveMoney.setDoPerson(user.getuName());
 		receiveMoney.setStatus("0");
-		return receiveMoneyDao.addReceiveMoney(receiveMoney);
+		receiveMoneyDao.addReceiveMoney(receiveMoney);
+		return receiveMoney;
 	}
 	
 	@RequestMapping("/updateReceiveMoney")
@@ -51,5 +52,11 @@ public class ReceiveMoneyController {
 		receiveMoney.setDoPerson(user.getuName());
 		receiveMoney.setStatus("0");
 		return receiveMoneyDao.updateReceiveMoney(receiveMoney);
+	}
+	
+	@RequestMapping("/deleteReceiveMoney")
+	@ResponseBody
+	public int deleteReceiveMoney(String id){
+		return receiveMoneyDao.deleteReceiveMoneyById(id);
 	}
 }
