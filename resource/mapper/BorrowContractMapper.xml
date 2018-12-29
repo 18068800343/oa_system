@@ -14,9 +14,9 @@
 	</select>
 	
 	<insert id="addBorrowContractSave" parameterType="BorrowContract">
-		insert into borrow_contract(b_id,b_no,unit_jia,unit_yi,cj_no,fb_no,this_borrow_money,interest_payment_method,
+		insert into borrow_contract(b_id,b_no,unit_jia,unit_yi,cj_no,fb_no,this_borrow_money,rate,interest_payment_method,
 		borrow_time,accumulated_borrowing_money,borrowing_purposes,history,make_time)
-		values(#{bc.bId},#{bc.bNo},#{bc.unitJia},#{bc.unitYi},#{bc.cjNo},#{bc.fbNo},#{bc.thisBorrowMoney},
+		values(#{bc.bId},#{bc.bNo},#{bc.unitJia},#{bc.unitYi},#{bc.cjNo},#{bc.fbNo},#{bc.thisBorrowMoney},#{bc.rate},
 		#{bc.interestPaymentMethod},#{bc.borrowTime},#{bc.accumulatedBorrowingMoney},#{bc.borrowingPurposes},1,now())
 	</insert>
 	
@@ -29,6 +29,7 @@
 			cj_no=#{bc.cjNo},
 			fb_no=#{bc.fbNo},
 			this_borrow_money=#{bc.thisBorrowMoney},
+			rate=#{bc.rate},
 			interest_payment_method=#{bc.interestPaymentMethod},
 			borrow_time=#{bc.borrowTime},
 			accumulated_borrowing_money=#{bc.accumulatedBorrowingMoney},
@@ -54,5 +55,11 @@
 		SELECT a.*,b.cc_name FROM borrow_contract as a
 		LEFT JOIN consociation_company as b on a.unit_yi=b.cc_id
 		where b_id=#{id}
+	</select>
+	
+	<select id="selectAllBorrowByFbNo" resultType="BorrowContract">
+		SELECT IFNULL(SUM(this_borrow_money),0) as accumulated_borrowing_money FROM borrow_contract as a
+		LEFT JOIN mode_status as b on a.b_id=b.mode_id
+		where fb_no=#{no} and b.status=2
 	</select>
 </mapper>

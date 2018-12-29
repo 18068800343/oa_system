@@ -51,11 +51,19 @@ public class ProjectOver {
     /*代办内容*/
     private String contentBacklog;
 
-    
-    
+    /*是否移交状态*/
+    private int status;
 
     
-    public String getPrjType() {
+    public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getPrjType() {
 		return prjType;
 	}
 

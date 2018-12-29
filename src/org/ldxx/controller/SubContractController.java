@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.BorrowContract;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ContractReason;
 import org.ldxx.bean.CurrentFlow;
@@ -18,6 +19,7 @@ import org.ldxx.bean.FbContract;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.User;
+import org.ldxx.service.BorrowContractService;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.OrganizationManagementService;
@@ -47,6 +49,8 @@ public class SubContractController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private ContractReasonService cService;
+	@Autowired
+	private BorrowContractService bService;
 	
 	@RequestMapping("/selectSubContract")
 	@ResponseBody
@@ -651,6 +655,17 @@ public class SubContractController {
 		}
 		int i=scService.updateSubContract(fbContract);
 		return i;
+	}
+	
+	@RequestMapping("/selectYiFangByNo")
+	@ResponseBody
+	public Map<String,Object> selectYiFangByNo(String no){
+		Map<String,Object> map=new HashMap<>();
+		FbContract fb=scService.selectYiFangByNo(no);
+		BorrowContract bc=bService.selectAllBorrowByFbNo(no);
+		map.put("fb", fb);
+		map.put("bc", bc);
+		return map;
 	}
 	
 }

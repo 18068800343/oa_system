@@ -27,6 +27,11 @@
 #mainContent th {
 	cursor: pointer;
 }
+
+input[type=checkbox] {
+	width:20px;
+	height:20px;
+}
 </style>
 </head>
 <body>
@@ -48,9 +53,17 @@
 
 				<div class="UpperPart">
 					<div class="UpperPartL">
+						<div class="form-inline">
+							<label>状态筛选：</label>
+							<select class="form-control" id="status" style="width:160px;">
+								<option value="未移交">未移交</option>
+								<option value="已移交">已移交</option>
+							</select>
+						</div>
+						
 					</div>
 					<div class="UpperPartR">
-						<button type="button" class="btn btn-primary Pdbda" data-toggle="modal" data-target="#myModal">新建中标项目移交</button>
+						<!-- <button type="button" class="btn btn-primary Pdbda" data-toggle="modal" data-target="#myModal">新建中标项目移交</button> -->
 					</div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -246,12 +259,13 @@
 								<td style="width:15%;">项目名称 <i class="iconfont icon-xingxing-copy" style="color: red;"></i></td>
 								<td style="width:35%;">
 									<input type="text" class="form-control" style="width:60%;" id="xgprjName" disabled>
-                            		<button type="button" class="btn btn-primary"  id="xgchosexm">选择项目</button>
+                            		<!-- <button type="button" class="btn btn-primary"  id="xgchosexm">选择项目</button> -->
 								</td>
 								<td style="width:15%;">投标审批单号</td>
                             	<td style="width:35%;">
-                            		<select class="form-control" style="width:60%;" id="xgprjNo">
-                            		</select>
+                            		<!-- <select class="form-control" style="width:60%;" id="xgprjNo">
+                            		</select> -->
+                            		<input type="text" class="form-control" style="width:60%;" id="xgprjNo" disabled>
                             	</td>
 							</tr>
 							<tr>
@@ -324,7 +338,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-				<button type="button" class="btn btn-default" onclick="savexiugai()">保存</button>
+				<button type="button" class="btn btn-success" onclick="savexiugai()">保存</button>
 				<!-- <button type="button" class="btn btn-success" onclick="submitxiugai()">提交</button> -->
 			</div>
 		</div>
@@ -482,7 +496,7 @@
 <script src="../../js/quanxian.js"></script>
 <script>
 	$(document).ready(function() {
-		initTable();
+		$("#status").trigger("change");
 		initSelect();
 		laydate.render({
 			elem : '#year' //指定元素
@@ -495,6 +509,9 @@
 		});
 		laydate.render({
 			elem : '#year4' //指定元素
+		});
+		laydate.render({
+			elem : '#xgyear' //指定元素
 		});
 		$('#editable-select').editableSelect({
 			effects : 'slide'
@@ -525,7 +542,7 @@
 							"targets" : 8,
 							"searchable" : true,
 							"render" : function(data, type, full) {
-								return '<i class="iconfont icon-icon-test Pdbdb" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i><i class="iconfont icon-xiugai Pdbdc" style="font-size:18px;cursor:pointer;display:none;" onclick="xiugaicPrj(this)" title="修改" data-toggle="modal" data-target="#change" id="ChangeRisk"></i> '
+								return '<i class="iconfont icon-icon-test Pdbdb" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i><i class="iconfont icon-xiugai Pdbdc" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" onclick="xiugaicPrj(this)" title="填报移交" data-toggle="modal" data-target="#change" id="ChangeRisk"></i> '
 							}
 						} ],
 						"fnDrawCallback" : function() {
@@ -669,7 +686,91 @@
         }},
         
 	});
-	function initTable() {
+    
+    $("#status").on("change",function(){
+    	var status=$("#status").val();
+    	if(status=="未移交"){
+    		$.ajax({
+    			type : 'POST',
+    			url : getContextPath() + '/prjOver/selectPrjOver',
+    			dataType : 'json',
+    			data : {
+    				status:0
+    			},
+    			success : function(json) {
+    				$('#mainContent').dataTable().fnClearTable();
+    				$('#mainContent').DataTable().rows.add(json).draw(false);
+    				
+    				$.ajax({
+                		type:"post",
+                		url:getContextPath()+"/login/getUser",
+                		data:{
+                		},
+                		success:function(json){
+                			
+                			if(json!=null &&json!=""){
+                				var arr = json.uPermissions.split(',');
+                				
+                				for(var i=0;i<arr.length;i++){
+                					var arr2 = arr[i].replace("+","");
+                					if(arr[i].indexOf("Pdbdb") >= 0 ){
+                						$(".Pdbdb").show();
+                					}
+                					if(arr[i].indexOf("Pdbdc") >= 0 ){
+                						$(".Pdbdc").show();
+                					}
+                				}
+                				
+                			}
+                			
+                		}
+                	});
+    				
+    			}
+    		});
+    	}else if(status=="已移交"){
+    		$.ajax({
+    			type : 'POST',
+    			url : getContextPath() + '/prjOver/selectPrjOver',
+    			dataType : 'json',
+    			data : {
+    				status:1
+    			},
+    			success : function(json) {
+    				$('#mainContent').dataTable().fnClearTable();
+    				$('#mainContent').DataTable().rows.add(json).draw(false);
+    				
+    				$.ajax({
+                		type:"post",
+                		url:getContextPath()+"/login/getUser",
+                		data:{
+                		},
+                		success:function(json){
+                			
+                			if(json!=null &&json!=""){
+                				var arr = json.uPermissions.split(',');
+                				
+                				for(var i=0;i<arr.length;i++){
+                					var arr2 = arr[i].replace("+","");
+                					if(arr[i].indexOf("Pdbdb") >= 0 ){
+                						$(".Pdbdb").show();
+                					}
+                					if(arr[i].indexOf("Pdbdc") >= 0 ){
+                						$(".Pdbdc").show();
+                					}
+                				}
+                				
+                			}
+                			
+                		}
+                	});
+    				
+    			}
+    		});
+    	}
+    })
+    
+	/* function initTable() {
 		$.ajax({
 			type : 'POST',
 			url : getContextPath() + '/prjOver/selectPrjOver',
@@ -711,7 +812,7 @@
 				
 			}
 		});
-	}
+	} */
 	
 	
 	//选择项目
@@ -812,10 +913,10 @@
         success: function (json) {
         	//console.log(json)
         	$("#prjNo").html('');
-        	$("#xgprjNo").html('');
+        	/* $("#xgprjNo").html(''); */
         	for(var i=0;i<json.length;i++){
         		$("#prjNo").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
-        		$("#xgprjNo").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+        		/* $("#xgprjNo").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>"); */
         	}
           	$('#prjNo').editableSelect().on('select.editable-select', function (e, dom) {
           		$.ajax({
@@ -832,7 +933,7 @@
                     }
           		});
 		  	})
-          	$('#xgprjNo').editableSelect().on('select.editable-select', function (e, dom) {
+          	/* $('#xgprjNo').editableSelect().on('select.editable-select', function (e, dom) {
           		$.ajax({
                     type: 'POST',
                     url: getContextPath()+'/BidApproval/selectNameByNo',
@@ -846,7 +947,7 @@
 	                    $("#xgyezhudanwei").val(json.ownerUnit)
                     }
           		});
-		  	}) 
+		  	})  */
         }
 		});
 	}
@@ -1028,7 +1129,6 @@
 				poId : xgId,
 			},
 			success : function(json) {
-				//console.log(json)
 				$("#xgprjName").val(json.prjName);//项目名称
 				$("#xgprjNo").val(json.prjNo);//项目名称
 				$("#xgyezhudanwei").val(json.productOwners);//业主单位
@@ -1146,11 +1246,17 @@
 
 			},
 			success : function(json) {
-				//console.log(json)
 				if (json.result >0) {
 					toastr.success("修改成功");
 					$('#change').modal('hide');
-					$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+					var status=$("#status").val();
+					if(status=="未移交"){
+						$('#mainContent').DataTable().row(tr).remove().draw(false);//移除行立即显示
+					}else if(status=="已移交"){
+						var projectOver=json.projectOver;
+						$('#mainContent').DataTable().row(tr).data(projectOver).draw(false);//修改行立即显示
+					}
+					
 				} else{
 					toastr.error("修改失败");
 				}

@@ -13,6 +13,7 @@ public class BorrowContract {
 	private String fbNo;// 分包合同号
 	private Float thisBorrowMoney;// 本次借款金额
 	private String interestPaymentMethod;// 利息支付方式
+	private String rate;//利率
 	private String borrowTime;// 借款期限
 	private Float accumulatedBorrowingMoney;// 乙方累计借款额
 	private String borrowingPurposes;// 借款用途
@@ -21,6 +22,15 @@ public class BorrowContract {
 
 	private List<Accessory> accessory;
 	private List<Accessory> accessory2;
+
+	
+	public String getRate() {
+		return rate;
+	}
+
+	public void setRate(String rate) {
+		this.rate = rate;
+	}
 
 	public List<Accessory> getAccessory2() {
 		return accessory2;

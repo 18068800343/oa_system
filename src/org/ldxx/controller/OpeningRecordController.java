@@ -7,11 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ManagingDocuments;
 import org.ldxx.bean.ManagingDocumentsTenderer;
 import org.ldxx.bean.OpeningInformation;
 import org.ldxx.bean.OpeningRecord;
+import org.ldxx.bean.User;
 import org.ldxx.service.OpeningRecordService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,12 +129,15 @@ public class OpeningRecordController {
 	
 	@RequestMapping("/updateOpeningRecordSave")
 	@ResponseBody
-	public Map<String,Object> updateOpeningRecordSave(String record,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public Map<String,Object> updateOpeningRecordSave(String record,@RequestParam MultipartFile [] file,HttpServletRequest request) throws IllegalStateException, IOException{
 		Map<String,Object> map = new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("openingInformation", OpeningInformation.class);
 		JSONObject jsonObject=JSONObject.fromObject(record);
 		OpeningRecord rd=(OpeningRecord)JSONObject.toBean(jsonObject, OpeningRecord.class,map2);
+		User user=(User) request.getSession().getAttribute("user");
+		String uName=user.getuName();
+		rd.setPreparer(uName);
 		String id=rd.getOrId();
 		String path="D:"+File.separator+"oa"+File.separator+"OpeningRecord"+File.separator+id;;
 		File f=new File(path);
@@ -156,7 +162,7 @@ public class OpeningRecordController {
 		}
 		int i=service.updateOpeningRecordSave(rd);
 		map.put("result", i);
-		map.put("OpeningRecord", record);
+		map.put("OpeningRecord", rd);
 		return map;
 	}
 	

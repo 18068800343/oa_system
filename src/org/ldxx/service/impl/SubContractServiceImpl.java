@@ -156,4 +156,9 @@ public class SubContractServiceImpl implements SubContractService {
 		return scDao.getCjContractMainPrjLeaderByFbNo(fbNo);
 	}
 
+	@Override
+	public FbContract selectYiFangByNo(String no) {
+		return scDao.selectYiFangByNo(no);
+	}
+
 }

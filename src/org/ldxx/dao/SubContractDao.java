@@ -44,4 +44,6 @@ public interface SubContractDao {
 
 	CjContract getCjContractMainPrjLeaderByFbNo(@Param("fbNo")String fbNo);
 	
+	FbContract selectYiFangByNo(@Param("no")String no);
+	
 }

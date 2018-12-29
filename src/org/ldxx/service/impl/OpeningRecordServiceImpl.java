@@ -54,20 +54,18 @@ public class OpeningRecordServiceImpl implements OpeningRecordService {
 		return i;
 	}
 
+	@Transactional
 	@Override
 	public int updateOpeningRecordSave(OpeningRecord record) {
-		List<OpeningInformation> information = idao.selectOpeningInformationById(record.getOrId());
-		if(information.size()>0&&information!=null){
-			idao.deleteOpeningInformation(record.getOrId());
-		}
 		int i=dao.updateOpeningRecordSave(record);
 		if(i>0){
 			List<Accessory> accessory=record.getAccessory();
 			if(accessory!=null&&accessory.size()>0){
 				i=adao.addAccessory(accessory);
 			}
+			idao.deleteOpeningInformation(record.getOrId());
 			List<OpeningInformation> list = record.getOpeningInformation();
-			if(list.size()!=0&&list!=null){
+			if(list!=null){
 				for(int ii=0;ii<list.size();ii++){
 					list.get(ii).setOiId(record.getOrId());
 				}

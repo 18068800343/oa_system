@@ -98,5 +98,10 @@ public class BorrowContractServiceImpl implements BorrowContractService {
 		}
 		return i;
 	}
+
+	@Override
+	public BorrowContract selectAllBorrowByFbNo(String no) {
+		return dao.selectAllBorrowByFbNo(no);
+	}
 	
 }

@@ -115,10 +115,10 @@ public class BorrowContractController {
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
-			currentFlow.setTitle("借款合同："+bc.getFbNo());
+			currentFlow.setTitle(bc.getFbNo()+"分包合同借款保存");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getuName());;
-			currentFlow.setMemo("借款合同："+bc.getFbNo()+"流程保存");
+			currentFlow.setActorname(user.getuName());
+			currentFlow.setMemo(bc.getFbNo()+"分包合同借款保存");
 			currentFlow.setUrl("shengchanguanliLook/borrow.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
@@ -205,10 +205,10 @@ public class BorrowContractController {
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
-			currentFlow.setTitle("借款合同："+bc.getFbNo());
+			currentFlow.setTitle(bc.getFbNo()+"分包合同借款流程提交");
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
-			currentFlow.setMemo("借款合同："+bc.getFbNo()+"流程提交");
+			currentFlow.setMemo(bc.getFbNo()+"分包合同借款流程提交");
 			currentFlow.setUrl("shengchanguanliLook/borrow.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());

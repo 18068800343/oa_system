@@ -22,5 +22,7 @@ public interface BorrowContractDao {
 	BorrowContract selectBorrowById(@Param("id")String id);
 
 	int updateBorrowContractById(@Param("bc")BorrowContract bc);
+	
+	BorrowContract selectAllBorrowByFbNo(@Param("no")String no);
 
 }
