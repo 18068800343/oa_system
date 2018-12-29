@@ -20,9 +20,16 @@ public class BidApproval {
 	private String xbDepartment;//协作部门
 	private String fileLevel;
 	private String fgLindao;
+	private String tbPeople;
 	private String ccName;//业主单位名称
 	
 	
+	public String getTbPeople() {
+		return tbPeople;
+	}
+	public void setTbPeople(String tbPeople) {
+		this.tbPeople = tbPeople;
+	}
 	public String getXbDepartment() {
 		return xbDepartment;
 	}
