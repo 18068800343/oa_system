@@ -22,8 +22,15 @@ public class BidApproval {
 	private String fgLindao;
 	private String tbPeople;
 	private String ccName;//业主单位名称
+	private String omName;//协作单位名称
 	
 	
+	public String getOmName() {
+		return omName;
+	}
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
 	public String getTbPeople() {
 		return tbPeople;
 	}

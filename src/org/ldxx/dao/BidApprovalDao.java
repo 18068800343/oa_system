@@ -11,7 +11,7 @@ public interface BidApprovalDao {
 
 	int addBidApproval(@Param("ba")BidApproval ba);
 
-	int prjNocount();
+	int prjNocount(@Param("year")String year);
 
 	int deleteBidApproval(@Param("id")String id);
 

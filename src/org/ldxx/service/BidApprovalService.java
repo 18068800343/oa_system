@@ -10,7 +10,7 @@ public interface BidApprovalService {
 
 	int addBidApproval(BidApproval ba);
 
-	int prjNocount();
+	int prjNocount(String year);
 
 	int deleteBidApproval(String id);
 

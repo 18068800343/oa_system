@@ -2,6 +2,9 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,11 +19,14 @@ import org.ldxx.bean.CgContract;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ContractReason;
 import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FbContract;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.Pay;
 import org.ldxx.bean.User;
 import org.ldxx.service.BorrowContractService;
 import org.ldxx.service.CjContractService;
+import org.ldxx.service.ContractPaymentService;
 import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.util.FlowUtill;
@@ -49,6 +55,10 @@ public class BorrowContractController {
 	private CjContractService cService;
 	@Autowired
 	private ContractReasonService crService;
+	@Autowired
+	private SubContractController sService;
+	@Autowired
+	private ContractPaymentService cpService;
 	
 	@RequestMapping("/selectBorrowContract")
 	@ResponseBody
@@ -578,20 +588,41 @@ public class BorrowContractController {
 	
 	@RequestMapping("/getRemainPayMoney")
 	@ResponseBody
-	public float getRemainPayMoney(String no){
-		float RemainPayMoney=0;
-		float rateMoney=0;//借款金额及利息总和
+	public double getRemainPayMoney(String no) throws ParseException{
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		double RemainPayMoney=0;//剩余支付金额
+		/*float contractMoney=0;
+		FbContract fb=sService.getFBContractByNo(no);
+		if(fb!=null){
+		contractMoney=fb.getContractMoney();*/
+		double rateMoney=0;//借款金额及利息总和
 		List<BorrowContract> list=service.getRateAndMoney(no);
 		if(list!=null){
 			for(int i=0;i<list.size();i++){
-				float thisAllMoney=0;//单次借款利息
-				float thisMoney=list.get(i).getThisBorrowMoney();
+				double thisAllMoney=0;//单次借款利息
+				double thisMoney=list.get(i).getThisBorrowMoney();
 				String rateString=list.get(i).getRate();
-				float rate=(Float.valueOf((rateString.replace("%", ""))))/100;
-				thisAllMoney=thisMoney*(1+rate);
+				
+				float rateDouble=Float.valueOf((rateString.replace("%", "")));
+				DecimalFormat decimalFormat=new DecimalFormat(".0000");
+				String string=decimalFormat.format(rateDouble/100);
+				float rate=Float.valueOf(string);
+				
+				String startTime=list.get(i).getBorrowTime();
+				String endTime=list.get(i).getBorrowEndTime();
+				long yearM=3153600;
+				long time=(sdf.parse(endTime).getTime()-sdf.parse(startTime).getTime())/10000;
+				double aa=time/yearM;
+				thisAllMoney=thisMoney*(1+rate*aa);
 				rateMoney=rateMoney+thisAllMoney;
 			}
+			DecimalFormat decimalFormat2=new DecimalFormat(".00");
+			String rateMoneyString=decimalFormat2.format(rateMoney);
+			rateMoney=Double.valueOf(rateMoneyString);
 		}
+		Pay pay=cpService.getAllDaiDianByFbNo(no);
+		float daiDian=pay.getGenerationAdvancesMoney();//已还借款金额
+		RemainPayMoney=rateMoney-daiDian;
 		return RemainPayMoney;
 	}
 	

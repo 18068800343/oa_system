@@ -10,7 +10,9 @@
 	</select>
 	
 	<select id="selectBidApprovalById" resultType="BidApproval">
-		select * from bid_approval
+		select a.*,c.cc_name,d.om_name from bid_approval as a
+		left join consociation_company as c on a.owner_unit=c.cc_id
+		left join organization_management as d on a.xb_department=d.om_id
 		where ba_id=#{id}
 	</select>
 	
@@ -23,7 +25,7 @@
 	
 	
 	<select id="prjNocount" resultType="int">
-		select count(1) from (select distinct prj_no from bid_approval) as a
+		SELECT COUNT(1) FROM bid_approval where pretrial_submission_time like #{year}
 	</select>
 	
 	<delete id="deleteBidApproval">

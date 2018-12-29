@@ -31,5 +31,5 @@ public interface ContractPaymentDao {
 
 	int updateHistoryNow(@Param("id")String id);
 
-	
+	Pay getAllDaiDianByFbNo(@Param("no")String no);//获取所有代垫款
 }

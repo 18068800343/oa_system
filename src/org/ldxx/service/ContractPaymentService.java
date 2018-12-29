@@ -28,5 +28,7 @@ public interface ContractPaymentService {
 	public int addPayResultInfo(String id,float resultPay,String payTime);
 
 	int updateHistoryById(String id);
+	
+	Pay getAllDaiDianByFbNo(String no);//获取所有代垫款
 
 }

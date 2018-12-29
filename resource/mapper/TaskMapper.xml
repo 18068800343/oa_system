@@ -150,13 +150,14 @@
   	</select>
   	
   	<select id="selectNoByName2" resultType="task">
-  		select main_department,assist_department1,assist_department2,assist_department3,prj_no,prj_type2,prj_estimate_money,contract_money,provisional_sum,prj_start_time,prj_end_time,c.u_name as main_prj_leader,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3 from task  as a
+  		select prj_no,prj_type2,prj_estimate_money,contract_money,provisional_sum,prj_start_time,prj_end_time,c.u_name as main_prj_leader,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3 from task  as a
   			left join organization_management b  on a.main_department=b.om_id 
 			left join organization_management b1 on a.assist_department1=b1.om_id 
 			left join organization_management b2 on a.assist_department2=b2.om_id 
 			left join organization_management b3 on a.assist_department3=b3.om_id
 			LEFT JOIN user as c on a.main_prj_leader=c.user_id
-  		where a.prj_name=#{name} and a.history=1
+			LEFT JOIN mode_status as d on a.prj_id=d.mode_id
+  		where d.status=2 and a.prj_name=#{name} and a.history=1 limit 1
   	</select>
   	
   	<select id="selectIdByNo2" resultType="task">
@@ -166,7 +167,8 @@
 			left join organization_management b1 on a.assist_department1=b1.om_id 
 			left join organization_management b2 on a.assist_department2=b2.om_id 
 			left join organization_management b3 on a.assist_department3=b3.om_id
-  		where a.prj_no=#{no} and a.history=1
+			LEFT JOIN mode_status as d on a.prj_id=d.mode_id
+  		where d.status=2 and a.prj_no=#{no} and a.history=1 limit 1
   	</select>
   	
   	<select id="selectPrjandNoAndPrjMoney" resultType="task">

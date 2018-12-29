@@ -37,8 +37,8 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 	}
 
 	@Override
-	public int prjNocount() {
-		return dao.prjNocount();
+	public int prjNocount(String year) {
+		return dao.prjNocount(year);
 	}
 
 	@Override

@@ -98,4 +98,9 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 		return i;
 	}
 
+	@Override
+	public Pay getAllDaiDianByFbNo(String no) {
+		return payDao.getAllDaiDianByFbNo(no);
+	}
+
 }

@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,7 +66,9 @@ public class BidApprovalController {
 		String bidder = bid.split(" ")[0];
 		String prjtype = ba.getPrjType();
 		String type = prjtype.split(" ")[0];
-		int count=service.prjNocount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String time=sdf.format(new Date());
+		int count=service.prjNocount("%"+time+"%");
 		String no = uuid.getSerialNumber(bidder, type, count);
 		ba.setPrjNo(no);
 		int i=service.addBidApproval(ba);
@@ -121,7 +124,9 @@ public class BidApprovalController {
 		String bidder = bid.split(" ")[0];
 		String prjtype = ba.getPrjType();
 		String type = prjtype.split(" ")[0];
-		int count=service.prjNocount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String time=sdf.format(new Date());
+		int count=service.prjNocount("%"+time+"%");
 		String no = uuid.getSerialNumber(bidder, type, count);
 		ba.setPrjNo(no);
 		int i=service.addBidApproval(ba);
@@ -181,7 +186,9 @@ public class BidApprovalController {
 		String bidder = bid.split(" ")[0];
 		String prjtype = ba.getPrjType();
 		String type = prjtype.split(" ")[0];
-		int count=service.prjNocount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String time=sdf.format(new Date());
+		int count=service.prjNocount("%"+time+"%");
 		String no = uuid.getSerialNumber(bidder, type, count);
 		ba.setPrjNo(no);
 		int i=service.updateBidApproval(ba);
@@ -199,7 +206,9 @@ public class BidApprovalController {
 		String bidder = bid.split(" ")[0];
 		String prjtype = ba.getPrjType();
 		String type = prjtype.split(" ")[0];
-		int count=service.prjNocount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String time=sdf.format(new Date());
+		int count=service.prjNocount("%"+time+"%");
 		String no = uuid.getSerialNumber(bidder, type, count);
 		ba.setPrjNo(no);
 		int i=service.updateBidApproval(ba);

@@ -141,7 +141,7 @@
                             <tr>
                                 <td style="width:15%;">已累计付款金额(万元)</td>
                                 <td style="width:30%;"><input type="text" class="form-control" id="yileijinfuMoney" style="width:60%;" disabled></td>
-                                <td style="width:15%;">付款申请代垫款(万元)</td>
+                                <td style="width:15%;">借款金额(万元)</td>
                                 <td style="width:30%;"><input type="text" class="form-control" id="daidianMoney" style="width:60%;"></td>
                             </tr>
                             <tr>
@@ -392,7 +392,7 @@
                             <tr>
                                 <td>已累进付金额(万元)</td>
                                 <td><input type="text" class="form-control" id="xgyileijinfuMoney" style="width:60%;"></td>
-                                <td>付款申请代垫款(万元)</td>
+                                <td>借款金额(万元)</td>
                                 <td><input type="text" class="form-control" id="xgdaidianMoney" style="width:60%;"></td>
                             </tr>
                             <tr>
@@ -532,7 +532,7 @@
                         <tr>
                             <td>已累计付款金额(万元)</td>
                             <td id="HistoryyileijinfuMoney2"></td>
-                            <td>付款申请代垫款(万元)</td>
+                            <td>借款金额(万元)</td>
                             <td id="HistorydaidianMoney2"></td>
                         </tr>
                         <tr>
@@ -655,7 +655,7 @@
                         <th>分包合同号</th>
                         <th>分包合同名称</th>
                         <th>分包合同金额(万元)</th>
-                        <th>分包单位</th>
+                        <th style="width:15%;">分包单位</th>
                         <th>申请金额(万元)</th>
                         <th>累计付款(万元)</th>
                         <th style="width:150px;">操作</th>
@@ -724,7 +724,7 @@
                         <tr>
                             <td>已累计付款金额(万元)</td>
                             <td id="lookyileijinfuMoney"></td>
-                            <td>付款申请代垫款(万元)</td>
+                            <td>借款金额(万元)</td>
                             <td id="lookdaidianMoney"></td>
                         </tr>
                         <tr>
@@ -866,7 +866,7 @@
                         <tr>
                             <td>已累计付款金额(万元)</td>
                             <td id="HistoryyileijinfuMoney"></td>
-                            <td>付款申请代垫款(万元)</td>
+                            <td>借款金额(万元)</td>
                             <td id="HistorydaidianMoney"></td>
                         </tr>
                         <tr>
@@ -1532,6 +1532,7 @@
 	        				$("#hetongMoney").val(json.contractMoney);
 	        				isjinxinghetongjiesuan($('#hetonghao').val());
 	        				getTotalPayMoney($('#hetonghao').val());
+	        				getRemainPayMoney($('#hetonghao').val());
 	                    }
 	          		});
 			  	})
@@ -1735,7 +1736,7 @@
 		var shoukuandanwei=$("#shoukuandanwei").val();
 		var bencishijifukuan=$("#bencishijifukuan").val();
 		var fukuandanshuoming=$("#fukuandanshuoming").val();
-		var userSignetMan=$("#userSignetMan").attr("data1");
+		var userSignetMan=$("#userSignetMan").val();
 		var year=$("#year").val();
 		
 		if(hetongming==''){
@@ -1827,7 +1828,7 @@
 		var shoukuandanwei=$("#shoukuandanwei").val();
 		var bencishijifukuan=$("#bencishijifukuan").val();
 		var fukuandanshuoming=$("#fukuandanshuoming").val();
-		var userSignetMan=$("#userSignetMan").attr("data1");
+		var userSignetMan=$("#userSignetMan").val();
 		var year=$("#year").val();
 		
 		if(hetongming==''){
@@ -2037,7 +2038,7 @@
 		$("#Historybencishijifukuan2").text(data.thisTimeActualPayMoney);
 		$("#Historyfukuandanshuoming2").text(data.payListExplain);
 		$("#Historyyear2").text(data.compilerTime);
-		$("#HistoryuserSignetMan2").text(data.uName);
+		$("#HistoryuserSignetMan2").text(data.compilerPerson);
 		
 		$.ajax({
 			type:"post",
@@ -2239,7 +2240,7 @@
 		$("#lookfukuantype").text(data.payMethod);
 		$("#lookfukuandanshuoming").text(data.payListExplain);
 		$("#lookyear").text(data.compilerTime);
-		$("#lookuserSignetMan").text(data.uName);
+		$("#lookuserSignetMan").text(data.compilerPerson);
 		
 		
 		$.ajax({
@@ -2339,7 +2340,7 @@
 		$("#Historybencishijifukuan").text(data.thisTimeActualPayMoney);
 		$("#Historyfukuandanshuoming").text(data.payListExplain);
 		$("#Historyyear").text(data.compilerTime);
-		$("#HistoryuserSignetMan").text(data.uName);
+		$("#HistoryuserSignetMan").text(data.compilerPerson);
 		
 		$.ajax({
 			type:"post",
@@ -2496,10 +2497,26 @@
 				$("#hetongMoney").val(json.contractMoney);
 				isjinxinghetongjiesuan(json.fbNo);
 				getTotalPayMoney(json.fbNo);
+				getRemainPayMoney(json.fbNo);
             }
   		});
     	$("#choose_fb").modal("hide");
     }
+    
+    function getRemainPayMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/BorrowContract/getRemainPayMoney',
+            dataType: 'json',
+            data: {
+            	no:obj
+            },
+            success: function (json) {
+            	$("#daidianMoney").val(json);
+            }
+    	})
+    }
+    
     
     function isjinxinghetongjiesuan(obj){
     	$.ajax({
