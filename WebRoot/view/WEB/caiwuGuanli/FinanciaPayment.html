@@ -76,7 +76,15 @@
                             <tr>
                                 <td>项目负责人</td>
                                 <td><input type="text" class="form-control" disabled style="width:65%;" id="prj_leader"></td>
-                                <td>方式</td>
+                                <td>分包合同名称</td>
+                                <td>
+                                	<select class="form-control" style="width:65%;" id="fenbaoName">
+                                       
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                            	<td>方式</td>
                                 <td>
                                 	<select class="form-control" style="width:65%;" id="hk_type">
                                         <option value="现金">现金</option>
@@ -85,12 +93,15 @@
                                         <option value="其它">其它</option>
                                     </select>
                                 </td>
-                            </tr>
-                            <tr>
                                 <td>还款金额  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td><input type="text" class="form-control" style="width:65%;" id="hk_money"></td>
+                                
+                            </tr>
+                            <tr>
                                 <td>时间  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td><input type="text" class="form-control" style="width:65%;" id="hk_time"></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </table>
                     </form>  
@@ -492,6 +503,20 @@
             },
             success: function (json) {
                 $('#prj_leader').val(json.mainPrjLeader);
+            }
+  		});
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/announcement/selectHuankuanFbByTaskNo',
+            dataType: 'json',
+            data: {
+            	taskNo:prjNo
+            },
+            success: function (json) {
+            	console.log(json)
+            	for(var i=0;i<json.length;i++){
+            		$('#fenbaoName').append("<option value="+json[i].fbNo+">"+json[i].contractName+"</option>")
+            	}
             }
   		});
 		$("#xiangmumd").modal("hide");
