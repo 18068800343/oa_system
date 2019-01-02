@@ -23,8 +23,15 @@ public class BidApproval {
 	private String tbPeople;
 	private String ccName;//业主单位名称
 	private String omName;//协作单位名称
+	private String zhongbiao;
 	
 	
+	public String getZhongbiao() {
+		return zhongbiao;
+	}
+	public void setZhongbiao(String zhongbiao) {
+		this.zhongbiao = zhongbiao;
+	}
 	public String getOmName() {
 		return omName;
 	}

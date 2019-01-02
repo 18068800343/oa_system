@@ -107,9 +107,10 @@
 	</update>
 	
 	<select id="selectBidApprovalByTypeAndDepartment" resultType="BidApproval">
-		select a.*,c.cc_name  from bid_approval a
+		select a.*,c.cc_name,IFNULL(or.zhongbiao,'')  from bid_approval a
 		left join mode_status b on a.ba_id=b.mode_id
 		left join consociation_company as c on a.owner_unit=c.cc_id
+		left join opening_record as or on or.prj_no = a.prj_no
 		where status=2 and prj_type like #{type} and xb_department like #{department}
 	</select>
 </mapper>
