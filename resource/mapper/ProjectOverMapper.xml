@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.ProjectOverDao" >
   <insert id="addPrjOver" parameterType="org.ldxx.bean.ProjectOver">
-  	insert into project_over (po_id,prj_name,prj_no,product_owners,prj_type,po_date,po_no,contract_amount,
+  	<!-- insert into project_over (po_id,prj_name,prj_no,product_owners,prj_type,po_date,po_no,contract_amount,
   		project_duration,project_manager,project_engineer,management_model,tender_company,
   		message_source,business_director,transfer_content,Content_backlog,prj_desc,status)
   	values(#{projectOver.poId},
@@ -22,8 +22,24 @@
   		#{projectOver.businessDirector},
   		#{projectOver.transferContent},
   		#{projectOver.contentBacklog},
-  		#{projectOver.prjDesc},0) 
+  		#{projectOver.prjDesc},0)  -->
+  		insert into project_over (po_id,prj_name,prj_no,product_owners,prj_type,status,status2)
+  	values(#{projectOver.poId},
+  		#{projectOver.prjName},
+  		#{projectOver.prjNo},
+  		#{projectOver.productOwners},
+  		#{projectOver.prjType},0,1)
+  		
   </insert>
+  
+  <update id="updateStatus2" >
+  		update project_over set status2=#{status} where prj_no=#{no}
+  </update>
+  
+  <select id="selectPrjOverCountByNo" resultType="int">
+  	SELECT COUNT(1) FROM project_over where prj_no=#{no}
+  </select>
+  
   <delete id="deletePrjOver" parameterType="String">
   	delete from project_over where po_id=#{poId}
   </delete>

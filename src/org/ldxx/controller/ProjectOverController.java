@@ -4,9 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ldxx.bean.BidApproval;
 import org.ldxx.bean.ManagingDocuments;
+import org.ldxx.bean.OpeningRecord;
 import org.ldxx.bean.ProjectOver;
+import org.ldxx.service.BidApprovalService;
 import org.ldxx.service.ManagingDocumentsService;
+import org.ldxx.service.OpeningRecordService;
 import org.ldxx.service.ProjectOverService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,10 @@ public class ProjectOverController {
 	private ProjectOverService prjOverService;
 	@Autowired
 	private ManagingDocumentsService service;//经营文档资料
+	@Autowired
+	private OpeningRecordService oService;
+	@Autowired
+	private BidApprovalService bService;
 	
 	@RequestMapping("/selectPrjOver")
 	@ResponseBody
@@ -34,10 +42,32 @@ public class ProjectOverController {
 		return prjOverService.selectPrjOver(status);
 	}
 	
+	@RequestMapping("/selectPrjOverCountByNo")
+	@ResponseBody
+	public int selectPrjOverCountByNo(String no){
+		int i=prjOverService.selectPrjOverCountByNo(no);
+		return i;
+	}
+	
 	@RequestMapping("/addPrjOver")//添加保存
 	@ResponseBody
-	public Map<String,Object> addPrjOver(ProjectOver projectOver){
-		Map<String,Object> map = new HashMap<>();
+	public int  addPrjOver(String id){
+		ProjectOver projectOver=new ProjectOver();
+		String poId=new TimeUUID().getTimeUUID();
+		projectOver.setPoId(poId);
+		OpeningRecord or=oService.selectOpeningRecordById(id);
+		BidApproval ba=bService.selectBidApprovalById("sssssssssssssssssssssssssssssssssss");
+		String prjName=ba.getPrjName();
+		String prjNo=ba.getPrjNo();
+		String prjType=ba.getPrjType();
+		String ccName=ba.getCcName();
+		projectOver.setPrjName(prjName);
+		projectOver.setPrjNo(prjNo);
+		projectOver.setPrjType(prjType);
+		projectOver.setProductOwners(ccName);
+		int i =prjOverService.addPrjOver(projectOver);
+		return i;
+		/*Map<String,Object> map = new HashMap<>();
 		String id=new TimeUUID().getTimeUUID();
 		projectOver.setPoId(id);
 		int i =prjOverService.addPrjOver(projectOver);
@@ -58,7 +88,7 @@ public class ProjectOverController {
 		}
 		map.put("result", i);
 		map.put("projectOver", projectOver);
-		return map;
+		return map;*/
 	}
 	
 	@RequestMapping("/SubmitPrjOver")//添加提交

@@ -41,4 +41,14 @@ public class ProjectOverServiceImpl implements ProjectOverService {
 		return prjDao.selectPrjOverById(poId);
 	}
 
+	@Override
+	public int selectPrjOverCountByNo(String no) {
+		return prjDao.selectPrjOverCountByNo(no);
+	}
+
+	@Override
+	public int updateStatus2(String no,String status) {
+		return prjDao.updateStatus2(no,status);
+	}
+
 }

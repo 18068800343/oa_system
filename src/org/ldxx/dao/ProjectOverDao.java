@@ -16,5 +16,8 @@ public interface ProjectOverDao {
 	List<ProjectOver> selectPrjOver(@Param("status")int status);
 
 	ProjectOver selectPrjOverById(@Param("poId")String poId);
+	
+	int selectPrjOverCountByNo(@Param("no")String no);
 
+	int updateStatus2(@Param("no")String no,@Param("status")String status);
 }
