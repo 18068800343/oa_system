@@ -29,6 +29,8 @@ public class PrjProgressFill {
 	private String prjThisIncome;
 	private int status;
 	private String infos;
+	private String fristDesign;//初步设计
+	private String secondDesign;//施工图设计
 	
 	private List<PrjProgressFillCj> ppcj;
 	private List<PrjProgressFillInfo> ppfi;// 累计收入
@@ -40,6 +42,18 @@ public class PrjProgressFill {
 	private List<Accessory> accessory;
 	
 	
+	public String getFristDesign() {
+		return fristDesign;
+	}
+	public void setFristDesign(String fristDesign) {
+		this.fristDesign = fristDesign;
+	}
+	public String getSecondDesign() {
+		return secondDesign;
+	}
+	public void setSecondDesign(String secondDesign) {
+		this.secondDesign = secondDesign;
+	}
 	public float getPrjMoney() {
 		return prjMoney;
 	}

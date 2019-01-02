@@ -37,8 +37,15 @@
 
     <div class="zhuti-content">
         <div class="UpperPart">
-            
-
+             <div class="UpperPartL" style="font-size:18px;">
+                     <form class="form-inline">
+                         <label>选择日期:</label>
+                         <input class="form-control" id="time" style="width:160px;">
+                         <button type="button" class="btn btn-primary"  onclick="seachTime()">查询</button>
+                     </form>
+               </div>
+               <div class="UpperPartR">
+               </div>
         </div>
         <div class="LowerPart" style="margin-top:3px;">
             <table class="table table-bordered table-condensed" id="mainContent">
@@ -62,10 +69,17 @@
 <script src="../../js/common-scripts.js"></script>
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
-    	
+    	laydate.render({
+            elem: '#time',//指定元素
+            type:'month'
+        });
+    	initTable();
 	});
     var table=$('#mainContent').dataTable({
         "deferRender": true,
@@ -77,6 +91,37 @@
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
+		"columns": [
+		            { "data": null},
+		            { "data": "prjNo"},
+		            { "data": "prjName"}, 
+		            { "data": "prjType2"}, 
+		            { "data": "uName"}, 
+		            { "data": "allMoney"},
+		            { "data": null},
+		            { "data": "importance"}
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 6,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		var type=full.prjType2;
+										  	  		if(type=="B2 新建设计[多阶段]"){
+										  	  			var frist=full.fristDesign;
+										  	  			var second=full.secondDesign;
+										  	  			if(second!=''&&second!=null&&second!='无'){
+										  	  				return second;
+										  	  			}else{
+										  	  				return frist;
+										  	  			}
+										  	  		}else{
+										  	  			return '';
+										  	  		}
+										        }
+										  }
+								],
         "order": [[1, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
@@ -94,24 +139,44 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        
+        "fnDrawCallback"  : function(){
+          　　this.api().column(0).nodes().each(function(cell, i) {
+          　　　　cell.innerHTML =  i + 1;
+          　  　});
+        }
 	});
 	function initTable(){
+		myTool.mask.show('查询中..');
         $.ajax({
             type: 'POST',
-            url: '',
+            url: getContextPath()+'/PrjSafetyReport/selectPrjSafetyReport',
             dataType: 'json',
             data: {
             },
-            error: function (msg) {
-                errMessage("请求UserController失败");
-            },
             success: function (json) {
-                $('#').dataTable().fnClearTable();
-                $('#').DataTable().rows.add(json).draw(false);
+            	myTool.mask.hide();
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
     }
+	
+	function seachTime(){
+		myTool.mask.show('查询中..');
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/PrjSafetyReport/selectPrjSafetyReportByTime',
+            dataType: 'json',
+            data: {
+            	time:$("#time").val()
+            },
+            success: function (json) {
+            	myTool.mask.hide();
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+	}
 
     function getCreat(bb){
         var EnterpriseRating= $(bb).parent().prev().text();
@@ -130,14 +195,9 @@
         $("#CCode").val(Code);
         rowIndex = bb.parentNode.parentNode.rowIndex; 
     }
-
-    // $("#mainContent tbody tr").click(function (){
-    //     $(this).addClass('selected')
-    //     .siblings().removeClass('selected')
-    //     .end();
-    // })
-
     
+	  /*去除DateTables 表格无参数错误提示*/
+	$.fn.dataTable.ext.errMode = function(s,h,m){}
 
 </script>
 </html>

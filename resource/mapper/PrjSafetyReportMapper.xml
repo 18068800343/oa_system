@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.PrjSafetyReportDao" >
+	<select id="selectPrjSafetyReport" resultType="PrjSafetyReport">
+		SELECT e.prj_no,e.prj_name,e.prj_type2,u.u_name,f.all_money,e.importance,f.frist_design,f.second_design from (
+		SELECT a.* FROM task as a
+		LEFT JOIN mode_status as b on a.prj_id=b.mode_id
+		where b.status=2 and a.prj_no not in (
+		SELECT prj_no FROM prj_closing_audit as a
+		LEFT JOIN mode_status as b on a.pc_id=b.mode_id
+		where b.status=2
+		))as e 
+		LEFT JOIN (
+			SELECT c.* from prj_progress_fill as c 
+			LEFT JOIN mode_status AS d ON c.ppf_id = d.mode_id
+			WHERE	d. STATUS = 2 and this_time =#{time}
+			) as f on e.prj_no=f.task_no
+		LEFT JOIN user as u on e.main_prj_leader=u.user_id
+	</select>
+</mapper>
