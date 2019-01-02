@@ -16,6 +16,7 @@ import org.ldxx.bean.ManagingDocumentsTenderer;
 import org.ldxx.bean.OpeningInformation;
 import org.ldxx.bean.OpeningRecord;
 import org.ldxx.bean.User;
+import org.ldxx.dao.OpeningRecordDao;
 import org.ldxx.service.BidApprovalService;
 import org.ldxx.service.OpeningRecordService;
 import org.ldxx.util.TimeUUID;
@@ -42,7 +43,8 @@ public class OpeningRecordController {
 	private OpeningRecordService service;
 	@Autowired
 	private BidApprovalService bService;
-	
+	@Autowired
+	private OpeningRecordDao openingRecordDao;
 	@RequestMapping("/selectOpeningRecord")
 	@ResponseBody
 	public List<OpeningRecord> selectOpeningRecord(){
@@ -53,6 +55,12 @@ public class OpeningRecordController {
 	@ResponseBody
 	public OpeningRecord selectOpeningRecordById(String id){
 		return service.selectOpeningRecordById(id);
+	}
+	
+	@RequestMapping("/updateIsQibiao")
+	@ResponseBody
+	public int updateIsQibiao(String isQibiao,String orId){
+		return openingRecordDao.updateIsQibiao(isQibiao,orId);
 	}
 	
 	@RequestMapping("/addOpeningRecord")
