@@ -23,12 +23,20 @@ public class OpeningRecord {
 	private String bidRate;//中标费率
 	private Float actualCost;//实际成本
 	private String isScrap;//是否废标
+	private String zhongbiao;//是否中标
 	private String preparer;//填表人
 	private String generalLeader;//总负责人
 	private String conclusion;//总结
 	private String unitReasonBid;//本单位废标原因
 	private String unitReasonBidOther;//其他单位废标原因
 	private String isQibiao;
+	
+	public String getZhongbiao() {
+		return zhongbiao;
+	}
+	public void setZhongbiao(String zhongbiao) {
+		this.zhongbiao = zhongbiao;
+	}
 	public String getIsQibiao() {
 		return isQibiao;
 	}

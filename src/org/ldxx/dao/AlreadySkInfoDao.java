@@ -20,4 +20,8 @@ public interface AlreadySkInfoDao {
 
 	AlreadySkInfo selectAlreadySkInfoByskId(@Param("skId")String skId);
 
+	int deleteAlreadySkInfoByskId(@Param("id")String id);
+
+	int deleteAlreadySkOmInfoById(@Param("cId")String cId);
+
 }

@@ -11,18 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.BidApproval;
-import org.ldxx.bean.ManagingDocuments;
-import org.ldxx.bean.ManagingDocumentsTenderer;
 import org.ldxx.bean.OpeningInformation;
 import org.ldxx.bean.OpeningRecord;
+import org.ldxx.bean.ProjectOver;
 import org.ldxx.bean.User;
 import org.ldxx.dao.OpeningRecordDao;
 import org.ldxx.service.BidApprovalService;
 import org.ldxx.service.OpeningRecordService;
+import org.ldxx.service.ProjectOverService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,6 +44,9 @@ public class OpeningRecordController {
 	private BidApprovalService bService;
 	@Autowired
 	private OpeningRecordDao openingRecordDao;
+	@Autowired
+	private ProjectOverService pService;
+	
 	@RequestMapping("/selectOpeningRecord")
 	@ResponseBody
 	public List<OpeningRecord> selectOpeningRecord(){
@@ -193,6 +195,25 @@ public class OpeningRecordController {
 			rd.setAccessory(list);
 		}
 		int i=service.updateOpeningRecordSave(rd);
+		if(i>0){
+			String zhongbiao=rd.getZhongbiao();
+			if(zhongbiao.equals("是")){
+				int count=pService.selectPrjOverCountByNo(rd.getPrjNo());
+				if(count==0){
+					BidApproval ba=bService.selectNameByNo(rd.getPrjNo());
+					ProjectOver po=new ProjectOver();
+					po.setPrjName(ba.getPrjName());
+					po.setPrjNo(ba.getPrjNo());
+					po.setPrjType(ba.getPrjType());
+					po.setProductOwners(ba.getCcName());
+					pService.addPrjOver(po);
+				}else{
+					pService.updateStatus2(rd.getPrjNo(),"1");
+				}
+			}else{
+				pService.updateStatus2(rd.getPrjNo(),"0");
+			}
+		}
 		map.put("result", i);
 		map.put("OpeningRecord", rd);
 		return map;

@@ -15,5 +15,9 @@ public interface ProjectOverService {
 	List<ProjectOver> selectPrjOver(int status);
 
 	ProjectOver selectPrjOverById(String poId);
+	
+	int selectPrjOverCountByNo(String no);
+	
+	int updateStatus2(String no,String status);
 
 }

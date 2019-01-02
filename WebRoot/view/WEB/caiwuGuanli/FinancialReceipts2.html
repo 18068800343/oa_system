@@ -163,7 +163,7 @@
                             	<td>发票编号</td>
                                 <td>
                                 	<input type="text" class="form-control"  style="width:65%;" id="look_fp_no" disabled>
-                                	<button type="button" class="btn btn-primary" onclick="chooseNo()">选择发票编号</button>	
+                                	<!-- <button type="button" class="btn btn-primary" onclick="chooseNo()">选择发票编号</button> -->	
                                 </td>
                                 <td>已开票应收金额（万元）</td>
                                 <td><input type="text" class="form-control"  style="width:65%;" id="look_kp_money" disabled></td> 
@@ -681,13 +681,14 @@
         }
     })
     
-    var frId;
+    var skId;
     var tr;
+    var cId;
     function look(obj){
     	$("#look").modal("show");
     	tr=$(obj).parents("tr");
     	var data=$("#mainContent").DataTable().row(tr).data();
-    	frId=data.rmId;
+    	skId=data.rmId;
     	if($("#status").val()=='0'){
     		$("#tuihui").show();
     		$("#renling").hide();
@@ -704,6 +705,7 @@
             	skId:data.rmId,
             },
             success: function (json) {
+            	cId=json.cId;
             	$("#look_prj_name").val(json.prjName);
             	$("#look_prj_no").val(json.taskNo);
             	$("#look_year").val(json.taskNo.substring(0,4));
@@ -732,10 +734,10 @@
                     },
                     success: function (json) {
                     	var task=json.task;
-                    	console.log()
+                    	console.log(task)
                         	$("#xieban1 tbody").empty();
                         	for(var i=0;i<asoList.length;i++){
-                        		if(task.mainDepartment==asoList[i].omId){
+                        		if(task.omName==asoList[i].omName){
 		                        	$("#xieban1 tbody").append("<tr><td style='width:20%;'>"
 		                    				+"主办部门"
 		                    				+"</td><td style='width:20%;'data-id="+task.mainDepartment+">"
@@ -746,8 +748,7 @@
 		                        			+"<input type='text' data='1' value="+asoList[i].omAlreadyMoney+" class='form-control'>"
 		                        			+"</td></tr>")
                         		}
-                        		if(task.assistDepartment1==asoList[i].omId){
-		                        	if(task.name1!=null){
+                        		if(task.name1==asoList[i].omName){
 		                        		$("#xieban1 tbody").append("<tr><td>"
 		                        				+"协办部门"
 		                        				+"</td><td data-id="+task.assistDepartment1+">"
@@ -757,10 +758,8 @@
 		                            			+"</td><td>"
 		                            			+"<input type='text' data='0' value="+asoList[i].omAlreadyMoney+"  class='form-control'>"
 		                            			+"</td></tr>")
-		                        	}
                         		}
-                        		if(task.assistDepartment2==asoList[i].omId){
-                        			if(task.name2!=null){
+                        		if(task.name2==asoList[i].omName){
                 						$("#xieban1 tbody").append("<tr><td>"
                                 				+"协办部门"
                                 				+"</td><td data-id="+task.assistDepartment2+">"
@@ -770,10 +769,8 @@
                                     			+"</td><td>"
                                     			+"<input type='text' data='0' value="+asoList[i].omAlreadyMoney+" class='form-control'>"
                                     			+"</td></tr>")
-                                	}
                         		}
-                        		if(task.assistDepartment2==asoList[i].omId){
-                        			if(task.name3!=null){
+                        		if(task.name3==asoList[i].omName){
                 						$("#xieban1 tbody").append("<tr><td>"
                                 				+"协办部门"
                                 				+"</td><td data-id="+task.assistDepartment3+">"
@@ -783,7 +780,6 @@
                                     			+"</td><td>"
                                     			+"<input type='text' data='0' value="+asoList[i].omAlreadyMoney+" class='form-control'>"
                                     			+"</td></tr>")
-                                	}
                         		}
                         	}
         					
@@ -796,11 +792,12 @@
     $("#tuihui").on("click",function(){
     	$.ajax({
             type: 'POST',
-            url:getContextPath()+"/receiveMoney/updateStatus",
+            url:getContextPath()+"/AlreadySkOmInfo/updateStatusBack",
             dataType: 'json',
             data: {
             	status:1,
-            	id:frId
+            	id:skId,
+            	cId:cId,
             },
             success: function (json) {
             	if(json>0){
@@ -886,7 +883,7 @@
     				cdesc:undefined,//财务备注信息
     		}
         	AlreadySkInfo.cId=null;
-        	AlreadySkInfo.skId=frId;
+        	AlreadySkInfo.skId=skId;
         	AlreadySkInfo.prjName=look_prj_name;
         	AlreadySkInfo.taskNo=look_prj_no;
         	AlreadySkInfo.contractName=look_HT_contract;
@@ -1102,12 +1099,15 @@
             	if(json!=null){
 	            	var allmon=0;
 	            	$("#selectpicker_no").html('');
+	            	var arr=[];
 	            	for(var i=0;i<json.length;i++){
 	            		allmon+=json[i].kpMoney;
-		            	$("#selectpicker_no").append("<option  value="+json[i].fpNo+">"+json[i].fpNo+"</option>")
+	            		arr[i]=json[i].fpNo
+	            		/*$("#selectpicker_no").append("<option  value="+json[i].fpNo+">"+json[i].fpNo+"</option>") */
 	            	}
-	            	//$("#look_kp_money").val(allmon)
-	            	$('#selectpicker_no').selectpicker('refresh');
+	            	$("#look_fp_no").val(arr.join(","))
+	            	$("#look_kp_money").val(allmon)
+	            	//$('#selectpicker_no').selectpicker('refresh');
             	}
             }
         });
@@ -1115,7 +1115,7 @@
 		$("#hetongmd").modal("hide");
 	})
 	
-	function chooseNo(){
+	/* function chooseNo(){
 		$('.selectpicker').selectpicker('deselectAll'); 
 		$("#chooseNo").modal("show");
 	}
@@ -1154,7 +1154,7 @@
             }
         });
 		$('#chooseNo').modal("hide");
-    }
+    } */
 	
     
     function gotoPrj(obj){
