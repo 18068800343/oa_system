@@ -303,7 +303,7 @@
                                     <select class="form-control" style="width:200px;" id="lianxifangshi">
                                     </select>
                                 </td>
-                                <td><button type="button" class="btn btn-info" onclick="addLianxiren()">添加</button></td>
+                                <td><button type="button" class="btn btn-info" onclick="addLianxiren(this)">添加</button></td>
                             </tr>
                         </table>
                         <table class="table table-bordered table-condensed" id="lianxibiaoge">
@@ -1639,9 +1639,10 @@
 	           id:yezhudanwei
 	        },
 	        success: function (json) {
+	        	console.log(json)
 	        	$("#lianxiren").html('');
 	        	for(var i=0;i<json.length;i++){
-	        		$("#lianxiren").append("<option value="+json[i].eMan+">"+json[i].eMan+"</option>");
+	        		$("#lianxiren").append("<option data-id="+json[i].eId+" value="+json[i].eMan+">"+json[i].eMan+"</option>");
 	        	}
 	        	$("#lianxiren").trigger("change");
 	        }
@@ -1708,18 +1709,34 @@
     })
     
   //增加联系人联系电话
-    function addLianxiren(){
-    	var lianxiren=$("#lianxiren").val();
-    	var lianxifangshi=$("#lianxifangshi").val();
-    	if(lianxiren==null||lianxifangshi==null||lianxiren==''||lianxifangshi==''){
-    		toastr.error("联系人或联系方式为空");
-    		return;
-    	}
-    	$("#lianxibiaoge tbody").append("<tr><td>"
-    			+'<input type="text" class="form-control" value='+lianxiren+' disabled>'
-    			+"</td><td>"
-    			+'<input type="text" class="form-control" value='+lianxifangshi+' disabled>'
-    			+"</td><td><button type='button' style='text-align:right;' class='btn btn-primary' onclick='deleteLianxiren(this)'>移除联系人</button></td></tr>")
+    function addLianxiren(aa){
+    	var eid=$(aa).parent().prev().prev().prev().find("select").find("option:selected").attr("data-id");
+	    var dianhua=$(aa).parent().prev().find("select").val();
+	    var ren=$(aa).parent().prev().prev().prev().find("select").val();
+	    console.log(eid,dianhua,ren)
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cooperator/countOfEnterprise',
+	        dataType: 'json',
+	        data:{
+	        	eId:eid,
+	        	eMan:dianhua,
+	        	eTel:ren
+	        },
+	        success: function (json) {
+	        	var lianxiren=$("#lianxiren").val();
+	        	var lianxifangshi=$("#lianxifangshi").val();
+	        	if(lianxiren==null||lianxifangshi==null||lianxiren==''||lianxifangshi==''){
+	        		toastr.error("联系人或联系方式为空");
+	        		return;
+	        	}
+	        	$("#lianxibiaoge tbody").append("<tr><td>"
+	        			+'<input type="text" class="form-control" value='+lianxiren+' disabled>'
+	        			+"</td><td>"
+	        			+'<input type="text" class="form-control" value='+lianxifangshi+' disabled>'
+	        			+"</td><td><button type='button' style='text-align:right;' class='btn btn-primary' onclick='deleteLianxiren(this)'>移除联系人</button></td></tr>")
+	        }
+	    }); 
     }
     
     function xgaddLianxiren(){
