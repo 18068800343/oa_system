@@ -10,11 +10,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.BidApproval;
 import org.ldxx.bean.ManagingDocuments;
 import org.ldxx.bean.ManagingDocumentsTenderer;
 import org.ldxx.bean.OpeningInformation;
 import org.ldxx.bean.OpeningRecord;
 import org.ldxx.bean.User;
+import org.ldxx.service.BidApprovalService;
 import org.ldxx.service.OpeningRecordService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,8 @@ public class OpeningRecordController {
 	
 	@Autowired
 	private OpeningRecordService service;
+	@Autowired
+	private BidApprovalService bService;
 	
 	@RequestMapping("/selectOpeningRecord")
 	@ResponseBody
@@ -49,6 +53,26 @@ public class OpeningRecordController {
 	@ResponseBody
 	public OpeningRecord selectOpeningRecordById(String id){
 		return service.selectOpeningRecordById(id);
+	}
+	
+	@RequestMapping("/addOpeningRecord")
+	@ResponseBody
+	public int addOpeningRecord(String id){
+		OpeningRecord rd=new OpeningRecord();
+		TimeUUID uuid=new TimeUUID();
+		String rdId=uuid.getTimeUUID();
+		rd.setOrId(rdId);
+		
+		BidApproval ba=bService.selectBidApprovalById(id);
+		String prjName=ba.getPrjName();
+		String prjNo=ba.getPrjNo();
+		String prjType=ba.getPrjType();
+		
+		rd.setPrjName(prjName);
+		rd.setPrjNo(prjNo);
+		rd.setPrjType(prjType);
+		int i=service.addOpeningRecord(rd);
+		return i;
 	}
 	
 	

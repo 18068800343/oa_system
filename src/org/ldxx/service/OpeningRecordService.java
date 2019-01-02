@@ -13,5 +13,7 @@ public interface OpeningRecordService {
 	int updateOpeningRecordSave(OpeningRecord record);
 
 	OpeningRecord selectOpeningRecordById(String id);
+	
+	int addOpeningRecord(OpeningRecord record);
 
 }

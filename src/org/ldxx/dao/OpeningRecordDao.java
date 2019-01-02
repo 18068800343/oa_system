@@ -14,5 +14,7 @@ public interface OpeningRecordDao {
 	int updateOpeningRecordSave(@Param("record")OpeningRecord record);
 
 	OpeningRecord selectOpeningRecordById(@Param("id")String id);
+	
+	int addOpeningRecord(@Param("record")OpeningRecord record);
 
 }
