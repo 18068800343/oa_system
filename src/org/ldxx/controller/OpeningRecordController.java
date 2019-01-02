@@ -206,6 +206,9 @@ public class OpeningRecordController {
 					po.setPrjNo(ba.getPrjNo());
 					po.setPrjType(ba.getPrjType());
 					po.setProductOwners(ba.getCcName());
+					TimeUUID uuid=new TimeUUID();
+					String poId=uuid.getTimeUUID();
+					po.setPoId(poId);
 					pService.addPrjOver(po);
 				}else{
 					pService.updateStatus2(rd.getPrjNo(),"1");
