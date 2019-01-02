@@ -302,14 +302,14 @@
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel"><b>废标原因</b></h4>
+            <h4 class="modal-title" id="myModalLabel"><b>弃标原因</b></h4>
         </div>
         <div class="modal-body">
                 <div>     
                     <form class="form-inline">
                         <table class="table table-bordered table-condensed">
                             <tr>
-                            	<td>废标原因</td>
+                            	<td>弃标原因</td>
                             	<td colspan="3">
                             		<textarea id="look_bidRejection" rows="4" cols="80" class="form-control" disabled></textarea>
                             	</td>
@@ -462,7 +462,7 @@
                             		<td style="width:15%;">招标人</td>
                             		<td style="width:35%;">
                             			<input type="text" id="xgzhaobiaoren" style="width:60%;" class="form-control" disabled>
-                            			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren">选择招标人</button>	
+                            			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren" id="xzzbr">选择招标人</button>	
                             		</td>
                             	</tr>
                             	<tr>
@@ -473,7 +473,7 @@
                             		<td style="width:15%;">项目地区</td>
                             		<td style="width:35%;">
                             			<input type="text" id="xgprjArea" style="width:60%;" class="form-control" disabled>
-                            			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#chooseCity">选择城市</button>
+                            			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#chooseCity" id="xzcs">选择城市</button>
                             		</td>
                             	</tr>
                             	<tr>
@@ -530,9 +530,9 @@
                             		<td style="width:35%;"><input type="text" id="xgzhongbiaojingli" style="width:60%;"  class="form-control"></td> -->
                             		<td style="width:15%;">实际成本(万元)</td>
                             		<td style="width:35%;"><input type="text" id="xgshijichengben" style="width:60%;" class="form-control"></td>
-                            		<td style="width:15%;">本单位是否废标</td>
+                            		<td style="width:15%;">是否中标</td>
                             		<td style="width:35%;">
-                            			<select class="form-control" id="xgis_feibiao" style="width:60%;">
+                            			<select class="form-control" id="xgis_zhongbiao" style="width:60%;">
 	                            			<option>是</option>
 	                            			<option>否</option>
                             			</select>
@@ -542,10 +542,15 @@
                             		<td>总体负责人</td>
                             		<td>
                             				<input type="text" id="xgzongtifuzeren" style="width:60%;" class="form-control" disabled>
-                            				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgfuzeren">选择总体负责人</button>	
+                            				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgfuzeren" id="xzztfzr">选择总体负责人</button>	
                             		</td>
-                            		<td></td>
-                            		<td></td>
+                            		<td style="width:15%;">本单位是否弃标</td>
+                            		<td style="width:35%;">
+                            			<select class="form-control" id="xgis_feibiao" style="width:60%;">
+	                            			<option value="1">是</option>
+	                            			<option value="2">否</option>
+                            			</select>
+                            		</td>
                             	</tr>
                             	<tr>
                             		<td>总结</td>
@@ -565,7 +570,7 @@
                         	<thead>
                         		<tr>
                                 	<td style="width:15%;">开标记录公示截图</td>
-                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile2()">添加附件</button></td>
+                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile2()" id="xgtjfj">添加附件</button></td>
                             	</tr>
                         	</thead>
                         	<tbody></tbody>
@@ -1161,7 +1166,7 @@
 								    "targets": 10,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return '  <i class="iconfont icon-icon-test Pdbcb" style="font-size:18px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookRecord(this)"  id="lookDetall"></i>   <i class="iconfont icon-xiugai Pdbcc" style="font-size:18px;cursor:pointer;display:none;" onclick="xiugaicPrj(this)" title="修改" id="ChangeRisk"></i> '
+								  	  		return '  <i class="iconfont icon-icon-test Pdbcb" style="font-size:18px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookRecord(this)"  id="lookDetall"></i>   <i class="iconfont icon-xiugai Pdbcc" style="font-size:18px;cursor:pointer;display:none;" onclick="xiugaicPrj(this)" title="修改" id="ChangeRisk"></i>  <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" title="弃标" style="font-size:16px;cursor:pointer;" onclick="qibiao(this)"></span> '
 								        }
 								  },{	
 										 "class": "tcenter",
@@ -1169,11 +1174,11 @@
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										    		if(data=='是'){
-										    			return '<button type="button" class="btn btn-primary" onclick="bidRejection(this)">废标</button>'
+										    			return '<button type="button" class="btn btn-primary" onclick="bidRejection(this)">弃标</button>'
 										    		}else if(data=='否'){
 										    			return '<button type="button" class="btn btn-primary" onclick="lookRecord(this)">查看</button>'
 										    		}else{
-										    			return '<button type="button" class="btn btn-primary" onclick="xiugaicPrj(this)">填报</button>'
+										    			return '<button type="button" class="btn btn-primary" onclick="xiugaicPrj(this)" disabled>无</button>'
 										    		}
 										        }
 										  }
@@ -2465,6 +2470,7 @@
 		$("#xgcesuanchengben").val(data.calculateCost);
 		$("#xgshijichengben").val(data.actualCost);
 		$("#xgis_feibiao").val(data.isScrap)
+		$("#xgbidrate").val(data.bidRate);
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
@@ -2860,7 +2866,113 @@
         });
 	}
 	
-
+	
+	function qibiao(obj){
+		$("#change").modal("show");
+		
+		$("#xgprjName").attr("disabled","disabled");
+		$("#xgprjNo").attr("disabled","disabled");
+		$("#xgprjArea").attr("disabled","disabled");
+		$("#xgprjType").attr("disabled","disabled");
+		$("#xgyezhukongzhijia").attr("disabled","disabled");
+		$("#xgpingbiaojizhunjia").attr("disabled","disabled");
+		$("#xgyear").attr("disabled","disabled");
+		$("#xgxiafubili").attr("disabled","disabled");
+		$("#xgzhongbiaodanwei").attr("disabled","disabled");
+		$("#xgzhongbiaojiage").attr("disabled","disabled");
+		$("#xgxiafulv").attr("disabled","disabled");
+		$("#xgyear2").attr("disabled","disabled");
+		//$("#xgzongjie").attr("disabled","disabled");
+		//$("#xgyuanyin").attr("disabled","disabled");
+		$("#xgzhaobiaoren").attr("disabled","disabled");
+		$("#xgpingbiaobanfa").attr("disabled","disabled");
+		$("#xgcantoudanwei").attr("disabled","disabled");
+		$("#xggsbaojiazhekoulv").attr("disabled","disabled");
+		$("#xgcesuanchengben").attr("disabled","disabled");
+		$("#xgshijichengben").attr("disabled","disabled");
+		$("#xgbidrate").attr("disabled","disabled");
+		$("#xgis_zhongbiao").attr("disabled","disabled");
+		//$("#xgis_feibiao").attr("disabled","disabled");
+		$("#xgadddw").attr("disabled","disabled");
+		$("#xzzbr").hide();
+		$("#xzcs").hide();
+		$("#xzztfzr").hide();
+		$("#xgtjfj").hide();
+		tr = $(obj).closest('tr');
+		var dom = $(obj).parents('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data)
+		xiugaiId=data.orId;
+		$("#xgprjName").val(data.prjName);
+		$("#xgprjNo").val(data.prjNo);
+		$("#xgprjArea").val(data.prjArea);
+		$("#xgprjType").val(data.prjType);
+		$("#xgyezhukongzhijia").val(data.ownerControlledPrice);
+		$("#xgpingbiaojizhunjia").val(data.bidEvaluationBenchmarkPrice);
+		$("#xgyear").val(data.bidOpeningTime);
+		$("#xgxiafubili").val(data.percentageFluctuation);
+		$("#xgzhongbiaodanwei").val(data.winningUnit);
+		$("#xgzhongbiaojiage").val(data.bidPrice);
+		$("#xgxiafulv").val(data.floatingMediumPrice);
+		$("#xgyear2").val(data.recordDate);
+		$("#xgzongjie").val(data.conclusion);
+		$("#xgyuanyin").val(data.unitReasonBid);
+		$("#xgzhaobiaoren").val(data.tenderer);
+		$("#xgpingbiaobanfa").val(data.bidEvaluationMethod);
+		$("#xgcantoudanwei").val(data.thisInUnit);
+		$("#xggsbaojiazhekoulv").val(data.companyDiscountRate);
+		$("#xgcesuanchengben").val(data.calculateCost);
+		$("#xgshijichengben").val(data.actualCost);
+		$("#xgbidrate").val(data.bidRate);
+		$("#xgis_feibiao").val("1")
+		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/accessory/selectAccessoryById",
+			dataType:"json",
+			data:{ 
+				id:data.orId
+				},
+			success:function(json){
+				$("#edit_accessory").empty();
+	            for(var i=0;i<json.length;i++){
+		        	   $("#edit_accessory").append("<tr>"+
+									     	   					"<td>附件"+(i+1)+"</td>"+
+														        "<td colspan='2'><input type='text'  style='width:70%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+														         "<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='download_all(this)'>下载附件</button></td>"+
+														"</tr>");
+	            } 
+			}
+		})
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/OpeningRecord/selectOpeningRecordById',
+            dataType: 'json',
+            data:{
+            	id:data.orId
+            },
+            success: function (json) {
+            	var inform=json.openingInformation;
+            	$("#xgkaibiaodw tbody").html('');
+            	if(inform!=null){
+	            	for(var i=0;i<inform.length;i++){
+			            	$("#xgkaibiaodw tbody").append("<tr>"+
+	          														"<td><input type='text'class='form-control' value="+inform[i].entityName+" disabled></td>"+
+	          														"<td><input type='text'class='form-control' style='width:100px' value="+inform[i].businessOffer+" disabled></td>"+
+	          														"<td><input type='text'class='form-control' style='width:100px' value="+inform[i].businessMark+" disabled></td>"+
+	          														"<td><input type='text'class='form-control' style='width:100px' value="+inform[i].technicalMark+" disabled></td>"+
+	          														"<td><input type='text'class='form-control' style='width:100px' value="+inform[i].totalScore+" disabled></td>"+
+	          														"<td><input type='text'class='form-control' style='width:100px' value="+inform[i].ranking+" disabled></td>"+
+	          														"<td><button type='button' class='btn btn-primary' onclick='xgdeldw(this)' disabled>删除</button></td>"+
+	          													"</tr>");
+	            	}
+            	}
+            }
+        });
+	}
+	
+	
 	function addFile(){
 		$("#new_accessory tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
 	}
