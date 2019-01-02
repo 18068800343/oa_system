@@ -28,8 +28,13 @@ public class OpeningRecord {
 	private String conclusion;//总结
 	private String unitReasonBid;//本单位废标原因
 	private String unitReasonBidOther;//其他单位废标原因
-	
-	
+	private String isQibiao;
+	public String getIsQibiao() {
+		return isQibiao;
+	}
+	public void setIsQibiao(String isQibiao) {
+		this.isQibiao = isQibiao;
+	}
 	private List<OpeningInformation> openingInformation;
 	
 	private List<Accessory> accessory;
