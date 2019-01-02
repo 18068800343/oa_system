@@ -12,4 +12,6 @@ public interface AlreadySkInfoService {
 
 	AlreadySkInfo selectAlreadySkInfoByskId(String skId);
 
+	int updateStatusBack(String id, String status,String cId);
+
 }

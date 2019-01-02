@@ -52,4 +52,9 @@ public class AlreadySkInfoController {
 		return service.selectAlreadySkInfoByskId(skId);
 	}
 	
+	@RequestMapping("/updateStatusBack")//退回
+	@ResponseBody
+	public int updateStatusBack(String id,String status,String cId){//id是财务收款的id，cId是已认领的id
+		return service.updateStatusBack(id,status,cId);
+	}
 }

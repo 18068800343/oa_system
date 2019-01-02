@@ -70,5 +70,17 @@ public class AlreadySkInfoServiceImp implements AlreadySkInfoService {
 		}
 		return as;
 	}
+
+	@Override
+	public int updateStatusBack(String id, String status,String cId) {
+		int i = rmdao.updateStatus(id,status);
+		if(i>0){
+			i=dao.deleteAlreadySkInfoByskId(id);
+			if(i>0){
+				i=dao.deleteAlreadySkOmInfoById(cId);
+			}
+		}
+		return i;
+	}
 	
 }
