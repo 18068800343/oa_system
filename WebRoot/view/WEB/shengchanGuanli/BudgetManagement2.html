@@ -211,22 +211,62 @@
                                   </select>
                               </td>
                               <td>
-                                  <select class="form-control" id="" style="width:70%;">
+                                  <select class="form-control" id="newbumen" style="width:70%;">
                                       
                                   </select>
                               </td>
                               <td>
-                                  <input type="text" id="" class="form-control" style="width:70%;">
+                                  <input type="text" id="newjine" class="form-control" style="width:70%;">
                               </td>
                               <td>
-                                  <input type="text" id="" class="form-control" style="width:70%;">
+                                  <input type="text" id="newbeizhu" class="form-control" style="width:70%;">
                               </td>
                               <td>
-                                  <button type="button" class="btn btn-default" onclick="addfyyusuanNew()">添加</button>
+                                  <button type="button" class="btn btn-default"  id="newaddyusuan">添加</button>
                               </td>
                           </tr>
                       </tbody>
                   </table>
+                  <table class="table table-bordered table-condensed"  id="cl_table">
+                    	<thead>
+                    		<tr>
+	                            <td style="font-size:24px;" colspan="6">添加主材成本预算  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                        	<td style="width:5%;"><button type="button" class="btn btn btn-primary" onclick="newadd()">添加</button></td>
+                        	</tr>
+                        	<tr>
+	                            <td style="width:10%;">材料名称</td>
+	                            <td style="width:10%;">材料类型</td>
+	                            <td style="width:10%;">规格型号</td>
+	                            <td style="width:6%;">单位</td>
+	                            <td style="width:8%;">数量</td>
+	                            <td style="width:10%;">单价</td>
+	                            <td style="width:6%;">操作</td>
+                        	</tr>
+                        </thead>
+                        <tbody>
+                        	<tr>
+	                        	<td><input type="text" class="form-control" id="cl_name"></td>
+	                            <td>
+	                            	<select class="form-control" id="cl_type"></select>
+	                            </td>
+	                            <td><input type="text" class="form-control" id="mode_type"></td>
+	                            <td>
+	                                <select class="form-control" id="unit">
+	                                    <option value="个">个</option>
+	                                    <option value="只">只</option>
+	                                    <option value="套">套</option>
+	                                    <option value="副">副</option>
+	                                    <option value="双">双</option>
+	                                    <option value="万元">万元</option>
+	                                    <option value="桶">桶</option>
+	                                </select>
+	                            </td>
+	                            <td><input type="text" class="form-control" id="num"></td>
+	                            <td><input type="text" class="form-control" id="desc"></td>
+	                            <td></td>
+                        	</tr>
+                        </tbody>
+                    </table>
                   <table class="table table-bordered table-condensed" id="Newfyyusuan">
                       <thead>
                           <tr>
@@ -816,6 +856,8 @@
     	$(".zhuangtai").trigger("change");
     	initSelect();
     	initFenLei();
+    	initClType();
+    	initClType2();
     	laydate.render({
             elem: '#year' //指定元素
         });
@@ -1190,7 +1232,99 @@
 			$("#newfymingxi").append("<option>公司管理摊销</option><option>其他摊销</option>")
 		}
 	})
-	
+	$("#newaddyusuan").click(function(){
+		$("#Newfyyusuan").append("<tr><td>"
+				+$("#newkemu option:selected").text()
+				+"</td><td>"
+				+$("#newfymingxi option:selected").text()
+				+"</td><td>"
+				+$("#newbumen").val()
+				+"</td><td>"
+				+$("#newjine").val()
+				+"</td><td>"
+				+$("#newbeizhu").val()
+				+"</td><td>"
+				+'<button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button>'
+				+"</td></tr>")
+	})
+	$("#cl_table").hide();
+	$("#newfymingxi").click(function(){
+		if($("#newfymingxi").val()=="11"){
+			$("#newkemu").attr("disabled","disabled")
+			$("#newaddyusuan").attr("disabled","disabled")
+			$("#newbumen").attr("disabled","disabled")
+			$("#newjine").attr("disabled","disabled")
+			$("#newbeizhu").attr("disabled","disabled")
+			$("#cl_table").show();
+		}else{
+			$("#newkemu").removeAttr("disabled")
+			$("#newaddyusuan").removeAttr("disabled")
+			$("#newbumen").removeAttr("disabled")
+			$("#newjine").removeAttr("disabled")
+			$("#newbeizhu").removeAttr("disabled")
+			$("#cl_table").hide();
+		}
+	})
+	function initClType(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#cl_type").append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            	}
+            }
+  		});
+    }
+	function initClType2(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#cl_type"+obj).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            	}
+            }
+  		});
+    }
+	function newadd(){
+    	var length=$("#cl_table tbody").find("tr").length;
+    	$("#cl_table tbody").append("<tr>"+
+        												'<td><input type="text" class="form-control"></td>'+
+        												'<td>'+
+        													'<select class="form-control" id="cl_type'+length+'"></select>'+
+        												'</td>'+
+        												'<td><input type="text" class="form-control"></td>'+
+        												'<td>'+
+            												'<select class="form-control">'+
+	               												'<option value="个">个</option>'+
+	                											'<option value="只">只</option>'+
+	                											'<option value="套">套</option>'+
+	                											'<option value="副">副</option>'+
+	                											'<option value="双">双</option>'+
+	                											'<option value="万元">万元</option>'+
+	                											'<option value="桶">桶</option>'+
+            												'</select>'+
+        												'</td>'+
+												        '<td><input type="text" class="form-control"></td>'+
+												        '<td><input type="text" class="form-control"></td>'+
+												        '<td><button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button></td>'+
+    												"</tr>")
+    				
+    				initClType2(length);
+    }
+	function removeThis(obj){
+    	var tr=$(obj).parent().parent();
+    	$(tr).remove();
+    	toastr.success("移除成功");
+    }
 	
 	$('#mainContent tbody').on('click', 'td.tubiaoming', function () {
 		var tr = $(this).closest('tr');
