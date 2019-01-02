@@ -13,9 +13,11 @@ import javax.servlet.http.HttpSession;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.Announcement;
 import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FbContract;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.User;
+import org.ldxx.dao.AnnouncementDao;
 import org.ldxx.service.AnnouncementService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.util.FlowUtill;
@@ -36,7 +38,8 @@ public class AnnouncementController {
 	private AnnouncementService service;
 	@Autowired
 	private OrganizationManagementService oService;
-	
+	@Autowired
+	private AnnouncementDao aDao;
 	@RequestMapping("/addAnnouncementByAllAndSave")/*公司公告新建保存*/
 	@ResponseBody
 	public int addAnnouncementByAllAndSave(Announcement announcement,@RequestParam("file")MultipartFile [] file,HttpSession session){
@@ -497,5 +500,11 @@ public class AnnouncementController {
 	public Announcement selectAnnouncementById(String id){
 		Announcement announcement=service.selectAnnouncementById(id);
 		return announcement;
+	}
+	@RequestMapping("/selectHuankuanFbByTaskNo")//通过id查询信息
+	@ResponseBody
+	public List<FbContract> selectHuankuanFbByTaskNo(String taskNo){
+		List<FbContract> fbContracts=aDao.selectHuankuanFbByTaskNo(taskNo);
+		return fbContracts;
 	}
 }

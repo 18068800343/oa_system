@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.Announcement;
+import org.ldxx.bean.FbContract;
 
 public interface AnnouncementDao {
 
@@ -16,4 +17,6 @@ public interface AnnouncementDao {
 	public List<Announcement> selectAnnouncement(@Param("type")String type,@Param("status")String status);
 
 	public Announcement selectAnnouncementById(@Param("id")String id);
+	
+	List<FbContract> selectHuankuanFbByTaskNo(@Param("taskNo")String taskNo);
 }
