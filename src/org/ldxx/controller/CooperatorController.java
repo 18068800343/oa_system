@@ -132,4 +132,11 @@ public class CooperatorController {
 		return list;
 	}
 	
+	
+	@RequestMapping("/countOfEnterprise")//先判断该公司下该联系人是否存在，不存在就添加
+	@ResponseBody
+	public int countOfEnterprise(Enterprise etel){
+		return eService.countOfEnterprise(etel);
+	}
+	
 }

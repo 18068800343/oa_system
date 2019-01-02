@@ -14,4 +14,8 @@ public interface EnterpriseDao {
 		public List<Enterprise> selectEnterpriseById(@Param("id")String id);
 		
 		public List<Enterprise> selectEnterpriseByIdAndName(@Param("id")String id,@Param("name")String name);
+
+		public int countOf(@Param("etel")Enterprise etel);
+
+		public int addEnterpriseFirst(@Param("etel")Enterprise etel);
 }

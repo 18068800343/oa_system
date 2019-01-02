@@ -24,4 +24,13 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 		return dao.selectEnterpriseByIdAndName(id, name);
 	}
 
+	@Override
+	public int countOfEnterprise(Enterprise etel) {
+		int i=dao.countOf(etel);
+		if(i==0){
+			i=dao.addEnterpriseFirst(etel);
+		}
+		return i;
+	}
+
 }

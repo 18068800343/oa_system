@@ -9,4 +9,6 @@ public interface EnterpriseService {
 	public List<Enterprise> selectEnterpriseById(String id);
 	
 	public List<Enterprise> selectEnterpriseByIdAndName(String id,String name);
+
+	public int countOfEnterprise(Enterprise etel);
 }
