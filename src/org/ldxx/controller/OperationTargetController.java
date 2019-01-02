@@ -5,6 +5,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.DepartmentTarget;
 import org.ldxx.bean.FinancialReceipts;
@@ -16,6 +18,7 @@ import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.PrjProgressFillInfo;
 import org.ldxx.bean.TDepartment;
 import org.ldxx.bean.Task2;
+import org.ldxx.bean.User;
 import org.ldxx.service.BudgetFpplicationFormService;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.DepartmentTargetService;
@@ -501,8 +504,9 @@ public class OperationTargetController {
 	
 	@RequestMapping("/selectDepartmentTargetByOmId")/*各部门指标列表*/
 	@ResponseBody
-	public List<DepartmentTarget> selectDepartmentTargetByOmId(String id){
-		List<DepartmentTarget> list=dservice.selectDepartmentTargetByOmId(id);
+	public List<DepartmentTarget> selectDepartmentTargetByOmId(HttpSession session){
+		User user=(User) session.getAttribute("user");
+		List<DepartmentTarget> list=dservice.selectDepartmentTargetByOmId(user.getOmId());
 		return list;
 	}
 	
