@@ -177,7 +177,7 @@ public class FlowUtill {
 			arrays = JSONArray.fromObject(usersSubmit);
 		}
 		jsonObject.put("receiver", arrays);
-		jsonObject.put("url", currentFlow.getUrl());
+ 		jsonObject.put("url", currentFlow.getUrl());
 		return jsonObject.toString();
 	}
 	

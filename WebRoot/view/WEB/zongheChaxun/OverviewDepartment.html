@@ -43,7 +43,7 @@
 			    <select type="text" class="form-control" id="zhuban" >
 			    </select>
 			  </div>
-			  <button type="submit" class="btn btn-default" id="queryTable">查询</button>
+			  <!-- <button type="submit" class="btn btn-default" id="queryTable">查询</button> -->
 			</form>
 
         </div>
@@ -100,6 +100,7 @@
             type: 'POST',
             url: getContextPath()+'/organizationManagement/getOrgIdAndName',
             dataType: 'json',
+            async:false,
             data: {
 
             },
@@ -109,8 +110,8 @@
             success: function (json) {
                 for(var i=0;i<json.length;i++){
                 	$("#zhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-                	$("#zhuban").trigger('change');
                 }
+                	$("#zhuban").trigger('change');
             }
 		});
 	}
@@ -172,7 +173,8 @@
              url: getContextPath()+'/allQuery/allQueryTable',
              dataType: 'json',
              data: {
-            	 depart:"",
+            	 omName:$("#zhuban option:selected").text(),
+            	 depart:$("#zhuban").val()
              },
              error: function (msg) {
                  errMessage("请求UserController失败");
@@ -184,7 +186,7 @@
             		 var obj = json[i];
             		 $("#mainContent tbody").append("<tr>"+
             		  "<td>"+obj.prjNo+"</td><td>"+obj.contractNo+"</td><td>"+obj.contractName+"</td><td>"+obj.ccName+"</td><td>"+obj.contractLongTime+"</td>"+
-            		  "<td>"+obj.omName+"</td><td>"+obj.mainPrjLeader+"</td><td>"+obj.cjmoney+"</td><td>"+obj.temporaryMoney+"</td><td>"+obj.departContractMoney+"</td>"+
+            		  "<td>"+obj.omName+"</td><td>"+obj.mainPrjLeader+"</td><td>"+obj.cjmoney+"</td><td>"+obj.temporaryMoney+"</td><td>"+obj.mainDepartMoney+"</td>"+
             		  "<td>"+obj.iall+"</td><td>"+obj.ibq+"</td><td>"+obj.allCost+"</td><td>"+obj.leiJiChengBen+"</td><td>"+obj.allKpMoney+"</td>"+
             		  "<td>"+obj.resultMoney+"</td><td>"+obj.cjStatus+"</td><td>"+obj.contractJueSuanMoney+"</td><td>"+obj.fbNo+"</td><td>"+obj.fbContract+"</td>"+
             		  "<td>"+obj.fbYiName+"</td><td>"+obj.nowFbAllMoney+"</td><td>"+obj.fbJueSuanMoney+"</td><td>"+obj.leiJiPayMoney+"</td><td>"+obj.weiPayMoney+"</td>"+

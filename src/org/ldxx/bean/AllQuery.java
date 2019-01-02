@@ -10,6 +10,8 @@ public class AllQuery {
 	private String contractNo;
 	//承接合同名称
 	private String contractName;
+	//主办部门金额
+	private String mainDepartMoney;
 	//项目业主单位
 	private String ccName;
 	//合同工期
@@ -213,4 +215,11 @@ public class AllQuery {
 	public void setWeiPayMoney(String weiPayMoney) {
 		this.weiPayMoney = weiPayMoney;
 	}
+	public String getMainDepartMoney() {
+		return mainDepartMoney;
+	}
+	public void setMainDepartMoney(String mainDepartMoney) {
+		this.mainDepartMoney = mainDepartMoney;
+	}
+	
 }

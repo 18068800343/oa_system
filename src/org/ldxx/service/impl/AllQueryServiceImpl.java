@@ -17,7 +17,7 @@ public class AllQueryServiceImpl implements AllQueryService {
 	@Override
 	public List<AllQuery> selectAllQueryByTimeAndDepart(String year_Time, String month_time,String depart,String omName) {
 		// TODO Auto-generated method stub
-		return allQueryDao.selectAllQueryByTime(year_Time,omName);
+		return allQueryDao.selectAllQueryByTime(year_Time,depart,omName);
 	}
 
 }

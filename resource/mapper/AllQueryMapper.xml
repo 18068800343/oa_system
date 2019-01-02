@@ -4,15 +4,17 @@
 	<select id="selectAllQueryByTime"  resultType="AllQuery">
  SELECT
   DISTINCT
-    IFNULL(tb1.prj_owner_unit,'') ccName,
+    IFNULL(tb1.prj_owner_unit,'') ccId,
     IFNULL(tb1.prj_no,'') prjNo,
-    IFNULL(tb1.main_prj_leader,'')  mainPrjLeader,
+    IFNULL(tb1.main_prj_leader,'')  uName,
 	  IFNULL(tb1.contract_no,'') contractNo,
 	  IFNULL(tb1.contract_name,'') contractName,
 	  IFNULL(tb1.contract_long_time,'') contractLongTime,
 	  IFNULL(tb1.cjmoney,'') cjmoney,
 	  IFNULL(tb1.temporary_money,'') temporaryMoney,
+	  IFNULL(tb1.u_name,'') mainPrjLeader,
     IFNULL(tb1.end_money,'')  contractJueSuanMoney,
+    IFNULL(tb1.cjMainDepartmentMoney,'') mainDepartMoney,
     CASE tb1.status
            WHEN 1 THEN '审核中' 
            WHEN 2 THEN '正在进行' 
@@ -33,17 +35,17 @@
 		IFNULL(ccfb.cc_name,'')    fbYiName,
 		IFNULL(fb.now_fb_all_money,'') nowFbAllMoney,
 		IFNULL(fcowIn.over_work_money,'') fbJueSuanMoney
-    
     FROM
 	(
 		SELECT
 			tk.*, cj.contract_name,
-      cc.cc_name,
-      om.om_name,
+            cc.cc_name,
+            om.om_name,
 			cj.contract_money cjmoney,
 			cj.contract_no,
 			cj.history AS cjhistory,
 			cj.cj_id,
+			cj.main_department_money cjMainDepartmentMoney,
 			cw.end_money,
 			cj.contract_end_time,
 			cj.contract_start_time,
@@ -51,10 +53,12 @@
 			cj.temporary_money,
 			mscj.status,
 			fr.receipt_time,
-			fr.result_money
+			fr.result_money,
+			us.u_name 
 		FROM
 			task tk
 			LEFT JOIN cj_contract cj ON cj.task_code = tk.prj_no
+			LEFT JOIN `user` us on us.user_id = tk.main_prj_leader
 			LEFT JOIN mode_status mscj on cj.cj_id = mscj.mode_id
 			LEFT JOIN consociation_company cc on tk.prj_owner_unit =cc.cc_id
 			LEFT JOIN organization_management om on om.om_id = tk.main_department
@@ -103,6 +107,7 @@
 		ppf.task_no,
 		ppfc.cj_id,
 		ppf.this_time,
+		ppf.ppf_id,
     ppfio.cjDepartMoney
   	FROM
 		prj_progress_fill_cj ppfc
@@ -168,6 +173,7 @@
 		WHERE
 		tb1.history = '1'
 		AND ms. STATUS IN ('2', '3')
+		and tb1.main_department = #{depart}
 	    AND tb1.prj_end_time &gt;= #{year_time};
 	</select>
 </mapper>
