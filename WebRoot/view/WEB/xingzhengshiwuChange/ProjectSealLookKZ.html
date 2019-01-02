@@ -55,22 +55,31 @@
                                 </td>
                             </tr>
                             <tr>
+                            	<td style="width:15%;">印章编号</td>
+                                <td style="width:35%;">
+                                	<select class="form-control" style="width:60%;" id="xg_signet_no">
+	                                </select>
+                                </td>
 	                            <td style="width:15%;">申请部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 	                            <td style="width:35%;">
 	                                    <select class="form-control" style="width:60%;" id="xgbumen">
 	                                    </select>
                                 </td>
-                                <td style="width:15%;">项目印章  <i class="iconfont icon-xingxing-copy" style="color:red;"></i>拟授权人</td>
+                            </tr>
+                            <tr>
+                            	<td style="width:15%;">项目印章  <i class="iconfont icon-xingxing-copy" style="color:red;"></i>拟授权人</td>
                                 <td style="width:35%;">
                                 	<input type="text" class="form-control" style="width:60%;" id="xgyinzhangshouquanren" disabled>
                                 	<button type="button" class="btn btn-primary"  id="xgchoseren">选择人员</button>
                                 </td>
-                            </tr>
-                            <tr>
                             	<td style="width:15%;">申请日期</td>
                                 <td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgyear"></td>
+                            </tr>
+                            <tr>
                             	<td style="width:15%;">专用章全称<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgquancheng"></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <tr>
                             	<td>附件</td>
@@ -462,7 +471,7 @@
 <script>
     $(document).ready( function () {
     	
-    	
+    	initSignetNo();
     	//xiangmuSelect();
     	bumenSelect();
     	initBaoGuanRen();
@@ -888,6 +897,21 @@
 	});
 
 
+    function initSignetNo(){
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/signetUsers/selectSignetNo",
+			dataType:"json",
+			data:{
+			},
+			success:function(json){
+				$("#xg_signet_no").html('');
+				for(var i=0;i<json.length;i++){
+					$("#xg_signet_no").append("<option value="+json[i].signetNo+">"+json[i].signetNo+"</option>")
+				}
+			}
+		})
+	}
 	
 	//使用管理de选择项目
 	$("#chosexm2").click(function(){
@@ -1966,7 +1990,7 @@
 	    		$("#xgtask_no").val(data.taskNo);
 	    		$("#xgbumen").val(data.omId);
 	    		$("#xgyinzhangshouquanren").val(data.signetMan);
-	    		
+	    		$("#xg_signet_no").val(data.signetNo);
 	    		//initSelectOnEdit(data.signetMan)
 	    		
 	    		$("#xgyear").val(data.applicationDate);

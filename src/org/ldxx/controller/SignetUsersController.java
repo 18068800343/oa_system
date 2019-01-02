@@ -292,4 +292,11 @@ public class SignetUsersController {
 		List<Accessory> list=suserService.selectAccessoryById(id);
 		return list;
 	}
+	
+	@RequestMapping("/selectSignetNo")
+	@ResponseBody
+	public List<SignetManage> selectSignetNo(){
+		List<SignetManage> list=suserService.selectSignetNo();
+		return list;
+	}
 }

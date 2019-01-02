@@ -9,6 +9,7 @@ public class SignetUsers {
     
     private String taskNo;//任务单号
     
+    private String signetNo;
 
     private String beginTime;
 
@@ -26,6 +27,14 @@ public class SignetUsers {
 
 
     
+	public String getSignetNo() {
+		return signetNo;
+	}
+
+	public void setSignetNo(String signetNo) {
+		this.signetNo = signetNo;
+	}
+
 	public String getTaskNo() {
 		return taskNo;
 	}

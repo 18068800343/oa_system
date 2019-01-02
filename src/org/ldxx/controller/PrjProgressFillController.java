@@ -252,21 +252,25 @@ public class PrjProgressFillController {
 		PrjProgressFill ppf=service.selectPrjProgressFillById(id);
 		List<PrjProgressFillInfo> ppfi=service.selectPrjProgressFillInfo(id, "1");
 		List<PrjProgressFillInfo> ppfi2=service.selectPrjProgressFillInfo(id, "2");
-		List<PrjProgressFillInfo> ppfi3=service.selectPrjProgressFillInfo(id, "3");
+		/*List<PrjProgressFillInfo> ppfi3=service.selectPrjProgressFillInfo(id, "3");
 		List<PrjProgressFillInfo> ppfi4=service.selectPrjProgressFillInfo(id, "4");
 		List<PrjProgressFillInfo> ppfi5=service.selectPrjProgressFillInfo(id, "5");
-		List<PrjProgressFillInfo> ppfi6=service.selectPrjProgressFillInfo(id, "6");
+		List<PrjProgressFillInfo> ppfi6=service.selectPrjProgressFillInfo(id, "6");*/
 		List<PrjProgressFillCj> ppcj=service.selectPrjProgressFillCjById(id);
 		List<Accessory> accessory=aService.selectAccessoryById(id);
 		String no=ppf.getTaskNo();
 		BudgetFpplicationForm bf=bService.selectBudgeByNo(no);
-		ppf.setBudgetMoneyAll(bf.getAllCost());
+		if(bf!=null){
+			ppf.setBudgetMoneyAll(bf.getAllCost());
+		}else{
+			ppf.setBudgetMoneyAll(0);
+		}
 		ppf.setPpfi(ppfi);
 		ppf.setPpfi2(ppfi2);
-		ppf.setPpfi3(ppfi3);
+		/*ppf.setPpfi3(ppfi3);
 		ppf.setPpfi4(ppfi4);
 		ppf.setPpfi5(ppfi5);
-		ppf.setPpfi6(ppfi6);
+		ppf.setPpfi6(ppfi6);*/
 		ppf.setPpcj(ppcj);
 		ppf.setAccessory(accessory);
 		return ppf;

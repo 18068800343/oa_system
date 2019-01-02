@@ -77,4 +77,9 @@ public class SignetUsersServiceImpl implements SignetUsersService {
 	public int deleteAccessoryByIdAndName(Accessory accessory) {
 		return adao.deleteAccessoryByIdAndName(accessory);
 	}
+
+	@Override
+	public List<SignetManage> selectSignetNo() {
+		return sUserDao.selectSignetNo();
+	}
 }

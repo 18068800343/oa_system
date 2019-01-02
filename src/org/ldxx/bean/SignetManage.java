@@ -21,6 +21,7 @@ public class SignetManage {
 
     private String signetMan;
 
+    private String signetNo;
     
     private String signetAttribute;//印章属性
     private String signetDesc;//备注
@@ -32,6 +33,13 @@ public class SignetManage {
     
     
     
+	public String getSignetNo() {
+		return signetNo;
+	}
+
+	public void setSignetNo(String signetNo) {
+		this.signetNo = signetNo;
+	}
 
 	public String getSignetAttribute() {
 		return signetAttribute;

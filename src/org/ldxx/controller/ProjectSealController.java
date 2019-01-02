@@ -53,6 +53,8 @@ public class ProjectSealController {
 		String id = new TimeUUID().getTimeUUID();
 		signetManage.setSmId(id);
 		
+		String signetNo="YZ"+signetManage.getTaskNo();
+		signetManage.setSignetNo(signetNo);
 		int i = prjSealService.addPrjSeal(signetManage);
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(signetManage.getOmId());
@@ -100,6 +102,8 @@ public class ProjectSealController {
 		Map<String,Object> map = new HashMap<>();
 		String id = new TimeUUID().getTimeUUID();
 		signetManage.setSmId(id);
+		String signetNo="YZ"+signetManage.getTaskNo();
+		signetManage.setSignetNo(signetNo);
 		
 		int i = prjSealService.addPrjSeal(signetManage);
 		String string=i+"";

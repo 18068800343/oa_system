@@ -17,5 +17,7 @@ public interface SignetUsersDao {
 	List<SignetUsers> selectUser();
 
 	SignetUsers selectUsersById(@Param("suId")String suId);
+	
+	List<SignetManage> selectSignetNo(); 
 
 }
