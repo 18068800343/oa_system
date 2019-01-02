@@ -231,7 +231,7 @@
             "targets": 4,
             "searchable": false,
             "render": function (data, type, full) {
-                return '<i class="iconfont icon-yewubanli Paaa" name="mode" data-id="'+data+'" data-params="'+full.params+'" data-step="'+full.step+'"  data-edit="'+full.editOrView+'" data-flowNodeLast="'+full.flowNodeLast+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
+                return '<i class="iconfont icon-yewubanli Paaa" name="mode" data-cNodeId="'+full.id+'"  data-id="'+data+'" data-params="'+full.params+'" data-step="'+full.step+'"  data-edit="'+full.editOrView+'" data-flowNodeLast="'+full.flowNodeLast+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
             }
         }], 
         "order": [[1, 'asc']],
@@ -276,6 +276,7 @@
     var page_flowNodeLast;
     var page_edit;
     var page_step;
+    var page_cNodeId;
     function bindclick(){
     	$("body").on("click","i[name='mode']",function(){
         	var data_id = $(this).attr("data-id");
@@ -283,6 +284,7 @@
         	var edit = $(this).attr("data-edit");
         	var params = $(this).attr("data-params");
         	var step = $(this).attr("data-step");
+        	var cNodeId = $(this).attr("data-cNodeId"); 
         	page_step = step;
         	if(params.indexOf("{'cs':'1'}")!=-1||params==''||params==null){
         		$("#topBox").hide();
@@ -293,6 +295,7 @@
         	page_flowNodeLast =  $(this).attr("data-flowNodeLast");
         	page_url=data_id;
         	page_edit=edit;
+        	page_cNodeId=cNodeId;
         	var flag = $("#shenpi").val();
         	var ul = strs[0];
         	var ulnew = ul.replace("Look","Change");
@@ -314,7 +317,11 @@
     		baoCun();
     	}
     	if(page_edit=='edit'&&page_step=='2'){
+    		updateFkDept(page_cNodeId);
     		flowEdit2();
+    	}
+    	if(page_edit=='edit'&&page_step=='3'){
+    		flowEdit3();
     	}
     	$.ajax({
             type: 'POST',
@@ -533,10 +540,29 @@
     		if(page_edit=='edit'&&page_step=='2'){
     		flowEdit2();
     		}
+    		if(page_edit=='edit'&&page_step=='3'){
+    		flowEdit3();
+    		}
     }
     function flowEdit2(){
+    	var childWindow = $("#rightMain")[0].contentWindow;
     	try {
-			var resultEdit = childWindow.saveFlowEdit();
+			var resultEdit = childWindow.saveFlow2();
+  		    if(resultEdit=='0'){
+      			toastr.error("保存出错");
+      			return '0';
+  		    }else{
+      			toastr.success("保存成功");
+      			return '1';
+  		    }
+	    }
+  		catch(err){
+	    } 
+    }
+    function flowEdit3(){
+    	var childWindow = $("#rightMain")[0].contentWindow;
+    	try {
+			var resultEdit = childWindow.saveFlow3();
   		    if(resultEdit=='0'){
       			toastr.error("保存出错");
       			return '0';
@@ -565,6 +591,6 @@
     		catch(err){
     		}
     }
-    
+
 </script>
 </html>

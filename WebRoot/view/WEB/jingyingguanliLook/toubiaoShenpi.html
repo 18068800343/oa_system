@@ -662,7 +662,7 @@
 		                    + json[i].omName + "</option>")
                    $("#bumenbaojia").append("<option value='" + json[i].omId + "'>"
                    			+ json[i].omName + "</option>")
-                  $("#toubiaobumen").append("<option value='" + json[i].omNo + "'>"
+                  $("#toubiaobumen").append("<option value='" + json[i].omId + "' data-no='" + json[i].omNo + "'>"
                    			+ json[i].omName + "</option>")
                   $("#bumenzerenren").append("<option value='" + json[i].omId + "'>"
                    			+ json[i].omName + "</option>")
@@ -786,7 +786,7 @@
 	    });
 	}
 
-    function saveFlowEdit(){
+    function saveFlow2(){
     	
     	var fileLevel = $("input[name='fileLevel']:checked").val();
     	var flowOmNo = $("#lindao").val();
@@ -807,9 +807,43 @@
 	        	fgLindao:fgLindao
 	        },
 	        success: function (json) {
-	        	console.log(json)
+	        	return json;
 	        }
 	    });
+    }
+    
+    function saveFlow3(){
+    	
+    	var nextDepartment = $("#toubiaobumen option:selected").attr("data-no");
+    	var tbDepartId = $("#toubiaobumen").val();
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/BidApproval/updateFlowEdit',
+	        dataType: 'text',
+	        async:false,
+	        data:{
+	        	baId:id,
+	        	nextDepartment:nextDepartment,
+	        	xbDepartment:tbDepartId
+	        },
+	        success: function (json) {
+	        	return json;
+	        }
+	    });
+    }
+    //修改对应步骤的下一步抽象部门具体部门编号
+    function updateFkDept(page_cNodeId){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/updateFlowFkDept',
+            data:{
+            	id:page_cNodeId,
+            	fkdept:fkdept
+            },
+            dataType: 'json',
+            success: function (json) {
+            }
+        });
     }
 </script>
 </html>

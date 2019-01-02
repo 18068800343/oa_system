@@ -682,6 +682,15 @@ public class TaskController {
 		int i=tService.updateTask(t);
 		return i;
 	}
+	@RequestMapping("/updateFlowFkDept")
+	@ResponseBody
+	public int updateFlowFkDept(String cFlowId,String fkdept){
+		
+		CurrentFlow record = new CurrentFlow();
+		record.setId(cFlowId);
+		record.setFkDept(fkdept);
+		return currentFlowMapper.updateByPrimaryKeySelective(record);
+	}
 	
 }
 
