@@ -166,7 +166,12 @@
 	       			<table class="table table-bordered table-condensed" id="mingzibiao">
 	       				<thead>
 	       					<tr>
-	       						<th></th>
+	       						<th>
+									<label class="checkbox-inline" style="width: 100%;height: 100%;">
+										  <input type="checkbox" class="checkbox style-0" id="autoChk">
+										  <span></span>
+									</label>
+								</th> 
 	       						<th>姓名</th>
 	       						<th>工号</th>
 	       						<th>出生日期</th>
@@ -325,7 +330,12 @@
 	       			<table class="table table-bordered table-condensed" id="xgmingzibiao">
 	       				<thead>
 	       					<tr>
-	       						<th></th>
+	       						<th>
+									<label class="checkbox-inline" style="width: 100%;height: 100%;">
+										  <input type="checkbox" class="checkbox style-0" id="edit_autoChk">
+										  <span></span>
+									</label>
+								</th> 
 	       						<th>姓名</th>
 	       						<th>工号</th>
 	       						<th>出生日期</th>
@@ -542,7 +552,7 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-					{ "data": null}, 
+					{ "data": "state", 'orderable': false }, 
 		            { "data": "uName"}, 
 		            { "data": "workId"},
 		            { "data": "birthday"}, 
@@ -555,7 +565,12 @@
 										    "targets": 0,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<input type="checkbox" name="mingzi" onclick="chooseBox(this)" style="width:16px;height:16px;">'
+										  	  		//return '<input type="checkbox" name="mingzi" onclick="chooseBox(this)" style="width:16px;height:16px;">'
+										    	if(data==false || data==undefined){
+									    	  		return '<label class="checkbox-inline" style="width: 100%;height: 100%;"><input type="checkbox" name="mingzi" class="checkbox style-0 cbox"><span></span></label>';
+									    	  	}else{
+									    	  		return '<label class="checkbox-inline" style="width: 100%;height: 100%;"><input type="checkbox" name="mingzi" class="checkbox style-0 cbox" checked><span></span></label>';
+									    	  	} 
 										        }
 										  }
 								],
@@ -589,7 +604,7 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-					{ "data": null}, 
+					{ "data": "state", 'orderable': false }, 
 		            { "data": "uName"}, 
 		            { "data": "workId"},
 		            { "data": "birthday"}, 
@@ -602,7 +617,12 @@
 										    "targets": 0,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<input type="checkbox" name="xgmingzi" onclick="xgChooseBox(this)" style="width:16px;height:16px;">'
+										  	  		//return '<input type="checkbox" name="xgmingzi" onclick="xgChooseBox(this)" style="width:16px;height:16px;">'
+										    	if(data==false || data==undefined){
+									    	  		return '<label class="checkbox-inline" style="width: 100%;height: 100%;"><input type="checkbox" name="edit_mingzi2" class="checkbox style-0 edit_cbox"><span></span></label>';
+									    	  	}else{
+									    	  		return '<label class="checkbox-inline" style="width: 100%;height: 100%;"><input type="checkbox" name="edit_mingzi2" class="checkbox style-0 edit_cbox" checked><span></span></label>';
+									    	  	} 
 										        }
 										  }
 								],
@@ -692,6 +712,31 @@
             }
         });
 	}
+	
+	//全选
+	 $('#autoChk').on('click', function(){
+		var s = $(this).prop('checked');
+		$('#mingzibiao .cbox').prop('checked', s).trigger('change');
+	 });
+	$('#mingzibiao').delegate('.cbox', 'change', function(){
+		 var state = $(this).prop('checked');
+		 var tr = $(this).closest('tr');
+		 autoChk();
+	 });
+	 $('#mingzibiao').on('draw.dt',function() {
+		 autoChk();
+      });
+	 function autoChk(){
+		var s = true;
+      $('#mingzibiao').find('.cbox').each(function(){
+      	if($(this).prop('checked')==false){
+      		s=false;
+      		return false;
+      	}
+      });
+     $('#autoChk').prop('checked', s);
+	 }
+	
 	//已知部门，获取部门所属人员
 	$("#bumencjry").change(function(){
 		var bumen=$("#bumencjry").val();
@@ -738,15 +783,48 @@
 		}else{
 			arr.splice($.inArray(name,arr),1);
 		}
-	}
+	} 
 	
 	//添加人员到input框  多选
 	$("#querenciren").click(function(){
+		var arr=[];
+		var tbl = $("#mingzibiao").dataTable();
+		var trList = tbl.fnGetNodes();
+		for(i=0;i<trList.length;i++){
+            if (trList[i].firstElementChild.firstElementChild.firstChild.checked) {    
+                var qty = trList[i].firstElementChild.nextElementSibling.innerHTML.trim();
+                arr.push(qty)
+            }
+		}
 		$("#new_users").val("")
 		 $("#new_users").val(arr.toString());
 		 $("#people").modal("hide");
 	})
 	
+	
+	//修改全选
+	$('#edit_autoChk').on('click', function(){
+		var s = $(this).prop('checked');
+		$('#xgmingzibiao .edit_cbox').prop('checked', s).trigger('change');
+	 });
+	$('#xgmingzibiao').delegate('.edit_cbox', 'change', function(){
+		 var state = $(this).prop('checked');
+		 var tr = $(this).closest('tr');
+		 edit_autoChk();
+	 });
+	 $('#xgmingzibiao').on('draw.dt',function() {
+		 edit_autoChk();
+       });
+	 function edit_autoChk(){
+		var s = true;
+       $('#xgmingzibiao').find('.edit_cbox').each(function(){
+       	if($(this).prop('checked')==false){
+       		s=false;
+       		return false;
+       	}
+       });
+      $('#edit_autoChk').prop('checked', s);
+	 }
 	
 	$("#xgbumencjry").change(function(){
 		$('#xgpeople').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
@@ -802,6 +880,15 @@
 	
 	
 	$("#xgquerenciren").click(function(){
+		var xgarr=[];
+		var tbl = $("#xgmingzibiao").dataTable();
+		var trList = tbl.fnGetNodes();
+		for(i=0;i<trList.length;i++){
+            if (trList[i].firstElementChild.firstElementChild.firstChild.checked) {    
+                var qty = trList[i].firstElementChild.nextElementSibling.innerHTML.trim();
+                xgarr.push(qty)
+            }  
+		} 
 		$("#edit_users").val("")
 		$("#edit_users").val(xgarr.toString());
 		$("#xgpeople").modal("hide");
