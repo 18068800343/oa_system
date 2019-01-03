@@ -10,6 +10,8 @@ public class Task {
     private String prjNo;
 
     private String prjName;
+    
+    private String prjArea;
 
     private String prjManagementModel;
 
@@ -83,7 +85,14 @@ public class Task {
     private String ccName;
     
     
-    
+	public String getPrjArea() {
+		return prjArea;
+	}
+
+	public void setPrjArea(String prjArea) {
+		this.prjArea = prjArea;
+	}
+
 	public String getPrjSource() {
 		return prjSource;
 	}
