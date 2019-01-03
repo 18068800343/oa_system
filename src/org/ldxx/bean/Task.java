@@ -39,6 +39,8 @@ public class Task {
     
     private String mainPrjLeader;
     
+    private String mainPrjLeaderName;
+    
     private String mainEngineer;
     
     private String mainOther;
@@ -89,6 +91,14 @@ public class Task {
     private String ccName;
     
     
+	public String getMainPrjLeaderName() {
+		return mainPrjLeaderName;
+	}
+
+	public void setMainPrjLeaderName(String mainPrjLeaderName) {
+		this.mainPrjLeaderName = mainPrjLeaderName;
+	}
+
 	public List<CjContract> getCj() {
 		return cj;
 	}
