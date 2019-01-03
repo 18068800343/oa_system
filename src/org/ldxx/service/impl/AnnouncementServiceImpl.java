@@ -81,4 +81,9 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 		return adao.selectAnnouncementById(id);
 	}
 
+	@Override
+	public List<Announcement> selectAnnouncement2(String type, String status, String department) {
+		return adao.selectAnnouncement2(type, status, department);
+	}
+
 }

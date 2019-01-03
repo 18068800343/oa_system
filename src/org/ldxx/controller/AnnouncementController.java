@@ -488,6 +488,19 @@ public class AnnouncementController {
 		return list;
 	}
 	
+	@RequestMapping("/selectAnnouncement2")
+	@ResponseBody
+	public List<Announcement> selectAnnouncement2(String type,String status,HttpSession session){
+		String department="%";
+		User u=(User) session.getAttribute("user");
+		String omId=u.getOmId();
+		if(!omId.equals("8187e2b1d153")){
+			department="%"+omId+"%";
+		}
+		List<Announcement> list=service.selectAnnouncement2(type,status,department);
+		return list;
+	}
+	
 	@RequestMapping("/selectAccessoryById")
 	@ResponseBody
 	public List<Accessory> selectAccessoryById(String id){

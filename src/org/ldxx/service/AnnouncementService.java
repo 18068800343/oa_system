@@ -17,6 +17,8 @@ public interface AnnouncementService {
 	
 	public List<Announcement> selectAnnouncement(String type,String status);
 	
+	public List<Announcement> selectAnnouncement2(String type,String status,String department);
+	
 	public List<Accessory> selectAccessory(String id);
 	
 	public int deleteAccessoryByIdAndName(Accessory accessory);
