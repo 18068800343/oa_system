@@ -191,7 +191,7 @@
             <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel"><b>修改项目周报</b></h4>
+                <h4 class="modal-title" id="myModalLabel"><b>修改项目施工日志</b></h4>
             </div>
             <div class="modal-body">
                     <div>     
@@ -261,7 +261,7 @@
                                 </tr>
                             </table>
                             <div id="xgrizhijihe">
-		                          	<table class="table table-bordered table-condensed">
+		                          	<!-- <table class="table table-bordered table-condensed">
 		                          		<tr>
 		                                    <td>施工部位</td>
 		                                    <td colspan="3"><textarea class="form-control"  cols="55" rows="3"></textarea></td>
@@ -294,7 +294,7 @@
 		                                    <td>明日计划</td>
 		                                    <td colspan="3"><textarea class="form-control"  cols="55" rows="3"></textarea></td>
 		                                </tr>
-                            		</table>
+                            		</table> -->
                             </div>
                         </form>   
                     </div>
@@ -392,7 +392,7 @@
                             <td>天气</td>
                             <td id="lookweather"></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>施工部位1</td>
                             <td colspan="3" id="lookConstruction_site1"></td>
                         </tr>
@@ -427,8 +427,10 @@
                         <tr>
                             <td>施工部位2</td>
                             <td colspan="3" id="lookConstruction_site2"></td>
-                        </tr>
+                        </tr> -->
                     </table> 
+                    <div id="lookrizhijihe">
+                    </div>
                 </form>  
             </div>
         </div>
@@ -674,7 +676,6 @@
 	            	status:2,
 	            },
 	            success: function (json) {
-	            	//console.log(json)
 	                $('#xiangmubiao').dataTable().fnClearTable();
 	                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
 	            }
@@ -736,14 +737,14 @@
 	        	toastr.error("请求失败");
 	        },
 	        success: function (json) {
-	        	$("#prjName").html('');
+	        	//$("#prjName").html('');
 	        	$("#prjNo").html('');
-	        	$("#xgprjName").html('');
+	        	//$("#xgprjName").html('');
 	        	$("#xgprjNo").html('');
 	        	for(var i=0;i<json.length;i++){
-	        		$("#prjName").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
+	        		//$("#prjName").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
 	        		$("#prjNo").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
-	        		$("#xgprjName").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
+	        		//$("#xgprjName").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
 	        		$("#xgprjNo").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
 	        	}
 	        	 $('#prjNo').editableSelect().on('select.editable-select', function (e, dom) {
@@ -761,7 +762,7 @@
 	                    }
 	          		});
 	          	})
-	          	$('#prjName').editableSelect().on('select.editable-select', function (e, dom) {
+	          	/* $('#prjName').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/task/selectTaskPrjNo',
@@ -775,7 +776,7 @@
 	                    	}
 	                    }
 	          		});
-	          	}) 
+	          	})  */
 	          	$('#xgprjNo').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
@@ -791,7 +792,7 @@
 	                    }
 	          		});
 	          	})
-	          	$('#xgprjName').editableSelect().on('select.editable-select', function (e, dom) {
+	          	/* $('#xgprjName').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/task/selectTaskPrjNo',
@@ -805,7 +806,7 @@
 	                    	}
 	                    }
 	          		});
-	          	})
+	          	}) */
 	          	 
 	        }
 		});
@@ -843,7 +844,7 @@
 	
 	//保存
 	function save(){
-		/* var rizhiArray=new Array();
+		var rizhiArray=new Array();
     	$("#rizhijihe").find("table").each(function(){
     		var shigongbuwei=$(this).find("tr").eq(0).find("textarea").val();
     		var renjiliao=$(this).find("tr").eq(1).find("textarea").val();
@@ -854,44 +855,34 @@
     		var qitashixiang=$(this).find("tr").eq(6).find("textarea").val();
     		var mingrijihua=$(this).find("tr").eq(7).find("textarea").val();
     		
-    		var rizhi={
-    				shigongbuwei:undefined,
-    				renjiliao:undefined,
-    				shigongneirong:undefined,
-    				anquanqingkuang:undefined,
-    				zhiliangqingkuang:undefined,
-    				zhongdashixiang:undefined,
-    				qitashixiang:undefined,
-    				mingrijihua:undefined,
+    		var rizhiInfo={
+    				pclId:null,
+    				constructionSite:undefined,
+    				materialCondition:undefined,
+    				constructionContent:undefined,
+    				safetySituation:undefined,
+    				qualityCondition:undefined,
+    				importentThings:undefined,
+    				otherThings:undefined,
+    				tomorrowPlan:undefined,
     		}
-    		rizhi.shigongbuwei=shigongbuwei,
-    		rizhi.renjiliao=renjiliao,
-    		rizhi.shigongneirong=shigongneirong,
-    		rizhi.anquanqingkuang=anquanqingkuang,
-    		rizhi.zhiliangqingkuang=zhiliangqingkuang,
-    		rizhi.zhongdashixiang=zhongdashixiang,
-    		rizhi.qitashixiang=qitashixiang,
-    		rizhi.mingrijihua=mingrijihua,
-    		rizhiArray.push(rizhi);
-    	}) */
-    	//console.log(rizhiArray)
-    	
+    		rizhiInfo.pclId=null;
+    		rizhiInfo.constructionSite=shigongbuwei;
+    		rizhiInfo.materialCondition=renjiliao;
+    		rizhiInfo.constructionContent=shigongneirong;
+    		rizhiInfo.safetySituation=anquanqingkuang;
+    		rizhiInfo.qualityCondition=zhiliangqingkuang;
+    		rizhiInfo.importentThings=zhongdashixiang;
+    		rizhiInfo.otherThings=qitashixiang;
+    		rizhiInfo.tomorrowPlan=mingrijihua;
+    		rizhiArray.push(rizhiInfo);
+    	}) 
 		var prjName=$("#prjName").val();
 		var prjNo=$("#prjNo").val();
 		var prjTime_limit=$("#prjTime_limit").val();
 		var year=$("#year").val();
 		var temperature=$("#temperature").val();
 		var weather=$("#weather").val();
-		var Construction_site1=$("#Construction_site1").val();
-		var material_condition=$("#material_condition").val();
-		var construction_content=$("#construction_content").val();
-		var safety_situation=$("#safety_situation").val();
-		var quality_condition=$("#quality_condition").val();
-		var importent_things=$("#importent_things").val();
-		var other_things=$("#other_things").val();
-		var tomorrow_plan=$("#tomorrow_plan").val();
-		var Construction_site2=$("#Construction_site2").val();
-		
 		if(prjName==''){
 			toastr.error("项目名称为空")
 			return;
@@ -901,38 +892,43 @@
 			return;
 		}
 		
-		$.ajax({
+		var rizhi={
+				pclId:null,
+				prjCode:undefined,
+				prjName:undefined,
+				prjLongTime:undefined,
+				weather:undefined,
+				temperature:undefined,
+				fillTime:undefined,
+				prjLogInfo:undefined,
+		}
+		rizhi.pclId=null;
+		rizhi.prjCode=prjNo;
+		rizhi.prjName=prjName;
+		rizhi.prjLongTime=prjTime_limit;
+		rizhi.weather=weather;
+		rizhi.temperature=temperature;
+		rizhi.fillTime=year;
+		rizhi.prjLogInfo=rizhiArray;
+		 $.ajax({
             type: 'POST',
             url: getContextPath()+'/PrjConstructionLog/addPrjConstructionLogSave',
             dataType: 'json',
-            data: {
-            	pclId:null,
-            	prjName:prjName,
-            	prjCode:prjNo,
-            	prjLongTime:prjTime_limit,
-            	fillTime:year,
-            	temperature:temperature,
-            	weather:weather,
-            	constructionSite1:Construction_site1,
-            	materialCondition:material_condition,
-            	constructionContent:construction_content,
-            	safetySituation:safety_situation,
-            	qualityCondition:quality_condition,
-            	importentThings:importent_things,
-            	otherThings:other_things,
-            	tomorrowPlan:tomorrow_plan,
-            	constructionSite2:Construction_site2
-            },
+            contentType: "application/json", 
+            data:JSON.stringify(rizhi),
             success: function (json) {
             	if(json.result>0){
             		toastr.success("添加成功");
-            		$("#myModal").modal("hide")
             		$('#mainContent').DataTable().row.add(json.PrjConstructionLog).draw(false);     //新增行立即显示
+            		$("#myModal").modal("hide")
+            		$(".Pehab").show();
+            		$(".Pehac").show();
+            		$(".Pehad").show();
             	}else{
             		toastr.error("添加失败")
             	}
             }
-  		});
+  		}); 
 		
 	}
 	
@@ -975,22 +971,35 @@
 	function lookLog(obj){
 		var dom=$(obj).parents("tr");
 		var data=$("#mainContent").DataTable().row(dom).data();
-		//console.log(data)
 		$("#lookprjName").text(data.prjName);
 		$("#lookprjNo").text(data.prjCode);
 		$("#lookprjTime_limit").text(data.prjLongTime);
 		$("#lookyear").text(data.fillTime);
 		$("#looktemperature").text(data.temperature);
 		$("#lookweather").text(data.weather);
-		$("#lookConstruction_site1").text(data.constructionSite1);
-		$("#lookmaterial_condition").text(data.materialCondition);
-		$("#lookconstruction_content").text(data.constructionContent);
-		$("#looksafety_situation").text(data.safetySituation);
-		$("#lookquality_condition").text(data.qualityCondition);
-		$("#lookimportent_things").text(data.importentThings);
-		$("#lookother_things").text(data.otherThings);
-		$("#looktomorrow_plan").text(data.tomorrowPlan);
-		$("#lookConstruction_site2").text(data.constructionSite2);
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/PrjConstructionLog/selectPrjConstructionLogInfoById",
+			dataType:"json",
+			data:{ 
+				id:data.pclId
+				},
+			success:function(json){
+				$("#lookrizhijihe").empty();
+				for(var i=0;i<json.length;i++){
+					$("#lookrizhijihe").append('<table  class="table table-bordered table-condensed">'
+					+'<tr><td style="width:20%">施工部位</td><td colspan="3">'+json[i].constructionSite+'</td></tr>'
+					+'<tr><td>人机料情况</td><td colspan="3">'+json[i].materialCondition+'</td></tr>'
+					+'<tr><td>施工内容</td><td colspan="3">'+json[i].constructionContent+'</td></tr>'
+					+'<tr><td>安全情况</td><td colspan="3">'+json[i].safetySituation+'</td></tr>'
+					+'<tr><td>质量情况</td><td colspan="3">'+json[i].qualityCondition+'</td></tr>'
+					+'<tr><td>重大事项</td><td colspan="3">'+json[i].importentThings+'</td></tr>'
+					+'<tr><td>其它事项</td><td colspan="3">'+json[i].otherThings+'</td></tr>'
+					+'<tr><td>明日计划</td><td colspan="3">'+json[i].tomorrowPlan+'</td></tr>'
+					+'</table>')
+				}
+			}
+		})
 	}
 	
 
@@ -1008,35 +1017,73 @@
 		$("#xgyear").val(data.fillTime);
 		$("#xgtemperature").val(data.temperature);
 		$("#xgweather").val(data.weather);
-		$("#xgConstruction_site1").val(data.constructionSite1);
-		$("#xgmaterial_condition").val(data.materialCondition);
-		$("#xgconstruction_content").val(data.constructionContent);
-		$("#xgsafety_situation").val(data.safetySituation);
-		$("#xgquality_condition").val(data.qualityCondition);
-		$("#xgimportent_things").val(data.importentThings);
-		$("#xgother_things").val(data.otherThings);
-		$("#xgtomorrow_plan").val(data.tomorrowPlan);
-		$("#xgConstruction_site2").val(data.constructionSite2);
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/PrjConstructionLog/selectPrjConstructionLogInfoById",
+			dataType:"json",
+			data:{ 
+				id:data.pclId
+				},
+			success:function(json){
+				$("#xgrizhijihe").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xgrizhijihe").append('<table  class="table table-bordered table-condensed">'
+						+'<tr><td>施工部位</td><td colspan="3"><textarea class="form-control" id="Construction_site1" cols="55" rows="3">'+json[i].constructionSite+'</textarea></td></tr>'
+						+'<tr><td>人机料情况</td><td colspan="3"><textarea class="form-control" id="Construction_site1" cols="55" rows="3">'+json[i].materialCondition+'</textarea></td></tr>'
+						+'<tr><td>施工内容</td><td colspan="3"><textarea class="form-control" id="Construction_site1" cols="55" rows="3">'+json[i].constructionContent+'</textarea></td></tr>'
+						+'<tr><td>安全情况</td><td colspan="3"><textarea class="form-control" id="Construction_site1" cols="55" rows="3">'+json[i].safetySituation+'</textarea></td></tr>'
+						+'<tr><td>质量情况</td><td colspan="3"><textarea class="form-control" id="Construction_site1" cols="55" rows="3">'+json[i].qualityCondition+'</textarea></td></tr>'
+						+'<tr><td>重大事项</td><td colspan="3"><textarea class="form-control" id="Construction_site1" cols="55" rows="3">'+json[i].importentThings+'</textarea></td></tr>'
+						+'<tr><td>其它事项</td><td colspan="3"><textarea class="form-control" id="Construction_site1" cols="55" rows="3">'+json[i].otherThings+'</textarea></td></tr>'
+						+'<tr><td>明日计划</td><td colspan="3"><textarea class="form-control" id="Construction_site1" cols="55" rows="3">'+json[i].tomorrowPlan+'</textarea></td></tr>'
+						+'<tfoot><tr><td style="text-align:right;" colspan="2"><button type="button" class="btn btn-primary" onclick="delrizhibiao(this)">删除此表格</button></td></tr></tfoot>'
+						+'</table>')
+				}
+			}
+		})
 	}
 	
 	//修改保存
 	function checkSave(){
+		var rizhiArray=new Array();
+    	$("#xgrizhijihe").find("table").each(function(){
+    		var shigongbuwei=$(this).find("tr").eq(0).find("textarea").val();
+    		var renjiliao=$(this).find("tr").eq(1).find("textarea").val();
+    		var shigongneirong=$(this).find("tr").eq(2).find("textarea").val();
+    		var anquanqingkuang=$(this).find("tr").eq(3).find("textarea").val();
+    		var zhiliangqingkuang=$(this).find("tr").eq(4).find("textarea").val();
+    		var zhongdashixiang=$(this).find("tr").eq(5).find("textarea").val();
+    		var qitashixiang=$(this).find("tr").eq(6).find("textarea").val();
+    		var mingrijihua=$(this).find("tr").eq(7).find("textarea").val();
+    		
+    		var rizhiInfo={
+    				pclId:null,
+    				constructionSite:undefined,
+    				materialCondition:undefined,
+    				constructionContent:undefined,
+    				safetySituation:undefined,
+    				qualityCondition:undefined,
+    				importentThings:undefined,
+    				otherThings:undefined,
+    				tomorrowPlan:undefined,
+    		}
+    		rizhiInfo.pclId=xgId;
+    		rizhiInfo.constructionSite=shigongbuwei;
+    		rizhiInfo.materialCondition=renjiliao;
+    		rizhiInfo.constructionContent=shigongneirong;
+    		rizhiInfo.safetySituation=anquanqingkuang;
+    		rizhiInfo.qualityCondition=zhiliangqingkuang;
+    		rizhiInfo.importentThings=zhongdashixiang;
+    		rizhiInfo.otherThings=qitashixiang;
+    		rizhiInfo.tomorrowPlan=mingrijihua;
+    		rizhiArray.push(rizhiInfo);
+    	}) 
 		var prjName=$("#xgprjName").val();
 		var prjNo=$("#xgprjNo").val();
 		var prjTime_limit=$("#xgprjTime_limit").val();
 		var year=$("#xgyear").val();
 		var temperature=$("#xgtemperature").val();
 		var weather=$("#xgweather").val();
-		var Construction_site1=$("#xgConstruction_site1").val();
-		var material_condition=$("#xgmaterial_condition").val();
-		var construction_content=$("#xgconstruction_content").val();
-		var safety_situation=$("#xgsafety_situation").val();
-		var quality_condition=$("#xgquality_condition").val();
-		var importent_things=$("#xgimportent_things").val();
-		var other_things=$("#xgother_things").val();
-		var tomorrow_plan=$("#xgtomorrow_plan").val();
-		var Construction_site2=$("#xgConstruction_site2").val();
-		
 		if(prjName==''){
 			toastr.error("项目名称为空")
 			return;
@@ -1045,53 +1092,44 @@
 			toastr.error("任务单号为空")
 			return;
 		}
-		
+		var rizhi={
+				pclId:null,
+				prjCode:undefined,
+				prjName:undefined,
+				prjLongTime:undefined,
+				weather:undefined,
+				temperature:undefined,
+				fillTime:undefined,
+				prjLogInfo:undefined,
+		}
+		rizhi.pclId=xgId;
+		rizhi.prjCode=prjNo;
+		rizhi.prjName=prjName;
+		rizhi.prjLongTime=prjTime_limit;
+		rizhi.weather=weather;
+		rizhi.temperature=temperature;
+		rizhi.fillTime=year;
+		rizhi.prjLogInfo=rizhiArray;
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/PrjConstructionLog/updatePrjConstructionLogSave',
             dataType: 'json',
-            data: {
-            	pclId:xgId,
-            	prjName:prjName,
-            	prjCode:prjNo,
-            	prjLongTime:prjTime_limit,
-            	fillTime:year,
-            	temperature:temperature,
-            	weather:weather,
-            	constructionSite1:Construction_site1,
-            	materialCondition:material_condition,
-            	constructionContent:construction_content,
-            	safetySituation:safety_situation,
-            	qualityCondition:quality_condition,
-            	importentThings:importent_things,
-            	otherThings:other_things,
-            	tomorrowPlan:tomorrow_plan,
-            	constructionSite2:Construction_site2
-            },
+            contentType: "application/json", 
+            data:JSON.stringify(rizhi),
             success: function (json) {
             	if(json.result>0){
             		toastr.success("修改成功");
-            		$("#change").modal("hide")
-            		//initTable();
             		$('#mainContent').DataTable().row(tr).data(json.PrjConstructionLog);//修改行立即显示
+            		$("#change").modal("hide")
+            		$(".Pehab").show();
+            		$(".Pehac").show();
+            		$(".Pehad").show();
             	}else{
             		toastr.error("添加失败")
             	}
             }
   		});
 	}
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
     function getCreat(bb){

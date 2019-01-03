@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.ldxx.bean.PrjConstructionLog;
+import org.ldxx.bean.PrjConstructionLogInfo;
 import org.ldxx.service.PrjConstructionLogService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -34,7 +37,7 @@ public class PrjConstructionLogController {
 	
 	@RequestMapping("/addPrjConstructionLogSave")
 	@ResponseBody
-	public Map<String,Object> addPrjConstructionLogSave(PrjConstructionLog prjLog){
+	public Map<String,Object> addPrjConstructionLogSave(@RequestBody PrjConstructionLog prjLog){
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -54,7 +57,7 @@ public class PrjConstructionLogController {
 	
 	@RequestMapping("/updatePrjConstructionLogSave")
 	@ResponseBody
-	public Map<String,Object> updatePrjConstructionLogSave(PrjConstructionLog prjLog){
+	public Map<String,Object> updatePrjConstructionLogSave(@RequestBody PrjConstructionLog prjLog){
 		Map<String,Object> map=new HashMap<>();
 		int i=service.updatePrjConstructionLogSave(prjLog);
 		map.put("result", i);
@@ -62,4 +65,9 @@ public class PrjConstructionLogController {
 		return map;
 	}
 	
+	@RequestMapping("/selectPrjConstructionLogInfoById")
+	@ResponseBody
+	public List<PrjConstructionLogInfo> selectPrjConstructionLogInfoById(String id){
+		return service.selectPrjConstructionLogInfoById(id);
+	}
 }
