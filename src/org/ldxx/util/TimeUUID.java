@@ -36,6 +36,8 @@ public class TimeUUID {
 			y="000"+y;
 		}else if(y.length()==2){
 			y="00"+y;
+		}else if(y.length()==3){
+			y="0"+y;
 		}
 		String clCode=year+omNo+y;
 		return clCode;

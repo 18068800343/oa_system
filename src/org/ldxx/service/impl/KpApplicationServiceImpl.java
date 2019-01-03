@@ -50,4 +50,9 @@ public class KpApplicationServiceImpl implements KpApplicationService{
 		return dao.getAllKpMoneyByFpNoAndTaskNo(tno,contractno);
 	}
 
+	@Override
+	public int countfpNo() {
+		return dao.countfpNo();
+	}
+
 }

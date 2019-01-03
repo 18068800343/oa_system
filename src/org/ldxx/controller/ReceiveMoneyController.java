@@ -40,6 +40,11 @@ public class ReceiveMoneyController {
 		receiveMoney.setDoTime(TimeUUID.getTimeByFmt("yyyy-MM-dd hh:mm:ss", new Date()));
 		receiveMoney.setDoPerson(user.getuName());
 		receiveMoney.setStatus("0");
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		int count=receiveMoneyDao.countSkNo();
+		String code="SK"+uuid.getClCode("", count+1);
+		receiveMoney.setSkNo(code);
 		receiveMoneyDao.addReceiveMoney(receiveMoney);
 		return receiveMoney;
 	}

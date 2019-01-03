@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+//开票申请
 @Controller
 @RequestMapping("kp")
 public class KpApplicationController {
@@ -39,6 +39,9 @@ public class KpApplicationController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		kp.setKpId(id);
+		int count=service.countfpNo();
+		String code="KP"+uuid.getClCode("", count+1);
+		kp.setKpNo(code);
 		int i=service.addKpApplication(kp);
 		return i;
 	}

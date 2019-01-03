@@ -4,14 +4,16 @@
   	<insert id="addKpApplication" parameterType="KpApplication">
   		insert into kp_application(kp_id,fp_no,contract_name,contract_no,prj_name,prj_no,kp_money,
   													time,all_kp_money,fp_type,duty_no,sq_men,pay_unit,xy_code,
-  													address,phone,bank,bank_no)
+  													address,phone,bank,bank_no,contract_money,kp_desc,kp_department,kp_no)
   		values(#{kp.kpId},#{kp.fpNo},#{kp.contractName},#{kp.contractNo},#{kp.prjName},#{kp.prjNo},#{kp.kpMoney},
   				   #{kp.time},#{kp.allKpMoney},#{kp.fpType},#{kp.dutyNo},#{kp.sqMen},#{kp.payUnit},#{kp.xyCode},
-  				   #{kp.address},#{kp.phone},#{kp.bank},#{kp.bankNo})
+  				   #{kp.address},#{kp.phone},#{kp.bank},#{kp.bankNo},#{kp.contractMoney},#{kp.kpDesc},#{kp.kpDepartment},#{kp.kpNo})
   	</insert>
   	
   	<select id="selectKpApplication"  resultType="KpApplication">
-  		select a.* from kp_application as a left join mode_status as b on a.kp_id=b.mode_id
+  		select a.*,c.om_name from kp_application as a 
+  		left join mode_status as b on a.kp_id=b.mode_id
+  		left join organization_management c on a.kp_department=c.om_id
   		where b.status=#{status}
   	</select>
   	
@@ -34,5 +36,9 @@
   	
   	<select id="getAllKpMoneyByFpNoAndTaskNo" resultType="KpApplication">
   		select kp_money,all_kp_money,fp_no from kp_application where prj_no like #{taskno} and contract_no=#{contractno}
+  	</select>
+  	
+  	<select id="countfpNo" resultType="int">
+  		select count(0) from (select distinct kp_no from kp_application) as a
   	</select>
 </mapper>

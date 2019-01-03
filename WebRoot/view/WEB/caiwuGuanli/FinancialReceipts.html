@@ -105,7 +105,7 @@
                             </tr>
                             <tr>
                                   <td>备注</td>
-                                  <td colspan="3"><textarea class="form-control"  cols="60" rows="4"></textarea></td>
+                                  <td colspan="3"><textarea class="form-control" id="rmDesc"  cols="60" rows="4"></textarea></td>
                               </tr>
                         </table>
                     </form>  
@@ -230,7 +230,7 @@
                             </tr>
                             <tr>
                                   <td>备注</td>
-                                  <td colspan="3"><textarea class="form-control"  cols="60" rows="4"></textarea></td>
+                                  <td colspan="3"><textarea class="form-control" id="xgrmDesc"  cols="60" rows="4"></textarea></td>
                               </tr>
                         </table>
                     </form>  
@@ -325,7 +325,7 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-					{ "data": "doPerson"}, 
+					{ "data": null}, 
 		            { "data": "ccName"}, 
 		            { "data": "receiveMoney"}, 
 		            { "data": "receiveMoney"}, 
@@ -350,7 +350,20 @@
 										    	}
 										  	  		
 										        }
-										  }
+										  },
+										  {	
+												 "class": "details-control",
+												    "targets": 0,
+												    "searchable": true,
+												    "render": function(data, type, full) {
+												    	if(full.status=='0'){
+												    		return '尚未确认';
+												    	}else{
+												    		return '';
+												    	}
+												  	  		
+												        }
+												  }
 								],
 								"fnDrawCallback" : function() {
 									$.ajax({
@@ -467,6 +480,7 @@
 		 
 		 var shoukuanjine=$("#shoukuanjine").val();
 		 var shoukuantime=$("#shoukuantime").val();
+		 var rmDesc=$("#rmDesc").val();
 		 	if(danwei==''){
 	    		toastr.error("甲方单位不能为空");
 	    		return;
@@ -487,11 +501,11 @@
 		           ccId:danwei,
 		           ccName:$("#jiafangdanwei option:selected").text(),
 		           receiveMoney:shoukuanjine,
-		           rmTime:shoukuantime
+		           rmTime:shoukuantime,
+		           rmDesc:rmDesc,
 		        },
 		        success: function (json) {
 		        	//location.reload([true]);
-		        	console.log(json)
 		        	$('#mainContent').DataTable().row.add(json).draw(false);     //新增行立即显示
 		        }
 		    });
@@ -511,12 +525,14 @@
     	$("#xgjiafangdanwei").find("option").text(data.ccName)
     	$("#xgshoukuanjine").val(data.receiveMoney)
     	$("#xgshoukuantime").val(data.rmTime)
+    	$("#xgrmDesc").val(data.rmDesc)
     }
     function xiugaicaiwu(){
 		 var danwei=$("#xgjiafangdanwei").val();
 		 
 		 var shoukuanjine=$("#xgshoukuanjine").val();
 		 var shoukuantime=$("#xgshoukuantime").val();
+		 var rmDesc=$("#xgrmDesc").val();
 		 if(danwei==''){
 	    		toastr.error("甲方单位不能为空");
 	    		return;
@@ -536,7 +552,8 @@
 		            "receiveMoney": shoukuanjine,
 		            "rmTime": shoukuantime,
 		            "doPerson": doPerson,
-		            "doTime":doTime
+		            "doTime":doTime,
+		            "rmDesc":rmDesc
 		        };
 		 $.ajax({
 		        type: 'POST',
@@ -547,7 +564,8 @@
 		           ccId:danwei,
 		           ccName:$("#xgjiafangdanwei option:selected").text(),
 		           receiveMoney:shoukuanjine,
-		           rmTime:shoukuantime
+		           rmTime:shoukuantime,
+		           rmDesc:rmDesc,
 		        },
 		        success: function (json) {
 		        	location.reload([true]);

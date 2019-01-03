@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.ReceiveMoneyDao" >
 	<insert id="addReceiveMoney" parameterType="receiveMoney">
-		insert into receive_money (rm_id,cc_id,cc_name,receive_money,do_person,do_time,status,rm_time)
+		insert into receive_money (rm_id,cc_id,cc_name,receive_money,do_person,do_time,status,rm_time,sk_no,rm_desc)
 		values(#{receiveMoney.rmId},
 			#{receiveMoney.ccId},
 			#{receiveMoney.ccName},
@@ -10,7 +10,9 @@
 			#{receiveMoney.doPerson},
 			#{receiveMoney.doTime},
 			#{receiveMoney.status},
-			#{receiveMoney.rmTime})
+			#{receiveMoney.rmTime},
+			#{receiveMoney.skNo},
+			#{receiveMoney.rmDesc})
 	</insert>
 	<delete id="deleteReceiveMoneyById" parameterType="String">
 		delete from receive_money where rm_id=#{id}
@@ -37,7 +39,13 @@
 				status=#{receiveMoney.status},
 			</if>
 			<if test="receiveMoney.rmTime!=null and receiveMoney.rmTime!=''">
-				rm_time=#{receiveMoney.rmTime}
+				rm_time=#{receiveMoney.rmTime},
+			</if>
+			<if test="receiveMoney.skNo!=null and receiveMoney.skNo!=''">
+				sk_no=#{receiveMoney.skNo},
+			</if>
+			<if test="receiveMoney.rmDesc!=null and receiveMoney.rmDesc!=''">
+				rm_desc=#{receiveMoney.rmDesc}
 			</if>
 		</set>
 		where rm_id=#{receiveMoney.rmId}
@@ -52,4 +60,8 @@
 	<update id="updateStatus">
 		update receive_money set status=#{status} where rm_id=#{id}
 	</update>
+	
+	<select id="countSkNo" resultType="int">
+		select count(0) from (select distinct sk_no  from receive_money) as a
+	</select>
 </mapper>

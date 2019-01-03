@@ -10,7 +10,7 @@ package org.ldxx.bean;
 public class KpApplication {
 
 	private String kpId;
-	private String fpNo;
+	private String fpNo;//发票编码
 	private String contractName;
 	private String contractNo;
 	private String prjName;
@@ -28,7 +28,43 @@ public class KpApplication {
 	private String bank;
 	private String bankNo;
 	
+	private float contractMoney;
+	private String kpDepartment;
+	private String omName;//部门名
+	private String kpDesc;
+	private String kpNo;//开票申请编号
 	
+	
+	public String getKpNo() {
+		return kpNo;
+	}
+	public void setKpNo(String kpNo) {
+		this.kpNo = kpNo;
+	}
+	public String getOmName() {
+		return omName;
+	}
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+	public String getKpDepartment() {
+		return kpDepartment;
+	}
+	public void setKpDepartment(String kpDepartment) {
+		this.kpDepartment = kpDepartment;
+	}
+	public float getContractMoney() {
+		return contractMoney;
+	}
+	public void setContractMoney(float contractMoney) {
+		this.contractMoney = contractMoney;
+	}
+	public String getKpDesc() {
+		return kpDesc;
+	}
+	public void setKpDesc(String kpDesc) {
+		this.kpDesc = kpDesc;
+	}
 	public String getFpNo() {
 		return fpNo;
 	}
