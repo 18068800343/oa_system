@@ -48,7 +48,7 @@
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -58,21 +58,7 @@
                 <div>     
                     <form class="form-inline">
                         <table class="table table-bordered">
-                            <tr>
-                                <td style="width:16%;">合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td style="width:30%;">
-                                    <!-- <select id="contract_name" class="form-control" style="width:80%;">
-                                    </select> -->
-                                    <input type="text" class="form-control" style="width:60%;" disabled id="contract_name">
-                                    <button type="button" class="btn btn-primary weui-uploader__input" onclick="select_cj()">选择承接</button>
-                                </td>
-                                <td style="width:16%;">合同编号</td>
-                                <td style="width:38%;">
-                                	<select id="contract_no" class="form-control" style="width:60%;">
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
+                        	<tr>
                                 <td>项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
                                 	<input type="text" class="form-control" style="width:60%;" id="prj_name" disabled>
@@ -84,8 +70,22 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td style="width:16%;">合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:30%;">
+                                    <select id="contract_name" class="form-control" style="width:100%;"></select>
+                                    <!-- <input type="text" class="form-control" style="width:60%;" disabled id="contract_name">
+                                    <button type="button" class="btn btn-primary weui-uploader__input" onclick="select_cj()">选择承接</button> -->
+                                </td>
+                                <td style="width:16%;">合同编号</td>
+                                <td style="width:38%;">
+                                	<select id="contract_no" class="form-control" style="width:60%;">
+                                    </select>
+                                </td>
+                            </tr>
+                            
+                            <tr>
                                 <td>开票时间  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td><input type="text" class="form-control" id="time" style="width:60%;"></td>
+                                <td><input type="text" class="form-control" id="time" style="width:100%;"></td>
                                 <td>本次开票金额  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
                                 	<input type="text" class="form-control" style="width:60%;" id="kp_money">
@@ -94,14 +94,14 @@
                             </tr>
                             <tr>
                             	<td>合同金额</td>
-                                <td><input type="text" class="form-control" style="width:60%;" id="contract_money" disabled></td>
+                                <td><input type="text" class="form-control" style="width:100%;" id="contract_money" disabled></td>
                                 <td>累计开票金额</td>
                                 <td><input type="text" class="form-control" style="width:60%;" id="all_kp_money" disabled></td>
                             </tr>
                             <tr>
                             	<td>申请部门</td>
                                 <td>
-                                	<select id="bumen" class="form-control" style="width:60%;">
+                                	<select id="bumen" class="form-control" style="width:100%;">
                                     </select>
                                 </td>
                             	<!-- <td>税号  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -115,7 +115,7 @@
                             <tr>
                             	<td>发票类型  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                    <select class="form-control" style="width:60%;" id="fp_type">
+                                    <select class="form-control" style="width:100%;" id="fp_type">
                                         <option value="增值税专用发票">增值税专用发票</option>
                                         <option value="增值税普通发票">增值税普通发票</option>
                                     </select>
@@ -225,20 +225,20 @@
                 <div>     
                     <form class="form-inline">
                         <table class="table table-bordered">
-                            <tr>
-                                <td style="width:20%;">合同名称</td>
-                                <td style="width:30%;" id="look_contract_name">
-                                </td>
-                                <td style="width:20%;">合同编号</td>
-                                <td style="width:30%;" id="look_contract_no"></td>
-                            </tr>
-                            <tr>
+                        	<tr>
                                 <td>项目名称</td>
                                 <td id="look_prj_name">
                                 </td>
                                 <td>任务单号</td>
                                 <td id="look_prj_no">
                                 </td>
+                            </tr>
+                            <tr>
+                                <td style="width:20%;">合同名称</td>
+                                <td style="width:30%;" id="look_contract_name">
+                                </td>
+                                <td style="width:20%;">合同编号</td>
+                                <td style="width:30%;" id="look_contract_no"></td>
                             </tr>
                             <tr>
                                 <td>开票时间</td>
@@ -1191,10 +1191,66 @@
 	$("#quedingxm").click(function(){
 		var tr=$("input[name='xiangmuName']:checked").parents("tr");
 		var data=$("#xiangmubiao").DataTable().row(tr).data();
+		//console.log(data)
 		$("#prj_name").val(data.prjName);
 		$("#prj_name").attr("data1",data.prjId);
 		$("#prj_no").val(data.prjNo);
 		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectCjByTaskName',
+            dataType: 'json',
+            data: {
+            	name:$('#prj_name').val()
+            },
+            success: function (json) {
+            	var task=json.task;
+            	var cj=json.cj;
+            	//$('#prj_no').val(task.prjNo);
+            	$("#contract_name").html('');
+            	//$("#cj_name").next().html('');
+            	$("#contract_no").html('');
+            	//$("#cj_no").next().html('');
+            	for(var i=0;i<cj.length;i++){
+            		$("#contract_name").append('<option>'+cj[i].contractName+'</option>');
+            		//$("#cj_name").next().append('<li value="'+cj[i].contractName+'" class="es-visible">'+cj[i].contractName+'</li>');
+                	$("#contract_no").append('<option>'+cj[i].contractNo+'</option>');
+                	//$("#cj_no").next().append('<li value="'+cj[i].contractNo+'" class="es-visible">'+cj[i].contractNo+'</li>');
+            	}
+            	
+            	$('#contract_name').editableSelect().on('select.editable-select', function (e, dom) {
+            		$.ajax({
+                        type: 'POST',
+                        url: getContextPath()+'/cj/selectCjContractByName',
+                        dataType: 'json',
+                        data: {
+                        	name:$('#contract_name').val()
+                        },
+                        success: function (json) {
+                        	$('#contract_no').val(json.contractNo);
+                        	$("#contract_money").val(json.contractMoney);
+                        }
+              		});
+              	})
+              	$('#contract_no').editableSelect().on('select.editable-select', function (e, dom) {
+              		$.ajax({
+                        type: 'POST',
+                        url: getContextPath()+'/cj/selectCjContractByNo',
+                        dataType: 'json',
+                        data: {
+                        	no:$('#contract_no').val()
+                        },
+                        success: function (json) {
+                        	$('#contract_name').val(json.contractName);
+                        	$("#contract_money").val(json.contractMoney);
+                        }
+              		});
+    		  	})
+            	
+            	
+            }
+  		})
+  		
 		$("#xiangmumd").modal("hide");
 	})
 	$("#xgchosexm").click(function(){
