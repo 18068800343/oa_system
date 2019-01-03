@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.ReceiveMoney;
 import org.ldxx.bean.User;
+import org.ldxx.dao.AlreadySkInfoDao;
 import org.ldxx.dao.ReceiveMoneyDao;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ReceiveMoneyController {
 	@Autowired
 	private ReceiveMoneyDao receiveMoneyDao;
+	@Autowired
+	private AlreadySkInfoDao asDao;
 	
 	@RequestMapping("/getReceiveMoneyList")
 	@ResponseBody
 	public List<ReceiveMoney> getReceiveMoneyList(String depart,String omName){
-		return receiveMoneyDao.selectReceiveList();
+		List<ReceiveMoney> list = receiveMoneyDao.selectReceiveList();
+		for(int i=0;i<list.size();i++){
+			String skNo = list.get(i).getSkNo();
+			//asDao.selectSumleijiMoneyByskNo(skNo);
+		}
+		return list;
 	}
 	
 	@RequestMapping("/getReceiveMoneyListByStatus")

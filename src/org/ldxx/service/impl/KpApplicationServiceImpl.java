@@ -55,4 +55,9 @@ public class KpApplicationServiceImpl implements KpApplicationService{
 		return dao.countfpNo();
 	}
 
+	@Override
+	public List<KpApplication> getAllkpNo() {
+		return dao.getAllkpNo();
+	}
+
 }

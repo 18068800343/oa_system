@@ -141,4 +141,11 @@ public class KpApplicationController {
 		return list;
 	}
 	
+	@RequestMapping("/getAllKpMoneyByFpNos")//初始化开票编号
+	@ResponseBody
+	public List<KpApplication> getAllkpNo(){
+		List<KpApplication> list=service.getAllkpNo();
+		return list;
+	}
+	
 }

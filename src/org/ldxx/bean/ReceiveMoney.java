@@ -19,6 +19,16 @@ public class ReceiveMoney {
 	private String status;//0：尚未确认，1：部分确认，2：正常确认
 	private String skNo;//收款编号
 	private String rmDesc;//收款摘要
+	private double cumulativeConfirmMoney;//累计确认金额
+	
+	
+	
+	public double getCumulativeConfirmMoney() {
+		return cumulativeConfirmMoney;
+	}
+	public void setCumulativeConfirmMoney(double cumulativeConfirmMoney) {
+		this.cumulativeConfirmMoney = cumulativeConfirmMoney;
+	}
 	
 	public String getSkNo() {
 		return skNo;
