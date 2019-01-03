@@ -46,6 +46,8 @@ public class Pay {
     private String compilerPerson;//编制人
 
     private String compilerTime;//编制时间
+    
+    private Float authorisePayment;//批准付款
 
     private String makeTime;
 
@@ -65,7 +67,13 @@ public class Pay {
     private String uName;//编制人               
     
     
-    public float getResultPay() {
+    public Float getAuthorisePayment() {
+		return authorisePayment;
+	}
+	public void setAuthorisePayment(Float authorisePayment) {
+		this.authorisePayment = authorisePayment;
+	}
+	public float getResultPay() {
 		return resultPay;
 	}
 	public void setResultPay(float resultPay) {

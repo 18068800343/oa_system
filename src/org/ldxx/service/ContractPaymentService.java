@@ -30,5 +30,7 @@ public interface ContractPaymentService {
 	int updateHistoryById(String id);
 	
 	Pay getAllDaiDianByFbNo(String no);//获取所有代垫款
+	
+	int updateAuthorisePayment(String id,float money);
 
 }
