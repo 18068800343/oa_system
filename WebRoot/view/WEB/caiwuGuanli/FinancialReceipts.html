@@ -41,12 +41,36 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL">
-                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">财务收款统计表</button> -->
             </div>
             <div class="UpperPartR">
+                <button type="button" class="btn btn-primary Pfba"  data-toggle="modal" data-target="#myModal2">导入到账记录</button>
                 <button type="button" class="btn btn-primary Pcaa" data-toggle="modal" data-target="#myModal">新建到账记录</button>
             </div>
 <!-- Modal2 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>导入收款项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div style="overflow:auto;">     
+                    <form class="form-inline" id="form1" enctype="multipart/form-data" method="post">
+                            <label style="width:20%;"></label>
+                        	<input style="width:60%;" type="file" name="file" id="file" class="form-control">
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="file_submit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model2结束 -->
+<!-- <!-- Modal2 -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -69,7 +93,7 @@
         </div>
     </div>
 </div>
-<!-- model2结束 -->
+<!--model2结束 -->
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
     <div class="modal-dialog modal-lg" role="document">
@@ -105,7 +129,7 @@
                             </tr>
                             <tr>
                                   <td>备注</td>
-                                  <td colspan="3"><textarea class="form-control" id="rmDesc"  cols="60" rows="4"></textarea></td>
+                                  <td colspan="3"><textarea class="form-control"  cols="60" rows="4"></textarea></td>
                               </tr>
                         </table>
                     </form>  
@@ -230,7 +254,7 @@
                             </tr>
                             <tr>
                                   <td>备注</td>
-                                  <td colspan="3"><textarea class="form-control" id="xgrmDesc"  cols="60" rows="4"></textarea></td>
+                                  <td colspan="3"><textarea class="form-control"  cols="60" rows="4"></textarea></td>
                               </tr>
                         </table>
                     </form>  
@@ -325,7 +349,7 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-					{ "data": null}, 
+					{ "data": "doPerson"}, 
 		            { "data": "ccName"}, 
 		            { "data": "receiveMoney"}, 
 		            { "data": "receiveMoney"}, 
@@ -350,20 +374,7 @@
 										    	}
 										  	  		
 										        }
-										  },
-										  {	
-												 "class": "details-control",
-												    "targets": 0,
-												    "searchable": true,
-												    "render": function(data, type, full) {
-												    	if(full.status=='0'){
-												    		return '尚未确认';
-												    	}else{
-												    		return '';
-												    	}
-												  	  		
-												        }
-												  }
+										  }
 								],
 								"fnDrawCallback" : function() {
 									$.ajax({
@@ -480,7 +491,6 @@
 		 
 		 var shoukuanjine=$("#shoukuanjine").val();
 		 var shoukuantime=$("#shoukuantime").val();
-		 var rmDesc=$("#rmDesc").val();
 		 	if(danwei==''){
 	    		toastr.error("甲方单位不能为空");
 	    		return;
@@ -501,11 +511,11 @@
 		           ccId:danwei,
 		           ccName:$("#jiafangdanwei option:selected").text(),
 		           receiveMoney:shoukuanjine,
-		           rmTime:shoukuantime,
-		           rmDesc:rmDesc,
+		           rmTime:shoukuantime
 		        },
 		        success: function (json) {
 		        	//location.reload([true]);
+		        	console.log(json)
 		        	$('#mainContent').DataTable().row.add(json).draw(false);     //新增行立即显示
 		        }
 		    });
@@ -525,14 +535,12 @@
     	$("#xgjiafangdanwei").find("option").text(data.ccName)
     	$("#xgshoukuanjine").val(data.receiveMoney)
     	$("#xgshoukuantime").val(data.rmTime)
-    	$("#xgrmDesc").val(data.rmDesc)
     }
     function xiugaicaiwu(){
 		 var danwei=$("#xgjiafangdanwei").val();
 		 
 		 var shoukuanjine=$("#xgshoukuanjine").val();
 		 var shoukuantime=$("#xgshoukuantime").val();
-		 var rmDesc=$("#xgrmDesc").val();
 		 if(danwei==''){
 	    		toastr.error("甲方单位不能为空");
 	    		return;
@@ -552,8 +560,7 @@
 		            "receiveMoney": shoukuanjine,
 		            "rmTime": shoukuantime,
 		            "doPerson": doPerson,
-		            "doTime":doTime,
-		            "rmDesc":rmDesc
+		            "doTime":doTime
 		        };
 		 $.ajax({
 		        type: 'POST',
@@ -564,8 +571,7 @@
 		           ccId:danwei,
 		           ccName:$("#xgjiafangdanwei option:selected").text(),
 		           receiveMoney:shoukuanjine,
-		           rmTime:shoukuantime,
-		           rmDesc:rmDesc,
+		           rmTime:shoukuantime
 		        },
 		        success: function (json) {
 		        	location.reload([true]);
@@ -618,7 +624,30 @@
     
 
 
-
+	function file_submit(){
+		var fileName=$("#file").val();
+		if(fileName.indexOf("xls")==-1){
+			toastr.error("请选择表格")
+			return;
+		}
+		var options={
+				url:getContextPath()+'/FinancialReceipts/importExcel',
+				data:$('#from1').serialize(),  
+				type:'POST',
+				dataType: 'json',
+				contentType : "application/x-www-form-urlencoded; charset=gbk",
+				success:function(json){
+					if(json>0){
+						toastr.success('导入成功');
+						$("#myModal2").modal("hide");
+						location.reload([true]);
+					}else{
+						toastr.error('导入失败');
+					}
+				}
+		}
+		$("#form1").ajaxSubmit(options);
+	}
     
     
 </script>

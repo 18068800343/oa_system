@@ -60,6 +60,7 @@ public class FinancialReceipts2Controller {
 	}
 	
 	
+	
 	@RequestMapping("/selectfinancialTablesByState")
 	@ResponseBody
 	public List<FinancialTables> selectfinancialTablesByState(String state){
