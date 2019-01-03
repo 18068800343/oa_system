@@ -93,19 +93,17 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>发票类型  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td>
-                                    <select class="form-control" style="width:60%;" id="fp_type">
-                                        <option value="增值税专用发票">增值税专用发票</option>
-                                        <option value="增值税普通发票">增值税普通发票</option>
-                                    </select>
-                                </td>
+                            	<td>合同金额</td>
+                                <td><input type="text" class="form-control" style="width:60%;" id="contract_money" disabled></td>
                                 <td>累计开票金额</td>
                                 <td><input type="text" class="form-control" style="width:60%;" id="all_kp_money" disabled></td>
                             </tr>
                             <tr>
-                            	<td>合同金额</td>
-                                <td><input type="text" class="form-control" style="width:60%;" id="" disabled></td>
+                            	<td>申请部门</td>
+                                <td>
+                                	<select id="bumen" class="form-control" style="width:60%;">
+                                    </select>
+                                </td>
                             	<!-- <td>税号  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td><input type="text" class="form-control" style="width:60%;" id="duty_no"></td> -->
                                 <td>开票申请人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -113,8 +111,22 @@
                                     <input type="text" class="form-control" style="width:60%;" id="sq_men" disabled>
                                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择申请人</button>
                                 </td>
-                                
                             </tr>
+                            <tr>
+                            	<td>发票类型  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>
+                                    <select class="form-control" style="width:60%;" id="fp_type">
+                                        <option value="增值税专用发票">增值税专用发票</option>
+                                        <option value="增值税普通发票">增值税普通发票</option>
+                                    </select>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                  <td>备注</td>
+                                  <td colspan="3"><textarea class="form-control" id="kp_desc"  cols="80" rows="4"></textarea></td>
+                              </tr>
                         </table>
                         <table class="table table-bordered">
                         	<thead>
@@ -229,31 +241,40 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>本次开票金额</td>
-                                <td id="look_kp_money"></td>
                                 <td>开票时间</td>
                                 <td id="look_time"></td>
+                                <td>本次开票金额</td>
+                                <td id="look_kp_money"></td>
                             </tr>
                             <tr>
+                                <td>发票类型</td>
+                                <td id="look_fp_type"></td>
                                 <td>累计开票金额</td>
                                 <td id="look_all_kp_money"></td>
-                                <td>发票类型</td>
-                                <td id="look_fp_type">
-                                </td>
                             </tr>
                             <tr>
-                            	<td>合同金额</td>
-                                <td></td>
+                            	<td>申请部门</td>
+                            	<td id="look_bumen"></td>
                             	<!-- <td>税号</td>
                                 <td id="look_duty_no"></td> -->
                                 <td>开票申请人</td>
                                 <td id="look_sq_men"></td>
                             </tr>
                             <tr>
+                            	<td>合同金额</td>
+                                <td id="look_contract_money"></td>
                             	<td>发票编码</td>
                             	<td id="look_fpNo"></td>
+                            </tr>
+                            <tr>
+                            	<td>申请编号</td>
+                                <td id="look_kp_no"></td>
                             	<td></td>
-                            	<td></td>
+                            	<td ></td>
+                            </tr>
+                            <tr>
+                            	<td>备注</td>
+                            	<td colspan="3" id="look_kpDesc"></td>
                             </tr>
                         </table>
                         <table class="table table-bordered">
@@ -616,17 +637,19 @@
             <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>
                     <tr>
-                        <th style="width:7%;">任务单号</th>
-                        <th style="width:11%;">项目名称</th>
-                        <th style="width:9%;">付款单位</th>
-                        <th style="width:8%;">开票日期</th>
-                        <th style="width:10%;">本次开票金额(万元)</th>
-                        <th style="width:10%;">累计开票金额(万元)</th>
+                    	<th style="width:10%;">合同编号</th>
+                        <th style="width:12%;">合同名称</th> 
+                        <th style="width:10%;">任务单号</th>
+                        <th style="width:13%;">项目名称</th>
+                        <th style="width:12%;">付款单位</th>
+                        <!-- <th style="width:8%;">开票日期</th>
+                        <th style="width:9%;">本次开票金额(万元)</th>
+                        <th style="width:9%;">累计开票金额(万元)</th> -->
                         <th style="width:9%;">发票类型</th>
                         <th style="width:9%;">开票申请人</th>
-                        <th style="width:9%;">发票编码</th>
-                        <th style="width:12%;">发票编码是否补录</th>
-                        <th style="width:6%;">操作</th>
+                        <th style="width:9%;">发票编号</th>
+                        <th style="width:8%;">发票编码是否补录</th>
+                        <th style="width:8%;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -739,12 +762,14 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
+					{ "data": "contractNo"}, 
+		            { "data": "contractName"}, 
 					{ "data": "prjNo"}, 
 		            { "data": null}, 
 		            { "data": "payUnit"}, 
-		            { "data": "time"}, 
+		            /* { "data": "time"}, 
 		            { "data": "kpMoney"}, 
-		            { "data": "allKpMoney"}, 
+		            { "data": "allKpMoney"}, */ 
 		            { "data": "fpType"}, 
 		            { "data": "sqMen"},
 		            { "data": "fpNo"},
@@ -754,7 +779,7 @@
 		        "columnDefs": [
 									{	
 									    "class": "details-control",
-									    "targets": 1,
+									    "targets": 3,
 									    "searchable": true,
 									    "render": function(data, type, full) {
 									    	/* var arrprj=[]; */
@@ -772,7 +797,7 @@
 									  },
 									{	
 										    "class": "details-control",
-										    "targets": 9,
+										    "targets": 8,
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										    		if(full.fpNo!=''&&full.fpNo!=null){
@@ -784,7 +809,7 @@
 										        }
 										  },{	
 												 "class": "details-control",
-												    "targets": 10,
+												    "targets": 9,
 												    "searchable": true,
 												    "render": function(data, type, full) {
 												  	  		return '<i class="iconfont icon-icon-test Pcdb" style="font-size:18px;cursor:pointer;display:none;" title="查看" onclick="look(this)"></i> &nbsp <i class="iconfont icon-icon_edit Pcdc" style="font-size:18px;cursor:pointer;display:none;" title="补录发票编号" onclick="backTracking(this)"></i>';
@@ -1222,7 +1247,6 @@
 	    function saveCjName(){
 	    	var tr=$("input[name='cjName']:checked").parents("tr");
 	    	var data=$("#cj_table").DataTable().row(tr).data();
-	    	//console.log(data)
 	    	if(data==null){
 	    		toastr.error("请选择")
 	    		return;
@@ -1231,6 +1255,7 @@
 	    	$("#contract_no").val(data.contractNo);
 	    	$('#prj_no').val(data.taskCode);
         	$('#prj_name').val(data.prjName);
+        	$("#contract_money").val(data.contractMoney)
         	$("#all_kp_money").val('');
 	    	$("#choose_cj").modal("hide");
 	    }
@@ -1281,6 +1306,7 @@
 	                    	$('#contract_name').val(json.contractName);
 	                    	$('#prj_no').val(json.taskCode);
 	                    	$('#prj_name').val(json.prjName);
+	                    	$("#contract_money").val(json.contractMoney)
 	                    	$("#all_kp_money").val('');
 	                    }
 	          		});
@@ -1339,6 +1365,8 @@
             data: {
             },
             success: function (json) {
+            	$("#bumen").empty();
+            	$("#xgbumen").empty();
             	for(var i=0;i<json.length;i++){
 	            	$("#bumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
 	            	$("#xgbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
@@ -1441,6 +1469,9 @@
 		var fp_type=$("#fp_type").val();
 		//var duty_no=$("#duty_no").val();
 		var sq_men=$("#sq_men").val();
+		var contract_money=$("#contract_money").val();
+		var bumen=$("#bumen").val();
+		var kp_desc=$("#kp_desc").val();
 		var pay_unit=$("#pay_unit").find("option:selected").text();
 		var xy_code=$("#xy_code").val();
 		var address=$("#address").val();
@@ -1477,10 +1508,6 @@
         	}
     		
     	}
-		/* if(duty_no==''){
-    		toastr.error("税号不能为空");
-    		return;
-    	} */
 		if(sq_men==''){
     		toastr.error("开票申请人不能为空");
     		return;
@@ -1514,7 +1541,10 @@
 				address:address,
 				phone:phone,
 				bank:bank,
-				bankNo:bankNo
+				bankNo:bankNo,
+				contractMoney:contract_money,
+				kpDesc:kp_desc,
+				kpDepartment:bumen,
 			},
 			success:function(json){
 				if(json>0){
@@ -1638,6 +1668,10 @@
 		$("#look_fp_type").text(data.fpType);
 		//$("#look_duty_no").text(data.dutyNo);
 		$("#look_sq_men").text(data.sqMen);
+		$("#look_contract_money").text(data.contractMoney)
+		$("#look_bumen").text(data.omName)
+		$("#look_kpDesc").text(data.kpDesc)
+		$("#look_kp_no").text(data.kpNo)
 		$("#look_pay_unit").text(data.payUnit);
 		$("#look_xy_code").text(data.xyCode);
 		$("#look_address").text(data.address);
