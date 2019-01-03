@@ -372,6 +372,11 @@ public class TaskController {
 			@RequestParam(defaultValue="0")float contractMoneyMin,@RequestParam(defaultValue="0")float contractMoneyMax,
 			@RequestParam(defaultValue="0")float zdMoneyMin,@RequestParam(defaultValue="0")float zdMoneyMax){
 		List<Task> task=tService.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
+		for(int i=0;i<task.size();i++){
+			String no=task.get(i).getPrjNo();
+			List<CjContract> cj=cjservice.selectCjContractByTaskNo(no);
+			task.get(i).setCj(cj);
+		}
 		return task;
 	}
 	

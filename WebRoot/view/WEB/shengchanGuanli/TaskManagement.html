@@ -171,7 +171,7 @@
                                     <th>项目来源</th>
                                     <th>项目所属公司</th>
                                     <th>项目类型</th>
-                                    <th>甲方单位</th>
+                                    <th>项目业主单位</th>
                                     <th>项目金额(万元)</th>
                                     <th>合同金额(万元)</th>
                                     <th>合同信息</th>
@@ -262,7 +262,7 @@
                     	</thead>
                     	<tbody>
                     		<tr>
-                                <td  style="width:10%;">甲方单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td  style="width:10%;">项目业主单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td  style="width:21%;">
                                 <form class="form-inline">
                                 	<select class="form-control" style="width:60%;" id="yezhudanwei">
@@ -441,7 +441,7 @@
                     	</thead>
                     	<tbody>
                     		<tr>
-                                <td style="width:10%;">甲方单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:10%;">项目业主单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td  style="width:21%;">
                                 	<div class="yihang">
 	                                	<select class="form-control" style="width:60%;" id="xgyezhudanwei">
@@ -581,7 +581,7 @@
                     	</thead>
                     	<tbody>
                     		<tr>
-	                            <td style="width:10%;">甲方单位</td>
+	                            <td style="width:10%;">项目业主单位</td>
 	                            <td id="lookyezhudanwei" style="width:15%;"></td>
 	                            <td style="width:10%;">项目金额</td>
 	                            <td id="lookjine" style="width:15%;"></td>
@@ -635,7 +635,7 @@
 	                        		<th>编号</th>
 	                        		<th>项目名称</th>
 	                        		<th>所属公司</th>
-	                        		<th>甲方单位</th>
+	                        		<th>业主单位</th>
 	                        		<th>修改时间</th>
 	                        		<th style="width:80px;;">操作</th>
 	                        	</tr>
@@ -849,7 +849,7 @@
 				                    	</thead>
 				                    	<tbody>
 				                    		<tr>
-					                            <td>甲方单位</td>
+					                            <td>项目业主单位</td>
 					                            <td id="historyyezhudanwei"></td>
 					                            <td>项目金额</td>
 					                            <td id="historyjine"></td>
@@ -1098,7 +1098,7 @@
 		            { "data": "ccName"}, 
 		            { "data": "prjEstimateMoney"}, 
 		            { "data": "contractMoney"}, 
-		            { "data": null}, 
+		            { "data": "cj"}, 
 		            { "data": "prjStartTime"}, 
 		            { "data": "omName"}, 
 		            { "data": null},
@@ -1108,8 +1108,13 @@
 										 "class": "tcenter",
 									     "targets": 8,
 									     "searchable": true,
-									     "render": function(data, type, full) { 
-							  	  		 return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;margin-left:5px;" title="查看详细信息"   id="lookContract" onclick="lookContract(this)"></i>'
+									     "render": function(data, type, full) {
+									    	 if(data.length==0){
+									    		 return '<button type="button" class="btn btn-danger">无</button>';
+									    	 }else{
+									    		 return '<button type="button" class="btn btn-success" onclick="lookContract(this)">有</button>';
+									    	 }
+							  	  		 	/* return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;margin-left:5px;" title="查看详细信息"   id="lookContract" onclick="lookContract(this)"></i>' */
 							            }
 						        },
 						        {	
@@ -1690,7 +1695,7 @@
             }
 		});
 	}
-    //项目甲方单位
+    //项目业主单位
     function leixingSelect2(){
 	    $.ajax({
 	        type: 'POST',
@@ -1981,7 +1986,7 @@
 	    		return;
 	    	}
         	if(yezhudanwei==''){
-	    		toastr.error("甲方单位不能为空");
+	    		toastr.error("项目业主单位不能为空");
 	    		return;
 	    	}
         	if(jine==''){
@@ -2154,7 +2159,7 @@
 	    		return;
 	    	}
         	if(yezhudanwei==''){
-	    		toastr.error("甲方单位不能为空");
+	    		toastr.error("项目业主单位不能为空");
 	    		return;
 	    	}
         	if(jine==''){
@@ -2499,7 +2504,7 @@
 	    		return;
 	    	}
         	if(yezhudanwei==''){
-	    		toastr.error("甲方单位不能为空");
+	    		toastr.error("项目业主单位不能为空");
 	    		return;
 	    	}
         	if(jine==''){
@@ -2667,7 +2672,7 @@
 	    		return;
 	    	}
         	if(yezhudanwei==''){
-	    		toastr.error("甲方单位不能为空");
+	    		toastr.error("项目业主单位不能为空");
 	    		return;
 	    	}
         	if(jine==''){
@@ -2997,7 +3002,7 @@
 		 });
   	}
   	
-  $("#lookContract").bind("click",function(){
+  /* $("#lookContract").bind("click",function(){
 	    var dom = $(this).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
 		var prjId =data.prjId;
@@ -3016,46 +3021,23 @@
             	}
             }
         });
-  });
-  
-	var flag_dianji=undefined;
+  }); */
+  	
+  	var stateArray=[];
   	function lookContract(s){
 	    var tr = $(s).parents('tr');
 		var data=$('#mainContent').DataTable().row(tr).data();
-		var taskNo =data.prjNo;
-		if(flag_dianji==undefined){
-			flag_dianji = true;
+		var cj=data.cj;
+		var id=data.prjId;
+		if(stateArray.indexOf(id)>=0){
+			stateArray.splice($.inArray(id,stateArray),1);// $.inArray(data.idFirst,stateArray)获取idFirst在数组中的索引值 ；stateArray.splice(索引值，数量)删除数组中指定索引值的元素
+			$(".inTr"+id).remove();
 		}else{
-			if(flag_dianji==true){
-				flag_dianji=false;
-			}else{
-				flag_dianji=true;
+			stateArray.push(id);
+			for(var i=0;i<cj.length;i++){
+				$(tr).after("<tr class='inTr"+id+"'><td style='width:100px;color:green;' class='details-control'>"+(i+1)+"</td><td style='width:100px;color:green;' colspan='3' >合同名称：    <a onclick='tiaozhuan(this)' data-id='"+cj[i].cjId+"' style='color:green;'>"+cj[i].contractName+"</a></td><td colspan='3' style='width:100px;color:green;'>合同金额：    "+cj[i].contractMoney+"</td><td></td></tr>")
 			}
 		}
-		
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/task/getContracts',
-            dataType: 'json',
-            data: {
-            	id:taskNo
-            },
-            success: function (json) {
-            	var obj  = json;
-            	if(json==0){
-            		
-            	}else{
-            		if(flag_dianji==true){
-            			$(".inTr").remove();
-            		}else{
-            			for(var i in obj){
-                			$(tr).after("<tr class='inTr'><td style='width:100px' class='details-control'><b style='font-size:22px;cursor:pointer;text-align:center;'>·</b></td><td style='width:100px' colspan='2' >合同名称：    <a onclick='tiaozhuan(this)' data-id='"+obj[i].cjId+"'>"+obj[i].contractName+"</a></td><td colspan='2'>合同金额：    "+obj[i].contractMoney+"</td><td></td></tr>")
-                		}
-            		}
-            		
-            	}
-            }
-        });
   }
   	function tiaozhuan(s){
   		var cjId = $(s).attr("data-id");

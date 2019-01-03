@@ -77,6 +77,8 @@ public class Task {
     
     private List<Enterprise> enterprise;
     
+    private List<CjContract> cj;
+    
     private String omName;//主办部门
     private String name1;//协办部门1
     private String name2;//协办部门2
@@ -87,6 +89,14 @@ public class Task {
     private String ccName;
     
     
+	public List<CjContract> getCj() {
+		return cj;
+	}
+
+	public void setCj(List<CjContract> cj) {
+		this.cj = cj;
+	}
+
 	public String getImportance() {
 		return importance;
 	}
