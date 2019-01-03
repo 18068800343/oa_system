@@ -21,4 +21,6 @@ public interface FinancialReceipts2Service {
 	public int addFinancialReceipts2(Map<String, Object> map);
 
 	public List<FinancialDepartments> selectFinancialDepartmentsById(String id);
+
+	int addReceiveMoney(Map<String, Object> map);
 }

@@ -21,5 +21,7 @@ public interface ReceiveMoneyDao {
 	int updateStatus(@Param("id")String id, @Param("status")String status);
 
 	int countSkNo();
+	
+	
 
 }

@@ -86,6 +86,32 @@ public class FinancialReceipts2ServiceImpl implements FinancialReceipts2Service{
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public int addReceiveMoney(Map<String, Object> map) {
+		List<FinancialTables> list = (List<FinancialTables>) map.get("fR2");
+		int num=0;
+		if(list.size()!=0){
+			for(int i=0;i<list.size();i++){
+				String no=list.get(i).gettNo();
+				String name = list.get(i).gettName();
+				String department = list.get(i).gettDepartment();
+				float collectionValue = list.get(i).gettCollectionValue();
+				String desc = list.get(i).gettDesc();
+				String time = list.get(i).gettTime();
+				FinancialTables CollectionValue2=dao.selectValueByno(no);
+				FinancialTables f=new FinancialTables();
+				f.settNo(no);
+				f.settName(name);
+				f.settDepartment(department);
+				f.settCollectionValue(collectionValue+CollectionValue2.gettCollectionValue());
+				f.settDesc(desc);
+				f.settTime(time);
+				num=dao.updateValueByNo(f);
+			}
+		}
+		return num;
+	}
+	@Override
 	public List<FinancialDepartments> selectFinancialDepartmentsById(String id) {
 		return fdao.selectFinancialDepartmentsById(id);
 	}
