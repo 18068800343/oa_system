@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.CjContractDao" >
 	<insert id="addCjContract" parameterType="CjContract">
-		insert into cj_contract(cj_id,task_code,contract_name,contract_no,prj_name,prj_type,contract_name_jia,contract_name_yi,
+		insert into cj_contract(cj_id,task_code,contract_name,contract_no,prj_name,prj_type,contract_name_jia,cc_name,contract_name_yi,
 						contract_start_time,contract_end_time,yi_cj_department,contract_long_time,receieve_money_condition,
 						contract_money,temporary_money,contract_sign_time,work_info,main_department,main_department_money,
 						assist_department1,assist_department1_money,assist_department2,assist_department2_money,
 						assist_department3,assist_department3_money,split_state,history)
-				values(#{cj.cjId},#{cj.taskCode},#{cj.contractName},#{cj.contractNo},#{cj.prjName},#{cj.prjType},#{cj.contractNameJia},
+				values(#{cj.cjId},#{cj.taskCode},#{cj.contractName},#{cj.contractNo},#{cj.prjName},#{cj.prjType},#{cj.contractNameJia},#{cj.ccName},
 				#{cj.contractNameYi},#{cj.contractStartTime},#{cj.contractEndTime},#{cj.yiCjDepartment},#{cj.contractLongTime},
 				#{cj.receieveMoneyCondition},#{cj.contractMoney},#{cj.temporaryMoney},#{cj.contractSignTime},#{cj.workInfo},
 				#{cj.mainDepartment},#{cj.mainDepartmentMoney},#{cj.assistDepartment1},#{cj.assistDepartment1Money},
@@ -16,7 +16,7 @@
 	
 	<update id="updateCjContract" parameterType="CjContract">
 		update cj_contract set task_code=#{cj.taskCode},contract_name=#{cj.contractName},prj_name=#{cj.prjName},
-		prj_type=#{cj.prjType},contract_name_jia=#{cj.contractNameJia},contract_name_yi=#{cj.contractNameYi},
+		prj_type=#{cj.prjType},contract_name_jia=#{cj.contractNameJia},cc_name=#{cj.ccName},contract_name_yi=#{cj.contractNameYi},
 		contract_start_time=#{cj.contractStartTime},contract_end_time=#{cj.contractEndTime},
 		yi_cj_department=#{cj.yiCjDepartment},contract_long_time=#{cj.contractLongTime},
 		receieve_money_condition=#{cj.receieveMoneyCondition},contract_money=#{cj.contractMoney},
@@ -29,9 +29,8 @@
 	</update>
 	
 	<select id="selectCjContractByStatus" resultType="CjContract">
-		select a.*,c.cc_name,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4 
+		select a.*,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4 
 		from cj_contract as a left join mode_status as b on a.cj_id=b.mode_id
-		left join consociation_company as c on a.contract_name_jia=c.cc_id
 		left join organization_management as d on a.yi_cj_department=d.om_id 
 		left join organization_management as d2 on a.main_department=d2.om_id
 		left join organization_management as d3 on a.assist_department1=d3.om_id
@@ -62,9 +61,8 @@
 	</select>
 	
 	<select id="selectCjHistory" resultType="CjContract">
-		select a.*,c.cc_name,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4 
+		select a.*,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4 
 		from cj_contract as a left join mode_status as b on a.cj_id=b.mode_id
-		left join consociation_company as c on a.contract_name_jia=c.cc_id
 		left join organization_management as d on a.yi_cj_department=d.om_id 
 		left join organization_management as d2 on a.main_department=d2.om_id
 		left join organization_management as d3 on a.assist_department1=d3.om_id
@@ -74,8 +72,7 @@
 	</select>
 	
 	<select id="selectCjContractById" resultType="CjContract">
-		select a.*,c.cc_name,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4  from cj_contract as a
-		left join consociation_company as c on a.contract_name_jia=c.cc_id
+		select a.*,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4  from cj_contract as a
 		left join organization_management as d on a.yi_cj_department=d.om_id 
 		left join organization_management as d2 on a.main_department=d2.om_id
 		left join organization_management as d3 on a.assist_department1=d3.om_id
@@ -116,21 +113,18 @@
 	</select>
 	
 	<select id="selectNameAndNo" resultType="CjContract">
-		select cj_id,contract_name,contract_no,task_code,prj_name,c.cc_name,contract_start_time,contract_end_time,contract_money from cj_contract a
+		select cj_id,contract_name,contract_no,task_code,prj_name,cc_name,contract_start_time,contract_end_time,contract_money from cj_contract a
 		left join mode_status as b on a.cj_id=b.mode_id
-		left join consociation_company as c on a.contract_name_jia=c.cc_id
 		where b.status=2 and history=1
 	</select>
 	
 	<select id="selectCjContractByName" resultType="CjContract">
-		select cj_id,contract_no,prj_name,task_code,contract_start_time,contract_end_time,c.cc_name,contract_money,receieve_money_condition from cj_contract as a
-		left join consociation_company as c on a.contract_name_jia=c.cc_id
+		select cj_id,contract_no,prj_name,task_code,contract_start_time,contract_end_time,cc_name,contract_money,receieve_money_condition from cj_contract as a
 		where contract_name=#{name} and history=1
 	</select>
 	
 	<select id="selectCjContractByNo" resultType="CjContract">
-		select cj_id,contract_name,prj_name,task_code,contract_start_time,contract_end_time,c.cc_name,contract_money,receieve_money_condition from cj_contract as a
-		left join consociation_company as c on a.contract_name_jia=c.cc_id 
+		select cj_id,contract_name,prj_name,task_code,contract_start_time,contract_end_time,cc_name,contract_money,receieve_money_condition from cj_contract as a
 		where contract_no=#{no} and history=1
 	</select>
 	
@@ -151,8 +145,7 @@
 	</select>
 	
 	<select id="selectCjByCjNo" resultType="CjContract">
-		select *,c.cc_name,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4 from cj_contract as a
-		left join consociation_company as c on a.contract_name_jia=c.cc_id
+		select a.*,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4 from cj_contract as a
 		left join organization_management as d on a.yi_cj_department=d.om_id 
 		left join organization_management as d2 on a.main_department=d2.om_id
 		left join organization_management as d3 on a.assist_department1=d3.om_id
