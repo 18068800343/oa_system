@@ -73,6 +73,8 @@ public class Task {
     
     private String assist3Other;
 
+    private String importance;
+    
     private List<Enterprise> enterprise;
     
     private String omName;//主办部门
@@ -85,6 +87,14 @@ public class Task {
     private String ccName;
     
     
+	public String getImportance() {
+		return importance;
+	}
+
+	public void setImportance(String importance) {
+		this.importance = importance;
+	}
+
 	public String getPrjArea() {
 		return prjArea;
 	}
