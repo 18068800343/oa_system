@@ -21,11 +21,19 @@ public class BidApproval {
 	private String fileLevel;
 	private String fgLindao;
 	private String tbPeople;
+	private String tbUname;
 	private String ccName;//业主单位名称
 	private String omName;//协作单位名称
 	private String zhongbiao;
 	
 	
+	
+	public String getTbUname() {
+		return tbUname;
+	}
+	public void setTbUname(String tbUname) {
+		this.tbUname = tbUname;
+	}
 	public String getZhongbiao() {
 		return zhongbiao;
 	}
