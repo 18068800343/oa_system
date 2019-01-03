@@ -332,5 +332,12 @@ public class ContractPaymentController {
 	public int updateHistoryById(String id){
 		return payService.updateHistoryById(id);
 	}
-
+	
+	@RequestMapping("/updateAuthorisePayment")
+	@ResponseBody
+	public int updateAuthorisePayment(String id,float money){
+		int i=payService.updateAuthorisePayment(id, money);
+		return i;
+	}
+	
 }

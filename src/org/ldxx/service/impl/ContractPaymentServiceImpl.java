@@ -103,4 +103,9 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 		return payDao.getAllDaiDianByFbNo(no);
 	}
 
+	@Override
+	public int updateAuthorisePayment(String id, float money) {
+		return payDao.updateAuthorisePayment(id, money);
+	}
+
 }
