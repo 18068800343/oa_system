@@ -3654,6 +3654,8 @@
 	                    	$('#cghetongming').val(json[i].contractName);
 	                    	$('#renwudanhao').val(json[i].workNo);
 	                    	$("#hetongMoney").val(json[i].cgContractMoney)
+	                    	$("#yifang").val(json[i].contractNameYi);
+	                    	$("#yifang").trigger("change");
 	                    	selectAllPrjLeader(json[i].workNo);
                     	}
                     }
@@ -5027,16 +5029,15 @@
 	                $("#xiangmumd").modal("show");
 	            }
 	        });
-		 $('#xiangmumd').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+		 /* $('#xiangmumd').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
 	            if ($('.modal.in').size() >= 1) {
 	                $('body').addClass('modal-open')
 	            }
-	        })
+	        }) */
 	})
 	$("#quedingxm").click(function(){
 		var tr=$("input[name='xiangmuName']:checked").parents("tr");
 		var data=$('#xiangmubiao').DataTable().row(tr).data();
-		console.log(data)
 		/* var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
 		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
 		var jiafang=$("input[name='xiangmuName']:checked").parent().next().next().next().next().next().text(); */
@@ -5044,7 +5045,7 @@
 		$("#taskNo").val(data.prjNo);
 		$("#department").val(data.omName);
 		$("#department").attr("data1",data.mainDepartment);
-		$("#prjfuzeren").val(data.mainPrjLeader);
+		$("#prjfuzeren").val(data.mainPrjLeaderName);
 		$("#clcgbianhao").val("");
 		$("#hetongleijiMoney").val("");
 		$("#xiangmumd").modal("hide");
@@ -5076,7 +5077,6 @@
 		}) */
 	})
 	$("#xgchosexm").click(function(){
-		$("#xgxiangmumd").modal("show");
 		 $.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/task/selectTaskByStatus',
@@ -5086,11 +5086,12 @@
 	            	status:2,
 	            },
 	            success: function (json) {
+	            	$("#xgxiangmumd").modal("show");
 	                $('#xgxiangmubiao').dataTable().fnClearTable();
 	                $('#xgxiangmubiao').DataTable().rows.add(json).draw(false);
 	            }
 	        });
-		 $('#xgxiangmumd').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+		   $('#xgxiangmumd').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
 	            if ($('.modal.in').size() >= 1) {
 	                $('body').addClass('modal-open')
 	            }
@@ -5112,7 +5113,6 @@
 				prjName:prjName
 				},
 			success:function(json){
-				//console.log(json)
 				var array=new Array();
 				var array2=new Array();
 		    	for(var i=0;i<json.length;i++){
@@ -5998,6 +5998,7 @@
 	function saveCgName2(){
 		var tr=$("input[name='cgName2']:checked").parents("tr");
 	   	var data=$("#cg_table2").DataTable().row(tr).data();
+	   	console.log(data)
 	   	if(data==null){
 	   		toastr.error("请选择")
 	   		return;
@@ -6006,6 +6007,8 @@
 	  	$("#cghetonghao").val(data.cgNo);
 	  	$("#renwudanhao").val(data.workNo);
 	  	$("#hetongMoney").val(data.cgContractMoney);
+	  	$("#yifang").val(data.contractNameYi);
+	  	$("#yifang").trigger("change");
 	  	selectAllPrjLeader(data.workNo);
 	  	$("#choose_cg2").modal("hide");
 	}
