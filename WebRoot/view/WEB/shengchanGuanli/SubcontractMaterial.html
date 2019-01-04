@@ -67,7 +67,10 @@
 			                </form>
                         </div>
                         <div class="UpperPartR">
-                            <button type="button" class="btn btn-primary Pecgba" data-toggle="modal" data-target="#myModal">填报履约评价表</button>
+                        	<div class="yihang">
+		            			 <button type="button" class="btn btn-primary Pecgba" data-toggle="modal" data-target="#myModal">填报履约评价表</button>
+				                <div id="tabBtn" style="margin-left: 10px;"></div>
+				            </div>
                         </div>
             <!-- Modal -->
             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -857,7 +860,10 @@
                 </form>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary Pecgbd" data-toggle="modal" data-target="#myModal2">新建采购结算申请</button>
+            	<div class="yihang">
+           			<button type="button" class="btn btn-primary Pecgbd" data-toggle="modal" data-target="#myModal2">新建采购结算申请</button>
+	                <div id="tabBtn2" style="margin-left: 10px;"></div>
+	            </div>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
@@ -1138,7 +1144,7 @@
 
         </div>
         <div class="LowerPart" style="margin-top:3px;">
-            <table class="table table-bordered table-condensed" id="mainContent2">
+            <table class="table table-bordered table-condensed" id="mainContent2" style="width:100%;">
                 <thead>
                     <tr>
                         <th>任务单号</th>
@@ -1307,8 +1313,11 @@
 			                </form>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary Pecgbg" data-toggle="modal" data-target="#myModal3">新建采购合同履约申请表</button>
-                <button type="button" class="btn btn-primary Pecgbh" id="daochu">导出打印</button>
+            	<div class="yihang">
+           			<button type="button" class="btn btn-primary Pecgbg" data-toggle="modal" data-target="#myModal3">新建采购合同履约申请表</button>
+	                <div id="tabBtn3" style="margin-left: 10px;"></div>
+	            </div>
+                <!-- <button type="button" class="btn btn-primary Pecgbh" id="daochu">导出打印</button> -->
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal3">
@@ -1729,7 +1738,7 @@
 
         </div>
         <div class="LowerPart" style="margin-top:3px;">
-            <table class="table table-bordered table-condensed" id="mainContent3">
+            <table class="table table-bordered table-condensed" id="mainContent3" style="width:100%;">
                 <thead>
                     <tr>
                         <th>采购合同号</th>
@@ -2121,13 +2130,22 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
@@ -2163,7 +2181,8 @@
         $(".zhuangtai3").trigger("change");
 	});
  <!-- 履约评价 -->
-    var table=$('#mainContent').dataTable({
+ 	$.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -2189,7 +2208,7 @@
 						  "targets": 2,
 						  "searchable": true,
 						  "render": function(data, type, full) {
-								return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjName+'</a>'
+								return '<a onclick="gotoPrj(this)" style="color:#4876FF;cursor: pointer;">'+data.prjName+'</a>'
 						  }
 						},
 						{	
@@ -2248,7 +2267,34 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '履约评价',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+		                        	if(rowIdx==2){
+		                        		data=data.replace("</a>","")
+		                        		data=data.replace('<a onclick="gotoPrj(this)" style="color:#4876FF;cursor: pointer;">',"")
+		                        	}
+					                return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4,5,6,7]
+		                }
+		            }
+		        ]
 	});
+    
+    table.buttons().container().appendTo( $('#tabBtn') );
+    
     var table11=$('#xiangmubiao').dataTable({
         "deferRender": true,
         "processing": true,
@@ -2391,7 +2437,7 @@
 	});
     
  <!-- 采购结算申请 -->
-    var table2=$('#mainContent2').dataTable({
+    var table2=$('#mainContent2').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -2424,7 +2470,6 @@
 						    			}
 						    		}
 						    		return aa; 
-						  	  		
 						        }
 						  },
 						  {
@@ -2499,7 +2544,45 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '采购结算申请',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+		                        	if(rowIdx==1){
+		                        		var prjName="";
+		                        		$(code).find("a").each(function(){
+		                        			var name=$(this).text();
+		                        			prjName=prjName+","+name;
+		                        		})
+		                        		if(prjName.indexOf(",")==0){
+		                        			data=prjName.substring(1,prjName.length);
+		                        		}
+		                        	}
+		                        	if(rowIdx==2){
+		                        		data=$(code).find("a").eq(0).text();
+		                        	}
+		                        	if(rowIdx==3){
+		                        		data=$(code).find("a").eq(0).text();
+		                        	}
+					                return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4,5]
+		                }
+		            }
+		        ]
 	});
+    table2.buttons().container().appendTo( $('#tabBtn2') );
+    
     <!-- 采购结算申请的历史表格 -->
     var table22=$('#lookHistory2').dataTable({
         "deferRender": true,
@@ -2640,7 +2723,7 @@
         
 	});
     <!-- 采购合同履约 -->
-    var table3=$('#mainContent3').dataTable({
+    var table3=$('#mainContent3').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -2731,7 +2814,37 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '采购合同履约',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+		                        	if(rowIdx==1){
+		                        		data=$(code).find("a").eq(0).text();
+		                        	}
+									if(rowIdx==4){
+										data=$(code).find("a").eq(0).text();
+		                        	}
+					                return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4,5]
+		                }
+		            }
+		        ]
 	});
+    table3.buttons().container().appendTo( $('#tabBtn3') );
+    $('.buttons-csv').addClass('btn btn-primary');
+    
+    
     <!-- 采购合同履约的历史表格 -->
     var table33=$('#lookHistory3').dataTable({
         "deferRender": true,
@@ -4304,9 +4417,9 @@
   	}
     
 	//导出
-	$("#daochu").click(function(){
+	/* $("#daochu").click(function(){
 		window.location.href=encodeURI(getContextPath()+'/materialPerformance/exportmaterialPerformance');
-	})
+	}) */
     
 	
 	

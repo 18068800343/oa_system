@@ -66,7 +66,10 @@
                             </select>
                         </div>
                         <div class="UpperPartR">
-                            <button type="button" class="btn btn-primary Pecgca" data-toggle="modal" data-target="#myModal">填报履约评价表</button>
+                        	<div class="yihang">
+		            			<button type="button" class="btn btn-primary Pecgca" data-toggle="modal" data-target="#myModal">填报履约评价表</button>
+				                <div id="tabBtn" style="margin-left: 10px;"></div>
+				            </div>
                         </div>
             <!-- Modal -->
             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -603,7 +606,10 @@
                 </select>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary Pecgcc" data-toggle="modal" data-target="#myModal2">新建分包结算申请</button>
+            	<div class="yihang">
+           			<button type="button" class="btn btn-primary Pecgcc" data-toggle="modal" data-target="#myModal2">新建分包结算申请</button>
+	                <div id="tabBtn2" style="margin-left: 10px;"></div>
+	            </div>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
@@ -931,7 +937,7 @@
 
         </div>
         <div class="LowerPart" style="margin-top:3px;">
-            <table class="table table-bordered table-condensed" id="mainContent2">
+            <table class="table table-bordered table-condensed" id="mainContent2" style="width:100%;">
                 <thead>
                     <tr>
                     	<th>分包合同号</th>
@@ -1031,8 +1037,11 @@
                   </select>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary Pecgce" data-toggle="modal" data-target="#myModal3">新建合同履约申请表</button>
-                <button type="button" class="btn btn-primary Pecgcf" onclick="exportThis()">导出打印</button>
+            	<div class="yihang">
+           			<button type="button" class="btn btn-primary Pecgce" data-toggle="modal" data-target="#myModal3">新建合同履约申请表</button>
+	                <div id="tabBtn3" style="margin-left: 10px;"></div>
+	            </div>
+                <!-- <button type="button" class="btn btn-primary Pecgcf" onclick="exportThis()">导出打印</button> -->
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal3">
@@ -1391,7 +1400,7 @@
 
         </div>
         <div class="LowerPart" style="margin-top:3px;">
-            <table class="table table-bordered table-condensed" id="mainContent3">
+            <table class="table table-bordered table-condensed" id="mainContent3" style="width:100%;">
                 <thead>
                     <tr>
                         <th>分包合同号</th>
@@ -1610,13 +1619,22 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -1633,7 +1651,9 @@
     	initCj();
     	initbumen();
     });
-    var table=$('#mainContent').dataTable({
+    
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -1723,7 +1743,35 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '履约评价',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+					                if(rowIdx==2){
+					                	data=$(code).find("a").eq(0).text();
+					                }
+					                if(rowIdx==4){
+					                	data=$(code).find("a").eq(0).text();
+					                }
+		                        	return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4,5,6,7]
+		                }
+		            }
+		        ]
 	});
+    table.buttons().container().appendTo( $('#tabBtn') );
+    
     var table1=$('#fb_table').dataTable({
         "deferRender": true,
         "processing": true,
@@ -1771,7 +1819,7 @@
         }},
         
 	});
-    var table2=$('#mainContent2').dataTable({
+    var table2=$('#mainContent2').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -1860,7 +1908,35 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '分包结算',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+					                if(rowIdx==1){
+					                	data=$(code).find("a").eq(0).text();
+					                }
+					                if(rowIdx==3){
+					                	data=$(code).find("a").eq(0).text();
+					                }
+		                        	return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4,5,6]
+		                }
+		            }
+		        ]
 	});
+    table2.buttons().container().appendTo( $('#tabBtn2') );
+    
     var table22=$('#xiangmubiao').dataTable({
         "deferRender": true,
         "processing": true,
@@ -2003,7 +2079,7 @@
         }},
         
 	});
-    var table3=$('#mainContent3').dataTable({
+    var table3=$('#mainContent3').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -2091,7 +2167,35 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '分包合同履约',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+		                        	if(rowIdx==1){
+		                        		data=$(code).find("a").eq(0).text();
+		                        	}
+		                        	if(rowIdx==4){
+		                        		data=$(code).find("a").eq(0).text();
+		                        	}
+					                return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4,5]
+		                }
+		            }
+		        ]
 	});
+    table3.buttons().container().appendTo( $('#tabBtn3') );
+    $('.buttons-csv').addClass('btn btn-primary');
     
     var table4=$('#cj_table').dataTable({
         "deferRender": true,
