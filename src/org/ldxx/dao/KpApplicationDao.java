@@ -24,4 +24,6 @@ public interface KpApplicationDao {
 	public int countfpNo();
 
 	public List<KpApplication> getAllkpNo();
+
+	public KpApplication getKpApplicationBykpNo(@Param("kpno")String kpno);
 }

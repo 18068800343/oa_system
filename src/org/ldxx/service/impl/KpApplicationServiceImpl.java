@@ -60,4 +60,9 @@ public class KpApplicationServiceImpl implements KpApplicationService{
 		return dao.getAllkpNo();
 	}
 
+	@Override
+	public KpApplication getKpApplicationBykpNo(String kpno) {
+		return dao.getKpApplicationBykpNo(kpno);
+	}
+
 }

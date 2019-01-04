@@ -78,8 +78,9 @@
                                 </td>
                                 <td style="width:16%;">合同编号</td>
                                 <td style="width:38%;">
-                                	<select id="contract_no" class="form-control" style="width:60%;">
-                                    </select>
+                                	<!--  <select id="contract_no" class="form-control" style="width:60%;">
+                                    </select>  -->
+                                     <input type="text" class="form-control" style="width:60%;" disabled id="contract_no" disabled> 
                                 </td>
                             </tr>
                             
@@ -748,7 +749,7 @@
         });
         initDepartment();
         initTable();
-        initSelect();
+        //initSelect();
         initCooperator();
 	});
     var table=$('#mainContent').dataTable({
@@ -1175,6 +1176,11 @@
     //选择项目
 	$("#chosexm").click(function(){
 		$("#xiangmumd").modal("show");
+		$('#xiangmumd').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
 		 $.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
@@ -1198,61 +1204,42 @@
 		
 		$.ajax({
             type: 'POST',
-            url: getContextPath()+'/task/selectCjByTaskName',
+            url: getContextPath()+'/cj/selectCjContractByTaskNo',
             dataType: 'json',
+            async:false,
             data: {
-            	name:$('#prj_name').val()
+            	no:$('#prj_no').val()
             },
             success: function (json) {
-            	var task=json.task;
-            	var cj=json.cj;
             	//$('#prj_no').val(task.prjNo);
-            	$("#contract_name").html('');
-            	//$("#cj_name").next().html('');
-            	$("#contract_no").html('');
-            	//$("#cj_no").next().html('');
-            	for(var i=0;i<cj.length;i++){
-            		$("#contract_name").append('<option>'+cj[i].contractName+'</option>');
-            		//$("#cj_name").next().append('<li value="'+cj[i].contractName+'" class="es-visible">'+cj[i].contractName+'</li>');
-                	$("#contract_no").append('<option>'+cj[i].contractNo+'</option>');
-                	//$("#cj_no").next().append('<li value="'+cj[i].contractNo+'" class="es-visible">'+cj[i].contractNo+'</li>');
+            	$("#contract_name").empty();
+            	$("#contract_no").empty();
+            	for(var i=0;i<json.length;i++){
+            		$("#contract_name").append('<option value='+json[i].contractName+'>'+json[i].contractName+'</option>');
+                	$("#contract_no").val(json[i].contractNo);
+                	$("#contract_money").val(json[i].contractMoney);
             	}
-            	
-            	$('#contract_name').editableSelect().on('select.editable-select', function (e, dom) {
-            		$.ajax({
-                        type: 'POST',
-                        url: getContextPath()+'/cj/selectCjContractByName',
-                        dataType: 'json',
-                        data: {
-                        	name:$('#contract_name').val()
-                        },
-                        success: function (json) {
-                        	$('#contract_no').val(json.contractNo);
-                        	$("#contract_money").val(json.contractMoney);
-                        }
-              		});
-              	})
-              	$('#contract_no').editableSelect().on('select.editable-select', function (e, dom) {
-              		$.ajax({
-                        type: 'POST',
-                        url: getContextPath()+'/cj/selectCjContractByNo',
-                        dataType: 'json',
-                        data: {
-                        	no:$('#contract_no').val()
-                        },
-                        success: function (json) {
-                        	$('#contract_name').val(json.contractName);
-                        	$("#contract_money").val(json.contractMoney);
-                        }
-              		});
-    		  	})
-            	
-            	
+            	$("#contract_name").trigger("change");
             }
   		})
   		
 		$("#xiangmumd").modal("hide");
 	})
+	$("#contract_name").change(function(){
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/cj/selectCjContractByName",
+			dataTyepe:"json",
+			data:{ 
+				name:$('#contract_name').val()
+				},
+			success:function(json){
+				$('#contract_no').val(json.contractNo);
+            	$("#contract_money").val(json.contractMoney);
+			}
+		})
+	})
+	
 	$("#xgchosexm").click(function(){
 		$("#xgxiangmumd").modal("show");
 		 $.ajax({
@@ -1317,7 +1304,7 @@
 	    }
     
     //初始化承接合同名称和承接合同号
-	 function initSelect(){
+	 /* function initSelect(){
 			$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/cj/selectNameAndNo',
@@ -1334,7 +1321,7 @@
 	        		//$("#contract_name").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
 	        		$("#contract_no").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
 	        	}
-	        	/* $('#contract_name').editableSelect().on('select.editable-select', function (e, dom) {
+	        	$('#contract_name').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/cj/selectCjContractByName',
@@ -1349,7 +1336,7 @@
 	                    	$("#all_kp_money").val('');
 	                    }
 	          		});
-	          	}) */
+	          	}) 
 	          	$('#contract_no').editableSelect().on('select.editable-select', function (e, dom) {
 	          		$.ajax({
 	                    type: 'POST',
@@ -1370,7 +1357,7 @@
 			  	
 	        }
 			});
-		}
+		} */
     
 	function initCooperator(){
 			$.ajax({

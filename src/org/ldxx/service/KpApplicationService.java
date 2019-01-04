@@ -23,4 +23,6 @@ public interface KpApplicationService {
 	public int countfpNo();
 
 	public List<KpApplication> getAllkpNo();
+
+	public KpApplication getKpApplicationBykpNo(String kpno);
 }
