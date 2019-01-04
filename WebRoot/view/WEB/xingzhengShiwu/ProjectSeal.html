@@ -54,7 +54,10 @@
                                 
                             </div>
                             <div class="UpperPartR">
-                                <button type="button" class="btn btn-primary  Pbba" data-toggle="modal" data-target="#myModal">填报刻制申请</button> 
+                            	<div class="yihang">
+			            			<button type="button" class="btn btn-primary  Pbba" data-toggle="modal" data-target="#myModal">填报刻制申请</button> 
+					                <div id="tabBtn" style="margin-left: 10px;"></div>
+					            </div>
                             </div>
                       </div>
                            <div class="LowerPart" style="margin-top:3px;">
@@ -457,7 +460,10 @@
 	                            
 	                        </div>
 	                        <div class="UpperPartR">
-	                            <button type="button" class="btn btn-primary Pbbd" data-toggle="modal" data-target="#shiyonggl">填报使用管理</button>
+	                        	<div class="yihang">
+			            			<button type="button" class="btn btn-primary Pbbd" data-toggle="modal" data-target="#shiyonggl">填报使用管理</button>
+					                <div id="tabBtn2" style="margin-left: 10px;"></div>
+					            </div>
 	                        </div>
              		</div>
               
@@ -761,7 +767,7 @@
 </div>
 <!--xg  modelxg2结束 -->           
                     <div class="LowerPart" style="margin-top:3px;">
-                        <table class="table table-bordered table-condensed" id="mainContent2">
+                        <table class="table table-bordered table-condensed" id="mainContent2" style="width:100%;">
                             <thead>
                                 <tr>
                                     <th>使用的项目</th>
@@ -870,13 +876,22 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
@@ -914,12 +929,10 @@
             effects: 'slide' 
         });
         
-        
-        
-        
-        
 	});
-    var table=$('#mainContent').dataTable({
+    
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -1001,9 +1014,33 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '刻制申请',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+					                if(rowIdx==0){
+					                	data=$(code).find("a").eq(0).text();
+					                }
+		                        	return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4]
+		                }
+		            }
+		        ]
 	});
-    var table2=$('#mainContent2').dataTable({
+    table.buttons().container().appendTo( $('#tabBtn') );
+    
+    var table2=$('#mainContent2').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -1056,8 +1093,33 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '印章使用管理',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+		                        	if(rowIdx==0){
+		                        		data=$(code).find("a").eq(0).text();
+		                        	}
+					                return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4]
+		                }
+		            }
+		        ]
 	});
+    table2.buttons().container().appendTo( $('#tabBtn2') );
+    $('.buttons-csv').addClass('btn btn-primary');
+    
     var table3=$('#xiangmubiao').dataTable({
         "deferRender": true,
         "processing": true,

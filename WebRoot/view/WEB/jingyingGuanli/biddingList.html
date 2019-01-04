@@ -74,7 +74,8 @@
                    	<div class="UpperPartR">
                        	<!-- <button type="button" class="btn btn-primary Pdbea" data-toggle="modal" data-target="#myModal">新建</button> -->
                			<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#daoruExcel" id="daoru">导入Excel文件</button> -->
-               			<button type="button" class="btn btn-primary Pdbeb"  id="daochu">导出Excel文件</button>
+               			<!-- <button type="button" class="btn btn-primary Pdbeb"  id="daochu">导出Excel文件</button> -->
+                   		<div id="tabBtn" style="margin-left: 10px;"></div>
                    	</div>
                    	
             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="daoruExcel">
@@ -280,16 +281,16 @@
                     <table class="table table-bordered table-condensed" id="mainContent">
                         <thead>
                             <tr>
-                                <th style="width:5%;">序号</th>
+                                <th style="width:4%;">序号</th>
                                 <th style="width:15%;">项目名称</th>
                                 <th style="width:15%;">业主单位</th>
                                 <th style="width:8%;">项目类型</th>
                                 <th style="width:15%;">投标人</th>
-                                <th style="width:8%;">报名人员</th>
-                                <th style="width:8%;">商务负责人</th>
-                                <th style="width:11%;">协办部门</th>
-                                <th style="width:11%;">投标文件递交时间</th>
-                                <th style="width:11%;">是否中标</th>
+                                <th style="width:7%;">报名人员</th>
+                                <th style="width:7%;">商务负责人</th>
+                                <th style="width:9%;">协办部门</th>
+                                <th style="width:10%;">投标文件递交时间</th>
+                                <th style="width:6%;">是否中标</th>
                                 <th style="width:4%;">操作</th>
                             </tr>
                         </thead>
@@ -499,7 +500,6 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
@@ -509,6 +509,16 @@
 <script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/myTool.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
@@ -518,7 +528,9 @@
         });
     	//leixingSelect();
 	});
-    var table=$('#mainContent').dataTable({
+    
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -604,8 +616,31 @@
 		      		}
 		      	});
           
-            }
+            },
+            "buttons": [
+    		        	{
+    		                extend: "csv",
+    		                text: "导出csv",
+    		                bom: true,
+    		                filename: '投标项目',
+    		                fieldSeparator: ',',
+    		                exportOptions: {
+    		                	format: {
+    		                        header: function ( data) {
+    		                            return data;
+    		                        },
+    		                        body: function ( data, columnIdx, rowIdx, code ) {
+    					                return data;
+    					            }
+    		                    },
+    		                    columns:[1,2,3,4,5,6,7,8]
+    		                }
+    		            }
+    		        ]
 	});
+    table.buttons().container().appendTo( $('#tabBtn') );
+    $('.buttons-csv').addClass('btn btn-primary');
+    
     var table3=$('#xiangmubiao').dataTable({
         "deferRender": true,
         "processing": true,
