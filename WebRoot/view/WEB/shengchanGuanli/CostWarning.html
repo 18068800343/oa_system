@@ -48,21 +48,25 @@
                 </select>
             </div>
             <div class="UpperPartR">
+            	<div class="yihang">
+	                <div id="tabBtn" style="margin-left: 10px;"></div>
+	            </div>
             </div>
         </div>
         <div class="LowerPart" style="margin-top:3px;">
             <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>
                     <tr>
-                        <th>任务单号</th>
-                        <th>项目名称</th>
-                        <th>项目类型</th>
-                        <th>合同金额(万元)</th>
-                        <th>项目负责人</th>
-                        <th>本期</th>
-                        <th>项目开始时间</th>
-                        <th>项目预计结束时间</th>
-                        <th style="width:10%;">操作</th>
+                        <th style="width:10%;">任务单号</th>
+                        <th style="width:17%;">项目名称</th>
+                        <th style="width:12%;">项目类型</th>
+                        <th style="width:10%;">合同金额(万元)</th>
+                        <th style="width:10%;">项目负责人</th>
+                        <th style="width:10%;">本期</th>
+                        <th style="width:10%;">项目开始时间</th>
+                        <th style="width:10%;">项目预计结束时间</th>
+                        <th style="width:6%;">进度</th>
+                        <th style="width:5%;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -158,9 +162,9 @@
                     <table class="table table-bordered table-condensed">
                         <tr>
                             <td  style="width:18%;">项目名称</td>
-                            <td id="look_prj_name"></td>
+                            <td id="look_prj_name" style="width:32%;"></td>
                             <td  style="width:18%;">任务单号</td>
-                            <td id="look_task_no"></td>
+                            <td id="look_task_no" style="width:32%;"></td>
                         </tr>
                         <tr>
                             <td>项目类型</td>
@@ -264,10 +268,10 @@
                                 </tr>
                                 <tr>
                                     <th style="width:32%;">合同名称</th>
-                                    <th style="width:12%;">合同金额(万元)</th>
-                                    <th style="width:12%;">暂定金(万元)</th>
-                                    <th style="width:17%;">合同本期收入</th>
-                                    <th style="width:17%;">总累计收入</th>
+                                    <th style="width:14%;">合同金额(万元)</th>
+                                    <th style="width:14%;">暂定金(万元)</th>
+                                    <th style="width:15%;">合同本期收入</th>
+                                    <th style="width:15%;">总累计收入</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -286,17 +290,28 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
         $("#status").trigger("change");
 	});
-    var table=$('#mainContent').dataTable({
+    
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -315,6 +330,7 @@
 		            { "data": "thisTime"}, 
 		            { "data": "prjStartTime"}, 
 		            { "data": "prjEndTime"},
+		            { "data": "allMoney"},
 		            { "data": null}
 		        ],
 		        "columnDefs": [
@@ -323,15 +339,15 @@
 									  "targets": 1,
 									  "searchable": true,
 									  "render": function(data, type, full) {
-											return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjName+'</a>'
+											return '<a onclick="gotoPrj(this)" style="color:#4876FF;cursor: pointer;">'+data.prjName+'</a>'
 									 }
 								},
 								{	
 										 "class": "tcenter",
-										    "targets": 8,
+										    "targets": 9,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    		return '<i class="iconfont icon-icon-test Pefa" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="look(this)"></i><i class="iconfont  luru Pefb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="录入原因" onclick="addReason(this)"></i><i class="iconfont icon-search reason" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看录入原因" onclick="lookReason(this)"></i>';
+										    		return '<i class="iconfont icon-icon-test Pefa" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="look(this)"></i><i class="add_reason iconfont icon-xiugai Pefb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="录入原因" onclick="addReason(this)"></i><i class="iconfont icon-search reason" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看录入原因" onclick="lookReason(this)"></i>';
 										        }
 										  }
 								],
@@ -381,8 +397,39 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '项目进度',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+		                        	if(rowIdx==1){
+		                        		data=$(code).find("a").eq(0).text();
+		                        	}
+		                        	if(rowIdx==5){
+		                        		var time=$(code).text();
+		                        		var year=time.split("-")[0];
+		                        		var month=time.split("-")[1];
+		                        		data=year+"."+month;
+		                        	}
+					                return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4,5,6,7,8]
+		                }
+		            }
+		        ]
 	});
+    table.buttons().container().appendTo( $('#tabBtn') );
+    $('.buttons-csv').addClass('btn btn-primary');
+    
     
     $("#status").on("change",function(){
     	var status=$("#status").val();
@@ -397,11 +444,14 @@
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
                 if(status==1){
-            		$(".luru").show();
+            		$(".add_reason").show();
             		$(".reason").hide();
             	}else if(status==2){
-            		$(".luru").hide();
+            		$(".add_reason").hide();
             		$(".reason").show();
+            	}else{
+            		$(".add_reason").hide();
+            		$(".reason").hide();
             	}
             }
         });
@@ -516,128 +566,148 @@
             	}
             	
             	$("#look_xieban tbody").html('');
-            	for(var i=0;i<ppfi.length;i++){
-            		if(ppfi[i].main==1){
-            			$("#look_xieban tbody").append("<tr>"+
-								"<td style='width:25%;'>主办部门</td>"+
-								"<td style='width:25%;'>"+ppfi[i].department+"</td>"+
-								"<td style='width:25%;'>金额</td>"+
-								"<td style='width:25%;'>"+ppfi[i].money+"</td>"+
-							"</tr>")
-            		}else{
-            			$("#look_xieban tbody").append("<tr>"+
-								"<td>协办部门</td>"+
-								"<td>"+ppfi[i].department+"</td>"+
-								"<td>金额</td>"+
-								"<td>"+ppfi[i].money+"</td>"+
-							"</tr>")
-            		}
+            	if(ppfi!=null){
+            		for(var i=0;i<ppfi.length;i++){
+                		if(ppfi[i].main==1){
+                			$("#look_xieban tbody").append("<tr>"+
+    								"<td style='width:25%;'>主办部门</td>"+
+    								"<td style='width:25%;'>"+ppfi[i].department+"</td>"+
+    								"<td style='width:25%;'>金额</td>"+
+    								"<td style='width:25%;'>"+ppfi[i].money+"</td>"+
+    							"</tr>")
+                		}else{
+                			$("#look_xieban tbody").append("<tr>"+
+    								"<td>协办部门</td>"+
+    								"<td>"+ppfi[i].department+"</td>"+
+    								"<td>金额</td>"+
+    								"<td>"+ppfi[i].money+"</td>"+
+    							"</tr>")
+                		}
+                	}
             	}
+            	
             	
             	$("#look_xieban2 tbody").html('');
-            	for(var i=0;i<ppfi2.length;i++){
-            		if(ppfi2[i].main==1){
-            			$("#look_xieban2 tbody").append("<tr>"+
-								"<td style='width:25%;'>主办部门</td>"+
-								"<td style='width:25%;'>"+ppfi2[i].department+"</td>"+
-								"<td style='width:25%;'>金额</td>"+
-								"<td style='width:25%;'>"+ppfi2[i].money+"</td>"+
-							"</tr>")
-            		}else{
-            			$("#look_xieban2 tbody").append("<tr>"+
-								"<td>协办部门</td>"+
-								"<td>"+ppfi2[i].department+"</td>"+
-								"<td>金额</td>"+
-								"<td>"+ppfi2[i].money+"</td>"+
-							"</tr>")
-            		}
+            	if(ppfi2!=null){
+            		for(var i=0;i<ppfi2.length;i++){
+                		if(ppfi2[i].main==1){
+                			$("#look_xieban2 tbody").append("<tr>"+
+    								"<td style='width:25%;'>主办部门</td>"+
+    								"<td style='width:25%;'>"+ppfi2[i].department+"</td>"+
+    								"<td style='width:25%;'>金额</td>"+
+    								"<td style='width:25%;'>"+ppfi2[i].money+"</td>"+
+    							"</tr>")
+                		}else{
+                			$("#look_xieban2 tbody").append("<tr>"+
+    								"<td>协办部门</td>"+
+    								"<td>"+ppfi2[i].department+"</td>"+
+    								"<td>金额</td>"+
+    								"<td>"+ppfi2[i].money+"</td>"+
+    							"</tr>")
+                		}
+                	}
             	}
+            	
             	
             	$("#look_xieban3 tbody").html('');
-            	for(var i=0;i<ppfi3.length;i++){
-            		if(ppfi3[i].main==1){
-            			$("#look_xieban3 tbody").append("<tr>"+
-								"<td style='width:25%;'>主办部门</td>"+
-								"<td style='width:25%;'>"+ppfi3[i].department+"</td>"+
-								"<td style='width:25%;'>金额</td>"+
-								"<td style='width:25%;'>"+ppfi3[i].money+"</td>"+
-							"</tr>")
-            		}else{
-            			$("#look_xieban3 tbody").append("<tr>"+
-								"<td>协办部门</td>"+
-								"<td>"+ppfi3[i].department+"</td>"+
-								"<td>金额</td>"+
-								"<td>"+ppfi3[i].money+"</td>"+
-							"</tr>")
-            		}
+            	if(ppfi3!=null){
+            		for(var i=0;i<ppfi3.length;i++){
+                		if(ppfi3[i].main==1){
+                			$("#look_xieban3 tbody").append("<tr>"+
+    								"<td style='width:25%;'>主办部门</td>"+
+    								"<td style='width:25%;'>"+ppfi3[i].department+"</td>"+
+    								"<td style='width:25%;'>金额</td>"+
+    								"<td style='width:25%;'>"+ppfi3[i].money+"</td>"+
+    							"</tr>")
+                		}else{
+                			$("#look_xieban3 tbody").append("<tr>"+
+    								"<td>协办部门</td>"+
+    								"<td>"+ppfi3[i].department+"</td>"+
+    								"<td>金额</td>"+
+    								"<td>"+ppfi3[i].money+"</td>"+
+    							"</tr>")
+                		}
+                	}
             	}
+            	
             	
             	$("#look_xieban4 tbody").html('');
-            	for(var i=0;i<ppfi4.length;i++){
-            		if(ppfi4[i].main==1){
-            			$("#look_xieban4 tbody").append("<tr>"+
-								"<td style='width:25%;'>主办部门</td>"+
-								"<td style='width:25%;'>"+ppfi4[i].department+"</td>"+
-								"<td style='width:25%;'>金额</td>"+
-								"<td style='width:25%;'>"+ppfi4[i].money+"</td>"+
-							"</tr>")
-            		}else{
-            			$("#look_xieban4 tbody").append("<tr>"+
-								"<td>协办部门</td>"+
-								"<td>"+ppfi4[i].department+"</td>"+
-								"<td>金额</td>"+
-								"<td>"+ppfi4[i].money+"</td>"+
-							"</tr>")
-            		}
+            	if(ppfi4!=null){
+            		for(var i=0;i<ppfi4.length;i++){
+                		if(ppfi4[i].main==1){
+                			$("#look_xieban4 tbody").append("<tr>"+
+    								"<td style='width:25%;'>主办部门</td>"+
+    								"<td style='width:25%;'>"+ppfi4[i].department+"</td>"+
+    								"<td style='width:25%;'>金额</td>"+
+    								"<td style='width:25%;'>"+ppfi4[i].money+"</td>"+
+    							"</tr>")
+                		}else{
+                			$("#look_xieban4 tbody").append("<tr>"+
+    								"<td>协办部门</td>"+
+    								"<td>"+ppfi4[i].department+"</td>"+
+    								"<td>金额</td>"+
+    								"<td>"+ppfi4[i].money+"</td>"+
+    							"</tr>")
+                		}
+                	}
             	}
+            	
             	
             	$("#look_xieban5 tbody").html('');
-            	for(var i=0;i<ppfi5.length;i++){
-            		if(ppfi5[i].main==1){
-            			$("#look_xieban5 tbody").append("<tr>"+
-								"<td style='width:25%;'>主办部门</td>"+
-								"<td style='width:25%;'>"+ppfi5[i].department+"</td>"+
-								"<td style='width:25%;'>金额</td>"+
-								"<td style='width:25%;'>"+ppfi5[i].money+"</td>"+
-							"</tr>")
-            		}else{
-            			$("#look_xieban5 tbody").append("<tr>"+
-								"<td>协办部门</td>"+
-								"<td>"+ppfi5[i].department+"</td>"+
-								"<td>金额</td>"+
-								"<td>"+ppfi5[i].money+"</td>"+
-							"</tr>")
-            		}
+            	if(ppfi5!=null){
+            		for(var i=0;i<ppfi5.length;i++){
+                		if(ppfi5[i].main==1){
+                			$("#look_xieban5 tbody").append("<tr>"+
+    								"<td style='width:25%;'>主办部门</td>"+
+    								"<td style='width:25%;'>"+ppfi5[i].department+"</td>"+
+    								"<td style='width:25%;'>金额</td>"+
+    								"<td style='width:25%;'>"+ppfi5[i].money+"</td>"+
+    							"</tr>")
+                		}else{
+                			$("#look_xieban5 tbody").append("<tr>"+
+    								"<td>协办部门</td>"+
+    								"<td>"+ppfi5[i].department+"</td>"+
+    								"<td>金额</td>"+
+    								"<td>"+ppfi5[i].money+"</td>"+
+    							"</tr>")
+                		}
+                	}
             	}
+            	
             	
             	$("#look_xieban6 tbody").html('');
-            	for(var i=0;i<ppfi6.length;i++){
-            		if(ppfi6[i].main==1){
-            			$("#look_xieban6 tbody").append("<tr>"+
-								"<td style='width:25%;'>主办部门</td>"+
-								"<td style='width:25%;'>"+ppfi6[i].department+"</td>"+
-								"<td style='width:25%;'>金额</td>"+
-								"<td style='width:25%;'>"+ppfi6[i].money+"</td>"+
-							"</tr>")
-            		}else{
-            			$("#look_xieban6 tbody").append("<tr>"+
-								"<td>协办部门</td>"+
-								"<td>"+ppfi6[i].department+"</td>"+
-								"<td>金额</td>"+
-								"<td>"+ppfi6[i].money+"</td>"+
-							"</tr>")
-            		}
+            	if(ppfi6!=null){
+            		for(var i=0;i<ppfi6.length;i++){
+                		if(ppfi6[i].main==1){
+                			$("#look_xieban6 tbody").append("<tr>"+
+    								"<td style='width:25%;'>主办部门</td>"+
+    								"<td style='width:25%;'>"+ppfi6[i].department+"</td>"+
+    								"<td style='width:25%;'>金额</td>"+
+    								"<td style='width:25%;'>"+ppfi6[i].money+"</td>"+
+    							"</tr>")
+                		}else{
+                			$("#look_xieban6 tbody").append("<tr>"+
+    								"<td>协办部门</td>"+
+    								"<td>"+ppfi6[i].department+"</td>"+
+    								"<td>金额</td>"+
+    								"<td>"+ppfi6[i].money+"</td>"+
+    							"</tr>")
+                		}
+                	}
             	}
             	
+            	
             	$("#look_cj tbody").html('');
-            	for(var i=0;i<ppcj.length;i++){
-            		$("#look_cj tbody").append("<tr>"+
-            														"<td>"+ppcj[i].cjName+"</td>"+
-            														"<td>"+ppcj[i].contractMoney+"</td>"+
-            														"<td>"+ppcj[i].temporaryMoney+"</td>"+
-            														"<td>"+ppcj[i].incomeBq+"</td>"+
-            														"<td>"+ppcj[i].incomeAll+"</td>"+
-            													"</tr>")
+            	if(ppcj!=null){
+            		for(var i=0;i<ppcj.length;i++){
+                		$("#look_cj tbody").append("<tr>"+
+                														"<td>"+ppcj[i].cjName+"</td>"+
+                														"<td>"+ppcj[i].contractMoney+"</td>"+
+                														"<td>"+ppcj[i].temporaryMoney+"</td>"+
+                														"<td>"+ppcj[i].incomeBq+"</td>"+
+                														"<td>"+ppcj[i].incomeAll+"</td>"+
+                													"</tr>")
+                	}
             	}
             	
             }

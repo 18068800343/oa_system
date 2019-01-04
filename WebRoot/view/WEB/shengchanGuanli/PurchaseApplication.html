@@ -52,7 +52,10 @@
                 </form>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary Pedaa" data-toggle="modal" data-target="#myModal">填报材料采购申请</button>
+            	<div class="yihang">
+           			<button type="button" class="btn btn-primary Pedaa" data-toggle="modal" data-target="#myModal">填报材料采购申请</button>
+	                <div id="tabBtn" style="margin-left: 10px;"></div>
+	            </div>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -149,6 +152,8 @@
 	                                    <option value="双">双</option>
 	                                    <option value="万元">万元</option>
 	                                    <option value="桶">桶</option>
+	                                    <option value="吨">吨</option>
+	                                    <option value="千克">千克</option>
 	                                </select>
 	                            </td>
 	                            <td><input type="text" class="form-control" id="num"></td>
@@ -481,12 +486,21 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	initDepartment();
@@ -496,7 +510,9 @@
     	initClType();
     	$(".zhuangtai").trigger("change");
 	});
-    var table=$('#mainContent').dataTable({
+    
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -586,8 +602,36 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '材料采购申请',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+		                        	if(rowIdx==1){
+		                        		data=$(code).find("a").eq(0).text();
+		                        	}
+		                        	if(rowIdx==3){
+		                        		data=$(code).find("a").eq(0).text();
+		                        	}
+					                return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4,5,6]
+		                }
+		            }
+		        ]
 	});
+    table.buttons().container().appendTo( $('#tabBtn') );
+    $('.buttons-csv').addClass('btn btn-primary');
+    
     var table3=$('#xiangmubiao').dataTable({
         "deferRender": true,
         "processing": true,
