@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.ldxx.bean.AlreadyRenling;
 import org.ldxx.bean.AlreadySkInfo;
 import org.ldxx.bean.User;
 import org.ldxx.service.AlreadySkInfoService;
@@ -26,7 +27,25 @@ public class AlreadySkInfoController {
 	@Autowired
 	private AlreadySkInfoService service;
 	
+	
 	@RequestMapping("/addAlreadySkInfo")
+	@ResponseBody
+	public int addAlreadySkInfo(@RequestBody AlreadyRenling ar,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String uName = user.getuName();
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		ar.setrId(id);
+		int count=service.countquerenNo();
+		String no = uuid.getClCode("", count+1);
+		ar.setQuerenNo(no);
+		ar.setThisPerson(uName);
+		int i=service.addAlreadyRenling(ar);
+		return i;
+	}
+	
+	
+	/*@RequestMapping("/addAlreadySkInfo")
 	@ResponseBody
 	public int addAlreadySkInfo(@RequestBody AlreadySkInfo as,HttpSession session){
 		User user = (User) session.getAttribute("user");
@@ -56,5 +75,5 @@ public class AlreadySkInfoController {
 	@ResponseBody
 	public int updateStatusBack(String id,String status,String cId){//id是财务收款的id，cId是已认领的id
 		return service.updateStatusBack(id,status,cId);
-	}
+	}*/
 }

@@ -1,15 +1,18 @@
 package org.ldxx.bean;
 
+import java.util.List;
+
 public class AlreadyRenling {
 	
 	private String rId;
+	private String querenNo;//确认编号
 	private String cNo;//合同编号
 	private String cName;//合同名
 	private String tNo;//任务单号
 	private String tName;//项目名
 	private String thisPerson;//确认人
 	private String skNo;//收款编号
-	private String fpShenqing;//发票申请
+	private String kpNo;//发票申请编号
 	private String fpNo;//发票编号
 	private String fpDesc;//发票摘要
 	private String mainDepartment;//主部门
@@ -22,6 +25,28 @@ public class AlreadyRenling {
 	private String kpDate;//开票日期
 	
 	
+	private String status;
+	private List<AlreadySkOmInfo> asoList;
+	
+	
+	public List<AlreadySkOmInfo> getAsoList() {
+		return asoList;
+	}
+	public void setAsoList(List<AlreadySkOmInfo> asoList) {
+		this.asoList = asoList;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getQuerenNo() {
+		return querenNo;
+	}
+	public void setQuerenNo(String querenNo) {
+		this.querenNo = querenNo;
+	}
 	public String getrId() {
 		return rId;
 	}
@@ -64,11 +89,12 @@ public class AlreadyRenling {
 	public void setSkNo(String skNo) {
 		this.skNo = skNo;
 	}
-	public String getFpShenqing() {
-		return fpShenqing;
+	
+	public String getKpNo() {
+		return kpNo;
 	}
-	public void setFpShenqing(String fpShenqing) {
-		this.fpShenqing = fpShenqing;
+	public void setKpNo(String kpNo) {
+		this.kpNo = kpNo;
 	}
 	public String getFpNo() {
 		return fpNo;

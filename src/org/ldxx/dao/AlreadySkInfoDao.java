@@ -3,6 +3,7 @@ package org.ldxx.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.ldxx.bean.AlreadyRenling;
 import org.ldxx.bean.AlreadySkInfo;
 import org.ldxx.bean.AlreadySkOmInfo;
 
@@ -23,5 +24,9 @@ public interface AlreadySkInfoDao {
 	int deleteAlreadySkInfoByskId(@Param("id")String id);
 
 	int deleteAlreadySkOmInfoById(@Param("cId")String cId);
+
+	int countquerenNo();
+
+	int addAlreadyRenling(@Param("ar")AlreadyRenling ar);
 
 }

@@ -3,6 +3,7 @@ package org.ldxx.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ldxx.bean.AlreadyRenling;
 import org.ldxx.bean.AlreadySkInfo;
 import org.ldxx.bean.AlreadySkOmInfo;
 import org.ldxx.dao.AlreadySkInfoDao;
@@ -79,6 +80,33 @@ public class AlreadySkInfoServiceImp implements AlreadySkInfoService {
 			if(i>0){
 				i=dao.deleteAlreadySkOmInfoById(cId);
 			}
+		}
+		return i;
+	}
+
+	@Override
+	public int countquerenNo() {
+		return dao.countquerenNo();
+	}
+
+	@Override
+	public int addAlreadyRenling(AlreadyRenling ar) {
+		int i = rmdao.updateStatus(ar.getSkNo(),ar.getStatus());
+		if(i>0){
+			i=dao.addAlreadyRenling(ar);
+			if(i>0){
+				List<AlreadySkOmInfo> asoList = ar.getAsoList();
+				for(int j=0;j<asoList.size();j++){
+					AlreadySkOmInfo skOmInfo = asoList.get(j);
+					TimeUUID uuid=new TimeUUID();
+					String id=uuid.getTimeUUID();
+					skOmInfo.setAoId(id);
+					skOmInfo.setcId(ar.getrId());
+					skOmInfo.setOperatorPerson(ar.getThisPerson());
+					i=dao.addAlreadySkOmInfo(skOmInfo);
+				}
+			}
+			
 		}
 		return i;
 	}
