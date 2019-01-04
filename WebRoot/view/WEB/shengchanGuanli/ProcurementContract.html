@@ -58,7 +58,10 @@
                 </form>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary Pecca"  data-toggle="modal" data-target="#myModal" >填报采购合同</button>
+            	<div class="yihang">
+           			<button type="button" class="btn btn-primary Pecca"  data-toggle="modal" data-target="#myModal" >填报采购合同</button>
+	                <div id="tabBtn" style="margin-left: 10px;"></div>
+			    </div>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -986,7 +989,6 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
@@ -994,6 +996,16 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/bootstrap-select.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
@@ -1035,7 +1047,8 @@
     	}
     })
     
-    var table=$('#mainContent').dataTable({
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -1084,39 +1097,66 @@
         "fnDrawCallback"  : function(){
           　　this.api().column(0).nodes().each(function(cell, i) {
           　　　　cell.innerHTML =  i + 1;
-          　  　});
-          
-         $.ajax({
-      		type:"post",
-      		url:getContextPath()+"/login/getUser",
-      		async:false,
-      		data:{
-      		},
-      		success:function(json){
-      			
-      			if(json!=null &&json!=""){
-      				var arr = json.uPermissions.split(',');
-      				
-      				for(var i=0;i<arr.length;i++){
-      					var arr2 = arr[i].replace("+","");
-      					//console.log(arr2);
-      					if(arr[i].indexOf("Peccb") >= 0 ){
-      						$(".Peccb").show();
-      					}
-      					if(arr[i].indexOf("Peccc") >= 0 ){
-      						$(".Peccc").show();
-      					}
-      					if(arr[i].indexOf("Peccd") >= 0 ){
-      						$(".Peccd").show();
-      					}
-      				}
-      				
-      			}
-      			
-      		}
-      	});
-            }
+         });
+	        $.ajax({
+	     		type:"post",
+	     		url:getContextPath()+"/login/getUser",
+	     		async:false,
+	     		data:{
+	     		},
+	     		success:function(json){
+	     			
+	     			if(json!=null &&json!=""){
+	     				var arr = json.uPermissions.split(',');
+	     				for(var i=0;i<arr.length;i++){
+	     					var arr2 = arr[i].replace("+","");
+	     					if(arr[i].indexOf("Peccb") >= 0 ){
+	     						$(".Peccb").show();
+	     					}
+	     					if(arr[i].indexOf("Peccc") >= 0 ){
+	     						$(".Peccc").show();
+	     					}
+	     					if(arr[i].indexOf("Peccd") >= 0 ){
+	     						$(".Peccd").show();
+	     					}
+	     				}
+	     			}
+	     		}
+	     	});
+        },
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '采购合同',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+					                return data;
+					            }
+		                    },
+		                    columns:[1,2,3,4,5,6]
+		                }
+		            }
+		        ]
 	});
+    
+    $(".hasinput").on( 'change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw(false);
+    } );
+ 
+ 
+  table.buttons().container().appendTo( $('#tabBtn') );
+   $('.buttons-csv').addClass('btn btn-primary');
+    
     <!-- 历史表格 -->
     var table2=$('#lookHistory').dataTable({
         "deferRender": true,

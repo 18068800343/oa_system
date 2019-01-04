@@ -75,7 +75,10 @@
 			                </form>
 			            </div>
 			            <div class="UpperPartR">
-			                <button type="button" class="btn btn-primary Pecba"  id="zenjia" >填报分包单</button>
+			            	<div class="yihang">
+		            			<button type="button" class="btn btn-primary Pecba"  id="zenjia" >填报分包单</button>
+				                <div id="tabBtn" style="margin-left: 10px;"></div>
+			           		</div>
 			                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">分包合同变更</button> -->
 			            </div>
 			        </div>
@@ -177,7 +180,7 @@
 			                        <th style="width:14%">分包合同名称</th>
 			                        <th style="width:12%">甲方</th>
 			                        <th style="width:12%">乙方</th>
-			                        <th style="width:12%">项目名称</th>
+			                        <!-- <th style="width:12%">项目名称</th> -->
 			                        <th style="width:12%">承接合同名称</th>
 			                        <th style="width:11%">分包合同金额(万元)</th>
 			                        <th style="width:11%">累计分包金额(万元)</th>
@@ -1135,13 +1138,22 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	/* initTable(); */
@@ -1233,7 +1245,8 @@ function quxiao3(){
     $("#settings").removeClass("active");
 }
 
-    var table=$('#mainContent').dataTable({
+	$.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -1248,31 +1261,31 @@ function quxiao3(){
             { "data": "contractName"},
             { "data": "contractNameJia"}, 
             { "data": "ccName"}, 
-            { "data": null}, 
+            /* { "data": null,"visible": false},  */
             { "data": null}, 
             { "data": "contractMoney"}, 
             { "data": "nowFbAllMoney"}, 
         ],
         "columnDefs": [
-						{
+						/* {
 							  "class": "tcenter",
 							  "targets": 4,
 							  "searchable": true,
 							  "render": function(data, type, full) {
 								    var no=data.workNo;
 						    		var name=data.prjName;
-						    		var aa='<a onclick="gotoPrj(this)" data='+no.split(",")[0]+'  style="color:	#4876FF;cursor: pointer;">'+name.split(",")[0]+'</a>';
+						    		var aa='<a onclick="gotoPrj(this)" data='+no.split(",")[0]+'  style="color:#4876FF;cursor: pointer;">'+name.split(",")[0]+'</a>';
 						    		if(name.split(",").length>0){
 						    			for(var i=1;i<name.split(",").length;i++){
-						    				aa=aa+"<label>,</label>"+'<a onclick="gotoPrj(this)" data='+no.split(",")[i]+' style="color:	#4876FF;cursor: pointer;">'+name.split(",")[i]+'</a>'
+						    				aa=aa+"<label>,</label>"+'<a onclick="gotoPrj(this)" data='+no.split(",")[i]+' style="color:#4876FF;cursor: pointer;">'+name.split(",")[i]+'</a>'
 						    			}
 						    		}
 						    		return aa; 
 						  }
-						},
+						}, */
 						{
 							  "class": "tcenter",
-							  "targets": 5,
+							  "targets": 4,
 							  "searchable": true,
 							  "render": function(data, type, full) {
 								  return '<a onclick="gotoCj(this)" style="color:#4876FF;cursor: pointer;">'+data.cjContractName+'</a>' 
@@ -1280,7 +1293,7 @@ function quxiao3(){
 						},
 						{	
 								 "class": "tcenter",
-								    "targets": 8,
+								    "targets": 7,
 								    "searchable": true,
 								    "render": function(data, type, full) {
 								  	  		return '<i class="iconfont icon-icon-test Pecbb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookSubcontract(this)"   id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai Pecbc" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="合同变更" onclick="checkSubcontract(this)"   id="Changedanwei"></i><i class="iconfont icon-arrow chongqi Pecbf" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="重启" onclick="openModal3(this)"></i><i class="iconfont icon-tuichu iconzhongzhi Pecbd" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="分包合同取消"  onclick="openModal2(this)"></i>'
@@ -1339,8 +1352,41 @@ function quxiao3(){
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '分包合同',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+		                        	if(rowIdx==4){
+		                        		data=data.replace("</a>","")
+		                        		data=data.replace('<a onclick="gotoCj(this)" style="color:#4876FF;cursor: pointer;">',"")
+		                        	}
+					                return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4,5,6]
+		                }
+		            }
+		        ]
 	});
+    
+    $(".hasinput").on( 'change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw(false);
+    } );
+ 
+  table.buttons().container().appendTo( $('#tabBtn') );
+   $('.buttons-csv').addClass('btn btn-primary');
     
     var table3=$('#cj_table').dataTable({
         "deferRender": true,

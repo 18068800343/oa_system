@@ -76,7 +76,10 @@
 		                </form>
 		            </div>
 		            <div class="UpperPartR">
-		                <button type="button" class="btn btn-primary Peba"  id="zenjia" >填报预算单</button>
+		            	<div class="yihang">
+	            			<button type="button" class="btn btn-primary Peba"  id="zenjia" >填报预算单</button>
+			                <div id="tabBtn" style="margin-left: 10px;"></div>
+			            </div>
 		            </div>
 		
 		
@@ -422,7 +425,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <select class="form-control" id="xgbumen" style="width:70%;"">
+                                    <select class="form-control" id="xgbumen" style="width:70%;">
                                     
                                     </select>
                                 </td>
@@ -955,13 +958,22 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	/* initTable(); */
@@ -1054,6 +1066,7 @@
 	    '</table>';
 	}
  
+ 	$.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
     var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
@@ -1078,7 +1091,7 @@
 						  "targets": 0,
 						  "searchable": true,
 						  "render": function(data, type, full) {
-								return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.prjId+'</a>'
+								return '<a onclick="gotoPrj(this)" style="color:#4876FF;cursor: pointer;">'+data.prjId+'</a>'
 						  }
 						},
 						{
@@ -1143,8 +1156,43 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '预算单',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+		                        	if(rowIdx==0){
+		                        		data=data.replace("</a>","")
+		                        		data=data.replace('<a onclick="gotoPrj(this)" style="color:#4876FF;cursor: pointer;">',"")
+		                        	}
+					                return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4]
+		                }
+		            }
+		        ]
 	});
+    
+    $(".hasinput").on( 'change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw(false);
+    } );
+ 
+  table.buttons().container().appendTo( $('#tabBtn') );
+   $('.buttons-csv').addClass('btn btn-primary');
+    
+    
     var table3=$('#xiangmubiao').dataTable({
         "deferRender": true,
         "processing": true,

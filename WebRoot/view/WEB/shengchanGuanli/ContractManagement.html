@@ -76,7 +76,10 @@
 		                </form>
 		            </div>
 		            <div class="UpperPartR">
-		                <button type="button" class="btn btn-primary Pecaa"  id="zenjia" >填报合同单</button>
+		            	<div class="yihang">
+	            			 <button type="button" class="btn btn-primary Pecaa"  id="zenjia" >填报合同单</button>
+			                <div id="tabBtn" style="margin-left: 10px;"></div>
+			            </div>
 		                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">合同变更</button> -->
 		            </div>
 		        </div>
@@ -1181,7 +1184,6 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <!-- <script src="../../js/jquery-editable-select.js"></script> -->
 <script src="../../js/laydate/laydate.js"></script>
@@ -1189,6 +1191,16 @@
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/bootstrap-select.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
         laydate.render({
@@ -1291,7 +1303,7 @@ function checkquxiaoSplit(){
 	$("#xgsplit").modal('hide')
 }
 
-    var table=$('#mainContent').dataTable({
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -1371,8 +1383,38 @@ function checkquxiaoSplit(){
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '承接合同',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+					                return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4,5,6]
+		                }
+		            }
+		        ]
 	});
+    
+    $(".hasinput").on( 'change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw(false);
+    } );
+ 
+ 
+  table.buttons().container().appendTo( $('#tabBtn') );
+   $('.buttons-csv').addClass('btn btn-primary');
     
     var table2=$('#history_table').dataTable({
         "deferRender": true,
