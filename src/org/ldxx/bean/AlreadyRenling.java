@@ -11,11 +11,11 @@ public class AlreadyRenling {
 	private String skNo;//收款编号
 	private String fpShenqing;//发票申请
 	private String fpNo;//发票编号
+	private String fpDesc;//发票摘要
 	private String mainDepartment;//主部门
 	private String fkDanwei;//付款单位
 	private double comeAllMoney;//到账总金额
 	private double skQuerenMoney;//收款确认金额
-	private String fpDesc;//发票摘要
 	private String querenDate;//确认时间
 	private String daozhangDate;//到账时间
 	private double fpMoney;//发票金额

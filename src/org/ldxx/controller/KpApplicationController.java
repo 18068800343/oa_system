@@ -148,7 +148,7 @@ public class KpApplicationController {
 		return list;
 	}
 	
-	@RequestMapping("/getKpApplicationBykpNo")//初始化开票编号
+	@RequestMapping("/getKpApplicationBykpNo")//通过开票编号获取信息
 	@ResponseBody
 	public KpApplication getKpApplicationBykpNo(String kpno){
 		KpApplication list=service.getKpApplicationBykpNo(kpno);
