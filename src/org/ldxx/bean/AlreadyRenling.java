@@ -5,7 +5,6 @@ import java.util.List;
 public class AlreadyRenling {
 	
 	private String rId;
-	private String querenNo;//确认编号
 	private String cNo;//合同编号
 	private String cName;//合同名
 	private String tNo;//任务单号
@@ -18,7 +17,7 @@ public class AlreadyRenling {
 	private String mainDepartment;//主部门
 	private String fkDanwei;//付款单位
 	private double comeAllMoney;//到账总金额
-	private double skQuerenMoney;//收款确认金额
+	private double skQuerenMoney;//本次确认金额
 	private String querenDate;//确认时间
 	private String daozhangDate;//到账时间
 	private double fpMoney;//发票金额
@@ -26,9 +25,17 @@ public class AlreadyRenling {
 	
 	
 	private String status;
+	private double yirenlingallFpMoney;//已认领的发票金额总和
 	private List<AlreadySkOmInfo> asoList;
 	
 	
+	
+	public double getYirenlingallFpMoney() {
+		return yirenlingallFpMoney;
+	}
+	public void setYirenlingallFpMoney(double yirenlingallFpMoney) {
+		this.yirenlingallFpMoney = yirenlingallFpMoney;
+	}
 	public List<AlreadySkOmInfo> getAsoList() {
 		return asoList;
 	}
@@ -40,12 +47,6 @@ public class AlreadyRenling {
 	}
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	public String getQuerenNo() {
-		return querenNo;
-	}
-	public void setQuerenNo(String querenNo) {
-		this.querenNo = querenNo;
 	}
 	public String getrId() {
 		return rId;

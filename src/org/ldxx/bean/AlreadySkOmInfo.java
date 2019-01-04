@@ -7,7 +7,7 @@ package org.ldxx.bean;
 public class AlreadySkOmInfo {
 	
 	private String aoId;
-	private String cId;//已认领收款信息id
+	private String rId;//已认领收款信息id
 	private String omId;//部门id
 	private String omName;//部门名
 	private Float omAlreadyMoney;//部门实际收款金额 
@@ -21,11 +21,11 @@ public class AlreadySkOmInfo {
 	public void setAoId(String aoId) {
 		this.aoId = aoId;
 	}
-	public String getcId() {
-		return cId;
+	public String getRId() {
+		return rId;
 	}
-	public void setcId(String cId) {
-		this.cId = cId;
+	public void setRId(String rId) {
+		this.rId = rId;
 	}
 	public String getOmId() {
 		return omId;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.ldxx.bean.AlreadyRenling;
 import org.ldxx.bean.ReceiveMoney;
 import org.ldxx.bean.User;
 import org.ldxx.dao.AlreadySkInfoDao;
@@ -29,7 +30,12 @@ public class ReceiveMoneyController {
 		List<ReceiveMoney> list = receiveMoneyDao.selectReceiveList();
 		for(int i=0;i<list.size();i++){
 			String skNo = list.get(i).getSkNo();
-			//asDao.selectSumleijiMoneyByskNo(skNo);
+			AlreadyRenling ar=asDao.getyirenlingfpMoneyByskno(skNo);
+			double yirenlingallFpMoney = ar.getYirenlingallFpMoney();//已认领的确认金额总和
+			list.get(i).setLeijiquerenMoney(yirenlingallFpMoney);
+			double receiveMoney = list.get(i).getReceiveMoney();//收款金额
+			double shengyuMoney=receiveMoney-yirenlingallFpMoney;
+			list.get(i).setShengyuMoney(shengyuMoney);
 		}
 		return list;
 	}
@@ -75,7 +81,7 @@ public class ReceiveMoneyController {
 	
 	@RequestMapping("/updateStatus")
 	@ResponseBody
-	public int updateStatus(String id,String status){
-		return receiveMoneyDao.updateStatus(id,status);
+	public int updateStatus(String skno,String status){
+		return receiveMoneyDao.updateStatus(skno,status);
 	}
 }

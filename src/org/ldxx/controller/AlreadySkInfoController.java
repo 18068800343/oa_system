@@ -20,60 +20,36 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author hp
  *
  */
-@RequestMapping("AlreadySkOmInfo")
+@RequestMapping("AlreadySk")
 @Controller
 public class AlreadySkInfoController {
 	
 	@Autowired
 	private AlreadySkInfoService service;
 	
-	
-	@RequestMapping("/addAlreadySkInfo")
+	@RequestMapping("/getyirenlingfpMoneyByKpno")//通过开票申请编号查询已认领的发票金额总和
 	@ResponseBody
-	public int addAlreadySkInfo(@RequestBody AlreadyRenling ar,HttpSession session){
-		User user = (User) session.getAttribute("user");
-		String uName = user.getuName();
+	public AlreadyRenling getyirenlingfpMoneyByKpno(String kpno){
+		return service.getyirenlingfpMoneyByKpno(kpno);
+	}
+	
+	
+	@RequestMapping("/addAlreadyRenling")
+	@ResponseBody
+	public int addAlreadyRenling(@RequestBody AlreadyRenling ar){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		ar.setrId(id);
-		int count=service.countquerenNo();
-		String no = uuid.getClCode("", count+1);
-		ar.setQuerenNo(no);
-		ar.setThisPerson(uName);
 		int i=service.addAlreadyRenling(ar);
 		return i;
 	}
 	
-	
-	/*@RequestMapping("/addAlreadySkInfo")
+	/*@RequestMapping("/selectAlreadyRenling")
 	@ResponseBody
-	public int addAlreadySkInfo(@RequestBody AlreadySkInfo as,HttpSession session){
-		User user = (User) session.getAttribute("user");
-		String uName = user.getuName();
-		TimeUUID uuid=new TimeUUID();
-		String id=uuid.getTimeUUID();
-		as.setcId(id);
-		as.setOperatorPerson(uName);
-		int i=service.addAlreadySkInfo(as,uName);
-		return i;
-	}
-	
-	
-	@RequestMapping("/selectAlreadySkInfo")
-	@ResponseBody
-	public List<AlreadySkInfo> selectAlreadySkInfo(){
+	public List<AlreadySkInfo> selectAlreadyRenling(){
 		return service.selectAlreadySkInfo();
-	}
-	
-	@RequestMapping("/selectAlreadySkInfoByskId")
-	@ResponseBody
-	public AlreadySkInfo selectAlreadySkInfoByskId(String skId){
-		return service.selectAlreadySkInfoByskId(skId);
-	}
-	
-	@RequestMapping("/updateStatusBack")//退回
-	@ResponseBody
-	public int updateStatusBack(String id,String status,String cId){//id是财务收款的id，cId是已认领的id
-		return service.updateStatusBack(id,status,cId);
 	}*/
+	
+	
+	
 }
