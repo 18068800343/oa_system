@@ -45,6 +45,7 @@
                      </form>
                </div>
                <div class="UpperPartR">
+               		<div id="tabBtn"></div>
                </div>
         </div>
         <div class="LowerPart" style="margin-top:3px;">
@@ -67,12 +68,22 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
+<!-- <script src="../../js/jquery.dataTables.min.js"></script> -->
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/myTool.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -81,7 +92,9 @@
         });
     	initTable();
 	});
-    var table=$('#mainContent').dataTable({
+    
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -122,7 +135,7 @@
 										        }
 										  }
 								],
-        "order": [[1, 'asc']],
+        "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
         "sLengthMenu": "显示 _MENU_ 条",
@@ -139,12 +152,44 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        "fnDrawCallback"  : function(){
+       "fnDrawCallback"  : function(){
           　　this.api().column(0).nodes().each(function(cell, i) {
           　　　　cell.innerHTML =  i + 1;
           　  　});
-        }
+        },
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '项目报表',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+					                return data;
+					            }
+		                    },
+		                    columns:[1,2,3,4,5,6,7]
+		                }
+		            }
+		        ]
 	});
+    
+    $(".hasinput").on( 'change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw(false);
+    } );
+ 
+ 
+  table.buttons().container().appendTo( $('#tabBtn') );
+   $('.buttons-csv').addClass('btn btn-primary');
+    
 	function initTable(){
 		myTool.mask.show('查询中..');
         $.ajax({

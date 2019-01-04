@@ -54,6 +54,7 @@
                 </div>
             </div>
             <div class="UpperPartR">
+            	<div id="tabBtn"></div>
                 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">综合查询</button> -->
             </div>
         </div>
@@ -145,16 +146,27 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/myTool.js"></script>
 <script src="../../toastr/toastr.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	initPrjName();
 	});
-    var table=$('#mainContent').dataTable({
+    
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -213,9 +225,40 @@
           　　this.api().column(0).nodes().each(function(cell, i) {
           　　　　cell.innerHTML =  i + 1;
           　  　});
-            }
+            },
+            "buttons": [
+    		        	{
+    		                extend: "csv",
+    		                text: "导出csv",
+    		                bom: true,
+    		                filename: '项目综合查询',
+    		                fieldSeparator: ',',
+    		                exportOptions: {
+    		                	format: {
+    		                        header: function ( data) {
+    		                            return data;
+    		                        },
+    		                        body: function ( data, columnIdx, rowIdx, code ) {
+    					                return data;
+    					            }
+    		                    },
+    		                    columns:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
+    		                }
+    		            }
+    		        ]
 	});
 
+    $(".hasinput").on( 'change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw(false);
+    } );
+ 
+  table.buttons().container().appendTo( $('#tabBtn') );
+   $('.buttons-csv').addClass('btn btn-primary');
+    
+    
     function getCreat(bb){
         var EnterpriseRating= $(bb).parent().prev().text();
         var Remarks= $(bb).parent().prev().prev().text();

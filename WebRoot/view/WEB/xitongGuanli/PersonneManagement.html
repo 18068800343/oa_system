@@ -46,10 +46,10 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL">
-                
+                <button type="button" class="btn btn-primary Pmda" data-toggle="modal" data-target="#myModal">新建</button>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary Pmda" data-toggle="modal" data-target="#myModal">新建</button>
+                <div id="tabBtn"></div>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -571,7 +571,6 @@
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
-<script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../toastr/toastr.js"></script>
@@ -579,6 +578,16 @@
 <script src="../../js/myTool.js"></script>
 <script src="../../js/quanxian.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
@@ -602,7 +611,9 @@
             elem: '#xgyear3' //指定元素
         });
 	});
-    var table=$('#mainContent').dataTable({
+    
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -683,8 +694,39 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '人员用户',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+					                return data;
+					            }
+		                    },
+		                    columns:[0,1,2,3,4,5,6,7,8]
+		                }
+		            }
+		        ]
 	});
+    
+    $(".hasinput").on( 'change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw(false);
+    } );
+ 
+ 
+   table.buttons().container().appendTo( $('#tabBtn') );
+   $('.buttons-csv').addClass('btn btn-primary');
+    
 	function initTable(){
         $.ajax({
             type: 'POST',
