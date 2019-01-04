@@ -444,6 +444,7 @@
                             <thead>
                             	<tr>
                             		<th></th>
+                            		<th>发票申请号</th>
                             		<th>项目编号</th>
                                     <th>项目名称</th>
                                     <th>合同编号</th>
@@ -610,6 +611,7 @@
 		},
 		"columns": [
 					{ "data": null},
+					{ "data": "kpNo"}, 
 		            { "data": "prjNo"}, 
 		            { "data": "prjName"},
 		            { "data": "contractNo"}, 
@@ -743,7 +745,7 @@
             	kpno:data.kpNo
             },
             success: function (json) {
-            		//console.log(json)
+            		console.log(json)
 	               $("#prjNo").val(json.prjNo);
             		$("#prjName").val(json.prjName);
             		$("#hetongbianhao").val(json.contractNo);
@@ -759,9 +761,58 @@
                         	prjNo:json.prjNo
                         },
                         success: function (json) {
-                        		console.log(json)
+                        		//console.log(json)
                         		for(var i=0;i<json.length;i++){
                         			$("#zhuban").val(json[0].omName);
+                        			
+                        			$("#xieban1 tbody").empty();
+                                	
+                                	$("#xieban1 tbody").append("<tr><td style='width:20%;'>"
+                            				+"主办部门"
+                            				+"</td><td style='width:20%;'data-id="+json[0].mainDepartment+">"
+                                			+json[0].omName
+                                			+"</td><td style='width:10%;'>"
+                                			+"金额"
+                                			+"</td><td style='width:50%;'>"
+                                			+"<input type='text' data='1' class='form-control'>"
+                                			+"</td></tr>")
+                                	
+                                	if(json[0].name1!=null){
+                                		$("#xieban1 tbody").append("<tr><td>"
+                                				+"协办部门"
+                                				+"</td><td data-id="+json[0].assistDepartment1+">"
+                                    			+json[0].name1
+                                    			+"</td><td>"
+                                    			+"金额"
+                                    			+"</td><td>"
+                                    			+"<input type='text' data='0'  class='form-control'>"
+                                    			+"</td></tr>")
+                                	}
+                                	
+                					if(json[0].name2!=null){
+                						$("#xieban1 tbody").append("<tr><td>"
+                                				+"协办部门"
+                                				+"</td><td data-id="+json[0].assistDepartment2+">"
+                                    			+json[0].name2
+                                    			+"</td><td>"
+                                    			+"金额"
+                                    			+"</td><td>"
+                                    			+"<input type='text' data='0' class='form-control'>"
+                                    			+"</td></tr>")
+                                	}
+                					
+                					if(json[0].name3!=null){
+                						$("#xieban1 tbody").append("<tr><td>"
+                                				+"协办部门"
+                                				+"</td><td data-id="+json[0].assistDepartment3+">"
+                                    			+json[0].name3
+                                    			+"</td><td>"
+                                    			+"金额"
+                                    			+"</td><td>"
+                                    			+"<input type='text' data='0' class='form-control'>"
+                                    			+"</td></tr>")
+                                	}
+                					
                         		}
             	               
                         }
@@ -775,6 +826,36 @@
 		$("#fapiaosqmd").modal("hide");
 	})
 	
+	$("#renling").on("click",function(){
+		var jine=0;
+    	var bumemArr=new Array();
+    	$("#xieban1 tbody").find("tr").each(function(){
+    		 jinem=$(this).find("input").val()/1;
+    		jine+=jinem;
+    		var bumenId=$(this).find("td").eq(1).attr("data-id");
+    		var bumenName=$(this).find("td").eq(1).text();
+    		var bumenMoney=$(this).find("td").eq(3).find("input").val();
+    		var AlreadySkOmInfo={
+        			aoId:undefined,
+        			cId:undefined,
+        			omId:undefined,
+        			omName:undefined,
+        			omAlreadyMoney:undefined,
+        			operatorPerson:undefined,
+    		}
+    		AlreadySkOmInfo.omId=bumenId;
+    		AlreadySkOmInfo.omName=bumenName;
+    		AlreadySkOmInfo.omAlreadyMoney=bumenMoney;
+    		bumemArr.push(AlreadySkOmInfo)
+    	})
+    	
+    	if(jine/1==$("#bencijine").val()/1){
+			
+		}else{
+			toastr.error("部门金额与本次确认金额不相等");
+		}
+    	
+	})
 	 //新增
 	 var doren;
 	 function saveFr(){
