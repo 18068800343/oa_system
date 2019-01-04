@@ -335,8 +335,9 @@ public class ContractPaymentController {
 	
 	@RequestMapping("/updateAuthorisePayment")
 	@ResponseBody
-	public int updateAuthorisePayment(String id,float money){
-		int i=payService.updateAuthorisePayment(id, money);
+	public int updateAuthorisePayment(String id,String money){
+		Float money1 = Float.valueOf(money);
+		int i=payService.updateAuthorisePayment(id, money1);
 		return i;
 	}
 	

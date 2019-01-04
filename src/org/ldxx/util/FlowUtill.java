@@ -515,11 +515,17 @@ public class FlowUtill {
 				}else if(returnRole==Constant.ALL_FLOW_NODE){
 					List<FlowHistroy> flowHistroys = new ArrayList<>();
 					flowHistroys = getTuiHuiFlowhistorys(flowHistroys, currentFlow.getUrl(), currentFlow.getFlowNodeLast());
+					
+					List<FlowHistroy> newFlowHistorys = new ArrayList<>();
 					for(FlowHistroy flowHistroy2:flowHistroys){
 						String flowNodeName = INSTANCE.flowNodeMapper.selectByPrimaryKey(flowHistroy2.getFloNodeId()).getFlownodename();
 						flowHistroy2.setFlowNodeName(flowNodeName);
+					    if(flowHistroy2.getOperateType()==1){
+					    	newFlowHistorys.add(flowHistroy2);
+					    }
 					}
-					JSONArray jObject = JSONArray.fromObject(flowHistroys);
+					
+					JSONArray jObject = JSONArray.fromObject(newFlowHistorys);
 					jsonObject.put("result", "2");
 					jsonObject.put("list", jObject);
 					return jsonObject.toString();
@@ -578,8 +584,8 @@ public class FlowUtill {
 					FlowHistroyExample example = new FlowHistroyExample();
 					INSTANCE.flowHistroyMapper.selectByExample(example);
 					flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlowNow, flowHistroy);
-					flowHistroy.setFloNodeId(historyFloNodeId);
-					flowHistroy.setFlowNodeLast(historyFloNodeLast);
+					flowHistroy.setFloNodeId(historyFloNodeLast);
+					flowHistroy.setFlowNodeLast(historyFloNodeId);
 					flowHistroy.setActor(historyActor);
 					flowHistroy.setActorname(historyActorName);
 					flowHistroy.setView(view);
@@ -786,18 +792,33 @@ public class FlowUtill {
 		}
 		return "";
 	}
+	
+	private static Date date = null;
 	public static List<FlowHistroy> getTuiHuiFlowhistorys(List<FlowHistroy> endFlowHistorys,String url,String flowNodeLast){
 		try {
-			FlowHistroyExample example=new FlowHistroyExample();
-			example.createCriteria().andUrlEqualTo(url).andOperateTypeEqualTo(1).andFloNodeIdEqualTo(flowNodeLast);
-			List<FlowHistroy> histroys = INSTANCE.flowHistroyMapper.selectByExampleWithBLOBs(example);
-			FlowHistroy flowHistroy = histroys.get(0);
 			
+			FlowHistroy flowHistroy;
+			if(null==date){
+				FlowHistroyExample example=new FlowHistroyExample();
+				example.createCriteria().andUrlEqualTo(url).andFloNodeIdEqualTo(flowNodeLast);
+				example.setOrderByClause("do_date desc");
+				List<FlowHistroy> histroys = INSTANCE.flowHistroyMapper.selectByExampleWithBLOBs(example);
+				flowHistroy= histroys.get(0);
+				date = flowHistroy.getDoDate();
+			}else{
+				FlowHistroyExample example=new FlowHistroyExample();
+				example.createCriteria().andUrlEqualTo(url).andFloNodeIdEqualTo(flowNodeLast).andDoDateLessThan(date);
+				example.setOrderByClause("do_date desc");
+				List<FlowHistroy> histroys = INSTANCE.flowHistroyMapper.selectByExampleWithBLOBs(example);
+				flowHistroy= histroys.get(0);
+				date=flowHistroy.getDoDate();
+			}
 			if(null!=flowHistroy.getFlowNodeLast()&&!"".equals(flowHistroy.getFlowNodeLast())){
 			  endFlowHistorys.add(flowHistroy);	
 			  getTuiHuiFlowhistorys(endFlowHistorys,url, flowHistroy.getFlowNodeLast());
 			}else{
 			  endFlowHistorys.add(flowHistroy);	
+			  date = null;
 			  return endFlowHistorys;
 			}
 		} catch (Exception e) {

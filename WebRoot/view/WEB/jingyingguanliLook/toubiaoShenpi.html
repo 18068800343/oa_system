@@ -227,7 +227,7 @@
 <script>
     $(document).ready( function () {
     	initTable();
-    	initlindao();
+    	/* initlindao(); */
 	});
     //已知部门选人
     var tableren=$('#mingzibiaoshangwu').dataTable({
@@ -617,9 +617,11 @@
             	}
             	
             	inithuman();
+            	initlindao();
             	$("#toubiaobumen").val(json.xbDepartment)
             	$("#zerenren").val(json.tbUname);
     			$("#zerenren").attr("data-id3",json.tbPeople);
+    			$("#lindao").val(json.fgLindao)
 			}
 		})
     }
@@ -638,7 +640,7 @@
 				console.log(json)
 				$("#lindao").empty();
 				for(var i=0;i<json.length;i++){
-					$("#lindao").append("<option data-id='"+json[i].userId+"' value='" + json[i].flowOmNo + "'>"
+					$("#lindao").append("<option data-id='" + json[i].flowOmNo + "' value='"+json[i].userId+"'>"
 		                    + json[i].uName + "</option>")
 				}
 			}
@@ -792,8 +794,8 @@
     function saveFlow2(){
     	
     	var fileLevel = $("input[name='fileLevel']:checked").val();
-    	var flowOmNo = $("#lindao").val();
-    	var fgLindao = $("#lindao option:selected").attr("data-id");
+    	var fgLindao= $("#lindao").val();
+    	var flowOmNo = $("#lindao option:selected").attr("data-id");
     	var businessPeople = $("#shangwu").val();
     	var bidPeople = $("#baojia").val();
     	$.ajax({
@@ -858,14 +860,14 @@
     }
     //修改对应步骤的下一步抽象部门具体部门编号
     function updateFkDept2(page_cNodeId){
-    	
+    	var pcid = page_cNodeId;
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/task/updateFlowFkDept',
             async:false,
             data:{
-            	id:page_cNodeId,
-            	fkdept:$("#lindao").val()
+            	cFlowId:page_cNodeId,
+            	fkdept:$("#lindao option:selected").attr("data-id")
             },
             dataType: 'text',
             success: function (json) {
@@ -875,13 +877,13 @@
     }
     //修改对应步骤的下一步抽象部门具体部门编号
     function updateFkDept3(page_cNodeId){
-    	
+    	var pcid = page_cNodeId;
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/task/updateFlowFkDept',
             async:false,
             data:{
-            	id:page_cNodeId,
+            	cFlowId:page_cNodeId,
             	fkdept:$("#toubiaobumen option:selected").attr("data-no")
             },
             dataType: 'text',

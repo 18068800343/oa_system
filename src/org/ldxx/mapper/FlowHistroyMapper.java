@@ -49,4 +49,6 @@ public interface FlowHistroyMapper {
     int deleteFlowHistory(@Param("id")String id);
     
     List<FlowHistoryNowAndLast> getFlowHistorysLeftJoinByUrl(String url);
+    
+    List<FlowHistroy> getDistinctFlowHistorysByOperateType(String url);
 }

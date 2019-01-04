@@ -136,6 +136,15 @@
                         <tbody></tbody>
                     </table>
                     
+                    <table class="table table-bordered table-condensed" id="editPzPayMoney">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:15%;">本次批准付款 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="1"> <input type="text" style="width:180px;" class="form-control" id="payMoney" disabled=""/></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                     <!-- 历史信息表格 -->
 				    <!-- <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory">
                         <thead>
@@ -301,7 +310,9 @@
         if(r!=null)return  unescape(r[2]); return null;
    }
    // 调用方法
-   	id=GetQueryString("prjId");
+    id=GetQueryString("prjId");
+   	editOrView=GetQueryString("editOrView");
+   	step=GetQueryString("step");
    
    
 	//查看详细信息
@@ -341,7 +352,10 @@
 				$("#lookfukuandanshuoming").text(data.payListExplain);
 				$("#lookyear").text(data.compilerTime);
 				$("#lookuserSignetMan").text(data.uName);
-				
+				$("#payMoney").val(data.authorisePayment)
+				if(editOrView=='edit'&&(step=='4'||step=='5'||step=='6')){
+					$("#payMoney").removeAttr("disabled");
+				}
 				
 				$.ajax({
 					type:"post",
@@ -577,7 +591,7 @@
 	        url: getContextPath()+'/pay/updateHistoryById',
 	        dataType: 'json',
 	        data:{
-	        	id:did
+	        	id:id
 	        },
 	        success: function (json) {
 	        	
@@ -585,5 +599,60 @@
 	    });
 	}
     
+    function saveFlow4(){
+    	var result={};
+    	var money = $("#payMoney").val();
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/pay/updateAuthorisePayment',
+	        dataType: 'text',
+	        async:false,
+	        data:{
+	        	id:id,
+	        	money:$("#payMoney").val()
+	        },
+	        success: function (json) {
+	        	result.rel=json;
+	        }
+	    });
+    	return result;
+    }
+    function saveFlow5(){
+       	var result={};
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/pay/updateAuthorisePayment',
+	        dataType: 'text',
+	        async:false,
+	        data:{
+	        	id:id,
+	        	money:$("#payMoney").val()
+	        },
+	        success: function (json) {
+	        	result.rel=json;
+	        	
+	        }
+	    });
+    	return result;
+    }
+    function saveFlow6(){
+    	var result={};
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/pay/updateAuthorisePayment',
+	        dataType: 'text',
+	        async:false,
+	        data:{
+	        	id:id,
+	        	money:$("#payMoney").val()
+	        },
+	        success: function (json) {
+	        	
+	        	result.rel=json;
+	        	
+	        }
+	    });
+    	return result;
+    }
 </script>
 </html>
