@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.AlreadyRenling;
-import org.ldxx.bean.AlreadySkInfo;
 import org.ldxx.bean.User;
 import org.ldxx.service.AlreadySkInfoService;
 import org.ldxx.util.TimeUUID;
@@ -44,11 +43,11 @@ public class AlreadySkInfoController {
 		return i;
 	}
 	
-	/*@RequestMapping("/selectAlreadyRenling")
+	@RequestMapping("/selectAlreadyRenling")//查status=2的已认领完的信息
 	@ResponseBody
-	public List<AlreadySkInfo> selectAlreadyRenling(){
-		return service.selectAlreadySkInfo();
-	}*/
+	public List<AlreadyRenling> selectAlreadyRenling(){
+		return service.selectAlreadyRenling();
+	}
 	
 	
 	

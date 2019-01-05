@@ -666,7 +666,6 @@
             				
             				for(var i=0;i<arr.length;i++){
             					var arr2 = arr[i].replace("+","");
-            					//console.log(arr2);
             					if(arr[i].indexOf("Pcab") >= 0 ){
             						$(".Pcab").show();
             					}
@@ -676,23 +675,6 @@
             			
             		}
             	});
-                for(var i=0;i<json.length;i++){
-	                if(json[i].shengyuMoney>0){
-	                }else{
-	                	$.ajax({
-	                		type:"post",
-	                		url:getContextPath()+"/receiveMoney/updateStatus",
-	                		data:{
-	                			skno:json[i].skNo,
-	                			status:"2",
-	                		},
-	                		success:function(json){
-	                			console.log(json)
-	                		}
-	                	});
-	                }
-                }
-                
             }
         });
     }
@@ -723,7 +705,9 @@
 	
 	 var skNo;//收款编号
 	 var daozhangDate;//到账日期
+	 var dom;
 	 function skrenling(obj){
+		 dom = $(obj).closest('tr');
 		$("#caiwurenling").modal("show")
 		var tr=$(obj).parents("tr");
 		var data=$("#mainContent").DataTable().row(tr).data();
@@ -750,7 +734,6 @@
 	            data: {
 	            },
 	            success: function (json) {
-	            		//console.log(json)
 		               $('#fapiaosqbiao').dataTable().fnClearTable();
 		               $('#fapiaosqbiao').DataTable().rows.add(json).draw(false);
 	            }
@@ -792,7 +775,6 @@
                         	prjNo:json.prjNo
                         },
                         success: function (json) {
-                        		//console.log(json)
                         		for(var i=0;i<json.length;i++){
                         			$("#zhuban").val(json[0].omName);
                         			
@@ -885,8 +867,12 @@
 			toastr.error("发票剩余金额不足,请重新申请发票");
 			return;
 		}
-		if($("#bencijine").val()>$("#fp_shengyu_money").val()){
+		if($("#bencijine").val()/1>$("#fp_shengyu_money").val()/1){
 			toastr.error("本次确认金额不能大于发票剩余金额");
+			return;
+		}
+		if($("#fp_no").val()==""){
+			toastr.error("发票编号不能为空,请补录发票编号")
 			return;
 		}
 		var jine=0;
@@ -984,12 +970,29 @@
                 contentType: "application/json", 
 	            data:JSON.stringify(AlreadyRenling),
                 success: function (json) {
-                	//console.log(json)
                 	if(json>0){
                 		toastr.success("认领成功");
-                		//$("#mainContent").DataTable().row(tr).remove().draw(false);
                 		$("#caiwurenling").modal("hide")
-                		location.reload([true]);
+                		//initTable();
+                		
+                		if(querenjine/1-bencijine/1==0){//可确认金额减去本次认领金额等于0的话就去修改状态为正常确认
+	                		$.ajax({
+		                		type:"post",
+		                		url:getContextPath()+"/receiveMoney/updateStatus",
+		                		data:{
+		                			skno:skNo,
+		                			status:"2",
+		                		},
+		                		success:function(json){
+		                			if(json>0){
+		                				$('#mainContent').DataTable().row(dom).remove().draw(false);;//修改行立即显示
+		                				//location.reload([true]);
+		                			}
+		                		}
+		                	});
+                		}
+                		
+                		
                 	}else{
                 		toastr.error("认领失败");
                 	} 
@@ -1033,7 +1036,6 @@
 		        },
 		        success: function (json) {
 		        	//location.reload([true]);
-		        	console.log(json)
 		        	$('#mainContent').DataTable().row.add(json).draw(false);     //新增行立即显示
 		        }
 		    });
@@ -1046,7 +1048,6 @@
     function updateAll(obj){
     	tr=$(obj).parents("tr");
     	var data=$("#mainContent").DataTable().row(tr).data();
-    	console.log(data)
     	rmId=data.rmId;
     	doPerson=data.doPerson;
     	doTime=data.doTime;
@@ -1120,7 +1121,6 @@
             	id:data.rmId
             },
             success: function (json) {
-				console.log(json)
             	if(json!=0){
             		$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
             		 toastr.success('删除成功');

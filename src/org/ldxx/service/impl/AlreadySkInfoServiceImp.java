@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ldxx.bean.AlreadyRenling;
-import org.ldxx.bean.AlreadySkInfo;
 import org.ldxx.bean.AlreadySkOmInfo;
 import org.ldxx.dao.AlreadySkInfoDao;
 import org.ldxx.dao.FinancialReceiptsDao;
@@ -48,6 +47,11 @@ public class AlreadySkInfoServiceImp implements AlreadySkInfoService {
 	@Override
 	public AlreadyRenling getyirenlingfpMoneyByKpno(String kpno) {
 		return dao.getyirenlingfpMoneyByKpno(kpno);
+	}
+
+	@Override
+	public List<AlreadyRenling> selectAlreadyRenling() {
+		return dao.selectAlreadyRenling();
 	}
 	
 }
