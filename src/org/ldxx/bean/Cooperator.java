@@ -36,9 +36,46 @@ public class Cooperator {
     private String importantEvent;
 
     private List<Enterprise> enterprise;
+    private List<Accessory> accessory1;//营业执照
+    private List<Accessory> accessory2;//完税证明
+    private List<Accessory> accessory3;//安全生产许可证 
+    private List<Accessory> accessory4;//资质证书
     
     
-    public List<Enterprise> getEnterprise() {
+    
+    public List<Accessory> getAccessory2() {
+		return accessory2;
+	}
+
+	public void setAccessory2(List<Accessory> accessory2) {
+		this.accessory2 = accessory2;
+	}
+
+	public List<Accessory> getAccessory3() {
+		return accessory3;
+	}
+
+	public void setAccessory3(List<Accessory> accessory3) {
+		this.accessory3 = accessory3;
+	}
+
+	public List<Accessory> getAccessory4() {
+		return accessory4;
+	}
+
+	public void setAccessory4(List<Accessory> accessory4) {
+		this.accessory4 = accessory4;
+	}
+
+	public List<Accessory> getAccessory1() {
+		return accessory1;
+	}
+
+	public void setAccessory1(List<Accessory> accessory1) {
+		this.accessory1 = accessory1;
+	}
+
+	public List<Enterprise> getEnterprise() {
 		return enterprise;
 	}
 
