@@ -120,10 +120,16 @@
                 </div> 
             </div>
             <div class="modal-footer">
+              <div id="tjButtons">
                 <button type="button" id="getReceiver" onclick="getReceive()" class="btn btn-success" data-dismiss="modal" >提交</button>
                 <button type="button" id="tuiHui"  onclick="tuiHui()" class="btn btn-default" data-dismiss="modal">退回</button>
                 <button type="button" id="baoCun" class="btn btn-default" onclick="baoCun()">保存</button>
                 <button type="button" id="boHui" class="btn btn-default" onclick="boHui()">驳回</button>
+               </div>
+              <div id="shanchu" hidden="true">
+                <button type="button" class="btn btn-default" onclick="shanchu()">删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
             </div>
         </div>
     </div>
@@ -231,7 +237,7 @@
             "targets": 4,
             "searchable": false,
             "render": function (data, type, full) {
-                return '<i class="iconfont icon-yewubanli Paaa" name="mode" data-cNodeId="'+full.id+'"  data-id="'+data+'" data-params="'+full.params+'" data-step="'+full.step+'"  data-edit="'+full.editOrView+'" data-flowNodeLast="'+full.flowNodeLast+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
+                return '<i class="iconfont icon-yewubanli Paaa" name="mode" data-wfstate="'+full.wfstate+'" data-cNodeId="'+full.id+'"  data-id="'+data+'" data-params="'+full.params+'" data-step="'+full.step+'"  data-edit="'+full.editOrView+'" data-flowNodeLast="'+full.flowNodeLast+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
             }
         }], 
         "order": [[1, 'asc']],
@@ -285,6 +291,18 @@
         	var params = $(this).attr("data-params");
         	var step = $(this).attr("data-step");
         	var cNodeId = $(this).attr("data-cNodeId"); 
+        	var wfstate = $(this).attr("data-wfstate");  
+        	
+        	if(wfstate=='1'){
+        		$("#midBox").hide();
+        		$("#tjButtons").hide();
+        		$("#shanchu").show();
+        	}else{
+        		$("#midBox").show();
+        		$("#tjButtons").show();
+        		$("#shanchu").hide();
+        	}
+        	
         	page_step = step;
         	if(params.indexOf("{'cs':'1'}")!=-1||params==''||params==null){
         		$("#topBox").hide();
@@ -512,6 +530,14 @@
     }
     
     function boHui(){
+
+    	var msg = "您真的确定要删除吗？\n\n请确认！";
+    	if (confirm(msg)==true){
+    	return true;
+    	}else{
+    	return false;
+    	}
+    	
     	if(page_flowNodeLast==null||page_flowNodeLast==undefined||page_flowNodeLast==""){
     		toastr.error('该步骤为第一步,无法驳回');
     		return false;

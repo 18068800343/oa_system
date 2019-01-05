@@ -876,13 +876,18 @@ public class FlowUtill {
 		if(list.size()>0){
 			CurrentFlow currentFlow = list.get(0);
 			for(User user:users){
-				currentFlow.setId(new TimeUUID().getTimeUUID());
+				
 				currentFlow.setActor(user.getUserId());
 				currentFlow.setActorname(user.getuName());
 				currentFlow.setWfstate(1);
-				int i = judgeChaoSong(currentFlow.getUrl(), user.getUserId());
-				if(i==0){
+				String ss = judgeChaoSong(currentFlow.getUrl(), user.getUserId());
+				if("".equals(ss)){
+					currentFlow.setId(new TimeUUID().getTimeUUID());
 					INSTANCE.currentFlowChaoSongMapper.insert(currentFlow);
+				}else{
+					example = new CurrentFlowExample();
+					example.createCriteria().andUrlEqualTo(currentFlow.getUrl());
+					INSTANCE.currentFlowChaoSongMapper.updateByExampleSelective(currentFlow, example);
 				}
 			}
 			return "ok";
@@ -891,14 +896,14 @@ public class FlowUtill {
 		}
 	}
 	
-	public static int judgeChaoSong(String url,String actor){
+	public static String judgeChaoSong(String url,String actor){
 		CurrentFlowExample example = new CurrentFlowExample();
 		example.createCriteria().andUrlEqualTo(url).andActorEqualTo(actor);
 		List<CurrentFlow> currentFlows = INSTANCE.currentFlowChaoSongMapper.selectByExample(example);
 		if(currentFlows.size()>0){
-			return 1;
+			return currentFlows.get(0).getId();
 		}else{
-		    return 0;	
+		    return "";	
 		}
 	}
 	/*List<FlowEdge> flowEdges = INSTANCE.flowEdgeMapper.selectByExample(example3);

@@ -42,12 +42,15 @@ public class CurrentFlowController {
 	CurrentFlowMapper currentFlowMapper;
 	@Autowired
 	CurrentFlowChaoSongMapper currentFlowChaoSongMapper;
+	
 	@RequestMapping("/getCurrentFlowListStatus1ByUser")
 	@ResponseBody
 	public List<CurrentFlowVo> getCurrentFlowListByUser(String userId,String statu,HttpSession session){
 		User user = (User) session.getAttribute("user");
 		String id = user.getUserId();
  		List<CurrentFlowVo> list = currentFlowService.getCurrentFlowListByUser(id, statu);
+ 		List<CurrentFlowVo> list1 = currentFlowChaoSongMapper.getCurrentFlowVoChaoSongByUserId(id);
+ 		list.addAll(list1);
 		return list;
 	}
 	@RequestMapping("/getCurrentFlowChaoSongListByUser")
