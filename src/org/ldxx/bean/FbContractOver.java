@@ -13,8 +13,11 @@ public class FbContractOver {/*分包结算申请*/
     private String fbContract;//分包单号
     private String fbName;//分包名称
 
-    private String settlementType;//结算类型
-
+    private float fbMoney;//分包合同金额
+    
+    private float fbEndMoney;//分包结算金额
+   /* private String settlementType;//结算类型*/
+    
     private String settlementTime;//时间
     
     private String workInfo;
@@ -23,7 +26,23 @@ public class FbContractOver {/*分包结算申请*/
     private List<Accessory> accessory2;//法律顾问签字
     
 
-    public List<Accessory> getAccessory2() {
+    public float getFbMoney() {
+		return fbMoney;
+	}
+
+	public void setFbMoney(float fbMoney) {
+		this.fbMoney = fbMoney;
+	}
+
+	public float getFbEndMoney() {
+		return fbEndMoney;
+	}
+
+	public void setFbEndMoney(float fbEndMoney) {
+		this.fbEndMoney = fbEndMoney;
+	}
+
+	public List<Accessory> getAccessory2() {
 		return accessory2;
 	}
 
@@ -93,14 +112,6 @@ public class FbContractOver {/*分包结算申请*/
 
     public void setFbContract(String fbContract) {
         this.fbContract = fbContract == null ? null : fbContract.trim();
-    }
-
-    public String getSettlementType() {
-        return settlementType;
-    }
-
-    public void setSettlementType(String settlementType) {
-        this.settlementType = settlementType == null ? null : settlementType.trim();
     }
 
     public String getSettlementTime() {
