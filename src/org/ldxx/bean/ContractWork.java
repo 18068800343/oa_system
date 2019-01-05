@@ -12,7 +12,6 @@ public class ContractWork {
     private String cjContractCode;
 
     private String contractNameJia;
-    private String jiaFang;
 
     private String workText;//工作内容
     
@@ -155,14 +154,6 @@ public class ContractWork {
 
 	public void setRating(String rating) {
 		this.rating = rating;
-	}
-
-	public String getJiaFang() {
-		return jiaFang;
-	}
-
-	public void setJiaFang(String jiaFang) {
-		this.jiaFang = jiaFang;
 	}
 
 	public List<Enterprise> getEnterprise() {
