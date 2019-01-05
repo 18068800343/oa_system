@@ -79,7 +79,7 @@ public class ContractPaymentController {
 	
 	@RequestMapping("/addPaySave")//添加保存
 	@ResponseBody
-	public int addPaySave(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2,@RequestParam("file3") MultipartFile [] file3,HttpSession session) throws IllegalStateException, IOException{
+	public int addPaySave(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2/*,@RequestParam("file3") MultipartFile [] file3*/,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		pay.setPayId(id);
@@ -126,7 +126,7 @@ public class ContractPaymentController {
 			}
 			pay.setAccessory2(list2);
 		}
-		if(file3.length>0){
+		/*if(file3.length>0){
 			for(int i=0;i<file3.length;i++){
 				Accessory accessory3=new Accessory();
 				String fileName=file3[i].getOriginalFilename();
@@ -140,7 +140,7 @@ public class ContractPaymentController {
 				list3.add(accessory3);
 			}
 			pay.setAccessory3(list3);
-		}
+		}*/
 		int i=payService.addPaySave(pay);
 		if(i>0){
 			CjContract cj=sService.getCjContractMainPrjLeaderByFbNo(pay.getContractNo());
@@ -183,7 +183,7 @@ public class ContractPaymentController {
 	
 	@RequestMapping("/addPaySubmit")//添加提交
 	@ResponseBody
-	public String addPaySubmit(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2,@RequestParam("file3") MultipartFile [] file3,HttpSession session) throws IllegalStateException, IOException{
+	public String addPaySubmit(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2/*,@RequestParam("file3") MultipartFile [] file3*/,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		pay.setPayId(id);
@@ -232,7 +232,7 @@ public class ContractPaymentController {
 			}
 			pay.setAccessory2(list2);
 		}
-		if(file3.length>0){
+		/*if(file3.length>0){
 			for(int i=0;i<file3.length;i++){
 				Accessory accessory3=new Accessory();
 				String fileName=file3[i].getOriginalFilename();
@@ -246,7 +246,7 @@ public class ContractPaymentController {
 				list3.add(accessory3);
 			}
 			pay.setAccessory3(list3);
-		}
+		}*/
 		int i=payService.addPaySave(pay);
 		String string = i+"";
 		if(i>0){

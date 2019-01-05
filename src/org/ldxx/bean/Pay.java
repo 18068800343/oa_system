@@ -11,7 +11,7 @@ public class Pay {
     
     private String contractNo;//分包合同编号
 
-    private Float contractMoney;//合同金额
+    private Float contractMoney;//分包合同金额
 
     private Float alreadyKpMoney;//已经开票金额
 
@@ -59,7 +59,7 @@ public class Pay {
     
     private List<Accessory> accessory;
     private List<Accessory> accessory2;
-    private List<Accessory> accessory3;//法律顾问签字
+    /*private List<Accessory> accessory3;//法律顾问签字*/    
     
     private Float fbcontractMoney;//分包合同金额
     private String contractNameYi;//分包合同乙方单位(分包单位)id
@@ -102,12 +102,6 @@ public class Pay {
 	}
 	public void setGenerationAdvancesMoney(Float generationAdvancesMoney) {
 		GenerationAdvancesMoney = generationAdvancesMoney;
-	}
-	public List<Accessory> getAccessory3() {
-		return accessory3;
-	}
-	public void setAccessory3(List<Accessory> accessory3) {
-		this.accessory3 = accessory3;
 	}
 	public String getContractNameYi() {
 		return contractNameYi;

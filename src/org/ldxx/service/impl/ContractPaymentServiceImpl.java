@@ -39,10 +39,10 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 			if(accessory2!=null&&accessory2.size()>0){
 				i=adao.addAccessory(accessory2);
 			}
-			List<Accessory> accessory3 = pay.getAccessory3();
+			/*List<Accessory> accessory3 = pay.getAccessory3();
 			if(accessory3!=null&&accessory3.size()>0){
 				i=adao.addAccessory(accessory3);
-			}
+			}*/
 		}
 		return i;
 	}

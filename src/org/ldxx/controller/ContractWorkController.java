@@ -57,7 +57,7 @@ public class ContractWorkController {
 	
 	@RequestMapping("/addContractWorkBySave")
 	@ResponseBody
-	public int addContractWorkBySave( String work,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1) throws IllegalStateException, IOException{
+	public int addContractWorkBySave( String work,@RequestParam MultipartFile [] file/*,@RequestParam MultipartFile [] file1*/) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
@@ -87,7 +87,7 @@ public class ContractWorkController {
 			}
 			cwork.setAccessory(list);
 		}
-		if(file1.length>0){
+		/*if(file1.length>0){
 			List<Accessory> list1=new ArrayList<>();
 			for(int ii=0;ii<file1.length;ii++){
 				Accessory accessory1=new Accessory();
@@ -102,14 +102,14 @@ public class ContractWorkController {
 				list1.add(accessory1);
 			}
 			cwork.setAccessory1(list1);
-		}
+		}*/
 		int i=service.addContractWork(cwork);
 		return i;
 	}
 	
 	@RequestMapping("/addContractWorkBySubmit")
 	@ResponseBody
-	public int addContractWorkBySubmit(String work,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1) throws IllegalStateException, IOException{
+	public int addContractWorkBySubmit(String work,@RequestParam MultipartFile [] file/*,@RequestParam MultipartFile [] file1*/) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
@@ -139,7 +139,7 @@ public class ContractWorkController {
 			}
 			cwork.setAccessory(list);
 		}
-		if(file1.length>0){
+		/*if(file1.length>0){
 			List<Accessory> list1=new ArrayList<>();
 			for(int ii=0;ii<file1.length;ii++){
 				Accessory accessory1=new Accessory();
@@ -154,7 +154,7 @@ public class ContractWorkController {
 				list1.add(accessory1);
 			}
 			cwork.setAccessory1(list1);
-		}
+		}*/
 		int i=service.addContractWork(cwork);
 		return i;
 	}
@@ -179,7 +179,7 @@ public class ContractWorkController {
 	
 	@RequestMapping("/addContractWork2BySave")
 	@ResponseBody
-	public int addContractWork2BySave( String work,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+	public int addContractWork2BySave( String work,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
@@ -209,7 +209,7 @@ public class ContractWorkController {
 			}
 			cwork.setAccessory(list);
 		}
-		if(file1.length>0){
+		/*if(file1.length>0){
 			List<Accessory> list1=new ArrayList<>();
 			for(int ii=0;ii<file1.length;ii++){
 				Accessory accessory1=new Accessory();
@@ -224,7 +224,7 @@ public class ContractWorkController {
 				list1.add(accessory1);
 			}
 			cwork.setAccessory1(list1);
-		}
+		}*/
 		int i=service.addContractWork(cwork);
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(cwork.getMainDepartment());
@@ -266,7 +266,7 @@ public class ContractWorkController {
 	
 	@RequestMapping("/addContractWork2BySubmit")
 	@ResponseBody
-	public String addContractWork2BySubmit(String work,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+	public String addContractWork2BySubmit(String work,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
@@ -296,7 +296,7 @@ public class ContractWorkController {
 			}
 			cwork.setAccessory(list);
 		}
-		if(file1.length>0){
+		/*if(file1.length>0){
 			List<Accessory> list1=new ArrayList<>();
 			for(int ii=0;ii<file1.length;ii++){
 				Accessory accessory1=new Accessory();
@@ -311,7 +311,7 @@ public class ContractWorkController {
 				list1.add(accessory1);
 			}
 			cwork.setAccessory1(list1);
-		}
+		}*/
 		int i=service.addContractWork(cwork);
 		String string = i+"";
 		if(i>0){
@@ -353,7 +353,7 @@ public class ContractWorkController {
 	
 	@RequestMapping("/addContractWork3BySave")
 	@ResponseBody
-	public int addContractWork3BySave( String work,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+	public int addContractWork3BySave( String work,@RequestParam MultipartFile [] file/*,@RequestParam MultipartFile [] file1*/,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
@@ -383,7 +383,7 @@ public class ContractWorkController {
 			}
 			cwork.setAccessory(list);
 		}
-		if(file1.length>0){
+		/*if(file1.length>0){
 			List<Accessory> list1=new ArrayList<>();
 			for(int ii=0;ii<file1.length;ii++){
 				Accessory accessory1=new Accessory();
@@ -398,7 +398,7 @@ public class ContractWorkController {
 				list1.add(accessory1);
 			}
 			cwork.setAccessory1(list1);
-		}
+		}*/
 		int i=service.addContractWork(cwork);
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(cwork.getMainDepartment());
@@ -440,7 +440,7 @@ public class ContractWorkController {
 	
 	@RequestMapping("/addContractWork3BySubmit")
 	@ResponseBody
-	public String addContractWork3BySubmit(String work,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+	public String addContractWork3BySubmit(String work,@RequestParam MultipartFile [] file/*,@RequestParam MultipartFile [] file1*/,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
@@ -470,7 +470,7 @@ public class ContractWorkController {
 			}
 			cwork.setAccessory(list);
 		}
-		if(file1.length>0){
+		/*if(file1.length>0){
 			List<Accessory> list1=new ArrayList<>();
 			for(int ii=0;ii<file1.length;ii++){
 				Accessory accessory1=new Accessory();
@@ -485,7 +485,7 @@ public class ContractWorkController {
 				list1.add(accessory1);
 			}
 			cwork.setAccessory1(list1);
-		}
+		}*/
 		int i=service.addContractWork(cwork);
 		String string = i+"";
 		if(i>0){

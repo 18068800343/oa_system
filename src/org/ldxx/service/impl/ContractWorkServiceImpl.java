@@ -35,10 +35,10 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);
 			}
-			List<Accessory> accessory1=work.getAccessory1();
+			/*List<Accessory> accessory1=work.getAccessory1();
 			if(accessory1!=null){
 				i=adao.addAccessory(accessory1);
-			}
+			}*/
 			List<Enterprise> enterprise=work.getEnterprise();
 			if(enterprise!=null){
 				for(int a=0;a<enterprise.size();a++){

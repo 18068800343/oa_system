@@ -14,7 +14,11 @@ public class ContractWork {
     private String contractNameJia;
     private String jiaFang;
 
-    private String workText;
+    private String workText;//工作内容
+    
+    private String prjText;//项目概况
+    
+    private String gqText;//实际工期
     
     private String rating;
 
@@ -49,7 +53,8 @@ public class ContractWork {
 	private float assistDepartment3Money;
 	
 	private List<Accessory> accessory;
-	private List<Accessory> accessory1;//法律顾问签字
+	
+	/*private List<Accessory> accessory1;//法律顾问签字*/	
 	
 	private List<Enterprise> enterprise;
 	
@@ -61,10 +66,25 @@ public class ContractWork {
 	private String prjDurationEnd;//项目工期结束时间
 	private String prjGrade;//公路等级
 	
-
 	private String cjContractEndTime;//履约完结时间
 	
 	
+	public String getPrjText() {
+		return prjText;
+	}
+
+	public void setPrjText(String prjText) {
+		this.prjText = prjText;
+	}
+
+	public String getGqText() {
+		return gqText;
+	}
+
+	public void setGqText(String gqText) {
+		this.gqText = gqText;
+	}
+
 	public String getPrjDurationEnd() {
 		return prjDurationEnd;
 	}
@@ -79,14 +99,6 @@ public class ContractWork {
 
 	public void setCjContractEndTime(String cjContractEndTime) {
 		this.cjContractEndTime = cjContractEndTime;
-	}
-
-	public List<Accessory> getAccessory1() {
-		return accessory1;
-	}
-
-	public void setAccessory1(List<Accessory> accessory1) {
-		this.accessory1 = accessory1;
 	}
 
 	public String getPrjManager() {
