@@ -19,7 +19,7 @@ public class ClfbContractEvaluate {
 	private String scoreMaterialReport;//材料合格证书检测报告完备
 	private String scoreCustomerUse;//咨询及对顾客使用、维护的指导情况等售后服务
 	private String scorePayModeEvaluate;//付款方式评价
-	private String scoreSafetyCivilizationEnvironment;//安全文明与环保
+	/*private String scoreSafetyCivilizationEnvironment;//安全文明与环保*/	
 	private String allScore;//综合评价
 	private String makeTime;
 	private String history;
@@ -144,12 +144,6 @@ public class ClfbContractEvaluate {
 	}
 	public void setScorePayModeEvaluate(String scorePayModeEvaluate) {
 		this.scorePayModeEvaluate = scorePayModeEvaluate;
-	}
-	public String getScoreSafetyCivilizationEnvironment() {
-		return scoreSafetyCivilizationEnvironment;
-	}
-	public void setScoreSafetyCivilizationEnvironment(String scoreSafetyCivilizationEnvironment) {
-		this.scoreSafetyCivilizationEnvironment = scoreSafetyCivilizationEnvironment;
 	}
 	public String getHistory() {
 		return history;

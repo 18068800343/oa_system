@@ -27,8 +27,8 @@ public class FbContractDoAppointScore {
 
     private String scoreJinduControl;//进度控制
 
-    private String safetyCivilizationEnvironment;//安全文明与环保
-
+    /*private String safetyCivilizationEnvironment;//安全文明与环保*/
+    
     private String allScore;//综合评价
 
     public String getFcdId() {
@@ -133,14 +133,6 @@ public class FbContractDoAppointScore {
 
     public void setScoreJinduControl(String scoreJinduControl) {
         this.scoreJinduControl = scoreJinduControl == null ? null : scoreJinduControl.trim();
-    }
-
-    public String getSafetyCivilizationEnvironment() {
-        return safetyCivilizationEnvironment;
-    }
-
-    public void setSafetyCivilizationEnvironment(String safetyCivilizationEnvironment) {
-        this.safetyCivilizationEnvironment = safetyCivilizationEnvironment == null ? null : safetyCivilizationEnvironment.trim();
     }
 
     public String getAllScore() {
