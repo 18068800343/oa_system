@@ -44,7 +44,7 @@ public class FbContractOverController {
 	
 	@RequestMapping("/addFbContractOverBySave")
 	@ResponseBody
-	public int addFbContractOverBySave(FbContractOver fbContractOver,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+	public int addFbContractOverBySave(FbContractOver fbContractOver,@RequestParam MultipartFile [] file,/*@RequestParam MultipartFile [] file1,*/HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		fbContractOver.setFcoId(id);
@@ -69,7 +69,7 @@ public class FbContractOverController {
 			}
 			fbContractOver.setAccessory(list);
 		}
-		if(file1.length>0){
+		/*if(file1.length>0){
 			List<Accessory> list1=new ArrayList<>();
 			for(int ii=0;ii<file1.length;ii++){
 				Accessory accessory1=new Accessory();
@@ -84,7 +84,7 @@ public class FbContractOverController {
 				list1.add(accessory1);
 			}
 			fbContractOver.setAccessory2(list1);
-		}
+		}*/
 		int i=service.addFbContractOver(fbContractOver);
 		if(i>0){
 			CjContract cj=cService.getCjContractMainDepartmentLeader(fbContractOver.getCjContract());
@@ -128,7 +128,7 @@ public class FbContractOverController {
 	
 	@RequestMapping("/addFbContractOverBySubmit")
 	@ResponseBody
-	public String addFbContractOverBySubmit(FbContractOver fbContractOver,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+	public String addFbContractOverBySubmit(FbContractOver fbContractOver,@RequestParam MultipartFile [] file,/*@RequestParam MultipartFile [] file1,*/HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		fbContractOver.setFcoId(id);
@@ -153,7 +153,7 @@ public class FbContractOverController {
 			}
 			fbContractOver.setAccessory(list);
 		}
-		if(file1.length>0){
+		/*if(file1.length>0){
 			List<Accessory> list1=new ArrayList<>();
 			for(int ii=0;ii<file1.length;ii++){
 				Accessory accessory1=new Accessory();
@@ -168,7 +168,7 @@ public class FbContractOverController {
 				list1.add(accessory1);
 			}
 			fbContractOver.setAccessory2(list1);
-		}
+		}*/
 		int i=service.addFbContractOver(fbContractOver);
 		String string=i+"";
 		if(i>0){
