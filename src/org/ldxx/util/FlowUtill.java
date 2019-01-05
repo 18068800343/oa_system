@@ -869,21 +869,36 @@ public class FlowUtill {
 			return "fail";
 		}
 	}
-	public String chaoSongFlow(String url,List<User> users){
+	public String chaoSongFlow(String id,List<User> users){
 		CurrentFlowExample example = new CurrentFlowExample();
-		example.createCriteria().andUrlEqualTo(url);
+		example.createCriteria().andUrlLike("%"+id);
 		List<CurrentFlow> list = INSTANCE.currentFlowMapper.selectByExample(example);
 		if(list.size()>0){
 			CurrentFlow currentFlow = list.get(0);
 			for(User user:users){
+				currentFlow.setId(new TimeUUID().getTimeUUID());
 				currentFlow.setActor(user.getUserId());
 				currentFlow.setActorname(user.getuName());
 				currentFlow.setWfstate(1);
-				INSTANCE.currentFlowChaoSongMapper.insert(currentFlow);
+				int i = judgeChaoSong(currentFlow.getUrl(), user.getUserId());
+				if(i==0){
+					INSTANCE.currentFlowChaoSongMapper.insert(currentFlow);
+				}
 			}
 			return "ok";
 		}else{
 			return "fail";
+		}
+	}
+	
+	public static int judgeChaoSong(String url,String actor){
+		CurrentFlowExample example = new CurrentFlowExample();
+		example.createCriteria().andUrlEqualTo(url).andActorEqualTo(actor);
+		List<CurrentFlow> currentFlows = INSTANCE.currentFlowChaoSongMapper.selectByExample(example);
+		if(currentFlows.size()>0){
+			return 1;
+		}else{
+		    return 0;	
 		}
 	}
 	/*List<FlowEdge> flowEdges = INSTANCE.flowEdgeMapper.selectByExample(example3);

@@ -27,6 +27,7 @@ import org.ldxx.dao.ConstructionDocumentsDao;
 import org.ldxx.dao.DesignDocumentsDao;
 import org.ldxx.dao.MaintenanceReinforcementDao;
 import org.ldxx.dao.OrganizationManagementDao;
+import org.ldxx.dao.TaskDao;
 import org.ldxx.dao.TechnicalDocumentationDao;
 import org.ldxx.dao.TestingEvaluationDao;
 import org.ldxx.mapper.CurrentFlowMapper;
@@ -53,6 +54,8 @@ public class TaskController {
 
 	@Autowired
 	private TaskService tService;
+	@Autowired
+	private TaskDao taskDao;
 	@Autowired
 	private EnterpriseService eService;
 	@Autowired
@@ -695,6 +698,13 @@ public class TaskController {
 		record.setId(cFlowId);
 		record.setFkDept(fkdept);
 		return currentFlowMapper.updateByPrimaryKeySelective(record);
+	}
+	
+	@RequestMapping("/updateImportance")
+	@ResponseBody
+	public int updateImportance(String id,String importance){
+		
+		return taskDao.updateImportanceById(id, importance);
 	}
 	
 }

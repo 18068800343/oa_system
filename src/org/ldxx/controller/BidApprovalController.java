@@ -16,6 +16,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.User;
 import org.ldxx.dao.BidApprovalDao;
+import org.ldxx.dao.UserDao;
 import org.ldxx.service.BidApprovalService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.util.ExportData;
@@ -23,6 +24,7 @@ import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -41,7 +43,8 @@ public class BidApprovalController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private BidApprovalDao bidApprovalDao;
-	
+	@Autowired
+	private UserDao userDao;
 	@RequestMapping("/selectBidApproval")
 	@ResponseBody
 	public List<BidApproval> selectBidApproval(String status){
@@ -254,6 +257,36 @@ public class BidApprovalController {
 	public int updateFlowEdit(BidApproval ba){
 		int i=bidApprovalDao.updateFlowEdit(ba);
 		return i;
+	}
+	
+	@RequestMapping("/insertChaoSong")
+	@ResponseBody
+	public String insertChaoSong(String businessPeopleId,String businessPeopleIdName,String bidPeopleId,String bidPeopleName,String id){
+	  List<User> users = new ArrayList<>();
+	  User user1 = new User();             
+	  user1.setUserId(businessPeopleId);   
+	  user1.setuName(businessPeopleIdName);
+	  if(businessPeopleId==null||"".equals(businessPeopleId)){
+		User user =  userDao.getUserByUname(businessPeopleIdName);
+		if(null!=user){
+			user1.setUserId(user.getUserId());
+		}
+	  }
+	  
+	  User user2 = new User();
+	  user2.setUserId(bidPeopleId);
+	  user2.setuName(bidPeopleName);
+	  if(bidPeopleId==null||"".equals(bidPeopleId)){
+			User user =  userDao.getUserByUname(bidPeopleName);
+			if(null!=user){
+				user2.setUserId(user.getUserId());
+			}
+	  }
+	  
+	  users.add(user1);
+	  users.add(user2);
+	  String result = new FlowUtill().chaoSongFlow(id, users);
+	  return result;
 	}
 	
 	@RequestMapping("/selectBidApprovalByTypeAndDepartment")

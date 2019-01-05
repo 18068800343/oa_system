@@ -62,4 +62,6 @@ public interface TaskDao {
 	public int updateHistoryById(@Param("id")String id);
 
 	public int updateHistoryNow(@Param("id")String id);
+	
+	public int updateImportanceById(@Param("id")String id,@Param("importance")String importance);
 }

@@ -34,6 +34,8 @@ public interface UserDao {
 	String countUsername(@Param("username")String username);
 
 	User selectUserByusername(@Param("username")String username);
+	
+	User getUserByUname(@Param("uName")String uName);
 
 	int countuserCode();
 
