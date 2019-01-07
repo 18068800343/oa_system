@@ -11,4 +11,6 @@ public interface FinancialHkService {
 	public List<FinancialHk> selectFinancialHk();
 	
 	public FinancialHk selectFinancialHkById(String id);
+	
+	public int updateFinancialHk(FinancialHk hk);
 }
