@@ -216,4 +216,42 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return list;
 	}
 
+	@Transactional
+	@Override
+	public int updatePrjProgressFill(PrjProgressFill ppf) {
+		int i=dao.updatePrjProgressFill(ppf);
+		String id=ppf.getPpfId();
+		if(i>0){
+			List<PrjProgressFillInfo> ppfi=ppf.getPpfi();
+			for(int a=0;a<ppfi.size();a++){
+				ppfi.get(a).setPpfId(id);
+			}
+			if(ppfi!=null){
+				i=dao.addPrjProgressFillInfo(ppfi);
+			}
+			
+			List<PrjProgressFillInfo> ppfi2=ppf.getPpfi2();
+			for(int a=0;a<ppfi2.size();a++){
+				ppfi2.get(a).setPpfId(id);
+			}
+			if(ppfi2!=null){
+				i=dao.addPrjProgressFillInfo(ppfi2);
+			}
+			
+			List<PrjProgressFillCj>ppcj=ppf.getPpcj();
+			for(int a=0;a<ppcj.size();a++){
+				ppcj.get(a).setPpfId(id);
+			}
+			if(ppcj!=null){
+				i=dao.addPrjProgressFillCj(ppcj);
+			}
+			
+			List<Accessory> accessory=ppf.getAccessory();
+			if(accessory !=null){
+				i=aDao.addAccessory(accessory);
+			}
+		}
+		return i;
+	}
+
 }
