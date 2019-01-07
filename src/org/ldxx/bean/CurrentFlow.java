@@ -62,7 +62,27 @@ public class CurrentFlow {
     
     private String flowNodeLast;
     
-    public Integer getFlowNopassState() {
+    private Integer lastOperateType;
+    
+    private String step;
+    
+    public String getStep() {
+		return step;
+	}
+
+	public void setStep(String step) {
+		this.step = step;
+	}
+
+	public Integer getLastOperateType() {
+		return lastOperateType;
+	}
+
+	public void setLastOperateType(Integer lastOperateType) {
+		this.lastOperateType = lastOperateType;
+	}
+
+	public Integer getFlowNopassState() {
 		return flowNopassState;
 	}
 

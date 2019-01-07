@@ -19,6 +19,8 @@ public interface FlowHistroyMapper {
     int insertSelective(FlowHistroy record);
 
     List<FlowHistroy> selectByExampleWithBLOBs(FlowHistroyExample example);
+    
+    List<FlowHistroy> selectByExampleNewWithBLOBs(@Param("url") String url,@Param("flowNodeLast") String flowNodeLast,@Param("lastOperateType") Integer lastOperateType,@Param("step")String step);
 
     List<FlowHistroy> selectByExample(FlowHistroyExample example);
 

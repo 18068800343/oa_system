@@ -127,6 +127,7 @@ public class FlowUtill {
 		currentFlow.setFloTmpId(business.getFloTmpId());
 		currentFlow.setId(new TimeUUID().getTimeUUID());
 		currentFlow.setModeId(mode_id);
+		currentFlow.setLastOperateType(null);
 		FlowNode flowNode = INSTANCE.flowNodeMapper.selectStartFlowNode(business.getFloTmpId());
 		FlowEdgeExample example3 = new FlowEdgeExample();
 		example3.createCriteria().andFloNodeLeftEqualTo(flowNode.getId());
@@ -214,17 +215,19 @@ public class FlowUtill {
 			example2.createCriteria().andUrlEqualTo(currentFlowOld.getUrl());
 			List<CurrentFlow> currentFlows = INSTANCE.currentFlowMapper.selectByExample(example2);
 			CurrentFlow currentFlow = new CurrentFlow();
+			Integer historyLastOperateType=null;
 			try {
 				if(null!=currentFlows&&currentFlows.size()>0){
 					currentFlow = currentFlows.get(0);
 					currentFlow.setDoDate(new Date());
 					currentFlow.setDeptname(currentFlowOld.getDeptname());
-					
+					historyLastOperateType = currentFlow.getLastOperateType();
 					String oldFloNodeId = currentFlow.getFloNodeId();
 					FlowNode flowNode = INSTANCE.flowNodeMapper.selectByPrimaryKey(oldFloNodeId);
 					String nextFloNodeId = deque(flowNode, currentFlow);
 					flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 					flowHistroy.setFlowNodeLast(currentFlow.getFlowNodeLast());
+					flowHistroy.setLastOperateType(historyLastOperateType);
 					currentFlow.setFlowNodeLast(oldFloNodeId);
 					if(!"end".equals(nextFloNodeId)){
 						currentFlow.setActor(next_user_id);
@@ -234,6 +237,7 @@ public class FlowUtill {
 						currentFlow.setReadreceipts(0);
 						currentFlow.setSdtofnode(new Date());
 						currentFlow.setDoDate(new Date());
+						currentFlow.setLastOperateType(1);
 						INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 						
 						//如果是取消流程
@@ -297,6 +301,7 @@ public class FlowUtill {
 		String floNodeId = "";
 	    floNodeId = currentFlow.getFloNodeId();
 	    currentFlow.setFloNodeId(floNodeId);
+	    currentFlow.setLastOperateType(1);
 	    FlowNode flowNode = INSTANCE.flowNodeMapper.selectByPrimaryKey(floNodeId);
 		try {
 			floNodeId = deque(flowNode, currentFlow);
@@ -444,7 +449,7 @@ public class FlowUtill {
 			FlowHistroy flowHistroy = new FlowHistroy();
 			CurrentFlowExample example1 = new CurrentFlowExample();
 			example1.createCriteria().andModeIdEqualTo(currentFlowId);
-			List<CurrentFlow> currentFlows = INSTANCE.currentFlowMapper.selectByExample(example1);
+			List<CurrentFlow> currentFlows = INSTANCE.currentFlowMapper.selectByExampleNew(currentFlowId);
 			CurrentFlow currentFlow = currentFlows.get(0);
 			String url = currentFlows.get(0).getUrl();
 			currentFlow.setRdt(new Date());
@@ -486,7 +491,7 @@ public class FlowUtill {
 				flowHistroy.setFlowNodeLast(currentFlow.getFlowNodeLast());
 				//流程历史操作类型为2 退回
 				flowHistroy.setOperateType(2);
-				
+				flowHistroy.setLastOperateType(currentFlow.getLastOperateType());
 				INSTANCE.flowHistroyMapper.insert(flowHistroy); 
 				
 				jsonObject.put("result", "0");
@@ -505,6 +510,7 @@ public class FlowUtill {
 					flowHistroy.setFloNodeId(flowNode.getId());
 					flowHistroy.setFlowNodeLast(currentFlow.getFlowNodeLast());
 					flowHistroy.setOperateType(2);
+					flowHistroy.setLastOperateType(currentFlow.getLastOperateType());
 					INSTANCE.flowHistroyMapper.insert(flowHistroy); 
 					CurrentFlowExample example2 = new CurrentFlowExample();
 					example2.createCriteria().andIdEqualTo(currentFlowId);
@@ -514,13 +520,15 @@ public class FlowUtill {
 					return jsonObject.toString();	
 				}else if(returnRole==Constant.ALL_FLOW_NODE){
 					List<FlowHistroy> flowHistroys = new ArrayList<>();
-					flowHistroys = getTuiHuiFlowhistorys(flowHistroys, currentFlow.getUrl(), currentFlow.getFlowNodeLast());
+					flowHistroys = getTuiHuiFlowhistorysNew(flowHistroys, currentFlow.getUrl(), currentFlow.getFlowNodeLast());
 					
 					List<FlowHistroy> newFlowHistorys = new ArrayList<>();
 					for(FlowHistroy flowHistroy2:flowHistroys){
 						String flowNodeName = INSTANCE.flowNodeMapper.selectByPrimaryKey(flowHistroy2.getFloNodeId()).getFlownodename();
 						flowHistroy2.setFlowNodeName(flowNodeName);
-					    if(flowHistroy2.getOperateType()==1){
+						int step = Integer.parseInt(flowHistroy2.getStep());
+						int b = Integer.parseInt(currentFlow.getStep()); 
+					    if(step<b){
 					    	newFlowHistorys.add(flowHistroy2);
 					    }
 					}
@@ -573,6 +581,7 @@ public class FlowUtill {
 				    String historyFloNodeLast = currentFlowNow.getFloNodeId();
 				    String historyActor = currentFlowNow.getActor();
 				    String historyActorName = currentFlowNow.getActorname();
+				    Integer historyLastOperateType = currentFlowNow.getLastOperateType();
 				    //退回流程，当前流程的上一步为现在正在操作的流程的 步骤主键
 				    currentFlowNow.setFlowNodeLast(currentFlowNow.getFloNodeId());
 					//退回到指定步骤
@@ -591,10 +600,12 @@ public class FlowUtill {
 					flowHistroy.setView(view);
 					flowHistroy.setOperateType(2);
 					flowHistroy.setDoDate(new Date());
+					flowHistroy.setLastOperateType(historyLastOperateType);
 					INSTANCE.flowHistroyMapper.insert(flowHistroy); 
 					CurrentFlowExample example2 = new CurrentFlowExample();
 					example2.createCriteria().andIdEqualTo(currentFlowNow.getId());
 					currentFlowNow.setReadreceipts(0);
+					currentFlowNow.setLastOperateType(2);
 					currentFlowNow.setDoDate(new Date());
 					INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlowNow, example2);
 				
@@ -643,6 +654,7 @@ public class FlowUtill {
 		currentFlow.setDoDate(new Date());
 		currentFlow.setModeId(modeId);
 		currentFlow.setReadreceipts(0);
+		currentFlow.setLastOperateType(null);
 		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 		try {
 			INSTANCE.currentFlowMapper.insert(currentFlow);
@@ -827,6 +839,28 @@ public class FlowUtill {
 		return endFlowHistorys;
 	}
 	
+	
+	public static List<FlowHistroy> getTuiHuiFlowhistorysNew(List<FlowHistroy> endFlowHistorys,String url,String flowNodeLast){
+		try {
+			
+		    FlowHistroy flowHistroy;
+			FlowHistroyExample example=new FlowHistroyExample();
+			example.createCriteria().andUrlEqualTo(url).andFloNodeIdEqualTo(flowNodeLast).andOperateTypeEqualTo(4);
+			example.setOrderByClause("do_date desc");
+			List<FlowHistroy> histroys = INSTANCE.flowHistroyMapper.selectByExampleNewWithBLOBs(url,flowNodeLast,1,"");
+			flowHistroy= histroys.get(0);
+			if(null!=flowHistroy.getFlowNodeLast()&&!"".equals(flowHistroy.getFlowNodeLast())){
+			  endFlowHistorys.add(flowHistroy);	
+			  getTuiHuiFlowhistorysNew(endFlowHistorys,url, flowHistroy.getFlowNodeLast());
+			}else{
+			  endFlowHistorys.add(flowHistroy);	
+			  return endFlowHistorys;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return endFlowHistorys;
+	}
 	public String boHuiFlow(String url,String view){
 		CurrentFlowExample example = new CurrentFlowExample();
 		example.createCriteria().andUrlEqualTo(url);

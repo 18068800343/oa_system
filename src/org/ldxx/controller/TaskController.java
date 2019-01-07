@@ -224,7 +224,7 @@ public class TaskController {
 		currentFlow.setParams("1");
 		currentFlow.setTitle(t.getPrjName());
 		currentFlow.setActor(user.getUserId());
-		currentFlow.setActorname(user.getUsername());;
+		currentFlow.setActorname(user.getuName());;
 		currentFlow.setMemo(t.getPrjName()+"流程发起");
 		currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
 		currentFlow.setParams("{'cs':'1'}");

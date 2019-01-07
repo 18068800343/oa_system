@@ -23,6 +23,7 @@
     <result column="mode_id" property="modeId" jdbcType="VARCHAR" />
     <result column="Flow_Node_Last" property="flowNodeLast" jdbcType="VARCHAR" />
     <result column="operate_type" property="operateType" jdbcType="INTEGER" />
+    <result column="step" property="step" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="org.ldxx.bean.FlowHistroy" extends="BaseResultMap" >
     <result column="view" property="view" jdbcType="LONGVARCHAR" />
@@ -88,7 +89,12 @@
   <sql id="Base_Column_List" >
     ID, Flo_Tmp_ID, Flo_Node_ID, Bus_ID, URL, Params, Title, Starter, StarterName, RDT, 
     FK_Dept, DeptName, NodeName, PRI, Actor, ActorName, ActorResult, do_date, mode_id, 
-    Flow_Node_Last, operate_type
+    Flow_Node_Last, operate_type,last_operate_type
+  </sql>
+  <sql id="Base_Column_List_new" >
+    ID, Flo_Tmp_ID, Flo_Node_ID, Bus_ID, URL, Params, Title, Starter, StarterName, RDT, 
+    FK_Dept, DeptName, NodeName, PRI, Actor, ActorName, ActorResult, do_date, mode_id, 
+    Flow_Node_Last, operate_type,last_operate_type,step
   </sql>
   <sql id="Blob_Column_List" >
     view
@@ -108,6 +114,16 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+  </select>
+  
+    <select id="selectByExampleNewWithBLOBs" resultMap="ResultMapWithBLOBs">
+    select
+      distinct
+    <include refid="Base_Column_List_new" />
+    ,
+    <include refid="Blob_Column_List" />
+    from (select * from flowhistroy order by do_date) a left join (select ID as fNodeId,step from flownode ) b on a.Flo_Node_ID = b.fNodeId
+    where a.URL=#{url} and a.Flo_Node_ID=#{flowNodeLast} and (a.last_operate_type=#{lastOperateType} or a.last_operate_type is null)  order by do_date 
   </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.FlowHistroyExample" >
     select
@@ -148,7 +164,7 @@
       FK_Dept, DeptName, NodeName, 
       PRI, Actor, ActorName, 
       ActorResult, do_date, mode_id, 
-      Flow_Node_Last, operate_type, view
+      Flow_Node_Last, operate_type, view,last_operate_type
       )
     values (#{floTmpId,jdbcType=VARCHAR}, #{floNodeId,jdbcType=VARCHAR},#{id,jdbcType=VARCHAR}, #{busId,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
@@ -156,7 +172,8 @@
       #{fkDept,jdbcType=VARCHAR}, #{deptname,jdbcType=VARCHAR}, #{nodename,jdbcType=VARCHAR}, 
       #{pri,jdbcType=INTEGER}, #{actor,jdbcType=VARCHAR}, #{actorname,jdbcType=VARCHAR}, 
       #{actorresult,jdbcType=INTEGER}, #{doDate,jdbcType=TIMESTAMP}, #{modeId,jdbcType=VARCHAR}, 
-      #{flowNodeLast,jdbcType=VARCHAR}, #{operateType,jdbcType=INTEGER}, #{view,jdbcType=LONGVARCHAR}
+      #{flowNodeLast,jdbcType=VARCHAR}, #{operateType,jdbcType=INTEGER}, #{view,jdbcType=LONGVARCHAR},
+      #{lastOperateType,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="org.ldxx.bean.FlowHistroy" >

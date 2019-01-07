@@ -381,6 +381,7 @@
    	id=GetQueryString("prjId");
    	editOrView=GetQueryString("editOrView");
    	step=GetQueryString("step");
+   	viewIndex=GetQueryString("viewIndex");
    	console.log(id,editOrView,step)
 	
 	
@@ -485,7 +486,46 @@
                 			
                 			$("#toubiaobumen").val(json.xbDepartment)
                 			
-            	}else if(editOrView=="view"&&step=="4"){
+            	}else if(editOrView=="view"&&step=="4"||viewIndex=="viewIndex"){
+            		$("#look_xieban_table tbody").html('');
+                	$("#look_xieban_table tbody").append("<tr><td style='width:150px;'>文件等级</td><td>"
+                			+'<input type="radio" name="fileLevel" value="1" style="width:25px;height:25px;" disabled id="yijiwj">一级文件'
+                			+'<input type="radio" name="fileLevel" value="2" style="width:25px;height:25px;" disabled  id="erjiwj">二级文件'
+                			+"</td><td>选择协作部门分管领导"
+                			+"</td><td>"
+                			+'<select class="form-control" style="width:180px;" id="lindao" disabled></select>'
+                			+"</td></tr>"
+                			+'<tr><td style="width:150px;">商务部分'
+                			+'</td><td><div class="yihang"><input type="text" style="width:180px;" class="form-control" id="shangwu" disabled></div>'
+                			+'</td><td>报价部分'
+                			+'</td><td><div class="yihang"><input type="text" style="width:180px;" class="form-control" id="baojia" disabled></div></td></tr>')
+                			
+                			if(json.fileLevel=="一级文件"){
+                				$("#yijiwj").prop("checked","checked");
+                			}
+                			if(json.fileLevel=="二级文件"){
+                				$("#erjiwj").prop("checked","checked");
+                			}
+                			$("#lindao").val(json.fgLindao)
+                			$("#shangwu").val(json.businessPeople);
+                			$("#baojia").val(json.bidPeople);
+            		$("#fgldxuanbumen tbody").html('');
+                	$("#fgldxuanbumen tbody").append('<tr><td style="width:150px;">选择协办部门'
+                			+'</td><td><div class="yihang"><select class="form-control" id="toubiaobumen" style="width:180px;" disabled></select></div>'
+                			+'</td><td>'
+                			+'</td><td><div class="yihang"></div></td></tr>')
+                			
+                			$("#toubiaobumen").val(json.xbDepartment)
+                			
+                	$("#fgldyijian tbody").html('');
+                	$("#fgldyijian tbody").append('<tr><td style="width:150px;">选择投标责任人'
+                			+'</td><td><div class="yihang"><input type="text" style="width:180px;" class="form-control" id="zerenren" disabled></div>'
+                			+'</td><td>'
+                			+'</td><td><div class="yihang"></div></td></tr>')
+                			
+                			$("#zerenren").val(json.tbPeople)
+                			
+            	}else if(editOrView=="view"&&step=="5"||viewIndex=="viewIndex"){
             		$("#look_xieban_table tbody").html('');
                 	$("#look_xieban_table tbody").append("<tr><td style='width:150px;'>文件等级</td><td>"
                 			+'<input type="radio" name="fileLevel" value="1" style="width:25px;height:25px;" disabled id="yijiwj">一级文件'
@@ -907,23 +947,15 @@
 	        }
 	    });
     	
-    	var businessPeople = $("#shangwu").val();
-    	var bidPeople = $("#baojia").val();
-    	businessPeopleId =$("#shangwu").attr("data-id");
-    	businessPeopleIdName = businessPeople;
-    	bidPeopleId = $("#baojia").attr("data-id2");
-    	bidPeopleName = bidPeople;
     	$.ajax({
 	        type: 'POST',
-	        url: getContextPath()+'/BidApproval/insertChaoSong',
+	        url: getContextPath()+'/BidApproval/insertChaoSongTb',
 	        dataType: 'text',
 	        async:false,
 	        data:{
 	        	id:id,
-	        	businessPeopleId:businessPeopleId,
-	        	businessPeopleIdName:businessPeopleIdName,
-	        	bidPeopleId:bidPeopleId,
-	        	bidPeopleName:bidPeopleName
+	        	tbPeople:tbPeople,
+	        	tbPeopleName:tbPeopleName
 	        },
 	        success: function (json) {
 	        }

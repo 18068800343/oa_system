@@ -18,6 +18,8 @@ public interface CurrentFlowMapper {
     int insertSelective(CurrentFlow record);
 
     List<CurrentFlow> selectByExample(CurrentFlowExample example);
+    
+    List<CurrentFlow> selectByExampleNew(@Param("url") String url);
 
     CurrentFlow selectByPrimaryKey(String id);
 

@@ -29,6 +29,8 @@
     <result column="mode_id" property="modeId" jdbcType="VARCHAR" />
     <result column="flow_end_state" property="flowEndState" jdbcType="INTEGER" />
     <result column="Flow_Node_Last" property="flowNodeLast" jdbcType="VARCHAR" />
+    <result column="last_operate_type" property="lastOperateType" jdbcType="INTEGER" />
+    <result column="step" property="step" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -91,7 +93,12 @@
   <sql id="Base_Column_List" >
     ID, Flo_Node_ID, Flo_Tmp_ID, Bus_ID, URL, Params, Title, WFState, Starter, StarterName, 
     Actor, ActorName, RDT, FK_Dept, DeptName, NodeName, PRI, SDTOfNode, SDTOfFlow, Agent, 
-    AgentType, Memo, ReadReceipts, do_date, mode_id, flow_end_state, Flow_Node_Last,flow_nopass_state
+    AgentType, Memo, ReadReceipts, do_date, mode_id, flow_end_state, Flow_Node_Last,flow_nopass_state,last_operate_type
+  </sql>
+    <sql id="Base_Column_List_new" >
+    a.ID, a.Flo_Node_ID, a.Flo_Tmp_ID, a.Bus_ID, a.URL, a.Params, a.Title, a.WFState, a.Starter, a.StarterName, 
+    a.Actor, a.ActorName, a.RDT, a.FK_Dept, a.DeptName, a.NodeName, a.PRI, a.SDTOfNode, a.SDTOfFlow, a.Agent, 
+    a.AgentType, a.Memo, a.ReadReceipts, a.do_date, a.mode_id, a.flow_end_state, a.Flow_Node_Last,a.flow_nopass_state,a.last_operate_type,b.step
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.CurrentFlowExample" >
     select
@@ -106,6 +113,11 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+  </select>
+  <select id="selectByExampleNew" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List_new" />
+    from currentflow a LEFT JOIN flownode b on a.Flo_Node_ID = b.ID where a.mode_id=#{url}
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -132,7 +144,7 @@
       NodeName, PRI, SDTOfNode, 
       SDTOfFlow, Agent, AgentType, 
       Memo, ReadReceipts, do_date, 
-      mode_id, flow_end_state, Flow_Node_Last,flow_nopass_state
+      mode_id, flow_end_state, Flow_Node_Last,flow_nopass_state,last_operate_type
       )
     values (#{id,jdbcType=VARCHAR}, #{floNodeId,jdbcType=VARCHAR}, #{floTmpId,jdbcType=VARCHAR}, 
       #{busId,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, 
@@ -143,8 +155,7 @@
       #{sdtofflow,jdbcType=TIMESTAMP}, #{agent,jdbcType=VARCHAR}, #{agenttype,jdbcType=VARCHAR}, 
       #{memo,jdbcType=VARCHAR}, #{readreceipts,jdbcType=INTEGER}, #{doDate,jdbcType=TIMESTAMP}, 
       #{modeId,jdbcType=VARCHAR}, #{flowEndState,jdbcType=INTEGER}, #{flowNodeLast,jdbcType=VARCHAR},
-      #{flowNopassState,jdbcType=INTEGER}
-      
+      #{flowNopassState,jdbcType=INTEGER},#{lastOperateType,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="org.ldxx.bean.CurrentFlow" >
@@ -232,6 +243,9 @@
       <if test="flowNopassState != null" >
         flow_nopass_state,
       </if>
+      <if test="lastOperateType != null" >
+        last_operate_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{id,jdbcType=VARCHAR},
@@ -315,6 +329,9 @@
       </if>
       <if test="flowNopassState != null" >
         #{flowNopassState,jdbcType=INTEGER},
+      </if>
+      <if test="lastOperateType != null" >
+        #{lastOperateType,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -410,6 +427,9 @@
       </if>
       <if test="record.flowNopassState != null" >
         flow_nopass_state = #{record.flowNopassState,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastOperateType != null" >
+        last_operate_type = #{record.lastOperateType,jdbcType=INTEGER}
       </if>
     </set>
     <if test="_parameter != null" >
@@ -533,6 +553,9 @@
       </if>
       <if test="flowNopassState != null" >
         flow_nopass_state = #{flowNopassState,jdbcType=INTEGER},
+      </if>
+      <if test="lastOperateType != null" >
+        last_operate_type = #{lastOperateType,jdbcType=INTEGER},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

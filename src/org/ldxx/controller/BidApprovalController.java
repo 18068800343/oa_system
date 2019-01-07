@@ -261,7 +261,7 @@ public class BidApprovalController {
 	
 	@RequestMapping("/insertChaoSong")
 	@ResponseBody
-	public String insertChaoSong(String businessPeopleId,String businessPeopleIdName,String bidPeopleId,String bidPeopleName,String id){
+	public String insertChaoSong(String businessPeopleId,String businessPeopleIdName,String bidPeopleId,String bidPeopleName,String id,String tbPeople,String tbPeopleName){
 	  List<User> users = new ArrayList<>();
 	  User user1 = new User();             
 	  user1.setUserId(businessPeopleId);   
@@ -287,6 +287,24 @@ public class BidApprovalController {
 	  users.add(user2);
 	  String result = new FlowUtill().chaoSongFlow(id, users);
 	  return result;
+	}
+	
+	@RequestMapping("/insertChaoSongTb")
+	@ResponseBody
+	public String insertChaoSongTb(String id,String tbPeople,String tbPeopleName){
+		List<User> users = new ArrayList<>();
+		User user2 = new User();
+		user2.setUserId(tbPeople);
+		user2.setuName(tbPeopleName);
+		if(tbPeople==null||"".equals(tbPeople)){
+			User user =  userDao.getUserByUname(tbPeopleName);
+			if(null!=user){
+				user2.setUserId(user.getUserId());
+			}
+		}
+		users.add(user2);
+		String result = new FlowUtill().chaoSongFlow(id, users);
+		return result;
 	}
 	
 	@RequestMapping("/selectBidApprovalByTypeAndDepartment")

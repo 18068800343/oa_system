@@ -49,7 +49,27 @@ public class FlowHistroy {
 
     private String flowNodeName;
     
-    public String getFlowNodeName() {
+    private Integer lastOperateType;
+    
+    private String step;
+    
+	public String getStep() {
+		return step;
+	}
+
+	public void setStep(String step) {
+		this.step = step;
+	}
+
+	public Integer getLastOperateType() {
+		return lastOperateType;
+	}
+
+	public void setLastOperateType(Integer lastOperateType) {
+		this.lastOperateType = lastOperateType;
+	}
+
+	public String getFlowNodeName() {
 		return flowNodeName;
 	}
 
