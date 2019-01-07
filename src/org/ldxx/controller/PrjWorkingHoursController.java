@@ -146,5 +146,12 @@ public class PrjWorkingHoursController {
 		}
 		return i;
 	}
+	
+	
+	@RequestMapping("/selectPrjWorkingHoursByPrjNo")
+	@ResponseBody
+	public PrjWorkingHours selectPrjWorkingHoursByPrjNo(String prjno){
+		return service.selectPrjWorkingHoursByPrjNo(prjno);
+	}
 
 }

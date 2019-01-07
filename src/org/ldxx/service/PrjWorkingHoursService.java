@@ -19,5 +19,7 @@ public interface PrjWorkingHoursService {
 
 	int deleteAccessoryByIdAndName(Accessory accessory);
 
+	PrjWorkingHours selectPrjWorkingHoursByPrjNo(String prjno);
+
 
 }

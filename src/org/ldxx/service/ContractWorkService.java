@@ -22,4 +22,6 @@ public interface ContractWorkService {
 	public int updateContractWork2(ContractWork work);
 	
 	public int updateContractWork3(ContractWork work);
+
+	public List<ContractWork> selectContractWorkByprjNo(String pNo,String type);
 }
