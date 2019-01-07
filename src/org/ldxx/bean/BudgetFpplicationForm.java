@@ -22,13 +22,20 @@ public class BudgetFpplicationForm {
 	private String department;//负责部门id
 	private String omName;//部门名称
 	
-	private List<CostBudget> costBudget;
-	private List<ArtificialBudget> artificialBudget;
+	private List<CostBudget> costBudget;//材料费用
+	private List<ArtificialBudget> artificialBudget;//人工费用
+	private List<BudgetMainMaterial> budgetMainMaterial;//主材料费
 	
     private String ccName;//项目负责人
 	
 	
     
+	public List<BudgetMainMaterial> getBudgetMainMaterial() {
+		return budgetMainMaterial;
+	}
+	public void setBudgetMainMaterial(List<BudgetMainMaterial> budgetMainMaterial) {
+		this.budgetMainMaterial = budgetMainMaterial;
+	}
 	public String getOmName() {
 		return omName;
 	}

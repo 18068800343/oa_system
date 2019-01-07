@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.ldxx.bean.ArtificialBudget;
 import org.ldxx.bean.BudgetFpplicationForm;
+import org.ldxx.bean.BudgetMainMaterial;
 import org.ldxx.bean.CostBudget;
 import org.ldxx.dao.ArtificialBudgetDao;
 import org.ldxx.dao.BudgetFpplicationFormDao;
+import org.ldxx.dao.BudgetMainMaterialDao;
 import org.ldxx.dao.CostBudgetDao;
 import org.ldxx.dao.EnterpriseDao;
 import org.ldxx.service.BudgetFpplicationFormService;
@@ -21,41 +23,49 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 
 	@Autowired
 	private BudgetFpplicationFormDao bdao;
-	
 	@Autowired
 	private CostBudgetDao cdao;
-	
 	@Autowired
 	private ArtificialBudgetDao adao;
+	@Autowired
+	private BudgetMainMaterialDao mainMaterialdao;
 
 	@Override
 	public int saveBudge(BudgetFpplicationForm budge) {
-		List<CostBudget> costBudget = budge.getCostBudget();
-		List<ArtificialBudget> artificialBudget = budge.getArtificialBudget();
-		for (int i = 0; i < costBudget.size(); i++) {
-			costBudget.get(i).setCbId(budge.getBfId());
-		}
-		for (int ii = 0; ii < artificialBudget.size(); ii++) {
-			artificialBudget.get(ii).setaId(budge.getBfId());
-		}
-		int i=cdao.addCostBudget(costBudget);
+		int  i=bdao.saveBudge(budge);
 		if(i>0){
-			i=adao.addArtificialBudget(artificialBudget);
-			if(i>0){
-				i=bdao.saveBudge(budge);
+			List<CostBudget> costBudget = budge.getCostBudget();
+			if(costBudget.size()!=0){
+				for (int k = 0; k < costBudget.size(); k++) {
+					costBudget.get(k).setCbId(budge.getBfId());
+				}
 			}
+			i=cdao.addCostBudget(costBudget);
+			List<BudgetMainMaterial> budgetMainMaterial = budge.getBudgetMainMaterial();
+			if(budgetMainMaterial.size()!=0){
+				for(int j=0;j<budgetMainMaterial.size();j++){
+					budgetMainMaterial.get(j).setbId(budge.getBfId());
+				}
+			}
+			i=mainMaterialdao.addBudgetMainMaterial(budgetMainMaterial);
+			/*List<ArtificialBudget> artificialBudget = budge.getArtificialBudget();
+			if(artificialBudget.size()!=0){
+				for (int ii = 0; ii < artificialBudget.size(); ii++) {
+					artificialBudget.get(ii).setaId(budge.getBfId());
+				}
+			}
+			i=adao.addArtificialBudget(artificialBudget);*/
 		}
 		return i;
 	}
 
 	@Override
 	public int deleteBudgeById(String id) {
-		int i = cdao.deleteCostBudgetById(id);
+		int i=bdao.deleteBudgeById(id);
 		if(i>0){
-			i=adao.deleteArtificialBudgetById(id);
-			if(i>0){
-				i=bdao.deleteBudgeById(id);
-			}
+			//i=adao.deleteArtificialBudgetById(id);
+			i = cdao.deleteCostBudgetById(id);
+			i=mainMaterialdao.deleteBudgetMainMaterialById(id);
 		}
 		return i;
 	}
@@ -68,16 +78,22 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 		for (int ii = 0; ii < costBudget.size(); ii++) {
 			costBudget.get(ii).setCbId(budge.getBfId());
 		}
-		i=adao.deleteArtificialBudgetById(budge.getBfId());
+		/*i=adao.deleteArtificialBudgetById(budge.getBfId());
 		List<ArtificialBudget> artificialBudget = budge.getArtificialBudget();
 		for(int iii=0;iii<artificialBudget.size();iii++){
 			artificialBudget.get(iii).setaId(budge.getBfId());
+		}*/
+		i=mainMaterialdao.deleteBudgetMainMaterialById(budge.getBfId());
+		List<BudgetMainMaterial> budgetMainMaterial = budge.getBudgetMainMaterial();
+		for(int k=0;k<budgetMainMaterial.size();k++){
+			budgetMainMaterial.get(k).setbId(budge.getBfId());
 		}
 		if(i>0){
 			i=bdao.updateBudge(budge);
 			if(i>0){
 				i=cdao.addCostBudget(budge.getCostBudget());
-				i=adao.addArtificialBudget(budge.getArtificialBudget());
+				//i=adao.addArtificialBudget(budge.getArtificialBudget());
+				i=mainMaterialdao.addBudgetMainMaterial(budge.getBudgetMainMaterial());
 			}
 		}
 		return i;
@@ -90,9 +106,13 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 		if(costBudget.size()>0){
 			budge.setCostBudget(costBudget);
 		}
-		List<ArtificialBudget> artificialBudget=adao.selectArtificialBudgetById(id);
+		/*List<ArtificialBudget> artificialBudget=adao.selectArtificialBudgetById(id);
 		if(artificialBudget.size()>0){
 			budge.setArtificialBudget(artificialBudget);
+		}*/
+		List<BudgetMainMaterial> budgetMainMaterial = mainMaterialdao.selectBudgetMainMaterialById(id);
+		if(budgetMainMaterial.size()>0){
+			budge.setBudgetMainMaterial(budgetMainMaterial);
 		}
 		return budge;
 	}
