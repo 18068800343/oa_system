@@ -1287,8 +1287,8 @@
 				+$("#newkemu option:selected").text()
 				+"</td><td>"
 				+$("#newfymingxi option:selected").text()
-				+"</td><td>"
-				+$("#newbumen").val()
+				+"</td><td data-id="+$("#newbumen").val()+">"
+				+$("#newbumen option:selected").text()
 				+"</td><td>"
 				+$("#newjine").val()
 				+"</td><td>"
@@ -1895,10 +1895,10 @@
 	                    	}
                     	}
                     	
-                    	$("#bumen").empty();
+                    	$("#newbumen").empty();
                     	for(var ii=0;ii<array.length;ii++){
                     		for(var ii=0;ii<array2.length;ii++){
-	                    		$("#bumen").append("<option value="+array2[ii]+">"+array[ii]+"</option>")
+	                    		$("#newbumen").append("<option value="+array2[ii]+">"+array[ii]+"</option>")
                     		}
                     	}
                     }
@@ -2073,11 +2073,11 @@
     	var rgyusuan=new Array();
     	//预算费用
     	var allMoney=0;
-    	$("#fyyusuan tbody").find("tr").each(function(){
+    	$("#Newfyyusuan tbody").find("tr").each(function(){
     		var data = $(this).children();
     		var fenlei = data.eq(0).text();
     	    var mingxi = data.eq(1).text();
-    	    var bumen = data.eq(2).attr("data1");
+    	    var bumen = data.eq(2).attr("data-id");
     	    var money = data.eq(3).text();
     	    var desc = data.eq(4).text();
     	    allMoney+=Number(money)
@@ -2099,29 +2099,32 @@
     	    fyyusuan.push(xinfyyusuan);
     	    //console.log(fyyusuan)
     	})
-    	//人工费用
-    	$("#rgyusuan tbody").find("tr").each(function(){
+    	//主材成本预算
+    	$("#cl_table tbody").find("tr").each(function(){
     		var data2 = $(this).children();
-    		var leixing = data2.eq(0).text();
-    	    var ximing = data2.eq(1).text();
-    	    var jiaosexishu = data2.eq(2).text();
-    	    var days = data2.eq(3).text();
-    	    var desc2 = data2.eq(4).text();
+    		var zcName = data2.eq(0).find("input").val();
+    	    var zcType = data2.eq(1).find("select").val();
+    	    var zcxinghao = data2.eq(2).find("input").val();
+    	    var zcdanwei = data2.eq(3).find("select").val();
+    	    var zcshuliang = data2.eq(4).find("input").val();
+    	    var zcdanjia = data2.eq(5).find("input").val();
     	    
     	    var xinrgyusuan={
-    	    		aId:undefined,
-    	    		prjMemberType:undefined,
-    	    		aName:undefined,
-    	    		roleCoefficient:undefined,
-    	    		estimatedDays:undefined,
-    	    		aDesc:undefined
+    	    		bId:undefined,
+    	    		materName:undefined,
+    	    		materType:undefined,
+    	    		materMode:undefined,
+    	    		materUnit:undefined,
+    	    		materNumber:undefined,
+    	    		materPrice:undefined
     	    }
-    	    xinrgyusuan.aId=null;
-    	    xinrgyusuan.prjMemberType=leixing;
-    	    xinrgyusuan.aName=ximing;
-    	    xinrgyusuan.roleCoefficient=jiaosexishu;
-    	    xinrgyusuan.estimatedDays=days;
-    	    xinrgyusuan.aDesc=desc2;
+    	    xinrgyusuan.bId=null;
+    	    xinrgyusuan.materName=zcName;
+    	    xinrgyusuan.materType=zcType;
+    	    xinrgyusuan.materMode=zcxinghao;
+    	    xinrgyusuan.materUnit=zcdanwei;
+    	    xinrgyusuan.materNumber=zcshuliang;
+    	    xinrgyusuan.materPrice=zcdanjia;
     	    rgyusuan.push(xinrgyusuan);
     	    //console.log(rgyusuan)
     	})
@@ -2141,7 +2144,7 @@
     			toastr.error("预算编制为空")
     			return;
     		}
-    		if(shenbaoren.trim()==''){
+    		 if(shenbaoren.trim()==''){
     			toastr.error("申报人为空")
     			return;
     		}
@@ -2154,7 +2157,7 @@
     				budgetDate:undefined,
     				declarer:undefined,
     				costBudget:undefined,
-    				artificialBudget:undefined,
+    				budgetMainMaterial:undefined,
     				allCost:0,
     				department:undefined,
     		}
@@ -2165,7 +2168,7 @@
     		xinyusuandan.budgetDate=riqi;
     		xinyusuandan.declarer=shenbaoren;
     		xinyusuandan.costBudget=fyyusuan;
-    		xinyusuandan.artificialBudget=rgyusuan;
+    		xinyusuandan.budgetMainMaterial=rgyusuan;
     		xinyusuandan.allCost=allMoney;
     		xinyusuandan.department=department;
     		yusuandan.push(xinyusuandan);
@@ -2190,13 +2193,13 @@
 	            	    $("#dier a").hide();
 	            	    $("#home").addClass("active");
 	            	    $("#profile").removeClass("active");
-						/* initTable(); */
+						
 		            	//$('#mainContent').DataTable().row.add().draw(false);     //新增行立即显示
 	            	}
 	            }
-	        }); 
+	        });
     	}else{
-    		toastr.error("费用预算或人工预算为空")
+    		toastr.error("费用预算为空")
     	}
     	
 	}
@@ -2208,7 +2211,7 @@
     	var rgyusuan=new Array();
     	//预算费用
     	var allMoney=0;
-    	$("#fyyusuan tbody").find("tr").each(function(){
+    	$("#Newfyyusuan tbody").find("tr").each(function(){
     		var data = $(this).children();
     		var fenlei = data.eq(0).text();
     	    var mingxi = data.eq(1).text();
@@ -2234,29 +2237,32 @@
     	    fyyusuan.push(xinfyyusuan);
     	    //console.log(fyyusuan)
     	})
-    	//人工费用
-    	$("#rgyusuan tbody").find("tr").each(function(){
+    	//主材成本预算
+    	$("#cl_table tbody").find("tr").each(function(){
     		var data2 = $(this).children();
-    		var leixing = data2.eq(0).text();
-    	    var ximing = data2.eq(1).text();
-    	    var jiaosexishu = data2.eq(2).text();
-    	    var days = data2.eq(3).text();
-    	    var desc2 = data2.eq(4).text();
+    		var zcName = data2.eq(0).find("input").val();
+    	    var zcType = data2.eq(1).find("select").val();
+    	    var zcxinghao = data2.eq(2).find("input").val();
+    	    var zcdanwei = data2.eq(3).find("select").val();
+    	    var zcshuliang = data2.eq(4).find("input").val();
+    	    var zcdanjia = data2.eq(5).find("input").val();
     	    
     	    var xinrgyusuan={
-    	    		aId:undefined,
-    	    		prjMemberType:undefined,
-    	    		aName:undefined,
-    	    		roleCoefficient:undefined,
-    	    		estimatedDays:undefined,
-    	    		aDesc:undefined
+    	    		bId:undefined,
+    	    		materName:undefined,
+    	    		materType:undefined,
+    	    		materMode:undefined,
+    	    		materUnit:undefined,
+    	    		materNumber:undefined,
+    	    		materPrice:undefined
     	    }
-    	    xinrgyusuan.aId=null;
-    	    xinrgyusuan.prjMemberType=leixing;
-    	    xinrgyusuan.aName=ximing;
-    	    xinrgyusuan.roleCoefficient=jiaosexishu;
-    	    xinrgyusuan.estimatedDays=days;
-    	    xinrgyusuan.aDesc=desc2;
+    	    xinrgyusuan.bId=null;
+    	    xinrgyusuan.materName=zcName;
+    	    xinrgyusuan.materType=zcType;
+    	    xinrgyusuan.materMode=zcxinghao;
+    	    xinrgyusuan.materUnit=zcdanwei;
+    	    xinrgyusuan.materNumber=zcshuliang;
+    	    xinrgyusuan.materPrice=zcdanjia;
     	    rgyusuan.push(xinrgyusuan);
     	    //console.log(rgyusuan)
     	})
@@ -2289,7 +2295,7 @@
     				budgetDate:undefined,
     				declarer:undefined,
     				costBudget:undefined,
-    				artificialBudget:undefined,
+    				budgetMainMaterial:undefined,
     				allCost:0,
     				department:undefined,
     		}
@@ -2300,7 +2306,7 @@
     		xinyusuandan.budgetDate=riqi;
     		xinyusuandan.declarer=shenbaoren;
     		xinyusuandan.costBudget=fyyusuan;
-    		xinyusuandan.artificialBudget=rgyusuan;
+    		xinyusuandan.budgetMainMaterial=rgyusuan;
     		xinyusuandan.allCost=allMoney;
     		xinyusuandan.department=department;
     		yusuandan.push(xinyusuandan);
