@@ -18,4 +18,8 @@ public interface ContractWorkDao {
 	public ContractWork selectContractWorkByid(@Param("id")String id);
 
 	public ContractWork selectContractWorkBytaskNoAndCno(@Param("no")String no, @Param("type")String type);
+	
+	public int updateContractWork2(@Param("work")ContractWork work);
+	
+	public int updateContractWork3(@Param("work")ContractWork work);
 }

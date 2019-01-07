@@ -126,6 +126,14 @@ public class FbContractDoAppointScoreController {
 		return string;
 	}
 	
+	@RequestMapping("/updateFbContractDoAppointScore")
+	@ResponseBody
+	public int updateFbContractDoAppointScore(FbContractDoAppointScore FbContractDoAppoint){
+		int i=service.updateFbContractDoAppointScore(FbContractDoAppoint);
+		return i;
+	}
+	
+	
 	@RequestMapping("selectFbContractDoAppointScore")
 	@ResponseBody
 	public List<FbContractDoAppointScore> selectFbContractDoAppointScore(String state){

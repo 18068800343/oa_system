@@ -47,4 +47,11 @@ public class FbContractOverServiceImpl implements FbContractOverService{
 		return dao.selectFbContractOverById(id);
 	}
 
+	@Transactional
+	@Override
+	public int updateFbContractOver(FbContractOver fbContractOver) {
+		int i=dao.updateFbContractOver(fbContractOver);
+		return i;
+	}
+
 }

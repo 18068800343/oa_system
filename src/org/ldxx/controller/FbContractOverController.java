@@ -210,6 +210,13 @@ public class FbContractOverController {
 		return string;
 	}
 	
+	@RequestMapping("/updateFbContractOver")
+	@ResponseBody
+	public int updateFbContractOver(FbContractOver fbContractOver,@RequestParam MultipartFile [] file){
+		int i=service.updateFbContractOver(fbContractOver);
+		return i;
+	}
+	
 	@RequestMapping("/selectFbContractOver")
 	@ResponseBody
 	public List<FbContractOver> selectFbContractOver(String state){

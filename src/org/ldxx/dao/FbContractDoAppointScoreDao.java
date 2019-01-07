@@ -13,4 +13,6 @@ public interface FbContractDoAppointScoreDao {
 	
 	public FbContractDoAppointScore selectFbContractDoAppointScoreById(@Param("id")String id);
 	
+	public int updateFbContractDoAppointScore(@Param("fb")FbContractDoAppointScore FbContractDoAppoint);
+	
 }

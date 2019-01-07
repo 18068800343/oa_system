@@ -75,4 +75,48 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 		return dao.selectContractWorkBytaskNoAndCno(no,type);
 	}
 
+	@Transactional
+	@Override
+	public int updateContractWork2(ContractWork work) {
+		int i=dao.updateContractWork2(work);
+		String id=work.getCwId();
+		if(i>0){
+			List<Accessory> accessory=work.getAccessory();
+			if(accessory!=null){
+				i=adao.addAccessory(accessory);
+			}
+			i=edao.deleteEnterprise(id);
+			List<Enterprise> enterprise=work.getEnterprise();
+			if(enterprise!=null){
+				for(int a=0;a<enterprise.size();a++){
+					enterprise.get(a).seteId(id);
+				}
+				i=edao.addEnterprise(enterprise);
+			}
+		}
+		return i;
+	}
+	
+	@Transactional
+	@Override
+	public int updateContractWork3(ContractWork work) {
+		int i=dao.updateContractWork3(work);
+		String id=work.getCwId();
+		if(i>0){
+			List<Accessory> accessory=work.getAccessory();
+			if(accessory!=null){
+				i=adao.addAccessory(accessory);
+			}
+			i=edao.deleteEnterprise(id);
+			List<Enterprise> enterprise=work.getEnterprise();
+			if(enterprise!=null){
+				for(int a=0;a<enterprise.size();a++){
+					enterprise.get(a).seteId(id);
+				}
+				i=edao.addEnterprise(enterprise);
+			}
+		}
+		return i;
+	}
+
 }
