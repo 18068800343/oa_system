@@ -707,5 +707,12 @@ public class TaskController {
 		return taskDao.updateImportanceById(id, importance);
 	}
 	
+	@RequestMapping("/deleteChaoSong")
+	@ResponseBody
+	public String deleteChaoSong(String id){
+	String result = new FlowUtill().deleteChaoSongFlow(id);
+		return result;
+	}
+	
 }
 

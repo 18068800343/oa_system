@@ -800,14 +800,14 @@ public class FlowUtill {
 			FlowHistroy flowHistroy;
 			if(null==date){
 				FlowHistroyExample example=new FlowHistroyExample();
-				example.createCriteria().andUrlEqualTo(url).andFloNodeIdEqualTo(flowNodeLast);
+				example.createCriteria().andUrlEqualTo(url).andFloNodeIdEqualTo(flowNodeLast).andOperateTypeNotEqualTo(4);
 				example.setOrderByClause("do_date desc");
 				List<FlowHistroy> histroys = INSTANCE.flowHistroyMapper.selectByExampleWithBLOBs(example);
 				flowHistroy= histroys.get(0);
 				date = flowHistroy.getDoDate();
 			}else{
 				FlowHistroyExample example=new FlowHistroyExample();
-				example.createCriteria().andUrlEqualTo(url).andFloNodeIdEqualTo(flowNodeLast).andDoDateLessThan(date);
+				example.createCriteria().andUrlEqualTo(url).andFloNodeIdEqualTo(flowNodeLast).andDoDateLessThan(date).andOperateTypeNotEqualTo(4);
 				example.setOrderByClause("do_date desc");
 				List<FlowHistroy> histroys = INSTANCE.flowHistroyMapper.selectByExampleWithBLOBs(example);
 				flowHistroy= histroys.get(0);
@@ -865,6 +865,31 @@ public class FlowUtill {
 			}else{
 				return "fail";
 			}
+		}else{
+			return "fail";
+		}
+	}
+	
+	public String deleteChaoSongFlow(String id){
+		CurrentFlow currentFlow = INSTANCE.currentFlowMapper.selectByPrimaryKey(id);
+		if(currentFlow!=null){
+			//当前流程步骤
+			//String floNodeId= currentFlow.getFloNodeId();
+			//当前流程上一步
+			String lastFloNodeId = currentFlow.getFlowNodeLast();
+			if(null==lastFloNodeId||"".equals(lastFloNodeId)){
+				return "noLast";
+			}
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
+			flowHistroy.setDoDate(new Date());
+			flowHistroy.setId(new TimeUUID().getTimeUUID());
+			flowHistroy.setOperateType(4);
+			flowHistroy.setFlowNodeLast(currentFlow.getFlowNodeLast());
+			INSTANCE.currentFlowChaoSongMapper.deleteByPrimaryKey(currentFlow.getId());
+			
+			INSTANCE.flowHistroyMapper.insert(flowHistroy);
+			return "ok";
 		}else{
 			return "fail";
 		}
