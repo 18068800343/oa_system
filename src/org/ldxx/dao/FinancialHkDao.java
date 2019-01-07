@@ -12,4 +12,6 @@ public interface FinancialHkDao {
 	public List<FinancialHk> selectFinancialHk();
 	
 	public FinancialHk selectFinancialHkById(@Param("id")String id);
+	
+	public int updateFinancialHk(@Param("hk")FinancialHk hk);
 }

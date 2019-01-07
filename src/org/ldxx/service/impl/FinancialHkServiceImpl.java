@@ -29,4 +29,9 @@ public class FinancialHkServiceImpl implements FinancialHkService{
 		return dao.selectFinancialHkById(id);
 	}
 
+	@Override
+	public int updateFinancialHk(FinancialHk hk) {
+		return dao.updateFinancialHk(hk);
+	}
+
 }

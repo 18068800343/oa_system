@@ -51,4 +51,11 @@ public class FinancialHkController {
 		return hk;
 	}
 	
+	@RequestMapping("/updateFinancialHk")
+	@ResponseBody
+	public int updateFinancialHk(FinancialHk hk){
+		int i=fService.updateFinancialHk(hk);
+		return i;
+	}
+	
 }
