@@ -13,5 +13,5 @@ public interface MaterialPurchaseSettlementDao {
 
 	clfbContractPurchaseSettlement selectmaterialPurchaseSettlementById(@Param("id")String id);
 
-
+	int updateMaterialPurchaseSettlement(@Param("c")clfbContractPurchaseSettlement c);
 }

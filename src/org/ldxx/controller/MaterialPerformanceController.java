@@ -53,7 +53,7 @@ public class MaterialPerformanceController {
 	
 	@RequestMapping("/addmaterialPerformanceSave")//添加保存
 	@ResponseBody
-	public Map<String,Object> addmaterialPerformanceSave(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
+	public Map<String,Object> addmaterialPerformanceSave(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file,/*@RequestParam("file2") MultipartFile [] file2,*/HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -80,7 +80,7 @@ public class MaterialPerformanceController {
 			}
 			c.setAccessory(list);
 		}
-		if(file2.length>0){
+		/*if(file2.length>0){
 			List<Accessory> list2 = new ArrayList<>();
 			for(int i=0;i<file2.length;i++){
 				Accessory accessory2=new Accessory();
@@ -95,7 +95,7 @@ public class MaterialPerformanceController {
 				list2.add(accessory2);
 			}
 			c.setAccessory2(list2);
-		}
+		}*/
 		int i=mpService.addmaterialPerformanceSave(c);
 		if(i>0){
 			User user = (User) session.getAttribute("user");
@@ -140,7 +140,7 @@ public class MaterialPerformanceController {
 	
 	@RequestMapping("/addmaterialPerformanceSubmit")//添加提交
 	@ResponseBody
-	public String addmaterialPerformanceSubmit(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
+	public String addmaterialPerformanceSubmit(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file,/*@RequestParam("file2") MultipartFile [] file2,*/HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -167,7 +167,7 @@ public class MaterialPerformanceController {
 			}
 			c.setAccessory(list);
 		}
-		if(file2.length>0){
+		/*if(file2.length>0){
 			List<Accessory> list2 = new ArrayList<>();
 			for(int i=0;i<file2.length;i++){
 				Accessory accessory2=new Accessory();
@@ -182,7 +182,7 @@ public class MaterialPerformanceController {
 				list2.add(accessory2);
 			}
 			c.setAccessory2(list2);
-		}
+		}*/
 		int i=mpService.addmaterialPerformanceSave(c);
 		String string = i+"";
 		if(i>0){
@@ -225,7 +225,7 @@ public class MaterialPerformanceController {
 		return map;*/
 	}
 	
-	@RequestMapping("/updatematerialPerformanceSave")//修改保存
+	/*@RequestMapping("/updatematerialPerformanceSave")//修改保存
 	@ResponseBody
 	public Map<String,Object> updatematerialPerformanceSave(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile file[],@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
@@ -326,7 +326,7 @@ public class MaterialPerformanceController {
 		map.put("result", i);
 		map.put("clfbCgcontractPerformance", c);
 		return map;
-	}
+	}*/
 	
 	@RequestMapping("/selectAccessoryById")
 	@ResponseBody
@@ -382,4 +382,34 @@ public class MaterialPerformanceController {
 	public clfbCgcontractPerformance selectmaterialPerformanceById(String id){
 		return mpService.selectmaterialPerformanceById(id);
 	}
+	
+	@RequestMapping("/updateMaterialPerformance")
+	@ResponseBody
+	public int updateMaterialPerformance(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+		String id=c.getpId();
+		String path="D:"+File.separator+"oa"+File.separator+"materialPerformance"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int ii=0;ii<file.length;ii++){
+				Accessory accessory=new Accessory();
+				String fileName=file[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[ii].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("合同文本");
+				list.add(accessory);
+			}
+			c.setAccessory(list);
+		}
+		int i=mpService.updateMaterialPerformance(c);
+		return i;
+	}
+	
 }

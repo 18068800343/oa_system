@@ -11,13 +11,11 @@ public interface MaterialPurchaseSettlementService {
 
 	int addmaterialPurchaseSettlementSave(clfbContractPurchaseSettlement c);
 
-
 	clfbContractPurchaseSettlement selectmaterialPurchaseSettlementById(String id);
-
 
 	List<Accessory> selectAccessoryById(String id);
 
 	int deleteAccessoryByIdAndName(Accessory accessory);
 
-
+	int updateMaterialPurchaseSettlement(clfbContractPurchaseSettlement c);
 }

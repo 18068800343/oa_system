@@ -28,12 +28,12 @@ public class MaterialPurchaseSettlementServiceImpl implements MaterialPurchaseSe
 	@Override
 	public int addmaterialPurchaseSettlementSave(clfbContractPurchaseSettlement c) {
 		int i=mDao.addmaterialPurchaseSettlementSave(c);
-		if(i>0){
+		/*if(i>0){
 			List<Accessory> accessory = c.getAccessory();
 			if(accessory!=null && accessory.size()!=0){
 				i=adao.addAccessory(accessory);
 			}
-		}
+		}*/
 		return i;
 	}
 
@@ -43,8 +43,6 @@ public class MaterialPurchaseSettlementServiceImpl implements MaterialPurchaseSe
 		return mDao.selectmaterialPurchaseSettlementById(id);
 	}
 
-
-
 	@Override
 	public List<Accessory> selectAccessoryById(String id) {
 		return adao.selectAccessoryById(id);
@@ -53,5 +51,10 @@ public class MaterialPurchaseSettlementServiceImpl implements MaterialPurchaseSe
 	@Override
 	public int deleteAccessoryByIdAndName(Accessory accessory) {
 		return adao.deleteAccessoryByIdAndName(accessory);
+	}
+
+	@Override
+	public int updateMaterialPurchaseSettlement(clfbContractPurchaseSettlement c) {
+		return mDao.updateMaterialPurchaseSettlement(c);
 	}
 }

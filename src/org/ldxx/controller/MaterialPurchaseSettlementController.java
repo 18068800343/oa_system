@@ -53,13 +53,13 @@ public class MaterialPurchaseSettlementController {
 	
 	@RequestMapping("/addmaterialPurchaseSettlementSave")//添加保存
 	@ResponseBody
-	public Map<String,Object> addmaterialPurchaseSettlementSave(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[],HttpSession session) throws IllegalStateException, IOException{
+	public Map<String,Object> addmaterialPurchaseSettlementSave(clfbContractPurchaseSettlement c,/*@RequestParam("file")MultipartFile file[],*/HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<String, Object>();
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCpId(id);
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"materialPurchaseSettlement";
+		/*String path = "D:"+File.separator+"oa"+File.separator+"materialPurchaseSettlement";
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -79,7 +79,7 @@ public class MaterialPurchaseSettlementController {
 				list.add(accessory);
 			}
 			c.setAccessory(list);
-		}
+		}*/
 		int i=mService.addmaterialPurchaseSettlementSave(c);
 		if(i>0){
 			User user = (User) session.getAttribute("user");
@@ -123,13 +123,13 @@ public class MaterialPurchaseSettlementController {
 	
 	@RequestMapping("/addmaterialPurchaseSettlementSubmit")//添加提交
 	@ResponseBody
-	public String addmaterialPurchaseSettlementSubmit(clfbContractPurchaseSettlement c,@RequestParam("file")MultipartFile file[],HttpSession session) throws IllegalStateException, IOException{
+	public String addmaterialPurchaseSettlementSubmit(clfbContractPurchaseSettlement c,/*@RequestParam("file")MultipartFile file[],*/HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<String, Object>();
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		c.setCpId(id);
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"materialPurchaseSettlement";
+		/*String path = "D:"+File.separator+"oa"+File.separator+"materialPurchaseSettlement";
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -149,7 +149,7 @@ public class MaterialPurchaseSettlementController {
 				list.add(accessory);
 			}
 			c.setAccessory(list);
-		}
+		}*/
 		
 		int i=mService.addmaterialPurchaseSettlementSave(c);
 		String string = i+"";
@@ -291,6 +291,13 @@ public class MaterialPurchaseSettlementController {
 	@ResponseBody
 	public clfbContractPurchaseSettlement selectmaterialPurchaseSettlementById(String id){
 		return mService.selectmaterialPurchaseSettlementById(id);
+	}
+	
+	@RequestMapping("/updateMaterialPurchaseSettlement")
+	@ResponseBody
+	public int updateMaterialPurchaseSettlement(clfbContractPurchaseSettlement c){
+		int i=mService.updateMaterialPurchaseSettlement(c);
+		return i;
 	}
 
 }

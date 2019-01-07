@@ -212,7 +212,29 @@ public class FbContractOverController {
 	
 	@RequestMapping("/updateFbContractOver")
 	@ResponseBody
-	public int updateFbContractOver(FbContractOver fbContractOver,@RequestParam MultipartFile [] file){
+	public int updateFbContractOver(FbContractOver fbContractOver,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+		String id=fbContractOver.getFcoId();
+		String path="D:"+File.separator+"oa"+File.separator+"fbContractOver"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int ii=0;ii<file.length;ii++){
+				Accessory accessory=new Accessory();
+				String fileName=file[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[ii].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("合同文本");
+				list.add(accessory);
+			}
+			fbContractOver.setAccessory(list);
+		}
 		int i=service.updateFbContractOver(fbContractOver);
 		return i;
 	}

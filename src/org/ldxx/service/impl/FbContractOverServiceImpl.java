@@ -29,10 +29,6 @@ public class FbContractOverServiceImpl implements FbContractOverService{
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);
 			}
-			List<Accessory> accessory2=fbContractOver.getAccessory2();
-			if(accessory2!=null){
-				i=adao.addAccessory(accessory2);
-			}
 		}
 		return i;
 	}
@@ -51,6 +47,10 @@ public class FbContractOverServiceImpl implements FbContractOverService{
 	@Override
 	public int updateFbContractOver(FbContractOver fbContractOver) {
 		int i=dao.updateFbContractOver(fbContractOver);
+		if(i>0){
+			List<Accessory> accessory=fbContractOver.getAccessory();
+			i=adao.addAccessory(accessory);
+		}
 		return i;
 	}
 

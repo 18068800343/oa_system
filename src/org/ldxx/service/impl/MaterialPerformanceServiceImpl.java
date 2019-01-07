@@ -34,10 +34,10 @@ public class MaterialPerformanceServiceImpl implements MaterialPerformanceServic
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);
 			}
-			List<Accessory> accessory2=c.getAccessory2();
+			/*List<Accessory> accessory2=c.getAccessory2();
 			if(accessory2!=null){
 				i=adao.addAccessory(accessory2);
-			}
+			}*/
 		}
 		return i;
 	}
@@ -56,6 +56,18 @@ public class MaterialPerformanceServiceImpl implements MaterialPerformanceServic
 	@Override
 	public clfbCgcontractPerformance selectmaterialPerformanceById(String id) {
 		return mpDao.selectmaterialPerformanceById(id);
+	}
+
+	@Override
+	public int updateMaterialPerformance(clfbCgcontractPerformance c) {
+		int i=mpDao.updateMaterialPerformance(c);
+		if(i>0){
+			List<Accessory> accessory=c.getAccessory();
+			if(accessory!=null){
+				i=adao.addAccessory(accessory);
+			}
+		}
+		return i;
 	}
 
 }

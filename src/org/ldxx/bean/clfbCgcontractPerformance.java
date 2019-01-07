@@ -29,21 +29,11 @@ public class clfbCgcontractPerformance {
 	private String history;
 	
 	private List<Accessory> accessory;
-	private List<Accessory> accessory2;//法律顾问签字
+	/*private List<Accessory> accessory2;//法律顾问签字*/	
 	
 	private String spName;//乙方名称
 
 	
-	
-	
-	public List<Accessory> getAccessory2() {
-		return accessory2;
-	}
-
-	public void setAccessory2(List<Accessory> accessory2) {
-		this.accessory2 = accessory2;
-	}
-
 	public String getpId() {
 		return pId;
 	}

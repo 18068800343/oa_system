@@ -139,11 +139,9 @@ public class MaterialSubcontractController {
 	@RequestMapping("/updatemSubcontractSave")//修改保存
 	@ResponseBody
 	public int updatemSubcontractSave(ClfbContractEvaluate c,HttpSession session){
-		TimeUUID uuid=new TimeUUID();
-		String id = uuid.getTimeUUID();
-		c.setCeId(id);
-		int i=msService.addmSubcontractSave(c);
-		if(i>0){
+		int i=msService.updatemSubcontractById(c);
+		return i;
+		/*if(i>0){
 			OrganizationManagement om=oService.selectOrgById(c.getDepartment());
 			String omNo=om.getOmNo();
 			String string="";
@@ -177,11 +175,10 @@ public class MaterialSubcontractController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		return i;
+		}*/
 	}
 	
-	@RequestMapping("/updatemSubcontractSubmit")//修改提交
+	/*@RequestMapping("/updatemSubcontractSubmit")//修改提交
 	@ResponseBody
 	public String updatemSubcontractSubmit(ClfbContractEvaluate c,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
@@ -224,7 +221,7 @@ public class MaterialSubcontractController {
 			}
 		}
 		return string;
-	}
+	}*/
 	
 
 	@RequestMapping("/selectmSubcontractById")
