@@ -108,5 +108,10 @@ public class BorrowContractServiceImpl implements BorrowContractService {
 	public List<BorrowContract> getRateAndMoney(String no) {
 		return dao.getRateAndMoney(no);
 	}
+
+	@Override
+	public int updateHistory(String id) {
+		return dao.updateHistory(id);
+	}
 	
 }

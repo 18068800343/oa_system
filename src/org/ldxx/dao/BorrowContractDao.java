@@ -19,6 +19,8 @@ public interface BorrowContractDao {
 
 	int updateHistoryNow(@Param("id")String id);
 	
+	int updateHistory(@Param("id")String id);
+	
 	BorrowContract selectBorrowById(@Param("id")String id);
 
 	int updateBorrowContractById(@Param("bc")BorrowContract bc);

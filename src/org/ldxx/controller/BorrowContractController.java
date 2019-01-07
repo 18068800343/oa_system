@@ -626,4 +626,12 @@ public class BorrowContractController {
 		return RemainPayMoney;
 	}
 	
+	
+	@RequestMapping("/updateHistory")
+	@ResponseBody
+	public int updateHistory(String id){
+		int i=service.updateHistory(id);
+		return i;
+	}
+	
 }
