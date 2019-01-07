@@ -105,7 +105,7 @@
 							</thead>
 							<tbody></tbody>
 						</table>
-						<table class="table table-bordered table-condensed" id="new_accessory31">
+						<!-- <table class="table table-bordered table-condensed" id="new_accessory31">
 							<thead>
 								<tr>
 	                                <td style="width:15%;">法律顾问签字:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -115,7 +115,7 @@
                             	</tr>
 							</thead>
 							<tbody></tbody>
-						</table>
+						</table> -->
 						
                         <table class="table table-bordered table-condensed">
                             <tr>
@@ -582,6 +582,7 @@
             type: 'POST',
             url: getContextPath()+'/organizationManagement/getOrgIdAndName',
             dataType: 'json',
+           
             data: {
 
             },
@@ -749,7 +750,34 @@
 	  			cjContractEndTime:undefined//履约完结时间
   		}
 
+		 //回显协办部门
+	    function xiebanhuixian(obj1,obj2,obj3){
+	    	$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+	            dataType: 'json',
+	            async:false,
+	            data: {
 
+	            },
+	            error: function (msg) {
+	            	toastr.error("请求失败");
+	            },
+	            success: function (json) {
+	            	$("#xgxieban1").empty();
+	            	$("#xgxieban2").empty();
+	            	$("#xgxieban3").empty();
+	                for(var i=0;i<json.length;i++){
+	                	$("#xgxieban1").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                	$("#xgxieban2").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                	$("#xgxieban3").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                }
+	                $("#xgxieban1").val(obj1);
+	                $("#xgxieban2").val(obj2);
+	                $("#xgxieban3").val(obj3);
+	            }
+			});
+	    }
 
   		
 
@@ -796,41 +824,47 @@
   		  					+"<input type='text' class='form-control' id='zhuban3ajine'>"
   		  					//+data.mainDepartmentMoney
   		  					+"</td></tr>")
-  		  					$("#zhuban3a :selected").val(data.name)
+  		  					
+  		  					$("#zhuban3a option:selected").val(data.mainDepartment)
   		  					$("#zhuban3ajine").val(data.mainDepartmentMoney)
-  		  			if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
-  		  				$("#xieban3 tbody").append("<tr><td>协办部门</td><td>"
-  		  						+"<select id='xieban3a' class='form-control'>"
-  		  						//+data.name2
-  		  						+"</select>"
-  		  						//+data.assistDepartment1Money
-  		  						+"<input type='text' class='form-control' id='xieban3ajine'>"
-  		  						+"</td></tr>")
-  		  						$("#xieban3a :selected").val(data.name2)
-  		  					    $("#xieban3ajine").val(data.assistDepartment1Money)
-  		  			}
-  		  			if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
-  		  				$("#xieban3 tbody").append("<tr><td>协办部门</td><td>"
-  		  						+"<select id='xieban3b' class='form-control'>"
-  		  						//+data.name3
-  		  						+"</select>"
-  		  						+"<input type='text' class='form-control' id='xieban3bjine'>"
-  		  						//+data.assistDepartment2Money
-  		  						+"</td></tr>")
-  		  						$("#xieban3b :selected").val(data.name2)
-  		  					    $("#xieban3bjine").val(data.assistDepartment2Money)
-  		  			}
-  		  			if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
-  		  				$("#xieban3 tbody").append("<tr><td>协办部门</td><td>"
-  		  						+"<select id='xieban3c' class='form-control'>"
-  		  						//+data.name4
-  		  						+"</select>"
-  		  						+"<input type='text' class='form-control' id='xieban3cjine'>"
-  		  						//+data.assistDepartment3Money
-  		  						+"</td></tr>")
-  		  						$("#xieban3a :selected").val(data.name3)
-  		  					    $("#xieban3ajine").val(data.assistDepartment3Money)
-  		  			}
+  		  					
+  		  				if(json.assistDepartment1!=null&&json.assistDepartment1!=""){
+  		            		$("#xieban3 tbody").append("<tr class='xieban'><td>"+"协办部门1"+"</td><td>"
+  		        	                +'<form class="form-inline">'
+  		        	                    +'<select class="form-control" id="xgxieban1" style="width:150px;">'
+  		        	                    +'</select>'
+  		        	                    +'<input type="text" id="xgxiebanMoney21" class="form-control" style="width:150px;" placeholder="金额">'
+  		        	                	+"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
+  		        	                +'</form>'
+  		        	                +"</td></tr>");
+  		            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
+  		            		$("#xgxiebanMoney21").val(json.assistDepartment1Money);
+  		            	}
+  		            	if(json.assistDepartment2!=null&&json.assistDepartment2!=""){
+  		            		$("#xieban3 tbody").append("<tr class='xieban'><td>"+"协办部门2"+"</td><td>"
+  		        	                +'<form class="form-inline">'
+  		        	                    +'<select class="form-control" id="xgxieban2" style="width:150px;">'
+  		        	                    +'</select>'
+  		        	                    +'<input type="text" id="xgxiebanMoney22" class="form-control" style="width:150px;" placeholder="金额">'
+  		        	                	+"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
+  		        	                +'</form>'
+  		        	                +"</td></tr>");
+  		            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
+  		            		$("#xgxiebanMoney22").val(json.assistDepartment2Money);
+  		            	}
+  		            	if(json.assistDepartment3!=null&&json.assistDepartment3!=""){
+  		            		$("#xieban3 tbody").append("<tr class='xieban'><td>协办部门3</td><td>"
+  		        	                +'<form class="form-inline">'
+  		        	                    +'<select class="form-control" id="xgxieban3" style="width:150px;">'
+  		        	                    +'</select>'
+  		        	                    +'<input type="text" id="xgxiebanMoney23" class="form-control" style="width:150px;" placeholder="金额">'
+  		        	                	+"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
+  		        	                +'</form>'
+  		        	                +"</td></tr>");
+  		            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
+  		            		$("#xgxiebanMoney23").val(json.assistDepartment3Money);
+  		            	}
+  		            	
 	  		  		$.ajax({
 	  	                type: 'POST',
 	  	                url: getContextPath()+'/work/selectDepartmentAndPerson',
@@ -845,7 +879,7 @@
 	  	                	var accessory=json.accessory;
 	  	                	$("#person_table3 tbody").html('');
 	  	                	$("#new_accessory3 tbody").html('');
-	  	                	$("#new_accessory31 tbody").html('');
+	  	                	//$("#new_accessory31 tbody").html('');
 	  	                	for(var i=0;i<enterprise.length;i++){
 	  	                		$("#person_table3 tbody").append("<tr><td>"+enterprise[i].eMan+"</td><td>"+enterprise[i].eTel+"</td></tr>")
 	  	                	}
@@ -857,13 +891,13 @@
 	  									            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
 	  									            	    "</tr>");
 	  			            	   }
-	  			            	 if(accessory[j].aType=="法律顾问签字"){
+	  			            	/*  if(accessory[j].aType=="法律顾问签字"){
 	  				            	   $("#new_accessory31 tbody").append("<tr>"+
 	  			      	   										"<td>附件</td>"+
 	  									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
 	  									            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
 	  									            	    "</tr>");
-	  			            	   }
+	  			            	   } */
 	  	                	}
 	  	                }
 	  	      		});
