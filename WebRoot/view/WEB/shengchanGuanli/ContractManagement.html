@@ -45,8 +45,8 @@
     	<ul class="breadcrumb">
     		<li><i class="iconfont icon-knowledgebase"></i></li>
 			<li>生产管理</li>
-			<li>合同管理</li>
-			<li class="active">承接合同管理</li>
+			<li>项目合同管理</li>
+			<li class="active">承接合同审签</li>
 		</ul>
     </div>
     
@@ -196,18 +196,18 @@
 	                      </td>
 	                  </tr>
 	                  <tr>
-	                      <td>任务单号:<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td><!-- onchange="clickWorkNo(this)" -->
-	                      <td colspan="2">
-	                              <input type="text" style="width:100%;" class="form-control" id="work_no" disabled>
-	                      </td>
-	                      <td><button type="button" class="btn btn-primary" onclick="chooseNo(0)">选择任务单号</button></td>
-	                  </tr>
-	                  <tr>
 	                      <td>项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td><!-- onchange="clickPrjName(this)" -->
 	                      <td colspan="2">
 	                          <input type="text" style="width:100%;" class="form-control" id="prj_name" disabled>
 	                      </td>
 	                      <td><button type="button" class="btn btn-primary"  onclick="chooseName(0)">选择项目名称</button></td>
+	                  </tr>
+	                  <tr>
+	                      <td>任务单号:<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td><!-- onchange="clickWorkNo(this)" -->
+	                      <td colspan="2">
+	                              <input type="text" style="width:100%;" class="form-control" id="work_no" disabled>
+	                      </td>
+	                      <td><button type="button" class="btn btn-primary" onclick="chooseNo(0)">选择任务单号</button></td>
 	                  </tr>
 	                  <tr>	
 	                  	  <td>项目类型:</td>
@@ -291,7 +291,6 @@
 								<tr>
 		                        	<td style="width:13%;">年份</td>
 		                       		<td>金额(元)</td>
-		                       		<td>操作</td>
 		                      	</tr>
 							</thead>
 							<tbody></tbody>
@@ -320,14 +319,15 @@
 					    </table>
 		                  <table class="table table-bordered table-condensed" id="xieban">
 			                    <thead>
-			                         <tr>
-			                              <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen()">添加协办部门</button></th>
+			                      <tr>
+			                      	   <th style="text-align:left;"><button type="button" class="btn btn-primary" onclick="countMoney()">计算年度金额</button></th>
+			                           <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen()">添加协办部门</button></th>
 			                      </tr>
 			                  </thead>
 			                  <tbody>
 			                      <tr>
 			                          <td style="width:13%;">主办部门</td>
-			                          <td>
+			                          <td style="width:32%;">
 			                              <form class="form-inline">
 			                                  <select class="form-control" style="width:150px;" id="zhuban">
 			                                      
@@ -335,6 +335,7 @@
 			                                  <input type="text" class="form-control" style="width:150px;" placeholder="金额" id="zhubanjine">
 			                              </form>
 			                          </td>
+			                          <td></td>
 			                      </tr>
 			                      
 			                  </tbody>
@@ -457,7 +458,6 @@
 								<tr>
 		                        	<td style="width:20%;">年份</td>
 		                       		<td>金额(元)</td>
-		                       		<td>操作</td>
 		                      	</tr>
 							</thead>
 							<tbody></tbody>
@@ -488,20 +488,22 @@
 		                  <table class="table table-bordered table-condensed" id="xgxieban">
 		                   <thead>
 		                       <tr>
+		                       		<th><button type="button" class="btn btn-primary" onclick="xgcountMoney()">计算年度金额</button></th>
 		                            <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="xgaddBumen()">添加协办部门</button></th>
 		                        </tr>
 		                   </thead>
 		                   <tbody>
 		                       <tr>
-		                           <td style="width:20%;">主办部门</td>
-		                           <td>
+		                           <td style="width:13%;">主办部门</td>
+		                           <td style="width:32%;">
 		                               <form class="form-inline">
-		                                    <select class="form-control" style="width:150px;" id="xgzhuban">
+		                                    <select class="form-control" style="width:160px;" id="xgzhuban">
 		                                        
 		                                    </select>
-		                                    <input type="text" class="form-control" style="width:150px;" placeholder="金额" id="xgzhubanjine">
+		                                    <input type="text" class="form-control" style="width:160px;" placeholder="金额" id="xgzhubanjine">
 		                                </form>
 		                           </td>
+		                           <td></td>
 		                       </tr>
 		                   </tbody>
 		               </table>
@@ -522,12 +524,12 @@
 	                            <td id="look_contract_no"  style="width:30%;"></td>
 	                        </tr>
 	                        <tr>
-	                        	<td>任务单号:</td>
-	                            <td colspan="3" id="look_work_no"></td>
-	                        </tr>
-	                        <tr>
 	                        	<td>项目名称:</td>
 	                            <td colspan="3" id="look_prj_name"></td>
+	                        </tr>
+	                        <tr>
+	                        	<td>任务单号:</td>
+	                            <td colspan="3" id="look_work_no"></td>
 	                        </tr>
 	                        <tr>
 	                        	<td>项目类型:</td>
@@ -613,7 +615,7 @@
 	                   
 	               <br/>
 	        <h2 style="color:red;margin-left: 8px;">历史信息</h2>
-	         <table class="table table-bordered table-condensed" id="history_table">
+	         <table class="table table-bordered table-condensed" id="history_table" style="width:100%;">
 	         		<thead>
 	                    <tr>
 	                        <th>任务单号</th>
@@ -1329,7 +1331,7 @@ function checkquxiaoSplit(){
 										    "targets": 7,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test Pecab" style="font-size:18px;cursor:pointer;display:none;" title="查看详细信息" id="'+data.cjId+'"  onclick="lookDetall(this)"></i><i class="iconfont icon-xiugai iconxiugai Pecac" style="font-size:18px;cursor:pointer;margin-left:3px;display:none;" title="合同变更" onclick="contractChange(this)"></i><i class="iconfont icon-arrow chongqi Pecaf" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="承接合同启用" onclick="openModal3(this)"></i><i class="iconfont icon-tuichu iconquxiao Pecad" style="font-size:18px;cursor:pointer;margin-left:3px;display:none;" title="承接合同取消"  onclick="openModal2(this)"></i>'
+										    	return '<i class="iconfont icon-icon-test Pecab" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" id="'+data.cjId+'"  onclick="lookDetall(this)"></i><i class="iconfont icon-xiugai iconxiugai Pecac" style="font-size:20px;cursor:pointer;margin-left:3px;display:none;" title="合同变更" onclick="contractChange(this)"></i><i class="iconfont icon-arrow chongqi Pecaf" style="font-size:20px;cursor:pointer;display:none;margin-left:3px;" title="承接合同启用" onclick="openModal3(this)"></i><i class="iconfont icon-tuichu iconquxiao Pecad" style="font-size:20px;cursor:pointer;margin-left:3px;display:none;" title="承接合同取消"  onclick="openModal2(this)"></i>'
 										    	}
 										  },
 								],
@@ -1608,7 +1610,7 @@ function checkquxiaoSplit(){
 	                    +'  <input type="text" id="xiebanMoney'+num+'" class="form-control" style="width:150px;" placeholder="金额">'
 	                    +"<button style='margin-left:15px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button>"
 	                +'</form>'
-	                +"</td></tr>")
+	                +"</td><td></td></tr>")
 	                $.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/organizationManagement/getOrgIdAndName',
@@ -1636,12 +1638,12 @@ function checkquxiaoSplit(){
     		var num=$("#xgxieban tr").length-1;
 	    	$("#xgxieban tbody").append("<tr class='xieban'><td>"+"协办部门"+num+"</td><td>"
 	                +'<form class="form-inline">'
-	                    +'<select class="form-control" id="xgxieban'+num+'" style="width:150px;">'
+	                    +'<select class="form-control" id="xgxieban'+num+'" style="width:160px;">'
 	                    +'</select>'
-	                    +'  <input type="text" id="xgxiebanMoney'+num+'" class="form-control" style="width:150px;" placeholder="金额">'
+	                    +'  <input type="text" id="xgxiebanMoney'+num+'" class="form-control" style="width:160px;margin-left:5px;" placeholder="金额">'
 	                    +"<button style='margin-left:15px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button>"
 	                +'</form>'
-	                +"</td></tr>");
+	                +"</td><td></td></tr>");
 	                $.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/organizationManagement/getOrgIdAndName',
@@ -1959,6 +1961,28 @@ function checkquxiaoSplit(){
 				arr.money=moneys;
 				splitArray.push(arr)
 			})
+			
+		var deptSplitArray=new Array();
+  		$("#xieban tbody").find("tr").each(function(){
+  			
+  			$(this).find("td").eq(2).find("input").each(function(){
+  				var deptSplit={
+  	  					id:null,
+  	  					money:undefined,
+  	  					dept:undefined,
+  	  					year:undefined
+  	  			}
+  				var money=$(this).val();
+  				var dept=$(this).attr("data2");
+  				var year=$(this).attr("data");
+  				deptSplit.money=money;
+  				deptSplit.dept=dept;
+  				deptSplit.year=year;
+  				deptSplitArray.push(deptSplit);
+  			})
+  			
+		})
+			
 		var contract_name=$("#contract_name").val();
 		var work_no=$("#work_no").val();
 		var prj_name=$("#prj_name").val();
@@ -2015,7 +2039,8 @@ function checkquxiaoSplit(){
 	  			assistDepartment3:undefined,
 	  			assistDepartment3Money:undefined,
 	  			splitState:undefined,
-	  			cjSplitMoney:undefined
+	  			cjSplitMoney:undefined,
+	  			cjDeptSplitMoney:undefined
 			}
 	  	cjContract.cjId=null;
 	  	cjContract.taskCode=work_no;
@@ -2045,6 +2070,8 @@ function checkquxiaoSplit(){
 	  	cjContract.assistDepartment3Money=xieban3jine;
 	  	cjContract.splitState=split_state;
 	  	cjContract.cjSplitMoney=splitArray;
+	  	cjContract.cjDeptSplitMoney=deptSplitArray;
+	  	
 	  	var formData = new FormData();
 		formData.append("cjContract", JSON.stringify(cjContract));
 			
@@ -2092,6 +2119,28 @@ function checkquxiaoSplit(){
 				arr.money=moneys;
 				splitArray.push(arr)
 			})
+			
+		var deptSplitArray=new Array();
+  		$("#xieban tbody").find("tr").each(function(){
+  			
+  			$(this).find("td").eq(2).find("input").each(function(){
+  				var deptSplit={
+  	  					id:null,
+  	  					money:undefined,
+  	  					dept:undefined,
+  	  					year:undefined
+  	  			}
+  				var money=$(this).val();
+  				var dept=$(this).attr("data2");
+  				var year=$(this).attr("data");
+  				deptSplit.money=money;
+  				deptSplit.dept=dept;
+  				deptSplit.year=year;
+  				deptSplitArray.push(deptSplit);
+  			})
+  			
+		})
+			
 		var contract_name=$("#contract_name").val();
 		var work_no=$("#work_no").val();
 		var prj_name=$("#prj_name").val();
@@ -2148,7 +2197,8 @@ function checkquxiaoSplit(){
 	  			assistDepartment3:undefined,
 	  			assistDepartment3Money:undefined,
 	  			splitState:undefined,
-	  			cjSplitMoney:undefined
+	  			cjSplitMoney:undefined,
+	  			cjDeptSplitMoney:undefined
 			}
 	  	cjContract.cjId=null;
 	  	cjContract.taskCode=work_no;
@@ -2178,7 +2228,8 @@ function checkquxiaoSplit(){
 	  	cjContract.assistDepartment3Money=xieban3jine;
 	  	cjContract.splitState=split_state;
 	  	cjContract.cjSplitMoney=splitArray;
-	  	console.log(cjContract)
+	  	cjContract.cjDeptSplitMoney=deptSplitArray;
+	  	
 	  	var formData = new FormData();
 		formData.append("cjContract", JSON.stringify(cjContract));
 			
@@ -2428,7 +2479,6 @@ function checkquxiaoSplit(){
   	function lookDetall(obj){
   		var tr=$(obj).parents("tr");
   		var data=$("#mainContent").DataTable().row(tr).data();
-  		console.log(data)
   		$("#look_contract_name").text(data.contractName);
   		$("#look_contract_no").text(data.contractNo);
   		$("#look_work_no").text(data.taskCode);
@@ -2456,15 +2506,19 @@ function checkquxiaoSplit(){
 		}
     	
   		$("#look_xieban tbody").html('');
-  		$("#look_xieban tbody").append("<tr><td>主办部门</td><td>"+data.name+"</td><td>金额</td><td>"+data.mainDepartmentMoney+"</td></tr>")
+  		$("#look_xieban tbody").append("<tr><td style='width:10%;'>主办部门</td><td style='width:15%;'>"+data.name+"</td><td style='width:10%;'>"+data.mainDepartmentMoney+"</td><td id="+data.mainDepartment+"></td></tr>")
+  		selectCjDeptSplitMoney(data.cjId,data.mainDepartment);
   		if(data.assistDepartment1!=null&&data.assistDepartment1!=""){
-  			$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>金额</td><td>"+data.assistDepartment1Money+"</td></tr>")
+  			$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>"+data.assistDepartment1Money+"</td><td id="+data.assistDepartment1+"></td></tr>")
+  			selectCjDeptSplitMoney(data.cjId,data.assistDepartment1);
     	}
     	if(data.assistDepartment2!=null&&data.assistDepartment2!=""){
-    		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>金额</td><td>"+data.assistDepartment2Money+"</td></tr>")
+    		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>"+data.assistDepartment2Money+"</td><td id="+data.assistDepartment2+"></td></tr>")
+    		selectCjDeptSplitMoney(data.cjId,data.assistDepartment2);
     	}
     	if(data.assistDepartment3!=null&&data.assistDepartment3!=""){
-    		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>金额</td><td>"+data.assistDepartment3Money+"</td></tr>")
+    		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>"+data.assistDepartment3Money+"</td><td id="+data.assistDepartment3+"></td></tr>")
+    		selectCjDeptSplitMoney(data.cjId,data.assistDepartment3);
     	}
     	
   		$.ajax({
@@ -2519,6 +2573,25 @@ function checkquxiaoSplit(){
         $("#settings").addClass("active");
   	}
   	
+  	function selectCjDeptSplitMoney(id,dept){
+  		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cj/selectCjDeptSplitMoney',
+	        dataType: 'json',
+	        data: {
+	           id:id,
+	           dept:dept
+	        },
+	        success: function (json) {
+	        	$("#"+dept+"").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		$("#"+dept+"").append('<lable style="margin-left:25px;">'+json[i].year+'：'+json[i].money+'</lable>')
+	        	}
+	        }
+    	});
+  	}
+  	
+  	
   	function downloadFile(obj){
   		var filePath=$(obj).attr("data");
   		var fileName=$(obj).attr("data2");
@@ -2558,8 +2631,6 @@ function checkquxiaoSplit(){
 						+""+cs[i].year+""
 						+"</td><td>"
 						+""+cs[i].money+""
-						+"</td><td>"
-						+"<button type='button' class='btn btn-primary' onclick='deleteSplitMoney(this)'>移除</button>"
 						+"</td></tr>")
 		}
     	
@@ -2567,36 +2638,36 @@ function checkquxiaoSplit(){
   		if(data.assistDepartment1!=null&&data.assistDepartment1!=""){
     		$("#xgxieban tbody").append("<tr class='xieban'><td>"+"协办部门1"+"</td><td>"
 	                +'<form class="form-inline">'
-	                    +'<select class="form-control" id="xgxieban1" style="width:150px;">'
+	                    +'<select class="form-control" id="xgxieban1" style="width:160px;">'
 	                    +'</select>'
-	                    +'<input type="text" id="xgxiebanMoney1" class="form-control" style="width:150px;" placeholder="金额">'
+	                    +'<input type="text" id="xgxiebanMoney1" class="form-control" style="width:160px;margin-left:5px;" placeholder="金额">'
 	                	+"<button type='button' style='margin-left:15px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
 	                +'</form>'
-	                +"</td></tr>");
+	                +"</td><td></td></tr>");
     		xiebanhuixian(data.assistDepartment1,1);
     		$("#xgxiebanMoney1").val(data.assistDepartment1Money);
     	}
     	if(data.assistDepartment2!=null&&data.assistDepartment2!=""){
     		$("#xgxieban tbody").append("<tr class='xieban'><td>"+"协办部门2"+"</td><td>"
 	                +'<form class="form-inline">'
-	                    +'<select class="form-control" id="xgxieban2" style="width:150px;">'
+	                    +'<select class="form-control" id="xgxieban2" style="width:160px;">'
 	                    +'</select>'
-	                    +'<input type="text" id="xgxiebanMoney2" class="form-control" style="width:150px;" placeholder="金额">'
+	                    +'<input type="text" id="xgxiebanMoney2" class="form-control" style="width:160px;margin-left:5px;" placeholder="金额">'
 	                	+"<button type='button' style='margin-left:15px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
 	                +'</form>'
-	                +"</td></tr>");
+	                +"</td><td></td></tr>");
     		xiebanhuixian(data.assistDepartment2,2);
     		$("#xgxiebanMoney2").val(data.assistDepartment2Money);
     	}
     	if(data.assistDepartment3!=null&&data.assistDepartment3!=""){
     		$("#xgxieban tbody").append("<tr class='xieban'><td>协办部门3</td><td>"
 	                +'<form class="form-inline">'
-	                    +'<select class="form-control" id="xgxieban3" style="width:150px;">'
+	                    +'<select class="form-control" id="xgxieban3" style="width:160px;">'
 	                    +'</select>'
-	                    +'<input type="text" id="xgxiebanMoney3" class="form-control" style="width:150px;" placeholder="金额">'
+	                    +'<input type="text" id="xgxiebanMoney3" class="form-control" style="width:160px;margin-left:5px;" placeholder="金额">'
 	                	+"<button type='button' style='margin-left:15px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
 	                +'</form>'
-	                +"</td></tr>");
+	                +"</td><td></td></tr>");
     		xiebanhuixian(data.assistDepartment3,3);
     		$("#xgxiebanMoney3").val(data.assistDepartment3Money);
     	}
@@ -3075,17 +3146,17 @@ function checkquxiaoSplit(){
 			if(y>0){
 				$("#split").modal("show")
 				$("#split_table tbody").empty();
-				for(var i=0;i<y;i++){
+				for(var i=0;i<=y;i++){
 					$("#split_table tbody").append("<tr><td>"
-							+"<input type='text' style='width:100%;'  name='split_date' class='form-control'></td><td>"
+							+"<input type='text' style='width:100%;'  name='split_date' value="+(parseInt(t1)+i)+" class='form-control' disabled></td><td>"
 							+"<input type='text' style='width:100%;' class='form-control'></td>"
 							+"</tr>")
-					lay('input[name=split_date]').each(function() {	
+					/* lay('input[name=split_date]').each(function() {	
 								laydate.render({
 									elem: this,
 									type: 'year'
 								});
-					});
+					}); */
 				}
 			}else{
 				toastr.error("合同起讫日期不足1年")
@@ -3119,17 +3190,17 @@ function checkquxiaoSplit(){
 			if(y>0){
 				$("#xgsplit").modal("show")
 				$("#xgsplit_table tbody").empty();
-				for(var i=0;i<y;i++){
+				for(var i=0;i<=y;i++){
 					$("#xgsplit_table tbody").append("<tr><td>"
-							+"<input type='text' style='width:100%;'  name='split_date' class='form-control'></td><td>"
+							+"<input type='text' style='width:100%;'  name='split_date' value="+(parseInt(t1)+i)+" class='form-control' disabled></td><td>"
 							+"<input type='text' style='width:100%;' class='form-control'></td>"
 							+"</tr>")
-					lay('input[name=split_date]').each(function() {	
+					/* lay('input[name=split_date]').each(function() {	
 								laydate.render({
 									elem: this,
 									type: 'year'
 								});
-					});
+					}); */
 				}
 			}else{
 				toastr.error("合同起讫日期不足1年")
@@ -3167,8 +3238,6 @@ function checkquxiaoSplit(){
   							+""+yearArr[i]+""
   							+"</td><td>"
   							+""+moneyArr[i]+""
-  							+"</td><td>"
-  							+"<button type='button' class='btn btn-primary' onclick='deleteSplitMoney(this)'>移除</button>"
   							+"</td></tr>")
   				}
   			}
@@ -3239,5 +3308,81 @@ function checkquxiaoSplit(){
         var r = window.location.search.substr(1).match(reg);
         if(r!=null)return  unescape(r[2]); return null;
     }
+	
+	function countMoney(){
+		var length=$("#new_split_table tbody").find("tr").length;
+		if(length==0){
+			toastr.error("合同金额未拆分")
+  			return;
+		}
+		var contractMoney=$("#contract_money").val();
+		var splitList=new Array();
+		$("#new_split_table tbody").find("tr").each(function(){
+			var splitMoney={
+					year:undefined,
+					money:undefined,
+					zb:undefined
+			}
+			var year=$(this).find("td").eq(0).text();
+			var money=$(this).find("td").eq(1).text();
+			var zb=money/contractMoney;
+			splitMoney.year=year;
+			splitMoney.money=money;
+			splitMoney.zb=zb;
+			splitList.push(splitMoney);
+		})
+		$("#xieban tbody").find("tr").each(function(){
+			$(this).find("td").eq(2).html('');
+			var department=$(this).find("td").eq(1).find("select").eq(0).val();
+			var deptAllMoney=$(this).find("td").eq(1).find("input").eq(0).val();
+			for(var i=0;i<splitList.length;i++){
+				var deptMoney=splitList[i].zb*deptAllMoney;
+				$(this).find("td").eq(2).append("<lable>"+splitList[i].year+"：</lable><input class='form-control' data="+splitList[i].year+" data2="+department+" style='width:150px;' value="+deptMoney+" disabled> ")
+			}
+		})
+		
+	}
+	
+	function xgcountMoney(){
+		var length=$("#edit_split_table tbody").find("tr").length;
+		if(length==0){
+			toastr.error("合同金额未拆分")
+  			return;
+		}
+		var contractMoney=$("#edit_contract_money").val();
+		var splitList=new Array();
+		$("#edit_split_table tbody").find("tr").each(function(){
+			var splitMoney={
+					year:undefined,
+					money:undefined,
+					zb:undefined
+			}
+			var year=$(this).find("td").eq(0).text();
+			var money=$(this).find("td").eq(1).text();
+			var zb=money/contractMoney;
+			splitMoney.year=year;
+			splitMoney.money=money;
+			splitMoney.zb=zb;
+			splitList.push(splitMoney);
+		})
+		$("#xgxieban tbody").find("tr").each(function(){
+			$(this).find("td").eq(2).html('');
+			var department=$(this).find("td").eq(1).find("select").eq(0).val();
+			var deptAllMoney=$(this).find("td").eq(1).find("input").eq(0).val();
+			for(var i=0;i<splitList.length;i++){
+				var deptMoney=splitList[i].zb*deptAllMoney;
+				$(this).find("td").eq(2).append("<lable>"+splitList[i].year+"：</lable><input class='form-control' data="+splitList[i].year+" data2="+department+" style='width:150px;' value="+deptMoney+" disabled> ")
+			}
+		})
+		
+	}
+	
+	$("#contract_money").on("change",function(){
+		$("#new_split_table tbody").html('');
+	})
+	
+	$("#edit_contract_money").on("change",function(){
+		$("#edit_split_table tbody").html('');
+	})
 </script>
 </html>

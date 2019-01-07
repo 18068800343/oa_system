@@ -3,6 +3,7 @@ package org.ldxx.service;
 import java.util.List;
 
 import org.ldxx.bean.CjContract;
+import org.ldxx.bean.CjDeptSplitMoney;
 
 public interface CjContractService {
 
@@ -47,5 +48,7 @@ public interface CjContractService {
 	public CjContract getCjContractMainDepartmentLeader(String no);
 
 	public int updateHistoryById(String id);
+	
+	public List<CjDeptSplitMoney> selectCjDeptSplitMoney(String id,String dept);
 	
 }

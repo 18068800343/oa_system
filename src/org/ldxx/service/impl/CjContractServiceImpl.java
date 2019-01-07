@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CjContract;
+import org.ldxx.bean.CjDeptSplitMoney;
 import org.ldxx.bean.CjSplitMoney;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.CjContractDao;
@@ -40,6 +41,13 @@ public class CjContractServiceImpl implements CjContractService{
 			}
 			if(cjSplitMoney!=null&& cjSplitMoney.size()>0){
 				i = dao.addCjSplitMoneySave(cjSplitMoney);
+			}
+			List<CjDeptSplitMoney> cjDeptSplitMoney=cj.getCjDeptSplitMoney();
+			for(int ii=0;ii<cjDeptSplitMoney.size();ii++){
+				cjDeptSplitMoney.get(ii).setId(cj.getCjId());
+			}
+			if(cjDeptSplitMoney!=null&& cjDeptSplitMoney.size()>0){
+				i = dao.addCjDeptSplitMoney(cjDeptSplitMoney);
 			}
 		}
 		return i;
@@ -184,6 +192,11 @@ public class CjContractServiceImpl implements CjContractService{
 			i=dao.updateHistoryNow(id);
 		}
 		return i;
+	}
+
+	@Override
+	public List<CjDeptSplitMoney> selectCjDeptSplitMoney(String id, String dept) {
+		return dao.selectCjDeptSplitMoney(id, dept);
 	}
 
 }

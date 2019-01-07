@@ -46,8 +46,14 @@ public class CjContract {
 	private List<Accessory> accessory2;//法律顾问签字
 	private List<CjSplitMoney> cjSplitMoney;//承接合同拆分金额
 	private int splitState;//拆分合同金额状态0：未拆分，1:已拆分
+	private List<CjDeptSplitMoney> cjDeptSplitMoney;//承接合同部门拆分金额
 	
-	
+	public List<CjDeptSplitMoney> getCjDeptSplitMoney() {
+		return cjDeptSplitMoney;
+	}
+	public void setCjDeptSplitMoney(List<CjDeptSplitMoney> cjDeptSplitMoney) {
+		this.cjDeptSplitMoney = cjDeptSplitMoney;
+	}
 	public List<Accessory> getAccessory2() {
 		return accessory2;
 	}

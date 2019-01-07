@@ -116,7 +116,17 @@
               <tbody>
               </tbody>
           </table>
-
+		  <table class="table table-bordered table-condensed" id="look_accessory2">
+          	<thead>
+                  <tr>
+                      <th>序号</th>
+                      <th>附件名称</th>
+                      <th>操作</th>
+                  </tr>
+              </thead>
+              <tbody>
+              </tbody>
+          </table>
           <table class="table table-bordered table-condensed" id="look_xieban">
               <thead>
                   <tr>
@@ -351,15 +361,19 @@
           		$("#look_year3").text(data.contractSignTime);
           		$("#look_work_info").text(data.workInfo);
           		$("#look_xieban tbody").html('');
-          		$("#look_xieban tbody").append("<tr><td>主办部门</td><td>"+data.name+"</td><td>金额</td><td>"+data.mainDepartmentMoney+"</td></tr>")
+          		$("#look_xieban tbody").append("<tr><td style='width:10%;'>主办部门</td><td style='width:15%;'>"+data.name+"</td><td style='width:10%;'>"+data.mainDepartmentMoney+"</td><td id="+data.mainDepartment+"></td></tr>")
+          		selectCjDeptSplitMoney(data.cjId,data.mainDepartment);
           		if(data.assistDepartment1!=null&&data.assistDepartment1!=""){
-          			$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>金额</td><td>"+data.assistDepartment1Money+"</td></tr>")
+          			$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>"+data.assistDepartment1Money+"</td><td id="+data.assistDepartment1+"></td></tr>")
+          			selectCjDeptSplitMoney(data.cjId,data.assistDepartment1);
             	}
             	if(data.assistDepartment2!=null&&data.assistDepartment2!=""){
-            		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>金额</td><td>"+data.assistDepartment2Money+"</td></tr>")
+            		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>"+data.assistDepartment2Money+"</td><td id="+data.assistDepartment2+"></td></tr>")
+            		selectCjDeptSplitMoney(data.cjId,data.assistDepartment2);
             	}
             	if(data.assistDepartment3!=null&&data.assistDepartment3!=""){
-            		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>金额</td><td>"+data.assistDepartment3Money+"</td></tr>")
+            		$("#look_xieban tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>"+data.assistDepartment3Money+"</td><td id="+data.assistDepartment3+"></td></tr>")
+            		selectCjDeptSplitMoney(data.cjId,data.assistDepartment3);
             	}
           		$.ajax({
         	        type: 'POST',
@@ -370,8 +384,22 @@
         	        },
         	        success: function (json) {
         	        	$("#look_accessory tbody").html('');
+        	        	$("#look_accessory2 tbody").html('');
         	        	for(var i=0;i<json.length;i++){
-        	          		$("#look_accessory tbody").append("<tr><td>附件"+(i+1)+"</td><td>"+json[i].acName+"</td><td style='width:150px;'><button type='button' class='btn btn-primary' data="+json[i].acUrl+" data2="+json[i].acName+" onclick='downloadFile(this)'>下载附件</button></td></tr>")
+        	          		if(json[i].aType=="承接合同文本"){
+        		            	   $("#look_accessory tbody").append("<tr>"+
+        									"<td>附件</td>"+
+        				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+        				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+        				         	    "</tr>");
+        	            	   }
+        	          		if(json[i].aType=="法律顾问签字"){
+        		            	   $("#look_accessory2 tbody").append("<tr>"+
+        									"<td>附件</td>"+
+        				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+        				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+        				         	    "</tr>");
+        	            	   }
         	        	}
         	        }
             	});
@@ -410,6 +438,24 @@
 	        }
 	    });
 	}
+  	
+  	function selectCjDeptSplitMoney(id,dept){
+  		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cj/selectCjDeptSplitMoney',
+	        dataType: 'json',
+	        data: {
+	           id:id,
+	           dept:dept
+	        },
+	        success: function (json) {
+	        	$("#"+dept+"").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		$("#"+dept+"").append('<lable style="margin-left:25px;">'+json[i].year+'：'+json[i].money+'</lable>')
+	        	}
+	        }
+    	});
+  	}
   	
   	
 </script>

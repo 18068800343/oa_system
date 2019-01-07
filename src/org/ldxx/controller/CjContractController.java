@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CjContract;
+import org.ldxx.bean.CjDeptSplitMoney;
 import org.ldxx.bean.CjSplitMoney;
 import org.ldxx.bean.ContractReason;
 import org.ldxx.bean.CurrentFlow;
@@ -51,6 +52,7 @@ public class CjContractController {
 	public int addCjContractBySave(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
+		map.put("cjDeptSplitMoney", CjDeptSplitMoney.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
 		
@@ -645,6 +647,14 @@ public class CjContractController {
 		}
 		int i=service.updateCjContract(cj);
 		return i;
+	}
+	
+	
+	@RequestMapping("/selectCjDeptSplitMoney")
+	@ResponseBody
+	public List<CjDeptSplitMoney> selectCjDeptSplitMoney(String id,String dept){
+		List<CjDeptSplitMoney> list=service.selectCjDeptSplitMoney(id, dept);
+		return list;
 	}
 	
 }
