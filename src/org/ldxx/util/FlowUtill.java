@@ -871,7 +871,7 @@ public class FlowUtill {
 	}
 	
 	public String deleteChaoSongFlow(String id){
-		CurrentFlow currentFlow = INSTANCE.currentFlowMapper.selectByPrimaryKey(id);
+		CurrentFlow currentFlow = INSTANCE.currentFlowChaoSongMapper.selectByPrimaryKey(id);
 		if(currentFlow!=null){
 			//当前流程步骤
 			//String floNodeId= currentFlow.getFloNodeId();
