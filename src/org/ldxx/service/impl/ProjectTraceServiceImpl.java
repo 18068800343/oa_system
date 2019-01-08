@@ -3,8 +3,10 @@ package org.ldxx.service.impl;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.ProjectTrace;
 import org.ldxx.dao.AccessoryDao;
+import org.ldxx.dao.EnterpriseDao;
 import org.ldxx.dao.ProjectTraceDao;
 import org.ldxx.service.ProjectTraceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class ProjectTraceServiceImpl implements ProjectTraceService{
 	@Autowired
 	private AccessoryDao adao;
 	
+	@Autowired
+	private EnterpriseDao eDao;
+	
 	
 	@Transactional
 	@Override
@@ -29,6 +34,14 @@ public class ProjectTraceServiceImpl implements ProjectTraceService{
 			List<Accessory> accessory=trace.getAccessory();
 			if(accessory!=null){
 				i=adao.addAccessory(trace.getAccessory());
+			}
+			
+			List<Enterprise> enterprise=trace.getEnterprise();
+			for(int ii=0;ii<enterprise.size();ii++){
+				enterprise.get(ii).seteId(trace.getPtId());
+			}
+			if(enterprise!=null&&enterprise.size()!=0){
+				i=eDao.addEnterprise(enterprise);
 			}
 		}
 		return i;

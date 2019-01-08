@@ -37,9 +37,18 @@ public class ProjectTrace {
     
     private String prjUnit;//业主单位
     
+    private List<Enterprise> enterprise;
     
     
-    public String getPrjUnit() {
+    public List<Enterprise> getEnterprise() {
+		return enterprise;
+	}
+
+	public void setEnterprise(List<Enterprise> enterprise) {
+		this.enterprise = enterprise;
+	}
+
+	public String getPrjUnit() {
 		return prjUnit;
 	}
 
