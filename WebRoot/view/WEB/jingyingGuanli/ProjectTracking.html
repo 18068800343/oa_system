@@ -1046,6 +1046,7 @@
 	}
 	
 	 //业主单位
+	 var lianxiid;
     function leixingSelect2(){
 	    $.ajax({
 	        type: 'POST',
@@ -1057,57 +1058,61 @@
 	        success: function (json) {
 	        	$("#yezhudanwei").html('');
 	        	 for(var i=0;i<json.length;i++){
-	        		$("#yezhudanwei").append( "<option value='" + json[i].ccId + "'>"
+	        		$("#yezhudanwei").append( "<option value='" + json[i].ccId + "' data-id='" + json[i].ccId + "'>"
 		                    + json[i].ccName + "</option>")
 	        	}
 	        	 $("#yezhudanwei").trigger("change");
-	        	 
+	        	 $('#yezhudanwei').editableSelect().on('select.editable-select', function (e, dom) {
+	                 	console.log(dom.attr("data-id"));
+		                 var yezhudanwei=$("#yezhudanwei").val();
+		                
+		             	$.ajax({
+		         	        type: 'POST',
+		         	        url: getContextPath()+'/task/getEnterpriseById',
+		         	        dataType: 'json',
+		         	        data: {
+		         	           id:dom.attr("data-id")
+		         	        },
+		         	        success: function (json) {
+		         	        	$("#lianxiren").html('');
+		         	        	
+		         	        	for(var i=0;i<json.length;i++){
+		         	        		lianxiid=json[0].eId
+		         	        		$("#lianxiren").append("<option data-id="+json[i].eId+" value="+json[i].eMan+">"+json[i].eMan+"</option>");
+		         	        	}
+		         	        	
+		         	        	$("#lianxiren").trigger("change");
+		         	        }
+		             	});
+		             	$("#lianxiren").on("change",function(){
+		                	var yezhudanwei=$("#yezhudanwei").val();
+		                	var name=$("#lianxiren").val();
+		                	$.ajax({
+		            	        type: 'POST',
+		            	        url: getContextPath()+'/task/getEnterpriseByIdAndName',
+		            	        dataType: 'json',
+		            	        data: {
+		            	           id:dom.attr("data-id"),
+		            	           name:name
+		            	        },
+		            	        success: function (json) {
+		            	        	$("#lianxifangshi").html('');
+		            	        	for(var i=0;i<json.length;i++){
+		            	        		$("#lianxifangshi").append("<option value="+json[i].eTel+">"+json[i].eTel+"</option>");
+		            	        	}
+		            	        }
+		                	});
+		                })
+		                
+          		 });
 	        }
 	    });
 	}
-    var lianxiid;
-    $("#yezhudanwei").on("change",function(){
-    	var yezhudanwei=$("#yezhudanwei").val();
-    	$.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/task/getEnterpriseById',
-	        dataType: 'json',
-	        data: {
-	           id:yezhudanwei
-	        },
-	        success: function (json) {
-	        	$("#lianxiren").html('');
-	        	
-	        	for(var i=0;i<json.length;i++){
-	        		lianxiid=json[0].eId
-	        		$("#lianxiren").append("<option data-id="+json[i].eId+" value="+json[i].eMan+">"+json[i].eMan+"</option>");
-	        	}
-	        	
-	        	$("#lianxiren").trigger("change");
-	        }
-    	});
-    })
     
     
-    $("#lianxiren").on("change",function(){
-    	var yezhudanwei=$("#yezhudanwei").val();
-    	var name=$("#lianxiren").val();
-    	$.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/task/getEnterpriseByIdAndName',
-	        dataType: 'json',
-	        data: {
-	           id:yezhudanwei,
-	           name:name
-	        },
-	        success: function (json) {
-	        	$("#lianxifangshi").html('');
-	        	for(var i=0;i<json.length;i++){
-	        		$("#lianxifangshi").append("<option value="+json[i].eTel+">"+json[i].eTel+"</option>");
-	        	}
-	        }
-    	});
-    })
+    
+    
+    
     
 
     function saveGuanliren(){
