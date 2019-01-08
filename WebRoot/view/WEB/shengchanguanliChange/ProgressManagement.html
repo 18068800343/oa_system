@@ -1710,7 +1710,7 @@
             		$("#new_accessory tbody").append("<tr>"+
             									"<td>附件"+(i+1)+"</td>"+
             									"<td>"+accessory[i].acName+"</td>"+
-            									"<td><button type='button' class='btn btn-primary' data="+accessory[i].acUrl+" onclick='downloadFile(this)'>下载附件</button></td>"+
+            									"<td><button type='button' class='btn btn-primary' data="+accessory[i].acUrl+" onclick='downloadFile(this)'>下载附件</button>   <button type='button' class='btn btn-primary' data1='"+accessory[i].acUrl+"' data2='"+accessory[i].aId+"' onclick='delete_this(this)'>删除附件</button></td>"+
             								"</tr>")
             	}
             	
@@ -1761,8 +1761,11 @@
             														"<td>"+ppcj[i].cjName+"</td>"+
             														"<td>"+ppcj[i].contractMoney+"</td>"+
             														"<td>"+ppcj[i].temporaryMoney+"</td>"+
-            														"<td>"+ppcj[i].incomeBq+"</td>"+
-            														"<td>"+ppcj[i].incomeAll+"</td>"+
+            														"<td><input type='text'  style='width:90%;' class='form-control' disabled value="+ppcj[i].incomeBq+"></td>"+
+																	"<td><input data="+ppcj[i].cjId+"  style='width:90%;' type='text' class='form-control' value="+ppcj[i].incomeAll+"></td>"+
+																	"<td><button type='button' onclick='cjBq(this)' class='btn btn-default'>计算合同本期</button></td>"+
+            														//"<td>"+ppcj[i].incomeBq+"</td>"+
+            														//"<td>"+ppcj[i].incomeAll+"</td>"+
             													"</tr>")
             	}
             	myTool.mask.hide();
@@ -1776,6 +1779,34 @@
 		var filePath=$(obj).attr("data");
 		var fileName=$(obj).parents("tr").find("td").eq(1).text();
 		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
+	}
+    
+    function delete_this(obj){
+		var url=$(obj).attr("data1");
+		var id=$(obj).attr("data2");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var statu = confirm("确认删除吗?");
+		  if(!statu){
+		   return false;
+		  }
+		$.ajax({
+			type: 'POST',
+            url: getContextPath()+'/announcement/deleteAccessory',
+            dataType: 'json',
+            data: {
+            	aId:id,
+            	acName:name,
+            	acUrl:url
+            },
+            success: function (json) {
+            	if(json==0){
+            		toastr.error("删除附件失败");
+            	}else{
+            		$(obj).parents("tr").remove();
+            		toastr.success("删除附件成功");
+            	}
+            }
+		});
 	}
     
     function getBq(obj){
