@@ -38,28 +38,28 @@ public class ProjectAccountingServiceImpl implements ProjectAccountingService {
 		if(i>0){
 			String paId = projectAccounting.getPaId();
 			List<ProjectAccountingRg> accountingRg = projectAccounting.getProjectAccountingRg();
-			if(accountingRg!=null){
+			if(accountingRg!=null && accountingRg.size()>0){
 				for(int j=0;j<accountingRg.size();j++){
 					accountingRg.get(j).setPaId(paId);
 				}
 				i=rgdao.addProjectAccountingRg(accountingRg);
 			}
 			List<ProjectAccountingFyys> accountingFyys = projectAccounting.getProjectAccountingFyys();
-			if(accountingFyys!=null){
+			if(accountingFyys!=null && accountingFyys.size()>0){
 				for (int k=0;k<accountingFyys.size();k++) {
 					accountingFyys.get(k).setPaId(paId);
 				}
 				i=fyysdao.addProjectAccountingFyys(accountingFyys);
 			}
 			List<ProjectAccountingClfy> accountingClfy = projectAccounting.getProjectAccountingClfy();
-			if(accountingClfy!=null){
+			if(accountingClfy!=null && accountingClfy.size()>0){
 				for(int m=0;m<accountingClfy.size();m++){
 					accountingClfy.get(m).setPaId(paId);
 				}
 				i=clfydao.addProjectAccountingClfy(accountingClfy);
 			}
 			List<ProjectAccountingJjfy> accountingJjfy = projectAccounting.getProjectAccountingJjfy();
-			if(accountingJjfy!=null){
+			if(accountingJjfy!=null&&accountingJjfy.size()>0){
 				for(int n=0;n<accountingJjfy.size();n++){
 					accountingJjfy.get(n).setPaId(paId);
 				}
