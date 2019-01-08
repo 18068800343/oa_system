@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.TaskDao" >
+ 	<resultMap type="org.ldxx.bean.Task" id="taskResultMap" >
+ 	    <id property="prjId" column="prj_id" />
+ 	    <result property="prjType2" column="prj_type2" />
+ 	    <result property="prjType2" column="c_name" />
+ 	    <result property="prjNo" column="prj_no" />
+ 	    <result property="prjName" column="prj_name" />
+ 	    <result property="prjArea" column="prj_area" />
+ 	    <result property="prjManagementModel" column="prj_management_model" />
+ 	    <result property="prjCompany" column="prj_company" />
+ 	    <result property="prjSource" column="prj_source" />
+ 	    <result property="prjOwnerUnit" column="prj_owner_unit" />
+ 	    <result property="workContent" column="work_content" />
+ 	    <result property="prjEstimateMoney" column="prj_estimate_money" />
+ 	    <result property="contractMoney" column="contract_money" />
+ 	    <result property="provisionalSum" column="provisional_sum" />
+ 	    <result property="prjStartTime" column="prj_start_time" />
+ 	    <result property="prjEndTime" column="prj_end_time" />
+ 	    <result property="mainDepartment" column="main_department" />
+ 	    <result property="mainDepartmentMoney" column="main_department_money" />
+ 	    <result property="mainPrjLeader" column="main_prj_leader" />
+ 	    <result property="mainPrjLeaderName" column="main_prj_leader_name" />
+ 	    <result property="mainEngineer" column="main_engineer" />
+ 	    <result property="mainOther" column="main_other" />
+ 	    <result property="assistDepartment1" column="assist_department1" />
+ 	    <result property="assistDepartment1Money" column="assist_department1_money" />
+ 	    <result property="assist1PrjLeader" column="assist1_prj_leader" />
+ 	    <result property="assist1Engineer" column="assist1_engineer" />
+ 	    <result property="assist1Other" column="assist1_other" />
+ 	    <result property="assistDepartment2" column="assist_department2" />
+ 	    <result property="assistDepartment2Money" column="assist_department2_money" />
+ 	    <result property="assist2PrjLeader" column="assist2_prjLeader" />
+ 	    <result property="assist2Engineer" column="assist2_engineer" />
+ 	    <result property="assist2Other" column="assist2_other" />
+ 	    <result property="assistDepartment3" column="assist_department3" />
+ 	    <result property="assistDepartment3Money" column="assist_department3_money" />
+ 	    <result property="assist3PrjLeader" column="assist3_prjLeader" />
+ 	    <result property="assist3Engineer" column="assist3_engineer" />
+ 	    <result property="assist3Other" column="assist3_other" />
+ 	    <result property="importance" column="importance" />
+        <association property="prjCompany1" column="id=prj_no" javaType="string" select="selectTaskByIdChildQuery">
+ 	    </association>
+        
+    </resultMap>
+
   	<insert id="addTask" parameterType="task">
   		 insert into task(prj_id,prj_type2,prj_no,prj_name,prj_area,prj_management_model,prj_company,prj_source,prj_owner_unit,work_content,
   		 							prj_estimate_money,contract_money,provisional_sum,prj_start_time,prj_end_time,main_department,main_department_money,
@@ -47,7 +91,7 @@
   	</update>
   	
 	
-	<select id="selectTaskByStatus" parameterType="String" resultType="task">
+	<select id="selectTaskByStatus" parameterType="String" resultMap="taskResultMap">
 		select a.*,c.om_name,d.cc_name,u.u_name as mainPrjLeaderName from task a left join mode_status b on a.prj_id=b.mode_id 
 				left join organization_management c on a.main_department=c.om_id
 				LEFT JOIN consociation_company as d on a.prj_owner_unit=d.cc_id
@@ -79,13 +123,42 @@
 	</select>
 	
 	<select id="selectTaskById" resultType="task"> 
-		select a.*,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3,b4.cc_name from task a 
-			left join organization_management b  on a.main_department=b.om_id 
-			left join organization_management b1 on a.assist_department1=b1.om_id 
-			left join organization_management b2 on a.assist_department2=b2.om_id 
-			left join organization_management b3 on a.assist_department3=b3.om_id
-			LEFT JOIN consociation_company as b4 on a.prj_owner_unit=b4.cc_id
-			 where prj_id = #{id}
+      select case  
+      when COUNT(prj_id)=0 then a.prj_company 
+      when COUNT(prj_id)=1 and cc.task_code is null then a.prj_company 
+      when COUNT(prj_id)=1 and cc.task_code is not null then cc.contract_name_yi
+      when COUNT(prj_id)>=2 and sc=1 then cc.contract_name_yi 
+      when COUNT(prj_id)>=2 and sc>=2 then '' 
+      else '' end as prj_company1,COUNT(prj_id),sc,
+      a.*,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3,b4.cc_name,cc.contract_name_yi,ssw.sc,cc.task_code from task a 
+		left join organization_management b  on a.main_department=b.om_id 
+		left join organization_management b1 on a.assist_department1=b1.om_id 
+		left join organization_management b2 on a.assist_department2=b2.om_id 
+		left join organization_management b3 on a.assist_department3=b3.om_id
+		LEFT JOIN consociation_company as b4 on a.prj_owner_unit=b4.cc_id
+      LEFT JOIN cj_contract cc on cc.task_code = a.prj_no
+      LEFT JOIN (select count(1) sc,sss.task_code from ((select COUNT(cjc.contract_name_yi) sc,cjc.task_code from cj_contract cjc where cjc.task_code =(select prj_no from task where prj_id=#{id}) GROUP BY cjc.contract_name_yi) as sss)) as ssw
+      on ssw.task_code = a.prj_no
+		where prj_id = #{id} GROUP BY prj_id;
+	</select>
+	
+     <select id="selectTaskByIdChildQuery" resultType="string"> 
+     select case  
+      when COUNT(prj_id)=0 then a.prj_company 
+      when COUNT(prj_id)=1 and cc.task_code is null then a.prj_company 
+      when COUNT(prj_id)=1 and cc.task_code is not null then cc.contract_name_yi
+      when COUNT(prj_id)>=2 and sc=1 then cc.contract_name_yi 
+      when COUNT(prj_id)>=2 and sc>=2 then '' 
+      else '' end as prj_company1  from task a 
+	  left join organization_management b  on a.main_department=b.om_id 
+	  left join organization_management b1 on a.assist_department1=b1.om_id 
+	  left join organization_management b2 on a.assist_department2=b2.om_id 
+	  left join organization_management b3 on a.assist_department3=b3.om_id
+	  LEFT JOIN consociation_company as b4 on a.prj_owner_unit=b4.cc_id
+      LEFT JOIN cj_contract cc on cc.task_code = a.prj_no
+      LEFT JOIN (select count(1) sc,sss.task_code from ((select COUNT(cjc.contract_name_yi) sc,cjc.task_code from cj_contract cjc where cjc.task_code =(select prj_no from task where prj_id=#{id}) GROUP BY cjc.contract_name_yi) as sss)) as ssw
+      on ssw.task_code = a.prj_no
+		where prj_id = #{id} GROUP BY prj_id;
 	</select>
 	
 	<select id="selectTaskHistory" resultType="task"> 

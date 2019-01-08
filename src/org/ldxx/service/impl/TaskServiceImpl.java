@@ -66,6 +66,16 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public Task selectTaskById(String id) {
 		Task task=tdao.selectTaskById(id);
+		String prjCompany1 = task.getPrjCompany1();
+		if(null!=prjCompany1&&!"".equals(prjCompany1)){
+			if(prjCompany1.contains("华通")){
+				task.setPrjCompany1("华通");
+			}else if(prjCompany1.contains("华汇")){
+				task.setPrjCompany1("华汇");
+			}
+		}else{
+			task.setPrjCompany1("");
+		}
 		List<Enterprise> enterprise=edao.selectEnterpriseById(id);
 		task.setEnterprise(enterprise);
 		return task;

@@ -19,17 +19,21 @@ import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.MaintenanceReinforcement;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.Role;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.TechnicalDocumentation;
 import org.ldxx.bean.TestingEvaluation;
 import org.ldxx.bean.User;
+import org.ldxx.bean.UserVo;
 import org.ldxx.dao.ConstructionDocumentsDao;
 import org.ldxx.dao.DesignDocumentsDao;
 import org.ldxx.dao.MaintenanceReinforcementDao;
 import org.ldxx.dao.OrganizationManagementDao;
+import org.ldxx.dao.RoleDao;
 import org.ldxx.dao.TaskDao;
 import org.ldxx.dao.TechnicalDocumentationDao;
 import org.ldxx.dao.TestingEvaluationDao;
+import org.ldxx.dao.UserDao;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.EnterpriseService;
@@ -74,7 +78,10 @@ public class TaskController {
 	private TechnicalDocumentationDao dao;
 	@Autowired
 	private OrganizationManagementDao omDao;
-	
+	@Autowired
+	private UserDao userDao;
+	@Autowired
+	private RoleDao roleDao;
 	@RequestMapping("/addTask")/*任务单保存*/
 	@ResponseBody
 	public int addTask(@RequestBody List<Task> task,HttpSession session){
@@ -377,7 +384,10 @@ public class TaskController {
 		List<Task> task=tService.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 		for(int i=0;i<task.size();i++){
 			String no=task.get(i).getPrjNo();
+			String id = task.get(i).getPrjId();
+			String company1 = taskDao.selectTaskById(id).getPrjCompany1();
 			List<CjContract> cj=cjservice.selectCjContractByTaskNo(no);
+			task.get(i).setPrjCompany(company1);
 			task.get(i).setCj(cj);
 		}
 		return task;
@@ -714,5 +724,40 @@ public class TaskController {
 		return result;
 	}
 	
+	@RequestMapping("/insertChaoSong")
+	@ResponseBody
+	public String insertChaoSong(@RequestBody UserVo userVo){
+	  List<User> users = userVo.getUsers();
+	  for(User user:users){
+		  if(user.getUserId()==null||"".equals(user.getUserId())){
+				User user1 =  userDao.getUserByUname(user.getuName());
+				if(null!=user){
+					user.setUserId(user1.getUserId());
+				}
+			  } 
+	  }
+	  String result = new FlowUtill().chaoSongFlow(users.get(0).getWorkId(), users);
+	  return result;
+	}
+	
+	@RequestMapping("/insertChaoSongYZGLY")
+	@ResponseBody
+	public String insertChaoSong(String  id){
+		
+	  List<User> users = userDao.selectAllUser();
+	  List<Role> roles = roleDao.selectRoleByRoleName("印章管理员");
+	  String yzRole = "";
+	  if(roles.size()>0){
+		  yzRole =  roles.get(0).getRoleCode();
+	  }
+	  List<User> users1 = new ArrayList<>();
+	  for(User user:users){
+		  if(null!=user.getUserRole()&&user.getUserRole().contains(yzRole)){
+			  users1.add(user);
+		  }
+	  }
+	  String result = new FlowUtill().chaoSongFlow(id, users1);
+	  return result;
+	}
 }
 

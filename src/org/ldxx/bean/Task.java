@@ -17,6 +17,8 @@ public class Task {
 
     private String prjCompany;
     
+    private String prjCompany1;
+    
     private String prjSource;
 
     private String prjOwnerUnit;
@@ -451,6 +453,15 @@ public class Task {
 
 	public void setAssistDepartment3Money(Float assistDepartment3Money) {
 		this.assistDepartment3Money = assistDepartment3Money;
+	}
+
+	
+	public String getPrjCompany1() {
+		return prjCompany1;
+	}
+
+	public void setPrjCompany1(String prjCompany1) {
+		this.prjCompany1 = prjCompany1;
 	}
 
 	@Override
