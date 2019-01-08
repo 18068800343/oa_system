@@ -15,4 +15,6 @@ public interface PrjWorkingHoursDao {
 
 	int updatePrjWorkingHoursSave(@Param("pwh")PrjWorkingHours pwh);
 
+	PrjWorkingHours selectPrjWorkingHoursByPrjNo(@Param("prjno")String prjno);
+
 }

@@ -22,4 +22,6 @@ public interface ContractWorkDao {
 	public int updateContractWork2(@Param("work")ContractWork work);
 	
 	public int updateContractWork3(@Param("work")ContractWork work);
+
+	public List<ContractWork> selectContractWorkByprjNo(@Param("pNo")String pNo,@Param("type")String type);
 }

@@ -118,4 +118,16 @@ public class PrjWorkingHoursServiceImpl implements PrjWorkingHoursService {
 	public int deleteAccessoryByIdAndName(Accessory accessory) {
 		return adao.deleteAccessoryByIdAndName(accessory);
 	}
+
+	@Override
+	public PrjWorkingHours selectPrjWorkingHoursByPrjNo(String prjno) {
+		PrjWorkingHours pws= dao.selectPrjWorkingHoursByPrjNo(prjno);
+		if(pws!=null){
+			List<PrjWorkingHoursP> p=pdao.selectByprjgsid(pws.getPwhId());
+			if(p!=null&& p.size()>0){
+				pws.setPrjWorkingHoursP(p);
+			}
+		}
+		return pws;
+	}
 }
