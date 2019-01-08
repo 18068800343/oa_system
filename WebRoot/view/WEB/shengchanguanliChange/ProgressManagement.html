@@ -100,8 +100,10 @@
                             <tr>
                             	<td>项目本期收入  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td><input type="text" class="form-control" style="width:60%;" id="this_time_money" disabled></td>
-                                <td>分包进度(万元)</td>
-                                <td><input type="text" class="form-control" style="width:70%;" id="" ></td>
+                                <!-- <td>分包进度(万元)</td>
+                                <td><input type="text" class="form-control" style="width:70%;" id="" ></td> -->
+                                <td></td>
+                                <td></td>
                             </tr>
                         </table>
                         
@@ -281,6 +283,7 @@
                         <div>
                             <span>初步设计:</span>
                             <select style="width:180px;" id="firstsheji" class="form-control" >
+                            	<option value="0">无</option>
                                 <option value="55">成果审查</option>
                                 <option value="80">初设文件交付</option>
                                 <option value="90">审查会议纪要</option>
@@ -288,6 +291,7 @@
                             </select>
                             <span>施工图设计:</span>
                             <select style="width:180px;" id=shigongsheji class="form-control" >
+                            	<option value="0">无</option>
                                 <option value="55">成果审查</option>
                                 <option value="80">施设文件交付</option>
                                 <option value="85">审查会议纪要或者图审中心意见</option>
@@ -298,33 +302,23 @@
                 </form>
                 <div id="AB1jieduan">
                 	<select style="width:280px;" id="AB1jieduanjindu" class="form-control" >
-                        <option value="10">中期取得的业主盖章的进度证明10%</option>
-                        <option value="20">中期取得的业主盖章的进度证明20%</option>
-                        <option value="30">中期取得的业主盖章的进度证明30%</option>
-                        <option value="40">中期取得的业主盖章的进度证明40%</option>
-                        <option value="50">中期取得的业主盖章的进度证明50%</option>
-                        <option value="60">中期取得的业主盖章的进度证明60%</option>
-                        <option value="70">中期取得的业主盖章的进度证明70%</option>
-                        <option value="80">中期取得的业主盖章的进度证明80%</option>
-                        <option value="90">未提交检测报告交付单确认限额</option>
-                        <option value="100">检测报告交付单</option>
+                        <option value="10">10%</option>
+                        <option value="20">20%</option>
+                        <option value="30">30%</option>
+                        <option value="40">40%</option>
+                        <option value="50">50%</option>
+                        <option value="60">60%</option>
+                        <option value="70">70%</option>
+                        <option value="80">80%</option>
+                        <option value="90">90%</option>
+                        <option value="100">100%</option>
                     </select>
                 </div>
                 <div id="C1jieduan">
-                	<select style="width:200px;" id="C1jieduanjindu" class="form-control" >
-                        <option value="5">经业主（或监理）确认的进场开工报告</option>
-                        <option value="按照实际确认的工程进度">经业主（或监理）签认的计量表或业主盖章确认的征询函</option>
-                        <option value="90">实体完工未交工验收项目确认限额</option>
-                        <option value="100">交（竣）工验收报告</option>
-                    </select>
+                	<input style="width:200px;" id="C1jieduanjindu" class="form-control" >
                 </div>
                 <div id="C2jieduan">
-                	<select style="width:200px;" id="C2jieduanjindu" class="form-control" >
-                        <option value="5">经业主（或监理）确认的进场开工报告</option>
-                        <option value="按照实际确认的工程进度">经业主（或监理）签认的计量表或业主盖章确认的征询函</option>
-                        <option value="95">实体完工未交工验收项目确认限额</option>
-                        <option value="100">交（竣）工验收报告</option>
-                    </select>
+                	<input style="width:200px;" id="C2jieduanjindu" class="form-control" >
                 </div>
                 <div id="qita">
                 	<input type="text" class="form-control" style="width:200px;" id="qitajindu">
@@ -854,6 +848,9 @@
 		$("#task_no").val(prjNo);
 		$("#prjType2").val(prjtype2);
 		$("#xiangmumd").modal("hide");
+		$("#all_money").val("");
+		$("#this_time_money").val("");
+		
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/ppf/selectAllByName',
@@ -873,13 +870,15 @@
                 	$('#prj_start_time').val(task.prjStartTime);
                 	$('#prj_end_time').val(task.prjEndTime);
                 	$('#budget_money_all').val(bf.allCost);
+                	if(bf!=""&&bf!=null){
+                		$('#budget_money_all').val(bf.allCost);
+                	}else{
+                		$('#budget_money_all').val(0);
+                	}
                 	
                 	$("#xieban1 tbody").empty();
                 	$("#xieban2 tbody").empty();
-                	$("#xieban3 tbody").empty();
-                	$("#xieban4 tbody").empty();
-                	$("#xieban5 tbody").empty();
-                	$("#xieban6 tbody").empty();
+                	
                 	
                 	$("#xieban1 tbody").append("<tr><td style='width:20%;'>"
             				+"主办部门"
@@ -1004,274 +1003,7 @@
         		//$("#xgprjName").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
         		$("#xgtask_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
         	}
-        	/* $('#prjName').editableSelect().on('select.editable-select', function (e, dom) {
-        		$.ajax({
-                    type: 'POST',
-                    url: getContextPath()+'/ppf/selectAllByName',
-                    dataType: 'json',
-                    data: {
-                    	name:$('#prjName').val()
-                    },
-                    success: function (json) {
-                    	var task=json.task;
-                    	var bf=json.bf;
-                    	var cj=json.cj;
-	                    	$('#task_no').val(task.prjNo);
-                    	    $('#prjType2').val(task.prjType2);
-	                    	$('#contractMoney').val(task.contractMoney);
-	                    	$('#provisional_sum').val(task.provisionalSum);
-	                    	$('#prj_start_time').val(task.prjStartTime);
-	                    	$('#prj_end_time').val(task.prjEndTime);
-	                    	$('#budget_money_all').val(bf.allCost);
-	                    	
-	                    	$("#xieban1 tbody").empty();
-	                    	$("#xieban2 tbody").empty();
-	                    	$("#xieban3 tbody").empty();
-	                    	$("#xieban4 tbody").empty();
-	                    	$("#xieban5 tbody").empty();
-	                    	$("#xieban6 tbody").empty();
-	                    	
-	                    	$("#xieban1 tbody").append("<tr><td style='width:20%;'>"
-                    				+"主办部门"
-                    				+"</td><td style='width:20%;'>"
-	                    			+task.omName
-	                    			+"</td><td style='width:10%;'>"
-	                    			+"金额"
-	                    			+"</td><td style='width:50%;'>"
-	                    			+"<input type='text' data='1' class='form-control'> &nbsp&nbsp<button type='button' onclick='getBq(this)' class='btn btn-default'>计算本期</button>"
-	                    			+"</td></tr>")
-	                    	$("#xieban2 tbody").append("<tr><td style='width:20%;'>"
-	                    			+"主办部门"
-                    				+"</td><td style='width:20%;'>"
-	                    			+task.omName
-	                    			+"</td><td style='width:10%;'>"
-	                    			+"金额"
-	                    			+"</td><td style='width:50%;'>"
-	                    			+"<input type='text' data='1'  id='zb2' class='form-control' disabled>"
-	                    			+"</td></tr>")
-	                    	$("#xieban3 tbody").append("<tr><td style='width:20%;'>"
-	                    			+"主办部门"
-                    				+"</td><td style='width:20%;'>"
-	                    			+task.omName
-	                    			+"</td><td style='width:10%;'>"
-	                    			+"金额"
-	                    			+"</td><td style='width:50%;'>"
-	                    			+"<input type='text' data='1' class='form-control'>"
-	                    			+"</td></tr>")
-	                    	$("#xieban4 tbody").append("<tr><td style='width:20%;'>"
-	                    			+"主办部门"
-                    				+"</td><td style='width:20%;'>"
-	                    			+task.omName
-	                    			+"</td><td style='width:10%;'>"
-	                    			+"金额"
-	                    			+"</td><td style='width:50%;'>"
-	                    			+"<input type='text' data='1' class='form-control'>"
-	                    			+"</td></tr>")
-	                    	$("#xieban5 tbody").append("<tr><td style='width:20%;'>"
-	                    			+"主办部门"
-                    				+"</td><td style='width:20%;'>"
-	                    			+task.omName
-	                    			+"</td><td style='width:10%;'>"
-	                    			+"金额"
-	                    			+"</td><td style='width:50%;'>"
-	                    			+"<input type='text' data='1' class='form-control'>"
-	                    			+"</td></tr>")
-	                    	$("#xieban6 tbody").append("<tr><td style='width:20%;'>"
-	                    			+"主办部门"
-                    				+"</td><td style='width:20%;'>"
-	                    			+task.omName
-	                    			+"</td><td style='width:10%;'>"
-	                    			+"金额"
-	                    			+"</td><td style='width:50%;'>"
-	                    			+"<input type='text' data='1' class='form-control'>"
-	                    			+"</td></tr>")
-	                    	
-	                    	if(task.name1!=null){
-	                    		$("#xieban1 tbody").append("<tr><td>"
-	                    				+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name1
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0'  class='form-control'> &nbsp&nbsp<button type='button' onclick='getBq1(this)' class='btn btn-default'>计算本期</button>"
-		                    			+"</td></tr>")
-		                    	$("#xieban2 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name1
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' id='xb1_1' class='form-control' disabled>"
-		                    			+"</td></tr>")
-		                    	$("#xieban3 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name1
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban4 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name1
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban5 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name1
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban6 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name1
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-	                    	}
-	                    	
-							if(task.name2!=null){
-								$("#xieban1 tbody").append("<tr><td>"
-	                    				+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name2
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'> &nbsp&nbsp<button type='button' onclick='getBq2(this)' class='btn btn-default'>计算本期</button>"
-		                    			+"</td></tr>")
-		                    	$("#xieban2 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name2
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' id='xb2_2' class='form-control' disabled>"
-		                    			+"</td></tr>")
-		                    	$("#xieban3 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name2
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban4 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name2
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban5 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name2
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban6 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name2
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-	                    	}
-							
-							if(task.name3!=null){
-								$("#xieban1 tbody").append("<tr><td>"
-	                    				+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name3
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'> &nbsp&nbsp<button type='button' onclick='getBq3(this)' class='btn btn-default'>计算本期</button>"
-		                    			+"</td></tr>")
-		                    	$("#xieban2 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name3
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' id='xb3_3' class='form-control' disabled>"
-		                    			+"</td></tr>")
-		                    	$("#xieban3 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name3
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban4 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name3
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban5 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name3
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban6 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name3
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-	                    	}
-	                    	
-							$("#cj_table tbody").html('');
-							for(var i=0;i<cj.length;i++){
-								$("#cj_table tbody").append("<tr>"+
-																					"<td>"+cj[i].contractName+"</td>"+
-																					"<td>"+cj[i].contractMoney+"</td>"+
-																					"<td>"+cj[i].temporaryMoney+"</td>"+
-																					"<td><input style='width:90%;' type='text' class='form-control' disabled></td>"+
-																					"<td><input data="+cj[i].cjId+"  style='width:90%;' type='text' class='form-control'></td>"+
-																					"<td><button type='button' onclick='cjBq(this)' class='btn btn-default'>计算合同本期</button></td>"+
-																				"</tr>")
-							}
-							
-                    }
-          		});
-          	}) */
+        	
           	$('#task_no').editableSelect().on('select.editable-select', function (e, dom) {
           		$.ajax({
                     type: 'POST',
@@ -1281,6 +1013,7 @@
                     	no:$('#task_no').val()
                     },
                     success: function (json) {
+                    	//console.log(json)
                     	var task=json.task;
                     	var bf=json.bf;
                     	var cj=json.cj;
@@ -1291,14 +1024,18 @@
 	                    	$('#provisional_sum').val(task.provisionalSum);
 	                    	$('#prj_start_time').val(task.prjStartTime);
 	                    	$('#prj_end_time').val(task.prjEndTime);
-	                    	$('#budget_money_all').val(bf.allCost);
+	                    	$('#prj_leader').val(task.mainPrjLeader);
+	                    	if(bf!=null&&bf!=''){
+	                    		$('#budget_money_all').val(bf.allCost);
+	                    	}else{
+	                    		$('#budget_money_all').val(0);
+	                    	}
+	                    	
+	                    	$("#all_money").val("");
+	                		$("#this_time_money").val("");
 	                    	
 	                    	$("#xieban1 tbody").empty();
 	                    	$("#xieban2 tbody").empty();
-	                    	$("#xieban3 tbody").empty();
-	                    	$("#xieban4 tbody").empty();
-	                    	$("#xieban5 tbody").empty();
-	                    	$("#xieban6 tbody").empty();
 	                    	
 	                    	$("#xieban1 tbody").append("<tr><td>"
                     				+"主办部门"
@@ -1318,42 +1055,7 @@
 	                    			+"</td><td>"
 	                    			+"<input type='text' data='1' id='zb2'  class='form-control' disabled>"
 	                    			+"</td></tr>")
-	                    	$("#xieban3 tbody").append("<tr><td>"
-	                    			+"主办部门"
-                    				+"</td><td>"
-	                    			+task.omName
-	                    			+"</td><td>"
-	                    			+"金额"
-	                    			+"</td><td>"
-	                    			+"<input type='text' data='1' class='form-control'>"
-	                    			+"</td></tr>")
-	                    	$("#xieban4 tbody").append("<tr><td>"
-	                    			+"主办部门"
-                    				+"</td><td>"
-	                    			+task.omName
-	                    			+"</td><td>"
-	                    			+"金额"
-	                    			+"</td><td>"
-	                    			+"<input type='text' data='1' class='form-control'>"
-	                    			+"</td></tr>")
-	                    	$("#xieban5 tbody").append("<tr><td>"
-	                    			+"主办部门"
-                    				+"</td><td>"
-	                    			+task.omName
-	                    			+"</td><td>"
-	                    			+"金额"
-	                    			+"</td><td>"
-	                    			+"<input type='text' data='1' class='form-control'>"
-	                    			+"</td></tr>")
-	                    	$("#xieban6 tbody").append("<tr><td>"
-	                    			+"主办部门"
-                    				+"</td><td>"
-	                    			+task.omName
-	                    			+"</td><td>"
-	                    			+"金额"
-	                    			+"</td><td>"
-	                    			+"<input type='text' data='1' class='form-control'>"
-	                    			+"</td></tr>")
+	                    	
 	                    	
 	                    	if(task.name1!=null){
 	                    		$("#xieban1 tbody").append("<tr><td>"
@@ -1374,42 +1076,7 @@
 		                    			+"</td><td>"
 		                    			+"<input type='text' data='0' id='xb1_1' class='form-control' disabled>"
 		                    			+"</td></tr>")
-		                    	$("#xieban3 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name1
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban4 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name1
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban5 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name1
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban6 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name1
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
+		                    	
 	                    	}
 	                    	
 							if(task.name2!=null){
@@ -1431,42 +1098,7 @@
 		                    			+"</td><td>"
 		                    			+"<input type='text' data='0' id='xb2_2' class='form-control' disabled>"
 		                    			+"</td></tr>")
-		                    	$("#xieban3 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name2
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban4 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name2
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban5 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name2
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban6 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name2
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
+		                    	
 	                    	}
 							
 							if(task.name3!=null){
@@ -1488,42 +1120,7 @@
 		                    			+"</td><td>"
 		                    			+"<input type='text' data='0' id='xb3_3' class='form-control' disabled>"
 		                    			+"</td></tr>")
-		                    	$("#xieban3 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name3
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban4 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name3
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban5 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name3
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
-		                    	$("#xieban6 tbody").append("<tr><td>"
-		                    			+"协办部门"
-	                    				+"</td><td>"
-		                    			+task.name3
-		                    			+"</td><td>"
-		                    			+"金额"
-		                    			+"</td><td>"
-		                    			+"<input type='text' data='0' class='form-control'>"
-		                    			+"</td></tr>")
+		                    	
 							}
 							
 							$("#cj_table tbody").html('');
@@ -1547,6 +1144,11 @@
 	}
 	//判断进度
 	$("#jindua").click(function(){
+		var prjName=$("#prjName").val();
+		if(prjName==''){
+			toastr.error("请先选择项目");
+			return;
+		}
 		$("#B2jieduan").hide();
 		$("#AB1jieduan").hide();
 		$("#C1jieduan").hide();
@@ -1564,15 +1166,18 @@
 		}else{
 			$("#qita").show();
 		}
+		$("#jindu").modal("show");
 	})
 	
+	var reg = new RegExp("^[0-9]*$");
 	$("#quedingjindu").click(function(){
 		if($('#B2jieduan').is(':hidden')){
 		      //如果隐藏时。。。
 
 		}else{
 		      //如果显示时。。。
-			$("#all_money").val($("#firstsheji").val()/1*0.45+$("#shigongsheji").val()/1*0.55+"%")
+		    var sum=$("#firstsheji").val()/1*0.45+$("#shigongsheji").val()/1*0.55;
+			$("#all_money").val(sum.toFixed(2)+"%");
 		}
 		if($('#AB1jieduan').is(':hidden')){
 
@@ -1582,19 +1187,39 @@
 		if($('#C1jieduan').is(':hidden')){
 
 		}else{
-			$("#all_money").val($("#C1jieduanjindu").val()/1+"%")
+			var C1jieduanjindu=$("#C1jieduanjindu").val();
+			 if(reg.test(C1jieduanjindu)&&C1jieduanjindu/1>=5&&C1jieduanjindu<=100){
+				 $("#all_money").val($("#C1jieduanjindu").val()/1+"%")
+			    }else{
+			    	toastr.error("数字范围必须在0-100之间！");
+			    }
+			
+			
 		}
 		if($('#C2jieduan').is(':hidden')){
 		      
 
 		}else{
-			$("#all_money").val($("#C2jieduanjindu").val()/1+"%")
+			var C1jieduanjindu=$("#C2jieduanjindu").val();
+			 if(reg.test(C1jieduanjindu)&&C1jieduanjindu/1>=5&&C1jieduanjindu<=100){
+				 $("#all_money").val($("#C2jieduanjindu").val()/1+"%")
+			    }else{
+			    	toastr.error("数字范围必须在0-100之间！");
+			    }
+			
 		}
 		if($('#qita').is(':hidden')){
 		     
 
 		}else{
-			$("#all_money").val($("#qitajindu").val()/1+"%")
+			var C1jieduanjindu=$("#qitajindu").val();
+			 if(reg.test(C1jieduanjindu)&&C1jieduanjindu/1>=5&&C1jieduanjindu<=100){
+				 $("#all_money").val($("#qitajindu").val()/1+"%")
+			    }else{
+			    	toastr.error("数字范围必须在0-100之间！");
+			    }
+		
+			
 		}
 		
 		$.ajax({
@@ -1668,6 +1293,8 @@
     	var this_time=$("#this_time").val();
     	var all_money=$("#all_money").val();
     	/* var all_cost=$("#all_cost").val(); */
+    	var fristDesign=$("#firstsheji option:selected").text();
+    	var secondDesign=$("#shigongsheji option:selected").text();
     	var prjMoney=$("#prjMoney").val();
     	var this_time_money=$("#this_time_money").val();
     	
@@ -1685,6 +1312,8 @@
     			budgetMoneyAll:undefined,
     			thisTime:undefined,
     			allMoney:undefined,
+    			fristDesign:undefined,
+    			secondDesign:undefined,
     			allCost:0,
     			allIncome:0,
     			prjThisIncome:undefined,
@@ -1697,7 +1326,6 @@
     			ppcj:undefined
     	}
     	
-    	PrjProgressFill.ppfId=id;
     	PrjProgressFill.prjName=prj_name;
     	PrjProgressFill.taskNo=task_no;
     	PrjProgressFill.prjType=prjType2;
@@ -1712,13 +1340,10 @@
     	PrjProgressFill.allMoney=all_money;
     /* 	PrjProgressFill.allCost=all_cost; */
     	PrjProgressFill.prjThisIncome=this_time_money;
-    	
+    	PrjProgressFill.fristDesign=fristDesign;
+    	PrjProgressFill.secondDesign=secondDesign;
     	var ppfiArray=new Array();
     	var ppfiArray2=new Array();
-    	var ppfiArray3=new Array();
-    	var ppfiArray4=new Array();
-    	var ppfiArray5=new Array();
-    	var ppfiArray6=new Array();
     	var ppcjArray=new Array();
     	
     	$("#xieban1 tbody").find("tr").each(function(){
@@ -1732,7 +1357,6 @@
     		var department=$(this).find("td").eq(1).text();
     		var money=$(this).find("input").eq(0).val();
     		var main=$(this).find("input").eq(0).attr("data");
-    		ppfi.ppfId=id;
     		ppfi.department=department;
     		ppfi.money=money;
     		ppfi.main=main;
@@ -1751,14 +1375,12 @@
     		var department=$(this).find("td").eq(1).text();
     		var money=$(this).find("input").eq(0).val();
     		var main=$(this).find("input").eq(0).attr("data");
-    		ppf2.ppfId=id;
     		ppfi2.department=department;
     		ppfi2.money=money;
     		ppfi2.main=main;
     		ppfiArray2.push(ppfi2);
     	})
     	PrjProgressFill.ppfi2=ppfiArray2;
-    	
     	
     	
     	$("#cj_table tbody").find("tr").each(function(){
@@ -1777,7 +1399,6 @@
     		var incomeBq=$(this).find("input").eq(0).val();
     		var incomeAll=$(this).find("input").eq(1).val();
     		var cjId=$(this).find("input").eq(1).attr("data");
-    		ppcj.ppfId=id;
     		ppcj.cjName=cjName;
     		ppcj.contractMoney=contractMoney;
     		ppcj.temporaryMoney=temporaryMoney;
@@ -1814,7 +1435,7 @@
             		toastr.error("保存失败")
             	}
             }
-  		}) 
+  		})
     	
     }
 	
@@ -2159,6 +1780,9 @@
     
     function getBq(obj){
     	var zb=$(obj).parent().find("input").eq(0).val();
+    	 if(zb.indexOf("%")==-1){
+      	   $(obj).parent().find("input").eq(0).val(zb+"%");
+         }
     	var department=$(obj).parent().parent().find("td").eq(1).text();
     	$.ajax({
             type: 'POST',
@@ -2177,6 +1801,9 @@
     }
     function getBq1(obj){
     	var zb=$(obj).parent().find("input").eq(0).val();
+    	 if(zb.indexOf("%")==-1){
+        	   $(obj).parent().find("input").eq(0).val(zb+"%");
+         }
     	var department=$(obj).parent().parent().find("td").eq(1).text();
     	$.ajax({
             type: 'POST',
@@ -2195,6 +1822,9 @@
     }
     function getBq2(obj){
     	var zb=$(obj).parent().find("input").eq(0).val();
+    	 if(zb.indexOf("%")==-1){
+        	   $(obj).parent().find("input").eq(0).val(zb+"%");
+        }
     	var department=$(obj).parent().parent().find("td").eq(1).text();
     	$.ajax({
             type: 'POST',
@@ -2213,6 +1843,9 @@
     }
     function getBq3(obj){
     	var zb=$(obj).parent().find("input").eq(0).val();
+    	 if(zb.indexOf("%")==-1){
+        	   $(obj).parent().find("input").eq(0).val(zb+"%");
+        }
     	var department=$(obj).parent().parent().find("td").eq(1).text();
     	$.ajax({
             type: 'POST',
@@ -2232,6 +1865,9 @@
     
     function cjBq(obj){
     	var zb=$(obj).parent().parent().find("input").eq(1).val();
+    	if(zb.indexOf("%")==-1){
+    		$(obj).parent().parent().find("input").eq(1).val(zb+"%");
+        }
     	var id=$(obj).parent().parent().find("input").eq(1).attr("data");
     	$.ajax({
             type: 'POST',
