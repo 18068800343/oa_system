@@ -94,7 +94,7 @@ public class PrjProgressFillController {
 			}
 			pf.setAccessory(list);
 		}
-		Task t=tService.selectIdByNo(pf.getTaskNo());
+		/*Task t=tService.selectIdByNo(pf.getTaskNo());
 		float prjMoney=t.getPrjEstimateMoney();//项目金额
 		float contractMoney=t.getContractMoney();//合同金额
 		float allCost=pf.getAllCost();//总累计成本
@@ -106,7 +106,7 @@ public class PrjProgressFillController {
 			pf.setStatus(1);
 		}else{
 			pf.setStatus(3);
-		}
+		}*/
 		int i=service.addPrjProgressFill(pf);
 		if(i>0){
 			Task ta=tService.selectPrjLeaderByPrjNo(pf.getTaskNo());
@@ -434,7 +434,7 @@ public class PrjProgressFillController {
 		}else{
 			pf.setStatus(3);
 		}
-		int i=0;
+		int i=service.updatePrjProgressFill(pf);
 		return i;
 	}
 }
