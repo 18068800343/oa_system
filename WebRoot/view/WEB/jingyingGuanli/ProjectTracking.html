@@ -12,6 +12,7 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <link href="../../font3/bootstrap-select.css" rel="stylesheet">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -61,7 +62,7 @@
                             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -142,12 +143,16 @@
                                 </td>
                                 <td style="width:20%;">跟踪部门</td>
                                 <td style="width:30%;">
-                                    <!-- <select class="form-control" style="width:70%;" id="new_department">
+                                    <!-- <select class="form-control selectpicker" style="width:70%;" id="new_department">
                                     </select> -->
                                     <input type="text" style="width:70%;" class="form-control" id="new_department" disabled>
                                 </td>
                             </tr>
                             <tr>
+                            	<td>业主单位</td>
+                                <td>
+                                	<select class="form-control selectpicker" style="width:70%;" id="yezhudanwei" data-live-search="true"></select>
+                                </td>
                             	<td style="width:20%;">跟踪人</td>
                                 <td style="width:30%;">
                                     <!-- <select class="form-control" style="width:70%;" id="new_person">
@@ -163,8 +168,7 @@
                                     </select>
                                     <input type="text" style="width:70%;" class="form-control" id="prj_level" >
                                 </td> -->
-                                <td></td>
-                                <td></td>
+                                
                             </tr>
                             <tr>
                                 <td>项目概况  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -179,6 +183,45 @@
                                 <td colspan="3"><input name="file" type="file" class="form-control"></td>
                             </tr>
                         </table>
+                        
+                        <table class="table table-bordered table-condensed">
+                        	<thead>
+                        		<tr>
+                        			<th colspan="5">添加联系人,联系方式</th>
+                        		</tr>
+                        	</thead>
+                            <tr>
+                                <td style="width:10%;">联系人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:30%;">
+                                    <select class="form-control" style="width:200px;" id="lianxiren">
+                                    </select>
+                                </td>
+                                <td style="width:10%;">联系方式  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:30%;">
+                                    <select class="form-control" style="width:200px;" id="lianxifangshi">
+                                    </select>
+                                </td>
+                                <td style="width:20%;">
+	                                <button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="xuanzelianxiren" data-toggle="modal" data-target="#addGuanliren">新建联系人</button>
+	                                <button type="button" class="btn btn-info" onclick="addLianxiren(this)">添加</button>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="lianxibiaoge">
+                            <thead>
+                                <tr>
+                                    <th colspan="3">添加的联系人,联系方式</th>
+                                </tr>
+                                <tr>
+                                    <th  style="width:10%;">联系人</th>
+                                    <th>联系方式</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
                     </form>  
                 </div>
         </div>
@@ -192,7 +235,37 @@
 </div>
 <!-- model结束 -->
 
-
+<!--选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">新建联系人,联系方式</h4>
+            </div>
+            <div class="modal-body">
+            
+                <div>
+                	
+                	<table class="table table-bordered table-condensed" >
+                		<tr>
+                			<td>联系人</td>
+                			<td><input type="text" class="form-control" style="width:180px;" id="xinjianlianxiren"></td>
+                			<td>联系方式</td>
+                			<td><input type="text" class="form-control" style="width:180px;" id="xinjianlianxifangshi"></td>
+                		</tr>
+                	</table>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 选人 modal结束 --> 
 
 <!-- 修改Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
@@ -721,6 +794,7 @@
 <script src="../../js/city-picker.data.js"></script>
 <script src="../../js/city-picker.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../js/bootstrap-select.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -729,12 +803,11 @@
         laydate.render({
             elem: '#edit_year' //指定元素
         });
-        $('#editable-select').editableSelect({ 
-            effects: 'slide' 
-        });
+        
         initTable();
         initDepartment();
         initLogPrj();
+        leixingSelect2();
 	});
     
     
@@ -974,6 +1047,132 @@
 		});
 	}
 	
+	 //业主单位
+    function leixingSelect2(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cooperator/selectCooperatorIdAndNameByCcType',
+	        dataType: 'json',
+	        data: {
+	           ccType:'业主单位'
+	        },
+	        success: function (json) {
+	        	$("#yezhudanwei").html('');
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#yezhudanwei").append( "<option value='" + json[i].ccId + "'>"
+		                    + json[i].ccName + "</option>")
+	        	}
+	        	 $("#yezhudanwei").trigger("change");
+	        	 $("#yezhudanwei").selectpicker({
+		     			noneSelectedText: '请选择',
+		     			width:"70%",
+		     		});
+	        }
+	    });
+	}
+    var lianxiid;
+    $("#yezhudanwei").on("change",function(){
+    	var yezhudanwei=$("#yezhudanwei").val();
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/task/getEnterpriseById',
+	        dataType: 'json',
+	        data: {
+	           id:yezhudanwei
+	        },
+	        success: function (json) {
+	        	$("#lianxiren").html('');
+	        	
+	        	for(var i=0;i<json.length;i++){
+	        		lianxiid=json[0].eId
+	        		$("#lianxiren").append("<option data-id="+json[i].eId+" value="+json[i].eMan+">"+json[i].eMan+"</option>");
+	        	}
+	        	
+	        	$("#lianxiren").trigger("change");
+	        }
+    	});
+    })
+    
+    
+    $("#lianxiren").on("change",function(){
+    	var yezhudanwei=$("#yezhudanwei").val();
+    	var name=$("#lianxiren").val();
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/task/getEnterpriseByIdAndName',
+	        dataType: 'json',
+	        data: {
+	           id:yezhudanwei,
+	           name:name
+	        },
+	        success: function (json) {
+	        	$("#lianxifangshi").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		$("#lianxifangshi").append("<option value="+json[i].eTel+">"+json[i].eTel+"</option>");
+	        	}
+	        }
+    	});
+    })
+    
+
+    function saveGuanliren(){
+    	
+		 $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cooperator/countOfEnterprise',
+	        dataType: 'json',
+	        data:{
+	        	eId:lianxiid,
+	        	eMan:$("#xinjianlianxiren").val(),
+	        	eTel:$("#xinjianlianxifangshi").val()
+	        },
+	        success: function (json) {
+	        	
+	        	$("#lianxibiaoge tbody").append("<tr><td>"
+	        			+'<input type="text" class="form-control" value='+$("#xinjianlianxiren").val()+' disabled>'
+	        			+"</td><td>"
+	        			+'<input type="text" class="form-control" value='+$("#xinjianlianxifangshi").val()+' disabled>'
+	        			+"</td><td><button type='button' style='text-align:right;' class='btn btn-primary' onclick='deleteLianxiren(this)'>移除联系人</button></td></tr>")
+	        }
+	    });
+		
+    }
+
+  //增加联系人联系电话
+    function addLianxiren(aa){
+    	var eid=$(aa).parent().prev().prev().prev().find("select").find("option:selected").attr("data-id");
+	    var dianhua=$(aa).parent().prev().find("select").val();
+	    var ren=$(aa).parent().prev().prev().prev().find("select").val();
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cooperator/countOfEnterprise',
+	        dataType: 'json',
+	        data:{
+	        	eId:eid,
+	        	eMan:dianhua,
+	        	eTel:ren
+	        },
+	        success: function (json) {
+	        	var lianxiren=$("#lianxiren").val();
+	        	var lianxifangshi=$("#lianxifangshi").val();
+	        	if(lianxiren==null||lianxifangshi==null||lianxiren==''||lianxifangshi==''){
+	        		toastr.error("联系人或联系方式为空");
+	        		return;
+	        	}
+	        	$("#lianxibiaoge tbody").append("<tr><td>"
+	        			+'<input type="text" class="form-control" value='+lianxiren+' disabled>'
+	        			+"</td><td>"
+	        			+'<input type="text" class="form-control" value='+lianxifangshi+' disabled>'
+	        			+"</td><td><button type='button' style='text-align:right;' class='btn btn-primary' onclick='deleteLianxiren(this)'>移除联系人</button></td></tr>")
+	        }
+	    }); 
+    }
+    function deleteLianxiren(obj){
+    	var tr=$(obj).parent().parent();
+    	$(tr).remove();
+    }
+
+    
 	function openModal(){
 		$.ajax({
 	        type: 'POST',
