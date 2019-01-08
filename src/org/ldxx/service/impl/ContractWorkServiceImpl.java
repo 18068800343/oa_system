@@ -119,4 +119,9 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 		return i;
 	}
 
+	@Override
+	public List<ContractWork> selectContractWorkByprjNo(String pNo,String type) {
+		return dao.selectContractWorkByprjNo(pNo,type);
+	}
+
 }

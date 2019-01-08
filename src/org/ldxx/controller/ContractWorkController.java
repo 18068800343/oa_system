@@ -622,4 +622,12 @@ public class ContractWorkController {
 		return cw;
 	}
 	
+	@RequestMapping("/selectContractWorkByprjNo")//通过任务单查找信息
+	@ResponseBody
+	public List<ContractWork> selectContractWorkByprjNo(String prjno,String type){
+		String pNo="%"+prjno+"%";
+		List<ContractWork> list=service.selectContractWorkByprjNo(pNo,type);
+		return list;
+	}
+	
 }
