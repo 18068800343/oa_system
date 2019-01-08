@@ -256,4 +256,29 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return i;
 	}
 
+	@Transactional
+	@Override
+	public int updateAllIncomeAndCost(PrjProgressFill ppf) {
+		int i=dao.updateAllIncomeAndCost(ppf);
+		if(i>0){
+			List<PrjProgressFillInfo> ppfi3=ppf.getPpfi3();
+			if(ppfi3!=null){
+				i=dao.addPrjProgressFillInfo(ppfi3);
+			}
+			List<PrjProgressFillInfo> ppfi4=ppf.getPpfi4();
+			if(ppfi4!=null){
+				i=dao.addPrjProgressFillInfo(ppfi4);
+			}
+			List<PrjProgressFillInfo> ppfi5=ppf.getPpfi5();
+			if(ppfi5!=null){
+				i=dao.addPrjProgressFillInfo(ppfi5);
+			}
+			List<PrjProgressFillInfo> ppfi6=ppf.getPpfi6();
+			if(ppfi6!=null){
+				i=dao.addPrjProgressFillInfo(ppfi6);
+			}
+		}
+		return i;
+	}
+
 }

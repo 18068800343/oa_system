@@ -21,4 +21,6 @@ public interface ProjectTraceService {
 	public ProjectTrace selectProjectTraceByNo(String no);
 	
 	public ProjectTrace selectProjectTraceByName(String name);
+	
+	public int updateTraceEnd(String gzEnd,String id);
 }

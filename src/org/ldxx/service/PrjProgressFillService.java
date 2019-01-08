@@ -56,4 +56,6 @@ public interface PrjProgressFillService {
 	
 	public int updatePrjProgressFill(PrjProgressFill ppf);
 	
+	public int updateAllIncomeAndCost(PrjProgressFill ppf);
+	
 }

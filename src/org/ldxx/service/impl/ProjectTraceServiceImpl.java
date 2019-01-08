@@ -82,4 +82,9 @@ public class ProjectTraceServiceImpl implements ProjectTraceService{
 		return dao.selectProjectTraceByName(name);
 	}
 
+	@Override
+	public int updateTraceEnd(String gzEnd, String id) {
+		return dao.updateTraceEnd(gzEnd, id);
+	}
+
 }

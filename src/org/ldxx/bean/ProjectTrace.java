@@ -33,7 +33,17 @@ public class ProjectTrace {
 
     private List<Accessory> accessory;
     
-    public String getPtId() {
+    private String gzEnd;
+    
+    public String getGzEnd() {
+		return gzEnd;
+	}
+
+	public void setGzEnd(String gzEnd) {
+		this.gzEnd = gzEnd;
+	}
+
+	public String getPtId() {
         return ptId;
     }
 

@@ -155,7 +155,7 @@ public class ProjectTraceController {
 		String id=uuid.getTimeUUID();
 		trace.setPtId(id);
 		
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
 		String time=sdf.format(new Date());
 		int count=service.dateCount(trace.getFillTime());
 		String prjNo="GZ"+time+(count+1);
@@ -176,7 +176,7 @@ public class ProjectTraceController {
 		}else if(type.equals("QT 其他")){
 			prjType="信息化项目";
 		}
-		ProjectScale ps=pService.selectProjectScale(prjType, trace.getPredictPrjScale());
+		ProjectScale ps=pService.selectProjectScale(prjType, trace.getPredictPrjScale()/10000);
 		String scale=ps.getPrjScale();
 		trace.setPrjLv(scale);
 		if(file!=null){
@@ -364,5 +364,12 @@ public class ProjectTraceController {
 	@ResponseBody
 	public ProjectTrace selectProjectTraceByName(String name){
 		return service.selectProjectTraceByName(name);
+	}
+	
+	@RequestMapping("/updateTraceEnd")
+	@ResponseBody
+	public int updateTraceEnd(String gzEnd,String id){
+		int i=service.updateTraceEnd(gzEnd, id);
+		return i;
 	}
 }

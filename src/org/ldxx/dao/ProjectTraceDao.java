@@ -24,4 +24,6 @@ public interface ProjectTraceDao {
 	public ProjectTrace selectProjectTraceByNo(@Param("no")String no);
 	
 	public ProjectTrace selectProjectTraceByName(@Param("name")String name);
+	
+	public int updateTraceEnd(@Param("gzEnd")String gzEnd,@Param("id")String id);
 }

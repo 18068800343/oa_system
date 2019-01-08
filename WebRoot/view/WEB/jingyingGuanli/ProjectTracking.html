@@ -257,8 +257,9 @@
                                 <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="edit_year"></td>
                                 <td style="width:20%;">跟踪部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;">
-                                    <select class="form-control" style="width:70%;" id="edit_department">
-                                    </select>
+                                    <!-- <select class="form-control" style="width:70%;" id="edit_department">
+                                    </select> -->
+                                    <input type="text" style="width:70%;" class="form-control" id="edit_department" disabled>
                                 </td>
                             </tr>
                             <tr>
@@ -271,7 +272,7 @@
                                 </td> -->
                                 <td style="width:20%;">发包方式</td>
                                 <td style="width:30%;">
-                                    <select class="form-control" style="width:70%;" id="">
+                                    <select class="form-control" style="width:70%;" id="edit_isbid">
                                         <option value="直接委托">直接委托</option>
                                         <option value="邀请招标">邀请招标</option>
                                         <option value="公开招标">公开招标</option>
@@ -279,7 +280,7 @@
                                 </td>
                                 <td style="width:20%;">跟踪人</td>
                                 <td style="width:30%;">
-                                    <input type="text" style="width:70%;" class="form-control" id="" disabled>
+                                    <input type="text" style="width:70%;" class="form-control" id="edit_gz_person" disabled>
                                 </td>
                             </tr>
                             <tr>
@@ -292,8 +293,8 @@
                             </tr>
                             <tr id="file_tr">
                                 <td>业务附件</td>
-                                <td id="file_tr_td" colspan="2"><input type="text" style="width:100%;" class="form-control" id="edit_fileName"></td>
-                                <td id="file_tr_td2"><button type="button" class="btn btn-primary" onclick="deleteFile()">删除附件</button></td>
+                                <td id="file_tr_td" colspan="2"></td>
+                                <td id="file_tr_td2"></td>
                             </tr>
                         </table>
                     </form>  
@@ -339,25 +340,24 @@
                             <tr>
                                 <td>项目地址</td>
                                 <td id="look_prj_addr"></td>
-                                <td>预估项目规模</td>
+                                <td>预估项目规模(元)</td>
                                 <td id="look_prj_scale"></td>
                             </tr>
                             <tr>
                                 <td>填报时间</td>
                                 <td id="look_year"></td>
-                                 <td>跟踪部门</td>
-                                <td id="look_department"></td>
-                            </tr>
-                            <tr>
-                               <!--  <td>是否投标</td>
-                                <td id="look_isbid"></td> -->
-                               
+                                 <td>项目规模</td>
+                                <td id="look_prj_lv"></td>
                             </tr>
                             <tr>
                             	<td>跟踪人</td>
                                 <td id="look_person"></td>
-                                <td></td>
-                                <td></td>
+                                <td>跟踪部门</td>
+                                <td id="look_department"></td>
+                            </tr>
+                            <tr>
+                            	<td>跟踪结果</td>
+                                <td colspan="3" id="look_gz_end"></td>
                             </tr>
                             <tr>
                                 <td>项目概况</td>
@@ -383,20 +383,50 @@
     </div>
 </div>
 <!-- 查看model结束 -->
+
+<!-- 查看Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="gz_end_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报项目跟踪结果</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                            	<td style="width:30%;">跟踪结果</td>
+                            	<td><input type="text" class="form-control" id="gz_end"></td>
+                            </tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success"  onclick="saveGzEnd()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 查看model结束 -->
                 
                         </div>
                         <div class="LowerPart" style="margin-top:3px;">
                             <table class="table table-bordered table-condensed" id="mainContent">
                                 <thead>
                                     <tr>
-                                        <th style="width:15%;">项目编号</th>
+                                        <th style="width:12%;">项目编号</th>
                                         <th style="width:20%;">项目名称</th>
                                         <th style="width:10%;">项目状态</th>
                                         <th style="width:10%;">填报时间</th>
                                         <th style="width:10%;">跟踪部门</th>
-                                        <th style="width:15%;">预估项目规模(元)</th>
-                                        <th style="width:10%;">项目规模</th>
-                                        <th style="width:10%;">操作</th>
+                                        <th style="width:13%;">预估项目规模(元)</th>
+                                        <th style="width:8%;">项目规模</th>
+                                        <th style="width:10%;">跟踪结果</th>
+                                        <th style="width:7%;">操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -696,6 +726,9 @@
     	laydate.render({
             elem: '#year' //指定元素
         });
+        laydate.render({
+            elem: '#edit_year' //指定元素
+        });
         $('#editable-select').editableSelect({ 
             effects: 'slide' 
         });
@@ -723,15 +756,17 @@
 		            { "data": "traceDepartment"}, 
 		            { "data": "predictPrjScale"}, 
 		            { "data": "prjLv"}, 
-		            { "data": null},
+		            { "data": "gzEnd"},
+		            { "data": null}
 		        ],
 		        "columnDefs": [
 								{	
 										 "class": "tcenter",
-										    "targets": 7,
+										    "targets": 8,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test Pdab" style="font-size:18px;cursor:pointer;display:none;" onclick="lookThis(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai Pdac" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="updateThis(this)"></i>';
+										    	/* &nbsp <i class="iconfont icon-xiugai Pdac" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="updateThis(this)"></i> */
+										    	return '<i class="iconfont icon-icon-test Pdab" style="font-size:18px;cursor:pointer;display:none;" onclick="lookThis(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai Pdac" style="font-size:18px;cursor:pointer;display:none;" title="填报跟踪结果" onclick="addGzEnd(this)"></i>';
 										        }
 										  }
 								],
@@ -829,7 +864,6 @@
         
 	});
     
-    
 	function initTable(){
         $.ajax({
             type: 'POST',
@@ -923,14 +957,14 @@
 	        },
 	        success: function (json) {
 	        	$("#new_department").html('');
-	        	$("#edit_department").html('');
+	        	/* $("#edit_department").html(''); */
 	        	$("#look_department").html('');
 	        	$("#new_main_department").html('');
 	        	$("#edit_main_department").html('');
 	        	$("#look_main_department").html('');
 	        	for(var i=0;i<json.length;i++){
 	        		$("#new_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	        		$("#edit_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		/* $("#edit_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>"); */
 	        		$("#look_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
 	        		$("#new_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
 	        		$("#edit_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
@@ -1213,9 +1247,35 @@
 	    		$("#edit_year").val(json.fillTime);
 	    		$("#edit_isbid").val(json.isbid);
 	    		$("#edit_department").val(json.traceDepartment);
+	    		$("#edit_gz_person").val(json.ptUser);
 	    		$("#edit_prj_desc").val(json.prjDesc);
 	    		$("#edit_desc").val(json.ptInfo);
-				var accessory=json.accessory;
+	    		
+	    		
+	    		$.ajax({
+	    			type:"post",
+	    			url:getContextPath()+"/accessory/selectAccessoryById",
+	    			dataType:"json",
+	    			data:{
+	    				id:json.ptId
+	    			},
+	    			success:function(json){
+	    				if(json.length!=0){
+	    					aId=json[0].aId;
+							acName=json[0].acName;
+							acUrl=json[0].acUrl;
+							$("#file_tr_td").html('');
+							$("#file_tr_td").append("<input type='text' style='width:100%;' class='form-control' data="+acUrl+" value="+acName+" disabled>");
+							$("#file_tr_td2").append("<button type='button' class='btn btn-primary' onclick='deleteFile()'>删除附件</button>");
+	    				}else{
+	    					$("#file_tr_td").html('');
+							$("#file_tr_td").append("<input type='file' style='width:100%;' class='form-control' name='file'>");
+							$("#file_tr_td2").html('');
+	    				}
+	    				
+	    			}
+	    		});
+				/* var accessory=json.accessory;
 				if(accessory!=undefined&&accessory.length!=0){
 					var acc=accessory[0];
 					aId=acc.aId;
@@ -1228,7 +1288,7 @@
 		    		$("#edit_fileName").val(acc.acName).attr("disabled",true);
 				}else{
 					initFileInput();
-				}
+				} */
 	    		
 	    		$("#change").modal("show");
 	        }
@@ -1297,6 +1357,7 @@
 	    		$("#look_department").text(json.traceDepartment);
 	    		$("#look_person").text(json.ptUser);
 	    		$("#look_prj_desc").text(json.prjDesc);
+	    		$("#look_gz_end").text(json.gzEnd);
 	    		$("#look_desc").text(json.ptInfo);
 	    		$.ajax({
 	    			type: 'POST',
@@ -1413,13 +1474,13 @@
 		var edit_prj_name=$("#edit_prj_name").val();
 		var edit_prj_no=$("#edit_prj_no").val();
 		var edit_prj_status=$("#edit_prj_status").val();
-		var edit_prj_lv=$("#edit_prj_lv").val();
 		var edit_business_type=$("#edit_business_type").val();
 		var edit_prj_addr=$("#edit_prj_addr").val();
 		var edit_prj_scale=$("#edit_prj_scale").val();
 		var edit_year=$("#edit_year").val();
 		var edit_isbid=$("#edit_isbid").val();
 		var edit_department=$("#edit_department").val();
+		var edit_user=$("#edit_gz_person").val();
 		var edit_prj_desc=$("#edit_prj_desc").val();
 		var edit_desc=$("#edit_desc").val();
 		if(edit_prj_name==''){
@@ -1464,7 +1525,7 @@
 		        	prjName:edit_prj_name,
 		        	prjNo:edit_prj_no,
 		        	prjStates:edit_prj_status,
-		        	prjLv:edit_prj_lv,
+		        	ptUser:edit_user,
 		        	businessType:edit_business_type,
 		        	prjAddr:edit_prj_addr,
 		        	predictPrjScale:edit_prj_scale,
@@ -1705,6 +1766,7 @@
 		$("#edit_log_person").val(data.ptlName);
 		$("#edit_log").val(data.ptlLog);
 		
+		
 		$("#edit_modal").modal("show");
 	}
 	
@@ -1820,6 +1882,37 @@
             return false;
         }
     })
+    
+    var gzTr;
+    var gzData;
+    function addGzEnd(obj){
+    	gzTr=$(obj).parents("tr");
+    	gzData=$("#mainContent").DataTable().row(gzTr).data();
+    	$("#gz_end_modal").modal("show");
+    }
+    
+    function saveGzEnd(){
+    	var gzEnd=$("#gz_end").val();
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/trace/updateTraceEnd',
+	        dataType: 'json',
+	        data: {
+	        	gzEnd:gzEnd,
+	        	id:gzData.ptId
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("提交失败");
+	        	}else{
+	        		toastr.success("提交成功");
+	        		gzData.gzEnd=gzEnd;
+	        		$("#mainContent").DataTable().row(gzTr).data(gzData).draw(false);
+					$("#gz_end_modal").modal("hide");
+	        	}
+	        }
+		});
+    }
 
 </script>
 </html>
