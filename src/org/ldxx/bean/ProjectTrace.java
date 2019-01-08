@@ -35,7 +35,19 @@ public class ProjectTrace {
     
     private String gzEnd;
     
-    public String getGzEnd() {
+    private String prjUnit;//业主单位
+    
+    
+    
+    public String getPrjUnit() {
+		return prjUnit;
+	}
+
+	public void setPrjUnit(String prjUnit) {
+		this.prjUnit = prjUnit;
+	}
+
+	public String getGzEnd() {
 		return gzEnd;
 	}
 
