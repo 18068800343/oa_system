@@ -56,4 +56,8 @@ public interface PrjProgressFillDao {
 	public List<PrjProgressFill> selectNewest();
 	
 	public int updatePrjProgressFill(@Param("ppf")PrjProgressFill ppf);
+	
+	public int deletePrjProgressFillInfoById(@Param("id")String id);
+	
+	public int deletePrjProgressFillCjById(@Param("id")String id);
 }

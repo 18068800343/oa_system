@@ -222,6 +222,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		int i=dao.updatePrjProgressFill(ppf);
 		String id=ppf.getPpfId();
 		if(i>0){
+			i=dao.deletePrjProgressFillInfoById(id);
 			List<PrjProgressFillInfo> ppfi=ppf.getPpfi();
 			for(int a=0;a<ppfi.size();a++){
 				ppfi.get(a).setPpfId(id);
@@ -238,6 +239,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 				i=dao.addPrjProgressFillInfo(ppfi2);
 			}
 			
+			i=dao.deletePrjProgressFillCjById(id);
 			List<PrjProgressFillCj>ppcj=ppf.getPpcj();
 			for(int a=0;a<ppcj.size();a++){
 				ppcj.get(a).setPpfId(id);
@@ -247,7 +249,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			}
 			
 			List<Accessory> accessory=ppf.getAccessory();
-			if(accessory !=null){
+			if(accessory !=null && accessory.size()!=0){
 				i=aDao.addAccessory(accessory);
 			}
 		}
