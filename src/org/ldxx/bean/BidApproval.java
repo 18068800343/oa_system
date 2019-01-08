@@ -25,9 +25,15 @@ public class BidApproval {
 	private String ccName;//业主单位名称
 	private String omName;//协作单位名称
 	private String zhongbiao;
+	private String bdNo;//标段编号
 	
 	
-	
+	public String getBdNo() {
+		return bdNo;
+	}
+	public void setBdNo(String bdNo) {
+		this.bdNo = bdNo;
+	}
 	public String getTbUname() {
 		return tbUname;
 	}

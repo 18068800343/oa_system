@@ -94,6 +94,12 @@
                             	</td>
                             </tr>
                             <tr>
+                            	<td>标段编号  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                            	<td colspan="3">
+                            		<input type="text" id="bd_no" style="width:84%;" class="form-control" placeholder="多个标段请用,分割">
+                            	</td>
+                            </tr>
+                            <tr>
                             	<td>业主单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             	<td>
                             		<select style="width:60%;" class="form-control"id="yezhudanwei" >
@@ -548,6 +554,10 @@
                             	<td id="lookprjNo"></td>
                             </tr>
                             <tr>
+                            	<td>标段编号</td>
+                            	<td id="look_bd_no" colspan="3"></td>
+                            </tr>
+                            <tr>
                             	<td>业主单位</td>
                             	<td id="lookyezhudanwei"></td>
                             	<td>项目类型</td>
@@ -633,8 +643,8 @@
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
-<script src="../../js/jquery-editable-select.js">
-</script><script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
@@ -1379,6 +1389,7 @@
 				console.log(json)
 				$("#lookprjName").text(json.prjName);
 				$("#lookprjNo").text(json.prjNo);
+				$("#look_bd_no").text(json.bdNo);
 				$("#lookyezhudanwei").text(json.ccName);
 				$("#lookprjType").text(json.prjType);
 				$("#looktoubiaoren").text(json.bidder);
@@ -1469,6 +1480,8 @@
 		var year4=$("#year4").val();
 		var baomingren=$("#baomingren").val();
 		var goumairen=$("#goumairen").val();
+		var bdNo=$("#bd_no").val();
+		bdNo=bdNo.replace("，",",").replace(".",",");
 		
 		if(prjName==''){
     		toastr.error("项目名称不能为空");
@@ -1503,6 +1516,7 @@
 				submissionTime:year4,
 				projectApplicants:baomingren,
 				purchaseTenderPersonnel:goumairen,
+				bdNo:bdNo
 			},
 			success:function(json){
 				$('#myModal').modal('hide');
@@ -1512,7 +1526,7 @@
 	        		  $("#tijiaoren tbody").empty("");
 	        		  for(var i=0;i<json.receiver.length;i++){
 	        			  $("#tijiaoren tbody").append('<tr><td>'
-	        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+	        					  +'<input type="radio" style="width:22px;height:22px;" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
 	        					  +'</td><td>'
 	        					  +json.receiver[i].omName
 	        					  +'</td><td>'

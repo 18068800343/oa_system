@@ -68,20 +68,26 @@ public class OpeningRecordController {
 	@RequestMapping("/addOpeningRecord")
 	@ResponseBody
 	public int addOpeningRecord(String id){
-		OpeningRecord rd=new OpeningRecord();
-		TimeUUID uuid=new TimeUUID();
-		String rdId=uuid.getTimeUUID();
-		rd.setOrId(rdId);
-		
+		List<OpeningRecord> rdList=new ArrayList<>();
 		BidApproval ba=bService.selectBidApprovalById(id);
 		String prjName=ba.getPrjName();
 		String prjNo=ba.getPrjNo();
 		String prjType=ba.getPrjType();
+		String bdNo=ba.getBdNo();
 		
-		rd.setPrjName(prjName);
-		rd.setPrjNo(prjNo);
-		rd.setPrjType(prjType);
-		int i=service.addOpeningRecord(rd);
+		for(int a=0;a<bdNo.split(",").length;a++){
+			OpeningRecord rd=new OpeningRecord();
+			TimeUUID uuid=new TimeUUID();
+			String rdId=uuid.getTimeUUID();
+			rd.setOrId(rdId);
+			String bd=bdNo.split(",")[a];
+			rd.setPrjName(prjName);
+			rd.setPrjNo(prjNo);
+			rd.setPrjType(prjType);
+			rd.setBdNo(bd);
+			rdList.add(rd);
+		}
+		int i=service.addOpeningRecord(rdList);
 		return i;
 	}
 	

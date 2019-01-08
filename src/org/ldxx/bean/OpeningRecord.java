@@ -7,6 +7,7 @@ public class OpeningRecord {
 	private String orId;
 	private String prjName;//项目名称
 	private String prjNo;//投标审批单号
+	private String bdNo;//标段编号
 	private String tenderer;//招标人
 	private String prjArea;//项目地区
 	private String prjType;//项目类型
@@ -31,6 +32,13 @@ public class OpeningRecord {
 	private String unitReasonBidOther;//其他单位废标原因
 	private String isQibiao;
 	
+	
+	public String getBdNo() {
+		return bdNo;
+	}
+	public void setBdNo(String bdNo) {
+		this.bdNo = bdNo;
+	}
 	public String getZhongbiao() {
 		return zhongbiao;
 	}

@@ -14,6 +14,6 @@ public interface OpeningRecordService {
 
 	OpeningRecord selectOpeningRecordById(String id);
 	
-	int addOpeningRecord(OpeningRecord record);
+	int addOpeningRecord(List<OpeningRecord> record);
 
 }

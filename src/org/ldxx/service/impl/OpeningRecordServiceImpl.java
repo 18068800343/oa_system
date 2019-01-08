@@ -86,7 +86,7 @@ public class OpeningRecordServiceImpl implements OpeningRecordService {
 	}
 
 	@Override
-	public int addOpeningRecord(OpeningRecord record) {
+	public int addOpeningRecord(List<OpeningRecord> record) {
 		return dao.addOpeningRecord(record);
 	}
 	
