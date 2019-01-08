@@ -11,6 +11,13 @@
 		where status=#{status}
 	</select>
 	
+	<select id="selectBidApproval2" resultType="BidApproval2">
+		SELECT a.prj_name,a.bd_no,a.prj_no,b.prj_type,c.cc_name,b.bidder,b.business_people,d.om_name,submission_time,a.zhongbiao FROM opening_record as a
+		LEFT JOIN bid_approval as b on a.prj_no=b.prj_no
+		LEFT JOIN consociation_company as c on b.owner_unit=c.cc_id
+		LEFT JOIN organization_management as d on b.xb_department=d.om_id
+	</select>
+	
 	<select id="selectBidApprovalById" resultType="BidApproval">
 		select a.*,c.cc_name,d.om_name,user.u_name tbUname from bid_approval as a
 		left join consociation_company as c on a.owner_unit=c.cc_id
@@ -109,11 +116,11 @@
 		where ba_id=#{ba.baId}
 	</update>
 	
-	<select id="selectBidApprovalByTypeAndDepartment" resultType="BidApproval">
-		select a.*,c.cc_name,IFNULL(o.zhongbiao,'') zhongbiao  from bid_approval a
-		left join mode_status b on a.ba_id=b.mode_id
-		left join consociation_company as c on a.owner_unit=c.cc_id
-		left join opening_record as o on o.prj_no = a.prj_no
-		where status=2 and prj_type like #{type} and xb_department like #{department}
+	<select id="selectBidApprovalByTypeAndDepartment" resultType="BidApproval2">
+		SELECT a.prj_name,a.bd_no,a.prj_no,b.prj_type,c.cc_name,b.bidder,b.business_people,d.om_name,submission_time,a.zhongbiao FROM opening_record as a
+		LEFT JOIN bid_approval as b on a.prj_no=b.prj_no
+		LEFT JOIN consociation_company as c on b.owner_unit=c.cc_id
+		LEFT JOIN organization_management as d on b.xb_department=d.om_id
+		where a.prj_type like #{type} and b.xb_department like #{department}
 	</select>
 </mapper>

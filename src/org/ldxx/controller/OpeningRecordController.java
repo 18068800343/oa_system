@@ -212,6 +212,7 @@ public class OpeningRecordController {
 					po.setPrjNo(ba.getPrjNo());
 					po.setPrjType(ba.getPrjType());
 					po.setProductOwners(ba.getCcName());
+					po.setBdNo(rd.getBdNo());
 					TimeUUID uuid=new TimeUUID();
 					String poId=uuid.getTimeUUID();
 					po.setPoId(poId);

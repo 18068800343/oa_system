@@ -8,6 +8,8 @@ import org.ldxx.bean.BidApproval;
 public interface BidApprovalDao {
 
 	List<BidApproval> selectBidApproval(@Param("status")String status);
+	
+	List<BidApproval> selectBidApproval2(@Param("status")String status);
 
 	int addBidApproval(@Param("ba")BidApproval ba);
 

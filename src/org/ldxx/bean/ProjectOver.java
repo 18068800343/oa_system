@@ -12,6 +12,9 @@ public class ProjectOver {
     private String prjName;
     /*项目编号*/
     private String prjNo;
+    
+    /*标段编号*/
+    private String bdNo;
     //项目类型
     private String prjType;
 
@@ -55,7 +58,15 @@ public class ProjectOver {
     private int status;
 
     
-    public int getStatus() {
+    public String getBdNo() {
+		return bdNo;
+	}
+
+	public void setBdNo(String bdNo) {
+		this.bdNo = bdNo;
+	}
+
+	public int getStatus() {
 		return status;
 	}
 

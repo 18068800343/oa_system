@@ -51,6 +51,12 @@ public class BidApprovalController {
 		return service.selectBidApproval(status);
 	}
 	
+	@RequestMapping("/selectBidApproval2")
+	@ResponseBody
+	public List<BidApproval> selectBidApproval2(String status){
+		return service.selectBidApproval2(status);
+	}
+	
 	@RequestMapping("/selectBidApprovalById")
 	@ResponseBody
 	public BidApproval selectBidApprovalById(String id){

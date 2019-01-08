@@ -7,6 +7,8 @@ import org.ldxx.bean.BidApproval;
 public interface BidApprovalService {
 
 	List<BidApproval> selectBidApproval(String status);
+	
+	List<BidApproval> selectBidApproval2(String status);
 
 	int addBidApproval(BidApproval ba);
 
