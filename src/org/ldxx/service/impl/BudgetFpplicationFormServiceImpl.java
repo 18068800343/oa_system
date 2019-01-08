@@ -130,13 +130,15 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	@Override
 	public BudgetFpplicationForm selectBudgeByNo(String no) {
 		BudgetFpplicationForm budge = bdao.selectBudgeByNo(no);
-		List<CostBudget> costBudget=cdao.selectCostBudgetById(budge.getBfId());
-		if(costBudget.size()>0){
-			budge.setCostBudget(costBudget);
-		}
-		List<BudgetMainMaterial> budgetMainMaterial = mainMaterialdao.selectBudgetMainMaterialById(budge.getBfId());
-		if(budgetMainMaterial.size()>0){
-			budge.setBudgetMainMaterial(budgetMainMaterial);
+		if(budge!=null){
+			List<CostBudget> costBudget=cdao.selectCostBudgetById(budge.getBfId());
+			if(costBudget!=null){
+				budge.setCostBudget(costBudget);
+			}
+			List<BudgetMainMaterial> budgetMainMaterial = mainMaterialdao.selectBudgetMainMaterialById(budge.getBfId());
+			if(budgetMainMaterial!=null){
+				budge.setBudgetMainMaterial(budgetMainMaterial);
+			}
 		}
 		return budge;
 	}
@@ -144,13 +146,15 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	@Override
 	public BudgetFpplicationForm selectBudgeByName(String name) {
 		BudgetFpplicationForm budge = bdao.selectBudgeByName(name);
-		List<CostBudget> costBudget=cdao.selectCostBudgetById(budge.getBfId());
-		if(costBudget.size()>0){
-			budge.setCostBudget(costBudget);
-		}
-		List<BudgetMainMaterial> budgetMainMaterial = mainMaterialdao.selectBudgetMainMaterialById(budge.getBfId());
-		if(budgetMainMaterial.size()>0){
-			budge.setBudgetMainMaterial(budgetMainMaterial);
+		if(budge!=null){
+			List<CostBudget> costBudget=cdao.selectCostBudgetById(budge.getBfId());
+			if(costBudget.size()>0){
+				budge.setCostBudget(costBudget);
+			}
+			List<BudgetMainMaterial> budgetMainMaterial = mainMaterialdao.selectBudgetMainMaterialById(budge.getBfId());
+			if(budgetMainMaterial.size()>0){
+				budge.setBudgetMainMaterial(budgetMainMaterial);
+			}
 		}
 		return budge;
 	}
