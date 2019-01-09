@@ -19,4 +19,6 @@ public interface AlreadySkInfoDao {
 
 	List<AlreadyRenling> selectAlreadyRenling();
 
+	List<AlreadyRenling> selectAlreadySkBySkno(@Param("skno")String skno);
+
 }

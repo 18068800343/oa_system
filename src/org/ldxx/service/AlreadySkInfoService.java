@@ -12,4 +12,6 @@ public interface AlreadySkInfoService {
 
 	List<AlreadyRenling> selectAlreadyRenling();
 
+	List<AlreadyRenling> selectAlreadySkBySkno(String skno);
+
 }

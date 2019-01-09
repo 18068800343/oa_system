@@ -53,4 +53,11 @@ public class AlreadySkInfoController {
 		return service.selectAlreadyRenling();
 	}
 	
+	@RequestMapping("/selectAlreadySkBySkno")
+	@ResponseBody
+	public List<AlreadyRenling> selectAlreadySkBySkno(String skno){
+		return service.selectAlreadySkBySkno(skno);
+	}
+	
+	
 }

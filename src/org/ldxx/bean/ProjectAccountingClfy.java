@@ -10,8 +10,16 @@ public class ProjectAccountingClfy {
 	private String materNumber;//数量
 	private Float materPrice;//单价
 	
+	private Float materMoney;//材料费用
 	
 	
+	
+	public Float getMaterMoney() {
+		return materMoney;
+	}
+	public void setMaterMoney(Float materMoney) {
+		this.materMoney = materMoney;
+	}
 	public String getPaId() {
 		return paId;
 	}

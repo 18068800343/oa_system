@@ -424,6 +424,22 @@
                                 
                             </tbody>
                         </table>
+                        
+                        <table style="width:100%;" class="table table-bordered table-condensed" id="renling_history">
+	                        <thead>
+	                            <tr>
+	                                <th colspan="6">认领信息</th>
+	                            </tr>
+	                            <tr>
+	                                <td>认领项目</td>
+	                                <td>认领人</td>
+	                                <td>认领金额(元)</td>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            
+	                        </tbody>
+	                    </table>
                     </form>  
                 </div>
         </div>
@@ -642,6 +658,51 @@
         }},
         
 	});
+    
+  //认领记录
+    var table_renling=$('#renling_history').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": "tName"}, 
+            { "data": "thisPerson"}, 
+            { "data": "skQuerenMoney"}, 
+        ],
+        /* "columnDefs": [
+						{	
+								 "class": "tcenter",
+								    "targets": 4,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookHistoryDetails(this)"   id="lookDetall"></i>'
+								        }
+								  }
+						], */
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+	});
     var uName;
 	function initTable(){
         $.ajax({
@@ -716,6 +777,19 @@
 		$("#daozhangjine").val(data.receiveMoney);
 		$("#querenjine").val(data.shengyuMoney)
 		$("#queren_person").val(uName);
+		$.ajax({
+            type: 'POST',
+            url:getContextPath()+"/AlreadySk/selectAlreadySkBySkno",
+            dataType: 'json',
+            data: {
+            	skno:data.skNo,
+            },
+            success: function (json) {
+        		$('#renling_history').dataTable().fnClearTable();
+                $('#renling_history').DataTable().rows.add(json).draw(false);
+            	
+            }
+        });
 	 }
 	 
   //选择申请单编号
@@ -1003,6 +1077,7 @@
 		}
     	
 	})
+	
 	 //新增
 	 var doren;
 	 function saveFr(){
