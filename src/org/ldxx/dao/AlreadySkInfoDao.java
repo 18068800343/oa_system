@@ -21,4 +21,8 @@ public interface AlreadySkInfoDao {
 
 	List<AlreadyRenling> selectAlreadySkBySkno(@Param("skno")String skno);
 
+	int deleteAlreadyRenlingById(@Param("rId")String rId);
+
+	int deleteAlreadySkOmInfoByrId(@Param("rId")String rId);
+
 }

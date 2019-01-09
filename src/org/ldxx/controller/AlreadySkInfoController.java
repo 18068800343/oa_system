@@ -59,5 +59,10 @@ public class AlreadySkInfoController {
 		return service.selectAlreadySkBySkno(skno);
 	}
 	
+	@RequestMapping("/deleteAlreadyRenlingById")
+	@ResponseBody
+	public int deleteAlreadyRenlingById(String rId){
+		return service.deleteAlreadyRenlingById(rId);
+	}
 	
 }

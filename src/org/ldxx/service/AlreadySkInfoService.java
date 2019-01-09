@@ -14,4 +14,6 @@ public interface AlreadySkInfoService {
 
 	List<AlreadyRenling> selectAlreadySkBySkno(String skno);
 
+	int deleteAlreadyRenlingById(String rId);
+
 }
