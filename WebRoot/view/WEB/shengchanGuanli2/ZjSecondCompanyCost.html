@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+         <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
+    <style lang="">
+        body{
+            background: #fff;
+        }
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+            font-size: 14px;
+        }
+       /*  #tijiaoren{
+                display: flex;
+                flex-wrap:wrap;
+        } */
+        .tab-content>div{
+            margin-top:18px;
+        }
+    </style>
+</head>
+<body>
+   
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+			<li>生产管理</li>
+			<li class="active">任务单管理</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="UpperPart">
+                       <div class="UpperPartL" style="font-size:18px;">
+                        </div>
+                        <div class="UpperPartR">
+                            <button type="button" class="btn btn-primary Pfaa"  data-toggle="modal" data-target="#myModal">导入直接成本</button>
+                        </div>
+                    </div>
+                    <div class="LowerPart" style="margin-top:3px;">
+                        <table class="table table-bordered table-condensed" id="mainContent">
+                            <thead>
+                                <tr>
+                                    <th style="width:8%;">序号</th>
+                                    <th style="width:15%;">华通/检测二部</th>
+                                    <th style="width:15%;">任务单号</th>
+                                    <th style="width:15%;">部门</th>
+                                    <th style="width:10%;">成本</th>
+                                    <th style="width:10%;">月份</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>   
+                        </table>
+                    </div>
+ <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>导入上月直接成本</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" id="form1" enctype="multipart/form-data" method="post">
+                    	<label style="width:20%;"></label>
+                        <input style="width:60%;" type="file" name="file" id="file" class="form-control">
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="file_submit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="look_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>查看部门收入</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" >
+                    	<table class="table table-bordered table-condensed" id="d_table">
+                    		<thead>
+                    			<tr>
+                    				<th>部门名称</th>
+                    				<th>部门合同金额</th>
+                    				<th>部门收入</th>
+                    			</tr>
+                    		</thead>
+                    		<tbody></tbody>
+                    	</table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+                    
+                </div>
+             </div>
+       </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script>  
+    $(document).ready( function () {
+    	initTable();
+	});
+    
+
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "xuhao"}, 
+		            { "data": "companyName"},
+		            { "data": "taskCode"},
+		            { "data": "departName"},
+		            { "data": "money"},
+		            { "data": "date"}
+		        ],
+        "order": [5, 'desc'],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    
+	function initTable(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task2/selectSecondCompanyCost',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+	
+	function file_submit(){
+		var fileName=$("#file").val();
+		if(fileName.indexOf("xls")==-1){
+			toastr.error("请选择表格")
+			return;
+		}
+		var options={
+				url:getContextPath()+'/task2/importExcelSecondCompanyCost',
+				data:$('#from1').serialize(),  
+				type:'POST',
+				dataType: 'json',
+				contentType : "application/x-www-form-urlencoded; charset=gbk",
+				success:function(json){
+					if(json>0){
+						toastr.success('导入成功');
+						location.reload([true]);
+					}else{
+						toastr.error('导入失败');
+					}
+				}
+		}
+		$("#form1").ajaxSubmit(options);
+	}
+  
+	function file2_submit(){
+		var fileName=$("#file2").val();
+		if(fileName.indexOf("xls")==-1){
+			toastr.error("请选择表格")
+			return;
+		}
+		var options={
+				url:getContextPath()+'/task2/importExcel2',
+				data:$('#from2').serialize(),  
+				type:'POST',
+				dataType: 'json',
+				contentType : "application/x-www-form-urlencoded; charset=gbk",
+				success:function(json){
+					if(json>0){
+						location.reload([true]);
+						toastr.success('导入成功');
+					}else{
+						toastr.error('导入失败');
+					}
+				}
+		}
+		$("#form2").ajaxSubmit(options);
+	}
+	
+	
+		
+</script>
+
+</html>

@@ -24,6 +24,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.ldxx.bean.FinancialTables;
 import org.ldxx.bean.ReceiveMoney;
+import org.ldxx.bean.SecondCompanyCost;
 import org.ldxx.bean.TDepartment;
 import org.ldxx.bean.Task2;
 import org.ldxx.dao.ReceiveMoneyDao;
@@ -312,6 +313,61 @@ public class ImportData {
 	                	ft.setRmTime(simpleDateFormat.format(date));
 	                	//记录人
 	                	ft.setDoPerson(getValue(colum5));
+	                    t.add(ft);
+	                }
+	                }  
+	            } 
+	        map.put("fR2", t);
+	        return map;  
+	    }
+	 
+	 //检测二部财务收款
+	 public  Map<String,Object> readExcelSecondCompanyCost(InputStream is) throws IOException { 
+			Map<String,Object> map=new HashMap<String, Object>();
+			Workbook  hssfWorkbook=null;
+			try {
+				hssfWorkbook = WorkbookFactory.create(is);  
+			} catch (Exception e) {
+				e.printStackTrace();
+			}  
+			List<SecondCompanyCost> t = new ArrayList<SecondCompanyCost>();
+	        // 循环工作表Sheet  
+	        for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) { 
+	            Sheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);  
+	            if (hssfSheet == null) {  
+	                continue;  
+	            }  
+	            // 循环行Row  
+	            for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {  
+	            	Row hssfRow = hssfSheet.getRow(rowNum);
+	                int cells=hssfRow.getPhysicalNumberOfCells();
+	                
+	                SecondCompanyCost ft=new SecondCompanyCost();
+	                Cell colum1 = hssfRow.getCell(0);  
+	                Cell colum2 = hssfRow.getCell(1);  
+	                Cell colum3 = hssfRow.getCell(2);  
+	                Cell colum4 = hssfRow.getCell(3);  
+	                Cell colum5 = hssfRow.getCell(4);
+	                boolean flag=true;
+	                /*if(t.size()>0){
+	                	for(int i=0;i<t.size();i++){
+	                    	String no=t.get(i).gettNo();
+	                    	if(no.equals(tNo)){
+	                    		flag=false;
+	                    		break;
+	                    	}else{
+	                    		flag=true;
+	                    	}
+	                    }
+	                }*/
+	                if(flag==true){
+	                	ft.setId(new TimeUUID().getTimeUUID());
+	                	ft.setXuhao(getValue(colum1));
+	                	ft.setCompanyName(getValue(colum2));
+	                	ft.setTaskCode(getValue(colum3));
+	                	ft.setDepartName(getValue(colum4));
+	                	ft.setMoney(Float.valueOf((getValue(colum5))));
+	                	ft.setDate(TimeUUID.getLastMonth());
 	                    t.add(ft);
 	                }
 	                }  

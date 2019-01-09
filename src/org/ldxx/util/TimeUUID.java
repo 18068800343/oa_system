@@ -1,6 +1,7 @@
 package org.ldxx.util;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -75,6 +76,20 @@ public class TimeUUID {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(fmt);
 		return simpleDateFormat.format(date);
 	}
+
+    /**
+     * 获取上一个月
+     * 
+     * @return
+     */
+    public static String getLastMonth() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(cal.MONTH, -1);
+        SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM");
+        String lastMonth = dft.format(cal.getTime());
+        return lastMonth;
+    }
+
 	public static void main(String[] args) {
 		TimeUUID uuid=new TimeUUID();
 		String aa=uuid.getPrjCode("", 80);
