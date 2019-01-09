@@ -217,18 +217,15 @@
                             <tr>
                             	<td>项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                	<input type="text" class="form-control" style="width:70%;" id="prjName" disabled>
-                                    <!-- <select class="form-control" style="width:180px;" id="prjName">
-                                            
-                                        </select> -->
+                                	<!-- <input type="text" class="form-control" style="width:70%;" id="prjName" disabled> -->
+                                    <select class="form-control" style="width:70%;" id="prjName">
+                                    </select>
                                 </td>
                                 <td>任务单号:</td>
                                 <td>
-                                	<input type="text" class="form-control"  style="width:70%;" id="task_no" disabled>
-                                	<!-- <div class="form-group">
-                                        <select class="form-control" style="width:180px;" id="task_no">
-                                        </select>
-                                    </div> -->
+                                	<!-- <input type="text" class="form-control"  style="width:70%;" id="task_no" disabled> -->
+                                	<select class="form-control" style="width:70%;" id="task_no">
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
@@ -379,18 +376,15 @@
                             <tr>
                            		<td>项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-	                            	<input type="text" class="form-control" id="xgprjName" disabled style="width:70%;">
-                                    <!-- <select class="form-control" style="width:180px;" id="xgprjName">
-                                            
-                                	</select> -->
+	                            	<!-- <input type="text" class="form-control" id="xgprjName" disabled style="width:70%;"> -->
+                                    <select class="form-control" style="width:70%;" id="xgprjName">
+                                	</select>
                                 </td>
                                 <td>任务单号:</td>
                                 <td>
-                                	<input type="text" class="form-control" id="xgtask_no" disabled style="width:70%;">
-                                	<!-- <div class="form-group">
-                                        <select class="form-control" style="width:180px;" id="xgtask_no">
+                                	<!-- <input type="text" class="form-control" id="xgtask_no" disabled style="width:70%;"> -->
+                                        <select class="form-control" style="width:70%;" id="xgtask_no">
                                         </select>
-                                    </div> -->
                                 </td>
                             </tr>
                             <tr>
@@ -1754,9 +1748,18 @@ function quxiao3(){
 	                    },
 	                    success: function (json) {
 	                    	$('#chengjiehetongName').val(json.contractName);
-	                    	$('#prjName').val(json.prjName);
-	                    	$('#task_no').val(json.taskCode);
 	                    	$("#zhuhetongMoney").val(json.contractMoney);
+	                    	var prjName=json.prjName;
+	          				var taskCode=json.taskCode;
+	          				$("#prjName").html('');
+	          				for(var i=0;i<prjName.split(",").length;i++){
+	          					$("#prjName").append("<option>"+prjName.split(",")[i]+"</option>")
+	          				}
+	                    	
+	          				$("#task_no").html('');
+	          				for(var i=0;i<taskCode.split(",").length;i++){
+	          					$("#task_no").append("<option>"+taskCode.split(",")[i]+"</option>")
+	          				}
 	                    }
 	          		});
 			  	})
@@ -1786,9 +1789,19 @@ function quxiao3(){
 	                    },
 	                    success: function (json) {
 	                    	$('#xgchengjiehetongName').val(json.contractName);
-	                    	$('#xgprjName').val(json.prjName);
-	                    	$('#xgtask_no').val(json.taskCode);
 	                    	$('#xgzhuhetongMoney').val(json.contractMoney);
+	                    	
+	                    	var prjName=json.prjName;
+	                    	var taskCode=json.taskCode;
+	                    	$("#xgprjName").html('');
+	          				for(var i=0;i<prjName.split(",").length;i++){
+	          					$("#xgprjName").append("<option>"+prjName.split(",")[i]+"</option>")
+	          				}
+	                    	
+	          				$("#xgtask_no").html('');
+	          				for(var i=0;i<taskCode.split(",").length;i++){
+	          					$("#xgtask_no").append("<option>"+taskCode.split(",")[i]+"</option>")
+	          				}
 	                    }
 	          		});
 			  	}) 
@@ -2295,8 +2308,31 @@ function quxiao3(){
 		$("#xgType").val(data.fbcType)
 		$("#xgjiafang").val(data.contractNameJia)
 		$("#xgyifang").val(data.contractNameYi)
-		$("#xgprjName").val(data.prjName)
-		$("#xgtask_no").val(data.workNo)
+		
+		$.ajax({
+             type: 'POST',
+             url: getContextPath()+'/cj/selectCjContractByNo', 
+             dataType: 'json',
+             data: {
+             	no:data.cjContractCode
+             },
+             success: function (json) {
+             	var prjName=json.prjName;
+             	var taskCode=json.taskCode;
+             	$("#xgprjName").html('');
+   				for(var i=0;i<prjName.split(",").length;i++){
+   					$("#xgprjName").append("<option>"+prjName.split(",")[i]+"</option>")
+   				}
+             	
+   				$("#xgtask_no").html('');
+   				for(var i=0;i<taskCode.split(",").length;i++){
+   					$("#xgtask_no").append("<option>"+taskCode.split(",")[i]+"</option>")
+   				}
+   				$("#xgprjName").val(data.prjName)
+   				$("#xgtask_no").val(data.workNo)
+             }
+   		});
+		
 		$("#xgchengjiehetongName").val(data.cjContractName)
 		$("#xgchengjiehetonghao").val(data.cjContractCode)
 		$("#xgzhuhetongMoney").val(data.mainContractMoney)
@@ -3100,11 +3136,76 @@ function quxiao3(){
     	}
     	$("#chengjiehetongName").val(data.contractName);
     	$("#chengjiehetonghao").val(data.contractNo);
-    	$("#prjName").val(data.prjName);
-    	$("#task_no").val(data.taskCode);
+    	var prjName=data.prjName;
+    	var taskCode=data.taskCode;
+    	$("#prjName").html('');
+			for(var i=0;i<prjName.split(",").length;i++){
+				$("#prjName").append("<option>"+prjName.split(",")[i]+"</option>")
+		}
+    	
+		$("#task_no").html('');
+		for(var i=0;i<taskCode.split(",").length;i++){
+			$("#task_no").append("<option>"+taskCode.split(",")[i]+"</option>")
+		}
     	$("#zhuhetongMoney").val(data.contractMoney);
     	$("#choose_cj").modal("hide");
     }
+    
+    $("#prjName").on("change",function(){
+    	$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectNoByName2",
+			dataTyepe:"json",
+			data:{ 
+				name:$("#prjName").val()
+			},
+			success:function(json){
+				$("#task_no").val(json.prjNo);
+			}
+		})  
+    })
+
+    $("#task_no").on("change",function(){
+    	$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNo2",
+			dataTyepe:"json",
+			data:{ 
+				no:$("#task_no").val()
+			},
+			success:function(json){
+				$("#prjName").val(json.prjName);
+			}
+		})  
+    })
+    
+    $("#xgprjName").on("change",function(){
+    	$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectNoByName2",
+			dataTyepe:"json",
+			data:{ 
+				name:$("#xgprjName").val()
+			},
+			success:function(json){
+				$("#xgtask_no").val(json.prjNo);
+			}
+		})  
+    })
+
+    $("#xgtask_no").on("change",function(){
+    	$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNo2",
+			dataTyepe:"json",
+			data:{ 
+				no:$("#xgtask_no").val()
+			},
+			success:function(json){
+				$("#xgprjName").val(json.prjName);
+			}
+		})  
+    })
     
     function saveCjName2(){
     	var tr=$("input[name='cjName2']:checked").parents("tr");
@@ -3115,8 +3216,17 @@ function quxiao3(){
     	}
     	$("#xgchengjiehetongName").val(data.contractName);
     	$("#xgchengjiehetonghao").val(data.contractNo);
-    	$("#xgprjName").val(data.prjName);
-    	$("#xgtask_no").val(data.taskCode);
+    	var prjName=data.prjName;
+    	var taskCode=data.taskCode;
+    	$("#xgprjName").html('');
+		for(var i=0;i<prjName.split(",").length;i++){
+				$("#xgprjName").append("<option>"+prjName.split(",")[i]+"</option>")
+		}
+   	
+		$("#xgtask_no").html('');
+		for(var i=0;i<taskCode.split(",").length;i++){
+			$("#xgtask_no").append("<option>"+taskCode.split(",")[i]+"</option>")
+		}
     	$("#xgzhuhetongMoney").val(data.contractMoney);
     	$("#choose_cj2").modal("hide");
     }

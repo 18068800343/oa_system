@@ -559,7 +559,8 @@ public class CjContractController {
 	@RequestMapping("/selectCjContractByNo")//通过合同号查询承接合同名、项目名以及任务单号
 	@ResponseBody
 	public CjContract selectCjContractByNo(String no){
-		return service.selectCjContractByNo(no);
+		CjContract cj=service.selectCjContractByNo(no);
+		return cj;
 	}
 	
 	@RequestMapping("/selectCjContractByTaskNo")//通过任务单号查询承接合同
