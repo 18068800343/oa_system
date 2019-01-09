@@ -38,57 +38,69 @@
     <div class="zhuti-content">
 
         <table class="table table-bordered table-condensed">
-             <tr>
-                 <td style="width:20%;">项目名称</td>
-                 <td id="look_prj_name" style="width:30%;"></td>
-                 <td style="width:20%;">项目编号</td>
-                 <td id="look_prj_no" style="width:30%;"></td>
-             </tr>
-             <tr>
-                 <!-- <td>项目状态</td>
-                 <td id="look_prj_status" ></td> -->
-                 <td>项目级别</td>
-                 <td id="look_prj_lv" ></td>
-                 <td>业务类型</td>
-                 <td id="look_business_type" ></td>
-             </tr>
-             <tr>
-                 <td>项目地址</td>
-                 <td id="look_prj_addr"></td>
-                 <td>预估项目规模</td>
-                 <td id="look_prj_scale"></td>
-             </tr>
-             <tr>
-                 <td>填报时间</td>
-                 <td id="look_year"></td>
-                 <td>跟踪部门</td>
-                 <td id="look_department"></td>
-             </tr>
-             <tr>
-                 <!-- <td>是否投标</td>
-                 <td id="look_isbid"></td> -->
-                 
-             </tr>
-             <tr>
-             	 <td>跟踪人</td>
-                 <td id="look_person"></td>
-                 <td></td>
-                 <td></td>
-             </tr>
-             <tr>
-                 <td>项目概况</td>
-                 <td colspan="3" id="look_prj_desc"></td>
-             </tr>
-             <tr>
-                 <td>备注</td>
-                 <td colspan="3" id="look_desc"></td>
-             </tr>
-             <tr id="look_tr">
-                 <td>业务附件</td>
-                 <td colspan="2"><input type="text" style="width:100%;" class="form-control" id="look_url"></td>
-                 <td id="download_td"></td>
-             </tr>
-         </table>
+                            <tr>
+                                <td style="width:20%;">项目名称</td>
+                                <td id="look_prj_name" style="width:30%;"></td>
+                                <td style="width:20%;">项目编号</td>
+                                <td id="look_prj_no" style="width:30%;"></td>
+                            </tr>
+                            <tr>
+                                <td>项目状态</td>
+                                <td id="look_prj_status" ></td>
+                                <td>业务类型</td>
+                                <td id="look_business_type" ></td>
+                                <!-- <td>项目级别</td>
+                                <td id="look_prj_lv" ></td> -->
+                            </tr>
+                            <tr>
+                                <td>项目地址</td>
+                                <td id="look_prj_addr"></td>
+                                <td>预估项目规模(元)</td>
+                                <td id="look_prj_scale"></td>
+                            </tr>
+                            <tr>
+                                <td>填报时间</td>
+                                <td id="look_year"></td>
+                                 <td>项目规模</td>
+                                <td id="look_prj_lv"></td>
+                            </tr>
+                            <tr>
+                            	<td>跟踪人</td>
+                                <td id="look_person"></td>
+                                <td>跟踪部门</td>
+                                <td id="look_department"></td>
+                            </tr>
+                            <tr>
+                            	<!-- <td>跟踪结果</td>
+                                <td id="look_gz_end"></td> -->
+                                <td>业主单位</td>
+                                <td id="look_prj_unit"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>项目概况</td>
+                                <td colspan="3" id="look_prj_desc"></td>
+                            </tr>
+                            <tr>
+                                <td>备注</td>
+                                <td colspan="3" id="look_desc"></td>
+                            </tr>
+                            <tr id="look_tr">
+                                <td>业务附件</td>
+                                <td colspan="2"><input type="text" style="width:100%;" class="form-control" id="look_url" disabled></td>
+                                <td id="download_td"></td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="person_list">
+                        	<thead>
+                        		<tr>
+                        			<th>联系人</th>
+                        			<th>联系方式</th>
+                        		</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        </table>
 
         
     </div>
@@ -126,12 +138,10 @@
 	        url: getContextPath()+'/trace/selectProjectTraceById',
 	        dataType: 'json',
 	        data: {
-	           id:id,
+	           id:id
 	        },
 	        success: function (json) {
-	        	console.log(json)
 	        	$("#download_td").html('');
-	        	
 	        	$("#look_prj_name").text(json.prjName);
 	    		$("#look_prj_no").text(json.prjNo);
 	    		$("#look_prj_status").text(json.prjStates);
@@ -144,22 +154,30 @@
 	    		$("#look_department").text(json.traceDepartment);
 	    		$("#look_person").text(json.ptUser);
 	    		$("#look_prj_desc").text(json.prjDesc);
+	    		/* $("#look_gz_end").text(json.gzEnd); */
+	    		$("#look_prj_unit").text(json.prjUnit);
 	    		$("#look_desc").text(json.ptInfo);
 	    		$.ajax({
 	    			type: 'POST',
-	                url: getContextPath()+'/accessory/selectAccessoryById',
+	                url: getContextPath()+'/work/selectDepartmentAndPerson',
 	                dataType: 'json',
 	                data: {
 	                	id:id
 	                },
 	                success: function (json) {
-	                	var accessory=json;
+	                	var accessory=json.accessory;
+	                	var enterprise=json.enterprise;
+	                	$("#person_list tbody").html('');
+	                	for(var i=0;i<enterprise.length;i++){
+	                		$("#person_list tbody").append("<tr><td>"+enterprise[i].eMan+"</td><td>"+enterprise[i].eTel+"</td></tr>")
+	                	}
+	                	
 	                	if(accessory.length==0){
-	    	    			$("#look_url").val("无").attr("disabled",true);
+	    	    			$("#look_url").val("无");
 	    	    			$("#download_td").html('');
 	    	    		}else{
 	    	    			fileName=accessory[0].acName;
-	    		    		$("#look_url").val(fileName).attr("disabled",true);
+	    		    		$("#look_url").val(fileName);
 	    		    		url=accessory[0].acUrl;
 	    		    		$("#download_td").append("<button type='button' class='btn btn-primary' onclick='download()'>下载附件</button>");	
 	    	    		}
