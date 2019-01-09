@@ -341,6 +341,7 @@
                         <th style="width:100px;">到账日期</th>
                         <th style="width:100px;">发票金额</th>
                         <th style="width:100px;">开票日期</th>
+                        <th style="width:100px;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -579,7 +580,7 @@
 		            { "data": "daozhangDate"}, 
 		            { "data": "fpMoney"}, 
 		            { "data": "kpDate"}, 
-		            //{ "data": null}
+		            { "data": null}
 		        ],
 		         "columnDefs": [
 									{	
@@ -589,7 +590,16 @@
 										    "render": function(data, type, full) {
 										    	return '<span class="label label-success state">正常确认</span>';
 										        }
-										  }
+										  },
+										  {	
+												 "class": "details-control",
+												    "targets": 18,
+												    "searchable": true,
+												    "render": function(data, type, full) {
+												    	return '<span class="glyphicon glyphicon-remove" aria-hidden="true" style="font-size:20px;cursor:pointer;" title="取消认领" onclick="tuihui(this)"></span>'
+												    	
+												        }
+												  }
 								],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
@@ -742,6 +752,83 @@
             }
         });
     }
+    
+    
+    
+    function tuihui(obj){
+		var tr=$(obj).parents("tr");
+		var data=$("#mainContentx").DataTable().row(tr).data();
+		if(!confirm("确认退回？")){
+			return false;
+		}
+		$.ajax({
+    		type:"post",
+    		url:getContextPath()+"/AlreadySk/deleteAlreadyRenlingById",
+    		dataType: 'json',
+    		data:{
+    			rId:data.rId,
+    		},
+    		success:function(json){
+    			if(json>0){
+    				toastr.success("退回成功")
+    				$("#caiwurenling").modal("hide")
+    				//location.reload([true]);
+    				$.ajax({
+    		    		type:"post",
+    		    		url:getContextPath()+"/AlreadySk/selectAlreadySkBySkno",
+    		    		dataType: 'json',
+    		    		data:{
+    		    			skno:data.skNo,
+    		    		},
+    		    		success:function(json2){
+    		    			var status=2; 
+    		    			if(json2.length=="0"){
+    		    				status=0;
+    		    			}else{
+    		    				status=1;
+    		    			}
+    		    			changeState(data.skNo,status);
+    		    		}
+    		    	});
+    			}else{
+    				toastr.error("退回失败")
+    			}
+    		}
+    	});
+		
+	}
+    
+    function changeState(obj1,obj2){
+    	$.ajax({
+    		type:"post",
+    		url:getContextPath()+"/receiveMoney/updateStatus",
+    		data:{
+    			skno:obj1,
+    			status:obj2,
+    		},
+    		success:function(json3){
+    			if(json3>0){
+    				//location.reload([true]);
+    				initTable();
+    			}
+    		}
+    	});
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     function initfapiaoshenqinghao(){
     	

@@ -58,5 +58,14 @@ public class AlreadySkInfoServiceImp implements AlreadySkInfoService {
 	public List<AlreadyRenling> selectAlreadySkBySkno(String skno) {
 		return dao.selectAlreadySkBySkno(skno);
 	}
+
+	@Override
+	public int deleteAlreadyRenlingById(String rId) {
+		int i=dao.deleteAlreadyRenlingById(rId);
+		if(i>0){
+			i=dao.deleteAlreadySkOmInfoByrId(rId);
+		}
+		return i;
+	}
 	
 }

@@ -432,8 +432,10 @@
 	                            </tr>
 	                            <tr>
 	                                <td>认领项目</td>
+	                                <td>主办部门</td>
 	                                <td>认领人</td>
 	                                <td>认领金额(元)</td>
+	                                <td>操作</td>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
@@ -672,19 +674,21 @@
 		},
 		"columns": [
             { "data": "tName"}, 
+            { "data": "mainDepartment"}, 
             { "data": "thisPerson"}, 
-            { "data": "skQuerenMoney"}, 
+            { "data": "skQuerenMoney"},
+            { "data": null}, 
         ],
-        /* "columnDefs": [
+         "columnDefs": [
 						{	
 								 "class": "tcenter",
 								    "targets": 4,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookHistoryDetails(this)"   id="lookDetall"></i>'
+								  	  		return '<span class="glyphicon glyphicon-remove" aria-hidden="true" style="font-size:20px;cursor:pointer;" title="取消认领" onclick="tuihui(this)"></span>'
 								        }
 								  }
-						], */
+						], 
         "order": [[1, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
@@ -1047,7 +1051,7 @@
                 	if(json>0){
                 		toastr.success("认领成功");
                 		$("#caiwurenling").modal("hide")
-                		//initTable();
+                		initTable();
                 		
                 		if(querenjine/1-bencijine/1==0){//可确认金额减去本次认领金额等于0的话就去修改状态为正常确认
 	                		$.ajax({
@@ -1077,6 +1081,62 @@
 		}
     	
 	})
+	
+	
+	
+	function tuihui(obj){
+		var tr=$(obj).parents("tr");
+		var data=$("#renling_history").DataTable().row(tr).data();
+		if(!confirm("确认退回？")){
+			return false;
+		}
+		$.ajax({
+    		type:"post",
+    		url:getContextPath()+"/AlreadySk/deleteAlreadyRenlingById",
+    		dataType: 'json',
+    		data:{
+    			rId:data.rId,
+    		},
+    		success:function(json){
+    			if(json>0){
+    				toastr.success("退回成功")
+    				$("#caiwurenling").modal("hide")
+    				//location.reload([true]);
+    				$.ajax({
+    		    		type:"post",
+    		    		url:getContextPath()+"/AlreadySk/selectAlreadySkBySkno",
+    		    		dataType: 'json',
+    		    		data:{
+    		    			skno:data.skNo,
+    		    		},
+    		    		success:function(json2){
+    		    			if(json2.length=="0"){
+    		    				$.ajax({
+    		                		type:"post",
+    		                		url:getContextPath()+"/receiveMoney/updateStatus",
+    		                		data:{
+    		                			skno:data.skNo,
+    		                			status:"0",
+    		                		},
+    		                		success:function(json3){
+    		                			console.log(json3)
+    		                			if(json3>0){
+    		                				//location.reload([true]);
+    		                				initTable();
+    		                			}
+    		                		}
+    		                	});
+    		    			}
+    		    		}
+    		    	});
+    			}else{
+    				toastr.error("退回失败")
+    			}
+    		}
+    	});
+		
+	}
+	
 	
 	 //新增
 	 var doren;
