@@ -31,5 +31,6 @@ public interface BidApprovalService {
 	int updateSubmissionTime(BidApproval ba);
 	
 	List<BidApproval> selectBidApprovalByTypeAndDepartment(String type,String department); 
-	
+
+	BidApproval selectBidApprovalByNo(String no);
 }

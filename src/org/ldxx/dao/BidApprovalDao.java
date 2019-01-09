@@ -34,4 +34,6 @@ public interface BidApprovalDao {
 	int updateFlowEdit(@Param("ba")BidApproval ba);
 	
 	List<BidApproval> selectBidApprovalByTypeAndDepartment(@Param("type")String type,@Param("department")String department);
+
+	BidApproval selectBidApprovalByNo(@Param("no")String no);
 }
