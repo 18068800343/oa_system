@@ -254,6 +254,7 @@
                   <table class="table table-bordered table-condensed"  id="cl_table">
                     	<thead>
                         	<tr>
+                        		<th style="width:10%;">部门</th>
 	                            <th style="width:10%;">材料名称</th>
 	                            <th style="width:10%;">材料类型</th>
 	                            <th style="width:10%;">规格型号</th>
@@ -439,6 +440,7 @@
                   <table class="table table-bordered table-condensed"  id="xgcl_table">
                     	<thead>
                         	<tr>
+	                            <th style="width:10%;">部门</th>
 	                            <th style="width:10%;">材料名称</th>
 	                            <th style="width:10%;">材料类型</th>
 	                            <th style="width:10%;">规格型号</th>
@@ -550,6 +552,7 @@
 					<table class="table table-bordered table-condensed"  id="lookrgyusuan">
                     	<thead>
                         	<tr>
+	                            <th style="width:11%;">部门</th>
 	                            <th style="width:11%;">材料名称</th>
 	                            <th style="width:11%;">材料类型</th>
 	                            <th style="width:11%;">规格型号</th>
@@ -809,16 +812,15 @@
 
                     <table class="table table-bordered table-condensed" id="Historyrgyusuan">
                         <thead>
-                            <tr>
-                                <th colspan="6">人工预算</th>
-                            </tr>
-                            <tr>
-                                <td>项目成员类型</td>
-                                <td>姓名</td>
-                                <td>角色系数</td>
-                                <td>预计投入天数</td>
-                                <td>备注</td>
-                            </tr>
+                        	<tr>
+	                            <th style="width:11%;">部门</th>
+	                            <th style="width:11%;">材料名称</th>
+	                            <th style="width:11%;">材料类型</th>
+	                            <th style="width:11%;">规格型号</th>
+	                            <th style="width:7%;">单位</th>
+	                            <th style="width:9%;">数量</th>
+	                            <th style="width:11%;">单价</th>
+                        	</tr>
                         </thead>
                         <tbody>
                             
@@ -1477,10 +1479,31 @@
             }
   		});
     }
+	
+	function initbumen(obj){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#cl_bumen"+obj).append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+            		$("#xgcl_bumen"+obj).append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+            	}
+            }
+  		});
+	}
+	
 	function newadd(){
     	var length=$("#cl_table tbody").find("tr").length;
     	$("#cl_table tbody").append("<tr>"+
-        												'<td><input type="text" class="form-control"></td>'+
+										    			'<td>'+
+															'<select class="form-control" id="cl_bumen'+length+'"></select>'+
+														'</td>'+										
+										    			'<td><input type="text" class="form-control"></td>'+
         												'<td>'+
         													'<select class="form-control" id="cl_type'+length+'"></select>'+
         												'</td>'+
@@ -1502,10 +1525,14 @@
     												"</tr>")
     				
     				initClType2(length);
+    				initbumen(length)
     }
 	function xgadd(){
     	var length=$("#xgcl_table tbody").find("tr").length;
     	$("#xgcl_table tbody").append("<tr>"+
+											    		'<td>'+
+															'<select class="form-control" id="xgcl_bumen'+length+'"></select>'+
+														'</td>'+
         												'<td><input type="text" class="form-control"></td>'+
         												'<td>'+
         													'<select class="form-control" id="xgcl_type'+length+'"></select>'+
@@ -1528,6 +1555,7 @@
     												"</tr>")
     				
     				initClType3(length);
+    				initbumen(length)
     }
 	function removeThis(obj){
     	var tr=$(obj).parent().parent();
@@ -1695,12 +1723,11 @@
 	        });
 	})
 	$("#quedingxm").click(function(){
-		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
-		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
-		var jiafang=$("input[name='xiangmuName']:checked").parent().next().next().next().next().next().text();
-		$("#prjName").val(prjname);
-		$("#renwudan").val(prjNo);
-		$("#jiafangdanwei").val(jiafang);
+		var dom=$("input[name='xiangmuName']:checked").parents('tr');
+		var data=$('#xiangmubiao').DataTable().row(dom).data();
+		$("#prjName").val(data.prjName);
+		$("#renwudan").val(data.prjNo);
+		$("#jiafangdanwei").val(data.ccName);
 		$("#xiangmumd").modal("hide");
 		$.ajax({
 			type:"POST",
@@ -1708,7 +1735,7 @@
 			dataTyepe:"json",
 			async:false,
 			data:{ 
-				prjName:prjname
+				prjName:data.prjName
 				},
 			success:function(json){
 				var array=new Array();
@@ -1760,12 +1787,11 @@
 	        });
 	})
 	$("#xgquedingxm").click(function(){
-		var prjName=$("input[name='xgxiangmuName']:checked").parent().next().next().text();
-		var prjNo=$("input[name='xgxiangmuName']:checked").parent().next().text();
-		var jiafang=$("input[name='xgxiangmuName']:checked").parent().next().next().next().next().next().text();
-		$("#xgprjName").val(prjName);
-		$("#xgrenwudan").val(prjNo);
-		$("#xgjiafangdanwei").val(jiafang);
+		var dom=$("input[name='xgxiangmuName']:checked").parents('tr');
+		var data=$('#xgxiangmubiao').DataTable().row(dom).data();
+		$("#xgprjName").val(data.prjName);
+		$("#xgrenwudan").val(data.prjNo);
+		$("#xgjiafangdanwei").val(data.ccName);
 		$("#xgxiangmumd").modal("hide");
 		$.ajax({
 			type:"POST",
@@ -1773,7 +1799,7 @@
 			dataTyepe:"json",
 			async:false,
 			data:{ 
-				prjName:prjName
+				prjName:data.prjName
 				},
 			success:function(json){
 				var array=new Array();
@@ -2072,12 +2098,13 @@
     	//主材成本预算
     	$("#cl_table tbody").find("tr").each(function(){
     		var data2 = $(this).children();
-    		var zcName = data2.eq(0).find("input").val();
-    	    var zcType = data2.eq(1).find("select").val();
-    	    var zcxinghao = data2.eq(2).find("input").val();
-    	    var zcdanwei = data2.eq(3).find("select").val();
-    	    var zcshuliang = data2.eq(4).find("input").val();
-    	    var zcdanjia = data2.eq(5).find("input").val();
+    		var department = data2.eq(0).find("select").val();
+    		var zcName = data2.eq(1).find("input").val();
+    	    var zcType = data2.eq(2).find("select").val();
+    	    var zcxinghao = data2.eq(3).find("input").val();
+    	    var zcdanwei = data2.eq(4).find("select").val();
+    	    var zcshuliang = data2.eq(5).find("input").val();
+    	    var zcdanjia = data2.eq(6).find("input").val();
     	    allMoney+=Number(zcshuliang)*Number(zcdanjia)
 
     	    
@@ -2088,7 +2115,8 @@
     	    		materMode:undefined,
     	    		materUnit:undefined,
     	    		materNumber:undefined,
-    	    		materPrice:undefined
+    	    		materPrice:undefined,
+    	    		department:undefined,
     	    }
     	    xinrgyusuan.bId=null;
     	    xinrgyusuan.materName=zcName;
@@ -2097,6 +2125,7 @@
     	    xinrgyusuan.materUnit=zcdanwei;
     	    xinrgyusuan.materNumber=zcshuliang;
     	    xinrgyusuan.materPrice=zcdanjia;
+    	    xinrgyusuan.department=department;
     	    rgyusuan.push(xinrgyusuan);
     	})
     	if(fyyusuan.length!=0 && rgyusuan.length!=0){
@@ -2208,15 +2237,15 @@
     	//主材成本预算
     	$("#cl_table tbody").find("tr").each(function(){
     		var data2 = $(this).children();
-    		var zcName = data2.eq(0).find("input").val();
-    	    var zcType = data2.eq(1).find("select").val();
-    	    var zcxinghao = data2.eq(2).find("input").val();
-    	    var zcdanwei = data2.eq(3).find("select").val();
-    	    var zcshuliang = data2.eq(4).find("input").val();
-    	    var zcdanjia = data2.eq(5).find("input").val();
+    		var department = data2.eq(0).find("select").val();
+    		var zcName = data2.eq(1).find("input").val();
+    	    var zcType = data2.eq(2).find("select").val();
+    	    var zcxinghao = data2.eq(3).find("input").val();
+    	    var zcdanwei = data2.eq(4).find("select").val();
+    	    var zcshuliang = data2.eq(5).find("input").val();
+    	    var zcdanjia = data2.eq(6).find("input").val();
     	    allMoney+=Number(zcshuliang)*Number(zcdanjia)
 
-    	    
     	    var xinrgyusuan={
     	    		bId:undefined,
     	    		materName:undefined,
@@ -2224,7 +2253,8 @@
     	    		materMode:undefined,
     	    		materUnit:undefined,
     	    		materNumber:undefined,
-    	    		materPrice:undefined
+    	    		materPrice:undefined,
+    	    		department:undefined,
     	    }
     	    xinrgyusuan.bId=null;
     	    xinrgyusuan.materName=zcName;
@@ -2233,6 +2263,7 @@
     	    xinrgyusuan.materUnit=zcdanwei;
     	    xinrgyusuan.materNumber=zcshuliang;
     	    xinrgyusuan.materPrice=zcdanjia;
+    	    xinrgyusuan.department=department;
     	    rgyusuan.push(xinrgyusuan);
     	})
     	if(fyyusuan.length!=0 && rgyusuan.length!=0){
@@ -2422,7 +2453,9 @@
             	$("#lookrgyusuan tbody").empty("");
             	if(json.budgetMainMaterial!=null){
             		for(var i=0;i<json.budgetMainMaterial.length;i++){
-                		$("#lookrgyusuan").append("<tr><td>"
+                		$("#lookrgyusuan tbody").append("<tr><td>"
+					                				+json.budgetMainMaterial[i].clomName
+									    			+"</td><td>"
     								    			+json.budgetMainMaterial[i].materName
     								    			+"</td><td>"
     								    			+json.budgetMainMaterial[i].materType
@@ -2510,7 +2543,9 @@
             	$("#Historyrgyusuan tbody").empty("");
             	if(json.budgetMainMaterial!=null){
             		for(var i=0;i<json.budgetMainMaterial.length;i++){
-                		$("#Historyrgyusuan").append("<tr><td>"
+                		$("#Historyrgyusuan tbody").append("<tr><td>"
+					                				+json.budgetMainMaterial[i].clomName
+									    			+"</td><td>"    				
 					                				+json.budgetMainMaterial[i].materName
 									    			+"</td><td>"
 									    			+json.budgetMainMaterial[i].materType
@@ -2596,6 +2631,23 @@
             }
 		});
 	}
+	function initbumen2(obj1,obj2){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            success: function (json) {
+            	$("#xgclbumen"+obj2).empty();
+            	for(var i=0;i<json.length;i++){
+            		$("#xgclbumen"+obj2).append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+            	}
+            	$("#xgclbumen"+obj2).val(obj1);
+            }
+  		});
+	}
 	//修改回显
 	var xgId;
 	function checkBudge(obj){
@@ -2650,7 +2702,10 @@
             		$("#xgcl_table").show();
             		for(var i=0;i<json.budgetMainMaterial.length;i++){
                 		$("#xgcl_table tbody").append("<tr>"+
-					                				'<td><input type="text" class="form-control" value='+json.budgetMainMaterial[i].materName+'></td>'+
+					                				'<td>'+
+														'<select class="form-control" id=xgclbumen'+i+'></select>'+
+													'</td>'+
+                									'<td><input type="text" class="form-control" value='+json.budgetMainMaterial[i].materName+'></td>'+
 													'<td>'+
 														'<select class="form-control" id=xgleixing'+i+'></select>'+
 													'</td>'+
@@ -2671,6 +2726,7 @@
 											        '<td><button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button></td>'+
     								    			+"</tr>")
                 					initName1(json.budgetMainMaterial[i].materType,i);
+                					initbumen2(json.budgetMainMaterial[i].department,i)
                 					$("#xgxinghao"+i).val(json.budgetMainMaterial[i].materUnit)
                 	}
             	}else{
@@ -2718,14 +2774,14 @@
     	//xg人工费用
     	$("#xgcl_table tbody").find("tr").each(function(){
     		var data2 = $(this).children();
-    		
-    		var xgzcName = data2.eq(0).find("input").val();
-    	    var xgzcType = data2.eq(1).find("select").val();
-    	    var xgzcxinghao = data2.eq(2).find("input").val();
-    	    var xgzcdanwei = data2.eq(3).find("select").val();
-    	    var xgzcshuliang = data2.eq(4).find("input").val();
-    	    var xgzcdanjia = data2.eq(5).find("input").val();
-    	    allMoney+=Number(zcshuliang)*Number(zcdanjia)
+    		var xgdepartment = data2.eq(0).find("select").val();
+    		var xgzcName = data2.eq(1).find("input").val();
+    	    var xgzcType = data2.eq(2).find("select").val();
+    	    var xgzcxinghao = data2.eq(3).find("input").val();
+    	    var xgzcdanwei = data2.eq(4).find("select").val();
+    	    var xgzcshuliang = data2.eq(5).find("input").val();
+    	    var xgzcdanjia = data2.eq(6).find("input").val();
+    	    allMoney+=Number(xgzcshuliang)*Number(xgzcdanjia)
 
     	    var xgxinrgyusuan={
     	    		bId:undefined,
@@ -2734,7 +2790,8 @@
     	    		materMode:undefined,
     	    		materUnit:undefined,
     	    		materNumber:undefined,
-    	    		materPrice:undefined
+    	    		materPrice:undefined,
+    	    		department:undefined,
     	    }
     	    xgxinrgyusuan.bId=null;
     	    xgxinrgyusuan.materName=xgzcName;
@@ -2743,6 +2800,7 @@
     	    xgxinrgyusuan.materUnit=xgzcdanwei;
     	    xgxinrgyusuan.materNumber=xgzcshuliang;
     	    xgxinrgyusuan.materPrice=xgzcdanjia;
+    	    xgxinrgyusuan.department=xgdepartment;
     	    xgrgyusuan.push(xgxinrgyusuan);
     	})
     	if(xgfyyusuan.length!=0 && xgrgyusuan.length!=0){
@@ -2809,7 +2867,7 @@
 		            	 //$('#mainContent').DataTable().row.add().draw(false);     //新增行立即显示
 	            	}
 	            }
-	        });
+	        }); 
     	}else{
     		toastr.error("费用预算为空")
     	}
@@ -2850,14 +2908,14 @@
     	//xg人工费用
     	$("#xgcl_table tbody").find("tr").each(function(){
     		var data2 = $(this).children();
-    		
-    		var xgzcName = data2.eq(0).find("input").val();
-    	    var xgzcType = data2.eq(1).find("select").val();
-    	    var xgzcxinghao = data2.eq(2).find("input").val();
-    	    var xgzcdanwei = data2.eq(3).find("select").val();
-    	    var xgzcshuliang = data2.eq(4).find("input").val();
-    	    var xgzcdanjia = data2.eq(5).find("input").val();
-    	    allMoney+=Number(zcshuliang)*Number(zcdanjia)
+    		var xgdepartment = data2.eq(0).find("select").val();
+    		var xgzcName = data2.eq(1).find("input").val();
+    	    var xgzcType = data2.eq(2).find("select").val();
+    	    var xgzcxinghao = data2.eq(3).find("input").val();
+    	    var xgzcdanwei = data2.eq(4).find("select").val();
+    	    var xgzcshuliang = data2.eq(5).find("input").val();
+    	    var xgzcdanjia = data2.eq(6).find("input").val();
+    	    allMoney+=Number(xgzcshuliang)*Number(xgzcdanjia)
 
     	    var xgxinrgyusuan={
     	    		bId:undefined,
@@ -2866,7 +2924,8 @@
     	    		materMode:undefined,
     	    		materUnit:undefined,
     	    		materNumber:undefined,
-    	    		materPrice:undefined
+    	    		materPrice:undefined,
+    	    		department:undefined,
     	    }
     	    xgxinrgyusuan.bId=null;
     	    xgxinrgyusuan.materName=xgzcName;
@@ -2875,6 +2934,7 @@
     	    xgxinrgyusuan.materUnit=xgzcdanwei;
     	    xgxinrgyusuan.materNumber=xgzcshuliang;
     	    xgxinrgyusuan.materPrice=xgzcdanjia;
+    	    xgxinrgyusuan.department=xgdepartment;
     	    xgrgyusuan.push(xgxinrgyusuan);
     	})
     	if(xgfyyusuan.length!=0 && xgrgyusuan.length!=0){

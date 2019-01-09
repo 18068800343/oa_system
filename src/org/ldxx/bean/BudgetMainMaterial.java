@@ -14,8 +14,23 @@ public class BudgetMainMaterial {
 	private String materUnit;//单位
 	private String materNumber;//数量
 	private String materPrice;//单价
+	private String department;//bumen
+	
+	private String clomName;//部门名称
 	
 	
+	public String getClomName() {
+		return clomName;
+	}
+	public void setClomName(String clomName) {
+		this.clomName = clomName;
+	}
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 	public String getbId() {
 		return bId;
 	}
