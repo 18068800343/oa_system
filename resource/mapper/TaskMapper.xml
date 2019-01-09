@@ -40,7 +40,9 @@
  	    <result property="assist3Engineer" column="assist3_engineer" />
  	    <result property="assist3Other" column="assist3_other" />
  	    <result property="importance" column="importance" />
-        <association property="prjCompany1" column="id=prj_no" javaType="string" select="selectTaskByIdChildQuery">
+        <association property="prjCompanyVo" column="prj_id" javaType="prjCompanyVo" select="selectTaskByIdChildQuery">
+ 	       <id property="prjNoc" column="prj_no" />
+ 	       <result property="prjCompany1" column="prjCompany1" />
  	    </association>
         
     </resultMap>
@@ -142,23 +144,23 @@
 		where prj_id = #{id} GROUP BY prj_id;
 	</select>
 	
-     <select id="selectTaskByIdChildQuery" resultType="string"> 
+     <select id="selectTaskByIdChildQuery" resultType="prjCompanyVo"> 
      select case  
       when COUNT(prj_id)=0 then a.prj_company 
       when COUNT(prj_id)=1 and cc.task_code is null then a.prj_company 
       when COUNT(prj_id)=1 and cc.task_code is not null then cc.contract_name_yi
       when COUNT(prj_id)>=2 and sc=1 then cc.contract_name_yi 
       when COUNT(prj_id)>=2 and sc>=2 then '' 
-      else '' end as prj_company1  from task a 
+      else '' end as prj_company1,a.prj_no  from task a 
 	  left join organization_management b  on a.main_department=b.om_id 
 	  left join organization_management b1 on a.assist_department1=b1.om_id 
 	  left join organization_management b2 on a.assist_department2=b2.om_id 
 	  left join organization_management b3 on a.assist_department3=b3.om_id
 	  LEFT JOIN consociation_company as b4 on a.prj_owner_unit=b4.cc_id
       LEFT JOIN cj_contract cc on cc.task_code = a.prj_no
-      LEFT JOIN (select count(1) sc,sss.task_code from ((select COUNT(cjc.contract_name_yi) sc,cjc.task_code from cj_contract cjc where cjc.task_code =(select prj_no from task where prj_id=#{id}) GROUP BY cjc.contract_name_yi) as sss)) as ssw
+      LEFT JOIN (select count(1) sc,sss.task_code from ((select COUNT(cjc.contract_name_yi) sc,cjc.task_code from cj_contract cjc where cjc.task_code =(select prj_no from task where prj_id=#{prj_id}) GROUP BY cjc.contract_name_yi) as sss)) as ssw
       on ssw.task_code = a.prj_no
-		where prj_id = #{id} GROUP BY prj_id;
+		where prj_id = #{prj_id} GROUP BY prj_id;
 	</select>
 	
 	<select id="selectTaskHistory" resultType="task"> 
