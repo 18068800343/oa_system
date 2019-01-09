@@ -1126,6 +1126,7 @@
                 	status:2,
                 },
                 success: function (json) {
+                	//console.log(json)
                     $('#mainContent').dataTable().fnClearTable();
                     $('#mainContent').DataTable().rows.add(json).draw(false);
                     $(".editTime").show();
@@ -1386,7 +1387,7 @@
 				id:data.baId,
 			},
 			success:function(json){
-				console.log(json)
+				//console.log(json)
 				$("#lookprjName").text(json.prjName);
 				$("#lookprjNo").text(json.prjNo);
 				$("#look_bd_no").text(json.bdNo);
@@ -1406,7 +1407,45 @@
 		})
 		
 	}
-	
+	//超级链接
+	function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("cjljId");
+   //console.log(id)
+   	if(id!=null){
+   		$("#allMsg1").modal("show")
+   		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/BidApproval/ selectBidApprovalByNo",
+			dataType:"json",
+			async:false,
+			data:{
+				no:id,
+			},
+			success:function(json){
+				//console.log(json)
+				$("#lookprjName").text(json.prjName);
+				$("#lookprjNo").text(json.prjNo);
+				$("#look_bd_no").text(json.bdNo);
+				$("#lookyezhudanwei").text(json.ccName);
+				$("#lookprjType").text(json.prjType);
+				$("#looktoubiaoren").text(json.bidder);
+				$("#lookyear").text(json.pretrialSubmissionTime);
+				$("#lookyear2").text(json.fieldTime);
+				$("#lookyear3").text(json.pretenderMeetingTime);
+				$("#lookyear4").text(json.submissionTime);
+				$("#lookbaomingren").text(json.projectApplicants);
+				$("#lookgoumairen").text(json.purchaseTenderPersonnel);
+				$("#lookBusinessPeople").text(json.businessPeople);
+				$("#lookbidPeople").text(json.bidPeople);
+				$("#lookXzDepartment").text(json.omName);
+			}
+		})
+   	}
 	
 	
 	//添加保存
