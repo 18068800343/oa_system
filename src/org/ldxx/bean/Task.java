@@ -92,7 +92,16 @@ public class Task {
     
     private String ccName;
     
+    private PrjCompanyVo prjCompanyVo;
     
+	public PrjCompanyVo getPrjCompanyVo() {
+		return prjCompanyVo;
+	}
+
+	public void setPrjCompanyVo(PrjCompanyVo prjCompanyVo) {
+		this.prjCompanyVo = prjCompanyVo;
+	}
+
 	public String getMainPrjLeaderName() {
 		return mainPrjLeaderName;
 	}
