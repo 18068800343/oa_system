@@ -29,14 +29,32 @@ public class CgContract {
 	private String makeTime; //当前时间
 	private String history;//历史状态
 	private String fbNo;//关联的分保合同编号
+	private String cgDepartment;//采购部门
 	    
 	private List<Accessory> accessory;
 	private List<Accessory> accessory1;
 
 	private String spName;// 乙方单位名称
+	private List<CgCl> cgcl;//采购材料
+	
+	
+	
+	public String getCgDepartment() {
+		return cgDepartment;
+	}
 
-	
-	
+	public void setCgDepartment(String cgDepartment) {
+		this.cgDepartment = cgDepartment;
+	}
+
+	public List<CgCl> getCgcl() {
+		return cgcl;
+	}
+
+	public void setCgcl(List<CgCl> cgcl) {
+		this.cgcl = cgcl;
+	}
+
 	public String getFbNo() {
 		return fbNo;
 	}

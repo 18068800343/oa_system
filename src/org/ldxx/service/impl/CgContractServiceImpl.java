@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CgCl;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.FbContract;
 import org.ldxx.bean.MaterialDemand;
 import org.ldxx.bean.Pay;
 import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.dao.AccessoryDao;
+import org.ldxx.dao.CgClDao;
 import org.ldxx.dao.CgContractDao;
 import org.ldxx.dao.ContractPaymentDao;
 import org.ldxx.dao.MaterialDemandDao;
@@ -33,6 +35,8 @@ public class CgContractServiceImpl implements CgContractService {
 	private MaterialDemandDao mdao;
 	@Autowired
 	private ContractPaymentDao payDao;
+	@Autowired
+	private CgClDao cgclDao;
 
 	@Override
 	public List<CgContract> selectCgContractByStatus(String status) {
@@ -50,6 +54,13 @@ public class CgContractServiceImpl implements CgContractService {
 					i=payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
 				}
 			}
+			List<CgCl> cgcl = cg.getCgcl();
+			if(cgcl!=null&&cgcl.size()>0){
+				for(int j=0;j<cgcl.size();j++){
+					cgcl.get(j).setCgId(cg.getCgId());
+				}
+			}
+			i=cgclDao.addCgCl(cgcl);
 			List<Accessory> accessory=cg.getAccessory();
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);
@@ -89,6 +100,10 @@ public class CgContractServiceImpl implements CgContractService {
 		List<Accessory> list = adao.selectAccessoryById(id);
 		if(list!=null){
 			cg.setAccessory(list);
+		}
+		List<CgCl> cgcl=cgclDao.selectCgClById(id);
+		if(cgcl!=null&&cgcl.size()>0){
+			cg.setCgcl(cgcl);
 		}
 		return cg;
 	}

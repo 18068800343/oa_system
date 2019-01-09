@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CgCl;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ContractReason;
@@ -17,6 +20,8 @@ import org.ldxx.bean.FbContract;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.MaterialDemand;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.PrjWorkingHours;
+import org.ldxx.bean.PrjWorkingHoursP;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.service.CgContractService;
@@ -31,6 +36,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import net.sf.json.JSONObject;
 
 /**
  * 采购合同管理
@@ -55,10 +62,17 @@ public class CgContractController {
 		List<CgContract> list = cgService.selectCgContractByStatus(status);
 		return list;
 	}
-
+	
 	@RequestMapping("/addCgContractSave")//保存
 	@ResponseBody
-	public int addCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+	public int addCgContractSave(String cgContract,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+		Map<String,Class> map2=new HashMap<>();
+		map2.put("cgcl", CgCl.class);
+		map2.put("accessory", Accessory.class);
+		map2.put("accessory1", Accessory.class);
+		JSONObject jsonObject=JSONObject.fromObject(cgContract);
+		CgContract cg=(CgContract)JSONObject.toBean(jsonObject, CgContract.class,map2);
+		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
@@ -146,11 +160,17 @@ public class CgContractController {
 		}
 		return i;
 	}
-	
+
 	
 	@RequestMapping("/addCgContractSubmit")//提交
 	@ResponseBody
-	public String addCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+	public String addCgContractSubmit(String cgContract,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+		Map<String,Class> map2=new HashMap<>();
+		map2.put("cgcl", CgCl.class);
+		map2.put("accessory", Accessory.class);
+		map2.put("accessory1", Accessory.class);
+		JSONObject jsonObject=JSONObject.fromObject(cgContract);
+		CgContract cg=(CgContract)JSONObject.toBean(jsonObject, CgContract.class,map2);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
