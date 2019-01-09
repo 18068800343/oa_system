@@ -193,7 +193,7 @@
                           <tr>
                               <td>
                                   <select class="form-control" id="newkemu" style="width:70%;">
-                                  			<option>--请选择--</option>
+                                  			<option value="0">--请选择--</option>
                                   			<option value="1">材料费用</option>
                                   			<option value="2">设备费用</option>
                                   			<option value="3">劳务分包费</option>
@@ -1220,6 +1220,9 @@
     } */
     
 	$("#newkemu").click(function(){
+		if($("#newkemu").val()=="0"){
+			$("#newfymingxi").empty();
+		}
 		if($("#newkemu").val()=="1"){
 			$("#newfymingxi").empty();
 			$("#newfymingxi").append("<option>其他材料费用</option><option value='11'>主材费用</option>")
@@ -1482,6 +1485,47 @@
 	
 	function initbumen(obj){
 		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectTaskPrjNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				prjName:$("#prjName").val()
+				},
+			success:function(json){
+				var array=new Array();
+				var array2=new Array();
+            	for(var i=0;i<json.length;i++){
+            		//$("#department").empty();
+            		//$("#department").append("<option value="+json[i].mainDepartment+">"+json[i].omName+"</option>")
+                	if(json[i].omName!=null){
+                    	array.push(json[i].omName)
+                    	array2.push(json[i].mainDepartment)
+                	}
+                	if(json[i].name1!=null){
+                    	array.push(json[i].name1)
+                    	array2.push(json[i].assistDepartment1)
+                	}
+                	if(json[i].name2!=null){
+                    	array.push(json[i].name2)
+                    	array2.push(json[i].assistDepartment2)
+                	}
+                	if(json[i].name3!=null){
+                    	array.push(json[i].name3)
+                    	array2.push(json[i].assistDepartment3)
+                	}
+            	}
+            	
+            	$("#cl_bumen"+obj).empty();
+            	for(var ii=0;ii<array.length;ii++){
+            		for(var ii=0;ii<array2.length;ii++){
+	            		
+            			$("#cl_bumen"+obj).append("<option value="+array2[ii]+">"+array[ii]+"</option>")
+            		}
+            	}
+			}
+		})
+		/* $.ajax({
             type: 'POST',
             url: getContextPath()+'/organizationManagement/getOrgIdAndName',
             dataType: 'json',
@@ -1494,7 +1538,7 @@
             		$("#xgcl_bumen"+obj).append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
             	}
             }
-  		});
+  		}); */
 	}
 	
 	function newadd(){
