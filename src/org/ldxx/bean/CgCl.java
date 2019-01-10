@@ -18,6 +18,23 @@ public class CgCl {
 	private String clGsSupplier;
 	private String clDesc;
 	
+	private String clspName1;//项目部推荐供应商名称
+	private String clspName2;//公司推荐供应商名称
+	
+	
+	
+	public String getClspName1() {
+		return clspName1;
+	}
+	public void setClspName1(String clspName1) {
+		this.clspName1 = clspName1;
+	}
+	public String getClspName2() {
+		return clspName2;
+	}
+	public void setClspName2(String clspName2) {
+		this.clspName2 = clspName2;
+	}
 	public String getCgId() {
 		return cgId;
 	}
