@@ -744,10 +744,29 @@ public class TaskController {
 	
 	@RequestMapping("/insertChaoSongYZGLY")
 	@ResponseBody
-	public String insertChaoSong(String  id){
+	public String insertChaoSong(String  id,String roleName){
 		
 	  List<User> users = userDao.selectAllUser();
 	  List<Role> roles = roleDao.selectRoleByRoleName("印章管理员");
+	  String yzRole = "";
+	  if(roles.size()>0){
+		  yzRole =  roles.get(0).getRoleCode();
+	  }
+	  List<User> users1 = new ArrayList<>();
+	  for(User user:users){
+		  if(null!=user.getUserRole()&&user.getUserRole().contains(yzRole)){
+			  users1.add(user);
+		  }
+	  }
+	  String result = new FlowUtill().chaoSongFlow(id, users1);
+	  return result;
+	}
+	
+	@RequestMapping("/insertChaoSongToRoleName")
+	@ResponseBody
+	public String insertChaoSongToRoleName(String  id,String roleName){
+	  List<User> users = userDao.selectAllUser();
+	  List<Role> roles = roleDao.selectRoleByRoleName(roleName);
 	  String yzRole = "";
 	  if(roles.size()>0){
 		  yzRole =  roles.get(0).getRoleCode();
