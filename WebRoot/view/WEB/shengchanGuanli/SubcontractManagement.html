@@ -1552,8 +1552,8 @@ function quxiao3(){
             success: function (json) {
             	$("#seach_department").append("<option value='%'>全部</option>")
             	for(var i=0;i<json.length;i++){
-	            	$("#jiafangbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
-	            	$("#xgjiafangbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+	            	/* $("#jiafangbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+	            	$("#xgjiafangbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>"); */
 	            	$("#seach_department").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
             	}
             	$(".zhuangtai").trigger("change");
@@ -1762,6 +1762,18 @@ function quxiao3(){
 	          				for(var i=0;i<taskCode.split(",").length;i++){
 	          					$("#task_no").append("<option>"+taskCode.split(",")[i]+"</option>")
 	          				}
+	          				
+	          				$("#jiafangbumen").html('');
+	          		    	$("#jiafangbumen").append("<option value="+json.mainDepartment+">"+json.name+"</option>")
+	          		    	if(json.assistDepartment1!=null&&json.assistDepartment1!=''){
+	          		    		$("#jiafangbumen").append("<option value="+json.assistDepartment1+">"+json.name2+"</option>")
+	          		    	}
+	          		    	if(json.assistDepartment2!=null&&json.assistDepartment2!=''){
+	          		    		$("#jiafangbumen").append("<option value="+json.assistDepartment2+">"+json.name3+"</option>")
+	          		    	}
+	          		    	if(json.assistDepartment3!=null&&json.assistDepartment3!=''){
+	          		    		$("#jiafangbumen").append("<option value="+json.assistDepartment3+">"+json.name4+"</option>")
+	          		    	}
 	                    }
 	          		});
 			  	})
@@ -1804,6 +1816,18 @@ function quxiao3(){
 	          				for(var i=0;i<taskCode.split(",").length;i++){
 	          					$("#xgtask_no").append("<option>"+taskCode.split(",")[i]+"</option>")
 	          				}
+	          				
+	          				$("#xgjiafangbumen").html('');
+	          		    	$("#xgjiafangbumen").append("<option value="+json.mainDepartment+">"+json.name+"</option>")
+	          		    	if(json.assistDepartment1!=null&&json.assistDepartment1!=''){
+	          		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment1+">"+json.name2+"</option>")
+	          		    	}
+	          		    	if(json.assistDepartment2!=null&&json.assistDepartment2!=''){
+	          		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment2+">"+json.name3+"</option>")
+	          		    	}
+	          		    	if(json.assistDepartment3!=null&&json.assistDepartment3!=''){
+	          		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment3+">"+json.name4+"</option>")
+	          		    	}
 	                    }
 	          		});
 			  	}) 
@@ -2302,7 +2326,7 @@ function quxiao3(){
 	function checkSubcontract(obj){
 		dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
-		//console.log(data)
+		console.log(data)
 		xiugaiId=data.fbId;
 		
 		$("#xghetongName").val(data.contractName)
@@ -2332,6 +2356,19 @@ function quxiao3(){
    				}
    				$("#xgprjName").val(data.prjName)
    				$("#xgtask_no").val(data.workNo)
+   				
+   				$("#xgjiafangbumen").html('');
+   		    	$("#xgjiafangbumen").append("<option value="+json.mainDepartment+">"+json.name+"</option>")
+   		    	if(json.assistDepartment1!=null&&json.assistDepartment1!=''){
+   		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment1+">"+json.name2+"</option>")
+   		    	}
+   		    	if(json.assistDepartment2!=null&&json.assistDepartment2!=''){
+   		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment2+">"+json.name3+"</option>")
+   		    	}
+   		    	if(json.assistDepartment3!=null&&json.assistDepartment3!=''){
+   		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment3+">"+json.name4+"</option>")
+   		    	}
+   		    	$("#xgjiafangbumen").val(data.mainManageDepartment)
              }
    		});
 		
@@ -2341,7 +2378,7 @@ function quxiao3(){
 		$('#xgleijifenbaoMoney').val(data.nowFbAllMoney)
 		$("#xgyear").val(data.contractStartTime)
 		$("#xgyear2").val(data.contractEndTime)
-		$("#xgjiafangbumen").val(data.mainManageDepartment)
+		
 		$("#xghetonggongqi").val(data.contractLongTime)
 		$("#xgfukuanfangshi").val(data.payMode)
 		$("#xghetongMoney").val(data.contractMoney)
@@ -3102,7 +3139,6 @@ function quxiao3(){
 	            type: 'POST',
 	            url: getContextPath()+'/cj/selectNameAndNo',
 	            dataType: 'json',
-	            async:false,
 	            data: {
 	            },
 	            success: function (json) {
@@ -3118,7 +3154,6 @@ function quxiao3(){
 	            type: 'POST',
 	            url: getContextPath()+'/cj/selectNameAndNo',
 	            dataType: 'json',
-	            async:false,
 	            data: {
 	            },
 	            success: function (json) {
@@ -3132,6 +3167,17 @@ function quxiao3(){
     function saveCjName(){
     	var tr=$("input[name='cjName']:checked").parents("tr");
     	var data=$("#cj_table").DataTable().row(tr).data();
+    	$("#jiafangbumen").html('');
+    	$("#jiafangbumen").append("<option value="+data.mainDepartment+">"+data.name+"</option>")
+    	if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
+    		$("#jiafangbumen").append("<option value="+data.assistDepartment1+">"+data.name2+"</option>")
+    	}
+    	if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
+    		$("#jiafangbumen").append("<option value="+data.assistDepartment2+">"+data.name3+"</option>")
+    	}
+    	if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
+    		$("#jiafangbumen").append("<option value="+data.assistDepartment3+">"+data.name4+"</option>")
+    	}
     	if(data==null){
     		toastr.error("请选择")
     		return;
@@ -3216,6 +3262,18 @@ function quxiao3(){
     		toastr.error("请选择")
     		return;
     	}
+    	$("#xgjiafangbumen").html('');
+    	$("#xgjiafangbumen").append("<option value="+data.mainDepartment+">"+data.name+"</option>")
+    	if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
+    		$("#xgjiafangbumen").append("<option value="+data.assistDepartment1+">"+data.name2+"</option>")
+    	}
+    	if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
+    		$("#xgjiafangbumen").append("<option value="+data.assistDepartment2+">"+data.name3+"</option>")
+    	}
+    	if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
+    		$("#xgjiafangbumen").append("<option value="+data.assistDepartment3+">"+data.name4+"</option>")
+    	}
+    	
     	$("#xgchengjiehetongName").val(data.contractName);
     	$("#xgchengjiehetonghao").val(data.contractNo);
     	var prjName=data.prjName;

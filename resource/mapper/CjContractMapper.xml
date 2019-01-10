@@ -113,8 +113,13 @@
 	</select>
 	
 	<select id="selectNameAndNo" resultType="CjContract">
-		select cj_id,contract_name,contract_no,task_code,prj_name,cc_name,contract_start_time,contract_end_time,contract_money from cj_contract a
-		left join mode_status as b on a.cj_id=b.mode_id
+		select a.*,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4 
+		from cj_contract as a left join mode_status as b on a.cj_id=b.mode_id
+		left join organization_management as d on a.yi_cj_department=d.om_id 
+		left join organization_management as d2 on a.main_department=d2.om_id
+		left join organization_management as d3 on a.assist_department1=d3.om_id
+		left join organization_management as d4 on a.assist_department2=d4.om_id
+		left join organization_management as d5 on a.assist_department3=d5.om_id
 		where b.status=2 and history=1
 	</select>
 	
@@ -124,8 +129,14 @@
 	</select>
 	
 	<select id="selectCjContractByNo" resultType="CjContract">
-		select cj_id,contract_name,prj_name,task_code,contract_start_time,contract_end_time,cc_name,contract_money,receieve_money_condition from cj_contract as a
-		where contract_no=#{no} and history=1
+		select a.*,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4 
+		from cj_contract as a left join mode_status as b on a.cj_id=b.mode_id
+		left join organization_management as d on a.yi_cj_department=d.om_id 
+		left join organization_management as d2 on a.main_department=d2.om_id
+		left join organization_management as d3 on a.assist_department1=d3.om_id
+		left join organization_management as d4 on a.assist_department2=d4.om_id
+		left join organization_management as d5 on a.assist_department3=d5.om_id
+		where a.contract_no=#{no} and a.history=1
 	</select>
 	
 	<select id="selectCjContractByTaskNo" resultType="CjContract">

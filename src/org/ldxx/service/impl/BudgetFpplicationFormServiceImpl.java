@@ -184,4 +184,9 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 		return i;
 	}
 
+	@Override
+	public CostBudget selectNwCostByTaskNo(String no,String type) {
+		return bdao.selectNwCostByTaskNo(no,type);
+	}
+
 }

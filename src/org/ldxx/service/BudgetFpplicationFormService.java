@@ -3,6 +3,7 @@ package org.ldxx.service;
 import java.util.List;
 
 import org.ldxx.bean.BudgetFpplicationForm;
+import org.ldxx.bean.CostBudget;
 
 public interface BudgetFpplicationFormService {
 
@@ -29,5 +30,7 @@ public interface BudgetFpplicationFormService {
 	BudgetFpplicationForm getAllCost(String no);
 
 	int updateHistoryById(String id);
+	
+	CostBudget selectNwCostByTaskNo(String no,String type);
 	
 }

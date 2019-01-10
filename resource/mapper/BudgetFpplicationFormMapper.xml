@@ -74,4 +74,11 @@
 	<update id="changeStateById" parameterType="String">
 		update budget_fpplication_form  set state=1 where bf_id=#{id}
 	</update>
+	
+	<select id="selectNwCostByTaskNo" resultType="CostBudget">
+		SELECT IFNULL(SUM(c.cost_amount),0)as cost_amount  FROM budget_fpplication_form as a
+		LEFT JOIN mode_status as b on a.bf_id=b.mode_id
+		LEFT JOIN cost_budget as c on a.bf_id=c.cb_id
+		where b.status=2 and a.task_no=#{no} and c.prj_detail=#{type}
+	</select>
 </mapper>

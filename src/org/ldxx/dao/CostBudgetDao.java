@@ -14,6 +14,4 @@ public interface CostBudgetDao {
 	List<CostBudget> selectCostBudgetById(@Param("id")String id);
 
 	int selectCount(@Param("id")String id,@Param("fenlei") String fenlei,@Param("mingxi") String mingxi);
-
-
 }

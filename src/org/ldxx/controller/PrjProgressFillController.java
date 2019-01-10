@@ -14,6 +14,7 @@ import org.ldxx.bean.Accessory;
 import org.ldxx.bean.BudgetFpplicationForm;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ContractWork;
+import org.ldxx.bean.CostBudget;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.FlowHistroy;
@@ -449,7 +450,7 @@ public class PrjProgressFillController {
 	
 	@RequestMapping("/getPrjAllMoney")
 	@ResponseBody
-	public Map<String,Object> getPrjAllMoney(String all,String no){
+	public Map<String,Object> getPrjAllMoney(String all,String no,float prjMoney,int fbNum){
 		Map<String,Object> map=new HashMap<>();
 		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
 		float a=Float.valueOf(all.replace("%",""));
@@ -463,12 +464,12 @@ public class PrjProgressFillController {
 		float money=0;
 		CjContract cj=cService.selectCjContractLikeTaskNo(no);
 		if(cj==null||cj.equals("")){
-			money=0;
+			money=prjMoney;
 		}else{
 			String taskNo=cj.getTaskCode();
 			if(taskNo.contains(",")){
-				money=0;
-			}else{
+				money=prjMoney;
+			}else{ 
 				ContractWork cw=cwService.selectContractWorkBytaskNoAndCno(cj.getContractNo(),"2");//判断该承接合同是否完结，完结则取完结金额
 				if(cw==null||cw.equals("")){
 					money=cj.getContractMoney();
@@ -476,6 +477,12 @@ public class PrjProgressFillController {
 					money=cw.getEndMoney();
 				}
 			}
+		}
+		if(fbNum==0){
+			CostBudget cb=bService.selectNwCostByTaskNo(no, "劳务分包费");
+			String costBud=cb.getCostAmount();
+			float cost=Float.valueOf(costBud);
+			money=money-cost;
 		}
 		map.put("money", money);
 		map.put("present", present);
