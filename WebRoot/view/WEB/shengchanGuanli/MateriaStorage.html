@@ -468,13 +468,24 @@
                             <select style="width:180px;" id="xgbumen" class="form-control" >
                                 
                             </select>
-                            <span>人员:</span>
-                            <select style="width:180px;" id="xgguanliren" class="form-control" >
-                                
-                            </select>
                         </div>
                     </div>
                 </form>
+                <div>
+                     <table class="table table-bordered table-condensed"  id="xgbmmingzibiao" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -867,6 +878,53 @@
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										  	  		return '<input type="radio" name="mingzi2" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var bmtableren=$('#xgbmmingzibiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xgmingzi2" style="width:16px;height:16px;">'
 										        }
 										  }
 								],
@@ -1460,47 +1518,31 @@
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/user/selectUserByomId",
-			dataType:"json",
-			 async:false,
+			dataTyepe:"json",
+			async:false,
 			data:{ 
 				omId:xgbumen 
 				},
 			success:function(json){
-				$("#xgguanliren").empty();
-				for(var i=0;i<json.length;i++){
-					$("#xgguanliren").append("<option value='" + json[i].userId + "'>"
-		                    + json[i].uName + "</option>")
-				}
+				$('#xgbmmingzibiao').dataTable().fnClearTable();
+                $('#xgbmmingzibiao').DataTable().rows.add(json).draw(false);
 			}
 		})
 	})
 	//保存修改收货人
 	function savexgGuanliren(){
 		var xgbumen=$("#xgbumen").val();
-		var xgguanliren=$("#xgguanliren").val();
 		$('#xgaddGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
             if ($('.modal.in').size() >= 1) {
                 $('body').addClass('modal-open')
             }
         })
-		if(xgguanliren==''){
-			toastr.error("人员为空");
-			return;
-		}
-		$.ajax({
-			type:"POST",
-			url:getContextPath()+"/user/selectUserById",
-			dataType:"json",
-			async:false,
-			data:{ 
-				userId:xgguanliren 
-				},
-			success:function(json){
-				//console.log(json)
-				$("#xgshouhuoren").empty('');
-				$("#xgshouhuoren").val(json.uName)
-			}
-		})
+        var tr=$("input[name='xgmingzi2']:checked").parents("tr");
+		var data=$("#xgbmmingzibiao").DataTable().row(tr).data();
+		
+		//console.log(data)
+		$("#xgshouhuoren").val(data.uName);
+		
 	}
 	//回显修改收货人
 	function initSelectOnEdit(obj){
