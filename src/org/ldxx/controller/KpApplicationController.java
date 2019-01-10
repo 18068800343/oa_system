@@ -57,7 +57,7 @@ public class KpApplicationController {
 	
 	@RequestMapping("/addKpApplicationBySubmit")
 	@ResponseBody
-	public int addKpApplicationBySubmit(KpApplication kp,HttpSession session){
+	public String addKpApplicationBySubmit(KpApplication kp,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		kp.setKpId(id);
@@ -70,10 +70,10 @@ public class KpApplicationController {
 		currentFlow.setActor(user.getUserId());
 		currentFlow.setActorname(user.getuName());;
 		currentFlow.setMemo(kp.getPrjName()+"流程发起");
-		currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
+		currentFlow.setUrl("caiwuguanliLook/ApplicationTicket.html-"+id);
 		currentFlow.setParams("{'cs':'1'}");
 		currentFlow.setStarter(user.getUserId());
-		String omNo = omDao.selectOrgById(user.getOmId()).getOmNo();
+		String omNo = omDao.selectOrgById(kp.getKpDepartment()).getOmNo();
 		currentFlow.setStartername(user.getuName());
 		currentFlow.setFkDept(omNo);
 		currentFlow.setDeptname(user.getOmName());
@@ -85,12 +85,12 @@ public class KpApplicationController {
 		currentFlow.setFlowNopassState(0);
 		String string = "";
 		try {
-			/*string = flowUtill.submitGetReceiver(currentFlow,omNo);*/
+			string = flowUtill.submitGetReceiver(currentFlow,omNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return i;
+		return string;
 	}
 	
 	@RequestMapping("/selectKpApplication")

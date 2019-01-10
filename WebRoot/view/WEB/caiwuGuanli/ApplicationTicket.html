@@ -379,7 +379,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="tijiaorenwudan2()">提交</button>
             </div>
         </div>
     </div>
@@ -1599,7 +1599,7 @@
 			}
 		})
 	}
-	
+	var lianjie;
 	function submitApplication(){
 		var contract_name=$("#contract_name").val();
 		var contract_no=$("#contract_no").val();
@@ -1611,6 +1611,9 @@
 		var fp_type=$("#fp_type").val();
 		//var duty_no=$("#duty_no").val();
 		var sq_men=$("#sq_men").val();
+		var contract_money=$("#contract_money").val();
+		var bumen=$("#bumen").val();
+		var kp_desc=$("#kp_desc").val();
 		var pay_unit=$("#pay_unit").find("option:selected").text();
 		var xy_code=$("#xy_code").val();
 		var address=$("#address").val();
@@ -1630,6 +1633,10 @@
     		toastr.error("开票时间不能为空");
     		return;
     	}
+		if(bumen==''){
+    		toastr.error("部门不能为空");
+    		return;
+    	}
 		if(kp_money==''){
     		toastr.error("本次开票金额不能为空");
     		return;
@@ -1638,7 +1645,7 @@
     		toastr.error("发票类型不能为空");
     		return;
     	}
-		if(fp_type=='增值税专用发票'){
+    	if(fp_type=='增值税专用发票'){
     		if(pay_unit!=''&&xy_code!=''&&address!=''&&phone!=''&&bank!=''&&bankNo!=''){
         		
         	}else{
@@ -1647,10 +1654,6 @@
         	}
     		
     	}
-		/* if(duty_no==''){
-    		toastr.error("税号不能为空");
-    		return;
-    	} */
 		if(sq_men==''){
     		toastr.error("开票申请人不能为空");
     		return;
@@ -1684,15 +1687,46 @@
 				address:address,
 				phone:phone,
 				bank:bank,
-				bankNo:bankNo
+				bankNo:bankNo,
+				contractMoney:contract_money,
+				kpDesc:kp_desc,
+				kpDepartment:bumen,
 			},
 			success:function(json){
-				if(json>0){
-					$("#myModal").modal("hide");
-					toastr.success("提交成功");
-				}else{
-					toastr.error("提交失败");
-				}
+				lianjie=json.url;
+            	if(json.receiver!=null&&json.receiver.length>=1){
+	        		  $("#tijiaogei").modal('show');
+	        		  $("#tijiaoren tbody").empty("");
+	        		  for(var i=0;i<json.receiver.length;i++){
+	        			  $("#tijiaoren tbody").append('<tr><td>'
+	        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+	        					  +'</td><td>'
+	        					  +json.receiver[i].omName
+	        					  +'</td><td>'
+	        					  +json.receiver[i].dutyName
+	        					  +'</td><td>'
+	        					  +json.receiver[i].uName
+	        					  +'</td></tr>');
+	        		  }
+	        	  }else if(json.receiver.length==1){
+	        		  $.ajax({
+	        	          type: 'POST',
+	        	          url: getContextPath()+'/task/addTask4',
+	        	          dataType: 'json',
+	        	          data:{
+	        	        	  url:json.url,
+	        	        	  userId:json.receiver.userId,
+	        	        	  uName:json.receiver.uName,
+	        	        	  omName:json.receiver.omName,
+	        	        	  dutyName:json.receiver.dutyName,
+	        	        	  omId:json.receiver.omId,
+	        	        	  dutyId:json.receiver.dutyId
+	        	          },
+	        	          success: function (json) {
+	        	        	  toastr.success('提交成功');
+	        	          }
+	        	      }); 
+	        	  }
 			}
 		})
 	}
@@ -1804,6 +1838,32 @@
 				}
 			})  
 	    }
-
+	  function tijiaorenwudan2(){
+		  var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+		  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+		  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+		  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+		  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+		  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+		  //var uname=$("input[name='tijiaorenming']:checked").val();
+		$.ajax({
+	          type: 'POST',
+	          url: getContextPath()+'/task/addTask4',
+	          dataType: 'json',
+	          data:{
+	        	  url:lianjie,
+	        	  userId:uid,
+	        	  uName:uname,
+	        	  omName:bmmc,
+	        	  dutyName:zw,
+	        	  omId:omid,
+	        	  dutyId:dutyid
+	          },
+	          success: function (json) {
+	        	  toastr.success('提交成功');
+	          }
+	      });  
+		
+	  }
 </script>
 </html>
