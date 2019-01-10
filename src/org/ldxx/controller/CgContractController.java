@@ -355,7 +355,14 @@ public class CgContractController {
 	
 	@RequestMapping("/updateCgContractSave")
 	@ResponseBody
-	public int updateCgContractSave(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+	public int updateCgContractSave(String cgContract,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+		Map<String,Class> map2=new HashMap<>();
+		map2.put("cgcl", CgCl.class);
+		map2.put("accessory", Accessory.class);
+		map2.put("accessory1", Accessory.class);
+		JSONObject jsonObject=JSONObject.fromObject(cgContract);
+		CgContract cg=(CgContract)JSONObject.toBean(jsonObject, CgContract.class,map2);
+		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
@@ -438,7 +445,14 @@ public class CgContractController {
 	
 	@RequestMapping("/updateCgContractSubmit")
 	@ResponseBody
-	public String updateCgContractSubmit(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+	public String updateCgContractSubmit(String cgContract,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+		Map<String,Class> map2=new HashMap<>();
+		map2.put("cgcl", CgCl.class);
+		map2.put("accessory", Accessory.class);
+		map2.put("accessory1", Accessory.class);
+		JSONObject jsonObject=JSONObject.fromObject(cgContract);
+		CgContract cg=(CgContract)JSONObject.toBean(jsonObject, CgContract.class,map2);
+		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
