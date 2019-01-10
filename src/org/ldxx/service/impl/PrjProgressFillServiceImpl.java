@@ -3,8 +3,10 @@ package org.ldxx.service.impl;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.PrjProgressFillCj;
+import org.ldxx.bean.PrjProgressFillFb;
 import org.ldxx.bean.PrjProgressFillInfo;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.PrjProgressFillDao;
@@ -59,9 +61,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			i=dao.addPrjProgressFillInfo(ppfi5);
 			i=dao.addPrjProgressFillInfo(ppfi6);*/
 			List<PrjProgressFillCj>ppcj=ppf.getPpcj();
-			for(int a=0;a<ppcj.size();a++){
+			/*for(int a=0;a<ppcj.size();a++){
 				ppcj.get(a).setPpfId(id);
-			}
+			}*/
 			i=dao.addPrjProgressFillCj(ppcj);
 			List<Accessory> accessory=ppf.getAccessory();
 			if(accessory !=null){
@@ -101,10 +103,10 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.addPrjProgressFillCj(ppcj);
 	}
 
-	@Override
+	/*@Override
 	public PrjProgressFillCj cjBq(String ppfId, String cjId) {
 		return dao.cjBq(ppfId, cjId);
-	}
+	}*/
 
 	@Override
 	public List<PrjProgressFillCj> selectPrjProgressFillCjById(String id) {
@@ -241,9 +243,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			
 			i=dao.deletePrjProgressFillCjById(id);
 			List<PrjProgressFillCj>ppcj=ppf.getPpcj();
-			for(int a=0;a<ppcj.size();a++){
+			/*for(int a=0;a<ppcj.size();a++){
 				ppcj.get(a).setPpfId(id);
-			}
+			}*/
 			if(ppcj!=null){
 				i=dao.addPrjProgressFillCj(ppcj);
 			}
@@ -279,6 +281,21 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			}
 		}
 		return i;
+	}
+
+	@Override
+	public CjContract selectCjContractAndPrjProgressFillCj(String no) {
+		return dao.selectCjContractAndPrjProgressFillCj(no);
+	}
+
+	@Override
+	public int addPrjProgressFillFb(List<PrjProgressFillFb> fb) {
+		return dao.addPrjProgressFillFb(fb);
+	}
+
+	@Override
+	public PrjProgressFillFb selectPrjProgressFillFbByFbId(String id) {
+		return dao.selectPrjProgressFillFbByFbId(id);
 	}
 
 }

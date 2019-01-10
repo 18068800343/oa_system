@@ -161,4 +161,9 @@ public class SubContractServiceImpl implements SubContractService {
 		return scDao.selectYiFangByNo(no);
 	}
 
+	@Override
+	public List<FbContract> selectFbContractByTaskNo(String no) {
+		return scDao.selectFbContractByTaskNo(no);
+	}
+
 }

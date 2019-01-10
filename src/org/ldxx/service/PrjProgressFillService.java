@@ -2,8 +2,11 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.PrjProgressFillCj;
+import org.ldxx.bean.PrjProgressFillFb;
 import org.ldxx.bean.PrjProgressFillInfo;
 
 public interface PrjProgressFillService {
@@ -22,7 +25,7 @@ public interface PrjProgressFillService {
 	
 	public int addPrjProgressFillCj(List<PrjProgressFillCj> ppcj);
 	
-	public PrjProgressFillCj cjBq(String ppfId,String cjId);
+	/*public PrjProgressFillCj cjBq(String ppfId,String cjId);*/
 	
 	public List<PrjProgressFillCj> selectPrjProgressFillCjById(String id);
 	
@@ -57,5 +60,11 @@ public interface PrjProgressFillService {
 	public int updatePrjProgressFill(PrjProgressFill ppf);
 	
 	public int updateAllIncomeAndCost(PrjProgressFill ppf);
+	
+	public CjContract selectCjContractAndPrjProgressFillCj(String no);
+	
+	public int addPrjProgressFillFb(List<PrjProgressFillFb> fb);
+	
+	public PrjProgressFillFb selectPrjProgressFillFbByFbId(String id);
 	
 }

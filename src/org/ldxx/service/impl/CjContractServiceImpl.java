@@ -199,4 +199,10 @@ public class CjContractServiceImpl implements CjContractService{
 		return dao.selectCjDeptSplitMoney(id, dept);
 	}
 
+	@Override
+	public CjContract selectCjContractLikeTaskNo(String no) {
+		no="%"+no+"%";
+		return dao.selectCjContractLikeTaskNo(no);
+	}
+
 }

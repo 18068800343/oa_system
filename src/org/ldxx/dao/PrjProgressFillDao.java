@@ -3,8 +3,10 @@ package org.ldxx.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.PrjProgressFillCj;
+import org.ldxx.bean.PrjProgressFillFb;
 import org.ldxx.bean.PrjProgressFillInfo;
 
 public interface PrjProgressFillDao {
@@ -25,7 +27,7 @@ public interface PrjProgressFillDao {
 
 	public int addPrjProgressFillCj(@Param("ppcj")List<PrjProgressFillCj> ppcj);
 	
-	public PrjProgressFillCj cjBq(@Param("ppfId")String ppfId,@Param("cjId")String cjId);
+	/*public PrjProgressFillCj cjBq(@Param("ppfId")String ppfId,@Param("cjId")String cjId);*/
 	
 	public List<PrjProgressFillCj> selectPrjProgressFillCjById(@Param("id")String id);
 	
@@ -62,4 +64,11 @@ public interface PrjProgressFillDao {
 	public int deletePrjProgressFillCjById(@Param("id")String id);
 	
 	public int updateAllIncomeAndCost(@Param("ppf")PrjProgressFill ppf);
+	
+	public CjContract selectCjContractAndPrjProgressFillCj(@Param("no")String no);
+	
+	public int addPrjProgressFillFb(@Param("fb")List<PrjProgressFillFb> fb);
+	
+	public PrjProgressFillFb selectPrjProgressFillFbByFbId(@Param("id")String id);
+	
 }

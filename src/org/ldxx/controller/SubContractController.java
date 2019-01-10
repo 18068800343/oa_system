@@ -668,4 +668,11 @@ public class SubContractController {
 		return map;
 	}
 	
+	@RequestMapping("/selectFbContractByTaskNo")
+	@ResponseBody
+	public List<FbContract> selectFbContractByTaskNo(String no){
+		List<FbContract> list=scService.selectFbContractByTaskNo(no);
+		return list;
+	}
+	
 }

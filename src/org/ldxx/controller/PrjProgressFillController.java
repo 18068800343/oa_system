@@ -20,6 +20,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.PrjProgressFillCj;
+import org.ldxx.bean.PrjProgressFillFb;
 import org.ldxx.bean.PrjProgressFillInfo;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
@@ -298,7 +299,7 @@ public class PrjProgressFillController {
 		map.put("task", t);
 		BudgetFpplicationForm bf=bService.selectBudgeByName(name);
 		map.put("bf", bf);
-		List<CjContract> cj=cService.selectCjContractByTaskNo("%"+no+"%");
+		CjContract cj=service.selectCjContractAndPrjProgressFillCj(no);
 		map.put("cj", cj);
 		return map;
 	}
@@ -341,7 +342,7 @@ public class PrjProgressFillController {
 		return map;
 	}
 	
-	@RequestMapping("/cjBq")
+	/*@RequestMapping("/cjBq")
 	@ResponseBody
 	public Map<String,String> cjBq(String all,String no,String id){
 		Map<String,String> map=new HashMap<>();
@@ -360,7 +361,7 @@ public class PrjProgressFillController {
 		String bq=p+"%";
 		map.put("bq", bq);
 		return map;
-	}
+	}*/
 	
 	@RequestMapping("/selectPrjProgressFillByStatus")
 	@ResponseBody
@@ -437,4 +438,40 @@ public class PrjProgressFillController {
 		int i=service.updatePrjProgressFill(pf);
 		return i;
 	}
+	
+	
+	@RequestMapping("/getPrjAllMoney")
+	@ResponseBody
+	public Map<String,Object> getPrjAllMoney(String all,String no){
+		Map<String,Object> map=new HashMap<>();
+		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
+		float a=Float.valueOf(all.replace("%",""));
+		float l=0;
+		if(pf!=null){
+			String last=pf.getAllMoney();
+			l=Float.valueOf(last.replace("%",""));
+		}
+		float p=a-l;
+		String present=p+"%";
+		CjContract cj=cService.selectCjContractLikeTaskNo(no);
+		String taskNo=cj.getTaskCode();
+		float money=0;
+		if(taskNo.contains(",")){
+			money=0;
+		}else{
+			money=cj.getContractMoney();
+		}
+		map.put("money", money);
+		map.put("present", present);
+		return map;
+	}
+	
+	
+	@RequestMapping("/selectPrjProgressFillFbByFbId")
+	@ResponseBody
+	public PrjProgressFillFb selectPrjProgressFillFbByFbId(String id){
+		PrjProgressFillFb fb=service.selectPrjProgressFillFbByFbId(id);
+		return fb;
+	}
+	
 }

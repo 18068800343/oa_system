@@ -62,16 +62,16 @@
   	</select>
   	
   	<insert id="addPrjProgressFillCj" parameterType="java.util.List">
-  		insert into prj_progress_fill_cj(ppf_id,cj_id,cj_name,contract_money,temporary_money,income_bq,income_all) 
+  		insert into prj_progress_fill_cj(cj_id,cj_name,income_bq,income_all,bq) 
   		values
   		<foreach collection="ppcj" index="index" item="p" separator=",">
-  			(#{p.ppfId},#{p.cjId},#{p.cjName},#{p.contractMoney},#{p.temporaryMoney},#{p.incomeBq},#{p.incomeAll})
+  			(#{p.cjId},#{p.cjName},#{p.incomeBq},#{p.incomeAll},#{p.bq})
   		</foreach>
   	</insert>
   	
-  	<select id="cjBq"  resultType="PrjProgressFillCj">
+  	<!-- <select id="cjBq"  resultType="PrjProgressFillCj">
   		select income_all from prj_progress_fill_cj where ppf_id=#{ppfId} and cj_id=#{cjId}
-  	</select>
+  	</select> -->
   	
   	<select id="selectPrjProgressFillCjById" resultType="PrjProgressFillCj">
   		select * from prj_progress_fill_cj where ppf_id=#{id}
@@ -160,4 +160,24 @@
   			all_income=#{ppf.allIncome}
   		where ppf_id=#{ppf.ppfId}
   	</update>
+  	
+  	<select id="selectCjContractAndPrjProgressFillCj" resultType="CjContract">
+  		SELECT a.cj_id,a.task_code,a.contract_name,a.contract_no,a.contract_money,a.temporary_money,IFNULL(b.income_all,0) as main_department_money FROM cj_contract as a
+		LEFT JOIN (
+			select * from prj_progress_fill_cj ORDER BY bq desc
+		) as b on a.cj_id=b.cj_id
+		where a.task_code like #{no} limit 1
+  	</select>
+  	
+  	<insert id="addPrjProgressFillFb" parameterType="java.util.List">
+  		insert into prj_progress_fill_fb(fb_id,fb_name,income_bq,income_all,bq) 
+  		values
+  		<foreach collection="fb" index="index" item="p" separator=",">
+  			(#{p.fbId},#{p.fbName},#{p.incomeBq},#{p.incomeAll},#{p.bq})
+  		</foreach>
+  	</insert>
+  	
+  	<select id="selectPrjProgressFillFbByFbId" resultType="PrjProgressFillFb">
+  		SELECT * FROM prj_progress_fill_fb where fb_id=#{id} ORDER BY bq desc LIMIT 1
+  	</select>
 </mapper>
