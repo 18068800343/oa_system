@@ -133,6 +133,18 @@ public class FlowUtill {
 		example3.createCriteria().andFloNodeLeftEqualTo(flowNode.getId());
 		currentFlow.setFloNodeId(flowNode.getId());
 		
+		ModeStatus modeStatus = INSTANCE.modeStatusMapper.selectByPrimaryKey(mode_id);
+		if(null!=modeStatus){
+			modeStatus.setFlowStatus("1");
+			INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus);
+		}else{
+			modeStatus=new ModeStatus();
+			modeStatus.setModeId(mode_id);
+			modeStatus.setStatus("1");
+			modeStatus.setFlowStatus("1");
+			INSTANCE.modeStatusMapper.insert(modeStatus);
+		}
+		
 		String floNodeId = "";
 		try {
 			floNodeId = deque(flowNode, currentFlow);
