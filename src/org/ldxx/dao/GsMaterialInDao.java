@@ -21,7 +21,7 @@ public interface GsMaterialInDao {
 
 	CompanyMateriaIn selectGsClInById(@Param("id")String id);
 
-	int updateOutStateById(@Param("id")String id);
+	int updateOutStateById(@Param("id")String id,@Param("outstate")String outstate);
 
 
 

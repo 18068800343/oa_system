@@ -258,8 +258,16 @@
                                 <td><input type="text" id="xgyear" class="form-control" style="width:70%;"></td>
                             </tr>
                             <tr>
+                            	<td>运费</td>
+                            	<td><input type="text" id="xgfeiyong" class="form-control" style="width:70%;"></td>
+                            	<td></td>
+                            	<td></td>
+                            </tr>
+                            <tr>
                                 <td>备注</td>
-                                <td><input type="text" id="xgbeizhu" class="form-control" style="width:60%;"></td>
+                                <td colspan="7">
+                                	<textarea style="width:100%;" id="xgbeizhu" rows="4" class="form-control"></textarea>
+                                </td>
                             </tr> 
                             <tr>
                                 <td>验收及处理意见</td>
@@ -281,7 +289,25 @@
                         
                         <!--材料信息表格  -->
                         <div id="xgcailiaobiaoDiv">
-                        
+                        	<table  class='table table-bordered table-condensed' id='xgcailiaobiao'>
+		                    	<thead>
+		                        	<tr>
+		                            	<th>材料名称</th>
+		                            	<th>材料类型</th>
+			                            <th>材料型号</th>
+			                            <th style='width:6%;'>单位</th>
+			                            <th>数量</th>
+			                            <th style='width:8%;'>单价</th>
+			                            <th>项目部推荐供应商</th>
+			                            <th>公司确定供应商</th>
+			                            <th>备注</th>
+			                            <th>来货单位</th>
+			                            <th>生产厂家</th>
+		                        	</tr>
+		                    	</thead>
+		                    	<tbody>
+		                    	</tbody>
+		                    </table>
                         </div>
                     </form>  
                 </div>
@@ -530,25 +556,25 @@
                         <!--材料信息表格  -->
                         <div id="cailiaobiaoDiv2">
                         	<table  class='table table-bordered table-condensed' id='cailiaobiao2'>
-                    	<thead>
-                        	<tr>
-                            	<th>材料名称</th>
-                            	<th>材料类型</th>
-	                            <th>材料型号</th>
-	                            <th style='width:6%;'>单位</th>
-	                            <th>数量</th>
-	                            <th style='width:8%;'>单价</th>
-	                            <th style='width:8%;'>金额</th>
-	                            <th>项目部推荐供应商</th>
-	                            <th>公司确定供应商</th>
-	                            <th>备注</th>
-	                            <th>来货单位</th>
-	                            <th>生产厂家</th>
-                        	</tr>
-                    	</thead>
-                    	<tbody>
-                    	</tbody>
-                    </table>
+		                    	<thead>
+		                        	<tr>
+		                            	<th>材料名称</th>
+		                            	<th>材料类型</th>
+			                            <th>材料型号</th>
+			                            <th style='width:6%;'>单位</th>
+			                            <th>数量</th>
+			                            <th style='width:8%;'>单价</th>
+			                            <th style='width:8%;'>金额</th>
+			                            <th>项目部推荐供应商</th>
+			                            <th>公司确定供应商</th>
+			                            <th>备注</th>
+			                            <th>来货单位</th>
+			                            <th>生产厂家</th>
+		                        	</tr>
+		                    	</thead>
+		                    	<tbody>
+		                    	</tbody>
+		                    </table>
                         </div>
                     </form>  
                 </div>
@@ -720,7 +746,7 @@
 								    "searchable": true,
 								    "render": function(data, type, full) {
 								  	  		/* return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookMs(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  <i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="checkMSIn(this)" data-toggle="modal" data-target="#change"  id="Changedanwei"></i>' */
-								    		return '<i class="iconfont icon-icon-test Pedbab" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookMs(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i><span class="glyphicon glyphicon-ok-circle Pedbab" aria-hidden="true" style="font-size:16px;cursor:pointer;margin-left:6px;" title="出库" onclick="OutStorage(this)" data-toggle="modal" data-target="#"></span>'
+								    		return '<i class="iconfont icon-icon-test Pedbab" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookMs(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i> <i class="iconfont icon-xiugai iconxiugai" style="font-size:18px;cursor:pointer;" title="修改" onclick="checkMSIn(this)" data-toggle="modal" data-target="#change"  id="Changedanwei"></i>  <span class="glyphicon glyphicon-ok-circle Pedbab" aria-hidden="true" style="font-size:16px;cursor:pointer;margin-left:6px;" title="出库" onclick="OutStorage(this)" data-toggle="modal" data-target="#"></span>'
 								        }
 								  }
 						],
@@ -1888,14 +1914,77 @@
 		var data=$("#mainContent").DataTable().row(dom).data();
 		//console.log(data)
 		xgId=data.cmId;
-		$("#xgcgNo").val(data.cgNo);
-		$("#xgcgName").val(data.cgName);
-		$("#xgtaskNo").val(data.taskNo);
-		$("#xgprjName").val(data.demandProject);
-		$("#xgyear").val(data.sentDate);
-		$("#xgshouhuoren").val(data.collectPerson);
-		$("#xgbeizhu").val(data.cmDesc);
-		$("#xgyanshouyijian").val(data.acceptanceOpinion);
+		
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/gsMaterialIn/selectGsClInById",
+			dataType:"json",
+			data:{
+				id:data.cmId,
+			},
+			success:function(json){
+				$("#xgcgNo").val(json.cgNo);
+				$("#xgcgName").val(json.cgName);
+				$("#xgtaskNo").val(json.taskNo);
+				$("#xgprjName").val(json.demandProject);
+				$("#xgyear").val(json.sentDate);
+				$("#xgshouhuoren").val(json.collectPerson);
+				$("#xgbeizhu").val(json.cmDesc);
+				$("#xgyanshouyijian").val(json.acceptanceOpinion);
+				$("#xgfeiyong").val(json.freight);
+				
+				var gsInCl=json.gsInCl;
+				$("#xgcailiaobiao tbody").empty();
+				if(gsInCl!=null){
+	               for(var k=0;k<gsInCl.length;k++){
+	            	   $("#xgcailiaobiao tbody").append("<tr><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" value='+gsInCl[k].clName+' style="width:100%;">'
+          		  				+"</td><td style='width:5%;'>"
+          		  				+'<select style="width:100px;" class="form-control" id="xgcl_type'+k+'"></select>'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" value='+gsInCl[k].clMode+' style="width:100%;">' 
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<select class="form-control"  id=xgcl_danwei'+k+'>'
+											+'<option value="个">个</option>'
+											+'<option value="只">只</option>'
+											+'<option value="套">套</option>'
+											+'<option value="副">副</option>'
+											+'<option value="双">双</option>'
+											+'<option value="元">元</option>'
+											+'<option value="桶">桶</option>'
+										+'</select>'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" value='+gsInCl[k].clNumber+' style="width:100%;">'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" value='+gsInCl[k].clPrice+'  style="width:80%;">'
+          		  				+"</td><td style='width:7%;'>"
+          		  				/* +'<input type="text" class="form-control" value='+json.cgcl[k].clMoney+' style="width:100%;">'
+          		  				+"</td><td style='width:7%;'>" */
+          		  				+'<select style="width:150px;" class="form-control" id=xgxm'+k+'></select>'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<select style="width:150px;" class="form-control" id=xggs'+k+'></select>'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" value='+gsInCl[k].clDesc+' style="width:100%;">'
+          		  				+"</td><td style='width:7%;'>"
+	           		  			/* +'<input type="text" class="form-control" style="width:100%;">'
+	       		  				+"</td><td style='width:7%;'>"
+		       		  			+'<input type="text" class="form-control" style="width:100%;">'
+		   		  				+"</td><td style='width:7%;'>" */
+			   		  			+'<input type="text" class="form-control" value='+gsInCl[k].clComeUnit+' style="width:100%;">'
+	      		  				+"</td><td style='width:7%;'>"
+		      		  			+'<input type="text" class="form-control" value='+gsInCl[k].clManufacturer+' style="width:100%;">'
+		  		  				+"</td><td style='width:7%;'>"
+          		  				+'<button type="button" class="btn btn-primary" onclick="shanchuyihang(this)">删除</button>'
+          		  				+"</td></tr>")
+          		  				initClType(gsInCl[k].clType,k);
+          		  				initName1(gsInCl[k].clPrjSupplier,k);
+                  				initName2(gsInCl[k].clGsSupplier,k);
+                  				$("#xgcl_danwei"+k).val(gsInCl[k].clUnit);
+	               }
+				}
+			}
+		})
 		
 		$.ajax({
 			type:"post",
@@ -1917,111 +2006,6 @@
 	               }
 			}
 		})
-		
-		//材料信息
-		var list=new Array();
-		if(data.buyNo.indexOf(",")){
-			var no=data.buyNo.split(",");
-			for(var i=0;i<no.length;i++){
-				list.push(no[i])
-			}
-		}else{
-			list.push(data.buyNo)
-		}
-		if(list!=null){
-			$("#xgcailiaobiaoDiv table").remove();
-			for(var i=0;i<list.length;i++){
-        		$("#xgcailiaobiaoDiv").append(
-        				"<table  class='table table-bordered table-condensed' id='xgcailiaobiao"+i+"'>"+
-                    	"<thead>"+
-                    		"<tr>"+
-                            	"<td>采购部门</td>"+
-                                "<td dataId='' id='xgcgbumen"+i+"'></td>"+
-                                "<td  colspan='2'>部门采购金额</td>"+
-                                "<td id='xgbumencgMoney"+i+"' colspan='2'></td>"+
-                            	"<th colspan='5' style='text-align:right;'></th>"+
-                        	"</tr>"+
-                        	"<tr>"+
-                            	"<th>材料名称</th>"+
-                            	"<th>材料类型</th>"+
-	                            "<th>材料型号</th>"+
-	                            "<th style='width:6%;'>单位</th>"+
-	                            "<th>数量</th>"+
-	                            "<th style='width:8%;'>单价</th>"+
-	                            "<th>项目部推荐供应商</th>"+
-	                            "<th>公司确定供应商</th>"+
-	                            "<th>来货单位</th>"+
-	                            "<th>生产厂家</th>"+
-	                            "<th>备注</th>"+
-                        	"</tr>"+
-                    	"</thead>"+
-                    	"<tbody>"+
-                    	"</tbody>"+
-                    "</table>"
-                    )}
-		  		$.ajax({
-		            type: 'POST',
-		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
-		            dataType: 'json',
-		            data: {
-		            	ids:list.toString()
-		            },
-		            success: function (json) {
-		            	//console.log(json)
-		            	for(var i=0;i<json.length;i++){
-		            		var omName=json[i].omName
-		            		var sumPrice=json[i].sumPrice;
-		            		var pmbId=json[i].pmbId;
-		            		var taskCode=json[i].taskCode;
-		            		if($.inArray(taskCode, xgarrayClId)==-1){
-		            			xgarrayClId.push(taskCode)
-		            		} 
-		            		$("#xgcgbumen"+i+"").text(json[i].omName)
-		            		$("#xgcgbumen"+i+"").attr("dataId",pmbId)
-		            		$("#xgbumencgMoney"+i+"").text(json[i].sumPrice)
-		            		$.ajax({
-		                        type: 'POST',
-		                        url: getContextPath()+'/md/selectMaterialDemandById',
-		                        dataType: 'json',
-		                        async:false,
-		                        data: {
-		                        	id:pmbId
-		                        },
-		                        success: function (json) {
-		                        	//console.log(json)
-		                        	for(var k=0;k<json.length;k++){
-		                        		$("#xgcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
-		                		  				+""+json[k].materialName+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].materialType+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].modeType+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].buyCompany+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].num+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].price+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].name+""
-		                		  				+"</td><td>"
-		                		  				+""+json[k].name2+""
-		                		  				+"</td><td>"
-		                		  				+'<input type="text" class="form-control" value='+json[k].buyUnit+'  style="width:100%;">'
-		                		  				+"</td><td>"
-		                		  				+'<input type="text" class="form-control" value='+json[k].manufacturer+'  style="width:100%;">'
-		                		  				+"</td><td>"
-		                		  				+""+json[k].infos+""
-		                		  				+"</td></tr>")
-		                        	} 
-		                        }
-		              		});
-		            	}
-		            }
-		  		});
-	  		}else{
-	  			toastr.error("采购合同号为空")
-	  		}
 		
 		
 	}

@@ -193,8 +193,8 @@ public class GsMaterialInController {
 	
 	@RequestMapping("/updateOutStateById")//通过id修改出库状态
 	@ResponseBody
-	public int updateOutStateById(String id){
-		return gmService.updateOutStateById(id);
+	public int updateOutStateById(String id,String outstate){
+		return gmService.updateOutStateById(id,outstate);
 	}
 	
 }

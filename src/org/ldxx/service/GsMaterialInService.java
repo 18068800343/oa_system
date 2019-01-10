@@ -23,7 +23,7 @@ public interface GsMaterialInService {
 
 	CompanyMateriaIn selectGsClInById(String id);
 
-	int updateOutStateById(String id);
+	int updateOutStateById(String id,String outstate);
 
 
 }

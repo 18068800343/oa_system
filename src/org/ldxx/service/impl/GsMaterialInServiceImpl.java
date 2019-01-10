@@ -95,8 +95,8 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	}
 
 	@Override
-	public int updateOutStateById(String id) {
-		return gmDao.updateOutStateById(id);
+	public int updateOutStateById(String id,String outstate) {
+		return gmDao.updateOutStateById(id,outstate);
 	}
 
 
