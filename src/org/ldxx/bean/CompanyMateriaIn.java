@@ -10,26 +10,43 @@ import java.util.List;
 public class CompanyMateriaIn {
 
 	private String cmId;
-	private String cgNo;//采购合同号
-	private String cgName;//采购合同名
-	private String taskNo;//任务单号
-	private String demandProject;//需求项目
-	private String sentDate;//收货日期
-	private String collectPerson;//收货人
-	private String cmDesc;//备注
-	private String acceptanceOpinion;//验收及处理意见
-	private String buyNo;
+	private String cgNo;				//采购合同号
+	private String cgName;				//采购合同名
+	private String taskNo;				//任务单号
+	private String demandProject;		//需求项目
+	private String sentDate;			//收货日期
+	private String collectPerson;		//收货人
+	private String cmDesc;				//备注
+	private String acceptanceOpinion;	//验收及处理意见
+	private String freight;				//运费
+	private String OutState;			//出库状态；0：未出库，1：已出库
 	
 	private List<Accessory> accessory;
-
+	private List<CompanyMaterialInCl> gsInCl;//公司材料信息
 	
 
-	public String getBuyNo() {
-		return buyNo;
+	public List<CompanyMaterialInCl> getGsInCl() {
+		return gsInCl;
 	}
 
-	public void setBuyNo(String buyNo) {
-		this.buyNo = buyNo;
+	public void setGsInCl(List<CompanyMaterialInCl> gsInCl) {
+		this.gsInCl = gsInCl;
+	}
+
+	public String getOutState() {
+		return OutState;
+	}
+
+	public void setOutState(String outState) {
+		OutState = outState;
+	}
+
+	public String getFreight() {
+		return freight;
+	}
+
+	public void setFreight(String freight) {
+		this.freight = freight;
 	}
 
 	public String getCgName() {

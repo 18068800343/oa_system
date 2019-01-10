@@ -49,7 +49,7 @@ public class BudgetFpplicationFormController {
 		String code="YS"+uuid.getPrjCode("", count+1);
 		budge.setBfNo(code);
 		int i=bservice.saveBudge(budge);
-		if(i>0){
+		/*if(i>0){
 			OrganizationManagement om=oService.selectOrgById(budge.getDepartment());
 			String omNo=om.getOmNo();
 			String string="";
@@ -83,7 +83,7 @@ public class BudgetFpplicationFormController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		return i;
 	}
 	

@@ -5,14 +5,14 @@
 	<select id="selectGsMaterialIn" resultType="CompanyMateriaIn">
 		select * from company_material_in a
 		left join mode_status m on m.mode_id=a.cm_id
-		where m.status=2
+		where m.status=2 and a.out_state=#{outState}
 	</select>
 	
 	<insert id="addGsMaterialInSave" parameterType="CompanyMateriaIn">
 		insert into company_material_in(cm_id,cg_no,cg_name,task_no,sent_date,collect_person,
-			demand_project,cm_desc,acceptance_opinion,buy_no)
+			demand_project,cm_desc,acceptance_opinion,freight,out_state)
 		values(#{cm.cmId},#{cm.cgNo},#{cm.cgName},#{cm.taskNo},#{cm.sentDate},#{cm.collectPerson},#{cm.demandProject},
-		#{cm.cmDesc},#{cm.acceptanceOpinion},#{cm.buyNo})
+		#{cm.cmDesc},#{cm.acceptanceOpinion},#{cm.freight},0)
 	</insert>
 	
 	<update id="updateGsMaterialInSave" parameterType="CompanyMateriaIn">
@@ -25,9 +25,13 @@
 			demand_project=#{cm.demandProject},
 			cm_desc=#{cm.cmDesc},
 			acceptance_opinion=#{cm.acceptanceOpinion},
-			buy_no=#{cm.buyNo}
+			freight=#{cm.freight}
 		where cm_id=#{cm.cmId}
 	</update>
+	
+	<select id="selectGsClInById" resultType="CompanyMateriaIn">
+		select * from company_material_in where cm_id=#{id}
+	</select>
 	
 	<select id="selectcgNotaskNoPrjName" resultType="CompanyMateriaIn">
 		select cg_no,cg_name,task_no,demand_project from company_material_in a
@@ -36,11 +40,15 @@
 	</select>
 	
 	<select id="selecttaskNoPrjNameBycgNo" resultType="CompanyMateriaIn">
-		select cg_name,task_no,demand_project,buy_no from company_material_in where cg_no=#{cgNo}
+		select * from company_material_in where cg_no=#{cgNo}
 	</select>
 	
 	<select id="selectcgNotaskNoPrjNameBycgName" resultType="CompanyMateriaIn">
-		select cg_no,task_no,demand_project,buy_no from company_material_in where cg_name=#{cgName}
+		select * from company_material_in where cg_name=#{cgName}
 	</select>
+	
+	<update id="updateOutStateById" >
+		update company_material_in set  out_state=1 where cm_id=#{id}
+	</update>
 	
 </mapper>

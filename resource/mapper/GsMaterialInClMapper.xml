@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.GsMaterialInClDao">
+
+	<insert id="addGsInCl">
+		insert into company_material_in_cl(gs_in_id,cl_name,cl_type,cl_mode,cl_unit,cl_number,cl_price,cl_money,
+		cl_prj_supplier,cl_gs_supplier,cl_desc,cl_come_unit,cl_manufacturer)
+		values	
+			<foreach collection="gsInCl" item="item" index="index" separator=",">
+				(#{item.gsInId},#{item.clName},#{item.clType},#{item.clMode},#{item.clUnit},#{item.clNumber},#{item.clPrice}
+				,#{item.clMoney},#{item.clPrjSupplier},#{item.clGsSupplier},#{item.clDesc},#{item.clComeUnit},#{item.clManufacturer})
+			</foreach>
+	</insert>
+	
+	<select id="selectGsInClById" resultType="CompanyMaterialInCl">
+		select a.*,b.sp_name as clspNamexm,c.sp_name as clspNamegs from company_material_in_cl a 
+		left join sourcing_purchasing as b on a.cl_prj_supplier=b.sp_id
+  		left join sourcing_purchasing as c on a.cl_gs_supplier=c.sp_id
+		 where gs_in_id=#{id}
+	</select> 
+</mapper>

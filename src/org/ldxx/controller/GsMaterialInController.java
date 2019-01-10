@@ -10,7 +10,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CgCl;
+import org.ldxx.bean.CgContract;
 import org.ldxx.bean.CompanyMateriaIn;
+import org.ldxx.bean.CompanyMaterialInCl;
 import org.ldxx.bean.clfbCgcontractPerformance;
 import org.ldxx.service.GsMaterialInService;
 import org.ldxx.util.ExportData;
@@ -21,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import net.sf.json.JSONObject;
 
 /**
  * 公司材料入库
@@ -36,13 +41,19 @@ public class GsMaterialInController {
 	
 	@RequestMapping("/selectGsMaterialIn")
 	@ResponseBody
-	public List<CompanyMateriaIn> selectGsMaterialIn(){
-		return gmService.selectGsMaterialIn();
+	public List<CompanyMateriaIn> selectGsMaterialIn(String outState){
+		return gmService.selectGsMaterialIn(outState);
 	}
 	
 	@RequestMapping("/addGsMaterialInSave")//添加保存
 	@ResponseBody
-	public Map<String,Object> addGsMaterialInSave(CompanyMateriaIn cm,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public Map<String,Object> addGsMaterialInSave(String gsclIn,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+		Map<String,Class> map2=new HashMap<>();
+		map2.put("gsInCl", CompanyMaterialInCl.class);
+		map2.put("accessory", Accessory.class);
+		JSONObject jsonObject=JSONObject.fromObject(gsclIn);
+		CompanyMateriaIn cm=(CompanyMateriaIn)JSONObject.toBean(jsonObject, CompanyMateriaIn.class,map2);
+		
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -78,8 +89,14 @@ public class GsMaterialInController {
 	
 	@RequestMapping("/addGsMaterialInSubmit")//添加提交
 	@ResponseBody
-	public Map<String,Object> addGsMaterialInSubmit(CompanyMateriaIn cm,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public Map<String,Object> addGsMaterialInSubmit(String gsclIn,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
+		Map<String,Class> map2=new HashMap<>();
+		map2.put("gsInCl", CompanyMaterialInCl.class);
+		map2.put("accessory", Accessory.class);
+		JSONObject jsonObject=JSONObject.fromObject(gsclIn);
+		CompanyMateriaIn cm=(CompanyMateriaIn)JSONObject.toBean(jsonObject, CompanyMateriaIn.class,map2);
+		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cm.setCmId(id);
@@ -142,23 +159,12 @@ public class GsMaterialInController {
 		return map;
 	}
 	
-	@RequestMapping("/selectAccessoryById")
+	@RequestMapping("/selectGsClInById")
 	@ResponseBody
-	public List<Accessory> selectAccessoryById(String id){
-		List<Accessory> list=gmService.selectAccessoryById(id);
-		return list;
+	public CompanyMateriaIn selectGsClInById(String id){
+		return gmService.selectGsClInById(id);
 	}
 	
-	@RequestMapping("/deleteAccessory")
-	@ResponseBody
-	public int deleteAccessory(Accessory accessory){
-		int i=gmService.deleteAccessoryByIdAndName(accessory);
-		if(i>0){
-			File f=new File(accessory.getAcUrl());
-			f.delete();
-		}
-		return i;
-	}
 	
 	@RequestMapping("/selectcgNotaskNoPrjName")//初始化采购合同号、采购合同名、任务单号、项目名 
 	@ResponseBody
@@ -179,10 +185,16 @@ public class GsMaterialInController {
 	}
 	
 
-	@RequestMapping("/updateMaterialbuyUnitAndManufacturer")//修改材料的来货单位及生产厂家
+	/*@RequestMapping("/updateMaterialbuyUnitAndManufacturer")//修改材料的来货单位及生产厂家
 	@ResponseBody
 	public int updateMaterialbuyUnitAndManufacturer(String id,String unit,String manufacturer){
 		return gmService.updateMaterialbuyUnitAndManufacturer(id,unit,manufacturer);
+	}*/
+	
+	@RequestMapping("/updateOutStateById")//通过id修改出库状态
+	@ResponseBody
+	public int updateOutStateById(String id){
+		return gmService.updateOutStateById(id);
 	}
 	
 }

@@ -7,13 +7,9 @@ import org.ldxx.bean.CompanyMateriaIn;
 
 public interface GsMaterialInService {
 
-	List<CompanyMateriaIn> selectGsMaterialIn();
+	List<CompanyMateriaIn> selectGsMaterialIn(String outState);
 
 	int addGsMaterialInSave(CompanyMateriaIn cm);
-
-	List<Accessory> selectAccessoryById(String id);
-
-	int deleteAccessoryByIdAndName(Accessory accessory);
 
 	List<CompanyMateriaIn> selectcgNotaskNoPrjName();
 
@@ -24,6 +20,10 @@ public interface GsMaterialInService {
 	int updateGsMaterialInSave(CompanyMateriaIn cm);
 
 	int updateMaterialbuyUnitAndManufacturer(String id,String unit, String manufacturer);
+
+	CompanyMateriaIn selectGsClInById(String id);
+
+	int updateOutStateById(String id);
 
 
 }

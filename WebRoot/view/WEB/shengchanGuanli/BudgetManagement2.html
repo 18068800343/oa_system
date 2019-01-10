@@ -253,6 +253,11 @@
                   
                   <table class="table table-bordered table-condensed"  id="cl_table">
                     	<thead>
+                          <tr>
+                              <th colspan="8">主材料费</th>
+                          </tr>
+                      	</thead>
+                    	<thead>
                         	<tr>
                         		<th style="width:10%;">部门</th>
 	                            <th style="width:10%;">材料名称</th>
@@ -267,6 +272,14 @@
                         <tbody>
                         	
                         </tbody>
+                        <tfoot>
+                        	<tr>
+                              <td colspan="5" style="text-align:right;"></td>
+                              <td style="color:red;text-align:right;">主材料总费用</td>
+                              <td><input type="text" id="all_zhu_money" class="form-control" disabled></td>
+                              <td><button type="button" class="btn btn-default"  onclick="js_all_zhu_money()">计算</button></td>
+                          	</tr>
+                        </tfoot>
                     </table>
 
                   <table class="table table-bordered table-condensed" id="">
@@ -438,6 +451,11 @@
 
                   
                   <table class="table table-bordered table-condensed"  id="xgcl_table">
+                  		<thead>
+                          <tr>
+                              <th colspan="8">主材料费</th>
+                          </tr>
+                      	</thead>
                     	<thead>
                         	<tr>
 	                            <th style="width:10%;">部门</th>
@@ -453,6 +471,14 @@
                         <tbody>
                         	
                         </tbody>
+                        <tfoot>
+                        	<tr>
+                              <td colspan="5" style="text-align:right;"></td>
+                              <td style="color:red;text-align:right;">主材料总费用</td>
+                              <td><input type="text" id="xgall_zhu_money" class="form-control" disabled></td>
+                              <td><button type="button" class="btn btn-default"  onclick="xgjs_all_zhu_money()">计算</button></td>
+                          	</tr>
+                        </tfoot>
                     </table>
 
                     
@@ -564,6 +590,14 @@
                         <tbody>
                         	
                         </tbody>
+                        <tfoot>
+                        	<tr>
+                              <td colspan="5" style="text-align:right;"></td>
+                              <td style="color:red;text-align:right;">主材料总费用</td>
+                              <td id="lookall_zhu_money"> </td>
+                              <td></td>
+                          	</tr>
+                        </tfoot>
                     </table>
                     
                     <table class="table table-bordered table-condensed" id="">
@@ -825,6 +859,14 @@
                         <tbody>
                             
                         </tbody>
+                        <tfoot>
+                        	<tr>
+                              <td colspan="5" style="text-align:right;"></td>
+                              <td style="color:red;text-align:right;">主材料总费用</td>
+                              <td id="Historyall_zhu_money"> </td>
+                              <td></td>
+                          	</tr>
+                        </tfoot>
                     </table>
 
                     <table class="table table-bordered table-condensed" id="">
@@ -2107,11 +2149,24 @@
 		})
 	}
 	
+	
+	function js_all_zhu_money(){
+		var allzhuMoney=0;
+		$("#cl_table tbody").find("tr").each(function(){
+    		var data2 = $(this).children();
+    	    var zcshuliang = data2.eq(5).find("input").val();
+    	    var zcdanjia = data2.eq(6).find("input").val();
+    	    allzhuMoney+=Number(zcshuliang)*Number(zcdanjia)
+		})
+		$("#all_zhu_money").val(allzhuMoney)
+	}
 	//填报保存预算单
 	function saveBudge(){
 		var yusuandan= new Array();
     	var fyyusuan= new Array();
     	var rgyusuan=new Array();
+    	//主材料总费用
+    	var allzhumoney=$("#all_zhu_money").val()
     	//预算费用
     	var allMoney=0;
     	$("#Newfyyusuan tbody").find("tr").each(function(){
@@ -2204,6 +2259,7 @@
     				budgetMainMaterial:undefined,
     				allCost:0,
     				department:undefined,
+    				allMainMaterialMoney:0,
     		}
     		xinyusuandan.bfId=null;
     		xinyusuandan.prjId=prjName;
@@ -2215,6 +2271,7 @@
     		xinyusuandan.budgetMainMaterial=rgyusuan;
     		xinyusuandan.allCost=allMoney;
     		xinyusuandan.department=department;
+    		xinyusuandan.allMainMaterialMoney=allzhumoney;
     		yusuandan.push(xinyusuandan);
     		
     		 $.ajax({
@@ -2251,6 +2308,8 @@
 		var yusuandan= new Array();
     	var fyyusuan= new Array();
     	var rgyusuan=new Array();
+    	//主材料总费用
+    	var allzhumoney=$("#all_zhu_money").val()
     	//预算费用
     	var allMoney=0;
     	$("#Newfyyusuan tbody").find("tr").each(function(){
@@ -2342,6 +2401,7 @@
     				budgetMainMaterial:undefined,
     				allCost:0,
     				department:undefined,
+    				allMainMaterialMoney:0,
     		}
     		xinyusuandan.bfId=null;
     		xinyusuandan.prjId=prjName;
@@ -2353,6 +2413,7 @@
     		xinyusuandan.budgetMainMaterial=rgyusuan;
     		xinyusuandan.allCost=allMoney;
     		xinyusuandan.department=department;
+    		xinyusuandan.allMainMaterialMoney=allzhumoney;
     		yusuandan.push(xinyusuandan);
     		
     		$.ajax({
@@ -2463,13 +2524,7 @@
 		id=data.bfId;
 		bfNo=data.bfNo;
 		initTable2();
-		$("#lookprjName").text(data.prjId)
-		$("#lookrenwudan").text(data.taskNo)
-		$("#lookjfdanwei").text(data.prjUnit)
-		$("#lookdepartment").text(data.omName)
-		$("#lookyear").text(data.budgetDate)
-		$("#lookshenbaoren").text(data.declarer)
-		$("#lookbfNo").text(data.bfNo)
+		
 		$.ajax({
 			type:"post",
 			url:getContextPath()+"/budge/selectBudgeById",
@@ -2478,6 +2533,14 @@
 				id:data.bfId,
 			},
 			success:function(json){
+				$("#lookprjName").text(json.prjId)
+				$("#lookrenwudan").text(json.taskNo)
+				$("#lookjfdanwei").text(json.prjUnit)
+				$("#lookdepartment").text(json.omName)
+				$("#lookyear").text(json.budgetDate)
+				$("#lookshenbaoren").text(json.declarer)
+				$("#lookbfNo").text(json.bfNo)
+				$("#lookall_zhu_money").text(json.allMainMaterialMoney)
 				//费用预算
 				$("#lookfyyusuan tbody").empty("");
             	for(var i=0;i<json.costBudget.length;i++){
@@ -2567,6 +2630,7 @@
 				$("#Historyyear").text(json.budgetDate)
 				$("#Historyshenbaoren").text(json.declarer)
 				$("#HistorybfNo").text(json.bfNo)
+				$("#Historyall_zhu_money").text(json.allMainMaterialMoney)
 				
 				//费用预算
 				$("#Historyfyyusuan tbody").empty("");
@@ -2706,14 +2770,7 @@
 		var dom=$(obj).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
 		xgId=data.bfId;
-		$("#xgprjName").val(data.prjId);
-		$("#xgrenwudan").val(data.taskNo);
-		$("#xgjiafangdanwei").val(data.prjUnit);
-		//$("#edit_department").val(data.department)
-		editDepartment(data.prjId,data.department)
-		$("#xgyear").val(data.budgetDate);
-		$("#xgshenbaoren").val(data.declarer);
-		$("#xgbfNo").val(data.bfNo)
+		
 		$.ajax({
 			type:"post",
 			url:getContextPath()+"/budge/selectBudgeById",
@@ -2722,6 +2779,16 @@
 				id:xgId,
 			},
 			success:function(json){
+				$("#xgprjName").val(json.prjId);
+				$("#xgrenwudan").val(json.taskNo);
+				$("#xgjiafangdanwei").val(json.prjUnit);
+				//$("#edit_department").val(data.department)
+				editDepartment(json.prjId,json.department)
+				$("#xgyear").val(json.budgetDate);
+				$("#xgshenbaoren").val(json.declarer);
+				$("#xgbfNo").val(json.bfNo)
+				$("#xgall_zhu_money").val(json.allMainMaterialMoney)
+				
 				//费用预算
 				$("#xgfyyusuan tbody").empty("");
             	for(var i=0;i<json.costBudget.length;i++){
@@ -2783,11 +2850,24 @@
 		
 	}
 	
+	function xgjs_all_zhu_money(){
+		var xgallzhuMoney=0;
+		$("#xgcl_table tbody").find("tr").each(function(){
+    		var data2 = $(this).children();
+    	    var zcshuliang = data2.eq(5).find("input").val();
+    	    var zcdanjia = data2.eq(6).find("input").val();
+    	    xgallzhuMoney+=Number(zcshuliang)*Number(zcdanjia)
+		})
+		$("#xgall_zhu_money").val(xgallzhuMoney)
+	}
+	
 	//修改保存
 	function checkSave(){
 		var xgyusuandan= new Array();
     	var xgfyyusuan= new Array();
     	var xgrgyusuan=new Array();
+    	//主材料总费用
+    	var xgallzhuMoney=$("#xgall_zhu_money").val()
     	//xg预算费用
     	var allMoney=0
     	$("#xgfyyusuan tbody").find("tr").each(function(){
@@ -2880,6 +2960,7 @@
     				budgetMainMaterial:undefined,
     				allCost:0,
     				department:undefined,
+    				allMainMaterialMoney:0,
     		}
     		xgxinyusuandan.bfId=xgId;
     		xgxinyusuandan.prjId=xgprjName;
@@ -2892,6 +2973,7 @@
     		xgxinyusuandan.budgetMainMaterial=xgrgyusuan;
     		xgxinyusuandan.allCost=allMoney;
     		xgxinyusuandan.department=edit_department;
+    		xgxinyusuandan.allMainMaterialMoney=xgallzhuMoney;
     		xgyusuandan.push(xgxinyusuandan);
     		
     		$.ajax({
@@ -2922,6 +3004,8 @@
 		var xgyusuandan= new Array();
     	var xgfyyusuan= new Array();
     	var xgrgyusuan=new Array();
+    	//主材料总费用
+    	var xgallzhuMoney=$("#xgall_zhu_money").val()
     	//xg预算费用
     	var allMoney=0;
     	$("#xgfyyusuan tbody").find("tr").each(function(){
@@ -3014,6 +3098,7 @@
     				budgetMainMaterial:undefined,
     				allCost:0,
     				department:undefined,
+    				allMainMaterialMoney:0,
     		}
     		xgxinyusuandan.bfId=xgId;
     		xgxinyusuandan.prjId=xgprjName;
@@ -3026,6 +3111,7 @@
     		xgxinyusuandan.budgetMainMaterial=xgrgyusuan;
     		xgxinyusuandan.allCost=allMoney;
     		xgxinyusuandan.department=edit_department;
+    		xgxinyusuandan.allMainMaterialMoney=xgallzhuMoney;
     		xgyusuandan.push(xgxinyusuandan);
     		
     		$.ajax({
