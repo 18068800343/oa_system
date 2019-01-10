@@ -24,21 +24,22 @@ public class PrjProgressFill {
 	private float budgetMoneyAll;
 	private String thisTime;
 	private String allMoney;
-	private float allCost;
-	private float allIncome;
-	private String prjThisIncome;
+	private float allMoneyYuan;
+	private float prjThisIncomeYuan;
 	private int status;
 	private String infos;
 	private String fristDesign;//初步设计
 	private String secondDesign;//施工图设计
 	
-	private List<PrjProgressFillCj> ppcj;
+	private List<PrjProgressFillFb> ppfb;
+	/*private List<PrjProgressFillCj> ppcj;*/
 	private List<PrjProgressFillInfo> ppfi;// 累计收入
-	private List<PrjProgressFillInfo> ppfi2;// 本期收入
+	/*private List<PrjProgressFillInfo> ppfi2;// 本期收入
 	private List<PrjProgressFillInfo> ppfi3;// 本期收款
 	private List<PrjProgressFillInfo> ppfi4;// 累计收款
 	private List<PrjProgressFillInfo> ppfi5;// 本期成本
-	private List<PrjProgressFillInfo> ppfi6;// 累计成本
+	private List<PrjProgressFillInfo> ppfi6;// 累计成本*/	
+	
 	private List<Accessory> accessory;
 	
 	
@@ -60,12 +61,6 @@ public class PrjProgressFill {
 	public void setPrjMoney(float prjMoney) {
 		this.prjMoney = prjMoney;
 	}
-	public float getAllIncome() {
-		return allIncome;
-	}
-	public void setAllIncome(float allIncome) {
-		this.allIncome = allIncome;
-	}
 	public int getStatus() {
 		return status;
 	}
@@ -78,47 +73,17 @@ public class PrjProgressFill {
 	public void setInfos(String infos) {
 		this.infos = infos;
 	}
-	public List<PrjProgressFillCj> getPpcj() {
-		return ppcj;
-	}
-	public void setPpcj(List<PrjProgressFillCj> ppcj) {
-		this.ppcj = ppcj;
-	}
 	public List<PrjProgressFillInfo> getPpfi() {
 		return ppfi;
 	}
 	public void setPpfi(List<PrjProgressFillInfo> ppfi) {
 		this.ppfi = ppfi;
 	}
-	public List<PrjProgressFillInfo> getPpfi2() {
-		return ppfi2;
+	public List<PrjProgressFillFb> getPpfb() {
+		return ppfb;
 	}
-	public void setPpfi2(List<PrjProgressFillInfo> ppfi2) {
-		this.ppfi2 = ppfi2;
-	}
-	public List<PrjProgressFillInfo> getPpfi3() {
-		return ppfi3;
-	}
-	public void setPpfi3(List<PrjProgressFillInfo> ppfi3) {
-		this.ppfi3 = ppfi3;
-	}
-	public List<PrjProgressFillInfo> getPpfi4() {
-		return ppfi4;
-	}
-	public void setPpfi4(List<PrjProgressFillInfo> ppfi4) {
-		this.ppfi4 = ppfi4;
-	}
-	public List<PrjProgressFillInfo> getPpfi5() {
-		return ppfi5;
-	}
-	public void setPpfi5(List<PrjProgressFillInfo> ppfi5) {
-		this.ppfi5 = ppfi5;
-	}
-	public List<PrjProgressFillInfo> getPpfi6() {
-		return ppfi6;
-	}
-	public void setPpfi6(List<PrjProgressFillInfo> ppfi6) {
-		this.ppfi6 = ppfi6;
+	public void setPpfb(List<PrjProgressFillFb> ppfb) {
+		this.ppfb = ppfb;
 	}
 	public List<Accessory> getAccessory() {
 		return accessory;
@@ -198,17 +163,17 @@ public class PrjProgressFill {
 	public void setAllMoney(String allMoney) {
 		this.allMoney = allMoney;
 	}
-	public float getAllCost() {
-		return allCost;
+	public float getAllMoneyYuan() {
+		return allMoneyYuan;
 	}
-	public void setAllCost(float allCost) {
-		this.allCost = allCost;
+	public void setAllMoneyYuan(float allMoneyYuan) {
+		this.allMoneyYuan = allMoneyYuan;
 	}
-	public String getPrjThisIncome() {
-		return prjThisIncome;
+	public float getPrjThisIncomeYuan() {
+		return prjThisIncomeYuan;
 	}
-	public void setPrjThisIncome(String prjThisIncome) {
-		this.prjThisIncome = prjThisIncome;
+	public void setPrjThisIncomeYuan(float prjThisIncomeYuan) {
+		this.prjThisIncomeYuan = prjThisIncomeYuan;
 	}
 	
 }

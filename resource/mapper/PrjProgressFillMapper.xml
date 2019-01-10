@@ -4,10 +4,10 @@
   	<insert id="addPrjProgressFill" parameterType="PrjProgressFill">
   		insert into prj_progress_fill(ppf_id,prj_name,task_no,prj_type,prj_money,contract_money,
   									prj_leader,provisional_sum,prj_start_time,prj_end_time,
-  									this_time,all_money,all_cost,prj_this_income,status,frist_design,second_design)
+  									this_time,all_money,all_money_yuan,prj_this_income_yuan,status,frist_design,second_design)
   		values(#{ppf.ppfId},#{ppf.prjName},#{ppf.taskNo},#{ppf.prjType},#{ppf.prjMoney},#{ppf.contractMoney},
   					#{ppf.prjLeader},#{ppf.provisionalSum},#{ppf.prjStartTime},#{ppf.prjEndTime},
-  					#{ppf.thisTime},#{ppf.allMoney},#{ppf.allCost},#{ppf.prjThisIncome},#{ppf.status},#{ppf.fristDesign},#{ppf.secondDesign})
+  					#{ppf.thisTime},#{ppf.allMoney},#{ppf.allMoneyYuan},#{ppf.prjThisIncomeYuan},#{ppf.status},#{ppf.fristDesign},#{ppf.secondDesign})
   	</insert>
   	
   	<update id="updatePrjProgressFill" parameterType="PrjProgressFill">
@@ -24,7 +24,6 @@
   			this_time=#{ppf.thisTime},
   			all_money=#{ppf.allMoney},
   			all_cost=#{ppf.allCost},
-  			prj_this_income=#{ppf.prjThisIncome},
   			status=#{ppf.status},
   			frist_design=#{ppf.fristDesign},
   			second_design=#{ppf.secondDesign}
@@ -32,10 +31,10 @@
   	</update>
   	
   	<insert id="addPrjProgressFillInfo" parameterType="java.util.List">
-  		insert into prj_progress_fill_info(ppf_id,department,money,type,main)
+  		insert into prj_progress_fill_info(ppf_id,task_no,department,money,money_yuan,all_money_yuan,type,main)
   		values
   		<foreach collection="ppfi" index="index" item="p" separator=",">
-  			(#{p.ppfId},#{p.department},#{p.money},#{p.type},#{p.main})
+  			(#{p.ppfId},#{p.taskNo},#{p.department},#{p.money},#{p.moneyYuan},#{p.allMoneyYuan},#{p.type},#{p.main})
   		</foreach>
   	</insert>
   	
@@ -170,14 +169,38 @@
   	</select>
   	
   	<insert id="addPrjProgressFillFb" parameterType="java.util.List">
-  		insert into prj_progress_fill_fb(fb_id,fb_name,income_bq,income_all,bq) 
+  		insert into prj_progress_fill_fb(ppf_id,fb_id,fb_name,fb_unit,fb_money,income_bq,income_all,bq) 
   		values
   		<foreach collection="fb" index="index" item="p" separator=",">
-  			(#{p.fbId},#{p.fbName},#{p.incomeBq},#{p.incomeAll},#{p.bq})
+  			(#{p.ppfId},#{p.fbId},#{p.fbName},#{p.fbUnit},#{p.fbMoney},#{p.incomeBq},#{p.incomeAll},#{p.bq})
   		</foreach>
   	</insert>
   	
   	<select id="selectPrjProgressFillFbByFbId" resultType="PrjProgressFillFb">
   		SELECT * FROM prj_progress_fill_fb where fb_id=#{id} ORDER BY bq desc LIMIT 1
+  	</select>
+  	
+  	<select id="selectPrjProgressFillCjIncomeBq" resultType="PrjProgressFillCj">
+  		SELECT * FROM prj_progress_fill_cj where cj_id=#{id} and bq=#{bq} limit 1
+  	</select>
+  	
+  	<select id="selectPrjProgressFillCjCountByIdAndBq"  resultType="int">
+  		SELECT COUNT(1) FROM prj_progress_fill_cj where cj_id=#{id} and bq=#{bq}
+  	</select>
+  	
+  	<update id="updatePrjProgressFillCjByIdAndBq" parameterType="PrjProgressFillCj">
+  		update prj_progress_fill_cj set 
+  			income_bq=#{cj.incomeBq},
+  			income_all=#{cj.incomeAll}
+  		where cj_id=#{cj.cjId} and bq=#{cj.bq}
+  	</update>
+  	
+  	<select id="selectPrjProgressFillInfoTotalByTaskAndDept" resultType="PrjProgressFillInfo">
+  		SELECT IFNULL(SUM(money_yuan),0) as all_money_yuan FROM prj_progress_fill_info 
+		where task_no=#{no} and department=#{dept} and type=1
+  	</select>
+  	
+  	<select id="selectPrjProgressFillFbByPpfId" resultType="PrjProgressFillFb">
+  		SELECT * FROM prj_progress_fill_fb where ppf_id=#{id}
   	</select>
 </mapper>

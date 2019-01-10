@@ -73,7 +73,8 @@ public class CompanyManageController {
 				 float totalAccomplish=0;//累计完成收入
 				 if(ppf!=null){
 					 for(int j=0;j<ppf.size();j++){
-						 float inCome=ppf.get(j).getAllIncome();//总实际收入
+						 /*float inCome=ppf.get(j).getAllIncome();//总实际收入*/
+						 float inCome=0;
 						 String thisTimePercentage=ppf.get(j).getAllMoney();//本期收入比例
 						 thisTimePercentage=thisTimePercentage.replace("%", "");
 						 float Percentage=Float.valueOf(thisTimePercentage)/100;

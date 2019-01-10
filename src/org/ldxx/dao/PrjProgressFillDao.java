@@ -25,7 +25,7 @@ public interface PrjProgressFillDao {
 	
 	public PrjProgressFillInfo getLastByDepartmentAndId(@Param("id")String id,@Param("department")String department);
 
-	public int addPrjProgressFillCj(@Param("ppcj")List<PrjProgressFillCj> ppcj);
+	public int addPrjProgressFillCj(@Param("ppcj")PrjProgressFillCj ppcj);
 	
 	/*public PrjProgressFillCj cjBq(@Param("ppfId")String ppfId,@Param("cjId")String cjId);*/
 	
@@ -71,4 +71,13 @@ public interface PrjProgressFillDao {
 	
 	public PrjProgressFillFb selectPrjProgressFillFbByFbId(@Param("id")String id);
 	
+	public PrjProgressFillCj selectPrjProgressFillCjIncomeBq(@Param("id")String id,@Param("bq")String bq);
+	
+	public int selectPrjProgressFillCjCountByIdAndBq(@Param("id")String id,@Param("bq")String bq);
+	
+	public int updatePrjProgressFillCjByIdAndBq(@Param("cj")PrjProgressFillCj cj);
+	
+	public PrjProgressFillInfo selectPrjProgressFillInfoTotalByTaskAndDept(@Param("no")String no,@Param("dept")String dept);
+	
+	public List<PrjProgressFillFb> selectPrjProgressFillFbByPpfId(@Param("id")String id);
 }

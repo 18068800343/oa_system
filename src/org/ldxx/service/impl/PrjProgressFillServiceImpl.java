@@ -34,10 +34,10 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			for(int a=0;a<ppfi.size();a++){
 				ppfi.get(a).setPpfId(id);
 			}
-			List<PrjProgressFillInfo> ppfi2=ppf.getPpfi2();
+			/*List<PrjProgressFillInfo> ppfi2=ppf.getPpfi2();
 			for(int a=0;a<ppfi2.size();a++){
 				ppfi2.get(a).setPpfId(id);
-			}
+			}*/
 			/*List<PrjProgressFillInfo> ppfi3=ppf.getPpfi3();
 			for(int a=0;a<ppfi3.size();a++){
 				ppfi3.get(a).setPpfId(id);
@@ -55,16 +55,31 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 				ppfi6.get(a).setPpfId(id);
 			}*/
 			i=dao.addPrjProgressFillInfo(ppfi);
-			i=dao.addPrjProgressFillInfo(ppfi2);
+			/*i=dao.addPrjProgressFillInfo(ppfi2);*/
 			/*i=dao.addPrjProgressFillInfo(ppfi3);
 			i=dao.addPrjProgressFillInfo(ppfi4);
 			i=dao.addPrjProgressFillInfo(ppfi5);
 			i=dao.addPrjProgressFillInfo(ppfi6);*/
-			List<PrjProgressFillCj>ppcj=ppf.getPpcj();
-			/*for(int a=0;a<ppcj.size();a++){
-				ppcj.get(a).setPpfId(id);
+			List<PrjProgressFillFb> ppfb=ppf.getPpfb();
+			for(int ii=0;ii<ppfb.size();ii++){
+				ppfb.get(ii).setPpfId(id);
+			}
+			if(ppfb!=null){
+				i=dao.addPrjProgressFillFb(ppfb);
+			}
+			
+			/*List<PrjProgressFillCj>ppcj=ppf.getPpcj();
+			if(ppcj!=null){
+				for(int ii=0;ii<ppcj.size();ii++){
+					int count=dao.selectPrjProgressFillCjCountByIdAndBq(ppcj.get(ii).getCjId(),ppcj.get(ii).getBq());
+					if(count==0){
+						i=dao.addPrjProgressFillCj(ppcj.get(ii));
+					}else{
+						i=dao.updatePrjProgressFillCjByIdAndBq(ppcj.get(ii));
+					}
+				}
 			}*/
-			i=dao.addPrjProgressFillCj(ppcj);
+			
 			List<Accessory> accessory=ppf.getAccessory();
 			if(accessory !=null){
 				i=aDao.addAccessory(accessory);
@@ -99,7 +114,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 	}
 
 	@Override
-	public int addPrjProgressFillCj(List<PrjProgressFillCj> ppcj) {
+	public int addPrjProgressFillCj(PrjProgressFillCj ppcj) {
 		return dao.addPrjProgressFillCj(ppcj);
 	}
 
@@ -164,7 +179,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.selectYearCostByDepartment(department, year);
 	}
 
-	@Override
+	/*@Override
 	public float selectTotalIncome(String time) {
 		float money=0;
 		List<PrjProgressFill> ppi=dao.selectPrjProgressFillByYear("2", time);
@@ -210,7 +225,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			}
 		}
 		return money;
-	}
+	}*/
 
 	@Override
 	public List<PrjProgressFill> selectNewest() {
@@ -233,22 +248,24 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 				i=dao.addPrjProgressFillInfo(ppfi);
 			}
 			
-			List<PrjProgressFillInfo> ppfi2=ppf.getPpfi2();
+			/*List<PrjProgressFillInfo> ppfi2=ppf.getPpfi2();
 			for(int a=0;a<ppfi2.size();a++){
 				ppfi2.get(a).setPpfId(id);
 			}
 			if(ppfi2!=null){
 				i=dao.addPrjProgressFillInfo(ppfi2);
-			}
-			
-			i=dao.deletePrjProgressFillCjById(id);
-			List<PrjProgressFillCj>ppcj=ppf.getPpcj();
-			/*for(int a=0;a<ppcj.size();a++){
-				ppcj.get(a).setPpfId(id);
 			}*/
-			if(ppcj!=null){
-				i=dao.addPrjProgressFillCj(ppcj);
+			
+			/*i=dao.deletePrjProgressFillCjById(id);
+			List<PrjProgressFillCj>ppcj=ppf.getPpcj();
+			for(int a=0;a<ppcj.size();a++){
+				ppcj.get(a).setPpfId(id);
 			}
+			if(ppcj!=null){
+				for(int ii=0;ii<ppcj.size();ii++){
+					i=dao.addPrjProgressFillCj(ppcj.get(ii));
+				}
+			}*/
 			
 			List<Accessory> accessory=ppf.getAccessory();
 			if(accessory !=null && accessory.size()!=0){
@@ -258,7 +275,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return i;
 	}
 
-	@Transactional
+	/*@Transactional
 	@Override
 	public int updateAllIncomeAndCost(PrjProgressFill ppf) {
 		int i=dao.updateAllIncomeAndCost(ppf);
@@ -281,7 +298,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			}
 		}
 		return i;
-	}
+	}*/
 
 	@Override
 	public CjContract selectCjContractAndPrjProgressFillCj(String no) {
@@ -296,6 +313,22 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 	@Override
 	public PrjProgressFillFb selectPrjProgressFillFbByFbId(String id) {
 		return dao.selectPrjProgressFillFbByFbId(id);
+	}
+
+	@Override
+	public PrjProgressFillCj selectPrjProgressFillCjIncomeBq(String id, String bq) {
+		PrjProgressFillCj cj=dao.selectPrjProgressFillCjIncomeBq(id, bq);
+		return cj;
+	}
+
+	@Override
+	public PrjProgressFillInfo selectPrjProgressFillInfoTotalByTaskAndDept(String no, String dept) {
+		return dao.selectPrjProgressFillInfoTotalByTaskAndDept(no, dept);
+	}
+
+	@Override
+	public  List<PrjProgressFillFb>  selectPrjProgressFillFbByPpfId(String id) {
+		return dao.selectPrjProgressFillFbByPpfId(id);
 	}
 
 }

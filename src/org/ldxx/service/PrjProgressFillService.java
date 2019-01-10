@@ -23,7 +23,7 @@ public interface PrjProgressFillService {
 	
 	public PrjProgressFillInfo getLastByDepartmentAndId(String id,String department);
 	
-	public int addPrjProgressFillCj(List<PrjProgressFillCj> ppcj);
+	public int addPrjProgressFillCj(PrjProgressFillCj ppcj);
 	
 	/*public PrjProgressFillCj cjBq(String ppfId,String cjId);*/
 	
@@ -49,22 +49,28 @@ public interface PrjProgressFillService {
 	
 	public PrjProgressFillInfo selectYearCostByDepartment(String department,String year);
 	
-	public float selectTotalIncome(String time);
+	/*public float selectTotalIncome(String time);
 	
 	public float selectThisTimeIncomeByDepartment(String department,String time);
 	
-	public float selectThisTimeIncomeByDepartmentAndPrjType(String department,String time,String type);
+	public float selectThisTimeIncomeByDepartmentAndPrjType(String department,String time,String type);*/
 
 	public List<PrjProgressFill> selectNewest();
 	
 	public int updatePrjProgressFill(PrjProgressFill ppf);
 	
-	public int updateAllIncomeAndCost(PrjProgressFill ppf);
+	/*public int updateAllIncomeAndCost(PrjProgressFill ppf);*/
 	
 	public CjContract selectCjContractAndPrjProgressFillCj(String no);
 	
 	public int addPrjProgressFillFb(List<PrjProgressFillFb> fb);
 	
 	public PrjProgressFillFb selectPrjProgressFillFbByFbId(String id);
+	
+	public PrjProgressFillCj selectPrjProgressFillCjIncomeBq(String id,String bq);
+	
+	public PrjProgressFillInfo selectPrjProgressFillInfoTotalByTaskAndDept(String no,String dept);
+	
+	public  List<PrjProgressFillFb>  selectPrjProgressFillFbByPpfId(String id);
 	
 }

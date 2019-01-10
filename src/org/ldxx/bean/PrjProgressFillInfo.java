@@ -18,11 +18,33 @@ package org.ldxx.bean;
 public class PrjProgressFillInfo {
 
 	private String ppfId;
+	private String taskNo;
 	private String department;
-	private String money;
-	private String type;//1:累计收入,2:本期收入,3:本期收款,4:累计收款,5:本期成本,6:累计成本
+	private String money;//本期收入(%)
+	private float moneyYuan;//本期收入(元)
+	private float allMoneyYuan;//累计收入(元)
+	private String type;//1:收入拆分,2:本期收入,3:本期收款,4:累计收款,5:本期成本,6:累计成本
 	private String main;//是否为主办 1：主办 0：协办
 	
+	
+	public float getAllMoneyYuan() {
+		return allMoneyYuan;
+	}
+	public void setAllMoneyYuan(float allMoneyYuan) {
+		this.allMoneyYuan = allMoneyYuan;
+	}
+	public String getTaskNo() {
+		return taskNo;
+	}
+	public void setTaskNo(String taskNo) {
+		this.taskNo = taskNo;
+	}
+	public float getMoneyYuan() {
+		return moneyYuan;
+	}
+	public void setMoneyYuan(float moneyYuan) {
+		this.moneyYuan = moneyYuan;
+	}
 	public String getMain() {
 		return main;
 	}

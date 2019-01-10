@@ -2,12 +2,34 @@ package org.ldxx.bean;
 
 public class PrjProgressFillFb {
 
+	private String ppfId;
 	private String fbId;
 	private String fbName;
+	private String fbUnit;
+	private float fbMoney;
 	private float incomeAll;
 	private float incomeBq;
 	private String bq;
 	
+	
+	public String getPpfId() {
+		return ppfId;
+	}
+	public void setPpfId(String ppfId) {
+		this.ppfId = ppfId;
+	}
+	public String getFbUnit() {
+		return fbUnit;
+	}
+	public void setFbUnit(String fbUnit) {
+		this.fbUnit = fbUnit;
+	}
+	public float getFbMoney() {
+		return fbMoney;
+	}
+	public void setFbMoney(float fbMoney) {
+		this.fbMoney = fbMoney;
+	}
 	public String getFbId() {
 		return fbId;
 	}

@@ -27,6 +27,7 @@ import org.ldxx.bean.User;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.BudgetFpplicationFormService;
 import org.ldxx.service.CjContractService;
+import org.ldxx.service.ContractWorkService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.PrjProgressFillService;
 import org.ldxx.service.TaskService;
@@ -57,6 +58,8 @@ public class PrjProgressFillController {
 	private CjContractService cService;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private ContractWorkService cwService;
 	
 	@RequestMapping("/addPrjProgressFillBySave")
 	@ResponseBody
@@ -157,12 +160,13 @@ public class PrjProgressFillController {
 		String id=uuid.getTimeUUID();
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("ppfi", PrjProgressFillInfo.class);
-		classMap.put("ppfi2", PrjProgressFillInfo.class);
+		/*classMap.put("ppfi2", PrjProgressFillInfo.class);*/
 		/*classMap.put("ppfi3", PrjProgressFillInfo.class);
 		classMap.put("ppfi4", PrjProgressFillInfo.class);
 		classMap.put("ppfi5", PrjProgressFillInfo.class);
 		classMap.put("ppfi6", PrjProgressFillInfo.class);*/
-		classMap.put("ppcj", PrjProgressFillCj.class);
+		classMap.put("ppfb", PrjProgressFillFb.class);
+		/*classMap.put("ppcj", PrjProgressFillCj.class);*/
 		JSONObject jsonObject=JSONObject.fromObject(ppf);
 		PrjProgressFill pf=(PrjProgressFill)JSONObject.toBean(jsonObject, PrjProgressFill.class,classMap);
 		pf.setPpfId(id);
@@ -187,7 +191,7 @@ public class PrjProgressFillController {
 			}
 			pf.setAccessory(list);
 		}
-		Task t=tService.selectIdByNo(pf.getTaskNo());
+		/*Task t=tService.selectIdByNo(pf.getTaskNo());
 		float prjMoney=t.getPrjEstimateMoney();//项目金额
 		float contractMoney=t.getContractMoney();//合同金额
 		float allCost=pf.getAllCost();//总累计成本
@@ -199,7 +203,8 @@ public class PrjProgressFillController {
 			pf.setStatus(1);
 		}else{
 			pf.setStatus(3);
-		}
+		}*/
+		pf.setStatus(0);
 		int i=service.addPrjProgressFill(pf);
 		String string=i+"";
 		if(i>0){
@@ -252,12 +257,13 @@ public class PrjProgressFillController {
 	public PrjProgressFill selectPrjProgressFillInfo(String id){
 		PrjProgressFill ppf=service.selectPrjProgressFillById(id);
 		List<PrjProgressFillInfo> ppfi=service.selectPrjProgressFillInfo(id, "1");
-		List<PrjProgressFillInfo> ppfi2=service.selectPrjProgressFillInfo(id, "2");
+		/*List<PrjProgressFillInfo> ppfi2=service.selectPrjProgressFillInfo(id, "2");*/
 		/*List<PrjProgressFillInfo> ppfi3=service.selectPrjProgressFillInfo(id, "3");
 		List<PrjProgressFillInfo> ppfi4=service.selectPrjProgressFillInfo(id, "4");
 		List<PrjProgressFillInfo> ppfi5=service.selectPrjProgressFillInfo(id, "5");
 		List<PrjProgressFillInfo> ppfi6=service.selectPrjProgressFillInfo(id, "6");*/
-		List<PrjProgressFillCj> ppcj=service.selectPrjProgressFillCjById(id);
+		/*List<PrjProgressFillCj> ppcj=service.selectPrjProgressFillCjById(id);*/
+		List<PrjProgressFillFb> ppfb=service.selectPrjProgressFillFbByPpfId(id);
 		List<Accessory> accessory=aService.selectAccessoryById(id);
 		String no=ppf.getTaskNo();
 		BudgetFpplicationForm bf=bService.selectBudgeByNo(no);
@@ -267,12 +273,13 @@ public class PrjProgressFillController {
 			ppf.setBudgetMoneyAll(0);
 		}
 		ppf.setPpfi(ppfi);
-		ppf.setPpfi2(ppfi2);
+		/*ppf.setPpfi2(ppfi2);*/
 		/*ppf.setPpfi3(ppfi3);
 		ppf.setPpfi4(ppfi4);
 		ppf.setPpfi5(ppfi5);
 		ppf.setPpfi6(ppfi6);*/
-		ppf.setPpcj(ppcj);
+		/*ppf.setPpcj(ppcj);*/
+		ppf.setPpfb(ppfb);
 		ppf.setAccessory(accessory);
 		return ppf;
 	}
@@ -285,7 +292,7 @@ public class PrjProgressFillController {
 		map.put("task", t);
 		BudgetFpplicationForm bf=bService.selectBudgeByNo(no);
 		map.put("bf", bf);
-		List<CjContract> cj=cService.selectCjContractByTaskNo("%"+no+"%");
+		CjContract cj=service.selectCjContractAndPrjProgressFillCj(no);
 		map.put("cj", cj);
 		return map;
 	}
@@ -396,8 +403,8 @@ public class PrjProgressFillController {
 	public int updatePrjProgressFill(String ppf,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("ppfi", PrjProgressFillInfo.class);
-		classMap.put("ppfi2", PrjProgressFillInfo.class);
-		classMap.put("ppcj", PrjProgressFillCj.class);
+		/*classMap.put("ppfi2", PrjProgressFillInfo.class);
+		classMap.put("ppcj", PrjProgressFillCj.class);*/
 		JSONObject jsonObject=JSONObject.fromObject(ppf);
 		PrjProgressFill pf=(PrjProgressFill)JSONObject.toBean(jsonObject, PrjProgressFill.class,classMap);
 		String id=pf.getPpfId();
@@ -422,7 +429,7 @@ public class PrjProgressFillController {
 			}
 			pf.setAccessory(list);
 		}
-		Task t=tService.selectIdByNo(pf.getTaskNo());
+		/*Task t=tService.selectIdByNo(pf.getTaskNo());
 		float prjMoney=t.getPrjEstimateMoney();//项目金额
 		float contractMoney=t.getContractMoney();//合同金额
 		float allCost=pf.getAllCost();//总累计成本
@@ -434,7 +441,7 @@ public class PrjProgressFillController {
 			pf.setStatus(1);
 		}else{
 			pf.setStatus(3);
-		}
+		}*/
 		int i=service.updatePrjProgressFill(pf);
 		return i;
 	}
@@ -453,13 +460,22 @@ public class PrjProgressFillController {
 		}
 		float p=a-l;
 		String present=p+"%";
-		CjContract cj=cService.selectCjContractLikeTaskNo(no);
-		String taskNo=cj.getTaskCode();
 		float money=0;
-		if(taskNo.contains(",")){
+		CjContract cj=cService.selectCjContractLikeTaskNo(no);
+		if(cj==null||cj.equals("")){
 			money=0;
 		}else{
-			money=cj.getContractMoney();
+			String taskNo=cj.getTaskCode();
+			if(taskNo.contains(",")){
+				money=0;
+			}else{
+				ContractWork cw=cwService.selectContractWorkBytaskNoAndCno(cj.getContractNo(),"2");//判断该承接合同是否完结，完结则取完结金额
+				if(cw==null||cw.equals("")){
+					money=cj.getContractMoney();
+				}else{
+					money=cw.getEndMoney();
+				}
+			}
 		}
 		map.put("money", money);
 		map.put("present", present);
@@ -469,9 +485,32 @@ public class PrjProgressFillController {
 	
 	@RequestMapping("/selectPrjProgressFillFbByFbId")
 	@ResponseBody
-	public PrjProgressFillFb selectPrjProgressFillFbByFbId(String id){
+	public float selectPrjProgressFillFbByFbId(String id){
 		PrjProgressFillFb fb=service.selectPrjProgressFillFbByFbId(id);
-		return fb;
+		if(fb!=null){
+			return fb.getIncomeAll();
+		}else{
+			return 0;
+		}
+	}
+	
+	@RequestMapping("/selectPrjProgressFillCjIncomeBq")
+	@ResponseBody
+	public float selectPrjProgressFillCjIncomeBq(String id,String bq){
+		PrjProgressFillCj cj=service.selectPrjProgressFillCjIncomeBq(id, bq);
+		if(cj!=null){
+			return cj.getIncomeBq();
+		}else{
+			return 0;
+		}
+	}
+	
+	@RequestMapping("/selectPrjProgressFillInfoTotalByTaskAndDept")
+	@ResponseBody
+	public float selectPrjProgressFillInfoTotalByTaskAndDept(String no,String dept){
+		PrjProgressFillInfo info=service.selectPrjProgressFillInfoTotalByTaskAndDept(no, dept);
+		float money=info.getAllMoneyYuan();
+		return money;
 	}
 	
 }
