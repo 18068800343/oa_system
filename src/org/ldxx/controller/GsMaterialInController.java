@@ -130,19 +130,25 @@ public class GsMaterialInController {
 	
 	@RequestMapping("/updateGsMaterialInSave")//修改保存
 	@ResponseBody
-	public Map<String,Object> updateGsMaterialInSave(CompanyMateriaIn cm,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public Map<String,Object> updateGsMaterialInSave(String gsclIn,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+		Map<String,Class> map2=new HashMap<>();
+		map2.put("gsInCl", CompanyMaterialInCl.class);
+		map2.put("accessory", Accessory.class);
+		JSONObject jsonObject=JSONObject.fromObject(gsclIn);
+		CompanyMateriaIn cm=(CompanyMateriaIn)JSONObject.toBean(jsonObject, CompanyMateriaIn.class,map2);
+		
 		Map<String,Object> map=new HashMap<>();
 		String id = cm.getCmId();
+		String path="D:"+File.separator+"oa"+File.separator+"gsMaterialIn"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"gsMaterialIn"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);

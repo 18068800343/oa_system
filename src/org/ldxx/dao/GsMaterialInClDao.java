@@ -11,4 +11,6 @@ public interface GsMaterialInClDao {
 
 	List<CompanyMaterialInCl> selectGsInClById(@Param("id")String id);
 
+	int deleteGsInClById(@Param("id")String id);
+
 }

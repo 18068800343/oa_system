@@ -259,7 +259,7 @@
                             </tr>
                             <tr>
                             	<td>运费</td>
-                            	<td><input type="text" id="xgfeiyong" class="form-control" style="width:70%;"></td>
+                            	<td><input type="text" id="xgyunfei" class="form-control" style="width:70%;"></td>
                             	<td></td>
                             	<td></td>
                             </tr>
@@ -285,6 +285,7 @@
                         	</thead>
                         	<tbody>
                         	</tbody>
+                        	<tfoot></tfoot>
                         </table>
                        
                         <!--材料信息表格  -->
@@ -303,6 +304,7 @@
 			                            <th>备注</th>
 			                            <th>来货单位</th>
 			                            <th>生产厂家</th>
+			                            <th>操作</th>
 		                        	</tr>
 		                    	</thead>
 		                    	<tbody>
@@ -314,7 +316,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-default" onclick="checkSave()">保存</button>
+            <button type="button" class="btn btn-success" onclick="checkSave()">保存</button>
         </div>
         </div>
     </div>
@@ -2065,10 +2067,14 @@ function xgsaveCgName(){
 	
 	
 	//出库回显
+	var outId;
+	var dom;
 	function OutStorage(obj){
+		dom = $(obj).closest('tr');
 		$("#myModal2").modal("show")
 		var dom=$(obj).parents("tr");
 		var data=$("#mainContent").DataTable().row(dom).data();
+		outId=data.cmId;
 		$.ajax({
 			type:"post",
 			url:getContextPath()+"/gsMaterialIn/selectGsClInById",
@@ -2120,7 +2126,28 @@ function xgsaveCgName(){
 				}
 			}
 		})
-		
+	}
+	
+	//提交出库
+	function submitClck2(){
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/gsMaterialIn/updateOutStateById",
+			dataTyepe:"json",
+			data:{ 
+				id:outId,
+				outstate:"1"
+				},
+			success:function(json){
+				if(json>0){
+					toastr.success("出库成功")
+					$("#myModal2").modal("hide")
+					$('#mainContent').DataTable().row(dom).remove().draw(false);;//修改行立即显示
+				}else{
+					toastr.error("出库失败")
+				}
+			}
+		})
 	}
 	
 	
@@ -2150,7 +2177,16 @@ function xgsaveCgName(){
 				$("#xgshouhuoren").val(json.collectPerson);
 				$("#xgbeizhu").val(json.cmDesc);
 				$("#xgyanshouyijian").val(json.acceptanceOpinion);
-				$("#xgfeiyong").val(json.freight);
+				$("#xgyunfei").val(json.freight);
+				var accessory=json.accessory;
+				$("#edit_accessory thead").siblings().empty();
+	               for(var i=0;i<accessory.length;i++){
+	            	   $("#edit_accessory tbody").append("<tr>"+
+													            	    	"<td>收货单"+(i+1)+"</td>"+
+													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[i].acName+"' disabled></td>"+
+													            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
+													            	    "</tr>");
+	               }
 				
 				var gsInCl=json.gsInCl;
 				$("#xgcailiaobiao tbody").empty();
@@ -2204,28 +2240,6 @@ function xgsaveCgName(){
 			}
 		})
 		
-		$.ajax({
-			type:"post",
-			url:getContextPath()+"/accessory/selectAccessoryById",
-			dataType:"json",
-			async:false,
-			data:{
-				id:data.cmId,
-			},
-			success:function(json){
-				//console.log(json);
-				$("#edit_accessory tbody").empty();
-	               for(var i=0;i<json.length;i++){
-	            	   $("#edit_accessory tbody").append("<tr>"+
-													            	    	"<td>收货单"+(i+1)+"</td>"+
-													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-													            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
-													            	    "</tr>");
-	               }
-			}
-		})
-		
-		
 	}
 	//删除附件
 	function deletefile(obj){
@@ -2256,16 +2270,125 @@ function xgsaveCgName(){
 	
 	//修改保存
 	function checkSave(){
+		//保存材料来货单位及生产厂家
+		var gsclInArr=new Array();
+		$("#xgcailiaobiao tbody").find("tr").each(function(){
+			var clname=$(this).find("td").eq(0).find("input").val();
+			var cltype=$(this).find("td").eq(1).find("option:selected").val();
+			var clmode=$(this).find("td").eq(2).find("input").val();
+			var clunit=$(this).find("td").eq(3).find("option:selected").val();
+			var clnumber=$(this).find("td").eq(4).find("input").val();
+			var clprice=$(this).find("td").eq(5).find("input").val();
+			var clprj=$(this).find("td").eq(6).find("option:selected").val();
+			var clgs=$(this).find("td").eq(7).find("option:selected").val();
+			var cldesc=$(this).find("td").eq(8).find("input").val();
+			var laihuodanwei=$(this).find("td").eq(9).find("input").val();
+			var changjia=$(this).find("td").eq(10).find("input").val();
+			var clmoney=Number(clnumber)*Number(clprice)
+			var gscl={
+					gsInId:undefined,        
+					clName:undefined,
+					clType:undefined,        
+					clMode:undefined,        
+					clUnit:undefined,        
+					clNumber:undefined,      
+					clPrice:0,       
+					clMoney:0,			
+					clPrjSupplier:undefined, 
+					clGsSupplier:undefined,  
+					clDesc:undefined,        
+					clComeUnit:undefined,		
+					clManufacturer:undefined,
+			}
+			gscl.gsInId=null;
+			gscl.clName=clname;
+			gscl.clType=cltype;
+			gscl.clMode=clmode;
+			gscl.clUnit=clunit;
+			gscl.clNumber=clnumber;
+			gscl.clPrice=clprice;
+			gscl.clMoney=clmoney;
+			gscl.clPrjSupplier=clprj;
+			gscl.clGsSupplier=clgs;
+			gscl.clDesc=cldesc;
+			gscl.clComeUnit=laihuodanwei;
+			gscl.clManufacturer=changjia;
+			gsclInArr.push(gscl);
+		})
 		var xgcgNo=$("#xgcgNo").val();
 		var xgcgName=$("#xgcgName").val();
 		var xgtaskNo=$("#xgtaskNo").val();
 		var xgprjName=$("#xgprjName").val();
 		var xgyear=$("#xgyear").val();
-		/* var xgbumen=$("#xgbumen").val();
-		var xgrenyuan=$("#xgguanliren").val(); */
 		var xgrenyuan=$("#xgshouhuoren").val();
+		var xgyunfei=$("#xgyunfei").val();
 		var xgbeizhu=$("#xgbeizhu").val();
 		var xgyanshouyijian=$("#xgyanshouyijian").val();
+		
+		if(cgNo==''){
+			toastr.error("材料合同号为空")
+			return;
+		}
+		if(year==''){
+			toastr.error("来货日期为空")
+			return;
+		}
+		if(yunfei1==''){
+			toastr.error("运费不能为空")
+			return;
+		}
+		var gsclIn={
+				cmId:undefined,            
+				cgNo:undefined,			
+				cgName:undefined,			
+				taskNo:undefined,			
+				demandProject:undefined,	
+				sentDate:undefined,		
+				collectPerson:undefined,	
+				cmDesc:undefined,			
+				acceptanceOpinion:undefined,
+				OutState:0,	
+				freight:0,
+				gsInCl:undefined,
+		}
+		gsclIn.cmId=xgId;
+		gsclIn.cgNo=xgcgNo;				
+		gsclIn.cgName=xgcgName;				
+		gsclIn.taskNo=xgtaskNo;				
+		gsclIn.demandProject=xgprjName;		
+		gsclIn.sentDate=xgyear;			
+		gsclIn.collectPerson=xgrenyuan;		
+		gsclIn.cmDesc=xgbeizhu;				
+		gsclIn.acceptanceOpinion=xgyanshouyijian;	
+		gsclIn.OutState=0;			
+		gsclIn.freight=xgyunfei;
+		gsclIn.gsInCl=gsclInArr;
+		console.log(gsclIn)
+		var formData = new FormData();
+ 		formData.append("gsclIn", JSON.stringify(gsclIn));
+ 		
+ 		$("#edit_accessory tfoot").find("tr").each(function(){
+ 			formData.append("file", $(this).find(":file")[0].files[0]);
+ 		})
+		
+		$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/gsMaterialIn/updateGsMaterialInSave',
+	            data: formData,  
+	            processData: false,
+	            contentType: false,
+	            success: function (json) {
+	            	if(json.result>0){
+						$("#myModal").modal("hide")
+						toastr.success("修改成功")
+					}else{
+						toastr.error("修改失败")
+					}
+	            }
+	        });
+	}
+	 
+	/* function checkSave(){
 		
 		var buyNo="";
 		for(var i=0;i<xgarrayClId.length;i++){
@@ -2312,7 +2435,7 @@ function xgsaveCgName(){
 	            }
 	        };
 			$("#edit_form").ajaxSubmit(options);
-	}
+	} */
 	
 	
 	
@@ -2324,7 +2447,7 @@ function xgsaveCgName(){
 			$("#new_accessory tbody").append("<tr><td>新附件</td><td><input type='file' name='file'  style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
 		}
 	function addFile2(){
-		$("#edit_accessory tbody").append("<tr><td>新附件</td><td colspan='2'><input type='file' name='file'  style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+		$("#edit_accessory tfoot").append("<tr><td>新附件</td><td colspan='2'><input type='file' name='file'  style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
 	}
 	
 	function removeFile(obj){
@@ -2648,166 +2771,6 @@ function xgsaveCgName(){
 		$("#lingliaoren2").val(data.uName);
 	}
 	
-	//提交
-	function submitClck2(){
-			var clOut= new Array();
-	    	var material= new Array();
-	    	//材料信息
-	    	$("#cailiaobiao2 tbody").find(":checkbox:checked").each(function(){
-		       var clname = $(this).parent().next().text();//材料名
-		       var cltype = $(this).parent().next().next().text();//材料类型
-		       var clxinghao = $(this).parent().next().next().next().text();//材料型号
-		       var cldanwei = $(this).parent().next().next().next().next().text();//材料单位
-		       var num = $(this).parent().next().next().next().next().next().text();//材料数量
-		       var cldanjia = $(this).parent().next().next().next().next().next().next().text();//材料单价
-		       var lingNum = $(this).parent().next().next().next().next().next().next().next().find("input").val();//领料数量
-		       var shengyuNum=num-lingNum;
-		       var outMoney=lingNum*cldanjia;
-		       var reg=/^\+?[1-9][0-9]*$/;
-		   	   if(!reg.test(lingNum)){
-		   			toastr.error("请输入数字")
-		       		return;
-		   		}
-		       if(Number(lingNum)>Number(num)){
-		    	   toastr.error("领料数量不能超过原有数量")
-	       			return;
-		       }
-		       var arr={
-			    		gsId:undefined,
-			    		gsOutId:undefined,
-			    		materialName:undefined,
-			    		materialType:undefined,
-			    		specificationModel:undefined,
-			    		cmoUnit:undefined,
-			    		cmoUnitPrice:undefined,
-			    		cmoNumber:undefined,
-			    		remainNumber:undefined,
-			    		cmoMoney:undefined,
-			    		pickDate:undefined
-			    }
-			    arr.gsId=null;
-			    arr.gsOutId=null;
-			    arr.materialName=clname;
-			    arr.materialType=cltype;
-			    arr.specificationModel=clxinghao;
-			    arr.cmoUnit=cldanwei;
-			    arr.cmoUnitPrice=cldanjia
-			    arr.cmoNumber=lingNum;
-			    arr.remainNumber=shengyuNum;
-			    arr.cmoMoney=outMoney;
-			    arr.pickDate=null;
-			    material.push(arr);
-		    });
-	    	
-	    	var array=new Array();
-	    	//修改材料剩余数量
-			$("#cailiaobiao2 tbody").find(":checkbox:checked").each(function(){
-				   var num = $(this).parent().next().next().next().next().next().text();//材料数量
-				   var id = $(this).parent().next().next().next().next().next().next().next().find("input").attr("dataId");//id
-			       var lingNum = $(this).parent().next().next().next().next().next().next().next().find("input").val();//领料数量
-			       var shengyuNum=num-lingNum;
-			       var arr={
-			    		   mdlId:undefined,
-			    		   remainNumber:undefined,
-				    }
-			       arr.mdlId=id;
-				   arr.remainNumber=shengyuNum;
-				   array.push(arr)
-			})
-	    	
-	    	
-	    	if(material.length!=0){
-		    	var cgNo=$("#cgNo2").val();
-				var cgName=$("#cgName2").val();
-				var taskNo=$("#taskNo2").val();
-				var prjName=$("#prjName2").val();
-				var year=$("#year2").val();
-				var renyuan=$("#lingliaoren2").val();
-				var beizhu=$("#beizhu2").val();
-				if(cgNo==''){
-					toastr.error("采购合同号为空")
-					return;
-				}
-				var arr2={
-						cmoId:undefined,
-						cgNo:undefined,
-						cgName:undefined,
-						taskNo:undefined,
-						pickProject:undefined,
-						pickDate:undefined,
-						pickPerson:undefined,
-						cmoDesc:undefined,
-						type:undefined,
-						gsClOut:undefined,
-						md:undefined
-	    		}
-				arr2.cmoId=null;
-				arr2.cgNo=cgNo;
-				arr2.cgName=cgName;
-				arr2.taskNo=taskNo;
-				arr2.pickProject=prjName;
-				arr2.pickDate=year;
-				arr2.pickPerson=renyuan;
-				arr2.cmoDesc=beizhu;
-				arr2.type=1;
-				arr2.gsClOut=material;
-				arr2.md=array;
-				clOut.push(arr2);
-	    		//console.log(clOut)
-				$.ajax({
-					type: 'POST',
-		            url: getContextPath()+'/gsMaterialOut/addGsMaterialOutSubmit',
-		            dataType: 'json',
-		            contentType:'application/json',
-		            data:JSON.stringify(clOut),
-		            success: function (json) {
-		            	//console.log(json);
-		            	if(json=='0'){
-			        		toastr.error("保存失败");
-			        	}else{
-			        		$("#myModal2").modal("hide");
-			        		lianjie=json.url;
-			            	if(json.receiver!=null&&json.receiver.length>=1){
-				        		  $("#tijiaogei").modal('show');
-				        		  $("#tijiaoren tbody").empty("");
-				        		  for(var i=0;i<json.receiver.length;i++){
-				        			  $("#tijiaoren tbody").append('<tr><td>'
-				        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
-				        					  +'</td><td>'
-				        					  +json.receiver[i].omName
-				        					  +'</td><td>'
-				        					  +json.receiver[i].dutyName
-				        					  +'</td><td>'
-				        					  +json.receiver[i].uName
-				        					  +'</td></tr>');
-				        		  }
-				        	  }else if(json.receiver.length==1){
-				        		  $.ajax({
-				        	          type: 'POST',
-				        	          url: getContextPath()+'/task/addTask4',
-				        	          dataType: 'json',
-				        	          data:{
-				        	        	  url:json.url,
-				        	        	  userId:json.receiver.userId,
-				        	        	  uName:json.receiver.uName,
-				        	        	  omName:json.receiver.omName,
-				        	        	  dutyName:json.receiver.dutyName,
-				        	        	  omId:json.receiver.omId,
-				        	        	  dutyId:json.receiver.dutyId
-				        	          },
-				        	          success: function (json) {
-				        	        	  toastr.success('提交成功');
-				        	          }
-				        	      }); 
-				        	  }
-			        	}
-		            }
-				})  
-		    }else{
-		    	toastr.error("材料信息为空")
-		    } 
-			
-		}
 	
     function getCreat(bb){
         var EnterpriseRating= $(bb).parent().prev().text();

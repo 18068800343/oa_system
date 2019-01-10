@@ -86,7 +86,25 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 
 	@Override
 	public int updateGsMaterialInSave(CompanyMateriaIn cm) {
-		return gmDao.updateGsMaterialInSave(cm);
+		int i=gmDao.updateGsMaterialInSave(cm);
+		if(i>0){
+			List<Accessory> accessory=cm.getAccessory();
+			if(accessory!=null&&accessory.size()>0){
+				i=adao.addAccessory(accessory);
+			}
+			List<CompanyMaterialInCl> gsInCl = cm.getGsInCl();
+			List<CompanyMaterialInCl> gsInClById = gsInCldao.selectGsInClById(cm.getCmId());
+			if(gsInClById!=null&&gsInClById.size()>0){
+				i=gsInCldao.deleteGsInClById(cm.getCmId());
+				if(i>0 && gsInCl!=null && gsInCl.size()>0){
+					for(int j=0;j<gsInCl.size();j++){
+						gsInCl.get(j).setGsInId(cm.getCmId());
+					}
+					i=gsInCldao.addGsInCl(gsInCl);
+				}
+			}
+		}
+		return i;
 	}
 
 	@Override
