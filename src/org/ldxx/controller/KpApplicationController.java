@@ -1,19 +1,26 @@
 package org.ldxx.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.CjContract;
+import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.KpApplication;
 import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.Task;
+import org.ldxx.bean.User;
+import org.ldxx.dao.OrganizationManagementDao;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.KpApplicationService;
 import org.ldxx.service.PrjProgressFillService;
 import org.ldxx.service.TaskService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +39,8 @@ public class KpApplicationController {
 	private TaskService tService;
 	@Autowired
 	private CjContractService cService;
+	@Autowired
+	private OrganizationManagementDao omDao;
 	
 	@RequestMapping("/addKpApplicationBySave")
 	@ResponseBody
@@ -48,11 +57,39 @@ public class KpApplicationController {
 	
 	@RequestMapping("/addKpApplicationBySubmit")
 	@ResponseBody
-	public int addKpApplicationBySubmit(KpApplication kp){
+	public int addKpApplicationBySubmit(KpApplication kp,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		kp.setKpId(id);
 		int i=service.addKpApplication(kp);
+		User user = (User) session.getAttribute("user");
+		FlowUtill flowUtill = new FlowUtill();
+		CurrentFlow currentFlow = new CurrentFlow();
+		currentFlow.setParams("1");
+		currentFlow.setTitle(kp.getPrjName()+"开票申请");
+		currentFlow.setActor(user.getUserId());
+		currentFlow.setActorname(user.getuName());;
+		currentFlow.setMemo(kp.getPrjName()+"流程发起");
+		currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
+		currentFlow.setParams("{'cs':'1'}");
+		currentFlow.setStarter(user.getUserId());
+		String omNo = omDao.selectOrgById(user.getOmId()).getOmNo();
+		currentFlow.setStartername(user.getuName());
+		currentFlow.setFkDept(omNo);
+		currentFlow.setDeptname(user.getOmName());
+		currentFlow.setNodename("节点名称");
+		currentFlow.setPri(1);
+		currentFlow.setSdtofnode(new Date());
+		currentFlow.setSdtofflow(new Date());
+		currentFlow.setFlowEndState(2);
+		currentFlow.setFlowNopassState(0);
+		String string = "";
+		try {
+			/*string = flowUtill.submitGetReceiver(currentFlow,omNo);*/
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return i;
 	}
 	
