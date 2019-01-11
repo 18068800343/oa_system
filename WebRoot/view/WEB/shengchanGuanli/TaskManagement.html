@@ -456,10 +456,9 @@
                                 <td style="width:10%;">甲方单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td  style="width:21%;">
                                 	<div class="yihang">
-	                                	<select class="form-control" style="width:60%;" id="xgyezhudanwei">
+	                                	<select class="form-control" style="width:80%;" id="xgyezhudanwei">
 	                                        
 	                                    </select>
-	                                    <button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="xgxuanzelianxiren" data-toggle="modal" data-target="#xgaddGuanliren">新建联系人</button>
                                 	</div>
                                 </td>
                                 <td  style="width:8%;">任务金额  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -495,16 +494,21 @@
                 <table class="table table-bordered table-condensed">
                             <tr>
                                 <td style="width:10%;">联系人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td style="width:40%;">
-                                    <select class="form-control" style="width:200px;" id="xglianxiren">
+                                <td style="width:20%;">
+                                    <select class="form-control" style="width:80%;" id="xglianxiren">
                                     </select>
                                 </td>
                                 <td style="width:10%;">联系方式  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td style="width:30%;">
-                                    <select class="form-control" style="width:300px;" id="xglianxifangshi">
+                                <td style="width:20%;">
+                                    <select class="form-control" style="width:80%;" id="xglianxifangshi">
                                     </select>
                                 </td>
-                                <td><button type="button" class="btn btn-info" onclick="xgaddLianxiren()">添加</button></td>
+                                <td>
+                                	<div class="yihang">
+                                		<button type="button" style="margin-left: 10px;" class="btn btn-primary"  id="xgxuanzelianxiren" data-toggle="modal" data-target="#xgaddGuanliren">新建联系人</button>
+                                		<button type="button" class="btn btn-info" style="margin-left: 10px;" onclick="xgaddLianxiren()">添加</button>
+                                	</div>
+                                </td>
                             </tr>
                         </table>
                         <table class="table table-bordered table-condensed" id="xglianxibiaoge">
@@ -537,8 +541,8 @@
                                             <select class="form-control" style="width:150px;" id="xgzhuban">
                                                 
                                             </select>
-                                            <input type="text" class="form-control" style="width:150px;" placeholder="金额" id="xgzhubanjine">
-                                            <input type="text" id="xgchenbenfentanbili" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例"  onchange="appendBfh(this)">
+                                            <input type="text" class="form-control" style="width:150px;margin-left:9px;" placeholder="金额" id="xgzhubanjine">
+                                            <input type="text" id="xgchenbenfentanbili" class="form-control" style="width:150px;margin-left:9px;" placeholder="成本分摊比例"  onchange="appendBfh(this)">
                                         </form>
                                     </td>
                                 </tr>
@@ -610,7 +614,7 @@
 	                            </td>
 	                            <td>项目来源</td>
 	                            <td id="look_prj_source"></td>
-	                            <td>预估合同金额</td>
+	                            <td></td>
 	                            <td></td>
 	                        </tr>
                     	</tbody>
@@ -633,7 +637,7 @@
                     <table class="table table-bordered table-condensed" id="look_xieban_table">
                     	<thead>
                     		<tr>
-                    			<th colspan="8">查看承接信息</th>
+                    			<th colspan="6">查看承接部门信息</th>
                     		</tr>
                     	</thead>
                     	<tbody>
@@ -1027,6 +1031,7 @@
 <script src="../../js/datatables/jszip.min.js"></script>
 <script>  
     $(document).ready( function () {
+    	$("#zhuangtai").trigger("change");
     	laydate.render({
             elem: '#year' //指定元素
         });
@@ -1058,7 +1063,6 @@
         initType();
         leixingSelect2();
         leixingSelect3();
-       /*initTable(); */
         initbzhiwu();
         initbushei();
         initbumen();
@@ -1380,7 +1384,6 @@
                 	$("#zhuban").trigger('change');
                 	$("#xgzhuban").trigger('change');
                 }
-                $("#zhuangtai").trigger("change");
             }
 		});
 	}
@@ -1445,7 +1448,6 @@
                     $.ajax({
                 		type:"post",
                 		url:getContextPath()+"/login/getUser",
-                		async:false,
                 		data:{
                 		},
                 		success:function(json){
@@ -1508,7 +1510,6 @@
                     $.ajax({
                 		type:"post",
                 		url:getContextPath()+"/login/getUser",
-                		async:false,
                 		data:{
                 		},
                 		success:function(json){
@@ -1573,7 +1574,6 @@
                     $.ajax({
                 		type:"post",
                 		url:getContextPath()+"/login/getUser",
-                		async:false,
                 		data:{
                 		},
                 		success:function(json){
@@ -2594,6 +2594,7 @@
 	            	$("#xgendTime").val(json.prjEndTime);
 	            	$("#xgzhuban").val(json.mainDepartment);
 	            	$("#xgzhubanjine").val(json.mainDepartmentMoney);
+	            	$("#xgchenbenfentanbili").val(json.mainDepartmentCost);
 	            	$("#xggaikuang").val(json.workContent);
 	            	/* var xieban1=$("#xgxieban1").val(json.assistDepartment1);
 	            	var xieban1jine=$("#xgxiebanMoney1").val(json.assistDepartment1Money);
@@ -2617,39 +2618,42 @@
 	        	                +'<form class="form-inline">'
 	        	                    +'<select class="form-control" id="xgxieban1" style="width:150px;">'
 	        	                    +'</select>'
-	        	                    +'<input type="text" id="xgxiebanMoney1" class="form-control" style="width:150px;" placeholder="金额">'
-	        	                    +'<input type="text" class="form-control" >'
+	        	                    +'<input type="text" id="xgxiebanMoney1" class="form-control" style="width:150px;margin-left:10px;" placeholder="金额">'
+	        	                    +'<input type="text" id="xgxiebanCost1" class="form-control" style="width:150px;margin-left:10px;">'
 	        	                    +"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
 	        	                +'</form>'
 	        	                +"</td></tr>");
 	            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
 	            		$("#xgxiebanMoney1").val(json.assistDepartment1Money);
+	            		$("#xgxiebanCost1").val(json.assistDepartment1Cost)
 	            	}
 	            	if(json.assistDepartment2!=null&&json.assistDepartment2!=""){
 	            		$("#xgxieban tbody").append("<tr class='xieban'><td>"+"协办部门2"+"</td><td>"
 	        	                +'<form class="form-inline">'
 	        	                    +'<select class="form-control" id="xgxieban2" style="width:150px;">'
 	        	                    +'</select>'
-	        	                    +'<input type="text" id="xgxiebanMoney2" class="form-control" style="width:150px;" placeholder="金额">'
-	        	                    +'<input type="text" class="form-control" >'
+	        	                    +'<input type="text" id="xgxiebanMoney2" class="form-control" style="width:150px;margin-left:10px;" placeholder="金额">'
+	        	                    +'<input type="text" id="xgxiebanCost2" class="form-control" style="width:150px;margin-left:10px;">'
 	        	                    +"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
 	        	                +'</form>'
 	        	                +"</td></tr>");
 	            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
 	            		$("#xgxiebanMoney2").val(json.assistDepartment2Money);
+	            		$("#xgxiebanCost2").val(json.assistDepartment2Cost)
 	            	}
 	            	if(json.assistDepartment3!=null&&json.assistDepartment3!=""){
 	            		$("#xgxieban tbody").append("<tr class='xieban'><td>协办部门3</td><td>"
 	        	                +'<form class="form-inline">'
 	        	                    +'<select class="form-control" id="xgxieban3" style="width:150px;">'
 	        	                    +'</select>'
-	        	                    +'<input type="text" id="xgxiebanMoney3" class="form-control" style="width:150px;" placeholder="金额">'
-	        	                    +'<input type="text" class="form-control" >'
+	        	                    +'<input type="text" id="xgxiebanMoney3" class="form-control" style="width:150px;margin-left:10px;" placeholder="金额">'
+	        	                    +'<input type="text" id="xgxiebanCost3" class="form-control" style="width:150px;margin-left:10px;">'
 	        	                    +"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
 	        	                +'</form>'
 	        	                +"</td></tr>");
 	            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
 	            		$("#xgxiebanMoney3").val(json.assistDepartment3Money);
+	            		$("#xgxiebanCost3").val(json.assistDepartment3Cost);
 	            	}
 	            	
 	            	 $("#diyi").removeClass("active");
@@ -3095,16 +3099,16 @@
             	$("#lookgaikuang").text(task.workContent);
             	
             	$("#look_xieban_table tbody").html('');
-            	$("#look_xieban_table tbody").append("<tr><td style='width:10%;'>主办部门</td><td>"+task.omName+"</td><td>金额</td><td>"+task.mainDepartmentMoney+"</td></tr>")
+            	$("#look_xieban_table tbody").append("<tr><td style='width:15%;'>主办部门</td><td style='width:20%;'>"+task.omName+"</td><td style='width:10%;'>金额</td><td style='width:20%;'>"+task.mainDepartmentMoney+"</td><td style='width:15%;'>成本分摊比例</td><td style='width:20%;'>"+task.mainDepartmentCost+"</td></tr>")
             	
             	if(task.name1!=null&&task.name1!=''){
-            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name1+"</td><td>金额</td><td>"+task.assistDepartment1Money+"</td></tr>")
+            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name1+"</td><td>金额</td><td>"+task.assistDepartment1Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment1Cost+"</td></tr>")
             	}
 				if(task.name2!=null&&task.name2!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name2+"</td><td>金额</td><td>"+task.assistDepartment2Money+"</td></tr>")
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name2+"</td><td>金额</td><td>"+task.assistDepartment2Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment2Cost+"</td></tr>")
             	}
 				if(task.name3!=null&&task.name3!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name3+"</td><td>金额</td><td>"+task.assistDepartment3Money+"</td></tr>")
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name3+"</td><td>金额</td><td>"+task.assistDepartment3Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment3Cost+"</td></tr>")
 				}
             	
             	$("#looklianxibiaoge tbody").empty("");
@@ -3155,16 +3159,16 @@
             	$("#lookgaikuang").text(task.workContent);
             	
             	$("#look_xieban_table tbody").html('');
-            	$("#look_xieban_table tbody").append("<tr><td  style='width:10%;'>主办部门</td><td>"+task.omName+"</td><td>金额</td><td>"+task.mainDepartmentMoney+"</td></tr>")
+            	$("#look_xieban_table tbody").append("<tr><td style='width:15%;'>主办部门</td><td style='width:20%;'>"+task.omName+"</td><td style='width:10%;'>金额</td><td style='width:20%;'>"+task.mainDepartmentMoney+"</td><td style='width:15%;'>成本分摊比例</td><td style='width:20%;'>"+task.mainDepartmentCost+"</td></tr>")
             	
             	if(task.name1!=null&&task.name1!=''){
-            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name1+"</td><td>金额</td><td>"+task.assistDepartment1Money+"</td></tr>")
+            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name1+"</td><td>金额</td><td>"+task.assistDepartment1Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment1Cost+"</td></tr>")
             	}
 				if(task.name2!=null&&task.name2!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name2+"</td><td>金额</td><td>"+task.assistDepartment2Money+"</td></tr>")
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name2+"</td><td>金额</td><td>"+task.assistDepartment2Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment2Cost+"</td></tr>")
             	}
 				if(task.name3!=null&&task.name3!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name3+"</td><td>金额</td><td>"+task.assistDepartment3Money+"</td></tr>")
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name3+"</td><td>金额</td><td>"+task.assistDepartment3Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment3Cost+"</td></tr>")
 				}
             	
             	$("#looklianxibiaoge tbody").empty("");

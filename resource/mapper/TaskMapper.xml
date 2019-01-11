@@ -44,8 +44,18 @@
  	       <id property="prjNoc" column="prj_no" />
  	       <result property="prjCompany1" column="prjCompany1" />
  	    </association>
-        
+ 	    <collection property="cj" column="prj_no" ofType="CjContract" select="selectCjContractByTaskNo">
+ 	       <id property="cjId" column="cj_id" />
+ 	       <result property="contractName" column="contract_name" />
+ 	       <result property="contractNo" column="contract_no" />
+ 	       <result property="contractMoney" column="contract_money" />
+ 	       <result property="temporaryMoney" column="temporary_money" />
+ 	    </collection>
     </resultMap>
+
+	<select id="selectCjContractByTaskNo" resultType="CjContract">
+		select cj_id,contract_name,contract_no,contract_money,temporary_money from cj_contract where task_code = #{prj_no} and history=1
+	</select>
 
   	<insert id="addTask" parameterType="task">
   		 insert into task(prj_id,prj_type2,prj_no,prj_name,prj_area,prj_management_model,prj_company,prj_source,prj_owner_unit,work_content,

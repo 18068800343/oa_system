@@ -383,14 +383,13 @@ public class TaskController {
 		@RequestParam(defaultValue="0")float zdMoneyMin,@RequestParam(defaultValue="0")float zdMoneyMax){
 		List<Task> task=tService.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 		for(int i=0;i<task.size();i++){
-			String no=task.get(i).getPrjNo();
+			/*String no=task.get(i).getPrjNo();
 			String id = task.get(i).getPrjId();
-			//String company1 = taskDao.selectTaskById(id).getPrjCompany1();
-			List<CjContract> cj=cjservice.selectCjContractByTaskNo(no);
+			List<CjContract> cj=cjservice.selectCjContractByTaskNo(no);*/
 			if(""!=task.get(i).getPrjCompanyVo().getPrjCompany1()){
 				task.get(i).setPrjCompany(task.get(i).getPrjCompanyVo().getPrjCompany1());
 			}
-			task.get(i).setCj(cj);
+			/*task.get(i).setCj(cj);*/
 		}
 		return task;
 	}
