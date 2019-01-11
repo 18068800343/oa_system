@@ -204,7 +204,7 @@
                                 <td  style="width:25%;">
                                 	<input type="text" class="form-control"  id="taskName">
                                 </td>
-                                <td  style="width:15%;">所属区域  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td  style="width:12%;">所属区域  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td  style="width:25%;">
                                             <div class="docs-methods" style="width:100%;">
                                                 <form class="form-inline">
@@ -218,7 +218,7 @@
                                                 </form>
                                             </div> 
                                 </td>
-                                <td  style="width:10%;">项目经营模式  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td  style="width:13%;">项目经营模式  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td  style="width:10%;">
                                 	<select class="form-control" style="width:100%;" id="moshi">
                                         <option>自营</option>
@@ -255,6 +255,17 @@
                             	</td> -->
                             </tr>
                             <tr>
+                            	<td>主任务单号</td>
+                            	<td>
+                            		<input type="text" class="form-control"  style="width:100%;" id="main_task_no" disabled>
+                            	</td>
+                            	<td>
+                            		<button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="chooseMainTask()">选择任务单</button>
+                            	</td>
+                            	<td></td>
+                            	<td></td>
+                            </tr>
+                            <tr>
                             	<td>项目概况及工作内容</td>
                                 <td colspan="9"><textarea class="form-control" rows="3" style="width:90%;" id="gaikuang"></textarea></td>
                             </tr>
@@ -272,7 +283,7 @@
                                 <td  style="width:10%;">甲方单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td  style="width:21%;">
                                 <form class="form-inline">
-                                	<select class="form-control" style="width:60%;" id="yezhudanwei">
+                                	<select class="form-control" style="width:80%;" id="yezhudanwei">
                                         
                                     </select>
                                     
@@ -812,6 +823,44 @@
     </div>
 </div>
 <!-- 提交 modal结束 -->
+
+<!-- Modal项目 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xiangmumd">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xiangmubiao" style="width:100%;">
+                            <thead>
+                            	<tr>
+                            		<th style="width:8%;"></th>
+                            		<th style="width:12%;">编号</th>
+                                    <th style="width:30%;">项目名称</th>
+                                    <th style="width:15%;">项目所属公司</th>
+                                    <th style="width:15%;">项目类型</th>
+                                    <th style="width:20%;">甲方单位</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="saveTask()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
 
 	<!-- 查看Modal -->
 				<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="look_history_info">
@@ -3336,6 +3385,22 @@
   	function appendBfh(obj){
   		var value=$(obj).val().replace("%","")+"%"
   		$(obj).val(value)
+  	}
+  	
+  	function chooseMainTask(){
+  		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectTaskByStatus',
+	            dataType: 'json',
+	            data: {
+	            	status:2,
+	            },
+	            success: function (json) {
+	                $('#xiangmubiao').dataTable().fnClearTable();
+	                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
+	                $("#xiangmumd").modal("show");
+	            }
+	      });
   	}
 </script>
 

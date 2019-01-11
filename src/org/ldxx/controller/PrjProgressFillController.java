@@ -450,7 +450,7 @@ public class PrjProgressFillController {
 	
 	@RequestMapping("/getPrjAllMoney")
 	@ResponseBody
-	public Map<String,Object> getPrjAllMoney(String all,String no,float prjMoney,int fbNum){
+	public Map<String,Object> getPrjAllMoney(String all,String no){
 		Map<String,Object> map=new HashMap<>();
 		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
 		float a=Float.valueOf(all.replace("%",""));
@@ -461,7 +461,7 @@ public class PrjProgressFillController {
 		}
 		float p=a-l;
 		String present=p+"%";
-		float money=0;
+	/*float money=0;
 		CjContract cj=cService.selectCjContractLikeTaskNo(no);
 		if(cj==null||cj.equals("")){
 			money=prjMoney;
@@ -484,7 +484,7 @@ public class PrjProgressFillController {
 			float cost=Float.valueOf(costBud);
 			money=money-cost;
 		}
-		map.put("money", money);
+		map.put("money", money);*/
 		map.put("present", present);
 		return map;
 	}
