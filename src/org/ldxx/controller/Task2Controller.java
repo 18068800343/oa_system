@@ -9,9 +9,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.ldxx.bean.CompanyCost;
 import org.ldxx.bean.SecondCompanyCost;
 import org.ldxx.bean.TDepartment;
 import org.ldxx.bean.Task2;
+import org.ldxx.dao.CompanyCostDao;
 import org.ldxx.dao.SecondCompanyCostDao;
 import org.ldxx.service.TDepartmentService;
 import org.ldxx.service.Task2Service;
@@ -40,6 +42,9 @@ public class Task2Controller {
 	private TDepartmentService tdService;
 	@Autowired
 	private SecondCompanyCostDao sccDao;
+	
+	@Autowired
+	private CompanyCostDao ccDao;
 	@RequestMapping("/importExcel")
 	@ResponseBody
 	public int importExcel(@RequestParam("file") MultipartFile file,HttpServletResponse response,HttpSession session) throws IOException{
@@ -58,6 +63,15 @@ public class Task2Controller {
 		int i=sccDao.addSecondCompanyCost((List<SecondCompanyCost>) map.get("fR2"));
 		return i;
 	}
+	@RequestMapping("/importExcelCompanyCost")
+	@ResponseBody
+	public int importExcelCompanyCost(@RequestParam("file") MultipartFile file,HttpServletResponse response,HttpSession session) throws IOException{
+		InputStream is=file.getInputStream();
+		ImportData importData=new ImportData();
+		Map<String,Object> map=importData.readExcelCompanyCost(is);
+		int i=ccDao.addCompanyCost((List<CompanyCost>) map.get("fR2"));
+		return i;
+	}
 
 	@RequestMapping("/selectTask2")
 	@ResponseBody
@@ -70,6 +84,13 @@ public class Task2Controller {
 	@ResponseBody
 	public List<SecondCompanyCost> selectSecondCompanyCost(){
 		List<SecondCompanyCost> list=sccDao.selectSecondComCost();
+		return list;
+	}
+	
+	@RequestMapping("/selectCompanyCost")
+	@ResponseBody
+	public List<CompanyCost> selectCompanyCost(){
+		List<CompanyCost> list=ccDao.selectCompanyCost();
 		return list;
 	}
 	

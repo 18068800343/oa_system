@@ -12,6 +12,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 
@@ -22,6 +24,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.ldxx.bean.CompanyCost;
 import org.ldxx.bean.FinancialTables;
 import org.ldxx.bean.ReceiveMoney;
 import org.ldxx.bean.SecondCompanyCost;
@@ -375,4 +378,102 @@ public class ImportData {
 	        map.put("fR2", t);
 	        return map;  
 	    }
+	 public  Map<String,Object> readExcelCompanyCost(InputStream is) throws IOException { 
+		 Map<String,Object> map=new HashMap<String, Object>();
+		 Workbook  hssfWorkbook=null;
+		 try {
+			 hssfWorkbook = WorkbookFactory.create(is);  
+		 } catch (Exception e) {
+			 e.printStackTrace();
+		 }  
+		 List<CompanyCost> t = new ArrayList<CompanyCost>();
+		 // 循环工作表Sheet  
+		 for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) { 
+			 Sheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);  
+			 if (hssfSheet == null) {  
+				 continue;  
+			 }  
+			 // 循环行Row  
+			 for (int rowNum = 0; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {  
+				 Row hssfRow = hssfSheet.getRow(rowNum);
+				 if (hssfRow == null) {  
+					 continue;  
+				 }  
+				 int cells=hssfRow.getPhysicalNumberOfCells();
+				 
+				 CompanyCost ft=new CompanyCost();
+				 
+				 Cell colum1 = hssfRow.getCell(1);  
+				 
+				 String c2 = getValue(colum1);
+				 if("".equals(colum1)||null==colum1||!isNumeric(c2)){
+					 continue;
+				 }
+				 Cell colum2 = hssfRow.getCell(2);  
+				 Cell colum3 = hssfRow.getCell(3);  
+				 Cell colum4 = hssfRow.getCell(4);  
+				 Cell colum5 = hssfRow.getCell(5);
+				 Cell colum6 = hssfRow.getCell(6);
+				 Cell colum9 = hssfRow.getCell(9);
+				 boolean flag=true;
+					 /*if(t.size()>0){
+	                	for(int i=0;i<t.size();i++){
+	                    	String no=t.get(i).gettNo();
+	                    	if(no.equals(tNo)){
+	                    		flag=false;
+	                    		break;
+	                    	}else{
+	                    		flag=true;
+	                    	}
+	                    }
+	                }*/
+					 if(flag==true){
+						 ft.setId(new TimeUUID().getTimeUUID());
+						 ft.setXuhao(getValue(colum1));
+						 String cc3 = getValue(colum3);
+						 ft.setTaskCode(cc3);
+						 if(cc3.contains("-")){
+							 ft.setType("0");
+						 }else{
+							 ft.setType("1");
+						 }
+						 ft.setPrjName(getValue(colum4));
+						 String cc6 = getValue(colum6);
+						 if(!"".equals(cc6)){
+							 cc6 = cc6.replace("：", ":");
+							 if(cc6.contains("宿迁分公司")){
+						     cc6 = cc6.replace("宿迁分公司", "工程建设二部");
+							 }
+							 if(cc6.contains(":")){
+								String[] strings =  cc6.split(":");
+								String nowStr = strings[1];
+								if(nowStr.endsWith("】")){
+									nowStr = nowStr.substring(0, nowStr.length()-1);
+								}
+								 ft.setDepartName(nowStr);
+							 }
+						 }
+						 String cc9 = getValue(colum9).trim();
+						 if(!"".equals(cc9)){
+							 cc9 = cc9.replace(" ", "").replace("，", "").replace(",","");
+							 ft.setMoney(Double.valueOf((cc9)));
+						 }else{
+							 ft.setMoney(null);
+						 }
+						 ft.setDate(TimeUUID.getLastMonth());
+						 t.add(ft);
+					 }
+			 }  
+		 } 
+		 map.put("fR2", t);
+		 return map;  
+	 }
+    public static boolean isNumeric(String str){
+       Pattern pattern = Pattern.compile("[0-9]*");
+       Matcher isNum = pattern.matcher(str);
+       if(!isNum.matches() ){
+           return false;
+       }
+       return true;
+    }
 }

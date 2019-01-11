@@ -309,6 +309,7 @@ public class TaskController {
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl(url);
+		currentFlow.setLastView(view);
 		FlowHistroy	flowHistroy = new FlowHistroy();
 		User user = (User) session.getAttribute("user");
 	    flowHistroy.setActor(user.getUserId());

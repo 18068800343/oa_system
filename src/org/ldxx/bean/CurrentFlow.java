@@ -66,7 +66,27 @@ public class CurrentFlow {
     
     private String step;
     
-    public String getStep() {
+    private String lastView;
+    
+    private String lastPerson;
+    
+    public String getLastView() {
+		return lastView;
+	}
+
+	public void setLastView(String lastView) {
+		this.lastView = lastView;
+	}
+
+	public String getLastPerson() {
+		return lastPerson;
+	}
+
+	public void setLastPerson(String lastPerson) {
+		this.lastPerson = lastPerson;
+	}
+
+	public String getStep() {
 		return step;
 	}
 

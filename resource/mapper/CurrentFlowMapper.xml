@@ -31,6 +31,8 @@
     <result column="Flow_Node_Last" property="flowNodeLast" jdbcType="VARCHAR" />
     <result column="last_operate_type" property="lastOperateType" jdbcType="INTEGER" />
     <result column="step" property="step" jdbcType="VARCHAR" />
+    <result column="last_view" property="lastView" jdbcType="VARCHAR" />
+    <result column="last_person" property="lastPerson" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -93,12 +95,12 @@
   <sql id="Base_Column_List" >
     ID, Flo_Node_ID, Flo_Tmp_ID, Bus_ID, URL, Params, Title, WFState, Starter, StarterName, 
     Actor, ActorName, RDT, FK_Dept, DeptName, NodeName, PRI, SDTOfNode, SDTOfFlow, Agent, 
-    AgentType, Memo, ReadReceipts, do_date, mode_id, flow_end_state, Flow_Node_Last,flow_nopass_state,last_operate_type
+    AgentType, Memo, ReadReceipts, do_date, mode_id, flow_end_state, Flow_Node_Last,flow_nopass_state,last_operate_type,last_view,last_person
   </sql>
     <sql id="Base_Column_List_new" >
     a.ID, a.Flo_Node_ID, a.Flo_Tmp_ID, a.Bus_ID, a.URL, a.Params, a.Title, a.WFState, a.Starter, a.StarterName, 
     a.Actor, a.ActorName, a.RDT, a.FK_Dept, a.DeptName, a.NodeName, a.PRI, a.SDTOfNode, a.SDTOfFlow, a.Agent, 
-    a.AgentType, a.Memo, a.ReadReceipts, a.do_date, a.mode_id, a.flow_end_state, a.Flow_Node_Last,a.flow_nopass_state,a.last_operate_type,b.step
+    a.AgentType, a.Memo, a.ReadReceipts, a.do_date, a.mode_id, a.flow_end_state, a.Flow_Node_Last,a.flow_nopass_state,a.last_operate_type,b.step,a.last_view,a.last_person
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ldxx.bean.CurrentFlowExample" >
     select
@@ -144,7 +146,7 @@
       NodeName, PRI, SDTOfNode, 
       SDTOfFlow, Agent, AgentType, 
       Memo, ReadReceipts, do_date, 
-      mode_id, flow_end_state, Flow_Node_Last,flow_nopass_state,last_operate_type
+      mode_id, flow_end_state, Flow_Node_Last,flow_nopass_state,last_operate_type,last_view,last_person
       )
     values (#{id,jdbcType=VARCHAR}, #{floNodeId,jdbcType=VARCHAR}, #{floTmpId,jdbcType=VARCHAR}, 
       #{busId,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, 
@@ -155,7 +157,7 @@
       #{sdtofflow,jdbcType=TIMESTAMP}, #{agent,jdbcType=VARCHAR}, #{agenttype,jdbcType=VARCHAR}, 
       #{memo,jdbcType=VARCHAR}, #{readreceipts,jdbcType=INTEGER}, #{doDate,jdbcType=TIMESTAMP}, 
       #{modeId,jdbcType=VARCHAR}, #{flowEndState,jdbcType=INTEGER}, #{flowNodeLast,jdbcType=VARCHAR},
-      #{flowNopassState,jdbcType=INTEGER},#{lastOperateType,jdbcType=INTEGER}
+      #{flowNopassState,jdbcType=INTEGER},#{lastOperateType,jdbcType=INTEGER}, #{lastView,jdbcType=VARCHAR}, #{lastPerson,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="org.ldxx.bean.CurrentFlow" >
@@ -246,6 +248,12 @@
       <if test="lastOperateType != null" >
         last_operate_type,
       </if>
+      <if test="lastView != null" >
+        last_view,
+      </if>
+      <if test="lastPerson != null" >
+        last_person,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{id,jdbcType=VARCHAR},
@@ -332,6 +340,12 @@
       </if>
       <if test="lastOperateType != null" >
         #{lastOperateType,jdbcType=INTEGER},
+      </if>
+      <if test="lastView != null" >
+        #{lastView,jdbcType=INTEGER},
+      </if>
+      <if test="lastPerson != null" >
+        #{lastPerson,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -429,7 +443,13 @@
         flow_nopass_state = #{record.flowNopassState,jdbcType=INTEGER},
       </if>
       <if test="record.lastOperateType != null" >
-        last_operate_type = #{record.lastOperateType,jdbcType=INTEGER}
+        last_operate_type = #{record.lastOperateType,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastView != null" >
+        last_view = #{record.lastView,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastPerson != null" >
+        last_person = #{record.lastPerson,jdbcType=INTEGER}
       </if>
     </set>
     <if test="_parameter != null" >

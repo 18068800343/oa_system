@@ -233,6 +233,8 @@ public class FlowUtill {
 					currentFlow = currentFlows.get(0);
 					currentFlow.setDoDate(new Date());
 					currentFlow.setDeptname(currentFlowOld.getDeptname());
+					currentFlow.setLastView(currentFlowOld.getLastView());
+					currentFlow.setLastPerson(currentFlow.getActorname());
 					historyLastOperateType = currentFlow.getLastOperateType();
 					String oldFloNodeId = currentFlow.getFloNodeId();
 					FlowNode flowNode = INSTANCE.flowNodeMapper.selectByPrimaryKey(oldFloNodeId);
@@ -487,14 +489,15 @@ public class FlowUtill {
 			    currentFlow.setFloNodeId(flowNode1.getId());
 			    FlowHistroyExample example = new FlowHistroyExample();
 			    example.createCriteria().andFloNodeIdEqualTo(flowNode1.getId()).andUrlEqualTo(currentFlow.getUrl());
-				//将流程操作角色设置为发起流程的人
+			    currentFlow.setLastPerson(currentFlow.getActorname());
+			    //将流程操作角色设置为发起流程的人
 			    currentFlow.setActor(currentFlow.getStarter());
 			    //将流程操作角色设置为发起流程的人
 				currentFlow.setActorname(currentFlow.getStartername());
 				CurrentFlowExample example2 = new CurrentFlowExample();
 				example2.createCriteria().andIdEqualTo(currentFlowId);
 				currentFlow.setReadreceipts(0);
-				
+				currentFlow.setLastView(view);
 				INSTANCE.currentFlowMapper.updateByExampleSelective(currentFlow, example2);
 				
 				flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
@@ -515,6 +518,8 @@ public class FlowUtill {
 					currentFlow.setFloNodeId(currentFlow.getFlowNodeLast());
 					//退回流程，当前流程的上一步为现在正在操作的流程的 步骤主键
 					currentFlow.setFlowNodeLast(flowNode.getId());
+					currentFlow.setLastPerson(currentFlow.getActorname());
+					currentFlow.setLastView(view);
 					FlowHistroyExample example = new FlowHistroyExample();
 					INSTANCE.flowHistroyMapper.selectByExample(example);
 					
@@ -594,6 +599,7 @@ public class FlowUtill {
 				    String historyActor = currentFlowNow.getActor();
 				    String historyActorName = currentFlowNow.getActorname();
 				    Integer historyLastOperateType = currentFlowNow.getLastOperateType();
+				    String lastView = view;
 				    //退回流程，当前流程的上一步为现在正在操作的流程的 步骤主键
 				    currentFlowNow.setFlowNodeLast(currentFlowNow.getFloNodeId());
 					//退回到指定步骤
@@ -601,7 +607,8 @@ public class FlowUtill {
 				    currentFlowNow.setActor(currentFlow.getActor());
 				    currentFlowNow.setActorname(currentFlow.getActorname());
 				    currentFlowNow.setDeptname(currentFlow.getDeptname());
-				    
+				    currentFlowNow.setLastView(view);
+				    currentFlowNow.setLastPerson(historyActorName);
 					FlowHistroyExample example = new FlowHistroyExample();
 					INSTANCE.flowHistroyMapper.selectByExample(example);
 					flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlowNow, flowHistroy);
