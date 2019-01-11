@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CompanyMateriaIn;
+import org.ldxx.bean.CompanyMaterialInCl;
 
 public interface GsMaterialInService {
 
@@ -24,6 +25,14 @@ public interface GsMaterialInService {
 	CompanyMateriaIn selectGsClInById(String id);
 
 	int updateOutStateById(String id,String outstate);
+
+	List<CompanyMateriaIn> selectXmMaterialByPrj(String prjname, String outstate);
+
+	int updateXmState(CompanyMateriaIn gsIncl);
+
+	List<CompanyMateriaIn> selectAllXmReceivedGoods();
+
+	List<CompanyMaterialInCl> selectGsClInBytaskNo(String no);
 
 
 }

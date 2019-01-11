@@ -3,11 +3,11 @@
 <mapper namespace="org.ldxx.dao.GsMaterialInClDao">
 
 	<insert id="addGsInCl">
-		insert into company_material_in_cl(gs_in_id,cl_name,cl_type,cl_mode,cl_unit,cl_number,cl_price,cl_money,
+		insert into company_material_in_cl(cl_id,gs_in_id,cl_name,cl_type,cl_mode,cl_unit,cl_number,cl_price,cl_money,
 		cl_prj_supplier,cl_gs_supplier,cl_desc,cl_come_unit,cl_manufacturer)
 		values	
 			<foreach collection="gsInCl" item="item" index="index" separator=",">
-				(#{item.gsInId},#{item.clName},#{item.clType},#{item.clMode},#{item.clUnit},#{item.clNumber},#{item.clPrice}
+				(#{item.clId},#{item.gsInId},#{item.clName},#{item.clType},#{item.clMode},#{item.clUnit},#{item.clNumber},#{item.clPrice}
 				,#{item.clMoney},#{item.clPrjSupplier},#{item.clGsSupplier},#{item.clDesc},#{item.clComeUnit},#{item.clManufacturer})
 			</foreach>
 	</insert>
@@ -22,5 +22,16 @@
 	<delete id="deleteGsInClById">
 		delete from company_material_in_cl where gs_in_id=#{id}
 	</delete>
+	
+	
+	<select id="selectGsClInBytaskNo" resultType="CompanyMaterialInCl">
+		select a.*,b.demand_project from company_material_in_cl a
+		LEFT JOIN company_material_in b on a.gs_in_id=b.cm_id
+		where gs_in_id=(SELECT cm_id from  company_material_in WHERE task_no=#{no})
+	</select>
+	
+	<update id="updateRemain">
+		update company_material_in_cl set cl_remain=#{remain} where cl_id=#{id}
+	</update>
 	
 </mapper>

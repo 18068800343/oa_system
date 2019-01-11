@@ -61,7 +61,7 @@
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
-    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
+    <div class="modal-dialog modal-lg" role="document" style="width:80%;">
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -131,15 +131,19 @@
                           <table class="table table-bordered table-condensed"  id="cl_table">
                           	<thead>
                           		<tr>
-                          			<th style='width:15%;'>材料名称</th>
-                          			<th style='width:15%;'>材料类型</th>
-                          			<th style='width:10%;'>规格型号</th>
-                          			<th style='width:10%;'>单位</th>
-                          			<th style='width:10%;'>单价</th>
-                          			<th style='width:10%;'>库存总数</th>
-                          			<th style='width:10%;'>出库数量</th>
-                          			<th style='width:10%;'>入库时间</th>
-                          			<th style='width:10%;'>操作</th>
+                          			<th>材料名称</th>
+	                            	<th>材料类型</th>
+		                            <th>材料型号</th>
+		                            <th style='width:6%;'>单位</th>
+		                            <th>数量</th>
+		                            <th style='width:8%;'>单价</th>
+		                            <th style='width:8%;'>领料数量</th>
+		                            <th>项目部推荐供应商</th>
+		                            <th>公司确定供应商</th>
+		                            <th>备注</th>
+		                            <th>来货单位</th>
+		                            <th>生产厂家</th>
+		                            <th>操作</th>
                           		</tr>
                           	</thead>
                           	<tbody></tbody>
@@ -497,7 +501,7 @@
 		"columns": [
 					{ "data": null},
 					{ "data": "taskNo"},
-		            { "data": "pickProject"},
+		            { "data": "demandProject"},
 		            { "data": "cgNo"},
 		            { "data": "cgName"},
 		            
@@ -536,7 +540,7 @@
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 5,
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -724,6 +728,73 @@ Array.prototype.unique3 = function(){
     }
     
     function save(){
+    	var outArray=new Array();
+    	$("#cl_table tbody").find("tr").each(function(){
+    		var id=$(this).find("td").eq(0).find("input").attr("data-id");
+    		var clName=$(this).find("td").eq(0).find("input").val();
+    		var clType=$(this).find("td").eq(1).find("option:selected").val();
+    		var modeType=$(this).find("td").eq(2).find("input").val();
+    		var unit=$(this).find("td").eq(3).find("option:selected").val();
+    		var num=$(this).find("td").eq(4).find("input").val();
+    		var price=$(this).find("td").eq(5).find("input").val();
+    		var lingNum=$(this).find("td").eq(6).find("input").val();
+    		var prjSupplier=$(this).find("td").eq(7).find("option:selected").val();
+    		var GsSupplier=$(this).find("td").eq(8).find("option:selected").val();
+    		var desc=$(this).find("td").eq(9).find("input").val();
+    		var laihuodanwei=$(this).find("td").eq(10).find("input").val();
+    		var scchangjia=$(this).find("td").eq(11).find("input").val();
+    		
+    		var reg=/^\+?[1-9][0-9]*$/; 
+        	if(!reg.test(num)||!reg.test(num)){
+        		toastr.error("请输入数字")
+        		return false;
+        	}
+        	if(lingNum/1>num/1){
+        		toastr.error("领料数量不能超过库存数量")
+        		return false;
+        	}
+    		var cInfo={
+        			outId:undefined,
+        			clName:undefined,
+        			clType:undefined,
+        			modeType:undefined,
+        			unit:undefined,
+        			num:undefined,
+        			price:0,
+        			lingNum:undefined,
+        			sumPrice:0,
+        			outRemain:undefined,
+        			clPrjSupplier:undefined,
+        			clGsSupplier:undefined,
+        			clDesc:undefined,
+        			clComeUnit:undefined,
+        			clManufacturer:undefined,
+        	}
+    		var outRemain={
+    				id:undefined,
+    				remain:undefined,
+    		}
+    		
+        	var remain=Number(num)-Number(lingNum);
+        	outRemain.id=id;
+        	outRemain.remain=remain;
+        	cInfo.outRemain=outRemain;
+        	
+    		cInfo.clName=clName;
+    		cInfo.clType=clType;
+    		cInfo.modeType=modeType;
+    		cInfo.unit=unit;
+    		cInfo.num=num;
+    		cInfo.price=price;
+    		cInfo.lingNum=lingNum;
+    		cInfo.sumPrice=Number(num)*Number(price);
+    		cInfo.clPrjSupplier=prjSupplier
+    		cInfo.clGsSupplier=GsSupplier
+    		cInfo.clDesc=desc
+    		cInfo.clComeUnit=laihuodanwei
+    		cInfo.clManufacturer=scchangjia
+    		outArray.push(cInfo);
+    	})
     	var taskName=$("#prj_name").val();
     	var taskNo=$("#prj_no").val();
     	var getTime=$("#year").val();
@@ -739,67 +810,19 @@ Array.prototype.unique3 = function(){
     			infos:undefined,
     			cInfo:undefined
     	}
+    	clOut.outId=null;
     	clOut.taskNo=taskNo;
     	clOut.taskName=taskName;
     	clOut.getTime=getTime;
     	clOut.infos=infos;
     	clOut.getPerson=getPerson;
-    	
-    	var outArray=new Array();
-    	$("#cl_table tbody").find("tr").each(function(){
-    		var cInfo={
-        			outId:undefined,
-        			clName:undefined,
-        			clType:undefined,
-        			modeType:undefined,
-        			unit:undefined,
-        			num:0,
-        			price:0,
-        			sumPrice:0,
-        			outRemain:undefined
-        	}
-    		
-    		var outRemain={
-    				id:undefined,
-    				remain:0
-    		}
-    		
-    		var clName=$(this).find("td").eq(0).text();
-    		var clType=$(this).find("td").eq(1).text();
-    		var modeType=$(this).find("td").eq(2).text();
-    		var unit=$(this).find("td").eq(3).text();
-    		var price=$(this).find("td").eq(4).text();
-    		var allNum=$(this).find("td").eq(5).text();
-    		var num=$(this).find("input").eq(0).val();
-    		var id=$(this).find("input").eq(0).attr("data-id");
-    		
-    		var reg=/^\+?[1-9][0-9]*$/; 
-        	if(!reg.test(num)){
-        		toastr.error("请输入数字")
-        		return;
-        	}
-        	var remain=Number(allNum)-Number(num);
-        	outRemain.id=id;
-        	outRemain.remain=remain;
-        	cInfo.outRemain=outRemain;
-        	
-    		cInfo.clName=clName;
-    		cInfo.clType=clType;
-    		cInfo.modeType=modeType;
-    		cInfo.unit=unit;
-    		cInfo.price=price;
-    		cInfo.num=num;
-    		cInfo.sumPrice=Number(num)*Number(price);
-    		outArray.push(cInfo);
-    	})
-    	
     	clOut.cInfo=outArray;
-    	
+    	console.log(clOut)
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/clout/addClOutBySave',
             dataType: 'json',
-            contentType:'application/json',
+            contentType: "application/json", 
             data:JSON.stringify(clOut),
             success: function (json) {
                 if(json>0){
@@ -809,7 +832,7 @@ Array.prototype.unique3 = function(){
                 	toastr.error("保存失败");
                 }
             }
-        });
+        }); 
     }
     
     
@@ -818,49 +841,75 @@ Array.prototype.unique3 = function(){
 		$("#xiangmumd").modal("show");
 		 $.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/gsMaterialOut/selectAllXmMaterialOut',
+	            url: getContextPath()+'/gsMaterialIn/selectAllXmReceivedGoods',
 	            dataType: 'json',
-	            async:false,
 	            data: {
 	            },
 	            success: function (json) {
-	            	//console.log(json)
 	                $('#xiangmubiao').dataTable().fnClearTable();
 	                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
 	            }
 	        });
 	})
 	$("#quedingxm").click(function(){
-		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
-		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
-		$("#prj_name").val(prjname);
-		$("#prj_no").val(prjNo);
+		/* var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text(); */
+		var tr=$("input[name='xiangmuName']:checked").parents("tr");
+	  	var data=$("#xiangmubiao").DataTable().row(tr).data();
+		$("#prj_name").val(data.demandProject);
+		$("#prj_no").val(data.taskNo);
 		$("#xiangmumd").modal("hide");
 		$.ajax({
             type: 'POST',
-            url: getContextPath()+'/gsMaterialOut/selectNoByName',
+            url: getContextPath()+'/gsMaterialIn/selectGsClInBytaskNo',
             dataType: 'json',
             data: {
-            	name:$('#prj_name').val()
+            	no:$('#prj_no').val()
             },
             success: function (json) {
-            	var cm=json.cm;
-            	var cmList=json.cmList;
-            	//$("#prj_no").val(cm.taskNo);
+            	//$("#prj_no").val(json[0].taskNo);
             	$("#cl_table tbody").html('');
-            	if(cmList.length!=0){
-            		for(var i=0;i<cmList.length;i++){
-                		$("#cl_table tbody").append("<tr>"+
-                												"<td>"+cmList[i].materialName+"</td>"+
-                												"<td>"+cmList[i].materialType+"</td>"+
-                												"<td>"+cmList[i].specificationModel+"</td>"+
-                												"<td>"+cmList[i].cmoUnit+"</td>"+
-                												"<td>"+cmList[i].cmoUnitPrice+"</td>"+
-                												"<td>"+cmList[i].remainNumber+"</td>"+
-                												"<td><input type='text' class='form-control' data-id="+cmList[i].gsId+"></td>"+
-                												"<td>"+cmList[i].pickDate+"</td>"+
-                												"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
-                										  "</tr>")
+            	if(json!=0){
+            		for(var i=0;i<json.length;i++){
+            			$("#cl_table tbody").append("<tr><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" data-id='+json[i].clId+' value='+json[i].clName+' style="width:100%;">'
+          		  				+"</td><td style='width:5%;'>"
+          		  				+'<select style="width:100px;" class="form-control" id="cl_type'+i+'"></select>'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" value='+json[i].clMode+' style="width:100%;">' 
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<select class="form-control"  id=xgcl_danwei'+i+'>'
+											+'<option value="个">个</option>'
+											+'<option value="只">只</option>'
+											+'<option value="套">套</option>'
+											+'<option value="副">副</option>'
+											+'<option value="双">双</option>'
+											+'<option value="元">元</option>'
+											+'<option value="桶">桶</option>'
+										+'</select>'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" value='+json[i].clNumber+' style="width:100%;">'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" value='+json[i].clPrice+'  style="width:80%;">'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" style="width:100%;">'
+          		  				+"</td><td style='width:7%;'>" 
+          		  				+'<select style="width:150px;" class="form-control" id=xm'+i+'></select>'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<select style="width:150px;" class="form-control" id=gs'+i+'></select>'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" value='+json[i].clDesc+' style="width:100%;">'
+          		  				+"</td><td style='width:7%;'>"
+			   		  			+'<input type="text" class="form-control" value='+json[i].clComeUnit+' style="width:100%;">'
+	      		  				+"</td><td style='width:7%;'>"
+		      		  			+'<input type="text" class="form-control" value='+json[i].clManufacturer+' style="width:100%;">'
+		  		  				+"</td><td style='width:7%;'>"
+          		  				+'<button type="button" class="btn btn-primary" onclick="removeThis(this)">删除</button>'
+          		  				+"</td></tr>")
+          		  				initClType(json[i].clType,i);
+          		  				initName1(json[i].clPrjSupplier,i);
+                  				initName2(json[i].clGsSupplier,i);
+                  				$("#xgcl_danwei"+i).val(json[i].clUnit);
                 	} 
             		$("#outBut").attr("disabled",false);
             	}else{
@@ -876,7 +925,7 @@ Array.prototype.unique3 = function(){
     function initSelect(){
     	$.ajax({
             type: 'POST',
-            url: getContextPath()+'/gsMaterialOut/selectAllXmMaterialOut',
+            url: getContextPath()+'/gsMaterialIn/selectAllXmReceivedGoods',
             dataType: 'json',
             data: {
             },
@@ -885,69 +934,58 @@ Array.prototype.unique3 = function(){
             	   //$("#prj_name").append("<option value="+json[i].pickProject+">"+json[i].pickProject+"</option>");
             	   $("#prj_no").append("<option value="+json[i].taskNo+">"+json[i].taskNo+"</option>");
                }
-               
-               /* $('#prj_name').editableSelect().on('select.editable-select', function (e, dom) {
-	        		$.ajax({
-	                    type: 'POST',
-	                    url: getContextPath()+'/gsMaterialOut/selectNoByName',
-	                    dataType: 'json',
-	                    data: {
-	                    	name:$('#prj_name').val()
-	                    },
-	                    success: function (json) {
-	                    	var cm=json.cm;
-	                    	var cmList=json.cmList;
-	                    	$("#prj_no").val(cm.taskNo);
-	                    	$("#cl_table tbody").html('');
-	                    	if(cmList.length!=0){
-	                    		for(var i=0;i<cmList.length;i++){
-		                    		$("#cl_table tbody").append("<tr>"+
-		                    												"<td>"+cmList[i].materialName+"</td>"+
-		                    												"<td>"+cmList[i].materialType+"</td>"+
-		                    												"<td>"+cmList[i].specificationModel+"</td>"+
-		                    												"<td>"+cmList[i].cmoUnit+"</td>"+
-		                    												"<td>"+cmList[i].cmoUnitPrice+"</td>"+
-		                    												"<td>"+cmList[i].remainNumber+"</td>"+
-		                    												"<td><input type='text' class='form-control' data-id="+cmList[i].gsId+"></td>"+
-		                    												"<td>"+cmList[i].pickDate+"</td>"+
-		                    												"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
-		                    										  "</tr>")
-		                    	} 
-	                    		$("#outBut").attr("disabled",false);
-	                    	}else{
-	                    		$("#outBut").attr("disabled",true);
-	                    		$("#cl_table tbody").append("<tr><td colspan='9' style='text-align:center;color:red;font-size:24px'>暂无数据</td></tr>")
-	                    	}
-	                    	
-	                    }
-	          		});
-	          	}) */
 	          	$('#prj_no').editableSelect().on('select.editable-select', function (e, dom) {
 	          		$.ajax({
 	                    type: 'POST',
-	                    url: getContextPath()+'/gsMaterialOut/selectNameByNo',
+	                    url: getContextPath()+'/gsMaterialIn/selectGsClInBytaskNo',
 	                    dataType: 'json',
 	                    data: {
 	                    	no:$('#prj_no').val()
 	                    },
 	                    success: function (json) {
-	                    	var cm=json.cm;
-	                    	var cmList=json.cmList;
-	                    	$("#prj_name").val(cm.pickProject);
+	                    	$("#prj_name").val(json[0].demandProject);
 	                    	$("#cl_table tbody").html('');
-	                    	if(cmList.length!=0){
-	                    		for(var i=0;i<cmList.length;i++){
-		                    		$("#cl_table tbody").append("<tr>"+
-		                    												"<td>"+cmList[i].materialName+"</td>"+
-		                    												"<td>"+cmList[i].materialType+"</td>"+
-		                    												"<td>"+cmList[i].specificationModel+"</td>"+
-		                    												"<td>"+cmList[i].cmoUnit+"</td>"+
-		                    												"<td>"+cmList[i].cmoUnitPrice+"</td>"+
-		                    												"<td>"+cmList[i].remainNumber+"</td>"+
-		                    												"<td><input type='text' class='form-control' data-id="+cmList[i].gsId+"></td>"+
-		                    												"<td>"+cmList[i].pickDate+"</td>"+
-		                    												"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
-		                    										  "</tr>")
+	                    	if(json!=null){
+	                    		for(var i=0;i<json.length;i++){
+	                    			$("#cl_table tbody").append("<tr><td style='width:7%;'>"
+	                  		  				+'<input type="text" class="form-control" data-id='+json[i].clId+' value='+json[i].clName+' style="width:100%;">'
+	                  		  				+"</td><td style='width:5%;'>"
+	                  		  				+'<select style="width:100px;" class="form-control" id="cl_type'+i+'"></select>'
+	                  		  				+"</td><td style='width:7%;'>"
+	                  		  				+'<input type="text" class="form-control" value='+json[i].clMode+' style="width:100%;">' 
+	                  		  				+"</td><td style='width:7%;'>"
+	                  		  				+'<select class="form-control"  id=xgcl_danwei'+i+'>'
+	        											+'<option value="个">个</option>'
+	        											+'<option value="只">只</option>'
+	        											+'<option value="套">套</option>'
+	        											+'<option value="副">副</option>'
+	        											+'<option value="双">双</option>'
+	        											+'<option value="元">元</option>'
+	        											+'<option value="桶">桶</option>'
+	        										+'</select>'
+	                  		  				+"</td><td style='width:7%;'>"
+	                  		  				+'<input type="text" class="form-control" value='+json[i].clNumber+' style="width:100%;">'
+	                  		  				+"</td><td style='width:7%;'>"
+	                  		  				+'<input type="text" class="form-control" value='+json[i].clPrice+'  style="width:80%;">'
+	                  		  				+"</td><td style='width:7%;'>"
+	                  		  				+'<input type="text" class="form-control" style="width:100%;">'
+	                  		  				+"</td><td style='width:7%;'>"
+	                  		  				+'<select style="width:150px;" class="form-control" id=xm'+i+'></select>'
+	                  		  				+"</td><td style='width:7%;'>"
+	                  		  				+'<select style="width:150px;" class="form-control" id=gs'+i+'></select>'
+	                  		  				+"</td><td style='width:7%;'>"
+	                  		  				+'<input type="text" class="form-control" value='+json[i].clDesc+' style="width:100%;">'
+	                  		  				+"</td><td style='width:7%;'>"
+	        			   		  			+'<input type="text" class="form-control" value='+json[i].clComeUnit+' style="width:100%;">'
+	        	      		  				+"</td><td style='width:7%;'>"
+	        		      		  			+'<input type="text" class="form-control" value='+json[i].clManufacturer+' style="width:100%;">'
+	        		  		  				+"</td><td style='width:7%;'>"
+	                  		  				+'<button type="button" class="btn btn-primary" onclick="removeThis(this)">删除</button>'
+	                  		  				+"</td></tr>")
+	                  		  				initClType(json[i].clType,i);
+	                  		  				initName1(json[i].clPrjSupplier,i);
+	                          				initName2(json[i].clGsSupplier,i);
+	                          				$("#xgcl_danwei"+i).val(json[i].clUnit);
 		                    	} 
 	                    		$("#outBut").attr("disabled",false);
 	                    	}else{
@@ -961,6 +999,68 @@ Array.prototype.unique3 = function(){
             }
         });
     }
+  
+  
+	function initClType(obj1,obj2){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	$("#cl_type"+obj2).empty();
+            	$("#xgcl_type"+obj2).empty();
+            	for(var i=0;i<json.length;i++){
+            		$("#cl_type"+obj2).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            		$("#xgcl_type"+obj2).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            	}
+            	$("#cl_type"+obj2).val(obj1)
+            	$("#xgcl_type"+obj2).val(obj1)
+            }
+  		});
+    }
+	//初始化供应商
+	function initName1(obj1,obj2){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/supplier/selectIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            success: function (json) {
+            	$("#xm"+obj2).empty();
+            	$("#xgxm"+obj2).empty();
+                for(var i=0;i<json.length;i++){
+                	$("#xm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#xgxm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                }
+                $("#xm"+obj2).val(obj1);
+                $("#xgxm"+obj2).val(obj1);
+            }
+		});
+	}
+	function initName2(obj1,obj2){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/supplier/selectIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            success: function (json) {
+            	$("#gs"+obj2).empty();
+            	$("#xggs"+obj2).empty();
+                for(var i=0;i<json.length;i++){
+                	$("#gs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#xggs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                }
+                $("#gs"+obj2).val(obj1);
+                $("#xggs"+obj2).val(obj1);
+            }
+		});
+	}
     
     function removeThis(obj){
     	var tr=$(obj).parent().parent();

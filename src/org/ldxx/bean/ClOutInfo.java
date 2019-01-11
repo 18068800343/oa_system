@@ -16,18 +16,81 @@ package org.ldxx.bean;
 *  
 */
 public class ClOutInfo {
-	
 	private String outId;
 	private String clName;
 	private String clType;
 	private String modeType;
 	private String unit;
-	private int num;
-	private float price;
-	private float sumPrice;
+	private String num;//库存数量
+	private Float price;//单价
+	private String lingNum;//认领数量
+	private Float sumPrice;//认领金额
+	private String clPrjSupplier;
+	private String clGsSupplier;
+	private String clDesc;
+	private String clComeUnit;		//来货单位
+	private String clManufacturer;	//生产厂家
+
+	private String clspNamexm;//项目部推荐供应商名称
+	private String clspNamegs;//公司推荐供应商名称
+	
 	private outRemain outRemain;
 	
 	
+	public String getLingNum() {
+		return lingNum;
+	}
+	public void setLingNum(String lingNum) {
+		this.lingNum = lingNum;
+	}
+	public String getClPrjSupplier() {
+		return clPrjSupplier;
+	}
+	public void setClPrjSupplier(String clPrjSupplier) {
+		this.clPrjSupplier = clPrjSupplier;
+	}
+	public String getClGsSupplier() {
+		return clGsSupplier;
+	}
+	public void setClGsSupplier(String clGsSupplier) {
+		this.clGsSupplier = clGsSupplier;
+	}
+	public String getClDesc() {
+		return clDesc;
+	}
+	public void setClDesc(String clDesc) {
+		this.clDesc = clDesc;
+	}
+	public String getClComeUnit() {
+		return clComeUnit;
+	}
+	public void setClComeUnit(String clComeUnit) {
+		this.clComeUnit = clComeUnit;
+	}
+	public String getClManufacturer() {
+		return clManufacturer;
+	}
+	public void setClManufacturer(String clManufacturer) {
+		this.clManufacturer = clManufacturer;
+	}
+	public String getClspNamexm() {
+		return clspNamexm;
+	}
+	public void setClspNamexm(String clspNamexm) {
+		this.clspNamexm = clspNamexm;
+	}
+	public String getClspNamegs() {
+		return clspNamegs;
+	}
+	public void setClspNamegs(String clspNamegs) {
+		this.clspNamegs = clspNamegs;
+	}
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+	public void setSumPrice(Float sumPrice) {
+		this.sumPrice = sumPrice;
+	}
 	public outRemain getOutRemain() {
 		return outRemain;
 	}
@@ -64,10 +127,10 @@ public class ClOutInfo {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public int getNum() {
+	public String getNum() {
 		return num;
 	}
-	public void setNum(int num) {
+	public void setNum(String num) {
 		this.num = num;
 	}
 	public float getPrice() {

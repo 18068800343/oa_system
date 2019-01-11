@@ -601,6 +601,16 @@
                                 </td>
                             </tr>
                         </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory2">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:30%;" colspan="4">收货单附件  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                           		</tr>
+                        	</thead>
+                        	<tbody>
+                        	</tbody>
+                        	<tfoot></tfoot>
+                        </table>
                         
                         <!--材料信息表格  -->
                         <div id="cailiaobiaoDiv2">
@@ -2014,11 +2024,13 @@ function xgsaveCgName(){
 				var accseeory=json.accessory;
 				if(accseeory!=null){
 	               for(var i=0;i<accseeory.length;i++){
-	            	   $("#look_all_table").append("<tr>"+
-	            	   														"<td>收货单"+(i+1)+"</td>"+
-													            	    	"<td colspan='2'><input type='text' style='width:70%;' class='form-control' value='"+accseeory[i].acName+"' disabled></td>"+
-													            	    	"<td><button type='button' class='btn btn-primary' data1='"+accseeory[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
-													            	    "</tr>");
+	            	   if(accseeory[i].aType=="公司材料收货单"){
+		            	   $("#look_all_table").append("<tr>"+
+		            	   														"<td>收货单"+(i+1)+"</td>"+
+														            	    	"<td colspan='2'><input type='text' style='width:70%;' class='form-control' value='"+accseeory[i].acName+"' disabled></td>"+
+														            	    	"<td><button type='button' class='btn btn-primary' data1='"+accseeory[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+														            	    "</tr>");
+	            	   }
 	               }
 				}
 				var gsInCl=json.gsInCl;
@@ -2092,6 +2104,20 @@ function xgsaveCgName(){
 				$("#yunfei2").val(json.freight)
 				$("#beizhu2").val(json.cmDesc);
 				$("#yanshouyijian2").val(json.acceptanceOpinion);
+				
+				var accessory=json.accessory;
+				$("#edit_accessory2 thead").siblings().empty();
+				if(accessory!=null){
+	               for(var i=0;i<accessory.length;i++){
+	            	   if(accessory[i].aType=="公司材料收货单"){
+		            	   $("#edit_accessory2 tbody").append("<tr>"+
+														            	    	"<td>收货单"+(i+1)+"</td>"+
+														            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[i].acName+"' disabled></td>"+
+														            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' onclick='deletefile(this)' disabled>删除附件</button></td>"+
+														            	    "</tr>");
+	            	   }
+	               }
+				}
 				
 				var gsInCl=json.gsInCl;
 				$("#cailiaobiao2 tbody").empty();
@@ -2180,13 +2206,17 @@ function xgsaveCgName(){
 				$("#xgyunfei").val(json.freight);
 				var accessory=json.accessory;
 				$("#edit_accessory thead").siblings().empty();
+				if(accessory!=null){
 	               for(var i=0;i<accessory.length;i++){
-	            	   $("#edit_accessory tbody").append("<tr>"+
-													            	    	"<td>收货单"+(i+1)+"</td>"+
-													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[i].acName+"' disabled></td>"+
-													            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
-													            	    "</tr>");
+	            	   if(accessory[i].aType=="公司材料收货单"){
+		            	   $("#edit_accessory tbody").append("<tr>"+
+														            	    	"<td>收货单"+(i+1)+"</td>"+
+														            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[i].acName+"' disabled></td>"+
+														            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
+														            	    "</tr>");
+	            	   }
 	               }
+				}
 				
 				var gsInCl=json.gsInCl;
 				$("#xgcailiaobiao tbody").empty();
@@ -2221,10 +2251,6 @@ function xgsaveCgName(){
           		  				+"</td><td style='width:7%;'>"
           		  				+'<input type="text" class="form-control" value='+gsInCl[k].clDesc+' style="width:100%;">'
           		  				+"</td><td style='width:7%;'>"
-	           		  			/* +'<input type="text" class="form-control" style="width:100%;">'
-	       		  				+"</td><td style='width:7%;'>"
-		       		  			+'<input type="text" class="form-control" style="width:100%;">'
-		   		  				+"</td><td style='width:7%;'>" */
 			   		  			+'<input type="text" class="form-control" value='+gsInCl[k].clComeUnit+' style="width:100%;">'
 	      		  				+"</td><td style='width:7%;'>"
 		      		  			+'<input type="text" class="form-control" value='+gsInCl[k].clManufacturer+' style="width:100%;">'
@@ -2379,7 +2405,7 @@ function xgsaveCgName(){
 	            contentType: false,
 	            success: function (json) {
 	            	if(json.result>0){
-						$("#myModal").modal("hide")
+						$("#change").modal("hide")
 						toastr.success("修改成功")
 					}else{
 						toastr.error("修改失败")

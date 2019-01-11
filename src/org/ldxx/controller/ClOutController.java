@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller
+//项目材料出库
 @RequestMapping("clout")
+@Controller
 public class ClOutController {
 
 	@Autowired
@@ -26,10 +28,6 @@ public class ClOutController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		out.setOutId(id);
-		List<ClOutInfo> cInfo=out.getcInfo();
-		for(int a=0;a<cInfo.size();a++){
-			cInfo.get(a).setOutId(id);
-		}
 		int i=service.addClOut(out);
 		return i;
 	}

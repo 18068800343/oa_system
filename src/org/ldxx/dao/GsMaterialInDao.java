@@ -23,6 +23,12 @@ public interface GsMaterialInDao {
 
 	int updateOutStateById(@Param("id")String id,@Param("outstate")String outstate);
 
+	List<CompanyMateriaIn> selectXmMaterialByPrj(@Param("prjname")String prjname,@Param("outstate") String outstate);
+
+	int updateXmState(@Param("gsIncl")CompanyMateriaIn gsIncl);
+
+	List<CompanyMateriaIn> selectAllXmReceivedGoods();
+
 
 
 }

@@ -51,4 +51,22 @@
 		update company_material_in set  out_state=#{outstate} where cm_id=#{id}
 	</update>
 	
+	
+	<select id="selectXmMaterialByPrj" resultType="CompanyMateriaIn">
+		select * from company_material_in where demand_project like #{prjname} and out_state=#{outstate}
+	</select>
+	
+	<update id="updateXmState">
+		update company_material_in 
+		set 
+			get_person=#{gsIncl.getPerson},
+			get_infos=#{gsIncl.getInfos},
+			get_status=#{gsIncl.getStatus}
+		where cm_id=#{gsIncl.cmId}
+	</update>
+	
+	<select id="selectAllXmReceivedGoods" resultType="CompanyMateriaIn">
+		select DISTINCT task_no,demand_project,cg_no,cg_name,cm_id from company_material_in where get_status=1
+	</select>
+	
 </mapper>

@@ -15,15 +15,53 @@ public class CompanyMateriaIn {
 	private String taskNo;				//任务单号
 	private String demandProject;		//需求项目
 	private String sentDate;			//收货日期
-	private String collectPerson;		//收货人
+	private String collectPerson;		//公司材料收货人
 	private String cmDesc;				//备注
 	private String acceptanceOpinion;	//验收及处理意见
 	private String freight;				//运费
-	private String OutState;			//出库状态；0：未出库，1：已出库
+	private String OutState;			//出库状态；0:未出库;1：公司出库;2:项目出库;3::结余转出
+	private String getPerson;//项目材料收货人
+	private String getInfos;//项目验收及意见
+	private String getStatus;//收货状态 0：未确认收货 1：确认收货
+	private String remainType;//结余状态 0 未结余 1 已结余
 	
 	private List<Accessory> accessory;
 	private List<CompanyMaterialInCl> gsInCl;//公司材料信息
 	
+
+	
+
+	public String getGetInfos() {
+		return getInfos;
+	}
+
+	public void setGetInfos(String getInfos) {
+		this.getInfos = getInfos;
+	}
+
+	public String getGetPerson() {
+		return getPerson;
+	}
+
+	public void setGetPerson(String getPerson) {
+		this.getPerson = getPerson;
+	}
+
+	public String getGetStatus() {
+		return getStatus;
+	}
+
+	public void setGetStatus(String getStatus) {
+		this.getStatus = getStatus;
+	}
+
+	public String getRemainType() {
+		return remainType;
+	}
+
+	public void setRemainType(String remainType) {
+		this.remainType = remainType;
+	}
 
 	public List<CompanyMaterialInCl> getGsInCl() {
 		return gsInCl;

@@ -211,8 +211,8 @@
                 </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success"  id="edit_save">保存</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" id="edit_refuse">拒绝</button>
+            <button type="button" class="btn btn-success"  id="edit_save">确认</button>
         </div>
         </div>
     </div>
@@ -373,8 +373,8 @@
 		            { "data": "taskNo"}, 
 		            { "data": null}, 
 		            { "data": "cgNo"}, 
-		            { "data": "pickDate"}, 
-		            { "data": "pickPerson"}, 
+		            { "data": "sentDate"}, 
+		            { "data": "collectPerson"}, 
 		            { "data": null}, 
 		            { "data": null}
 		        ],
@@ -384,7 +384,7 @@
 								  "targets": 0,
 								  "searchable": true,
 								  "render": function(data, type, full) {
-										return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.pickProject+'</a>'
+										return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.demandProject+'</a>'
 								  }
 							},
 							{
@@ -480,13 +480,13 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-		            { "data": "materialName"}, 
-		            { "data": "materialType"}, 
-		            { "data": "specificationModel"}, 
-		            { "data": "cmoUnit"}, 
-		            { "data": "cmoNumber"}, 
-		            { "data": "cmoUnitPrice"}, 
-		            { "data": "cmoMoney"}
+		            { "data": "clName"}, 
+		            { "data": "clType"}, 
+		            { "data": "clMode"}, 
+		            { "data": "clUnit"}, 
+		            { "data": "clNumber"}, 
+		            { "data": "clPrice"}, 
+		            { "data": "clMoney"}
 		        ],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
@@ -519,13 +519,13 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-		            { "data": "materialName"}, 
-		            { "data": "materialType"}, 
-		            { "data": "specificationModel"}, 
-		            { "data": "cmoUnit"}, 
-		            { "data": "cmoNumber"}, 
-		            { "data": "cmoUnitPrice"}, 
-		            { "data": "cmoMoney"}
+			{ "data": "clName"}, 
+            { "data": "clType"}, 
+            { "data": "clMode"}, 
+            { "data": "clUnit"}, 
+            { "data": "clNumber"}, 
+            { "data": "clPrice"}, 
+            { "data": "clMoney"}
 		        ],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
@@ -551,7 +551,7 @@
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 5,
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -631,13 +631,28 @@
         });
     }
 
-    $("#prj").on("change",function(){
+    /* $("#prj").on("change",function(){
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/gsMaterialOut/selectXmMaterialOutByNo',
             dataType: 'json',
             data: {
             	no:$("#prj").val()
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }) */
+    $("#prj").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/gsMaterialIn/selectXmMaterialByPrj',
+            dataType: 'json',
+            data: {
+            	name:$("#prj").val(),
+            	outstate:"1",
             },
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
@@ -652,17 +667,17 @@
     	$("#look_person").val(data.getPerson);
 		$("#look_infos").val(data.getInfos);
 		
-		initAccessory(data.cmoId);
+		initAccessory(data.cmId);
     	$.ajax({
             type: 'POST',
-            url: getContextPath()+'/GsClOut/selectClByNo',
+            url: getContextPath()+'/gsMaterialIn/selectGsClInById',
             dataType: 'json',
             data: {
-            	no:data.cmoId
+            	id:data.cmId
             },
             success: function (json) {
                 $('#mainContent3').dataTable().fnClearTable();
-                $('#mainContent3').DataTable().rows.add(json).draw(false);
+                $('#mainContent3').DataTable().rows.add(json.gsInCl).draw(false);
             }
         });
     	$("#allMsg1").modal("show");
@@ -683,18 +698,18 @@
     	var tr=$(obj).parents("tr");
     	var data=$("#mainContent").DataTable().row(tr).data();
     	var status=data.getStatus;
-    	id=data.cmoId;
+    	id=data.cmId;
     	
     		$.ajax({
                 type: 'POST',
-                url: getContextPath()+'/GsClOut/selectClByNo',
+                url: getContextPath()+'/gsMaterialIn/selectGsClInById',
                 dataType: 'json',
                 data: {
-                	no:data.cmoId
+                	id:data.cmId
                 },
                 success: function (json) {
                     $('#mainContent2').dataTable().fnClearTable();
-                    $('#mainContent2').DataTable().rows.add(json).draw(false);
+                    $('#mainContent2').DataTable().rows.add(json.gsInCl).draw(false);
                 }
             });
     		
@@ -702,7 +717,6 @@
     }
     
     function initAccessory(obj){
-    	console.log(obj)
     	$.ajax({
 		        type: 'POST',
 		        url: getContextPath()+'/accessory/selectAccessoryById',
@@ -713,7 +727,9 @@
 		        success: function (json) {
 		        	$("#look_accessory tbody").html('');
 		        	for(var i=0;i<json.length;i++){
-		            	$("#look_accessory tbody").append("<tr><td style='width:20%;'>附件"+(i+1)+"</td><td style='width:50%;'>"+json[i].acName+"</td><td style='width:30%;'><button type='button' class='btn btn-primary' data2="+json[i].acUrl+" onclick='downloadFile(this)'>下载附件</button></td></tr>")
+		        		if(json[i].aType=="项目材料收货单"){
+			            	$("#look_accessory tbody").append("<tr><td style='width:20%;'>附件"+(i+1)+"</td><td style='width:50%;'>"+json[i].acName+"</td><td style='width:30%;'><button type='button' class='btn btn-primary' data2="+json[i].acUrl+" onclick='downloadFile(this)'>下载附件</button></td></tr>")
+		        		}
 		        	}
 		        }
     	}); 
@@ -731,12 +747,13 @@
     	
     	var options={
     			 type: 'POST',
-    	            url: getContextPath()+'/gsMaterialOut/updateStatus',
+    	            url: getContextPath()+'/gsMaterialIn/updateXmState',
     	            dataType: 'json',
     	            data: {
-    	            	cmoId:id,
+    	            	cmId:id,
     	            	getPerson:getPerson,
-    	            	getInfos:getInfos
+    	            	getInfos:getInfos,
+    	            	getStatus:"1",
     	            },
     	            success: function (json) {
     	            	if(json>0){
@@ -749,6 +766,27 @@
     	            }
     	}
     	$("#form").ajaxSubmit(options);
+    })
+    
+    $("#edit_refuse").on("click",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/gsMaterialIn/updateOutStateById',
+            dataType: 'json',
+            data: {
+            	id:id,
+            	outstate:"0"
+            },
+            success: function (json) {
+            	if(json>0){
+            		$("#change").modal("hide");
+            		toastr.success("拒绝成功");
+            		location.reload([true]);
+            	}else{
+            		toastr.error("拒绝失败");
+            	}
+            }
+        });
     })
     
   //初始化收货人部门及人员

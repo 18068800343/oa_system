@@ -10,6 +10,7 @@ import org.ldxx.dao.GsMaterialInClDao;
 import org.ldxx.dao.GsMaterialInDao;
 import org.ldxx.dao.MaterialDemandDao;
 import org.ldxx.service.GsMaterialInService;
+import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +45,9 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 			List<CompanyMaterialInCl> gsInCl = cm.getGsInCl();
 			if(gsInCl!=null&&gsInCl.size()>0){
 				for(int j=0;j<gsInCl.size();j++){
+					TimeUUID uuid=new TimeUUID();
+					String id=uuid.getTimeUUID();
+					gsInCl.get(j).setClId(id);
 					gsInCl.get(j).setGsInId(cm.getCmId());
 				}
 				i=gsInCldao.addGsInCl(gsInCl);
@@ -98,6 +102,9 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 				i=gsInCldao.deleteGsInClById(cm.getCmId());
 				if(i>0 && gsInCl!=null && gsInCl.size()>0){
 					for(int j=0;j<gsInCl.size();j++){
+						TimeUUID uuid=new TimeUUID();
+						String id=uuid.getTimeUUID();
+						gsInCl.get(j).setClId(id);
 						gsInCl.get(j).setGsInId(cm.getCmId());
 					}
 					i=gsInCldao.addGsInCl(gsInCl);
@@ -115,6 +122,33 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	@Override
 	public int updateOutStateById(String id,String outstate) {
 		return gmDao.updateOutStateById(id,outstate);
+	}
+
+	@Override
+	public List<CompanyMateriaIn> selectXmMaterialByPrj(String prjname, String outstate) {
+		return gmDao.selectXmMaterialByPrj(prjname,outstate);
+	}
+
+	@Override
+	public int updateXmState(CompanyMateriaIn gsIncl) {
+		int i=gmDao.updateXmState(gsIncl);
+		if(i>0){
+			List<Accessory> accessory=gsIncl.getAccessory();
+			if(accessory!=null){
+				i=adao.addAccessory(accessory);
+			}
+		}
+		return i;
+	}
+
+	@Override
+	public List<CompanyMateriaIn> selectAllXmReceivedGoods() {
+		return gmDao.selectAllXmReceivedGoods();
+	}
+
+	@Override
+	public List<CompanyMaterialInCl> selectGsClInBytaskNo(String no) {
+		return gsInCldao.selectGsClInBytaskNo(no);
 	}
 
 

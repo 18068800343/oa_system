@@ -10,17 +10,17 @@ package org.ldxx.bean;
 public class outRemain {
 
 	private String id;
-	private int remain;
+	private String remain;
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public int getRemain() {
+	public String getRemain() {
 		return remain;
 	}
-	public void setRemain(int remain) {
+	public void setRemain(String remain) {
 		this.remain = remain;
 	}
 	

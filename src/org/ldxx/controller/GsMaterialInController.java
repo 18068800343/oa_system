@@ -13,6 +13,7 @@ import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgCl;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.CompanyMateriaIn;
+import org.ldxx.bean.CompanyMateriaOut;
 import org.ldxx.bean.CompanyMaterialInCl;
 import org.ldxx.bean.clfbCgcontractPerformance;
 import org.ldxx.service.GsMaterialInService;
@@ -76,6 +77,7 @@ public class GsMaterialInController {
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("公司材料收货单");
 				list.add(accessory);
 			}
 			cm.setAccessory(list);
@@ -117,6 +119,7 @@ public class GsMaterialInController {
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("公司材料收货单");
 				list.add(accessory);
 			}
 			cm.setAccessory(list);
@@ -155,6 +158,7 @@ public class GsMaterialInController {
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(filePath);
+				accessory.setaType("公司材料收货单");
 				list.add(accessory);
 			}
 			cm.setAccessory(list);
@@ -202,5 +206,60 @@ public class GsMaterialInController {
 	public int updateOutStateById(String id,String outstate){
 		return gmService.updateOutStateById(id,outstate);
 	}
+	
+	@RequestMapping("/selectXmMaterialByPrj")//通过项目名和出库状态查找项目材料信息
+	@ResponseBody
+	public List<CompanyMateriaIn> selectXmMaterialByPrj(String name,String outstate){
+		String Prjname="%"+name+"%";
+		return gmService.selectXmMaterialByPrj(Prjname,outstate);
+	}
+	
+	@RequestMapping("/updateXmState")//项目入库的收货确认
+	@ResponseBody
+	public int updateXmState(CompanyMateriaIn gsIncl,@RequestParam MultipartFile [] file){
+		String id=gsIncl.getCmId();
+		if(file!=null){
+			List<Accessory> list=new ArrayList<>();
+			for(int i=0;i<file.length;i++){
+				Accessory accessory=new Accessory();
+				String acName=file[i].getOriginalFilename();
+				String url="D:"+File.separator+"oa"+File.separator+"gsMaterialIn"+File.separator+id;
+				File f=new File(url);
+				if(!f.exists()){
+					f.mkdirs();
+				}
+				String acUrl=url+File.separator+acName;
+				File acFile=new File(acUrl);
+				accessory.setaId(id);
+				accessory.setAcName(acName);
+				accessory.setAcUrl(acUrl);
+				accessory.setaType("项目材料收货单");
+				list.add(accessory);
+				try {
+					file[i].transferTo(acFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
+			}
+			gsIncl.setAccessory(list);
+		}
+		int i=gmService.updateXmState(gsIncl);
+		return i;
+	}
+	
+	@RequestMapping("/selectAllXmReceivedGoods")//获取项目材料已收货的所有项目
+	@ResponseBody
+	public List<CompanyMateriaIn> selectAllXmReceivedGoods(){
+		return gmService.selectAllXmReceivedGoods();
+	}
+	
+	
+	@RequestMapping("/selectGsClInBytaskNo")
+	@ResponseBody
+	public List<CompanyMaterialInCl> selectGsClInBytaskNo(String no){
+		return gmService.selectGsClInBytaskNo(no);
+	}
+	
 	
 }

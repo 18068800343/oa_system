@@ -1,7 +1,7 @@
 package org.ldxx.bean;
 
 public class CompanyMaterialInCl {
-	
+	private String clId;
 	private String gsInId;
 	private String clName;
 	private String clType;
@@ -15,11 +15,39 @@ public class CompanyMaterialInCl {
 	private String clDesc;
 	private String clComeUnit;		//来货单位
 	private String clManufacturer;	//生产厂家
-
+	private String clRemain;//材料剩余数量
 	
 	private String clspNamexm;//项目部推荐供应商名称
 	private String clspNamegs;//公司推荐供应商名称
+	private String taskNo;				//任务单号
+	private String demandProject;		//需求项目
 	
+	
+	
+	public String getClRemain() {
+		return clRemain;
+	}
+	public void setClRemain(String clRemain) {
+		this.clRemain = clRemain;
+	}
+	public String getClId() {
+		return clId;
+	}
+	public void setClId(String clId) {
+		this.clId = clId;
+	}
+	public String getTaskNo() {
+		return taskNo;
+	}
+	public void setTaskNo(String taskNo) {
+		this.taskNo = taskNo;
+	}
+	public String getDemandProject() {
+		return demandProject;
+	}
+	public void setDemandProject(String demandProject) {
+		this.demandProject = demandProject;
+	}
 	public String getGsInId() {
 		return gsInId;
 	}
