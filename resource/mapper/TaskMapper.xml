@@ -50,11 +50,13 @@
   	<insert id="addTask" parameterType="task">
   		 insert into task(prj_id,prj_type2,prj_no,prj_name,prj_area,prj_management_model,prj_company,prj_source,prj_owner_unit,work_content,
   		 							prj_estimate_money,contract_money,provisional_sum,prj_start_time,prj_end_time,main_department,main_department_money,
-  		 							assist_department1,assist_department1_money,assist_department2,assist_department2_money,assist_department3,assist_department3_money,make_time,history,importance)
+  		 							assist_department1,assist_department1_money,assist_department2,assist_department2_money,assist_department3,assist_department3_money,make_time,history,importance,
+  		 							main_department_cost,assist_department1_cost,assist_department2_cost,assist_department3_cost)
   		 				   values(#{task.prjId},#{task.prjType2},#{task.prjNo},#{task.prjName},#{task.prjArea},#{task.prjManagementModel},#{task.prjCompany},#{task.prjSource},
   		 				   #{task.prjOwnerUnit},#{task.workContent},#{task.prjEstimateMoney},#{task.contractMoney},#{task.provisionalSum},
   		 				   #{task.prjStartTime},#{task.prjEndTime},#{task.mainDepartment},#{task.mainDepartmentMoney},#{task.assistDepartment1},#{task.assistDepartment1Money},
-  		 				   #{task.assistDepartment2},#{task.assistDepartment2Money},#{task.assistDepartment3},#{task.assistDepartment3Money},now(),1,#{task.importance})		
+  		 				   #{task.assistDepartment2},#{task.assistDepartment2Money},#{task.assistDepartment3},#{task.assistDepartment3Money},now(),1,#{task.importance},
+  		 				   #{task.mainDepartmentCost},#{task.assistDepartment1Cost},#{task.assistDepartment2Cost},#{task.assistDepartment3Cost})		
   	</insert>
   	
   	<delete id="deleteTask" parameterType="String">
@@ -80,12 +82,16 @@
 	      prj_end_time = #{task.prjEndTime},
 	      main_department = #{task.mainDepartment},
 	      main_department_money = #{task.mainDepartmentMoney},
+	      main_department_cost= #{task.mainDepartmentCost},
 	      assist_department1 = #{task.assistDepartment1},
 	      assist_department1_money = #{task.assistDepartment1Money},
+	      assist_department1_cost = #{task.assistDepartment1Cost},
 	      assist_department2 = #{task.assistDepartment2},
 	      assist_department2_money = #{task.assistDepartment2Money},
+	      assist_department2_cost = #{task.assistDepartment2Cost},
 	      assist_department3 = #{task.assistDepartment3},
 	      assist_department3_money = #{task.assistDepartment3Money},
+	      assist_department3_cost = #{task.assistDepartment3Cost},
 	      make_time=now(),
 	      history=1,
 	      importance = #{task.importance} 
@@ -317,7 +323,25 @@
   		update task SET history=1 where prj_id=#{id}
   	</update>
   	
-  	  	<update id="updateImportanceById">
+    <update id="updateImportanceById">
   		update task SET importance=#{importance} where prj_id=#{id}
   	</update>
+  	
+  	<select id="selectTaskByCj" resultType="Task">
+  		SELECT tck.*
+		FROM task AS tck
+		LEFT JOIN mode_status AS ms ON tck.prj_id = ms.mode_id
+		WHERE	ms. STATUS = 2
+		AND tck.prj_no NOT IN (
+			SELECT DISTINCT tk.prj_no
+			FROM task tk,
+				(
+					SELECT cc.*
+					FROM cj_contract AS cc
+					LEFT JOIN mode_status AS mm ON cc.cj_id = mm.mode_id
+					WHERE	mm. STATUS IN (1, 2)
+				) AS cj
+			WHERE cj.task_code LIKE CONCAT('%', tk.prj_no, '%')
+		);
+  	</select>
 </mapper>

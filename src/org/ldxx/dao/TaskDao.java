@@ -64,4 +64,6 @@ public interface TaskDao {
 	public int updateHistoryNow(@Param("id")String id);
 	
 	public int updateImportanceById(@Param("id")String id,@Param("importance")String importance);
+	
+	public List<Task> selectTaskByCj();//承接合同选择项目列表(除去已选项目)
 }
