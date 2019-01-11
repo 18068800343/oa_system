@@ -39,6 +39,8 @@ public class Task {
 
     private Float mainDepartmentMoney;
     
+    private String mainDepartmentCost;
+    
     private String mainPrjLeader;
     
     private String mainPrjLeaderName;
@@ -51,6 +53,8 @@ public class Task {
 
     private Float assistDepartment1Money;
     
+    private String assistDepartment1Cost;
+    
     private String assist1PrjLeader;
     
     private String assist1Engineer;
@@ -61,6 +65,8 @@ public class Task {
 
     private Float assistDepartment2Money;
     
+    private String assistDepartment2Cost;
+    
     private String assist2PrjLeader;
     
     private String assist2Engineer;
@@ -70,6 +76,8 @@ public class Task {
     private String assistDepartment3;
 
     private Float assistDepartment3Money;
+    
+    private String assistDepartment3Cost;
     
     private String assist3PrjLeader;
     
@@ -94,6 +102,39 @@ public class Task {
     
     private PrjCompanyVo prjCompanyVo;
     
+    
+	public String getMainDepartmentCost() {
+		return mainDepartmentCost;
+	}
+
+	public void setMainDepartmentCost(String mainDepartmentCost) {
+		this.mainDepartmentCost = mainDepartmentCost;
+	}
+
+	public String getAssistDepartment1Cost() {
+		return assistDepartment1Cost;
+	}
+
+	public void setAssistDepartment1Cost(String assistDepartment1Cost) {
+		this.assistDepartment1Cost = assistDepartment1Cost;
+	}
+
+	public String getAssistDepartment2Cost() {
+		return assistDepartment2Cost;
+	}
+
+	public void setAssistDepartment2Cost(String assistDepartment2Cost) {
+		this.assistDepartment2Cost = assistDepartment2Cost;
+	}
+
+	public String getAssistDepartment3Cost() {
+		return assistDepartment3Cost;
+	}
+
+	public void setAssistDepartment3Cost(String assistDepartment3Cost) {
+		this.assistDepartment3Cost = assistDepartment3Cost;
+	}
+
 	public PrjCompanyVo getPrjCompanyVo() {
 		return prjCompanyVo;
 	}

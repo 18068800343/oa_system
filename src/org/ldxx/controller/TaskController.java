@@ -780,5 +780,13 @@ public class TaskController {
 	  String result = new FlowUtill().chaoSongFlow(id, users1);
 	  return result;
 	}
+	
+	@RequestMapping("/selectTaskByCj")
+	@ResponseBody
+	public List<Task> selectTaskByCj(){
+		List<Task> task=tService.selectTaskByCj();
+		return task;
+	}
+	
 }
 

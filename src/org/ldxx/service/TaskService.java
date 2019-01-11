@@ -60,4 +60,6 @@ public interface TaskService {
 	public Task selectPrjLeaderByPrjNo(String no);
 
 	public int updateHistoryById(String id);
+	
+	public List<Task> selectTaskByCj();
 }

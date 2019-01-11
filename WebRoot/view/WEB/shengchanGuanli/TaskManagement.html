@@ -356,7 +356,7 @@
                                                 
                                             </select>
                                             <input type="text" class="form-control" style="width:180px;margin-left: 10px;" placeholder="金额" id="zhubanjine">
-                                        	<input type="text" id="chenbenfentanbili" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例">
+                                        	<input type="text" id="chenbenfentanbili" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例" onchange="appendBfh(this)">
                                         </form>
                                     </td>
                                 </tr>
@@ -538,7 +538,7 @@
                                                 
                                             </select>
                                             <input type="text" class="form-control" style="width:150px;" placeholder="金额" id="xgzhubanjine">
-                                            <input type="text" id="xgchenbenfentanbili" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例">
+                                            <input type="text" id="xgchenbenfentanbili" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例"  onchange="appendBfh(this)">
                                         </form>
                                     </td>
                                 </tr>
@@ -1636,7 +1636,7 @@
 	                    +'<select class="form-control" id="xieban'+($("#xieban tr").length-1)+'" style="width:180px;">'
 	                    +'</select>'
 	                    +'  <input type="text" id="xiebanMoney'+($("#xieban tr").length-1)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="金额">'
-	                    +'  <input type="text" id="chenbenfentanbili'+($("#xieban tr").length-1)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例">'
+	                    +'  <input type="text" id="chenbenfentanbili'+($("#xieban tr").length-1)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例" onchange="appendBfh(this)">'
 	                    +'<button type="button" style="text-align:right;margin-left:10px;" class="btn btn-primary" onclick="deleteXieBan(this)">移除协办单位</button>'
 	                +'</form>'
 	                +"</td></tr>")
@@ -1672,7 +1672,7 @@
 	                    +'<select class="form-control" id="xgxieban'+($("#xgxieban tr").length-1)+'" style="width:180px;">'
 	                    +'</select>'
 	                    +'  <input type="text" id="xgxiebanMoney'+($("#xgxieban tr").length-1)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="金额">'
-	                    +'  <input type="text" id="xgchenbenfentanbili'+($("#xieban tr").length-1)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例">'
+	                    +'  <input type="text" id="xgchenbenfentanbili'+($("#xieban tr").length-1)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例" onchange="appendBfh(this)">'
 	                    +'<button type="button" style="text-align:right;margin-left:10px;" class="btn btn-primary" onclick="deleteXieBan(this)">移除协办单位</button>'
 	                 +'</form>'
 	                +"</td></tr>");
@@ -2069,7 +2069,6 @@
         	var taskbianhao=$("#taskbianhao").val();
         	var moshi=$("#moshi").find("option:selected").val();
         	var gongsi=$("#gongsi").find("option:selected").val();
-        	var shejijieduan=$("#shejijieduan").find("option:selected").val();
         	var yezhudanwei=$("#yezhudanwei").val();
         	var city=$("#city-picker3").val();
         	var importance=$("#importance").val();
@@ -2081,16 +2080,16 @@
         	var endTime=$("#year2").val();
         	var zhuban=$("#zhuban").val();
         	var zhubanjine=$("#zhubanjine").val();
-        	//var chenbenfentanbili=$("#chenbenfentanbili").val();
+        	var chenbenfentanbili=$("#chenbenfentanbili").val();
         	var xieban1=$("#xieban1").find("option:selected").val();
         	var xieban1jine=$("#xiebanMoney1").val();
-        	//var chenbenfentanbili1=$("#chenbenfentanbili1").val();
+        	var chenbenfentanbili1=$("#chenbenfentanbili1").val();
         	var xieban2=$("#xieban2").find("option:selected").val();
         	var xieban2jine=$("#xiebanMoney2").val();
-        	//var chenbenfentanbili2=$("#chenbenfentanbili2").val();
+        	var chenbenfentanbili2=$("#chenbenfentanbili2").val();
         	var xieban3=$("#xieban3").find("option:selected").val();
         	var xieban3jine=$("#xiebanMoney3").val();
-        	//var chenbenfentanbili3=$("#chenbenfentanbili3").val();
+        	var chenbenfentanbili3=$("#chenbenfentanbili3").val();
         	var gaikuang=$("#gaikuang").val();
         	
         	if(taskName==''){
@@ -2137,23 +2136,48 @@
 	    		toastr.error("暂定金不能为空");
 	    		return;
 	    	}
-        	/* if(chenbenfentanbili==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
-        	}
-        	if(chenbenfentanbili1==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
-        	}
-        	if(chenbenfentanbili2==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
-        	}
-        	if(chenbenfentanbili3==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
-        	} */
         	
+        	var all_bili=0;
+        	if(zhuban!=''&&zhuban!=undefined){
+        		if(chenbenfentanbili==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili=chenbenfentanbili.replace("%","");
+        			all_bili=all_bili+parseInt(bili);
+        		}
+        	}
+        	if(xieban1!=''&&xieban1!=undefined){
+        		if(chenbenfentanbili1==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili1=chenbenfentanbili1.replace("%","");
+        			all_bili=all_bili+parseInt(bili1);
+        		}
+        	}
+			if(xieban2!=''&&xieban2!=undefined){
+				if(chenbenfentanbili2==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili2=chenbenfentanbili2.replace("%","");
+        			all_bili=all_bili+parseInt(bili2);
+        		}
+        	}
+			if(xieban3!=''&&xieban3!=undefined){
+				if(chenbenfentanbili3==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili3=chenbenfentanbili3.replace("%","");
+        			all_bili=all_bili+parseInt(bili3);
+        		}
+        	}
+			if(all_bili!=100){
+				toastr.error("成本分摊比例总和不等于100%");
+	    		return;
+			}
     	    var xindanwei={
     	    		prjType2:undefined,
     	    		prjNo:undefined,
@@ -2172,12 +2196,16 @@
 	            	prjEndTime:undefined,
 	            	mainDepartment:undefined,
 	            	mainDepartmentMoney:undefined,
+	            	mainDepartmentCost:undefined,
 	            	assistDepartment1:undefined,
 	            	assistDepartment1Money:undefined,
+	            	assistDepartment1Cost:undefined,
 	            	assistDepartment2:undefined,
 	            	assistDepartment2Money:undefined,
+	            	assistDepartment2Cost:undefined,
 	            	assistDepartment3:undefined,
 	            	assistDepartment3Money:undefined,
+	            	assistDepartment3Cost:undefined,
 	            	enterprise:undefined,
    			}
 
@@ -2198,12 +2226,16 @@
     	    xindanwei.prjEndTime=endTime,
     	    xindanwei.mainDepartment=zhuban,
     	    xindanwei.mainDepartmentMoney=zhubanjine,
+    	    xindanwei.mainDepartmentCost=chenbenfentanbili,
     	    xindanwei.assistDepartment1=xieban1,
     	    xindanwei.assistDepartment1Money=xieban1jine,
+    	    xindanwei.assistDepartment1Cost=chenbenfentanbili1,
     	    xindanwei.assistDepartment2=xieban2,
     	    xindanwei.assistDepartment2Money=xieban2jine,
+    	    xindanwei.assistDepartment2Cost=chenbenfentanbili2,
     	    xindanwei.assistDepartment3=xieban3,
     	    xindanwei.assistDepartment3Money=xieban3jine,
+    	    xindanwei.assistDepartment3Cost=chenbenfentanbili3,
     	    xindanwei.enterprise=lianxibiao,
     	    danwei.push(xindanwei);
     		
@@ -2260,16 +2292,14 @@
     	}
     	
    		if(lianxibiao.length!=0){
-	   
-	    	var erji=$("#erjileixing").find("option:selected").val();
+   			var erji=$("#erjileixing").find("option:selected").val();
     		var taskName=$("#taskName").val();
         	var taskbianhao=$("#taskbianhao").val();
         	var moshi=$("#moshi").find("option:selected").val();
         	var gongsi=$("#gongsi").find("option:selected").val();
+        	var yezhudanwei=$("#yezhudanwei").val();
         	var city=$("#city-picker3").val();
         	var importance=$("#importance").val();
-        	var shejijieduan=$("#shejijieduan").find("option:selected").val();
-        	var yezhudanwei=$("#yezhudanwei").val();
         	var prjSource=$("#prj_source").val();
         	var jine=$("#jine").val();
         	var hetonge=$("#hetonge").val();
@@ -2278,16 +2308,16 @@
         	var endTime=$("#year2").val();
         	var zhuban=$("#zhuban").val();
         	var zhubanjine=$("#zhubanjine").val();
-        	//var chenbenfentanbili=$("#chenbenfentanbili").val();
+        	var chenbenfentanbili=$("#chenbenfentanbili").val();
         	var xieban1=$("#xieban1").find("option:selected").val();
         	var xieban1jine=$("#xiebanMoney1").val();
-        	//var chenbenfentanbili1=$("#chenbenfentanbili1").val();
+        	var chenbenfentanbili1=$("#chenbenfentanbili1").val();
         	var xieban2=$("#xieban2").find("option:selected").val();
         	var xieban2jine=$("#xiebanMoney2").val();
-        	//var chenbenfentanbili2=$("#chenbenfentanbili2").val();
+        	var chenbenfentanbili2=$("#chenbenfentanbili2").val();
         	var xieban3=$("#xieban3").find("option:selected").val();
         	var xieban3jine=$("#xiebanMoney3").val();
-        	//var chenbenfentanbili3=$("#chenbenfentanbili3").val();
+        	var chenbenfentanbili3=$("#chenbenfentanbili3").val();
         	var gaikuang=$("#gaikuang").val();
         	
         	if(taskName==''){
@@ -2334,23 +2364,48 @@
 	    		toastr.error("暂定金不能为空");
 	    		return;
 	    	}
-        	/* if(chenbenfentanbili==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
-        	}
-        	if(chenbenfentanbili1==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
-        	}
-        	if(chenbenfentanbili2==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
-        	}
-        	if(chenbenfentanbili3==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
-        	} */
         	
+        	var all_bili=0;
+        	if(zhuban!=''&&zhuban!=undefined){
+        		if(chenbenfentanbili==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili=chenbenfentanbili.replace("%","");
+        			all_bili=all_bili+parseInt(bili);
+        		}
+        	}
+        	if(xieban1!=''&&xieban1!=undefined){
+        		if(chenbenfentanbili1==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili1=chenbenfentanbili1.replace("%","");
+        			all_bili=all_bili+parseInt(bili1);
+        		}
+        	}
+			if(xieban2!=''&&xieban2!=undefined){
+				if(chenbenfentanbili2==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili2=chenbenfentanbili2.replace("%","");
+        			all_bili=all_bili+parseInt(bili2);
+        		}
+        	}
+			if(xieban3!=''&&xieban3!=undefined){
+				if(chenbenfentanbili3==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili3=chenbenfentanbili3.replace("%","");
+        			all_bili=all_bili+parseInt(bili3);
+        		}
+        	}
+			if(all_bili!=100){
+				toastr.error("成本分摊比例总和不等于100%");
+	    		return;
+			}
     	    var xindanwei={
     	    		prjType2:undefined,
     	    		prjNo:undefined,
@@ -2369,39 +2424,47 @@
 	            	prjEndTime:undefined,
 	            	mainDepartment:undefined,
 	            	mainDepartmentMoney:undefined,
+	            	mainDepartmentCost:undefined,
 	            	assistDepartment1:undefined,
 	            	assistDepartment1Money:undefined,
+	            	assistDepartment1Cost:undefined,
 	            	assistDepartment2:undefined,
 	            	assistDepartment2Money:undefined,
+	            	assistDepartment2Cost:undefined,
 	            	assistDepartment3:undefined,
 	            	assistDepartment3Money:undefined,
+	            	assistDepartment3Cost:undefined,
 	            	enterprise:undefined,
    			}
 
     	    xindanwei.prjArea=city;
     	    xindanwei.importance=importance;
-    	    xindanwei.prjType2=$("#erjileixing").find("option:selected").val();
-    	    xindanwei.prjNo=taskbianhao;
-    	    xindanwei.prjName=taskName;
-    	    xindanwei.prjManagementModel=moshi;
-    	    xindanwei.prjCompany=gongsi;
-    	    xindanwei.prjSource=prjSource;
-    	    xindanwei.prjOwnerUnit=yezhudanwei;
-    	    xindanwei.workContent=gaikuang;
-    	    xindanwei.prjEstimateMoney=jine;
-    	    xindanwei.contractMoney=hetonge;
-    	    xindanwei.provisionalSum=zandingjin;
-    	    xindanwei.prjStartTime=startTime;
-    	    xindanwei.prjEndTime=endTime;
-    	    xindanwei.mainDepartment=zhuban;
-    	    xindanwei.mainDepartmentMoney=zhubanjine;
-    	    xindanwei.assistDepartment1=xieban1;
-    	    xindanwei.assistDepartment1Money=xieban1jine;
-    	    xindanwei.assistDepartment2=xieban2;
-    	    xindanwei.assistDepartment2Money=xieban2jine;
-    	    xindanwei.assistDepartment3=xieban3;
-    	    xindanwei.assistDepartment3Money=xieban3jine;
-    	    xindanwei.enterprise=lianxibiao;
+    	    xindanwei.prjType2=erji,
+    	    xindanwei.prjNo=taskbianhao,
+    	    xindanwei.prjName=taskName,
+    	    xindanwei.prjManagementModel=moshi,
+    	    xindanwei.prjCompany=gongsi,
+    	    xindanwei.prjSource=prjSource,
+    	    xindanwei.prjOwnerUnit=yezhudanwei,
+    	    xindanwei.workContent=gaikuang,
+    	    xindanwei.prjEstimateMoney=jine,
+    	    xindanwei.contractMoney=hetonge,
+    	    xindanwei.provisionalSum=zandingjin,
+    	    xindanwei.prjStartTime=startTime,
+    	    xindanwei.prjEndTime=endTime,
+    	    xindanwei.mainDepartment=zhuban,
+    	    xindanwei.mainDepartmentMoney=zhubanjine,
+    	    xindanwei.mainDepartmentCost=chenbenfentanbili,
+    	    xindanwei.assistDepartment1=xieban1,
+    	    xindanwei.assistDepartment1Money=xieban1jine,
+    	    xindanwei.assistDepartment1Cost=chenbenfentanbili1,
+    	    xindanwei.assistDepartment2=xieban2,
+    	    xindanwei.assistDepartment2Money=xieban2jine,
+    	    xindanwei.assistDepartment2Cost=chenbenfentanbili2,
+    	    xindanwei.assistDepartment3=xieban3,
+    	    xindanwei.assistDepartment3Money=xieban3jine,
+    	    xindanwei.assistDepartment3Cost=chenbenfentanbili3,
+    	    xindanwei.enterprise=lianxibiao,
     	    danwei.push(xindanwei);
     		
     	     $.ajax({
@@ -2641,7 +2704,6 @@
         	var importance=$("#edit_importance").val();
         	var moshi=$("#xgmoshi").find("option:selected").val();
         	var gongsi=$("#xggongsi").find("option:selected").val();
-        	var shejijieduan=$("#xgshejijieduan").find("option:selected").val();
         	var yezhudanwei=$("#xgyezhudanwei").val();
         	var prjSource=$("#xg_prj_source").val();
         	var jine=$("#xgjine").val();
@@ -2833,7 +2895,6 @@
         	var gongsi=$("#xggongsi").find("option:selected").val();
         	var city=$("#edit_city").val();
         	var importance=$("#edit_importance").val();
-        	var shejijieduan=$("#xgshejijieduan").find("option:selected").val();
         	var yezhudanwei=$("#xgyezhudanwei").val();
         	var prjSource=$("#xg_prj_source").val();
         	var jine=$("#xgjine").val();
@@ -3266,6 +3327,11 @@
   	function tiaozhuan(s){
   		var cjId = $(s).attr("data-id");
   		$(s).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+cjId+'')
+  	}
+  	
+  	function appendBfh(obj){
+  		var value=$(obj).val().replace("%","")+"%"
+  		$(obj).val(value)
   	}
 </script>
 

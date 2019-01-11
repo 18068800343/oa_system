@@ -203,4 +203,9 @@ public class TaskServiceImpl implements TaskService{
 		return i;
 	}
 
+	@Override
+	public List<Task> selectTaskByCj() {
+		return tdao.selectTaskByCj();
+	}
+
 }
