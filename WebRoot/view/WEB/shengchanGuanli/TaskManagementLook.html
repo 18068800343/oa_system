@@ -66,21 +66,21 @@
                     	<tbody>
                     		<tr>
 	                            <td style="width:10%;">项目名称</td>
-	                            <td id="looktaskName" style="width:15%;"></td>
-	                            <td style="width:10%;">编号</td>
-	                            <td id="looktaskbianhao" style="width:15%;"></td>
-	                            <td style="width:12%;">项目经营模式</td>
-	                            <td id="lookmoshi" style="width:13%;"></td>
-	                            <td style="width:10%;">项目所属公司</td>
-	                            <td id="lookgongsi" style="width:15%;"></td>
+	                            <td id="looktaskName" style="width:20%;"></td>
+	                            <td style="width:10%;">所属区域</td>
+	                            <td id="look_prj_area" style="width:20%;"></td>
+	                            <td style="width:8%;">任务单号</td>
+	                            <td id="looktaskbianhao" style="width:12%;"></td>
+	                            <td style="width:8%;">项目经营模式</td>
+	                            <td id="lookmoshi" style="width:12%;"></td>
 	                        </tr>
 	                        <tr>
+	                        	<td>合同所属公司</td>
+	                            <td id="lookgongsi"></td>
 	                            <td>项目类型</td>
 	                            <td id="lookleixing"></td>
-	                            <td></td>
-	                            <td></td>
-	                            <td></td>
-	                            <td></td>
+	                            <td>重要程度</td>
+	                            <td id="look_importance"></td>
 	                            <td></td>
 	                            <td></td>
 	                        </tr>
@@ -99,23 +99,23 @@
                     	</thead>
                     	<tbody>
                     		<tr>
-	                            <td style="width:10%;">项目业主单位</td>
+	                            <td style="width:10%;">甲方单位</td>
 	                            <td id="lookyezhudanwei" style="width:15%;"></td>
-	                            <td style="width:10%;">项目金额</td>
+	                            <td style="width:10%;">任务金额</td>
 	                            <td id="lookjine" style="width:15%;"></td>
-	                            <td style="width:12%;">合同金额</td>
-	                            <td id="lookhetonge" style="width:17%;"></td>
+	                            <td style="width:10%;">合同金额</td>
+	                            <td id="lookhetonge" style="width:15%;"></td>
 	                            <td style="width:10%;">暂定金</td>
 	                            <td id="lookzandingjin" style="width:15%;"></td>
 	                        </tr>
 	                        <tr>
 	                            <td>项目开始时间</td>
-	                            <td id="lookstartTime"></td>
-	                            <td>项目结束时间</td>
-	                            <td id="lookendTime"></td>
+	                            <td  colspan="3">
+	                            	<span  id="lookstartTime"></span><span>&nbsp;&nbsp;-&nbsp;&nbsp;</span><span  id="lookendTime"></span>
+	                            </td>
 	                            <td>项目来源</td>
 	                            <td id="look_prj_source"></td>
-	                            <td>预估合同金额</td>
+	                            <td></td>
 	                            <td></td>
 	                        </tr>
                     	</tbody>
@@ -138,7 +138,7 @@
                     <table class="table table-bordered table-condensed" id="look_xieban_table">
                     	<thead>
                     		<tr>
-                    			<th colspan="10">查看承接信息</th>
+                    			<th colspan="6">查看承接部门信息</th>
                     		</tr>
                     	</thead>
                     	<tbody>
@@ -223,6 +223,7 @@
             	no:no
             },
             success: function (json) {
+            	//console.log(json)
             	var task=json.task;
             	var taskList=json.taskList;
             	
@@ -236,10 +237,12 @@
             	$("#looktaskName").text(task.prjName);
             	$("#looktaskbianhao").text(task.prjNo);
             	$("#lookmoshi").text(task.prjManagementModel);
-            	$("#lookgongsi").text(task.prjCompany);
+            	$("#lookgongsi").text(task.prjCompany1);
             	$("#lookleixing").text(task.prjType2);
-            	$("#lookshejijieduan").text(task.jsPhases);
+            	$("#look_prj_area").text(task.prjArea);
+            	$("#look_importance").text(task.importance);
             	$("#lookyezhudanwei").text(task.ccName);
+            	$("#look_prj_source").text(task.prjSource);
             	$("#lookjine").text(task.prjEstimateMoney);
             	$("#lookhetonge").text(task.contractMoney);
             	$("#lookzandingjin").text(task.provisionalSum);
@@ -254,7 +257,9 @@
                 			+task.omName
                 			+"</td><td>金额</td><td>"
                 			+task.mainDepartmentMoney
-                			+"</td><td>项目负责人</td><td>"
+                			+"</td><td>成本分摊比例</td><td>"
+                			+task.mainDepartmentCost
+							+"</td><td>项目负责人</td><td>"
                 			+'<select class="form-control" style="width:100%;" id="xmfzr" disabled></select>'
                 			+"</td><td>主任工程师</td><td>"
                 			+'<select class="form-control" style="width:100%;" id="zrgcs" disabled></select>'
@@ -269,6 +274,8 @@
                     				+task.name1
                     				+"</td><td>金额</td><td>"
                     				+task.assistDepartment1Money
+                    				+"</td><td>成本分摊比例</td><td>"
+                        			+task.assistDepartment1Cost
                     				+"</td><td>项目负责人</td><td>"
                         			+'<select class="form-control" style="width:100%;" id="xbxmfzr1" disabled></select>'
                         			+"</td><td>主任工程师</td><td>"
@@ -286,6 +293,8 @@
         							+task.name2
         							+"</td><td>金额</td><td>"
         							+task.assistDepartment2Money
+        							+"</td><td>成本分摊比例</td><td>"
+                        			+task.assistDepartment2Cost
         							+"</td><td>项目负责人</td><td>"
         	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr2" disabled></select>'
         	            			+"</td><td>主任工程师</td><td>"
@@ -302,6 +311,8 @@
         							+task.name3
         							+"</td><td>金额</td><td>"
         							+task.assistDepartment3Money
+        							+"</td><td>成本分摊比例</td><td>"
+                        			+task.assistDepartment3Cost
         							+"</td><td>项目负责人</td><td>"
         	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr3" disabled></select>'
         	            			+"</td><td>主任工程师</td><td>"
@@ -336,6 +347,8 @@
                 			+task.omName
                 			+"</td><td>金额</td><td>"
                 			+task.mainDepartmentMoney
+                			+"</td><td>成本分摊比例</td><td>"
+                			+task.mainDepartmentCost
                 			+"</td><td>项目负责人</td><td>"
                 			+'<select class="form-control" style="width:100%;" id="xmfzr"></select>'
                 			+"</td><td>主任工程师</td><td>"
@@ -351,6 +364,8 @@
                     				+task.name1
                     				+"</td><td>金额</td><td>"
                     				+task.assistDepartment1Money
+                    				+"</td><td>成本分摊比例</td><td>"
+                        			+task.assistDepartment1Cost
                     				+"</td><td>项目负责人</td><td>"
                         			+'<select class="form-control" style="width:100%;" id="xbxmfzr1"></select>'
                         			+"</td><td>主任工程师</td><td>"
@@ -368,6 +383,8 @@
         							+task.name2
         							+"</td><td>金额</td><td>"
         							+task.assistDepartment2Money
+        							+"</td><td>成本分摊比例</td><td>"
+                        			+task.assistDepartment2Cost
         							+"</td><td>项目负责人</td><td>"
         	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr2"></select>'
         	            			+"</td><td>主任工程师</td><td>"
@@ -384,6 +401,8 @@
         							+task.name3
         							+"</td><td>金额</td><td>"
         							+task.assistDepartment3Money
+        							+"</td><td>成本分摊比例</td><td>"
+                        			+task.assistDepartment3Cost
         							+"</td><td>项目负责人</td><td>"
         	            			+'<select class="form-control" style="width:100%;" id="xbxmfzr3"></select>'
         	            			+"</td><td>主任工程师</td><td>"
