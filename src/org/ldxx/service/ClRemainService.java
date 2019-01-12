@@ -22,4 +22,6 @@ public interface ClRemainService {
 
 	public int updateClRemainNum(ClRemain cr);
 
+	public int clRemainUse(List<ClRemain> remain);
+
 }

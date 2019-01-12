@@ -63,10 +63,9 @@
                 <div class="zhuti-content">
                     <div class="UpperPart">
                         <div class="UpperPartL">
-                            
-                        </div>
-                        <div class="UpperPartR">
-                            
+                             <div class="UpperPartL">
+	                            <select class="form-control" id="prj"></select>
+	                        </div>
                         </div>
 
                     </div>
@@ -80,6 +79,7 @@
 			                        <th>采购合同单号</th>
 			                        <th>入库人</th>
 			                        <th>入库日期</th>
+			                        <th>是否结余</th>
 			                        <th>操作</th>
                                 </tr>
                             </thead>
@@ -105,7 +105,7 @@
 		                        <th>材料类型</th>
 		                        <th>规格型号</th>
 		                        <th>单位</th>
-		                        <th>数量</th>
+		                        <th>结余数量</th>
 		                        <th>单价</th>
 		                        <th>金额</th>
 		                        <th>收货日期</th>
@@ -118,7 +118,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="UpdateRemainType(0)">拒绝</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" onclick="UpdateRemainType(1)">确认</button>
         </div>
         </div>
     </div>
@@ -548,7 +549,7 @@
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
-    	initTable();
+    	initPrj();
     	initSelectCG();
     	initbumen();
     	$('#editable-select').editableSelect({ 
@@ -582,8 +583,9 @@
             { "data": "taskNo"}, 
             { "data": null}, 
             { "data": "cgNo"}, 
-            { "data": "pickPerson"}, 
-            { "data": "pickDate"}, 
+            { "data": "getPerson"}, 
+            { "data": "sentDate"}, 
+            { "data": null}, 
         ],
         "columnDefs": [
 						{	
@@ -591,7 +593,7 @@
 							  "targets": 0,
 							  "searchable": true,
 							  "render": function(data, type, full) {
-									return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.pickProject+'</a>'
+									return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.demandProject+'</a>'
 							  }
 						},
 						{
@@ -603,11 +605,28 @@
 							   }
 						},
 						{	
+							 "class": "tcenter",
+							    "targets": 6,
+							    "searchable": true,
+							    "render": function(data, type, full) {
+							    	if(data.remainType=="1"){
+							    		return '<span class="label label-danger state">未结余确认</span>';
+							    	}else{
+							    		return '<span class="label label-success state">已结余</span>';
+							    	}
+							        }
+							  },
+						{	
 								 "class": "tcenter",
-								    "targets": 6,
+								    "targets": 7,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								    	return '<i class="iconfont icon-icon-test Pedbca" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="look(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i> <i class="iconfont icon-zuzhijigou Pedbcb" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="结余转出" onclick="remainOut(this)" data-toggle="modal" data-target="#allMsg3"></i>'
+									    	//return '<i class="iconfont icon-icon-test Pedbca" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="look(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i> <i class="iconfont icon-zuzhijigou Pedbcb" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="结余转出" onclick="remainOut(this)" data-toggle="modal" data-target="#allMsg3"></i>'
+								    	if(full.remainType=="1"){
+								    		return '<i class="iconfont icon-icon-test Pedbca" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="look(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i> '
+								    	}else{
+								    		return '<i class="iconfont icon-zuzhijigou Pedbcb" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="结余转出" onclick="remainOut(this)" data-toggle="modal" data-target="#allMsg3"></i>'
+								    	}
 								        }
 								  }
 						],
@@ -804,37 +823,71 @@
         }},
         
 	});
-	function initTable(){
+  
+	/* function initTable(){
         $.ajax({
             type: 'POST',
-            url: getContextPath()+'/GsMaterialRemain/selectGsMaterialRemain',
+            url: getContextPath()+'/gsMaterialIn/selectMateriaOutForEnd',
             dataType: 'json',
             data: {
-            	remainType:1
+            	taskno:$("#prj").val(),
+            	type:"1",
             },
             error: function (msg) {
                 errMessage("请求UserController失败");
             },
             success: function (json) {
-            	console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
+    } */
+    
+    
+    function initPrj(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	$("#prj").append("<option value='%'>全部</option>")
+                for(var i=0;i<json.length;i++){
+					$("#prj").append("<option value="+json[i].prjNo+">"+json[i].prjName+"</option>")                	
+                }
+            	$("#prj").trigger("change");
+            }
+        });
     }
 	
+    $("#prj").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/gsMaterialIn/selectMateriaOutForEnd',
+            dataType: 'json',
+            data: {
+            	taskno:$("#prj").val(),
+            	type:"1",
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    })
 	
-	
+    var cmId;
 	function look(obj){
 		var tr=$(obj).parent().parent();
 		var data=$("#mainContent").DataTable().row(tr).data();
-		var cmoId=data.cmoId;
+		cmId=data.cmId;
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/ClRemain/selectClRemainById',
             dataType: 'json',
             data:{
-            	id:cmoId
+            	id:data.cmId
             },
             success: function (json) {
             	//console.log(json)
@@ -849,6 +902,35 @@
         });
 	}
 	
+	//拒绝或确认
+   	function UpdateRemainType(obj){
+   		var type;
+   		if(obj=="0"){
+   			type=0;
+   		}else{
+   			type=2;
+   		}
+   		/* $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/gsMaterialIn/updateremainType',
+            dataType: 'json',
+            data:{
+            	id:cmId,
+            	type:type,
+            },
+            success: function (json) {
+            	if(json>0){
+	            	toatr.success("结余确认成功")
+	            	$("#allMsg1").modal("hide")
+            	}else{
+            		toastr.error("结余确认失败")
+            	}
+            }
+        }); */
+   	}
+    
+    
+    
 
 	function remainOut(obj){
 		var tr=$(obj).parent().parent();

@@ -18,4 +18,8 @@ public interface GsMaterialInClDao {
 
 	int updateRemain(@Param("id")String id, @Param("remain")String remain);
 
+	int updateSumClRemainById(@Param("crId")String crId, @Param("cmoNumber")int cmoNumber);
+
+	CompanyMaterialInCl selectClByCrId(@Param("crId")String crId);
+
 }

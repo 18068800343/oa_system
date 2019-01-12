@@ -8,6 +8,8 @@ import org.ldxx.bean.GsClOut;
 import org.ldxx.bean.outRemain;
 import org.ldxx.dao.ClRemainDao;
 import org.ldxx.dao.GsClOutDao;
+import org.ldxx.dao.GsMaterialInClDao;
+import org.ldxx.dao.GsMaterialInDao;
 import org.ldxx.dao.GsMaterialOutDao;
 import org.ldxx.service.ClRemainService;
 import org.ldxx.util.TimeUUID;
@@ -20,12 +22,14 @@ public class ClRemainServiceImpl implements ClRemainService{
 
 	@Autowired
 	private ClRemainDao dao;
-	
 	@Autowired
 	private GsMaterialOutDao gdao;
-	
 	@Autowired
 	private GsClOutDao goDao;
+	@Autowired
+	private GsMaterialInClDao gsInCldao;
+	@Autowired
+	private GsMaterialInDao gmDao;
 	
 	@Transactional
 	@Override
@@ -76,6 +80,28 @@ public class ClRemainServiceImpl implements ClRemainService{
 	@Override
 	public int updateClRemainNum(ClRemain cr) {
 		return dao.updateClRemainNum(cr);
+	}
+
+	@Override
+	public int clRemainUse(List<ClRemain> remain) {
+		int num=0;
+		if(remain!=null){
+			for(int i=0;i<remain.size();i++){
+				TimeUUID uuid=new TimeUUID();
+				remain.get(i).setCrId(uuid.getTimeUUID());
+			}
+			num=dao.addClRemain(remain);
+			if(num>0){
+				for(int a=0;a<remain.size();a++){
+					outRemain or=remain.get(a).getOutRemain();
+					num=gsInCldao.updateRemain(or.getId(), or.getRemain());
+				}
+				if(num>0){
+					num=gmDao.updateremainType(remain.get(0).getGsOutId(),"1");
+				}
+			}
+		}
+		return num;
 	}
 
 }

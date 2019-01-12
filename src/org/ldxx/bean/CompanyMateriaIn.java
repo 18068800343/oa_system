@@ -23,7 +23,7 @@ public class CompanyMateriaIn {
 	private String getPerson;//项目材料收货人
 	private String getInfos;//项目验收及意见
 	private String getStatus;//收货状态 0：未确认收货 1：确认收货
-	private String remainType;//结余状态 0 未结余 1 已结余
+	private String remainType;//结余状态 0 未结余 1 等待结余确认2:已结余
 	
 	private List<Accessory> accessory;
 	private List<CompanyMaterialInCl> gsInCl;//公司材料信息

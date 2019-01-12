@@ -3,9 +3,11 @@ package org.ldxx.service.impl;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.ClRemain;
 import org.ldxx.bean.CompanyMateriaIn;
 import org.ldxx.bean.CompanyMaterialInCl;
 import org.ldxx.dao.AccessoryDao;
+import org.ldxx.dao.ClRemainDao;
 import org.ldxx.dao.GsMaterialInClDao;
 import org.ldxx.dao.GsMaterialInDao;
 import org.ldxx.dao.MaterialDemandDao;
@@ -21,13 +23,14 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	
 	@Autowired
 	private GsMaterialInDao gmDao;
-	
 	@Autowired
 	private AccessoryDao adao;
 	@Autowired
 	private MaterialDemandDao mdao;
 	@Autowired
 	private GsMaterialInClDao gsInCldao;
+	@Autowired
+	private ClRemainDao clremaindao;
 	
 	@Override
 	public List<CompanyMateriaIn> selectGsMaterialIn(String outState) {
@@ -125,8 +128,8 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	}
 
 	@Override
-	public List<CompanyMateriaIn> selectXmMaterialByPrj(String prjname, String outstate) {
-		return gmDao.selectXmMaterialByPrj(prjname,outstate);
+	public List<CompanyMateriaIn> selectXmMaterialByNo(String no, String outstate) {
+		return gmDao.selectXmMaterialByNo(no,outstate);
 	}
 
 	@Override
@@ -149,6 +152,31 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	@Override
 	public List<CompanyMaterialInCl> selectGsClInBytaskNo(String no) {
 		return gsInCldao.selectGsClInBytaskNo(no);
+	}
+
+	@Override
+	public List<CompanyMateriaIn> selectMateriaOutForEnd(String no,String type) {
+		return gmDao.selectMateriaOutForEnd(no,type);
+	}
+
+	@Override
+	public int updateremainType(String id, String type) {
+		int i=0;
+		if(type.equals("0")){//拒绝结余就去结余材料表删除材料信息并去项目材料表修改库存数量
+			List<ClRemain> clRemain = clremaindao.selectClRemainById(id);
+			if(clRemain!=null){
+				for(int k=0;k<clRemain.size();k++){
+					CompanyMaterialInCl cl=gsInCldao.selectClByCrId(clRemain.get(k).getCrId());
+					int value=Integer.parseInt(cl.getClRemain())+clRemain.get(k).getCmoNumber();
+					i=gsInCldao.updateSumClRemainById(clRemain.get(k).getCrId(),value );
+				}
+				if(i>0){
+					i=clremaindao.deleteClremainByGsoutId(id);
+				}
+			}
+		}
+		i=gmDao.updateremainType(id, type);
+		return i;
 	}
 
 

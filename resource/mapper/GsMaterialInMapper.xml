@@ -10,9 +10,9 @@
 	
 	<insert id="addGsMaterialInSave" parameterType="CompanyMateriaIn">
 		insert into company_material_in(cm_id,cg_no,cg_name,task_no,sent_date,collect_person,
-			demand_project,cm_desc,acceptance_opinion,freight,out_state)
+			demand_project,cm_desc,acceptance_opinion,freight,out_state,remain_type)
 		values(#{cm.cmId},#{cm.cgNo},#{cm.cgName},#{cm.taskNo},#{cm.sentDate},#{cm.collectPerson},#{cm.demandProject},
-		#{cm.cmDesc},#{cm.acceptanceOpinion},#{cm.freight},0)
+		#{cm.cmDesc},#{cm.acceptanceOpinion},#{cm.freight},0,0)
 	</insert>
 	
 	<update id="updateGsMaterialInSave" parameterType="CompanyMateriaIn">
@@ -52,8 +52,8 @@
 	</update>
 	
 	
-	<select id="selectXmMaterialByPrj" resultType="CompanyMateriaIn">
-		select * from company_material_in where demand_project like #{prjname} and out_state=#{outstate}
+	<select id="selectXmMaterialByNo" resultType="CompanyMateriaIn">
+		select * from company_material_in where task_no like #{no} and out_state=#{outstate}
 	</select>
 	
 	<update id="updateXmState">
@@ -69,4 +69,11 @@
 		select DISTINCT task_no,demand_project,cg_no,cg_name,cm_id from company_material_in where get_status=1
 	</select>
 	
+	<select id="selectMateriaOutForEnd" resultType="CompanyMateriaIn">
+		select * from company_material_in where task_no like #{no} and out_state=1 and get_status=1 and remain_type=#{type}
+	</select>
+	
+	<update id="updateremainType">
+		update company_material_in set remain_type=#{type} where cm_id=#{id}
+	</update>
 </mapper>

@@ -207,11 +207,11 @@ public class GsMaterialInController {
 		return gmService.updateOutStateById(id,outstate);
 	}
 	
-	@RequestMapping("/selectXmMaterialByPrj")//通过项目名和出库状态查找项目材料信息
+	@RequestMapping("/selectXmMaterialByNo")//通过任务单号和出库状态查找项目材料信息
 	@ResponseBody
-	public List<CompanyMateriaIn> selectXmMaterialByPrj(String name,String outstate){
-		String Prjname="%"+name+"%";
-		return gmService.selectXmMaterialByPrj(Prjname,outstate);
+	public List<CompanyMateriaIn> selectXmMaterialByNo(String taskNo,String outstate){
+		String no="%"+taskNo+"%";
+		return gmService.selectXmMaterialByNo(no,outstate);
 	}
 	
 	@RequestMapping("/updateXmState")//项目入库的收货确认
@@ -255,11 +255,24 @@ public class GsMaterialInController {
 	}
 	
 	
-	@RequestMapping("/selectGsClInBytaskNo")
+	@RequestMapping("/selectGsClInBytaskNo")//通过任务单号查找材料信息
 	@ResponseBody
 	public List<CompanyMaterialInCl> selectGsClInBytaskNo(String no){
 		return gmService.selectGsClInBytaskNo(no);
 	}
 	
+	@RequestMapping("/selectMateriaOutForEnd")//通过任务单号和结余状态来获取项目材料已收货的所有项目
+	@ResponseBody
+	public List<CompanyMateriaIn> selectMateriaOutForEnd(String taskno,String type){
+		String no="%"+taskno+"%";
+		return gmService.selectMateriaOutForEnd(no,type);
+	}
+	
+	
+	@RequestMapping("/updateremainType")//公司结余确认
+	@ResponseBody
+	public int updateremainType(String id,String type){
+		return gmService.updateremainType(id,type);
+	}
 	
 }

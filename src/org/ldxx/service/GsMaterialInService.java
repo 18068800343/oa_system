@@ -26,13 +26,17 @@ public interface GsMaterialInService {
 
 	int updateOutStateById(String id,String outstate);
 
-	List<CompanyMateriaIn> selectXmMaterialByPrj(String prjname, String outstate);
+	List<CompanyMateriaIn> selectXmMaterialByNo(String no, String outstate);
 
 	int updateXmState(CompanyMateriaIn gsIncl);
 
 	List<CompanyMateriaIn> selectAllXmReceivedGoods();
 
 	List<CompanyMaterialInCl> selectGsClInBytaskNo(String no);
+
+	List<CompanyMateriaIn> selectMateriaOutForEnd(String no,String type);
+
+	int updateremainType(String id, String type);
 
 
 }

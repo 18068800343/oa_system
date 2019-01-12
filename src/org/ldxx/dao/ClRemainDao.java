@@ -20,5 +20,7 @@ public interface ClRemainDao {
 	public int updateClRemainNum(@Param("cr")ClRemain cr);
 
 	public int updateRemainForWaste(@Param("remain")List<outRemain> remain);
+
+	public int deleteClremainByGsoutId(@Param("id")String id);
 	
 }

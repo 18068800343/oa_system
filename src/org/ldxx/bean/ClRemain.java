@@ -28,7 +28,16 @@ public class ClRemain {
 	private float cmoUnitPrice;
 	private float cmoMoney;
 	private String pickDate;
+	private outRemain outRemain;
 	
+	
+	
+	public outRemain getOutRemain() {
+		return outRemain;
+	}
+	public void setOutRemain(outRemain outRemain) {
+		this.outRemain = outRemain;
+	}
 	public String getCrId() {
 		return crId;
 	}

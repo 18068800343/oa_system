@@ -49,7 +49,7 @@ public class ClRemainController {
 			gs_out_id=cr.get(a).getGsOutId();
 		}
 		int i=service.addClRemain(cr);
-		if(i>0){
+		/*if(i>0){
 			CompanyMateriaOut GsMaterialOut = gsoutservice.selectGsMaterialOutById(gs_out_id);
 			Task task = tService.selectTaskPrjName(GsMaterialOut.getTaskNo());
 			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
@@ -85,13 +85,13 @@ public class ClRemainController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		return i;
 	}
 	
 	@RequestMapping("/addClRemainSubmit")
 	@ResponseBody
-	public String addClRemainSubmit(@RequestBody List<ClRemain> cr,HttpSession session){
+	public int addClRemainSubmit(@RequestBody List<ClRemain> cr,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String gs_out_id="";
 		for(int a=0;a<cr.size();a++){
@@ -100,7 +100,7 @@ public class ClRemainController {
 			gs_out_id=cr.get(a).getGsOutId();
 		}
 		int i=service.addClRemain(cr);
-		String string = i+"";
+		/*String string = i+"";
 		if(i>0){
 			CompanyMateriaOut GsMaterialOut = gsoutservice.selectGsMaterialOutById(gs_out_id);
 			Task task = tService.selectTaskPrjName(GsMaterialOut.getTaskNo());
@@ -137,7 +137,8 @@ public class ClRemainController {
 				e.printStackTrace();
 			}
 		}
-		return string;
+		return string;*/
+		return i;
 	}
 	
 	@RequestMapping("/selectGsClOutById")
@@ -147,13 +148,20 @@ public class ClRemainController {
 		return list;
 	}
 	
-	@RequestMapping("/remainUse")
+	/*@RequestMapping("/remainUse")
 	@ResponseBody
 	public int remainUse(@RequestBody CompanyMateriaOut cm){
 		TimeUUID uuid=new TimeUUID();
 		String id = uuid.getTimeUUID();
 		cm.setCmoId(id);
 		int i=service.remainUse(cm);
+		return i;
+	}*/
+	
+	@RequestMapping("/clRemainUse")//结余利用
+	@ResponseBody
+	public int clRemainUse(@RequestBody List<ClRemain> remain){
+		int i=service.clRemainUse(remain);
 		return i;
 	}
 	
@@ -163,5 +171,7 @@ public class ClRemainController {
 		List<ClRemain> list=service.selectClRemainById(id);
 		return list;
 	}
+	
+	
 	
 }

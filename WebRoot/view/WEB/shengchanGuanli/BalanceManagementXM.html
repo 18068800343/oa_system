@@ -223,10 +223,9 @@
 		                        <th>材料类型</th>
 		                        <th>规格型号</th>
 		                        <th>单位</th>
-		                        <th>数量</th>
+		                        <th>结余数量</th>
 		                        <th>单价</th>
 		                        <th>金额</th>
-		                        <th>收货日期</th>
 		                    </tr>
 		                </thead>
 		                <tbody>
@@ -293,7 +292,7 @@
         <div class="modal-body">
             <div>     
                 <form class="form-inline">
-                    <table class="table table-bordered table-condensed">
+                    <!-- <table class="table table-bordered table-condensed">
                     	<tr>
                     		<td style="width:20%;">转出项目名称：</td>
                     		<td style="width:35%;"><input type="text" style="width:62%;" class="form-control" id="out_prj_name" disabled></td>
@@ -309,7 +308,7 @@
                     	<tr>
                     		<td>转入采购合同名称：</td>
                     		<td>
-                    			<!-- <select id="in_cg_name" class="form-control" style="width:62%;"></select> -->
+                    			<select id="in_cg_name" class="form-control" style="width:62%;"></select>
                     			<input type="text" id="in_cg_name" class="form-control" disabled style="width:62%;">
                                 <button type="button" class="btn btn-primary weui-uploader__input" onclick="choose_cg()">选择采购</button>
                     		</td>
@@ -341,7 +340,7 @@
                     		<td>备注：</td>
                     		<td colspan="3"><input type="text" style="width:90%;" class="form-control" id="out_desc"></td>
                     	</tr>
-                    </table>
+                    </table> -->
                     <table class="table table-bordered table-condensed"  id="remain_out_table">
                     	<thead>
                     		<tr>
@@ -349,8 +348,8 @@
                     			<th>材料类型</th>
                     			<th>规格型号</th>
                     			<th>单位</th>
-                    			<th>结余余数</th>
-                    			<th>转出数量</th>
+                    			<th>库存数量</th>
+                    			<th>结余数量</th>
                     			<th>单价</th>
                     			<th>操作</th>
                     		</tr>
@@ -517,7 +516,7 @@
 		            { "data": null}, 
 		            { "data": "cgNo"}, 
 		            { "data": "getPerson"}, 
-		            { "data": "pickDate"}, 
+		            { "data": "sentDate"}, 
 		            { "data": null}, 
 		            { "data": null}
 		        ],
@@ -527,7 +526,7 @@
 								  "targets": 0,
 								  "searchable": true,
 								  "render": function(data, type, full) {
-										return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.pickProject+'</a>'
+										return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.demandProject+'</a>'
 								  }
 							},
 							{
@@ -551,7 +550,9 @@
 										    "targets": 7,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    		return '<i class="iconfont icon-xiugai Pedcca" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="结余确认" onclick="openRemain(this)"></i><i class="iconfont icon-zuzhijigou Pedccb" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="结余利用" onclick="utilize(this)"></i>';
+										    		//return '<i class="iconfont icon-xiugai Pedcca" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="结余确认" onclick="openRemain(this)"></i><i class="iconfont icon-zuzhijigou Pedccb" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="结余利用" onclick="utilize(this)"></i>';
+												    	return '<i class="iconfont icon-zuzhijigou Pedccb" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="结余确认" onclick="utilize(this)"></i>';
+										    		
 										        }
 										  }
 								],
@@ -617,10 +618,9 @@
 		            { "data": "materialType"}, 
 		            { "data": "specificationModel"}, 
 		            { "data": "cmoUnit"}, 
-		            { "data": "remainNumber"}, 
+		            { "data": "cmoNumber"}, 
 		            { "data": "cmoUnitPrice"}, 
 		            { "data": null},
-		            { "data": "pickDate"}
 		        ],
 		        "columnDefs": [
 								{	
@@ -629,7 +629,7 @@
 										    "searchable": true,
 										    "render": function(data, type, full) {
 											    	var price=data.cmoUnitPrice;
-											    	var num=data.remainNumber;
+											    	var num=data.cmoNumber;
 											    	var sum=Number(price)*Number(num);
 											    	return sum;
 										        }
@@ -826,10 +826,11 @@
 	$("#prj").on("change",function(){
     	$.ajax({
             type: 'POST',
-            url: getContextPath()+'/gsMaterialOut/selectCompanyMateriaOutForEnd',
+            url: getContextPath()+'/gsMaterialIn/selectMateriaOutForEnd',
             dataType: 'json',
             data: {
-            	no:$("#prj").val()
+            	taskno:$("#prj").val(),
+            	type:"0",
             },
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
@@ -838,19 +839,21 @@
         });
     })
 
-    var cmoId;
+    var cmId;
+	var sentDate;
     function openRemain(obj){
 		var tr=$(obj).parent().parent();
 		var data=$("#mainContent").DataTable().row(tr).data();
 		var remainType=data.remainType;
-		cmoId=data.cmoId;
+		cmId=data.cmId;
+		sentDate=data.sentDate;
 		
 		$.ajax({
             type: 'POST',
-            url: getContextPath()+'/GsClOut/selectClByNo',
+            url: getContextPath()+'/ClRemain/selectClRemainById',
             dataType: 'json',
             data: {
-            	no:cmoId
+            	id:data.cmId
             },
             success: function (json) {
                 $('#mainContent2').dataTable().fnClearTable();
@@ -861,6 +864,7 @@
 		$("#allMsg1").modal("show");
 	}
     
+  //结余保存
 	$("#remainThis").on("click",function(){
 	    var crArray=new Array();
 		$("#mainContent2 tbody").find("tr").each(function(){
@@ -884,8 +888,7 @@
 			var num=$(this).find("td").eq(4).text();
 			var price=$(this).find("td").eq(5).text();
 			var sumPrice=$(this).find("td").eq(6).text();
-			var remainDate=$(this).find("td").eq(7).text();
-			clRemain.gsOutId=cmoId;
+			clRemain.gsOutId=cmId;
 			clRemain.materialName=clName;
 			clRemain.materialType=clType;
 			clRemain.specificationModel=modeType;
@@ -894,7 +897,7 @@
 			clRemain.remainNumber=num;
 			clRemain.cmoUnitPrice=price;
 			clRemain.cmoMoney=sumPrice;
-			clRemain.pickDate=remainDate;
+			clRemain.pickDate=sentDate;
 			crArray.push(clRemain);
 		})
 		
@@ -917,7 +920,7 @@
 		
 	})
 	
-	
+	//结余提交
 	$("#remainThisSubmit").on("click",function(){
 	    var crArray=new Array();
 		$("#mainContent2 tbody").find("tr").each(function(){
@@ -941,7 +944,6 @@
 			var num=$(this).find("td").eq(4).text();
 			var price=$(this).find("td").eq(5).text();
 			var sumPrice=$(this).find("td").eq(6).text();
-			var remainDate=$(this).find("td").eq(7).text();
 			clRemain.gsOutId=cmoId;
 			clRemain.materialName=clName;
 			clRemain.materialType=clType;
@@ -951,7 +953,7 @@
 			clRemain.remainNumber=num;
 			clRemain.cmoUnitPrice=price;
 			clRemain.cmoMoney=sumPrice;
-			clRemain.pickDate=remainDate;
+			clRemain.pickDate=sentDate;
 			crArray.push(clRemain);
 		})
 		
@@ -962,7 +964,14 @@
             contentType:'application/json',
             data:JSON.stringify(crArray),
             success: function (json) {
-            	if(json=='0'){
+            	 if(json>0){
+	            	$("#allMsg1").modal("hide");
+	            	toastr.success("结余成功");
+	            	location.reload([true]);
+	            }else{
+	            	toastr.error("结余失败")
+	            } 
+            	/* if(json=='0'){
 	        		toastr.error("保存失败");
 	        	}else{
 	        		$("#allMsg1").modal("hide");
@@ -1000,14 +1009,7 @@
 		        	          }
 		        	      }); 
 		        	  }
-	        	}
-                /* if(json>0){
-                	$("#allMsg1").modal("hide");
-                	toastr.success("结余成功");
-                	location.reload([true]);
-                }else{
-                	toastr.error("结余失败")
-                } */
+	        	} */
             }
         });
 		
@@ -1060,59 +1062,7 @@
 		$("#allMsg2").modal("show");
 	}
 	
-	function utilize(obj){
-		var tr=$(obj).parent().parent();
-		var data=$("#mainContent").DataTable().row(tr).data();
-		var cmoId=data.cmoId;
-		$("#out_prj_name").val(data.pickProject);
-		$("#out_prj_no").val(data.taskNo);
-		$("#out_cg_name").val(data.cgName);
-		$("#out_cg_no").val(data.cgNo);
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/ClRemain/selectGsClOutById',
-            dataType: 'json',
-            data:{
-            	id:cmoId
-            },
-            success: function (json) {
-            	$("#remain_out_table tbody").html('');
-            	for(var i=0;i<json.length;i++){
-            		if(json[i].remainNumber!=0){
-            			$("#remain_out_table tbody").append("<tr>"+
-								"<td style='width:15%;'>"+json[i].materialName+"</td>"+
-								"<td style='width:15%;'>"+json[i].materialType+"</td>"+
-								"<td style='width:15%;'>"+json[i].specificationModel+"</td>"+
-								"<td style='width:10%;'>"+json[i].cmoUnit+"</td>"+
-								"<td style='width:10%;'>"+json[i].remainNumber+"</td>"+
-								"<td style='width:15%;'><input type='text' data="+json[i].gsId+" class='form-control' style='width:70%;'></td>"+
-								"<td style='width:10%;'>"+json[i].cmoUnitPrice+"</td>"+
-								"<td style='width:10%;'><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
-							"</tr>")
-            		}
-            	}
-            	var length=$("#remain_out_table tbody").find("tr").length;
-        		if(length==0){
-        			$("#jyButton").attr("disabled",true);
-        		}else{
-        			$("#jyButton").attr("disabled",false);
-        		}
-            }
-        });
-		
-		$("#allMsg3").modal("show");
-	}
 	
-	function removeThis(obj){
-		var tr=$(obj).parent().parent();
-		$(tr).remove();
-		var length=$("#remain_out_table tbody").find("tr").length;
-		if(length==0){
-			$("#jyButton").attr("disabled",true);
-		}else{
-			$("#jyButton").attr("disabled",false);
-		}
-	}
 	
 	//初始化收货人部门及人员
 	function initDepartment(){
@@ -1323,14 +1273,105 @@
   		});
     })
     
+    
+    var jyId;
+    var jyDate;
+    function utilize(obj){
+		var tr=$(obj).parent().parent();
+		var data=$("#mainContent").DataTable().row(tr).data();
+		jyId=data.cmId;
+		jyDate=data.sentDate;
+		$("#allMsg3").modal("show");
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/gsMaterialIn/selectGsClInById",
+			dataType:"json",
+			data:{
+				id:data.cmId,
+			},
+			success:function(json){
+				var gsInCl=json.gsInCl;
+				$("#remain_out_table tbody").empty();
+				if(gsInCl!=null){
+	               for(var i=0;i<gsInCl.length;i++){
+	            	   $("#remain_out_table tbody").append("<tr><td style='width:7%;' data-id="+gsInCl[i].clId+">"
+         		  				+''+gsInCl[i].clName+''
+         		  				+"</td><td style='width:5%;'>"
+         		  				+''+gsInCl[i].clType+''
+         		  				+"</td><td style='width:7%;'>"
+         		  				+''+gsInCl[i].clMode+' ' 
+         		  				+"</td><td style='width:7%;'>"
+         		  				+''+gsInCl[i].clUnit+''
+         		  				+"</td><td style='width:7%;'>"
+         		  				+''+gsInCl[i].clRemain+''
+         		  				+"</td><td style='width:7%;'>"
+         		  				+'<input type="text" class="form-control" style="width:100%;">'
+         		  				+"</td><td style='width:7%;'>" 
+         		  				+''+gsInCl[i].clPrice+''
+         		  				+"</td><td style='width:7%;'>"
+         		  				+'<button type="button" class="btn btn-primary" onclick="removeThis(this)">移除</button>'
+         		  				+"</td></tr>")
+	               }
+				}
+			}
+		})
+		
+		/* $("#out_prj_name").val(data.pickProject);
+		$("#out_prj_no").val(data.taskNo);
+		$("#out_cg_name").val(data.cgName);
+		$("#out_cg_no").val(data.cgNo);
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/ClRemain/selectGsClOutById',
+            dataType: 'json',
+            data:{
+            	id:cmoId
+            },
+            success: function (json) {
+            	$("#remain_out_table tbody").html('');
+            	for(var i=0;i<json.length;i++){
+            		if(json[i].remainNumber!=0){
+            			$("#remain_out_table tbody").append("<tr>"+
+								"<td style='width:15%;'>"+json[i].materialName+"</td>"+
+								"<td style='width:15%;'>"+json[i].materialType+"</td>"+
+								"<td style='width:15%;'>"+json[i].specificationModel+"</td>"+
+								"<td style='width:10%;'>"+json[i].cmoUnit+"</td>"+
+								"<td style='width:10%;'>"+json[i].remainNumber+"</td>"+
+								"<td style='width:15%;'><input type='text' data="+json[i].gsId+" class='form-control' style='width:70%;'></td>"+
+								"<td style='width:10%;'>"+json[i].cmoUnitPrice+"</td>"+
+								"<td style='width:10%;'><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
+							"</tr>")
+            		}
+            	}
+            	var length=$("#remain_out_table tbody").find("tr").length;
+        		if(length==0){
+        			$("#jyButton").attr("disabled",true);
+        		}else{
+        			$("#jyButton").attr("disabled",false);
+        		}
+            }
+        }); */
+	}
+	function removeThis(obj){
+		var tr=$(obj).parent().parent();
+		$(tr).remove();
+		var length=$("#remain_out_table tbody").find("tr").length;
+		if(length==0){
+			$("#jyButton").attr("disabled",true);
+		}else{
+			$("#jyButton").attr("disabled",false);
+		}
+	}
+    
     function saveJy(){
-    	var cgName=$("#in_cg_name").val();
+    	/* var cgName=$("#in_cg_name").val();
     	var cgNo=$("#in_cg_no").val();
     	var prjName=$("#in_prj_name").val();
     	var prjNo=$("#in_prj_no").val();
     	var outPerson=$("#out_person").val();
     	var outTime=$("#out_time").val();
-    	var cmoDesc=$("#out_desc").val();
+    	var cmoDesc=$("#out_desc").val(); 
     	
     	var cMOut={
     			cmoId:undefined,
@@ -1355,11 +1396,11 @@
     	cMOut.pickProject=prjName;
     	cMOut.pickDate=outTime;
     	cMOut.pickPerson=outPerson;
-    	cMOut.cmoDesc=cmoDesc;
+    	cMOut.cmoDesc=cmoDesc;*/
     	
     	var clInfoArray=new Array();
-    	var oRemainArray=new Array();
     	$("#remain_out_table tbody").find("tr").each(function(){
+    		var clId=$(this).find("td").eq(0).attr("data-id");
     		var clName=$(this).find("td").eq(0).text();
     		var clType=$(this).find("td").eq(1).text();
     		var modeType=$(this).find("td").eq(2).text();
@@ -1367,27 +1408,25 @@
     		var jy=$(this).find("td").eq(4).text();
     		var price=$(this).find("td").eq(6).text();
     		var outNum=$(this).find("input").eq(0).val();
-    		var id=$(this).find("input").eq(0).attr("data");
     		var reg=/^\+?[1-9][0-9]*$/;
     		if(!reg.test(outNum)){
     			toastr.error("请输入数字")
-        		return;
+        		return false;
     		}
     		if(Number(outNum)>Number(jy)){
-        		toastr.error("领料数量不能超过结余总数")
-        		return;
+        		toastr.error("结余数量不能超过库存数量")
+        		return false;
         	}
-    		var remain=jy-outNum;
+    		var remain=Number(jy)-Number(outNum);
     		var or={
     				id:undefined,
     				remain:0
     		}
-    		or.id=id;
+    		or.id=clId;
     		or.remain=remain;
-    		oRemainArray.push(or);
     		
     		var clInfo={
-    				gsId:undefined,
+    				crId:undefined,
     				gsOutId:undefined,                                          
     				materialName:undefined,
     				materialType:undefined,
@@ -1397,8 +1436,10 @@
     				remainNumber:0,
     				cmoUnitPrice:0,
     				cmoMoney:0,
-    				pickDate:undefined
+    				pickDate:undefined,
+    				outRemain:undefined,
     		}
+    		clInfo.gsOutId=jyId;
     		clInfo.materialName=clName;
     		clInfo.materialType=clType;
     		clInfo.specificationModel=modeType;
@@ -1407,28 +1448,29 @@
     		clInfo.remainNumber=outNum;
     		clInfo.cmoUnitPrice=price;
     		clInfo.cmoMoney=Number(outNum)*Number(price);
-    		clInfo.pickDate=outTime;
+    		clInfo.pickDate=jyDate;
+    		clInfo.outRemain=or;
     		clInfoArray.push(clInfo);
     	})
-    	cMOut.gsClOut=clInfoArray;
-    	cMOut.oRemain=oRemainArray
-    	
-    	$.ajax({
+    	/* cMOut.gsClOut=clInfoArray;
+    	cMOut.oRemain=oRemainArray */
+    	console.log(clInfoArray)
+    	 $.ajax({
             type: 'POST',
-            url: getContextPath()+'/ClRemain/remainUse',
+            url: getContextPath()+'/ClRemain/clRemainUse',
             dataType: 'json',
             contentType:"application/json",
-            data: JSON.stringify(cMOut),
+            data: JSON.stringify(clInfoArray),
             success: function (json) {
             	if(json>0){
             		$("#allMsg3").modal("hide");
-            		toastr.success("提交成功")
             		location.reload([true]);
+            		toastr.success("提交成功")
             	}else{
             		toastr.error("提交失败")
             	}
             }
-  		});
+  		}); 
     }
 
     function gotoPrj(obj){
