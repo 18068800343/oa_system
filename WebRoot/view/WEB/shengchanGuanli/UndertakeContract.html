@@ -668,8 +668,14 @@
                             <tbody>
                             </tbody>
                         </table>
-
-                        <table class="table table-bordered table-condensed" id="xieban2">
+						
+						<div id="abcd">
+														
+						</div>
+						
+						
+						
+                        <!-- <table class="table table-bordered table-condensed" id="xieban2">
                              <thead>
                                <tr>
                                     <th colspan="2" style="text-align:right;"><button type="button" class="btn btn-primary" onclick="addBumen2()">添加协办部门</button></th>
@@ -688,7 +694,7 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table> -->
                     </form>  
                 </div>
         </div>
@@ -1845,6 +1851,7 @@
         initCooperator();
         initSelect();
         initTable2();
+        getDept();
 	});
     
     /* var table=$('#mainContent').dataTable({
@@ -2482,6 +2489,21 @@
             }
         });
     } */
+    
+    var dept;
+    function getDept(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/selectProductionDepartment',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	dept=json;
+            }
+    	})
+    }
+    
 	
 	function initTable2(){
     	$("#state").trigger("change");
@@ -4026,13 +4048,89 @@
 		            	prjNo:data.taskCode
 		            },
 		            success: function (json) {
-		                console.log(json)
+						$("#abcd").html('');		            	
+		                for(var i=0;i<json.length;i++){
+		                	$("#abcd").append('<table class="table table-bordered table-condensed" id="task_table'+(i+1)+'">'
+									                            +'<thead>'
+									                            +'<tr>'
+									                            	 +'<th style="width:32%;">任务单号：<input type="text" class="form-control" style="width:60%;" value='+json[i].prjEstimateMoney+'></th>'
+									                                 +'<th style="width:50%;">合同金额：<input type="text" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+'></th>'
+									                                 +'<th style="text-align:right;"><button type="button" class="btn btn-primary" data="task_table'+(i+1)+'" onclick="addBumen2()">添加协办部门</button></th>'
+									                            +' </tr>'
+									                      	+' </thead>'
+									                        +' <tbody>'
+									                       +'  </tbody>'
+									                   +'  </table>')
+		                     	if(json[i].mainDepartment!=''&&json[i].mainDepartment!=null){
+		                     		$("#task_table"+(i+1)+" tbody").append('  <tr>'
+				                              +'   <td>主办部门</td>'
+				                              +'   <td colspan="2">'
+				                                +'     <form class="form-inline">'
+				                                   +'      <select class="form-control" style="width:180px;" id="task_main'+(i+1)+'">'
+				                                   +'      </select>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额" value='+json[i].mainDepartmentMoney+'>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].mainDepartmentCost+'>'
+				                                   +'  </form>'
+				                               +'  </td>'
+				                           +'  </tr>')
+				                           initDept("task_main"+(i+1)+"",json[i].mainDepartment)
+		                     	}
+			                	if(json[i].assistDepartment1!=''&&json[i].assistDepartment1!=null){
+		                     		$("#task_table"+(i+1)+" tbody").append('  <tr>'
+				                              +'   <td>协办部门</td>'
+				                              +'   <td colspan="2">'
+				                                +'     <form class="form-inline">'
+				                                   +'      <select class="form-control" style="width:180px;" id="task_xb'+(i+1)+'">'
+				                                   +'      </select>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment1Money+'>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].assistDepartment1Cost+'>'
+				                                   +'  </form>'
+				                               +'  </td>'
+				                           +'  </tr>')
+				                     initDept("task_xb"+(i+1)+"",json[i].assistDepartment1)      
+		                     	}	  
+			                	if(json[i].assistDepartment2!=''&&json[i].assistDepartment2!=null){
+		                     		$("#task_table"+(i+1)+" tbody").append('  <tr>'
+				                              +'   <td>协办部门</td>'
+				                              +'   <td colspan="2">'
+				                                +'     <form class="form-inline">'
+				                                   +'      <select class="form-control" style="width:180px;" id="task_xb2'+(i+1)+'">'
+				                                   +'      </select>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment2Money+'>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].assistDepartment2Cost+'>'
+				                                   +'  </form>'
+				                               +'  </td>'
+				                           +'  </tr>')
+				                           initDept("task_xb2"+(i+1)+"",json[i].assistDepartment2)           
+		                     	}	
+			                	if(json[i].assistDepartment3!=''&&json[i].assistDepartment3!=null){
+		                     		$("#task_table"+(i+1)+" tbody").append('  <tr>'
+				                              +'   <td>协办部门</td>'
+				                              +'   <td colspan="2">'
+				                                +'     <form class="form-inline">'
+				                                   +'      <select class="form-control" style="width:180px;" id="task_xb3'+(i+1)+'">'
+				                                   +'      </select>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment3Money+'>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].assistDepartment3Cost+'>'
+				                                   +'  </form>'
+				                               +'  </td>'
+				                           +'  </tr>')
+				                           initDept("task_xb3"+(i+1)+"",json[i].assistDepartment3)      
+		                     	}	
+		                }
 		            }
 		        });
-	    	
-	    	
 	    	$("#choose_cj2").modal("hide");
 	    }
+	    
+	    function initDept(obj,obj2){
+	    	$("#"+obj+"").html('');
+	    	for(var i=0;i<dept.length;i++){
+	    		$("#"+obj+"").append("<option value="+dept[i].omId+">"+dept[i].omName+"</option>")
+	    	}
+	    	$("#"+obj+"").val(obj2);
+	    }
+	    
 	    
 	    function select_cj3(){
 	    	$('#choose_cj3').on('hidden.bs.modal', function () {//解决模态框页面滚动问题

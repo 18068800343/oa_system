@@ -24,6 +24,7 @@ public class PrjProgressFill {
 	private float budgetMoneyAll;
 	private String thisTime;
 	private String allMoney;
+	private String contractIncome;//合同收入比例
 	private float allMoneyYuan;
 	private float prjThisIncomeYuan;
 	private int status;
@@ -43,6 +44,12 @@ public class PrjProgressFill {
 	private List<Accessory> accessory;
 	
 	
+	public String getContractIncome() {
+		return contractIncome;
+	}
+	public void setContractIncome(String contractIncome) {
+		this.contractIncome = contractIncome;
+	}
 	public String getFristDesign() {
 		return fristDesign;
 	}
