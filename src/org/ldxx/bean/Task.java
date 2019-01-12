@@ -8,6 +8,8 @@ public class Task {
     private String prjType2;
 
     private String prjNo;
+    
+    private String mainPrjNo;
 
     private String prjName;
     
@@ -103,6 +105,15 @@ public class Task {
     private PrjCompanyVo prjCompanyVo;
     
     
+    
+	public String getMainPrjNo() {
+		return mainPrjNo;
+	}
+
+	public void setMainPrjNo(String mainPrjNo) {
+		this.mainPrjNo = mainPrjNo;
+	}
+
 	public String getMainDepartmentCost() {
 		return mainDepartmentCost;
 	}

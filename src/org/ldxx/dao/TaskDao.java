@@ -15,6 +15,8 @@ public interface TaskDao {
 	
 	public List<Task> selectTaskByStatus(@Param("status") String status,@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("prjMoneyMin") float prjMoneyMin,@Param("prjMoneyMax") float prjMoneyMax,@Param("contractMoneyMin") float contractMoneyMin,@Param("contractMoneyMax") float contractMoneyMax,@Param("zdMoneyMin") float zdMoneyMin,@Param("zdMoneyMax") float zdMoneyMax);
 	
+	public List<Task> selectTaskByStatus2(@Param("status") String status);
+	
 	public Task selectTaskById(@Param("id")String id);
 
 	public List<Task> selectIdAndNameByStatus(@Param("status") String status);

@@ -357,22 +357,96 @@ public class TaskController {
 	
 	@RequestMapping("/updateTask")/*任务单修改保存*/
 	@ResponseBody
-	public int updateTask(@RequestBody List<Task> task){
+	public int updateTask(@RequestBody List<Task> task,HttpSession session){
 		Task t=task.get(0);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		t.setPrjId(id);
-		return tService.addTask(t);
+		int i=tService.addTask(t);
+		if(i>0){
+			String mainDepartMentId = t.getMainDepartment();
+			OrganizationManagement oManagement = omDao.selectOrgById(mainDepartMentId);
+			String omNo =oManagement.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(t.getPrjName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(t.getPrjName()+"流程发起");
+			currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(oManagement.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			String string = "";
+			try {
+				string = flowUtill.zancunFlow(currentFlow, flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return i;
 	}
 	
 	@RequestMapping("/updateTask2")/*任务单修改提交*/
 	@ResponseBody
-	public int updateTask2(@RequestBody List<Task> task){
+	public String updateTask2(@RequestBody List<Task> task,HttpSession session){
 		Task t=task.get(0);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		t.setPrjId(id);
-		return tService.addTask(t);
+		int i=tService.addTask(t);
+		String string = "";
+		if(i>0){
+			String mainDepartMentId = t.getMainDepartment();
+			OrganizationManagement oManagement = omDao.selectOrgById(mainDepartMentId);
+			String omNo =oManagement.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(t.getPrjName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(t.getPrjName()+"流程发起");
+			currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getOmName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	
@@ -392,6 +466,13 @@ public class TaskController {
 			}
 			/*task.get(i).setCj(cj);*/
 		}
+		return task;
+	}
+	
+	@RequestMapping("/selectTaskByStatus2")
+	@ResponseBody
+	public List<Task>selectTaskByStatus2(String status){
+		List<Task> task=tService.selectTaskByStatus2(status);
 		return task;
 	}
 	

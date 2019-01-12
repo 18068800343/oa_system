@@ -6,6 +6,7 @@
  	    <result property="prjType2" column="prj_type2" />
  	    <result property="prjType2" column="c_name" />
  	    <result property="prjNo" column="prj_no" />
+ 	    <result property="mainPrjNo" column="main_prj_no" />
  	    <result property="prjName" column="prj_name" />
  	    <result property="prjArea" column="prj_area" />
  	    <result property="prjManagementModel" column="prj_management_model" />
@@ -58,11 +59,11 @@
 	</select>
 
   	<insert id="addTask" parameterType="task">
-  		 insert into task(prj_id,prj_type2,prj_no,prj_name,prj_area,prj_management_model,prj_company,prj_source,prj_owner_unit,work_content,
+  		 insert into task(prj_id,prj_type2,prj_no,main_prj_no,prj_name,prj_area,prj_management_model,prj_company,prj_source,prj_owner_unit,work_content,
   		 							prj_estimate_money,contract_money,provisional_sum,prj_start_time,prj_end_time,main_department,main_department_money,
   		 							assist_department1,assist_department1_money,assist_department2,assist_department2_money,assist_department3,assist_department3_money,make_time,history,importance,
   		 							main_department_cost,assist_department1_cost,assist_department2_cost,assist_department3_cost)
-  		 				   values(#{task.prjId},#{task.prjType2},#{task.prjNo},#{task.prjName},#{task.prjArea},#{task.prjManagementModel},#{task.prjCompany},#{task.prjSource},
+  		 				   values(#{task.prjId},#{task.prjType2},#{task.prjNo},#{task.mainPrjNo},#{task.prjName},#{task.prjArea},#{task.prjManagementModel},#{task.prjCompany},#{task.prjSource},
   		 				   #{task.prjOwnerUnit},#{task.workContent},#{task.prjEstimateMoney},#{task.contractMoney},#{task.provisionalSum},
   		 				   #{task.prjStartTime},#{task.prjEndTime},#{task.mainDepartment},#{task.mainDepartmentMoney},#{task.assistDepartment1},#{task.assistDepartment1Money},
   		 				   #{task.assistDepartment2},#{task.assistDepartment2Money},#{task.assistDepartment3},#{task.assistDepartment3Money},now(),1,#{task.importance},
@@ -140,6 +141,14 @@
 				</where>
 	</select>
 	
+	<select id="selectTaskByStatus2"  resultType="task">
+		select a.*,c.om_name,d.cc_name,u.u_name as mainPrjLeaderName from task a left join mode_status b on a.prj_id=b.mode_id 
+				left join organization_management c on a.main_department=c.om_id
+				LEFT JOIN consociation_company as d on a.prj_owner_unit=d.cc_id
+				LEFT JOIN user as u on a.main_prj_leader=u.user_id 
+				where b.status=#{status} and a.history=1		
+	</select>
+	
 	<select id="selectTaskById" resultType="task"> 
       select case  
       when COUNT(prj_id)=0 then a.prj_company 
@@ -207,7 +216,7 @@
   	</select>
   	
   	<select id="selectTaskPrjName" resultType="task">
-  		select prj_name,prj_type2,contract_money,prj_start_time,prj_end_time,d.cc_name,main_department,b.om_name,assist_department1,b1.om_name name1,assist_department2,b2.om_name name2,assist_department3,b3.om_name name3,e.u_name as main_prj_leader from task a
+  		select a.*,d.cc_name,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3,e.u_name as main_prj_leader from task a
   		LEFT JOIN consociation_company as d on a.prj_owner_unit=d.cc_id
   		left join organization_management b  on a.main_department=b.om_id 
 		left join organization_management b1 on a.assist_department1=b1.om_id 

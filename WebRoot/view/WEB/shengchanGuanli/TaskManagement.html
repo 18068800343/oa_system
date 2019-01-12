@@ -260,7 +260,7 @@
                             		<input type="text" class="form-control"  style="width:100%;" id="main_task_no" disabled>
                             	</td>
                             	<td>
-                            		<button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="chooseMainTask()">选择任务单</button>
+                            		<button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="chooseMainTask(0)">选择任务单</button>
                             	</td>
                             	<td></td>
                             	<td></td>
@@ -450,6 +450,18 @@
                                 <td></td>
                             </tr>
                             <tr>
+                            	<td>主任务单号</td>
+                                <td>
+                                	<input type="text" class="form-control" style="width:100%;" id="xg_main_task_no">
+                                </td>
+                                <td>
+                                	<button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="chooseMainTask(1)">选择任务单</button>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
 	                            <td>项目概况及工作内容</td>
                                 <td colspan="7"><textarea class="form-control" rows="3" style="width:90%;" id="xggaikuang"></textarea></td>
 	                      	</tr>
@@ -591,8 +603,8 @@
 	                            <td id="lookleixing"></td>
 	                            <td>重要程度</td>
 	                            <td id="look_importance"></td>
-	                            <td></td>
-	                            <td></td>
+	                            <td>主任务单</td>
+	                            <td id="look_main_task_no"></td>
 	                        </tr>
 	                         <tr>
 		                            <td>项目概况及工作内容</td>
@@ -855,7 +867,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success" id="saveTask()">保存</button>
+            <button type="button" class="btn btn-success" onclick="saveTask()">保存</button>
         </div>
         </div>
     </div>
@@ -1108,7 +1120,6 @@
         $('#editable-select').editableSelect({ 
             effects: 'slide' 
         });
-        
         initType();
         leixingSelect2();
         leixingSelect3();
@@ -1344,6 +1355,55 @@
  
   table.buttons().container().appendTo( $('#tabBtn') );
    $('.buttons-csv').addClass('btn btn-primary');
+   
+   var table11=$('#xiangmubiao').dataTable({
+       "deferRender": true,
+       "processing": true,
+       "bDestroy": true,
+       "iDisplayLength": 5,
+       "searching": true,
+       "lengthChange": false,
+       "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+		            { "data": "prjNo"},
+		            { "data": "prjName"},
+		            { "data": "prjCompany"},
+		            { "data": "prjType2"},
+		            { "data": "ccName"},
+		            
+		        ],
+		        "columnDefs": [
+								{
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xiangmuName" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+       "order": [[1, 'asc']],
+       "oLanguage": { //国际化配置
+       "sProcessing": "正在获取数据，请稍后...",
+       "sLengthMenu": "显示 _MENU_ 条",
+       "sZeroRecords": "查询不到相关数据",
+       "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+       "sInfoEmpty": "记录数为0",
+       "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+       "sInfoPostFix": "",
+       "sSearch": "搜索",
+       "sUrl": "",
+       "oPaginate": {
+           "sFirst": "第一页",
+           "sPrevious": "上一页",
+           "sNext": "下一页",
+           "sLast": "最后一页"
+       }},
+       
+	});
     
     var table2=$('#history_table').dataTable({
         "deferRender": true,
@@ -2116,6 +2176,7 @@
 	    	var erji=$("#erjileixing").find("option:selected").val();
     		var taskName=$("#taskName").val();
         	var taskbianhao=$("#taskbianhao").val();
+        	var mainPrjNo=$("#main_prj_no").val();
         	var moshi=$("#moshi").find("option:selected").val();
         	var gongsi=$("#gongsi").find("option:selected").val();
         	var yezhudanwei=$("#yezhudanwei").val();
@@ -2232,6 +2293,7 @@
     	    		prjNo:undefined,
     	    		prjName:undefined,
     	    		prjArea:undefined,
+    	    		mainPrjNo:undefined,
     	    		importance:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
@@ -2262,6 +2324,7 @@
     	    xindanwei.importance=importance;
     	    xindanwei.prjType2=erji,
     	    xindanwei.prjNo=taskbianhao,
+    	    xindanwei.mainPrjNo=mainPrjNo;
     	    xindanwei.prjName=taskName,
     	    xindanwei.prjManagementModel=moshi,
     	    xindanwei.prjCompany=gongsi,
@@ -2344,6 +2407,7 @@
    			var erji=$("#erjileixing").find("option:selected").val();
     		var taskName=$("#taskName").val();
         	var taskbianhao=$("#taskbianhao").val();
+        	var mainPrjNo=$("#main_prj_no").val();
         	var moshi=$("#moshi").find("option:selected").val();
         	var gongsi=$("#gongsi").find("option:selected").val();
         	var yezhudanwei=$("#yezhudanwei").val();
@@ -2460,6 +2524,7 @@
     	    		prjNo:undefined,
     	    		prjName:undefined,
     	    		prjArea:undefined,
+    	    		mainPrjNo:undefined,
     	    		importance:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
@@ -2490,6 +2555,7 @@
     	    xindanwei.importance=importance;
     	    xindanwei.prjType2=erji,
     	    xindanwei.prjNo=taskbianhao,
+    	    xindanwei.mainPrjNo=mainPrjNo;
     	    xindanwei.prjName=taskName,
     	    xindanwei.prjManagementModel=moshi,
     	    xindanwei.prjCompany=gongsi,
@@ -2525,7 +2591,7 @@
 	            success: function (json) {
 	            	lianjie=json.url;
 	            	if(json.receiver!=null&&json.receiver.length>=1){
-		        		  $("#tijiaogei").modal('show');
+		            	  $("#tijiaogei").modal('show');
 		        		  $("#tijiaoren tbody").empty("");
 		        		  for(var i=0;i<json.receiver.length;i++){
 		        			  $("#tijiaoren tbody").append('<tr><td>'
@@ -2659,7 +2725,6 @@
 												    			+'<input type="text" class="form-control" value="'+json.enterprise[i].eMan+'" disabled>'
 												    			+"</td><td>"
 												    			+'<input type="text" class="form-control" value='+json.enterprise[i].eTel+' disabled>'
-												    			+'<input type="text" class="form-control" >'
 												    			+"</td><td><button type='button' style='text-align:right;' class='btn btn-primary' onclick='deleteLianxiren(this)'>移除联系人</button></td></tr>")
 	            	}
 	            	if(json.assistDepartment1!=null&&json.assistDepartment1!=""){
@@ -2668,13 +2733,13 @@
 	        	                    +'<select class="form-control" id="xgxieban1" style="width:150px;">'
 	        	                    +'</select>'
 	        	                    +'<input type="text" id="xgxiebanMoney1" class="form-control" style="width:150px;margin-left:10px;" placeholder="金额">'
-	        	                    +'<input type="text" id="xgxiebanCost1" class="form-control" style="width:150px;margin-left:10px;">'
+	        	                    +'<input type="text" id="xgchenbenfentanbili1" class="form-control" style="width:150px;margin-left:10px;">'
 	        	                    +"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
 	        	                +'</form>'
 	        	                +"</td></tr>");
 	            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
 	            		$("#xgxiebanMoney1").val(json.assistDepartment1Money);
-	            		$("#xgxiebanCost1").val(json.assistDepartment1Cost)
+	            		$("#xgchenbenfentanbili1").val(json.assistDepartment1Cost)
 	            	}
 	            	if(json.assistDepartment2!=null&&json.assistDepartment2!=""){
 	            		$("#xgxieban tbody").append("<tr class='xieban'><td>"+"协办部门2"+"</td><td>"
@@ -2682,13 +2747,13 @@
 	        	                    +'<select class="form-control" id="xgxieban2" style="width:150px;">'
 	        	                    +'</select>'
 	        	                    +'<input type="text" id="xgxiebanMoney2" class="form-control" style="width:150px;margin-left:10px;" placeholder="金额">'
-	        	                    +'<input type="text" id="xgxiebanCost2" class="form-control" style="width:150px;margin-left:10px;">'
+	        	                    +'<input type="text" id="xgchenbenfentanbili2" class="form-control" style="width:150px;margin-left:10px;">'
 	        	                    +"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
 	        	                +'</form>'
 	        	                +"</td></tr>");
 	            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
 	            		$("#xgxiebanMoney2").val(json.assistDepartment2Money);
-	            		$("#xgxiebanCost2").val(json.assistDepartment2Cost)
+	            		$("#xgchenbenfentanbili2").val(json.assistDepartment2Cost)
 	            	}
 	            	if(json.assistDepartment3!=null&&json.assistDepartment3!=""){
 	            		$("#xgxieban tbody").append("<tr class='xieban'><td>协办部门3</td><td>"
@@ -2696,13 +2761,13 @@
 	        	                    +'<select class="form-control" id="xgxieban3" style="width:150px;">'
 	        	                    +'</select>'
 	        	                    +'<input type="text" id="xgxiebanMoney3" class="form-control" style="width:150px;margin-left:10px;" placeholder="金额">'
-	        	                    +'<input type="text" id="xgxiebanCost3" class="form-control" style="width:150px;margin-left:10px;">'
+	        	                    +'<input type="text" id="xgchenbenfentanbili3" class="form-control" style="width:150px;margin-left:10px;">'
 	        	                    +"<button type='button' style='text-align:right;margin-left:30px;' class='btn btn-primary' onclick='deleteXieBan(this)'>移除协办单位</button>"
 	        	                +'</form>'
 	        	                +"</td></tr>");
 	            		xiebanhuixian(json.assistDepartment1,json.assistDepartment2,json.assistDepartment3);
 	            		$("#xgxiebanMoney3").val(json.assistDepartment3Money);
-	            		$("#xgxiebanCost3").val(json.assistDepartment3Cost);
+	            		$("#xgchenbenfentanbili3").val(json.assistDepartment3Cost);
 	            	}
 	            	
 	            	 $("#diyi").removeClass("active");
@@ -2753,6 +2818,7 @@
            	var erji=$("#xgerjileixing").find("option:selected").val();
     		var taskName=$("#xgtaskName").val();
         	var taskbianhao=$("#xgtaskbianhao").val();
+        	var mainPrjNo=$("#xg_main_task_no").val();
         	var city=$("#edit_city").val();
         	var importance=$("#edit_importance").val();
         	var moshi=$("#xgmoshi").find("option:selected").val();
@@ -2766,16 +2832,16 @@
         	var endTime=$("#xgendTime").val();
         	var zhuban=$("#xgzhuban").val();
         	var zhubanjine=$("#xgzhubanjine").val();
-        	//var chenbenfentanbili=$("#xgchenbenfentanbili").val();
+        	var chenbenfentanbili=$("#xgchenbenfentanbili").val();
         	var xieban1=$("#xgxieban1").find("option:selected").val();
-        	var xieban1jine=$("#xgxiebanjine").val();
-        	//var chenbenfentanbili1=$("#xgchenbenfentanbili1").val();
+        	var xieban1jine=$("#xgxiebanMoney1").val();
+        	var chenbenfentanbili1=$("#xgchenbenfentanbili1").val();
         	var xieban2=$("#xgxieban2").find("option:selected").val();
-        	var xieban2jine=$("#xgxieban2jine").val();
-        	//var chenbenfentanbili2=$("#xgchenbenfentanbili2").val();
+        	var xieban2jine=$("#xgxiebanMoney2").val();
+        	var chenbenfentanbili2=$("#xgchenbenfentanbili2").val();
         	var xieban3=$("#xgxieban3").find("option:selected").val();
-        	var xieban3jine=$("#xgxieban3jine").val();
-        	//var chenbenfentanbili3=$("#xgchenbenfentanbili3").val();
+        	var xieban3jine=$("#xgxiebanMoney3").val();
+        	var chenbenfentanbili3=$("#xgchenbenfentanbili3").val();
         	var gaikuang=$("#xggaikuang").val();
         	
         	if(taskName==''){
@@ -2822,28 +2888,54 @@
 	    		toastr.error("暂定金不能为空");
 	    		return;
 	    	}
-        	/* if(chenbenfentanbili==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
+        	var all_bili=0;
+        	if(zhuban!=''&&zhuban!=undefined){
+        		if(chenbenfentanbili==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili=chenbenfentanbili.replace("%","");
+        			all_bili=all_bili+parseInt(bili);
+        		}
         	}
-        	if(chenbenfentanbili1==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
+        	if(xieban1!=''&&xieban1!=undefined){
+        		if(chenbenfentanbili1==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili1=chenbenfentanbili1.replace("%","");
+        			all_bili=all_bili+parseInt(bili1);
+        		}
         	}
-        	if(chenbenfentanbili2==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
+			if(xieban2!=''&&xieban2!=undefined){
+				if(chenbenfentanbili2==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili2=chenbenfentanbili2.replace("%","");
+        			all_bili=all_bili+parseInt(bili2);
+        		}
         	}
-        	if(chenbenfentanbili3==""){
-        		toastr.error("成本分摊比例不能为空");
+			if(xieban3!=''&&xieban3!=undefined){
+				if(chenbenfentanbili3==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili3=chenbenfentanbili3.replace("%","");
+        			all_bili=all_bili+parseInt(bili3);
+        		}
+        	}
+			if(all_bili!=100){
+				toastr.error("成本分摊比例总和不等于100%");
 	    		return;
-        	} */
+			}
         	
     	    var xindanwei={
     	    		prjType2:undefined,
     	    		prjNo:undefined,
     	    		prjName:undefined,
     	    		prjArea:undefined,
+    	    		mainPrjNo:undefined,
     	    		importance:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
@@ -2857,12 +2949,16 @@
 	            	prjEndTime:undefined,
 	            	mainDepartment:undefined,
 	            	mainDepartmentMoney:undefined,
+	            	mainDepartmentCost:undefined,
 	            	assistDepartment1:undefined,
 	            	assistDepartment1Money:undefined,
+	            	assistDepartment1Cost:undefined,
 	            	assistDepartment2:undefined,
 	            	assistDepartment2Money:undefined,
+	            	assistDepartment2Cost:undefined,
 	            	assistDepartment3:undefined,
 	            	assistDepartment3Money:undefined,
+	            	assistDepartment3Cost:undefined,
 	            	enterprise:undefined,
 	            	prjId:undefined,
    			}
@@ -2870,6 +2966,7 @@
     	    xindanwei.importance=importance;
     	    xindanwei.prjType2=erji;
     	    xindanwei.prjNo=taskbianhao;
+    	    xindanwei.mainPrjNo=mainPrjNo;
     	    xindanwei.prjName=taskName;
     	    xindanwei.prjManagementModel=moshi;
     	    xindanwei.prjCompany=gongsi;
@@ -2881,14 +2978,18 @@
     	    xindanwei.provisionalSum=zandingjin;
     	    xindanwei.prjStartTime=startTime;
     	    xindanwei.prjEndTime=endTime;
-    	    xindanwei.mainDepartment=zhuban;
-    	    xindanwei.mainDepartmentMoney=zhubanjine;
-    	    xindanwei.assistDepartment1=xieban1;
-    	    xindanwei.assistDepartment1Money=xieban1jine;
-    	    xindanwei.assistDepartment2=xieban2;
-    	    xindanwei.assistDepartment2Money=xieban2jine;
-    	    xindanwei.assistDepartment3=xieban3;
-    	    xindanwei.assistDepartment3Money=xieban3jine;
+    	    xindanwei.mainDepartment=zhuban,
+    	    xindanwei.mainDepartmentMoney=zhubanjine,
+    	    xindanwei.mainDepartmentCost=chenbenfentanbili,
+    	    xindanwei.assistDepartment1=xieban1,
+    	    xindanwei.assistDepartment1Money=xieban1jine,
+    	    xindanwei.assistDepartment1Cost=chenbenfentanbili1,
+    	    xindanwei.assistDepartment2=xieban2,
+    	    xindanwei.assistDepartment2Money=xieban2jine,
+    	    xindanwei.assistDepartment2Cost=chenbenfentanbili2,
+    	    xindanwei.assistDepartment3=xieban3,
+    	    xindanwei.assistDepartment3Money=xieban3jine,
+    	    xindanwei.assistDepartment3Cost=chenbenfentanbili3,
     	    xindanwei.enterprise=lianxibiao;
     	    xindanwei.prjId=xiugaiid;
     	    danwei.push(xindanwei);
@@ -2900,12 +3001,41 @@
 	            contentType: "application/json", 
 	            data:JSON.stringify(danwei),
 	            success: function (json) {
-	            	if(json==0){
-	            		toastr.error('提交失败');
-	            	}else{
-	            		quxiao2();
-	            		toastr.success('提交成功');
-	            	}
+	            	lianjie=json.url;
+	            	if(json.receiver!=null&&json.receiver.length>=1){
+	            		  quxiao2();
+		        		  $("#tijiaogei").modal('show');
+		        		  $("#tijiaoren tbody").empty("");
+		        		  for(var i=0;i<json.receiver.length;i++){
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+		        					  +'</td><td>'
+		        					  +json.receiver[i].omName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].dutyName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].uName
+		        					  +'</td></tr>');
+		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver.userId,
+		        	        	  uName:json.receiver.uName,
+		        	        	  omName:json.receiver.omName,
+		        	        	  dutyName:json.receiver.dutyName,
+		        	        	  omId:json.receiver.omId,
+		        	        	  dutyId:json.receiver.dutyId
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
+		        	  }
 	            }
 	        }); 
     }
@@ -2944,6 +3074,7 @@
            	var erji=$("#xgerjileixing").find("option:selected").val();
     		var taskName=$("#xgtaskName").val();
         	var taskbianhao=$("#xgtaskbianhao").val();
+        	var mainPrjNo=$("#xg_main_task_no").val();
         	var moshi=$("#xgmoshi").find("option:selected").val();
         	var gongsi=$("#xggongsi").find("option:selected").val();
         	var city=$("#edit_city").val();
@@ -2957,16 +3088,16 @@
         	var endTime=$("#xgendTime").val();
         	var zhuban=$("#xgzhuban").val();
         	var zhubanjine=$("#xgzhubanjine").val();
-        	//var chenbenfentanbili=$("#xgchenbenfentanbili").val();
+        	var chenbenfentanbili=$("#xgchenbenfentanbili").val();
         	var xieban1=$("#xgxieban1").find("option:selected").val();
-        	var xieban1jine=$("#xgxiebanjine").val();
-        	//var chenbenfentanbili1=$("#xgchenbenfentanbili1").val();
+        	var xieban1jine=$("#xgxiebanMoney1").val();
+        	var chenbenfentanbili1=$("#xgchenbenfentanbili1").val();
         	var xieban2=$("#xgxieban2").find("option:selected").val();
-        	var xieban2jine=$("#xgxieban2jine").val();
-        	//var chenbenfentanbili2=$("#xgchenbenfentanbili2").val();
+        	var xieban2jine=$("#xgxiebanMoney2").val();
+        	var chenbenfentanbili2=$("#xgchenbenfentanbili2").val();
         	var xieban3=$("#xgxieban3").find("option:selected").val();
-        	var xieban3jine=$("#xgxieban3jine").val();
-        	//var chenbenfentanbili3=$("#xgchenbenfentanbili3").val();
+        	var xieban3jine=$("#xgxiebanMoney3").val();
+        	var chenbenfentanbili3=$("#xgchenbenfentanbili3").val();
         	var gaikuang=$("#xggaikuang").val();
         	
         	if(taskName==''){
@@ -3013,28 +3144,54 @@
 	    		toastr.error("暂定金不能为空");
 	    		return;
 	    	}
-        	/* if(chenbenfentanbili==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
+        	var all_bili=0;
+        	if(zhuban!=''&&zhuban!=undefined){
+        		if(chenbenfentanbili==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili=chenbenfentanbili.replace("%","");
+        			all_bili=all_bili+parseInt(bili);
+        		}
         	}
-        	if(chenbenfentanbili1==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
+        	if(xieban1!=''&&xieban1!=undefined){
+        		if(chenbenfentanbili1==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili1=chenbenfentanbili1.replace("%","");
+        			all_bili=all_bili+parseInt(bili1);
+        		}
         	}
-        	if(chenbenfentanbili2==""){
-        		toastr.error("成本分摊比例不能为空");
-	    		return;
+			if(xieban2!=''&&xieban2!=undefined){
+				if(chenbenfentanbili2==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili2=chenbenfentanbili2.replace("%","");
+        			all_bili=all_bili+parseInt(bili2);
+        		}
         	}
-        	if(chenbenfentanbili3==""){
-        		toastr.error("成本分摊比例不能为空");
+			if(xieban3!=''&&xieban3!=undefined){
+				if(chenbenfentanbili3==''){
+        			toastr.error("成本分摊比例不能为空");
+    	    		return;
+        		}else{
+        			var bili3=chenbenfentanbili3.replace("%","");
+        			all_bili=all_bili+parseInt(bili3);
+        		}
+        	}
+			if(all_bili!=100){
+				toastr.error("成本分摊比例总和不等于100%");
 	    		return;
-        	} */
+			}
         	
     	    var xindanwei={
     	    		prjType2:undefined,
     	    		prjNo:undefined,
     	    		prjName:undefined,
     	    		prjArea:undefined,
+    	    		mainPrjNo:undefined,
     	    		importance:undefined,
 	            	prjManagementModel:undefined,
 	            	prjCompany:undefined,
@@ -3048,12 +3205,16 @@
 	            	prjEndTime:undefined,
 	            	mainDepartment:undefined,
 	            	mainDepartmentMoney:undefined,
+	            	mainDepartmentCost:undefined,
 	            	assistDepartment1:undefined,
 	            	assistDepartment1Money:undefined,
+	            	assistDepartment1Cost:undefined,
 	            	assistDepartment2:undefined,
 	            	assistDepartment2Money:undefined,
+	            	assistDepartment2Cost:undefined,
 	            	assistDepartment3:undefined,
 	            	assistDepartment3Money:undefined,
+	            	assistDepartment3Cost:undefined,
 	            	enterprise:undefined,
 	            	prjId:undefined,
    			}
@@ -3062,6 +3223,7 @@
     	    xindanwei.importance=importance;
     	    xindanwei.prjType2=erji;
     	    xindanwei.prjNo=taskbianhao;
+    	    xindanwei.mainPrjNo=mainPrjNo;
     	    xindanwei.prjName=taskName;
     	    xindanwei.prjManagementModel=moshi;
     	    xindanwei.prjCompany=gongsi;
@@ -3073,14 +3235,18 @@
     	    xindanwei.provisionalSum=zandingjin;
     	    xindanwei.prjStartTime=startTime;
     	    xindanwei.prjEndTime=endTime;
-    	    xindanwei.mainDepartment=zhuban;
-    	    xindanwei.mainDepartmentMoney=zhubanjine;
-    	    xindanwei.assistDepartment1=xieban1;
-    	    xindanwei.assistDepartment1Money=xieban1jine;
-    	    xindanwei.assistDepartment2=xieban2;
-    	    xindanwei.assistDepartment2Money=xieban2jine;
-    	    xindanwei.assistDepartment3=xieban3;
-    	    xindanwei.assistDepartment3Money=xieban3jine;
+    	    xindanwei.mainDepartment=zhuban,
+    	    xindanwei.mainDepartmentMoney=zhubanjine,
+    	    xindanwei.mainDepartmentCost=chenbenfentanbili,
+    	    xindanwei.assistDepartment1=xieban1,
+    	    xindanwei.assistDepartment1Money=xieban1jine,
+    	    xindanwei.assistDepartment1Cost=chenbenfentanbili1,
+    	    xindanwei.assistDepartment2=xieban2,
+    	    xindanwei.assistDepartment2Money=xieban2jine,
+    	    xindanwei.assistDepartment2Cost=chenbenfentanbili2,
+    	    xindanwei.assistDepartment3=xieban3,
+    	    xindanwei.assistDepartment3Money=xieban3jine,
+    	    xindanwei.assistDepartment3Cost=chenbenfentanbili3,
     	    xindanwei.enterprise=lianxibiao;
     	    xindanwei.prjId=xiugaiid;
     	    danwei.push(xindanwei);
@@ -3138,6 +3304,7 @@
             	$("#lookleixing").text(task.prjType2);
             	$("#look_prj_area").text(task.prjArea);
             	$("#look_importance").text(task.importance);
+            	$("#look_main_task_no").text(task.mainPrjNo);
             	$("#lookyezhudanwei").text(task.ccName);
             	$("#look_prj_source").text(task.prjSource);
             	$("#lookjine").text(task.prjEstimateMoney);
@@ -3198,6 +3365,7 @@
             	$("#lookleixing").text(task.prjType2);
             	$("#look_prj_area").text(task.prjArea);
             	$("#look_importance").text(task.importance);
+            	$("#look_main_task_no").text(task.mainPrjNo);
             	$("#lookyezhudanwei").text(task.ccName);
             	$("#look_prj_source").text(task.prjSource);
             	$("#lookjine").text(task.prjEstimateMoney);
@@ -3387,10 +3555,12 @@
   		$(obj).val(value)
   	}
   	
-  	function chooseMainTask(){
+  	var ctype;
+  	function chooseMainTask(obj){
+  		ctype=obj;
   		 $.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/task/selectTaskByStatus',
+	            url: getContextPath()+'/task/selectTaskByStatus2',
 	            dataType: 'json',
 	            data: {
 	            	status:2,
@@ -3401,6 +3571,17 @@
 	                $("#xiangmumd").modal("show");
 	            }
 	      });
+  	}
+  	
+  	function saveTask(){
+  		var tr= $('input[name="xiangmuName"]:checked').parents("tr");
+  		var data=$('#xiangmubiao').DataTable().row(tr).data();
+  		if(ctype==0){
+  			$("#main_task_no").val(data.prjNo);
+  		}else if(ctype==1){
+  			$("#xg_main_task_no").val(data.prjNo);
+  		}
+  		$("#xiangmumd").modal("hide");
   	}
 </script>
 

@@ -208,4 +208,9 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.selectTaskByCj();
 	}
 
+	@Override
+	public List<Task> selectTaskByStatus2(String status) {
+		return tdao.selectTaskByStatus2(status);
+	}
+
 }

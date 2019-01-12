@@ -15,6 +15,8 @@ public interface TaskService {
 	
 	public List<Task> selectTaskByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,float prjMoneyMin,float prjMoneyMax,float contractMoneyMin,float contractMoneyMax,float zdMoneyMin,float zdMoneyMax);
 	
+	public List<Task> selectTaskByStatus2(String status);
+	
 	public Task selectTaskById(String id);
 
 	public List<Task> selectIdAndNameByStatus(String status);
