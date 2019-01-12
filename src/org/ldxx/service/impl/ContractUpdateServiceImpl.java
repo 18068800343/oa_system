@@ -22,4 +22,11 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 		return dao.updateContractUpdate(cu);
 	}
 
+	@Override
+	public float selectContractUpdateByPrjNoAndDept(String no, String dept) {
+		ContractUpdate cu=dao.selectContractUpdateByPrjNoAndDept(no, dept);
+		float money=cu.getMoney();
+		return money;
+	}
+
 }
