@@ -163,7 +163,7 @@ public class ProjectSealController {
 	
 	@RequestMapping("/updatePrjSealByIdSubmit")/*修改提交*/
 	@ResponseBody
-	public Map<String,Object> updatePrjSealByIdSubmit(@RequestParam(value="file",required=false) MultipartFile file[],SignetManage signetManage){
+	public Map<String,Object> updatePrjSealByIdSubmit(SignetManage signetManage){
 		Map<String,Object> map = new HashMap<>();
 		int i = prjSealService.updatePrjSealById(signetManage);
 		map.put("result", i);

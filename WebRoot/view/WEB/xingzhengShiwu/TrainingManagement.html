@@ -1668,6 +1668,22 @@
 			toastr.error("培训费用只能为数字");
     		return;
 		}
+		var addJson={
+				"otId":id,
+				"otTitle":title,
+				"proposer":user,
+				"proposerDepartment":department,
+				"omName":$("#edit_department").find("option:selected").text(),
+				"dutyId":duty,
+				"otDate":year2,
+				"applicationDate":year,
+				"courseName":className,
+				"trainingLocation":studyAddr,
+				"trainingMoney":studyMoney,
+				"courseDesc":study_infos,
+				"trainingReason":study_target,
+            	"inUsers":edit_in_users,
+		}
 		var options={
 				type: 'POST',
 				url: getContextPath()+'/outTrain/updateOutTrainBySubmit',
@@ -1691,6 +1707,9 @@
 	            	if(json==0){
 	            		toastr.error("保存失败");
 	            	}else{
+	            		$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+	            		$(".Pbdab").show();
+	            		$(".Pbdac").show();
 	            		$("#change").modal("hide");
 	            		toastr.success("保存成功");
 	            	}
@@ -1705,7 +1724,6 @@
 		
 		var dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
-		console.log(data)
 		$("#looktitle").text(data.otTitle);
 		
 		$.ajax({
@@ -1716,7 +1734,6 @@
 	        	omId:data.proposerDepartment
 	        },
 	        success: function (json) {
-	        	//console.log(json)
 	        	$("#lookdepartment").text(json.omName);
 	        }
 	    });
