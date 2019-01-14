@@ -7,6 +7,7 @@ import org.ldxx.bean.ContractWork;
 import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.Task;
 import org.ldxx.dao.AccessoryDao;
+import org.ldxx.dao.CjContractDao;
 import org.ldxx.dao.ContractWorkDao;
 import org.ldxx.dao.EnterpriseDao;
 import org.ldxx.dao.TaskDao;
@@ -26,6 +27,8 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 	private EnterpriseDao edao;
 	@Autowired
 	private TaskDao tdao;
+	@Autowired
+	private CjContractDao cDao;
 	
 	@Transactional
 	@Override
@@ -50,6 +53,7 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 			}
 			List<Task> task=work.getTaskArray();
 			i=tdao.updateTasks(task);
+			i=cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
 		}
 		return i;
 	}
