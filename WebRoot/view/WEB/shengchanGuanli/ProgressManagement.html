@@ -117,8 +117,8 @@
 	                            <tr>
 	                            	<td>当期时间  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 	                                <td><input type="text" class="form-control" id="this_time" style="width:60%;"></td>
-	                                <td></td>
-	                                <td></td>
+	                                <td>项目经营模式</td>
+	                                <td><input type="text" class="form-control" id="prj_mode" style="width:70%;" disabled></td>
 	                            </tr>
 	                         </tbody>
                         </table>
@@ -718,8 +718,8 @@
                         <tr>
                         	<td>当期时间</td>
                             <td id="look_this_time"></td>
-                            <td></td>
-                            <td></td>
+                            <td>项目经营模式</td>
+                            <td id="look_prj_mode"></td>
                         </tr>
                     	</tbody>
                     </table>
@@ -1178,19 +1178,19 @@
 		 
 	})
 	$("#quedingxm").click(function(){
-		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
-		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
-		var prjtype2=$("input[name='xiangmuName']:checked").parent().next().next().next().next().text();
-		$("#prjName").val(prjname);
-		$("#task_no").val(prjNo);
-		$("#prjType2").val(prjtype2);
+		var tr=$('input[name="xiangmuName"]:checked').parents("tr");
+		var data=$('#xiangmubiao').DataTable().row(tr).data();
+		$("#prjName").val(data.prjName);
+		$("#task_no").val(data.prjNo);
+		$("#prjType2").val(data.prjType2);
+		$("#prj_mode").val(data.prjManagementModel);
 		$("#xiangmumd").modal("hide");
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/subcontract/selectFbContractByTaskNo',
             dataType: 'json',
             data: {
-            	no:prjNo
+            	no:data.prjNo
             },
             success: function (json) {
             	$("#fb_table tbody").html('');
@@ -1933,6 +1933,7 @@
 	                    	$('#prj_start_time').val(task.prjStartTime);
 	                    	$('#prj_end_time').val(task.prjEndTime);
 	                    	$('#prj_leader').val(task.mainPrjLeader);
+	                    	$("#prj_mode").val(task.prjManagementModel);
 	                    	if(bf!=null&&bf!=''){
 	                    		$('#budget_money_all').val(bf.allCost);
 	                    	}else{
@@ -2669,6 +2670,7 @@
     	var contractMoney=$("#contractMoney").val();
     	var prjMoney=$("#prjMoney").val();
     	var prj_leader=$("#prj_leader").val();
+    	var prj_mode=$("#prj_mode").val();
     	var provisional_sum=$("#provisional_sum").val();
     	var prj_start_time=$("#prj_start_time").val();
     	var prj_end_time=$("#prj_end_time").val();
@@ -2693,6 +2695,7 @@
     			provisionalSum:0,
     			prjStartTime:undefined,
     			prjEndTime:undefined,
+    			prjMode:undefined,
     			budgetMoneyAll:undefined,
     			thisTime:undefined,
     			allMoney:undefined,
@@ -2716,6 +2719,7 @@
     	PrjProgressFill.provisionalSum=provisional_sum;
     	PrjProgressFill.prjStartTime=prj_start_time;
     	PrjProgressFill.prjEndTime=prj_end_time;
+    	PrjProgressFill.prjMode=prj_mode;
     	PrjProgressFill.budgetMoneyAll=budget_money_all;
     	PrjProgressFill.thisTime=this_time;
     	PrjProgressFill.allMoney=all_money;
@@ -3034,6 +3038,7 @@
             	$("#look_prj_end_time").text(json.prjEndTime);
             	$("#look_budget_money_all").text(json.budgetMoneyAll);
             	$("#look_this_time").text(json.thisTime);
+            	$("#look_prj_mode").text(json.prjMode);
             	$("#look_all_money").text(json.allMoney);
             	$("#look_contract_income").text(json.contractIncome);
             	$("#look_all_money_yuan").text(json.allMoneyYuan);

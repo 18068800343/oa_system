@@ -170,8 +170,10 @@
                           <td>
                               <input type="text" class="form-control" id="year" style="width:70%;">
                           </td>
-                          <td></td>
-                          <td></td>
+                          <td>项目经营模式</td>
+                          <td>
+                          	  <input type="text" class="form-control" id="prj_mode" style="width:70%;" disabled>
+                          </td>
                       </tr>
                   </table>
 
@@ -372,6 +374,16 @@
                                 <input type="text" class="form-control" id="xgbfNo" style="width:75%;" disabled>
                             </td>
                         </tr>
+                        <tr>
+                        	<td>项目经营模式</td>
+                        	<td>
+                        		<input type="text" class="form-control" id="xg_prj_mode" style="width:70%;" disabled>
+                        	</td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        </tr>
                     </table>
 
                     <table class="table table-bordered table-condensed" id="">
@@ -552,6 +564,14 @@
                             <td id="lookyear" ></td>
                             <td>预算单编号</td>
                             <td id="lookbfNo" ></td>
+                        </tr>
+                        <tr>
+                            <td>项目经营模式</td>
+                            <td id="look_prj_mode" ></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </table>
 
@@ -1859,6 +1879,7 @@
 		$("#prjName").val(data.prjName);
 		$("#renwudan").val(data.prjNo);
 		$("#jiafangdanwei").val(data.ccName);
+		$("#prj_mode").val(data.prjManagementModel);
 		$("#xiangmumd").modal("hide");
 		$.ajax({
 			type:"POST",
@@ -1923,6 +1944,7 @@
 		$("#xgprjName").val(data.prjName);
 		$("#xgrenwudan").val(data.prjNo);
 		$("#xgjiafangdanwei").val(data.ccName);
+		$("#xg_prj_mode").val(data.prjManagementModel);
 		$("#xgxiangmumd").modal("hide");
 		$.ajax({
 			type:"POST",
@@ -2005,6 +2027,7 @@
                     	for(var i=0;i<json.length;i++){
 	                    	$('#prjName').val(json[i].prjName);
 	                    	$("#jiafangdanwei").val(json[i].ccName); 
+	                    	$("#prj_mode").val(json[i].prjManagementModel);
 	                    	$("#department").empty();
 	                    	$("#department").append("<option value="+json[i].mainDepartment+">"+json[i].omName+"</option>")
 	                    	if(json[i].omName!=null){
@@ -2049,6 +2072,7 @@
         		    	for(var i=0;i<json.length;i++){
         		    		$('#xgprjName').val(json[i].prjName);
 	                    	$("#xgjiafangdanwei").val(json[i].ccName);
+	                    	$("#xg_prj_mode").val(json[i].prjManagementModel);
 	                    	$("#edit_department").empty();
 	                    	$("#edit_department").append("<option value="+json[i].mainDepartment+">"+json[i].omName+"</option>")
         		        	if(json[i].omName!=null){
@@ -2279,6 +2303,7 @@
     		var riqi=$("#year").val();
     		var shenbaoren=$("#shenbaoren").val();
     		var department=$('#department').val();
+    		var prjMode=$("#prj_mode").val();
     		
     		if(renwudan.trim()==''){
     			toastr.error("任务单号为空")
@@ -2298,6 +2323,7 @@
     				prjId:undefined,
     				taskNo:undefined,
     				prjUnit:undefined,
+    				prjMode:undefined,
     				budgetDate:undefined,
     				declarer:undefined,
     				costBudget:undefined,
@@ -2310,6 +2336,7 @@
     		xinyusuandan.prjId=prjName;
     		xinyusuandan.taskNo=renwudan;
     		xinyusuandan.prjUnit=jiafangdanwei;
+    		xinyusuandan.prjMode=prjMode;
     		xinyusuandan.budgetDate=riqi;
     		xinyusuandan.declarer=shenbaoren;
     		xinyusuandan.costBudget=fyyusuan;
@@ -2421,6 +2448,7 @@
     		var riqi=$("#year").val();
     		var shenbaoren=$("#shenbaoren").val();
     		var department=$('#department').val();
+    		var prjMode=$("#prj_mode").val();
     		
     		if(renwudan.trim()==''){
     			toastr.error("任务单号为空")
@@ -2440,6 +2468,7 @@
     				prjId:undefined,
     				taskNo:undefined,
     				prjUnit:undefined,
+    				prjMode:undefined,
     				budgetDate:undefined,
     				declarer:undefined,
     				costBudget:undefined,
@@ -2452,6 +2481,7 @@
     		xinyusuandan.prjId=prjName;
     		xinyusuandan.taskNo=renwudan;
     		xinyusuandan.prjUnit=jiafangdanwei;
+    		xinyusuandan.prjMode=prjMode;
     		xinyusuandan.budgetDate=riqi;
     		xinyusuandan.declarer=shenbaoren;
     		xinyusuandan.costBudget=fyyusuan;
@@ -2585,6 +2615,7 @@
 				$("#lookyear").text(json.budgetDate)
 				$("#lookshenbaoren").text(json.declarer)
 				$("#lookbfNo").text(json.bfNo)
+				$("#look_prj_mode").text(json.prjManagementModel)
 				$("#lookall_zhu_money").text(json.allMainMaterialMoney)
 				//费用预算
 				$("#lookfyyusuan tbody").empty("");
@@ -3023,6 +3054,8 @@
     		var xgshenbaoren=$("#xgshenbaoren").val();
     		var xgbfNo=$("#xgbfNo").val();
     		var edit_department=$("#edit_department").val();
+    		var prjMode=$("#xg_prj_mode").val();
+    		
     		if(xgrenwudan.trim()==''){
     			toastr.error("任务单号为空")
     			return;
@@ -3041,6 +3074,7 @@
     				prjId:undefined,
     				taskNo:undefined,
     				prjUnit:undefined,
+    				prjMode:undefined,
     				budgetDate:undefined,
     				bfNo:undefined,
     				declarer:undefined,
@@ -3054,6 +3088,7 @@
     		xgxinyusuandan.prjId=xgprjName;
     		xgxinyusuandan.taskNo=xgrenwudan;
     		xgxinyusuandan.prjUnit=xgjiafangdanwei;
+    		xgxinyusuandan.prjMode=prjMode;
     		xgxinyusuandan.budgetDate=xgriqi;
     		xgxinyusuandan.bfNo=xgbfNo;
     		xgxinyusuandan.declarer=xgshenbaoren;
@@ -3161,6 +3196,8 @@
     		var xgshenbaoren=$("#xgshenbaoren").val();
     		var xgbfNo=$("#xgbfNo").val();
     		var edit_department=$("#edit_department").val();
+    		var prjMode=$("#xg_prj_mode").val();
+    		
     		if(xgrenwudan.trim()==''){
     			toastr.error("任务单号为空")
     			return;
@@ -3179,6 +3216,7 @@
     				prjId:undefined,
     				taskNo:undefined,
     				prjUnit:undefined,
+    				prjMode:undefined,
     				budgetDate:undefined,
     				bfNo:undefined,
     				declarer:undefined,
@@ -3192,6 +3230,7 @@
     		xgxinyusuandan.prjId=xgprjName;
     		xgxinyusuandan.taskNo=xgrenwudan;
     		xgxinyusuandan.prjUnit=xgjiafangdanwei;
+    		xgxinyusuandan.prjMode=prjMode;
     		xgxinyusuandan.budgetDate=xgriqi;
     		xgxinyusuandan.bfNo=xgbfNo;
     		xgxinyusuandan.declarer=xgshenbaoren;

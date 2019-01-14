@@ -14,6 +14,7 @@ public class BudgetFpplicationForm {
 	private String prjId;//项目id
 	private String taskNo;//任务单号
 	private String prjUnit;//甲方单位
+	private String prjMode;//项目经营模式
 	private String budgetDate;//预算日期
 	private String declarer;//申报人
 	private String makeTime;//填报时间
@@ -31,6 +32,12 @@ public class BudgetFpplicationForm {
 	
 	
     
+	public String getPrjMode() {
+		return prjMode;
+	}
+	public void setPrjMode(String prjMode) {
+		this.prjMode = prjMode;
+	}
 	public Float getAllMainMaterialMoney() {
 		return allMainMaterialMoney;
 	}

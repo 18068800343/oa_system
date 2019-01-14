@@ -23,6 +23,7 @@ public class PrjProgressFill {
 	private String prjEndTime;
 	private float budgetMoneyAll;
 	private String thisTime;
+	private String prjMode;
 	private String allMoney;
 	private String contractIncome;//合同收入比例
 	private float allMoneyYuan;
@@ -44,6 +45,12 @@ public class PrjProgressFill {
 	private List<Accessory> accessory;
 	
 	
+	public String getPrjMode() {
+		return prjMode;
+	}
+	public void setPrjMode(String prjMode) {
+		this.prjMode = prjMode;
+	}
 	public String getContractIncome() {
 		return contractIncome;
 	}
