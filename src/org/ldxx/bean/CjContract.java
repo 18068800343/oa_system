@@ -47,7 +47,14 @@ public class CjContract {
 	private List<CjSplitMoney> cjSplitMoney;//承接合同拆分金额
 	private int splitState;//拆分合同金额状态0：未拆分，1:已拆分
 	private List<CjDeptSplitMoney> cjDeptSplitMoney;//承接合同部门拆分金额
+	private List<Task> chaiFenXinXiArray;
 	
+	public List<Task> getChaiFenXinXiArray() {
+		return chaiFenXinXiArray;
+	}
+	public void setChaiFenXinXiArray(List<Task> chaiFenXinXiArray) {
+		this.chaiFenXinXiArray = chaiFenXinXiArray;
+	}
 	public List<CjDeptSplitMoney> getCjDeptSplitMoney() {
 		return cjDeptSplitMoney;
 	}

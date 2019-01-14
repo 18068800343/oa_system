@@ -64,4 +64,6 @@ public interface CjContractDao {
 	public List<CjDeptSplitMoney> selectCjDeptSplitMoney(@Param("id")String id,@Param("dept")String dept);
 
 	public CjContract selectCjContractLikeTaskNo(@Param("no")String no);
+	
+	public int updateCjContractMoney(@Param("no")String no,@Param("money")float money);
 }
