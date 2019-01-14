@@ -11,16 +11,21 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ContractWork;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.service.AccessoryService;
+import org.ldxx.service.CjContractService;
+import org.ldxx.service.ContractUpdateService;
 import org.ldxx.service.ContractWorkService;
 import org.ldxx.service.EnterpriseService;
 import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +51,18 @@ public class ContractWorkController {
 
 	@Autowired
 	private ContractWorkService service;
-	
 	@Autowired
 	private EnterpriseService eservice;
-	
 	@Autowired
 	private AccessoryService aservice;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private CjContractService cService;
+	@Autowired
+	private TaskService tService;
+	@Autowired
+	private ContractUpdateService cuService;
 	
 	@RequestMapping("/addContractWorkBySave")
 	@ResponseBody
@@ -182,7 +191,7 @@ public class ContractWorkController {
 	public int addContractWork2BySave( String work,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
-		
+		classMap.put("taskArray", Task.class);
 		JSONObject jsonObject=JSONObject.fromObject(work);
 		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
 		TimeUUID uuid=new TimeUUID();
@@ -227,7 +236,8 @@ public class ContractWorkController {
 		}*/
 		int i=service.addContractWork(cwork);
 		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(cwork.getMainDepartment());
+			CjContract cj=cService.selectCjContractByNo(cwork.getCjContractCode());
+			OrganizationManagement om=oService.selectOrgById(cj.getYiCjDepartment());
 			String omNo=om.getOmNo();
 			String string="";
 			User user = (User) session.getAttribute("user");
@@ -269,7 +279,7 @@ public class ContractWorkController {
 	public String addContractWork2BySubmit(String work,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
-		
+		classMap.put("taskArray", Task.class);
 		JSONObject jsonObject=JSONObject.fromObject(work);
 		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
 		TimeUUID uuid=new TimeUUID();
@@ -315,7 +325,8 @@ public class ContractWorkController {
 		int i=service.addContractWork(cwork);
 		String string = i+"";
 		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(cwork.getMainDepartment());
+			CjContract cj=cService.selectCjContractByNo(cwork.getCjContractCode());
+			OrganizationManagement om=oService.selectOrgById(cj.getYiCjDepartment());
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
@@ -356,7 +367,7 @@ public class ContractWorkController {
 	public int updateContractWork2(String work,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
-		
+		classMap.put("taskArray", Task.class);
 		JSONObject jsonObject=JSONObject.fromObject(work);
 		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
 		String id=cwork.getCwId();
@@ -390,7 +401,7 @@ public class ContractWorkController {
 	public int addContractWork3BySave( String work,@RequestParam MultipartFile [] file/*,@RequestParam MultipartFile [] file1*/,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
-		
+		classMap.put("taskArray", Task.class);
 		JSONObject jsonObject=JSONObject.fromObject(work);
 		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
 		TimeUUID uuid=new TimeUUID();
@@ -435,7 +446,8 @@ public class ContractWorkController {
 		}*/
 		int i=service.addContractWork(cwork);
 		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(cwork.getMainDepartment());
+			CjContract cj=cService.selectCjContractByNo(cwork.getCjContractCode());
+			OrganizationManagement om=oService.selectOrgById(cj.getYiCjDepartment());
 			String omNo=om.getOmNo();
 			String string="";
 			User user = (User) session.getAttribute("user");
@@ -477,7 +489,7 @@ public class ContractWorkController {
 	public String addContractWork3BySubmit(String work,@RequestParam MultipartFile [] file/*,@RequestParam MultipartFile [] file1*/,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
-		
+		classMap.put("taskArray", Task.class);
 		JSONObject jsonObject=JSONObject.fromObject(work);
 		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
 		TimeUUID uuid=new TimeUUID();
@@ -523,7 +535,8 @@ public class ContractWorkController {
 		int i=service.addContractWork(cwork);
 		String string = i+"";
 		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(cwork.getMainDepartment());
+			CjContract cj=cService.selectCjContractByNo(cwork.getCjContractCode());
+			OrganizationManagement om=oService.selectOrgById(cj.getYiCjDepartment());
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
@@ -628,6 +641,21 @@ public class ContractWorkController {
 		String pNo="%"+prjno+"%";
 		List<ContractWork> list=service.selectContractWorkByprjNo(pNo,type);
 		return list;
+	}
+	
+	
+	@RequestMapping("/addContractUpdate")
+	@ResponseBody
+	public int addContractUpdate(String id){
+		ContractWork cw=service.selectContractWorkByid(id);
+		String prjNo=cw.getPrjCode();
+		List<Task> list=new ArrayList<Task>();
+		for(int i=0;i<prjNo.split(",").length;i++){
+			Task task=tService.selectTaskPrjName(prjNo.split(",")[i]);
+			list.add(task);
+		}
+		int i=cuService.addContractUpdate(list);
+		return i;
 	}
 	
 }

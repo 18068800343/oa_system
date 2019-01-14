@@ -5,9 +5,11 @@ import java.util.List;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ContractWork;
 import org.ldxx.bean.Enterprise;
+import org.ldxx.bean.Task;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.ContractWorkDao;
 import org.ldxx.dao.EnterpriseDao;
+import org.ldxx.dao.TaskDao;
 import org.ldxx.service.ContractWorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,12 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 
 	@Autowired
 	private ContractWorkDao dao;
-	
 	@Autowired
 	private AccessoryDao adao;
-	
 	@Autowired
 	private EnterpriseDao edao;
+	@Autowired
+	private TaskDao tdao;
 	
 	@Transactional
 	@Override
@@ -46,6 +48,8 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 				}
 				i=edao.addEnterprise(enterprise);
 			}
+			List<Task> task=work.getTaskArray();
+			i=tdao.updateTasks(task);
 		}
 		return i;
 	}

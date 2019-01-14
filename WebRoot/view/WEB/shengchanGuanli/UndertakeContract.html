@@ -3035,6 +3035,7 @@
   				assistDepartment3Money:0,
   				accessory:undefined,
   				enterprise:undefined,
+  				taskArray:undefined,
   				prjManager:undefined,//项目经理
   				deputyPrjManager1:undefined,//项目副经理1
   				deputyPrjManager2:undefined,//项目副经理2
@@ -3583,18 +3584,9 @@
   			var gqText=$("#gq_info2").val();
   			var contractMoney=$("#contract_money2").val();
   			var endMoney=$("#end_money2").val();
-  			/* var allReceieveMoney=$("#all_money2").val(); */
   			var prjChargeMan=$("#prj_leader2").val();
   			var rating=$("#rating").val();
   			var type='2';
-  			var mainDepartment=$("#zhuban2").val();
-  			var mainDepartmentMoney=$("#zhubanjine2").val();
-  			var assistDepartment1=$("#xieban2_1").val();
-  			var assistDepartment1Money=$("#xiebanMoney2_1").val();
-  			var assistDepartment2=$("#xieban2_2").val();
-  		  	var assistDepartment2Money=$("#xiebanMoney2_2").val();
-  		  	var assistDepartment3=$("#xieban2_3").val();
-  	  		var assistDepartment3Money=$("#xiebanMoney2_3").val();
   	  		var prjManager=$("#prj_manager2").val();//项目经理
 	  		var deputyPrjManager1=$("#deputy1_prj_manager2").val();//项目副经理1
 	  		var deputyPrjManager2=$("#deputy2_prj_manager2").val();//项目副经理2
@@ -3604,6 +3596,105 @@
 	  		var prjGrade=$("#prj_grade2").val();//公路等级
 	  		var lyEndTime=$("#cj_contract_end_time").val();//履约完结时间
   		
+	  		var taskArray=new Array();
+	  		var allPrjMoney=0;
+	  		var flag=0;
+	  		$("#abcd").find("table").each(function(){
+	  			var task={
+	  					prjId:undefined,
+	  					prjNo:undefined,
+	  					prjEstimateMoney:undefined,
+	  					contractMoney:undefined,
+	  					mainDepartment:undefined,
+	  					mainDepartmentMoney:undefined,
+	  					mainDepartmentCost:undefined,
+	  					assistDepartment1:null,
+	  					assistDepartment1Money:0,
+	  					assistDepartment1Cost:null,
+	  					assistDepartment2:null,
+	  					assistDepartment2Money:0,
+	  					assistDepartment2Cost:null,
+	  					assistDepartment3:null,
+	  					assistDepartment3Money:0,
+	  					assistDepartment3Cost:null
+	  			}
+	  			var prjId=$(this).find("tr").eq(0).find("input").eq(0).attr("data");
+	  			var prjNo=$(this).find("tr").eq(0).find("input").eq(0).val();
+	  			var prjMoney=$(this).find("tr").eq(0).find("input").eq(1).val();
+	  			allPrjMoney=allPrjMoney+prjMoney;
+				var mainDept=$(this).find("tr").eq(1).find("select").eq(0).val();
+				var mainDeptMoney=$(this).find("tr").eq(1).find("input").eq(0).val();
+				var mainDeptCost=$(this).find("tr").eq(1).find("input").eq(1).val();
+				var xbDept=$(this).find("tr").eq(2).find("select").eq(0).val();
+				var xbDeptMoney=0;
+				var xbDeptCost='0%';
+				if(xbDept!=null&&xbDept!=undefined){
+					xbDeptMoney=$(this).find("tr").eq(2).find("input").eq(0).val();
+					xbDeptCost=$(this).find("tr").eq(2).find("input").eq(1).val();
+				}else{
+					xbDept='';
+				}
+				
+				var xb2Dept=$(this).find("tr").eq(3).find("select").eq(0).val();
+				var xb2DeptMoney=0;
+				var xb2DeptCost='0%';
+				if(xb2Dept!=null&&xb2Dept!=undefined){
+					xb2DeptMoney=$(this).find("tr").eq(3).find("input").eq(0).val();
+					xb2DeptCost=$(this).find("tr").eq(3).find("input").eq(1).val();
+				}else{
+					xb2Dept='';
+				}
+				
+				var xb3Dept=$(this).find("tr").eq(4).find("select").eq(0).val();
+				var xb3DeptMoney=0;
+				var xb3DeptCost='0%';
+				if(xb3Dept!=null&&xb3Dept!=undefined){
+					xb3DeptMoney=$(this).find("tr").eq(4).find("input").eq(0).val();
+					xb3DeptCost=$(this).find("tr").eq(4).find("input").eq(1).val();
+				}else{
+					xb3Dept='';
+				}
+				
+				if(parseInt(mainDeptMoney)+parseInt(xbDeptMoney)+parseInt(xb2DeptMoney)+parseInt(xb3DeptMoney)!=prjMoney){
+					flag=1;
+					return;
+				}
+				if(parseInt(mainDeptCost)+parseInt(xbDeptCost)+parseInt(xb2DeptCost)+parseInt(xb3DeptCost)!=100){
+					flag=2;
+					return;
+				}
+				
+				task.prjId=prjId;
+				task.prjNo=prjNo;
+				task.prjEstimateMoney=prjMoney;
+				task.contractMoney=endMoney;
+				task.mainDepartment=mainDept;
+				task.mainDepartmentMoney=mainDeptMoney;
+				task.mainDepartmentCost=mainDeptCost;
+				task.assistDepartment1=xbDept;
+				task.assistDepartment1Money=xbDeptMoney;
+				task.assistDepartment1Cost=xbDeptCost;
+				task.assistDepartment2=xb2Dept;
+				task.assistDepartment2Money=xb2DeptMoney;
+				task.assistDepartment2Cost=xb2DeptCost;
+				task.assistDepartment3=xb3Dept;
+				task.assistDepartment3Money=xb3DeptMoney;
+				task.assistDepartment3Cost=xb3DeptCost;
+				taskArray.push(task);
+	  		})
+	  		if(flag==1){
+	  			toastr.error("部门金额分配错误");
+	  			return;
+	  		}
+	  		if(flag==2){
+	  			toastr.error("部门成本比例分配错误");
+	  			return;
+	  		}
+	  		if(allPrjMoney!=endMoney){
+	  			toastr.error("任务单金额分配错误");
+	  			return;
+	  		}
+	  		
   	  		var person=new Array();
 	  	  	$("#person_table2 tbody").find("tr").each(function(){
 	    		var td = $(this).children();
@@ -3630,19 +3721,11 @@
 	  		contractWork.gqText=gqText;
 	  		contractWork.contractMoney=contractMoney;
 	  		contractWork.endMoney=endMoney;
-	  		contractWork.allReceieveMoney=allReceieveMoney;
 	  		contractWork.prjChargeMan=prjChargeMan;
 	  		contractWork.rating=rating;
 	  		contractWork.type=type;
-	  		contractWork.mainDepartment=mainDepartment;
-	  		contractWork.mainDepartmentMoney=mainDepartmentMoney;
-	  		contractWork.assistDepartment1=assistDepartment1;
-	  		contractWork.assistDepartment1Money=assistDepartment1Money;
-	  		contractWork.assistDepartment2=assistDepartment2;
-	  		contractWork.assistDepartment2Money=assistDepartment2Money;
-	  		contractWork.assistDepartment3=assistDepartment3;
-	  		contractWork.assistDepartment3Money=assistDepartment3Money;
 	  		contractWork.enterprise=person;
+	  		contractWork.taskArray=taskArray;
 	  		contractWork.prjManager=prjManager;//项目经理
 	  		contractWork.deputyPrjManager1=deputyPrjManager1;//项目副经理1
 	  		contractWork.deputyPrjManager2=deputyPrjManager2;//项目副经理2
@@ -3658,9 +3741,7 @@
 	  		$("#new_accessory2 tbody").find("tr").each(function(){
 	  			formData.append("file", $(this).find("input")[0].files[0]);
 	  		})
-	  		/* $("#new_accessory21 tbody").find("tr").each(function(){
-	  			formData.append("file1", $(this).find("input")[0].files[0]);
-	  		}) */
+	  		
 	  		if(person.length>0){
 		  		$.ajax({
 		  			type: 'POST',
@@ -4086,8 +4167,8 @@
 		                	$("#abcd").append('<table class="table table-bordered table-condensed" id="task_table'+(i+1)+'">'
 									                            +'<thead>'
 									                            +'<tr>'
-									                            	 +'<th style="width:30%;">任务单号：<input type="text" class="form-control" style="width:60%;" value='+json[i].prjEstimateMoney+'></th>'
-									                                 +'<th style="width:55%;">合同金额：<input type="text" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+'></th>'
+									                            	 +'<th style="width:30%;">任务单号：<input type="text" class="form-control" data='+json[i].prjId+' style="width:60%;" value='+json[i].prjNo+' disabled></th>'
+									                                 +'<th style="width:55%;">任务金额：<input type="text" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+'></th>'
 									                                 +'<th><button type="button" class="btn btn-primary" data="task_table'+(i+1)+'" onclick="addBumen2(this)">添加协办</button></th>'
 									                            +' </tr>'
 									                      	+' </thead>'
@@ -4102,7 +4183,7 @@
 				                                   +'      <select class="form-control" style="width:180px;" id="task_main'+(i+1)+'">'
 				                                   +'      </select>'
 				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额" value='+json[i].mainDepartmentMoney+'>'
-				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].mainDepartmentCost+'>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例" onchange="appendBfh(this)"  value='+json[i].mainDepartmentCost+'>'
 				                                   +'  </form>'
 				                               +'  </td>'
 				                               +'<td></td>'
@@ -4117,7 +4198,7 @@
 				                                   +'      <select class="form-control" style="width:180px;" id="task_xb'+(i+1)+'">'
 				                                   +'      </select>'
 				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment1Money+'>'
-				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].assistDepartment1Cost+'>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例" onchange="appendBfh(this)"  value='+json[i].assistDepartment1Cost+'>'
 				                                   +'  </form>'
 				                               +'  </td>'
 				                               +'<td><button type="button" class="btn btn-primary" onclick="remove_xb(this)">移除协办</button></td>'
@@ -4132,7 +4213,7 @@
 				                                   +'      <select class="form-control" style="width:180px;" id="task_xb2'+(i+1)+'">'
 				                                   +'      </select>'
 				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment2Money+'>'
-				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].assistDepartment2Cost+'>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  onchange="appendBfh(this)" value='+json[i].assistDepartment2Cost+'>'
 				                                   +'  </form>'
 				                               +'  </td>'
 				                               +'<td><button type="button" class="btn btn-primary" onclick="remove_xb(this)">移除协办</button></td>'
@@ -4147,7 +4228,7 @@
 				                                   +'      <select class="form-control" style="width:180px;" id="task_xb3'+(i+1)+'">'
 				                                   +'      </select>'
 				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment3Money+'>'
-				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].assistDepartment3Cost+'>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例" onchange="appendBfh(this)"  value='+json[i].assistDepartment3Cost+'>'
 				                                   +'  </form>'
 				                               +'  </td>'
 				                               +'<td><button type="button" class="btn btn-primary" onclick="remove_xb(this)">移除协办</button></td>'
@@ -4398,6 +4479,10 @@
 	  function remove_xb(obj){
 		  var tr=$(obj).parents("tr");
 		  $(tr).remove();
+	  }
+	  
+	  function appendBfh(obj){
+		  $(obj).val($(obj).val().replace("%","")+"%");
 	  }
 	    
 	
