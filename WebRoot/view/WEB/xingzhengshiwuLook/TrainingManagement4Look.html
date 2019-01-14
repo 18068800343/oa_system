@@ -45,8 +45,10 @@
                             <tr>
                                 <td style="width:100px;">培训课程名称</td>
                                 <td id="look_class_name"></td>
-                                <td style="width:100px;">参加人员</td>
-                                <td id="look_join_user"></td>
+                                <!-- <td style="width:100px;">参加人员</td>
+                                <td id="look_join_user"></td> -->
+                                <td style="width:100px;">资料及证书保管部门 </td>
+                                <td id="look_department"></td>
                             </tr>
                             <tr>
                                 <td>培训地点</td>
@@ -63,8 +65,8 @@
                         	<thead>
                         		<tr>
                         			<td style="width:30%;">培训发放资料</td>
-                                	<td>&nbsp;</td>
-                        			<td style="width:20%;">&nbsp;</td>
+                                	<td>&nbsp</td>
+                        			<td style="width:20%;">&nbsp</td>
                         		</tr>
                         	</thead>
                         	<tbody>
@@ -75,15 +77,27 @@
                         	<thead>
                         		<tr>
                         			<td style="width:30%;">培训获得证书</td>
-                                	<td>&nbsp;</td>
-                        			<td style="width:20%;">&nbsp;</td>
+                                	<td>&nbsp</td>
+                        			<td style="width:20%;">&nbsp</td>
                         		</tr>
                         	</thead>
                         	<tbody>
                         		
                         	</tbody>
                         </table>
-                    </form>  
+                        <table class="table table-bordered table-condensed" id="look_zwzongjie">
+                        	<thead>
+                        		<tr>
+                        			<td style="width:30%;">培训自我总结</td>
+                                	<td>&nbsp</td>
+                        			<td style="width:20%;">&nbsp</td>
+                        		</tr>
+                        	</thead>
+                        	<tbody>
+                        		
+                        	</tbody>
+                        </table>
+                    </form> 
         
     </div>
 </body>
@@ -121,34 +135,37 @@
 	        	console.log(json)
 	        	data=json;
 	        	 $("#look_class_name").text(data.daName);
-		   		 $("#look_join_user").text(data.attendees);
-		   		 $("#look_addr").text(data.trainingLocation);
-		   		 $("#look_year").text(data.trainingTime);
-		   		 $("#look_summarize").text(data.credentialDesc);
-		   		 $("#look_ziliao tbody").html('');
+	    		 $("#look_department").text(data.omName);
+	    		 $("#look_addr").text(data.trainingLocation);
+	    		 $("#look_year").text(data.trainingTime);
+	    		 $("#look_summarize").text(data.credentialDesc);
+		   		
 		   		$.ajax({
-	    			type: 'POST',
-	                url: getContextPath()+'/accessory/selectAccessoryById',
-	                dataType: 'json',
-	                data: {
-	                	id:id
-	                },
-	                success: function (json) {
-	                	$("#look_zhengshu tbody").html('');
-	                	console.log(json)
-	                	for(var i=0;i<json.length;i++){
-	                		if(json[i].aType=="资料"){
-	                			$("#look_ziliao tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-	                		}
-	                		if(json[i].aType=="证书"){
-	                			$("#look_zhengshu tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")
-	                		}
-	                		
-	                		
-	                	}
-		           		 
-	                }
-	    		})
+					type:"post",
+					url:getContextPath()+"/accessory/selectAccessoryById",
+					dataType:"json",
+					data:{
+						id:data.daId,
+					},
+					success:function(json){
+						console.log(json)
+						$("#look_ziliao tbody").empty();
+			 			$("#look_zhengshu tbody").empty();
+			 			$("#look_zwzongjie tbody").empty();
+			            for(var i=0;i<json.length;i++){
+			            	if(json[i].aType=="资料"){
+			            		$("#look_ziliao tbody").append("<tr><td>附件</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+			        		}
+			            	if(json[i].aType=="证书"){
+			            		 $("#look_zhengshu tbody").append("<tr><td>附件</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+			   			 	}
+			            	if(json[i].aType=="自我总结"){
+			            		$("#look_zwzongjie tbody").append("<tr><td>附件</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+			   			 	}
+			            	   
+			            }
+					}
+				})
 	        }
 	    });
 		 
