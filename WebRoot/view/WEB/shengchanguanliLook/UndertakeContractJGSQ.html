@@ -32,7 +32,8 @@
        
     <div> 
 		
-				<table class="table table-bordered table-condensed">
+				<form class="form-inline">
+                    <table class="table table-bordered table-condensed">
                         <tr>
                             <td style="width:20%;">承接合同名称</td>
                             <td id="look_cj_name3" style="width:30%;"></td>
@@ -84,25 +85,10 @@
 							</thead>
                         <tbody></tbody>
                     </table>
-                    <table class="table table-bordered table-condensed" id="look_accessory31">
-                        <thead>
-								<tr>
-	                                <td style="width:18%;">法律顾问签字:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-	                                <td colspan="3"></td>
-                            	</tr>
-							</thead>
-                        <tbody></tbody>
-                    </table>
 					<br/>
-                    <table class="table table-bordered table-condensed" id="look_department3">
-                        <thead>
-                            <tr>
-                                <th colspan="2">部门</th>
-                                <th colspan="2">金额</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                   <div id="look_qwer"></div>
+
+                </form>  
 
     </div>
 
@@ -149,53 +135,109 @@
   		  			$("#look_work_info3").text(data.workText);
   		  			$("#look_prj_info3").text(data.prjText);
   		  			$("#look_gq_info3").text(data.gqText);
-  		  			$("#look_department3 tbody").html('');
-  		  			$("#look_department3 tbody").append("<tr><td>主办部门</td><td>"+data.name+"</td><td>金额</td><td>"+data.mainDepartmentMoney+"</td></tr>")
-  		  			if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
-  		  				$("#look_department3 tbody").append("<tr><td>协办部门</td><td>"+data.name2+"</td><td>金额</td><td>"+data.assistDepartment1Money+"</td></tr>")
-  		  			}
-  		  			if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
-  		  				$("#look_department3 tbody").append("<tr><td>协办部门</td><td>"+data.name3+"</td><td>金额</td><td>"+data.assistDepartment2Money+"</td></tr>")
-  		  			}
-  		  			if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
-  		  				$("#look_department3 tbody").append("<tr><td>协办部门</td><td>"+data.name4+"</td><td>金额</td><td>"+data.assistDepartment3Money+"</td></tr>")
-  		  			}
-	  		  		$.ajax({
-	  	                type: 'POST',
-	  	                url: getContextPath()+'/work/selectDepartmentAndPerson',
-	  	                dataType: 'json',
-	  	                async:false,
-	  	                data: {
-	  	                	id:data.cwId
-	  	                },
-	  	                success: function (json) {
-	  	                	console.log(json)
-	  	                	var enterprise=json.enterprise;
-	  	                	var accessory=json.accessory;
-	  	                	$("#look_person3 tbody").html('');
-	  	                	$("#look_accessory3 tbody").html('');
-	  	                	$("#look_accessory31 tbody").html('');
-	  	                	for(var i=0;i<enterprise.length;i++){
-	  	                		$("#look_person3 tbody").append("<tr><td>"+enterprise[i].eMan+"</td><td>"+enterprise[i].eTel+"</td></tr>")
-	  	                	}
-	  						for(var j=0;j<accessory.length;j++){
-	  							if(accessory[j].aType=="合同文本"){
-	  				            	   $("#look_accessory3 tbody").append("<tr>"+
-	  			      	   										"<td>附件</td>"+
-	  									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
-	  									            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
-	  									            	    "</tr>");
-	  			            	   }
-	  			            	 if(accessory[j].aType=="法律顾问签字"){
-	  				            	   $("#look_accessory31 tbody").append("<tr>"+
-	  			      	   										"<td>附件</td>"+
-	  									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
-	  									            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
-	  									            	    "</tr>");
-	  			            	   }
-	  	                	}
-	  	                }
-	  	      		});
+  		  			
+  		  		$.ajax({
+  	  	            type: 'POST',
+  	  	            url: getContextPath()+'/task/selectTaskPrjName',
+  	  	            dataType: 'json',
+  	  	            data: {
+  	  	            	prjNo:data.prjCode
+  	  	            },
+  	  	            success: function (json) {
+  	  					$("#look_qwer").html('');		            	
+  	  	                for(var i=0;i<json.length;i++){
+  	  	                	$("#look_qwer").append('<table class="table table-bordered table-condensed" id="look_task2_table'+(i+1)+'">'
+  	  								                            +'<thead>'
+  	  								                            +'<tr>'
+  	  								                            	 +'<th style="width:30%;">任务单号：<input type="text" class="form-control" data='+json[i].prjId+' style="width:60%;" value='+json[i].prjNo+' disabled></th>'
+  	  								                                 +'<th style="width:55%;">任务金额：<input type="text" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+' disabled></th>'
+  	  								                            +' </tr>'
+  	  								                      	+' </thead>'
+  	  								                        +' <tbody>'
+  	  								                       +'  </tbody>'
+  	  								                   +'  </table>')
+  	  	                     	if(json[i].mainDepartment!=''&&json[i].mainDepartment!=null){
+  	  	                     		$("#look_task2_table"+(i+1)+" tbody").append('  <tr>'
+  	  			                              +'   <td>主办部门</td>'
+  	  			                              +'   <td>'
+  	  			                                +'     <form class="form-inline">'
+  	  			                                   +'      <input type="text" class="form-control" style="width:180px;" placeholder="部门" value='+json[i].omName+' disabled>'
+  	  			                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额" value='+json[i].mainDepartmentMoney+' disabled>'
+  	  			                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].mainDepartmentCost+' disabled>'
+  	  			                                   +'  </form>'
+  	  			                               +'  </td>'
+  	  			                           +'  </tr>')
+  	  	                     	}
+  	  		                	if(json[i].assistDepartment1!=''&&json[i].assistDepartment1!=null){
+  	  	                     		$("#look_task2_table"+(i+1)+" tbody").append('  <tr>'
+  	  			                              +'   <td>协办部门</td>'
+  	  			                              +'   <td>'
+  	  			                                +'     <form class="form-inline">'
+  	  			                                   +'      <input type="text" class="form-control" style="width:180px;" placeholder="部门"  value='+json[i].name1+' disabled>'
+  	  			                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment1Money+' disabled>'
+  	  			                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].assistDepartment1Cost+' disabled>'
+  	  			                                   +'  </form>'
+  	  			                               +'  </td>'
+  	  			                           +'  </tr>')
+  	  	                     	}	  
+  	  		                	if(json[i].assistDepartment2!=''&&json[i].assistDepartment2!=null){
+  	  	                     		$("#look_task2_table"+(i+1)+" tbody").append('  <tr>'
+  	  			                              +'   <td>协办部门</td>'
+  	  			                              +'   <td>'
+  	  			                                +'     <form class="form-inline">'
+  	  			                                   +'      <input type="text" class="form-control" style="width:180px;" placeholder="部门"  value='+json[i].name2+' disabled>'
+  	  			                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment2Money+' disabled>'
+  	  			                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].assistDepartment2Cost+' disabled>'
+  	  			                                   +'  </form>'
+  	  			                               +'  </td>'
+  	  			                           +'  </tr>')
+  	  	                     	}	
+  	  		                	if(json[i].assistDepartment3!=''&&json[i].assistDepartment3!=null){
+  	  	                     		$("#look_task2_table"+(i+1)+" tbody").append('  <tr>'
+  	  			                              +'   <td>协办部门</td>'
+  	  			                              +'   <td>'
+  	  			                                +'     <form class="form-inline">'
+  	  			                                   +'      <select class="form-control" style="width:180px;" id="task_xb3'+(i+1)+'">'
+  	  			                                   +'      </select>'
+  	  			                                   +'      <input type="text" class="form-control" style="width:180px;" placeholder="部门"  value='+json[i].name3+' disabled>'
+  	  			                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment3Money+' disabled>'
+  	  			                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  value='+json[i].assistDepartment3Cost+' disabled>'
+  	  			                                   +'  </form>'
+  	  			                               +'  </td>'
+  	  			                           +'  </tr>')
+  	  	                     	}	
+  	  	                }
+  	  	            }
+  	  	        });
+  		  		
+  		  	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/work/selectDepartmentAndPerson',
+                dataType: 'json',
+                async:false,
+                data: {
+                	id:data.cwId
+                },
+                success: function (json) {
+                	var enterprise=json.enterprise;
+                	var accessory=json.accessory;
+                	$("#look_person3 tbody").html('');
+                	$("#look_accessory3 tbody").html('');
+                	$("#look_accessory31 tbody").html('');
+                	for(var i=0;i<enterprise.length;i++){
+                		$("#look_person3 tbody").append("<tr><td>"+enterprise[i].eMan+"</td><td>"+enterprise[i].eTel+"</td></tr>")
+                	}
+					for(var j=0;j<accessory.length;j++){
+						if(accessory[j].aType=="合同文本"){
+			            	   $("#look_accessory3 tbody").append("<tr>"+
+		      	   										"<td>附件</td>"+
+								            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
+								            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
+								            	    "</tr>");
+		            	   }
+                	}
+                }
+      		});
   		  		
   		        }
   		    });
