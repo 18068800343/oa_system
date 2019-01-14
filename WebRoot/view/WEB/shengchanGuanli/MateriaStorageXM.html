@@ -665,18 +665,19 @@
     function look(obj){
     	var tr=$(obj).parents("tr");
     	var data=$("#mainContent").DataTable().row(tr).data();
-    	$("#look_person").val(data.getPerson);
-		$("#look_infos").val(data.getInfos);
 		
 		initAccessory(data.cmId);
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/gsMaterialIn/selectGsClInById',
             dataType: 'json',
+            async:false,
             data: {
             	id:data.cmId
             },
             success: function (json) {
+            	$("#look_person").val(json.getPerson);
+				$("#look_infos").val(json.getInfos);
                 $('#mainContent3').dataTable().fnClearTable();
                 $('#mainContent3').DataTable().rows.add(json.gsInCl).draw(false);
             }
@@ -695,9 +696,12 @@
     }
     
     var id;
+    var data;
+    var tr;
     function edit(obj){
-    	var tr=$(obj).parents("tr");
-    	var data=$("#mainContent").DataTable().row(tr).data();
+    	tr = $(obj).closest('tr');
+    	var dom=$(obj).parents("tr");
+    	data=$("#mainContent").DataTable().row(dom).data();
     	var status=data.getStatus;
     	id=data.cmId;
     	
@@ -760,7 +764,11 @@
     	            	if(json>0){
     	            		$("#change").modal("hide");
     	            		toastr.success("保存成功");
-    	            		location.reload([true]);
+    	            		//location.reload([true]);
+    	            		data.getStatus=1;
+    	            		$('#mainContent').DataTable().row(tr).data(data);//修改行立即显示
+    		            	$(".Pedcaa").show();
+    		            	$(".Pedcab").show();
     	            	}else{
     	            		toastr.error("保存失败");
     	            	}
@@ -782,7 +790,8 @@
             	if(json>0){
             		$("#change").modal("hide");
             		toastr.success("拒绝成功");
-            		location.reload([true]);
+            		//location.reload([true]);
+            		$('#mainContent').DataTable().row(tr).remove().draw(false); //删除行立即显示
             	}else{
             		toastr.error("拒绝失败");
             	}

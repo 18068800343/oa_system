@@ -33,6 +33,10 @@ public interface GsMaterialInDao {
 
 	int updateremainType(@Param("id")String id,@Param("type") String type);
 
+	List<CompanyMateriaIn> selectGsMateriaOutForEnd(@Param("no")String no);
+
+	List<CompanyMateriaIn> getGsMaterialIn();
+
 
 
 }

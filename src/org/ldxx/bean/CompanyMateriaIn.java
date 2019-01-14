@@ -19,7 +19,7 @@ public class CompanyMateriaIn {
 	private String cmDesc;				//备注
 	private String acceptanceOpinion;	//验收及处理意见
 	private String freight;				//运费
-	private String OutState;			//出库状态；0:未出库;1：公司出库;2:项目出库;3::结余转出
+	private String outState;			//出库状态；0:未出库;1：公司出库;2:项目出库;3::结余转出
 	private String getPerson;//项目材料收货人
 	private String getInfos;//项目验收及意见
 	private String getStatus;//收货状态 0：未确认收货 1：确认收货
@@ -70,13 +70,13 @@ public class CompanyMateriaIn {
 	public void setGsInCl(List<CompanyMaterialInCl> gsInCl) {
 		this.gsInCl = gsInCl;
 	}
-
+	
 	public String getOutState() {
-		return OutState;
+		return outState;
 	}
 
 	public void setOutState(String outState) {
-		OutState = outState;
+		this.outState = outState;
 	}
 
 	public String getFreight() {

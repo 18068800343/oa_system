@@ -29,9 +29,15 @@ public class ClRemain {
 	private float cmoMoney;
 	private String pickDate;
 	private outRemain outRemain;
+	private String oldClId;//入库的材料id
 	
 	
-	
+	public String getOldClId() {
+		return oldClId;
+	}
+	public void setOldClId(String oldClId) {
+		this.oldClId = oldClId;
+	}
 	public outRemain getOutRemain() {
 		return outRemain;
 	}

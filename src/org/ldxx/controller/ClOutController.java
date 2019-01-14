@@ -31,7 +31,8 @@ public class ClOutController {
 	
 	@RequestMapping("/addClOutBySave")
 	@ResponseBody
-	public int addClOutBySave(String clOut){
+	public Map<String,Object> addClOutBySave(String clOut){
+		Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("cInfo", ClOutInfo.class);
 		JSONObject jsonObject=JSONObject.fromObject(clOut);
@@ -40,7 +41,9 @@ public class ClOutController {
 		String id=uuid.getTimeUUID();
 		out.setOutId(id);
 		int i=service.addClOut(out);
-		return i;
+		map.put("result", i);
+		map.put("clOut",out);
+		return map;
 	}
 	
 	

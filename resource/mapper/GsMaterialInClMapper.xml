@@ -4,11 +4,11 @@
 
 	<insert id="addGsInCl">
 		insert into company_material_in_cl(cl_id,gs_in_id,cl_name,cl_type,cl_mode,cl_unit,cl_number,cl_price,cl_money,
-		cl_prj_supplier,cl_gs_supplier,cl_desc,cl_come_unit,cl_manufacturer)
+		cl_prj_supplier,cl_gs_supplier,cl_desc,cl_come_unit,cl_manufacturer,cl_remain)
 		values	
 			<foreach collection="gsInCl" item="item" index="index" separator=",">
 				(#{item.clId},#{item.gsInId},#{item.clName},#{item.clType},#{item.clMode},#{item.clUnit},#{item.clNumber},#{item.clPrice}
-				,#{item.clMoney},#{item.clPrjSupplier},#{item.clGsSupplier},#{item.clDesc},#{item.clComeUnit},#{item.clManufacturer})
+				,#{item.clMoney},#{item.clPrjSupplier},#{item.clGsSupplier},#{item.clDesc},#{item.clComeUnit},#{item.clManufacturer},#{item.clNumber})
 			</foreach>
 	</insert>
 	
@@ -27,7 +27,7 @@
 	<select id="selectGsClInBytaskNo" resultType="CompanyMaterialInCl">
 		select a.*,b.demand_project from company_material_in_cl a
 		LEFT JOIN company_material_in b on a.gs_in_id=b.cm_id
-		where gs_in_id=(SELECT cm_id from  company_material_in WHERE task_no=#{no})
+		where gs_in_id=(SELECT cm_id from  company_material_in WHERE task_no=#{no} and out_state=1 and get_status=1)
 	</select>
 	
 	<update id="updateRemain">

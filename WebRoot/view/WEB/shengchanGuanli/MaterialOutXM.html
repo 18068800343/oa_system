@@ -829,9 +829,10 @@ Array.prototype.unique3 = function(){
             processData: false,
             contentType: false,
             success: function (json) {
-                if(json>0){
+                if(json.result>0){
                 	$("#myModal").modal("hide");
                 	toastr.success("保存成功");
+                	$('#mainContent').DataTable().row.add(json.clOut).draw(false);//新增行立即显示
                 }else{
                 	toastr.error("保存失败");
                 }
@@ -892,7 +893,7 @@ Array.prototype.unique3 = function(){
 											+'<option value="桶">桶</option>'
 										+'</select>'
           		  				+"</td><td style='width:7%;'>"
-          		  				+'<input type="text" class="form-control" value='+json[i].clNumber+' style="width:100%;">'
+          		  				+'<input type="text" class="form-control" value='+json[i].clRemain+' style="width:100%;">'
           		  				+"</td><td style='width:7%;'>"
           		  				+'<input type="text" class="form-control" value='+json[i].clPrice+'  style="width:80%;">'
           		  				+"</td><td style='width:7%;'>"
@@ -968,7 +969,7 @@ Array.prototype.unique3 = function(){
 	        											+'<option value="桶">桶</option>'
 	        										+'</select>'
 	                  		  				+"</td><td style='width:7%;'>"
-	                  		  				+'<input type="text" class="form-control" value='+json[i].clNumber+' style="width:100%;">'
+	                  		  				+'<input type="text" class="form-control" value='+json[i].clRemain+' style="width:100%;">'
 	                  		  				+"</td><td style='width:7%;'>"
 	                  		  				+'<input type="text" class="form-control" value='+json[i].clPrice+'  style="width:80%;">'
 	                  		  				+"</td><td style='width:7%;'>"
@@ -1078,12 +1079,13 @@ Array.prototype.unique3 = function(){
     }
     
     function look(obj){
-    	var tr=$(obj).parent().parent();
+    	var tr=$(obj).parents("tr");
     	var data=$("#mainContent").DataTable().row(tr).data();
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/clout/selectClOutInfoById',
             dataType: 'json',
+            async:false,
             data: {
             	id:data.outId
             },

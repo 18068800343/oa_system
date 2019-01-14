@@ -3,11 +3,13 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CgCl;
@@ -15,12 +17,19 @@ import org.ldxx.bean.CgContract;
 import org.ldxx.bean.CompanyMateriaIn;
 import org.ldxx.bean.CompanyMateriaOut;
 import org.ldxx.bean.CompanyMaterialInCl;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.Task;
+import org.ldxx.bean.User;
 import org.ldxx.bean.clfbCgcontractPerformance;
 import org.ldxx.service.GsMaterialInService;
 import org.ldxx.util.ExportData;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,7 +49,13 @@ public class GsMaterialInController {
 	@Autowired
 	private GsMaterialInService gmService;
 	
-	@RequestMapping("/selectGsMaterialIn")
+	@RequestMapping("/getGsMaterialIn")//初始化outStatus=1()或3
+	@ResponseBody
+	public List<CompanyMateriaIn> getGsMaterialIn(){
+		return gmService.getGsMaterialIn();
+	}
+	
+	@RequestMapping("/selectGsMaterialIn")//通过出库状态查找信息
 	@ResponseBody
 	public List<CompanyMateriaIn> selectGsMaterialIn(String outState){
 		return gmService.selectGsMaterialIn(outState);
@@ -53,7 +68,7 @@ public class GsMaterialInController {
 		map2.put("gsInCl", CompanyMaterialInCl.class);
 		map2.put("accessory", Accessory.class);
 		JSONObject jsonObject=JSONObject.fromObject(gsclIn);
-		CompanyMateriaIn cm=(CompanyMateriaIn)JSONObject.toBean(jsonObject, CompanyMateriaIn.class,map2);
+		CompanyMateriaIn cm=(CompanyMateriaIn) JSONObject.toBean(jsonObject, CompanyMateriaIn.class,map2);
 		
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
@@ -87,6 +102,7 @@ public class GsMaterialInController {
 		map.put("CompanyMateriaIn", cm);
 		return map;
 	}
+	
 	
 	
 	@RequestMapping("/addGsMaterialInSubmit")//添加提交
@@ -261,11 +277,18 @@ public class GsMaterialInController {
 		return gmService.selectGsClInBytaskNo(no);
 	}
 	
-	@RequestMapping("/selectMateriaOutForEnd")//通过任务单号和结余状态来获取项目材料已收货的所有项目
+	@RequestMapping("/selectMateriaOutForEnd")//通过任务单号和结余状态来获取项目材料已收货的所有项目（项目材料结余）
 	@ResponseBody
 	public List<CompanyMateriaIn> selectMateriaOutForEnd(String taskno,String type){
 		String no="%"+taskno+"%";
 		return gmService.selectMateriaOutForEnd(no,type);
+	}
+	
+	@RequestMapping("/selectGsMateriaOutForEnd")//通过任务单号和remainType!=0获取项目材料已收货的所有项目(公司材料结余)
+	@ResponseBody
+	public List<CompanyMateriaIn> selectGsMateriaOutForEnd(String taskno){
+		String no="%"+taskno+"%";
+		return gmService.selectGsMateriaOutForEnd(no);
 	}
 	
 	

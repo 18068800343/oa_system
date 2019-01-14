@@ -22,8 +22,16 @@ public class CompanyMaterialInCl {
 	private String taskNo;				//任务单号
 	private String demandProject;		//需求项目
 	
+	private outRemain outRemain;
 	
 	
+	
+	public outRemain getOutRemain() {
+		return outRemain;
+	}
+	public void setOutRemain(outRemain outRemain) {
+		this.outRemain = outRemain;
+	}
 	public String getClRemain() {
 		return clRemain;
 	}

@@ -2,17 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.GsMaterialInDao" >
 
+	<select id="getGsMaterialIn" resultType="CompanyMateriaIn">
+		select * from company_material_in where out_state=0 or out_state=3
+	</select>
+
 	<select id="selectGsMaterialIn" resultType="CompanyMateriaIn">
-		select * from company_material_in a
-		left join mode_status m on m.mode_id=a.cm_id
-		where m.status=2 and a.out_state=#{outState}
+		select * from company_material_in where out_state=#{outState}
 	</select>
 	
 	<insert id="addGsMaterialInSave" parameterType="CompanyMateriaIn">
 		insert into company_material_in(cm_id,cg_no,cg_name,task_no,sent_date,collect_person,
 			demand_project,cm_desc,acceptance_opinion,freight,out_state,remain_type)
 		values(#{cm.cmId},#{cm.cgNo},#{cm.cgName},#{cm.taskNo},#{cm.sentDate},#{cm.collectPerson},#{cm.demandProject},
-		#{cm.cmDesc},#{cm.acceptanceOpinion},#{cm.freight},0,0)
+		#{cm.cmDesc},#{cm.acceptanceOpinion},#{cm.freight},#{cm.outState},0)
 	</insert>
 	
 	<update id="updateGsMaterialInSave" parameterType="CompanyMateriaIn">
@@ -34,9 +36,7 @@
 	</select>
 	
 	<select id="selectcgNotaskNoPrjName" resultType="CompanyMateriaIn">
-		select cg_no,cg_name,task_no,demand_project from company_material_in a
-		left join mode_status m on m.mode_id=a.cm_id
-		where m.status=2
+		select cg_no,cg_name,task_no,demand_project from company_material_in 
 	</select>
 	
 	<select id="selecttaskNoPrjNameBycgNo" resultType="CompanyMateriaIn">
@@ -71,6 +71,10 @@
 	
 	<select id="selectMateriaOutForEnd" resultType="CompanyMateriaIn">
 		select * from company_material_in where task_no like #{no} and out_state=1 and get_status=1 and remain_type=#{type}
+	</select>
+	
+	<select id="selectGsMateriaOutForEnd" resultType="CompanyMateriaIn">
+		select * from company_material_in where task_no like #{no} and out_state=1 and get_status=1 and remain_type!=0
 	</select>
 	
 	<update id="updateremainType">

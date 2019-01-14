@@ -841,7 +841,9 @@
 
     var cmId;
 	var sentDate;
+	var tr;
     function openRemain(obj){
+    	tr = $(obj).closest('tr');
 		var tr=$(obj).parent().parent();
 		var data=$("#mainContent").DataTable().row(tr).data();
 		var remainType=data.remainType;
@@ -911,7 +913,8 @@
                 if(json>0){
                 	$("#allMsg1").modal("hide");
                 	toastr.success("结余成功");
-                	location.reload([true]);
+                	//location.reload([true]);
+                	//$('#mainContent').DataTable().row(tr).data(data);//修改行立即显示
                 }else{
                 	toastr.error("结余失败")
                 }
@@ -967,7 +970,7 @@
             	 if(json>0){
 	            	$("#allMsg1").modal("hide");
 	            	toastr.success("结余成功");
-	            	location.reload([true]);
+	            	//location.reload([true]);
 	            }else{
 	            	toastr.error("结余失败")
 	            } 
@@ -1276,7 +1279,9 @@
     
     var jyId;
     var jyDate;
+    var jytr;
     function utilize(obj){
+    	jytr= $(obj).closest('tr');
 		var tr=$(obj).parent().parent();
 		var data=$("#mainContent").DataTable().row(tr).data();
 		jyId=data.cmId;
@@ -1438,6 +1443,7 @@
     				cmoMoney:0,
     				pickDate:undefined,
     				outRemain:undefined,
+    				oldClId:undefined,
     		}
     		clInfo.gsOutId=jyId;
     		clInfo.materialName=clName;
@@ -1450,6 +1456,7 @@
     		clInfo.cmoMoney=Number(outNum)*Number(price);
     		clInfo.pickDate=jyDate;
     		clInfo.outRemain=or;
+    		clInfo.oldClId=clId;
     		clInfoArray.push(clInfo);
     	})
     	/* cMOut.gsClOut=clInfoArray;
@@ -1464,8 +1471,9 @@
             success: function (json) {
             	if(json>0){
             		$("#allMsg3").modal("hide");
-            		location.reload([true]);
+            		//location.reload([true]);
             		toastr.success("提交成功")
+            		$('#mainContent').DataTable().row(jytr).remove().draw(false); //删除行立即显示
             	}else{
             		toastr.error("提交失败")
             	}

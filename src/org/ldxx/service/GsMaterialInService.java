@@ -38,5 +38,9 @@ public interface GsMaterialInService {
 
 	int updateremainType(String id, String type);
 
+	List<CompanyMateriaIn> selectGsMateriaOutForEnd(String no);
+
+	List<CompanyMateriaIn> getGsMaterialIn();
+
 
 }
