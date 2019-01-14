@@ -112,6 +112,12 @@
                         <textarea cols="30" rows="4" class="form-control" id="viewTop" placeholder="" disabled></textarea>
                     </div>
                 </div>
+                <div id="nextBox" hidden="true">
+                    <div id="titles">上一步操作人:<lable id="lastPerson"></lable>&nbsp;&nbsp;意见：↓</div>
+                    <div id="srcontent">
+                        <textarea cols="30" rows="2" class="form-control" id="viewNext" placeholder="" disabled></textarea>
+                    </div>
+                </div>
                 <div id="midBox">
                     <div id="titles">意见</div>
                     <div id="srcontent">
@@ -237,7 +243,7 @@
             "targets": 4,
             "searchable": false,
             "render": function (data, type, full) {
-                return '<i class="iconfont icon-yewubanli Paaa" name="mode" data-wfstate="'+full.wfstate+'" data-cNodeId="'+full.id+'"  data-id="'+data+'" data-params="'+full.params+'" data-step="'+full.step+'"  data-edit="'+full.editOrView+'" data-flowNodeLast="'+full.flowNodeLast+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
+                return '<i class="iconfont icon-yewubanli Paaa" name="mode" data-wfstate="'+full.wfstate+'" data-flowLast="'+full.flowNodeLast+'" data-lastPerson="'+full.lastPerson+'" data-lastView = "'+full.lastView+'" data-cNodeId="'+full.id+'"  data-id="'+data+'" data-params="'+full.params+'" data-step="'+full.step+'"  data-edit="'+full.editOrView+'" data-flowNodeLast="'+full.flowNodeLast+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
             }
         }], 
         "order": [[1, 'asc']],
@@ -292,7 +298,9 @@
         	var step = $(this).attr("data-step");
         	var cNodeId = $(this).attr("data-cNodeId"); 
         	var wfstate = $(this).attr("data-wfstate");  
-        	
+        	var flowLast = $(this).attr("data-flowLast");
+        	var lastPerson = $(this).attr("data-lastPerson");
+        	var lastView = $(this).attr("data-lastView");
         	if(wfstate=='1'){
         		$("#midBox").hide();
         		$("#tjButtons").hide();
@@ -302,13 +310,23 @@
         		$("#tjButtons").show();
         		$("#shanchu").hide();
         	}
-        	
         	page_step = step;
         	if(params.indexOf("{'cs':'1'}")!=-1||params==''||params==null){
         		$("#topBox").hide();
         	}else{
         		$("#viewTop").text(params);
         		$("#topBox").show();
+        	}
+        	if(flowLast==''||flowLast==null||lastPerson==null||lastPerson==""){
+        		$("#nextBox").hide();
+        	}else{
+        		$("#lastPerson").empty();
+        		$("#lastPerson").append(lastPerson);
+        		if(lastView==null||lastView==''||lastView=='null'){
+        			lastView='';
+        		}
+        		$("#viewNext").text(lastView);
+        		$("#nextBox").show();
         	}
         	page_flowNodeLast =  $(this).attr("data-flowNodeLast");
         	page_url=data_id;
