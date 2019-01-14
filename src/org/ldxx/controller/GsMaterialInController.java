@@ -245,6 +245,12 @@ public class GsMaterialInController {
 		return gmService.selectAllXmReceivedGoods();
 	}
 	
+	@RequestMapping("/selectAlearyRemain")//获取已结余的所有项目信息
+	@ResponseBody
+	public List<CompanyMateriaIn> selectAlearyRemain(){
+		return gmService.selectAlearyRemain();
+	}
+	
 	
 	@RequestMapping("/selectGsClInBytaskNo")//通过任务单号查找材料信息
 	@ResponseBody

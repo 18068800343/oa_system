@@ -42,5 +42,7 @@ public interface GsMaterialInService {
 
 	List<CompanyMateriaIn> getGsMaterialIn();
 
+	List<CompanyMateriaIn> selectAlearyRemain();
+
 
 }

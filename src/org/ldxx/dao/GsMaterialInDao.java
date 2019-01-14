@@ -37,6 +37,8 @@ public interface GsMaterialInDao {
 
 	List<CompanyMateriaIn> getGsMaterialIn();
 
+	List<CompanyMateriaIn> selectAlearyRemain();
+
 
 
 }

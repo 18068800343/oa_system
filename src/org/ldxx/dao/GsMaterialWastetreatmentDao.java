@@ -10,7 +10,7 @@ public interface GsMaterialWastetreatmentDao {
 
 	int addGsMaterialWastetreatmentSave(@Param("mw")GsMaterialWastetreatment mw);
 
-	List<GsMaterialWastetreatment> selectGsMaterialWastetreatment(@Param("type")String type,@Param("status")String status);
+	List<GsMaterialWastetreatment> selectGsMaterialWastetreatment(@Param("type")String type);
 
 	int addGsMaterialWastetreatmentCl(@Param("cl")List<GsMaterialWastetreatmentCl> cl);
 

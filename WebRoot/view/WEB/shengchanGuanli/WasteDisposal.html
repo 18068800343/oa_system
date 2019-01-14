@@ -54,14 +54,14 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL" style="font-size:18px;">
-                <form class="form-inline" style="font-size:18px;">
+                <!-- <form class="form-inline" style="font-size:18px;">
                     <label>状态筛选:</label>
                     <select class="zhuangtai form-control">
                         <option>审批通过</option>
                         <option>审批中</option>
                         <option>审批未通过</option>
                     </select>
-                </form>
+                </form> -->
             </div>
             <div class="UpperPartR">
                 <button type="button" class="btn btn-primary Pedbda" data-toggle="modal" data-target="#myModal">填报</button>
@@ -126,16 +126,17 @@
                         <table class="table table-bordered table-condensed"  id="waste_table">
                         	<thead>
                         		<tr>
-                        			<th style="width:12%;">材料名称</th>
+                        			<th style="width:10%;">材料名称</th>
                         			<th style="width:10%;">材料类型</th>
                         			<th style="width:10%;">规格型号</th>
-                        			<th style="width:8%;">单位</th>
-                        			<th style="width:8%;">处理数量</th>
-                        			<th style="width:8%;">采购单价</th>
-                        			<th style="width:9%;">金额</th>
-                        			<th style="width:14%;">拟折价出售金额</th>
-                        			<th style="width:15%;">实际折价出售金额</th>
-                        			<th style="width:7%;">操作</th>
+                        			<th style="width:10%;">单位</th>
+                        			<th style="width:10%;">库存数量</th>
+                        			<th style="width:10%;">单价</th>
+                        			<!-- <th style="width:9%;">金额</th> -->
+                        			<th style="width:10%;">处理数量</th>
+                        			<th style="width:10%;">拟折价出售金额</th>
+                        			<th style="width:10%;">实际折价出售金额</th>
+                        			<th style="width:10%;">操作</th>
                         		</tr>
                         	</thead>
                         	<tbody></tbody>
@@ -564,7 +565,7 @@
 		"columns": [
 					{ "data": null},
 		            { "data": "taskNo"},
-		            { "data": "pickProject"},
+		            { "data": "demandProject"},
 		            { "data": "cgNo"},
 		            { "data": "cgName"},
 		            
@@ -603,7 +604,7 @@
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 5,
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -652,7 +653,6 @@
             url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatment',
             dataType: 'json',
             data: {
-            	status:2,
             	type:0
             },
             success: function (json) {
@@ -663,7 +663,7 @@
     }
 	
 	//初始化
-    $(".zhuangtai").change(function(){
+    /* $(".zhuangtai").change(function(){
         var zt=$(".zhuangtai").val();
         if(zt=="审批中"){
         	$.ajax({
@@ -722,18 +722,16 @@
                 }
             });
         }
-    })
+    }) */
 	
 	//选择项目
 	$("#chosexm").click(function(){
 		$("#xiangmumd").modal("show");
 		 $.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/GsMaterialRemain/selectGsMaterialRemain',
+	            url: getContextPath()+'/gsMaterialIn/selectAlearyRemain',
 	            dataType: 'json',
-	            async:false,
 	            data: {
-	            	remainType:1
 	            },
 	            success: function (json) {
 	            	//console.log(json)
@@ -743,26 +741,14 @@
 	        });
 	})
 	$("#quedingxm").click(function(){
-		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
-		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
-		$("#prjName").val(prjname);
-		$("#prjNo").val(prjNo);
+		/* var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text(); */
+		var tr=$("input[name='xiangmuName']:checked").parents("tr");
+	   	var data=$("#xiangmubiao").DataTable().row(tr).data();
+		$("#prjName").val(data.demandProject);
+		$("#prjNo").val(data.taskNo);
 		$("#xiangmumd").modal("hide");
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/GsMaterialRemain/selectGsMaterialRemainByname',
-            dataType: 'json',
-            data: {
-            	remainType:1,
-            	name:$('#prjName').val()
-            },
-            success: function (json) {
-            	for(var i=0;i<json.length;i++){
-            		initClBy(json[i].cmoId)
-            	}
-            }
-  		});
-		
+		initClBy(data.cmId)
 	})
 	
 	
@@ -770,55 +756,34 @@
     function initSelectPrj(){
 		$.ajax({
         type: 'POST',
-        url: getContextPath()+'/GsMaterialRemain/selectGsMaterialRemain',
+        url: getContextPath()+'/gsMaterialIn/selectAlearyRemain',
         dataType: 'json',
         data: {
-        	remainType:1
         },
         error: function (msg) {
         	toastr.error("请求失败");
         },
         success: function (json) {
-        	console.log(json)
-        	$("#prjName").html('');
+        	//$("#prjName").html('');
         	$("#prjNo").html('');
         	for(var i=0;i<json.length;i++){
         		//$("#prjName").append("<option value="+json[i].pickProject+">"+json[i].pickProject+"</option>");
         		$("#prjNo").append("<option value="+json[i].taskNo+">"+json[i].taskNo+"</option>");
         	}
-        	
-        	/* $('#prjName').editableSelect().on('select.editable-select', function (e, dom) {
-        		$.ajax({
-                    type: 'POST',
-                    url: getContextPath()+'/GsMaterialRemain/selectGsMaterialRemainByname',
-                    dataType: 'json',
-                    data: {
-                    	remainType:1,
-                    	name:$('#prjName').val()
-                    },
-                    success: function (json) {
-                    	$("#prjNo").empty();
-                    	for(var i=0;i<json.length;i++){
-                    		$("#prjNo").val(json[i].taskNo)
-                    		initClBy(json[i].cmoId)
-                    	}
-                    }
-          		});
-          	}) */
           	$('#prjNo').editableSelect().on('select.editable-select', function (e, dom) {
         		$.ajax({
                     type: 'POST',
-                    url: getContextPath()+'/GsMaterialRemain/selectGsMaterialRemainByno',
+                    url: getContextPath()+'/gsMaterialIn/selectMateriaOutForEnd',
                     dataType: 'json',
                     data: {
-                    	remainType:1,
-                    	no:$('#prjNo').val()
+                    	taskno:$('#prjNo').val(),
+                    	type:"2"
                     },
                     success: function (json) {
                     	$("#prjName").empty();
                     	for(var i=0;i<json.length;i++){
-                    		$("#prjName").val(json[i].pickProject);
-                    		initClBy(json[i].cmoId)
+                    		$("#prjName").val(json[i].demandProject);
+                    		initClBy(json[i].cmId)
                     	}
                     }
           		});
@@ -837,22 +802,22 @@
             	id:obj
             },
             success: function (json) {
-            	console.log(json);
             	$("#waste_table tbody").html('');
-            	if(json.length!=0){
+            	if(json!=null&&json.length>0){
 	            	for(var i=0;i<json.length;i++){
 	                    	$("#waste_table tbody").append("<tr>"+
-	                    														"<td>"+json[i].materialName+"</td>"+
-	                    														"<td>"+json[i].materialType+"</td>"+
-	                    														"<td>"+json[i].specificationModel+"</td>"+
-	                    														"<td>"+json[i].cmoUnit+"</td>"+
-	                    														"<td>"+json[i].remainNumber+"</td>"+
-	                    														"<td>"+json[i].cmoUnitPrice+"</td>"+
-	                    														"<td>"+Number(json[i].remainNumber)*Number(json[i].cmoUnitPrice)+"</td>"+
-	                    														"<td><input type='text' class='form-control' data="+json[i].crId+"></td>"+
-	                    														"<td><input type='text' class='form-control'></td>"+
-	                    														"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
-	                    													"</tr>");
+  														"<td>"+json[i].materialName+"</td>"+
+  														"<td>"+json[i].materialType+"</td>"+
+  														"<td>"+json[i].specificationModel+"</td>"+
+  														"<td>"+json[i].cmoUnit+"</td>"+
+  														"<td>"+json[i].remainNumber+"</td>"+
+  														"<td>"+json[i].cmoUnitPrice+"</td>"+
+  														/* "<td>"+Number(json[i].remainNumber)*Number(json[i].cmoUnitPrice)+"</td>"+ */
+  														"<td><input type='text' class='form-control' data="+json[i].crId+"></td>"+
+  														"<td><input type='text' class='form-control'></td>"+
+  														"<td><input type='text' class='form-control'></td>"+
+  														"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
+  													"</tr>");
 	            	}
             	}else{
             		$("#waste_table tbody").append("<tr><td colspan='9' style='text-align:center;color:red;font-size:24px'>材料为空<td></tr>")
@@ -1021,26 +986,32 @@
 			var materialType=$(this).find("td").eq(1).text();
 			var materialModel=$(this).find("td").eq(2).text();
 			var cmoUnit=$(this).find("td").eq(3).text();
-			var wasteNum=$(this).find("td").eq(4).text();
+			var oldNum=$(this).find("td").eq(4).text();
 			var cmoUnitPrice=$(this).find("td").eq(5).text();
-			var wasteMoney=$(this).find("td").eq(6).text();
-			var wasteWantMoney=$(this).find("input").eq(0).val();
-			var gsId=$(this).find("input").eq(0).attr("data");
-			var wasteActualMoney=$(this).find("input").eq(1).val();
+			var wasteNum=$(this).find("td").eq(6).find("input").val();//处理数量
+			var gsId=$(this).find("td").eq(6).find("input").attr("data");
+			var wasteWantMoney=$(this).find("td").eq(7).find("input").val();
+			var wasteActualMoney=$(this).find("td").eq(8).find("input").val();
+			var wasteMoney=Number(wasteNum)*Number(cmoUnitPrice)
 			var reg=/^\+?[1-9][0-9]*$/;
+			if(wasteNum/1>oldNum/1){
+    			toastr.error("处理数量不能大于库存数量")
+        		return false;
+    		}
     		if(!reg.test(wasteWantMoney)){
     			toastr.error("请输入拟折价出售金额")
-        		return;
+        		return false;
     		}
     		if(!reg.test(wasteActualMoney)){
     			toastr.error("请输入实际折价出售金额")
-        		return;
+        		return false;
     		}
     		var oRemain={
     				id:undefined,
     				remain:0
     		}
     		oRemain.id=gsId;
+    		oRemain.remain=Number(oldNum)-Number(wasteNum);
     		oRemainArray.push(oRemain);
 			var gmwCl={
 					cwmclId:undefined,		
@@ -1131,13 +1102,18 @@
 			var materialType=$(this).find("td").eq(1).text();
 			var materialModel=$(this).find("td").eq(2).text();
 			var cmoUnit=$(this).find("td").eq(3).text();
-			var wasteNum=$(this).find("td").eq(4).text();
+			var oldNum=$(this).find("td").eq(4).text();
 			var cmoUnitPrice=$(this).find("td").eq(5).text();
-			var wasteMoney=$(this).find("td").eq(6).text();
-			var wasteWantMoney=$(this).find("input").eq(0).val();
-			var gsId=$(this).find("input").eq(0).attr("data");
-			var wasteActualMoney=$(this).find("input").eq(1).val();
+			var wasteNum=$(this).find("td").eq(6).find("input").val();//处理数量
+			var gsId=$(this).find("td").eq(6).find("input").attr("data");
+			var wasteWantMoney=$(this).find("td").eq(7).find("input").val();
+			var wasteActualMoney=$(this).find("td").eq(8).find("input").val();
+			var wasteMoney=Number(wasteNum)*Number(cmoUnitPrice)
 			var reg=/^\+?[1-9][0-9]*$/;
+			if(wasteNum/1>oldNum/1){
+    			toastr.error("处理数量不能大于库存数量")
+        		return false;
+    		}
     		if(!reg.test(wasteWantMoney)){
     			toastr.error("请输入拟折价出售金额")
         		return;
@@ -1151,6 +1127,7 @@
     				remain:0
     		}
     		oRemain.id=gsId;
+    		oRemain.remain=Number(oldNum)-Number(wasteNum);
     		oRemainArray.push(oRemain);
 			var gmwCl={
 					cwmclId:undefined,		
@@ -1177,7 +1154,7 @@
 		})
 		gmw.gsMaterialWastetreatmentCl=gmwClArray;
 		gmw.oRemain=oRemainArray;
-		
+		console.log(gmw)
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/GsMaterialWaste/addGsMaterialWastetreatmentSubmit',
@@ -1185,55 +1162,16 @@
             contentType:'application/json',
             data: JSON.stringify(gmw),
             success: function (json) {
-            	if(json=='0'){
-	        		toastr.error("保存失败");
-	        	}else{
-	        		$("#myModal").modal("hide");
-	        		lianjie=json.url;
-	            	if(json.receiver!=null&&json.receiver.length>=1){
-		        		  $("#tijiaogei").modal('show');
-		        		  $("#tijiaoren tbody").empty("");
-		        		  for(var i=0;i<json.receiver.length;i++){
-		        			  $("#tijiaoren tbody").append('<tr><td>'
-		        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
-		        					  +'</td><td>'
-		        					  +json.receiver[i].omName
-		        					  +'</td><td>'
-		        					  +json.receiver[i].dutyName
-		        					  +'</td><td>'
-		        					  +json.receiver[i].uName
-		        					  +'</td></tr>');
-		        		  }
-		        	  }else if(json.receiver.length==1){
-		        		  $.ajax({
-		        	          type: 'POST',
-		        	          url: getContextPath()+'/task/addTask4',
-		        	          dataType: 'json',
-		        	          data:{
-		        	        	  url:json.url,
-		        	        	  userId:json.receiver.userId,
-		        	        	  uName:json.receiver.uName,
-		        	        	  omName:json.receiver.omName,
-		        	        	  dutyName:json.receiver.dutyName,
-		        	        	  omId:json.receiver.omId,
-		        	        	  dutyId:json.receiver.dutyId
-		        	          },
-		        	          success: function (json) {
-		        	        	  toastr.success('提交成功');
-		        	          }
-		        	      }); 
-		        	  }
-	        	}
-               /*  console.log(json)
+               console.log(json)
                 if(json.result>0){
                 	toastr.success("添加成功")
                 	$("#myModal").modal('hide')
         	    	$('#mainContent').DataTable().row.add(json.GsMaterialWastetreatment).draw(false);     //新增行立即显示
                 }else{
                 	toastr.error("添加失败")
-                } */
+                } 
             }
-        });
+        }); 
 	}
 	
 	function submitPerson(){
