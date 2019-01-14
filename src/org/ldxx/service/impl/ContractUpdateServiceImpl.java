@@ -53,7 +53,7 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 			cu.setMoney(task.get(ii).getMainDepartmentMoney());
 			cu.setTime(year);
 			cuList.add(cu);
-			if(task.get(ii).getAssistDepartment1()!=""&&task.get(ii).getAssistDepartment1()!=null){
+			if(!task.get(ii).getAssistDepartment1().equals("")&&task.get(ii).getAssistDepartment1()!=null){
 				ContractUpdate cu2=new ContractUpdate();
 				cu2.setPrjNo(task.get(ii).getPrjNo());
 				cu2.setDept(task.get(ii).getAssistDepartment1());
@@ -61,7 +61,7 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 				cu2.setTime(year);
 				cuList.add(cu2);
 			}
-			if(task.get(ii).getAssistDepartment2()!=""&&task.get(ii).getAssistDepartment2()!=null){
+			if(!task.get(ii).getAssistDepartment2().equals("")&&task.get(ii).getAssistDepartment2()!=null){
 				ContractUpdate cu3=new ContractUpdate();
 				cu3.setPrjNo(task.get(ii).getPrjNo());
 				cu3.setDept(task.get(ii).getAssistDepartment2());
@@ -69,7 +69,7 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 				cu3.setTime(year);
 				cuList.add(cu3);
 			}
-			if(task.get(ii).getAssistDepartment3()!=""&&task.get(ii).getAssistDepartment3()!=null){
+			if(!task.get(ii).getAssistDepartment3().equals("")&&task.get(ii).getAssistDepartment3()!=null){
 				ContractUpdate cu4=new ContractUpdate();
 				cu4.setPrjNo(task.get(ii).getPrjNo());
 				cu4.setDept(task.get(ii).getAssistDepartment3());
