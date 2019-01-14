@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../font3/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <style lang="">
@@ -88,15 +89,15 @@
                             <tr>
                                 <td>任务单号 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                	<select class="form-control" style="width:66%;" id="prj_no">
-                                    	
-                                    </select>
+                                	<!-- <select class="form-control" style="width:66%;" id="prj_no">
+                                    </select> -->
+                                    <input type="text" class="form-control" style="width:66%;" id="prj_no" disabled>
                                 </td>
                                 <td>项目名称 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                	<select class="form-control" style="width:80%;" id="prj_name">
-                                    	
-                                    </select>
+                                	<!-- <select class="form-control" style="width:80%;" id="prj_name">
+                                    </select> -->
+                                    <input type="text" class="form-control" style="width:80%;" id="prj_name" disabled>
                                 </td>
                             </tr>
                             <tr>
@@ -135,9 +136,9 @@
                         			<th style="width:10%;">材料类型</th>
                         			<th style="width:10%;">规格型号</th>
                         			<th style="width:8%;">单位</th>
+                        			<th style="width:8%;">库存数量</th>
+                        			<th style="width:8%;">单价</th>
                         			<th style="width:8%;">处理数量</th>
-                        			<th style="width:8%;">采购单价</th>
-                        			<th style="width:9%;">采购金额</th>
                         			<th style="width:14%;">拟折价出售金额</th>
                         			<th style="width:15%;">实际折价出售金额</th>
                         			<th style="width:7%;">操作</th>
@@ -625,7 +626,7 @@
             { "data": null}, 
             { "data": "cgName"},
             { "data": "cgNo"}, 
-            { "data": "pickProject"}, 
+            { "data": "demandProject"}, 
             { "data": "taskNo"}
         ],
         "columnDefs": [
@@ -662,7 +663,7 @@
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 5,
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -732,7 +733,6 @@
             data: {
             },
             success: function (json) {
-            	console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
@@ -796,7 +796,7 @@
 	function choose_cg(){
 	    	 $.ajax({
 		            type: 'POST',
-		          	url: getContextPath()+'/gsMaterialOut/selectCgIdAndName',
+		          	url: getContextPath()+'/gsMaterialIn/selectAllXmReceivedGoods',
 		            dataType: 'json',
 		            async:false,
 		            data: {
@@ -823,27 +823,9 @@
 	   	}
 	  	$("#cg_name").val(data.cgName);
 	  	$("#cg_no").val(data.cgNo);
-	  	$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/gsMaterialOut/selectCgListByName',
-            dataType: 'json',
-            data: {
-            	name:$('#cg_name').val()
-            },
-            success: function (json) {
-            	var cg=json.cg;
-            	var cm=json.cm;
-            	$("#prj_name").html('');
-            	$("#prj_no").html('');
-            	for(var i=0;i<cm.length;i++){
-            		$("#prj_name").append("<option value="+cm[i].pickProject+">"+cm[i].pickProject+"</option>")
-            		$("#prj_no").append("<option value="+cm[i].taskNo+">"+cm[i].taskNo+"</option>")
-            	}
-            	$("#prj_name").trigger("change");
-            	$("#prj_no").trigger("change");
-            }
-  		});
-	  	
+	  	$("#prj_name").val(data.demandProject);
+		$("#prj_no").val(data.taskNo);
+		initMaterial($("#prj_no").val());
 	  	$("#choose_cg").modal("hide");
 	}
 	
@@ -851,7 +833,7 @@
     function initSelectCG(){ 
 		$.ajax({
         type: 'POST',
-        url: getContextPath()+'/gsMaterialOut/selectCgIdAndName',
+        url: getContextPath()+'/gsMaterialIn/selectAllXmReceivedGoods',
         dataType: 'json',
         data: {
         },
@@ -870,139 +852,98 @@
         	$('#cg_no').editableSelect().on('select.editable-select', function (e, dom) {
         		$.ajax({
                     type: 'POST',
-                    url: getContextPath()+'/gsMaterialOut/selectCgListByNo',
+                    url: getContextPath()+'/gsMaterialIn/selecttaskNoPrjNameBycgNo',
                     dataType: 'json',
                     data: {
-                    	no:$('#cg_no').val()
+                    	cgNo:$('#cg_no').val()
                     },
                     success: function (json) {
-                    	console.log(json)
-                    	var cg=json.cg;
-                    	var cm=json.cm;
-                    	$("#cg_name").val(cg[0].contractName);
-                    	$("#prj_name").html('');
-                    	$("#prj_no").html('');
-                    	for(var i=0;i<cm.length;i++){
-                    		$("#prj_name").append("<option value="+cm[i].pickProject+">"+cm[i].pickProject+"</option>")
-                    		$("#prj_no").append("<option value="+cm[i].taskNo+">"+cm[i].taskNo+"</option>")
+                    	for(var i=0;i<json.length;i++){
+	                    	$("#cg_name").val(json[i].cgName);
+	                    	$("#prj_name").val(json[i].demandProject);
+	                		$("#prj_no").val(json[i].taskNo);
                     	}
-                    	$("#prj_name").trigger("change");
-                    	$("#prj_no").trigger("change");
+                    	initMaterial($("#prj_no").val());
                     }
           		});
           	})
-          	/* $('#cg_name').editableSelect().on('select.editable-select', function (e, dom) {
-        		$.ajax({
-                    type: 'POST',
-                    url: getContextPath()+'/gsMaterialOut/selectCgListByName',
-                    dataType: 'json',
-                    data: {
-                    	name:$('#cg_name').val()
-                    },
-                    success: function (json) {
-                    	var cg=json.cg;
-                    	var cm=json.cm;
-                    	$("#cg_no").val(cg[0].cgNo);
-                    	$("#prj_name").html('');
-                    	$("#prj_no").html('');
-                    	for(var i=0;i<cm.length;i++){
-                    		$("#prj_name").append("<option value="+cm[i].pickProject+">"+cm[i].pickProject+"</option>")
-                    		$("#prj_no").append("<option value="+cm[i].taskNo+">"+cm[i].taskNo+"</option>")
-                    	}
-                    	$("#prj_name").trigger("change");
-                    	$("#prj_no").trigger("change");
-                    }
-          		});
-          	}) */
           	 
         }
 		});
 	}
 	
-    $("#prj_name").on("change",function(){
-    	$.ajax({
+	function initMaterial(obj){
+		$.ajax({
             type: 'POST',
-            url: getContextPath()+'/gsMaterialOut/selectPrjNoAndCl',
+            url: getContextPath()+'/gsMaterialIn/selectGsClInBytaskNo',
             dataType: 'json',
             data: {
-            	name:$('#prj_name').val(),
-            	cgNo:$('#cg_no').val(),
-            	cgName:$('#cg_name').val()
+            	no:obj
             },
             success: function (json) {
-            	var cm=json.cm;
-            	var gc=json.gc;
-            	$("#prj_no").val(cm.taskNo);
             	$("#waste_table tbody").html('');
-            	for(var i=0;i<gc.length;i++){
-            		if(gc[i].remainNumber>0){
-		            	$("#waste_table tbody").append("<tr>"+
-		            														"<td>"+gc[i].materialName+"</td>"+
-		            														"<td>"+gc[i].materialType+"</td>"+
-		            														"<td>"+gc[i].specificationModel+"</td>"+
-		            														"<td>"+gc[i].cmoUnit+"</td>"+
-		            														"<td>"+gc[i].remainNumber+"</td>"+
-		            														"<td>"+gc[i].cmoUnitPrice+"</td>"+
-		            														"<td>"+Number(gc[i].remainNumber)*Number(gc[i].cmoUnitPrice)+"</td>"+
-		            														"<td><input type='text' class='form-control' data="+gc[i].gsId+"></td>"+
-		            														"<td><input type='text' class='form-control'></td>"+
-		            													"</tr>");
-            		}
+            	if(json!=null&&json.length>0){
+            		for(var i=0;i<json.length;i++){
+            			$("#waste_table tbody").append("<tr><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" disabled data-id='+json[i].clId+' value='+json[i].clName+' style="width:100%;">'
+          		  				+"</td><td style='width:5%;'>"
+          		  				+'<select style="width:100px;" class="form-control" disabled id="cl_type'+i+'"></select>'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" disabled value='+json[i].clMode+' style="width:100%;">' 
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<select class="form-control" disabled  id=cl_danwei'+i+'>'
+											+'<option value="个">个</option>'
+											+'<option value="只">只</option>'
+											+'<option value="套">套</option>'
+											+'<option value="副">副</option>'
+											+'<option value="双">双</option>'
+											+'<option value="元">元</option>'
+											+'<option value="桶">桶</option>'
+										+'</select>'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" disabled value='+json[i].clRemain+' style="width:100%;">'
+	      		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" disabled value='+json[i].clPrice+'  style="width:80%;">'
+          		  				+"</td><td style='width:7%;'>"
+	          		  			+'<input type="text" class="form-control"  style="width:100%;">'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control" style="width:100%;">'
+          		  				+"</td><td style='width:7%;'>"
+          		  				+'<input type="text" class="form-control"  style="width:100%;">'
+		  		  				+"</td><td style='width:7%;'>"
+          		  				+'<button type="button" class="btn btn-primary" onclick="removeThis(this)">删除</button>'
+          		  				+"</td></tr>")
+          		  				initClType(json[i].clType,i);
+                  				$("#cl_danwei"+i).val(json[i].clUnit);
+                	} 
+            		$("#wasteDisposeSubmit").attr("disabled",false);
+            	}else{
+            		$("#wasteDisposeSubmit").attr("disabled",true);
+            		$("#waste_table tbody").append("<tr><td colspan='9' style='text-align:center;color:red;font-size:24px'>材料为空</td></tr>")
             	}
-            	var length=$("#waste_table tbody").find("tr").length;
-        		if(length==0){
-        			$("#wasteDispose").attr("disabled",true);
-        			$("#wasteDisposeSubmit").attr("disabled",true)
-        		}else{
-        			$("#wasteDispose").attr("disabled",false);
-        			$("#wasteDisposeSubmit").attr("disabled",false)
-        		}
             }
   		});
-    })
-    
-    $("#prj_no").on("change",function(){
+	}
+	function initClType(obj1,obj2){
     	$.ajax({
             type: 'POST',
-            url: getContextPath()+'/gsMaterialOut/selectPrjNameAndCl',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
             dataType: 'json',
             data: {
-            	no:$('#prj_no').val(),
-            	cgNo:$('#cg_no').val(),
-            	cgName:$('#cg_name').val()
             },
             success: function (json) {
-            	var cm=json.cm;
-            	var gc=json.gc;
-            	$("#prj_name").val(cm.pickProject)
-            	$("#waste_table tbody").html('');
-            	for(var i=0;i<gc.length;i++){
-            		if(gc[i].remainNumber>0){
-		            	$("#waste_table tbody").append("<tr>"+
-		            														"<td>"+gc[i].materialName+"</td>"+
-		            														"<td>"+gc[i].materialType+"</td>"+
-		            														"<td>"+gc[i].specificationModel+"</td>"+
-		            														"<td>"+gc[i].cmoUnit+"</td>"+
-		            														"<td>"+gc[i].remainNumber+"</td>"+
-		            														"<td>"+gc[i].cmoUnitPrice+"</td>"+
-		            														"<td>"+Number(gc[i].remainNumber)*Number(gc[i].cmoUnitPrice)+"</td>"+
-		            														"<td><input type='text' class='form-control' data="+gc[i].gsId+"></td>"+
-		            														"<td><input type='text' class='form-control'></td>"+
-		            														"<td><button type='button' class='btn btn-default' onclick='removeThis(this)'>移除</button></td>"+
-		            													"</tr>");
-            		}
+            	$("#cl_type"+obj2).empty();
+            	$("#xgcl_type"+obj2).empty();
+            	for(var i=0;i<json.length;i++){
+            		$("#cl_type"+obj2).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            		$("#xgcl_type"+obj2).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
             	}
-            	var length=$("#waste_table tbody").find("tr").length;
-        		if(length==0){
-        			$("#wasteDispose").attr("disabled",true);
-        			$("#wasteDisposeSubmit").attr("disabled",true)
-        		}else{
-        			$("#wasteDispose").attr("disabled",false);
-        			$("#wasteDisposeSubmit").attr("disabled",false)
-        		}
+            	$("#cl_type"+obj2).val(obj1)
+            	$("#xgcl_type"+obj2).val(obj1)
             }
   		});
-    })
+    }
+	
     
     function removeThis(obj){
 		var tr=$(obj).parent().parent();
@@ -1248,30 +1189,37 @@
 		var WasteDisposeClArray=new Array();
 		var oRemainArray=new Array();
 		$("#waste_table tbody").find("tr").each(function(){
-			var materialName=$(this).find("td").eq(0).text();
-			var materialType=$(this).find("td").eq(1).text();
-			var specificationModel=$(this).find("td").eq(2).text();
-			var cmoUnit=$(this).find("td").eq(3).text();
-			var wasteNum=$(this).find("td").eq(4).text();
-			var cmoUnitPrice=$(this).find("td").eq(5).text();
-			var wasteMoney=$(this).find("td").eq(6).text();
-			var wasteWantMoney=$(this).find("input").eq(0).val();
-			var gsId=$(this).find("input").eq(0).attr("data");
-			var wasteActualMoney=$(this).find("input").eq(1).val();
+			var gsId=$(this).find("td").eq(0).find("input").attr("data-id");
+			var materialName=$(this).find("td").eq(0).find("input").val();
+			var materialType=$(this).find("td").eq(1).find("option:selected").val();
+			var specificationModel=$(this).find("td").eq(2).find("input").val();
+			var cmoUnit=$(this).find("td").eq(3).find("option:selected").val();
+			var oldNum=$(this).find("td").eq(4).find("input").val();
+			var cmoUnitPrice=$(this).find("td").eq(5).find("input").val();
+			var wasteNum=$(this).find("td").eq(6).find("input").val();
+			var wasteMoney=Number(wasteNum)*Number(cmoUnitPrice)
+			var wasteWantMoney=$(this).find("td").eq(7).find("input").val();
+			var wasteActualMoney=$(this).find("td").eq(8).find("input").val();
 			var reg=/^\+?[1-9][0-9]*$/;
+			
+			if(wasteNum/1>oldNum/1){
+    			toastr.error("处理数量不能大于库中数量")
+        		return false;
+    		}
     		if(!reg.test(wasteWantMoney)){
     			toastr.error("请输入拟折价出售金额")
-        		return;
+        		return false;
     		}
     		if(!reg.test(wasteActualMoney)){
     			toastr.error("请输入实际折价出售金额")
-        		return;
-    		}
+        		return false;
+    		} 
     		var oRemain={
     				id:undefined,
     				remain:0
     		}
     		oRemain.id=gsId;
+    		oRemain.remain=Number(oldNum/1)-Number(wasteNum/1);
     		oRemainArray.push(oRemain);
 			var WasteDisposeCl={
 					wpId:undefined,		
@@ -1298,6 +1246,7 @@
 		})
 		WasteDispose.wdc=WasteDisposeClArray;
 		WasteDispose.oRemain=oRemainArray;
+		console.log(WasteDispose)
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/wd/addWasteDisposeSubmit',
@@ -1305,54 +1254,16 @@
             contentType:'application/json',
             data:JSON.stringify(WasteDispose),
             success: function (json) {
-            	if(json=='0'){
-	        		toastr.error("保存失败");
-	        	}else{
-	        		$("#myModal").modal("hide");
-	        		lianjie=json.url;
-	            	if(json.receiver!=null&&json.receiver.length>=1){
-		        		  $("#tijiaogei").modal('show');
-		        		  $("#tijiaoren tbody").empty("");
-		        		  for(var i=0;i<json.receiver.length;i++){
-		        			  $("#tijiaoren tbody").append('<tr><td>'
-		        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
-		        					  +'</td><td>'
-		        					  +json.receiver[i].omName
-		        					  +'</td><td>'
-		        					  +json.receiver[i].dutyName
-		        					  +'</td><td>'
-		        					  +json.receiver[i].uName
-		        					  +'</td></tr>');
-		        		  }
-		        	  }else if(json.receiver.length==1){
-		        		  $.ajax({
-		        	          type: 'POST',
-		        	          url: getContextPath()+'/task/addTask4',
-		        	          dataType: 'json',
-		        	          data:{
-		        	        	  url:json.url,
-		        	        	  userId:json.receiver.userId,
-		        	        	  uName:json.receiver.uName,
-		        	        	  omName:json.receiver.omName,
-		        	        	  dutyName:json.receiver.dutyName,
-		        	        	  omId:json.receiver.omId,
-		        	        	  dutyId:json.receiver.dutyId
-		        	          },
-		        	          success: function (json) {
-		        	        	  toastr.success('提交成功');
-		        	          }
-		        	      }); 
-		        	  }
-	        	}
-                /* if(json>0){
+            	if(json.result>0){
                 	$("#myModal").modal("hide");
-                	location.reload([true]);
+                	//location.reload([true]);
                 	toastr.success("提交成功");
+                	$('#mainContent').DataTable().row.add(json.WasteDispose).draw(false);//新增行立即显示
                 }else{
                 	toastr.error("提交失败")
-                } */
+                }
             }
-        });
+        }); 
 		
 	})
 	

@@ -1,7 +1,9 @@
 package org.ldxx.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -58,93 +60,27 @@ public class WasteDisposeController {
 	
 	@RequestMapping("/addWasteDispose")
 	@ResponseBody
-	public int addWasteDispose(@RequestBody WasteDispose wd,HttpSession session){
+	public Map<String,Object> addWasteDispose(@RequestBody WasteDispose wd,HttpSession session){
+		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		wd.setWpId(id);
 		int i=service.addWasteDispose(wd);
-		if(i>0){
-			Task task = tService.selectTaskPrjName(wd.getTaskNo());
-			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
-			String omNo=om.getOmNo();
-			String string="";
-			User user = (User) session.getAttribute("user");
-			FlowUtill flowUtill = new FlowUtill();
-			CurrentFlow currentFlow = new CurrentFlow();
-			currentFlow.setParams("1");
-			currentFlow.setTitle(wd.getPickProject()+"项目材料废旧品申请");
-			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getuName());;
-			currentFlow.setMemo(wd.getPickProject()+"项目材料废旧品申请流程发起");
-			currentFlow.setUrl("shengchanguanliLook/WasteDisposalXM.html-"+id);
-			currentFlow.setParams("{'cs':'1'}");
-			currentFlow.setStarter(user.getUserId());
-			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept(omNo);
-			currentFlow.setDeptname(user.getOmName());
-			currentFlow.setNodename("节点名称");
-			currentFlow.setPri(1);
-			currentFlow.setSdtofnode(new Date());
-			currentFlow.setSdtofflow(new Date());
-			currentFlow.setFlowEndState(2);
-			currentFlow.setFlowNopassState(0);
-			FlowHistroy flowHistroy = new FlowHistroy();
-			flowHistroy.setActor(user.getUserId());
-			flowHistroy.setActorname(user.getuName());
-			flowHistroy.setActorresult(0);
-			flowHistroy.setView("");
-			try {
-				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return i;
+		map.put("result", i);
+		map.put("WasteDispose", wd);
+		return map;
 	}
 	
 	@RequestMapping("/addWasteDisposeSubmit")
 	@ResponseBody
-	public String  addWasteDisposeSubmit(@RequestBody WasteDispose wd,HttpSession session){
+	public Map<String,Object>  addWasteDisposeSubmit(@RequestBody WasteDispose wd,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		wd.setWpId(id);
+		Map<String,Object> map=new HashMap<>();
 		int i=service.addWasteDispose(wd);
-		String string = i+"";
-		if(i>0){
-			Task task = tService.selectTaskPrjName(wd.getTaskNo());
-			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
-			String omNo=om.getOmNo();
-			User user = (User) session.getAttribute("user");
-			FlowUtill flowUtill = new FlowUtill();
-			CurrentFlow currentFlow = new CurrentFlow();
-			currentFlow.setParams("1");
-			currentFlow.setTitle(wd.getPickProject()+"项目材料废旧品申请");
-			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getuName());;
-			currentFlow.setMemo(wd.getPickProject()+"项目材料废旧品申请流程发起");
-			currentFlow.setUrl("shengchanguanliLook/WasteDisposalXM.html-"+id);
-			currentFlow.setParams("{'cs':'1'}");
-			currentFlow.setStarter(user.getUserId());
-			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept(omNo);
-			currentFlow.setDeptname(user.getOmName());
-			currentFlow.setNodename("节点名称");
-			currentFlow.setPri(1);
-			currentFlow.setSdtofnode(new Date());
-			currentFlow.setSdtofflow(new Date());
-			currentFlow.setFlowEndState(2);
-			currentFlow.setFlowNopassState(0);
-			FlowHistroy flowHistroy = new FlowHistroy();
-			flowHistroy.setActor(user.getUserId());
-			flowHistroy.setActorname(user.getuName());
-			flowHistroy.setActorresult(0);
-			flowHistroy.setView("");
-			try {
-				string = flowUtill.submitGetReceiver(currentFlow,omNo);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return string;
+		map.put("result", i);
+		map.put("WasteDispose", wd);
+		return map;
 	}
 }

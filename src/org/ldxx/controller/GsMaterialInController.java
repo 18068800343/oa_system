@@ -192,31 +192,6 @@ public class GsMaterialInController {
 	}
 	
 	
-	@RequestMapping("/selectcgNotaskNoPrjName")//初始化采购合同号、采购合同名、任务单号、项目名 
-	@ResponseBody
-	public List<CompanyMateriaIn> selectcgNotaskNoPrjName(){
-		return gmService.selectcgNotaskNoPrjName();
-	}
-	
-	@RequestMapping("/selecttaskNoPrjNameBycgNo")//通过采购合同号查找采购合同名、任务单号、项目名 、材料名称、材料类型、规格型号、单位、金额
-	@ResponseBody
-	public List<CompanyMateriaIn> selecttaskNoPrjNameBycgNo(String cgNo){
-		return gmService.selecttaskNoPrjNameBycgNo(cgNo);
-	}
-	
-	@RequestMapping("/selectcgNotaskNoPrjNameBycgName")//通过采购合同名查找采购合同号、任务单号、项目名 、材料名称、材料类型、规格型号、单位、金额
-	@ResponseBody
-	public List<CompanyMateriaIn> selectcgNotaskNoPrjNameBycgName(String cgName){
-		return gmService.selectcgNotaskNoPrjNameBycgName(cgName);
-	}
-	
-
-	/*@RequestMapping("/updateMaterialbuyUnitAndManufacturer")//修改材料的来货单位及生产厂家
-	@ResponseBody
-	public int updateMaterialbuyUnitAndManufacturer(String id,String unit,String manufacturer){
-		return gmService.updateMaterialbuyUnitAndManufacturer(id,unit,manufacturer);
-	}*/
-	
 	@RequestMapping("/updateOutStateById")//通过id修改出库状态
 	@ResponseBody
 	public int updateOutStateById(String id,String outstate){
@@ -298,4 +273,28 @@ public class GsMaterialInController {
 		return gmService.updateremainType(id,type);
 	}
 	
+	
+	@RequestMapping("/selectcgNotaskNoPrjName")//初始化采购合同号、采购合同名、任务单号、项目名 
+	@ResponseBody
+	public List<CompanyMateriaIn> selectcgNotaskNoPrjName(){
+		return gmService.selectcgNotaskNoPrjName();
+	}
+	
+	@RequestMapping("/selecttaskNoPrjNameBycgNo")//通过采购合同号查找采购合同名、任务单号、项目名 、材料名称、材料类型、规格型号、单位、金额
+	@ResponseBody
+	public List<CompanyMateriaIn> selecttaskNoPrjNameBycgNo(String cgNo){
+		return gmService.selecttaskNoPrjNameBycgNo(cgNo);
+	}
+	
+	@RequestMapping("/selectcgNotaskNoPrjNameBycgName")//通过采购合同名查找采购合同号、任务单号、项目名 、材料名称、材料类型、规格型号、单位、金额
+	@ResponseBody
+	public List<CompanyMateriaIn> selectcgNotaskNoPrjNameBycgName(String cgName){
+		return gmService.selectcgNotaskNoPrjNameBycgName(cgName);
+	}
+	
+	/*@RequestMapping("/updateMaterialbuyUnitAndManufacturer")//修改材料的来货单位及生产厂家
+	@ResponseBody
+	public int updateMaterialbuyUnitAndManufacturer(String id,String unit,String manufacturer){
+		return gmService.updateMaterialbuyUnitAndManufacturer(id,unit,manufacturer);
+	}*/
 }

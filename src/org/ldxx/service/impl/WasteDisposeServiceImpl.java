@@ -6,6 +6,7 @@ import org.ldxx.bean.WasteDispose;
 import org.ldxx.bean.WasteDisposeCl;
 import org.ldxx.bean.outRemain;
 import org.ldxx.dao.GsClOutDao;
+import org.ldxx.dao.GsMaterialInClDao;
 import org.ldxx.dao.WasteDisposeDao;
 import org.ldxx.service.WasteDisposeService;
 import org.ldxx.util.TimeUUID;
@@ -18,8 +19,10 @@ public class WasteDisposeServiceImpl implements WasteDisposeService{
 
 	@Autowired
 	private WasteDisposeDao dao;
+	/*@Autowired
+	private GsClOutDao gDao;*/
 	@Autowired
-	private GsClOutDao gDao;
+	private GsMaterialInClDao gsInCldao;
 	
 	@Override
 	public List<WasteDispose> selectWasteDispose() {
@@ -37,7 +40,7 @@ public class WasteDisposeServiceImpl implements WasteDisposeService{
 				wdc.get(a).setWpId(wd.getWpId());
 			}
 			i=dao.addWasteDisposeCl(wdc);
-			i=gDao.updateRemainForWaste(or);
+			i=gsInCldao.updateRemainForWaste(or);
 		}
 		return i;
 	}
