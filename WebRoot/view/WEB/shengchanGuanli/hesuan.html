@@ -94,7 +94,7 @@
                             </tr>
                             <tr>
                             	<td>合同结算金额</td>
-                            	<td><input type="text" class="form-control" style="width:70%;" disabled></td>
+                            	<td><input type="text" class="form-control" id="contract_js_money" style="width:70%;" disabled></td>
                             	<!-- <td>项目预算成本</td>
                             	<td><input type="text" class="form-control" id="yusuanchengben" style="width:70%;" disabled></td> -->
                             	<td></td>
@@ -211,31 +211,31 @@
                         	<tr>
                         		<td style="width:20%;">分包</td>
                         		<td style="width:20%;">预算</td>
-                        		<td style="width:20%;"></td>
+                        		<td style="width:20%;" id="fb_ys_money"></td>
                         		<td style="width:20%;">结算</td>
-                        		<td style="width:20%;"></td>
+                        		<td style="width:20%;" id="fb_js_money"></td>
                         	</tr>
                         	<tr>
                         		<td>主材</td>
                         		<td>预算</td>
-                        		<td></td>
+                        		<td id="main_ys_money"></td>
                         		<td>结算</td>
-                        		<td></td>
+                        		<td id="main_js_money"></td>
                         	</tr>
                         	<tr>
                         		<td>项目其他直接成本</td>
                         		<td>预算</td>
-                        		<td></td>
+                        		<td id="other_ys_money"></td>
                         		<td>结算</td>
-                        		<td></td>
+                        		<td id="other_js_money"></td>
                         	</tr>
                         </tbody>
                         <tfoot>
                         	<tr>
                         		<td style="width:20%;">预算小计</td>
-                        		<td id="zjchengbenxj"  style="width:20%;"></td>
+                        		<td id="zjchengbenxj" colspan="2"  style="width:20%;"></td>
                         		<td  style="width:20%;">核算小计</td>
-                        		<td  style="width:40%;"></td>
+                        		<td  style="width:40%;" ></td>
                         	</tr>
                         </tfoot>
                     </table>
@@ -1606,14 +1606,14 @@
             	prjNo:$('#prj_no').val()
             },
             success: function (json) {
-            	console.log(json)
             	var array=new Array();
             	var array2=new Array();
             	for(var i=0;i<json.length;i++){
 					$("#cj_bumen").val(json[i].omName);
             		$("#prj_leader").val(json[i].mainPrjLeaderName)
-            		$("#contract_money").val(json[i].contractMoney)
-            		if(json[i].omName!=null){
+            		$("#prj_js_money").val(json[i].prjEstimateMoney)
+            		//$("#contract_money").val(json[i].contractMoney)
+            		/* if(json[i].omName!=null){
                     	array.push(json[i].omName)
                     	array2.push(json[i].mainDepartment)
                 	}
@@ -1634,7 +1634,7 @@
                 		for(var ii=0;ii<array2.length;ii++){
                     		$("#newbumen").append("<option value="+array2[ii]+">"+array[ii]+"</option>")
                 		}
-                	}
+                	} */
             	}
             }
   		});
@@ -1670,10 +1670,33 @@
             	no:$('#prj_no').val()
             },
             success: function (json) {
-				$("#yusuanchengben").val(json.allCost);
+            	console.log(json)
             	var clfy=json.costBudget;
             	var zclf=json.budgetMainMaterial;
+				//$("#yusuanchengben").val(json.allCost);
+            	
+            	$("#main_ys_money").text("")
+            	$("#main_ys_money").text(json.allMainMaterialMoney)
+            	//getMainJsMoney($('#prj_no').val());
+            	$("#main_js_money").text()
+            	$("#other_js_money").text()
             	if(clfy!=null){
+            		var fb_ys_money=0
+            		var other_ys_money=0
+	            	for(var i=0;i<clfy.length;i++){
+	            		if(clfy[i].prjDetail=="劳务分包费"){
+		            		fb_ys_money+=Number(clfy[i].costAmount)
+	            		}else if(clfy[i].prjDetail=="其他直接成本"){
+	            			other_ys_money+=Number(clfy[i].costAmount)
+	            		}
+	            	}
+            		$("#fb_ys_money").text("")
+            		$("#other_ys_money").text("")
+            		$("#fb_ys_money").text(fb_ys_money)
+            		getFbJsMoney($('#prj_no').val())
+            		$("#other_ys_money").text(other_ys_money)
+            	}
+            	/* if(clfy!=null){
             		$("#Newfyyusuan tbody").empty();
 	            	for(var i=0;i<clfy.length;i++){
 		                $("#Newfyyusuan tbody").append("<tr><td>"
@@ -1701,7 +1724,7 @@
             					+"<td>"+mon+"</td>"
             					+"<td></td>"
             					+"</tr>")
-            			/* $("#cl_table tbody").append("<tr>"+
+            			$("#cl_table tbody").append("<tr>"+
                 				'<td><input type="text" style="width:100%;" class="form-control" value='+zclf[i].materName+'></td>'+
 								'<td>'+
 									'<select style="width:100%;" class="form-control" id=leixing'+i+'></select>'+
@@ -1723,9 +1746,9 @@
 						         '<td><button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button></td>'+ 
 				    			+"</tr>")
 						initName1(zclf[i].materType,i);
-						$("#xinghao"+i).val(zclf[i].materUnit) */
+						$("#xinghao"+i).val(zclf[i].materUnit) 
             		}
-            	}
+            	} */
             	
             }
   		});
@@ -1739,23 +1762,49 @@
             	type:"3"
             },
             success: function (json) {
-            	if(json!=null){
-            		var jsMoney=0;
+            	if(json!=null&&json.length>0){
             		for(var i=0;i<json.length;i++){
-            			var code=json[i].prjCode.split(",")
-            			if(code.length>1){
-            				$("#prj_js_money").val("");
-            				return false;
-            			}else{
-            				jsMoney+=json[i].endMoney
-		            		$("#prj_js_money").val(jsMoney)
-            			}
+		            	$("#contract_js_money").val(json[i].endMoney)
             		}
+            	}else{//如果承接合同履约竣工没有找到就找交工的
+            		$.ajax({
+                        type: 'POST',
+                        url: getContextPath()+'/work/selectContractWorkByprjNo',
+                        dataType: 'json',
+                        async:false,
+                        data: {
+                        	prjno:$('#prj_no').val(),
+                        	type:"2"
+                        },
+                        success: function (json) {
+                        	if(json!=null){
+                        		for(var i=0;i<json.length;i++){
+            		            	$("#contract_js_money").val(json[i].endMoney)
+                        		}
+                        	}
+                        }
+              		});
             	}
             }
   		});
     }
 	
+    //根据任务单号查分包结算金额
+    function getFbJsMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/fbOver/selectFbJsMoneyByNo',
+            dataType: 'json',
+            data: {
+            	no:obj
+            },
+            success: function (json) {
+            	$("#fb_js_money").text("")
+            	$("#fb_js_money").text(json.fbEndMoney)
+            }
+  		});
+    }
+    
     //计算实际成本及利润
     function jschengben(){
     	

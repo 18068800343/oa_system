@@ -14,4 +14,6 @@ public interface FbContractOverDao {
 	public FbContractOver selectFbContractOverById(@Param("id")String id);
 	
 	public int updateFbContractOver(@Param("fb")FbContractOver fbContractOver);
+
+	public FbContractOver selectFbJsMoneyByNo(@Param("no")String no);
 }

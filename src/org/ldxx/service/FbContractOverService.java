@@ -13,4 +13,6 @@ public interface FbContractOverService {
 	public FbContractOver selectFbContractOverById(String id);
 	
 	public int updateFbContractOver(FbContractOver fbContractOver);
+
+	public FbContractOver selectFbJsMoneyByNo(String no);
 }

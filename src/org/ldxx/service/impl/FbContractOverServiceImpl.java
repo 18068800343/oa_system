@@ -54,4 +54,9 @@ public class FbContractOverServiceImpl implements FbContractOverService{
 		return i;
 	}
 
+	@Override
+	public FbContractOver selectFbJsMoneyByNo(String no) {
+		return dao.selectFbJsMoneyByNo(no);
+	}
+
 }
