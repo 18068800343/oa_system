@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.ldxx.bean.ContractUpdate;
 import org.ldxx.bean.Task;
 
 public interface ContractUpdateService {
@@ -11,5 +12,11 @@ public interface ContractUpdateService {
 	public float selectContractUpdateByPrjNoAndDept(String no,String dept);
 
 	int addContractAndTaskUpdate(List<Task> task);
+	
+	public ContractUpdate selectGsContractMoneyByTime(String time);
+	
+	public ContractUpdate selectDeptContractMoneyByTime(String time,String dept);
+	
+	public ContractUpdate selectDeptContractMoneyByTimeAndType(String time,String dept,String type);
 	
 }

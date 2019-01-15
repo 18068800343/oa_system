@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.PrjProgressFillCj;
@@ -65,5 +66,7 @@ public interface PrjProgressFillService {
 	public PrjProgressFill selectGsIncomeByTime(String time);
 	
 	public PrjProgressFill selectGsIncomeByTimeAndDept(String time,String dept);
+	
+	public PrjProgressFill selectDeptIncomeByTimeAndType(String time,String dept,String type);
 	
 }

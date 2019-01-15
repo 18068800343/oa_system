@@ -343,4 +343,11 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.selectGsIncomeByTimeAndDept(time, dept);
 	}
 
+	@Override
+	public PrjProgressFill selectDeptIncomeByTimeAndType(String time, String dept, String type) {
+		time="%"+time+"%";
+		type="%"+type+"%";
+		return dao.selectDeptIncomeByTimeAndType(time, dept, type);
+	}
+
 }

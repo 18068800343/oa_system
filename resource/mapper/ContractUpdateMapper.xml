@@ -17,4 +17,19 @@
      <select id="selectContractUpdateByPrjNoAndDept" resultType="ContractUpdate">
      	SELECT IFNULL(SUM(money),0) as money FROM contract_update where prj_no=#{no} and dept=#{dept}
      </select>
+     
+     <select id="selectGsContractMoneyByTime"  resultType="ContractUpdate">
+     	SELECT IFNULL(SUM(money),0)as money FROM contract_update where time like #{time}
+     </select>
+     
+     <select id="selectDeptContractMoneyByTime" resultType="ContractUpdate">
+     	SELECT IFNULL(SUM(money),0)as money FROM contract_update 
+     	where time like #{time} and dept=#{dept}
+     </select>
+     
+     <select id="selectDeptContractMoneyByTimeAndType" resultType="ContractUpdate">
+     	SELECT IFNULL(SUM(a.money),0)as money FROM contract_update as a
+		LEFT JOIN task as b on a.prj_no=b.prj_no
+		where  b.prj_type2 like #{type} and a.time like #{time} and a.dept=#{dept}
+     </select>
 </mapper>

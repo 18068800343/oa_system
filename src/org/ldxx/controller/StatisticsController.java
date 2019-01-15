@@ -15,15 +15,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ldxx.bean.AlreadyRenling;
 import org.ldxx.bean.CjContract;
+import org.ldxx.bean.ContractUpdate;
 import org.ldxx.bean.DepartmentTarget;
 import org.ldxx.bean.MonthTarget;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.StatisticsVo;
 import org.ldxx.bean.Task;
 import org.ldxx.dao.CjContractDao;
 import org.ldxx.service.AlreadySkInfoService;
 import org.ldxx.service.CjContractService;
+import org.ldxx.service.ContractUpdateService;
 import org.ldxx.service.DepartmentTargetService;
 import org.ldxx.service.FinancialReceiptsService;
 import org.ldxx.service.MonthTargetService;
@@ -68,26 +72,30 @@ public class StatisticsController {
 	private TaskService tService;
 	@Autowired
 	private AlreadySkInfoService aService;
+	@Autowired
+	private ContractUpdateService cuService;
 
 	@RequestMapping("/initGsContract")//初始化本期公司新签合同额。累计收款，累计收入
 	@ResponseBody
-	public Map<String,Float> initGsContractMoney(){
-		Map<String,Float> map=new HashMap<String, Float>();
+	public Map<String,Double> initGsContractMoney(){
+		Map<String,Double> map=new HashMap<String, Double>();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM");
 		String time=sdf.format(new Date());
 		String year=time.split("-")[0];
 		int month=Integer.valueOf(time.split("-")[1]);
-		time="%"+time+"%";
-		float contractAll=0;//本期合同金额总和
-		float cjContractMoneyAll=cjService.selectCjContractMoneyBySignTime(time);//本期所有承接合同金额总和
-		float otherContractMoneyAll=oService.selectOtherContractMoneyBySignTime(time);//本期所有其他合同金额总和
-		contractAll=cjContractMoneyAll+otherContractMoneyAll;
-//		float allInCome=pService.selectTotalIncome(time);//本期收入总和
-		float allInCome=0;
-		float allReceipt=fService.selectResultMoneyBySignTime(time);//本期累计收款
-		float mbContractMoney=0;//目标合同额
-		float mbIncome=0;//目标收入
-		float mbReceipt=0;//目标收款
+		double contractAll=0;//累计合同额
+		double allInCome=0;//累计收入
+		double allReceipt=0;//累计收款
+		ContractUpdate cu=cuService.selectGsContractMoneyByTime(time);
+		contractAll=cu.getMoney();
+		PrjProgressFill ppf=pService.selectGsIncomeByTime(time);
+		allInCome=ppf.getAllMoneyYuan();
+		AlreadyRenling ar=aService.selectGsRenlingByTime(time);
+		allReceipt=ar.getSkQuerenMoney();
+				
+		double mbContractMoney=0;//目标合同额
+		double mbIncome=0;//目标收入
+		double mbReceipt=0;//目标收款
 		List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonth(year, month);
 		if(mt!=null){
 			for(int i=0;i<mt.size();i++){
@@ -119,64 +127,31 @@ public class StatisticsController {
 		String time=sdf.format(new Date());
 		String year=time.split("-")[0];
 		int month=Integer.valueOf(time.split("-")[1]);
-		time="%"+time+"%";
-		List<CjContract> cj=cjDao.selectCjContractMoneyBySignTime(time);
+		
 		List<OrganizationManagement> om=omService.selectProductionDepartment();
 		for(int i=0;i<om.size();i++){
 			String omId=om.get(i).getOmId();//部门编号
 			String omName=om.get(i).getOmName();//部门名称
 			omList.add(omName);
-			float contractMoneyAll=0;//承接合同部门本期总签合同额
-			for(int ii=0;ii<cj.size();ii++){
-				float contractMoney=0;
-				if(omId.equals(cj.get(ii).getMainDepartment())){
-					contractMoney=cj.get(ii).getMainDepartmentMoney();
-				}
-				if(omId.equals(cj.get(ii).getAssistDepartment1())){
-					contractMoney=cj.get(ii).getAssistDepartment1Money();
-				}
-				if(omId.equals(cj.get(ii).getAssistDepartment2())){
-					contractMoney=cj.get(ii).getAssistDepartment2Money();
-				}
-				if(omId.equals(cj.get(ii).getAssistDepartment3())){
-					contractMoney=cj.get(ii).getAssistDepartment3Money();
-				}
-				contractMoneyAll=contractMoneyAll+contractMoney;
-			}
-			float otherMoney=oService.selectOtherContractMoneyBySignTimeAndDepartment(time, omId);//其他合同本期总金额
-			float contractAll=otherMoney+contractMoneyAll;//部门本期总签合同金额
+			double contractAll=0;//新签合同额目标
+			double totalIncomeAll=0;//累计收入
+			double receiptAll=0;//累计收款
+			ContractUpdate cu=cuService.selectDeptContractMoneyByTime(time, omId);
+			contractAll=cu.getMoney();
+			PrjProgressFill ppf=pService.selectGsIncomeByTimeAndDept(time, omName);
+			totalIncomeAll=ppf.getAllMoneyYuan();
+			AlreadyRenling ar=aService.selectDeptRenlingByTime(time, omName);
+			receiptAll=ar.getSkQuerenMoney();
 			
-	//		float totalIncomeAll=pService.selectThisTimeIncomeByDepartment(omName, time);//部门本期累计收入
-			float totalIncomeAll=0;
-			float receiptAll=0;//部门本期累计收款
-			List<CjContract> cj2=fService.selectResultMoneyByCjAndTime(time);
-			if(cj2!=null){
-				for(int j=0;j<cj2.size();j++){
-					float contractMoney=cj2.get(j).getContractMoney();//承接合同金额
-					float resultMoney=cj2.get(j).getTemporaryMoney();//承接合同收款金额
-					if(omId.equals(cj2.get(j).getMainDepartment())){
-						receiptAll=receiptAll+(cj2.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
-					}
-					if(omId.equals(cj2.get(j).getAssistDepartment1())){
-						receiptAll=receiptAll+(cj2.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
-					}
-					if(omId.equals(cj2.get(j).getAssistDepartment2())){
-						receiptAll=receiptAll+(cj2.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
-					}
-					if(omId.equals(cj2.get(j).getAssistDepartment3())){
-						receiptAll=receiptAll+(cj2.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
-					}
-				}
-			}
-			float mbContractMoney=0;//目标合同额
-			float mbIncome=0;//目标收入
-			float mbReceipt=0;//目标收款
+			double mbContractMoney=0;//目标合同额
+			double mbIncome=0;//目标收入
+			double mbReceipt=0;//目标收款
 			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, month, omId);
 			if(mt!=null){
 				for(int jj=0;jj<mt.size();jj++){
-					float contractAmount=mt.get(jj).getContractAmount();
-					float revenueTarget=mt.get(jj).getRevenueTarget();
-					float collectionTarget=mt.get(jj).getCollectionTarget();
+					double contractAmount=mt.get(jj).getContractAmount();
+					double revenueTarget=mt.get(jj).getRevenueTarget();
+					double collectionTarget=mt.get(jj).getCollectionTarget();
 					mbContractMoney=mbContractMoney+contractAmount;
 					mbIncome=mbIncome+revenueTarget;
 					mbReceipt=mbReceipt+collectionTarget;
@@ -202,12 +177,12 @@ public class StatisticsController {
 		Map<String,Object> map=new HashMap<>();
 		List<List<Float>> resultContract=new ArrayList<>();//实际月部门新签合同额按项目类型
 		List<List<Float>> resultIncome=new ArrayList<>();//实际月部门累计收入按项目类型
-		List<List<Float>> resultReceipt=new ArrayList<>();//实际月部门累计收款按项目类型
+		List<List<Double>> resultReceipt=new ArrayList<>();//实际月部门累计收款按项目类型
 		List<String> omList=new ArrayList<>();
 		omList.add("公司");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
-		year="%"+year+"%";
+		
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
 		//公司月份部门累加
 		List<Float> gsContractMoney=new ArrayList<>();
@@ -238,19 +213,19 @@ public class StatisticsController {
 		float gsIncomeMonth11All=0;
 		float gsIncomeMonth12All=0;
 		
-		List<Float> gsReceipt=new ArrayList<>();
-		float gsReceiptMonth1All=0;
-		float gsReceiptMonth2All=0;
-		float gsReceiptMonth3All=0;
-		float gsReceiptMonth4All=0;
-		float gsReceiptMonth5All=0;
-		float gsReceiptMonth6All=0;
-		float gsReceiptMonth7All=0;
-		float gsReceiptMonth8All=0;
-		float gsReceiptMonth9All=0;
-		float gsReceiptMonth10All=0;
-		float gsReceiptMonth11All=0;
-		float gsReceiptMonth12All=0;
+		List<Double> gsReceipt=new ArrayList<>();
+		double gsReceiptMonth1All=0;
+		double gsReceiptMonth2All=0;
+		double gsReceiptMonth3All=0;
+		double gsReceiptMonth4All=0;
+		double gsReceiptMonth5All=0;
+		double gsReceiptMonth6All=0;
+		double gsReceiptMonth7All=0;
+		double gsReceiptMonth8All=0;
+		double gsReceiptMonth9All=0;
+		double gsReceiptMonth10All=0;
+		double gsReceiptMonth11All=0;
+		double gsReceiptMonth12All=0;
 		for(int o=0;o<om.size();o++){
 			String omId=om.get(o).getOmId();
 			String omName=om.get(o).getOmName();
@@ -285,125 +260,138 @@ public class StatisticsController {
 			float inComeMonth11All=0;
 			float inComeMonth12All=0;
 			//部门累计收款按项目类型
-			List<Float> receiptMoneyList=new ArrayList<>();
-			float receiptMonth1All=0;
-			float receiptMonth2All=0;
-			float receiptMonth3All=0;
-			float receiptMonth4All=0;
-			float receiptMonth5All=0;
-			float receiptMonth6All=0;
-			float receiptMonth7All=0;
-			float receiptMonth8All=0;
-			float receiptMonth9All=0;
-			float receiptMonth10All=0;
-			float receiptMonth11All=0;
-			float receiptMonth12All=0;
-			
-			List<CjContract> cj=fService.selectResultMoneyByCjAndTime("%"+year+"-01%");
-			List<CjContract> cj2=fService.selectResultMoneyByCjAndTime("%"+year+"-02%");
-			List<CjContract> cj3=fService.selectResultMoneyByCjAndTime("%"+year+"-03%");
-			List<CjContract> cj4=fService.selectResultMoneyByCjAndTime("%"+year+"-04%");
-			List<CjContract> cj5=fService.selectResultMoneyByCjAndTime("%"+year+"-05%");
-			List<CjContract> cj6=fService.selectResultMoneyByCjAndTime("%"+year+"-06%");
-			List<CjContract> cj7=fService.selectResultMoneyByCjAndTime("%"+year+"-07%");
-			List<CjContract> cj8=fService.selectResultMoneyByCjAndTime("%"+year+"-08%");
-			List<CjContract> cj9=fService.selectResultMoneyByCjAndTime("%"+year+"-09%");
-			List<CjContract> cj10=fService.selectResultMoneyByCjAndTime("%"+year+"-10%");
-			List<CjContract> cj11=fService.selectResultMoneyByCjAndTime("%"+year+"-11%");
-			List<CjContract> cj12=fService.selectResultMoneyByCjAndTime("%"+year+"-12%");
+			List<Double> receiptMoneyList=new ArrayList<>();
+			double receiptMonth1All=0;
+			double receiptMonth2All=0;
+			double receiptMonth3All=0;
+			double receiptMonth4All=0;
+			double receiptMonth5All=0;
+			double receiptMonth6All=0;
+			double receiptMonth7All=0;
+			double receiptMonth8All=0;
+			double receiptMonth9All=0;
+			double receiptMonth10All=0;
+			double receiptMonth11All=0;
+			double receiptMonth12All=0;
 			
 			for(int i=0;i<prjType.split(",").length;i++){
 				//部门新签合同额按项目类型
-				String type="%"+prjType.split(",")[i]+"%";
-				List<Task> task=tService.selectTaskByPrjType(type, "%"+year+"-01%");
-				float contractMonth1=getDepartmentMoneyByTask(task, omId);
+				String type=prjType.split(",")[i];
+				ContractUpdate cu=cuService.selectDeptContractMoneyByTimeAndType(year+"-01", omId, type);
+				float contractMonth1=cu.getMoney();
 				contractMonth1All=contractMonth1All+contractMonth1;
-				List<Task> task2=tService.selectTaskByPrjType(type, "%"+year+"-02%");
-				float contractMonth2=getDepartmentMoneyByTask(task2, omId);
+				ContractUpdate cu2=cuService.selectDeptContractMoneyByTimeAndType(year+"-02", omId, type);
+				float contractMonth2=cu2.getMoney();
 				contractMonth2All=contractMonth2All+contractMonth2;
-				List<Task> task3=tService.selectTaskByPrjType(type, "%"+year+"-03%");
-				float contractMonth3=getDepartmentMoneyByTask(task3, omId);
+				ContractUpdate cu3=cuService.selectDeptContractMoneyByTimeAndType(year+"-03", omId, type);
+				float contractMonth3=cu3.getMoney();
 				contractMonth3All=contractMonth3All+contractMonth3;
-				List<Task> task4=tService.selectTaskByPrjType(type, "%"+year+"-04%");
-				float contractMonth4=getDepartmentMoneyByTask(task4, omId);
+				ContractUpdate cu4=cuService.selectDeptContractMoneyByTimeAndType(year+"-04", omId, type);
+				float contractMonth4=cu4.getMoney();
 				contractMonth4All=contractMonth4All+contractMonth4;
-				List<Task> task5=tService.selectTaskByPrjType(type, "%"+year+"-05%");
-				float contractMonth5=getDepartmentMoneyByTask(task5, omId);
+				ContractUpdate cu5=cuService.selectDeptContractMoneyByTimeAndType(year+"-05", omId, type);
+				float contractMonth5=cu5.getMoney();
 				contractMonth5All=contractMonth5All+contractMonth5;
-				List<Task> task6=tService.selectTaskByPrjType(type, "%"+year+"-06%");
-				float contractMonth6=getDepartmentMoneyByTask(task6, omId);
+				ContractUpdate cu6=cuService.selectDeptContractMoneyByTimeAndType(year+"-06", omId, type);
+				float contractMonth6=cu6.getMoney();
 				contractMonth6All=contractMonth6All+contractMonth6;
-				List<Task> task7=tService.selectTaskByPrjType(type, "%"+year+"-07%");
-				float contractMonth7=getDepartmentMoneyByTask(task7, omId);
+				ContractUpdate cu7=cuService.selectDeptContractMoneyByTimeAndType(year+"-07", omId, type);
+				float contractMonth7=cu7.getMoney();
 				contractMonth7All=contractMonth7All+contractMonth7;
-				List<Task> task8=tService.selectTaskByPrjType(type, "%"+year+"-08%");
-				float contractMonth8=getDepartmentMoneyByTask(task8, omId);
+				ContractUpdate cu8=cuService.selectDeptContractMoneyByTimeAndType(year+"-08", omId, type);
+				float contractMonth8=cu8.getMoney();
 				contractMonth8All=contractMonth8All+contractMonth8;
-				List<Task> task9=tService.selectTaskByPrjType(type, "%"+year+"-09%");
-				float contractMonth9=getDepartmentMoneyByTask(task9, omId);
+				ContractUpdate cu9=cuService.selectDeptContractMoneyByTimeAndType(year+"-09", omId, type);
+				float contractMonth9=cu9.getMoney();
 				contractMonth9All=contractMonth9All+contractMonth9;
-				List<Task> task10=tService.selectTaskByPrjType(type, "%"+year+"-10%");
-				float contractMonth10=getDepartmentMoneyByTask(task10, omId);
+				ContractUpdate cu10=cuService.selectDeptContractMoneyByTimeAndType(year+"-10", omId, type);
+				float contractMonth10=cu10.getMoney();
 				contractMonth10All=contractMonth10All+contractMonth10;
-				List<Task> task11=tService.selectTaskByPrjType(type, "%"+year+"-11%");
-				float contractMonth11=getDepartmentMoneyByTask(task11, omId);
+				ContractUpdate cu11=cuService.selectDeptContractMoneyByTimeAndType(year+"-11", omId, type);
+				float contractMonth11=cu11.getMoney();
 				contractMonth11All=contractMonth11All+contractMonth11;
-				List<Task> task12=tService.selectTaskByPrjType(type, "%"+year+"-12%");
-				float contractMonth12=getDepartmentMoneyByTask(task12, omId);
+				ContractUpdate cu12=cuService.selectDeptContractMoneyByTimeAndType(year+"-12", omId, type);
+				float contractMonth12=cu12.getMoney();
 				contractMonth12All=contractMonth12All+contractMonth12;
 				
+				
 				//部门累计收入按项目类型
-				float inComeMonth1=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-01%", type);
+				PrjProgressFill ppf=pService.selectDeptIncomeByTimeAndType(year+"-01", omName, type);
+				float inComeMonth1=ppf.getAllMoneyYuan();
 				inComeMonth1All=inComeMonth1All+inComeMonth1;
-				float inComeMonth2=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-02%", type);
+				PrjProgressFill ppf2=pService.selectDeptIncomeByTimeAndType(year+"-02", omName, type);
+				float inComeMonth2=ppf2.getAllMoneyYuan();
 				inComeMonth2All=inComeMonth2All+inComeMonth2;
-				float inComeMonth3=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-03%", type);
+				PrjProgressFill ppf3=pService.selectDeptIncomeByTimeAndType(year+"-03", omName, type);
+				float inComeMonth3=ppf3.getAllMoneyYuan();
 				inComeMonth3All=inComeMonth3All+inComeMonth3;
-				float inComeMonth4=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-04%", type);
+				PrjProgressFill ppf4=pService.selectDeptIncomeByTimeAndType(year+"-04", omName, type);
+				float inComeMonth4=ppf4.getAllMoneyYuan();
 				inComeMonth4All=inComeMonth4All+inComeMonth4;
-				float inComeMonth5=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-05%", type);
+				PrjProgressFill ppf5=pService.selectDeptIncomeByTimeAndType(year+"-05", omName, type);
+				float inComeMonth5=ppf5.getAllMoneyYuan();
 				inComeMonth5All=inComeMonth5All+inComeMonth5;
-				float inComeMonth6=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-06%", type);
+				PrjProgressFill ppf6=pService.selectDeptIncomeByTimeAndType(year+"-06", omName, type);
+				float inComeMonth6=ppf6.getAllMoneyYuan();
 				inComeMonth6All=inComeMonth6All+inComeMonth6;
-				float inComeMonth7=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-07%", type);
+				PrjProgressFill ppf7=pService.selectDeptIncomeByTimeAndType(year+"-07", omName, type);
+				float inComeMonth7=ppf7.getAllMoneyYuan();
 				inComeMonth7All=inComeMonth7All+inComeMonth7;
-				float inComeMonth8=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-08%", type);
+				PrjProgressFill ppf8=pService.selectDeptIncomeByTimeAndType(year+"-08", omName, type);
+				float inComeMonth8=ppf8.getAllMoneyYuan();
 				inComeMonth8All=inComeMonth8All+inComeMonth8;
-				float inComeMonth9=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-09%", type);
+				PrjProgressFill ppf9=pService.selectDeptIncomeByTimeAndType(year+"-09", omName, type);
+				float inComeMonth9=ppf9.getAllMoneyYuan();
 				inComeMonth9All=inComeMonth9All+inComeMonth9;
-				float inComeMonth10=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-10%", type);
+				PrjProgressFill ppf10=pService.selectDeptIncomeByTimeAndType(year+"-10", omName, type);
+				float inComeMonth10=ppf10.getAllMoneyYuan();
 				inComeMonth10All=inComeMonth10All+inComeMonth10;
-				float inComeMonth11=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-11%", type);
+				PrjProgressFill ppf11=pService.selectDeptIncomeByTimeAndType(year+"-11", omName, type);
+				float inComeMonth11=ppf11.getAllMoneyYuan();
 				inComeMonth11All=inComeMonth11All+inComeMonth11;
-				float inComeMonth12=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"-12%", type);
+				PrjProgressFill ppf12=pService.selectDeptIncomeByTimeAndType(year+"-12", omName, type);
+				float inComeMonth12=ppf12.getAllMoneyYuan();
 				inComeMonth12All=inComeMonth12All+inComeMonth12;
 				
-				//部门累计收款按项目类型
 				
-				float receiptMonth1=getReceiptByPrjType(type, cj);
+				//部门累计收款按项目类型
+				AlreadyRenling ar=aService.selectDeptRenlingByTimeAndType(year+"-01", omName, type);
+				double receiptMonth1=ar.getSkQuerenMoney();
 				receiptMonth1All=receiptMonth1All+receiptMonth1;
-				float receiptMonth2=getReceiptByPrjType(type, cj2);
-				receiptMonth2All=receiptMonth2All+receiptMonth2;
-				float receiptMonth3=getReceiptByPrjType(type, cj3);
+				AlreadyRenling ar2=aService.selectDeptRenlingByTimeAndType(year+"-02", omName, type);
+				double receiptMonth2=ar2.getSkQuerenMoney();
+				receiptMonth2All=receiptMonth2All+receiptMonth2;	
+				AlreadyRenling ar3=aService.selectDeptRenlingByTimeAndType(year+"-03", omName, type);
+				double receiptMonth3=ar3.getSkQuerenMoney();
 				receiptMonth3All=receiptMonth3All+receiptMonth3;
-				float receiptMonth4=getReceiptByPrjType(type, cj4);
+				AlreadyRenling ar4=aService.selectDeptRenlingByTimeAndType(year+"-04", omName, type);
+				double receiptMonth4=ar4.getSkQuerenMoney();
 				receiptMonth4All=receiptMonth4All+receiptMonth4;
-				float receiptMonth5=getReceiptByPrjType(type, cj5);
+				AlreadyRenling ar5=aService.selectDeptRenlingByTimeAndType(year+"-05", omName, type);
+				double receiptMonth5=ar5.getSkQuerenMoney();
 				receiptMonth5All=receiptMonth5All+receiptMonth5;
-				float receiptMonth6=getReceiptByPrjType(type, cj6);
+				AlreadyRenling ar6=aService.selectDeptRenlingByTimeAndType(year+"-06", omName, type);
+				double receiptMonth6=ar6.getSkQuerenMoney();
 				receiptMonth6All=receiptMonth6All+receiptMonth6;
-				float receiptMonth7=getReceiptByPrjType(type, cj7);
+				AlreadyRenling ar7=aService.selectDeptRenlingByTimeAndType(year+"-07", omName, type);
+				double receiptMonth7=ar7.getSkQuerenMoney();
 				receiptMonth7All=receiptMonth7All+receiptMonth7;
-				float receiptMonth8=getReceiptByPrjType(type, cj8);
+				AlreadyRenling ar8=aService.selectDeptRenlingByTimeAndType(year+"-08", omName, type);
+				double receiptMonth8=ar8.getSkQuerenMoney();
 				receiptMonth8All=receiptMonth8All+receiptMonth8;
-				float receiptMonth9=getReceiptByPrjType(type, cj9);
+				AlreadyRenling ar9=aService.selectDeptRenlingByTimeAndType(year+"-09", omName, type);
+				double receiptMonth9=ar9.getSkQuerenMoney();
 				receiptMonth9All=receiptMonth9All+receiptMonth9;
-				float receiptMonth10=getReceiptByPrjType(type, cj10);
+				AlreadyRenling ar10=aService.selectDeptRenlingByTimeAndType(year+"-10", omName, type);
+				double receiptMonth10=ar10.getSkQuerenMoney();
 				receiptMonth10All=receiptMonth10All+receiptMonth10;
-				float receiptMonth11=getReceiptByPrjType(type, cj11);
+				AlreadyRenling ar11=aService.selectDeptRenlingByTimeAndType(year+"-11", omName, type);
+				double receiptMonth11=ar11.getSkQuerenMoney();
 				receiptMonth11All=receiptMonth11All+receiptMonth11;
-				float receiptMonth12=getReceiptByPrjType(type, cj12);
+				AlreadyRenling ar12=aService.selectDeptRenlingByTimeAndType(year+"-12", omName, type);
+				double receiptMonth12=ar12.getSkQuerenMoney();
 				receiptMonth12All=receiptMonth12All+receiptMonth12;
+				
 			}
 			//公司所有累加
 			gsContractMoneyMonth1All=gsContractMoneyMonth1All+contractMonth1All;
@@ -541,7 +529,7 @@ public class StatisticsController {
 		Map<String,Object> map=new HashMap<>();
 		List<List<Float>> resultContract=new ArrayList<>();//实际年部门新签合同额按项目类型
 		List<List<Float>> resultIncome=new ArrayList<>();//实际年部门累计收入按项目类型
-		List<List<Float>> resultReceipt=new ArrayList<>();//实际年部门累计收款按项目类型
+		List<List<Double>> resultReceipt=new ArrayList<>();//实际年部门累计收款按项目类型
 		List<String> omList=new ArrayList<>();
 		List<String> yearList=new ArrayList<>();
 		omList.add("公司");
@@ -565,10 +553,10 @@ public class StatisticsController {
 		float gsIncomeYear2All=0;
 		float gsIncomeYear3All=0;
 		
-		List<Float> gsReceipt=new ArrayList<>();
-		float gsReceiptYear1All=0;
-		float gsReceiptYear2All=0;
-		float gsReceiptYear3All=0;
+		List<Double> gsReceipt=new ArrayList<>();
+		double gsReceiptYear1All=0;
+		double gsReceiptYear2All=0;
+		double gsReceiptYear3All=0;
 		for(int o=0;o<om.size();o++){
 			String omId=om.get(o).getOmId();
 			String omName=om.get(o).getOmName();
@@ -585,41 +573,46 @@ public class StatisticsController {
 			float inComeYear2All=0;
 			float inComeYear3All=0;
 			//部门累计收款按项目类型
-			List<Float> receiptMoneyList=new ArrayList<>();
-			float receiptYear1All=0;
-			float receiptYear2All=0;
-			float receiptYear3All=0;
-			List<CjContract> cj=fService.selectResultMoneyByCjAndTime("%"+year3+"%");
-			List<CjContract> cj2=fService.selectResultMoneyByCjAndTime("%"+year2+"%");
-			List<CjContract> cj3=fService.selectResultMoneyByCjAndTime("%"+year+"%");
+			List<Double> receiptMoneyList=new ArrayList<>();
+			double receiptYear1All=0;
+			double receiptYear2All=0;
+			double receiptYear3All=0;
 			for(int i=0;i<prjType.split(",").length;i++){
+				String type=prjType.split(",")[i];
 				//部门新签合同额按项目类型
-				String type="%"+prjType.split(",")[i]+"%";
-				List<Task> task=tService.selectTaskByPrjType(type, "%"+year3+"%");
-				float contractMonth1=getDepartmentMoneyByTask(task, omId);
+				ContractUpdate cu=cuService.selectDeptContractMoneyByTimeAndType(year3, omId, type);
+				float contractMonth1=cu.getMoney();
 				contractYear1All=contractYear1All+contractMonth1;
-				List<Task> task2=tService.selectTaskByPrjType(type, "%"+year2+"%");
-				float contractMonth2=getDepartmentMoneyByTask(task2, omId);
+				ContractUpdate cu2=cuService.selectDeptContractMoneyByTimeAndType(year2, omId, type);
+				float contractMonth2=cu2.getMoney();
 				contractYear2All=contractYear2All+contractMonth2;
-				List<Task> task3=tService.selectTaskByPrjType(type, "%"+year+"%");
-				float contractMonth3=getDepartmentMoneyByTask(task3, omId);
+				ContractUpdate cu3=cuService.selectDeptContractMoneyByTimeAndType(year, omId, type);
+				float contractMonth3=cu3.getMoney();
 				contractYear3All=contractYear3All+contractMonth3;
 				
+				
 				//部门累计收入按项目类型
-				float inComeMonth1=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year3+"%", type);
+				PrjProgressFill ppf=pService.selectDeptIncomeByTimeAndType(year3, omName, type);
+				float inComeMonth1=ppf.getAllMoneyYuan();
 				inComeYear1All=inComeYear1All+inComeMonth1;
-				float inComeMonth2=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year2+"%", type);
+				PrjProgressFill ppf2=pService.selectDeptIncomeByTimeAndType(year2, omName, type);
+				float inComeMonth2=ppf2.getAllMoneyYuan();
 				inComeYear2All=inComeYear2All+inComeMonth2;
-				float inComeMonth3=pService.selectThisTimeIncomeByDepartmentAndPrjType(omName, "%"+year+"%", type);
+				PrjProgressFill ppf3=pService.selectDeptIncomeByTimeAndType(year, omName, type);
+				float inComeMonth3=ppf3.getAllMoneyYuan();
 				inComeYear3All=inComeYear3All+inComeMonth3;
 				
 				//部门累计收款按项目类型
-				float receiptMonth1=getReceiptByPrjType(type, cj);
+				AlreadyRenling ar=aService.selectDeptRenlingByTimeAndType(year3, omName, type);
+				double receiptMonth1=ar.getSkQuerenMoney();
 				receiptYear1All=receiptYear1All+receiptMonth1;
-				float receiptMonth2=getReceiptByPrjType(type, cj2);
+				AlreadyRenling ar2=aService.selectDeptRenlingByTimeAndType(year2, omName, type);
+				double receiptMonth2=ar2.getSkQuerenMoney();
 				receiptYear2All=receiptYear2All+receiptMonth2;
-				float receiptMonth3=getReceiptByPrjType(type, cj3);
+				AlreadyRenling ar3=aService.selectDeptRenlingByTimeAndType(year, omName, type);
+				double receiptMonth3=ar3.getSkQuerenMoney();
 				receiptYear3All=receiptYear3All+receiptMonth3;
+				
 			}
 			//公司所有累加
 			gsContractYear1All=gsContractYear1All+contractYear1All;
@@ -683,18 +676,6 @@ public class StatisticsController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<CjContract> cj=cjDao.selectCjContractMoneyBySignTime("%"+year+"-01%");
-		List<CjContract> cj2=cjDao.selectCjContractMoneyBySignTime("%"+year+"-02%");
-		List<CjContract> cj3=cjDao.selectCjContractMoneyBySignTime("%"+year+"-03%");
-		List<CjContract> cj4=cjDao.selectCjContractMoneyBySignTime("%"+year+"-04%");
-		List<CjContract> cj5=cjDao.selectCjContractMoneyBySignTime("%"+year+"-05%");
-		List<CjContract> cj6=cjDao.selectCjContractMoneyBySignTime("%"+year+"-06%");
-		List<CjContract> cj7=cjDao.selectCjContractMoneyBySignTime("%"+year+"-07%");
-		List<CjContract> cj8=cjDao.selectCjContractMoneyBySignTime("%"+year+"-08%");
-		List<CjContract> cj9=cjDao.selectCjContractMoneyBySignTime("%"+year+"-09%");
-		List<CjContract> cj10=cjDao.selectCjContractMoneyBySignTime("%"+year+"-10%");
-		List<CjContract> cj11=cjDao.selectCjContractMoneyBySignTime("%"+year+"-11%");
-		List<CjContract> cj12=cjDao.selectCjContractMoneyBySignTime("%"+year+"-12%");
 		List<Float> resultAll=new ArrayList<>();
 		List<Float> mbAll=new ArrayList<>();
 		float month1All=0;
@@ -729,64 +710,52 @@ public class StatisticsController {
 			String omName=om.get(i).getOmName();//部门名称
 			omList.add(omName);
 			
-			float cjMonth1=getDepartmentMoney(cj,omId);//部门一月份承接合同额
-			float otherMonth1=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-01%", omId);//部门1月份其他合同额
-			float month1=cjMonth1+otherMonth1;//部门1份月合同额总和
+			ContractUpdate cu=cuService.selectDeptContractMoneyByTime(year+"-01", omId);
+			float month1=cu.getMoney();//部门1份月合同额
 			month1All=month1All+month1;
 			
-			float cjMonth2=getDepartmentMoney(cj,omId);//部门二月份承接合同额
-			float otherMonth2=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-02%", omId);//部门2月份其他合同额
-			float month2=cjMonth2+otherMonth2;//部门2份月合同额总和
+			ContractUpdate cu2=cuService.selectDeptContractMoneyByTime(year+"-02", omId);
+			float month2=cu2.getMoney();//部门2份月合同额
 			month2All=month2All+month2;
 			
-			float cjMonth3=getDepartmentMoney(cj,omId);//部门三月份承接合同额
-			float otherMonth3=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-03%", omId);//部门3月份其他合同额
-			float month3=cjMonth3+otherMonth3;//部门3份月合同额总和
+			ContractUpdate cu3=cuService.selectDeptContractMoneyByTime(year+"-03", omId);
+			float month3=cu3.getMoney();//部门3份月合同额
 			month3All=month3All+month3;
 			
-			float cjMonth4=getDepartmentMoney(cj,omId);//部门四月份承接合同额
-			float otherMonth4=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-04%", omId);//部门4月份其他合同额
-			float month4=cjMonth4+otherMonth4;//部门4份月合同额总和
+			ContractUpdate cu4=cuService.selectDeptContractMoneyByTime(year+"-04", omId);
+			float month4=cu4.getMoney();//部门4份月合同额
 			month4All=month4All+month4;
 			
-			float cjMonth5=getDepartmentMoney(cj,omId);//部门五月份承接合同额
-			float otherMonth5=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-05%", omId);//部门5月份其他合同额
-			float month5=cjMonth5+otherMonth5;//部门5份月合同额总和
+			ContractUpdate cu5=cuService.selectDeptContractMoneyByTime(year+"-05", omId);
+			float month5=cu5.getMoney();//部门5份月合同额
 			month5All=month5All+month5;
 			
-			float cjMonth6=getDepartmentMoney(cj,omId);//部门六月份承接合同额
-			float otherMonth6=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-06%", omId);//部门6月份其他合同额
-			float month6=cjMonth6+otherMonth6;//部门6份月合同额总和
+			ContractUpdate cu6=cuService.selectDeptContractMoneyByTime(year+"-06", omId);
+			float month6=cu6.getMoney();//部门6份月合同额
 			month6All=month6All+month6;
 			
-			float cjMonth7=getDepartmentMoney(cj,omId);//部门七月份承接合同额
-			float otherMonth7=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-07%", omId);//部门7月份其他合同额
-			float month7=cjMonth7+otherMonth7;//部门7份月合同额总和
+			ContractUpdate cu7=cuService.selectDeptContractMoneyByTime(year+"-07", omId);
+			float month7=cu7.getMoney();//部门7份月合同额
 			month7All=month7All+month7;
 			
-			float cjMonth8=getDepartmentMoney(cj,omId);//部门八月份承接合同额
-			float otherMonth8=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-08%", omId);//部门8月份其他合同额
-			float month8=cjMonth8+otherMonth8;//部门8份月合同额总和
+			ContractUpdate cu8=cuService.selectDeptContractMoneyByTime(year+"-08", omId);
+			float month8=cu8.getMoney();//部门8份月合同额
 			month8All=month8All+month8;
 			
-			float cjMonth9=getDepartmentMoney(cj,omId);//部门九月份承接合同额
-			float otherMonth9=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-09%", omId);//部门9月份其他合同额
-			float month9=cjMonth9+otherMonth9;//部门9份月合同额总和
+			ContractUpdate cu9=cuService.selectDeptContractMoneyByTime(year+"-09", omId);
+			float month9=cu9.getMoney();//部门9份月合同额
 			month9All=month9All+month9;
 			
-			float cjMonth10=getDepartmentMoney(cj,omId);//部门十月份承接合同额
-			float otherMonth10=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-10%", omId);//部门10月份其他合同额
-			float month10=cjMonth10+otherMonth10;//部门10份月合同额总和
+			ContractUpdate cu10=cuService.selectDeptContractMoneyByTime(year+"-10", omId);
+			float month10=cu10.getMoney();//部门10份月合同额
 			month10All=month10All+month10;
 			
-			float cjMonth11=getDepartmentMoney(cj,omId);//部门十一月份承接合同额
-			float otherMonth11=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-11%", omId);//部门11月份其他合同额
-			float month11=cjMonth11+otherMonth11;//部门11份月合同额总和
+			ContractUpdate cu11=cuService.selectDeptContractMoneyByTime(year+"-11", omId);
+			float month11=cu11.getMoney();//部门11份月合同额
 			month11All=month11All+month11;
 			
-			float cjMonth12=getDepartmentMoney(cj,omId);//部门十二月份承接合同额
-			float otherMonth12=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"-12%", omId);//部门12月份其他合同额
-			float month12=cjMonth12+otherMonth12;//部门12份月合同额总和
+			ContractUpdate cu12=cuService.selectDeptContractMoneyByTime(year+"-12", omId);
+			float month12=cu12.getMoney();//部门12份月合同额
 			month12All=month12All+month12;
 			
 			result.add(month1);
@@ -941,42 +910,42 @@ public class StatisticsController {
 			String omName=om.get(i).getOmName();
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
-			float incomeMonth1=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-01%");
-			month1All=month1All+incomeMonth1;
-			float incomeMonth2=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-02%");
-			month2All=month2All+incomeMonth2;
-			float incomeMonth3=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-03%");
-			month3All=month3All+incomeMonth3;
-			float incomeMonth4=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-04%");
-			month4All=month4All+incomeMonth4;
-			float incomeMonth5=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-05%");
-			month5All=month5All+incomeMonth5;
-			float incomeMonth6=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-06%");
-			month6All=month6All+incomeMonth6;
-			float incomeMonth7=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-07%");
-			month7All=month7All+incomeMonth7;
-			float incomeMonth8=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-08%");
-			month8All=month8All+incomeMonth8;
-			float incomeMonth9=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-09%");
-			month9All=month9All+incomeMonth9;
-			float incomeMonth10=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-10%");
-			month10All=month10All+incomeMonth10;
-			float incomeMonth11=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-11%");
-			month11All=month11All+incomeMonth11;
-			float incomeMonth12=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"-12%");
-			month12All=month12All+incomeMonth12;
-			result.add(incomeMonth1);
-			result.add(incomeMonth2);
-			result.add(incomeMonth3);
-			result.add(incomeMonth4);
-			result.add(incomeMonth5);
-			result.add(incomeMonth6);
-			result.add(incomeMonth7);
-			result.add(incomeMonth8);
-			result.add(incomeMonth9);
-			result.add(incomeMonth10);
-			result.add(incomeMonth11);
-			result.add(incomeMonth12);
+			PrjProgressFill ppf=pService.selectGsIncomeByTimeAndDept(year+"-01", omName);
+			month1All=month1All+ppf.getAllMoneyYuan();
+			PrjProgressFill ppf2=pService.selectGsIncomeByTimeAndDept(year+"-02", omName);
+			month2All=month2All+ppf2.getAllMoneyYuan();
+			PrjProgressFill ppf3=pService.selectGsIncomeByTimeAndDept(year+"-03", omName);
+			month3All=month3All+ppf3.getAllMoneyYuan();
+			PrjProgressFill ppf4=pService.selectGsIncomeByTimeAndDept(year+"-04", omName);
+			month4All=month4All+ppf4.getAllMoneyYuan();
+			PrjProgressFill ppf5=pService.selectGsIncomeByTimeAndDept(year+"-05", omName);
+			month5All=month5All+ppf5.getAllMoneyYuan();
+			PrjProgressFill ppf6=pService.selectGsIncomeByTimeAndDept(year+"-06", omName);
+			month6All=month6All+ppf6.getAllMoneyYuan();
+			PrjProgressFill ppf7=pService.selectGsIncomeByTimeAndDept(year+"-07", omName);
+			month7All=month7All+ppf7.getAllMoneyYuan();
+			PrjProgressFill ppf8=pService.selectGsIncomeByTimeAndDept(year+"-08", omName);
+			month8All=month8All+ppf8.getAllMoneyYuan();
+			PrjProgressFill ppf9=pService.selectGsIncomeByTimeAndDept(year+"-09", omName);
+			month9All=month9All+ppf9.getAllMoneyYuan();
+			PrjProgressFill ppf10=pService.selectGsIncomeByTimeAndDept(year+"-10", omName);
+			month10All=month10All+ppf10.getAllMoneyYuan();
+			PrjProgressFill ppf11=pService.selectGsIncomeByTimeAndDept(year+"-11", omName);
+			month11All=month11All+ppf11.getAllMoneyYuan();
+			PrjProgressFill ppf12=pService.selectGsIncomeByTimeAndDept(year+"-12", omName);
+			month12All=month12All+ppf12.getAllMoneyYuan();
+			result.add(ppf.getAllMoneyYuan());
+			result.add(ppf2.getAllMoneyYuan());
+			result.add(ppf3.getAllMoneyYuan());
+			result.add(ppf4.getAllMoneyYuan());
+			result.add(ppf5.getAllMoneyYuan());
+			result.add(ppf6.getAllMoneyYuan());
+			result.add(ppf7.getAllMoneyYuan());
+			result.add(ppf8.getAllMoneyYuan());
+			result.add(ppf9.getAllMoneyYuan());
+			result.add(ppf10.getAllMoneyYuan());
+			result.add(ppf11.getAllMoneyYuan());
+			result.add(ppf12.getAllMoneyYuan());
 			resultList.add(result);
 			
 			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
@@ -1078,144 +1047,132 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab2Receipt(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Float>> resultList=new ArrayList<>();
-		List<List<Float>> mbList=new ArrayList<>();
+		List<List<Double>> resultList=new ArrayList<>();
+		List<List<Double>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		omList.add("公司");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<Float> resultAll=new ArrayList<>();
-		List<Float> mbAll=new ArrayList<>();
-		float month1All=0;
-		float month2All=0;
-		float month3All=0;
-		float month4All=0;
-		float month5All=0;
-		float month6All=0;
-		float month7All=0;
-		float month8All=0;
-		float month9All=0;
-		float month10All=0;
-		float month11All=0;
-		float month12All=0;
-		float mbMonth1All=0;
-		float mbMonth2All=0;
-		float mbMonth3All=0;
-		float mbMonth4All=0;
-		float mbMonth5All=0;
-		float mbMonth6All=0;
-		float mbMonth7All=0;
-		float mbMonth8All=0;
-		float mbMonth9All=0;
-		float mbMonth10All=0;
-		float mbMonth11All=0;
-		float mbMonth12All=0;
-		
-		
-		List<CjContract> cj=fService.selectResultMoneyByCjAndTime("%"+year+"-01%");
-		List<CjContract> cj2=fService.selectResultMoneyByCjAndTime("%"+year+"-02%");
-		List<CjContract> cj3=fService.selectResultMoneyByCjAndTime("%"+year+"-03%");
-		List<CjContract> cj4=fService.selectResultMoneyByCjAndTime("%"+year+"-04%");
-		List<CjContract> cj5=fService.selectResultMoneyByCjAndTime("%"+year+"-05%");
-		List<CjContract> cj6=fService.selectResultMoneyByCjAndTime("%"+year+"-06%");
-		List<CjContract> cj7=fService.selectResultMoneyByCjAndTime("%"+year+"-07%");
-		List<CjContract> cj8=fService.selectResultMoneyByCjAndTime("%"+year+"-08%");
-		List<CjContract> cj9=fService.selectResultMoneyByCjAndTime("%"+year+"-09%");
-		List<CjContract> cj10=fService.selectResultMoneyByCjAndTime("%"+year+"-10%");
-		List<CjContract> cj11=fService.selectResultMoneyByCjAndTime("%"+year+"-11%");
-		List<CjContract> cj12=fService.selectResultMoneyByCjAndTime("%"+year+"-12%");
+		List<Double> resultAll=new ArrayList<>();
+		List<Double> mbAll=new ArrayList<>();
+		double month1All=0;
+		double month2All=0;
+		double month3All=0;
+		double month4All=0;
+		double month5All=0;
+		double month6All=0;
+		double month7All=0;
+		double month8All=0;
+		double month9All=0;
+		double month10All=0;
+		double month11All=0;
+		double month12All=0;
+		double mbMonth1All=0;
+		double mbMonth2All=0;
+		double mbMonth3All=0;
+		double mbMonth4All=0;
+		double mbMonth5All=0;
+		double mbMonth6All=0;
+		double mbMonth7All=0;
+		double mbMonth8All=0;
+		double mbMonth9All=0;
+		double mbMonth10All=0;
+		double mbMonth11All=0;
+		double mbMonth12All=0;
 		
 		for(int i=0;i<om.size();i++){
-			List<Float> result=new ArrayList<>();
-			List<Float> mb=new ArrayList<>();
+			List<Double> result=new ArrayList<>();
+			List<Double> mb=new ArrayList<>();
 			String omName=om.get(i).getOmName();
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
-			float month1=getDepartmentReceipt(cj,omId);
-			month1All=month1All+month1;
-			float month2=getDepartmentReceipt(cj2,omId);
-			month2All=month2All+month2;
-			float month3=getDepartmentReceipt(cj3,omId);
-			month3All=month3All+month3;
-			float month4=getDepartmentReceipt(cj4,omId);
-			month4All=month4All+month4;
-			float month5=getDepartmentReceipt(cj5,omId);
-			month5All=month5All+month5;
-			float month6=getDepartmentReceipt(cj6,omId);
-			month6All=month6All+month6;
-			float month7=getDepartmentReceipt(cj7,omId);
-			month7All=month7All+month7;
-			float month8=getDepartmentReceipt(cj8,omId);
-			month8All=month8All+month8;
-			float month9=getDepartmentReceipt(cj9,omId);
-			month9All=month9All+month9;
-			float month10=getDepartmentReceipt(cj10,omId);
-			month10All=month10All+month10;
-			float month11=getDepartmentReceipt(cj11,omId);
-			month11All=month11All+month11;
-			float month12=getDepartmentReceipt(cj12,omId);
-			month12All=month12All+month12;
-			result.add(month1);
-			result.add(month2);
-			result.add(month3);
-			result.add(month4);
-			result.add(month5);
-			result.add(month6);
-			result.add(month7);
-			result.add(month8);
-			result.add(month9);
-			result.add(month10);
-			result.add(month11);
-			result.add(month12);
+			
+			AlreadyRenling ar=aService.selectDeptRenlingByTime(year+"-01", omName);
+			month1All=month1All+ar.getSkQuerenMoney();
+			AlreadyRenling ar2=aService.selectDeptRenlingByTime(year+"-02", omName);
+			month2All=month2All+ar2.getSkQuerenMoney();
+			AlreadyRenling ar3=aService.selectDeptRenlingByTime(year+"-03", omName);
+			month3All=month3All+ar3.getSkQuerenMoney();
+			AlreadyRenling ar4=aService.selectDeptRenlingByTime(year+"-04", omName);
+			month4All=month4All+ar4.getSkQuerenMoney();
+			AlreadyRenling ar5=aService.selectDeptRenlingByTime(year+"-05", omName);
+			month5All=month5All+ar5.getSkQuerenMoney();
+			AlreadyRenling ar6=aService.selectDeptRenlingByTime(year+"-06", omName);
+			month6All=month6All+ar6.getSkQuerenMoney();
+			AlreadyRenling ar7=aService.selectDeptRenlingByTime(year+"-07", omName);
+			month7All=month7All+ar7.getSkQuerenMoney();
+			AlreadyRenling ar8=aService.selectDeptRenlingByTime(year+"-08", omName);
+			month8All=month8All+ar8.getSkQuerenMoney();
+			AlreadyRenling ar9=aService.selectDeptRenlingByTime(year+"-09", omName);
+			month9All=month9All+ar9.getSkQuerenMoney();
+			AlreadyRenling ar10=aService.selectDeptRenlingByTime(year+"-10", omName);
+			month10All=month10All+ar10.getSkQuerenMoney();
+			AlreadyRenling ar11=aService.selectDeptRenlingByTime(year+"-11", omName);
+			month11All=month11All+ar11.getSkQuerenMoney();
+			AlreadyRenling ar12=aService.selectDeptRenlingByTime(year+"-12", omName);
+			month12All=month12All+ar12.getSkQuerenMoney();
+			
+			result.add(ar.getSkQuerenMoney());
+			result.add(ar2.getSkQuerenMoney());
+			result.add(ar3.getSkQuerenMoney());
+			result.add(ar4.getSkQuerenMoney());
+			result.add(ar5.getSkQuerenMoney());
+			result.add(ar6.getSkQuerenMoney());
+			result.add(ar7.getSkQuerenMoney());
+			result.add(ar8.getSkQuerenMoney());
+			result.add(ar9.getSkQuerenMoney());
+			result.add(ar10.getSkQuerenMoney());
+			result.add(ar11.getSkQuerenMoney());
+			result.add(ar12.getSkQuerenMoney());
 			resultList.add(result);
 			
 			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
-			float mbMonth1=getMbReceipt(mt);
+			double mbMonth1=getMbReceipt(mt);
 			mbMonth1All=mbMonth1All+mbMonth1;
 			
 			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
-			float mbMonth2=getMbReceipt(mt2);
+			double mbMonth2=getMbReceipt(mt2);
 			mbMonth2All=mbMonth2All+mbMonth2;
 			
 			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
-			float mbMonth3=getMbReceipt(mt3);
+			double mbMonth3=getMbReceipt(mt3);
 			mbMonth3All=mbMonth3All+mbMonth3;
 			
 			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
-			float mbMonth4=getMbReceipt(mt4);
+			double mbMonth4=getMbReceipt(mt4);
 			mbMonth4All=mbMonth4All+mbMonth4;
 			
 			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
-			float mbMonth5=getMbReceipt(mt5);
+			double mbMonth5=getMbReceipt(mt5);
 			mbMonth5All=mbMonth5All+mbMonth5;
 			
 			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
-			float mbMonth6=getMbReceipt(mt6);
+			double mbMonth6=getMbReceipt(mt6);
 			mbMonth6All=mbMonth6All+mbMonth6;
 			
 			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
-			float mbMonth7=getMbReceipt(mt7);
+			double mbMonth7=getMbReceipt(mt7);
 			mbMonth7All=mbMonth7All+mbMonth7;
 			
 			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
-			float mbMonth8=getMbReceipt(mt8);
+			double mbMonth8=getMbReceipt(mt8);
 			mbMonth8All=mbMonth8All+mbMonth8;
 			
 			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
-			float mbMonth9=getMbReceipt(mt9);
+			double mbMonth9=getMbReceipt(mt9);
 			mbMonth9All=mbMonth9All+mbMonth9;
 			
 			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
-			float mbMonth10=getMbReceipt(mt10);
+			double mbMonth10=getMbReceipt(mt10);
 			mbMonth10All=mbMonth10All+mbMonth10;
 			
 			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
-			float mbMonth11=getMbReceipt(mt11);
+			double mbMonth11=getMbReceipt(mt11);
 			mbMonth11All=mbMonth11All+mbMonth11;
 			
 			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
-			float mbMonth12=getMbReceipt(mt12);
+			double mbMonth12=getMbReceipt(mt12);
 			mbMonth12All=mbMonth12All+mbMonth12;
 			
 			mb.add(mbMonth1);
@@ -1281,9 +1238,6 @@ public class StatisticsController {
 		yearList.add(year2);
 		yearList.add(year);
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<CjContract> cj=cjDao.selectCjContractMoneyBySignTime("%"+year3+"%");//前年承接合同
-		List<CjContract> cj2=cjDao.selectCjContractMoneyBySignTime("%"+year2+"%");//去年承接合同
-		List<CjContract> cj3=cjDao.selectCjContractMoneyBySignTime("%"+year+"%");//今年承接合同
 		
 		List<Float> resultAll=new ArrayList<>();
 		List<Float> mbAll=new ArrayList<>();
@@ -1303,19 +1257,16 @@ public class StatisticsController {
 			String omName=om.get(i).getOmName();//部门名称
 			omList.add(omName);
 			
-			float cjMonth1=getDepartmentMoney(cj,omId);//部门前年承接合同额
-			float otherMonth1=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year3+"%", omId);//部门前年其他合同额
-			float month1=cjMonth1+otherMonth1;//部门前年合同额总和
+			ContractUpdate cu=cuService.selectDeptContractMoneyByTime(year3,omId);
+			float month1=cu.getMoney();//部门前年合同额
 			month1All=month1All+month1;
 			
-			float cjMonth2=getDepartmentMoney(cj,omId);//部门去年承接合同额
-			float otherMonth2=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year2+"%", omId);//部门去年其他合同额
-			float month2=cjMonth2+otherMonth2;//部门去年合同额总和
+			ContractUpdate cu2=cuService.selectDeptContractMoneyByTime(year2,omId);
+			float month2=cu2.getMoney();//部门去年合同额
 			month2All=month2All+month2;
 			
-			float cjMonth3=getDepartmentMoney(cj,omId);//部门今年承接合同额
-			float otherMonth3=oService.selectOtherContractMoneyBySignTimeAndDepartment("%"+year+"%", omId);//部门今年其他合同额
-			float month3=cjMonth3+otherMonth3;//部门今年合同额总和
+			ContractUpdate cu3=cuService.selectDeptContractMoneyByTime(year,omId);
+			float month3=cu3.getMoney();//部门去年合同额
 			month3All=month3All+month3;
 			
 			
@@ -1399,16 +1350,17 @@ public class StatisticsController {
 			String omName=om.get(i).getOmName();
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
-			float incomeMonth1=pService.selectThisTimeIncomeByDepartment(omName, "%"+year3+"%");
-			month1All=month1All+incomeMonth1;
-			float incomeMonth2=pService.selectThisTimeIncomeByDepartment(omName, "%"+year2+"%");
-			month2All=month2All+incomeMonth2;
-			float incomeMonth3=pService.selectThisTimeIncomeByDepartment(omName, "%"+year+"%");
-			month3All=month3All+incomeMonth3;
 			
-			result.add(incomeMonth1);
-			result.add(incomeMonth2);
-			result.add(incomeMonth3);
+			PrjProgressFill ppf=pService.selectGsIncomeByTimeAndDept(year3, omName);
+			month1All=month1All+ppf.getAllMoneyYuan();
+			PrjProgressFill ppf2=pService.selectGsIncomeByTimeAndDept(year2, omName);
+			month2All=month2All+ppf2.getAllMoneyYuan();
+			PrjProgressFill ppf3=pService.selectGsIncomeByTimeAndDept(year, omName);
+			month3All=month3All+ppf3.getAllMoneyYuan();
+			
+			result.add(ppf.getAllMoneyYuan());
+			result.add(ppf2.getAllMoneyYuan());
+			result.add(ppf3.getAllMoneyYuan());
 			
 			resultList.add(result);
 			
@@ -1457,8 +1409,8 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab3Receipt(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Float>> resultList=new ArrayList<>();
-		List<List<Float>> mbList=new ArrayList<>();
+		List<List<Double>> resultList=new ArrayList<>();
+		List<List<Double>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		List<String> yearList=new ArrayList<>();
 		omList.add("公司");
@@ -1470,54 +1422,51 @@ public class StatisticsController {
 		yearList.add(year2);
 		yearList.add(year);
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<Float> resultAll=new ArrayList<>();
-		List<Float> mbAll=new ArrayList<>();
-		float month1All=0;
-		float month2All=0;
-		float month3All=0;
+		List<Double> resultAll=new ArrayList<>();
+		List<Double> mbAll=new ArrayList<>();
+		double month1All=0;
+		double month2All=0;
+		double month3All=0;
 		
-		float mbMonth1All=0;
-		float mbMonth2All=0;
-		float mbMonth3All=0;
-		
-		List<CjContract> cj=fService.selectResultMoneyByCjAndTime("%"+year3+"%");
-		List<CjContract> cj2=fService.selectResultMoneyByCjAndTime("%"+year2+"%");
-		List<CjContract> cj3=fService.selectResultMoneyByCjAndTime("%"+year+"%");
+		double mbMonth1All=0;
+		double mbMonth2All=0;
+		double mbMonth3All=0;
 		
 		for(int i=0;i<om.size();i++){
-			List<Float> result=new ArrayList<>();
-			List<Float> mb=new ArrayList<>();
+			List<Double> result=new ArrayList<>();
+			List<Double> mb=new ArrayList<>();
 			String omName=om.get(i).getOmName();
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
-			float month1=getDepartmentReceipt(cj,omId);
-			month1All=month1All+month1;
-			float month2=getDepartmentReceipt(cj2,omId);
-			month2All=month2All+month2;
-			float month3=getDepartmentReceipt(cj3,omId);
-			month3All=month3All+month3;
 			
-			result.add(month1);
-			result.add(month2);
-			result.add(month3);
+			AlreadyRenling ar=aService.selectDeptRenlingByTime(year3, omName);
+			month1All=month1All+ar.getSkQuerenMoney();
+			AlreadyRenling ar2=aService.selectDeptRenlingByTime(year2, omName);
+			month2All=month2All+ar2.getSkQuerenMoney();
+			AlreadyRenling ar3=aService.selectDeptRenlingByTime(year, omName);
+			month3All=month3All+ar3.getSkQuerenMoney();
+			
+			result.add(ar.getSkQuerenMoney());
+			result.add(ar2.getSkQuerenMoney());
+			result.add(ar3.getSkQuerenMoney());
 			resultList.add(result);
 			
 			DepartmentTarget mt=dtService.selectDepartmentTargetByOmIdAndYear(omId, year3);
-			float mbMonth1=0;
+			double mbMonth1=0;
 			if(mt!=null){
 				mbMonth1=mt.getCollectionTarget();
 			}
 			mbMonth1All=mbMonth1All+mbMonth1;
 			
 			DepartmentTarget mt2=dtService.selectDepartmentTargetByOmIdAndYear(omId, year2);
-			float mbMonth2=0;
+			double mbMonth2=0;
 			if(mt2!=null){
 				mbMonth2=mt2.getCollectionTarget();
 			}
 			mbMonth2All=mbMonth2All+mbMonth2;
 			
 			DepartmentTarget mt3=dtService.selectDepartmentTargetByOmIdAndYear(omId, year);
-			float mbMonth3=0;
+			double mbMonth3=0;
 			if(mt3!=null){
 				mbMonth3=mt3.getCollectionTarget();
 			}

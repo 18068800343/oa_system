@@ -100,4 +100,24 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 		return cuList;
 	}
 	
+
+	@Override
+	public ContractUpdate selectGsContractMoneyByTime(String time) {
+		time="%"+time+"%";
+		return dao.selectGsContractMoneyByTime(time);
+	}
+
+	@Override
+	public ContractUpdate selectDeptContractMoneyByTime(String time, String dept) {
+		time="%"+time+"%";
+		return dao.selectDeptContractMoneyByTime(time, dept);
+	}
+
+	@Override
+	public ContractUpdate selectDeptContractMoneyByTimeAndType(String time, String dept, String type) {
+		time="%"+time+"%";
+		type="%"+type+"%";
+		return dao.selectDeptContractMoneyByTimeAndType(time, dept, type);
+	}
+	
 }

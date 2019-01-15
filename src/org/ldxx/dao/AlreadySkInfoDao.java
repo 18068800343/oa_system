@@ -29,4 +29,5 @@ public interface AlreadySkInfoDao {
 	
 	public AlreadyRenling selectDeptRenlingByTime(@Param("time")String time,@Param("dept")String dept);//通过时间查询部门全部认领金额
 
+	public AlreadyRenling selectDeptRenlingByTimeAndType(@Param("time")String time,@Param("dept")String dept,@Param("type")String type);//通过时间和项目类型查询全部认领金额
 }
