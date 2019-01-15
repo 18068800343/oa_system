@@ -76,12 +76,12 @@
                   <td>合同乙方名称:</td>
                   <td id="look_yifangName"></td>
               </tr>
-              <tr>
+             <!--  <tr>
               	<td>合同起日期:</td>
                   <td id="look_year"></td>
               	<td>合同讫日期:</td>
                   <td id="look_year2"></td>
-              </tr>
+              </tr> -->
               <tr>
               	<td>乙方承接部门:</td>
                   <td id="look_yifang_department"></td>
@@ -127,16 +127,7 @@
               <tbody>
               </tbody>
           </table>
-          <table class="table table-bordered table-condensed" id="look_xieban">
-              <thead>
-                  <tr>
-                      <th colspan="2">部门</th>
-                      <th colspan="2">金额</th>
-                  </tr>
-              </thead>
-              <tbody>
-              </tbody>
-          </table>
+          <div id="look_renwudanFenpei"></div>
 </div>
 	    
 	
@@ -349,6 +340,10 @@
           		$("#look_work_no").text(data.taskCode);
           		$("#look_prj_name").text(data.prjName);
           		$("#look_prj_type").text(data.prjType);
+          		var prjNameArray = data.prjName.split(",");
+          		var taskCodeArray = data.taskCode.split(",");
+          		var tasks = getTaskBytaskCode(data.taskCode);
+          		lookpinjieRenwudanChaifen(prjNameArray,taskCodeArray,tasks);
           		$("#look_jiafangName").text(data.ccName);
           		$("#look_yifangName").text(data.contractNameYi);
           		$("#look_year").text(data.contractStartTime);
@@ -457,6 +452,146 @@
     	});
   	}
   	
-  	
+    function addBumenLook(i,task){
+    	if(task.assistDepartment1!=""&&task.assistDepartment1!=null){
+    		$("#xieban"+i+" tbody").append("<tr><td>协办部门1</td><td>"
+    		  +'<form class="form-inline">'
+              +'<select class="form-control" disabled id="xieban1'+task.prjNo+'" style="width:150px;">'
+              +'</select>'
+              +'<input type="text" id="xiebanMoney'+task.prjNo+'" value="'+task.assistDepartment1Money+'" disabled class="form-control" style="width:150px;" placeholder="金额">'
+              +'</form>'
+              +"</td><td>"
+              +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
+              +'<input type="text" id="xiebanCost'+task.prjNo+'" disabled value="'+task.assistDepartment1Cost+'" class="form-control" style="width:150px;" placeholder="金额"></div>'
+              +"</td></tr>");
+	    	  initXiebanSelect(task,1);
+	    	  $("#xieban1"+task.prjNo+"").val(task.assistDepartment1);
+	    	  
+    	}
+    	if(task.assistDepartment2!=""&&task.assistDepartment2!=null){
+    		$("#xieban"+i+" tbody").append("<tr><td>协办部门2</td><td>"
+    	    		  +'<form class="form-inline">'
+    	              +'<select class="form-control" disabled id="xieban2'+task.prjNo+'" style="width:150px;">'
+    	              +'</select>'
+    	              +'<input type="text" id="xiebanMoney'+task.prjNo+'" value="'+task.assistDepartment2Money+'" disabled class="form-control" style="width:150px;" placeholder="金额">'
+    	              +'</form>'
+    	              +"</td><td>"
+    	              +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
+    	              +'<input type="text" id="xiebanCost'+task.prjNo+'" value="'+task.assistDepartment2Cost+'" disabled class="form-control" style="width:150px;" placeholder="金额"></div>'
+    	              +"</td></tr>");
+    		    	  initXiebanSelect(task,2);
+    	    $("#xieban2"+task.prjNo+"").val(task.assistDepartment2);
+    	}
+    	if(task.assistDepartment3!=""&&task.assistDepartment3!=null){
+    		$("#xieban"+i+" tbody").append("<tr><td>协办部门3</td><td>"
+    	    		  +'<form class="form-inline">'
+    	              +'<select class="form-control" disabled id="xieban3'+task.prjNo+'" style="width:150px;">'
+    	              +'</select>'
+    	              +'<input type="text" id="xiebanMoney'+task.prjNo+'" value="'+task.assistDepartment3Money+'" disabled class="form-control" style="width:150px;" placeholder="金额">'
+    	              +'</form>'
+    	              +"</td><td>"
+    	              +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
+    	              +'<input type="text" id="xiebanCost'+task.prjNo+'" value="'+task.assistDepartment3Cost+'" disabled class="form-control" style="width:150px;" placeholder="金额"></div>'
+    	              +"</td></tr>");
+    		    	  initXiebanSelect(task,3);
+    		    	  $("#xieban3"+task.prjNo+"").val(task.assistDepartment3);
+    	}
+	    	
+    }
+    function initXiebanSelect(task,k){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/selectProductionDepartment',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	$("#xieban"+k+""+task.prjNo+"").empty();
+                for(var j=0;j<json.length;j++){
+                	$("#xieban"+k+""+task.prjNo+"").append("<option value="+json[j].omId+">"+json[j].omName+"</option>");
+                }
+            }
+		});
+    }
+	function lookpinjieRenwudanChaifen(namelist,array,tasks){
+		var namestr = namelist;
+		pageNameList=namelist;
+		pageTaskNoArray=array;
+		$("#look_renwudanFenpei").empty();
+		if(namelist.length!=array.length){
+			toastr.error("任务单编号信息有误");
+			return false;
+		}
+		for( var i in namestr){
+		$("#look_renwudanFenpei").append('<table class="table table-bordered table-condensed" id="xieban'+i+'">'
+	               +'<thead>'
+	               +'<tr>'
+	        	   +'<th style="text-align:left;"><div style="width:300px">任务单:'+namestr[i]+'</div><div hidden="hidden">'+array[i]+'</div></th>'
+	        	   +'<th colspan="2" >'
+	        	   +'<div class="yihang"><div class="yihang">&nbsp;任务单金额分配:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" disabled class="form-control" style="width:150px;" placeholder="任务单金额" value="'+tasks[i].prjEstimateMoney+'" id=renwudanMoney></input></div>'
+	        	   +'<div></div></th>'
+	        +'</tr>'
+	        +'</thead>'
+	        +'<tbody>'
+	        +'<tr>'
+	        +'<td style="width:13%;">主办部门</td>'
+	        +'<td style="width:32%;">'
+	        +'<form class="form-inline">'
+	        +'<select class="zhuban'+i+' form-control" disabled style="width:150px;" name="zhuban" id="zhuban">'
+	        +'</select>'
+	        +'<input type="text" class="form-control" disabled style="width:150px;" value="'+tasks[i].mainDepartmentMoney+'" placeholder="金额" id="zhubanjine">'
+	        +'</form>'
+	        +'</td>'
+	        +"<td>"
+            +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
+            +'<input type="text" id="zhubanFentan" disabled class="form-control" style="width:150px;" value="'+tasks[i].mainDepartmentCost+'" placeholder="比例"></div>'
+            +'</td>'
+	        +'</tr>'
+	        +'</tbody>'
+	        +'</table>');
+		 initbumenByClass(i);
+		 $(".zhuban"+i+"").val(tasks[i].mainDepartment);
+		 addBumenLook(i,tasks[i]);
+		}
+	}
+	function initbumenByClass(k){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/selectProductionDepartment',
+            dataType: 'json',
+            async:false,
+            data: {
+            	
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+                for(var i=0;i<json.length;i++){
+                	$(".zhuban"+k+"").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                }
+            }
+		});
+	}
+    function getTaskBytaskCode(taskNos){
+    	var array ;
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/task/selectTaskPrjName',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	prjNo:taskNos
+	        },
+	        success: function (json) {
+	        	array = json;
+	        }
+    	})
+    	return array;
+    }
 </script>
 </html>
