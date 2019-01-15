@@ -20,9 +20,11 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjWorkingHours;
 import org.ldxx.bean.PrjWorkingHoursP;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractReasonService;
+import org.ldxx.service.ContractUpdateService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
@@ -46,7 +48,8 @@ public class CjContractController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private ContractReasonService cService;
-	
+	@Autowired
+	private ContractUpdateService cuService;
 	@RequestMapping("/addCjContractBySave")
 	@ResponseBody
 	public int addCjContractBySave(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
@@ -56,6 +59,7 @@ public class CjContractController {
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
 		
+		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
@@ -146,7 +150,7 @@ public class CjContractController {
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
-		
+		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
@@ -374,9 +378,10 @@ public class CjContractController {
 	public int updateCjContractBySave(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
+		map.put("chaiFenXinXiArray", Task.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
-		
+		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
@@ -419,7 +424,7 @@ public class CjContractController {
 		}
 		int i=service.addCjContract(cj);
 		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(cj.getMainDepartment());
+			OrganizationManagement om=oService.selectOrgById(cj.getYiCjDepartment());
 			String omNo=om.getOmNo();
 			String string="";
 			User user = (User) session.getAttribute("user");
@@ -458,12 +463,13 @@ public class CjContractController {
 	
 	@RequestMapping("/updateCjContractBySubmit")
 	@ResponseBody
-	public int updateCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
+	public String updateCjContractBySubmit(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
+		map.put("chaiFenXinXiArray", Task.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
-		
+		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
@@ -507,7 +513,7 @@ public class CjContractController {
 		int i=service.addCjContract(cj);
 		String string = i+"";
 		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(cj.getMainDepartment());
+			OrganizationManagement om=oService.selectOrgById(cj.getYiCjDepartment());
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
@@ -540,7 +546,7 @@ public class CjContractController {
 				e.printStackTrace();
 			}
 		}
-		return i;
+		return string;
 	}
 	
 	@RequestMapping("/selectNameAndNo")//初始化承接合同名和合同号

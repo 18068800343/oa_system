@@ -8,6 +8,7 @@ import java.util.List;
 import org.ldxx.bean.ContractUpdate;
 import org.ldxx.bean.Task;
 import org.ldxx.dao.ContractUpdateDao;
+import org.ldxx.dao.TaskDao;
 import org.ldxx.service.ContractUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,8 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 
 	@Autowired
 	private ContractUpdateDao dao;
-	
+	@Autowired
+	private TaskDao taskDao;
 	@Override
 	public float selectContractUpdateByPrjNoAndDept(String no, String dept) {
 		ContractUpdate cu=dao.selectContractUpdateByPrjNoAndDept(no, dept);
@@ -41,6 +43,23 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 		return i; 
 	}
 
+	@Transactional
+	@Override
+	public int addContractAndTaskUpdate(List<Task> task) {
+		int i=0;
+		List<ContractUpdate> cus=splitTask(task);
+		for(int ii=0;ii<cus.size();ii++){
+			ContractUpdate cu=dao.selectContractUpdateByPrjNoAndDept(cus.get(ii).getPrjNo(), cus.get(ii).getDept());
+			float sumMoney=cu.getMoney();
+			float resultMoney=cus.get(ii).getMoney()-sumMoney;
+			cus.get(ii).setMoney(resultMoney);
+		}
+		i=dao.addContractUpdate(cus);
+		
+		i=taskDao.updateTasksByHistory(task);
+		return i; 
+	}
+
 	
 	public List<ContractUpdate> splitTask(List<Task> task){
 		List<ContractUpdate> cuList=new ArrayList<>();
@@ -53,7 +72,7 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 			cu.setMoney(task.get(ii).getMainDepartmentMoney());
 			cu.setTime(year);
 			cuList.add(cu);
-			if(!task.get(ii).getAssistDepartment1().equals("")&&task.get(ii).getAssistDepartment1()!=null){
+			if(task.get(ii).getAssistDepartment1()!=null&&!task.get(ii).getAssistDepartment1().equals("")){
 				ContractUpdate cu2=new ContractUpdate();
 				cu2.setPrjNo(task.get(ii).getPrjNo());
 				cu2.setDept(task.get(ii).getAssistDepartment1());
@@ -61,7 +80,7 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 				cu2.setTime(year);
 				cuList.add(cu2);
 			}
-			if(!task.get(ii).getAssistDepartment2().equals("")&&task.get(ii).getAssistDepartment2()!=null){
+			if(task.get(ii).getAssistDepartment2()!=null&&!task.get(ii).getAssistDepartment2().equals("")){
 				ContractUpdate cu3=new ContractUpdate();
 				cu3.setPrjNo(task.get(ii).getPrjNo());
 				cu3.setDept(task.get(ii).getAssistDepartment2());
@@ -69,7 +88,7 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 				cu3.setTime(year);
 				cuList.add(cu3);
 			}
-			if(!task.get(ii).getAssistDepartment3().equals("")&&task.get(ii).getAssistDepartment3()!=null){
+			if(task.get(ii).getAssistDepartment3()!=null&&!task.get(ii).getAssistDepartment3().equals("")){
 				ContractUpdate cu4=new ContractUpdate();
 				cu4.setPrjNo(task.get(ii).getPrjNo());
 				cu4.setDept(task.get(ii).getAssistDepartment3());

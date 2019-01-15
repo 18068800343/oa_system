@@ -70,4 +70,6 @@ public interface TaskDao {
 	public List<Task> selectTaskByCj();//承接合同选择项目列表(除去已选项目)
 	
 	public int updateTasks(@Param("task")List<Task> task);
+	
+	public int updateTasksByHistory(@Param("task")List<Task> task);
 }
