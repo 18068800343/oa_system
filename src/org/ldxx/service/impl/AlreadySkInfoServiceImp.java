@@ -67,5 +67,17 @@ public class AlreadySkInfoServiceImp implements AlreadySkInfoService {
 		}
 		return i;
 	}
+
+	@Override
+	public AlreadyRenling selectGsRenlingByTime(String time) {
+		time="%"+time+"%";
+		return dao.selectGsRenlingByTime(time);
+	}
+
+	@Override
+	public AlreadyRenling selectDeptRenlingByTime(String time, String dept) {
+		time="%"+time+"%";
+		return dao.selectDeptRenlingByTime(time, dept);
+	}
 	
 }

@@ -80,4 +80,10 @@ public interface PrjProgressFillDao {
 	public PrjProgressFillInfo selectPrjProgressFillInfoTotalByTaskAndDept(@Param("no")String no,@Param("dept")String dept);
 	
 	public List<PrjProgressFillFb> selectPrjProgressFillFbByPpfId(@Param("id")String id);
+	
+	public PrjProgressFill selectGsIncomeByTime(@Param("time")String time);//通过时间查询公司累计收入
+	
+	public PrjProgressFill selectGsIncomeByTimeAndDept(@Param("time")String time,@Param("dept")String dept);//通过时间和部门查询公司累计收入
+	
+	
 }

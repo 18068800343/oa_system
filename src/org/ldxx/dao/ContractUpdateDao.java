@@ -13,4 +13,6 @@ public interface ContractUpdateDao {
 	public int updateContractUpdate(@Param("cu")ContractUpdate cu);
 	
 	public ContractUpdate selectContractUpdateByPrjNoAndDept(@Param("no")String no,@Param("dept")String dept);
+	
+	
 }

@@ -203,4 +203,17 @@
   	<select id="selectPrjProgressFillFbByPpfId" resultType="PrjProgressFillFb">
   		SELECT * FROM prj_progress_fill_fb where ppf_id=#{id}
   	</select>
+  	
+  	<select id="selectGsIncomeByTime" resultType="PrjProgressFill">
+  		SELECT IFNULL(SUM(a.all_money_yuan),0)as all_money_yuan FROM prj_progress_fill as a
+		LEFT JOIN mode_status as b on a.ppf_id=b.mode_id
+		where b.status=2 and a.this_time like #{time}
+  	</select>
+  	
+  	<select id="selectGsIncomeByTimeAndDept" resultType="PrjProgressFill">
+  		SELECT IFNULL(SUM(c.all_money_yuan),0)as all_money_yuan FROM prj_progress_fill as a
+		LEFT JOIN mode_status as b on a.ppf_id=b.mode_id
+		LEFT JOIN prj_progress_fill_info as c on a.ppf_id=c.ppf_id
+		where b.status=2 and a.this_time like #{time} and department=#{dept}
+  	</select>
 </mapper>

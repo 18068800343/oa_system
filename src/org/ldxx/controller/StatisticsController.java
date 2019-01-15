@@ -22,6 +22,7 @@ import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.StatisticsVo;
 import org.ldxx.bean.Task;
 import org.ldxx.dao.CjContractDao;
+import org.ldxx.service.AlreadySkInfoService;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.DepartmentTargetService;
 import org.ldxx.service.FinancialReceiptsService;
@@ -65,6 +66,8 @@ public class StatisticsController {
 	private DepartmentTargetService dtService;
 	@Autowired
 	private TaskService tService;
+	@Autowired
+	private AlreadySkInfoService aService;
 
 	@RequestMapping("/initGsContract")//初始化本期公司新签合同额。累计收款，累计收入
 	@ResponseBody
@@ -79,7 +82,8 @@ public class StatisticsController {
 		float cjContractMoneyAll=cjService.selectCjContractMoneyBySignTime(time);//本期所有承接合同金额总和
 		float otherContractMoneyAll=oService.selectOtherContractMoneyBySignTime(time);//本期所有其他合同金额总和
 		contractAll=cjContractMoneyAll+otherContractMoneyAll;
-		float allInCome=pService.selectTotalIncome(time);//本期收入总和
+//		float allInCome=pService.selectTotalIncome(time);//本期收入总和
+		float allInCome=0;
 		float allReceipt=fService.selectResultMoneyBySignTime(time);//本期累计收款
 		float mbContractMoney=0;//目标合同额
 		float mbIncome=0;//目标收入
@@ -142,7 +146,8 @@ public class StatisticsController {
 			float otherMoney=oService.selectOtherContractMoneyBySignTimeAndDepartment(time, omId);//其他合同本期总金额
 			float contractAll=otherMoney+contractMoneyAll;//部门本期总签合同金额
 			
-			float totalIncomeAll=pService.selectThisTimeIncomeByDepartment(omName, time);//部门本期累计收入
+	//		float totalIncomeAll=pService.selectThisTimeIncomeByDepartment(omName, time);//部门本期累计收入
+			float totalIncomeAll=0;
 			float receiptAll=0;//部门本期累计收款
 			List<CjContract> cj2=fService.selectResultMoneyByCjAndTime(time);
 			if(cj2!=null){

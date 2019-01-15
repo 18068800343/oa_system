@@ -44,7 +44,7 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 	
 	public List<ContractUpdate> splitTask(List<Task> task){
 		List<ContractUpdate> cuList=new ArrayList<>();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM");
 		String year=sdf.format(new Date());
 		for(int ii=0;ii<task.size();ii++){
 			ContractUpdate cu=new ContractUpdate();

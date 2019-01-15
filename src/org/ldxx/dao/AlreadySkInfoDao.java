@@ -24,5 +24,9 @@ public interface AlreadySkInfoDao {
 	int deleteAlreadyRenlingById(@Param("rId")String rId);
 
 	int deleteAlreadySkOmInfoByrId(@Param("rId")String rId);
+	
+	public AlreadyRenling selectGsRenlingByTime(@Param("time")String time);//通过时间查询公司全部认领金额
+	
+	public AlreadyRenling selectDeptRenlingByTime(@Param("time")String time,@Param("dept")String dept);//通过时间查询部门全部认领金额
 
 }

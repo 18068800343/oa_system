@@ -2,7 +2,6 @@ package org.ldxx.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.PrjProgressFillCj;
@@ -24,8 +23,6 @@ public interface PrjProgressFillService {
 	public PrjProgressFillInfo getLastByDepartmentAndId(String id,String department);
 	
 	public int addPrjProgressFillCj(PrjProgressFillCj ppcj);
-	
-	/*public PrjProgressFillCj cjBq(String ppfId,String cjId);*/
 	
 	public List<PrjProgressFillCj> selectPrjProgressFillCjById(String id);
 	
@@ -49,17 +46,9 @@ public interface PrjProgressFillService {
 	
 	public PrjProgressFillInfo selectYearCostByDepartment(String department,String year);
 	
-	/*public float selectTotalIncome(String time);
-	
-	public float selectThisTimeIncomeByDepartment(String department,String time);
-	
-	public float selectThisTimeIncomeByDepartmentAndPrjType(String department,String time,String type);*/
-
 	public List<PrjProgressFill> selectNewest();
 	
 	public int updatePrjProgressFill(PrjProgressFill ppf);
-	
-	/*public int updateAllIncomeAndCost(PrjProgressFill ppf);*/
 	
 	public CjContract selectCjContractAndPrjProgressFillCj(String no);
 	
@@ -72,5 +61,9 @@ public interface PrjProgressFillService {
 	public PrjProgressFillInfo selectPrjProgressFillInfoTotalByTaskAndDept(String no,String dept);
 	
 	public  List<PrjProgressFillFb>  selectPrjProgressFillFbByPpfId(String id);
+	
+	public PrjProgressFill selectGsIncomeByTime(String time);
+	
+	public PrjProgressFill selectGsIncomeByTimeAndDept(String time,String dept);
 	
 }
