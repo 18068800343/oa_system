@@ -8,9 +8,17 @@ public class CompanyCost {
 	private String taskCode;
 	private String departId;
 	private String departName;
-	private Double money;
+	private Double money;//间接成本
+	private Double money2;//直接成本
 	private String date;
 	private String type;
+	
+	public Double getMoney2() {
+		return money2;
+	}
+	public void setMoney2(Double money2) {
+		this.money2 = money2;
+	}
 	public String getType() {
 		return type;
 	}
