@@ -71,11 +71,11 @@
                         <table class="table table-bordered table-condensed" id="mainContent">
                             <thead>
                                 <tr>
-                                    <th style="width:8%;">科目编码</th>
                                     <th style="width:15%;">任务单号</th>
-                                    <th style="width:15%;">任务单名称</th>
+                                    <th style="width:30%;">任务单名称</th>
                                     <th style="width:15%;">部门</th>
-                                    <th style="width:10%;">成本</th> 
+                                    <th style="width:15%;">间接成本(元)</th> 
+                                    <th style="width:15%;">直接成本(元)</th> 
                                     <th style="width:10%;">月份</th>
                                 </tr>
                             </thead>
@@ -152,6 +152,7 @@
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>  
     $(document).ready( function () {
     	initTable();
@@ -169,11 +170,11 @@
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
 		"columns": [
-		            { "data": "xuhao"}, 
-		            { "data": "prjName"},
 		            { "data": "taskCode"},
+		            { "data": "prjName"},
 		            { "data": "departName"},
 		            { "data": "money"},
+		            { "data": "money2"},
 		            { "data": "date"}
 		        ],
         "order": [5, 'desc'],
@@ -216,6 +217,7 @@
 			toastr.error("请选择表格")
 			return;
 		}
+		myTool.mask.show('导入中...');
 		var options={
 				url:getContextPath()+'/task2/importExcelCompanyCost',
 				data:$('#from1').serialize(),  
@@ -229,6 +231,7 @@
 					}else{
 						toastr.error('导入失败');
 					}
+					myTool.mask.hide();
 				}
 		}
 		$("#form1").ajaxSubmit(options);

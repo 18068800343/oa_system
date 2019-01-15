@@ -432,7 +432,7 @@ public class ImportData {
 						 ft.setXuhao(getValue(colum1));
 						 String cc3 = getValue(colum3);
 						 ft.setTaskCode(cc3);
-						 if(cc3.contains("-")){
+						 if(cc3.startsWith("0")){
 							 ft.setType("0");
 						 }else{
 							 ft.setType("1");
@@ -456,9 +456,14 @@ public class ImportData {
 						 String cc9 = getValue(colum9).trim();
 						 if(!"".equals(cc9)){
 							 cc9 = cc9.replace(" ", "").replace("，", "").replace(",","");
-							 ft.setMoney(Double.valueOf((cc9)));
+							 if(cc3.startsWith("0")){
+								 ft.setMoney(Double.valueOf((cc9)));
+							 }else{
+								 ft.setMoney2(Double.valueOf((cc9)));
+							 }
 						 }else{
 							 ft.setMoney(null);
+							 ft.setMoney2(null);
 						 }
 						 ft.setDate(TimeUUID.getLastMonth());
 						 t.add(ft);
