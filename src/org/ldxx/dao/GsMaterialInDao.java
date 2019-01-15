@@ -39,6 +39,8 @@ public interface GsMaterialInDao {
 
 	List<CompanyMateriaIn> selectAlearyRemain();
 
+	List<CompanyMateriaIn> selectGsMateriaOutForEnd2(@Param("no")String no);
+
 
 
 }

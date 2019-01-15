@@ -44,5 +44,7 @@ public interface GsMaterialInService {
 
 	List<CompanyMateriaIn> selectAlearyRemain();
 
+	List<CompanyMateriaIn> selectGsMateriaOutForEnd2(String no);
+
 
 }

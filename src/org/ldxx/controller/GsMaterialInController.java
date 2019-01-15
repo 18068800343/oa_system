@@ -272,6 +272,13 @@ public class GsMaterialInController {
 		return gmService.selectGsMateriaOutForEnd(no);
 	}
 	
+	@RequestMapping("/selectGsMateriaOutForEnd2")//通过任务单号和remainType!=0和outstate!=3获取项目材料已收货的所有项目(公司材料结余未转出的)
+	@ResponseBody
+	public List<CompanyMateriaIn> selectGsMateriaOutForEnd2(String taskno){
+		String no="%"+taskno+"%";
+		return gmService.selectGsMateriaOutForEnd2(no);
+	}
+	
 	
 	@RequestMapping("/updateremainType")//公司结余确认
 	@ResponseBody

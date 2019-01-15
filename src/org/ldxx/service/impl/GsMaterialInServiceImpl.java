@@ -197,6 +197,11 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 		return gmDao.selectAlearyRemain();
 	}
 
+	@Override
+	public List<CompanyMateriaIn> selectGsMateriaOutForEnd2(String no) {
+		return gmDao.selectGsMateriaOutForEnd2(no);
+	}
+
 
 
 }

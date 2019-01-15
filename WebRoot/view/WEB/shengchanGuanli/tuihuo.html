@@ -62,9 +62,17 @@
                         <option>审批未通过</option>
                     </select>
                 </form> -->
+                <div>
+                     <form class="form-inline">
+	                    <select class="zhuangtai form-control">
+	                        <option>未处理</option>
+	                        <option>已处理</option>
+	                    </select>
+	                </form>
+                 </div>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary Pedbfa" data-toggle="modal" data-target="#myModal">填报</button>
+                <!-- <button type="button" class="btn btn-primary Pedbfa" data-toggle="modal" data-target="#myModal">填报</button> -->
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -83,12 +91,12 @@
                                 <td style="width:34%;">
                                 	<!-- <select class="form-control" style="width:60%;" id="prjName">
                                     </select> -->
-                                    <input type="text" class="form-control" id="prjName" disabled  style="width:60%;">
-                               		<button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="chosexm">选择项目</button>
+                                    <input type="text" class="form-control" id="prjName" disabled  style="width:60%;" disabled>
+                               		<!-- <button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="chosexm">选择项目</button> -->
                                 </td>
                                 <td style="width:18%;">任务单号</td>
                                 <td style="width:30%;">
-                                	<select class="form-control" style="width:70%;" id="prjNo">
+                                	<select class="form-control" style="width:70%;" id="prjNo" disabled>
                                     	
                                     </select>
                                 </td>
@@ -147,7 +155,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             <!-- <button type="button" class="btn btn-default" onclick="save()">保存</button> -->
-            <button type="button" class="btn btn-success" onclick="submit()">提交</button>
+            <button type="button" class="btn btn-success" id="wasteDispose" onclick="submit()">提交</button>
         </div>
         </div>
     </div>
@@ -463,7 +471,7 @@
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
-    	initTable();
+    	//initTable();
     	initSelectPrj();
     	initPerson();
         laydate.render({
@@ -504,7 +512,7 @@
 									    "targets": 4,
 									    "searchable": true,
 									    "render": function(data, type, full) {
-									  	  		return '<i class="iconfont icon-icon-test Pedbfb" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookFj(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  '
+									  	  		return '<i class="iconfont icon-icon-test Pedbfb" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookFj(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i> <i class="glyphicon glyphicon-new-window chuli" style="font-size:20px;cursor:pointer;display:none;" title="处理" onclick="chuli(this)" data-toggle="modal" data-target="#myModal" id="lookDetall"></i>  '
 									        }
 									  }
 							],
@@ -648,7 +656,7 @@
         }},
         
 	});
-	function initTable(){
+	/* function initTable(){
         $.ajax({
             type: 'POST',
             url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatment',
@@ -661,69 +669,61 @@
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
-    }
+    } */
 	
 	//初始化
-    /* $(".zhuangtai").change(function(){
+    $(".zhuangtai").change(function(){
         var zt=$(".zhuangtai").val();
-        if(zt=="审批中"){
+        if(zt=="未处理"){
         	$.ajax({
                 type: 'POST',
-                url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatment',
+                url: getContextPath()+'/gsMaterialIn/selectGsMateriaOutForEnd2',
                 dataType: 'json',
                 data: {
-                	status:1,
-                	type:1
+                	taskno:"%",
                 },
                 success: function (json) {
+                	var arr=[];
+                	for(var i=0;i<json.length;i++){
+                		var gmw={
+                				cmwId:undefined,
+                				prjName:undefined,
+                				prjNo:undefined,
+                				applyPerson:undefined,
+                				applyDate:undefined,
+                		}
+                		gmw.cmwId=json[i].cmId;
+                		gmw.prjName=json[i].demandProject;
+                		gmw.prjNo=json[i].taskNo;
+                		gmw.applyPerson=json[i].getPerson;
+                		gmw.applyDate=json[i].sentDate;
+                		arr.push(gmw)
+                	}
                     $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").hide();
-                    $(".iconxiugai").hide();
-                    $(".iconzhongzhi").show();
-                    $(".iconlywj").show();
+                    $('#mainContent').DataTable().rows.add(arr).draw(false);
+                    $(".Pedbfb").hide();
+                    $(".chuli").show();
                 }
             });
             
-        }else if(zt=="审批通过"){
+        }else if(zt=="已处理"){
         	$.ajax({
                 type: 'POST',
                 url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatment',
                 dataType: 'json',
                 data: {
-                	status:2,
                 	type:1
                 },
                 success: function (json) {
                     $('#mainContent').dataTable().fnClearTable();
                     $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").show();
-                    $(".iconxiugai").show();
-                    $(".iconzhongzhi").hide();
-                    $(".iconlywj").hide();
+                    $(".Pedbfb").show();
+                    $(".chuli").hide();
                 }
             });
             
-        }else if(zt=="审批未通过"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/GsMaterialWaste/selectGsMaterialWastetreatment',
-                dataType: 'json',
-                data: {
-                	status:0,
-                	type:1
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").hide();
-                	$(".iconxiugai").hide();
-                	$(".iconzhongzhi").hide();
-                    $(".iconlywj").hide();
-                }
-            });
         }
-    }) */
+    }) 
 	
 	
 	//选择项目
@@ -805,6 +805,7 @@
             success: function (json) {
             	$("#waste_table tbody").html('');
             	if(json!=null&&json.length>0){
+            		$("#wasteDispose").attr("disabled",false);
 	            	for(var i=0;i<json.length;i++){
 	                    	$("#waste_table tbody").append("<tr>"+
            														"<td>"+json[i].materialName+"</td>"+
@@ -822,13 +823,8 @@
 	            	}
             	}else{
             		$("#waste_table tbody").append("<tr><td colspan='9' style='text-align:center;color:red;font-size:24px'>材料为空<td></tr>")
+            		$("#wasteDispose").attr("disabled",true);
             	}
-            	var length=$("#waste_table tbody").find("tr").length;
-        		if(length==0){
-        			$("#wasteDispose").attr("disabled",true);
-        		}else{
-        			$("#wasteDispose").attr("disabled",false);
-        		}
             }
         });
 		
@@ -943,6 +939,15 @@
 		})
 	}
 	
+	
+	//处理
+	function chuli(obj){
+		var dom=$(obj).parents('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+		$("#prjName").val(data.prjName);
+		$("#prjNo").val(data.prjNo);
+		initClBy(data.cmwId)
+	}
 	
 	//保存
 	function save(){
