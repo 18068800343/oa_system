@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.BudgetFpplicationForm;
+import org.ldxx.bean.CostBudget;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
@@ -49,7 +50,7 @@ public class BudgetFpplicationFormController {
 		String code="YS"+uuid.getPrjCode("", count+1);
 		budge.setBfNo(code);
 		int i=bservice.saveBudge(budge);
-		/*if(i>0){
+		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(budge.getDepartment());
 			String omNo=om.getOmNo();
 			String string="";
@@ -83,7 +84,7 @@ public class BudgetFpplicationFormController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}*/
+		}
 		return i;
 	}
 	
@@ -287,5 +288,10 @@ public class BudgetFpplicationFormController {
 		BudgetFpplicationForm b=budge.get(0);
 		int i=bservice.updateBudge(b);
 		return i;
+	}
+	@RequestMapping("/selectNwCostByTaskNo")//通过任务单号和项目明细查费用总金额
+	@ResponseBody
+	public CostBudget selectNwCostByTaskNo(String no,String type) {
+		return bservice.selectNwCostByTaskNo(no,type);
 	}
 }
