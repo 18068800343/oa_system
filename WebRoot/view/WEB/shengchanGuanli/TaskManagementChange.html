@@ -105,17 +105,29 @@
                                         </select>
                                     </form>
                                 </td>
-                                <!-- <td>重要程度</td>
+                                <td>重要程度</td>
                                 <td>
                                     <select id="edit_importance" class="form-control" style="width:100%;">
                                         <option value="重要">重要</option>
                                         <option value="一般">一般</option>
                                     </select>
-                                </td> -->
+                                </td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
+                            </tr>
+                            <tr>
+                            		<td>主任务单号</td>
+	                                <td>
+	                                	<input type="text" class="form-control" style="width:100%;" id="xg_main_task_no">
+	                                </td>
+	                                <td>
+	                                	<button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="chooseMainTask(1)">选择任务单</button>
+	                                </td>
+                            		<td></td>
+                            		<td></td>
+                            		<td></td>
+                            		<td></td>
+                            		<td></td>
                             </tr>
                             <tr>
                                 <td>项目概况及工作内容</td>
@@ -552,6 +564,44 @@
     </div>
 </div>
 <!-- model5结束 -->
+<!-- Modal项目 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xiangmumd">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xiangmubiao" style="width:100%;">
+                            <thead>
+                            	<tr>
+                            		<th style="width:8%;"></th>
+                            		<th style="width:12%;">编号</th>
+                                    <th style="width:30%;">项目名称</th>
+                                    <th style="width:15%;">项目所属公司</th>
+                                    <th style="width:15%;">项目类型</th>
+                                    <th style="width:20%;">甲方单位</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveTask()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
@@ -668,7 +718,55 @@
         }},
         
     });
-
+	
+    var table11=$('#xiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+ 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+ 		},
+ 		"columns": [
+ 					{ "data": null},
+ 		            { "data": "prjNo"},
+ 		            { "data": "prjName"},
+ 		            { "data": "prjCompany"},
+ 		            { "data": "prjType2"},
+ 		            { "data": "ccName"},
+ 		            
+ 		        ],
+ 		        "columnDefs": [
+ 								{
+ 										 "class": "tcenter",
+ 										    "targets": 0,
+ 										    "searchable": true,
+ 										    "render": function(data, type, full) {
+ 										  	  		return '<input type="radio" name="xiangmuName" style="width:16px;height:16px;">'
+ 										        }
+ 										  }
+ 								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+ 	});
     
 
   //初始化提交部门
@@ -1282,10 +1380,7 @@
             }
         });
         
-        if(a==0){
-            toastr.error('存在数据未填写');
-            return;
-        }
+        	var mainPrjNo=$("#xg_main_task_no").val();
             var erji=$("#xgerjileixing").find("option:selected").val();
             var taskName=$("#xgtaskName").val();
             var taskbianhao=$("#xgtaskbianhao").val();
@@ -1366,6 +1461,7 @@
                     prjNo:undefined,
                     prjName:undefined,
                     prjArea:undefined,
+                    mainPrjNo:undefined,
                     importance:undefined,
                     prjManagementModel:undefined,
                     prjCompany:undefined,
@@ -1392,6 +1488,7 @@
             xindanwei.importance=importance;
             xindanwei.prjType2=erji;
             xindanwei.prjNo=taskbianhao;
+            xindanwei.mainPrjNo=mainPrjNo;
             xindanwei.prjName=taskName;
             xindanwei.prjManagementModel=moshi;
             xindanwei.prjCompany=gongsi;
@@ -1459,10 +1556,7 @@
             }
         });
         
-        if(a==0){
-            toastr.error('存在数据未填写');
-            return;
-        }
+       
             var erji=$("#xgerjileixing").find("option:selected").val();
             var taskName=$("#xgtaskName").val();
             var taskbianhao=$("#xgtaskbianhao").val();
@@ -1689,6 +1783,37 @@
         }
   }
     
+    function appendBfh(obj){
+  		var value=$(obj).val().replace("%","")+"%"
+  		$(obj).val(value)
+  	}
+  	
+  	var ctype;
+  	function chooseMainTask(obj){
+  		ctype=obj;
+  		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectTaskByStatus2',
+	            dataType: 'json',
+	            data: {
+	            	status:2,
+	            },
+	            success: function (json) {
+	                $('#xiangmubiao').dataTable().fnClearTable();
+	                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
+	                $("#xiangmumd").modal("show");
+	            }
+	      });
+  	}
+  	
+  	function saveTask(){
+  		var tr= $('input[name="xiangmuName"]:checked').parents("tr");
+  		var data=$('#xiangmubiao').DataTable().row(tr).data();
+  		if(ctype==1){
+  			$("#xg_main_task_no").val(data.prjNo);
+  		}
+  		$("#xiangmumd").modal("hide");
+  	}
 </script>
 
 </html>
