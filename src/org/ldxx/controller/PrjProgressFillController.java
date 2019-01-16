@@ -285,6 +285,42 @@ public class PrjProgressFillController {
 		return ppf;
 	}
 	
+	@RequestMapping("/initTable2")
+	@ResponseBody
+	public List<CjContract> initTable2(){
+		List<CjContract> list=new ArrayList<>();
+		List<PrjProgressFill> ppf=service.selectPrjProgressFill("2");
+		for(int i=0;i<ppf.size();i++){
+			String taskNo=ppf.get(i).getTaskNo();
+			String thisTime=ppf.get(i).getThisTime();
+			double plan=Double.valueOf(ppf.get(i).getContractIncome().replace("%", ""));
+			CjContract cj=cService.selectCjContractLikeTaskCode("%"+taskNo+"%");
+			if(list.size()!=0){
+				int end=0;
+				for(int ii=0;ii<list.size();ii++){
+					if(list.get(ii).getContractNo().equals(cj.getContractNo())&&list.get(ii).getContractSignTime().equals(thisTime)){
+						 end=1;
+						 double old_plan=Double.valueOf(list.get(ii).getWorkInfo().replace("%", ""));
+						 if(old_plan<plan){
+							 list.get(ii).setWorkInfo(plan+"%");
+						 }
+					}
+				}
+				if(end==0){
+					cj.setContractSignTime(thisTime);
+					cj.setWorkInfo(plan+"%");
+					list.add(cj);
+				}
+			}else{
+				cj.setContractSignTime(thisTime);
+				cj.setWorkInfo(plan+"%");
+				list.add(cj);
+			}
+		}
+		return list;
+	}
+	
+	
 	@RequestMapping("/selectAllByNo")
 	@ResponseBody
 	public Map<String,Object> selectAllByNo(String no){
