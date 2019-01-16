@@ -368,8 +368,8 @@
                         <table class="table table-bordered table-condensed" id="edit_accessory">
                         	<thead>
                         		<tr>
-                                	<td style="width:15%;">采购合同文本  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                               	 	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile2()">添加附件</button></td>
+                                	<th style="width:15%;">采购合同文本  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></th>
+                               	 	<th colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile2()">添加附件</button></th>
                            		</tr>
                         	</thead>
                         	<tbody>
@@ -1436,84 +1436,90 @@
 	                            "<th>项目部推荐供应商</th>"+
 	                            "<th>公司确定供应商</th>"+
 	                            "<th>备注</th>"+
+	                            "<th style='width:5%;'>操作</th>"+
                         	"</tr>"+
                     	"</thead>"+
                     	"<tbody>"+
                     	"</tbody>"+
                     "</table>"
                     )}
-		  		$.ajax({
-		            type: 'POST',
-		            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
-		            dataType: 'json',
-		            data: {
-		            	ids:no_list2.toString()
-		            },
-		            success: function (json) {
-		            	///console.log(json)
-		            	var array1=new Array();
-		            	var array2=new Array();
-		            	for(var i=0;i<json.length;i++){
-		            		var applyCode=json[i].applyCode
-		            		var applyPrj=json[i].applyPrj
-		            		var omName=json[i].omName
-		            		var sumPrice=json[i].sumPrice;
-		            		var pmbId=json[i].pmbId;
-		            		if($.inArray(applyCode, array1)==-1){
-		            			array1.push(applyCode)
-		            		}
-		            		if($.inArray(applyPrj, array2)==-1){
-		            			array2.push(applyPrj)
-		            		}
-		            		$("#xgcgbumen"+i+"").text(json[i].omName)
-		            		$("#xgcgbumen"+i+"").attr("dataId",pmbId)
-		            		
-		            		$.ajax({
-		                        type: 'POST',
-		                        url: getContextPath()+'/cgcontract/getMdById',
-		                        dataType: 'json',
-		                        async:false,
-		                        data: {
-		                        	id:pmbId
-		                        },
-		                        success: function (json) {
-		                        	//console.log(json)
-		                        	for(var k=0;k<json.length;k++){
-		                        		$("#xgcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td style='width:10%;'>"
-		                		  				+'<input type="text" class="form-control" value='+json[k].materialName+' style="width:100%;">'
-		                		  				+"</td><td style='width:10%;'>"
-		                		  				+'<input type="text" class="form-control" value='+json[k].materialType+' style="width:100%;">'
-		                		  				+"</td><td style='width:10%;'>"
-		                		  				+'<input type="text" class="form-control" value='+json[k].modeType+' style="width:100%;">'
-		                		  				+"</td><td style='width:10%;'>"
-		                		  				+'<input type="text" class="form-control" value='+json[k].buyCompany+' style="width:100%;">'
-		                		  				+"</td><td style='width:10%;'>"
-		                		  				+'<input type="text" class="form-control" value='+json[k].num+' style="width:100%;">'
-		                		  				+"</td><td style='width:10%;'>"
-		                		  				+'<input type="text" class="form-control"  style="width:80%;">'
-		                		  				+"</td><td style='width:10%;'>"
-		                		  				+'<input type="text" class="form-control" value='+json[k].price+' style="width:100%;">'
-		                		  				+"</td><td style='width:10%;'>"
-		                		  				+'<select style="width:150px;" class="form-control" id=xgxm'+json[k].mdlId+'></select>'
-		                		  				+"</td><td style='width:10%;'>"
-		                		  				+'<select style="width:150px;" class="form-control" id=xggs'+json[k].mdlId+'></select>'
-		                		  				+"</td><td style='width:10%;'>"
-		                		  				+'<input type="text" class="form-control" value='+json[k].infos+' style="width:100%;">'
-		                		  				+"</td></tr>")
-		                		  				initName1(json[k].provideCompany,json[k].mdlId);
-                        						initName2(json[k].sureMaterialMode,json[k].mdlId);
-		                        	} 
-		                        }
-		              		});
-		            		
-		            	}
-	            		$('#xgcgdNo').val(no_list2)
-		            	$('#xgtask_no').val(array1.toString())
-		            	$('#xgprjName').val(array2.toString())
-		            	$("#chooseNo2").modal("hide");
-		            	
-		            }
-		  		});
+			$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
+	            dataType: 'json',
+	            data: {
+	            	ids:no_list2.toString()
+	            },
+	            success: function (json) {
+	            	$("#xgprjName").empty()
+	            	$("#xgtask_no").empty()
+	            	for(var i=0;i<json.length;i++){
+	            		$("#xgprjName").append("<option value="+json[i].applyPrj+">"+json[i].applyPrj+"</option>")
+                		$("#xgtask_no").append("<option value="+json[i].applyCode+">"+json[i].applyCode+"</option>")
+	            		var omName=json[i].omName
+	            		var pmbId=json[i].pmbId;
+	            		$("#xgcg_bumen").val(json[i].omName)
+	            		
+	            		$.ajax({
+	                        type: 'POST',
+	                        url: getContextPath()+'/cgcontract/getMdById',
+	                        dataType: 'json',
+	                        async:false,
+	                        data: {
+	                        	id:pmbId
+	                        },
+	                        success: function (json) {
+	                        	//console.log(json)
+	                        	for(var k=0;k<json.length;k++){
+	                        		$("#xgcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td style='width:10%;'>"
+	                		  				+'<input type="text" class="form-control" value='+json[k].materialName+' style="width:100%;">'
+	                		  				+"</td><td style='width:10%;'>"
+	                		  				//+'<input type="text" class="form-control" value='+json[k].materialType+' style="width:100%;">'
+	                		  				+'<select class="form-control" id="xgcl_type'+json[k].mdlId+'"></select>'
+	                		  				+"</td><td style='width:10%;'>"
+	                		  				+'<input type="text" class="form-control" value='+json[k].modeType+' style="width:100%;">'
+	                		  				+"</td><td style='width:10%;'>"
+	                		  				//+'<input type="text" class="form-control" value='+json[k].buyCompany+' style="width:100%;">'
+	                		  				+'<select class="form-control"  id=xgcl_danwei'+json[k].mdlId+'>'
+														+'<option value="个">个</option>'
+														+'<option value="只">只</option>'
+														+'<option value="套">套</option>'
+														+'<option value="副">副</option>'
+														+'<option value="双">双</option>'
+														+'<option value="元">元</option>'
+														+'<option value="桶">桶</option>'
+													+'</select>'
+	                		  				+"</td><td style='width:10%;'>"
+	                		  				+'<input type="text" class="form-control" value='+json[k].num+' style="width:100%;">'
+	                		  				+"</td><td style='width:10%;'>"
+	                		  				+'<input type="text" class="form-control"  style="width:80%;">'
+	                		  				+"</td><td style='width:10%;'>"
+	                		  				+'<input type="text" class="form-control" value='+json[k].price+' style="width:100%;">'
+	                		  				+"</td><td style='width:10%;'>"
+	                		  				+'<select style="width:150px;" class="form-control" id=xgxm'+json[k].mdlId+'></select>'
+	                		  				+"</td><td style='width:10%;'>"
+	                		  				+'<select style="width:150px;" class="form-control" id=xggs'+json[k].mdlId+'></select>'
+	                		  				+"</td><td style='width:10%;'>"
+	                		  				+'<input type="text" class="form-control" value='+json[k].infos+' style="width:100%;">'
+	                		  				+"</td><td style='width:9%;'>"
+	                		  				+'<button type="button" class="btn btn-primary" onclick="removeThis(this)">删除</button>'
+	                		  				+"</td></tr>")
+	                		  				initClType(json[k].materialType,json[k].mdlId);
+	                        				$("#xgcl_danwei"+json[k].mdlId).val(json[k].buyCompany);
+	                		  				initName1(json[k].provideCompany,json[k].mdlId);
+                    						initName2(json[k].sureMaterialMode,json[k].mdlId);
+	                        	} 
+	                        }
+	              		});
+	            		
+	            	}
+            		$('#xgcgdNo').val(no_list2)
+	            	$("#xgprjName").trigger("change")
+	            	$("#xgtask_no").trigger("change")
+	            	$("#chooseNo2").modal("hide");
+	            	
+	            }
+	  		});
 		  		
 	  		}else{
 	  			toastr.error("采购单号为空");
@@ -1980,7 +1986,55 @@
 				
 			}
 		});
-		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/cgcontract/selectAccessoryById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:id,
+			},
+			success:function(json){
+				$("#edit_accessory tbody").empty();
+	            for(var i=0;i<json.length;i++){
+	            	   if(json[i].aType=="采购合同文本"){
+		            	   $("#edit_accessory").append("<tr>"+
+	      	   										"<td>采购合同文本</td>"+
+							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button>     <button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='delete_all(this)'>删除附件</button></td>"+
+							            	    "</tr>");
+	            	   }
+	               }
+			}
+		})
+	}
+	
+	function delete_all(obj){
+		var id=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var url=$(obj).attr("data2");
+		var statu = confirm("确认删除吗?");
+		  if(!statu){
+		   return false;
+		  }
+		$.ajax({
+			type: 'POST',
+            url: getContextPath()+'/announcement/deleteAccessory',
+            dataType: 'json',
+            data: {
+            	aId:id,
+            	acName:name,
+            	acUrl:url
+            },
+            success: function (json) {
+            	if(json==0){
+            		toastr.error("删除附件失败");
+            	}else{
+            		$(obj).parents("tr").remove();
+            		toastr.success("删除附件成功");
+            	}
+            }
+		});
 	}
 	
 	function huixianPrjNameAndNo(obj1,obj2,obj3){
@@ -2905,7 +2959,7 @@
 	}
 	
 	function addFile2(){
-		$("#edit_accessory tbody").append("<tr><td>新附件</td><td colspan='2'><input style='width:70%;' type='file' name='file' id='xgfile' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+		$("#edit_accessory tbody").append("<tr><td>新附件</td><td colspan='2'><input  type='file' name='file' id='xgfile'  class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
 	}
 	function addFile3(){
 		$("#edit_accessory1 tbody").append("<tr><td>新附件</td><td colspan='2'><input style='width:70%;' type='file' name='file1' id='xgfile1' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
