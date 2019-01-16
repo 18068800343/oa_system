@@ -10,158 +10,229 @@ public class ProjectAccounting {
 	private String yezhu;//业主单位
 	private String cjDepartment;//承接部门
 	private String prjLeader;//项目负责人
-	private Float  contractMoney;//合同金额
 	private Float  prjJsMoney;//项目结算金额
-	private Float  prjYsCost;//项目预算成本
-	private Float  ysProfit;//预算利润
-	private String ysProfitMargin;//预算利润率
-	private Float  jsProfit;//结算利润
-	private String jsProfitMargin;//结算利润率
-	private Float  prjActualCost;//项目核算实际成本
+	private Float  contractJsMoney;//合同结算金额
+	private Float  zjFbYsMoney;//直接成本的分包预算金额
+	private Float  zjFbJsMoney;//直接成本的分包结算金额
+	private Float  zjZcYsMoney;//直接成本的主材预算金额
+	private Float  zjZcJsMoney;//直接成本的主材结算金额
+	private Float  zjPrjotherYsMoney;//直接成本的项目其他直接成本预算金额
+	private Float  zjPrjotherJsMoney;//直接成本的项目其他直接成本结算金额
+	private Float  jjPersonMoney;//间接成本的项目人员薪酬金额
+	private Float  jjZhejiuMoney;//间接成本的折旧费用金额
+	private Float  qtGsGlMoney;//其他摊销费用的公司管理费用
+	private Float  qtGsXsMoney;//其他摊销费用的公司销售费用
+	private Float  qtTxMoney;//其他摊销费用的其他摊销费用
+	private Float  allSubtotal;//总成本
 	private Float  allJsProfit;//总成本的结算利润
 	private Float  allYsProfit;//总成本的预算利润
 	private String allJsProfitMargin;//总成本的结算利润率
 	private String allYsProfitMargin;//总成本的预算利润率
 	
 	private List<ProjectAccountingRg> projectAccountingRg;//人员工时
-	private List<ProjectAccountingFyys> projectAccountingFyys;//费用预算
-	private List<ProjectAccountingClfy> projectAccountingClfy;//材料费用
-	private List<ProjectAccountingJjfy> projectAccountingJjfy;//间接费用
 	
+
 	
-	
-	public List<ProjectAccountingRg> getProjectAccountingRg() {
-		return projectAccountingRg;
-	}
-	public void setProjectAccountingRg(List<ProjectAccountingRg> projectAccountingRg) {
-		this.projectAccountingRg = projectAccountingRg;
-	}
-	public List<ProjectAccountingFyys> getProjectAccountingFyys() {
-		return projectAccountingFyys;
-	}
-	public void setProjectAccountingFyys(List<ProjectAccountingFyys> projectAccountingFyys) {
-		this.projectAccountingFyys = projectAccountingFyys;
-	}
-	public List<ProjectAccountingClfy> getProjectAccountingClfy() {
-		return projectAccountingClfy;
-	}
-	public void setProjectAccountingClfy(List<ProjectAccountingClfy> projectAccountingClfy) {
-		this.projectAccountingClfy = projectAccountingClfy;
-	}
-	public List<ProjectAccountingJjfy> getProjectAccountingJjfy() {
-		return projectAccountingJjfy;
-	}
-	public void setProjectAccountingJjfy(List<ProjectAccountingJjfy> projectAccountingJjfy) {
-		this.projectAccountingJjfy = projectAccountingJjfy;
-	}
 	public String getPaId() {
 		return paId;
 	}
+
+	public Float getAllSubtotal() {
+		return allSubtotal;
+	}
+
+	public void setAllSubtotal(Float allSubtotal) {
+		this.allSubtotal = allSubtotal;
+	}
+
 	public void setPaId(String paId) {
 		this.paId = paId;
 	}
+
 	public String getPrjName() {
 		return prjName;
 	}
+
 	public void setPrjName(String prjName) {
 		this.prjName = prjName;
 	}
+
 	public String getPrjNo() {
 		return prjNo;
 	}
+
 	public void setPrjNo(String prjNo) {
 		this.prjNo = prjNo;
 	}
+
 	public String getYezhu() {
 		return yezhu;
 	}
+
 	public void setYezhu(String yezhu) {
 		this.yezhu = yezhu;
 	}
+
 	public String getCjDepartment() {
 		return cjDepartment;
 	}
+
 	public void setCjDepartment(String cjDepartment) {
 		this.cjDepartment = cjDepartment;
 	}
+
 	public String getPrjLeader() {
 		return prjLeader;
 	}
+
 	public void setPrjLeader(String prjLeader) {
 		this.prjLeader = prjLeader;
 	}
-	public Float getContractMoney() {
-		return contractMoney;
-	}
-	public void setContractMoney(Float contractMoney) {
-		this.contractMoney = contractMoney;
-	}
+
 	public Float getPrjJsMoney() {
 		return prjJsMoney;
 	}
+
 	public void setPrjJsMoney(Float prjJsMoney) {
 		this.prjJsMoney = prjJsMoney;
 	}
-	public Float getPrjYsCost() {
-		return prjYsCost;
+
+	public Float getContractJsMoney() {
+		return contractJsMoney;
 	}
-	public void setPrjYsCost(Float prjYsCost) {
-		this.prjYsCost = prjYsCost;
+
+	public void setContractJsMoney(Float contractJsMoney) {
+		this.contractJsMoney = contractJsMoney;
 	}
-	public Float getYsProfit() {
-		return ysProfit;
+
+	public Float getZjFbYsMoney() {
+		return zjFbYsMoney;
 	}
-	public void setYsProfit(Float ysProfit) {
-		this.ysProfit = ysProfit;
+
+	public void setZjFbYsMoney(Float zjFbYsMoney) {
+		this.zjFbYsMoney = zjFbYsMoney;
 	}
-	public String getYsProfitMargin() {
-		return ysProfitMargin;
+
+	public Float getZjFbJsMoney() {
+		return zjFbJsMoney;
 	}
-	public void setYsProfitMargin(String ysProfitMargin) {
-		this.ysProfitMargin = ysProfitMargin;
+
+	public void setZjFbJsMoney(Float zjFbJsMoney) {
+		this.zjFbJsMoney = zjFbJsMoney;
 	}
-	public Float getJsProfit() {
-		return jsProfit;
+
+	public Float getZjZcYsMoney() {
+		return zjZcYsMoney;
 	}
-	public void setJsProfit(Float jsProfit) {
-		this.jsProfit = jsProfit;
+
+	public void setZjZcYsMoney(Float zjZcYsMoney) {
+		this.zjZcYsMoney = zjZcYsMoney;
 	}
-	public String getJsProfitMargin() {
-		return jsProfitMargin;
+
+	public Float getZjZcJsMoney() {
+		return zjZcJsMoney;
 	}
-	public void setJsProfitMargin(String jsProfitMargin) {
-		this.jsProfitMargin = jsProfitMargin;
+
+	public void setZjZcJsMoney(Float zjZcJsMoney) {
+		this.zjZcJsMoney = zjZcJsMoney;
 	}
-	public Float getPrjActualCost() {
-		return prjActualCost;
+
+	public Float getZjPrjotherYsMoney() {
+		return zjPrjotherYsMoney;
 	}
-	public void setPrjActualCost(Float prjActualCost) {
-		this.prjActualCost = prjActualCost;
+
+	public void setZjPrjotherYsMoney(Float zjPrjotherYsMoney) {
+		this.zjPrjotherYsMoney = zjPrjotherYsMoney;
 	}
+
+	public Float getZjPrjotherJsMoney() {
+		return zjPrjotherJsMoney;
+	}
+
+	public void setZjPrjotherJsMoney(Float zjPrjotherJsMoney) {
+		this.zjPrjotherJsMoney = zjPrjotherJsMoney;
+	}
+
+	public Float getJjPersonMoney() {
+		return jjPersonMoney;
+	}
+
+	public void setJjPersonMoney(Float jjPersonMoney) {
+		this.jjPersonMoney = jjPersonMoney;
+	}
+
+	public Float getJjZhejiuMoney() {
+		return jjZhejiuMoney;
+	}
+
+	public void setJjZhejiuMoney(Float jjZhejiuMoney) {
+		this.jjZhejiuMoney = jjZhejiuMoney;
+	}
+
+	public Float getQtGsGlMoney() {
+		return qtGsGlMoney;
+	}
+
+	public void setQtGsGlMoney(Float qtGsGlMoney) {
+		this.qtGsGlMoney = qtGsGlMoney;
+	}
+
+	public Float getQtGsXsMoney() {
+		return qtGsXsMoney;
+	}
+
+	public void setQtGsXsMoney(Float qtGsXsMoney) {
+		this.qtGsXsMoney = qtGsXsMoney;
+	}
+
+	public Float getQtTxMoney() {
+		return qtTxMoney;
+	}
+
+	public void setQtTxMoney(Float qtTxMoney) {
+		this.qtTxMoney = qtTxMoney;
+	}
+
 	public Float getAllJsProfit() {
 		return allJsProfit;
 	}
+
 	public void setAllJsProfit(Float allJsProfit) {
 		this.allJsProfit = allJsProfit;
 	}
+
 	public Float getAllYsProfit() {
 		return allYsProfit;
 	}
+
 	public void setAllYsProfit(Float allYsProfit) {
 		this.allYsProfit = allYsProfit;
 	}
+
 	public String getAllJsProfitMargin() {
 		return allJsProfitMargin;
 	}
+
 	public void setAllJsProfitMargin(String allJsProfitMargin) {
 		this.allJsProfitMargin = allJsProfitMargin;
 	}
+
 	public String getAllYsProfitMargin() {
 		return allYsProfitMargin;
 	}
+
 	public void setAllYsProfitMargin(String allYsProfitMargin) {
 		this.allYsProfitMargin = allYsProfitMargin;
 	}
+
+	public List<ProjectAccountingRg> getProjectAccountingRg() {
+		return projectAccountingRg;
+	}
+
+	public void setProjectAccountingRg(List<ProjectAccountingRg> projectAccountingRg) {
+		this.projectAccountingRg = projectAccountingRg;
+	}	
+	
 	
 	
 	

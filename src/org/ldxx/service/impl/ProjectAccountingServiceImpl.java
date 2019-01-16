@@ -3,14 +3,8 @@ package org.ldxx.service.impl;
 import java.util.List;
 
 import org.ldxx.bean.ProjectAccounting;
-import org.ldxx.bean.ProjectAccountingClfy;
-import org.ldxx.bean.ProjectAccountingFyys;
-import org.ldxx.bean.ProjectAccountingJjfy;
 import org.ldxx.bean.ProjectAccountingRg;
-import org.ldxx.dao.ProjectAccountingClfyDao;
 import org.ldxx.dao.ProjectAccountingDao;
-import org.ldxx.dao.ProjectAccountingFyysDao;
-import org.ldxx.dao.ProjectAccountingJjfyDao;
 import org.ldxx.dao.ProjectAccountingRgDao;
 import org.ldxx.service.ProjectAccountingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +19,6 @@ public class ProjectAccountingServiceImpl implements ProjectAccountingService {
 	private ProjectAccountingDao dao;
 	@Autowired
 	private ProjectAccountingRgDao rgdao;
-	@Autowired
-	private ProjectAccountingFyysDao fyysdao;
-	@Autowired
-	private ProjectAccountingClfyDao clfydao;
-	@Autowired
-	private ProjectAccountingJjfyDao jjfydao;
 
 	@Override
 	public int addProjectAccounting(ProjectAccounting projectAccounting) {
@@ -43,27 +31,6 @@ public class ProjectAccountingServiceImpl implements ProjectAccountingService {
 					accountingRg.get(j).setPaId(paId);
 				}
 				i=rgdao.addProjectAccountingRg(accountingRg);
-			}
-			List<ProjectAccountingFyys> accountingFyys = projectAccounting.getProjectAccountingFyys();
-			if(accountingFyys!=null && accountingFyys.size()>0){
-				for (int k=0;k<accountingFyys.size();k++) {
-					accountingFyys.get(k).setPaId(paId);
-				}
-				i=fyysdao.addProjectAccountingFyys(accountingFyys);
-			}
-			List<ProjectAccountingClfy> accountingClfy = projectAccounting.getProjectAccountingClfy();
-			if(accountingClfy!=null && accountingClfy.size()>0){
-				for(int m=0;m<accountingClfy.size();m++){
-					accountingClfy.get(m).setPaId(paId);
-				}
-				i=clfydao.addProjectAccountingClfy(accountingClfy);
-			}
-			List<ProjectAccountingJjfy> accountingJjfy = projectAccounting.getProjectAccountingJjfy();
-			if(accountingJjfy!=null&&accountingJjfy.size()>0){
-				for(int n=0;n<accountingJjfy.size();n++){
-					accountingJjfy.get(n).setPaId(paId);
-				}
-				i=jjfydao.addProjectAccountingJjfy(accountingJjfy);
 			}
 		}
 		return i;
@@ -81,18 +48,6 @@ public class ProjectAccountingServiceImpl implements ProjectAccountingService {
 			List<ProjectAccountingRg> rg=rgdao.getProjectAccountingRgById(id);
 			if(rg!=null){
 				pa.setProjectAccountingRg(rg);
-			}
-			List<ProjectAccountingFyys> fyys=fyysdao.getProjectAccountingFyysById(id);
-			if(fyys!=null){
-				pa.setProjectAccountingFyys(fyys);
-			}
-			List<ProjectAccountingClfy> clfy=clfydao.getProjectAccountingClfyById(id);
-			if(clfy!=null){
-				pa.setProjectAccountingClfy(clfy);
-			}
-			List<ProjectAccountingJjfy> jjfy=jjfydao.getProjectAccountingJjfyById(id);
-			if(jjfy!=null){
-				pa.setProjectAccountingJjfy(jjfy);
 			}
 		}
 		return pa;

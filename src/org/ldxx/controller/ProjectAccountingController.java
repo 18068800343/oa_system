@@ -1,6 +1,8 @@
 package org.ldxx.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.ldxx.bean.ProjectAccounting;
 import org.ldxx.service.ProjectAccountingService;
@@ -39,22 +41,28 @@ public class ProjectAccountingController {
 	
 	@RequestMapping("/addProjectAccounting")
 	@ResponseBody
-	public int addProjectAccounting(@RequestBody ProjectAccounting projectAccounting){
+	public Map<String,Object> addProjectAccounting(@RequestBody ProjectAccounting projectAccounting){
+		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		projectAccounting.setPaId(id);
 		int i=service.addProjectAccounting(projectAccounting);
-		return i;
+		map.put("result", i);
+		map.put("ProjectAccounting", projectAccounting);
+		return map;
 	}
 	
 	@RequestMapping("/addProjectAccountingSubmit")
 	@ResponseBody
-	public int addProjectAccountingSubmit(@RequestBody ProjectAccounting projectAccounting){
+	public Map<String,Object> addProjectAccountingSubmit(@RequestBody ProjectAccounting projectAccounting){
+		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		projectAccounting.setPaId(id);
 		int i=service.addProjectAccounting(projectAccounting);
-		return i;
+		map.put("result", i);
+		map.put("ProjectAccounting", projectAccounting);
+		return map;
 	}
 
 }
