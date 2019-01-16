@@ -47,14 +47,14 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 	@Override
 	public int addContractAndTaskUpdate(List<Task> task) {
 		int i=0;
-		List<ContractUpdate> cus=splitTask(task);
+	/*	List<ContractUpdate> cus=splitTask(task);
 		for(int ii=0;ii<cus.size();ii++){
 			ContractUpdate cu=dao.selectContractUpdateByPrjNoAndDept(cus.get(ii).getPrjNo(), cus.get(ii).getDept());
 			float sumMoney=cu.getMoney();
 			float resultMoney=cus.get(ii).getMoney()-sumMoney;
 			cus.get(ii).setMoney(resultMoney);
 		}
-		i=dao.addContractUpdate(cus);
+		i=dao.addContractUpdate(cus);*/
 		
 		i=taskDao.updateTasksByHistory(task);
 		return i; 
