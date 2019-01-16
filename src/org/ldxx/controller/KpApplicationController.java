@@ -61,6 +61,9 @@ public class KpApplicationController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		kp.setKpId(id);
+		int count=service.countfpNo();
+		String code="KP"+uuid.getClCode("", count+1);
+		kp.setKpNo(code);
 		int i=service.addKpApplication(kp);
 		User user = (User) session.getAttribute("user");
 		FlowUtill flowUtill = new FlowUtill();
@@ -87,7 +90,6 @@ public class KpApplicationController {
 		try {
 			string = flowUtill.submitGetReceiver(currentFlow,omNo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return string;
