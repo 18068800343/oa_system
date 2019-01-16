@@ -15,6 +15,7 @@ import org.ldxx.bean.CjContract;
 import org.ldxx.bean.CjDeptSplitMoney;
 import org.ldxx.bean.CjSplitMoney;
 import org.ldxx.bean.ContractReason;
+import org.ldxx.bean.ContractWork;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
@@ -26,6 +27,7 @@ import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.ContractUpdateService;
 import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,8 @@ public class CjContractController {
 	private ContractReasonService cService;
 	@Autowired
 	private ContractUpdateService cuService;
+	@Autowired
+	private TaskService taskService;
 	@RequestMapping("/addCjContractBySave")
 	@ResponseBody
 	public int addCjContractBySave(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
@@ -471,7 +475,7 @@ public class CjContractController {
 		map.put("chaiFenXinXiArray", Task.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
-		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
+		int l = cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
@@ -751,6 +755,20 @@ public class CjContractController {
 	public List<CjDeptSplitMoney> selectCjDeptSplitMoney(String id,String dept){
 		List<CjDeptSplitMoney> list=service.selectCjDeptSplitMoney(id, dept);
 		return list;
+	}
+	
+	@RequestMapping("/addContractUpdate")
+	@ResponseBody
+	public int addContractUpdate(String id){
+		CjContract cjContract =service.selectCjContractById(id);
+		String prjNo=cjContract.getTaskCode();
+		List<Task> list=new ArrayList<Task>();
+		for(int i=0;i<prjNo.split(",").length;i++){
+			Task task=taskService.selectTaskPrjName(prjNo.split(",")[i]);
+			list.add(task);
+		}
+		int i=cuService.addContractUpdate(list);
+		return i;
 	}
 	
 }
