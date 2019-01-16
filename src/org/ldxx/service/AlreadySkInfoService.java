@@ -22,5 +22,7 @@ public interface AlreadySkInfoService {
 	public AlreadyRenling selectDeptRenlingByTime(String time,String dept);
 	
 	public AlreadyRenling selectDeptRenlingByTimeAndType(String time,String dept,String type);
+	
+	public AlreadyRenling selectDeptRenlingByStartAndEndTime(String start,String end,String dept);
 
 }

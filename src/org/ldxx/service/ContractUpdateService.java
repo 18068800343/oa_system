@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.ContractUpdate;
 import org.ldxx.bean.Task;
 
@@ -18,5 +19,7 @@ public interface ContractUpdateService {
 	public ContractUpdate selectDeptContractMoneyByTime(String time,String dept);
 	
 	public ContractUpdate selectDeptContractMoneyByTimeAndType(String time,String dept,String type);
+	
+	public ContractUpdate selectDeptContractMoneyByStartAndEndTime(String start,String end,String dept);
 	
 }

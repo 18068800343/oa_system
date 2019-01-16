@@ -86,4 +86,6 @@ public interface PrjProgressFillDao {
 	public PrjProgressFill selectGsIncomeByTimeAndDept(@Param("time")String time,@Param("dept")String dept);//通过时间和部门查询公司累计收入
 	
 	public PrjProgressFill selectDeptIncomeByTimeAndType(@Param("time")String time,@Param("dept")String dept,@Param("type")String type);//通过时间和项目类型查询公司累计收入
+
+	public PrjProgressFill selectTotalIncome(@Param("dept")String dept,@Param("start")String start,@Param("end")String end);
 }

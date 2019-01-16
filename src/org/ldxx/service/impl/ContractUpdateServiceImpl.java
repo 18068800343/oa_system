@@ -119,5 +119,10 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 		type="%"+type+"%";
 		return dao.selectDeptContractMoneyByTimeAndType(time, dept, type);
 	}
+
+	@Override
+	public ContractUpdate selectDeptContractMoneyByStartAndEndTime(String start, String end, String dept) {
+		return dao.selectDeptContractMoneyByStartAndEndTime(start, end, dept);
+	}
 	
 }

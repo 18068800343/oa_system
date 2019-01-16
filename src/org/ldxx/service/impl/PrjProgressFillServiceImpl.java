@@ -350,4 +350,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.selectDeptIncomeByTimeAndType(time, dept, type);
 	}
 
+	@Override
+	public PrjProgressFill selectTotalIncome(String dept, String start, String end) {
+		return dao.selectTotalIncome(dept, start, end);
+	}
+
 }
