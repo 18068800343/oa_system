@@ -12,5 +12,7 @@ public interface CompanyCostDao {
 	public List<CompanyCost> selectCompanyCost();
 	
 	public int deleteCompanyCost(@Param("id")String id);
+	
+	public CompanyCost selectDeptCostByStartAndEndTime(@Param("start")String start,@Param("end")String end,@Param("dept")String dept);//通过开始时间结束时间查询部门成本
 
 }

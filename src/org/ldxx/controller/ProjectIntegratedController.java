@@ -76,7 +76,6 @@ public class ProjectIntegratedController {
 			float prjCost=0;
 			if(pf!=null){
 				prjJd=pf.getAllMoney();//项目进度
-				prjCost=pf.getAllCost();//项目成本
 			}
 			
 			for(int i=0;i<cj.size();i++){

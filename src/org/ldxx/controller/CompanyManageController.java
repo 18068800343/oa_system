@@ -8,20 +8,27 @@
 
 package org.ldxx.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ldxx.bean.AlreadyRenling;
 import org.ldxx.bean.CjContract;
+import org.ldxx.bean.CompanyCost;
 import org.ldxx.bean.CompanyManage;
+import org.ldxx.bean.ContractUpdate;
 import org.ldxx.bean.DepartmentTarget;
 import org.ldxx.bean.FinancialReceipts;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.PrjProgressFillInfo;
+import org.ldxx.dao.CompanyCostDao;
+import org.ldxx.service.AlreadySkInfoService;
 import org.ldxx.service.CjContractService;
+import org.ldxx.service.ContractUpdateService;
 import org.ldxx.service.DepartmentTargetService;
 import org.ldxx.service.FinancialReceiptsService;
 import org.ldxx.service.OrganizationManagementService;
@@ -52,15 +59,23 @@ public class CompanyManageController {
 	private CjContractService cService;
 	@Autowired
 	private FinancialReceiptsService fService;
+	@Autowired
+	private ContractUpdateService cuService;
+	@Autowired
+	private AlreadySkInfoService aService;
+	@Autowired
+	private CompanyCostDao cDao;
 	
 	@RequestMapping("/selectCompanyManage")
 	@ResponseBody
-	public Map<String,Object> selectCompanyManage(String endTime){
+	public Map<String,Object> selectCompanyManage(String endTime) throws ParseException{
 		Map<String,Object> map=new HashMap<String, Object>();
 		List<CompanyManage> list=new ArrayList<>();
 		String year=endTime.split("-")[0];
 		String y=year+"%";
-		String startTime=year+"-01-01 00:00:01";
+		String startTime=year+"-01-01 00:00:00";
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		startTime=sdf.format(sdf.parse(startTime).getTime()-5000);
 		endTime=endTime+" 23:59:59";
 		
 		 List<OrganizationManagement> om=oService.selectProductionDepartment();
@@ -69,18 +84,13 @@ public class CompanyManageController {
 			for(int i=0;i<om.size();i++){
 				 String omName=om.get(i).getOmName();
 				 String omId=om.get(i).getOmId();
-				 List<PrjProgressFill> ppf=pService.selectDepartmentIncome(omName, startTime, endTime);
-				 float totalAccomplish=0;//累计完成收入
+				 
+				 PrjProgressFill ppf=pService.selectTotalIncome(omName, startTime, endTime);
+				 float totalAccomplish=0;
 				 if(ppf!=null){
-					 for(int j=0;j<ppf.size();j++){
-						 /*float inCome=ppf.get(j).getAllIncome();//总实际收入*/
-						 float inCome=0;
-						 String thisTimePercentage=ppf.get(j).getAllMoney();//本期收入比例
-						 thisTimePercentage=thisTimePercentage.replace("%", "");
-						 float Percentage=Float.valueOf(thisTimePercentage)/100;
-						 totalAccomplish=totalAccomplish+inCome*Percentage;
-					 }
+					 totalAccomplish=ppf.getAllMoneyYuan();//累计完成收入
 				 }
+				 
 				 DepartmentTarget dt=dService.selectDepartmentTargetByOmIdAndYear(omId, year);
 				 float revenueTarget=0;//收入目标
 				 float contractAmount=0;//合同额目标
@@ -91,37 +101,25 @@ public class CompanyManageController {
 				 float finish=(totalAccomplish/revenueTarget)*100;
 				 String finishStr=Math.round(finish)+"%";//完成百分比
 				 
+				 ContractUpdate cu=cuService.selectDeptContractMoneyByStartAndEndTime(startTime, endTime, omId);
+				 float allContractMoney=cu.getMoney();//新签合同金额
+				 
 				 List<CjContract> cj=cService.selectNoAndMoneyByDepartment(omId,y);
-				 float allContractMoney=0;//累计合同金额
 				 float temporaryMoney=0;//暂定金
-				 float moneyReceipt=0;//本年度已收款
-				 float moneyReceiptAll=0;//合同已收款
-				 float accruedAssets=0;//未收款
 				 for(int ii=0;ii<cj.size();ii++){
-					 float cMoney=cj.get(ii).getContractMoney();
-					 allContractMoney=allContractMoney+cMoney;
 					 float zdMoney=cj.get(ii).getTemporaryMoney();
 					 temporaryMoney=temporaryMoney+zdMoney;
-					 String contractNo=cj.get(ii).getContractNo();
-					 FinancialReceipts fr=fService.selectResultMoney(contractNo,y);
-					 float resultMoney=0;
-					 if(fr!=null){
-						 resultMoney=fr.getResultMoney();//本年度累计总收款
-					 }
-					 moneyReceipt=moneyReceipt+resultMoney;
-					 FinancialReceipts fr2=fService.selectResultMoneyAll(contractNo);
-					 float resultMoneyAll=0;
-					 if(fr2!=null){
-						 resultMoneyAll=fr2.getResultMoney();//合同累计总收款
-					 }
-					 moneyReceiptAll=moneyReceiptAll+resultMoneyAll;
 				 }
-				 accruedAssets=allContractMoney-moneyReceiptAll;
-				 PrjProgressFillInfo ppfi=pService.selectYearCostByDepartment(omName, y);
-				 float cost=0;
-				 if(ppfi!=null){
-					 cost=Float.valueOf(ppfi.getMoney());//年度累计部门成本
+				 AlreadyRenling ar=aService.selectDeptRenlingByStartAndEndTime(startTime, endTime, omName);
+				 double moneyReceipt=ar.getSkQuerenMoney();//已收款
+				 double accruedAssets=allContractMoney-moneyReceipt;//未收款
+				 
+				 CompanyCost cc=cDao.selectDeptCostByStartAndEndTime(startTime, endTime, omName);
+				 double cost=0;
+				 if(cc!=null){
+					 cost=cc.getMoney()+cc.getMoney2();//部门成本
 				 }
+				 
 				 CompanyManage cm=new CompanyManage();
 				 cm.setDepartmentName(omName);
 				 cm.setTotalAccomplish(totalAccomplish);

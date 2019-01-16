@@ -13,12 +13,32 @@ public class CompanyManage {
 	private float totalAccomplish;//累计完成收入
 	private float targetRevenues;//目标收入
 	private String percentage;//完成百分比
-	private float moneyReceipt;//已收款
-	private float accruedAssets;//未收款
-	private float cost;//成本
+	private double moneyReceipt;//已收款
+	private double accruedAssets;//未收款
+	private double cost;//成本
 	private float newContractAmount;//新签合同额
 	private float contractZdMoney;//合同暂定金
 	private float contractTargetMoney;//合同目标额
+	
+	
+	public double getMoneyReceipt() {
+		return moneyReceipt;
+	}
+	public void setMoneyReceipt(double moneyReceipt) {
+		this.moneyReceipt = moneyReceipt;
+	}
+	public double getAccruedAssets() {
+		return accruedAssets;
+	}
+	public void setAccruedAssets(double accruedAssets) {
+		this.accruedAssets = accruedAssets;
+	}
+	public double getCost() {
+		return cost;
+	}
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
 	public String getDepartmentName() {
 		return departmentName;
 	}
@@ -42,24 +62,6 @@ public class CompanyManage {
 	}
 	public void setPercentage(String percentage) {
 		this.percentage = percentage;
-	}
-	public float getMoneyReceipt() {
-		return moneyReceipt;
-	}
-	public void setMoneyReceipt(float moneyReceipt) {
-		this.moneyReceipt = moneyReceipt;
-	}
-	public float getAccruedAssets() {
-		return accruedAssets;
-	}
-	public void setAccruedAssets(float accruedAssets) {
-		this.accruedAssets = accruedAssets;
-	}
-	public float getCost() {
-		return cost;
-	}
-	public void setCost(float cost) {
-		this.cost = cost;
 	}
 	public float getNewContractAmount() {
 		return newContractAmount;
