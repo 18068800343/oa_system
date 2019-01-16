@@ -14,5 +14,5 @@ public interface FbContractOverService {
 	
 	public int updateFbContractOver(FbContractOver fbContractOver);
 
-	public FbContractOver selectFbJsMoneyByNo(String no);
+	public float selectFbJsMoneyByNo(String no);
 }

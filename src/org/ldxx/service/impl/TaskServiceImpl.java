@@ -218,4 +218,14 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.updateTasks(task);
 	}
 
+	@Override
+	public Task selectPrjJsMoneyByNo(String no) {
+		Task task=tdao.selectPrjJsMoneyByNo(no);
+		if(task.getMainPrjNo()!=null){
+			Float prjEstimateMoney=tdao.getPrjEstimateMoneyByNo(task.getMainPrjNo());
+			task.setPrjEstimateMoney(task.getPrjEstimateMoney()+prjEstimateMoney);
+		}
+		return task;
+	}
+
 }

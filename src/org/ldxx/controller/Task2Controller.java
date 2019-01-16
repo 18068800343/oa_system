@@ -94,6 +94,13 @@ public class Task2Controller {
 		return list;
 	}
 	
+	@RequestMapping("/selectSumMoneyByNo")//通过任务单号查直接成本总额
+	@ResponseBody
+	public Double selectSumMoneyByNo(String no){
+		Double cc=ccDao.selectSumMoneyByNo(no);
+		return cc;
+	}
+	
 	@RequestMapping("/importExcel2")
 	@ResponseBody
 	public int importExcel2(@RequestParam("file") MultipartFile file,HttpServletResponse response,HttpSession session) throws IOException, ParseException{

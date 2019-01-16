@@ -404,4 +404,18 @@
   			where prj_no=#{t.prjNo} and history = 1
   		</foreach>
   	</update>
+  	
+  	<select id="selectPrjJsMoneyByNo" resultType="Task">
+  		SELECT a.prj_estimate_money,a.main_prj_no,d.cc_name,f.om_name,e.u_name as mainPrjLeaderName from task a
+			left join mode_status c on a.prj_id=c.mode_id 
+			LEFT JOIN consociation_company as d on a.prj_owner_unit=d.cc_id 
+			left join organization_management b  on a.main_department=b.om_id  
+			LEFT JOIN user as e on a.main_prj_leader=e.user_id
+		left join organization_management f on a.main_department=f.om_id
+		WHERE a.prj_no=#{no} and a.history=1 and c.status=2
+  	</select>
+  	
+  	<select id="getPrjEstimateMoneyByNo" resultType="Float">
+  		select a.prj_estimate_money from task a left join mode_status c on a.prj_id=c.mode_id WHERE a.prj_no=#{mainPrjNo} and a.history=1 and c.status=2
+  	</select>
 </mapper>

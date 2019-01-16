@@ -869,5 +869,12 @@ public class TaskController {
 		return task;
 	}
 	
+	@RequestMapping("/selectPrjJsMoneyByNo")//通过任务单号查询项目结算金额（如果有关联任务单，就把结算金额相加）核算专用
+	@ResponseBody
+	public Task selectPrjJsMoneyByNo(String no){
+		Task task=tService.selectPrjJsMoneyByNo(no);
+		return task;
+	}
+	
 }
 

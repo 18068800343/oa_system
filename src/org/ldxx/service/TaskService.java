@@ -65,4 +65,6 @@ public interface TaskService {
 	public List<Task> selectTaskByCj();
 	
 	public int updateTasks(List<Task> task);
+
+	public Task selectPrjJsMoneyByNo(String no);
 }

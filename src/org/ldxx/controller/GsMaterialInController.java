@@ -239,7 +239,7 @@ public class GsMaterialInController {
 		return i;
 	}
 	
-	@RequestMapping("/selectAllXmReceivedGoods")//获取项目材料已收货的所有项目
+	@RequestMapping("/selectAllXmReceivedGoods")//获取项目材料已收货的所有项目及材料信息
 	@ResponseBody
 	public List<CompanyMateriaIn> selectAllXmReceivedGoods(){
 		return gmService.selectAllXmReceivedGoods();
@@ -252,7 +252,7 @@ public class GsMaterialInController {
 	}
 	
 	
-	@RequestMapping("/selectGsClInBytaskNo")//通过任务单号查找材料信息
+	@RequestMapping("/selectGsClInBytaskNo")//通过任务单号查找公司已经出库和项目已收货的材料信息
 	@ResponseBody
 	public List<CompanyMaterialInCl> selectGsClInBytaskNo(String no){
 		return gmService.selectGsClInBytaskNo(no);

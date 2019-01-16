@@ -72,4 +72,8 @@ public interface TaskDao {
 	public int updateTasks(@Param("task")List<Task> task);
 	
 	public int updateTasksByHistory(@Param("task")List<Task> task);
+
+	public Task selectPrjJsMoneyByNo(@Param("no")String no);
+
+	public Float getPrjEstimateMoneyByNo(@Param("mainPrjNo")String mainPrjNo);
 }
