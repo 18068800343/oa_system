@@ -1995,10 +1995,9 @@
 				id:id,
 			},
 			success:function(json){
-				$("#edit_accessory tbody").empty();
 	            for(var i=0;i<json.length;i++){
 	            	   if(json[i].aType=="采购合同文本"){
-		            	   $("#edit_accessory").append("<tr>"+
+		            	   $("#edit_accessory thead").append("<tr>"+
 	      	   										"<td>采购合同文本</td>"+
 							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
 							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button>     <button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='delete_all(this)'>删除附件</button></td>"+
@@ -2179,7 +2178,7 @@
 			toastr.error("采购合同金额不能为0");
 			return;
 		}
-		if($("#edit_accessory").find('tbody tr').length<1 || $("#xgfile").val()==''){
+		if($("#edit_accessory").find('tr').length<2 || $("#xgfile").val()==''){
 			toastr.error("采购合同文本附件为空")
 			return;
 		}
@@ -2209,6 +2208,7 @@
 				 cgcl:undefined,
 				 cgDepartment:undefined,
 		}
+		cgContract.cgId=id;
 		cgContract.contractName=xgcghetongming;
 		cgContract.cgNo=xgcgNo;
 		cgContract.cgdNo=xgcgdNo;
@@ -2236,13 +2236,9 @@
  			formData.append("file", $(this).find("input")[0].files[0]);
  		})
  		
- 		$("#edit_accessory1 tbody").find("tr").each(function(){
- 			formData.append("file1", $(this).find("input")[0].files[0]);
- 		})
-		
 		 $.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/cgcontract/updateMaterial',
+	            url: getContextPath()+'/cgcontract/updateCgContractById',
 	            data: formData,  
 	            processData: false,
 	            contentType: false,
@@ -2298,10 +2294,6 @@
 		}
 		if($("#edit_accessory").find('tbody tr').length<1 || $("#xgfile").val()==''){
 			toastr.error("采购合同文本附件为空")
-			return;
-		}
-		if($("#edit_accessory1").find('tbody tr').length<1 || $("#xgfile1").val()==''){
-			toastr.error("法律顾问签字附件为空")
 			return;
 		}
 		

@@ -654,7 +654,12 @@ public class CgContractController {
 	
 	@RequestMapping("/updateCgContractById")//修改
 	@ResponseBody
-	public int updateCgContractById(CgContract cg,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{
+	public int updateCgContractById(String cgContract,@RequestParam("file") MultipartFile [] file,/*@RequestParam("file1") MultipartFile [] file1,*/HttpSession session) throws IllegalStateException, IOException{
+		Map<String,Class> map2=new HashMap<>();
+		map2.put("cgcl", CgCl.class);
+		map2.put("accessory", Accessory.class);
+		JSONObject jsonObject=JSONObject.fromObject(cgContract);
+		CgContract cg=(CgContract)JSONObject.toBean(jsonObject, CgContract.class,map2);
 		String id=cg.getCgId();
 		
 		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
@@ -678,7 +683,7 @@ public class CgContractController {
 			}
 			cg.setAccessory(list);
 		}
-		if(file1.length>0){
+		/*if(file1.length>0){
 			List<Accessory> list1=new ArrayList<>();
 			for(int i=0;i<file1.length;i++){
 				Accessory accessory1=new Accessory();
@@ -693,7 +698,7 @@ public class CgContractController {
 				list1.add(accessory1);
 			}
 			cg.setAccessory1(list1);
-		}
+		}*/
 		int i=cgService.updateCgContractById(cg);
 		return i;
 	}

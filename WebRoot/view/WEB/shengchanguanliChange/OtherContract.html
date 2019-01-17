@@ -968,14 +968,14 @@
 	    		          		$("#edit_accessory tbody").append("<tr>"+
 	    								"<td>附件"+(i+1)+"</td>"+
 	    			         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-	    			         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
+	    			         	    	"<td style='width:20%;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
 	    			         	    "</tr>")
 	    	        		}
 	    	          		if(json[i].aType=="法律顾问签字"){
 	    		            	   $("#edit_accessory2 tbody").append("<tr>"+
 	    									"<td>附件"+(i+1)+"</td>"+
 	    				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-	    				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
+	    				         	    	"<td style='width:20%;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
 	    				         	    "</tr>");
 	    	            	}
 	    	        	}
@@ -990,32 +990,28 @@
     	var id=$(obj).attr("data1");
 		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
 		var url=$(obj).attr("data2");
-		$.SmartMessageBox({
-            title: "删除提示",
-            content: "确认删除？",
-            buttons: '[取消][确定]'
-        }, function (ButtonPressed) {
-        	if (ButtonPressed === "确定") {
-        		$.ajax({
-        	        type: 'POST',
-        	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
-        	        dataType: 'json',
-        	        data: {
-        	        	aId:id,
-        	        	acName:name,
-        	        	acUrl:url
-        	        },
-        	        success: function (json) {
-        	        	if(json==0){
-        	        		toastr.error("删除失败");
-        	        	}else{
-        	        		toastr.success("删除成功");
-        	        		$(obj).parent().parent().remove();
-        	        	}
-        	        }
-        		});
-        	}
-        });
+		var statu = confirm("确认删除吗?");
+		  if(!statu){
+		   	return false;
+		  }
+       		$.ajax({
+       	        type: 'POST',
+       	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
+       	        dataType: 'json',
+       	        data: {
+       	        	aId:id,
+       	        	acName:name,
+       	        	acUrl:url
+       	        },
+       	        success: function (json) {
+       	        	if(json==0){
+       	        		toastr.error("删除失败");
+       	        	}else{
+       	        		toastr.success("删除成功");
+       	        		$(obj).parent().parent().remove();
+       	        	}
+       	        }
+       		});
     }
     
     function liuchengGaibian(){
