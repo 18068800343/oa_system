@@ -66,11 +66,11 @@ public class ProjectIntegratedController {
 			float contractMoney=t.getContractMoney();//合同金额
 			float zdMoney=t.getProvisionalSum();//暂定金
 			BudgetFpplicationForm bff=bservice.getAllCost(no);
-			float ysCost=0;//预算成本
+			float ysCost=0;//项目预算
 			if(bff!=null){
 				 ysCost=bff.getAllCost();
 			}
-			List<CjContract> cj=cService.selectContractByTaskNo(no);
+			
 			PrjProgressFill pf=pService.selectAllCostAndJd(no);
 			String prjJd="0%";
 			float prjCost=0;
@@ -78,62 +78,68 @@ public class ProjectIntegratedController {
 				prjJd=pf.getAllMoney();//项目进度
 			}
 			
-			for(int i=0;i<cj.size();i++){
-				String contractName=cj.get(i).getContractName();//承接合同名称
-				String contractNo=cj.get(i).getContractNo();//承接合同编号
-				float htMoney=cj.get(i).getContractMoney();//承接合同金额
-				float cjZdMoney=cj.get(i).getTemporaryMoney();//承接合同暂定金
+			List<CjContract> cj=cService.selectCjContractByTaskNo(no);
+			String contractName="";//承接合同名称
+			String contractNo="";//承接合同编号
+			float htMoney=0;//承接合同金额
+			float cjZdMoney=0;//承接合同暂定金
+			float contractEndMoney=0;//合同结算金额
+			float allReceieveMoney=0;	//合同累计收款
+			float allKp=0;//累计开票金额
+			if(cj!=null&&cj.size()>0){
+				contractName=cj.get(0).getContractName();
+				contractNo=cj.get(0).getContractNo();
+				htMoney=cj.get(0).getContractMoney();
+				cjZdMoney=cj.get(0).getTemporaryMoney();
 				ContractWork cw=service.getContractMoney(contractNo);
-				float contractEndMoney=0;
-				float allReceieveMoney=0;	
 				if(cw!=null){
-					contractEndMoney=cw.getEndMoney();//合同结算金额
-					allReceieveMoney=cw.getAllReceieveMoney();//合同累计收款
+					contractEndMoney=cw.getEndMoney();
 				}
-				float allKp=kService.getAllMoney(contractNo, no);//累计开票金额
-				List<FbContract> fb=sService.getFBNameAndNo2();
-				for(int ii=0;ii<fb.size();ii++){
-					String fbName=fb.get(ii).getContractName();//分包合同名称
-					String fbNo=fb.get(ii).getFbNo();//分包合同编号
-					float fbMoney=fb.get(ii).getContractMoney();//分包合同金额
-					FbContractOverWj fw=fService.getFbOverMoney(fbNo);
-					float fbOverMoney=0;
-					if(fw!=null){
-						fbOverMoney=fw.getOverWorkMoney();//分包结算金额
-					}
-					Pay cp=cpService.getFbPayPlanAndMoney(fbNo);
-					String fbPlan="0%";
-					float fbActualPay=0;
-					if(cp!=null){
-						fbPlan=cp.getFbContractSchedule();//分包进度
-						/*fbActualPay=cp.getAlreadyAccumulateMoney();//分包实际累计付款金额*/	
-					}
-					Pay p2=cpService.getTotalPayMoney(fbNo);
-					fbActualPay=p2.getAlreadyAccumulateMoney();
-					ProjectIntegrated pi=new ProjectIntegrated();
-					pi.setPrjNo(no);
-					pi.setPrjName(prjName);
-					pi.setContractNo(contractNo);
-					pi.setContractName(contractName);
-					pi.setPrjType2(prjType);
-					pi.setPrjYs(ysCost);
-					pi.setCjDepartment(cjDepartment);
-					pi.setPrjLeader(prjLeader);
-					pi.setWorkMoney(prjMoney);
-					pi.setContractMoney(contractMoney);
-					pi.setZdMoney(zdMoney);
-					pi.setContractEndMoney(contractEndMoney);
-					pi.setTotalKpMoney(allKp);
-					pi.setTotalMoney(allReceieveMoney);
-					pi.setPrjCost(prjCost);
-					pi.setPrjPlan(prjJd);
-					pi.setFbName(fbName);
-					pi.setFbContractMoney(fbMoney);
-					pi.setFbEndMoney(fbOverMoney);
-					pi.setFbPlan(fbPlan);
-					pi.setPracticalFbPayMoney(fbActualPay);
-					list.add(pi);
+				allKp=kService.getAllMoney(contractNo, no);
+			}
+			
+			
+			List<FbContract> fb=sService.selectFbContractByTaskNo(no);
+			for(int ii=0;ii<fb.size();ii++){
+				String fbName=fb.get(ii).getContractName();//分包合同名称
+				String fbNo=fb.get(ii).getFbNo();//分包合同编号
+				float fbMoney=fb.get(ii).getContractMoney();//分包合同金额
+				FbContractOverWj fw=fService.getFbOverMoney(fbNo);
+				float fbOverMoney=0;
+				if(fw!=null){
+					fbOverMoney=fw.getOverWorkMoney();//分包结算金额
 				}
+				Pay cp=cpService.getFbPayPlanAndMoney(fbNo);
+				String fbPlan="0%";
+				float fbActualPay=0;
+				if(cp!=null){
+					fbPlan=cp.getFbContractSchedule();//分包进度
+				}
+				Pay p2=cpService.getTotalPayMoney(fbNo);
+				fbActualPay=p2.getAlreadyAccumulateMoney();
+				ProjectIntegrated pi=new ProjectIntegrated();
+				pi.setPrjNo(no);
+				pi.setPrjName(prjName);
+				pi.setContractNo(contractNo);
+				pi.setContractName(contractName);
+				pi.setPrjType2(prjType);
+				pi.setPrjYs(ysCost);
+				pi.setCjDepartment(cjDepartment);
+				pi.setPrjLeader(prjLeader);
+				pi.setWorkMoney(prjMoney);
+				pi.setContractMoney(contractMoney);
+				pi.setZdMoney(zdMoney);
+				pi.setContractEndMoney(contractEndMoney);
+				pi.setTotalKpMoney(allKp);
+				pi.setTotalMoney(allReceieveMoney);
+				pi.setPrjCost(prjCost);
+				pi.setPrjPlan(prjJd);
+				pi.setFbName(fbName);
+				pi.setFbContractMoney(fbMoney);
+				pi.setFbEndMoney(fbOverMoney);
+				pi.setFbPlan(fbPlan);
+				pi.setPracticalFbPayMoney(fbActualPay);
+				list.add(pi);
 			}
 			map.put("result", "success");
 			map.put("list", list);
