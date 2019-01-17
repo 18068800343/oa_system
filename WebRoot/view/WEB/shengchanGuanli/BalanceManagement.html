@@ -67,7 +67,7 @@
 		                        <div>
 		                        	<form class="form-inline">
 					                    <select class="zhuangtai form-control">
-					                        <option>未转出</option>
+					                        <option>可转出</option>
 					                        <option>已转出</option>
 					                    </select>
 					                </form>
@@ -244,7 +244,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             <!-- <button type="button" class="btn btn-default" onclick="saveRemainOut()">保存</button> -->
-            <button type="button" class="btn btn-success" onclick="submitRemainOut()">转出</button> 
+            <button type="button" class="btn btn-success" id="outBut" onclick="submitRemainOut()">转出</button> 
         </div>
         </div>
     </div>
@@ -1033,7 +1033,7 @@
   //初始化
     $(".zhuangtai").change(function(){
         var zt=$(".zhuangtai").val();
-        if(zt=="未转出"){
+        if(zt=="可转出"){
         	$.ajax({
                 type: 'POST',
                 url: getContextPath()+'/gsMaterialIn/selectGsMateriaOutForEnd2',
@@ -1171,6 +1171,11 @@
 	//选择项目
 	 $("#chosexm").click(function(){
 		$("#xiangmumd").modal("show");
+		$('#xiangmumd').on('hidden.bs.modal', function () {//解决模态框关闭页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
 		 $.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
@@ -1429,7 +1434,9 @@
 	                   				initName2(i);
 	                   				$("#cl_danwei"+i).val(json[i].cmoUnit);
             		}
+            		$("#outBut").attr("disabled",false);
             	}else{
+            		$("#outBut").attr("disabled",true);
         			$("#remain_out_table tbody").append("<tr><td  colspan='8' style='text-align:center;color:red;font-size:24px'>材料为空<td></tr>")
         		}
             }
@@ -1439,6 +1446,12 @@
 	function removeThis(obj){
 		var tr=$(obj).parent().parent();
 		$(tr).remove();
+		var length=$("#remain_out_table tbody").find("tr").length;
+		if(length==0){
+			$("#outBut").attr("disabled",true);
+		}else{
+			$("#outBut").attr("disabled",false);
+		}
 	}
 	 function initClType(obj1,obj2){
 	    	$.ajax({
@@ -1634,11 +1647,10 @@
 	            contentType:'application/json',
 	            data:JSON.stringify(clOut),
 	            success: function (json) {
-	            	console.log(json);
 	            	if(json.result>0){
 						$("#allMsg3").modal("hide")
 						toastr.success("添加成功")
-						initTable();
+						//initTable();
 						
 					}else{
 						toastr.error("添加失败")
@@ -1673,8 +1685,8 @@
     	    var shengyuNum=Number(yushu)-Number(lingNum);
 			var outMoney=Number(lingNum)*Number(cldanjia);
 			var reg=/^\+?[1-9][0-9]*$/;
-	   	    if(!reg.test(lingNum)){
-	   			toastr.error("请输入数字")
+	   	    if(!reg.test(lingNum)||lingNum==""){
+	   			toastr.error("请输入数字且转出数量不能为空")
 	       		return false;
 	   		}
 	        if(Number(lingNum)>Number(yushu)){
@@ -1723,7 +1735,7 @@
     	})
     	
     	if(gsclInArr.length!=0){
-    		var cgName=$("#out_cg_name").val()+"-结余转出";
+    		var cgName=$("#out_cg_name").val();
     		var cgNo=$("#out_cg_no").val();
     		var prjName=$("#in_prj_name").val();
     		var taskNo=$("#in_prj_no").val();
@@ -1734,6 +1746,10 @@
     		var yanshouyijian=$("#yanshouyijian").val();
 			if(prjName==''){
 				toastr.error("项目名称为空")
+				return;
+			}
+			if(year==''){
+				toastr.error("转出时间为空")
 				return;
 			}
 			var gsclIn={
@@ -1772,18 +1788,18 @@
     		
 			$.ajax({
 				type: 'POST',
-	            url: getContextPath()+'/gsMaterialIn/addGsMaterialInSave',
+	            url: getContextPath()+'/gsMaterialIn/addGsMaterialInSubmit',
 	            data: formData,  
 	            processData: false,
 	            contentType: false,
 	            success: function (json) {
 	            	if(json.result>0){
 						$("#allMsg3").modal("hide")
-						toastr.success("添加成功")
+						toastr.success("结余转出成功")
 						//initTable();
 						
 					}else{
-						toastr.error("添加失败")
+						toastr.error("结余转出失败")
 					} 
 	            }
 			})  

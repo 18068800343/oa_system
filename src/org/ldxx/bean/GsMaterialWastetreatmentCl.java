@@ -8,7 +8,7 @@ public class GsMaterialWastetreatmentCl {
 	private String materialModel;//规格型号
 	private String unit;//单位
 	private int dealNumber;//处理数量
-	private Float price;//采购价格
+	private Float price;//采购单价
 	private Float money ;//金额
 	private Float quasiDiscountMoney;//拟折价出售金额
 	private Float actualDiscountMoney;//实际折价出售金额

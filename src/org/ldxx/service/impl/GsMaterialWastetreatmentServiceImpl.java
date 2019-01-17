@@ -32,7 +32,9 @@ public class GsMaterialWastetreatmentServiceImpl implements GsMaterialWastetreat
 				cl.get(k).setCwmclId(mw.getCmwId());
 			}
 			i=dao.addGsMaterialWastetreatmentCl(cl);
-			i=crdao.updateRemainForWaste(remain);
+			if(i>0){
+				i=crdao.updateRemainForWaste(remain);
+			}
 		}
 		return i;
 	}

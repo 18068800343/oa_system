@@ -65,7 +65,7 @@
                 <div>
                      <form class="form-inline">
 	                    <select class="zhuangtai form-control">
-	                        <option>未处理</option>
+	                        <option>可处理</option>
 	                        <option>已处理</option>
 	                    </select>
 	                </form>
@@ -672,7 +672,7 @@
 	//初始化
     $(".zhuangtai").change(function(){
         var zt=$(".zhuangtai").val();
-        if(zt=="未处理"){
+        if(zt=="可处理"){
         	$.ajax({
                 type: 'POST',
                 url: getContextPath()+'/gsMaterialIn/selectGsMateriaOutForEnd2',
@@ -681,6 +681,7 @@
                 	taskno:"%",
                 },
                 success: function (json) {
+                	console.log(json)
                 	var arr=[];
                 	for(var i=0;i<json.length;i++){
                 		var gmw={
@@ -1001,12 +1002,13 @@
     			toastr.error("处理数量不能大于库存数量")
         		return false;
     		}
-    		if(!reg.test(wasteWantMoney)){
-    			toastr.error("请输入拟折价出售金额")
+			var reg2=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+    		if(!reg2.test(wasteWantMoney)){
+    			toastr.error("请输入拟折价出售金额且只能有两位小数")
         		return false;
     		}
-    		if(!reg.test(wasteActualMoney)){
-    			toastr.error("请输入实际折价出售金额")
+    		if(!reg2.test(wasteActualMoney)){
+    			toastr.error("请输入实际折价出售金额且只能有两位小数")
         		return false;
     		}
     		var oRemain={
@@ -1053,7 +1055,7 @@
                 if(json.result>0){
                 	toastr.success("添加成功")
                 	$("#myModal").modal('hide')
-        	    	$('#mainContent').DataTable().row.add(json.GsMaterialWastetreatment).draw(false);     //新增行立即显示
+        	    	//$('#mainContent').DataTable().row.add(json.GsMaterialWastetreatment).draw(false);     //新增行立即显示
                 }else{
                 	toastr.error("添加失败")
                 }
@@ -1117,13 +1119,14 @@
     			toastr.error("处理数量不能大于库存数量")
         		return false;
     		}
-    		if(!reg.test(wasteWantMoney)){
-    			toastr.error("请输入拟折价出售金额")
-        		return;
+			var reg2=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+    		if(!reg2.test(wasteWantMoney)){
+    			toastr.error("请输入拟折价出售金额且只能有两位小数")
+        		return false;
     		}
-    		if(!reg.test(wasteActualMoney)){
-    			toastr.error("请输入实际折价出售金额")
-        		return;
+    		if(!reg2.test(wasteActualMoney)){
+    			toastr.error("请输入实际折价出售金额且只能有两位小数")
+        		return false;
     		}
     		var oRemain={
     				id:undefined,
@@ -1168,7 +1171,7 @@
                 if(json.result>0){
                 	toastr.success("添加成功")
                 	$("#myModal").modal('hide')
-        	    	$('#mainContent').DataTable().row.add(json.GsMaterialWastetreatment).draw(false);     //新增行立即显示
+        	    	//$('#mainContent').DataTable().row.add(json.GsMaterialWastetreatment).draw(false);     //新增行立即显示
                 }else{
                 	toastr.error("添加失败")
                 } 
