@@ -26,10 +26,21 @@ public class CompanyMateriaIn {
 	private String remainType;//结余状态 0 未结余 1 等待结余确认2:已结余
 	
 	private List<Accessory> accessory;
-	private List<CompanyMaterialInCl> gsInCl;//公司材料信息
+	private List<CompanyMaterialInCl> gsInCl;//公司入库材料信息
+	
+	private List<ClRemain> clremain;//公司结余材料信息
 	
 
 	
+	
+
+	public List<ClRemain> getClremain() {
+		return clremain;
+	}
+
+	public void setClremain(List<ClRemain> clremain) {
+		this.clremain = clremain;
+	}
 
 	public String getGetInfos() {
 		return getInfos;

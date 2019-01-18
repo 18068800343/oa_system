@@ -110,7 +110,7 @@
                                 <td><input type="text" id="year" class="form-control" style="width:60%;"></td>
                             </tr>
                              <tr>
-                                <td>运费</td>
+                                <td>运费(元)</td>
                                 <td><input type="text" id="yunfei1" class="form-control" style="width:60%;"></td>
                                 <td></td>
                                 <td></td>
@@ -147,7 +147,7 @@
 			                            <th>材料型号</th>
 			                            <th style='width:6%;'>单位</th>
 			                            <th>数量</th>
-			                            <th style='width:8%;'>单价</th>
+			                            <th style='width:8%;'>单价(元)</th>
 			                            <!-- <th>金额</th> -->
 			                            <th>项目部推荐供应商</th>
 			                            <th>公司确定供应商</th>
@@ -166,7 +166,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success" onclick="saveMs()">保存</button>
+            <button type="button" class="btn btn-success" id="ruku" disabled onclick="saveMs()">入库</button>
             <!-- <button type="button" class="btn btn-success" onclick="submitMs()">提交</button>  -->
         </div>
         </div>
@@ -258,7 +258,7 @@
                                 <td><input type="text" id="xgyear" class="form-control" style="width:70%;"></td>
                             </tr>
                             <tr>
-                            	<td>运费</td>
+                            	<td>运费(元)</td>
                             	<td><input type="text" id="xgyunfei" class="form-control" style="width:70%;"></td>
                             	<td></td>
                             	<td></td>
@@ -298,7 +298,7 @@
 			                            <th>材料型号</th>
 			                            <th style='width:6%;'>单位</th>
 			                            <th>数量</th>
-			                            <th style='width:8%;'>单价</th>
+			                            <th style='width:8%;'>单价(元)</th>
 			                            <th>项目部推荐供应商</th>
 			                            <th>公司确定供应商</th>
 			                            <th>备注</th>
@@ -316,7 +316,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success" onclick="checkSave()">保存</button>
+            <button type="button" class="btn btn-success" id="xgruku" onclick="checkSave()">保存</button>
         </div>
         </div>
     </div>
@@ -396,7 +396,7 @@
                     <th>需求项目</th>
                     <th>收货人</th>
                     <th>收货日期</th>
-                    <th>运费</th>
+                    <th>运费(元)</th>
                     <th>备注</th>
                     <th>验收及处理意见</th>
                     <!-- <th>收货单</th> -->
@@ -426,8 +426,8 @@
 	                            <th>材料型号</th>
 	                            <th style='width:6%;'>单位</th>
 	                            <th>数量</th>
-	                            <th style='width:8%;'>单价</th>
-	                            <th style='width:8%;'>金额</th>
+	                            <th style='width:8%;'>单价(元)</th>
+	                            <th style='width:8%;'>金额(元)</th>
 	                            <th>项目部推荐供应商</th>
 	                            <th>公司确定供应商</th>
 	                            <th>备注</th>
@@ -583,7 +583,7 @@
                                 <td><input type="text" class="form-control" id="year2" style="width:65%;" disabled></td>
                             </tr>
                             <tr>
-                            	<td>运费</td>
+                            	<td>运费(元)</td>
                                 <td><input type="text" class="form-control" id="yunfei2" style="width:65%;" disabled></td>
                                 <td></td>
                                 <td></td>
@@ -622,8 +622,8 @@
 			                            <th>材料型号</th>
 			                            <th style='width:6%;'>单位</th>
 			                            <th>数量</th>
-			                            <th style='width:8%;'>单价</th>
-			                            <th style='width:8%;'>金额</th>
+			                            <th style='width:8%;'>单价(元)</th>
+			                            <th style='width:8%;'>金额(元)</th>
 			                            <th>项目部推荐供应商</th>
 			                            <th>公司确定供应商</th>
 			                            <th>备注</th>
@@ -1415,7 +1415,7 @@ function xgsaveCgName(){
 			},
 			success:function(json){
 				$("#cailiaobiao tbody").empty();
-				if(json.cgcl!=null){
+				if(json.cgcl!=null&&json.cgcl.length!=0){
 					for(var k=0;k<json.cgcl.length;k++){
                    		$("#cailiaobiao tbody").append("<tr><td style='width:7%;'>"
            		  				+'<input type="text" class="form-control" value='+json.cgcl[k].clName+' style="width:100%;">'
@@ -1458,6 +1458,10 @@ function xgsaveCgName(){
                    				$("#cl_danwei"+k).val(json.cgcl[k].clUnit);
            		  				
                     	} 
+					$("#ruku").attr("disabled",false);
+				}else{
+					$("#ruku").attr("disabled",true);
+            		$("#cailiaobiao tbody").append("<tr><td colspan='12' style='text-align:center;color:red;font-size:24px'>暂无数据</td></tr>")
 				}
 				
 			}
@@ -1473,7 +1477,7 @@ function xgsaveCgName(){
 			},
 			success:function(json){
 				$("#xgcailiaobiao tbody").empty();
-				if(json.cgcl!=null){
+				if(json.cgcl!=null&&json.cgcl.length!=0){
 					for(var k=0;k<json.cgcl.length;k++){
                    		$("#xgcailiaobiao tbody").append("<tr><td style='width:7%;'>"
            		  				+'<input type="text" class="form-control" value='+json.cgcl[k].clName+' style="width:100%;">'
@@ -1508,7 +1512,7 @@ function xgsaveCgName(){
 	       		  				+"</td><td style='width:7%;'>"
 		       		  			+'<input type="text" class="form-control" style="width:100%;">'
 		   		  				+"</td><td style='width:7%;'>"
-           		  				+'<button type="button" class="btn btn-primary" onclick="shanchuyihang(this)">删除</button>'
+           		  				+'<button type="button" class="btn btn-primary" onclick="xgshanchuyihang(this)">删除</button>'
            		  				+"</td></tr>")
            		  				initClType(json.cgcl[k].clType,k);
            		  				initName1(json.cgcl[k].clPrjSupplier,k);
@@ -1516,6 +1520,10 @@ function xgsaveCgName(){
                    				$("#xgcl_danwei"+k).val(json.cgcl[k].clUnit);
            		  				
                     	} 
+					$("#xgruku").attr("disabled",false);
+				}else{
+					$("#xgruku").attr("disabled",true);
+            		$("#xgcailiaobiao tbody").append("<tr><td colspan='12' style='text-align:center;color:red;font-size:24px'>暂无数据</td></tr>")
 				}
 				
 			}
@@ -1525,6 +1533,21 @@ function xgsaveCgName(){
 	
 	function shanchuyihang(aa){
 		$(aa).parent().parent().remove();
+		var length=$("#cailiaobiao tbody").find("tr").length;
+		if(length==0){
+			$("#ruku").attr("disabled",true);
+		}else{
+			$("#ruku").attr("disabled",false);
+		}
+	}
+	function xgshanchuyihang(aa){
+		$(aa).parent().parent().remove();
+		var length=$("#xgcailiaobiao tbody").find("tr").length;
+		if(length==0){
+			$("#xgruku").attr("disabled",true);
+		}else{
+			$("#xgruku").attr("disabled",false);
+		}
 	}
 	var xgarrayClId=new Array();
 	function xginitMaterial(obj){
@@ -2214,14 +2237,14 @@ function xgsaveCgName(){
 				
 				var gsInCl=json.gsInCl;
 				$("#xgcailiaobiao tbody").empty();
-				if(gsInCl!=null){
+				if(gsInCl!=null&&gsInCl.length!=0){
 	               for(var k=0;k<gsInCl.length;k++){
 	            	   $("#xgcailiaobiao tbody").append("<tr><td style='width:7%;'>"
-          		  				+'<input type="text" class="form-control" value='+gsInCl[k].clName+' style="width:100%;">'
+          		  				+'<input type="text" class="form-control" value="'+gsInCl[k].clName+'" style="width:100%;">'
           		  				+"</td><td style='width:5%;'>"
           		  				+'<select style="width:100px;" class="form-control" id="xgcl_type'+k+'"></select>'
           		  				+"</td><td style='width:7%;'>"
-          		  				+'<input type="text" class="form-control" value='+gsInCl[k].clMode+' style="width:100%;">' 
+          		  				+'<input type="text" class="form-control" value="'+gsInCl[k].clMode+'" style="width:100%;">' 
           		  				+"</td><td style='width:7%;'>"
           		  				+'<select class="form-control"  id=xgcl_danwei'+k+'>'
 											+'<option value="个">个</option>'
@@ -2233,9 +2256,9 @@ function xgsaveCgName(){
 											+'<option value="桶">桶</option>'
 										+'</select>'
           		  				+"</td><td style='width:7%;'>"
-          		  				+'<input type="text" class="form-control" value='+gsInCl[k].clNumber+' style="width:100%;">'
+          		  				+'<input type="text" class="form-control" value="'+gsInCl[k].clNumber+'" style="width:100%;">'
           		  				+"</td><td style='width:7%;'>"
-          		  				+'<input type="text" class="form-control" value='+gsInCl[k].clPrice+'  style="width:80%;">'
+          		  				+'<input type="text" class="form-control" value="'+gsInCl[k].clPrice+'"  style="width:80%;">'
           		  				+"</td><td style='width:7%;'>"
           		  				/* +'<input type="text" class="form-control" value='+json.cgcl[k].clMoney+' style="width:100%;">'
           		  				+"</td><td style='width:7%;'>" */
@@ -2243,13 +2266,13 @@ function xgsaveCgName(){
           		  				+"</td><td style='width:7%;'>"
           		  				+'<select style="width:150px;" class="form-control" id=xggs'+k+'></select>'
           		  				+"</td><td style='width:7%;'>"
-          		  				+'<input type="text" class="form-control" value='+gsInCl[k].clDesc+' style="width:100%;">'
+          		  				+'<input type="text" class="form-control"  style="width:100%;" value="'+gsInCl[k].clDesc+'" >'
           		  				+"</td><td style='width:7%;'>"
-			   		  			+'<input type="text" class="form-control" value='+gsInCl[k].clComeUnit+' style="width:100%;">'
+			   		  			+'<input type="text" class="form-control" style="width:100%;" value="'+gsInCl[k].clComeUnit+'">'
 	      		  				+"</td><td style='width:7%;'>"
-		      		  			+'<input type="text" class="form-control" value='+gsInCl[k].clManufacturer+' style="width:100%;">'
+		      		  			+'<input type="text" class="form-control" style="width:100%;" value="'+gsInCl[k].clManufacturer+'">'
 		  		  				+"</td><td style='width:7%;'>"
-          		  				+'<button type="button" class="btn btn-primary" onclick="shanchuyihang(this)">删除</button>'
+          		  				+'<button type="button" class="btn btn-primary" onclick="xgshanchuyihang(this)">删除</button>'
           		  				+"</td></tr>")
           		  				initClType(gsInCl[k].clType,k);
           		  				initName1(gsInCl[k].clPrjSupplier,k);

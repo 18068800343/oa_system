@@ -1384,29 +1384,6 @@
                     }
           		});
           	})
-          	/* $('#in_cg_name').editableSelect().on('select.editable-select', function (e, dom) {
-        		$.ajax({
-                    type: 'POST',
-                    url: getContextPath()+'/cgcontract/getCGNoByName',
-                    dataType: 'json',
-                    data: {
-                    	contractName:$('#in_cg_name').val()
-                    },
-                    success: function (json) {
-                    	$("#in_cg_no").val(json[0].cgNo)
-                    	var prj_name=json[0].prjName;
-                    	var work_no=json[0].workNo;
-                    	$("#in_prj_name").html('');
-                    	for(var i=0;i<prj_name.split(",").length;i++){
-                    		$("#in_prj_name").append("<option value="+prj_name.split(",")[i]+">"+prj_name.split(",")[i]+"</option>")
-                    	}
-                    	$("#in_prj_no").html('');
-                    	for(var i=0;i<work_no.split(",").length;i++){
-                    		$("#in_prj_no").append("<option value="+work_no.split(",")[i]+">"+work_no.split(",")[i]+"</option>")
-                    	}
-                    }
-          		});
-          	}) */
           	 
         }
 		});
@@ -1486,7 +1463,9 @@
          		  				+'<button type="button" class="btn btn-primary" onclick="removeThis(this)">移除</button>'
          		  				+"</td></tr>")
 	               }
+	               $("#jyButton").attr("disabled",false);
 				}else{
+					$("#jyButton").attr("disabled",true);
 					$("#remain_out_table tbody").append("<tr><td colspan='8' style='text-align:center;color:red;font-size:24px'>材料为空</td></tr>")
 				}
 			}
@@ -1584,8 +1563,8 @@
     		var price=$(this).find("td").eq(6).text();
     		var outNum=$(this).find("input").eq(0).val();
     		var reg=/^\+?[1-9][0-9]*$/;
-    		if(!reg.test(outNum)){
-    			toastr.error("请输入数字")
+    		if(!reg.test(outNum)||outNum==0){
+    			toastr.error("请输入数字且不能为0")
         		return false;
     		}
     		if(Number(outNum)>Number(jy)){

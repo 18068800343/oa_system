@@ -104,8 +104,36 @@ public class Task {
     
     private PrjCompanyVo prjCompanyVo;
     
+    private Double yugongkebili;
     
+    private Double chushebili;
     
+    private Double shishebili;
+    
+	public Double getYugongkebili() {
+		return yugongkebili;
+	}
+
+	public void setYugongkebili(Double yugongkebili) {
+		this.yugongkebili = yugongkebili;
+	}
+
+	public Double getChushebili() {
+		return chushebili;
+	}
+
+	public void setChushebili(Double chushebili) {
+		this.chushebili = chushebili;
+	}
+
+	public Double getShishebili() {
+		return shishebili;
+	}
+
+	public void setShishebili(Double shishebili) {
+		this.shishebili = shishebili;
+	}
+
 	public String getMainPrjNo() {
 		return mainPrjNo;
 	}

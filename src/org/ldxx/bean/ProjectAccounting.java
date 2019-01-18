@@ -5,6 +5,7 @@ import java.util.List;
 public class ProjectAccounting {
 	
 	private String paId;
+	private String hsNo;//项目核算单编号
 	private String prjName;//项目名
 	private String prjNo;//项目编号
 	private String yezhu;//业主单位
@@ -33,6 +34,14 @@ public class ProjectAccounting {
 	
 
 	
+	public String getHsNo() {
+		return hsNo;
+	}
+
+	public void setHsNo(String hsNo) {
+		this.hsNo = hsNo;
+	}
+
 	public String getPaId() {
 		return paId;
 	}

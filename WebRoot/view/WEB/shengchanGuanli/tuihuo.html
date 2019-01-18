@@ -360,6 +360,7 @@
                         <th>任务单号</th>
                         <th>处理人</th>
                         <th>处理时间</th>
+                        <th>材料实际总金额(元)</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -497,6 +498,7 @@
 	            { "data": "prjNo"}, 
 	            { "data": "applyPerson"}, 
 	            { "data": "applyDate"}, 
+	            { "data": "clMoney"},
 	        ],
 	        "columnDefs": [
 							{	
@@ -509,7 +511,7 @@
 							},
 							{	
 									 "class": "tcenter",
-									    "targets": 4,
+									    "targets": 5,
 									    "searchable": true,
 									    "render": function(data, type, full) {
 									  	  		return '<i class="iconfont icon-icon-test Pedbfb" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookFj(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i> <i class="glyphicon glyphicon-new-window chuli" style="font-size:20px;cursor:pointer;display:none;" title="处理" onclick="chuli(this)" data-toggle="modal" data-target="#myModal" id="lookDetall"></i>  '
@@ -677,10 +679,11 @@
         if(zt=="可处理"){
         	$.ajax({
                 type: 'POST',
-                url: getContextPath()+'/gsMaterialIn/selectGsMateriaOutForEnd2',
+                //url: getContextPath()+'/gsMaterialIn/selectGsMateriaOutForEnd2',
+                url: getContextPath()+'/gsMaterialIn/selectAlearyRemain',
                 dataType: 'json',
                 data: {
-                	taskno:"%",
+                	//taskno:"%",
                 },
                 success: function (json) {
                 	var arr=[];
@@ -691,12 +694,23 @@
                 				prjNo:undefined,
                 				applyPerson:undefined,
                 				applyDate:undefined,
+                				clMoney:0,
                 		}
                 		gmw.cmwId=json[i].cmId;
                 		gmw.prjName=json[i].demandProject;
                 		gmw.prjNo=json[i].taskNo;
                 		gmw.applyPerson=json[i].getPerson;
                 		gmw.applyDate=json[i].sentDate;
+                		var clMoney=0;
+                		 if(json[i].clremain!=null){
+	                		for(var j=0;j<json[i].clremain.length;j++){
+	                			var price=json[i].clremain[j].cmoUnitPrice
+	                			var remainNumber=json[i].clremain[j].remainNumber
+	                			clMoney+=Number(remainNumber)*Number(price)
+	                		}
+			        		
+			        	} 
+        				gmw.clMoney=clMoney;
                 		arr.push(gmw)
                 	}
                     $('#mainContent').dataTable().fnClearTable();
@@ -715,8 +729,42 @@
                 	type:1
                 },
                 success: function (json) {
+                	var arr=[];
+                	for(var i=0;i<json.length;i++){
+                		var gmw={
+                				cmwId:undefined,
+                				prjName:undefined,
+                				prjNo:undefined,
+                				applyPerson:undefined,
+                				applyDate:undefined,
+                				dealReason:undefined,
+                				dealMode:undefined,
+                				costMoney:undefined,
+                				cmwDesc:undefined,
+                				clMoney:0,
+                		}
+                		gmw.cmwId=json[i].cmwId;
+                		gmw.prjName=json[i].prjName;
+                		gmw.prjNo=json[i].prjNo;
+                		gmw.applyPerson=json[i].applyPerson;
+                		gmw.applyDate=json[i].applyDate;
+                		gmw.dealReason=json[i].dealReason;
+                		gmw.dealMode=json[i].dealMode;
+                		gmw.costMoney=json[i].costMoney;
+                		gmw.cmwDesc=json[i].cmwDesc;
+                		var clMoney=0;
+                		 if(json[i].gsMaterialWastetreatmentCl!=null){
+	                		for(var j=0;j<json[i].gsMaterialWastetreatmentCl.length;j++){
+	                			var money=json[i].gsMaterialWastetreatmentCl[j].actualDiscountMoney
+	                			clMoney+=Number(money)
+	                		}
+			        		
+			        	} 
+        				gmw.clMoney=clMoney;
+                		arr.push(gmw)
+                	}
                     $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                    $('#mainContent').DataTable().rows.add(arr).draw(false);
                     $(".Pedbfb").show();
                     $(".chuli").hide();
                 }
