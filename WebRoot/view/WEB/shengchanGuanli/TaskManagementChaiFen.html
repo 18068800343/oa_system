@@ -174,7 +174,7 @@
                             </tr>
                     	</tbody>
                  </table>
-                <table class="table table-bordered table-condensed">
+                <table style="display:none" class="table table-bordered table-condensed">
                             <tr>
                                 <td style="width:10%;">联系人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:20%;">
@@ -1061,7 +1061,21 @@
             }
         });
 	}
-
+	function initZiTaskLeiXingType(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/projectType/selectAllSecond',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $("select[name='xgerjileixing']").html("");
+                for(var i=0;i<json.length;i++){
+                	$("select[name='xgerjileixing']").append("<option value='"+json[i].nameSecond+"'>"+json[i].nameSecond+"</option>")
+                }
+            }
+        });
+	}
     //初始化
     $("#zhuangtai").change(function(){
         var zt=$("#zhuangtai").val();
@@ -1672,31 +1686,38 @@
     			+'<input type="text" class="form-control" value='+xglianxifangshi+' disabled>'
     			+"</td><td><button type='button' style='text-align:right;' class='btn btn-primary' onclick='deleteLianxiren(this)'>移除联系人</button></td></tr>")
     }
-   
+    var pageBianLiang;
     function addzirenwudan(){
-    	$("#zirenwudandiv").append("<div style='border:1px solid #bbb;'>"
+    	var length ;
+    	var dom = $("div[name='ziTaskDiv']");
+    	if(dom==undefined){
+    		length=0;
+    	}else{
+    		length=dom.length;
+    	}
+    	$("#zirenwudandiv").append("<div name='ziTaskDiv' style='border:1px solid #bbb;'>"
     			+"<table class='table table-bordered table-condensed'>"
     			+"<tr>"
     			+"<td>任务单名称</td>"
-    			+"<td><input type='text' class='form-control'></td>"
+    			+"<td><input type='text' id='taskName"+length+"' class='form-control'></td>"
     			+"<td>任务单金额</td>"
-    			+"<td><input type='text' class='form-control'></td>"
+    			+"<td><input type='text' id='taskMoney"+length+"' class='form-control'></td>"
     			+"<td>合同金额</td>"
-    			+"<td><input type='text' class='form-control'></td>"
+    			+"<td><input type='text' id='contractMoney"+length+"' style='width:49%;' class='form-control'></td>"
     			+"</tr>"
     			+"<tr>"
     			+"<td>暂定金</td>"
-    			+"<td><input type='text' class='form-control'></td>"
+    			+"<td><input type='text' id='zdMoney"+length+"' class='form-control'></td>"
     			+"<td>合同所属公司</td>"
     			+"<td>"
-    			+"<select class='form-control' style='width:100%;'><option value='华通'>华通</option><option value='华汇'>华汇</option><option value='宿迁分公司'>宿迁分公司</option></select>"
+    			+"<select class='form-control' id='suoshuCompany"+length+"' style='width:100%;'><option value='华通'>华通</option><option value='华汇'>华汇</option><option value='宿迁分公司'>宿迁分公司</option></select>"
     			+"</td>"
     			+"<td>项目起止时间</td>"
-    			+"<td><div class='yihang'><input type='text' id='ziTask1' class='form-control'  style='width:49%;'/> -  <input type='text' id='ziTask2' class='form-control' style='width:49%;'/></div></td>"
+    			+"<td colspan='2'><div class='yihang'><input type='text' id='ziTaskStart"+length+"' class='form-control'  style='width:49%;'/> -  <input type='text' id='ziTaskEnd"+length+"' class='form-control' style='width:49%;'/></div></td>"
     			+"</tr>"
     			+"<tr>"
     			+"<td>概况</td>"
-    			+"<td colspan='6'><textarea class='form-control' rows='3' style='width:90%;'></textarea></td>"
+    			+"<td colspan='6'><textarea class='form-control' id='gaikuang"+length+"' rows='3' style='width:90%;'></textarea></td>"
     			+"</tr>"
     			+"</table>"
     			+"<table class='table table-bordered table-condensed'>"
@@ -1707,14 +1728,23 @@
     			+"</thead>"
     			+"<tbody>"
     			+"<tr>"
-    			+"<td>主办部门</td>"
+    			+"<td style='width:90px;'>主办部门</td>"
     			+"<td>"
     			+'<form class="form-inline">'
-    			+"<select class='form-control renyibumen' style='width:180px;'></select>"
-    			+"    <input type='text' class='form-control' placeholder='金额'>"
-    			+"    <input type='text' class='form-control' placeholder='成本分摊比例'>"
+    			+"<select class='form-control renyibumen' id='zhubanBumen"+length+"' style='width:180px;'></select>"
+    			+"    <input type='text' style='width:150px;' id='zhubanMoney"+length+"' class='form-control' placeholder='金额'>"
+    			+"    <input type='text' style='width:150px;' id='zhubanFentan"+length+"' class='form-control' placeholder='成本分摊比例'>"
     			+'</form>'
     			+"</td>"
+    			+"<td style='width:90px;'>主办部门</td>"
+    			+"<td>"
+    			+'<form class="form-inline">'
+    			+"<select class='form-control renyibumen' id='zhubanBumen"+length+"' style='width:180px;'></select>"
+    			+"    <input type='text' style='width:150px;' id='zhubanMoney"+length+"' class='form-control' placeholder='金额'>"
+    			+"    <input type='text' style='width:150px;' id='zhubanFentan"+length+"' class='form-control' placeholder='成本分摊比例'>"
+    			+'</form>'
+    			+"</td>"
+    			
     			+"</tr>"
     			+"</tbody>"
     			+"</table>"
@@ -1722,12 +1752,13 @@
     			+"<button type='button' class='btn btn-primary' onclick='delzirenwudan(this)' style='margin-right:5px;'>删除当前子任务单</button>"
     			+"</div>"
     			+"</div>");
-    			laydate.render({
-    	            elem: '#ziTask1' //指定元素
-    	        });
-    			laydate.render({
-    	            elem: '#ziTask2' //指定元素
-    	        });
+   	        	laydate.render({
+       	            elem: '#ziTaskStart'+length+'' //指定元素
+       	        });
+       			laydate.render({
+       	            elem: '#ziTaskEnd'+length+'' //指定元素
+       	        });
+    			
     			$.ajax({
                     type: 'POST',
                     url: getContextPath()+'/organizationManagement/selectProductionDepartment',
@@ -1747,6 +1778,9 @@
         		});
     }
     
+    function getZiTasks(){
+    	
+    }
     function delzirenwudan(aa){
     	$(aa).parent().parent().remove();
     }
@@ -3216,6 +3250,31 @@
   		}
   		$("#xiangmumd").modal("hide");
   	}
+  	
+    function getZiTaskDivData(){
+    	var taskArray = new taskArray;
+    	$("div[name='ziTaskDiv']").each(function(index,dom){
+    		var task={};
+    		task.mainPrjNo=$("#xgtaskbianhao").val();//主任务单号
+    		task.prjType2 = $("#xgerjileixing").val();//项目类型
+    		task.prjName = $("#taskName"+index+"").val();//子项目名称
+    		task.prjArea = $("#edit_city").val();//项目所属区域
+    		task.prjManagementModel = $("#xgmoshi").val();//项目经营模式
+    		task.prjCompany = $("#suoshuCompany"+index+"").val();//子项目所属公司
+    		task.prjSource = $("#xg_prj_source").val();//项目来源
+    		task.prjOwnerUnit = $("#xgyezhudanwei").val();//项目甲方单位
+    		task.workContent = $("#gaikuang"+index+"").val();//子项目概况
+    		task.prjEstimateMoney = $("#taskMoney"+index+"").val();//子项目任务单金额
+    		task.contractMoney = $("#contractMoney"+index+"").val();//子项目合同金额
+    		task.provisionalSum = $("#zdMoney"+index+"").val();//子项目暂定金
+    		task.prjStartTime = $("#ziTaskStart"+index+"").val();//子项目咱定金
+    		task.prjEndTime = $("#ziTaskEnd"+index+"").val();//子项目咱定金
+    		task.mainDepartment = $("#zhubanBumen"+index+"").val();//子项目咱定金
+    		task.mainDepartmentMoney = $("#zhubanBumen"+index+"").val();//子项目咱定金
+    		task.mainDepartmentCost = $("#zhubanBumen"+index+"").val();//子项目咱定金
+    		task.omName = $("#zhubanBumen"+index+" option:selected").text();//子项目咱定金
+    	});
+    }
 </script>
 
 </html>
