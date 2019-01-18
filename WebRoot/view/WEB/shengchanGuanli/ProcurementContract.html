@@ -172,6 +172,12 @@
                                 <td style="width:30%;"><input type="text" class="form-control" id="cg_bumen" style="width:60%;" disabled></td>
                             </tr>
                             <tr>
+                            	<td style="width:15%;">运费(元)</td>
+                            	<td style="width:30%;"><input type="text" class="form-control" id="yunfei" style="width:60%;"></td>
+                            	<td style="width:15%;"></td>
+                            	<td style="width:30%;"></td>
+                            </tr>
+                            <tr>
                                 <td>采购合同概述</td>
                                 <td colspan="3"><textarea class="form-control" id="hetonggaishu" rows="4" style="width:100%;"></textarea></td>
                             </tr>
@@ -390,6 +396,12 @@
                                 <td><input type="text" class="form-control" id="xgyear" style="width:60%;"></td>
                                 <td>采购部门</td>
                                 <td><input type="text" class="form-control" id="xgcg_bumen" style="width:60%;" disabled></td>
+                            </tr>
+                            <tr>
+                            	<td style="width:15%;">运费(元)</td>
+                            	<td style="width:30%;"><input type="text" class="form-control" id="xgyunfei" style="width:60%;"></td>
+                            	<td style="width:15%;"></td>
+                            	<td style="width:30%;"></td>
                             </tr>
                             <tr>
                                 <td>采购合同概述</td>
@@ -676,6 +688,12 @@
                             <td id="lookcg_bumen"></td>
                         </tr>
                         <tr>
+                           	<td>运费(元)</td>
+                           	<td id="lookyunfei"></td>
+                           	<td></td>
+                           	<td></td>
+                           </tr>
+                        <tr>
                             <td>采购合同概述</td>
                             <td colspan="3" id="lookcghetonggaishu"></td>
                         </tr>
@@ -787,6 +805,13 @@
                             <td>采购部门</td>
                             <td id="Historycg_bumen"></td>
                         </tr>
+                        <tr>
+                           	<td>运费(元)</td>
+                           	<td id="Historyyunfei"></td>
+                           	<td></td>
+                           	<td></td>
+                           </tr>
+                        <tr>
                         <tr>
                             <td>采购合同概述</td>
                             <td colspan="3" id="Historycghetonggaishu"></td>
@@ -2001,7 +2026,7 @@
 		var hetonggaishu=$("#hetonggaishu").val();
 		var gaikuang=$("#gaikuang").val();
 		var cg_bumen=$("#cg_bumen").val();
-		
+		var yunfei=$("#yunfei").val();
 		if(cghetongming==''){
 			toastr.error("采购合同名称不能为空");
 			return;
@@ -2035,16 +2060,20 @@
 			return;
 		} 
 		
+		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(isdaigou=='是'){
 			if(fbhetong==''){
 				toastr.error("分包合同不能为空")
 				return;
 			}
-			var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 			if(!reg.test(daigouMoney)){
 				toastr.error("代购金额只能输入数字且只能有两位小数");
 				return;
 			}
+		}
+		if(yunfei==""||!reg.test(yunfei)){
+			toastr.error("运费只能输入数字且只能有两位小数");
+			return;
 		}
 		
 		var cgContract={
@@ -2070,6 +2099,7 @@
 				 fbNo:undefined,   //关联的分保合同编号    
 				 cgcl:undefined,
 				 cgDepartment:undefined,
+				 freight:0,
 		}
 		cgContract.contractName=cghetongming;
 		cgContract.cgdNo=cgdNo;
@@ -2089,7 +2119,8 @@
 		cgContract.workContent=gaikuang;
 		cgContract.cgcl=cgclArr;
 		cgContract.cgDepartment=cg_bumen;
-		console.log(cgContract)
+		cgContract.freight=yunfei;
+		//console.log(cgContract)
 		
 		var formData = new FormData();
   		formData.append("cgContract", JSON.stringify(cgContract));
@@ -2176,6 +2207,7 @@
 		var hetonggaishu=$("#hetonggaishu").val();
 		var gaikuang=$("#gaikuang").val();
 		var cg_bumen=$("#cg_bumen").val();
+		var yunfei=$("#yunfei").val();
 		
 		if(cghetongming==''){
 			toastr.error("采购合同名称不能为空");
@@ -2213,16 +2245,20 @@
 			toastr.error("法律顾问签字附件为空")
 			return;
 		} */
+		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(isdaigou=='是'){
 			if(fbhetong==''){
 				toastr.error("分包合同不能为空")
 				return;
 			}
-			var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 			if(!reg.test(daigouMoney)){
 				toastr.error("代购金额只能输入数字且只能有两位小数");
 				return;
 			}
+		}
+		if(yunfei==""||!reg.test(yunfei)){
+			toastr.error("运费只能输入数字且只能有两位小数");
+			return;
 		}
 		
 		var cgContract={
@@ -2248,6 +2284,7 @@
 				 fbNo:undefined,   //关联的分保合同编号    
 				 cgcl:undefined,
 				 cgDepartment:undefined,
+				 freight:0,
 		}
 		cgContract.contractName=cghetongming;
 		cgContract.cgdNo=cgdNo;
@@ -2267,7 +2304,8 @@
 		cgContract.workContent=gaikuang;
 		cgContract.cgcl=cgclArr;
 		cgContract.cgDepartment=cg_bumen;
-		console.log(cgContract)
+		cgContract.freight=yunfei;
+		//console.log(cgContract)
 		
 		var formData = new FormData();
   		formData.append("cgContract", JSON.stringify(cgContract));
@@ -2586,6 +2624,7 @@
 				$("#xghetonggaishu").val(json.contractSummary);
 				$("#xggaikuang").val(json.workContent);
 				$("#xgcg_bumen").val(json.cgDepartment);
+				$("#xgyunfei").val(json.freight)
 				
 				$("#xgcailiaobiaoDiv").empty()
 				$("#xgcailiaobiaoDiv").append(
@@ -2763,11 +2802,8 @@
 		var xghetonggaishu=$("#xghetonggaishu").val();
 		var xggaikuang=$("#xggaikuang").val();
 		var xgcg_bumen=$("#xgcg_bumen").val()
-		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
-		if(!reg.test(xgdaigouMoney)){
-			toastr.error("代购金额只能输入数字且只能有两位小数");
-			return;
-		}
+		var xgyunfei=$("#xgyunfei").val();
+		
 		
 		if(xgcghetongming==''){
 			toastr.error("采购合同名称为空");
@@ -2793,10 +2829,6 @@
 			toastr.error("乙方不能为空");
 			return;
 		}
-		/* if(xgcghetongMoney==''){
-			toastr.error("采购合同金额为空");
-			return;
-		} */
 		if(xgcghetongMoney==0){
 			toastr.error("采购合同金额不能为0");
 			return;
@@ -2809,6 +2841,21 @@
 			toastr.error("法律顾问签字附件为空")
 			return;
 		} */
+		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		if(xgisdaigou=='是'){
+			if(xgfbhetong==''){
+				toastr.error("分包合同不能为空")
+				return;
+			}
+			if(!reg.test(xgdaigouMoney)){
+				toastr.error("代购金额只能输入数字且只能有两位小数");
+				return;
+			}
+		}
+		if(xgyunfei==""||!reg.test(xgyunfei)){
+			toastr.error("运费只能输入数字且只能有两位小数");
+			return;
+		}
 		
 		var cgContract={
 				 cgId:undefined,   //编号                   
@@ -2833,6 +2880,7 @@
 				 fbNo:undefined,   //关联的分保合同编号    
 				 cgcl:undefined,
 				 cgDepartment:undefined,
+				 freight:0,
 		}
 		cgContract.contractName=xgcghetongming;
 		cgContract.cgNo=xgcgNo;
@@ -2853,6 +2901,7 @@
 		cgContract.workContent=xggaikuang;
 		cgContract.cgcl=xgcgclArr;
 		cgContract.cgDepartment=xgcg_bumen;
+		cgContract.freight=xgyunfei;
 		
 		var formData = new FormData();
  		formData.append("cgContract", JSON.stringify(cgContract));
@@ -2944,11 +2993,8 @@
 		var xghetonggaishu=$("#xghetonggaishu").val();
 		var xggaikuang=$("#xggaikuang").val();
 		var xgcg_bumen=$("#xgcg_bumen").val()
-		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
-		if(!reg.test(xgdaigouMoney)){
-			toastr.error("代购金额只能输入数字且只能有两位小数");
-			return;
-		}
+		var xgyunfei=$("#xgyunfei").val();
+		
 		
 		if(xgcghetongming==''){
 			toastr.error("采购合同名称为空");
@@ -2990,6 +3036,21 @@
 			toastr.error("法律顾问签字附件为空")
 			return;
 		} */
+		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		if(xgisdaigou=='是'){
+			if(xgfbhetong==''){
+				toastr.error("分包合同不能为空")
+				return;
+			}
+			if(!reg.test(xgdaigouMoney)){
+				toastr.error("代购金额只能输入数字且只能有两位小数");
+				return;
+			}
+		}
+		if(xgyunfei==""||!reg.test(xgyunfei)){
+			toastr.error("运费只能输入数字且只能有两位小数");
+			return;
+		}
 		
 		var cgContract={
 				 cgId:undefined,   //编号                   
@@ -3014,6 +3075,7 @@
 				 fbNo:undefined,   //关联的分保合同编号    
 				 cgcl:undefined,
 				 cgDepartment:undefined,
+				 freight:0,
 		}
 		cgContract.contractName=xgcghetongming;
 		cgContract.cgNo=xgcgNo;
@@ -3034,6 +3096,7 @@
 		cgContract.workContent=xggaikuang;
 		cgContract.cgcl=xgcgclArr;
 		cgContract.cgDepartment=xgcg_bumen;
+		cgContract.freight=xgyunfei;
 		
 		var formData = new FormData();
  		formData.append("cgContract", JSON.stringify(cgContract));
@@ -3141,6 +3204,7 @@
 				$("#lookcghetonggaishu").text(json.contractSummary);
 				$("#lookgaikuang").text(json.workContent);
 				$("#lookcg_bumen").text(json.cgDepartment);
+				$("#lookyunfei").text(json.freight);
 				
 				$("#lookcailiaobiaoDiv").empty();
 				$("#lookcailiaobiaoDiv").append(
@@ -3465,6 +3529,7 @@
 				$("#Historycghetonggaishu").text(json.contractSummary);
 				$("#Historygaikuang").text(json.workContent);
 				$("#Historycg_bumen").text(json.cgDepartment);
+				$("#Historyyunfei").text(json.freight);
 				
 				$("#HistorycailiaobiaoDiv").empty();
 				$("#HistorycailiaobiaoDiv").append(

@@ -49,7 +49,7 @@ public class GsMaterialInController {
 	@Autowired
 	private GsMaterialInService gmService;
 	
-	@RequestMapping("/getGsMaterialIn")//初始化outStatus=1()或3
+	@RequestMapping("/getGsMaterialIn")//初始化outStatus=0(未出库)或outStatus=0(结余转出来的)
 	@ResponseBody
 	public List<CompanyMateriaIn> getGsMaterialIn(){
 		return gmService.getGsMaterialIn();
