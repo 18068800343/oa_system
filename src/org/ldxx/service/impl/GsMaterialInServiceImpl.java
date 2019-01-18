@@ -194,7 +194,16 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 
 	@Override
 	public List<CompanyMateriaIn> selectAlearyRemain() {
-		return gmDao.selectAlearyRemain();
+		List<CompanyMateriaIn> list = gmDao.selectAlearyRemain();
+		if(list!=null&&list.size()>0){
+			for(int i=0;i<list.size();i++){
+				List<ClRemain> selectGsInClById = clremaindao.selectClRemainById(list.get(i).getCmId());
+				if(selectGsInClById!=null&&selectGsInClById.size()!=0){
+					list.get(i).setClremain(selectGsInClById);
+				}
+			}
+		}
+		return list;
 	}
 
 	@Override

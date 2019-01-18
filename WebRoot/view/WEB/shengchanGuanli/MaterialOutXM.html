@@ -730,19 +730,19 @@ Array.prototype.unique3 = function(){
     function save(){
     	var outArray=new Array();
     	$("#cl_table tbody").find("tr").each(function(){
-    		var id=$(this).find("td").eq(0).find("input").attr("data-id");
-    		var clName=$(this).find("td").eq(0).find("input").val();
-    		var clType=$(this).find("td").eq(1).find("option:selected").val();
-    		var modeType=$(this).find("td").eq(2).find("input").val();
-    		var unit=$(this).find("td").eq(3).find("option:selected").val();
-    		var num=$(this).find("td").eq(4).find("input").val();
-    		var price=$(this).find("td").eq(5).find("input").val();
+    		var id=$(this).find("td").eq(0).attr("data-id");
+    		var clName=$(this).find("td").eq(0).text();
+    		var clType=$(this).find("td").eq(1).text();
+    		var modeType=$(this).find("td").eq(2).text();
+    		var unit=$(this).find("td").eq(3).text();
+    		var num=$(this).find("td").eq(4).text();
+    		var price=$(this).find("td").eq(5).text();
     		var lingNum=$(this).find("td").eq(6).find("input").val();
-    		var prjSupplier=$(this).find("td").eq(7).find("option:selected").val();
-    		var GsSupplier=$(this).find("td").eq(8).find("option:selected").val();
-    		var desc=$(this).find("td").eq(9).find("input").val();
-    		var laihuodanwei=$(this).find("td").eq(10).find("input").val();
-    		var scchangjia=$(this).find("td").eq(11).find("input").val();
+    		var prjSupplier=$(this).find("td").eq(7).text();
+    		var GsSupplier=$(this).find("td").eq(8).text();
+    		var desc=$(this).find("td").eq(9).text();
+    		var laihuodanwei=$(this).find("td").eq(10).text();
+    		var scchangjia=$(this).find("td").eq(11).text();
     		
     		var reg=/^\+?[1-9][0-9]*$/; 
         	if(!reg.test(num)){
@@ -871,49 +871,40 @@ Array.prototype.unique3 = function(){
             	no:$('#prj_no').val()
             },
             success: function (json) {
-            	//$("#prj_no").val(json[0].taskNo);
             	$("#cl_table tbody").html('');
-            	if(json!=0){
+            	if(json!=null&&json.length>0){
             		for(var i=0;i<json.length;i++){
-            			$("#cl_table tbody").append("<tr><td style='width:7%;'>"
-          		  				+'<input type="text" class="form-control" data-id='+json[i].clId+' value='+json[i].clName+' disabled style="width:100%;">'
+            			$("#cl_table tbody").append("<tr><td style='width:7%;' data-id="+json[i].clId+">"
+          		  				+''+json[i].clName+''
           		  				+"</td><td style='width:5%;'>"
-          		  				+'<select style="width:100px;" disabled class="form-control" id="cl_type'+i+'"></select>'
+          		  				+''+json[i].clType+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+'<input type="text" class="form-control" disabled value='+json[i].clMode+' style="width:100%;">' 
+          		  				+''+json[i].clMode+'' 
           		  				+"</td><td style='width:7%;'>"
-          		  				+'<select class="form-control" disabled  id=xgcl_danwei'+i+'>'
-											+'<option value="个">个</option>'
-											+'<option value="只">只</option>'
-											+'<option value="套">套</option>'
-											+'<option value="副">副</option>'
-											+'<option value="双">双</option>'
-											+'<option value="元">元</option>'
-											+'<option value="桶">桶</option>'
-										+'</select>'
+          		  				+''+json[i].clUnit+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+'<input type="text" class="form-control" disabled value='+json[i].clRemain+' style="width:100%;">'
+          		  				+''+json[i].clRemain+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+'<input type="text" class="form-control" disabled value='+json[i].clPrice+'  style="width:80%;">'
+          		  				+''+json[i].clPrice+''
           		  				+"</td><td style='width:7%;'>"
           		  				+'<input type="text" class="form-control" style="width:100%;">'
           		  				+"</td><td style='width:7%;'>" 
-          		  				+'<select style="width:150px;" class="form-control" disabled id=xm'+i+'></select>'
+          		  				+''+json[i].clspNamexm+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+'<select style="width:150px;" class="form-control" disabled id=gs'+i+'></select>'
+          		  				+''+json[i].clspNamegs+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+'<input type="text" class="form-control" disabled value='+json[i].clDesc+' style="width:100%;">'
+          		  				+''+json[i].clDesc+''
           		  				+"</td><td style='width:7%;'>"
-			   		  			+'<input type="text" class="form-control" disabled value='+json[i].clComeUnit+' style="width:100%;">'
+			   		  			+''+json[i].clComeUnit+''
 	      		  				+"</td><td style='width:7%;'>"
-		      		  			+'<input type="text" class="form-control" disabled value='+json[i].clManufacturer+' style="width:100%;">'
+		      		  			+''+json[i].clManufacturer+''
 		  		  				+"</td><td style='width:7%;'>"
           		  				+'<button type="button" class="btn btn-primary" onclick="removeThis(this)">删除</button>'
           		  				+"</td></tr>")
-          		  				initClType(json[i].clType,i);
+          		  				/* initClType(json[i].clType,i);
           		  				initName1(json[i].clPrjSupplier,i);
                   				initName2(json[i].clGsSupplier,i);
-                  				$("#xgcl_danwei"+i).val(json[i].clUnit);
+                  				$("#xgcl_danwei"+i).val(json[i].clUnit); */
                 	} 
             		$("#outBut").attr("disabled",false);
             	}else{
@@ -951,45 +942,37 @@ Array.prototype.unique3 = function(){
 	                    	$("#cl_table tbody").html('');
 	                    	if(json!=null&&json.length>0){
 	                    		for(var i=0;i<json.length;i++){
-	                    			$("#cl_table tbody").append("<tr><td style='width:7%;'>"
-	                  		  				+'<input type="text" class="form-control" disabled data-id='+json[i].clId+' value='+json[i].clName+' style="width:100%;">'
+	                    			$("#cl_table tbody").append("<tr><td style='width:7%;' data-id="+json[i].clId+">"
+	                  		  				+''+json[i].clName+''
 	                  		  				+"</td><td style='width:5%;'>"
-	                  		  				+'<select style="width:100px;" class="form-control" disabled id="cl_type'+i+'"></select>'
+	                  		  				+''+json[i].clType+''
 	                  		  				+"</td><td style='width:7%;'>"
-	                  		  				+'<input type="text" class="form-control" disabled value='+json[i].clMode+' style="width:100%;">' 
+	                  		  				+''+json[i].clMode+'' 
 	                  		  				+"</td><td style='width:7%;'>"
-	                  		  				+'<select class="form-control" disabled id=xgcl_danwei'+i+'>'
-	        											+'<option value="个">个</option>'
-	        											+'<option value="只">只</option>'
-	        											+'<option value="套">套</option>'
-	        											+'<option value="副">副</option>'
-	        											+'<option value="双">双</option>'
-	        											+'<option value="元">元</option>'
-	        											+'<option value="桶">桶</option>'
-	        										+'</select>'
+	                  		  				+''+json[i].clUnit+''
 	                  		  				+"</td><td style='width:7%;'>"
-	                  		  				+'<input type="text" class="form-control" disabled value='+json[i].clRemain+' style="width:100%;">'
+	                  		  				+''+json[i].clRemain+''
 	                  		  				+"</td><td style='width:7%;'>"
-	                  		  				+'<input type="text" class="form-control" disabled value='+json[i].clPrice+'  style="width:80%;">'
+	                  		  				+''+json[i].clPrice+''
 	                  		  				+"</td><td style='width:7%;'>"
 	                  		  				+'<input type="text" class="form-control" style="width:100%;">'
+	                  		  				+"</td><td style='width:7%;'>" 
+	                  		  				+''+json[i].clspNamexm+''
 	                  		  				+"</td><td style='width:7%;'>"
-	                  		  				+'<select style="width:150px;" disabled class="form-control" id=xm'+i+'></select>'
+	                  		  				+''+json[i].clspNamegs+''
 	                  		  				+"</td><td style='width:7%;'>"
-	                  		  				+'<select style="width:150px;" disabled class="form-control" id=gs'+i+'></select>'
+	                  		  				+''+json[i].clDesc+''
 	                  		  				+"</td><td style='width:7%;'>"
-	                  		  				+'<input type="text" class="form-control" disabled value='+json[i].clDesc+' style="width:100%;">'
-	                  		  				+"</td><td style='width:7%;'>"
-	        			   		  			+'<input type="text" class="form-control" disabled value='+json[i].clComeUnit+' style="width:100%;">'
+	        			   		  			+''+json[i].clComeUnit+''
 	        	      		  				+"</td><td style='width:7%;'>"
-	        		      		  			+'<input type="text" class="form-control" disabled value='+json[i].clManufacturer+' style="width:100%;">'
+	        		      		  			+''+json[i].clManufacturer+''
 	        		  		  				+"</td><td style='width:7%;'>"
 	                  		  				+'<button type="button" class="btn btn-primary" onclick="removeThis(this)">删除</button>'
 	                  		  				+"</td></tr>")
-	                  		  				initClType(json[i].clType,i);
+	                  		  				/* initClType(json[i].clType,i);
 	                  		  				initName1(json[i].clPrjSupplier,i);
 	                          				initName2(json[i].clGsSupplier,i);
-	                          				$("#xgcl_danwei"+i).val(json[i].clUnit);
+	                          				$("#xgcl_danwei"+i).val(json[i].clUnit); */
 		                    	} 
 	                    		$("#outBut").attr("disabled",false);
 	                    	}else{
