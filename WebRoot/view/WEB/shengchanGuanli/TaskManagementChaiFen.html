@@ -1723,28 +1723,31 @@
     			+"<table class='table table-bordered table-condensed'>"
     			+"<thead>"
     			+"<tr>"
-    			+"<th colspan='6' style='text-align:right;'><button type='button' class='btn btn-primary' onclick='addzirenwudanBumen(this)'>添加子任务单协办部门</button></th>"
+    			+"<th colspan='10' style='text-align:right;'><button type='button' class='btn btn-primary' onclick='addzirenwudanBumen(this)'>添加子任务单协办部门</button></th>"
     			+"</tr>"
     			+"</thead>"
     			+"<tbody>"
     			+"<tr>"
     			+"<td style='width:90px;'>主办部门</td>"
-    			+"<td>"
+    			+"<td style='width:38%;'>"
     			+'<form class="form-inline">'
     			+"<select class='form-control renyibumen' id='zhubanBumen"+length+"' style='width:180px;'></select>"
     			+"    <input type='text' style='width:150px;' id='zhubanMoney"+length+"' class='form-control' placeholder='金额'>"
     			+"    <input type='text' style='width:150px;' id='zhubanFentan"+length+"' class='form-control' placeholder='成本分摊比例'>"
     			+'</form>'
     			+"</td>"
-    			+"<td style='width:90px;'>主办部门</td>"
+    			+"<td style='width:90px;'>项目负责人</td>"
     			+"<td>"
-    			+'<form class="form-inline">'
-    			+"<select class='form-control renyibumen' id='zhubanBumen"+length+"' style='width:180px;'></select>"
-    			+"    <input type='text' style='width:150px;' id='zhubanMoney"+length+"' class='form-control' placeholder='金额'>"
-    			+"    <input type='text' style='width:150px;' id='zhubanFentan"+length+"' class='form-control' placeholder='成本分摊比例'>"
-    			+'</form>'
+    			+'<select class="form-control xmfzr'+length+'" style="width:100%;"></select>'
     			+"</td>"
-    			
+    			+"<td>主任工程师</td>"
+    			+"<td>"
+    			+'<select class="form-control zrgcs'+length+'" style="width:100%;"></select>'
+    			+"</td>"
+    			+"<td>其他负责人</td>"
+    			+"<td>"
+    			+'<select class="form-control zrgcs'+length+'" style="width:100%;"></select>'
+    			+"</td>"
     			+"</tr>"
     			+"</tbody>"
     			+"</table>"
@@ -1763,6 +1766,7 @@
                     type: 'POST',
                     url: getContextPath()+'/organizationManagement/selectProductionDepartment',
                     dataType: 'json',
+                    async:false,
                     data: {
 
                     },
@@ -1774,8 +1778,36 @@
                         for(var i=0;i<json.length;i++){
                         	$(".renyibumen").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                         }
+                        $(".renyibumen").trigger("change");
                     }
         		});
+    			
+    			//主办
+    			$("#zhubanBumen0").on("change",function(){
+    				$.ajax({
+        				type:"POST",
+        				url:getContextPath()+"/user/selectUserByomId",
+        				dataTyepe:"json",
+        				async:false,
+        				data:{ 
+        					omId:$("#zhubanBumen0").val()
+        					},
+        				success:function(json){
+        					$(".xmfzr").empty();
+        					$(".zrgcs").empty();
+        					$(".qtfzr").empty();
+        					for(var i=0;i<json.length;i++){
+        						$(".xmfzr").append("<option value='" + json[i].userId + "'>"
+        			                    + json[i].uName + "</option>")
+        	                    $(".zrgcs").append("<option value='" + json[i].userId + "'>"
+        	                    + json[i].uName + "</option>")
+        	                    $(".qtfzr").append("<option value='" + json[i].userId + "'>"
+        	                    + json[i].uName + "</option>")
+        					}
+        				}
+        			})
+    			})
+    			
     }
     
     function getZiTasks(){
@@ -1792,13 +1824,29 @@
 	                    +'</select>'
 	                    +'<input type="text" class="form-control xiebanMoney'+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+'" style="width:180px;margin-left:10px;" placeholder="金额">'
 	                    +'<input type="text" class="form-control chenbenfentanbili'+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+'" style="width:180px;margin-left:10px;" placeholder="成本分摊比例" onchange="appendBfh(this)">'
-	                    +'<button type="button" style="text-align:right;margin-left:10px;" class="btn btn-primary" onclick="deleteXieBan(this)">移除协办单位</button>'
 	                +'</form>'
-	                +"</td></tr>")
+	                +"</td>"
+	                +"<td style='width:100px;'>项目负责人</td>"
+	    			+"<td>"
+	    			+'<select class="form-control xbxmfzr'+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+'" style="width:100%;"></select>'
+	    			+"</td>"
+	    			+"<td style='width:100px;'>主任工程师</td>"
+	    			+"<td>"
+	    			+'<select class="form-control xbzrgcs'+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+'" style="width:100%;"></select>'
+	    			+"</td>"
+	    			+"<td style='width:100px;'>其他负责人</td>"
+	    			+"<td>"
+	    			+'<select class="form-control xbzrgcs'+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+'" style="width:100%;"></select>'
+	    			+"</td>"
+	    			+"<td>"
+	    			+'<button type="button" style="text-align:right;margin-left:10px;" class="btn btn-primary" onclick="deleteXieBan(this)">移除协办单位</button>'
+	    			+"</td>"
+	                +"</tr>")
 	                $.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/organizationManagement/selectProductionDepartment',
 	                    dataType: 'json',
+	                    async:false,
 	                    data: {
 	
 	                    },
@@ -1814,14 +1862,95 @@
 	                        	$(".xieban2").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
 	                        	$(".xieban3").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
 	                        }
+	                        $(".xieban1").trigger("change");
+	                    	$(".xieban2").trigger("change");
+	                    	$(".xieban3").trigger("change");
 	                    }
 	        		});
+    		
+    		//协办1
+    		 $(".xieban1").click(function(){
+    			 $.ajax({
+    	    			type:"POST",
+    	    			url:getContextPath()+"/user/selectUserByomId",
+    	    			dataTyepe:"json",
+    	    			async:false,
+    	    			data:{ 
+    	    				omId:$(".xieban1").val()
+    	    				},
+    	    			success:function(json){
+    	    				$(".xbxmfzr1").empty();
+    	    				$(".xbzrgcs1").empty();
+    	    				$(".xbqtfzr1").empty();
+    	    				for(var i=0;i<json.length;i++){
+    	    					$(".xbxmfzr1").append("<option value='" + json[i].userId + "'>"
+    	    		                    + json[i].uName + "</option>")
+    	                        $(".xbzrgcs1").append("<option value='" + json[i].userId + "'>"
+    	                        + json[i].uName + "</option>")
+    	                        $(".xbqtfzr1").append("<option value='" + json[i].userId + "'>"
+    	                        + json[i].uName + "</option>")
+    	    				}
+    	    			}
+    	    		})
+    		 })
+    		$(".xieban2").click(function(){
+    			//协办2
+        		$.ajax({
+        			type:"POST",
+        			url:getContextPath()+"/user/selectUserByomId",
+        			dataTyepe:"json",
+        			data:{ 
+        				omId:$(".xieban2").val()
+        				},
+        			success:function(json){
+        				$(".xbxmfzr2").empty();
+        				$(".xbzrgcs2").empty();
+        				$(".xbqtfzr2").empty();
+        				for(var i=0;i<json.length;i++){
+        					$(".xbxmfzr2").append("<option value='" + json[i].userId + "'>"
+        		                    + json[i].uName + "</option>")
+                            $(".xbzrgcs2").append("<option value='" + json[i].userId + "'>"
+                            + json[i].uName + "</option>")
+                            $(".xbqtfzr2").append("<option value='" + json[i].userId + "'>"
+                            + json[i].uName + "</option>")
+        				}
+        			}
+        		})
+    		})
+    		$(".xieban3").click(function(){
+    			//协办3
+        		$.ajax({
+        			type:"POST",
+        			url:getContextPath()+"/user/selectUserByomId",
+        			dataTyepe:"json",
+        			data:{ 
+        				omId:$("#xieban3").val()
+        				},
+        			success:function(json){
+        				$(".xbxmfzr3").empty();
+        				$(".xbzrgcs3").empty();
+        				$(".xbqtfzr3").empty();
+        				for(var i=0;i<json.length;i++){
+        					$(".xbxmfzr3").append("<option value='" + json[i].userId + "'>"
+        		                    + json[i].uName + "</option>")
+                            $(".xbzrgcs3").append("<option value='" + json[i].userId + "'>"
+                            + json[i].uName + "</option>")
+                            $(".xbqtfzr3").append("<option value='" + json[i].userId + "'>"
+                            + json[i].uName + "</option>")
+        				}
+        			}
+        		})
+    		})
+    		
+    		
+    		
+    		
     	}else{
     		toastr.error("协办部门已达上限")
     	}
     }
     function deleteXieBan(obj){
-    	var tr=$(obj).parent().parent().parent();
+    	var tr=$(obj).parent().parent();
     	$(tr).remove();
     }
     
