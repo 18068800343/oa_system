@@ -30,6 +30,7 @@ public class CgContract {
 	private String history;//历史状态
 	private String fbNo;//关联的分保合同编号
 	private String cgDepartment;//采购部门
+	private Float freight;//运费
 	    
 	private List<Accessory> accessory;
 	private List<Accessory> accessory1;
@@ -39,6 +40,14 @@ public class CgContract {
 	
 	
 	
+	public Float getFreight() {
+		return freight;
+	}
+
+	public void setFreight(Float freight) {
+		this.freight = freight;
+	}
+
 	public String getCgDepartment() {
 		return cgDepartment;
 	}
