@@ -9,6 +9,7 @@ public class BidApproval {
 	private String bidder;//投标人
 	private String pretrialSubmissionTime;//资格预审递交时间
 	private String fieldTime;//现场考察时间
+	private String cgType;//采购方式
 	private String pretenderMeetingTime;//标前会时间
 	private String submissionTime;//投标文件递交时间
 	private String projectApplicants;//项目报名人员
@@ -28,6 +29,12 @@ public class BidApproval {
 	private String bdNo;//标段编号
 	
 	
+	public String getCgType() {
+		return cgType;
+	}
+	public void setCgType(String cgType) {
+		this.cgType = cgType;
+	}
 	public String getBdNo() {
 		return bdNo;
 	}

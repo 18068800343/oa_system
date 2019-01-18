@@ -10,6 +10,8 @@ public class RiskAssessment {
     private String prjScale;
     
     private String prjType;
+    
+    private String prjInfo;
 
     private String pecificAssessment;
 
@@ -35,9 +37,27 @@ public class RiskAssessment {
 
     private String evaluationMethod;
 
-
+    private String lianyingInfo;
     
-    public String getPrjNo() {
+    
+    
+    public String getPrjInfo() {
+		return prjInfo;
+	}
+
+	public void setPrjInfo(String prjInfo) {
+		this.prjInfo = prjInfo;
+	}
+
+	public String getLianyingInfo() {
+		return lianyingInfo;
+	}
+
+	public void setLianyingInfo(String lianyingInfo) {
+		this.lianyingInfo = lianyingInfo;
+	}
+
+	public String getPrjNo() {
 		return prjNo;
 	}
 

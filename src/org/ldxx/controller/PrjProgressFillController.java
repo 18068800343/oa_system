@@ -486,17 +486,25 @@ public class PrjProgressFillController {
 	
 	@RequestMapping("/getPrjAllMoney")
 	@ResponseBody
-	public Map<String,Object> getPrjAllMoney(String all,String no){
+	public Map<String,Object> getPrjAllMoney(String no){
 		Map<String,Object> map=new HashMap<>();
 		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
-		float a=Float.valueOf(all.replace("%",""));
-		float l=0;
+		double last=0;
 		if(pf!=null){
-			String last=pf.getAllMoney();
-			l=Float.valueOf(last.replace("%",""));
+			last=pf.getAllMoneyYuan();
 		}
-		float p=a-l;
-		String present=p+"%";
+		
+		CjContract cj=cService.selectCjContractLikeTaskNo(no);
+		String prjNo=cj.getTaskCode();
+		double allMoney=0;
+		for(int i=0;i<prjNo.split(",").length;i++){
+			PrjProgressFill pf2=service.selectLastPrjProgressFill(prjNo.split(",")[i]);
+			if(pf2!=null){
+				double allMoneyYuan=pf2.getAllMoneyYuan();
+				allMoney=allMoney+allMoneyYuan;
+			}
+		}
+		
 	/*float money=0;
 		CjContract cj=cService.selectCjContractLikeTaskNo(no);
 		if(cj==null||cj.equals("")){
@@ -521,7 +529,8 @@ public class PrjProgressFillController {
 			money=money-cost;
 		}
 		map.put("money", money);*/
-		map.put("present", present);
+		map.put("present", last);
+		map.put("allMoney", allMoney);
 		return map;
 	}
 	

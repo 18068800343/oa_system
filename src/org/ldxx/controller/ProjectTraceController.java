@@ -78,12 +78,12 @@ public class ProjectTraceController {
 			prjType="加固施工";
 		}else if(type.equals("SJ 设计")){
 			prjType="设计项目";
-		}else if(type.equals("EPC EPC")){
-			prjType="新建施工";
+		}else if(type.equals("JSFW 技术服务")){
+			prjType="信息化项目";
 		}else if(type.equals("QT 其他")){
 			prjType="信息化项目";
 		}
-		ProjectScale ps=pService.selectProjectScale(prjType, trace.getPredictPrjScale());
+		ProjectScale ps=pService.selectProjectScale(prjType, (trace.getPredictPrjScale())/10000);
 		String scale=ps.getPrjScale();
 		trace.setPrjLv(scale);
 		if(file!=null){
