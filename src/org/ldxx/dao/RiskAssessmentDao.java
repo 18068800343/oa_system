@@ -25,5 +25,13 @@ public interface RiskAssessmentDao {
 
 	RiskAssessment selectIdByName(@Param("prjName")String prjName);
 
-
+	int updateStep2(@Param("id")String id,@Param("step")String step);
+	
+	int updateStep3(@Param("id")String id,@Param("step")String step);
+	
+	int updateStep4(@Param("id")String id,@Param("step")String step);
+	
+	int updateStep5(@Param("id")String id,@Param("step")String step);
+	
+	int updateStep6(@Param("id")String id,@Param("step")String step);
 }

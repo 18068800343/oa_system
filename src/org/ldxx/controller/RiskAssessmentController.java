@@ -200,4 +200,39 @@ public class RiskAssessmentController {
 		return raService.selectIdByName(prjName);
 	}
 	
+	@RequestMapping("/updateStep2")
+	@ResponseBody
+	public int updateStep2(String id,String step){
+		int i=raService.updateStep2(id, step);
+		return i;
+	}
+	
+	@RequestMapping("/updateStep3")
+	@ResponseBody
+	public int updateStep3(String id,String step){
+		int i=raService.updateStep3(id, step);
+		return i;
+	}
+	
+	@RequestMapping("/updateStep4")
+	@ResponseBody
+	public int updateStep4(String id,String step){
+		int i=raService.updateStep4(id, step);
+		return i;
+	}
+	
+	@RequestMapping("/updateStep5")
+	@ResponseBody
+	public int updateStep5(String id,String step){
+		int i=raService.updateStep5(id, step);
+		return i;
+	}
+	
+	@RequestMapping("/updateStep6")
+	@ResponseBody
+	public int updateStep6(String id,String step){
+		int i=raService.updateStep6(id, step);
+		return i;
+	}
+	
 }
