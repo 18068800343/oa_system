@@ -60,6 +60,7 @@ public class ProjectAccountingController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		projectAccounting.setPaId(id);
+		projectAccounting.setHsNo("HS"+projectAccounting.getPrjNo());
 		int i=service.addProjectAccounting(projectAccounting);
 		map.put("result", i);
 		map.put("ProjectAccounting", projectAccounting);

@@ -13,4 +13,6 @@ public interface PrjWorkingHoursPDao {
 
 	int deleteByprjgsid(@Param("id")String id);
 
+	List<PrjWorkingHoursP> selectDistinctSumByprjgsid(@Param("prjgsid")String prjgsid);
+
 }

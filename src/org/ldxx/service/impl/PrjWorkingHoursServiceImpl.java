@@ -123,7 +123,7 @@ public class PrjWorkingHoursServiceImpl implements PrjWorkingHoursService {
 	public PrjWorkingHours selectPrjWorkingHoursByPrjNo(String prjno) {
 		PrjWorkingHours pws= dao.selectPrjWorkingHoursByPrjNo(prjno);
 		if(pws!=null){
-			List<PrjWorkingHoursP> p=pdao.selectByprjgsid(pws.getPwhId());
+			List<PrjWorkingHoursP> p=pdao.selectDistinctSumByprjgsid(pws.getPwhId());//去重查询并且重复的人员工时累计相加
 			if(p!=null&& p.size()>0){
 				pws.setPrjWorkingHoursP(p);
 			}

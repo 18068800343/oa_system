@@ -211,6 +211,20 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 		return gmDao.selectGsMateriaOutForEnd2(no);
 	}
 
+	@Override
+	public List<CompanyMateriaIn> selectBytaskNo(String no) {
+		List<CompanyMateriaIn> list=gmDao.selectBytaskNo(no);
+		if(list!=null&&list.size()>0){
+			for(int i=0;i<list.size();i++){
+				List<CompanyMaterialInCl> clList=gsInCldao.selectByGsInId(list.get(i).getCmId());
+				if(clList!=null&&clList.size()>0){
+					list.get(i).setGsInCl(clList);
+				}
+			}
+		}
+		return list;
+	}
+
 
 
 }

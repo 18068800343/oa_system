@@ -23,4 +23,6 @@ public interface GsMaterialInClDao {
 
 	int updateRemainForWaste(@Param("cr")List<outRemain> cr);
 
+	List<CompanyMaterialInCl> selectByGsInId(@Param("gsinId")String gsinId);
+
 }

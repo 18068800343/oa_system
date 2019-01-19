@@ -46,5 +46,7 @@ public interface GsMaterialInService {
 
 	List<CompanyMateriaIn> selectGsMateriaOutForEnd2(String no);
 
+	List<CompanyMateriaIn> selectBytaskNo(String no);
+
 
 }

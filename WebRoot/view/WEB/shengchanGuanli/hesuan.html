@@ -1865,21 +1865,27 @@
     function getMainJsMoney(obj){
     	$.ajax({
             type: 'POST',
-            url: getContextPath()+'/gsMaterialIn/selectGsClInBytaskNo',
+            url: getContextPath()+'/gsMaterialIn/selectBytaskNo',
             dataType: 'json',
             async:false,
             data: {
             	no:obj
             },
             success: function (json) {
-            	if(json!=null&&json.length>0){
-	            	for(var i=0;i<json.length;i++){
-	            		mainJsMoney+=Number(json[i].clPrice)*Number(json[i].clRemain)
-	            	}
-	            	$("#main_js_money").text(mainJsMoney)
-            	}else{
-            		$("#main_js_money").text(0)
+            	console.log(json)
+            	for(var i=0;i<json.length;i++){
+            		mainJsMoney+=Number(json[i].freight)
+            		var clList=json[i].gsInCl;
+                	if(clList!=null&&clList.length>0){
+    	            	for(var i=0;i<clList.length;i++){
+    	            		mainJsMoney+=Number(clList[i].clPrice)*Number(clList[i].clRemain)
+    	            	}
+    	            	$("#main_js_money").text(mainJsMoney)
+                	}else{
+                		$("#main_js_money").text(0)
+                	}
             	}
+            	
             }
   		});
     }

@@ -41,6 +41,8 @@ public interface GsMaterialInDao {
 
 	List<CompanyMateriaIn> selectGsMateriaOutForEnd2(@Param("no")String no);
 
+	List<CompanyMateriaIn> selectBytaskNo(@Param("no")String no);
+
 
 
 }

@@ -2230,15 +2230,47 @@
 	
 	
 	function js_all_zhu_money(){
-		var allzhuMoney=0;
+		var arr=[];
+		var arr2=[];
+		var allclMoney=0;
 		$("#cl_table tbody").find("tr").each(function(){
     		var data2 = $(this).children();
+    		var bumenId=data2.eq(0).find("option:selected").val();
+    		var bumen=data2.eq(0).find("option:selected").text();
+    		if($.inArray(bumenId, arr)==-1){
+    			arr.push(bumenId)
+    			arr2.push(bumen)
+    		}
     	    var zcshuliang = data2.eq(5).find("input").val();
     	    var zcdanjia = data2.eq(6).find("input").val();
-    	    allzhuMoney+=Number(zcshuliang)*Number(zcdanjia)
+    	    allclMoney+=Number(zcshuliang)*Number(zcdanjia) 
 		})
-		$("#all_zhu_money").val(allzhuMoney);
-		$("#Newfyyusuan").append("<tr><td>材料费用</td><td>主材费用</td><td data-id="+$("#cl_bumen0").find('option:selected').val()+">"+$('#cl_bumen0').find('option:selected').text()+"</td><td>"+allzhuMoney+"</td><td></td><td><button type='button' class='btn btn btn-primary' onclick='removeThis(this)'>移除</button></td></tr>")
+		for(var i=0;i<arr.length;i++){
+			for(var i=0;i<arr2.length;i++){
+				var allzhuMoney=0;
+				$("#cl_table tbody").find("tr").each(function(){
+					var data3 = $(this).children();
+					var bumenId=data3.eq(0).find("option:selected").val();
+						if(bumenId==arr[i]){
+							var zcshuliang = data3.eq(5).find("input").val();
+				    	    var zcdanjia = data3.eq(6).find("input").val();
+				    	    allzhuMoney+=Number(zcshuliang)*Number(zcdanjia)
+						}
+				})
+				$("#all_zhu_money").val(allclMoney);
+				$("#Newfyyusuan tbody").find("tr").each(function(){
+					var xmmingxi=$(this).find("td").eq(1).text()
+					var bm=$(this).find("td").eq(2).text()
+					if(xmmingxi=="主材费用"){
+						if(bm==arr2[i]){
+							$(this).remove();
+						}
+					}
+				})
+				$("#Newfyyusuan").append("<tr><td>材料费用</td><td>主材费用</td><td data-id="+arr[i]+">"+arr2[i]+"</td><td>"+allzhuMoney+"</td><td></td><td><button type='button' class='btn btn btn-primary' onclick='removeThis(this)'>移除</button></td></tr>")
+			}
+		}
+		
 	}
 	//填报保存预算单
 	function saveBudge(){
@@ -2635,6 +2667,7 @@
 				id:data.bfId,
 			},
 			success:function(json){
+				console.log(json)
 				$("#lookprjName").text(json.prjId)
 				$("#lookrenwudan").text(json.taskNo)
 				$("#lookjfdanwei").text(json.prjUnit)
@@ -2882,7 +2915,7 @@
             			//$("#xgcl_bumen"+obj).append("<option value="+array2[ii]+">"+array[ii]+"</option>")
             		}
             	}
-            	$("#xgclbumen"+obj2).find("option:selected").val(obj1);
+            	$("#xgclbumen"+obj2).val(obj1);
 			}
 		})
 		
@@ -2943,7 +2976,7 @@
 								    			+json.costBudget[i].classify
 								    			+"</td><td>"
 								    			+json.costBudget[i].prjDetail
-								    			+"</td><td data1="+json.costBudget[i].department+">"
+								    			+"</td><td data-id2="+json.costBudget[i].department+">"
 								    			+json.costBudget[i].name2
 								    			+"</td><td>"
 								    			+json.costBudget[i].costAmount
@@ -2983,8 +3016,8 @@
 											        '<td><input type="text" class="form-control" value='+json.budgetMainMaterial[i].materPrice+'></td>'+
 											        '<td><button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button></td>'+
     								    			+"</tr>")
-                					initName1(json.budgetMainMaterial[i].materType,i);
                 					initbumen2(json.budgetMainMaterial[i].department,i)
+                					initName1(json.budgetMainMaterial[i].materType,i);
                 					$("#xgxinghao"+i).val(json.budgetMainMaterial[i].materUnit)
                 	}
             	}else{
@@ -2997,17 +3030,51 @@
 		
 	}
 	
+	
 	function xgjs_all_zhu_money(){
-		var xgallzhuMoney=0;
+		var arr=[];
+		var arr2=[];
+		var allclMoney=0;
 		$("#xgcl_table tbody").find("tr").each(function(){
     		var data2 = $(this).children();
+    		var bumenId=data2.eq(0).find("option:selected").val();
+    		var bumen=data2.eq(0).find("option:selected").text();
+    		if($.inArray(bumenId, arr)==-1){
+    			arr.push(bumenId)
+    			arr2.push(bumen)
+    		}
     	    var zcshuliang = data2.eq(5).find("input").val();
     	    var zcdanjia = data2.eq(6).find("input").val();
-    	    xgallzhuMoney+=Number(zcshuliang)*Number(zcdanjia)
+    	    allclMoney+=Number(zcshuliang)*Number(zcdanjia) 
 		})
-		$("#xgall_zhu_money").val(xgallzhuMoney)
-		$("#xgfyyusuan").append("<tr><td>材料费用</td><td>主材费用</td><td data-id="+$("#xgclbumen0").find('option:selected').val()+">"+$('#xgclbumen0').find('option:selected').text()+"</td><td>"+xgallzhuMoney+"</td><td></td><td><button type='button' class='btn btn btn-primary' onclick='removeThis(this)'>移除</button></td></tr>")
+		for(var i=0;i<arr.length;i++){
+			for(var i=0;i<arr2.length;i++){
+				var allzhuMoney=0;
+				$("#xgcl_table tbody").find("tr").each(function(){
+					var data3 = $(this).children();
+					var bumenId=data3.eq(0).find("option:selected").val();
+						if(bumenId==arr[i]){
+							var zcshuliang = data3.eq(5).find("input").val();
+				    	    var zcdanjia = data3.eq(6).find("input").val();
+				    	    allzhuMoney+=Number(zcshuliang)*Number(zcdanjia)
+						}
+				})
+				$("#xgall_zhu_money").val(allclMoney);
+				$("#xgfyyusuan tbody").find("tr").each(function(){
+					var xmmingxi=$(this).find("td").eq(1).text()
+					var bm=$(this).find("td").eq(2).text()
+					if(xmmingxi=="主材费用"){
+						if(bm==arr2[i]){
+							$(this).remove();
+						}
+					}
+				})
+				$("#xgfyyusuan").append("<tr><td>材料费用</td><td>主材费用</td><td data-id2="+arr[i]+">"+arr2[i]+"</td><td>"+allzhuMoney+"</td><td></td><td><button type='button' class='btn btn btn-primary' onclick='removeThis(this)'>移除</button></td></tr>")
+			}
+		}
+		
 	}
+	
 	
 	//修改保存
 	function checkSave(){

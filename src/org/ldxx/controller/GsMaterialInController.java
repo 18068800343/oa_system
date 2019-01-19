@@ -310,4 +310,10 @@ public class GsMaterialInController {
 	public int updateMaterialbuyUnitAndManufacturer(String id,String unit,String manufacturer){
 		return gmService.updateMaterialbuyUnitAndManufacturer(id,unit,manufacturer);
 	}*/
+	
+	@RequestMapping("/selectBytaskNo")//通过任务单的得到运费和id,再通过id 差材料费用
+	@ResponseBody
+	public List<CompanyMateriaIn> selectBytaskNo(String no){
+		return gmService.selectBytaskNo(no);
+	}
 }
