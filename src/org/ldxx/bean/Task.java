@@ -11,6 +11,10 @@ public class Task {
     
     private String mainPrjNo;
 
+    private String mainPrjName;//主任务单名称,非数据库对应属性
+    
+    private String mainPrjId;//主任务单主键,非数据库对应属性
+    
     private String prjName;
     
     private String prjArea;
@@ -97,7 +101,7 @@ public class Task {
     private String name1;//协办部门1
     private String name2;//协办部门2
     private String name3;//协办部门3
-    
+    private String chaifenOmno;//拆分时主任务单部门,非数据库对应属性
     private String makeTime;
     
     private String ccName;
@@ -110,6 +114,31 @@ public class Task {
     
     private Double shishebili;
     
+    
+	public String getMainPrjName() {
+		return mainPrjName;
+	}
+
+	public void setMainPrjName(String mainPrjName) {
+		this.mainPrjName = mainPrjName;
+	}
+
+	public String getMainPrjId() {
+		return mainPrjId;
+	}
+
+	public void setMainPrjId(String mainPrjId) {
+		this.mainPrjId = mainPrjId;
+	}
+
+	public String getChaifenOmno() {
+		return chaifenOmno;
+	}
+
+	public void setChaifenOmno(String chaifenOmno) {
+		this.chaifenOmno = chaifenOmno;
+	}
+
 	public Double getYugongkebili() {
 		return yugongkebili;
 	}

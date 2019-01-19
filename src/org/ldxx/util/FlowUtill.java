@@ -19,6 +19,7 @@ import org.ldxx.bean.FlowHistroyExample;
 import org.ldxx.bean.FlowNode;
 import org.ldxx.bean.FlowNodeExample;
 import org.ldxx.bean.ModeStatus;
+import org.ldxx.bean.ModeStatusExample;
 import org.ldxx.bean.NodeActors;
 import org.ldxx.bean.NodeActorsVo;
 import org.ldxx.bean.User;
@@ -135,6 +136,7 @@ public class FlowUtill {
 		
 		ModeStatus modeStatus = INSTANCE.modeStatusMapper.selectByPrimaryKey(mode_id);
 		if(null!=modeStatus){
+			modeStatus.setStatus("1");
 			modeStatus.setFlowStatus("1");
 			INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus);
 		}else{
@@ -679,9 +681,66 @@ public class FlowUtill {
 			INSTANCE.currentFlowMapper.insert(currentFlow);
 			ModeStatus modeStatus = new ModeStatus();
 			modeStatus.setModeId(modeId);
-			modeStatus.setStatus("");
+			modeStatus.setStatus("1");
 			modeStatus.setFlowStatus("4");
 			INSTANCE.modeStatusMapper.insert(modeStatus);
+			/*INSTANCE.flowHistroyMapper.insert(flowHistroy);*/
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.error("数据库插入错误");
+			throw new FlowException("database do error");
+		}
+		return "success";
+	}
+	
+	@Transactional
+	public String zancunFlowUpdateState(CurrentFlow currentFlow,FlowHistroy flowHistroy) throws Exception{
+		currentFlow.setRdt(new Date());
+		INSTANCE.init();
+		/**0：流程刚发起,暂存状态
+		 * 1：流程刚发起,提交状态
+		 */
+		currentFlow.setWfstate(0);
+		BusinessExample example = new BusinessExample();
+		String modeId = "";
+		String url = currentFlow.getUrl();
+		if(null!=url&&url.contains("-")){
+		String[] urls = url.split("-");
+			url = urls[0];
+			modeId = urls[1];
+		}else{
+			log.error("url为null或者url格式有误");
+			throw new FlowException("url format error");
+		}
+		example.createCriteria().andBusinessurlEqualTo(url);
+		List<Business> list =  INSTANCE.businessMapper.selectByExample(example);
+		Business business = null;
+		if(null!=list&&list.size()==1){
+			business = list.get(0);
+		}else{
+			log.error("业务流中不存在该URL:"+url);
+			throw new FlowException("url not found");
+		}
+		currentFlow.setFloTmpId(business.getFloTmpId());
+		FlowNode flowNode = INSTANCE.flowNodeMapper.selectStartFlowNode(business.getFloTmpId());
+		currentFlow.setFloNodeId(flowNode.getId());
+		currentFlow.setId(new TimeUUID().getTimeUUID());
+		currentFlow.setBusId(business.getId());
+		currentFlow.setDoDate(new Date());
+		currentFlow.setModeId(modeId);
+		currentFlow.setReadreceipts(0);
+		currentFlow.setLastOperateType(null);
+		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
+		try {
+			INSTANCE.currentFlowMapper.insert(currentFlow);
+			ModeStatus modeStatus = new ModeStatus();
+			modeStatus.setModeId(modeId);
+			modeStatus.setStatus("");
+			modeStatus.setFlowStatus("4");
+			ModeStatusExample modeStatusExample = new ModeStatusExample();
+			modeStatusExample.createCriteria().andModeIdEqualTo(modeId);
+			int i = INSTANCE.modeStatusMapper.updateByExample(modeStatus, modeStatusExample);
 			/*INSTANCE.flowHistroyMapper.insert(flowHistroy);*/
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
