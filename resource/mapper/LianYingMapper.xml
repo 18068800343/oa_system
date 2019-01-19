@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.LianYingDao" >
+	<insert id="addLianYing" parameterType="LianYing">
+		insert into lian_ying_contract(ly_id,ly_no,prj_no,ly_unit,uniform_code,certifications,
+					safety_certificate_info,opening_accounts,opening_bank,fb_info,contract_type,
+					management_fee,other_fee,fb_money,pay_time,pb_type,pb_money)
+		values(#{ly.lyId},#{ly.lyNo},#{ly.prjNo},#{ly.lyUnit},#{ly.uniformCode},#{ly.certifications},
+				   #{ly.safetyCertificateInfo},#{ly.openingAccounts},#{ly.openingBank},#{ly.fbInfo},#{ly.contractType},
+				   #{ly.managementFee},#{ly.otherFee},#{ly.fbMoney},#{ly.payTime},#{ly.pbType},#{ly.pbMoney})
+	</insert>
+	
+	<select id="selectLianYingByStatus" resultType="LianYing">
+		SELECT a.*,c.prj_name,c.prj_area,c.prj_type2,d.cc_name,e.contract_money,contract_name_yi FROM lian_ying_contract as a
+		LEFT JOIN mode_status as b on a.ly_id=b.mode_id
+		LEFT JOIN task as c on a.prj_no=c.prj_no
+		LEFT JOIN consociation_company as d on c.prj_owner_unit=d.cc_id
+		LEFT JOIN cj_contract as e on a.prj_no like e.task_code
+		where b.status=#{status}
+	</select>
+	
+	<select id="selectLianYingById" resultType="LianYing">
+		SELECT a.*,c.prj_name,c.prj_area,c.prj_type2,d.cc_name,e.contract_money,contract_name_yi FROM lian_ying_contract as a
+		LEFT JOIN mode_status as b on a.ly_id=b.mode_id
+		LEFT JOIN task as c on a.prj_no=c.prj_no
+		LEFT JOIN consociation_company as d on c.prj_owner_unit=d.cc_id
+		LEFT JOIN cj_contract as e on a.prj_no like e.task_code
+		where b.status=2 and a.ly_id=#{id}
+	</select>
+</mapper>

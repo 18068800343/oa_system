@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.RiskAssessment;
 
 public interface RiskAssessmentService {
@@ -24,6 +25,14 @@ public interface RiskAssessmentService {
 
 	RiskAssessment selectIdByName(String prjName);
 
-
+	int updateStep2(String id,String step);
+	
+	int updateStep3(String id,String step);
+	
+	int updateStep4(String id,String step);
+	
+	int updateStep5(String id,String step);
+	
+	int updateStep6(String id,String step);
 
 }

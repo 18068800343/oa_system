@@ -61,6 +61,31 @@ public class RiskAssessmentServiceImpl implements RiskAssessmentService {
 		return raDao.selectIdByName(prjName);
 	}
 
+	@Override
+	public int updateStep2(String id, String step) {
+		return raDao.updateStep2(id, step);
+	}
+
+	@Override
+	public int updateStep3(String id, String step) {
+		return raDao.updateStep3(id, step);
+	}
+
+	@Override
+	public int updateStep4(String id, String step) {
+		return raDao.updateStep4(id, step);
+	}
+
+	@Override
+	public int updateStep5(String id, String step) {
+		return raDao.updateStep5(id, step);
+	}
+
+	@Override
+	public int updateStep6(String id, String step) {
+		return raDao.updateStep6(id, step);
+	}
+
 	
 
 
