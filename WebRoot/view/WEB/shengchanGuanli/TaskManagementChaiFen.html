@@ -1055,8 +1055,10 @@
                 $("#erjileixing").html("");
                 $("#xgerjileixing").html("");
                 for(var i=0;i<json.length;i++){
+                	if(json[i]!=null){
                 	$("#erjileixing").append("<option value='"+json[i].nameSecond+"'>"+json[i].nameSecond+"</option>")
                 	$("#xgerjileixing").append("<option value='"+json[i].nameSecond+"'>"+json[i].nameSecond+"</option>")
+                	}
                 }
             }
         });
@@ -1695,7 +1697,7 @@
     	}else{
     		length=dom.length;
     	}
-    	$("#zirenwudandiv").append("<div name='ziTaskDiv' style='border:1px solid #bbb;'>"
+    	$("#zirenwudandiv").append("<div name='ziTaskDiv' id='ziTaskDiv"+length+"' data-length='"+length+"' style='border:1px solid #bbb;'>"
     			+"<table class='table table-bordered table-condensed'>"
     			+"<tr>"
     			+"<td>任务单名称</td>"
@@ -1738,15 +1740,15 @@
     			+"</td>"
     			+"<td style='width:90px;'>项目负责人</td>"
     			+"<td>"
-    			+'<select class="form-control xmfzr'+length+'" style="width:100%;"></select>'
+    			+'<select class="form-control " id="xmfzr'+length+'" style="width:100%;"></select>'
     			+"</td>"
     			+"<td>主任工程师</td>"
     			+"<td>"
-    			+'<select class="form-control zrgcs'+length+'" style="width:100%;"></select>'
+    			+'<select class="form-control zrgcs'+length+'" id="zrgcs'+length+'" style="width:100%;"></select>'
     			+"</td>"
     			+"<td>其他负责人</td>"
     			+"<td>"
-    			+'<select class="form-control zrgcs'+length+'" style="width:100%;"></select>'
+    			+'<select class="form-control qtfzr'+length+'" id="qtfzr'+length+'" style="width:100%;"></select>'
     			+"</td>"
     			+"</tr>"
     			+"</tbody>"
@@ -1761,7 +1763,7 @@
        			laydate.render({
        	            elem: '#ziTaskEnd'+length+'' //指定元素
        	        });
-    			
+       			
     			$.ajax({
                     type: 'POST',
                     url: getContextPath()+'/organizationManagement/selectProductionDepartment',
@@ -1774,40 +1776,45 @@
                     	toastr.error("请求失败");
                     },
                     success: function (json) {
-                    	$(".renyibumen").empty();
+                    	$("#zhubanBumen"+length+"").empty();
                         for(var i=0;i<json.length;i++){
-                        	$(".renyibumen").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                        	$("#zhubanBumen"+length+"").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                         }
-                        $(".renyibumen").trigger("change");
+                        zhubanChange(length);
+                        $("#zhubanBumen"+length+"").trigger("change");
                     }
         		});
     			
-    			//主办
-    			$("#zhubanBumen0").on("change",function(){
-    				$.ajax({
-        				type:"POST",
-        				url:getContextPath()+"/user/selectUserByomId",
-        				dataTyepe:"json",
-        				async:false,
-        				data:{ 
-        					omId:$("#zhubanBumen0").val()
-        					},
-        				success:function(json){
-        					$(".xmfzr").empty();
-        					$(".zrgcs").empty();
-        					$(".qtfzr").empty();
-        					for(var i=0;i<json.length;i++){
-        						$(".xmfzr").append("<option value='" + json[i].userId + "'>"
-        			                    + json[i].uName + "</option>")
-        	                    $(".zrgcs").append("<option value='" + json[i].userId + "'>"
-        	                    + json[i].uName + "</option>")
-        	                    $(".qtfzr").append("<option value='" + json[i].userId + "'>"
-        	                    + json[i].uName + "</option>")
-        					}
-        				}
-        			})
-    			})
+
     			
+    }
+    
+    function zhubanChange(index){
+		//主办
+		$("#zhubanBumen"+index+"").on("change",function(){
+			$.ajax({
+				type:"POST",
+				url:getContextPath()+"/user/selectUserByomId",
+				dataTyepe:"json",
+				async:false,
+				data:{ 
+					omId:$("#zhubanBumen"+index+"").val()
+					},
+				success:function(json){
+					$("#xmfzr"+index+"").empty();
+					$("#zrgcs"+index+"").empty();
+					$("#qtfzr"+index+"").empty();
+					for(var i=0;i<json.length;i++){
+						$("#xmfzr"+index+"").append("<option value='" + json[i].userId + "'>"
+			                    + json[i].uName + "</option>")
+	                    $("#zrgcs"+index+"").append("<option value='" + json[i].userId + "'>"
+	                    + json[i].uName + "</option>")
+	                    $("#qtfzr"+index+"").append("<option value='" + json[i].userId + "'>"
+	                    + json[i].uName + "</option>")
+					}
+				}
+			})
+		})
     }
     
     function getZiTasks(){
@@ -1817,26 +1824,30 @@
     	$(aa).parent().parent().remove();
     }
     function addzirenwudanBumen(bb){
-    	if(($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)<4){
-    		$(bb).parent().parent().parent().parent().find("tbody").append("<tr><td>"+"协办部门"+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+"</td><td>"
+    	var length = ($(bb).parent().parent().parent().parent().find("tbody").find("tr").length);
+    	var divLength = $(bb).parents("div[name='ziTaskDiv']").attr("data-length");
+    	
+    	var allLength = divLength+""+length;
+    	if(length<4){
+    		$(bb).parent().parent().parent().parent().find("tbody").append("<tr><td>"+"协办部门"+length+"</td><td>"
 	                +'<form class="form-inline">'
-	                    +'<select class="form-control xieban'+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+'" style="width:180px;">'
+	                    +'<select class="form-control " id="xieban'+allLength+'" style="width:180px;">'
 	                    +'</select>'
-	                    +'<input type="text" class="form-control xiebanMoney'+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+'" style="width:180px;margin-left:10px;" placeholder="金额">'
-	                    +'<input type="text" class="form-control chenbenfentanbili'+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+'" style="width:180px;margin-left:10px;" placeholder="成本分摊比例" onchange="appendBfh(this)">'
+	                    +'<input type="text" class="form-control" id="xiebanMoney'+allLength+'" style="width:180px;margin-left:10px;" placeholder="金额">'
+	                    +'<input type="text" class="form-control" id="chenbenfentanbili'+allLength+'" style="width:180px;margin-left:10px;" placeholder="成本分摊比例" onchange="appendBfh(this)">'
 	                +'</form>'
 	                +"</td>"
 	                +"<td style='width:100px;'>项目负责人</td>"
 	    			+"<td>"
-	    			+'<select class="form-control xbxmfzr'+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+'" style="width:100%;"></select>'
+	    			+'<select class="form-control " id="xbxmfzr'+allLength+'" style="width:100%;"></select>'
 	    			+"</td>"
 	    			+"<td style='width:100px;'>主任工程师</td>"
 	    			+"<td>"
-	    			+'<select class="form-control xbzrgcs'+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+'" style="width:100%;"></select>'
+	    			+'<select class="form-control " id="xbzrgcs'+allLength+'" style="width:100%;"></select>'
 	    			+"</td>"
 	    			+"<td style='width:100px;'>其他负责人</td>"
 	    			+"<td>"
-	    			+'<select class="form-control xbzrgcs'+($(bb).parent().parent().parent().parent().find("tbody").find("tr").length)+'" style="width:100%;"></select>'
+	    			+'<select class="form-control " id= "xbqtfzr'+allLength+'" style="width:100%;"></select>'
 	    			+"</td>"
 	    			+"<td>"
 	    			+'<button type="button" style="text-align:right;margin-left:10px;" class="btn btn-primary" onclick="deleteXieBan(this)">移除协办单位</button>'
@@ -1854,97 +1865,14 @@
 	                    	toastr.error("请求失败");
 	                    },
 	                    success: function (json) {
-	                    	$(".xieban1").empty();
-	                    	$(".xieban2").empty();
-	                    	$(".xieban3").empty();
+	                    	$("#xieban"+allLength+"").empty();
 	                        for(var i=0;i<json.length;i++){
-	                        	$(".xieban1").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	                        	$(".xieban2").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	                        	$(".xieban3").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        	$("#xieban"+allLength+"").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
 	                        }
-	                        $(".xieban1").trigger("change");
-	                    	$(".xieban2").trigger("change");
-	                    	$(".xieban3").trigger("change");
+	                        xbSelectClick(allLength);
+	                        $("#xieban"+allLength+"").trigger("change");
 	                    }
 	        		});
-    		
-    		//协办1
-    		 $(".xieban1").click(function(){
-    			 $.ajax({
-    	    			type:"POST",
-    	    			url:getContextPath()+"/user/selectUserByomId",
-    	    			dataTyepe:"json",
-    	    			async:false,
-    	    			data:{ 
-    	    				omId:$(".xieban1").val()
-    	    				},
-    	    			success:function(json){
-    	    				$(".xbxmfzr1").empty();
-    	    				$(".xbzrgcs1").empty();
-    	    				$(".xbqtfzr1").empty();
-    	    				for(var i=0;i<json.length;i++){
-    	    					$(".xbxmfzr1").append("<option value='" + json[i].userId + "'>"
-    	    		                    + json[i].uName + "</option>")
-    	                        $(".xbzrgcs1").append("<option value='" + json[i].userId + "'>"
-    	                        + json[i].uName + "</option>")
-    	                        $(".xbqtfzr1").append("<option value='" + json[i].userId + "'>"
-    	                        + json[i].uName + "</option>")
-    	    				}
-    	    			}
-    	    		})
-    		 })
-    		$(".xieban2").click(function(){
-    			//协办2
-        		$.ajax({
-        			type:"POST",
-        			url:getContextPath()+"/user/selectUserByomId",
-        			dataTyepe:"json",
-        			data:{ 
-        				omId:$(".xieban2").val()
-        				},
-        			success:function(json){
-        				$(".xbxmfzr2").empty();
-        				$(".xbzrgcs2").empty();
-        				$(".xbqtfzr2").empty();
-        				for(var i=0;i<json.length;i++){
-        					$(".xbxmfzr2").append("<option value='" + json[i].userId + "'>"
-        		                    + json[i].uName + "</option>")
-                            $(".xbzrgcs2").append("<option value='" + json[i].userId + "'>"
-                            + json[i].uName + "</option>")
-                            $(".xbqtfzr2").append("<option value='" + json[i].userId + "'>"
-                            + json[i].uName + "</option>")
-        				}
-        			}
-        		})
-    		})
-    		$(".xieban3").click(function(){
-    			//协办3
-        		$.ajax({
-        			type:"POST",
-        			url:getContextPath()+"/user/selectUserByomId",
-        			dataTyepe:"json",
-        			data:{ 
-        				omId:$("#xieban3").val()
-        				},
-        			success:function(json){
-        				$(".xbxmfzr3").empty();
-        				$(".xbzrgcs3").empty();
-        				$(".xbqtfzr3").empty();
-        				for(var i=0;i<json.length;i++){
-        					$(".xbxmfzr3").append("<option value='" + json[i].userId + "'>"
-        		                    + json[i].uName + "</option>")
-                            $(".xbzrgcs3").append("<option value='" + json[i].userId + "'>"
-                            + json[i].uName + "</option>")
-                            $(".xbqtfzr3").append("<option value='" + json[i].userId + "'>"
-                            + json[i].uName + "</option>")
-        				}
-        			}
-        		})
-    		})
-    		
-    		
-    		
-    		
     	}else{
     		toastr.error("协办部门已达上限")
     	}
@@ -1954,7 +1882,32 @@
     	$(tr).remove();
     }
     
-    
+    function xbSelectClick(length){
+		 $("#xieban"+length+"").on("change",function(){
+			 $.ajax({
+	    			type:"POST",
+	    			url:getContextPath()+"/user/selectUserByomId",
+	    			dataTyepe:"json",
+	    			async:false,
+	    			data:{ 
+	    				omId:$("#xieban"+length+"").val()
+	    				},
+	    			success:function(json){
+	    				$("#xbxmfzr"+length+"").empty();
+	    				$("#xbzrgcs"+length+"").empty();
+	    				$("#xbqtfzr"+length+"").empty();
+	    				for(var i=0;i<json.length;i++){
+	    					$("#xbxmfzr"+length+"").append("<option value='" + json[i].userId + "'>"
+	    		                    + json[i].uName + "</option>")
+	                        $("#xbzrgcs"+length+"").append("<option value='" + json[i].userId + "'>"
+	                        + json[i].uName + "</option>")
+	                        $("#xbqtfzr"+length+"").append("<option value='" + json[i].userId + "'>"
+	                        + json[i].uName + "</option>")
+	    				}
+	    			}
+	    		})
+		 })
+    }
     
     
     //添加任务单
@@ -2848,10 +2801,27 @@
 	        }); 
     }
     
-    
-    function xgsaverenwudan(){
-    	var danwei= new Array();
+    function getEnterprise(){
     	var lianxibiao= new Array();
+    	$("#xglianxibiaoge tbody").find("tr").each(function(){
+    		var name = $(this).find("input").eq(0).val();
+    	    var way = $(this).find("input").eq(1).val();
+    	    var xinlianxibiao={
+    	    		eId:undefined,
+    				eMan:undefined,
+    				eTel:undefined
+    	    }
+    	    xinlianxibiao.eId=null;
+    	    xinlianxibiao.eMan=name;
+    	    xinlianxibiao.eTel=way;
+    	    lianxibiao.push(xinlianxibiao);
+    	})
+    	return lianxibiao;
+    }
+    function xgsaverenwudan(){
+    	getZiTaskDivData();
+    	var danwei= new Array();
+    	/* var lianxibiao= new Array();
     	$("#xglianxibiaoge tbody").find("tr").each(function(){
     		var name = $(this).find("input").eq(0).val();
     	    var way = $(this).find("input").eq(1).val();
@@ -2865,7 +2835,7 @@
     	    xinlianxibiao.eMan=name;
     	    xinlianxibiao.eTel=way;
     	    lianxibiao.push(xinlianxibiao);
-    	})
+    	}) */
     	
     	var a=1;
     	$("#messages").find("input").each(function(){
@@ -3381,9 +3351,10 @@
   	}
   	
     function getZiTaskDivData(){
-    	var taskArray = new taskArray;
+    	var taskArray = new Array();
     	$("div[name='ziTaskDiv']").each(function(index,dom){
     		var task={};
+    		var enterprise = getEnterprise();
     		task.mainPrjNo=$("#xgtaskbianhao").val();//主任务单号
     		task.prjType2 = $("#xgerjileixing").val();//项目类型
     		task.prjName = $("#taskName"+index+"").val();//子项目名称
@@ -3401,7 +3372,26 @@
     		task.mainDepartment = $("#zhubanBumen"+index+"").val();//子项目咱定金
     		task.mainDepartmentMoney = $("#zhubanBumen"+index+"").val();//子项目咱定金
     		task.mainDepartmentCost = $("#zhubanBumen"+index+"").val();//子项目咱定金
-    		task.omName = $("#zhubanBumen"+index+" option:selected").text();//子项目咱定金
+    		task.omName = $("#zhubanBumen"+index+" option:selected").text();//主办部门名称
+    		task.mainPrjLeader = $("#xmfzr"+index+"").val();//主办部门名称
+    		task.mainPrjLeaderName = $("#xmfzr"+index+" option:selected").text();//主办部门名称
+    		task.mainEngineer = $("#zrgcs"+index+"").val();//主办部门名称
+    		task.mainOther = $("#qtfzr"+index+"").val();//主办部门名称
+    		task.enterprise = enterprise;
+    		$("#ziTaskDiv"+index+"").find("table").eq(1).find("tr").each(function(elem,dom){
+    			var divSelect = $("#ziTaskDiv"+index+"").attr("data-length");
+    			var allLength = divSelect+""+elem;
+    		   if(elem>0){
+    			   task['assistDepartment'+elem+'']=$("#xieban"+allLength+"").val();
+    			   task['assistDepartment'+elem+'Money']=$("#xiebanMoney"+allLength+"").val();
+    			   task['assistDepartment'+elem+'Cost']=$("#chenbenfentanbili"+allLength+"").val();
+    			   task['assist'+elem+'PrjLeader']=$("#xbxmfzr"+allLength+"").val();
+    			   task['assist'+elem+'Engineer']=$("#xbzrgcs"+allLength+"").val();
+    			   task['assist'+elem+'Other']=$("#xbqtfzr"+allLength+"").val();
+    			   task['name'+elem+'']=$("#xbqtfzr"+allLength+" option:selected").text();
+    		   }
+    		})
+    		taskArray.add(task);
     	});
     }
 </script>
