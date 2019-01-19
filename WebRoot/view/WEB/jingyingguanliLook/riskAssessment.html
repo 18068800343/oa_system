@@ -25,6 +25,10 @@
         #mainContent th{
             cursor: pointer;
         }
+        .yijian{
+        	width:25px;
+        	height:25px;
+        }
     </style>
 </head>
 <body>
@@ -39,8 +43,7 @@
     </div>
     
 
-    <div class="zhuti-content">
-
+    		<div class="zhuti-content">
 					<table class="table table-bordered table-condensed">
                           <tr>
                               <td>项目名称</td>
@@ -55,7 +58,9 @@
                               <td id="lookprjScale"></td>
                           </tr>
                           <tr>
-                          </tr>
+	                           	<td>项目概况</td>
+	                           	<td colspan="3"  id="prj_info"></td>
+                           </tr>
                           <tr>
                               <td rowspan="12">风险评估要素</td>
                               <td colspan="2">评估项目</td>
@@ -113,8 +118,55 @@
                               <td>评标办法</td>
                               <td colspan="4" id="lookpingbiao"> </td>
                           </tr>
-                      </table> 
-        
+                      </table>
+                       
+	        		  <table class="table table-bordered table-condensed">
+	        				<tr id="jyfzb">
+	                              <td>经营发展部意见</td>
+	                              <td>
+	                              		<input type="radio" name="jingyingfazhanbu" value="一般风险" class="yijian">一般风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfazhanbu" value="较大风险" class="yijian">较大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfazhanbu" value="重大风险" class="yijian">重大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfazhanbu" value="特大风险" class="yijian">特大风险&nbsp;&nbsp;
+	                              </td>
+                             </tr>
+                             <tr id="zhcwb">
+	                              <td>综合财务部意见</td>
+	                              <td>
+	                              		<input type="radio" name="zonghecaiwubu" value="一般风险" class="yijian">一般风险&nbsp;&nbsp;
+	                              		<input type="radio" name="zonghecaiwubu" value="较大风险" class="yijian">较大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="zonghecaiwubu" value="重大风险" class="yijian">重大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="zonghecaiwubu" value="特大风险" class="yijian">特大风险&nbsp;&nbsp;
+	                              </td>
+                             </tr>
+                             <tr id="xmcbb">
+	                              <td>项目承办部门意见</td>
+	                              <td>
+	                              		<input type="radio" name="xiangmuchengbanbu" value="一般风险" class="yijian">一般风险&nbsp;&nbsp;
+	                              		<input type="radio" name="xiangmuchengbanbu" value="较大风险" class="yijian">较大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="xiangmuchengbanbu" value="重大风险" class="yijian">重大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="xiangmuchengbanbu" value="特大风险" class="yijian">特大风险&nbsp;&nbsp;
+	                              </td>
+                             </tr>
+                             <tr id="zlaqb">
+	                              <td>质量安全部门意见</td>
+	                              <td>
+	                              		<input type="radio" name="anquanzhiliangbu" value="一般风险" class="yijian">一般风险&nbsp;&nbsp;
+	                              		<input type="radio" name="anquanzhiliangbu" value="较大风险" class="yijian">较大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="anquanzhiliangbu" value="重大风险" class="yijian">重大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="anquanzhiliangbu" value="特大风险" class="yijian">特大风险&nbsp;&nbsp;
+	                              </td>
+                             </tr>
+                             <tr id="jyfg">
+	                              <td>经营分管领导</td>
+	                              <td>
+	                              		<input type="radio" name="jingyingfenguan" value="一般风险" class="yijian">一般风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfenguan" value="较大风险" class="yijian">较大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfenguan" value="重大风险" class="yijian">重大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfenguan" value="特大风险" class="yijian">特大风险&nbsp;&nbsp;
+	                              </td>
+                             </tr>
+	        		  </table>
     </div>
 </body>
 <script src="../../js/jquery.js"></script>
@@ -136,7 +188,9 @@
    }
    // 调用方法
    	id=GetQueryString("prjId");
-   
+   	editOrView=GetQueryString("editOrView");
+	step=GetQueryString("step");
+	console.log(id,editOrView,step)
 	function initTable(){
 		$.ajax({
 	        type: 'POST',
@@ -148,6 +202,7 @@
 	        success: function (json) {
 	        	//console.log(json)
 	        	data=json;
+	        	 $("#prj_info").text(data.prjInfo);
 	        	 $("#lookprjName").text(data.prjName);
 	    		 $("#lookprjNo").text(data.prjNo);
 	    		 $("#lookprjScale").text(data.prjScale);
@@ -164,6 +219,104 @@
 	    		 $("#lookjishu").text(data.technicalDifficulty);
 	    		 $("#lookanquan").text(data.safetyManagementDifficulty);
 	    		 $("#lookpingbiao").text(data.evaluationMethod);
+	    		 
+	    		 $("#jyfzb").hide();
+	    		 $("#zhcwb").hide();
+	    		 $("#xmcbb").hide();
+	    		 $("#zlaqb").hide();
+	    		 $("#jyfg").hide();
+	    		//view
+	    		 if(editOrView=="view"&&step=="2"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").hide();
+		    		 $("#xmcbb").hide();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="view"&&step=="3"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").hide();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="view"&&step=="4"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").show();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="view"&&step=="5"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").show();
+		    		 $("#zlaqb").show();
+		    		 $("#jyfg").hide();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zlaqb").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="view"&&step=="6"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").show();
+		    		 $("#zlaqb").show();
+		    		 $("#jyfg").show();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zlaqb").find("input:radio").attr("disabled","disabled");
+		    		 $("#jyfg").find("input:radio").attr("disabled","disabled");
+	    		 }
+	    		//edit
+	    		 if(editOrView=="edit"&&step=="2"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").hide();
+		    		 $("#xmcbb").hide();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+	    		 }else if(editOrView=="edit"&&step=="3"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").hide();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="edit"&&step=="4"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").show();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="edit"&&step=="5"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").show();
+		    		 $("#zlaqb").show();
+		    		 $("#jyfg").hide();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="edit"&&step=="6"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").show();
+		    		 $("#zlaqb").show();
+		    		 $("#jyfg").show();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zlaqb").find("input:radio").attr("disabled","disabled");
+		    		// $("#jyfg").find("input:radio").attr("disabled","disabled");
+	    		 }
+	    		
+	    		
 	        }
 	    });
 		
