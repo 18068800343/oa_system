@@ -11,7 +11,7 @@ public interface ClRemainDao {
 	
 	public int addClRemain(@Param("cr") List<ClRemain> cr);
 	
-	public List<GsClOut> selectGsClOutById(@Param("id")String id);
+	public List<ClRemain> selectGsClOutById(@Param("id")String id);
 	
 	public int updateClRemain(@Param("out")List<outRemain> out);
 

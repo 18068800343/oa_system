@@ -52,5 +52,9 @@ public interface GsMaterialInService {
 
 	List<CompanyMateriaIn> selectBygetDepartment(String getDepartment);
 
+	List<CompanyMateriaIn> selectAlreadySure(String getstate);
+
+	List<CompanyMateriaIn> selectGsRemainOut(String outState, String getStatus, String remainType);
+
 
 }

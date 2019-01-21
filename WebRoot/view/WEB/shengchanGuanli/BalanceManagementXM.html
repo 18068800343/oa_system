@@ -856,7 +856,7 @@
             { "data": "materialType"}, 
             { "data": "specificationModel"}, 
             { "data": "cmoUnit"}, 
-            { "data": "remainNumber"}, 
+            { "data": "cmoNumber"}, 
             { "data": "cmoUnitPrice"}, 
             { "data": null},
             { "data": "pickDate"}
@@ -868,7 +868,7 @@
 								    "searchable": true,
 								    "render": function(data, type, full) {
 									    	var price=data.cmoUnitPrice;
-									    	var num=data.remainNumber;
+									    	var num=data.cmoNumber;
 									    	var sum=Number(price)*Number(num);
 									    	return sum;
 								        }
@@ -957,8 +957,16 @@
                 	type:"0",
                 },
                 success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                	/* if(json!=null){
+	                	for(var i=0;i<json.length;i++){
+                			if(json[i].gsInCl!=""||json[i].gsInCl!=null||json[i].gsInCl.length!=0){
+			                    $('#mainContent').dataTable().fnClearTable();
+			                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                			}
+	                	}
+                	} */
+                     $('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false); 
                     $(".Pedccb").show()
                     $(".lookOut").hide()
                 }
@@ -989,7 +997,7 @@
 		var data=$("#mainContent").DataTable().row(dom).data();
 		$.ajax({
             type: 'POST',
-            url: getContextPath()+'/ClRemain/selectClRemainById',
+            url: getContextPath()+'/ClRemain/selectGsClOutById',
             dataType: 'json',
             data:{
             	id:data.cmId
@@ -1445,23 +1453,25 @@
 				$("#remain_out_table tbody").empty();
 				if(gsInCl!=null&&gsInCl.length>0){
 	               for(var i=0;i<gsInCl.length;i++){
-	            	   $("#remain_out_table tbody").append("<tr><td style='width:7%;' data-id="+gsInCl[i].clId+">"
-         		  				+''+gsInCl[i].clName+''
-         		  				+"</td><td style='width:5%;'>"
-         		  				+''+gsInCl[i].clType+''
-         		  				+"</td><td style='width:7%;'>"
-         		  				+''+gsInCl[i].clMode+' ' 
-         		  				+"</td><td style='width:7%;'>"
-         		  				+''+gsInCl[i].clUnit+''
-         		  				+"</td><td style='width:7%;'>"
-         		  				+''+gsInCl[i].clRemain+''
-         		  				+"</td><td style='width:7%;'>"
-         		  				+'<input type="text" class="form-control" style="width:100%;">'
-         		  				+"</td><td style='width:7%;'>" 
-         		  				+''+gsInCl[i].clPrice+''
-         		  				+"</td><td style='width:7%;'>"
-         		  				+'<button type="button" class="btn btn-primary" onclick="removeThis(this)">移除</button>'
-         		  				+"</td></tr>")
+	            	   if(gsInCl[i].clRemain!=0){
+		            	   $("#remain_out_table tbody").append("<tr><td style='width:7%;' data-id="+gsInCl[i].clId+">"
+	         		  				+''+gsInCl[i].clName+''
+	         		  				+"</td><td style='width:5%;'>"
+	         		  				+''+gsInCl[i].clType+''
+	         		  				+"</td><td style='width:7%;'>"
+	         		  				+''+gsInCl[i].clMode+' ' 
+	         		  				+"</td><td style='width:7%;'>"
+	         		  				+''+gsInCl[i].clUnit+''
+	         		  				+"</td><td style='width:7%;'>"
+	         		  				+''+gsInCl[i].clRemain+''
+	         		  				+"</td><td style='width:7%;'>"
+	         		  				+'<input type="text" class="form-control" style="width:100%;">'
+	         		  				+"</td><td style='width:7%;'>" 
+	         		  				+''+gsInCl[i].clPrice+''
+	         		  				+"</td><td style='width:7%;'>"
+	         		  				+'<button type="button" class="btn btn-primary" onclick="removeThis(this)">移除</button>'
+	         		  				+"</td></tr>")
+	            	   }
 	               }
 	               $("#jyButton").attr("disabled",false);
 				}else{
@@ -1519,114 +1529,86 @@
 	}
     
     function saveJy(){
-    	/* var cgName=$("#in_cg_name").val();
-    	var cgNo=$("#in_cg_no").val();
-    	var prjName=$("#in_prj_name").val();
-    	var prjNo=$("#in_prj_no").val();
-    	var outPerson=$("#out_person").val();
-    	var outTime=$("#out_time").val();
-    	var cmoDesc=$("#out_desc").val(); 
-    	
-    	var cMOut={
-    			cmoId:undefined,
-    			cgNo:undefined,
-    			cgName:undefined,
-    			taskNo:undefined,
-    			pickProject:undefined,
-    			pickDate:undefined,
-    			pickPerson:undefined,
-    			cmoDesc:undefined,
-    			type:2,
-    			getPerson:undefined,
-    			getInfos:undefined,
-    			getStatus:0,
-    			remainType:0,
-    			gsClOut:undefined,
-    			oRemain:undefined
-    	}
-    	cMOut.cgNo=cgNo;
-    	cMOut.cgName=cgName;
-    	cMOut.taskNo=prjNo;
-    	cMOut.pickProject=prjName;
-    	cMOut.pickDate=outTime;
-    	cMOut.pickPerson=outPerson;
-    	cMOut.cmoDesc=cmoDesc;*/
-    	
     	var clInfoArray=new Array();
-    	$("#remain_out_table tbody").find("tr").each(function(){
-    		var clId=$(this).find("td").eq(0).attr("data-id");
-    		var clName=$(this).find("td").eq(0).text();
-    		var clType=$(this).find("td").eq(1).text();
-    		var modeType=$(this).find("td").eq(2).text();
-    		var unit=$(this).find("td").eq(3).text();
-    		var jy=$(this).find("td").eq(4).text();
-    		var price=$(this).find("td").eq(6).text();
-    		var outNum=$(this).find("input").eq(0).val();
-    		var reg=/^\+?[1-9][0-9]*$/;
-    		if(!reg.test(outNum)||outNum==0){
-    			toastr.error("请输入数字且不能为0")
-        		return false;
-    		}
-    		if(Number(outNum)>Number(jy)){
-        		toastr.error("结余数量不能超过库存数量")
-        		return false;
-        	}
-    		var remain=Number(jy)-Number(outNum);
-    		var or={
-    				id:undefined,
-    				remain:0
-    		}
-    		or.id=clId;
-    		or.remain=remain;
-    		
-    		var clInfo={
-    				crId:undefined,
-    				gsOutId:undefined,                                          
-    				materialName:undefined,
-    				materialType:undefined,
-    				specificationModel:undefined,
-    				cmoUnit:undefined,
-    				cmoNumber:0,
-    				remainNumber:0,
-    				cmoUnitPrice:0,
-    				cmoMoney:0,
-    				pickDate:undefined,
-    				outRemain:undefined,
-    				oldClId:undefined,
-    		}
-    		clInfo.gsOutId=jyId;
-    		clInfo.materialName=clName;
-    		clInfo.materialType=clType;
-    		clInfo.specificationModel=modeType;
-    		clInfo.cmoUnit=unit;
-    		clInfo.cmoNumber=outNum;
-    		clInfo.remainNumber=outNum;
-    		clInfo.cmoUnitPrice=price;
-    		clInfo.cmoMoney=Number(outNum)*Number(price);
-    		clInfo.pickDate=jyDate;
-    		clInfo.outRemain=or;
-    		clInfo.oldClId=clId;
-    		clInfoArray.push(clInfo);
-    	})
-    	/* cMOut.gsClOut=clInfoArray;
-    	cMOut.oRemain=oRemainArray */
-    	 $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/ClRemain/clRemainUse',
-            dataType: 'json',
-            contentType:"application/json",
-            data: JSON.stringify(clInfoArray),
-            success: function (json) {
-            	if(json>0){
-            		$("#allMsg3").modal("hide");
-            		//location.reload([true]);
-            		toastr.success("提交成功")
-            		$('#mainContent').DataTable().row(jytr).remove().draw(false); //删除行立即显示
-            	}else{
-            		toastr.error("提交失败")
+
+    	try{
+    		$("#remain_out_table tbody").find("tr").each(function(){
+        		var clId=$(this).find("td").eq(0).attr("data-id");
+        		var clName=$(this).find("td").eq(0).text();
+        		var clType=$(this).find("td").eq(1).text();
+        		var modeType=$(this).find("td").eq(2).text();
+        		var unit=$(this).find("td").eq(3).text();
+        		var jy=$(this).find("td").eq(4).text();
+        		var price=$(this).find("td").eq(6).text();
+        		var outNum=$(this).find("input").eq(0).val();
+        		var reg=/^\+?[1-9][0-9]*$/;
+        		if(!reg.test(outNum)||outNum==0){
+        			toastr.error("请输入数字且不能为0")
+            		return false;
+        		}
+        		if(Number(outNum/1)>Number(jy/1)){
+            		toastr.error("结余数量不能超过库存数量")
+            		return false;
             	}
-            }
-  		}); 
+        		var remain=Number(jy)-Number(outNum);
+        		var or={
+        				id:undefined,
+        				remain:0
+        		}
+        		or.id=clId;
+        		or.remain=remain;
+        		
+        		var clInfo={
+        				crId:undefined,
+        				gsOutId:undefined,                                          
+        				materialName:undefined,
+        				materialType:undefined,
+        				specificationModel:undefined,
+        				cmoUnit:undefined,
+        				cmoNumber:0,
+        				remainNumber:0,
+        				cmoUnitPrice:0,
+        				cmoMoney:0,
+        				pickDate:undefined,
+        				outRemain:undefined,
+        				oldClId:undefined,
+        		}
+        		clInfo.gsOutId=jyId;
+        		clInfo.materialName=clName;
+        		clInfo.materialType=clType;
+        		clInfo.specificationModel=modeType;
+        		clInfo.cmoUnit=unit;
+        		clInfo.cmoNumber=outNum;
+        		clInfo.remainNumber=outNum;
+        		clInfo.cmoUnitPrice=price;
+        		clInfo.cmoMoney=Number(outNum)*Number(price);
+        		clInfo.pickDate=jyDate;
+        		clInfo.outRemain=or;
+        		clInfo.oldClId=clId;
+        		clInfoArray.push(clInfo);
+        	})
+        	console.log(clInfoArray)
+    		$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/ClRemain/clRemainUse',
+                dataType: 'json',
+                contentType:"application/json",
+                data: JSON.stringify(clInfoArray),
+                success: function (json) {
+                	if(json>0){
+                		$("#allMsg3").modal("hide");
+                		//location.reload([true]);
+                		toastr.success("提交成功")
+                		$('#mainContent').DataTable().row(jytr).remove().draw(false); //删除行立即显示
+                	}else{
+                		toastr.error("提交失败")
+                	}
+                }
+      		}); 
+    	}catch(e){
+    	    return false;
+    	}
+    	
     }
 
     function gotoPrj(obj){

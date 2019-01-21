@@ -53,7 +53,7 @@
 	
 	
 	<select id="selectXmMaterialByNo" resultType="CompanyMateriaIn">
-		select * from company_material_in where task_no like #{no} and out_state=#{outstate}
+		select * from company_material_in where task_no like #{no} and out_state=#{outstate} or out_state=3
 	</select>
 	
 	<update id="updateXmState">
@@ -67,11 +67,13 @@
 	</update>
 	
 	<select id="selectAllXmReceivedGoods" resultType="CompanyMateriaIn">
-		select DISTINCT task_no,demand_project,cg_no,cg_name,cm_id from company_material_in where get_status=1
+		select DISTINCT task_no,demand_project,cg_no,cg_name,cm_id from company_material_in where get_status=1 GROUP BY task_no
 	</select>
 	
 	<select id="selectMateriaOutForEnd" resultType="CompanyMateriaIn">
-		select * from company_material_in where task_no like #{no} and out_state=1 and get_status=1 and remain_type=#{type}
+		select * from company_material_in a 
+		left JOIN company_material_in_cl b on a.cm_id=b.gs_in_id 
+		where task_no like #{no} and get_status=1 and remain_type=#{type} and b.cl_remain!=0 GROUP BY cm_id 
 	</select>
 	
 	<select id="selectGsMateriaOutForEnd" resultType="CompanyMateriaIn">
@@ -79,7 +81,26 @@
 	</select>
 	
 	<select id="selectGsMateriaOutForEnd2" resultType="CompanyMateriaIn">
-		select * from company_material_in where task_no like #{no} and out_state=1 and get_status=1 and remain_type!=0 and out_state!=3
+		 select * from company_material_in where task_no like #{no} and remain_type!=0 
+	</select>
+	
+	<select id="selectGsRemainOut" resultType="CompanyMateriaIn">
+		select * from company_material_in a
+		left join cl_remain b on a.cm_id=b.gs_out_id 
+		<where>
+				<if test="outState!='' and outState!=null">
+					out_state = #{outState} 
+				</if>
+				<if test="getStatus!='' and getStatus!=null">
+					and  get_status = #{getStatus} 
+				</if>
+				<if test="remainType!='' and remainType!=null">
+					and  remain_type = #{remainType} 
+				</if>
+				<if test="remainType!='' and remainType!=null">
+					and b.remain_number!=0 GROUP BY cm_id 
+				</if>
+		</where>
 	</select>
 	
 	<update id="updateremainType">
@@ -87,17 +108,25 @@
 	</update>
 	
 	<select id="selectAlearyRemain" resultType="CompanyMateriaIn">
-		select * from company_material_in where remain_type=2
+		<!-- select * from company_material_in where remain_type=2 -->
+		select * from company_material_in a
+		LEFT JOIN cl_remain b on a.cm_id=b.gs_out_id
+		where a.remain_type=2 and b.remain_number!=0 GROUP BY cm_id
 	</select>
 	
 	<select id="selectBytaskNo" resultType="CompanyMateriaIn">
-		select * from company_material_in where task_no like #{no} and out_state=1 and get_status=1
+		select * from company_material_in where task_no like #{no} and out_state=1 and get_status=1 or out_state=3 and get_status=1 AND task_no like #{no}
 	</select>
 	
 	<select id="selectByoutStateAndgetState" resultType="CompanyMateriaIn">
-		select * from company_material_in where out_state=#{outstate} and get_status=#{getstate}
+		select * from company_material_in where out_state=#{outstate} and get_status=#{getstate} or out_state=3 and get_status=#{getstate}
 	</select>
+	
 	<select id="selectBygetDepartment" resultType="CompanyMateriaIn">
-		select * from company_material_in where out_state=1 and get_status=1 and get_department like #{getDepartment}
+		select * from company_material_in where out_state=1  and get_status=1 and get_department like #{getDepartment} or out_state=3 and get_department like #{getDepartment}
+	</select>
+	
+	<select id="selectAlreadySure" resultType="CompanyMateriaIn">
+		select * from company_material_in where get_status=#{getstate} 
 	</select>
 </mapper>

@@ -44,7 +44,7 @@ public class ClRemainServiceImpl implements ClRemainService{
 	}
 
 	@Override
-	public List<GsClOut> selectGsClOutById(String id) {
+	public List<ClRemain> selectGsClOutById(String id) {
 		return dao.selectGsClOutById(id);
 	}
 

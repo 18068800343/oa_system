@@ -96,7 +96,7 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 			if(accessory!=null&&accessory.size()>0){
 				gs.setAccessory(accessory);
 			}
-			List<CompanyMaterialInCl> gsIncl=gsInCldao.selectGsInClById(id);
+			List<CompanyMaterialInCl> gsIncl=gsInCldao.selectByGsInId(id);
 			if(gsIncl!=null&&gsIncl.size()>0){
 				gs.setGsInCl(gsIncl);
 			}
@@ -184,7 +184,16 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 
 	@Override
 	public List<CompanyMateriaIn> selectMateriaOutForEnd(String no,String type) {
-		return gmDao.selectMateriaOutForEnd(no,type);
+		List<CompanyMateriaIn> list=gmDao.selectMateriaOutForEnd(no,type);
+		if(list!=null&&list.size()>0){
+			for(int i=0;i<list.size();i++){
+				List<CompanyMaterialInCl> clList=gsInCldao.selectGsInClById(list.get(i).getCmId());
+				if(clList!=null&&clList.size()>0){
+					list.get(i).setGsInCl(clList);
+				}
+			}
+		}
+		return list;
 	}
 
 	@Override
@@ -265,6 +274,25 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 				List<CompanyMaterialInCl> clList=gsInCldao.selectByGsInId(list.get(i).getCmId());
 				if(clList!=null&&clList.size()>0){
 					list.get(i).setGsInCl(clList);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<CompanyMateriaIn> selectAlreadySure(String getstate) {
+		return gmDao.selectAlreadySure(getstate);
+	}
+
+	@Override
+	public List<CompanyMateriaIn> selectGsRemainOut(String outState, String getStatus, String remainType) {
+		List<CompanyMateriaIn> list=gmDao.selectGsRemainOut(outState,getStatus,remainType);
+		if(list!=null&&list.size()>0){
+			for(int i=0;i<list.size();i++){
+				List<ClRemain> selectGsInClById = clremaindao.selectClRemainById(list.get(i).getCmId());
+				if(selectGsInClById!=null&&selectGsInClById.size()!=0){
+					list.get(i).setClremain(selectGsInClById);
 				}
 			}
 		}

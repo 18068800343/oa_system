@@ -12,7 +12,7 @@ public interface ClRemainService {
 
 	public int addClRemain(List<ClRemain> cr);
 	
-	public List<GsClOut> 	selectGsClOutById(String id);
+	public List<ClRemain> 	selectGsClOutById(String id);
 	
 	public int remainUse(CompanyMateriaOut cm);
 	
