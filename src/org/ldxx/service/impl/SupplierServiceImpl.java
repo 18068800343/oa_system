@@ -98,4 +98,9 @@ public class SupplierServiceImpl implements SupplierService{
 		return sDao.selectIdAndName();
 	}
 
+	@Override
+	public List<Supplier> selectSupplierByType(String type) {
+		return sDao.selectSupplierByType(type);
+	}
+
 }

@@ -108,4 +108,12 @@ public class SupplierController {
 	        		array.length, array, dataList, response);
 	}
 	
+	
+	@RequestMapping("/selectSupplierByType")
+	@ResponseBody
+	public List<Supplier> selectSupplierByType(String type){
+		List<Supplier> list=sService.selectSupplierByType(type);
+		return list;
+	}
+	
 }

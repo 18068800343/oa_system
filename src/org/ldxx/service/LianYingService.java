@@ -11,4 +11,6 @@ public interface LianYingService {
 	public List<LianYing> selectLianYingByStatus(String status);
 	
 	public LianYing selectLianYingById(String id);
+	
+	public int lyNoCount(String year);
 }

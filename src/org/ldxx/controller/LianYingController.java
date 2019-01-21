@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +45,11 @@ public class LianYingController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		ly.setLyId(id);
-		String lyNo="LY"+ly.getPrjNo();
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=service.lyNoCount(year);
+		String lyNo="LY"+uuid.getPrjCode("", count+1);
 		ly.setLyNo(lyNo);
 		String path="D:"+File.separator+"oa"+File.separator+"LianYing"+File.separator+id;
 		File f=new File(path);
@@ -114,7 +119,7 @@ public class LianYingController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(ly.getPrjName()+"流程发起");
-			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+id);
+			currentFlow.setUrl("shengchanguanliLook/lianying.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());

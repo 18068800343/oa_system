@@ -18,4 +18,6 @@ public interface SupplierDao {
 	public List<Supplier> selectIdAndName();
 	
 	public Supplier selectOneSupplier(@Param("id")String id);
+	
+	public List<Supplier> selectSupplierByType(@Param("type")String type);
 }

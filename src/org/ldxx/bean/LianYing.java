@@ -23,6 +23,7 @@ public class LianYing {
 	private String contractNameYi;
 	
 	private String lyUnit;
+	private String lyUnitName;
 	private String uniformCode;
 	private String certifications;
 	private String safetyCertificateInfo;
@@ -37,8 +38,21 @@ public class LianYing {
 	private String pbType;
 	private String pbMoney;
 	private List<Accessory> accessory;
+	private List<FbContract> fb;
 	
 	
+	public List<FbContract> getFb() {
+		return fb;
+	}
+	public void setFb(List<FbContract> fb) {
+		this.fb = fb;
+	}
+	public String getLyUnitName() {
+		return lyUnitName;
+	}
+	public void setLyUnitName(String lyUnitName) {
+		this.lyUnitName = lyUnitName;
+	}
 	public String getContractNameYi() {
 		return contractNameYi;
 	}

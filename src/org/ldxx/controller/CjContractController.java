@@ -776,4 +776,11 @@ public class CjContractController {
 		return i;
 	}
 	
+	@RequestMapping("/selectCjContractLikeTaskCode")
+	@ResponseBody
+	public CjContract selectCjContractLikeTaskCode(String no){
+		CjContract cj=service.selectCjContractLikeTaskNo(no);
+		return cj;
+	}
+	
 }

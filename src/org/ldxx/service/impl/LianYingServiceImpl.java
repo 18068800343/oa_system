@@ -9,6 +9,7 @@ import org.ldxx.dao.LianYingDao;
 import org.ldxx.service.LianYingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LianYingServiceImpl implements LianYingService{
@@ -18,12 +19,13 @@ public class LianYingServiceImpl implements LianYingService{
 	@Autowired
 	private AccessoryDao aDao;
 	
+	@Transactional
 	@Override
 	public int addLianYing(LianYing ly) {
 		int i=dao.addLianYing(ly);
 		if(i>0){
 			List<Accessory> accessory=ly.getAccessory();
-			if(accessory.size()>0){
+			if(accessory!=null){
 				i=aDao.addAccessory(accessory);
 			}
 		}
@@ -40,6 +42,12 @@ public class LianYingServiceImpl implements LianYingService{
 	public LianYing selectLianYingById(String id) {
 		LianYing ly=dao.selectLianYingById(id);
 		return ly;
+	}
+
+	@Override
+	public int lyNoCount(String year) {
+		year="%"+year+"%";
+		return dao.lyNoCount(year);
 	}
 
 }
