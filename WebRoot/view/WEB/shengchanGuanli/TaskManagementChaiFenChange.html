@@ -131,7 +131,7 @@
                  <table class="table table-bordered table-condensed">
                     	<thead>
                     		<tr>
-                    			<th colspan="8">修改业主信息</th>
+                    			<th colspan="8">主项目其他信息</th>
                     		</tr>
                     	</thead>
                     	<tbody>
@@ -241,17 +241,17 @@
                         <div>
                  				<div class="yihang2"  style="margin-bottom:5px;">
                  					<div><b>子任务单信息</b></div>
-                 					<div><button type="button" class="btn btn-primary" onclick="addzirenwudan()"  style="margin-right:5px;">添加子任务单</button></div>
+                 					<div><button type="button" class="btn btn-primary" id="addzirenwudan" onclick="addzirenwudan()"  style="margin-right:5px;">添加子任务单</button></div>
                  				</div>
                  				<div id="zirenwudandiv">
                  						
                  				</div>
                  		</div>
-                    <div class="modal-footer">
+                    <!-- <div class="modal-footer">
                         <button type="button" class="btn btn-default"  onclick="quxiao2()">取消</button>
                         <button type="button" class="btn btn-default" onclick="xgsaverenwudan()">保存</button>
                         <button type="button" class="btn btn-success" onclick="xgaddrenwudan()">提交</button>
-                    </div>
+                    </div> -->
                 </div>
 
             </div>
@@ -698,10 +698,18 @@
 	});
         $("#disan a").hide();
         var page_prjId;
-	    data=getCookie("chaiFenData");
+	    /* data=getCookie("chaiFenData");
 	    var jsonData = JSON.parse(data);
-	    page_prjId = jsonData.prjId;
-	    chaiFenTask(jsonData);
+	    page_prjId = jsonData.prjId; */
+	    //console.log(window.location.search)
+	    function GetQueryString(name){
+	         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	         var r = window.location.search.substr(1).match(reg);
+	         if(r!=null)return  unescape(r[2]); return null;
+	    }
+	    // 调用方法
+    	id=GetQueryString("prjId");
+	    chaiFenTask(id);
 	    
     $("#zenjia").click(function(){
     })
@@ -1706,7 +1714,9 @@
     			+"<td>任务单金额</td>"
     			+"<td><input type='text' id='taskMoney"+length+"' class='form-control'></td>"
     			+"<td>合同金额</td>"
-    			+"<td><input type='text' id='contractMoney"+length+"' style='width:49%;' class='form-control'></td>"
+    			+"<td><input type='text' id='contractMoney"+length+"' style='width:49%;' class='form-control'/><input type='text' id='taskPrjId"+length+"' style='width:49%;display:none;' class='form-control'/><input type='text' id='taskPrjNo"+length+"' style='width:49%;display:none;' class='form-control'/></td>"
+    			+""
+    			+""
     			+"</tr>"
     			+"<tr>"
     			+"<td>暂定金</td>"
@@ -1786,6 +1796,7 @@
                         huitianTaskBumen(length);
                     }
         		});
+    			huitianTaskMsg(length);
     			if(jsonData.assistDepartment1!=null&&jsonData.assistDepartment1!=""){
     				page_no = 1;
     				var changdu = $("button[name='addzirenwudanBumen']").length;
@@ -1794,13 +1805,11 @@
     			}
     			if(jsonData.assistDepartment2!=null&&jsonData.assistDepartment2!=""){
     				page_no = 2;
-                    var changdu = $("button[name='addzirenwudanBumen']").length;
-    				$("button[name='addzirenwudanBumen']").eq(changdu-1).trigger("click");
+    				$("#addzirenwudanBumen").trigger("click");
     			}
     			if(jsonData.assistDepartment3!=null&&jsonData.assistDepartment3!=""){
     				page_no = 3;
-    				var changdu = $("button[name='addzirenwudanBumen']").length;
-    				$("button[name='addzirenwudanBumen']").eq(changdu-1).trigger("click");
+    				$("#addzirenwudanBumen").trigger("click");
     			}
     }
     var page_no;
@@ -1822,6 +1831,38 @@
     	}
     	if(jsonData.mainOther!=null&&""!=jsonData.mainOther){
     		$("#qtfzr"+length+"").val(jsonData.mainOther);
+    	}
+    }
+    function huitianTaskMsg(length){
+    	if(jsonData.prjName!=""&&jsonData.prjName!=null&&length==pageI){
+    	$("#taskName"+length+"").val(jsonData.prjName);
+    	}
+    	if(jsonData.prjId!=""&&jsonData.prjId!=null&&length==pageI){
+    	$("#taskPrjId"+length+"").val(jsonData.prjId);
+    	}
+    	if(jsonData.prjNo!=""&&jsonData.prjNo!=null&&length==pageI){
+    	$("#taskPrjNo"+length+"").val(jsonData.prjNo);
+    	}
+    	if(jsonData.prjEstimateMoney!=""&&jsonData.prjEstimateMoney!=null&&length==pageI){
+    	$("#taskMoney"+length+"").val(jsonData.prjEstimateMoney);
+    	}
+    	if(jsonData.contractMoney!=""&&jsonData.contractMoney!=null&&length==pageI){
+    	$("#contractMoney"+length+"").val(jsonData.contractMoney);
+    	}
+    	if(jsonData.provisionalSum!=""&&jsonData.provisionalSum!=null&&length==pageI){
+    	$("#zdMoney"+length+"").val(jsonData.provisionalSum);
+    	}
+    	if(jsonData.prjCompany!=""&&jsonData.prjCompany!=null&&length==pageI){
+    	$("#suoshuCompany"+length+"").val(jsonData.prjCompany);
+    	}
+    	if(jsonData.prjStartTime!=""&&jsonData.prjStartTime!=null&&length==pageI){
+    	$("#ziTaskStart"+length+"").val(jsonData.prjStartTime);
+    	}
+    	if(jsonData.prjEndTime!=""&&jsonData.prjEndTime!=null&&length==pageI){
+    	$("#ziTaskEnd"+length+"").val(jsonData.prjEndTime);
+    	}
+    	if(jsonData.workContent!=""&&jsonData.workContent!=null&&length==pageI){
+    	$("#gaikuang"+length+"").val(jsonData.workContent);
     	}
     }
     function zhubanChange(index){
@@ -2500,13 +2541,13 @@
     //拆分任务单
     function chaiFenTask(data) {
 
-		xiugaiid=data.prjId;
+		xiugaiid=data;
 	  		$.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/task/selectTaskById',
+	            url: getContextPath()+'/task/selectTaskAndChildrenById',
 	            dataType: 'json',
 	            data: {
-	            	id:data.prjId
+	            	id:data
 	            },
 	            success: function (json) {
 	            	/* $("#xgyijileixing").val(json.prjType1); */
@@ -2606,11 +2647,18 @@
 		   	         $("#disan").addClass("active");
 		   	         $("#disan a").show();
 		   	         $("#messages").addClass("active");
+		   	         
+		   	         for(var i in json.taskChildren){
+		   	        	jsonData = json.taskChildren[i];
+		   	        	pageI=i;
+		   	        	$("#addzirenwudan").trigger('click');
+		   	         }
+		   	         
 	            }
 	        });	
     	}
-    
-   
+    var jsonData;
+    var pageI;
     
     function xgaddrenwudan(){
     	var danwei= new Array();
@@ -2745,15 +2793,14 @@
     		
     	      $.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/task/submitTaskChaifen',
+	            url: getContextPath()+'/task/submitTaskChaifenChange',
 	            dataType: 'json',
-	            data:{
-	            	task:JSON.stringify(danwei)
-	            },
+	            contentType: "application/json", 
+	            data:JSON.stringify(danwei),
 	            success: function (json) {
 	            	lianjie=json.url;
 	            	if(json.receiver!=null&&json.receiver.length>=1){
-	            		 
+	            		  quxiao2();
 		        		  $("#tijiaogei").modal('show');
 		        		  $("#tijiaoren tbody").empty("");
 		        		  for(var i=0;i<json.receiver.length;i++){
@@ -2952,23 +2999,26 @@
 				toastr.error("成本分摊比例总和不等于100%");
 	    		return;
 			}
-    		
+    		var result;
     	      $.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/task/saveTaskChaifen',
+	            url: getContextPath()+'/task/saveTaskChaifenChange',
 	            dataType: 'json',
+	            async:false,
 	            data:{
 	            	task:JSON.stringify(danwei)
 	            },
 	            success: function (json) {
+	            	result= json;
 	            	if(json==0){
 	            		toastr.error('保存失败');
 	            	}else{
 	            		 toastr.success('保存成功');
-	            		 quxiao2();
+	            		 /* quxiao2(); */
 	            	}
 	            }
 	        }); 
+    	      return result;
     }
     
     
@@ -3280,6 +3330,8 @@
     	$("div[name='ziTaskDiv']").each(function(index,dom){
     		var task={};
     		var enterprise = getEnterprise();
+    		task.prjId = $("#taskPrjId"+index+"").val();
+    		task.prjNo = $("#taskPrjNo"+index+"").val();
     		task.mainPrjId=page_prjId;//主任务单号
     		task.mainPrjNo=$("#xgtaskbianhao").val();//主任务单号
     		task.mainPrjName=$("#xgtaskName").val();//主任务单号
@@ -3305,7 +3357,6 @@
     		task.mainEngineer = $("#zrgcs"+index+"").val();//主办部门名称
     		task.mainOther = $("#qtfzr"+index+"").val();//主办部门名称
     		task.enterprise = enterprise; 
-    		task.importance = $("#edit_importance").val();
     		$("#ziTaskDiv"+index+"").find("table").eq(1).find("tr").each(function(elem,dom){
     			var divSelect = $("#ziTaskDiv"+index+"").attr("data-length");
     			var elem = elem-1;
@@ -3323,6 +3374,11 @@
     		taskArray.push(task);
     	});
     	return taskArray;
+    }
+    
+    function liuchengGaibian(){
+    	var result = xgsaverenwudan();
+    	return result;
     }
 </script>
 

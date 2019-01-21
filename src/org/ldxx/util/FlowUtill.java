@@ -679,11 +679,20 @@ public class FlowUtill {
 		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
 		try {
 			INSTANCE.currentFlowMapper.insert(currentFlow);
+			
+			ModeStatusExample modeStatusExample = new ModeStatusExample();
+			modeStatusExample.createCriteria().andModeIdEqualTo(modeId);
+			
+			List<ModeStatus> modeStatusDuo = INSTANCE.modeStatusMapper.selectByExample(modeStatusExample);
 			ModeStatus modeStatus = new ModeStatus();
 			modeStatus.setModeId(modeId);
 			modeStatus.setStatus("1");
 			modeStatus.setFlowStatus("4");
-			INSTANCE.modeStatusMapper.insert(modeStatus);
+			if(modeStatusDuo!=null&&modeStatusDuo.size()>0){
+				INSTANCE.modeStatusMapper.updateByExample(modeStatus, modeStatusExample);
+			}else{
+				INSTANCE.modeStatusMapper.insert(modeStatus);
+			}
 			/*INSTANCE.flowHistroyMapper.insert(flowHistroy);*/
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -736,7 +745,7 @@ public class FlowUtill {
 			INSTANCE.currentFlowMapper.insert(currentFlow);
 			ModeStatus modeStatus = new ModeStatus();
 			modeStatus.setModeId(modeId);
-			modeStatus.setStatus("");
+			modeStatus.setStatus("1");
 			modeStatus.setFlowStatus("4");
 			ModeStatusExample modeStatusExample = new ModeStatusExample();
 			modeStatusExample.createCriteria().andModeIdEqualTo(modeId);

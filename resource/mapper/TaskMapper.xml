@@ -168,6 +168,17 @@
       on ssw.task_code = a.prj_no
 		where prj_id = #{id} GROUP BY prj_id;
 	</select>
+	<select id="selectTaskAndTaskChildrenByMainPrjNo" resultType="task"> 
+      select 
+       a.*,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3,b4.cc_name,cc.contract_name_yi,cc.task_code from task a 
+		left join organization_management b  on a.main_department=b.om_id 
+		left join organization_management b1 on a.assist_department1=b1.om_id 
+		left join organization_management b2 on a.assist_department2=b2.om_id 
+		left join organization_management b3 on a.assist_department3=b3.om_id
+		LEFT JOIN consociation_company as b4 on a.prj_owner_unit=b4.cc_id
+       LEFT JOIN cj_contract cc on cc.task_code = a.prj_no
+		where a.main_prj_no = #{mainPrjNo} and a.history=1 GROUP BY prj_id;
+	</select>
 	
      <select id="selectTaskByIdChildQuery" resultType="prjCompanyVo"> 
      select case  

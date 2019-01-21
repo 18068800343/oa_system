@@ -114,7 +114,16 @@ public class Task {
     
     private Double shishebili;
     
+    private List<Task> taskChildren;
     
+	public List<Task> getTaskChildren() {
+		return taskChildren;
+	}
+
+	public void setTaskChildren(List<Task> taskChildren) {
+		this.taskChildren = taskChildren;
+	}
+
 	public String getMainPrjName() {
 		return mainPrjName;
 	}
