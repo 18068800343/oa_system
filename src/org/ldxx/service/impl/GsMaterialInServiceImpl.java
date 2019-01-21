@@ -35,12 +35,30 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	
 	@Override
 	public List<CompanyMateriaIn> getGsMaterialIn() {
-		return gmDao.getGsMaterialIn();
+		List<CompanyMateriaIn> list= gmDao.getGsMaterialIn();
+		if(list!=null&&list.size()>0){
+			for(int i=0;i<list.size();i++){
+				List<CompanyMaterialInCl> clList=gsInCldao.selectByGsInId(list.get(i).getCmId());
+				if(clList!=null&&clList.size()>0){
+					list.get(i).setGsInCl(clList);
+				}
+			}
+		}
+		return list;
 	}
 	
 	@Override
 	public List<CompanyMateriaIn> selectGsMaterialIn(String outState) {
-		return gmDao.selectGsMaterialIn(outState);
+		List<CompanyMateriaIn> list= gmDao.selectGsMaterialIn(outState);
+		if(list!=null&&list.size()>0){
+			for(int i=0;i<list.size();i++){
+				List<CompanyMaterialInCl> clList=gsInCldao.selectByGsInId(list.get(i).getCmId());
+				if(clList!=null&&clList.size()>0){
+					list.get(i).setGsInCl(clList);
+				}
+			}
+		}
+		return list;
 	}
 
 	@Override
@@ -227,14 +245,30 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 
 	@Override
 	public List<CompanyMateriaIn> selectByoutStateAndgetState(String outstate, String getstate) {
-		return gmDao.selectByoutStateAndgetState(outstate,getstate);
+		List<CompanyMateriaIn> list = gmDao.selectByoutStateAndgetState(outstate,getstate);
+		if(list!=null&&list.size()>0){
+			for(int i=0;i<list.size();i++){
+				List<CompanyMaterialInCl> clList=gsInCldao.selectByGsInId(list.get(i).getCmId());
+				if(clList!=null&&clList.size()>0){
+					list.get(i).setGsInCl(clList);
+				}
+			}
+		}
+		return list;
 	}
 
 	@Override
 	public List<CompanyMateriaIn> selectBygetDepartment(String getDepartment) {
-		return gmDao.selectBygetDepartment(getDepartment);
+		List<CompanyMateriaIn> list=gmDao.selectBygetDepartment(getDepartment);
+		if(list!=null&&list.size()>0){
+			for(int i=0;i<list.size();i++){
+				List<CompanyMaterialInCl> clList=gsInCldao.selectByGsInId(list.get(i).getCmId());
+				if(clList!=null&&clList.size()>0){
+					list.get(i).setGsInCl(clList);
+				}
+			}
+		}
+		return list;
 	}
-
-
 
 }

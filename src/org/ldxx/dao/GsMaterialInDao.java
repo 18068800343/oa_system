@@ -46,8 +46,6 @@ public interface GsMaterialInDao {
 	List<CompanyMateriaIn> selectByoutStateAndgetState(@Param("outstate")String outstate, @Param("getstate")String getstate);
 
 	List<CompanyMateriaIn> selectBygetDepartment(@Param("getDepartment")String getDepartment);
-	
-
 
 
 }

@@ -72,6 +72,7 @@
 		            		<option value="%">--请选择--</option>
 		            	</select>
 	            	</div>
+	            	&nbsp;&nbsp;&nbsp;&nbsp;
 	            	<div>部门筛选：</div>
 	            	<div>
 		            	<select class="form-control" id="department">
@@ -261,7 +262,7 @@
                     </div>
                 </form>
                 <div>
-                     <table class="table table-bordered table-condensed"  id="bmmingzibiao" >
+                     <table class="table table-bordered table-condensed" style="width:100%"  id="bmmingzibiao" >
                      	<thead>
 		   					<tr>
 		   						<th></th>
@@ -391,8 +392,8 @@
             effects: 'slide' 
         });
     	initPrj();
-    	initDepartment();
     	initbumen();
+    	initDepartment();
     	$(".zhuangtai").trigger("change");
 	});
     $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
@@ -681,7 +682,6 @@
         rowIndex = bb.parentNode.parentNode.rowIndex; 
     }
 
-
     
     function initPrj(){
     	$.ajax({
@@ -700,20 +700,6 @@
         });
     }
 
-    /* $("#prj").on("change",function(){
-    	$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/gsMaterialOut/selectXmMaterialOutByNo',
-            dataType: 'json',
-            data: {
-            	no:$("#prj").val()
-            },
-            success: function (json) {
-                $('#mainContent').dataTable().fnClearTable();
-                $('#mainContent').DataTable().rows.add(json).draw(false);
-            }
-        });
-    }) */
     $("#prj").on("change",function(){
     	$.ajax({
             type: 'POST',
@@ -724,15 +710,20 @@
             	outstate:"1",
             },
             success: function (json) {
+            	//console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
     })
+     
     
     //初始化
     $(".zhuangtai").change(function(){
         var zt=$(".zhuangtai").val();
+         if(zt=="--请选择--"){
+			 return;
+		 }  
         if(zt=="未确认收货"){
         	$.ajax({
                 type: 'POST',
@@ -770,7 +761,6 @@
         }
     })
     
-    
     function initbumen(){
 		 $.ajax({
 	            type: 'POST',
@@ -791,7 +781,8 @@
     $("#department").on("change",function(){
 		 var department=$("#department").find("option:selected").text();
 		 if(department=="--请选择--"){
-			 department="%";
+			 return;
+			 //department="%"
 		 }
 		 $.ajax({
 	            type: 'POST',
@@ -806,7 +797,6 @@
 	            }
 	        }); 
 	 })
-    
     
     
     function look(obj){
@@ -898,7 +888,6 @@
     	var getPerson=$("#get_person").val();
     	var getInfos=$("#get_infos").val();
     	var getDepartment=$("#get_department").val()
-    	console.log(getDepartment)
     	 var options={
     			 type: 'POST',
     	            url: getContextPath()+'/gsMaterialIn/updateXmState',

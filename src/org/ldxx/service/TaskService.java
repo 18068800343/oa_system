@@ -67,4 +67,6 @@ public interface TaskService {
 	public int updateTasks(List<Task> task);
 
 	public Task selectPrjJsMoneyByNo(String no);
+
+	Task selectTaskAndTaskChildrenById(String id);
 }
