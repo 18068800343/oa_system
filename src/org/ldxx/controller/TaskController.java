@@ -806,6 +806,8 @@ public class TaskController {
 	public int updateTaskChildrenModeStatusById(String id){
 		Task task1=taskDao.selectTaskById(id);
 		List<Task> taskChildren = taskDao.selectTaskAndTaskChildrenByMainPrjNo(task1.getPrjNo(),id);
+		Float mainTaskMoney = task1.getPrjEstimateMoney();
+		Float mainTaskContractMoney = task1.getContractMoney();
 		int i=0;
 		for(Task task : taskChildren){
 			String modeId = task.getPrjId();
@@ -816,7 +818,10 @@ public class TaskController {
 			ModeStatusExample example = new ModeStatusExample();
 			example.createCriteria().andModeIdEqualTo(modeId);
 			i= modeStatusMapper.updateByExampleSelective(modeStatus, example);
+			mainTaskMoney = mainTaskMoney-task.getPrjEstimateMoney();
+			mainTaskContractMoney = mainTaskContractMoney - task.getContractMoney();
 		}
+		i=taskDao.updateTaskMoneyByIdChaifen(mainTaskMoney, mainTaskContractMoney, id);
 		return i;
 	}
 	
