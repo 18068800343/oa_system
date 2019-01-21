@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,9 @@ public class BudgetFpplicationFormController {
 		String id=uuid.getTimeUUID();
 		BudgetFpplicationForm budge = budges.get(0);
 		budge.setBfId(id);
-		int count=bservice.countNo();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=bservice.countNo(year);
 		String code="YS"+uuid.getPrjCode("", count+1);
 		budge.setBfNo(code);
 		int i=bservice.saveBudge(budge);
@@ -95,7 +98,9 @@ public class BudgetFpplicationFormController {
 		String id=uuid.getTimeUUID();
 		BudgetFpplicationForm budge = budges.get(0);
 		budge.setBfId(id);
-		int count=bservice.countNo();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=bservice.countNo(year);
 		String code="YS"+uuid.getPrjCode("", count+1);
 		budge.setBfNo(code);
 		int i=bservice.saveBudge(budge);

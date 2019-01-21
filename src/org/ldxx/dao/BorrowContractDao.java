@@ -9,7 +9,7 @@ public interface BorrowContractDao {
 
 	List<BorrowContract> selectBorrowContract(@Param("status")String status);
 
-	int JKNocount();
+	int JKNocount(@Param("year")String year);
 
 	int addBorrowContractSave(@Param("bc")BorrowContract bc);
 

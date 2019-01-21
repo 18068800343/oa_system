@@ -123,8 +123,9 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	}
 
 	@Override
-	public int countNo() {
-		return bdao.countNo();
+	public int countNo(String year) {
+		year="%"+year+"%";
+		return bdao.countNo(year);
 	}
 
 	@Override

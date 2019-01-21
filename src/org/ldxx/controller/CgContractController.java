@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -79,7 +80,9 @@ public class CgContractController {
 		
 		String type = cg.getCgcType();
 		String code = type.split(" ")[0];
-		int count=cgService.cgNocount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=cgService.cgNocount(year);
 		count=count+1;
 		String cgNo=uuid.getPrjCode(code, count);
 		cgNo="CG"+cgNo;
@@ -177,7 +180,9 @@ public class CgContractController {
 		
 		String type = cg.getCgcType();
 		String code = type.split(" ")[0];
-		int count=cgService.cgNocount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=cgService.cgNocount(year);
 		count=count+1;
 		String cgNo=uuid.getPrjCode(code, count);
 		cgNo="CG"+cgNo;

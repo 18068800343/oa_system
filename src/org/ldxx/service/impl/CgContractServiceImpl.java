@@ -143,8 +143,9 @@ public class CgContractServiceImpl implements CgContractService {
 	}
 
 	@Override
-	public int cgNocount() {
-		return cgDao.cgNocount();
+	public int cgNocount(String year) {
+		year="%"+year+"%";
+		return cgDao.cgNocount(year);
 	}
 
 	@Override

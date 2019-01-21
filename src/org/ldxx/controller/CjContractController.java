@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -68,7 +69,9 @@ public class CjContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
-		int count=service.countNo();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=service.countNo(year);
 		String code="CJ"+uuid.getPrjCode("", count+1);
 		cj.setContractNo(code);
 		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
@@ -160,7 +163,9 @@ public class CjContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
-		int count=service.countNo();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=service.countNo(year);
 		String code="CJ"+uuid.getPrjCode("", count+1);
 		cj.setContractNo(code);
 		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;

@@ -17,7 +17,7 @@ public interface OtherContractService {
 	
 	public List<OtherContract> selectCjHistory(String no);
 	
-	public int countNo();
+	public int countNo(String year);
 
 	public OtherContract selectOtherContractById(String id);
 

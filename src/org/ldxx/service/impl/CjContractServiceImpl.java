@@ -133,8 +133,9 @@ public class CjContractServiceImpl implements CjContractService{
 	}
 
 	@Override
-	public int countNo() {
-		return dao.countNo();
+	public int countNo(String year) {
+		year="%"+year+"%";
+		return dao.countNo(year);
 	}
 
 	@Override

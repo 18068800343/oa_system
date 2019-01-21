@@ -20,7 +20,7 @@ public interface SubContractDao {
 
 	List<FbContract> selectsubcontractHistory(@Param("fbNo")String fbNo);
 
-	int fbNocount();
+	int fbNocount(@Param("year")String year);
 
 	List<FbContract> getFBNameAndNo();
 	

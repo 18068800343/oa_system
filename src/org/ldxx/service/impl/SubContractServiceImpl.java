@@ -90,8 +90,9 @@ public class SubContractServiceImpl implements SubContractService {
 	}
 
 	@Override
-	public int fbNocount() {
-		return scDao.fbNocount();
+	public int fbNocount(String year) {
+		year="%"+year+"%";
+		return scDao.fbNocount(year);
 	}
 
 

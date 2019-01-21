@@ -31,7 +31,7 @@ public interface CjContractDao {
 	
 	public List<CjContract> selectCjHistory(@Param("no")String no);
 	
-	public int countNo();
+	public int countNo(@Param("year")String year);
 
 	public List<CjContract> selectNameAndNo();
 

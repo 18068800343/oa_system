@@ -17,7 +17,7 @@ public interface OtherContractDao {
 	
 	public List<OtherContract> selectCjHistory(@Param("no")String no);
 	
-	public int countNo();
+	public int countNo(@Param("year")String year);
 
 	public OtherContract selectOtherContractById(@Param("id")String id);
 

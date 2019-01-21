@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -72,7 +73,9 @@ public class SubContractController {
 		
 		String type = fbContract.getFbcType();
 		String code = type.split(" ")[0];
-		int count=scService.fbNocount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=scService.fbNocount(year);
 		count=count+1;
 		String fbNo=uuid.getPrjCode(code, count);
 		fbNo="FB"+fbNo;
@@ -166,7 +169,9 @@ public class SubContractController {
 		
 		String type = fbContract.getFbcType();
 		String code = type.split(" ")[0];
-		int count=scService.fbNocount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=scService.fbNocount(year);
 		count=count+1;
 		String fbNo=uuid.getPrjCode(code, count);
 		fbNo="FB"+fbNo;

@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +45,9 @@ public class OtherContractConroller {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
-		int count=service.countNo();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=service.countNo(year);
 		String type="";
 		String code="QT"+uuid.getPrjCode(type, count+1);
 		other.setContractCode(code);
@@ -132,7 +135,9 @@ public class OtherContractConroller {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
-		int count=service.countNo();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=service.countNo(year);
 		String type="";
 		String code="QT"+uuid.getPrjCode(type, count+1);
 		other.setContractCode(code);

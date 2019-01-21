@@ -19,7 +19,7 @@ public interface BudgetFpplicationFormService {
 
 	List<BudgetFpplicationForm> selectBudgeHistory(String no);
 
-	int countNo();
+	int countNo(String year);
 	
 	BudgetFpplicationForm selectBudgeByNo(String no);
 	

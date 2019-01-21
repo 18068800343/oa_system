@@ -32,7 +32,7 @@ public interface CgContractService {
 
 	List<CgContract> selectHistoryByNo(String cgNo);
 
-	int cgNocount();
+	int cgNocount(String year);
 
 	List<CgContract> getCGNameAndNo();
 

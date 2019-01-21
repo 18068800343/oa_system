@@ -26,7 +26,7 @@ public interface CgContractDao {
 
 	List<CgContract> selectHistoryByNo(@Param("cgNo")String cgNo);
 
-	int cgNocount();
+	int cgNocount(@Param("year")String year);
 
 	List<CgContract> getCGNameAndNo();
 

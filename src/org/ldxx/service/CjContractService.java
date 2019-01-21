@@ -29,7 +29,7 @@ public interface CjContractService {
 	
 	public List<CjContract> selectCjHistory(String no);
 	
-	public int countNo();
+	public int countNo(String year);
 
 	public List<CjContract> selectNameAndNo();
 

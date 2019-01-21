@@ -73,7 +73,9 @@ public class BorrowContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		bc.setbId(id);
-		int count=service.JKNocount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=service.JKNocount(year);
 		String jkNo="JK"+uuid.getClCode("", count+1);
 		bc.setbNo(jkNo);
 		
@@ -163,7 +165,9 @@ public class BorrowContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		bc.setbId(id);
-		int count=service.JKNocount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=service.JKNocount(year);
 		String jkNo="JK"+uuid.getClCode("", count+1);
 		bc.setbNo(jkNo);
 		

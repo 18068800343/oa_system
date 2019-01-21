@@ -30,8 +30,9 @@ public class BorrowContractServiceImpl implements BorrowContractService {
 	}
 
 	@Override
-	public int JKNocount() {
-		return dao.JKNocount();
+	public int JKNocount(String year) {
+		year="%"+year+"%";
+		return dao.JKNocount(year);
 	}
 
 	@Override

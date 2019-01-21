@@ -8,7 +8,7 @@ public interface BorrowContractService {
 
 	List<BorrowContract> selectBorrowContract(String status);
 
-	int JKNocount();
+	int JKNocount(String year);
 
 	int addBorrowContractSave(BorrowContract bc);
 

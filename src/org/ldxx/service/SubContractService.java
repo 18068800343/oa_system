@@ -24,7 +24,7 @@ public interface SubContractService {
 
 	List<FbContract> selectsubcontractHistory(String fbNo);
 
-	int fbNocount();
+	int fbNocount(String year);
 
 	List<FbContract> getFBNameAndNo();
 	

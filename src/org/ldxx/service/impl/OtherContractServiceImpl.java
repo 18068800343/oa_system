@@ -66,8 +66,9 @@ public class OtherContractServiceImpl implements OtherContractService{
 	}
 
 	@Override
-	public int countNo() {
-		return dao.countNo();
+	public int countNo(String year) {
+		year="%"+year+"%";
+		return dao.countNo(year);
 	}
 
 	@Override
