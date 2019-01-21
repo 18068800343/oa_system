@@ -76,4 +76,6 @@ public interface TaskDao {
 	public Task selectPrjJsMoneyByNo(@Param("no")String no);
 
 	public Float getPrjEstimateMoneyByNo(@Param("mainPrjNo")String mainPrjNo);
+
+	public List<Task> selectTaskAndTaskChildrenByMainPrjNo(@Param("mainPrjNo")String mainPrjNo, @Param("id")String id);
 }
