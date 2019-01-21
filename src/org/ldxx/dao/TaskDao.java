@@ -21,7 +21,7 @@ public interface TaskDao {
 
 	public List<Task> selectIdAndNameByStatus(@Param("status") String status);
 	
-	public int typeCount();
+	public int typeCount(@Param("year")String year);
 	
 	public List<Task> selectTaskHistory(@Param("no")String no);
 	

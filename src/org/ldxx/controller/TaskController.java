@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -102,7 +103,9 @@ public class TaskController {
 		String omNo =oManagement.getOmNo();
 		String type=t.getPrjType2();
 		String code=type.split(" ")[0];
-		int count=tService.typeCount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=tService.typeCount(year);
 		count=count+1;
 		String prjNo=uuid.getPrjCode(code, count);
 		t.setPrjNo(prjNo);
@@ -191,7 +194,9 @@ public class TaskController {
 		String omNo = omDao.selectOrgById(mainDepartMentId).getOmNo();
 		String type=t.getPrjType2();
 		String code=type.split(" ")[0];
-		int count=tService.typeCount();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=tService.typeCount(year);
 		count=count+1;
 		String prjNo=uuid.getPrjCode(code, count);
 		t.setPrjNo(prjNo);
@@ -480,7 +485,9 @@ public class TaskController {
 			String omNo =oManagement.getOmNo();
 			String type=t.getPrjType2();
 			String code=type.split(" ")[0];
-			int count=tService.typeCount();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String year=sdf.format(new Date());
+			int count=tService.typeCount(year);
 			count=count+1;
 			String prjNo=uuid.getPrjCode(code, count);
 			t.setPrjNo(prjNo);
@@ -555,7 +562,9 @@ public class TaskController {
 			String omNo =oManagement.getOmNo();
 			String type=t.getPrjType2();
 			String code=type.split(" ")[0];
-			int count=tService.typeCount();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String year=sdf.format(new Date());
+			int count=tService.typeCount(year);
 			count=count+1;
 			String prjNo=uuid.getPrjCode(code, count);
 			t.setPrjNo(prjNo);
