@@ -21,6 +21,7 @@ public class CompanyMateriaIn {
 	private String freight;				//运费
 	private String outState;			//出库状态；0:未出库;1：公司出库;2:项目出库;3::结余转出
 	private String getPerson;//项目材料收货人
+	private String getDepartment;//项目收货部门
 	private String getInfos;//项目验收及意见
 	private String getStatus;//收货状态 0：未确认收货 1：确认收货
 	private String remainType;//结余状态 0 未结余 1 等待结余确认2:已结余
@@ -32,7 +33,14 @@ public class CompanyMateriaIn {
 	
 
 	
-	
+
+	public String getGetDepartment() {
+		return getDepartment;
+	}
+
+	public void setGetDepartment(String getDepartment) {
+		this.getDepartment = getDepartment;
+	}
 
 	public List<ClRemain> getClremain() {
 		return clremain;

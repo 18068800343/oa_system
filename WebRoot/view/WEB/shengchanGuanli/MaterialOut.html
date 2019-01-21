@@ -59,17 +59,28 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL" style="font-size:18px;">
-                <!-- <form class="form-inline" style="font-size:18px;">
-                    <label>状态筛选:</label>
-                    <select class="zhuangtai form-control">
-                        <option>审批通过</option>
-                        <option>审批中</option>
-                        <option>审批未通过</option>
-                    </select>
-                </form> -->
+            	<div class="yihang">
+            		<div>收货状态筛选：</div>
+            		<div>
+                       	<form class="form-inline">
+		                    <select class="zhuangtai form-control">
+		                        <option>未确认收货</option>
+		                        <option>已确认收货</option>
+		                    </select>
+		                </form>
+                     </div>
+                     &nbsp;&nbsp;&nbsp;&nbsp;
+		            <div>项目筛选：</div>
+	            	<div>
+		            	<select class="form-control" id="prj">
+		            		<option value="%">--请选择--</option>
+		            	</select>
+	            	</div>
+            	</div>
             </div>
             <div class="UpperPartR">
                 <!-- <button type="button" class="btn btn-primary Pedbba" data-toggle="modal" data-target="#myModal">填报</button> -->
+                <div id="tabBtn" style="margin-left: 10px;"></div>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -269,7 +280,8 @@
                         <th>领料项目</th>
                         <th>领料人</th>
                         <th>领料日期</th>
-                        <th>备注</th>
+                        <!-- <th>备注</th> -->
+                        <th>确认收货状态</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -463,11 +475,22 @@
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<!-- <script src="../../js/datatables/dataTables.bootstrap.min.js"></script>  -->
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
-    	initTable();
+    	//initTable();
     	initSelectCG();
     	initbumen();
+    	initPrj();
         laydate.render({
             elem: '#year' //指定元素
         });
@@ -476,7 +499,8 @@
         });
     	$(".zhuangtai").trigger("change");
 	});
-    var table=$('#mainContent').dataTable({
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -493,7 +517,8 @@
             { "data": null}, 
             { "data": "collectPerson"}, 
             { "data": "sentDate"}, 
-            { "data": "cmDesc"}, 
+            /* { "data": "cmDesc"}, */
+            { "data": null}, 
         ],
         "columnDefs": [
 						{
@@ -512,6 +537,18 @@
 								return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.demandProject+'</a>'
 						  }
 						},
+						{	
+							 "class": "tcenter",
+							    "targets": 6,
+							    "searchable": true,
+							    "render": function(data, type, full) {
+							    		if(full.getStatus==1){
+							    			return '<span class="label label-success state">已确认收货</span>';
+							    		}else{
+							    			return '<span class="label label-danger state">未确认收货</span>';
+							    		}
+							        }
+							  },
 						{	
 								 "class": "tcenter",
 								    "targets": 7,
@@ -547,7 +584,7 @@
 		                	});
 							
 						},
-        "order": [[0, 'asc']],
+        "order": [[5, 'desc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
         "sLengthMenu": "显示 _MENU_ 条",
@@ -564,8 +601,39 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-  
+        "buttons": [
+        	{
+                extend: "csv",
+                text: "导出csv",
+                bom: true,
+                filename: '公司收材料出库信息',
+                fieldSeparator: ',',
+                exportOptions: {
+                	format: {
+                        header: function ( data) {
+                            return data;
+                        },
+                        body: function ( data, columnIdx, rowIdx, code ) {
+                        	if(rowIdx==1){
+                        		data=data.replace("</a>","")
+                        		data=data.replace('<a onclick="gotoCg(this)" style="color:	#4876FF;cursor: pointer;">',"")
+                        	}
+                        	if(rowIdx==3){
+                        		data=data.replace("</a>","")
+                        		data=data.replace('<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">',"")
+                        	}
+			                return data;
+			            }
+                    },
+                    columns:[0,1,2,3,4,5]
+                }
+            }
+        ]
 	});
+    table.buttons().container().appendTo( $('#tabBtn') );
+    $('.buttons-csv').addClass('btn btn-primary');
+    
+    
     var table2=$('#cg_table').dataTable({
         "deferRender": true,
         "processing": true,
@@ -660,7 +728,7 @@
         }},
         
 	});
-	function initTable(){
+	/* function initTable(){
         $.ajax({
             type: 'POST',
             url: getContextPath()+'/gsMaterialIn/selectGsMaterialIn',
@@ -673,66 +741,80 @@
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
+    } */
+    
+    function initPrj(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	$("#prj").append("<option value='%'>全部</option>")
+                for(var i=0;i<json.length;i++){
+					$("#prj").append("<option value="+json[i].prjNo+">"+json[i].prjName+"</option>")                	
+                }
+            	$("#prj").trigger("change");
+            }
+        });
     }
+    
+    $("#prj").on("change",function(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/gsMaterialIn/selectXmMaterialByNo',
+            dataType: 'json',
+            data: {
+            	taskNo:$("#prj").val(),
+            	outstate:"1",
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    })
 	
-	//初始化
-    /* $(".zhuangtai").change(function(){
+  //初始化
+    $(".zhuangtai").change(function(){
         var zt=$(".zhuangtai").val();
-        if(zt=="审批中"){
+        if(zt=="未确认收货"){
         	$.ajax({
                 type: 'POST',
-                url: getContextPath()+'/gsMaterialOut/selectGsMaterialOut',
+                url: getContextPath()+'/gsMaterialIn/selectByoutStateAndgetState',
                 dataType: 'json',
                 data: {
-                	status:1,
+                	outstate:"1",
+                	getstate:"0",
                 },
                 success: function (json) {
                     $('#mainContent').dataTable().fnClearTable();
                     $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").hide();
-                    $(".iconxiugai").hide();
-                    $(".iconzhongzhi").show();
-                    $(".iconlywj").show();
+                    /* $(".Pedccb").show()
+                    $(".lookOut").hide() */
                 }
             });
             
-        }else if(zt=="审批通过"){
+        }else if(zt=="已确认收货"){
         	$.ajax({
                 type: 'POST',
-                url: getContextPath()+'/gsMaterialOut/selectGsMaterialOut',
+                url: getContextPath()+'/gsMaterialIn/selectByoutStateAndgetState',
                 dataType: 'json',
                 data: {
-                	status:2,
+                	outstate:"1",
+                	getstate:"1",
                 },
                 success: function (json) {
                     $('#mainContent').dataTable().fnClearTable();
                     $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").show();
-                    $(".iconxiugai").show();
-                    $(".iconzhongzhi").hide();
-                    $(".iconlywj").hide();
+                    /* $(".lookOut").show()
+                    $(".Pedccb").hide(); */
                 }
             });
             
-        }else if(zt=="审批未通过"){
-        	$.ajax({
-                type: 'POST',
-                url: getContextPath()+'/gsMaterialOut/selectGsMaterialOut',
-                dataType: 'json',
-                data: {
-                	status:0,
-                },
-                success: function (json) {
-                    $('#mainContent').dataTable().fnClearTable();
-                    $('#mainContent').DataTable().rows.add(json).draw(false);
-                    $(".chongqi").hide();
-                	$(".iconxiugai").hide();
-                	$(".iconzhongzhi").hide();
-                    $(".iconlywj").hide();
-                }
-            });
         }
-    }) */
+    })
 
 	
 	//选择采购
@@ -1270,7 +1352,7 @@
 	            	if(json.result>0){
 						$("#myModal").modal("hide")
 						toastr.success("添加成功")
-						initTable();
+						//initTable();
 					}else{
 						toastr.error("添加失败")
 					}

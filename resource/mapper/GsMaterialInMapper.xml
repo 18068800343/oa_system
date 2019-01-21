@@ -12,9 +12,9 @@
 	
 	<insert id="addGsMaterialInSave" parameterType="CompanyMateriaIn">
 		insert into company_material_in(cm_id,cg_no,cg_name,task_no,sent_date,collect_person,
-			demand_project,cm_desc,acceptance_opinion,freight,out_state,remain_type)
+			demand_project,cm_desc,acceptance_opinion,freight,out_state,get_status,remain_type)
 		values(#{cm.cmId},#{cm.cgNo},#{cm.cgName},#{cm.taskNo},#{cm.sentDate},#{cm.collectPerson},#{cm.demandProject},
-		#{cm.cmDesc},#{cm.acceptanceOpinion},#{cm.freight},#{cm.outState},0)
+		#{cm.cmDesc},#{cm.acceptanceOpinion},#{cm.freight},#{cm.outState},0,0)
 	</insert>
 	
 	<update id="updateGsMaterialInSave" parameterType="CompanyMateriaIn">
@@ -59,10 +59,11 @@
 	<update id="updateXmState">
 		update company_material_in 
 		set 
-			get_person=#{gsIncl.getPerson},
-			get_infos=#{gsIncl.getInfos},
-			get_status=#{gsIncl.getStatus}
-		where cm_id=#{gsIncl.cmId}
+			get_person=#{gsIn.getPerson},
+			get_department=#{gsIn.getDepartment},
+			get_infos=#{gsIn.getInfos},
+			get_status=#{gsIn.getStatus}
+		where cm_id=#{gsIn.cmId}
 	</update>
 	
 	<select id="selectAllXmReceivedGoods" resultType="CompanyMateriaIn">
@@ -91,5 +92,12 @@
 	
 	<select id="selectBytaskNo" resultType="CompanyMateriaIn">
 		select * from company_material_in where task_no=#{no} and out_state=1 and get_status=1
+	</select>
+	
+	<select id="selectByoutStateAndgetState" resultType="CompanyMateriaIn">
+		select * from company_material_in where out_state=#{outstate} and get_status=#{getstate}
+	</select>
+	<select id="selectBygetDepartment" resultType="CompanyMateriaIn">
+		select * from company_material_in where out_state=1 and get_status=1 and get_department like #{getDepartment}
 	</select>
 </mapper>
