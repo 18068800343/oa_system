@@ -827,8 +827,7 @@
                             		<th>承接合同名称</th>
                                     <th>承接合同编号</th>
                                     <th>甲方单位</th>
-                                    <th>合同起日期</th>
-                                    <th>合同讫日期</th>
+                                    <th>合同签订日期</th>
                             	</tr>
                             </thead>
                             <tbody>
@@ -865,8 +864,7 @@
                             		<th>承接合同名称</th>
                                     <th>承接合同编号</th>
                                     <th>甲方单位</th>
-                                    <th>合同起日期</th>
-                                    <th>合同讫日期</th>
+                                    <th>合同签订日期</th>
                             	</tr>
                             </thead>
                             <tbody>
@@ -1473,8 +1471,7 @@ function quxiao3(){
             { "data": "contractName"},
             { "data": "contractNo"}, 
             { "data": "ccName"}, 
-            { "data": "contractStartTime"},
-            { "data": "contractEndTime"}
+            { "data": "contractSignTime"}
         ],
         "columnDefs": [
 						{
@@ -1521,8 +1518,7 @@ function quxiao3(){
             { "data": "contractName"},
             { "data": "contractNo"}, 
             { "data": "ccName"}, 
-            { "data": "contractStartTime"},
-            { "data": "contractEndTime"}
+            { "data": "contractSignTime"}
         ],
         "columnDefs": [
 						{
@@ -1759,7 +1755,7 @@ function quxiao3(){
 	        url: getContextPath()+'/cooperator/selectCooperatorIdAndNameByCcType',
 	        dataType: 'json',
 	        data: {
-	        	ccType:'分包单位'
+	        	ccType:'分包供应商'
 	        },
 	        success: function (json) {
 	        	$("#yifang").html('');
@@ -1835,18 +1831,7 @@ function quxiao3(){
 	          				for(var i=0;i<taskCode.split(",").length;i++){
 	          					$("#task_no").append("<option>"+taskCode.split(",")[i]+"</option>")
 	          				}
-	          				
-	          				$("#jiafangbumen").html('');
-	          		    	$("#jiafangbumen").append("<option value="+json.mainDepartment+">"+json.name+"</option>")
-	          		    	if(json.assistDepartment1!=null&&json.assistDepartment1!=''){
-	          		    		$("#jiafangbumen").append("<option value="+json.assistDepartment1+">"+json.name2+"</option>")
-	          		    	}
-	          		    	if(json.assistDepartment2!=null&&json.assistDepartment2!=''){
-	          		    		$("#jiafangbumen").append("<option value="+json.assistDepartment2+">"+json.name3+"</option>")
-	          		    	}
-	          		    	if(json.assistDepartment3!=null&&json.assistDepartment3!=''){
-	          		    		$("#jiafangbumen").append("<option value="+json.assistDepartment3+">"+json.name4+"</option>")
-	          		    	}
+	          				$("#task_no").trigger("change");
 	                    }
 	          		});
 			  	})
@@ -1889,24 +1874,61 @@ function quxiao3(){
 	          				for(var i=0;i<taskCode.split(",").length;i++){
 	          					$("#xgtask_no").append("<option>"+taskCode.split(",")[i]+"</option>")
 	          				}
-	          				
-	          				$("#xgjiafangbumen").html('');
-	          		    	$("#xgjiafangbumen").append("<option value="+json.mainDepartment+">"+json.name+"</option>")
-	          		    	if(json.assistDepartment1!=null&&json.assistDepartment1!=''){
-	          		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment1+">"+json.name2+"</option>")
-	          		    	}
-	          		    	if(json.assistDepartment2!=null&&json.assistDepartment2!=''){
-	          		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment2+">"+json.name3+"</option>")
-	          		    	}
-	          		    	if(json.assistDepartment3!=null&&json.assistDepartment3!=''){
-	          		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment3+">"+json.name4+"</option>")
-	          		    	}
+	          				$("#xgtask_no").trigger("change");
 	                    }
 	          		});
 			  	}) 
 	        }
 			});
 		}
+  	
+  	$("#xgtask_no").on("change",function(){
+  		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectIdByNo2',
+            dataType: 'json',
+            data: {
+            	no:$('#xgtask_no').val()
+            },
+            success: function (json) {
+            	$("#xgjiafangbumen").html('');
+  		    	$("#xgjiafangbumen").append("<option value="+json.mainDepartment+">"+json.omName+"</option>")
+  		    	if(json.assistDepartment1!=null&&json.assistDepartment1!=''){
+  		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment1+">"+json.name1+"</option>")
+  		    	}
+  		    	if(json.assistDepartment2!=null&&json.assistDepartment2!=''){
+  		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment2+">"+json.name2+"</option>")
+  		    	}
+  		    	if(json.assistDepartment3!=null&&json.assistDepartment3!=''){
+  		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment3+">"+json.name3+"</option>")
+  		    	}
+            }
+  		});
+  	})
+  	
+  	$("#task_no").on("change",function(){
+  		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectIdByNo2',
+            dataType: 'json',
+            data: {
+            	no:$('#task_no').val()
+            },
+            success: function (json) {
+            	$("#jiafangbumen").html('');
+  		    	$("#jiafangbumen").append("<option value="+json.mainDepartment+">"+json.omName+"</option>")
+  		    	if(json.assistDepartment1!=null&&json.assistDepartment1!=''){
+  		    		$("#jiafangbumen").append("<option value="+json.assistDepartment1+">"+json.name1+"</option>")
+  		    	}
+  		    	if(json.assistDepartment2!=null&&json.assistDepartment2!=''){
+  		    		$("#jiafangbumen").append("<option value="+json.assistDepartment2+">"+json.name2+"</option>")
+  		    	}
+  		    	if(json.assistDepartment3!=null&&json.assistDepartment3!=''){
+  		    		$("#jiafangbumen").append("<option value="+json.assistDepartment3+">"+json.name3+"</option>")
+  		    	}
+            }
+  		});
+  	})
   
 	 function lookCancel(obj){
 	  		$("#look_cancel").modal("show");
@@ -2429,18 +2451,7 @@ function quxiao3(){
    				}
    				$("#xgprjName").val(data.prjName)
    				$("#xgtask_no").val(data.workNo)
-   				
-   				$("#xgjiafangbumen").html('');
-   		    	$("#xgjiafangbumen").append("<option value="+json.mainDepartment+">"+json.name+"</option>")
-   		    	if(json.assistDepartment1!=null&&json.assistDepartment1!=''){
-   		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment1+">"+json.name2+"</option>")
-   		    	}
-   		    	if(json.assistDepartment2!=null&&json.assistDepartment2!=''){
-   		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment2+">"+json.name3+"</option>")
-   		    	}
-   		    	if(json.assistDepartment3!=null&&json.assistDepartment3!=''){
-   		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment3+">"+json.name4+"</option>")
-   		    	}
+   				$("#xgtask_no").trigger("change");
    		    	$("#xgjiafangbumen").val(data.mainManageDepartment)
              }
    		});
@@ -3241,17 +3252,6 @@ function quxiao3(){
     function saveCjName(){
     	var tr=$("input[name='cjName']:checked").parents("tr");
     	var data=$("#cj_table").DataTable().row(tr).data();
-    	$("#jiafangbumen").html('');
-    	$("#jiafangbumen").append("<option value="+data.mainDepartment+">"+data.name+"</option>")
-    	if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
-    		$("#jiafangbumen").append("<option value="+data.assistDepartment1+">"+data.name2+"</option>")
-    	}
-    	if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
-    		$("#jiafangbumen").append("<option value="+data.assistDepartment2+">"+data.name3+"</option>")
-    	}
-    	if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
-    		$("#jiafangbumen").append("<option value="+data.assistDepartment3+">"+data.name4+"</option>")
-    	}
     	if(data==null){
     		toastr.error("请选择")
     		return;
@@ -3270,6 +3270,7 @@ function quxiao3(){
 			$("#task_no").append("<option>"+taskCode.split(",")[i]+"</option>")
 		}
     	$("#zhuhetongMoney").val(data.contractMoney);
+    	$("#task_no").trigger("change");
     	$("#choose_cj").modal("hide");
     }
     
@@ -3283,6 +3284,7 @@ function quxiao3(){
 			},
 			success:function(json){
 				$("#task_no").val(json.prjNo);
+				$("#task_no").trigger("change");
 			}
 		})  
     })
@@ -3311,6 +3313,7 @@ function quxiao3(){
 			},
 			success:function(json){
 				$("#xgtask_no").val(json.prjNo);
+				$("#xgtask_no").trigger("change");
 			}
 		})  
     })
@@ -3336,17 +3339,6 @@ function quxiao3(){
     		toastr.error("请选择")
     		return;
     	}
-    	$("#xgjiafangbumen").html('');
-    	$("#xgjiafangbumen").append("<option value="+data.mainDepartment+">"+data.name+"</option>")
-    	if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
-    		$("#xgjiafangbumen").append("<option value="+data.assistDepartment1+">"+data.name2+"</option>")
-    	}
-    	if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
-    		$("#xgjiafangbumen").append("<option value="+data.assistDepartment2+">"+data.name3+"</option>")
-    	}
-    	if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
-    		$("#xgjiafangbumen").append("<option value="+data.assistDepartment3+">"+data.name4+"</option>")
-    	}
     	
     	$("#xgchengjiehetongName").val(data.contractName);
     	$("#xgchengjiehetonghao").val(data.contractNo);
@@ -3361,6 +3353,7 @@ function quxiao3(){
 		for(var i=0;i<taskCode.split(",").length;i++){
 			$("#xgtask_no").append("<option>"+taskCode.split(",")[i]+"</option>")
 		}
+		$("#xgtask_no").trigger("change");
     	$("#xgzhuhetongMoney").val(data.contractMoney);
     	$("#choose_cj2").modal("hide");
     }
