@@ -25,7 +25,7 @@ public interface GsMaterialInDao {
 
 	List<CompanyMateriaIn> selectXmMaterialByNo(@Param("no")String no,@Param("outstate") String outstate);
 
-	int updateXmState(@Param("gsIncl")CompanyMateriaIn gsIncl);
+	int updateXmState(@Param("gsIn")CompanyMateriaIn gsIn);
 
 	List<CompanyMateriaIn> selectAllXmReceivedGoods();
 
@@ -42,6 +42,11 @@ public interface GsMaterialInDao {
 	List<CompanyMateriaIn> selectGsMateriaOutForEnd2(@Param("no")String no);
 
 	List<CompanyMateriaIn> selectBytaskNo(@Param("no")String no);
+
+	List<CompanyMateriaIn> selectByoutStateAndgetState(@Param("outstate")String outstate, @Param("getstate")String getstate);
+
+	List<CompanyMateriaIn> selectBygetDepartment(@Param("getDepartment")String getDepartment);
+	
 
 
 

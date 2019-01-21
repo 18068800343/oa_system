@@ -48,5 +48,9 @@ public interface GsMaterialInService {
 
 	List<CompanyMateriaIn> selectBytaskNo(String no);
 
+	List<CompanyMateriaIn> selectByoutStateAndgetState(String outstate, String getstate);
+
+	List<CompanyMateriaIn> selectBygetDepartment(String getDepartment);
+
 
 }

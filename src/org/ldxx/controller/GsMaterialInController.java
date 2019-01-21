@@ -49,7 +49,7 @@ public class GsMaterialInController {
 	@Autowired
 	private GsMaterialInService gmService;
 	
-	@RequestMapping("/getGsMaterialIn")//初始化outStatus=0(未出库)或outStatus=0(结余转出来的)
+	@RequestMapping("/getGsMaterialIn")//初始化outStatus=0(未出库)或outStatus=3(结余转出来的)
 	@ResponseBody
 	public List<CompanyMateriaIn> getGsMaterialIn(){
 		return gmService.getGsMaterialIn();
@@ -311,9 +311,22 @@ public class GsMaterialInController {
 		return gmService.updateMaterialbuyUnitAndManufacturer(id,unit,manufacturer);
 	}*/
 	
-	@RequestMapping("/selectBytaskNo")//通过任务单的得到运费和id,再通过id 差材料费用
+	@RequestMapping("/selectBytaskNo")//通过任务单的得到运费和id,再通过id 查材料费用
 	@ResponseBody
 	public List<CompanyMateriaIn> selectBytaskNo(String no){
 		return gmService.selectBytaskNo(no);
+	}
+	
+	@RequestMapping("/selectByoutStateAndgetState")//通过出库状态和确认收货状态来查
+	@ResponseBody
+	public List<CompanyMateriaIn> selectByoutStateAndgetState(String outstate,String getstate){
+		return gmService.selectByoutStateAndgetState(outstate,getstate);
+	}
+	
+	@RequestMapping("/selectBygetDepartment")//通过部门来查询项目入库的信息
+	@ResponseBody
+	public List<CompanyMateriaIn> selectBygetDepartment(String getDepartment){
+		getDepartment="%"+getDepartment+"%";
+		return gmService.selectBygetDepartment(getDepartment);
 	}
 }

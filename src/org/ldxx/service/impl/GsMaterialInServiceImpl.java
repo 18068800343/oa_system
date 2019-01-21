@@ -225,6 +225,16 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 		return list;
 	}
 
+	@Override
+	public List<CompanyMateriaIn> selectByoutStateAndgetState(String outstate, String getstate) {
+		return gmDao.selectByoutStateAndgetState(outstate,getstate);
+	}
+
+	@Override
+	public List<CompanyMateriaIn> selectBygetDepartment(String getDepartment) {
+		return gmDao.selectBygetDepartment(getDepartment);
+	}
+
 
 
 }
