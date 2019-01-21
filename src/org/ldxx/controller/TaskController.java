@@ -880,7 +880,9 @@ public class TaskController {
 		List<Task> list=new ArrayList<Task>();
 		for(int i=0;i<prjNo.split(",").length;i++){
 			Task task=tService.selectTaskPrjName(prjNo.split(",")[i]);
-			list.add(task);
+			if(null!=task){
+				list.add(task);
+			}
 		}
 		return list;
 	}

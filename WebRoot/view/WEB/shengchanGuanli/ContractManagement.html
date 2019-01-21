@@ -2169,13 +2169,15 @@ function checkquxiaoSplit(){
 		            		$('#work_no').val(no_list)
 			            	$('#prj_name').val(array.toString())
 			            	$('#prj_type').val(array2.toString())
-			            	pinjieRenwudanChaifen(array,no_list);
+			            	var tasks = getTaskBytaskCode(no_list);
+			            	pinjieRenwudanChaifen(array,no_list,tasks);
 			            	$("#chooseNo").modal("hide");
 		            	}else if(noType==1){
 		            		$('#edit_work_no').val(no_list)
 			            	$('#edit_prj_name').val(array.toString())
 			            	$('#edit_prj_type').val(array2.toString())
-			            	pinjieRenwudanChaifen(array,no_list)
+			            	var tasks = getTaskBytaskCode(no_list);
+			            	pinjieRenwudanChaifen(array,no_list,tasks);
 			            	$("#chooseNo").modal("hide");
 		            	}
 		            	
@@ -2322,7 +2324,8 @@ function checkquxiaoSplit(){
 	            	if(nameType==0){
 	            		$('#prj_name').val(name_list)
 		            	$('#work_no').val(array.toString())
-	            		pinjieRenwudanChaifen(name_list,array);
+	            		var tasks = getTaskBytaskCode(array.toString());
+			            pinjieRenwudanChaifen(name_list,array,tasks);
 		            	$('#prj_type').val(array2.toString())
 		            	$("#chooseName").modal("hide");
 	            	}else if(nameType==1){
@@ -3997,7 +4000,7 @@ function checkquxiaoSplit(){
 	})
 	var pageNameList;
 	var pageTaskNoArray;
-	function pinjieRenwudanChaifen(namelist,array){
+	function pinjieRenwudanChaifen(namelist,array,tasks){
 		var namestr = namelist;
 		pageNameList=namelist;
 		pageTaskNoArray=array;
@@ -4012,7 +4015,7 @@ function checkquxiaoSplit(){
 	               +'<tr>'
 	        	   +'<th style="text-align:left;"><div style="width:300px">任务单:'+namestr[i]+'</div><div hidden="hidden">'+array[i]+'</div></th>'
 	        	   +'<th colspan="2" >'
-	        	   +'<div class="yihang2"><div>&nbsp;任务单金额分配:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control" style="width:150px;" placeholder="任务单金额" id=renwudanMoney></input></div>'
+	        	   +'<div class="yihang2"><div>&nbsp;任务单金额分配:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="renwudanMoney'+i+' form-control" style="width:150px;" placeholder="任务单金额" id=renwudanMoney></input></div>'
 	        	   +'<div><button type="button" class="btn btn-primary"  onclick="addBumen()">添加协办部门</button></div></div></th>'
 	        +'</tr>'
 	        +'</thead>'
@@ -4021,21 +4024,37 @@ function checkquxiaoSplit(){
 	        +'<td style="width:13%;">主办部门</td>'
 	        +'<td style="width:32%;">'
 	        +'<form class="form-inline">'
-	        +'<select class="form-control" style="width:150px;" name="zhuban" id="zhuban">'
+	        +'<select class="zhuban'+i+' form-control" style="width:150px;" name="zhuban" id="zhuban">'
 	                        
 	        +'</select>'
-	        +'<input type="text" class="form-control" style="width:150px;" placeholder="金额" id="zhubanjine">'
+	        +'<input type="text" class="zhubanjine'+i+' form-control" style="width:150px;" placeholder="金额" id="zhubanjine">'
 	        +'</form>'
 	        +'</td>'
 	        +"<td>"
             +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
-            +'<input type="text" id="zhubanFentan" class="form-control" style="width:150px;" placeholder="比例"></div>'
+            +'<input type="text" id="zhubanFentan" class="zhubanFentan'+i+' form-control" style="width:150px;" placeholder="比例"></div>'
             +'</td>'
 	        +'</tr>'
 	        +'</tbody>'
 	        +'</table>');
+		initbumenByClass(i);
+		if(tasks[i]!=null&&tasks[i]!=undefined){
+		 $(".zhuban"+i+"").val(tasks[i].mainDepartment);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
+			 $(".zhubanFentan"+i+"").val(tasks[i].mainDepartmentCost);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
+			 $(".zhubanjine"+i+"").val(tasks[i].mainDepartmentMoney);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
+			 $(".renwudanMoney"+i+"").val(tasks[i].prjEstimateMoney);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
+		 addBumenEdit(i,tasks[i]);
+		 }
 		}
-		initbumen();
+		
 	}
 	
 	function editpinjieRenwudanChaifen(namelist,array,tasks){
@@ -4053,7 +4072,7 @@ function checkquxiaoSplit(){
 	               +'<tr>'
 	        	   +'<th style="text-align:left;"><div style="width:300px">任务单:'+namestr[i]+'</div><div hidden="hidden">'+array[i]+'</div></th>'
 	        	   +'<th colspan="2" >'
-	        	   +'<div class="yihang2"><div>&nbsp;任务单金额分配:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control" style="width:150px;" placeholder="任务单金额" value="'+tasks[i].prjEstimateMoney+'" id=renwudanMoney></input></div>'
+	        	   +'<div class="yihang2"><div>&nbsp;任务单金额分配:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="renwudanMoney'+i+' form-control" style="width:150px;" placeholder="任务单金额" value="" id=renwudanMoney></input></div>'
 	        	   +'<div><button type="button" class="btn btn-primary"  onclick="addBumen()">添加协办部门</button></div></div></th>'
 	        +'</tr>'
 	        +'</thead>'
@@ -4064,19 +4083,32 @@ function checkquxiaoSplit(){
 	        +'<form class="form-inline">'
 	        +'<select class="zhuban'+i+' form-control" style="width:150px;" name="zhuban" id="zhuban">'
 	        +'</select>'
-	        +'<input type="text" class="form-control" style="width:150px;" value="'+tasks[i].mainDepartmentMoney+'" placeholder="金额" id="zhubanjine">'
+	        +'<input type="text" class="zhubanjine'+i+' form-control" style="width:150px;" value="" placeholder="金额" id="zhubanjine">'
 	        +'</form>'
 	        +'</td>'
 	        +"<td>"
             +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
-            +'<input type="text" id="zhubanFentan" class="form-control" style="width:150px;" value="'+tasks[i].mainDepartmentCost+'" placeholder="比例"></div>'
+            +'<input type="text" id="zhubanFentan" class="zhubanFentan'+i+' form-control" style="width:150px;" value="" placeholder="比例"></div>'
             +'</td>'
 	        +'</tr>'
 	        +'</tbody>'
 	        +'</table>');
 		 initbumenByClass(i);
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
 		 $(".zhuban"+i+"").val(tasks[i].mainDepartment);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
+			 $(".zhubanFentan"+i+"").val(tasks[i].mainDepartmentCost);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
+			 $(".zhubanjine"+i+"").val(tasks[i].mainDepartmentMoney);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
+			 $(".renwudanMoney"+i+"").val(tasks[i].prjEstimateMoney);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
 		 addBumenEdit(i,tasks[i]);
+		 }
 		}
 	}
 	function lookpinjieRenwudanChaifen(namelist,array,tasks){
@@ -4094,7 +4126,7 @@ function checkquxiaoSplit(){
 	               +'<tr>'
 	        	   +'<th style="text-align:left;"><div style="width:300px">任务单:'+namestr[i]+'</div><div hidden="hidden">'+array[i]+'</div></th>'
 	        	   +'<th colspan="2" >'
-	        	   +'<div class="yihang"><div class="yihang">&nbsp;任务单金额分配:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" disabled class="form-control" style="width:150px;" placeholder="任务单金额" value="'+tasks[i].prjEstimateMoney+'" id=renwudanMoney></input></div>'
+	        	   +'<div class="yihang"><div class="yihang">&nbsp;任务单金额分配:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" disabled class="renwudanMoney'+i+' form-control" style="width:150px;" placeholder="任务单金额" value="" id=renwudanMoney></input></div>'
 	        	   +'<div></div></th>'
 	        +'</tr>'
 	        +'</thead>'
@@ -4105,19 +4137,32 @@ function checkquxiaoSplit(){
 	        +'<form class="form-inline">'
 	        +'<select class="zhuban'+i+' form-control" disabled style="width:150px;" name="zhuban" id="zhuban">'
 	        +'</select>'
-	        +'<input type="text" class="form-control" disabled style="width:150px;" value="'+tasks[i].mainDepartmentMoney+'" placeholder="金额" id="zhubanjine">'
+	        +'<input type="text" class="zhubanjine'+i+' form-control" disabled style="width:150px;" value="" placeholder="金额" id="zhubanjine">'
 	        +'</form>'
 	        +'</td>'
 	        +"<td>"
             +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
-            +'<input type="text" id="zhubanFentan" disabled class="form-control" style="width:150px;" value="'+tasks[i].mainDepartmentCost+'" placeholder="比例"></div>'
+            +'<input type="text" id="zhubanFentan" disabled class="zhubanFentan'+i+' form-control" style="width:150px;" value="" placeholder="比例"></div>'
             +'</td>'
 	        +'</tr>'
 	        +'</tbody>'
 	        +'</table>');
 		 initbumenByClass(i);
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
 		 $(".zhuban"+i+"").val(tasks[i].mainDepartment);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
+			 $(".zhubanFentan"+i+"").val(tasks[i].mainDepartmentCost);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
+			 $(".zhubanjine"+i+"").val(tasks[i].mainDepartmentMoney);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
+			 $(".renwudanMoney"+i+"").val(tasks[i].prjEstimateMoney);
+		 }
+		 if(tasks[i]!=null&&tasks[i]!=undefined){
 		 addBumenLook(i,tasks[i]);
+		 }
 		}
 	}
 	var page_money;
