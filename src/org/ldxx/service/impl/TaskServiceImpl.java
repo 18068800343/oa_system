@@ -88,6 +88,7 @@ public class TaskServiceImpl implements TaskService{
 
 	@Override
 	public int typeCount(String year) {
+		year="%"+year+"%";
 		return tdao.typeCount(year);
 	}
 
