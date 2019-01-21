@@ -22,6 +22,7 @@ import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.MaintenanceReinforcement;
 import org.ldxx.bean.ModeStatus;
+import org.ldxx.bean.ModeStatusExample;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.Role;
 import org.ldxx.bean.Task;
@@ -511,7 +512,7 @@ public class TaskController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(list.get(0).getPrjName()+"拆分流程");
-			currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+list.get(0).getMainPrjId());
+			currentFlow.setUrl("shengchanGuanli/TaskManagementChaiFenLook.html-"+list.get(0).getMainPrjId());
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
@@ -535,6 +536,63 @@ public class TaskController {
 				e.printStackTrace();
 			}
 		}
+		return i;
+	}
+	
+	@RequestMapping("/saveTaskChaifenChange")/*任务单修改保存*/
+	@ResponseBody
+	@Transactional
+	public int saveTaskChaifenChange(String task,HttpSession session){
+		Map<String,Class> map=new HashMap<>();
+		
+		JSONArray jsonArray=JSONArray.fromObject(task);
+		List<Task> list=new ArrayList<>();
+		for(int i=0;i<jsonArray.size();i++){
+			JSONObject job = jsonArray.getJSONObject(i); 
+			map.put("enterprise", Enterprise.class);
+			Task task2 = (Task) JSONObject.toBean(job,Task.class,map);
+			list.add(task2);
+		}
+		int i = 0;
+		for(Task t:list){
+			TimeUUID uuid=new TimeUUID();
+			String id=uuid.getTimeUUID();
+			if("".equals(t.getPrjId())||t.getPrjId()==null){
+				t.setPrjId(id);
+			}
+			String mainDepartMentId = t.getMainDepartment();
+			OrganizationManagement oManagement = omDao.selectOrgById(mainDepartMentId);
+			String omNo =oManagement.getOmNo();
+			String type=t.getPrjType2();
+			String code=type.split(" ")[0];
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String year=sdf.format(new Date());
+			int count=tService.typeCount(year);
+			count=count+1;
+			String prjNo=uuid.getPrjCode(code, count);
+			if("".equals(t.getPrjNo())||t.getPrjNo()==null){
+				t.setPrjNo(prjNo);
+				i=tService.addTask(t);
+				int k = taskDao.updateById(t);
+			}else{
+				i=tService.updateTask(t);
+				int k = taskDao.updateById(t);
+			}
+			ModeStatusExample example = new ModeStatusExample();
+			example.createCriteria().andModeIdEqualTo(t.getPrjId());
+			List<ModeStatus> modeStatuss = modeStatusMapper.selectByExample(example);
+			ModeStatus modeStatus = new ModeStatus();
+			modeStatus.setModeId(t.getPrjId());
+			modeStatus.setStatus("1");
+			modeStatus.setFlowStatus("4");
+			if(modeStatuss!=null&&modeStatuss.size()>0){
+				modeStatusMapper.updateByExample(modeStatus, example);
+			}else{
+				modeStatusMapper.insert(modeStatus);
+			}
+		}
+		
+
 		return i;
 	}
 	
@@ -569,10 +627,11 @@ public class TaskController {
 			String prjNo=uuid.getPrjCode(code, count);
 			t.setPrjNo(prjNo);
 			i=tService.addTask(t);
+			int k = taskDao.updateById(t);
 			ModeStatus modeStatus = new ModeStatus();
 			modeStatus.setModeId(id);
 			modeStatus.setStatus("1");
-			modeStatus.setFlowStatus("4");
+			modeStatus.setFlowStatus("1");
 			modeStatusMapper.insert(modeStatus);
 		}
 		String string = "";
@@ -588,7 +647,91 @@ public class TaskController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(list.get(0).getPrjName()+"拆分流程");
-			currentFlow.setUrl("shengchanGuanli/TaskManagementLook.html-"+list.get(0).getMainPrjId());
+			currentFlow.setUrl("shengchanGuanli/TaskManagementChaiFenLook.html-"+list.get(0).getMainPrjId());
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(oManagement.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow, omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
+	}
+	@RequestMapping("/submitTaskChaifenChange")/*任务单修改保存*/
+	@ResponseBody
+	@Transactional
+	public String submitTaskChaifenChange(String task,HttpSession session){
+		Map<String,Class> map=new HashMap<>();
+		
+		JSONArray jsonArray=JSONArray.fromObject(task);
+		List<Task> list=new ArrayList<>();
+		for(int i=0;i<jsonArray.size();i++){
+			JSONObject job = jsonArray.getJSONObject(i); 
+			map.put("enterprise", Enterprise.class);
+			Task task2 = (Task) JSONObject.toBean(job,Task.class,map);
+			list.add(task2);
+		}
+		int i = 0;
+		for(Task t:list){
+			TimeUUID uuid=new TimeUUID();
+			String id=uuid.getTimeUUID();
+			t.setPrjId(id);
+			String mainDepartMentId = t.getMainDepartment();
+			OrganizationManagement oManagement = omDao.selectOrgById(mainDepartMentId);
+			String omNo =oManagement.getOmNo();
+			String type=t.getPrjType2();
+			String code=type.split(" ")[0];
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String year=sdf.format(new Date());
+			int count=tService.typeCount(year);
+			count=count+1;
+			String prjNo=uuid.getPrjCode(code, count);
+			t.setPrjNo(prjNo);
+			i=tService.updateTask(t);
+			int k = taskDao.updateById(t);
+			ModeStatusExample example = new ModeStatusExample();
+			example.createCriteria().andModeIdEqualTo(id);
+			List<ModeStatus> modeStatuss = modeStatusMapper.selectByExample(example);
+			ModeStatus modeStatus = new ModeStatus();
+			modeStatus.setModeId(id);
+			modeStatus.setStatus("1");
+			modeStatus.setFlowStatus("1");
+			if(modeStatuss!=null&&modeStatuss.size()>0){
+				modeStatusMapper.updateByExample(modeStatus, example);
+			}else{
+				modeStatusMapper.insert(modeStatus);
+			}
+		}
+		String string = "";
+		if(i>0){
+			String mainDepartMentId = list.get(0).getMainDepartment();
+			OrganizationManagement oManagement = omDao.selectOrgById(mainDepartMentId);
+			String omNo =oManagement.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(list.get(0).getPrjName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(list.get(0).getPrjName()+"拆分流程");
+			currentFlow.setUrl("shengchanGuanli/TaskManagementChaiFenLook.html-"+list.get(0).getMainPrjId());
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
@@ -651,6 +794,30 @@ public class TaskController {
 	@ResponseBody
 	public Task selectTaskById(String id){
 		return tService.selectTaskById(id);
+	}
+	@RequestMapping("/selectTaskAndChildrenById")
+	@ResponseBody
+	public Task selectTaskAndChildrenById(String id){
+		return tService.selectTaskAndTaskChildrenById(id);
+	}
+	
+	@RequestMapping("/updateTaskChildrenModeStatusById")
+	@ResponseBody
+	public int updateTaskChildrenModeStatusById(String id){
+		Task task1=taskDao.selectTaskById(id);
+		List<Task> taskChildren = taskDao.selectTaskAndTaskChildrenByMainPrjNo(task1.getPrjNo(),id);
+		int i=0;
+		for(Task task : taskChildren){
+			String modeId = task.getPrjId();
+			ModeStatus modeStatus = new ModeStatus();
+			modeStatus.setModeId(modeId);
+			modeStatus.setStatus("2");;
+			modeStatus.setFlowStatus("2");
+			ModeStatusExample example = new ModeStatusExample();
+			example.createCriteria().andModeIdEqualTo(modeId);
+			i= modeStatusMapper.updateByExampleSelective(modeStatus, example);
+		}
+		return i;
 	}
 	
 	@RequestMapping("/selectTaskHistory")
