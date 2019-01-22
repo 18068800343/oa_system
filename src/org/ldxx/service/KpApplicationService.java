@@ -25,4 +25,6 @@ public interface KpApplicationService {
 	public List<KpApplication> getAllkpNo();
 
 	public KpApplication getKpApplicationBykpNo(String kpno);
+
+	public KpApplication getKpApplicationById(String id);
 }
