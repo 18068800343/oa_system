@@ -29,7 +29,17 @@
 	</select>
 
 	<select id="selectAlreadyRenling" resultType="AlreadyRenling">
-		select * from already_renling as a left join receive_money as b on a.sk_no=b.sk_no WHERE b.`status`='2'
+		select * from already_renling as a 
+		left join receive_money as b on a.sk_no=b.sk_no 
+		<where>
+			<if test="seachPrjName!='%'.toString()">
+				t_name=#{seachPrjName} and
+			</if>
+			<if test="seachMainDepartment!='%'.toString()">
+				main_department=#{seachMainDepartment} and
+			</if>
+			b.`status`!='0'
+		</where>
 	</select>
 	
 	<select id="selectAlreadySkBySkno" resultType="AlreadyRenling">

@@ -11,7 +11,7 @@ public interface AlreadySkInfoService {
 
 	AlreadyRenling getyirenlingfpMoneyByKpno(String kpno);
 
-	List<AlreadyRenling> selectAlreadyRenling();
+	List<AlreadyRenling> selectAlreadyRenling(String seachPrjName, String seachMainDepartment);
 
 	List<AlreadyRenling> selectAlreadySkBySkno(String skno);
 
