@@ -30,9 +30,17 @@ public class InternalTraining {
     private String trainingReason;
     
     private String trainingInUser;//参加人员
+    private String trainingType;//类型
+    
+    
+	public String getTrainingType() {
+		return trainingType;
+	}
 
-    
-    
+	public void setTrainingType(String trainingType) {
+		this.trainingType = trainingType;
+	}
+
 	public String getTrainingInUser() {
 		return trainingInUser;
 	}

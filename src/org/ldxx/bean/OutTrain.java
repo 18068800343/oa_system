@@ -32,11 +32,20 @@ public class OutTrain {
     private String trainingReason;
     
     private String inUsers;//参加人员（多个）
+    private String trainingType;//类型
 
     private List<Accessory> accessory;
     
     
     
+	public String getTrainingType() {
+		return trainingType;
+	}
+
+	public void setTrainingType(String trainingType) {
+		this.trainingType = trainingType;
+	}
+
 	public String getOmName() {
 		return omName;
 	}

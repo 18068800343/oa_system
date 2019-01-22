@@ -100,7 +100,7 @@
                             <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="studyAddr"></td>
                             <td>培训类型</td>
                             <td>
-                            	<select class="form-control"  style="width:60%;">
+                            	<select class="form-control" id="trainingType"  style="width:60%;">
                             			<option>技术类</option>
                             			<option>管理类</option>
                                 </select>
@@ -267,7 +267,7 @@
                             <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="edit_studyAddr"></td>
                             <td>培训类型</td>
                             <td>
-                            	<select class="form-control"  style="width:60%;">
+                            	<select class="form-control" id="xgtrainingType"  style="width:60%;">
                             			<option>技术类</option>
                             			<option>管理类</option>
                                 </select>
@@ -409,7 +409,7 @@
                             <td>培训地点</td>
                             <td id="lookstudyAddr"></td>
                             <td>培训类型</td>
-                            <td></td>
+                            <td id="look_trainingType"></td>
                         </tr>
                         <tr>
                         	<td>参加人员</td>
@@ -1118,16 +1118,11 @@
 			arr.splice($.inArray(name,arr),1);
 		}
 	}
-	
+	//保存多行(跨页)选中的参加人员
 	$("#querenciren2").click(function(){
 		 var a=[];
-		 /* $("#mingzibiao2 tbody").find(":checkbox:checked").each(function(){
-			var dom = $(this).parents('tr');
-			var data=$('#mingzibiao2').DataTable().row(dom).data();
-			a.push(data.uName)
-		}) */
 		var tbl = $("#mingzibiao2").dataTable();
-		var trList = tbl.fnGetNodes();
+		var trList = tbl.fnGetNodes();//fnGetNodes获取表格所有行，nTrs[i]表示第i行tr
 		for(i=0;i<trList.length;i++){
             if (trList[i].firstElementChild.firstElementChild.firstChild.checked) {    
                 var qty = trList[i].firstElementChild.nextElementSibling.innerHTML.trim();
@@ -1237,6 +1232,7 @@
 		var study_infos=$("#study_infos").val();
 		var study_target=$("#study_target").val();
 		var in_users=$("#in_users").val();//参加人员
+		var trainingType=$("#trainingType").val();//类型
 		if(title==''){
     		toastr.error("主题不能为空");
     		return;
@@ -1291,6 +1287,7 @@
 	            	courseDesc:study_infos,
 	            	trainingReason:study_target,
 	            	inUsers:in_users,
+	            	trainingType:trainingType,
 	            },
 	            success: function (json) {
 	            	if(json==0){
@@ -1318,7 +1315,7 @@
 		var study_infos=$("#study_infos").val();
 		var study_target=$("#study_target").val();
 		var in_users=$("#in_users").val();//参加人员
-		
+		var trainingType=$("#trainingType").val();//类型
 		if(title==''){
     		toastr.error("主题不能为空");
     		return;
@@ -1373,6 +1370,7 @@
 	            	courseDesc:study_infos,
 	            	trainingReason:study_target,
 	            	inUsers:in_users,
+	            	trainingType:trainingType,
 	            },
 	            success: function (json) {
 	            	if(json=='0'){
@@ -1476,6 +1474,7 @@
 		$("#edit_study_infos").val(data.courseDesc);
 		$("#edit_study_target").val(data.trainingReason);
 		$("#edit_in_users").val(data.inUsers)
+		$("#xgtrainingType").val(data.trainingType)
 		$("#buttons").html('');
 		$("#buttons").append('<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
             //'<button type="button" class="btn btn-success" id="button1" onclick="edit_save()">保存</button>'+
@@ -1540,6 +1539,7 @@
 		var study_infos=$("#edit_study_infos").val();
 		var study_target=$("#edit_study_target").val();
 		var edit_in_users=$("#edit_in_users").val();//参加人员
+		var xgtrainingType=$("#xgtrainingType").val();//类型
 		if(title==''){
     		toastr.error("主题不能为空");
     		return;
@@ -1592,6 +1592,7 @@
 				"courseDesc":study_infos,
 				"trainingReason":study_target,
             	"inUsers":edit_in_users,
+            	"trainingType":xgtrainingType
 		}
 		var options={
 				type: 'POST',
@@ -1611,6 +1612,7 @@
 	            	courseDesc:study_infos,
 	            	trainingReason:study_target,
 	            	inUsers:edit_in_users,
+	            	trainingType:xgtrainingType,
 	            },
 	            success: function (json) {
 	            	if(json==0){
@@ -1641,6 +1643,7 @@
 		var study_infos=$("#edit_study_infos").val();
 		var study_target=$("#edit_study_target").val();
 		var edit_in_users=$("#edit_in_users").val();//参加人员
+		var xgtrainingType=$("#xgtrainingType").val();
 		if(title==''){
     		toastr.error("主题不能为空");
     		return;
@@ -1693,6 +1696,7 @@
 				"courseDesc":study_infos,
 				"trainingReason":study_target,
             	"inUsers":edit_in_users,
+            	"trainingType":xgtrainingType
 		}
 		var options={
 				type: 'POST',
@@ -1712,6 +1716,7 @@
 	            	courseDesc:study_infos,
 	            	trainingReason:study_target,
 	            	inUsers:edit_in_users,
+	            	trainingType:xgtrainingType
 	            },
 	            success: function (json) {
 	            	if(json==0){
@@ -1770,6 +1775,7 @@
 		$("#lookstudy_infos").text(data.courseDesc);
 		$("#lookstudy_target").text(data.trainingReason);
 		$("#look_in_users").text(data.inUsers)
+		$("#look_trainingType").text(data.trainingType)
 		
 		$("#buttons").html('');
 		$("#buttons").append("<button type='button' class='btn btn-default' data-dismiss='modal'>取消</button>")

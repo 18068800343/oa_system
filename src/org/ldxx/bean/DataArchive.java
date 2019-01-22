@@ -24,7 +24,16 @@ public class DataArchive {
     private List<Accessory> accessory3;
     
     private String omName;
+    private String trainingType;//类型
     
+
+	public String getTrainingType() {
+		return trainingType;
+	}
+
+	public void setTrainingType(String trainingType) {
+		this.trainingType = trainingType;
+	}
 
 	public List<Accessory> getAccessory3() {
 		return accessory3;

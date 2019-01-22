@@ -28,11 +28,19 @@ public class OutTrainAll {
     private String omId;
     
     private String omName;
-    
+    private String trainingType;//类型
     private List<Accessory> accessory;
     
     
-    public List<Accessory> getAccessory() {
+    public String getTrainingType() {
+		return trainingType;
+	}
+
+	public void setTrainingType(String trainingType) {
+		this.trainingType = trainingType;
+	}
+
+	public List<Accessory> getAccessory() {
 		return accessory;
 	}
 

@@ -109,7 +109,7 @@
                             <tr>
                                 <td>培训类型</td>
 	                            <td>
-	                            	<select class="form-control"  style="width:60%;">
+	                            	<select class="form-control" id="trainingType" style="width:60%;">
 	                            			<option>技术类</option>
 	                            			<option>管理类</option>
 	                                </select>
@@ -287,7 +287,7 @@
                             <tr>
                                 <td>培训类型</td>
 	                            <td>
-	                            	<select class="form-control"  style="width:60%;">
+	                            	<select class="form-control" id="xgtrainingType" style="width:60%;">
 	                            			<option>技术类</option>
 	                            			<option>管理类</option>
 	                                </select>
@@ -436,7 +436,7 @@
                            </tr>
                            <tr>
                                 <td>培训类型</td>
-	                            <td></td>
+	                            <td id="looktrainingType"></td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -935,6 +935,7 @@
 		var new_money=$("#new_money").val();
 		var new_course_desc=$("#new_course_desc").val();
 		var new_training_reason=$("#new_training_reason").val();
+		var trainingType=$("#trainingType").val();
 		if(new_title==''){
     		toastr.error("主题不能为空");
     		return;
@@ -974,7 +975,8 @@
 	            	trainingDate:year,
 	            	attendees:users,
 	            	courseDesc:new_course_desc,
-	            	trainingReason:new_training_reason
+	            	trainingReason:new_training_reason,
+	            	trainingType:trainingType
 	            },
 	            success: function (json) {
 	            	if(json==0){
@@ -1001,6 +1003,7 @@
 		var new_money=$("#new_money").val();
 		var new_course_desc=$("#new_course_desc").val();
 		var new_training_reason=$("#new_training_reason").val();
+		var trainingType=$("#trainingType").val();
 		if(new_title==''){
     		toastr.error("主题不能为空");
     		return;
@@ -1040,7 +1043,8 @@
 	            	trainingDate:year,
 	            	attendees:users,
 	            	courseDesc:new_course_desc,
-	            	trainingReason:new_training_reason
+	            	trainingReason:new_training_reason,
+	            	trainingType:trainingType,
 	            },
 	            success: function (json) {
 	            	if(json=='0'){
@@ -1127,7 +1131,7 @@
 		var dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
 		edit_id=data.otaId;
-		console.log(data)
+		//console.log(data)
 		$("#edit_title").val(data.otaTitle);
 		$("#edit_department").val(data.omId);
 		$("#edit_training_name").val(data.trainingName);
@@ -1139,10 +1143,11 @@
 		$("#edit_course_desc").val(data.courseDesc);
 		$("#edit_training_reason").val(data.trainingReason);
 		$("#edit_users").val(data.attendees);
-		$("#edit_button").html('');
+		$("#xgtrainingType").val(data.trainingType)
+		/* $("#edit_button").html('');
 		$("#edit_button").append('<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
 		       // '<button type="button" class="btn btn-success" onclick="edit_save()">保存</button>'+
-		        '<button type="button" class="btn btn-success" onclick="edit_submit()">提交</button>');
+		        '<button type="button" class="btn btn-success" onclick="edit_submit()">提交</button>'); */
 		
 		$.ajax({
 			type:"post",
@@ -1202,6 +1207,7 @@
 		var courseDesc=$("#edit_course_desc").val();
 		var trainingReason=$("#edit_training_reason").val();
 		var users=$("#edit_users").val().toString();
+		var xgtrainingType=$("#xgtrainingType").val();
 		if(otaTitle==''){
     		toastr.error("主题不能为空");
     		return;
@@ -1240,6 +1246,7 @@
 				"omId":omId,
 				"trainingLv":trainingLv,
 				"courseDesc":courseDesc,
+				"trainingType":xgtrainingType
 		}
 		var options={
 				type: 'POST',
@@ -1257,7 +1264,8 @@
 	            	trainingDate:trainingDate,
 	            	attendees:users,
 	            	courseDesc:courseDesc,
-	            	trainingReason:trainingReason
+	            	trainingReason:trainingReason,
+	            	trainingType:xgtrainingType,
 	            },
 	            success: function (json) {
 	            	if(json==0){
@@ -1287,6 +1295,7 @@
 		var courseDesc=$("#edit_course_desc").val();
 		var trainingReason=$("#edit_training_reason").val();
 		var users=$("#edit_users").val().toString();
+		var xgtrainingType=$("#xgtrainingType").val();
 		if(otaTitle==''){
     		toastr.error("主题不能为空");
     		return;
@@ -1325,7 +1334,9 @@
 				"omId":omId,
 				"trainingLv":trainingLv,
 				"courseDesc":courseDesc,
+				"trainingType":xgtrainingType,
 		}
+		console.log(edit_id)
 		var options={
 				type: 'POST',
 				url: getContextPath()+'/OutTrainAll/updateOutTrainAllBySubmit',
@@ -1342,7 +1353,8 @@
 	            	trainingDate:trainingDate,
 	            	attendees:users,
 	            	courseDesc:courseDesc,
-	            	trainingReason:trainingReason
+	            	trainingReason:trainingReason,
+	            	trainingType:xgtrainingType,
 	            },
 	            success: function (json) {
 	            	if(json==0){
@@ -1364,6 +1376,7 @@
 		
 		var dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
+		console.log(data)
 		$("#looktitle").text(data.otaTitle);
 		$.ajax({
 	        type: 'POST',
@@ -1373,7 +1386,6 @@
 	        	omId:data.omId
 	        },
 	        success: function (json) {
-	        	console.log(json)
 	        	$("#lookdepartment").text(json.omName);
 	        }
 	    });
@@ -1386,6 +1398,7 @@
 		$("#lookcourse_desc").text(data.courseDesc);
 		$("#looktraining_reason").text(data.trainingReason);
 		$("#lookusers").text(data.attendees);
+		$("#looktrainingType").text(data.trainingType)
 		$("#lookbutton").html('');
 		$("#lookbutton").append('<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>');
 		
