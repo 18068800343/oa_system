@@ -29,9 +29,9 @@
 		<result property="pbType"  column="pb_type" />
 		<result property="pbMoney"  column="pb_money" />
 		<collection property="fb" column="prj_no" ofType="FbContract" select="selectFbContractByNo">
- 	       <id property="fbNo" column="fb_no" />
+ 	       <id property="fbId" column="fb_id" />
+ 	       <result property="fbNo" column="fb_no" />
  	       <result property="contractName" column="contract_name" />
- 	       <result property="contractNo" column="contract_no" />
  	       <result property="fbcType" column="fbc_type" />
  	       <result property="ccName" column="cc_name" />
  	       <result property="contractMoney" column="contract_money" />
@@ -56,11 +56,11 @@
 		LEFT JOIN consociation_company as d on c.prj_owner_unit=d.cc_id
 		LEFT JOIN consociation_company as d2 on a.ly_unit=d2.cc_id
 		LEFT JOIN cj_contract as e on a.prj_no like concat('%',e.task_code,'%') 
-		where b.status=#{status}
+		where b.status=#{status} and c.history=1 and e.history=1
 	</select>
 	
 	<select id="selectFbContractByNo" resultType="FbContract">
-		SELECT * FROM fb_contract as a 
+		SELECT a.*,b.cc_name FROM fb_contract as a 
 		LEFT JOIN consociation_company as b on a.contract_name_yi=b.cc_id
 		where a.work_no=#{prj_no} and a.history=1
 	</select>
@@ -73,7 +73,7 @@
 		LEFT JOIN consociation_company as d on c.prj_owner_unit=d.cc_id
 		LEFT JOIN consociation_company as d2 on a.ly_unit=d2.cc_id
 		LEFT JOIN cj_contract as e on a.prj_no like e.task_code
-		where a.ly_id=#{id}
+		where a.ly_id=#{id} and c.history=1 and e.history=1
 	</select>
 	
 	<select id="lyNoCount" resultType="int">

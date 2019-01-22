@@ -193,7 +193,14 @@
 			                            	</tr>
 			                            	<tr>
 			                            		<td>其他约定</td>
-			                            		<td><input type="text" style="width:70%;"  class="form-control" id="qt_yd"></td>
+			                            		<td>
+			                            			<select class="form-control" id="qt_yd"  style="width:70%;">
+			                            				<option value="派驻人员工资承担">派驻人员工资承担</option>
+			                            				<option value="实验室费用">实验室费用</option>
+			                            				<option value="招标前期费用">招标前期费用</option>
+			                            			</select>
+			                            			<!-- <input type="text" style="width:70%;"  class="form-control" id="qt_yd"> -->
+			                            		</td>
 			                            		<td>分包金额</td>
 			                            		<td>
 			                            			<input type="text" style="width:70%;"  class="form-control" id="fb_je" disabled>
@@ -1218,19 +1225,19 @@
             	var accessory=json.accessory;
             	for(var i=0;i<accessory.length;i++){
             		if(accessory[i].aType=='资质证书'){
-            			$("#look_zz_zs_file").append("<input type='text' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
+            			$("#look_zz_zs_file").append("<input type='text' class='form-control' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
             			$("#button1").show();
             		}
 					if(accessory[i].aType=='安全生产许可证有效期'){
-						$("#look_aq_zs_file").append("<input type='text' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
+						$("#look_aq_zs_file").append("<input type='text' class='form-control' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
             			$("#button2").show();    			
 					}
 					if(accessory[i].aType=='开户许可证'){
-						$("#look_kh_zs_file").append("<input type='text' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
+						$("#look_kh_zs_file").append("<input type='text' class='form-control' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
             			$("#button3").show();   
 					}
 					if(accessory[i].aType=='分包内容'){
-						$("#look_fb_info_file").append("<input type='text' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
+						$("#look_fb_info_file").append("<input type='text' class='form-control' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
             			$("#button4").show();   
 					}
             	}
@@ -1264,11 +1271,30 @@
 	
 	
 	function downloadFile(obj){
-		var url=$(obj).attr("data1");
-		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var url=$(obj).parents("tr").find("input").eq(0).attr("data");
+		var name=$(obj).parents("tr").find("input").eq(0).val();
 		
 		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
 	}
-
+	
+	var stateArray=[];
+	function lookContract(obj){
+		var tr=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(tr).data();
+		var fb=data.fb;
+		var id=data.lyId;
+		console.log(fb)
+		
+		if(stateArray.indexOf(id)>=0){
+			stateArray.splice($.inArray(id,stateArray),1);// $.inArray(data.idFirst,stateArray)获取idFirst在数组中的索引值 ；stateArray.splice(索引值，数量)删除数组中指定索引值的元素
+			$(".inTr"+id).remove();
+		}else{
+			stateArray.push(id);
+			for(var i=0;i<fb.length;i++){
+				$(tr).after("<tr class='inTr"+id+"'><td style='width:100px;color:green;' class='details-control'>"+(i+1)+"</td><td style='color:green;' colspan='2' >分包合同名称：    <a onclick='tiaozhuan(this)' data-id='"+fb[i].fbId+"' style='color:green;'>"+fb[i].contractName+"</a></td><td colspan='2' style='color:green;'>合同编号："+fb[i].fbNo+"</td><td colspan='2' style='color:green;'>乙方："+fb[i].ccName+"</td><td colspan='3' style='color:green;'>合同金额：    "+fb[i].contractMoney+"</td></tr>")
+			}
+		}
+	}
+	
 </script>
 </html>

@@ -45,6 +45,11 @@ public class LianYingController {
 	@RequestMapping("/addLianYing")
 	@ResponseBody
 	public String addLianYing(LianYing ly,@RequestParam("file") MultipartFile file,@RequestParam("file2") MultipartFile file2,@RequestParam("file3") MultipartFile file3,@RequestParam("file4") MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
+		User user = (User) session.getAttribute("user");
+		if(user==null){
+			return "";
+		}
+		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		ly.setLyId(id);
@@ -108,13 +113,13 @@ public class LianYingController {
 			accessory.setaType("分包内容");
 			list.add(accessory);
 		}
+		ly.setAccessory(list);
 		int i=service.addLianYing(ly);
 		String string = i+"";
 		if(i>0){
 			Task t=taskService.selectIdByNo2(ly.getPrjNo());
 			OrganizationManagement om=oService.selectOrgById(t.getMainDepartment());
 			String omNo=om.getOmNo();
-			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
