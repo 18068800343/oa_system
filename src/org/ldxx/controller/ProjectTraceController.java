@@ -82,6 +82,8 @@ public class ProjectTraceController {
 			prjType="信息化项目";
 		}else if(type.equals("QT 其他")){
 			prjType="信息化项目";
+		}else if(type.equals("KY 科研")){
+			prjType="信息化项目";
 		}
 		ProjectScale ps=pService.selectProjectScale(prjType, (trace.getPredictPrjScale())/10000);
 		String scale=ps.getPrjScale();
