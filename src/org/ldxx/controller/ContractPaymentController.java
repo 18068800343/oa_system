@@ -16,7 +16,9 @@ import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.Pay;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.dao.TaskDao;
 import org.ldxx.service.ContractPaymentService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.SubContractService;
@@ -45,7 +47,8 @@ public class ContractPaymentController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private SubContractService sService;
-	
+	@Autowired
+	private TaskDao taskDao;
 	@RequestMapping("/selectPayByStatus")
 	@ResponseBody
 	public List<Pay> selectPayByStatus(String status){
@@ -251,7 +254,9 @@ public class ContractPaymentController {
 		String string = i+"";
 		if(i>0){
 			CjContract cj=sService.getCjContractMainPrjLeaderByFbNo(pay.getContractNo());
-			OrganizationManagement om=oService.selectOrgById(cj.getMainDepartment());
+			String prjCode = pay.getPrjListCode();
+			Task task = taskDao.selectIdByNo2(prjCode);
+			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
