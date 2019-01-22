@@ -38,7 +38,7 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 	public int deleteAnnouncement(String id) {
 		int i=adao.deleteAnnouncement(id);
 		if(i>0){
-			i=dao.deleteAccessory(id);
+			dao.deleteAccessory(id);
 		}
 		return i;
 	}
