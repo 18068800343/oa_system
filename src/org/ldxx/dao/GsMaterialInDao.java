@@ -47,5 +47,9 @@ public interface GsMaterialInDao {
 
 	List<CompanyMateriaIn> selectBygetDepartment(@Param("getDepartment")String getDepartment);
 
+	List<CompanyMateriaIn> selectAlreadySure(@Param("getstate")String getstate);
+
+	List<CompanyMateriaIn> selectGsRemainOut(@Param("outState")String outState,@Param("getStatus") String getStatus,@Param("remainType") String remainType);
+
 
 }

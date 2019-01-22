@@ -29,7 +29,7 @@
 		left join sourcing_purchasing as b on a.cl_prj_supplier=b.sp_id
   		left join sourcing_purchasing as c on a.cl_gs_supplier=c.sp_id
 		LEFT JOIN company_material_in d on a.gs_in_id=d.cm_id
-		where gs_in_id in(SELECT cm_id from  company_material_in WHERE task_no=#{no} and out_state=1 and get_status=1) and cl_remain!=0
+		where gs_in_id in(SELECT cm_id from  company_material_in WHERE task_no=#{no} and out_state=1 and get_status=1 OR out_state=3) and cl_remain!=0
 	</select>
 	
 	<update id="updateRemain">
@@ -51,7 +51,10 @@
 	</update>
 	
 	<select id="selectByGsInId" resultType="CompanyMaterialInCl">
-		select * from company_material_in_cl where gs_in_id=#{gsinId}
+		select a.*,b.sp_name as clspNamexm,c.sp_name as clspNamegs from company_material_in_cl a 
+		left join sourcing_purchasing as b on a.cl_prj_supplier=b.sp_id
+  		left join sourcing_purchasing as c on a.cl_gs_supplier=c.sp_id
+  		where gs_in_id=#{gsinId}
 	</select>
 	
 </mapper>

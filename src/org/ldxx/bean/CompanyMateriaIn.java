@@ -19,7 +19,7 @@ public class CompanyMateriaIn {
 	private String cmDesc;				//备注
 	private String acceptanceOpinion;	//验收及处理意见
 	private String freight;				//运费
-	private String outState;			//出库状态；0:未出库;1：公司出库;2:项目出库;3::结余转出=>到项目入库上
+	private String outState;			//出库状态；0:未出库;1：公司出库;2:项目出库;3:结余转出=>到项目入库上
 	private String getPerson;//项目材料收货人
 	private String getDepartment;//项目收货部门
 	private String getInfos;//项目验收及意见

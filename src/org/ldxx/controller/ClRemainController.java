@@ -143,8 +143,8 @@ public class ClRemainController {
 	
 	@RequestMapping("/selectGsClOutById")
 	@ResponseBody
-	public List<GsClOut> selectGsClOutById(String id){
-		List<GsClOut> list=service.selectGsClOutById(id);
+	public List<ClRemain> selectGsClOutById(String id){
+		List<ClRemain> list=service.selectGsClOutById(id);
 		return list;
 	}
 	
@@ -165,7 +165,7 @@ public class ClRemainController {
 		return i;
 	}
 	
-	@RequestMapping("/selectClRemainById")//根据gs_out_id查找结余材料信息
+	@RequestMapping("/selectClRemainById")//根据gs_out_id查找结余材料剩余数量不为0信息
 	@ResponseBody
 	public List<ClRemain> selectClRemainById(String id){
 		List<ClRemain> list=service.selectClRemainById(id);

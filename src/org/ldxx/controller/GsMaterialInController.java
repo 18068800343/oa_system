@@ -272,13 +272,19 @@ public class GsMaterialInController {
 		return gmService.selectGsMateriaOutForEnd(no);
 	}
 	
-	@RequestMapping("/selectGsMateriaOutForEnd2")//通过任务单号和remainType!=0和outstate!=3获取项目材料已收货的所有项目(公司材料结余未转出的)
+	@RequestMapping("/selectGsMateriaOutForEnd2")//通过任务单号和remainType!=0获取项目材料已收货的所有项目(公司材料结余已结余的)
 	@ResponseBody
 	public List<CompanyMateriaIn> selectGsMateriaOutForEnd2(String taskno){
 		String no="%"+taskno+"%";
 		return gmService.selectGsMateriaOutForEnd2(no);
 	}
 	
+	
+	@RequestMapping("/selectGsRemainOut")//通过outState和getStatus和remainType三种状态查询信息(公司材料结余可转出的)
+	@ResponseBody
+	public List<CompanyMateriaIn> selectGsRemainOut(String outState,String getStatus,String remainType){
+		return gmService.selectGsRemainOut(outState,getStatus,remainType);
+	}
 	
 	@RequestMapping("/updateremainType")//公司结余确认
 	@ResponseBody
@@ -329,6 +335,12 @@ public class GsMaterialInController {
 	public List<CompanyMateriaIn> selectBygetDepartment(String getDepartment){
 		getDepartment="%"+getDepartment+"%";
 		return gmService.selectBygetDepartment(getDepartment);
+	}
+	
+	@RequestMapping("/selectAlreadySure")//项目材料入库的已确认收货
+	@ResponseBody
+	public List<CompanyMateriaIn> selectAlreadySure(String getstate){
+		return gmService.selectAlreadySure(getstate);
 	}
 	
 }
