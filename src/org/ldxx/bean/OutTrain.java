@@ -33,11 +33,20 @@ public class OutTrain {
     
     private String inUsers;//参加人员（多个）
     private String trainingType;//类型
+    private String director;//负责人
 
     private List<Accessory> accessory;
     
     
     
+	public String getDirector() {
+		return director;
+	}
+
+	public void setDirector(String director) {
+		this.director = director;
+	}
+
 	public String getTrainingType() {
 		return trainingType;
 	}

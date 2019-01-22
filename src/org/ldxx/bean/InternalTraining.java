@@ -31,8 +31,18 @@ public class InternalTraining {
     
     private String trainingInUser;//参加人员
     private String trainingType;//类型
+    private String director;//负责人
     
     
+    
+	public String getDirector() {
+		return director;
+	}
+
+	public void setDirector(String director) {
+		this.director = director;
+	}
+
 	public String getTrainingType() {
 		return trainingType;
 	}

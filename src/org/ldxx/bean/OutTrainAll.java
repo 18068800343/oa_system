@@ -29,10 +29,19 @@ public class OutTrainAll {
     
     private String omName;
     private String trainingType;//类型
+    private String director;//负责人
     private List<Accessory> accessory;
     
     
-    public String getTrainingType() {
+    public String getDirector() {
+		return director;
+	}
+
+	public void setDirector(String director) {
+		this.director = director;
+	}
+
+	public String getTrainingType() {
 		return trainingType;
 	}
 
