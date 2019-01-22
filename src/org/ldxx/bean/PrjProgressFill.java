@@ -30,6 +30,7 @@ public class PrjProgressFill {
 	private float prjThisIncomeYuan;
 	private int status;
 	private String infos;
+	private String ygDesign;//预工可设计
 	private String fristDesign;//初步设计
 	private String secondDesign;//施工图设计
 	
@@ -45,6 +46,12 @@ public class PrjProgressFill {
 	private List<Accessory> accessory;
 	
 	
+	public String getYgDesign() {
+		return ygDesign;
+	}
+	public void setYgDesign(String ygDesign) {
+		this.ygDesign = ygDesign;
+	}
 	public String getPrjMode() {
 		return prjMode;
 	}
