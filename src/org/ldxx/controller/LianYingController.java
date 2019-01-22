@@ -16,6 +16,7 @@ import org.ldxx.bean.LianYing;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.service.AccessoryService;
 import org.ldxx.service.LianYingService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.TaskService;
@@ -38,10 +39,12 @@ public class LianYingController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private TaskService taskService;
+	@Autowired
+	private AccessoryService aService;
 	
 	@RequestMapping("/addLianYing")
 	@ResponseBody
-	public String addLianYing(LianYing ly,@RequestParam MultipartFile file,@RequestParam MultipartFile file2,@RequestParam MultipartFile file3,@RequestParam MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
+	public String addLianYing(LianYing ly,@RequestParam("file") MultipartFile file,@RequestParam("file2") MultipartFile file2,@RequestParam("file3") MultipartFile file3,@RequestParam("file4") MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		ly.setLyId(id);
@@ -156,6 +159,8 @@ public class LianYingController {
 	@ResponseBody
 	public LianYing selectLianYingById(String id){
 		LianYing ly=service.selectLianYingById(id);
+		List<Accessory> accessory=aService.selectAccessoryById(id);
+		ly.setAccessory(accessory);
 		return ly;
 	}
 	
