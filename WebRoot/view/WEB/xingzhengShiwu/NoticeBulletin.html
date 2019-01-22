@@ -779,6 +779,11 @@
     					$(".Pbaa").hide();
     				}
     				
+    				if(json.userRole.indexOf("r52.")>=0){
+    					$(".Pbag").show();
+    				}else{
+    					$(".Pbag").hide();
+    				}
     				
     			}else{
     				
@@ -813,7 +818,7 @@
 										    "targets": 4,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test Pbab" style="font-size:18px;cursor:pointer;display:none;" onclick="lookAll(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai Pbac" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="updateAll(this)"></i>';
+										    	return '<i class="iconfont icon-icon-test Pbab" style="font-size:18px;cursor:pointer;display:none;" onclick="lookAll(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai Pbac" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="updateAll(this)"></i><i class="iconfont icon-shanchu Pbag" style="font-size: 18px; cursor: pointer; margin-left: 10px;" title="删除" data-id="'+full.aId+'" onclick="delGongsi(this)"></i>';
 										        }
 										  },{	
 												 "class": "tcenter",
@@ -954,7 +959,7 @@
 										    "targets": 4,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test Pbae" style="font-size:18px;cursor:pointer;display:none;" onclick="lookThis(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai Pbaf" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="updateThis(this)"></i>';
+										    	return '<i class="iconfont icon-icon-test Pbae" style="font-size:18px;cursor:pointer;display:none;" onclick="lookThis(this)" title="查看"></i> &nbsp <i class="iconfont icon-xiugai Pbaf" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="updateThis(this)"></i><i class="iconfont icon-shanchu Pbag" style="font-size: 18px; cursor: pointer; margin-left: 10px;" data-id="'+full.aId+'" title="删除" onclick="delBumen(this)"></i>';
 										        }
 										  },{	
 												 "class": "tcenter",
@@ -2499,5 +2504,59 @@
             return false;
         }
     })
+   function delGongsi(obj){
+    	if(confirm("确定删除吗？")){
+    		$.ajax({
+    			type: 'POST',
+                url: getContextPath()+'/announcement/deleteAnnouncement',
+                dataType: 'json',
+                data: {
+                	id:$(obj).attr("data-id")
+                },
+                success: function (json) {
+                	if(json==0){
+                		toastr.error("删除公司通知公告失败");
+                	}else{
+                		$(obj).parents("tr").remove();
+                		toastr.success("删除成功");
+                	}
+                }
+    		});
+            return true;
+        }
+        else{
+            return false;
+        }
+    	
+    }
+    
+     function delBumen(obj){
+    	if(confirm("确定删除吗？")){
+    		$.ajax({
+    			type: 'POST',
+                url: getContextPath()+'/announcement/deleteAnnouncement',
+                dataType: 'json',
+                data: {
+                	id:$(obj).attr("data-id")
+                },
+                success: function (json) {
+                	if(json==0){
+                		toastr.error("删除公司通知公告失败");
+                	}else{
+                		$(obj).parents("tr").remove();
+                		toastr.success("删除成功");
+                	}
+                }
+    		});
+            return true;
+        }
+        else{
+            return false;
+        }
+    	
+    }
+     
+     
+     
 </script>
 </html>
