@@ -28,4 +28,5 @@ public interface KpApplicationDao {
 	public KpApplication getKpApplicationBykpNo(@Param("kpno")String kpno);
 	
 	public KpApplication getKpApplicationBykpId(@Param("id")String id);
+
 }

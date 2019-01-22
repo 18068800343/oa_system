@@ -193,4 +193,11 @@ public class KpApplicationController {
 		KpApplication list=service.getKpApplicationBykpNo(kpno);
 		return list;
 	}
+	
+	@RequestMapping("/getKpApplicationById")//通过id获取信息
+	@ResponseBody
+	public KpApplication getKpApplicationById(String id){
+		KpApplication list=service.getKpApplicationById(id);
+		return list;
+	}
 }
