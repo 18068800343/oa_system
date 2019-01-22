@@ -91,18 +91,20 @@
                             <tr>
                                 <td style="width:15%;">分项主任工程师</td>
                                 <td style="width:35%;">
-                                    <input type="text" id="divisionEngineer" style="width:60%;" class="form-control">
+                                    <input type="text" id="divisionEngineer" style="width:60%;" class="form-control" disabled>
+                                    <button type="button" class="btn btn-default" onclick="choosePerson(1)">选择</button>
                                 </td>
                                 <td style="width:15%;">(副)总工程师</td>
                                 <td style="width:35%;">
-                                    <input type="text" id="headEngineer" style="width:60%;" class="form-control">
+                                    <input type="text" id="headEngineer" style="width:60%;" class="form-control" disabled>
+                                    <button type="button" class="btn btn-default"  onclick="choosePerson(2)">选择</button>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:15%;">申请人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
                                 	<input type="text" id="userSignetMan" data2="" style="width:60%;" class="form-control" disabled>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择申请人</button>
+                                    <button type="button" class="btn btn-default" onclick="choosePerson(3)">选择</button>
                                 </td>
                                 <td style="width:15%;">印章类型</td>
                                 <td style="width:35%;">
@@ -376,17 +378,19 @@
                                 <td style="width:15%;">分项主任工程师</td>
                                 <td style="width:35%;">
                                     <input type="text" id="xgdivisionEngineer" style="width:60%;" class="form-control">
+                                    <button type="button" class="btn btn-default"  onclick="xgchoosePerson(1)">选择</button>
                                 </td>
                                 <td style="width:15%;">(副)总工程师</td>
                                 <td style="width:35%;">
                                     <input type="text" id="xgheadEngineer" style="width:60%;" class="form-control">
+                                    <button type="button" class="btn btn-default"  onclick="xgchoosePerson(2)">选择</button>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:15%;">申请人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
                                     <input type="text" id="xguserSignetMan" data2="" style="width:60%;" class="form-control" disabled>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren">选择申请人</button>
+                                    <button type="button" class="btn btn-default"  onclick="xgchoosePerson(3)">选择</button>
                                 </td>
                                 <td style="width:15%;">印章类型</td>
                                 <td style="width:35%;">
@@ -1122,13 +1126,27 @@
 			}
 		})
 	})
+	
+	var add_type=0;
+    function choosePerson(obj){
+    	add_type=obj;
+    	$("#addGuanliren").modal("show");
+    }
+    
 	//保存添加用印管理人
 	function saveGuanliren(){
 		var tr=$("input[name='mingzi']:checked").parents("tr");
 		var data=$("#bmmingzibiao").DataTable().row(tr).data();
-		//console.log(data)
-		$("#userSignetMan").val(data.uName);
-		$("#userSignetMan").attr("data2",data.userId);
+		if(add_type=='1'){
+			$("#divisionEngineer").val(data.uName);
+			$("#divisionEngineer").attr("data2",data.userId);
+		}else if(add_type=='2'){
+			$("#headEngineer").val(data.uName);
+			$("#headEngineer").attr("data2",data.userId);
+		}else if(add_type=='3'){
+			$("#userSignetMan").val(data.uName);
+			$("#userSignetMan").attr("data2",data.userId);
+		}
 		$("#addGuanliren").modal("hide");
 	}
 	//保存添加项目负责人
@@ -1141,13 +1159,25 @@
 		$("#addGuanliren3").modal("hide");
 	}
 	
+	var xg_add_type=0;
+    function xgchoosePerson(obj){
+    	xg_add_type=obj;
+    	$("#xgaddGuanliren").modal("show");
+    }
 	//保存修改用印管理人
 	function savexgGuanliren(){
 		var tr=$("input[name='xgmingzi']:checked").parents("tr");
 		var data=$("#xgbmmingzibiao").DataTable().row(tr).data();
-		//console.log(data)
-		$("#xguserSignetMan").val(data.uName);
-		$("#xguserSignetMan").attr("data2",data.userId);
+		if(xg_add_type=='1'){
+			$("#xgdivisionEngineer").val(data.uName);
+			$("#xgdivisionEngineer").attr("data2",data.userId);
+		}else if(xg_add_type=='2'){
+			$("#xgheadEngineer").val(data.uName);
+			$("#xgheadEngineer").attr("data2",data.userId);
+		}else if(xg_add_type=='3'){
+			$("#xguserSignetMan").val(data.uName);
+			$("#xguserSignetMan").attr("data2",data.userId);
+		}
 		$("#xgaddGuanliren").modal("hide");
 	}
 	//保存修改项目负责人
@@ -1700,7 +1730,7 @@
             return false;
         }
     })
-
+    
     function gotoPrj(obj){
     	dom=$(obj).parents("tr");
 		var data=$('#mainContent').DataTable().row(dom).data();
