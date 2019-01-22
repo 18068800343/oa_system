@@ -776,6 +776,12 @@ public class TaskController {
 		}
 		return task;
 	}
+	@RequestMapping("/selectTaskTongjiByStatusAndDepart")
+	@ResponseBody
+	public List<Task> selectTaskTongjiByStatusAndDepart(String departMentId,String status){
+		List<Task> task =taskDao.selectTaskTongjiByStatusAndDepart(departMentId, status);
+		return task;
+	}
 	
 	@RequestMapping("/selectTaskByStatus2")
 	@ResponseBody

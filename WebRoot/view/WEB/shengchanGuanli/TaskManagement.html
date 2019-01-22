@@ -741,10 +741,8 @@
                                     <th>项目类型</th>
                                     <th>甲方单位</th>
                                     <th>任务金额(元)</th>
-                                    <th>合同金额(元)</th>
-                                    <th>合同信息</th>
+                                    <th>所选部门金额</th>
                                     <th>项目开始时间</th>
-                                    <th>主办部门</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1213,6 +1211,7 @@
          $("#diwu a").show();
          $("#home").removeClass("active");
          $("#jinetj").addClass("active");
+         $("#bumenshaixuan").trigger("change");
      })
     $("#zenjia").click(function(){
         $("#diyi").removeClass("active");
@@ -1462,25 +1461,18 @@
 		            { "data": "prjType2"}, 
 		            { "data": "ccName"}, 
 		            { "data": "prjEstimateMoney"}, 
-		            { "data": "contractMoney"}, 
-		            { "data": "cj"}, 
+		            { "data": "tongjiMoney"}, 
 		            { "data": "prjStartTime"}, 
-		            { "data": "omName"}, 
 		        ],
 		        "columnDefs": [
 								{	
 										 "class": "tcenter",
-									     "targets": 8,
+									     "targets": 7,
 									     "searchable": true,
 									     "render": function(data, type, full) {
-									    	 if(data.length==0){
-									    		 return '<button type="button" class="btn btn-danger">无</button>';
-									    	 }else{
-									    		 return '<button type="button" class="btn btn-success" onclick="lookContract(this)">有</button>';
-									    	 }
+									    	 return "<b>"+data+"</b>";
 							            }
-						        },
-								],
+						        }],
         "order": [[1, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
@@ -1612,10 +1604,11 @@
 	function initTabletjje(){
 		$.ajax({
             type: 'POST',
-            url: getContextPath()+'/task/selectTaskByStatus',
+            url: getContextPath()+'/task/selectTaskTongjiByStatusAndDepart',
             dataType: 'json',
             data: {
-            	status:2,
+            	departMentId:$("#bumenshaixuan").val(),
+            	status:2
             },
             success: function (json) {
                 $('#mainContenttjje').dataTable().fnClearTable();
@@ -1623,7 +1616,9 @@
             }
         });
     }
-
+	$("#bumenshaixuan").on("change",function(){
+		initTabletjje();
+	})
   //初始化提交部门
 	function initbumen(){
 		$.ajax({

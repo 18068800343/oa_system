@@ -162,6 +162,21 @@
 				LEFT JOIN user as u on a.main_prj_leader=u.user_id 
 				where b.status=#{status} and a.history=1		
 	</select>
+	<select id="selectTaskTongjiByStatusAndDepart"  resultType="task">
+		select a.*,case when a.main_department=#{departMentId} then main_department_money
+		       when a.assist_department1=#{departMentId} then assist_department1_money
+		       when a.assist_department2=#{departMentId} then assist_department2_money
+		       when a.assist_department3=#{departMentId} then assist_department3_money
+		       else 0
+		       end as tongjiMoney,c.om_name,d.cc_name,u.u_name as mainPrjLeaderName from task a left join mode_status b on a.prj_id=b.mode_id 
+						left join organization_management c on a.main_department=c.om_id
+						LEFT JOIN consociation_company as d on a.prj_owner_unit=d.cc_id
+						LEFT JOIN user as u on a.main_prj_leader=u.user_id 
+						where (a.main_department = #{departMentId}
+		OR a.assist_department1 = #{departMentId}
+		OR a.assist_department2 = #{departMentId}
+		OR a.assist_department3 = #{departMentId})  and a.history=1 and b.status=#{status}	
+	</select>
 	
 	<select id="selectTaskById" resultType="task"> 
       select case  

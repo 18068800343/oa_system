@@ -116,6 +116,16 @@ public class Task {
     
     private List<Task> taskChildren;
     
+    private String tongjiMoney;
+    
+	public String getTongjiMoney() {
+		return tongjiMoney;
+	}
+
+	public void setTongjiMoney(String tongjiMoney) {
+		this.tongjiMoney = tongjiMoney;
+	}
+
 	public List<Task> getTaskChildren() {
 		return taskChildren;
 	}

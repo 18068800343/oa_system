@@ -17,6 +17,8 @@ public interface TaskDao {
 	
 	public List<Task> selectTaskByStatus2(@Param("status") String status);
 	
+	public List<Task> selectTaskTongjiByStatusAndDepart(@Param("departMentId") String departMentId,@Param("status")String status);
+	
 	public Task selectTaskById(@Param("id")String id);
 
 	public List<Task> selectIdAndNameByStatus(@Param("status") String status);
