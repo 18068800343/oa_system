@@ -91,7 +91,11 @@
 		                            <tr>
 		                                <td style="width:15%;">项目类型</td>
 		                                <td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="prjType" disabled></td>
-		                                <td style="width:15%;">项目规模  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+		                                <td>承办部门</td>
+		                                <td><input type="text" class="form-control" style="width:60%;" id="cb_dept" disabled></td>
+		                            </tr>
+		                            <tr>
+		                            	<td style="width:15%;">项目规模  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 		                                <td style="width:35%;">
 		                                	<select class="form-control" style="width:60%;" id="prjScale">
 		                                		<option>大型项目</option>
@@ -99,6 +103,8 @@
 		                                		<option>小型项目</option>
 		                                	</select>
 		                                </td>
+		                                <td></td>
+		                                <td></td>
 		                            </tr>
 		                            <tr>
 		                            	<td>项目概况</td>
@@ -419,8 +425,14 @@
                             <tr>
                                 <td>项目类型</td>
                                 <td id="lookprjType"></td>
-                                <td>项目规模</td>
+                                <td>承办部门</td>
+                            	<td id="look_cb_dept"></td>
+                            </tr>
+                            <tr>
+                            	<td>项目规模</td>
                                 <td id="lookprjScale"></td>
+                            	<td></td>
+                            	<td></td>
                             </tr>
                             <tr>
                             	<td>项目概况</td>
@@ -850,7 +862,7 @@
 		$("#xiangmumd").modal("show");
 		$.ajax({
 			type:'post',
-			url:getContextPath()+'/BidApproval/selectprjNameAndNo',
+			url:getContextPath()+'/BidApproval/selectBidApproval',
 			dataType:'json',
 			async:false,
 			data:{
@@ -878,12 +890,12 @@
                 $('body').addClass('modal-open')
             }
         })
-		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
-		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
-		var prjtype=$("input[name='xiangmuName']:checked").parent().next().next().next().text();
-		$("#prjName").val(prjname);
-		$("#prjNo").val(prjNo);
-		$("#prjType").val(prjtype);
+        var tr=$("input[name='xiangmuName']:checked").parents("tr");
+		var data=$("#xiangmubiao").DataTable().row(tr).data();
+		$("#prjName").val(data.prjName);
+		$("#prjNo").val(data.prjNo);
+		$("#prjType").val(data.prjType);
+		$("#cb_dept").val(data.omName);
 		$("#xiangmumd").modal("hide");
 	})
 	$("#xgchosexm").click(function(){
@@ -1611,6 +1623,7 @@
 		 $("#lookprjNo").text(data.prjNo);
 		 $("#lookprjScale").text(data.prjScale);
 		 $("#lookprjType").text(data.prjType);
+		 $("#look_cb_dept").text(data.omName);
 		 $("#look_prj_info").text(data.prjInfo)
 		 $("#lookjiapinggu").text(data.pecificAssessment);
 		 $("#lookxianjin").text(data.flows);

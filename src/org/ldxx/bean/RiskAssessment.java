@@ -11,6 +11,8 @@ public class RiskAssessment {
     
     private String prjType;
     
+    private String cbDept;
+    
     private String prjInfo;
 
     private String pecificAssessment;
@@ -50,6 +52,14 @@ public class RiskAssessment {
     private String step6;
     
     
+	public String getCbDept() {
+		return cbDept;
+	}
+
+	public void setCbDept(String cbDept) {
+		this.cbDept = cbDept;
+	}
+
 	public String getStep2() {
 		return step2;
 	}
