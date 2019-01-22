@@ -320,6 +320,40 @@
 
         </div>
         <div class="LowerPart" style="margin-top:3px;">
+        	
+        	<div class="chaojisousuo" style="margin-bottom:12px;">
+                    		<div class="sousuoClick" style="display:flex;justify-content: space-between;margin-bottom:12px;">
+                    				<div></div>
+                    				<div>
+                   						<button type="button" class="btn btn-info" onclick="seachAll()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>搜索</button>
+                    					<button type="button" class="btn btn-primary" style="width:100px;" id="zhedieBtn"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
+                    				</div>
+                    		</div>
+                    		<div class="sousuoInput" id="sousuodiv">
+                    			<div id="sousuoTable"  style="border:1px solid #eee;padding:5px;">
+                    			
+                    				<div class="yihang2">
+                    					<div style="width:50%;">
+                    							<form class="form-inline">
+														  <div class="form-group" style="display:flex;align-items:center;">
+														    	<label for="exampleInput">合同名称:&nbsp;</label>
+														    	<select class="form-control" id="seach_prjName"  style="width:64%;"></select>
+														  </div>
+													</form>
+                    					</div>
+                    					<div style="width:50%;">
+                    							<form class="form-inline">
+														  <div class="form-group" style="display:flex;align-items:center;">
+														        <label for="exampleInput">主办部门:&nbsp;</label>
+														    	<select class="form-control" id="seach_mainDepartment"  style="width:64%;"></select>
+														  </div>
+													</form>
+                    					</div>
+                    				</div>
+                    			</div>
+                    		</div>
+                    	</div>
+        	
             <table class="table table-bordered table-condensed" id="mainContentx">
                 <thead>
                     <tr>
@@ -535,7 +569,7 @@
 <script src="../../js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../js/datatables/dataTables.colVis.min.js"></script>
 <script src="../../js/datatables/dataTables.tableTools.min.js"></script>
-<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<!-- <script src="../../js/datatables/dataTables.bootstrap.min.js"></script> -->
 <script src="../../js/datatables/datatables.responsive.min.js"></script>
 <script src="../../js/datatables/dataTables.buttons.min.js" ></script>
 <script src="../../js/datatables/buttons.html5.min.js" ></script>
@@ -547,8 +581,24 @@
             elem: '#year' //指定元素
         });
     	$("#status").trigger("change");
-    	initTable();
+    	//initTable();
+    	seachAll();
+    	initbumen();
+    	initSelectXM();
+    	$("#sousuodiv").hide();//超级搜索折叠div
 	});
+    //超级搜索折叠div
+    var zhediepanduan=true;
+    $("#zhedieBtn").click(function(){
+    	if(zhediepanduan==true){
+    		$("#sousuodiv").show(300);
+    		zhediepanduan=false;
+    	}else{
+    		$("#sousuodiv").hide(300);
+    		zhediepanduan=true;
+    	}
+    })
+    
     $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
     var table=$('#mainContentx').DataTable({
         "deferRender": true,
@@ -588,7 +638,12 @@
 										    "targets": 0,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<span class="label label-success state">正常确认</span>';
+										    	//return '<span class="label label-success state">正常确认</span>';
+										    	if(full.status=='2'){
+										    		return '<span class="label label-success state">正常确认</span>';
+										    	}else if(full.status=='1'){
+										    		return '<span class="label label-info state">部分确认</span>';
+										    	}
 										        }
 										  },
 										  {	
@@ -739,7 +794,7 @@
         }},
         
 	});
-    function initTable(){
+   /*  function initTable(){
     	$.ajax({
             type: 'POST',
             url:getContextPath()+"/AlreadySk/selectAlreadyRenling",
@@ -751,9 +806,73 @@
                 $('#mainContentx').DataTable().rows.add(json).draw(false);
             }
         });
-    }
+    } */
+    
+    function seachAll(){
+		/* $(".zhuangtai").trigger("change"); */
+    	var seachPrjName=$("#seach_prjName").val();
+        var seachMainDepartment=$("#seach_mainDepartment").find("option:selected").text();
+        if(seachMainDepartment=="全部"){
+        	seachMainDepartment="%";
+        }
+        //initTable();
+    	$.ajax({
+            type: 'POST',
+            url:getContextPath()+"/AlreadySk/selectAlreadyRenling",
+            dataType: 'json',
+            data: {
+            	seachPrjName:seachPrjName,
+            	seachMainDepartment:seachMainDepartment,
+            },
+            success: function (json) {
+            	console.log(json)
+                $('#mainContentx').dataTable().fnClearTable();
+                $('#mainContentx').DataTable().rows.add(json).draw(false);
+            }
+        }) 
+	}
     
     
+  //初始化提交部门
+	function initbumen(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/selectProductionDepartment',
+            dataType: 'json',
+            data: {
+            	
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	$("#seach_mainDepartment").append("<option value='%'>全部</option>")
+                for(var i=0;i<json.length;i++){
+                	$("#seach_mainDepartment").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                }
+            }
+		});
+	}
+    
+  
+	//初始化项目名和任务单号
+    function initSelectXM(){
+		$.ajax({
+        type: 'POST',
+        url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+        dataType: 'json',
+        data: {
+        },
+        success: function (json) {
+        	$("#seach_prjName").append("<option value='%'>全部</option>");
+        	for(var i=0;i<json.length;i++){
+        		$("#seach_prjName").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
+        		}
+        	}
+		});
+	}
+  
+  
     
     function tuihui(obj){
 		var tr=$(obj).parents("tr");
@@ -808,8 +927,8 @@
     		},
     		success:function(json3){
     			if(json3>0){
-    				//location.reload([true]);
-    				initTable();
+    				location.reload([true]);
+    				//initTable();
     			}
     		}
     	});

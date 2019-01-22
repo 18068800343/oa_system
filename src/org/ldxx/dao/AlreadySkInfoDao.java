@@ -17,7 +17,7 @@ public interface AlreadySkInfoDao {
 
 	AlreadyRenling getyirenlingfpMoneyByskno(@Param("skNo")String skNo);
 
-	List<AlreadyRenling> selectAlreadyRenling();
+	List<AlreadyRenling> selectAlreadyRenling(@Param("seachPrjName")String seachPrjName,@Param("seachMainDepartment") String seachMainDepartment);
 
 	List<AlreadyRenling> selectAlreadySkBySkno(@Param("skno")String skno);
 

@@ -50,8 +50,8 @@ public class AlreadySkInfoServiceImp implements AlreadySkInfoService {
 	}
 
 	@Override
-	public List<AlreadyRenling> selectAlreadyRenling() {
-		return dao.selectAlreadyRenling();
+	public List<AlreadyRenling> selectAlreadyRenling(String seachPrjName, String seachMainDepartment) {
+		return dao.selectAlreadyRenling(seachPrjName,seachMainDepartment);
 	}
 
 	@Override

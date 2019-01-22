@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -47,10 +48,10 @@ public class AlreadySkInfoController {
 		return i;
 	}
 	
-	@RequestMapping("/selectAlreadyRenling")//查status=2的已认领完的信息
+	@RequestMapping("/selectAlreadyRenling")//查status!=0的已认领的信息
 	@ResponseBody
-	public List<AlreadyRenling> selectAlreadyRenling(){
-		return service.selectAlreadyRenling();
+	public List<AlreadyRenling> selectAlreadyRenling(@RequestParam(defaultValue="%")String seachPrjName,@RequestParam(defaultValue="%")String seachMainDepartment){
+		return service.selectAlreadyRenling(seachPrjName,seachMainDepartment);
 	}
 	
 	@RequestMapping("/selectAlreadySkBySkno")
