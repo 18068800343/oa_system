@@ -1732,6 +1732,7 @@
 	//提交
 	function submitRemainOut(){
     	//材料信息
+    	var flag=true;
     	var gsclInArr= new Array();
     	$("#remain_out_table tbody").find("tr").each(function(){
     		var crId = $(this).find("td").eq(0).find("input").attr("data-id");;//材料id
@@ -1754,11 +1755,13 @@
 			var reg=/^\+?[1-9][0-9]*$/;
 	   	    if(!reg.test(lingNum)||lingNum==""||lingNum==0){
 	   			toastr.error("请输入数字且转出数量不能为0或空")
-	       		return false;
+	   			flag=false;
+	       		return;
 	   		}
 	        if(Number(lingNum)>Number(yushu)){
 	    	   toastr.error("转出数量不能超过结余数量")
-       			return false;
+	    	   flag=false;
+       		   return;
 	        }
 	        var gscl={
 					clId:undefined,
@@ -1801,78 +1804,78 @@
     	    //console.log(material)
     	})
     	
-    	if(gsclInArr.length!=0){
-    		var cgName=$("#out_cg_name").val();
-    		var cgNo=$("#out_cg_no").val();
-    		var prjName=$("#in_prj_name").val();
-    		var taskNo=$("#in_prj_no").val();
-    		var renyuan=$("#out_person").val();
-    		var year=$("#out_time").val();
-    		var yunfei=0;
-    		var beizhu=$("#out_desc").val();
-    		var yanshouyijian=$("#yanshouyijian").val();
-			if(prjName==''){
-				toastr.error("项目名称为空")
-				return;
-			}
-			if(year==''){
-				toastr.error("转出时间为空")
-				return;
-			}
-			var gsclIn={
-					cmId:undefined,            
-					cgNo:undefined,			
-					cgName:undefined,			
-					taskNo:undefined,			
-					demandProject:undefined,	
-					sentDate:undefined,		
-					collectPerson:undefined,	
-					cmDesc:undefined,			
-					acceptanceOpinion:undefined,
-					outState:0,	
-					freight:0,
-					gsInCl:undefined,
-			}
-			gsclIn.cmId=null;
-			gsclIn.cgNo=cgNo;				
-			gsclIn.cgName=cgName;				
-			gsclIn.taskNo=taskNo;				
-			gsclIn.demandProject=prjName;		
-			gsclIn.sentDate=year;			
-			gsclIn.collectPerson=renyuan;		
-			gsclIn.cmDesc=beizhu;				
-			gsclIn.acceptanceOpinion=yanshouyijian;	
-			gsclIn.outState=3;	
-			gsclIn.freight=yunfei;
-			gsclIn.gsInCl=gsclInArr;
-    		
-    		var formData = new FormData();
-	 		formData.append("gsclIn", JSON.stringify(gsclIn));
+   		var cgName=$("#out_cg_name").val();
+   		var cgNo=$("#out_cg_no").val();
+   		var prjName=$("#in_prj_name").val();
+   		var taskNo=$("#in_prj_no").val();
+   		var renyuan=$("#out_person").val();
+   		var year=$("#out_time").val();
+   		var yunfei=0;
+   		var beizhu=$("#out_desc").val();
+   		var yanshouyijian=$("#yanshouyijian").val();
+		if(prjName==''){
+			toastr.error("项目名称为空")
+			flag=false;
+			return;
+		}
+		if(year==''){
+			toastr.error("转出时间为空")
+			flag=false;
+			return;
+		}
+		var gsclIn={
+				cmId:undefined,            
+				cgNo:undefined,			
+				cgName:undefined,			
+				taskNo:undefined,			
+				demandProject:undefined,	
+				sentDate:undefined,		
+				collectPerson:undefined,	
+				cmDesc:undefined,			
+				acceptanceOpinion:undefined,
+				outState:0,	
+				freight:0,
+				gsInCl:undefined,
+		}
+		gsclIn.cmId=null;
+		gsclIn.cgNo=cgNo;				
+		gsclIn.cgName=cgName;				
+		gsclIn.taskNo=taskNo;				
+		gsclIn.demandProject=prjName;		
+		gsclIn.sentDate=year;			
+		gsclIn.collectPerson=renyuan;		
+		gsclIn.cmDesc=beizhu;				
+		gsclIn.acceptanceOpinion=yanshouyijian;	
+		gsclIn.outState=3;	
+		gsclIn.freight=yunfei;
+		gsclIn.gsInCl=gsclInArr;
+   		
+   		var formData = new FormData();
+ 		formData.append("gsclIn", JSON.stringify(gsclIn));
 	 		
-	 		/* $("#new_accessory tbody").find("tr").each(function(){
-	 			formData.append("file", $(this).find(":file")[0].files[0]);
-	 		}) */ 
-    		
-			$.ajax({
-				type: 'POST',
-	            url: getContextPath()+'/gsMaterialIn/addGsMaterialInSubmit',
-	            data: formData,  
-	            processData: false,
-	            contentType: false,
-	            success: function (json) {
-	            	if(json.result>0){
-						$("#allMsg3").modal("hide")
-						toastr.success("结余转出成功")
-						//initTable();
-						
-					}else{
-						toastr.error("结余转出失败")
-					} 
-	            }
-			})  
-	    }/* else{
-	    	toastr.error("材料信息为空")
-	    } */
+ 		/* $("#new_accessory tbody").find("tr").each(function(){
+ 			formData.append("file", $(this).find(":file")[0].files[0]);
+ 		}) */ 
+   		if(flag==true){
+   			$.ajax({
+   				type: 'POST',
+   	            url: getContextPath()+'/gsMaterialIn/addGsMaterialInSubmit',
+   	            data: formData,  
+   	            processData: false,
+   	            contentType: false,
+   	            success: function (json) {
+   	            	if(json.result>0){
+   						$("#allMsg3").modal("hide")
+   						toastr.success("结余转出成功")
+   						//initTable();
+   						
+   					}else{
+   						toastr.error("结余转出失败")
+   					} 
+   	            }
+   			}) 
+   		}
+		
 	}
 	
 	function submitPerson(){

@@ -1529,66 +1529,67 @@
 	}
     
     function saveJy(){
+    	var flag=true;
     	var clInfoArray=new Array();
-
-    	try{
-    		$("#remain_out_table tbody").find("tr").each(function(){
-        		var clId=$(this).find("td").eq(0).attr("data-id");
-        		var clName=$(this).find("td").eq(0).text();
-        		var clType=$(this).find("td").eq(1).text();
-        		var modeType=$(this).find("td").eq(2).text();
-        		var unit=$(this).find("td").eq(3).text();
-        		var jy=$(this).find("td").eq(4).text();
-        		var price=$(this).find("td").eq(6).text();
-        		var outNum=$(this).find("input").eq(0).val();
-        		var reg=/^\+?[1-9][0-9]*$/;
-        		if(!reg.test(outNum)||outNum==0){
-        			toastr.error("请输入数字且不能为0")
-            		return false;
-        		}
-        		if(Number(outNum/1)>Number(jy/1)){
-            		toastr.error("结余数量不能超过库存数量")
-            		return false;
-            	}
-        		var remain=Number(jy)-Number(outNum);
-        		var or={
-        				id:undefined,
-        				remain:0
-        		}
-        		or.id=clId;
-        		or.remain=remain;
-        		
-        		var clInfo={
-        				crId:undefined,
-        				gsOutId:undefined,                                          
-        				materialName:undefined,
-        				materialType:undefined,
-        				specificationModel:undefined,
-        				cmoUnit:undefined,
-        				cmoNumber:0,
-        				remainNumber:0,
-        				cmoUnitPrice:0,
-        				cmoMoney:0,
-        				pickDate:undefined,
-        				outRemain:undefined,
-        				oldClId:undefined,
-        		}
-        		clInfo.gsOutId=jyId;
-        		clInfo.materialName=clName;
-        		clInfo.materialType=clType;
-        		clInfo.specificationModel=modeType;
-        		clInfo.cmoUnit=unit;
-        		clInfo.cmoNumber=outNum;
-        		clInfo.remainNumber=outNum;
-        		clInfo.cmoUnitPrice=price;
-        		clInfo.cmoMoney=Number(outNum)*Number(price);
-        		clInfo.pickDate=jyDate;
-        		clInfo.outRemain=or;
-        		clInfo.oldClId=clId;
-        		clInfoArray.push(clInfo);
-        	})
-        	console.log(clInfoArray)
-    		$.ajax({
+    	$("#remain_out_table tbody").find("tr").each(function(){
+       		var clId=$(this).find("td").eq(0).attr("data-id");
+       		var clName=$(this).find("td").eq(0).text();
+       		var clType=$(this).find("td").eq(1).text();
+       		var modeType=$(this).find("td").eq(2).text();
+       		var unit=$(this).find("td").eq(3).text();
+       		var jy=$(this).find("td").eq(4).text();
+       		var price=$(this).find("td").eq(6).text();
+       		var outNum=$(this).find("input").eq(0).val();
+       		var reg=/^\+?[1-9][0-9]*$/;
+       		if(!reg.test(outNum)||outNum==0){
+       			toastr.error("请输入数字且不能为0")
+       			flag=false;
+           		return;
+       		}
+       		if(outNum/1>jy/1){
+           		toastr.error("结余数量不能超过库存数量")
+           		flag=false;
+           		return;
+           	}
+       		var remain=Number(jy)-Number(outNum);
+       		var or={
+       				id:undefined,
+       				remain:0
+       		}
+       		or.id=clId;
+       		or.remain=remain;
+       		
+       		var clInfo={
+       				crId:undefined,
+       				gsOutId:undefined,                                          
+       				materialName:undefined,
+       				materialType:undefined,
+       				specificationModel:undefined,
+       				cmoUnit:undefined,
+       				cmoNumber:0,
+       				remainNumber:0,
+       				cmoUnitPrice:0,
+       				cmoMoney:0,
+       				pickDate:undefined,
+       				outRemain:undefined,
+       				oldClId:undefined,
+       		}
+       		clInfo.gsOutId=jyId;
+       		clInfo.materialName=clName;
+       		clInfo.materialType=clType;
+       		clInfo.specificationModel=modeType;
+       		clInfo.cmoUnit=unit;
+       		clInfo.cmoNumber=outNum;
+       		clInfo.remainNumber=outNum;
+       		clInfo.cmoUnitPrice=price;
+       		clInfo.cmoMoney=Number(outNum)*Number(price);
+       		clInfo.pickDate=jyDate;
+       		clInfo.outRemain=or;
+       		clInfo.oldClId=clId;
+       		clInfoArray.push(clInfo);
+       	})
+        if(flag==true){
+        	$.ajax({
                 type: 'POST',
                 url: getContextPath()+'/ClRemain/clRemainUse',
                 dataType: 'json',
@@ -1605,10 +1606,7 @@
                 	}
                 }
       		}); 
-    	}catch(e){
-    	    return false;
-    	}
-    	
+        }
     }
 
     function gotoPrj(obj){

@@ -728,6 +728,7 @@ Array.prototype.unique3 = function(){
     }
     
     function save(){
+    	var flag=true;
     	var outArray=new Array();
     	$("#cl_table tbody").find("tr").each(function(){
     		var id=$(this).find("td").eq(0).attr("data-id");
@@ -747,11 +748,13 @@ Array.prototype.unique3 = function(){
     		var reg=/^\+?[1-9][0-9]*$/; 
         	if(!reg.test(num)){
         		toastr.error("请输入数字")
-        		return false;
+        		flag=false;
+        		return;
         	}
         	if(lingNum/1>num/1){
         		toastr.error("领料数量不能超过库存数量")
-        		return false;
+        		flag=false;
+        		return;
         	}
     		var cInfo={
         			outId:undefined,
@@ -821,22 +824,25 @@ Array.prototype.unique3 = function(){
     	var formData = new FormData();
  		formData.append("clOut", JSON.stringify(clOut));
  		
-    	$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/clout/addClOutBySave',
-            data: formData,  
-            processData: false,
-            contentType: false,
-            success: function (json) {
-                if(json.result>0){
-                	$("#myModal").modal("hide");
-                	toastr.success("保存成功");
-                	$('#mainContent').DataTable().row.add(json.clOut).draw(false);//新增行立即显示
-                }else{
-                	toastr.error("保存失败");
-                }
-            }
-        }); 
+ 		if(flag==true){
+ 			$.ajax({
+ 	            type: 'POST',
+ 	            url: getContextPath()+'/clout/addClOutBySave',
+ 	            data: formData,  
+ 	            processData: false,
+ 	            contentType: false,
+ 	            success: function (json) {
+ 	                if(json.result>0){
+ 	                	$("#myModal").modal("hide");
+ 	                	toastr.success("保存成功");
+ 	                	$('#mainContent').DataTable().row.add(json.clOut).draw(false);//新增行立即显示
+ 	                }else{
+ 	                	toastr.error("保存失败");
+ 	                }
+ 	            }
+ 	        }); 
+ 		}
+    	
     }
     
     

@@ -1142,7 +1142,7 @@
 		
 		var gmwClArray=new Array();
 		var oRemainArray=new Array();
-		
+		var flag=true;
 		$("#waste_table tbody").find("tr").each(function(){
 			var materialName=$(this).find("td").eq(0).text();
 			var materialType=$(this).find("td").eq(1).text();
@@ -1158,11 +1158,13 @@
 			var reg=/^\+?[1-9][0-9]*$/;
 			if(wasteNum/1>oldNum/1){
     			toastr.error("处理数量不能大于库存数量")
-        		return false;
+    			flag=false;
+        		return;
     		}
 			var reg2=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
     		if(!reg2.test(wasteActualMoney)){
     			toastr.error("请输入退货出售金额且只能有两位小数")
+    			flag=false;
         		return;
     		}
     		var oRemain={
@@ -1198,22 +1200,25 @@
 		gmw.gsMaterialWastetreatmentCl=gmwClArray;
 		gmw.oRemain=oRemainArray;
 		//console.log(gmw)
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/GsMaterialWaste/addGsMaterialWastetreatmentSubmit',
-            dataType: 'json',
-            contentType:'application/json',
-            data: JSON.stringify(gmw),
-            success: function (json) {
-                if(json.result>0){
-                	toastr.success("处理成功")
-                	$("#myModal").modal('hide')
-        	    	//$('#mainContent').DataTable().row.add(json.GsMaterialWastetreatment).draw(false);     //新增行立即显示
-                }else{
-                	toastr.error("处理失败")
-                } 
-            }
-        });
+		if(flag==true){
+			$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/GsMaterialWaste/addGsMaterialWastetreatmentSubmit',
+	            dataType: 'json',
+	            contentType:'application/json',
+	            data: JSON.stringify(gmw),
+	            success: function (json) {
+	                if(json.result>0){
+	                	toastr.success("处理成功")
+	                	$("#myModal").modal('hide')
+	        	    	//$('#mainContent').DataTable().row.add(json.GsMaterialWastetreatment).draw(false);     //新增行立即显示
+	                }else{
+	                	toastr.error("处理失败")
+	                } 
+	            }
+	        });
+		}
+		
 	}
 	
 	function submitPerson(){
