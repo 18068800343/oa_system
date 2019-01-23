@@ -48,7 +48,14 @@ public class CjContract {
 	private Integer splitState;//拆分合同金额状态0：未拆分，1:已拆分
 	private List<CjDeptSplitMoney> cjDeptSplitMoney;//承接合同部门拆分金额
 	private List<Task> chaiFenXinXiArray;
+	private String jyms;//经营模式
 	
+	public String getJyms() {
+		return jyms;
+	}
+	public void setJyms(String jyms) {
+		this.jyms = jyms;
+	}
 	public List<Task> getChaiFenXinXiArray() {
 		return chaiFenXinXiArray;
 	}

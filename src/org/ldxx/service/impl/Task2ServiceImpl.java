@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.ldxx.bean.TDepartment;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.Task2;
 import org.ldxx.dao.TDepartmentDao;
 import org.ldxx.dao.Task2Dao;
@@ -25,11 +26,26 @@ public class Task2ServiceImpl implements Task2Service{
 	public int addTask2(Map<String, Object> map) {
 		List<Task2> t2=(List<Task2>) map.get("t2");
 		List<TDepartment> td=(List<TDepartment>) map.get("department");
-		int i=dao.addTask2(t2);
-		if(i>0){
-			i=tDao.addTDepartment(td);
+		int k=0;
+		for(Task2 task:t2){
+			int i = dao.selectTask2CountByTaskNo(task.gettNo());
+			if(i>0){
+				
+			}else{
+				if(task.gettNo()!=null&&!"".equals(task.gettNo())){
+					k=dao.addTask2One(task);
+				}
+			}
 		}
-		return i;
+		if(k>0){
+			for(TDepartment tDepartment:td){
+				int l = tDao.selectDepartmentCountByTNoAndDepart(tDepartment.gettNo(), tDepartment.getdName());
+				if(l<=0){
+					k=tDao.addTDepartmentOne(tDepartment);
+				}
+			}
+		}
+		return k;
 	}
 
 	@Override
