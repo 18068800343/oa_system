@@ -12,13 +12,21 @@ public class BudgetMainMaterial {
 	private String materType;//材料类型
 	private String materMode;//材料型号
 	private String materUnit;//单位
-	private String materNumber;//数量
+	private String materNumber;//清单数量
 	private String materPrice;//单价
 	private String department;//bumen
+	
+	private String sjMaterNumber;//设计数量
 	
 	private String clomName;//部门名称
 	
 	
+	public String getSjMaterNumber() {
+		return sjMaterNumber;
+	}
+	public void setSjMaterNumber(String sjMaterNumber) {
+		this.sjMaterNumber = sjMaterNumber;
+	}
 	public String getClomName() {
 		return clomName;
 	}
