@@ -1023,15 +1023,40 @@
  function format ( d ) {
 	 var html = "";
      if (d != undefined) {
-         for (var i = 0; i < d.costBudget.length; i++) {
+    	 arr=[];
+    	 arr2={};
+    	 for (var j = 0; j < d.costBudget.length; j++){//处理重复部门使金额相加
+    		 var key=d.costBudget[j].name2;
+    		 if(arr2[key]){
+    			 arr2[key].name2=d.costBudget[j].name2
+    			 arr2[key].costAmount=arr2[key].costAmount/1+d.costBudget[j].costAmount/1;
+    		 }else{
+    			 arr2[key]={};
+    			 arr2[key].name2=d.costBudget[j].name2
+    			 arr2[key].costAmount=d.costBudget[j].costAmount;
+    		 }
+    	 }
+    	 for(var k in arr2){
+    		 arr.push(arr2[k])
+    	 }
+    	 for(var i in arr){
+    		 html = html + "<tr><td>"
+  			+(d.omName==arr[i].name2?"主办部门":"协办部门")
+ 			+"</td><td>"
+ 			+arr[i].name2
+ 			+"</td><td>预算金额</td><td>"
+ 			+arr[i].costAmount
+ 			+"</td></tr>";
+    	 }
+         /* for (var i = 0; i < d.costBudget.length; i++) {
              html = html + "<tr><td>"
- 			+(d.department==d.costBudget[i].department?"主办部门":"协办部门")
+ 			+(d.omName==d.costBudget[i].name2?"主办部门":"协办部门")
 			+"</td><td>"
 			+d.costBudget[i].name2
 			+"</td><td>预算金额</td><td>"
 			+d.costBudget[i].costAmount
 			+"</td></tr>";
-         }
+         } */
      }
 	    return '<table class="table table-bordered" cellpadding="5" cellspacing="0" border="0" id="format" style="padding-left:50px;width:30%">'+
 	        '<tbody>'+html+'</tbody>'
