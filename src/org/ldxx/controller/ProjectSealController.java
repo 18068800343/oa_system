@@ -15,9 +15,11 @@ import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.SignetManage;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.ProjectSealService;
+import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,8 @@ public class ProjectSealController {
 	private ProjectSealService prjSealService;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private TaskService tService;
 	
 	@RequestMapping("/selectPrjSeal")
 	@ResponseBody
@@ -176,4 +180,79 @@ public class ProjectSealController {
 	public SignetManage selectPrjSealById(String smId){
 		return prjSealService.selectPrjSealById(smId);
 	}
+	
+	@RequestMapping("/addStop")
+	@ResponseBody
+	public String addStop(SignetManage signetManage,@RequestParam("file") MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
+		String id=signetManage.getSmId();
+		String path="D:"+File.separator+"oa"+File.separator+"signetManage"+File.separator+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file.length>0){
+			List<Accessory> list=new ArrayList<>();
+			for(int ii=0;ii<file.length;ii++){
+				Accessory accessory=new Accessory();
+				String fileName=file[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[ii].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(filePath);
+				accessory.setaType("废弃证明");
+				list.add(accessory);
+			}
+			signetManage.setAccessory(list);
+		}
+		
+		int i=prjSealService.addStop(signetManage);
+		String string=i+"";
+		if(i>0){
+			Task task=tService.selectIdByNo2(signetManage.getTaskNo());
+			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
+			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(signetManage.getPrjId()+"印章废弃流程发起");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(signetManage.getPrjId()+"印章废弃流程发起");
+			currentFlow.setUrl("xingzhengshiwuLook/YzStop.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.sigentReturnGetRec(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
+	}
+	
+	
+	@RequestMapping("/updateStatus")
+	@ResponseBody
+	public int updateStatus(String id){
+		int i=prjSealService.updateStatus(id, "2");
+		return i;
+	}
+	
 }

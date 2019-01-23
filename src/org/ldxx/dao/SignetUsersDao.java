@@ -14,12 +14,14 @@ public interface SignetUsersDao {
 
 	int updatesUser(@Param("sUser")SignetUsers sUser);
 
-	List<SignetUsers> selectUser();
+	List<SignetUsers> selectUser(@Param("status")String status);
 
 	SignetUsers selectUsersById(@Param("suId")String suId);
 	
 	List<SignetManage> selectSignetNo(); 
 	
 	int addHuan(@Param("sUser")SignetUsers sUser);
+	
+	int updateStatus(@Param("id")String id);
 
 }

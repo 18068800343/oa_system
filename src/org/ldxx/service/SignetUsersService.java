@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.SignetManage;
 import org.ldxx.bean.SignetUsers;
@@ -14,7 +15,7 @@ public interface SignetUsersService {
 
 	int updatesUser(SignetUsers sUser);
 
-	List<SignetUsers> selectUser();
+	List<SignetUsers> selectUser(String status);
 
 	SignetUsers selectUsersById(String suId);
 
@@ -25,5 +26,7 @@ public interface SignetUsersService {
 	List<SignetManage> selectSignetNo(); 
 	
 	int addHuan(SignetUsers sUser);
+	
+	int updateStatus(String id);
 
 }

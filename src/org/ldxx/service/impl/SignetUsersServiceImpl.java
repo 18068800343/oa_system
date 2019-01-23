@@ -56,8 +56,8 @@ public class SignetUsersServiceImpl implements SignetUsersService {
 	}
 
 	@Override
-	public List<SignetUsers> selectUser() {
-		return sUserDao.selectUser();
+	public List<SignetUsers> selectUser(String status) {
+		return sUserDao.selectUser(status);
 	}
 	
 	@Override
@@ -87,4 +87,10 @@ public class SignetUsersServiceImpl implements SignetUsersService {
 	public int addHuan(SignetUsers sUser) {
 		return sUserDao.addHuan(sUser);
 	}
+
+	@Override
+	public int updateStatus(String id) {
+		return sUserDao.updateStatus(id);
+	}
+
 }

@@ -33,6 +33,8 @@
   </update>
   <select id="selectUser" resultType="org.ldxx.bean.SignetUsers">
   	select a.* from signet_users a 
+  	left join mode_status as b on a.su_id=b.mode_id
+  	where b.status=#{status}
   </select>
   <select id="selectUsersById" parameterType="String" resultType="org.ldxx.bean.SignetUsers">
   	select *,b.u_name from signet_users s 
@@ -41,14 +43,17 @@
   </select>
   
   <select id="selectSignetNo"  resultType="SignetManage">
-  	SELECT signet_no FROM signet_manage 
+  	SELECT signet_no FROM signet_manage where status='0'
   </select>
   
   <update id="addHuan" parameterType="SignetUsers">
   		update signet_users set 
   			end_time=#{sUser.endTime},
-  			return_person=#{sUser.returnPerson},
-  			status=#{sUser.status}
+  			return_person=#{sUser.returnPerson}
   		where su_id=#{sUser.suId}
+  </update>
+  
+  <update id="updateStatus">
+  		update signet_users set status=1 where su_id=#{id}
   </update>
 </mapper>

@@ -20,19 +20,45 @@ public class SignetManage {
     private String signetName;
 
     private String signetMan;
+    private String omName;
 
     private String signetNo;
     
     private String signetAttribute;//印章属性
     private String signetDesc;//备注
     
+    private String status;
+    private String stopTime;
+    private String preserver;
     
-    private String omName;
     
     private List<Accessory> accessory;
     
     
-    
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getStopTime() {
+		return stopTime;
+	}
+
+	public void setStopTime(String stopTime) {
+		this.stopTime = stopTime;
+	}
+
+	public String getPreserver() {
+		return preserver;
+	}
+
+	public void setPreserver(String preserver) {
+		this.preserver = preserver;
+	}
+
 	public String getSignetNo() {
 		return signetNo;
 	}

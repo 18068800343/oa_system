@@ -47,6 +47,8 @@ public class ProjectSealServiceImpl implements ProjectSealService {
 	@Override
 	public SignetManage selectPrjSealById(String smId) {
 		SignetManage signetManage = prjSealDao.selectPrjSealById(smId);
+		List<Accessory>accessory=adao.selectAccessoryById(smId);
+		signetManage.setAccessory(accessory);
 		return signetManage;
 	}
 
@@ -54,6 +56,29 @@ public class ProjectSealServiceImpl implements ProjectSealService {
 	@Override
 	public int deleteAccessoryByIdAndName(Accessory accessory) {
 		return adao.deleteAccessoryByIdAndName(accessory);
+	}
+
+	@Transactional
+	@Override
+	public int addStop(SignetManage signetManage) {
+		int i=prjSealDao.addStop(signetManage);
+		if(i>0){
+			List<Accessory> accessory=signetManage.getAccessory();
+			if(accessory!=null){
+				i=adao.addAccessory(accessory);
+			}
+		}
+		return i;
+	}
+
+	@Override
+	public int updateStatus(String id, String status) {
+		return prjSealDao.updateStatus(id, status);
+	}
+
+	@Override
+	public int updateStatusByNo(String no, String status) {
+		return prjSealDao.updateStatusByNo(no, status);
 	}
 
 }

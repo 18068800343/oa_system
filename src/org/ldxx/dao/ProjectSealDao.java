@@ -16,5 +16,10 @@ public interface ProjectSealDao {
 	int updatePrjSealById(@Param("signetManage")SignetManage signetManage);
 
 	SignetManage selectPrjSealById(@Param("smId")String smId);
-
+	
+	int addStop(@Param("signetManage")SignetManage signetManage);
+	
+	int updateStatus(@Param("id")String id,@Param("status")String status);
+	
+	int updateStatusByNo(@Param("no")String no,@Param("status")String status);
 }

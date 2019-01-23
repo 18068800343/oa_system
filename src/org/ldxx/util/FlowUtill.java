@@ -196,6 +196,109 @@ public class FlowUtill {
 		return jsonObject.toString();
 	}
 	
+	
+	@Transactional
+	public String sigentReturnGetRec(CurrentFlow currentFlow,String deptNo) throws Exception{
+		currentFlow.setRdt(new Date());
+		INSTANCE.init();
+		/**0：流程刚发起,暂存状态
+		 * 1：流程刚发起,提交状态
+		 */
+		currentFlow.setWfstate(0);
+		//currentFlow.setFlowEndState(5);
+		currentFlow.setDoDate(new Date());
+		String mode_id = "";
+		BusinessExample example = new BusinessExample();
+		String url = currentFlow.getUrl();
+		if(null!=url&&url.contains("-")){
+			String urls[] = url.split("-");
+			url = urls[0];
+			mode_id=urls[1];
+		}else{
+			log.error("url为null或者url格式有误");
+			throw new FlowException("url format error");
+		}
+		example.createCriteria().andBusinessurlEqualTo(url);
+		List<Business> list =  INSTANCE.businessMapper.selectByExample(example);
+		Business business = null;
+		if(null!=list&&list.size()==1){
+			business = list.get(0);
+		}else{
+			log.error("业务流中不存在该URL:"+url);
+			throw new FlowException("url not found");
+		}
+		currentFlow.setBusId(business.getId());
+		currentFlow.setFloTmpId(business.getFloTmpId());
+		currentFlow.setId(new TimeUUID().getTimeUUID());
+		currentFlow.setModeId(mode_id);
+		currentFlow.setLastOperateType(null);
+		FlowNode flowNode = INSTANCE.flowNodeMapper.selectStartFlowNode(business.getFloTmpId());
+		FlowEdgeExample example3 = new FlowEdgeExample();
+		example3.createCriteria().andFloNodeLeftEqualTo(flowNode.getId());
+		currentFlow.setFloNodeId(flowNode.getId());
+		
+		ModeStatus modeStatus = INSTANCE.modeStatusMapper.selectByPrimaryKey(mode_id);
+		if(null!=modeStatus){
+			modeStatus.setStatus("2");
+			modeStatus.setFlowStatus("1");
+			INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus);
+		}else{
+			modeStatus=new ModeStatus();
+			modeStatus.setModeId(mode_id);
+			modeStatus.setStatus("2");
+			modeStatus.setFlowStatus("1");
+			INSTANCE.modeStatusMapper.insert(modeStatus);
+		}
+		
+		String floNodeId = "";
+		try {
+			floNodeId = deque(flowNode, currentFlow);
+		} catch (Exception e1) {
+			log.error("递归获取下一步floNodeId出错");
+			throw new FlowException("deque do error");
+		}
+		currentFlow.setFlowNodeLast(null);
+		currentFlow.setReadreceipts(0);
+		INSTANCE.currentFlowMapper.insert(currentFlow);
+		JSONObject jsonObject = new JSONObject();
+		JSONArray arrays = new JSONArray();
+		if("end".equals(floNodeId)){
+			arrays=null;
+		}else{
+			
+			//List<NodeActorsVo> nodeActorsVos = INSTANCE.nodeActorsMapper.getNextNodeActors(floNodeId,currentFlow.getActor());
+			
+			
+			List<NodeActors> nodeActors = INSTANCE.nodeActorsMapper.getNextNodeActorsByFloNodeId(floNodeId);
+			List<User> usersSubmit = new ArrayList<>();
+			if(null!=nodeActors&&nodeActors.size()>0){
+			List<User> users = INSTANCE.userDao.selectAllUser();
+				for(NodeActors nodeActors2:nodeActors){
+					String roleCode = INSTANCE.roleDao.selectRoleById(nodeActors2.getRolecode()).getRoleCode();
+					Iterator<User> iterator = users.iterator();
+					if(roleCode.endsWith("*.")){
+			    		roleCode=roleCode+"r"+deptNo+".";
+			    	}
+				    while (iterator.hasNext()) {
+				    	User user = iterator.next();
+				    	String userRole = user.getUserRole();
+				    	
+				    	
+						if(null!=userRole&&userRole.contains(roleCode)){
+							usersSubmit.add(user);
+							iterator.remove();
+						}
+				    	
+					}
+				}
+			}
+			arrays = JSONArray.fromObject(usersSubmit);
+		}
+		jsonObject.put("receiver", arrays);
+ 		jsonObject.put("url", currentFlow.getUrl());
+		return jsonObject.toString();
+	}
+	
 	/**
 	 * 新流程发起，初始提交
 	 * @param currentFlow url,Title,Starter,StartName,Sender,SenderName,FK_Dept,DeptName,NodeName,PRI,SDTOfNode,SDTOfFlow,Actor,ActorType,Memo

@@ -19,6 +19,7 @@ import org.ldxx.bean.SignetUsers;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.ProjectSealService;
 import org.ldxx.service.SignetUsersService;
 import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
@@ -45,11 +46,13 @@ public class SignetUsersController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private TaskService tService;
+	@Autowired
+	private ProjectSealService pService;
 	
 	@RequestMapping("/selectsUser")
 	@ResponseBody
-	public List<SignetUsers> selectUser(){
-		List<SignetUsers> list= suserService.selectUser();
+	public List<SignetUsers> selectUser(String status){
+		List<SignetUsers> list= suserService.selectUser(status);
 		return list;
 	}
 	
@@ -304,7 +307,7 @@ public class SignetUsersController {
 		return list;
 	}
 	
-	@RequestMapping("/addHuan")
+	@RequestMapping(value="/addHuan",produces= "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String addHuan(SignetUsers sUser,HttpSession session){
 		User user = (User) session.getAttribute("user");
@@ -343,12 +346,23 @@ public class SignetUsersController {
 			flowHistroy.setActorresult(0);
 			flowHistroy.setView("");
 			try {
-				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+				string = flowUtill.sigentReturnGetRec(currentFlow,omNo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return string;
+	}
+	
+	
+	@RequestMapping("/updateStatus")
+	@ResponseBody
+	public int updateStatus(String id){
+		int i=suserService.updateStatus(id);
+		SignetUsers su=suserService.selectUsersById(id);
+		String signetNo=su.getSignetNo();
+		i=pService.updateStatusByNo(signetNo,"0");
+		return i;
 	}
 	
 }
