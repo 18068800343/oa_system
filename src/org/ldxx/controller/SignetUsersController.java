@@ -16,9 +16,11 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.SignetManage;
 import org.ldxx.bean.SignetUsers;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.SignetUsersService;
+import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,8 @@ public class SignetUsersController {
 	private SignetUsersService suserService;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private TaskService tService;
 	
 	@RequestMapping("/selectsUser")
 	@ResponseBody
@@ -51,8 +55,11 @@ public class SignetUsersController {
 	
 	@RequestMapping("/addsUser")/*保存*/
 	@ResponseBody
-	public Map<String,Object> addsUser(@RequestParam(value="file2",required = false)MultipartFile file2[],SignetUsers sUser,HttpSession session){
-		Map<String,Object> map = new HashMap<>();
+	public String addsUser(@RequestParam(value="file2",required = false)MultipartFile file2[],SignetUsers sUser,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		if(user==null){
+			return "0";
+		}
 		List<Accessory> list=new ArrayList<>();
 		String id = new TimeUUID().getTimeUUID();
 		sUser.setSuId(id);
@@ -76,24 +83,23 @@ public class SignetUsersController {
 				sUser.setAccessory(list);
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
-				map.put("result", 0);
 			}
 
 		}
 		int i=suserService.addsUser(sUser);
-		/*if(i>0){
-			User user = (User) session.getAttribute("user");
-			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+		String string=i+"";
+		if(i>0){
+			Task task=tService.selectIdByNo2(sUser.getTaskNo());
+			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
 			String omNo=om.getOmNo();
-			String string="";
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
 			currentFlow.setTitle(sUser.getUseProject()+"印章使用");
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getUsername());;
-			currentFlow.setMemo(sUser.getUseProject()+"印章使用保存");
-			currentFlow.setUrl("xingzhengshiwuLook/ProjectSealLookSY.html-"+id);
+			currentFlow.setMemo(sUser.getUseProject()+"印章使用流程发起");
+			currentFlow.setUrl("xingzhengshiwuLook/YzUser.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
@@ -111,14 +117,12 @@ public class SignetUsersController {
 			flowHistroy.setActorresult(0);
 			flowHistroy.setView("");
 			try {
-				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}*/
-		map.put("result", i);
-		map.put("sUser", sUser);
-		return map;
+		}
+		return string;
 	}
 	
 	@RequestMapping("/submitsUser")/*提交*/
@@ -299,4 +303,52 @@ public class SignetUsersController {
 		List<SignetManage> list=suserService.selectSignetNo();
 		return list;
 	}
+	
+	@RequestMapping("/addHuan")
+	@ResponseBody
+	public String addHuan(SignetUsers sUser,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		if(user==null){
+			return "0";
+		}
+		int i=suserService.addHuan(sUser);
+		String id=sUser.getSuId();
+		String string=i+"";
+		if(i>0){
+			Task task=tService.selectIdByNo2(sUser.getTaskNo());
+			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
+			String omNo=om.getOmNo();
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(sUser.getUseProject()+"印章归还");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(sUser.getUseProject()+"印章归还流程发起");
+			currentFlow.setUrl("xingzhengshiwuLook/YzReturn.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
+	}
+	
 }

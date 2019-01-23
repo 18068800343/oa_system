@@ -3,7 +3,7 @@
 <mapper namespace="org.ldxx.dao.SignetUsersDao" >
   <insert id="addsUser" parameterType="org.ldxx.bean.SignetUsers" >
     insert into signet_users 
-    	(su_id,begin_time, end_time, custody_man,use_project,task_no, destroy_time)
+    	(su_id,begin_time,end_time, custody_man,use_project,task_no,signet_no,return_person,status)
     values 
     	(#{sUser.suId,jdbcType=VARCHAR},
   		#{sUser.beginTime,jdbcType=VARCHAR},
@@ -11,7 +11,9 @@
   		#{sUser.custodyMan,jdbcType=VARCHAR}, 
     	#{sUser.useProject,jdbcType=VARCHAR}, 
     	#{sUser.taskNo,jdbcType=VARCHAR}, 
-    	#{sUser.destroyTime,jdbcType=VARCHAR})
+    	#{sUser.signetNo,jdbcType=VARCHAR}, 
+    	#{sUser.returnPerson,jdbcType=VARCHAR},
+    	#{sUser.status,jdbcType=VARCHAR})
   </insert>
   <delete id="deletesUserById" parameterType="String">
   	delete from signet_users where su_id=#{suId}
@@ -30,8 +32,7 @@
     where su_id = #{sUser.suId,jdbcType=VARCHAR}
   </update>
   <select id="selectUser" resultType="org.ldxx.bean.SignetUsers">
-  	select a.*,b.u_name from signet_users a 
-  	left join user b on a.custody_man=b.user_id
+  	select a.* from signet_users a 
   </select>
   <select id="selectUsersById" parameterType="String" resultType="org.ldxx.bean.SignetUsers">
   	select *,b.u_name from signet_users s 
@@ -42,4 +43,12 @@
   <select id="selectSignetNo"  resultType="SignetManage">
   	SELECT signet_no FROM signet_manage 
   </select>
+  
+  <update id="addHuan" parameterType="SignetUsers">
+  		update signet_users set 
+  			end_time=#{sUser.endTime},
+  			return_person=#{sUser.returnPerson},
+  			status=#{sUser.status}
+  		where su_id=#{sUser.suId}
+  </update>
 </mapper>

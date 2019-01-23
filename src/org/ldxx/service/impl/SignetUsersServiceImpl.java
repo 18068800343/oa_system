@@ -82,4 +82,9 @@ public class SignetUsersServiceImpl implements SignetUsersService {
 	public List<SignetManage> selectSignetNo() {
 		return sUserDao.selectSignetNo();
 	}
+
+	@Override
+	public int addHuan(SignetUsers sUser) {
+		return sUserDao.addHuan(sUser);
+	}
 }

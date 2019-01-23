@@ -13,20 +13,34 @@ public class SignetUsers {
 
     private String beginTime;
 
-    private String endTime;
-
     private String custodyMan;//保管人
-
-
-    private String destroyTime;
     
-    private String uName;//保管人名
-    private String prjName;//使用的项目名
+    private String endTime;//归还时间
     
+    private String returnPerson;//归还人
+
+    private String status;//归还状态
+
     private List<Accessory> accessory;
 
 
     
+	public String getReturnPerson() {
+		return returnPerson;
+	}
+
+	public void setReturnPerson(String returnPerson) {
+		this.returnPerson = returnPerson;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getSignetNo() {
 		return signetNo;
 	}
@@ -49,22 +63,6 @@ public class SignetUsers {
 
 	public void setAccessory(List<Accessory> accessory) {
 		this.accessory = accessory;
-	}
-
-	public String getuName() {
-		return uName;
-	}
-
-	public void setuName(String uName) {
-		this.uName = uName;
-	}
-
-	public String getPrjName() {
-		return prjName;
-	}
-
-	public void setPrjName(String prjName) {
-		this.prjName = prjName;
 	}
 
 	public String getSuId() {
@@ -105,13 +103,5 @@ public class SignetUsers {
 
     public void setUseProject(String useProject) {
         this.useProject = useProject == null ? null : useProject.trim();
-    }
-
-    public String getDestroyTime() {
-        return destroyTime;
-    }
-
-    public void setDestroyTime(String destroyTime) {
-        this.destroyTime = destroyTime == null ? null : destroyTime.trim();
     }
 }
