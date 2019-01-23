@@ -81,6 +81,7 @@
            				<th>采购合同名</th>
            				<th>项目名称</th>
            				<th>任务单号</th>
+           				<th>是否代购</th>
            				<th>金额(元)</th>
                         <!-- <td>操作</td> -->
                     </tr>
@@ -89,8 +90,12 @@
                 </tbody> 
                 <tfoot>
                 	<tr>
-                		<td colspan='5' style="text-align:right;color:red">总金额(元)</td>
+                		<td colspan='6' style="text-align:right;color:red">总金额(元)</td>
                 		<td id="allMoney"></td>
+                	</tr>
+                	<tr>
+                		<td colspan='6' style="text-align:right;color:red">代购总金额(元)</td>
+                		<td id="daigou_allMoney"></td> 
                 	</tr>
                 </tfoot>
             </table>
@@ -301,7 +306,8 @@
             { "data": "cgNo"}, 
             { "data": null}, 
             { "data": null}, 
-            { "data": "cgNo"},
+            { "data": "taskNo"},
+            { "data": "isProgram"},
             { "data": null}, 
         ],
         "columnDefs": [
@@ -331,7 +337,7 @@
 						},
 						{
 							  "class": "tcenter",
-							   "targets": 5,
+							   "targets": 6,
 							   "searchable": true,
 							   "render": function(data, type, full) {
 								   var value=Number(data.freight);
@@ -398,7 +404,7 @@
 			                return data;
 			            }
                     },
-                    columns:[0,1,2,3,4,5]
+                    columns:[0,1,2,3,4,5,6]
                 }
             }
         ]
@@ -599,6 +605,8 @@
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
                 var num=0;
+                var arr=[];
+                var arr2=[];
                 for(var i=0;i<json.length;i++){
                 	num+=Number(json[i].freight)
             		var clList=json[i].gsInCl;
@@ -608,8 +616,19 @@
     	            		num+=Number(clList[j].clMoney)
     	            	}
                 	}
+                	if($.inArray(json[i].cgNo,arr)==-1){
+                		arr.push(json[i].cgNo)
+                		arr2.push(json[i].programMoney)
+                	}
             	}
        		 	$("#allMoney").text(num)
+       		 	var daigoujine=0;
+       		 	if(arr2!=null){
+       		 		for(var k=0;k<arr2.length;k++){
+       		 			daigoujine+=Number(arr2[k]/1)
+       		 		}
+       		 	}
+      		 	$("#daigou_allMoney").text(daigoujine)
             }
         });
     }

@@ -643,6 +643,19 @@ public class CgContractController {
 		return cgService.selectByCgNo(no);
 	}
 	
+	@RequestMapping("/selectByCgNos")//通过多个采购号获取详细信息
+	@ResponseBody
+	public List<CgContract> selectByCgNos(String nos){
+		List<CgContract> list=new ArrayList<>();
+		for(int i=0;i<nos.split(",").length;i++){
+			CgContract cg=cgService.selectByCgNo(nos.split(",")[i]);
+			if(null!=cg){
+				list.add(cg);
+			}
+		}
+		return list;
+	}
+	
 	@RequestMapping("/selectCgContractByWorkNo")//通过任务单过滤采购合同
 	@ResponseBody
 	public List<CgContract> selectCgContractByWorkNo(String no){

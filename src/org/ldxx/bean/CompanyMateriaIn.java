@@ -31,8 +31,25 @@ public class CompanyMateriaIn {
 	
 	private List<ClRemain> clremain;//公司结余材料信息
 	
+	private String isProgram;// 是否代购
+	private Float programMoney;// 代购金额
 
-	
+
+	public String getIsProgram() {
+		return isProgram;
+	}
+
+	public void setIsProgram(String isProgram) {
+		this.isProgram = isProgram;
+	}
+
+	public Float getProgramMoney() {
+		return programMoney;
+	}
+
+	public void setProgramMoney(Float programMoney) {
+		this.programMoney = programMoney;
+	}
 
 	public String getGetDepartment() {
 		return getDepartment;
