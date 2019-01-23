@@ -23,5 +23,7 @@ public interface PrjMaterialBuyService {
 	public List<PrjMaterialBuy> selectDepartmentlike(String bumen);
 
 	public PrjMaterialBuy selectPrjMaterialBuyById(String id);
+
+	public int updateXMById(PrjMaterialBuy buy);
 	
 }

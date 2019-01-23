@@ -91,4 +91,9 @@ public class PrjMaterialBuyServiceImpl implements PrjMaterialBuyService{
 		return buy;
 	}
 
+	@Override
+	public int updateXMById(PrjMaterialBuy buy) {
+		return dao.updateXMById(buy);
+	}
+
 }

@@ -196,4 +196,10 @@ public class PrjMaterialBuyController {
 	public PrjMaterialBuy selectPrjMaterialBuyById(String id){
 		return service.selectPrjMaterialBuyById(id);
 	}
+	
+	@RequestMapping("/updateXMById")//通过id修改项目及合同
+	@ResponseBody
+	public int updateXMById(PrjMaterialBuy buy){
+		return service.updateXMById(buy);
+	}
 }
