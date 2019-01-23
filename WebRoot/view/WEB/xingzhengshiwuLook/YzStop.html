@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+			<li>行政事务</li>
+			<li class="active">项目印章管理-刻制申请</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+				<div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <td style="width:100px;">申请项目</td>
+                                <td id="lookxiangmu"></td>
+                                <td>任务单号</td>
+                                <td id="looktask_no"></td>
+                            </tr>
+                            <tr>
+                            	<td>印章编号</td>
+                            	<td id="look_signet_no"></td>
+                                <td>申请部门</td>
+                                <td id="lookbumen"></td>
+                            </tr>
+                            <tr>
+                            	<td>项目印章授权人</td>
+                                <td id="lookyinzhangshouquanren"></td>
+                                <td style="width:100px;">申请日期</td>
+                                <td id="lookyear"></td>
+                            </tr>
+                            <tr>
+                            	<td style="width:100px;">专用章全称</td>
+                                <td id="lookquancheng"></td>
+                            	<td>印章属性</td>
+	                            <td id="lookyzshuxing"></td>
+                            </tr>
+                            <tr>
+                            	<td style="width:100px;">废弃时间</td>
+                                <td id="lookfeiqitime"></td>
+                            	<td>保管人</td>
+	                            <td id="lookbaoguanren"></td>
+                            </tr>
+                            <tr>
+                                <td>备注:</td>
+                                <td colspan="3" id="lookdesc"></td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="look_table">
+                        	
+                        </table>
+                    </form>  
+                </div>
+
+
+    </div>
+    						
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	lookPrjSeal();
+    	
+	});
+   
+
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   	console.log(id)
+	
+	
+	<!-- **************************************** 项目印章刻制申请的增删改查   ****************************************************-->
+	
+	
+	//查看详细信息刻制申请
+	function lookPrjSeal(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/prjSeal/selectPrjSealById',
+	        dataType: 'json',
+	        data:{
+	        	smId:id
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	data=json;
+	        	$("#lookxiangmu").text(data.prjId);
+	    		$("#looktask_no").text(data.taskNo);
+	    		$("#lookbumen").text(data.omName);
+	    		$("#look_signet_no").text(data.signetNo);
+	    		$("#lookyinzhangshouquanren").text(data.signetMan);
+	    		$("#lookyear").text(data.applicationDate);
+	    		$("#lookquancheng").text(data.signetName);
+	    		$("#lookyzshuxing").text(data.signetAttribute);
+	    		$("#lookdesc").text(data.signetDesc);
+	    		$("#lookfeiqitime").text(data.stopTime);
+	    		$("#lookbaoguanren").text(data.preserver);
+	        }
+	    });
+		
+		$.ajax({
+			type: 'POST',
+            url: getContextPath()+'/announcement/selectAccessoryById',
+            dataType: 'json',
+            data: {
+            	id:id
+            },
+            success: function (json) {
+            	$("#look_table").empty();
+               for(var i=0;i<json.length;i++){
+            	   $("#look_table").append("<tr>"+
+            	   														"<td>附件"+(i+1)+"</td>"+
+												            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+												            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_this(this)'>下载附件</button></td>"+
+												            	    "</tr>");
+               }
+            }
+		})
+		
+	}
+	
+	function download_all(obj){
+		var url=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+
+	
+	 function removeFile(obj){
+			var tr=$(obj).parents("tr");
+			$(tr).remove();
+		}
+
+	 function changeData(){
+			$.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/',
+		        dataType: 'json',
+		        data:{
+		        	id:id
+		        },
+		        success: function (json) {
+		        	//console.log(json)
+		        	
+		        }
+		    });
+		}
+	    function saveFlow5(){
+	    	var result={};
+	    	$.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/task/insertChaoSongYZGLY',
+		        dataType: 'text',
+		        async:false,
+		        data:{
+		        	id:id
+		        },
+		        success: function (json) {
+		        	result.rel=json;
+		        }
+		    });
+	    	return result;
+	    }
+</script>
+</html>
