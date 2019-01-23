@@ -69,44 +69,46 @@ public class ImportData {
             }  
             // 循环行Row  
             for (int rowNum = 2; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {  
-            	Row hssfRow = hssfSheet.getRow(rowNum);
-                int cells=hssfRow.getPhysicalNumberOfCells();
-                
-                Task2 t2=new Task2();
-                TDepartment td=new TDepartment();
-                TimeUUID uuid=new TimeUUID();
-                Cell colum1 = hssfRow.getCell(0);  
-                Cell colum2 = hssfRow.getCell(1);  
-                Cell colum3 = hssfRow.getCell(2);  
-                Cell colum4 = hssfRow.getCell(3);  
-                Cell colum5 = hssfRow.getCell(4);
-                
-                String tNo=getValue(colum1);
-                boolean flag=true;
-                if(t.size()>0){
-                	for(int i=0;i<t.size();i++){
-                    	String no=t.get(i).gettNo();
-                    	if(no.equals(tNo)){
-                    		flag=false;
-                    		break;
-                    	}else{
-                    		flag=true;
-                    	}
-                    }
-                }
-                if(flag==true){
-                	t2.settId(uuid.getTimeUUID());
-                    t2.settNo(tNo);
-                    t2.settName(getValue(colum2));
-                    t2.settType(getValue(colum4));
-                    t.add(t2);
-                }
-                
-                td.settNo(getValue(colum1));
-                td.setdName(getValue(colum5));
-                td.setdMoney(Float.valueOf(getValue(colum3)));
-                
-                d.add(td);
+            	try {
+					Row hssfRow = hssfSheet.getRow(rowNum);
+					if(hssfRow!=null){
+						int cells=hssfRow.getPhysicalNumberOfCells();
+						Task2 t2=new Task2();
+						TDepartment td=new TDepartment();
+						TimeUUID uuid=new TimeUUID();
+						Cell colum1 = hssfRow.getCell(0);  
+						Cell colum2 = hssfRow.getCell(1);  
+						Cell colum3 = hssfRow.getCell(2);  
+						Cell colum4 = hssfRow.getCell(3);  
+						Cell colum5 = hssfRow.getCell(4);
+						String tNo=getValue(colum1);
+						boolean flag=true;
+						if(t.size()>0){
+							for(int i=0;i<t.size();i++){
+								String no=t.get(i).gettNo();
+								if(no.equals(tNo)){
+									flag=false;
+									break;
+								}else{
+									flag=true;
+								}
+							}
+						}
+						if(flag==true){
+							t2.settId(uuid.getTimeUUID());
+							t2.settNo(tNo);
+							t2.settName(getValue(colum2));
+							t2.settType(getValue(colum4));
+							t.add(t2);
+						}
+						td.settNo(getValue(colum1));
+						td.setdName(getValue(colum5));
+						td.setdMoney(Float.valueOf(getValue(colum3)));
+						d.add(td);
+					}
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
                 }  
             } 
         map.put("t2", t);

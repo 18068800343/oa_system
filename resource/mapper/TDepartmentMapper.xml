@@ -9,6 +9,12 @@
   		</foreach>
   	</insert>
   	
+  	<insert id="addTDepartmentOne" parameterType="java.util.List">
+  		insert into t_department(t_no,d_name,d_money,d_income)
+  		values
+  			(#{td.tNo},#{td.dName},#{td.dMoney},#{td.dIncome})
+  	</insert>
+  	
   	<update id="updateIncome" parameterType="java.util.List">
   		<foreach collection="td" item="t" index="index" separator=";">
   			update t_department set d_income=(d_income+#{t.dIncome}) where t_no=#{t.tNo} and d_name=#{t.dName}
@@ -17,6 +23,10 @@
   	
   	<select id="selectDepartment" resultType="TDepartment">
   		select * from t_department where t_no=#{no}
+  	</select>
+  	
+  	<select id="selectDepartmentCountByTNoAndDepart" resultType="int">
+  		select count(1) from t_department where t_no=#{no} and d_name=#{depart}
   	</select>
   	
   	<delete id="deleteDepartmentByNo" parameterType="String">
