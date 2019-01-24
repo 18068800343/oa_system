@@ -1045,7 +1045,7 @@ public class TaskController {
 			Task task=tService.selectIdByNo(nos.split(",")[i]);
 			if(task.getContractMoney()>money){
 				money=task.getContractMoney();
-				leader=task.getMainPrjLeader();
+				leader=task.getMainPrjLeaderName();
 			}
 		}
 		map.put("leader", leader);

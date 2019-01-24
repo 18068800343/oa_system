@@ -55,36 +55,35 @@
                         <tr>
                             <!-- <td>累计收款(元)</td>
                             <td id="look_all_money2"></td> -->
-                            <td>业主评级</td>
-                            <td id="look_rating"></td>
-                            <td>项目负责人</td>
-                            <td id="look_prj_leader2"></td>
+                            <td style="width:15%;">业主评级</td>
+		                    <td colspan="2" id="look_rating"></td>
+		                    <td style="width:35%;"><button type="button" class="btn btn-primary" style="display:none;" id="look_rating_button" onclick="downloadFile(this)">下载附件</button></td>
                         </tr>
                         <tr>
+                        	<td>项目负责人</td>
+                            <td id="look_prj_leader2"></td>
                             <td>项目经理</td>
                             <td id="look_prj_manager2"></td>
-                            <td>项目副经理1</td>
-                            <td id="look_deputy1_prj_manager2"></td>
                         </tr>
                         <tr>
+                        	<td>项目副经理1</td>
+                            <td id="look_deputy1_prj_manager2"></td>
                             <td>项目副经理2</td>
                             <td id="look_deputy2_prj_manager2"></td>
-                            <td>项目总工</td>
-                            <td id="look_prj_general2"></td>
                         </tr>
                         <tr>
+                        	<td>项目总工</td>
+                            <td id="look_prj_general2"></td>
                             <td>项目工期</td>
                             <td>
                             	<span  id="look_prj_duration2"></span><span>&nbsp;&nbsp;-&nbsp;&nbsp;</span><span  id="look_prj_duration2_end"></span>
                             </td>
-                            <td>公路等级</td>
-                            <td id="look_prj_grade2"></td>
                         </tr>
                         <tr>
+                        	 <td>公路等级</td>
+                            <td id="look_prj_grade2"></td>
                             <td>履约完结时间</td>
                             <td id="look_cj_contract_end_time"></td>
-                            <td></td>
-                            <td></td>
                         </tr>
                         <tr>
                             <td>项目概况</td>
@@ -171,7 +170,6 @@
   		  			$("#look_prj_info2").text(data.prjText);
   		  			$("#look_gq_info2").text(data.gqText);
   		  			$("#look_prj_leader2").text(data.prjChargeMan);
-  		  			$("#look_rating").text(data.rating);
   		  			$("#look_prj_manager2").text(data.prjManager);//项目经理
   		  	  		$("#look_deputy1_prj_manager2").text(data.deputyPrjManager1);//项目副经理1
   		  	  		$("#look_deputy2_prj_manager2").text(data.deputyPrjManager2);//项目副经理2
@@ -277,7 +275,12 @@
 								            	    	"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value='"+accessory[j].acName+"' disabled></td>"+
 								            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
 								            	    "</tr>");
-		            	   }
+		            	}
+						if(accessory[j].aType=="客户满意度"){
+							$("#look_rating").append("<input type='text' class='form-control' style='width:80%;' data='"+accessory[j].acUrl+"' value='"+accessory[j].acName+"' disabled>")
+							$("#look_rating_button").show();
+						}
+						
                 	}
                 }
       		});
@@ -288,11 +291,15 @@
   			
   		}
   		
-
-  		
   		function downLoadFile(obj){
   			var filePath=$(obj).attr("data");
-  			var fileName=$(obj).parents("tr").find("td").eq(1).text();
+  			var fileName=$(obj).parents("tr").find("td").eq(1).find("input").eq(0).val();
+  			window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
+  		}
+  		
+  		function downloadFile(obj){
+  			var filePath=$(obj).parents("tr").find("td").eq(1).find("input").eq(0).attr("data");
+  			var fileName=$(obj).parents("tr").find("td").eq(1).find("input").eq(0).val();
   			window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
   		}
   		

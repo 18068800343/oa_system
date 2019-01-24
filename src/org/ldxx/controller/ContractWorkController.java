@@ -276,7 +276,7 @@ public class ContractWorkController {
 	
 	@RequestMapping("/addContractWork2BySubmit")
 	@ResponseBody
-	public String addContractWork2BySubmit(String work,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
+	public String addContractWork2BySubmit(String work,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		classMap.put("taskArray", Task.class);
@@ -290,8 +290,8 @@ public class ContractWorkController {
 		if(!f.exists()){
 			f.mkdirs();
 		}
+		List<Accessory> list=new ArrayList<>();
 		if(file.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
@@ -304,24 +304,20 @@ public class ContractWorkController {
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
-			cwork.setAccessory(list);
 		}
-		/*if(file1.length>0){
-			List<Accessory> list1=new ArrayList<>();
-			for(int ii=0;ii<file1.length;ii++){
-				Accessory accessory1=new Accessory();
-				String fileName=file1[ii].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f2=new File(filePath);
-				file1[ii].transferTo(f2);
-				accessory1.setaId(id);
-				accessory1.setAcName(fileName);
-				accessory1.setAcUrl(filePath);
-				accessory1.setaType("法律顾问签字");
-				list1.add(accessory1);
-			}
-			cwork.setAccessory1(list1);
-		}*/
+		if(file2!=null){
+			Accessory accessory=new Accessory();
+			String fileName=file2.getOriginalFilename();
+			String filePath=path+File.separator+fileName;
+			File f2=new File(filePath);
+			file2.transferTo(f2);
+			accessory.setaId(id);
+			accessory.setAcName(fileName);
+			accessory.setAcUrl(filePath);
+			accessory.setaType("客户满意度");
+			list.add(accessory);
+		}
+		cwork.setAccessory(list);
 		int i=service.addContractWork(cwork);
 		String string = i+"";
 		if(i>0){
