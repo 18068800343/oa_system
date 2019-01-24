@@ -113,6 +113,7 @@
             </div>
             <div class="UpperPartR">
                 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报</button> -->
+                <div id="tabBtn2" style="margin-left: 10px;"></div>
             </div>
           </div>
           
@@ -125,6 +126,7 @@
            				<th>任务单号</th>
            				<th>采购合同名</th>
            				<th>采购合同号</th>
+           				<th>是否代购</th>
            				<th>金额(元)</th>
                         <!-- <td>操作</td> -->
                     </tr>
@@ -133,8 +135,12 @@
                 </tbody> 
                 <tfoot>
                 	<tr>
-                		<td colspan='5' style="text-align:right;color:red">总金额(元)</td>
+                		<td colspan='6' style="text-align:right;color:red">总金额(元)</td>
                 		<td id="allMoney2"></td>
+                	</tr>
+                	<tr>
+                		<td colspan='6' style="text-align:right;color:red">代购总金额(元)</td>
+                		<td id="daigou_allMoney_prj"></td> 
                 	</tr>
                 </tfoot>
             </table>
@@ -152,6 +158,7 @@
             </div>
             <div class="UpperPartR">
                 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">填报</button> -->
+                <div id="tabBtn3" style="margin-left: 10px;"></div>
             </div>
           </div>
           
@@ -164,6 +171,7 @@
            				<th>任务单号</th>
            				<th>采购合同名</th>
            				<th>采购合同号</th>
+           				<th>是否代购</th>
            				<th>部门</th>
            				<th>申请人</th>
            				<th>金额(元)</th>
@@ -175,8 +183,12 @@
                 </tbody> 
                 <tfoot>
                 	<tr>
-                		<td colspan='7' style="text-align:right;color:red">总金额(元)</td>
+                		<td colspan='8' style="text-align:right;color:red">总金额(元)</td>
                 		<td id="allMoney3"></td>
+                	</tr>
+                	<tr>
+                		<td colspan='8' style="text-align:right;color:red">代购总金额(元)</td>
+                		<td id="daigou_allMoney_bumen"></td> 
                 	</tr>
                 </tfoot>
             </table>
@@ -412,7 +424,8 @@
     table.buttons().container().appendTo( $('#tabBtn1') );
     $('.buttons-csv').addClass('btn btn-primary');
     
-    var table2=$('#mainContent2').dataTable({
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table2=$('#mainContent2').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -428,6 +441,7 @@
             { "data": "taskNo"}, 
             { "data": null}, 
             { "data": "cgNo"},
+            { "data": "isProgram"},
             { "data": null}, 
         ],
         "columnDefs": [
@@ -439,6 +453,16 @@
 								  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookGsclck(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>'
 								        }
 								  }, */
+					  	{	
+						 "class": "tcenter",
+						    "targets": 0,
+						    "searchable": true,
+						    "render": function(data, type, full) {
+						    		var value=data.sentDate;
+						    		var year=value.substring(0,4)
+						  	  		return year;
+						        }
+						 },
 				  		{	
 							 "class": "tcenter",
 							  "targets": 1,
@@ -447,16 +471,6 @@
 									return '<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">'+data.demandProject+'</a>'
 							  }
 						},
-						{	
-							 "class": "tcenter",
-							    "targets": 0,
-							    "searchable": true,
-							    "render": function(data, type, full) {
-							    		var value=data.sentDate;
-							    		var year=value.substring(0,4)
-							  	  		return year;
-							        }
-							  },
 							  {
 								  "class": "tcenter",
 								   "targets": 3,
@@ -467,7 +481,7 @@
 							},
 								{
 								  "class": "tcenter",
-								   "targets": 5,
+								   "targets": 6,
 								   "searchable": true,
 								   "render": function(data, type, full) {
 									   var value=Number(data.freight);
@@ -499,9 +513,40 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-  
+        "buttons": [
+        	{
+                extend: "csv",
+                text: "导出csv",
+                bom: true,
+                filename: '统计项目花销费用信息',
+                fieldSeparator: ',',
+                exportOptions: {
+                	format: {
+                        header: function ( data) {
+                            return data;
+                        },
+                        body: function ( data, columnIdx, rowIdx, code ) {
+                        	if(rowIdx==1){
+                        		data=data.replace("</a>","")
+                        		data=data.replace('<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">',"")
+                        	}
+                        	if(rowIdx==3){
+                        		data=data.replace("</a>","")
+                        		data=data.replace('<a onclick="gotoCg(this)" style="color:	#4876FF;cursor: pointer;">',"")
+                        	}
+			                return data;
+			            }
+                    },
+                    columns:[0,1,2,3,4,5,6]
+                }
+            }
+        ]
 	});
-    var table3=$('#mainContent3').dataTable({
+    table2.buttons().container().appendTo( $('#tabBtn2') );
+    $('.buttons-csv').addClass('btn btn-primary');
+    
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table3=$('#mainContent3').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -517,6 +562,7 @@
             { "data": "taskNo"}, 
             { "data": null}, 
             { "data": "cgNo"},
+            { "data": "isProgram"},
             { "data": "getDepartment"},
             { "data": "getPerson"},
             { "data": null}, 
@@ -558,7 +604,7 @@
 								},
 								{
 									  "class": "tcenter",
-									   "targets": 7,
+									   "targets": 8,
 									   "searchable": true,
 									   "render": function(data, type, full) {
 										   var value=Number(data.freight);
@@ -590,8 +636,37 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-  
+        "buttons": [
+        	{
+                extend: "csv",
+                text: "导出csv",
+                bom: true,
+                filename: '统计部门花销费用信息',
+                fieldSeparator: ',',
+                exportOptions: {
+                	format: {
+                        header: function ( data) {
+                            return data;
+                        },
+                        body: function ( data, columnIdx, rowIdx, code ) {
+                        	if(rowIdx==1){
+                        		data=data.replace("</a>","")
+                        		data=data.replace('<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">',"")
+                        	}
+                        	if(rowIdx==3){
+                        		data=data.replace("</a>","")
+                        		data=data.replace('<a onclick="gotoCg(this)" style="color:	#4876FF;cursor: pointer;">',"")
+                        	}
+			                return data;
+			            }
+                    },
+                    columns:[0,1,2,3,4,5,6,7,8]
+                }
+            }
+        ]
 	});
+    table3.buttons().container().appendTo( $('#tabBtn3') );
+    $('.buttons-csv').addClass('btn btn-primary');
     
     
 	function initTable(){
@@ -661,9 +736,12 @@
 	            	no:no
 	            },
 	            success: function (json) {
+	            	console.log(json)
 	                $('#mainContent2').dataTable().fnClearTable();
 	                $('#mainContent2').DataTable().rows.add(json).draw(false);
 	                var num=0;
+	                var arr=[];
+	                var arr2=[];
 	                for(var i=0;i<json.length;i++){
 	                	num+=Number(json[i].freight)
 	            		var clList=json[i].gsInCl;
@@ -673,8 +751,19 @@
 	    	            		num+=Number(clList[j].clMoney)
 	    	            	}
 	                	}
+	                	if($.inArray(json[i].cgNo,arr)==-1){
+	                		arr.push(json[i].cgNo)
+	                		arr2.push(json[i].programMoney)
+	                	}
 	            	}
 	       		 	$("#allMoney2").text(num)
+	       		 	var daigoujine=0;
+	       		 	if(arr2!=null){
+	       		 		for(var k=0;k<arr2.length;k++){
+	       		 			daigoujine+=Number(arr2[k]/1)
+	       		 		}
+	       		 	}
+	      		 	$("#daigou_allMoney_prj").text(daigoujine)
 	            }
 	        }); 
 	 })
@@ -713,6 +802,8 @@
 	                $('#mainContent3').dataTable().fnClearTable();
 	                $('#mainContent3').DataTable().rows.add(json).draw(false);
 	                var num=0;
+	                var arr=[];
+	                var arr2=[];
 	                for(var i=0;i<json.length;i++){
 	                	num+=Number(json[i].freight)
 	            		var clList=json[i].gsInCl;
@@ -722,8 +813,19 @@
 	    	            		num+=Number(clList[j].clMoney)
 	    	            	}
 	                	}
+	                	if($.inArray(json[i].cgNo,arr)==-1){
+	                		arr.push(json[i].cgNo)
+	                		arr2.push(json[i].programMoney)
+	                	}
 	            	}
 	       		 	$("#allMoney3").text(num)
+	       			var daigoujine=0;
+	       		 	if(arr2!=null){
+	       		 		for(var k=0;k<arr2.length;k++){
+	       		 			daigoujine+=Number(arr2[k]/1)
+	       		 		}
+	       		 	}
+	      		 	$("#daigou_allMoney_bumen").text(daigoujine)
 	            }
 	        }); 
 	 })
