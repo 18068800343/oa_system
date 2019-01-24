@@ -42,7 +42,7 @@ public class FlowTmpServiceImpl implements FlowTmpService {
 	@Override
 	public List<FlowTmp> getFlowTmp() {
 		
-		List<FlowTmp> flowTmps = flowTmpMapper.selectByExample(null);
+		List<FlowTmp> flowTmps = flowTmpMapper.selectAllFlowTmp();
 		for(FlowTmp flowTmp:flowTmps){
 			String flowTmpId = flowTmp.getId();
 			FlowNodeExample example=new FlowNodeExample();
