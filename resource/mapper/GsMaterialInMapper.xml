@@ -132,6 +132,39 @@
 	</select>
 	
 	<select id="selectAlreadySure" resultType="CompanyMateriaIn">
-		select * from company_material_in where get_status=#{getstate} 
+		select * from company_material_in a
+		left join task b on b.prj_no=a.task_no
+		where get_status=#{getstate} and b.main_department=#{useromId} 
+		OR get_status=#{getstate} and b.assist_department1=#{useromId}
+		OR get_status=#{getstate} and b.assist_department2=#{useromId} 
+		OR get_status=#{getstate} and b.assist_department3=#{useromId} GROUP BY cm_id
 	</select>
+	
+	<select id="selectXmInByNo" resultType="CompanyMateriaIn">
+		select * from company_material_in a
+		left join task b on b.prj_no=a.task_no
+		where task_no like #{no} and out_state=#{outstate} and b.main_department=#{useromId} 
+		OR task_no like #{no} and out_state=#{outstate} and b.assist_department1=#{useromId}
+		OR task_no like #{no} and out_state=#{outstate} and b.assist_department2=#{useromId} 
+		OR task_no like #{no} and out_state=#{outstate} and b.assist_department3=#{useromId}
+		or task_no like #{no} and out_state=3 and b.main_department=#{useromId} 
+		OR task_no like #{no} and out_state=3 and b.assist_department1=#{useromId}
+		OR task_no like #{no} and out_state=3 and b.assist_department2=#{useromId} 
+		OR task_no like #{no} and out_state=3 and b.assist_department3=#{useromId} GROUP BY cm_id
+	</select>
+	
+	<select id="selectXmInBybm" resultType="CompanyMateriaIn">
+		select a.*,b.program_money,b.is_program from company_material_in a
+		LEFT JOIN cg_contract b on a.cg_no=b.cg_no AND b.history=1 
+		left join task c on c.prj_no=a.task_no
+		where out_state=1 and get_status=1 and get_department like #{getDepartment} and c.main_department=#{useromId} 
+		OR out_state=1 and get_status=1 and get_department like #{getDepartment} and c.assist_department1=#{useromId}
+		OR out_state=1 and get_status=1 and get_department like #{getDepartment} and c.assist_department2=#{useromId} 
+		OR out_state=1 and get_status=1 and get_department like #{getDepartment} and c.assist_department3=#{useromId}
+		or out_state=3 and get_status=1 and get_department like #{getDepartment} and c.main_department=#{useromId} 
+		OR out_state=3 and get_status=1 and get_department like #{getDepartment} and c.assist_department1=#{useromId}
+		OR out_state=3 and get_status=1 and get_department like #{getDepartment} and c.assist_department2=#{useromId} 
+		OR out_state=3 and get_status=1 and get_department like #{getDepartment} and c.assist_department3=#{useromId} GROUP BY cm_id
+	</select>
+	
 </mapper>

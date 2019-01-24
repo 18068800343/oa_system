@@ -198,11 +198,20 @@ public class GsMaterialInController {
 		return gmService.updateOutStateById(id,outstate);
 	}
 	
-	@RequestMapping("/selectXmMaterialByNo")//通过任务单号和出库状态查找项目材料信息
+	@RequestMapping("/selectXmMaterialByNo")//通过任务单号和出库状态查找项目材料信息(公司出库)
 	@ResponseBody
 	public List<CompanyMateriaIn> selectXmMaterialByNo(String taskNo,String outstate){
 		String no="%"+taskNo+"%";
 		return gmService.selectXmMaterialByNo(no,outstate);
+	}
+	
+	@RequestMapping("/selectXmInByNo")//通过任务单号、出库状态以及当前登录人的部门查找项目材料信息(项目入库列表用到,联查项目的主协办部门只要包含当前人的部门就能查看)
+	@ResponseBody
+	public List<CompanyMateriaIn> selectXmInByNo(String taskNo,String outstate,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String useromId=user.getOmId();
+		String no="%"+taskNo+"%";
+		return gmService.selectXmInByNo(no,outstate,useromId);
 	}
 	
 	@RequestMapping("/updateXmState")//项目入库的收货确认
@@ -324,13 +333,13 @@ public class GsMaterialInController {
 		return gmService.selectBytaskNo(no);
 	}
 	
-	@RequestMapping("/selectByoutStateAndgetState")//通过出库状态和确认收货状态来查
+	@RequestMapping("/selectByoutStateAndgetState")//通过出库状态和确认收货状态来查(公司出库用到)
 	@ResponseBody
 	public List<CompanyMateriaIn> selectByoutStateAndgetState(String outstate,String getstate){
 		return gmService.selectByoutStateAndgetState(outstate,getstate);
 	}
 	
-	@RequestMapping("/selectBygetDepartment")//通过部门来查询项目入库已收货的信息
+	@RequestMapping("/selectBygetDepartment")//通过部门来查询项目入库已收货的信息(统计花销部门有用到)
 	@ResponseBody
 	public List<CompanyMateriaIn> selectBygetDepartment(String getDepartment){
 		getDepartment="%"+getDepartment+"%";
@@ -339,8 +348,19 @@ public class GsMaterialInController {
 	
 	@RequestMapping("/selectAlreadySure")//项目材料入库的已确认收货
 	@ResponseBody
-	public List<CompanyMateriaIn> selectAlreadySure(String getstate){
-		return gmService.selectAlreadySure(getstate);
+	public List<CompanyMateriaIn> selectAlreadySure(String getstate,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String useromId=user.getOmId();
+		return gmService.selectAlreadySure(getstate,useromId);
+	}
+	
+	@RequestMapping("/selectXmInBybm")//通过部门来查询当前登录人的部门查找项目材料信息(项目入库列表用到,联查项目的主协办部门只要包含当前人的部门就能查看)
+	@ResponseBody
+	public List<CompanyMateriaIn> selectXmInBybm(String getDepartment,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String useromId=user.getOmId();
+		getDepartment="%"+getDepartment+"%";
+		return gmService.selectXmInBybm(getDepartment,useromId);
 	}
 	
 }

@@ -281,8 +281,8 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	}
 
 	@Override
-	public List<CompanyMateriaIn> selectAlreadySure(String getstate) {
-		return gmDao.selectAlreadySure(getstate);
+	public List<CompanyMateriaIn> selectAlreadySure(String getstate,String useromId) {
+		return gmDao.selectAlreadySure(getstate,useromId);
 	}
 
 	@Override
@@ -296,6 +296,17 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 				}
 			}
 		}
+		return list;
+	}
+
+	@Override
+	public List<CompanyMateriaIn> selectXmInByNo(String no, String outstate, String useromId) {
+		return gmDao.selectXmInByNo(no,outstate,useromId);
+	}
+
+	@Override
+	public List<CompanyMateriaIn> selectXmInBybm(String getDepartment, String useromId) {
+		List<CompanyMateriaIn> list=gmDao.selectXmInBybm(getDepartment,useromId);
 		return list;
 	}
 

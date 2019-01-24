@@ -47,9 +47,13 @@ public interface GsMaterialInDao {
 
 	List<CompanyMateriaIn> selectBygetDepartment(@Param("getDepartment")String getDepartment);
 
-	List<CompanyMateriaIn> selectAlreadySure(@Param("getstate")String getstate);
+	List<CompanyMateriaIn> selectAlreadySure(@Param("getstate")String getstate,@Param("useromId") String useromId);
 
 	List<CompanyMateriaIn> selectGsRemainOut(@Param("outState")String outState,@Param("getStatus") String getStatus,@Param("remainType") String remainType);
+
+	List<CompanyMateriaIn> selectXmInByNo(@Param("no")String no, @Param("outstate")String outstate,@Param("useromId") String useromId);
+
+	List<CompanyMateriaIn> selectXmInBybm(@Param("getDepartment")String getDepartment,@Param("useromId") String useromId);
 
 
 }

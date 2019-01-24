@@ -52,9 +52,13 @@ public interface GsMaterialInService {
 
 	List<CompanyMateriaIn> selectBygetDepartment(String getDepartment);
 
-	List<CompanyMateriaIn> selectAlreadySure(String getstate);
+	List<CompanyMateriaIn> selectAlreadySure(String getstate,String useromId);
 
 	List<CompanyMateriaIn> selectGsRemainOut(String outState, String getStatus, String remainType);
+
+	List<CompanyMateriaIn> selectXmInByNo(String no, String outstate, String useromId);
+
+	List<CompanyMateriaIn> selectXmInBybm(String getDepartment, String useromId);
 
 
 }
