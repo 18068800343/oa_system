@@ -365,4 +365,11 @@ public class SignetUsersController {
 		return i;
 	}
 	
+	@RequestMapping("/selectSignetUsersBySignetNo")
+	@ResponseBody
+	public List<SignetUsers> selectSignetUsersBySignetNo(String no){
+		List<SignetUsers> list=suserService.selectSignetUsersBySignetNo(no);
+		return list;
+	}
+	
 }

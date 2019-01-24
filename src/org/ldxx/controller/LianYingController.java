@@ -44,7 +44,7 @@ public class LianYingController {
 	
 	@RequestMapping("/addLianYing")
 	@ResponseBody
-	public String addLianYing(LianYing ly,@RequestParam("file") MultipartFile file,@RequestParam("file2") MultipartFile file2,@RequestParam("file3") MultipartFile file3,@RequestParam("file4") MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
+	public String addLianYing(LianYing ly,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile file2,@RequestParam("file3") MultipartFile file3,@RequestParam("file4") MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
 		User user = (User) session.getAttribute("user");
 		if(user==null){
 			return "";
@@ -65,17 +65,19 @@ public class LianYingController {
 			f.mkdirs();
 		}
 		List<Accessory> list=new ArrayList<>();
-		if(file!=null){
-			Accessory accessory=new Accessory();
-			String fileName=file.getOriginalFilename();
-			String filePath=path+File.separator+fileName;
-			File f2=new File(filePath);
-			file.transferTo(f2);
-			accessory.setaId(id);
-			accessory.setAcName(fileName);
-			accessory.setAcUrl(filePath);  
-			accessory.setaType("资质证书");
-			list.add(accessory);
+		if(file.length>0){
+			for(int ii=0;ii<file.length;ii++){
+				Accessory accessory=new Accessory();
+				String fileName=file[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[ii].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(filePath);  
+				accessory.setaType("资质证书");
+				list.add(accessory);
+			}
 		}
 		if(file2!=null){
 			Accessory accessory=new Accessory();

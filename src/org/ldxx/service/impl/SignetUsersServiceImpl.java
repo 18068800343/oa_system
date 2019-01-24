@@ -93,4 +93,9 @@ public class SignetUsersServiceImpl implements SignetUsersService {
 		return sUserDao.updateStatus(id,status);
 	}
 
+	@Override
+	public List<SignetUsers> selectSignetUsersBySignetNo(String no) {
+		return sUserDao.selectSignetUsersBySignetNo(no);
+	}
+
 }

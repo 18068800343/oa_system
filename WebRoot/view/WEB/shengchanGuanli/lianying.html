@@ -146,8 +146,13 @@
 			                            	</tr>
 			                            	<tr>
 			                            		<td>资质证书</td>
-			                            		<td><input type="text"  style="width:70%;" class="form-control" id="zz_zs"></td>
-			                            		<td colspan="2"><input type="file"  name="file" id="file" class="form-control"></td>
+			                            		<td colspan="2"><input type="text"  style="width:70%;" class="form-control" id="zz_zs"></td>
+			                            		<td><button type="button" class="btn btn-primary" id="uploaderBox">添加附件</button></td>
+			                            	</tr>
+			                            	<tr id="zz_zs_tr">
+			                            		<td>附件</td>
+			                            		<td colspan="2"><input type="file"  name="file"  class="file form-control"></td>
+			                            		<td></td>
 			                            	</tr>
 			                            	<tr>
 			                            		<td>安全生产许可证有效期</td>
@@ -480,11 +485,6 @@
 			                            	<tr>
 			                            		<td>资质证书</td>
 			                            		<td colspan="3" id="look_zz_zs"></td>
-			                            	</tr>
-			                            	<tr>
-			                            		<td>资质证书附件</td>
-			                            		<td colspan="2" id="look_zz_zs_file"></td>
-			                            		<td><button type="button" class="btn btn-primary" id="button1" style="display:none;" onclick="downloadFile(this)">下载附件</button></td>
 			                            	</tr>
 			                            	<tr>
 			                            		<td>安全生产许可证有效期</td>
@@ -1239,17 +1239,23 @@
             	var accessory=json.accessory;
             	for(var i=0;i<accessory.length;i++){
             		if(accessory[i].aType=='资质证书'){
-            			$("#look_zz_zs_file").append("<input type='text' class='form-control' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
-            			$("#button1").show();
+            			$("#look_zz_zs").parent("tr").after('<tr>'+
+                        		'<td>资质证书附件</td>'+
+                        		"<td colspan='2'><input type='text' class='form-control' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled></td>"+
+                        		'<td><button type="button" class="btn btn-primary" onclick="downloadFile(this)">下载附件</button></td>'+
+                        	'</tr>')
             		}
+            		$("#look_aq_zs_file").html('');
 					if(accessory[i].aType=='安全生产许可证有效期'){
 						$("#look_aq_zs_file").append("<input type='text' class='form-control' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
             			$("#button2").show();    			
 					}
+					$("#look_kh_zs_file").html('');
 					if(accessory[i].aType=='开户许可证'){
 						$("#look_kh_zs_file").append("<input type='text' class='form-control' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
             			$("#button3").show();   
 					}
+					$("#look_fb_info_file").html('');
 					if(accessory[i].aType=='分包内容'){
 						$("#look_fb_info_file").append("<input type='text' class='form-control' style='width:80%;' value="+accessory[i].acName+" data="+accessory[i].acUrl+" disabled>")
             			$("#button4").show();   
@@ -1310,5 +1316,18 @@
 		}
 	}
 	
+	$("#uploaderBox").on("click",function(){
+		$("#zz_zs_tr").after('<tr>'+
+													'<td>附件</td>'+
+									        		'<td colspan="2"><input type="file"  name="file"  class="file form-control"></td>'+
+									        		'<td><button type="button" class="btn btn-primary" onclick="removeFile(this)">移除附件</button></td>'+
+									        	'</tr>')
+	})
+	
+	
+	function removeFile(obj){
+		var tr=$(obj).parents("tr");
+		$(tr).remove();
+	}
 </script>
 </html>

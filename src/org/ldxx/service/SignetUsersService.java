@@ -28,5 +28,7 @@ public interface SignetUsersService {
 	int addHuan(SignetUsers sUser);
 	
 	int updateStatus(String id,String status);
+	
+	List<SignetUsers> selectSignetUsersBySignetNo(String no);
 
 }
