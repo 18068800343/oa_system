@@ -21,7 +21,15 @@ public class TDepartmentServiceImpl implements TDepartmentService{
 
 	@Override
 	public int updateIncome(List<TDepartment> td) {
-		return dao.updateIncome(td);
+		int i=0;
+		for(TDepartment tDepartment:td){
+			i=dao.updateIncomeOne(tDepartment);
+			if(i>0){
+				i=dao.addTDepartmentIncome(tDepartment);
+			}
+		}
+		return i;
+		
 	}
 
 	@Override

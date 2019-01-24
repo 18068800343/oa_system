@@ -9,10 +9,16 @@
   		</foreach>
   	</insert>
   	
-  	<insert id="addTDepartmentOne" parameterType="java.util.List">
+  	<insert id="addTDepartmentOne" parameterType="TDepartment">
   		insert into t_department(t_no,d_name,d_money,d_income)
   		values
   			(#{td.tNo},#{td.dName},#{td.dMoney},#{td.dIncome})
+  	</insert>
+  	
+  	<insert id="addTDepartmentIncome" parameterType="java.util.List">
+  		insert into t_department_income(t_no,d_name,d_money,d_income,date)
+  		values
+  			(#{td.tNo},#{td.dName},#{td.dMoney},#{td.dIncome},#{td.date})
   	</insert>
   	
   	<update id="updateIncome" parameterType="java.util.List">
@@ -21,8 +27,16 @@
   		</foreach>
   	</update>
   	
+  	<update id="updateIncomeOne" parameterType="TDepartment">
+  			update t_department set d_income=(d_income+#{t.dIncome}) where t_no=#{t.tNo} and d_name=#{t.dName}
+  	</update>
+  	
   	<select id="selectDepartment" resultType="TDepartment">
   		select * from t_department where t_no=#{no}
+  	</select>
+  	
+  	<select id="selectDepartmentIncome" resultType="TDepartment">
+  		select a.*,b.t_name from t_department_income a left join task2 b on a.t_no = b.t_no  order by t_no desc
   	</select>
   	
   	<select id="selectDepartmentCountByTNoAndDepart" resultType="int">

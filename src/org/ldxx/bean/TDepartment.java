@@ -13,6 +13,21 @@ public class TDepartment {
 	private String dName;
 	private float dMoney;
 	private float dIncome;
+	private String date;
+	private String tName;
+	
+	public String gettName() {
+		return tName;
+	}
+	public void settName(String tName) {
+		this.tName = tName;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
 	public String gettNo() {
 		return tNo;
 	}
