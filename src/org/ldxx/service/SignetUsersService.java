@@ -27,6 +27,6 @@ public interface SignetUsersService {
 	
 	int addHuan(SignetUsers sUser);
 	
-	int updateStatus(String id);
+	int updateStatus(String id,String status);
 
 }

@@ -357,11 +357,11 @@ public class SignetUsersController {
 	
 	@RequestMapping("/updateStatus")
 	@ResponseBody
-	public int updateStatus(String id){
-		int i=suserService.updateStatus(id);
+	public int updateStatus(String id,String status,String status2){//status:印章使用的状态，status2:印章状态
+		int i=suserService.updateStatus(id,status);
 		SignetUsers su=suserService.selectUsersById(id);
 		String signetNo=su.getSignetNo();
-		i=pService.updateStatusByNo(signetNo,"0");
+		i=pService.updateStatusByNo(signetNo,status2);
 		return i;
 	}
 	

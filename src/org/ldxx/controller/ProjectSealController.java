@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,7 +58,10 @@ public class ProjectSealController {
 		String id = new TimeUUID().getTimeUUID();
 		signetManage.setSmId(id);
 		
-		String signetNo="YZ"+signetManage.getTaskNo();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=prjSealService.countSignet(year);
+		String signetNo="YZ"+new TimeUUID().getPrjCode("", count+1);
 		signetManage.setSignetNo(signetNo);
 		int i = prjSealService.addPrjSeal(signetManage);
 		if(i>0){
@@ -106,7 +110,10 @@ public class ProjectSealController {
 		Map<String,Object> map = new HashMap<>();
 		String id = new TimeUUID().getTimeUUID();
 		signetManage.setSmId(id);
-		String signetNo="YZ"+signetManage.getTaskNo();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=prjSealService.countSignet(year);
+		String signetNo="YZ"+new TimeUUID().getPrjCode("", count+1);
 		signetManage.setSignetNo(signetNo);
 		
 		int i = prjSealService.addPrjSeal(signetManage);

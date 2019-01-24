@@ -22,6 +22,6 @@ public interface SignetUsersDao {
 	
 	int addHuan(@Param("sUser")SignetUsers sUser);
 	
-	int updateStatus(@Param("id")String id);
+	int updateStatus(@Param("id")String id,@Param("status")String status);
 
 }

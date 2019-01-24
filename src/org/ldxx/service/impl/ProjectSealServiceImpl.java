@@ -81,4 +81,10 @@ public class ProjectSealServiceImpl implements ProjectSealService {
 		return prjSealDao.updateStatusByNo(no, status);
 	}
 
+	@Override
+	public int countSignet(String year) {
+		year="%"+year+"%";
+		return prjSealDao.countSignet(year);
+	}
+
 }

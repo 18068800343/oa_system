@@ -89,8 +89,8 @@ public class SignetUsersServiceImpl implements SignetUsersService {
 	}
 
 	@Override
-	public int updateStatus(String id) {
-		return sUserDao.updateStatus(id);
+	public int updateStatus(String id,String status) {
+		return sUserDao.updateStatus(id,status);
 	}
 
 }
