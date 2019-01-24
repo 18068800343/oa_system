@@ -21,12 +21,32 @@ public class FbContractOver {/*分包结算申请*/
     private String settlementTime;//时间
     
     private String workInfo;
+    private float qianqijyMoney;//前期经营费用
+    private String isKouchu;//是否扣除
     
     private List<Accessory> accessory;
     /*private List<Accessory> accessory2;//法律顾问签字*/    
 
+    
+    
     public float getFbMoney() {
 		return fbMoney;
+	}
+
+	public float getQianqijyMoney() {
+		return qianqijyMoney;
+	}
+
+	public void setQianqijyMoney(float qianqijyMoney) {
+		this.qianqijyMoney = qianqijyMoney;
+	}
+
+	public String getIsKouchu() {
+		return isKouchu;
+	}
+
+	public void setIsKouchu(String isKouchu) {
+		this.isKouchu = isKouchu;
 	}
 
 	public void setFbMoney(float fbMoney) {

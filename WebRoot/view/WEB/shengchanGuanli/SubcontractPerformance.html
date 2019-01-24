@@ -191,7 +191,7 @@
                                                 <input type="radio" name="pj7" value="75">75
                                                 <input type="radio" name="pj7" value="60">60 -->
                                                 <input type="text" class="form-control" id="pj7"  style="width:40%;" disabled>
-                                                <button type="button" placeholder="0-100" class="btn btn-primary" onclick="get_all()">计算</button>
+                                                <button type="button"  class="btn btn-primary" onclick="get_all()">计算</button>
                                             </td>
                                         </tr>
                                     </table> 
@@ -679,6 +679,12 @@
                                 <td>时间</td>
                                 <td><input type="text" style="width:75%;" class="form-control" id="year"></td>
                             </tr>
+                            <tr>
+                            	<td>前期经营费用(元)</td>
+                                <td><input type="text" style="width:60%;" class="form-control" id="qianqijyfy">
+                                	<input type="checkbox" style="width:15px;height:15px;"  name="sfkouchu">是否扣除
+                                </td>
+                            </tr>
                             <!-- <tr>
                                 <td style="width:15%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
@@ -1002,6 +1008,12 @@
                             <td>时间</td>
                             <td id="look_year"></td>
                         </tr>
+                        <tr>
+                           	<td>前期经营费用(元)</td>
+                            <td id="look_qianqijyfy"></td>
+                            <td>是否扣除</td>
+                            <td id="look_sfkouchu"></td>
+                         </tr>
                         <tr>
                             <td>内容概述</td>
                             <td colspan="3" id="look_work_info2"></td>
@@ -1643,7 +1655,7 @@
 <script src="../../js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../js/datatables/dataTables.colVis.min.js"></script>
 <script src="../../js/datatables/dataTables.tableTools.min.js"></script>
-<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<!-- <script src="../../js/datatables/dataTables.bootstrap.min.js"></script> -->
 <script src="../../js/datatables/datatables.responsive.min.js"></script>
 <script src="../../js/datatables/dataTables.buttons.min.js" ></script>
 <script src="../../js/datatables/buttons.html5.min.js" ></script>
@@ -3211,6 +3223,8 @@
     	$("#look_work_info2").text(data.workInfo);
     	$("#look_fb_money2").text(data.fbMoney);
     	$("#look_end_money2").text(data.fbEndMoney);
+    	$("#look_qianqijyfy").text(data.qianqijyMoney)
+    	$("#look_sfkouchu").text(data.isKouchu)
     	
     	$.ajax({
             type: 'POST',
@@ -3318,10 +3332,17 @@
     	var cjNo=$("#cjContract2").val();
     	var prjNo=$("#prjCode2").val();
     	/* var sj_type=$("#sj_type").val(); */
-    	var fbMoney=$("#fb_money2");
+    	var fbMoney=$("#fb_money2").val();
     	var fbEndMoney=$("#fb_end_money2").val();
     	var year=$("#year").val();
     	var work_info2=$("#work_info2").val();
+    	var qianqijyfy=$("#qianqijyfy").val();//前期经营费用
+    	var isKouchu="";
+    	if($("input[type='checkbox']").is(':checked')){//为true是选中
+    		isKouchu="是";
+    	}else{
+    		isKouchu="否";
+    	}
     	
     	var options={
     			type: 'POST',
@@ -3337,7 +3358,9 @@
                 	fbMoney:fbMoney,
                 	fbEndMoney:fbEndMoney,
                 	settlementTime:year,
-                	workInfo:work_info2
+                	workInfo:work_info2,
+                	qianqijyMoney:qianqijyfy,
+                	isKouchu:isKouchu
                 },
                 success: function (json) {
                 	if(json=='0'){
