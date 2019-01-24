@@ -390,7 +390,7 @@
                                             <option>辅助成员</option>
                                         </select>
                                     </td>
-                                    <td><input type="text" id="gongshi" class="form-control"></td>
+                                    <td><input type="text" id="gongshi" placeholder="天数" class="form-control"></td>
                                     <td colspan="3"><button type="button" class="btn btn-primary" onclick="addrenyuan(1)">添加</button></td>
                                 </tr>
                             </tbody>
@@ -2281,6 +2281,9 @@
     
     
     function addrenyuan(obj){
+    	var day = new Date(); 
+		var allDays = new Date(day.getFullYear(), (day.getMonth() + 1), 0).getDate();//当前月份的天数
+		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(obj==1){
 			var name=$("#name").val();
 			var fenlei=$("#fenlei").val();
@@ -2289,8 +2292,12 @@
 				toastr.error("人员不能为空");
 				return;
 			}
-			if(gongshi==''){
-				toastr.error("工时不能为空");
+			if(!reg.test(gongshi)){
+				toastr.error("工时只能填数字");
+				return;
+			}
+			if(gongshi==''||gongshi/1>allDays/1){
+				toastr.error("工时不能为空且不能大于当月总天数");
 				return;
 			}
 			$("#all_renyuan tbody").append("<tr>"
@@ -2309,8 +2316,12 @@
 				toastr.error("人员不能为空");
 				return;
 			}
-			if(gongshi==''){
-				toastr.error("工时不能为空");
+			if(!reg.test(gongshi)){
+				toastr.error("工时只能填数字");
+				return;
+			}
+			if(gongshi==''||gongshi/1>allDays/1){
+				toastr.error("工时不能为空且不能大于当月总天数");
 				return;
 			}
 			$("#edit_renyuan tbody").append("<tr>"
