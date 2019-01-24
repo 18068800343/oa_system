@@ -1520,7 +1520,7 @@
 		var xgprjScale=$("#xgprjScale").val();
 		var xgprjType=$("#xgprjType").val();
 		var xgcbDept=$("#xgcb_dept").val();
-		var xgprjInfo=$("#xgprj_info").val()
+		var xgprjInfo=$("#xgprj_info").val();
 		var xgjiapinggu=$("#xgjiapinggu").val();
 		var xgxianjin=$("#xgxianjin").val();
 		var xgyingli=$("#xgyingli").val();
@@ -1533,6 +1533,7 @@
 		var xgjishu=$("#xgjishu").val();
 		var xganquan=$("#xganquan").val();
 		var xgpingbiao=$("#xgpingbiao").val();
+		var xglianyingInfo=$("#xglianying_info").val();
 		if(xgprjName==''){
 			toastr.error("项目名称不能为空");
 			return;
@@ -1589,18 +1590,15 @@
 			toastr.error("安全管理难度不能为空");
 			return;
 		}
+		if(xglianyingInfo==''){
+			toastr.error("	联营或联合体单位情况不能为空");
+			return;
+		}
 		if(xgpingbiao==''){
 			toastr.error("评标办法不能为空");
 			return;
 		}
 		
-		var addJson = {
-	            "raId":xiugaiId,
-				"prjName": xgprjName,
-	            "prjScale": xgprjScale,
-	            "prjType": xgprjType,
-	            "evaluationMethod": xgpingbiao
-	        };
 		 $.ajax({
 				type:"POST",
 				url:getContextPath()+"/riskAssessment/updateRiskAssessmentByIdSubmit",
@@ -1611,6 +1609,8 @@
 					prjNo:xgprjNo,
 					prjScale:xgprjScale,
 					prjType:xgprjType,
+					cbDept:xgcbDept,
+					prjInfo:xgprjInfo,
 					pecificAssessment:xgjiapinggu,
 					flows:xgxianjin,
 					profitability:xgyingli,
@@ -1623,7 +1623,7 @@
 					technicalDifficulty:xgjishu,
 					safetyManagementDifficulty:xganquan,
 					evaluationMethod:xgpingbiao,
-					cbDept:xgcbDept
+					lianyingInfo:xglianyingInfo
 				},
 				success:function(json){
 					//console.log(json)
@@ -1632,7 +1632,10 @@
 					}else if(json.result==1){
 						$('#change').modal('hide');
 						toastr.success("提交成功");
-						$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+						var riskassessment=json.riskassessment;
+						$('#mainContent').DataTable().row(tr).data(riskassessment);//修改行立即显示
+						$(".Pdbbb").show();
+						$(".Pdbbc").show();
 					}else if(json.result==2){
 						toastr.error("项目名称重复")
 					} 
