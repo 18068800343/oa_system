@@ -5,6 +5,8 @@ import java.util.List;
 public class FlowTmp {
     private String id;
 
+    private String rownum;
+    
     private String flowname;
 
     private String flowmemo;
@@ -34,7 +36,15 @@ public class FlowTmp {
     private List<FlowNode> flowNodes;
     
     
-    public List<FlowNode> getFlowNodes() {
+    public String getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(String rownum) {
+		this.rownum = rownum;
+	}
+
+	public List<FlowNode> getFlowNodes() {
 		return flowNodes;
 	}
 
