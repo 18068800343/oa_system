@@ -23,9 +23,37 @@ public class ResultManagementSignet {
     
     private String uName;
 
+    private String yaosu;
     
+    private String qita;
+
+    private String yaosuname;
     
-    public String getUsType() {
+    public String getYaosuname() {
+		return yaosuname;
+	}
+
+	public void setYaosuname(String yaosuname) {
+		this.yaosuname = yaosuname;
+	}
+
+	public String getYaosu() {
+		return yaosu;
+	}
+
+	public void setYaosu(String yaosu) {
+		this.yaosu = yaosu;
+	}
+
+	public String getQita() {
+		return qita;
+	}
+
+	public void setQita(String qita) {
+		this.qita = qita;
+	}
+
+	public String getUsType() {
 		return usType;
 	}
 
