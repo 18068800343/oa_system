@@ -30,7 +30,11 @@ public class RoleController {
 	@RequestMapping("/updateParentRole")
 	@ResponseBody
 	public int  updateParentRole(String personId,String personRoles){
-		personRoles = personRoles.substring(0,personRoles.length()-1);
+		if("".equals(personRoles.trim())){
+			personRoles="";
+		}else{
+			personRoles = personRoles.substring(0,personRoles.length()-1);
+		}
 		int i = service.updatePersonRole(personId, personRoles);
 		return i;
 	}

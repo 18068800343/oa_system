@@ -17,6 +17,8 @@ public interface FlowTmpMapper {
     int insertSelective(FlowTmp record);
 
     List<FlowTmp> selectByExample(FlowTmpExample example);
+    
+    List<FlowTmp> selectAllFlowTmp();
 
     FlowTmp selectByPrimaryKey(String id);
 
