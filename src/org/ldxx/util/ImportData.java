@@ -161,13 +161,24 @@ public class ImportData {
                 Cell colum4 = hssfRow.getCell(4);  
                 Cell colum5 = hssfRow.getCell(5);
                 String fillTime=getValue(colum5);
-                Date dd = DateUtils.addDays(d,Integer.valueOf(fillTime)); 
-                float fill=dd.getTime();
-                if(fill>start&&fill<end){
-                	td.settNo(getValue(colum1));
-                	td.setdName(getValue(colum4));
-                	td.setdIncome(Float.valueOf(getValue(colum3)));
-                	list.add(td);
+                if(!"".equals(fillTime)&&null!=fillTime){
+                	Date dd = DateUtils.addDays(d,Integer.valueOf(fillTime)); 
+                	
+                	float fill=dd.getTime();
+                	Date date = new Date();
+                	if (colum5.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+                		date = colum5.getDateCellValue();
+                	}
+                	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                	
+                	if(fill>start&&fill<end){
+                		String date1 = simpleDateFormat.format(date);
+                		td.settNo(getValue(colum1));
+                		td.setdName(getValue(colum4));
+                		td.setdIncome(Float.valueOf(getValue(colum3)));
+                		td.setDate(date1);
+                		list.add(td);
+                	}
                 }
             }  
         } 

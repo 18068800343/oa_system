@@ -15,6 +15,8 @@ import org.ldxx.bean.TDepartment;
 import org.ldxx.bean.Task2;
 import org.ldxx.dao.CompanyCostDao;
 import org.ldxx.dao.SecondCompanyCostDao;
+import org.ldxx.dao.TDepartmentDao;
+import org.ldxx.dao.Task2Dao;
 import org.ldxx.service.TDepartmentService;
 import org.ldxx.service.Task2Service;
 import org.ldxx.util.ImportData;
@@ -42,7 +44,10 @@ public class Task2Controller {
 	private TDepartmentService tdService;
 	@Autowired
 	private SecondCompanyCostDao sccDao;
-	
+	@Autowired
+	private Task2Dao task2Dao;
+	@Autowired
+	private TDepartmentDao tDepartmentDao;
 	@Autowired
 	private CompanyCostDao ccDao;
 	@RequestMapping("/importExcel")
@@ -107,7 +112,9 @@ public class Task2Controller {
 		InputStream is=file.getInputStream();
 		ImportData importData=new ImportData();
 		List<TDepartment> td=importData.readXls2(is);
+		
 		int i=tdService.updateIncome(td);
+		
 		return i;
 	}
 	
@@ -115,6 +122,13 @@ public class Task2Controller {
 	@ResponseBody
 	public List<TDepartment> selectDepartment(String no){
 		List<TDepartment> list=tdService.selectDepartment(no);
+		return list;
+	}
+	
+	@RequestMapping("/selectDepartmentIncome")
+	@ResponseBody
+	public List<TDepartment> selectDepartmentIncome(){
+		List<TDepartment> list=tDepartmentDao.selectDepartmentIncome();
 		return list;
 	}
 	
