@@ -62,9 +62,10 @@
             <div class="UpperPartL" style="font-size:18px;">
                 <form class="form-inline">
                     <label>状态筛选:</label>
-                    <select class="zhuangtai form-control">
+                    <select class="zhuangtai form-control" style="width:160px;">
                         <option>审批结束</option>
                         <option>审批中</option>
+                        <option>审批未通过</option>
                     </select>
                 </form>
             </div>
@@ -913,6 +914,24 @@
                 dataType: 'json',
                 data: {
                 	status:1,
+                },
+                success: function (json) {
+                    $('#mainContent').dataTable().fnClearTable();
+                    $('#mainContent').DataTable().rows.add(json).draw(false);
+                    $(".chongqi").hide();
+                	$(".iconxiugai").hide();
+                	$(".iconzhongzhi").hide();
+                    $(".iconlywj").hide();
+                }
+            });
+        	
+        }else if(zt=="审批未通过"){
+        	$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/BorrowContract/selectBorrowContract',
+                dataType: 'json',
+                data: {
+                	status:0,
                 },
                 success: function (json) {
                     $('#mainContent').dataTable().fnClearTable();
