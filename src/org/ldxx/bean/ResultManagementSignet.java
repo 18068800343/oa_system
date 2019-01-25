@@ -29,7 +29,18 @@ public class ResultManagementSignet {
 
     private String yaosuname;
     
-    public String getYaosuname() {
+    private String useStatus;//0:未用印 1:已用印
+    
+    
+    public String getUseStatus() {
+		return useStatus;
+	}
+
+	public void setUseStatus(String useStatus) {
+		this.useStatus = useStatus;
+	}
+
+	public String getYaosuname() {
 		return yaosuname;
 	}
 

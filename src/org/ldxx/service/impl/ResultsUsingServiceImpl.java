@@ -40,4 +40,9 @@ public class ResultsUsingServiceImpl implements ResultsUsingService {
 	public ResultManagementSignet selectResultsUsingById(String usId) {
 		return rUsingDao.selectResultsUsingById(usId);
 	}
+
+	@Override
+	public int updateUseStatus(String id) {
+		return rUsingDao.updateUseStatus(id);
+	}
 }

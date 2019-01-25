@@ -182,4 +182,12 @@ public class ResultsUsingController {
 	public ResultManagementSignet selectResultsUsingById(String usId){
 		return rUsingService.selectResultsUsingById(usId);
 	}
+	
+	@RequestMapping("/updateUseStatus")
+	@ResponseBody
+	public int updateUseStatus(String id){
+		int i=rUsingService.updateUseStatus(id);
+		return i;
+	}
+	
 }

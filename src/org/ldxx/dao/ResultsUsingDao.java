@@ -16,5 +16,7 @@ public interface ResultsUsingDao {
 	int updateResultsUsingByIdSave(@Param("rs")ResultManagementSignet rs);
 
 	ResultManagementSignet selectResultsUsingById(@Param("usId")String usId);
+	
+	int updateUseStatus(@Param("id")String id);
 
 }

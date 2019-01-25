@@ -12,6 +12,13 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+     <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -574,15 +581,16 @@
             <table class="table table-bordered table-condensed" id="mainContent" style="width:100%;">
                 <thead>
                     <tr>
-                        <th>任务单号</th>
-                        <th>项目名称</th>
-                        <th>项目负责人</th>
-                        <th>项目阶段</th>
-                        <th>分项主任工程师</th>
-                        <th>(副)总工程师</th>
-                        <th>申请人</th>
-                        <th>印章类型</th>
-                        <th style="width:60px;">操作</th>
+                        <th style="width:10%;">任务单号</th>
+                        <th style="width:20%;">项目名称</th>
+                        <th style="width:10%;">项目负责人</th>
+                        <th style="width:8%;">项目阶段</th>
+                        <th style="width:10%;">分项主任工程师</th>
+                        <th style="width:10%;">(副)总工程师</th>
+                        <th style="width:8%;">申请人</th>
+                        <th style="width:8%;">印章类型</th>
+                        <th style="width:8%;">用印状态</th>
+                        <th style="width:8%;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -597,6 +605,7 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
 
@@ -639,6 +648,7 @@
             { "data": "headEngineer"}, 
             { "data": "uName"},
             { "data": "usType"},
+            { "data": "useStatus"},
             { "data": null}
         ],
         "columnDefs": [
@@ -652,11 +662,26 @@
 						},
 						{	
 								 "class": "tcenter",
+								    "targets": 9,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								    		if(full.useStatus=="1"){
+								    			return '<i class="iconfont icon-icon-test Pbcb" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" onclick="lookRusing(this)" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  <i class="iconfont icon-xiugai Pbcc" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="修改" onclick="checkRs(this)" data-toggle="modal" data-target="#change" id="Changedanwei"></i>'
+								    		}else{
+								    			return '<i class="iconfont icon-icon-test Pbcb" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" onclick="lookRusing(this)" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  <i class="iconfont icon-xiugai Pbcc" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" title="修改" onclick="checkRs(this)" data-toggle="modal" data-target="#change" id="Changedanwei"></i><i class="glyphicon glyphicon-ok Pbcb" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" title="确认用印" onclick="checkStatus(this)"></i>'
+								    		}
+								    }
+					        },{	
+								 "class": "tcenter",
 								    "targets": 8,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return '<i class="iconfont icon-icon-test Pbcb" style="font-size:20px;cursor:pointer;display:none;" onclick="lookRusing(this)" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  <i class="iconfont icon-xiugai Pbcc" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="checkRs(this)" data-toggle="modal" data-target="#change" id="Changedanwei"></i>'
-								        }
+								    	    if(data=="1"){
+								    	    	return '<button type="button" class="btn btn-success">已确认</button>'
+								    	    }else{
+								    	    	return '<button type="button" class="btn btn-danger">未确认</button>'
+								    	    }
+								    }
 								  }
 						],
 						"fnDrawCallback" : function() {
@@ -1927,6 +1952,36 @@
 		var data=$('#mainContent').DataTable().row(dom).data();
 		//console.log(data);
 		$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+data.prjId+'&prjNo='+data.usNo+'');
+    }
+    
+    function checkStatus(obj){
+    	var tr=$(obj).parents("tr");
+    	var data=$("#mainContent").DataTable().row(tr).data();
+    	$.SmartMessageBox({
+            title: "确认用印",
+            content: "确认用印？",
+            buttons: '[取消][确定]'
+        }, function (ButtonPressed) {
+        	if (ButtonPressed === "确定") {
+        		$.ajax({
+        			type:"post",
+        			url:getContextPath()+"/ResultsUsing/updateUseStatus",
+        			dataType:"json",
+        			data:{
+        				id:data.usId
+        			},
+        			success:function(json){
+        				if(json>0){
+        					toastr.success("确认成功")
+        					data.useStatus='1';
+            				$("#mainContent").DataTable().row(tr).data(data).draw(false);
+        				}else{
+        					toastr.error("确认失败")
+        				}
+        			}
+        		})
+        	}
+        });
     }
 </script>
 </html>
