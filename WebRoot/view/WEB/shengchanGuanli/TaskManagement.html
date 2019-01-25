@@ -2103,6 +2103,7 @@
 		});
 	}
     //甲方单位
+    var jiafangdanweiid;
     function leixingSelect2(){
 	    $.ajax({
 	        type: 'POST',
@@ -2114,15 +2115,18 @@
 	        success: function (json) {
 	        	$("#yezhudanwei").html('');
 	        	 for(var i=0;i<json.length;i++){
-	        		$("#yezhudanwei").append( "<option value='" + json[i].ccId + "'>"
+	        		$("#yezhudanwei").append( "<option value='" + json[i].ccId + "' data-id='" + json[i].ccId + "'>"
 		                    + json[i].ccName + "</option>")
 	        	}
-	        	 $('#yezhudanwei').editableSelect().on('select.editable-select', function (e, dom) {});
+	        	 $('#yezhudanwei').editableSelect().on('select.editable-select', function (e, dom) {
+	        		 jiafangdanweiid=dom.attr("data-id");
+	        		 
+	        	 });
 	        	 $("#yezhudanwei").trigger("change");
 	        }
 	    });
 	}
-    
+    var xgjiafangdanweiid;
     function leixingSelect3(){
 	    $.ajax({
 	        type: 'POST',
@@ -2137,7 +2141,9 @@
                    $("#xgyezhudanwei").append( "<option value='" + json[i].ccId + "'>"
                     + json[i].ccName + "</option>")
 	        	}
-	        	 $('#xgyezhudanwei').editableSelect().on('select.editable-select', function (e, dom) {});
+	        	 $('#xgyezhudanwei').editableSelect().on('select.editable-select', function (e, dom) {
+	        		 xgjiafangdanweiid=dom.attr("data-id");
+	        	 });
 	        	 $("#xgyezhudanwei").trigger("change");
 	        }
 	    });
@@ -2412,7 +2418,7 @@
         	var mainPrjNo=$("#main_prj_no").val();
         	var moshi=$("#moshi").find("option:selected").val();
         	var gongsi=$("#gongsi").find("option:selected").val();
-        	var yezhudanwei=$("#yezhudanwei").val();
+        	var yezhudanwei=jiafangdanweiid;
         	var city=$("#city-picker3").val();
         	var importance=$("#importance").val();
         	var prjSource=$("#prj_source").val();
@@ -2606,7 +2612,7 @@
     	    xindanwei.chushebili = chushe;
     	    xindanwei.shishebili = shishe;
     	    danwei.push(xindanwei);
-    		
+    		//console.log(danwei)
     	    $.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/task/addTask',
@@ -2666,7 +2672,7 @@
         	var mainPrjNo=$("#main_prj_no").val();
         	var moshi=$("#moshi").find("option:selected").val();
         	var gongsi=$("#gongsi").find("option:selected").val();
-        	var yezhudanwei=$("#yezhudanwei").val();
+        	var yezhudanwei=jiafangdanweiid;
         	var city=$("#city-picker3").val();
         	var importance=$("#importance").val();
         	var prjSource=$("#prj_source").val();
@@ -3117,7 +3123,7 @@
         	var importance=$("#edit_importance").val();
         	var moshi=$("#xgmoshi").find("option:selected").val();
         	var gongsi=$("#xggongsi").find("option:selected").val();
-        	var yezhudanwei=$("#xgyezhudanwei").val();
+        	var yezhudanwei=xgjiafangdanweiid;
         	var prjSource=$("#xg_prj_source").val();
         	var jine=$("#xgjine").val();
         	var hetonge=$("#xghetonge").val();
@@ -3395,7 +3401,7 @@
         	var gongsi=$("#xggongsi").find("option:selected").val();
         	var city=$("#edit_city").val();
         	var importance=$("#edit_importance").val();
-        	var yezhudanwei=$("#xgyezhudanwei").val();
+        	var yezhudanwei=xgjiafangdanweiid;
         	var prjSource=$("#xg_prj_source").val();
         	var jine=$("#xgjine").val();
         	var hetonge=$("#xghetonge").val();
