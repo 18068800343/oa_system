@@ -1206,6 +1206,28 @@ public class TaskController {
 	  String result = new FlowUtill().chaoSongFlow(id, users1);
 	  return result;
 	}
+	@RequestMapping("/insertChaoSongByOmNo")
+	@ResponseBody
+	public String insertChaoSongByOmNo(String  id,String omNo,String roleName){
+		List<User> users = userDao.selectAllUser();
+		
+		List<Role> roles = roleDao.selectRoleByRoleName(roleName);
+		String yzRole = "";
+		
+		if(roles.size()>0){
+			if(roles.get(0).getRoleCode().length()<=5){
+				yzRole =  roles.get(0).getRoleCode();
+			}
+		}
+		List<User> users1 = new ArrayList<>();
+		for(User user:users){
+			if(null!=user.getUserRole()&&user.getUserRole().contains(yzRole+"r"+omNo+".")){
+				users1.add(user);
+			}
+		}
+		String result = new FlowUtill().chaoSongFlow(id, users1);
+		return result;
+	}
 	
 	@RequestMapping("/selectTaskByCj")
 	@ResponseBody
