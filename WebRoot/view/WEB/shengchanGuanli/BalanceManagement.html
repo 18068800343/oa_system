@@ -1459,9 +1459,9 @@
 	           		  				+'<input type="text" class="form-control" value="'+json[i].cmoUnitPrice+'"  style="width:80%;">'
 	           		  				+"</td><td style='width:7%;'>"
 	           		  				+'<input type="text" class="form-control"style="width:100%;">'
-	           		  				+"</td><td style='width:7%;'>" 
+	           		  				+"</td><td style='width:7%;' data-id2=''>" 
 	           		  				+'<select style="width:150px;" class="form-control" id=xm'+i+'></select>'
-	           		  				+"</td><td style='width:7%;'>"
+	           		  				+"</td><td style='width:7%;' data-id2=''>"
 	           		  				+'<select style="width:150px;" class="form-control" id=gs'+i+'></select>'
 	           		  				+"</td><td style='width:7%;'>"
 	           		  				+'<input type="text" class="form-control"  style="width:100%;">'
@@ -1526,16 +1526,19 @@
 	            },
 	            success: function (json) {
 	            	$("#xm"+obj).empty();
-	            	$("#xgxm"+obj).empty();
 	                for(var i=0;i<json.length;i++){
-	                	$("#xm"+obj).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
-	                	$("#xgxm"+obj).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+	                	$("#xm"+obj).append("<option data-id="+json[i].spId+" value="+json[i].spId+">"+json[i].spName+"</option>");
 	                }
+	                $("#xm"+obj).editableSelect().on('select.editable-select', function (e, dom) {
+	                	var xmId=dom.attr("data-id");
+	                	dom.parents().attr("data-id2",xmId);
+	                });
 	                /* $("#xm"+obj2).val(obj1);
 	                $("#xgxm"+obj2).val(obj1); */
 	            }
 			});
 		}
+		
 		function initName2(obj){
 			$.ajax({
 	            type: 'POST',
@@ -1546,11 +1549,13 @@
 	            },
 	            success: function (json) {
 	            	$("#gs"+obj).empty();
-	            	$("#xggs"+obj).empty();
 	                for(var i=0;i<json.length;i++){
-	                	$("#gs"+obj).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
-	                	$("#xggs"+obj).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+	                	$("#gs"+obj).append("<option data-id="+json[i].spId+" value="+json[i].spId+">"+json[i].spName+"</option>");
 	                }
+	                $("#gs"+obj).editableSelect().on('select.editable-select', function (e, dom) {
+	                	var gsId=dom.attr("data-id");
+	                	dom.parents().attr("data-id2",gsId);
+	                });
 	                /* $("#gs"+obj2).val(obj1);
 	                $("#xggs"+obj2).val(obj1); */
 	            }
@@ -1719,8 +1724,10 @@
     	    var yushu = $(this).find("td").eq(4).find("input").val();//结余余数
     	    var cldanjia = $(this).find("td").eq(5).find("input").val();//材料单价
     	    var lingNum = $(this).find("td").eq(6).find("input").val();//转出数量
-    	    var xmSupplier = $(this).find("td").eq(7).find("option:selected").val();//项目供应商
-    	    var gsSupplier = $(this).find("td").eq(8).find("option:selected").val();//公司供应商
+    	    /* var xmSupplier = $(this).find("td").eq(7).find("option:selected").val();//项目供应商
+    	    var gsSupplier = $(this).find("td").eq(8).find("option:selected").val();//公司供应商 */
+    	    var xmSupplier=$(this).find("td").eq(7).attr("data-id2");
+			var gsSupplier=$(this).find("td").eq(8).attr("data-id2");
     	    var desc = $(this).find("td").eq(9).find("input").val();//备注
     	    var laihuodanwei = $(this).find("td").eq(10).find("input").val();//来货单位
     	    var shengchanchangjia = $(this).find("td").eq(11).find("input").val();//生产厂家
@@ -1825,7 +1832,7 @@
 		gsclIn.outState=3;	
 		gsclIn.freight=yunfei;
 		gsclIn.gsInCl=gsclInArr;
-   		
+   		//console.log(gsclIn)
    		var formData = new FormData();
  		formData.append("gsclIn", JSON.stringify(gsclIn));
 	 		
@@ -1833,7 +1840,7 @@
  			formData.append("file", $(this).find(":file")[0].files[0]);
  		}) */ 
    		if(flag==true){
-   			$.ajax({
+   			 $.ajax({
    				type: 'POST',
    	            url: getContextPath()+'/gsMaterialIn/addGsMaterialInSubmit',
    	            data: formData,  
@@ -1849,7 +1856,7 @@
    						toastr.error("结余转出失败")
    					} 
    	            }
-   			}) 
+   			})  
    		}
 		
 	}

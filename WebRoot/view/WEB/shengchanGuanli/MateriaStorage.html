@@ -1375,30 +1375,46 @@ function xgsaveCgName(){
             	$("#xm"+obj2).empty();
             	$("#xgxm"+obj2).empty();
                 for(var i=0;i<json.length;i++){
-                	$("#xm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
-                	$("#xgxm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#xm"+obj2).append("<option data-id="+json[i].spId+" value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#xgxm"+obj2).append("<option data-id="+json[i].spId+" value="+json[i].spId+">"+json[i].spName+"</option>");
                 }
                 $("#xm"+obj2).val(obj1);
+                $("#xm"+obj2).editableSelect().on('select.editable-select', function (e, dom) {
+                	var xmId=dom.attr("data-id");
+                	dom.parents().attr("data-id2",xmId);
+                });
+                $("#xgxm"+obj2).editableSelect().on('select.editable-select', function (e, dom) {
+                	var xgxmId=dom.attr("data-id");
+                	dom.parents().attr("data-id2",xgxmId);
+                });
                 $("#xgxm"+obj2).val(obj1);
             }
 		});
 	}
+	
 	function initName2(obj1,obj2){
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/supplier/selectIdAndName',
             dataType: 'json',
             data: {
-
             },
             success: function (json) {
             	$("#gs"+obj2).empty();
             	$("#xggs"+obj2).empty();
                 for(var i=0;i<json.length;i++){
-                	$("#gs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
-                	$("#xggs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#gs"+obj2).append("<option data-id="+json[i].spId+" value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#xggs"+obj2).append("<option data-id="+json[i].spId+" value="+json[i].spId+">"+json[i].spName+"</option>");
                 }
                 $("#gs"+obj2).val(obj1);
+                $("#gs"+obj2).editableSelect().on('select.editable-select', function (e, dom) {
+                	var gsId=dom.attr("data-id");
+                	dom.parents().attr("data-id2",gsId);
+                });
+                $("#xggs"+obj2).editableSelect().on('select.editable-select', function (e, dom) {
+                	var xggsId=dom.attr("data-id");
+                	dom.parents().attr("data-id2",xggsId);
+                });
                 $("#xggs"+obj2).val(obj1);
             }
 		});
@@ -1437,11 +1453,11 @@ function xgsaveCgName(){
            		  				+'<input type="text" class="form-control" value='+json.cgcl[k].clNumber+' style="width:100%;">'
            		  				+"</td><td style='width:7%;'>"
            		  				+'<input type="text" class="form-control" value='+json.cgcl[k].clPrice+'  style="width:80%;">'
-           		  				+"</td><td style='width:7%;'>"
+           		  				+"</td><td style='width:7%;' data-id2=''>"
            		  				/* +'<input type="text" class="form-control" value='+json.cgcl[k].clMoney+' style="width:100%;">'
            		  				+"</td><td style='width:7%;'>" */
-           		  				+'<select style="width:150px;" class="form-control" id=xm'+k+'></select>'
-           		  				+"</td><td style='width:7%;'>"
+           		  				+'<select style="width:150px;"  class="form-control" id=xm'+k+'></select>'
+           		  				+"</td><td style='width:7%;' data-id2=''>"
            		  				+'<select style="width:150px;" class="form-control" id=gs'+k+'></select>'
            		  				+"</td><td style='width:7%;'>"
            		  				+'<input type="text" class="form-control" value='+json.cgcl[k].clDesc+' style="width:100%;">'
@@ -1499,11 +1515,11 @@ function xgsaveCgName(){
            		  				+'<input type="text" class="form-control" value='+json.cgcl[k].clNumber+' style="width:100%;">'
            		  				+"</td><td style='width:7%;'>"
            		  				+'<input type="text" class="form-control" value='+json.cgcl[k].clPrice+'  style="width:80%;">'
-           		  				+"</td><td style='width:7%;'>"
+           		  				+"</td><td style='width:7%;' data-id2=''>"
            		  				/* +'<input type="text" class="form-control" value='+json.cgcl[k].clMoney+' style="width:100%;">'
            		  				+"</td><td style='width:7%;'>" */
            		  				+'<select style="width:150px;" class="form-control" id=xgxm'+k+'></select>'
-           		  				+"</td><td style='width:7%;'>"
+           		  				+"</td><td style='width:7%;' data-id2=''>"
            		  				+'<select style="width:150px;" class="form-control" id=xggs'+k+'></select>'
            		  				+"</td><td style='width:7%;'>"
            		  				+'<input type="text" class="form-control" value='+json.cgcl[k].clDesc+' style="width:100%;">'
@@ -1785,8 +1801,8 @@ function xgsaveCgName(){
 			var clunit=$(this).find("td").eq(3).find("option:selected").val();
 			var clnumber=$(this).find("td").eq(4).find("input").val();
 			var clprice=$(this).find("td").eq(5).find("input").val();
-			var clprj=$(this).find("td").eq(6).find("option:selected").val();
-			var clgs=$(this).find("td").eq(7).find("option:selected").val();
+			var clprj=$(this).find("td").eq(6).attr("data-id2");
+			var clgs=$(this).find("td").eq(7).attr("data-id2");
 			var cldesc=$(this).find("td").eq(8).find("input").val();
 			var laihuodanwei=$(this).find("td").eq(9).find("input").val();
 			var changjia=$(this).find("td").eq(10).find("input").val();
@@ -1895,7 +1911,7 @@ function xgsaveCgName(){
 						toastr.error("添加失败")
 					}
 	            }
-	        }); 
+	        });  
 	}
 	
 	//填报提交
@@ -1909,8 +1925,10 @@ function xgsaveCgName(){
 			var clunit=$(this).find("td").eq(3).find("option:selected").val();
 			var clnumber=$(this).find("td").eq(4).find("input").val();
 			var clprice=$(this).find("td").eq(5).find("input").val();
-			var clprj=$(this).find("td").eq(6).find("option:selected").val();
-			var clgs=$(this).find("td").eq(7).find("option:selected").val();
+			/* var clprj=$(this).find("td").eq(6).find("option:selected").val();
+			var clgs=$(this).find("td").eq(7).find("option:selected").val(); */
+			var clprj=$(this).find("td").eq(6).attr("data-id2");
+			var clgs=$(this).find("td").eq(7).attr("data-id2");
 			var cldesc=$(this).find("td").eq(8).find("input").val();
 			var laihuodanwei=$(this).find("td").eq(9).find("input").val();
 			var changjia=$(this).find("td").eq(10).find("input").val();
@@ -2267,11 +2285,11 @@ function xgsaveCgName(){
           		  				+'<input type="text" class="form-control" value="'+gsInCl[k].clNumber+'" style="width:100%;">'
           		  				+"</td><td style='width:7%;'>"
           		  				+'<input type="text" class="form-control" value="'+gsInCl[k].clPrice+'"  style="width:80%;">'
-          		  				+"</td><td style='width:7%;'>"
+          		  				+"</td><td style='width:7%;' data-id2="+gsInCl[k].clPrjSupplier+">"
           		  				/* +'<input type="text" class="form-control" value='+json.cgcl[k].clMoney+' style="width:100%;">'
           		  				+"</td><td style='width:7%;'>" */
           		  				+'<select style="width:150px;" class="form-control" id=xgxm'+k+'></select>'
-          		  				+"</td><td style='width:7%;'>"
+          		  				+"</td><td style='width:7%;' data-id2="+gsInCl[k].clGsSupplier+">"
           		  				+'<select style="width:150px;" class="form-control" id=xggs'+k+'></select>'
           		  				+"</td><td style='width:7%;'>"
           		  				+'<input type="text" class="form-control"  style="width:100%;" value="'+gsInCl[k].clDesc+'" >'
@@ -2283,8 +2301,8 @@ function xgsaveCgName(){
           		  				+'<button type="button" class="btn btn-primary" onclick="xgshanchuyihang(this)">删除</button>'
           		  				+"</td></tr>")
           		  				initClType(gsInCl[k].clType,k);
-          		  				initName1(gsInCl[k].clPrjSupplier,k);
-                  				initName2(gsInCl[k].clGsSupplier,k);
+          		  				initName1(gsInCl[k].clspNamexm,k);
+                  				initName2(gsInCl[k].clspNamegs,k);
                   				$("#xgcl_danwei"+k).val(gsInCl[k].clUnit);
 	               }
 				}
@@ -2330,8 +2348,10 @@ function xgsaveCgName(){
 			var clunit=$(this).find("td").eq(3).find("option:selected").val();
 			var clnumber=$(this).find("td").eq(4).find("input").val();
 			var clprice=$(this).find("td").eq(5).find("input").val();
-			var clprj=$(this).find("td").eq(6).find("option:selected").val();
-			var clgs=$(this).find("td").eq(7).find("option:selected").val();
+			/* var clprj=$(this).find("td").eq(6).find("option:selected").val();
+			var clgs=$(this).find("td").eq(7).find("option:selected").val(); */
+			var clprj=$(this).find("td").eq(6).attr("data-id2");
+			var clgs=$(this).find("td").eq(7).attr("data-id2");
 			var cldesc=$(this).find("td").eq(8).find("input").val();
 			var laihuodanwei=$(this).find("td").eq(9).find("input").val();
 			var changjia=$(this).find("td").eq(10).find("input").val();
@@ -2438,59 +2458,6 @@ function xgsaveCgName(){
 	        });
 	}
 	 
-	/* function checkSave(){
-		
-		var buyNo="";
-		for(var i=0;i<xgarrayClId.length;i++){
-			if(i<xgarrayClId.length-1){
-				buyNo+=xgarrayClId[i]+","
-			}else{
-				buyNo+=xgarrayClId[i]
-			}
-		}
-		
-		if(xgcgNo==''){
-			toastr.error("采购合同号为空")
-			return;
-		}
-		if(xgrenyuan==''){
-			toastr.error("收货人为空")
-			return;
-		}
-		
-		var options={
-	            type: 'POST',
-	            url: getContextPath()+'/gsMaterialIn/updateGsMaterialInSave',
-	            dataType: 'json',
-	            data: { 
-	            	cmId:xgId,
-	            	cgNo:xgcgNo,
-	            	cgName:xgcgName,
-	            	taskNo:xgtaskNo,
-	            	demandProject:xgprjName,
-	            	sentDate:xgyear,
-	            	collectPerson:xgrenyuan,
-	            	cmDesc:xgbeizhu,
-	            	acceptanceOpinion:xgyanshouyijian,
-	            	buyNo:buyNo,
-	            },
-	            success: function (json) {
-	            	//console.log(json);
-	            	if(json.result>0){
-						$("#change").modal("hide")
-						toastr.success("添加成功")
-					}else{
-						toastr.error("添加失败")
-					}
-	            }
-	        };
-			$("#edit_form").ajaxSubmit(options);
-	} */
-	
-	
-	
-	
-	
 	
 	
 	 function addFile(){
