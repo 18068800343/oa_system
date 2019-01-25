@@ -68,13 +68,22 @@
 	</update>
 	
 	<select id="selectAllXmReceivedGoods" resultType="CompanyMateriaIn">
-		select DISTINCT task_no,demand_project,cg_no,cg_name,cm_id from company_material_in where get_status=1 GROUP BY task_no
+		select DISTINCT task_no,demand_project,cg_no,cg_name,cm_id from company_material_in a
+		left join task b on b.prj_no=a.task_no
+		where get_status=1 and b.main_department=#{useromId} 
+			OR get_status=1 and b.assist_department1=#{useromId}
+			OR get_status=1 and b.assist_department2=#{useromId} 
+			OR get_status=1 and b.assist_department3=#{useromId} GROUP BY task_no
 	</select>
 	
 	<select id="selectMateriaOutForEnd" resultType="CompanyMateriaIn">
 		select * from company_material_in a 
 		left JOIN company_material_in_cl b on a.cm_id=b.gs_in_id 
-		where task_no like #{no} and get_status=1 and remain_type=#{type} and b.cl_remain!=0 GROUP BY cm_id 
+		left join task c on c.prj_no=a.task_no
+		where task_no like #{no} and get_status=1 and remain_type=#{type} and b.cl_remain!=0 and c.main_department=#{useromId} 
+			OR task_no like #{no} and get_status=1 and remain_type=#{type} and b.cl_remain!=0 and get_status=1 and c.assist_department1=#{useromId}
+			OR task_no like #{no} and get_status=1 and remain_type=#{type} and b.cl_remain!=0 and get_status=1 and c.assist_department2=#{useromId} 
+			OR task_no like #{no} and get_status=1 and remain_type=#{type} and b.cl_remain!=0 and get_status=1 and c.assist_department3=#{useromId} GROUP BY cm_id 
 	</select>
 	
 	<select id="selectGsMateriaOutForEnd" resultType="CompanyMateriaIn">
@@ -82,7 +91,12 @@
 	</select>
 	
 	<select id="selectGsMateriaOutForEnd2" resultType="CompanyMateriaIn">
-		 select * from company_material_in where task_no like #{no} and remain_type!=0 
+		 select * from company_material_in a
+		 left join task c on c.prj_no=a.task_no
+		  where task_no like #{no} and remain_type!=0 and c.main_department=#{useromId} 
+			 OR task_no like #{no} and remain_type!=0 and get_status=1 and c.assist_department1=#{useromId}
+			 OR task_no like #{no} and remain_type!=0 and get_status=1 and c.assist_department2=#{useromId} 
+			 OR task_no like #{no} and remain_type!=0 and get_status=1 and c.assist_department3=#{useromId}
 	</select>
 	
 	<select id="selectGsRemainOut" resultType="CompanyMateriaIn">
@@ -132,7 +146,7 @@
 	</select>
 	
 	<select id="selectAlreadySure" resultType="CompanyMateriaIn">
-		select * from company_material_in a
+		select a.* from company_material_in a
 		left join task b on b.prj_no=a.task_no
 		where get_status=#{getstate} and b.main_department=#{useromId} 
 		OR get_status=#{getstate} and b.assist_department1=#{useromId}
@@ -141,7 +155,7 @@
 	</select>
 	
 	<select id="selectXmInByNo" resultType="CompanyMateriaIn">
-		select * from company_material_in a
+		select a.* from company_material_in a
 		left join task b on b.prj_no=a.task_no
 		where task_no like #{no} and out_state=#{outstate} and b.main_department=#{useromId} 
 		OR task_no like #{no} and out_state=#{outstate} and b.assist_department1=#{useromId}

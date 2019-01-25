@@ -30,11 +30,11 @@ public interface GsMaterialInService {
 
 	int updateXmState(CompanyMateriaIn gsIncl);
 
-	List<CompanyMateriaIn> selectAllXmReceivedGoods();
+	List<CompanyMateriaIn> selectAllXmReceivedGoods(String useromId);
 
 	List<CompanyMaterialInCl> selectGsClInBytaskNo(String no);
 
-	List<CompanyMateriaIn> selectMateriaOutForEnd(String no,String type);
+	List<CompanyMateriaIn> selectMateriaOutForEnd(String no,String type, String useromId);
 
 	int updateremainType(String id, String type);
 
@@ -44,7 +44,7 @@ public interface GsMaterialInService {
 
 	List<CompanyMateriaIn> selectAlearyRemain();
 
-	List<CompanyMateriaIn> selectGsMateriaOutForEnd2(String no);
+	List<CompanyMateriaIn> selectGsMateriaOutForEnd2(String no, String useromId);
 
 	List<CompanyMateriaIn> selectBytaskNo(String no);
 

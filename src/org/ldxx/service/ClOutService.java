@@ -9,7 +9,7 @@ public interface ClOutService {
 
 	public int addClOut(ClOut out);
 	
-	public List<ClOut> selectClOutByNo(String no);
+	public List<ClOut> selectClOutByNo(String no, String useromId);
 	
 	public List<ClOutInfo> selectClOutInfoById(String id);
 }

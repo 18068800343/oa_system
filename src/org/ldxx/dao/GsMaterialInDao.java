@@ -27,9 +27,9 @@ public interface GsMaterialInDao {
 
 	int updateXmState(@Param("gsIn")CompanyMateriaIn gsIn);
 
-	List<CompanyMateriaIn> selectAllXmReceivedGoods();
+	List<CompanyMateriaIn> selectAllXmReceivedGoods(@Param("useromId")String useromId);
 
-	List<CompanyMateriaIn> selectMateriaOutForEnd(@Param("no")String no,@Param("type")String type);
+	List<CompanyMateriaIn> selectMateriaOutForEnd(@Param("no")String no,@Param("type")String type,@Param("useromId") String useromId);
 
 	int updateremainType(@Param("id")String id,@Param("type") String type);
 
@@ -39,7 +39,7 @@ public interface GsMaterialInDao {
 
 	List<CompanyMateriaIn> selectAlearyRemain();
 
-	List<CompanyMateriaIn> selectGsMateriaOutForEnd2(@Param("no")String no);
+	List<CompanyMateriaIn> selectGsMateriaOutForEnd2(@Param("no")String no,@Param("useromId") String useromId);
 
 	List<CompanyMateriaIn> selectBytaskNo(@Param("no")String no);
 

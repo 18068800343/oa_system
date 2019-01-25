@@ -173,8 +173,8 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	}
 
 	@Override
-	public List<CompanyMateriaIn> selectAllXmReceivedGoods() {
-		return gmDao.selectAllXmReceivedGoods();
+	public List<CompanyMateriaIn> selectAllXmReceivedGoods(String useromId) {
+		return gmDao.selectAllXmReceivedGoods(useromId);
 	}
 
 	@Override
@@ -183,8 +183,8 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	}
 
 	@Override
-	public List<CompanyMateriaIn> selectMateriaOutForEnd(String no,String type) {
-		List<CompanyMateriaIn> list=gmDao.selectMateriaOutForEnd(no,type);
+	public List<CompanyMateriaIn> selectMateriaOutForEnd(String no,String type,String useromId) {
+		List<CompanyMateriaIn> list=gmDao.selectMateriaOutForEnd(no,type,useromId);
 		if(list!=null&&list.size()>0){
 			for(int i=0;i<list.size();i++){
 				List<CompanyMaterialInCl> clList=gsInCldao.selectGsInClById(list.get(i).getCmId());
@@ -234,8 +234,8 @@ public class GsMaterialInServiceImpl implements GsMaterialInService {
 	}
 
 	@Override
-	public List<CompanyMateriaIn> selectGsMateriaOutForEnd2(String no) {
-		return gmDao.selectGsMateriaOutForEnd2(no);
+	public List<CompanyMateriaIn> selectGsMateriaOutForEnd2(String no,String useromId) {
+		return gmDao.selectGsMateriaOutForEnd2(no,useromId);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public interface ClOutDao {
 	
 	public int addClOutInfo(@Param("cInfo")List<ClOutInfo> cInfo);
 	
-	public List<ClOut> selectClOutByNo(@Param("no")String no);
+	public List<ClOut> selectClOutByNo(@Param("no")String no,@Param("useromId") String useromId);
 	
 	public List<ClOutInfo> selectClOutInfoById(@Param("id")String id);
 }

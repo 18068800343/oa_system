@@ -45,8 +45,8 @@ public class ClOutServiceImpl implements ClOutService{
 	}
 
 	@Override
-	public List<ClOut> selectClOutByNo(String no) {
-		return cdao.selectClOutByNo(no);
+	public List<ClOut> selectClOutByNo(String no,String useromId) {
+		return cdao.selectClOutByNo(no,useromId);
 	}
 
 	@Override

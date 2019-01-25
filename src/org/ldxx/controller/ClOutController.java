@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ClOut;
 import org.ldxx.bean.ClOutInfo;
 import org.ldxx.bean.CompanyMateriaIn;
 import org.ldxx.bean.CompanyMaterialInCl;
+import org.ldxx.bean.User;
 import org.ldxx.bean.outRemain;
 import org.ldxx.service.ClOutService;
 import org.ldxx.util.TimeUUID;
@@ -49,9 +52,11 @@ public class ClOutController {
 	
 	@RequestMapping("/selectClOut")
 	@ResponseBody
-	public List<ClOut> selectClOut(String no){
+	public List<ClOut> selectClOut(String no,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String useromId=user.getOmId();
 		no="%"+no+"%";
-		List<ClOut> list=service.selectClOutByNo(no);
+		List<ClOut> list=service.selectClOutByNo(no,useromId);
 		return list;
 	}
 	

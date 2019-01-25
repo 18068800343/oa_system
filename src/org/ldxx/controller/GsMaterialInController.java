@@ -248,10 +248,12 @@ public class GsMaterialInController {
 		return i;
 	}
 	
-	@RequestMapping("/selectAllXmReceivedGoods")//获取项目材料已收货的项目名及合同名
+	@RequestMapping("/selectAllXmReceivedGoods")//获取项目材料已收货的项目名及合同名(材料出库用到)
 	@ResponseBody
-	public List<CompanyMateriaIn> selectAllXmReceivedGoods(){
-		return gmService.selectAllXmReceivedGoods();
+	public List<CompanyMateriaIn> selectAllXmReceivedGoods(HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String useromId=user.getOmId();
+		return gmService.selectAllXmReceivedGoods(useromId);
 	}
 	
 	@RequestMapping("/selectAlearyRemain")//获取已结余的所有项目信息
@@ -261,17 +263,19 @@ public class GsMaterialInController {
 	}
 	
 	
-	@RequestMapping("/selectGsClInBytaskNo")//通过任务单号查找公司已经出库和项目已收货的材料信息
+	@RequestMapping("/selectGsClInBytaskNo")//通过任务单号查找公司已经出库和项目已收货的材料信息（材料出库用到）
 	@ResponseBody
 	public List<CompanyMaterialInCl> selectGsClInBytaskNo(String no){
 		return gmService.selectGsClInBytaskNo(no);
 	}
 	
-	@RequestMapping("/selectMateriaOutForEnd")//通过任务单号和结余状态来获取项目材料已收货的所有项目（项目材料结余）
+	@RequestMapping("/selectMateriaOutForEnd")//通过任务单号和结余状态来获取项目材料已收货的所有项目（项目材料结余用到）
 	@ResponseBody
-	public List<CompanyMateriaIn> selectMateriaOutForEnd(String taskno,String type){
+	public List<CompanyMateriaIn> selectMateriaOutForEnd(String taskno,String type,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String useromId=user.getOmId();
 		String no="%"+taskno+"%";
-		return gmService.selectMateriaOutForEnd(no,type);
+		return gmService.selectMateriaOutForEnd(no,type,useromId);
 	}
 	
 	@RequestMapping("/selectGsMateriaOutForEnd")//通过任务单号和remainType!=0获取项目材料已收货的所有项目(公司材料结余)
@@ -281,11 +285,13 @@ public class GsMaterialInController {
 		return gmService.selectGsMateriaOutForEnd(no);
 	}
 	
-	@RequestMapping("/selectGsMateriaOutForEnd2")//通过任务单号和remainType!=0获取项目材料已收货的所有项目(公司材料结余已结余的)
+	@RequestMapping("/selectGsMateriaOutForEnd2")//通过任务单号和remainType!=0获取项目材料已收货的所有项目(项目材料结余已结余用到)
 	@ResponseBody
-	public List<CompanyMateriaIn> selectGsMateriaOutForEnd2(String taskno){
+	public List<CompanyMateriaIn> selectGsMateriaOutForEnd2(String taskno,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String useromId=user.getOmId();
 		String no="%"+taskno+"%";
-		return gmService.selectGsMateriaOutForEnd2(no);
+		return gmService.selectGsMateriaOutForEnd2(no,useromId);
 	}
 	
 	
