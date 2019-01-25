@@ -11,7 +11,8 @@
     <link href="../../style/style.css" rel="stylesheet">
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- <link rel="stylesheet" href="../../style/jquery-editable-select.css"> -->
+    <link href="../../select/css/select2.min.css" rel="stylesheet">
     <style lang="">
         body{
             background: #fff;
@@ -1157,11 +1158,12 @@
 <script src="../../js/common-scripts.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
-<script src="../../js/jquery-editable-select.js"></script>
+<!-- <script src="../../js/jquery-editable-select.js"></script> -->
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/city-picker.data.js"></script>
 <script src="../../js/city-picker.js"></script>
 <script src="../../js/quanxian.js"></script>
+
 
 <script src="../../js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../js/datatables/dataTables.colVis.min.js"></script>
@@ -1173,6 +1175,8 @@
 <script src="../../js/datatables/buttons.flash.min.js" ></script>
 <script src="../../js/datatables/jszip.min.js"></script>
 <script src="../../js/jquery.cookie.js"></script>
+
+<script src="../../select/js/select2.min.js"></script>
 <script>  
     $(document).ready( function () {
     	$("#zhuangtai").trigger("change");
@@ -1200,12 +1204,11 @@
         laydate.render({
             elem: '#seach_end_time_max' //指定元素
         });
-        $('#editable-select').editableSelect({ 
-            effects: 'slide' 
-        });
+        initSelect2WithSearch();
+        
         initType();
         leixingSelect2();
-        leixingSelect3();
+        
         initbzhiwu();
         initbushei();
         initbumen();
@@ -2103,7 +2106,6 @@
 		});
 	}
     //甲方单位
-    var jiafangdanweiid;
     function leixingSelect2(){
 	    $.ajax({
 	        type: 'POST',
@@ -2114,40 +2116,33 @@
 	        },
 	        success: function (json) {
 	        	$("#yezhudanwei").html('');
-	        	 for(var i=0;i<json.length;i++){
-	        		$("#yezhudanwei").append( "<option value='" + json[i].ccId + "' data-id='" + json[i].ccId + "'>"
-		                    + json[i].ccName + "</option>")
-	        	}
-	        	 $('#yezhudanwei').editableSelect().on('select.editable-select', function (e, dom) {
-	        		 jiafangdanweiid=dom.attr("data-id");
-	        		 
-	        	 });
-	        	 $("#yezhudanwei").trigger("change");
-	        }
-	    });
-	}
-    var xgjiafangdanweiid;
-    function leixingSelect3(){
-	    $.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/cooperator/selectCooperatorIdAndNameByCcType',
-	        dataType: 'json',
-	        data: {
-	        	 ccType:'业主单位'
-	        },
-	        success: function (json) {
 	        	$("#xgyezhudanwei").html('');
 	        	 for(var i=0;i<json.length;i++){
-                   $("#xgyezhudanwei").append( "<option value='" + json[i].ccId + "'>"
+	        		$("#yezhudanwei").append( "<option value='" + json[i].ccId + "'>"
+		                    + json[i].ccName + "</option>")
+		                    $("#xgyezhudanwei").append( "<option value='" + json[i].ccId + "'>"
                     + json[i].ccName + "</option>")
 	        	}
-	        	 $('#xgyezhudanwei').editableSelect().on('select.editable-select', function (e, dom) {
-	        		 xgjiafangdanweiid=dom.attr("data-id");
-	        	 });
+	        	
+	        	 $("#yezhudanwei").trigger("change");
 	        	 $("#xgyezhudanwei").trigger("change");
 	        }
 	    });
 	}
+    function initSelect2WithSearch(){
+        $("#yezhudanwei").select2({
+            tags: true,
+            placeholder: '请搜索或选择语言',
+            allowClear: true
+        });
+        $("#xgyezhudanwei").select2({
+            tags: true,
+            placeholder: '请搜索或选择语言',
+            allowClear: true
+        });
+    }
+    
+
     var lianxiid;
     $("#yezhudanwei").on("change",function(){
     	var yezhudanwei=$("#yezhudanwei").val();
@@ -2418,7 +2413,7 @@
         	var mainPrjNo=$("#main_prj_no").val();
         	var moshi=$("#moshi").find("option:selected").val();
         	var gongsi=$("#gongsi").find("option:selected").val();
-        	var yezhudanwei=jiafangdanweiid;
+        	var yezhudanwei=$("#yezhudanwei").val();
         	var city=$("#city-picker3").val();
         	var importance=$("#importance").val();
         	var prjSource=$("#prj_source").val();
@@ -2672,7 +2667,7 @@
         	var mainPrjNo=$("#main_prj_no").val();
         	var moshi=$("#moshi").find("option:selected").val();
         	var gongsi=$("#gongsi").find("option:selected").val();
-        	var yezhudanwei=jiafangdanweiid;
+        	var yezhudanwei=$("#yezhudanwei").val();
         	var city=$("#city-picker3").val();
         	var importance=$("#importance").val();
         	var prjSource=$("#prj_source").val();
@@ -3123,7 +3118,7 @@
         	var importance=$("#edit_importance").val();
         	var moshi=$("#xgmoshi").find("option:selected").val();
         	var gongsi=$("#xggongsi").find("option:selected").val();
-        	var yezhudanwei=xgjiafangdanweiid;
+        	var yezhudanwei=$("#xgyezhudanwei").val();
         	var prjSource=$("#xg_prj_source").val();
         	var jine=$("#xgjine").val();
         	var hetonge=$("#xghetonge").val();
@@ -3401,7 +3396,7 @@
         	var gongsi=$("#xggongsi").find("option:selected").val();
         	var city=$("#edit_city").val();
         	var importance=$("#edit_importance").val();
-        	var yezhudanwei=xgjiafangdanweiid;
+        	var yezhudanwei=$("#xgyezhudanwei").val();
         	var prjSource=$("#xg_prj_source").val();
         	var jine=$("#xgjine").val();
         	var hetonge=$("#xghetonge").val();
