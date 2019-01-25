@@ -88,6 +88,10 @@
                                 <td style="width:35%;"><input style="width:65%" type="text" id="prjType" class="form-control" disabled></td>
                             </tr>
                             <tr>
+                                <td style="width:15%;">项目负责人</td>
+                                <td style="width:35%;">
+                                	<input style="width:65%" type="text" id="prjLeader" class="form-control" disabled>
+                                </td>
                                 <td style="width:15%;">项目管理单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
                                     <select style="width:65%" class="form-control" id="prjUnit" >
@@ -99,8 +103,12 @@
                                 <td style="width:35%;">
                                 	<input style="width:65%" type="text" id="sjyInput" class="form-control">
                                 </td> -->
+                            </tr>
+                            <tr>
                                 <td style="width:15%;">考勤时间</td>
                                 <td style="width:35%;"><input style="width:65%" type="text" id="year" class="form-control"></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>人员动态</td>
@@ -297,6 +305,10 @@
                                 <td style="width:35%;"><input style="width:65%" type="text" id="xgprjType" class="form-control" disabled></td>
                             </tr>
                             <tr>
+                            	<td style="width:15%;">项目负责人</td>
+                                <td style="width:35%;">
+                                	<input style="width:65%" type="text" id="xgprjLeader" class="form-control" disabled>
+                                </td>
                                 <td style="width:15%;">项目管理单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
                                     <select  class="form-control" id="xgprjUnit"  style="width:65%">
@@ -308,8 +320,12 @@
                                 <td style="width:35%;">
                                 	<input style="width:65%" type="text"  style="width:70%" id="xgsjyInput" class="form-control">
                                 </td> -->
+                            </tr>
+                            <tr>
                                 <td style="width:15%;">考勤时间</td>
                                 <td style="width:35%;"><input style="width:65%" type="text"  style="width:70%" id="xgyear" class="form-control"></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>人员动态</td>
@@ -480,7 +496,8 @@
                     <tr>
                         <th>任务单号</th>
                         <th>项目名称</th>
-                        <th>合同额(元)</th>
+                        <th>填报日期</th>
+                        <th>项目负责人</th>
                         <th>项目管理单位</th>
                         <th style="width:75px;">操作</th>
                     </tr>
@@ -516,12 +533,18 @@
                             <td id="lookprjType"></td>
                         </tr>
                         <tr>
+                        	<td>项目负责人</td>
+                            <td id="lookprjLeader"></td>
                             <td>项目管理单位</td>
                             <td id="lookprjUnit"></td>
                             <!-- <td>设计院手动输入</td>
                             <td id="looksjyInput"></td> -->
+                        </tr>
+                        <tr>
                             <td>考勤时间</td>
                             <td id="lookyear"></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>人员动态</td>
@@ -601,7 +624,8 @@
 		"columns": [
             { "data": "prjNo"}, 
             { "data": null}, 
-            { "data": "contractMoney"}, 
+            { "data": "attendanceTime"},
+            { "data": "prjLeader"},
             { "data": "prjUnit"}, 
         ],
         "columnDefs": [
@@ -615,7 +639,7 @@
 						},
 						{	
 								 "class": "tcenter",
-								    "targets": 4,
+								    "targets": 5,
 								    "searchable": true,
 								    "render": function(data, type, full) {
 								  	  		return '<i class="iconfont icon-shanchu Pegb" style="font-size:18px;cursor:pointer;display:none;"  title="删除" onclick="deleteGS(this)"  id="delyiji"></i>  <i class="iconfont icon-icon-test Pegc" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookGS(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  <i class="iconfont icon-xiugai iconxiugai Pegd" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="checkGs(this)" data-toggle="modal" data-target="#change" ></i>'
@@ -966,7 +990,6 @@
 	            data: {
 	            },
 	            success: function (json) {
-	            	//console.log(json)
 	                $('#xiangmubiao').dataTable().fnClearTable();
 	                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
 	            }
@@ -978,28 +1001,14 @@
 	        })
 	})
 	$("#quedingxm").click(function(){
-		var prjname=$("input[name='xiangmuName']:checked").parent().next().next().text();
-		var prjNo=$("input[name='xiangmuName']:checked").parent().next().text();
-		var prjtype2=$("input[name='xiangmuName']:checked").parent().next().next().next().next().text();
-		$("#prjName").val(prjname);
-		$("#prjNo").val(prjNo);
-		$("#prjType").val(prjtype2)
+		var tr=$("input[name='xiangmuName']:checked").parents("tr");
+		var data=$("#xiangmubiao").DataTable().row(tr).data();
+		$("#prjName").val(data.prjName);
+		$("#prjNo").val(data.prjNo);
+		$("#prjType").val(data.prjType2)
+		$("#hetongMoney").val(data.contractMoney)
+		$("#prjLeader").val(data.mainPrjLeaderName)
 		$("#xiangmumd").modal("hide");
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/task/selectTaskPrjName',
-            dataType: 'json',
-            data: {
-            	prjNo:$('#prjNo').val()
-            },
-            success: function (json) {
-            	for(var i=0;i<json.length;i++){
-            		$("#hetongMoney").val(json[i].contractMoney)
-            		/* $("#prjName").val(json[i].prjName)
-            		$("#prjType").val(json[i].prjType2) */
-            	}
-            }
-  		});
 	})
 	$("#xgchosexm").click(function(){
 		$("#xgxiangmumd").modal("show");
@@ -1022,28 +1031,14 @@
 	        })
 	})
 	$("#xgquedingxm").click(function(){
-		var prjName=$("input[name='xgxiangmuName']:checked").parent().next().next().text();
-		var prjNo=$("input[name='xgxiangmuName']:checked").parent().next().text();
-		var prjtype2=$("input[name='xgxiangmuName']:checked").parent().next().next().next().next().text();
-		$("#xgprjName").val(prjName);
-		$("#xgprjNo").val(prjNo);
-		$("#xgprjType").val(prjtype2);
+		var tr=$("input[name='xgxiangmuName']:checked").parents("tr");
+		var data=$("#xgxiangmubiao").DataTable().row(tr).data();
+		$("#xgprjName").val(data.prjName);
+		$("#xgprjNo").val(data.prjNo);
+		$("#xgprjType").val(data.prjType2);
+		$("#xghetongMoney").val(data.contractMoney)
+		$("#xgprjLeader").val(data.mainPrjLeaderName)
 		$("#xgxiangmumd").modal("hide");
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/task/selectTaskPrjNo',
-            dataType: 'json',
-            data: {
-            	prjName:$('#xgprjName').val()
-            },
-            success: function (json) {
-            	for(var i=0;i<json.length;i++){
-            		$("#xghetongMoney").val(json[i].contractMoney)
-            		/* $("#xgprjNo").val(json[i].prjNo)
-            		$("#xgprjType").val(json[i].prjType2) */
-            	}
-            }
-  		});
 		 
 	})
 	
@@ -1078,32 +1073,15 @@
 	                    	prjNo:$('#prjNo').val()
 	                    },
 	                    success: function (json) {
-	                    	console.log(json)
 	                    	for(var i=0;i<json.length;i++){
 	                    		$("#prjName").val(json[i].prjName)
 	                    		$("#hetongMoney").val(json[i].contractMoney)
 	                    		$("#prjType").val(json[i].prjType2)
+	                    		$("#prjLeader").val(json[i].mainPrjLeaderName)
 	                    	}
 	                    }
 	          		});
 	          	})
-	          	/* $('#prjName').editableSelect().on('select.editable-select', function (e, dom) {
-	        		$.ajax({
-	                    type: 'POST',
-	                    url: getContextPath()+'/task/selectTaskPrjNo',
-	                    dataType: 'json',
-	                    data: {
-	                    	prjName:$('#prjName').val()
-	                    },
-	                    success: function (json) {
-	                    	for(var i=0;i<json.length;i++){
-	                    		$("#prjNo").val(json[i].prjNo)
-	                    		$("#hetongMoney").val(json[i].contractMoney)
-	                    		$("#prjType").val(json[i].prjType2)
-	                    	}
-	                    }
-	          		});
-	          	})  */
 	          	$('#xgprjNo').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
 	                    type: 'POST',
@@ -1117,27 +1095,11 @@
 	                    		$("#xgprjName").val(json[i].prjName)
 	                    		$("#xghetongMoney").val(json[i].contractMoney)
 	                    		$("#xgprjType").val(json[i].prjType2)
+	                    		$("#prjLeader").val(json[i].mainPrjLeaderName)
 	                    	}
 	                    }
 	          		});
 	          	})
-	          	/* $('#xgprjName').editableSelect().on('select.editable-select', function (e, dom) {
-	        		$.ajax({
-	                    type: 'POST',
-	                    url: getContextPath()+'/task/selectTaskPrjNo',
-	                    dataType: 'json',
-	                    data: {
-	                    	prjName:$('#xgprjName').val()
-	                    },
-	                    success: function (json) {
-	                    	for(var i=0;i<json.length;i++){
-	                    		$("#xgprjNo").val(json[i].prjNo)
-	                    		$("#xghetongMoney").val(json[i].contractMoney)
-	                    		$("#xgprjType").val(json[i].prjType2)
-	                    	}
-	                    }
-	          		});
-	          	}) */
 	          	 
 	        }
 		});
@@ -1241,6 +1203,7 @@
 			var prjType=$("#prjType").val();
 			var renyuandongtai=$("#renyuandongtai").val();
 			var desc=$("#desc").val();
+			var prjLeader=$("#prjLeader").val();
 			if(prjName==''){
 				toastr.error("项目名称不能为空");
 				return;
@@ -1260,7 +1223,8 @@
 					prjType:undefined,
 					personDynamics:undefined,
 					attendanceDesc:undefined,
-					prjWorkingHoursP:undefined
+					prjWorkingHoursP:undefined,
+					prjLeader:undefined,
 			}
 			PrjWorkingHours.pwhId=null;
 			PrjWorkingHours.prjName=prjName;
@@ -1273,6 +1237,7 @@
 			PrjWorkingHours.personDynamics=renyuandongtai;
 			PrjWorkingHours.attendanceDesc=desc;
 			PrjWorkingHours.prjWorkingHoursP=rengs;
+			PrjWorkingHours.prjLeader=prjLeader;
 			var formData = new FormData();
 	  		formData.append("prjGs", JSON.stringify(PrjWorkingHours));
 	  		
@@ -1356,6 +1321,7 @@
 		$("#lookprjType").text(data.prjType);
 		$("#lookrenyuandongtai").text(data.personDynamics);
 		$("#lookdesc").text(data.attendanceDesc);
+		$("#lookprjLeader").text(data.prjLeader);
 		var renyuan=data.prjWorkingHoursP;
 		$("#look_renyuan tbody").empty();
 		for(var i=0;i<renyuan.length;i++){
@@ -1412,6 +1378,7 @@
 		$("#xgprjType").val(data.prjType);
 		$("#xgrenyuandongtai").val(data.personDynamics);
 		$("#xgdesc").val(data.attendanceDesc);
+		$("#xgprjLeader").val(data.prjLeader);
 		var renyuan=data.prjWorkingHoursP;
 		$("#edit_renyuan tbody").empty();
 		for(var i=0;i<renyuan.length;i++){
@@ -1505,6 +1472,7 @@
 			var prjType=$("#xgprjType").val();
 			var renyuandongtai=$("#xgrenyuandongtai").val();
 			var desc=$("#xgdesc").val();
+			var prjLeader=$("#xgprjLeader").val();
 			if(prjName==''){
 				toastr.error("项目名称不能为空");
 				return;
@@ -1524,7 +1492,8 @@
 					prjType:undefined,
 					personDynamics:undefined,
 					attendanceDesc:undefined,
-					prjWorkingHoursP:undefined
+					prjWorkingHoursP:undefined,
+					prjLeader:undefined,
 			}
 			PrjWorkingHours.pwhId=xgId;
 			PrjWorkingHours.prjName=prjName;
@@ -1537,6 +1506,7 @@
 			PrjWorkingHours.personDynamics=renyuandongtai;
 			PrjWorkingHours.attendanceDesc=desc;
 			PrjWorkingHours.prjWorkingHoursP=rengs;
+			PrjWorkingHours.prjLeader=prjLeader;
 			var formData = new FormData();
 	  		formData.append("prjGs", JSON.stringify(PrjWorkingHours));
 	  		

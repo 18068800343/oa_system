@@ -12,6 +12,7 @@ public class PrjWorkingHours {
 	private String pwhId;
 	private String prjName;//项目名
 	private String prjNo;//任务单号
+	private String prjLeader;//项目负责人
 	private Float contractMoney;//合同额
 	private String designInput;//设计院手动输入
 	private String prjUnit;//项目管理单位
@@ -24,6 +25,14 @@ public class PrjWorkingHours {
 
 	
 	
+	public String getPrjLeader() {
+		return prjLeader;
+	}
+
+	public void setPrjLeader(String prjLeader) {
+		this.prjLeader = prjLeader;
+	}
+
 	public List<Accessory> getAccessory() {
 		return accessory;
 	}
