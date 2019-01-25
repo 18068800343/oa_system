@@ -32,8 +32,13 @@ public class ProjectOverServiceImpl implements ProjectOverService {
 	}
 
 	@Override
-	public List<ProjectOver> selectPrjOver(int status) {
-		return prjDao.selectPrjOver(status);
+	public List<ProjectOver> selectPrjOver() {
+		return prjDao.selectPrjOver();
+	}
+	
+	@Override
+	public List<ProjectOver> selectPrjOver2() {
+		return prjDao.selectPrjOver2();
 	}
 
 	@Override
@@ -47,8 +52,8 @@ public class ProjectOverServiceImpl implements ProjectOverService {
 	}
 
 	@Override
-	public int updateStatus2(String no,String status) {
-		return prjDao.updateStatus2(no,status);
+	public int updateUseStatus(String id) {
+		return prjDao.updateUseStatus(id);
 	}
 
 }

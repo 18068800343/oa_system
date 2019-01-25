@@ -54,11 +54,33 @@ public class ProjectOver {
     /*代办内容*/
     private String contentBacklog;
 
-    /*是否移交状态*/
+    /*是否签收状态*/
     private int status;
+    
+    /*承接部门编号*/
+    private String cjDept;
+    
+    /*承接部门名称*/
+    private String cjDeptName;
 
     
-    public String getBdNo() {
+    public String getCjDeptName() {
+		return cjDeptName;
+	}
+
+	public void setCjDeptName(String cjDeptName) {
+		this.cjDeptName = cjDeptName;
+	}
+
+	public String getCjDept() {
+		return cjDept;
+	}
+
+	public void setCjDept(String cjDept) {
+		this.cjDept = cjDept;
+	}
+
+	public String getBdNo() {
 		return bdNo;
 	}
 

@@ -1,17 +1,25 @@
 package org.ldxx.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.BidApproval;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.ManagingDocuments;
 import org.ldxx.bean.OpeningRecord;
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.ProjectOver;
+import org.ldxx.bean.User;
 import org.ldxx.service.BidApprovalService;
 import org.ldxx.service.ManagingDocumentsService;
 import org.ldxx.service.OpeningRecordService;
 import org.ldxx.service.ProjectOverService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,8 +46,14 @@ public class ProjectOverController {
 	
 	@RequestMapping("/selectPrjOver")
 	@ResponseBody
-	public List<ProjectOver> selectPrjOver(int status){
-		return prjOverService.selectPrjOver(status);
+	public List<ProjectOver> selectPrjOver(){
+		return prjOverService.selectPrjOver();
+	}
+	
+	@RequestMapping("/selectPrjOver2")
+	@ResponseBody
+	public List<ProjectOver> selectPrjOver2(){
+		return prjOverService.selectPrjOver2();
 	}
 	
 	@RequestMapping("/selectPrjOverCountByNo")
@@ -127,12 +141,44 @@ public class ProjectOverController {
 	
 	@RequestMapping("/updatePrjOverById")/*修改保存*/
 	@ResponseBody
-	public Map<String,Object> updatePrjOverById(ProjectOver projectOver){
-		Map<String,Object> map = new HashMap<>();
+	public String updatePrjOverById(ProjectOver projectOver,HttpSession session){
 		int i =prjOverService.updatePrjOverById(projectOver);
-		map.put("result", i);
-		map.put("projectOver", projectOver);
-		return map;
+		String string=i+"";
+		String id=projectOver.getPoId();
+		if(i>0){
+			String omNo="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(projectOver.getPrjName()+"流程提交");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(projectOver.getPrjName()+"流程提交");
+			currentFlow.setUrl("jingyingguanliLook/TransferBid.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
 	}
 	
 	@RequestMapping("/updatePrjOverByIdSubmit")/*修改提交*/
@@ -150,4 +196,12 @@ public class ProjectOverController {
 	public ProjectOver selectPrjOverById(String poId){
 		return prjOverService.selectPrjOverById(poId);
 	}
+	
+	@RequestMapping("/updateUseStatus")
+	@ResponseBody
+	public int updateUseStatus(String id){
+		int i=prjOverService.updateUseStatus(id);
+		return i;
+	}
+	
 }

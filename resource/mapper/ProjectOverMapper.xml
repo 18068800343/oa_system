@@ -23,18 +23,17 @@
   		#{projectOver.transferContent},
   		#{projectOver.contentBacklog},
   		#{projectOver.prjDesc},0)  -->
-  		insert into project_over (po_id,bd_no,prj_name,prj_no,product_owners,prj_type,status,status2)
+  		insert into project_over (po_id,bd_no,prj_name,prj_no,product_owners,prj_type,status)
   		values(#{projectOver.poId},
   		#{projectOver.bdNo},
   		#{projectOver.prjName},
   		#{projectOver.prjNo},
   		#{projectOver.productOwners},
-  		#{projectOver.prjType},0,1)
-  		
+  		#{projectOver.prjType},0)
   </insert>
   
-  <update id="updateStatus2" >
-  		update project_over set status2=#{status} where prj_no=#{no}
+  <update id="updateUseStatus" >
+  		update project_over set status=1 where po_id=#{id}
   </update>
   
   <select id="selectPrjOverCountByNo" resultType="int">
@@ -62,12 +61,20 @@
       message_source = #{projectOver.messageSource},
       business_director = #{projectOver.businessDirector},
       transfer_content = #{projectOver.transferContent},
-      Content_backlog = #{projectOver.contentBacklog},
-      status=1
+      Content_backlog = #{projectOver.contentBacklog}
     where po_id = #{projectOver.poId}
   </update>
   <select id="selectPrjOver" resultType="org.ldxx.bean.ProjectOver">
-  	select * from project_over where status=#{status}
+  	select *,c.om_name as cjDeptName from project_over as a
+  	left join mode_status as b on a.po_id=b.mode_id
+  	LEFT JOIN organization_management as c on a.cj_dept=c.om_id
+  	where b.status=2
+  </select>
+  <select id="selectPrjOver2" resultType="org.ldxx.bean.ProjectOver">
+  	select a.*,c.om_name as cjDeptName from project_over as a
+  	left join mode_status as b on a.po_id=b.mode_id
+	LEFT JOIN organization_management as c on a.cj_dept=c.om_id
+  	where b.status !='2'
   </select>
   <select id="selectPrjOverById" resultType="org.ldxx.bean.ProjectOver">
   	select * from project_over where po_id = #{poId}

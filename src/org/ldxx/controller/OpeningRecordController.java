@@ -11,11 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.BidApproval;
+import org.ldxx.bean.ModeStatus;
 import org.ldxx.bean.OpeningInformation;
 import org.ldxx.bean.OpeningRecord;
 import org.ldxx.bean.ProjectOver;
 import org.ldxx.bean.User;
 import org.ldxx.dao.OpeningRecordDao;
+import org.ldxx.mapper.ModeStatusMapper;
 import org.ldxx.service.BidApprovalService;
 import org.ldxx.service.OpeningRecordService;
 import org.ldxx.service.ProjectOverService;
@@ -46,6 +48,8 @@ public class OpeningRecordController {
 	private OpeningRecordDao openingRecordDao;
 	@Autowired
 	private ProjectOverService pService;
+	@Autowired
+	private ModeStatusMapper mapper;
 	
 	@RequestMapping("/selectOpeningRecord")
 	@ResponseBody
@@ -217,11 +221,16 @@ public class OpeningRecordController {
 					String poId=uuid.getTimeUUID();
 					po.setPoId(poId);
 					pService.addPrjOver(po);
+					ModeStatus ms=new ModeStatus();
+					ms.setModeId(poId);
+					ms.setStatus("0");
+					ms.setRemark("投标项目移交");
+					mapper.insert(ms);
 				}else{
-					pService.updateStatus2(rd.getPrjNo(),"1");
+					/*pService.updateStatus2(rd.getPrjNo(),"1");*/
 				}
 			}else{
-				pService.updateStatus2(rd.getPrjNo(),"0");
+				/*pService.updateStatus2(rd.getPrjNo(),"0");*/
 			}
 		}
 		map.put("result", i);
