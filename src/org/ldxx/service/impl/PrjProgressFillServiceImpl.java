@@ -355,4 +355,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.selectTotalIncome(dept, start, end);
 	}
 
+	@Override
+	public PrjProgressFill selectNewPlanByTaskNo(String no) {
+		return dao.selectNewPlanByTaskNo(no);
+	}
+
 }

@@ -70,4 +70,6 @@ public interface PrjProgressFillService {
 	
 	public PrjProgressFill selectTotalIncome(String dept,String start,String end);
 	
+	public PrjProgressFill selectNewPlanByTaskNo(String no);
+	
 }

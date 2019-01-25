@@ -25,6 +25,8 @@ import org.ldxx.bean.PrjProgressFillFb;
 import org.ldxx.bean.PrjProgressFillInfo;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.dao.CompanyCostDao;
+import org.ldxx.dao.SecondCompanyCostDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.BudgetFpplicationFormService;
 import org.ldxx.service.CjContractService;
@@ -61,6 +63,10 @@ public class PrjProgressFillController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private ContractWorkService cwService;
+	@Autowired
+	private SecondCompanyCostDao sccDao;
+	@Autowired
+	private CompanyCostDao ccDao;
 	
 	@RequestMapping("/addPrjProgressFillBySave")
 	@ResponseBody
@@ -99,19 +105,19 @@ public class PrjProgressFillController {
 			}
 			pf.setAccessory(list);
 		}
-		/*Task t=tService.selectIdByNo(pf.getTaskNo());
-		float prjMoney=t.getPrjEstimateMoney();//项目金额
-		float contractMoney=t.getContractMoney();//合同金额
-		float allCost=pf.getAllCost();//总累计成本
-		float budgetMoney=pf.getBudgetMoneyAll();//总费用预算
-		float allMoney=Float.valueOf(pf.getAllMoney().replace("%", ""));
-		float am=allMoney/100;//总累计收入
-		float allValue=am*prjMoney;//累计产值
-		if((allCost/allValue)>(budgetMoney/contractMoney)){
+		String taskNo=pf.getTaskNo();
+		double cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
+		double cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
+		double allCost=cost+cost2;//财务累计成本
+		double prjIncome=pf.getAllMoneyYuan();//项目累计收入
+		double prjMoney=pf.getPrjMoney();//任务单金额
+		double ysCost=pf.getBudgetMoneyAll();//任务总预算
+		if((allCost/prjIncome)>(1*ysCost/prjMoney)){
 			pf.setStatus(1);
 		}else{
 			pf.setStatus(3);
-		}*/
+		}
+		
 		int i=service.addPrjProgressFill(pf);
 		if(i>0){
 			Task ta=tService.selectPrjLeaderByPrjNo(pf.getTaskNo());

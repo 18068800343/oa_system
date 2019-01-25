@@ -11,5 +11,7 @@ public interface SecondCompanyCostDao {
 	public List<SecondCompanyCost> selectSecondComCost();
 	
 	public int deleteSecondComCost(@Param("id")String id);
+	
+	public double selectSumMoneyByNo(@Param("no")String no);
 
 }

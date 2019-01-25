@@ -13,9 +13,13 @@ import org.ldxx.bean.CostBudget;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.User;
+import org.ldxx.dao.CompanyCostDao;
+import org.ldxx.dao.SecondCompanyCostDao;
 import org.ldxx.service.BudgetFpplicationFormService;
 import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.PrjProgressFillService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +42,12 @@ public class BudgetFpplicationFormController {
 	private BudgetFpplicationFormService bservice;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private PrjProgressFillService service;
+	@Autowired
+	private SecondCompanyCostDao sccDao;
+	@Autowired
+	private CompanyCostDao ccDao;
 	
 	@RequestMapping("/saveBudge")
 	@ResponseBody
@@ -283,7 +293,28 @@ public class BudgetFpplicationFormController {
 	@RequestMapping("/updateHistoryById")
 	@ResponseBody
 	public int updateHistoryById(String id){
+		//更改历史操作
 		int i=bservice.updateHistoryById(id);
+		BudgetFpplicationForm bff=bservice.selectBudgeById(id);
+		
+		//重新计算项目进度是否预警
+		double ysCost=bff.getAllCost();//预算总费用
+		String taskNo=bff.getTaskNo();
+		PrjProgressFill ppf=service.selectNewPlanByTaskNo(taskNo);
+		if(ppf!=null){
+			double prjIncome=ppf.getAllMoneyYuan();//项目累计收入
+			double prjMoney=ppf.getPrjMoney();//项目金额
+			
+			double cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
+			double cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
+			double allCost=cost+cost2;//财务累计成本
+			int status=3;
+			if((allCost/prjIncome)>(1*ysCost/prjMoney)){
+				status=1;
+			}
+			String ppfId= ppf.getPpfId();
+			i=service.updateStatusAndDesc(status, "",ppfId);
+		}
 		return i;
 	}
 	
