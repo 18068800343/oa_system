@@ -91,7 +91,21 @@
                     </table>
 
 	</div>
-	
+	<div class="zhuti-content">
+		<table class="table table-bordered">
+               <tbody>
+                 <tr>
+					<td>项目名称</td>
+					<td>
+			            <select class="zhuangtai form-control" id="shengchanbumen">
+	                    </select>
+                    </td>
+					<td></td>
+					<td id="lookprjNo"></td>
+				</tr>
+               </tbody>
+         </table>
+	</div>
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
@@ -113,7 +127,8 @@
    }
    // 调用方法
    	id=GetQueryString("prjId");
-	
+   	editOrView=GetQueryString("editOrView");
+   	step=GetQueryString("step");
 	function initTable() {
 		$.ajax({
 			type : "POST",
@@ -146,7 +161,25 @@
 			}
 		})
 	}
-
+	
+	function getMainDepart(){
+			
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/selectProductionDepartment',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json){
+        	   $("#shengchanbumen").empty();
+        	   for(var i in json){
+       		      $("#shengchanbumen").append("<option value='"+json[i].omNo+"'>"+json[i].omName+"</option>");
+        	   }
+	        }
+		});
+	}
+	
 	function changeData(){
 		$.ajax({
 	        type: 'POST',
