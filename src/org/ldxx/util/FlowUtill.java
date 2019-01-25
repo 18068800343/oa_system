@@ -788,6 +788,7 @@ public class FlowUtill {
 			
 			List<ModeStatus> modeStatusDuo = INSTANCE.modeStatusMapper.selectByExample(modeStatusExample);
 			ModeStatus modeStatus = new ModeStatus();
+			
 			modeStatus.setModeId(modeId);
 			modeStatus.setStatus("1");
 			modeStatus.setFlowStatus("4");
