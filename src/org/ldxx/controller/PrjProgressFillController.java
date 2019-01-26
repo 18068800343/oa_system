@@ -417,6 +417,19 @@ public class PrjProgressFillController {
 	@ResponseBody
 	public List<PrjProgressFill> selectPrjProgressFillByStatus(int status){
 		 List<PrjProgressFill> list=service.selectPrjProgressFillByStatus(status);
+		 for(int i=0;i<list.size();i++){
+			 String taskNo=list.get(i).getTaskNo();
+			 double cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
+			 double cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
+			 double allCost=cost+cost2;//财务累计成本
+			 list.get(i).setTotalCost(allCost);
+			 BudgetFpplicationForm bf=bService.selectBudgeByNo(taskNo);
+			 if(bf!=null){
+				 list.get(i).setBudgetMoneyAll(bf.getAllCost());
+			 }else{
+				 list.get(i).setBudgetMoneyAll(0);
+			 }
+		 }
 		 return list;
 	}
 	

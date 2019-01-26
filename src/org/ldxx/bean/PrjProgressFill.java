@@ -34,6 +34,8 @@ public class PrjProgressFill {
 	private String fristDesign;//初步设计
 	private String secondDesign;//施工图设计
 	
+	private double totalCost;//财务累计成本
+	
 	private List<PrjProgressFillFb> ppfb;
 	/*private List<PrjProgressFillCj> ppcj;*/
 	private List<PrjProgressFillInfo> ppfi;// 累计收入
@@ -45,7 +47,12 @@ public class PrjProgressFill {
 	
 	private List<Accessory> accessory;
 	
-	
+	public double getTotalCost() {
+		return totalCost;
+	}
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
+	}
 	public String getYgDesign() {
 		return ygDesign;
 	}
