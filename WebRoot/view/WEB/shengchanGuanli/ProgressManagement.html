@@ -106,6 +106,16 @@
 				                                </td>
 				                            </tr>
 				                            <tr>
+				                            	<td>合同名称</td>
+				                            	<td>
+				                            		<input type="text" class="form-control" id="contract_name" style="width:60%;" disabled>
+				                            	</td>
+				                            	<td>合同编号</td>
+				                            	<td>
+				                            		<input type="text" class="form-control" id="contract_no" style="width:70%;" disabled>
+				                            	</td>
+				                            </tr>
+				                            <tr>
 				                                <td>合同金额(元)</td>
 				                                <td><input type="text" class="form-control" disabled id="contractMoney" style="width:60%;"></td>
 				                                <td>任务金额(元)</td>
@@ -247,7 +257,7 @@
 			                        <table class="table table-bordered table-condensed" id="fb_table">
 			                            <thead>
 			                                <tr>
-			                                    <th colspan="4">分包合同表</th>
+			                                    <th colspan="5">分包收入</th>
 			                                </tr>
 			                                <tr>
 			                                    <th style="width:28%;">分包合同名称</th>
@@ -260,6 +270,15 @@
 			                            <tbody>
 			                            </tbody>
 			                        </table>
+			                        <table class="table table-bordered table-condensed" id="fb_ys_table" style="display:none;">
+			                            <thead>
+			                                <tr>
+			                                    <th style="width:30%;">预算分包收入</th>
+			                                    <th id="fb_ys"></th>
+			                                </tr>
+			                            </thead>
+			                        </table>
+			                        
 			                        <!-- 进度承接合同表 -->
 			                        <!-- <table class="table table-bordered table-condensed" id="cj_table">
 			                            <thead>
@@ -835,6 +854,12 @@
                             <td id="look_task_no" style="width:27%;"></td>
                         </tr>
                         <tr>
+                            <td>合同名称</td>
+                            <td id="look_contract_name"></td>
+                            <td>合同编号</td>
+                            <td id="look_contract_no"></td>
+                        </tr>
+                        <tr>
                             <td>项目类型</td>
                             <td id="look_prj_type"></td>
                             <td>项目负责人</td>
@@ -957,7 +982,7 @@
                     <table class="table table-bordered table-condensed" id="look_fb">
                     	<thead>
                                 <tr>
-                                    <th colspan="5">分包合同表</th>
+                                    <th colspan="5">分包收入</th>
                                 </tr>
                                 <tr>
                                     <th style="width:28%;">分包合同名称</th>
@@ -1461,6 +1486,8 @@
             	var task=json.task;
             	var bf=json.bf;
             	var cj=json.cj;
+            	$("#contract_name").val(cj.contractName)
+            	$("#contract_no").val(cj.contractNo)
                 	//$('#task_no').val(task.prjNo);
             	    //$('#prjType2').val(task.prjType2);
             	    $('#prjMoney').val(task.prjEstimateMoney)
@@ -2172,6 +2199,8 @@
                     	yugong=task.yugongkebili;
                 		chushe=task.chushebili;
                 		shishe=task.shishebili;
+                		$("#contract_name").val(cj.contractName)
+                		$("#contract_no").val(cj.contractNo)
                     	$('#prjName').val(task.prjName);
                     	$('#prjType2').val(task.prjType2);
                     	$('#prjMoney').val(task.prjEstimateMoney);
@@ -2179,7 +2208,7 @@
                     	$('#provisional_sum').val(task.provisionalSum);
                     	$('#prj_start_time').val(task.prjStartTime);
                     	$('#prj_end_time').val(task.prjEndTime);
-                    	$('#prj_leader').val(task.mainPrjLeader);
+                    	$('#prj_leader').val(task.mainPrjLeaderName);
                     	$("#prj_mode").val(task.prjManagementModel);
                     	if(bf!=null&&bf!=''){
                     		$('#budget_money_all').val(bf.allCost);
@@ -2643,14 +2672,27 @@
             url: getContextPath()+'/ppf/getPrjAllMoney',
             dataType: 'json',
             data: {
-            	no:$("#task_no").val()
+            	no:$("#task_no").val(),
+            	fbNum:fbNum
             },
             success: function (json) {
                var present=json.present;
                var allMoney=json.allMoney;
+               var fbYs=json.fbYs;
+               
                var prjMoney=$("#prjMoney").val();
-           	   var income=$("#all_money").val().replace("%","")*prjMoney/100;
-   			   $("#all_money_yuan").val(income);
+               if(fbNum!=0){
+            	   var income=$("#all_money").val().replace("%","")*prjMoney/100;
+       			   $("#all_money_yuan").val(income);
+       			   $("#fb_ys_table").hide();
+               }else{
+            	   var income=(prjMoney-fbYs)*$("#all_money").val().replace("%","")/100;
+            	   $("#all_money_yuan").val(income);
+            	   $("#fb_ys_table").show();
+            	   var fb_ys=fbYs*$("#all_money").val().replace("%","")/100
+            	   $("#fb_ys").text(fb_ys);
+               }
+           	   
            	   /* $("#this_time_money_yuan").val(present.replace("%","")*prjMoney/100); */
            	   $("#this_time_money_yuan").val(income-present);
            	   var contractMoney=$("#contractMoney").val();
@@ -3309,6 +3351,7 @@
             success: function (json) {
             	var ppfi=json.ppfi;
             	var ppfb=json.ppfb;
+            	var cj=json.cj;
             	/* var ppfi2=json.ppfi2;
             	var ppfi3=json.ppfi3;
             	var ppfi4=json.ppfi4;
@@ -3320,6 +3363,8 @@
             	$("#look_task_no").text(json.taskNo);
             	$("#look_prj_money").text(json.prjMoney);
             	$("#look_prj_type").text(json.prjType);
+            	$("#look_contract_name").text(cj.contractName);
+            	$("#look_contract_no").text(cj.contractNo)
             	$("#look_contract_money").text(json.contractMoney);
             	$("#look_prj_leader").text(json.prjLeader);
             	$("#look_provisional_sum").text(json.provisionalSum);

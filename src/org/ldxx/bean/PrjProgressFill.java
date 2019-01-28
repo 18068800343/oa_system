@@ -46,7 +46,15 @@ public class PrjProgressFill {
 	private List<PrjProgressFillInfo> ppfi6;// 累计成本*/	
 	
 	private List<Accessory> accessory;
+	private CjContract cj;
 	
+	
+	public CjContract getCj() {
+		return cj;
+	}
+	public void setCj(CjContract cj) {
+		this.cj = cj;
+	}
 	public double getTotalCost() {
 		return totalCost;
 	}

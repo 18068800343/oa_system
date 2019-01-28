@@ -273,6 +273,8 @@ public class PrjProgressFillController {
 		List<PrjProgressFillFb> ppfb=service.selectPrjProgressFillFbByPpfId(id);
 		List<Accessory> accessory=aService.selectAccessoryById(id);
 		String no=ppf.getTaskNo();
+		CjContract cj=cService.selectCjContractLikeTaskNo(no);
+		ppf.setCj(cj);
 		BudgetFpplicationForm bf=bService.selectBudgeByNo(no);
 		if(bf!=null){
 			ppf.setBudgetMoneyAll(bf.getAllCost());
@@ -505,14 +507,18 @@ public class PrjProgressFillController {
 	
 	@RequestMapping("/getPrjAllMoney")
 	@ResponseBody
-	public Map<String,Object> getPrjAllMoney(String no){
+	public Map<String,Object> getPrjAllMoney(String no,int fbNum){
 		Map<String,Object> map=new HashMap<>();
 		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
 		double last=0;
 		if(pf!=null){
 			last=pf.getAllMoneyYuan();
 		}
-		
+		double fbYs=0;
+		if(fbNum==0){
+			CostBudget cb=bService.selectNwCostByTaskNo(no, "劳务分包费");
+			fbYs=Double.valueOf(cb.getCostAmount());
+		}
 		CjContract cj=cService.selectCjContractLikeTaskNo(no);
 		String prjNo=cj.getTaskCode();
 		double allMoney=0;
@@ -550,6 +556,7 @@ public class PrjProgressFillController {
 		map.put("money", money);*/
 		map.put("present", last);
 		map.put("allMoney", allMoney);
+		map.put("fbYs", fbYs);
 		return map;
 	}
 	
