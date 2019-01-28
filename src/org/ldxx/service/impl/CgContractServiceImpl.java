@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.BorrowContract;
 import org.ldxx.bean.CgCl;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.FbContract;
@@ -11,6 +12,7 @@ import org.ldxx.bean.MaterialDemand;
 import org.ldxx.bean.Pay;
 import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.dao.AccessoryDao;
+import org.ldxx.dao.BorrowContractDao;
 import org.ldxx.dao.CgClDao;
 import org.ldxx.dao.CgContractDao;
 import org.ldxx.dao.ContractPaymentDao;
@@ -37,6 +39,8 @@ public class CgContractServiceImpl implements CgContractService {
 	private ContractPaymentDao payDao;
 	@Autowired
 	private CgClDao cgclDao;
+	@Autowired
+	private BorrowContractDao borrowdao;
 
 	@Override
 	public List<CgContract> selectCgContractByStatus(String status) {
@@ -225,6 +229,11 @@ public class CgContractServiceImpl implements CgContractService {
 			}
 		}
 		return i;
+	}
+
+	@Override
+	public List<BorrowContract> getRateAndMoney(String no) {
+		return borrowdao.getRateAndMoney(no);
 	}
 
 }

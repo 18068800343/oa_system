@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.BorrowContract;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.FbContract;
 import org.ldxx.bean.MaterialDemand;
@@ -57,5 +58,7 @@ public interface CgContractService {
 	List<CgContract> selectCgContractByWorkNo(String no);
 
 	int updateCgContractById(CgContract cg);
+
+	List<BorrowContract> getRateAndMoney(String no);
 
 }
