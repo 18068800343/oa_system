@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.LianYing;
+import org.ldxx.bean.LianYingHeSuan;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.LianYingDao;
 import org.ldxx.service.LianYingService;
@@ -53,6 +54,16 @@ public class LianYingServiceImpl implements LianYingService{
 	@Override
 	public LianYing selectLianYingByNo(String no) {
 		return dao.selectLianYingByNo(no);
+	}
+
+	@Override
+	public int addLianYingHeSuan(LianYingHeSuan hs) {
+		return dao.addLianYingHeSuan(hs);
+	}
+
+	@Override
+	public List<LianYingHeSuan> selectLianYingHeSuan() {
+		return dao.selectLianYingHeSuan();
 	}
 
 }

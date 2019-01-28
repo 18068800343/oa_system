@@ -2,8 +2,8 @@ package org.ldxx.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.LianYing;
+import org.ldxx.bean.LianYingHeSuan;
 
 public interface LianYingService {
 
@@ -16,4 +16,8 @@ public interface LianYingService {
 	public int lyNoCount(String year);
 	
 	public LianYing selectLianYingByNo(String no);
+	
+	public int addLianYingHeSuan(LianYingHeSuan hs);
+	
+	public List<LianYingHeSuan> selectLianYingHeSuan();
 }

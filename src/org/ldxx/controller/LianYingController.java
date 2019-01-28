@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,10 +15,14 @@ import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.LianYing;
+import org.ldxx.bean.LianYingHeSuan;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.dao.CompanyCostDao;
+import org.ldxx.dao.SecondCompanyCostDao;
 import org.ldxx.service.AccessoryService;
+import org.ldxx.service.FbContractOverService;
 import org.ldxx.service.LianYingService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.TaskService;
@@ -41,6 +47,12 @@ public class LianYingController {
 	private TaskService taskService;
 	@Autowired
 	private AccessoryService aService;
+	@Autowired
+	private SecondCompanyCostDao sccDao;
+	@Autowired
+	private CompanyCostDao ccDao;
+	@Autowired
+	private FbContractOverService fbService;
 	
 	@RequestMapping("/addLianYing")
 	@ResponseBody
@@ -173,9 +185,38 @@ public class LianYingController {
 	
 	@RequestMapping("/selectLianYingByNo")
 	@ResponseBody
-	public LianYing selectLianYingByNo(String no){
+	public Map<String,Object> selectLianYingByNo(String no){
+		Map<String,Object> map=new HashMap<>();
 		LianYing ly=service.selectLianYingByNo(no);
-		return ly;
+		map.put("ly", ly);
+		double cost=ccDao.selectSumMoneyByNo(no);//项目累计成本
+		double cost2=sccDao.selectSumMoneyByNo(no);//检测二部项目累计成本
+		double allCost=cost+cost2;//财务成本结算
+		map.put("allCost", allCost);
+		double fbEndMoney=fbService.selectFbJsMoneyByNo(no);//任务单下所有分包结算金额总和
+		map.put("fbEndMoney", fbEndMoney);
+		return map;
+	}
+	
+	
+	@RequestMapping("/addLianYingHeSuan")
+	@ResponseBody
+	public Map<String,Object> addLianYingHeSuan(LianYingHeSuan hs){
+		Map<String,Object> map=new HashMap<>();
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		hs.setHsId(id);
+		int i=service.addLianYingHeSuan(hs);
+		map.put("result", i);
+		map.put("hs", hs);
+		return map;
+	}
+
+	@RequestMapping("/selectLianYingHeSuan")
+	@ResponseBody
+	public List<LianYingHeSuan> selectLianYingHeSuan(){
+		List<LianYingHeSuan> list=service.selectLianYingHeSuan();
+		return list;
 	}
 	
 }

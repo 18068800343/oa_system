@@ -9,21 +9,41 @@ package org.ldxx.bean;
 */
 public class LianYingHeSuan {
 
+	private String hsId;
 	private String prjName;
+	private String prjNo;
+	private String prjMoney;
 	private String contractNo;
 	private String contractMoney;
-	private String endMoney;
-	private String lyUnitName;
+	private String lyUnit;
 	private String lyNo;
+	private String prjCwEnd;
+	private String prjAllFb;
 	private String managementFee;
-	
-	
-	
+	private String managementMoney;
+	public String getHsId() {
+		return hsId;
+	}
+	public void setHsId(String hsId) {
+		this.hsId = hsId;
+	}
 	public String getPrjName() {
 		return prjName;
 	}
 	public void setPrjName(String prjName) {
 		this.prjName = prjName;
+	}
+	public String getPrjNo() {
+		return prjNo;
+	}
+	public void setPrjNo(String prjNo) {
+		this.prjNo = prjNo;
+	}
+	public String getPrjMoney() {
+		return prjMoney;
+	}
+	public void setPrjMoney(String prjMoney) {
+		this.prjMoney = prjMoney;
 	}
 	public String getContractNo() {
 		return contractNo;
@@ -37,17 +57,11 @@ public class LianYingHeSuan {
 	public void setContractMoney(String contractMoney) {
 		this.contractMoney = contractMoney;
 	}
-	public String getEndMoney() {
-		return endMoney;
+	public String getLyUnit() {
+		return lyUnit;
 	}
-	public void setEndMoney(String endMoney) {
-		this.endMoney = endMoney;
-	}
-	public String getLyUnitName() {
-		return lyUnitName;
-	}
-	public void setLyUnitName(String lyUnitName) {
-		this.lyUnitName = lyUnitName;
+	public void setLyUnit(String lyUnit) {
+		this.lyUnit = lyUnit;
 	}
 	public String getLyNo() {
 		return lyNo;
@@ -55,11 +69,29 @@ public class LianYingHeSuan {
 	public void setLyNo(String lyNo) {
 		this.lyNo = lyNo;
 	}
+	public String getPrjCwEnd() {
+		return prjCwEnd;
+	}
+	public void setPrjCwEnd(String prjCwEnd) {
+		this.prjCwEnd = prjCwEnd;
+	}
+	public String getPrjAllFb() {
+		return prjAllFb;
+	}
+	public void setPrjAllFb(String prjAllFb) {
+		this.prjAllFb = prjAllFb;
+	}
 	public String getManagementFee() {
 		return managementFee;
 	}
 	public void setManagementFee(String managementFee) {
 		this.managementFee = managementFee;
+	}
+	public String getManagementMoney() {
+		return managementMoney;
+	}
+	public void setManagementMoney(String managementMoney) {
+		this.managementMoney = managementMoney;
 	}
 	
 }
