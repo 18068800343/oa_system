@@ -31,6 +31,7 @@ public class CgContract {
 	private String fbNo;//关联的分保合同编号
 	private String cgDepartment;//采购部门
 	private Float freight;//运费
+	private String borrowNo;//借款合同号
 	    
 	private List<Accessory> accessory;
 	private List<Accessory> accessory1;
@@ -40,6 +41,14 @@ public class CgContract {
 	
 	
 	
+	public String getBorrowNo() {
+		return borrowNo;
+	}
+
+	public void setBorrowNo(String borrowNo) {
+		this.borrowNo = borrowNo;
+	}
+
 	public Float getFreight() {
 		return freight;
 	}

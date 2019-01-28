@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.BorrowContract;
 import org.ldxx.bean.CgCl;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.CjContract;
@@ -719,6 +720,13 @@ public class CgContractController {
 		}*/
 		int i=cgService.updateCgContractById(cg);
 		return i;
+	}
+	
+	@RequestMapping("/getRateAndMoney")
+	@ResponseBody
+	public List<BorrowContract> getRateAndMoney(String no){
+		List<BorrowContract> list=cgService.getRateAndMoney(no);
+		return list;
 	}
 	
 }
