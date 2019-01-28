@@ -776,9 +776,78 @@
 	$(".Pmia").hide();
 	//370	经营目标管理2菜单栏	Pdd+
 	$(".Pdd").hide();
+	//371 公司通知公告删除 Pbag+
+	$(".Pbag").hide();
+	//372 部门通知公告删除 Pbah+
+	$(".Pbah").hide();
+	
+	//373 直接成本菜单栏	  Pde+
+	//$(".Pde").hide();
+	//374 导入成本 	Pdea+
+	//$(".Pdea").hide();
+	//375 预算与核算管理菜单栏   Pebx+
+	//$(".Pebx").hide();
+	//376	项目核算管理菜单栏	Pebxb+
+	//$(".Pebxb").hide();
+	//377	填报项目核算	Pebxba+
+	//$(".Pebxba").hide();
+	//378	查看项目核算	Pebxbb+
+	//$(".Pebxbb").hide();
+	//379	项目合同管理菜单栏	Pecax+
+	//$(".Pecax").hide();
+	//380	非项目合同管理菜单栏	Pecbx+
+	//$(".Pecbx").hide();
+	//381	联营合同管理菜单栏	Peccx+
+	//$(".Peccx").hide();
+	//382	联营合同审签菜单栏	Peccxa+
+	//$(".Peccxa").hide();
+	//383	填报联营合同审签	Peccxaa+
+	//$(".Peccxaa").hide();
+	//384	查看联营合同审签	Peccxab+
+	//$(".Peccxab").hide();
+	//385	联营项目核算菜单栏	Peccxb+
+	//$(".Peccxb").hide();
+	//386	填报联营项目核算	Peccxba+
+	//$(".Peccxba").hide();
+	//387	查看联营项目核算	Peccxbb+
+	//$(".Peccxbb").hide();
+	//388	现场管理菜单栏	Pecgx+
+	//$(".Pecgx").hide();
+	//389	检测二部收入管理菜单栏	Pfbx+
+	//$(".Pfbx").hide();
+	//390	检测二部导入上月收入	Pfbxa+
+	//$(".Pfbxa").hide();
+	//391	检测二部删除上月收入	Pfbxb+
+	//$(".Pfbxb").hide();
+	//392	收款管理菜单栏	Pfcx+
+	//$(".Pfcx").hide();
+	//393	检测二部直接成本菜单栏	Pfdx+
+	//$(".Pfdx").hide();
+	//394	检测二部导入直接成本	Pfdxa+
+	//$(".Pfdxa").hide();
+	//395	项目报表菜单栏	Pha+
+	//$(".Pha").hide();
+	//396	统计分析查询菜单栏	Pkd+
+	//$(".Pkd").hide();
+	//397	工作移交菜单栏	Pmex+
+	//$(".Pmex").hide();
+	//398	新建工作移交	Pmexa+
+	//$(".Pmexa").hide();
+	//399	修改工作移交	Pmexb+
+	//$(".Pmexb").hide();
+	//400	删除工作移交	Pmexc+
+	//$(".Pmexc").hide();
+	//401	分公司管理菜单栏	Pmj+
+	//$(".Pmj").hide();
+	//402	新建分公司管理	Pmja+
+	//$(".Pmja").hide();
+	//403	修改分公司管理	Pmjb+
+	//$(".Pmjb").hide();
+	//404	删除分公司管理	Pmjc+
+	//$(".Pmjc").hide();
 
 	
-    
+	
 })(window);
 
 
