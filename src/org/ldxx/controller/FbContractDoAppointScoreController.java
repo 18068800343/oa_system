@@ -136,11 +136,14 @@ public class FbContractDoAppointScoreController {
 	
 	@RequestMapping("selectFbContractDoAppointScore")
 	@ResponseBody
-	public List<FbContractDoAppointScore> selectFbContractDoAppointScore(String state,String depart){
+	public List<FbContractDoAppointScore> selectFbContractDoAppointScore(String state,String depart,String thisYear){
 		if("".equals(depart)||null==depart){
 			depart="%%";
 		}
-		return service.selectFbContractDoAppointScore(state,depart);
+		if("".equals(thisYear)||null==thisYear){
+			thisYear="%%";
+		}
+		return service.selectFbContractDoAppointScore(state,depart,thisYear);
 	}
 	
 	@RequestMapping("selectFbContractDoAppointScoreById")
