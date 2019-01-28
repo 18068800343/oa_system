@@ -8,9 +8,9 @@ public interface FbContractDoAppointScoreService {
 
 	public int addFbContractDoAppointScore(FbContractDoAppointScore FbContractDoAppoint);
 	
-	public List<FbContractDoAppointScore> selectFbContractDoAppointScore(String state);
-	
 	public FbContractDoAppointScore selectFbContractDoAppointScoreById(String id);
 	
 	public int updateFbContractDoAppointScore(FbContractDoAppointScore FbContractDoAppoint);
+
+	List<FbContractDoAppointScore> selectFbContractDoAppointScore(String state, String depart);
 }
