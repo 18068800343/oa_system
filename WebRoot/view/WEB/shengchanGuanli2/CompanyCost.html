@@ -51,7 +51,7 @@
     <div class="mianbao">
     	<ul class="breadcrumb">
     		<li><i class="iconfont icon-knowledgebase"></i></li>
-			<li>检测二部</li>
+			<li>经营管理</li>
 			<li class="active">直接成本</li>
 		</ul>
     </div>
@@ -62,6 +62,10 @@
                 <div role="tabpanel" class="tab-pane active" id="home">
                     <div class="UpperPart">
                        <div class="UpperPartL" style="font-size:18px;">
+	                       		<form class="form-inline">
+		                                <label>月份筛选:</label>
+		                                <input type="text" class="form-control" id="yuefenshaixuan">
+	                            	</form>
                         </div>
                         <div class="UpperPartR">
                             <button type="button" class="btn btn-primary Pfaa"  data-toggle="modal" data-target="#myModal">导入成本</button>
@@ -156,6 +160,15 @@
 <script>  
     $(document).ready( function () {
     	initTable();
+    	laydate.render({
+            elem: '#yuefenshaixuan' //指定元素
+           ,type: 'month'
+       	   ,done: function(value, date, endDate){
+       		    console.log(value); //得到日期生成的值，如：2017-08-18
+	       		 var d = value;
+	     		$("#mainContent").DataTable().search(d).draw(true);
+       		  }
+        });
 	});
     
 
@@ -203,6 +216,7 @@
             url: getContextPath()+'/task2/selectCompanyCost',
             dataType: 'json',
             data: {
+            	//depart:$("#yuefenshaixuan").val()
             },
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
