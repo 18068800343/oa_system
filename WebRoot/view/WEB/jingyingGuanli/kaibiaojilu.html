@@ -548,15 +548,15 @@
                     				</tr>
                     			</thead>
                     			<tr>
-                            		<td style="width:15%;">中标单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                            		<td style="width:35%;"><input type="text" id="xgzhongbiaodanwei" style="width:60%;" class="form-control"></td>
-                            		<td>是否中标  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                    				<td>是否中标  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             		<td>
                             			<select class="form-control" id="xgis_zhongbiao" style="width:60%;">
-	                            			<option>是</option>
-	                            			<option>否</option>
+	                            			<option value="否">否</option>
+	                            			<option value="是">是</option>
                             			</select>
                             		</td>
+                            		<td style="width:15%;">中标单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                            		<td style="width:35%;"><input type="text" id="xgzhongbiaodanwei" style="width:60%;" class="form-control"></td>
                             	</tr>
                     			<tr>
                             		<td style="width:15%;">中标费率  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -2657,6 +2657,7 @@
 		var dom = $(obj).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
 		xiugaiId=data.orId;
+		console.log(data)
 		$("#xgprjName").val(data.prjName);
 		$("#xgprjNo").val(data.prjNo);
 		$("#xgBdNo").val(data.bdNo);
@@ -2667,7 +2668,8 @@
 		$("#xgyear").val(data.bidOpeningTime); //xgpingbiaojizhunjia-xgyezhukongzhijia=xgxiafubili
 		//$("#xgxiafubili").val(data.percentageFluctuation);
 		$("#xgxiafubili").val(data.percentageFluctuation);
-		$("#xgzhongbiaodanwei").val(data.winningUnit);
+		$("#xgis_zhongbiao").val(data.zhongbiao);
+		//$("#xgzhongbiaodanwei").val(data.winningUnit);
 		$("#xgzhongbiaojiage").val(data.bidPrice);
 		$("#xgxiafulv").val(data.floatingMediumPrice);
 		$("#xgyear2").val(data.recordDate);
@@ -2681,7 +2683,16 @@
 		$("#xgshijichengben").val(data.actualCost);
 		$("#xgis_feibiao").val(data.isScrap)
 		$("#xgbidrate").val(data.bidRate);
-		$("#xgzongtifuzeren").val(data.generalLeader)
+		$("#xgzongtifuzeren").val(data.generalLeader);
+		
+		$("#xgis_zhongbiao").change(function(){
+			if($("#xgis_zhongbiao option:selected").val()=="是"){
+				$("#xgzhongbiaodanwei").val(data.winningUnit);
+			}else{
+				$("#xgzhongbiaodanwei").val("");
+			}
+		})
+		$("#xgis_zhongbiao").trigger('change');
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
