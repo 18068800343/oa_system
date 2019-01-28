@@ -171,4 +171,11 @@ public class LianYingController {
 		return ly;
 	}
 	
+	@RequestMapping("/selectLianYingByNo")
+	@ResponseBody
+	public LianYing selectLianYingByNo(String no){
+		LianYing ly=service.selectLianYingByNo(no);
+		return ly;
+	}
+	
 }

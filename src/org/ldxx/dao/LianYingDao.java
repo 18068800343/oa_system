@@ -14,5 +14,7 @@ public interface LianYingDao {
 	public LianYing selectLianYingById(@Param("id")String id);
 	
 	public int lyNoCount(@Param("year")String year);
+	
+	public LianYing selectLianYingByNo(@Param("no")String no);
 
 }

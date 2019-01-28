@@ -50,4 +50,9 @@ public class LianYingServiceImpl implements LianYingService{
 		return dao.lyNoCount(year);
 	}
 
+	@Override
+	public LianYing selectLianYingByNo(String no) {
+		return dao.selectLianYingByNo(no);
+	}
+
 }
