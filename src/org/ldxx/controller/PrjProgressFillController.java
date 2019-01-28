@@ -514,10 +514,9 @@ public class PrjProgressFillController {
 		if(pf!=null){
 			last=pf.getAllMoneyYuan();
 		}
-		double fbYs=0;
+		List<CostBudget> cb=new ArrayList<>();
 		if(fbNum==0){
-			CostBudget cb=bService.selectNwCostByTaskNo(no, "劳务分包费");
-			fbYs=Double.valueOf(cb.getCostAmount());
+			cb=bService.selectNwCostByTaskNoAndDept(no, "劳务分包费");
 		}
 		CjContract cj=cService.selectCjContractLikeTaskNo(no);
 		String prjNo=cj.getTaskCode();
@@ -529,34 +528,9 @@ public class PrjProgressFillController {
 				allMoney=allMoney+allMoneyYuan;
 			}
 		}
-		
-	/*float money=0;
-		CjContract cj=cService.selectCjContractLikeTaskNo(no);
-		if(cj==null||cj.equals("")){
-			money=prjMoney;
-		}else{
-			String taskNo=cj.getTaskCode();
-			if(taskNo.contains(",")){
-				money=prjMoney;
-			}else{ 
-				ContractWork cw=cwService.selectContractWorkBytaskNoAndCno(cj.getContractNo(),"2");//判断该承接合同是否完结，完结则取完结金额
-				if(cw==null||cw.equals("")){
-					money=cj.getContractMoney();
-				}else{
-					money=cw.getEndMoney();
-				}
-			}
-		}
-		if(fbNum==0){
-			CostBudget cb=bService.selectNwCostByTaskNo(no, "劳务分包费");
-			String costBud=cb.getCostAmount();
-			float cost=Float.valueOf(costBud);
-			money=money-cost;
-		}
-		map.put("money", money);*/
 		map.put("present", last);
 		map.put("allMoney", allMoney);
-		map.put("fbYs", fbYs);
+		map.put("cb", cb);
 		return map;
 	}
 	

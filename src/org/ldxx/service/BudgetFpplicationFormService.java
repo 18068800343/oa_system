@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.BudgetFpplicationForm;
 import org.ldxx.bean.CostBudget;
 
@@ -32,5 +33,7 @@ public interface BudgetFpplicationFormService {
 	int updateHistoryById(String id);
 	
 	CostBudget selectNwCostByTaskNo(String no,String type);
+	
+	List<CostBudget> selectNwCostByTaskNoAndDept(String no,String type);
 	
 }

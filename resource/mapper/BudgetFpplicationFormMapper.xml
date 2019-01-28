@@ -84,6 +84,17 @@
 		SELECT IFNULL(SUM(c.cost_amount),0)as cost_amount  FROM budget_fpplication_form as a
 		LEFT JOIN mode_status as b on a.bf_id=b.mode_id
 		LEFT JOIN cost_budget as c on a.bf_id=c.cb_id
-		where b.status=2 and a.task_no=#{no} and c.prj_detail=#{type}
+		where b.status=2 and a.state=1 and a.task_no=#{no} and c.prj_detail=#{type}
+	</select>
+	
+	<select id="selectNwCostByTaskNoAndDept" resultType="CostBudget">
+		select sum(e.cost_amount)as cost_amount,e.department,f.om_name as name2 from (		
+			SELECT c.department,c.cost_amount  FROM budget_fpplication_form as a
+			LEFT JOIN mode_status as b on a.bf_id=b.mode_id
+			LEFT JOIN cost_budget as c on a.bf_id=c.cb_id
+			LEFT JOIN organization_management as d on c.department=d.om_id
+			where b.status=2 and a.state=1 and a.task_no=#{no} and c.prj_detail=#{type} )as e 
+		LEFT JOIN organization_management as f on e.department=f.om_id
+		GROUP BY e.department
 	</select>
 </mapper>

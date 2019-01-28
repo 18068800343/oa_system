@@ -330,4 +330,10 @@ public class BudgetFpplicationFormController {
 	public CostBudget selectNwCostByTaskNo(String no,String type) {
 		return bservice.selectNwCostByTaskNo(no,type);
 	}
+	
+	@RequestMapping("/selectNwCostByTaskNoAndDept")
+	@ResponseBody
+	public List<CostBudget> selectNwCostByTaskNoAndDept(String no,String type) {
+		return bservice.selectNwCostByTaskNoAndDept(no, type);
+	}
 }

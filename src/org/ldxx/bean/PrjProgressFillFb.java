@@ -5,6 +5,7 @@ public class PrjProgressFillFb {
 	private String ppfId;
 	private String fbId;
 	private String fbName;
+	private String department;
 	private String fbUnit;
 	private float fbMoney;
 	private float incomeAll;
@@ -12,6 +13,12 @@ public class PrjProgressFillFb {
 	private String bq;
 	
 	
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 	public String getPpfId() {
 		return ppfId;
 	}
