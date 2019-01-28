@@ -30,8 +30,19 @@ public class FbContractDoAppointScore {
     /*private String safetyCivilizationEnvironment;//安全文明与环保*/
     
     private String allScore;//综合评价
+    
+    private String thisYear;//年份
 
-    public String getFcdId() {
+    
+    public String getThisYear() {
+		return thisYear;
+	}
+
+	public void setThisYear(String thisYear) {
+		this.thisYear = thisYear;
+	}
+
+	public String getFcdId() {
         return fcdId;
     }
 

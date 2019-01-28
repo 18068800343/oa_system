@@ -12,5 +12,5 @@ public interface FbContractDoAppointScoreService {
 	
 	public int updateFbContractDoAppointScore(FbContractDoAppointScore FbContractDoAppoint);
 
-	List<FbContractDoAppointScore> selectFbContractDoAppointScore(String state, String depart);
+	List<FbContractDoAppointScore> selectFbContractDoAppointScore(String state, String depart, String thisYear);
 }
