@@ -29,11 +29,20 @@ public class ProjectAccounting {
 	private Float  allYsProfit;//总成本的预算利润
 	private String allJsProfitMargin;//总成本的结算利润率
 	private String allYsProfitMargin;//总成本的预算利润率
+	private Float jcSjMoney;//检测二部直接成本
 	
 	private List<ProjectAccountingRg> projectAccountingRg;//人员工时
 	
 
 	
+	public Float getJcSjMoney() {
+		return jcSjMoney;
+	}
+
+	public void setJcSjMoney(Float jcSjMoney) {
+		this.jcSjMoney = jcSjMoney;
+	}
+
 	public String getHsNo() {
 		return hsNo;
 	}

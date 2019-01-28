@@ -34,7 +34,7 @@
     	<ul class="breadcrumb">
     		<li><i class="iconfont icon-knowledgebase"></i></li>
             <li>生产管理</li>
-			<li class="active">施工项目核算</li>
+			<li class="active">项目核算管理</li>
 		</ul>
     </div>
 
@@ -228,6 +228,13 @@
                         		<td id="other_ys_money"></td>
                         		<td>实际(元)</td>
                         		<td id="other_js_money"></td>
+                        	</tr>
+                        	<tr>
+                        		<td>检测二部直接成本</td>
+                        		<td></td>
+                        		<td></td>
+                        		<td>实际(元)</td>
+                        		<td><input type="text" placeholder="本项目在检测二部报销的部分" id="jc2_sj_money" class="form-control" style="width:70%;"></td>
                         	</tr>
                         </tbody>
                         <tfoot>
@@ -877,6 +884,13 @@
 	                        		<td id="look_other_ys_money"></td>
 	                        		<td>实际(元)</td>
 	                        		<td id="look_other_js_money"></td>
+	                        	</tr>
+	                        	<tr>
+	                        		<td>检测二部直接成本</td>
+	                        		<td></td>
+	                        		<td ></td>
+	                        		<td>实际(元)</td>
+	                        		<td id="look_jc2_sj_money"></td>
 	                        	</tr>
 	                        </tbody>
 	                        <tfoot>
@@ -1907,7 +1921,7 @@
     
     //计算实际成本及利润
     function jschengben(){
-    	
+    	var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
     	var prj_js_money=$("#prj_js_money").val();
     	if(prj_js_money==""){
     		toastr.error("项目结算金额不能为空")
@@ -1921,10 +1935,15 @@
     	var fb_js_money=$("#fb_js_money").text()
     	var main_js_money=$("#main_js_money").text()
    		var other_js_money=$("#other_js_money").text()
-   		var jsxiaoji=Number(fb_js_money)+Number(main_js_money)+Number(other_js_money)
+   		var jc2_sj_money=$("#jc2_sj_money").val();
+    	if(jc2_sj_money==""||!reg.test(jc2_sj_money)){
+    		toastr.error("检测二部直接成本不能为空并且数字只能保留两位小数")
+    		return false;
+    	}
+   		var jsxiaoji=Number(fb_js_money)+Number(main_js_money)+Number(other_js_money)+Number(jc2_sj_money)
     	$("#hs_xiaoji").text(jsxiaoji)//核算小计
     	
-    	var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+    	
     	var prj_xinchou=$("#prj_xinchou").val();
     	if(prj_xinchou==""||!reg.test(prj_xinchou)){
     		toastr.error("项目人员薪酬不能为空并且数字只能保留两位小数")
@@ -2385,6 +2404,7 @@
 		var all_yslirun=$("#all_yslirun").val();
 		var all_jslirunlv=$("#all_jslirunlv").val();
 		var all_yslirunlv=$("#all_yslirunlv").val();
+		var jc2_sj_money=$("#jc2_sj_money").val();
 		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(prj_name==""){
     		toastr.error("项目名称不能为空")
@@ -2426,6 +2446,7 @@
 				allJsProfitMargin:undefined,//总成本的结算利润率
 				allYsProfitMargin:undefined,//总成本的预算利润率
 				projectAccountingRg:undefined,
+				jcSjMoney:0,
 				
 		}
 		projectAccounting.paId=null;
@@ -2453,6 +2474,7 @@
 		projectAccounting.allJsProfitMargin=all_jslirunlv;
 		projectAccounting.allYsProfitMargin=all_yslirunlv;
 		projectAccounting.projectAccountingRg=renyuanArr;
+		projectAccounting.jcSjMoney=jc2_sj_money;
 		
 		 $.ajax({
             type: 'POST',
@@ -2516,6 +2538,7 @@
 		var all_yslirun=$("#all_yslirun").val();
 		var all_jslirunlv=$("#all_jslirunlv").val();
 		var all_yslirunlv=$("#all_yslirunlv").val();
+		var jc2_sj_money=$("#jc2_sj_money").val();
 		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(prj_name==""){
     		toastr.error("项目名称不能为空")
@@ -2557,6 +2580,7 @@
 				allJsProfitMargin:undefined,//总成本的结算利润率
 				allYsProfitMargin:undefined,//总成本的预算利润率
 				projectAccountingRg:undefined,
+				jcSjMoney:0,
 				
 		}
 		projectAccounting.paId=null;
@@ -2584,6 +2608,7 @@
 		projectAccounting.allJsProfitMargin=all_jslirunlv;
 		projectAccounting.allYsProfitMargin=all_yslirunlv;
 		projectAccounting.projectAccountingRg=renyuanArr;
+		projectAccounting.jcSjMoney=jc2_sj_money;
 		
 		$.ajax({
             type: 'POST',
@@ -2670,8 +2695,9 @@
             	$("#look_main_js_money").text(json.zjZcJsMoney)
             	$("#look_other_ys_money").text(json.zjPrjotherYsMoney)
             	$("#look_other_js_money").text(json.zjPrjotherJsMoney)
+            	$("#look_jc2_sj_money").text(json.jcSjMoney)
             	$("#look_ys_xiaoji").text(Number(json.zjFbYsMoney)+Number(json.zjZcYsMoney)+Number(json.zjPrjotherYsMoney))
-            	$("#look_hs_xiaoji").text(Number(json.zjFbJsMoney)+Number(json.zjZcJsMoney)+Number(json.zjPrjotherJsMoney))
+            	$("#look_hs_xiaoji").text(Number(json.zjFbJsMoney)+Number(json.zjZcJsMoney)+Number(json.zjPrjotherJsMoney)+Number(json.jcSjMoney))
             	$("#look_prj_xinchou").text(json.jjPersonMoney)
             	$("#look_zhejiu_fy").text(json.jjZhejiuMoney)
             	$("#look_jjchengbenxj").text(Number(json.jjPersonMoney)+Number(json.jjZhejiuMoney))
