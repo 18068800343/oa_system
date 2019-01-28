@@ -148,8 +148,20 @@ public class UserController {
 	
 	@RequestMapping("/selectUserByomId")
 	@ResponseBody
-	public List<User> selectUserByomId(String omId){
-		return userservice.selectUserByomId(omId);
+	public List<User> selectUserByomId(String omId,String type){
+		String iString = "1";
+		if("3".equals(type)){
+			List<User> list = userservice.selectUserByomId(omId);
+			return list;
+		}else{
+			if("1".equals(type)){
+				String names[] = {"主任工程师","部门经理"};
+				return userservice.selectUserByomIdByJobFirstNames(names);
+			}else{
+				String names[] = {"总工程师"};
+				return userservice.selectUserByomIdByJobFirstNames(names);
+			}
+		}
 	}
 	
 	@RequestMapping("/selectUserAndRoles")

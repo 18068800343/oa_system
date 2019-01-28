@@ -28,7 +28,7 @@ public interface UserService {
 
 	int countOfrecordNoEdit(String recordNo, String userId);
 
-	List<User> selectUserByomId(String omId);
+	//List<User> selectUserByomId(String omId);
 
 	String countUsername(String username);
 
@@ -39,5 +39,9 @@ public interface UserService {
 	int countuserCode();
 
 	int updatePasswordById(String userId, String new_password);
+
+	List<User> selectUserByomId(String omId);
+
+	List<User> selectUserByomIdByJobFirstNames(String[] omId);
 
 }

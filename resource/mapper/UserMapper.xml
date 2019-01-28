@@ -93,7 +93,16 @@
 		left join duty as c on a.duty_id=c.duty_id
 		where a.om_id=#{omId} and a.delete_state=1
 	</select>
-	
+	<select id="selectUserByomIdByJobFirstNames"  resultType="user">
+		select a.*,c.duty_name as dutyName2 from user as a 
+		left join duty as c on a.duty_id=c.duty_id left join job j on c.job_id = j.job_id 
+		where j.job_first in
+	    <foreach collection="jobFirstNames" item="employeeId" index="index"
+            open="(" close=")" separator=",">
+            #{employeeId}
+        </foreach>
+        and a.delete_state=1
+	</select>
 	<select id="countUsername" resultType="String">
 		select IFNULL(password,0) from user where username=#{username}
 	</select>

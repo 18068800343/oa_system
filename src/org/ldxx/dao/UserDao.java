@@ -30,6 +30,8 @@ public interface UserDao {
 	int countOfrecordNoEdit(@Param("recordNo")String recordNo,@Param("userId") String userId);
 
 	List<User> selectUserByomId(@Param("omId")String omId);
+	
+	List<User> selectUserByomIdByJobFirstNames(@Param("jobFirstNames")String[] jobFirstNames);
 
 	String countUsername(@Param("username")String username);
 

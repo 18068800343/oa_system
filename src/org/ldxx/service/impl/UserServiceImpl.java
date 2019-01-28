@@ -99,6 +99,11 @@ public class UserServiceImpl implements UserService {
 	public List<User> selectUserByomId(String omId) {
 		return userDao.selectUserByomId(omId);
 	}
+	
+	@Override
+	public List<User> selectUserByomIdByJobFirstNames(String[] omId) {
+		return userDao.selectUserByomIdByJobFirstNames(omId);
+	}
 
 	@Override
 	public String countUsername(String username) {
