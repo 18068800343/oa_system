@@ -59,10 +59,10 @@
                         <th>结算金额</th>
                         <th>联营单位</th>
                         <th>联营合同编号</th>
-                        <th>管理费率</th>
-                        <th>管理费</th>
                         <th>项目财务结算</th>
                         <th>分包费总额</th>
+                        <th>管理费</th>
+                        <th>管理费率</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,7 +77,7 @@
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel"><b>填报联营项目核算</b></h4>
+            <h4 class="modal-title" id="myModalLabel"><b>填报联营合同审签</b></h4>
         </div>
         <div class="modal-body">
                 <div>     
@@ -101,17 +101,23 @@
 		                            		<td style="width:35%;"><input type="text"  style="width:70%;" class="form-control" id="task_no" disabled></td>
 		                            	</tr>
 		                            	<tr>
-		                            		<td>承接合同编号</td>
-		                            		<td><input type="text"  class="form-control" style="width:70%;" disabled id="cjbianhao"></td>
+		                            		<td>项目结算金额</td>
+		                            		<td><input type="text"  class="form-control" style="width:70%;" disabled id="prj_end_money"></td>
 		                            		<td>承接合同金额</td>
 		                            		<td><input type="text"  class="form-control" style="width:70%;" disabled id="cjjine"></td>
+		                            	</tr>
+		                            	<tr>
+		                            		<td>承接合同编号</td>
+		                            		<td><input type="text"  class="form-control" style="width:70%;" disabled id="cjbianhao"></td>
+		                            		<td></td>
+		                            		<td></td>
 		                            	</tr>
 			                    	</tbody>
 	                    	</table>
 	                        <table class="table table-bordered table-condensed">
 	                            	<thead>
 			                    		<tr>
-			                    			<th colspan="4">业主单位基本信息</th>
+			                    			<th colspan="4">联营信息</th>
 			                    		</tr>
 			                    	</thead>
 			                    	<tbody>
@@ -124,16 +130,6 @@
 			                            		<td style="width:35%;"><input type="text"  style="width:70%;" class="form-control" id="ly_no" disabled></td>
 			                            	</tr>
 			                            	<tr>
-			                            		<td>管理费率</td>
-			                            		<td>
-			                            			<input type="text"  style="width:70%;" class="form-control" id="manage_fee" disabled>
-			                            		</td>
-			                            		<td>管理费</td>
-			                            		<td>
-			                            			<input type="text"  style="width:70%;" class="form-control" id="manage_money" disabled>
-			                            		</td>
-			                            	</tr>
-			                            	<tr>
 			                            		<td>项目财务结算</td>
 			                            		<td>
 			                            			<input type="text"  style="width:70%;" class="form-control" id="end_money" disabled>
@@ -143,6 +139,16 @@
 			                            			<input type="text"  style="width:70%;" class="form-control" id="all_fb_money" disabled>
 			                            		</td>
 			                            	</tr>
+			                            	<tr>
+			                            		<td>管理费率</td>
+			                            		<td>
+			                            			<input type="text"  style="width:70%;" class="form-control" id="manage_fee" disabled>
+			                            		</td>
+			                            		<td>管理费</td>
+			                            		<td>
+			                            			<input type="text"  style="width:70%;" class="form-control" id="manage_money" disabled>
+			                            		</td>
+			                            	</tr>
 			                    	</tbody>
 	                        </table>
                     </form>  
@@ -150,7 +156,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success"  onclick="submit()">提交</button>
+            <button type="button" class="btn btn-success"  onclick="save()">保存</button>
         </div>
         </div>
     </div>
@@ -206,7 +212,7 @@
 <script src="../../js/jquery-form.min.js"></script>
 <script>
     $(document).ready( function () {
-    	
+    	initTable();
 	});
     var table=$('#mainContent').DataTable({
         "deferRender": true,
@@ -218,18 +224,19 @@
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
-		/* "columns": [
+		"columns": [
 		            { "data": null}, 
-		            { "data": "prjNo"},
-		            { "data": "prjName"}, 
+		            { "data": "prjName"},
 		            { "data": "contractNo"}, 
-		            { "data": "lyNo"}, 
-		            { "data": "lyUnitName"}, 
-		            { "data": "managementFee"},
-		            { "data": "fbMoney"},
-		            { "data": "fb"},
-		            { "data": null}
-		        ], */
+		            { "data": "contractMoney"}, 
+		            { "data": "prjMoney"}, 
+		            { "data": "lyUnit"}, 
+		            { "data": "lyNo"},
+		            { "data": "prjCwEnd"},
+		            { "data": "prjAllFb"},
+		            { "data": "managementMoney"},
+		            { "data": "managementFee"}
+		        ],
         "order": [[1, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
@@ -302,6 +309,21 @@
         
 	});
     
+    
+    function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/LianYing/selectLianYingHeSuan',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+    
   //选择项目
 	$("#chosexm").click(function(){
 		$("#xiangmumd").modal("show");
@@ -333,6 +355,7 @@
 		$("#xmleixing").val(data.prjType2);
 		$("#yzdanwei").val(data.ccName);
 		$("#diqu").val(data.prjArea);
+		$("#prj_end_money").val(data.prjEstimateMoney);
 		
 		$.ajax({
             type: 'POST',
@@ -357,16 +380,64 @@
             	no:data.prjNo
             },
             success: function (json) {
-            	$("#lydanwei").val(json.lyUnitName);
-            	$("#ly_no").val(json.lyNo);
-            	$("#manage_fee").val(json.managementFee);
-            	var contractMoney=$("#cjjine").val();
-            	$("#manage_money").val(parseInt(json.managementFee)*parseInt(contractMoney)/100);
+            	var ly=json.ly;
+            	var allCost=json.allCost;
+            	var fbEndMoney=json.fbEndMoney;
+            	$("#lydanwei").val(ly.lyUnitName);
+            	$("#ly_no").val(ly.lyNo);
+            	$("#end_money").val(allCost)
+            	$("#all_fb_money").val(fbEndMoney);
+            	var manageMoney=data.prjEstimateMoney-allCost-fbEndMoney;
+            	$("#manage_money").val(manageMoney)
+            	var manageFee=(manageMoney/data.prjEstimateMoney*100).toFixed(2)+"%";
+            	$("#manage_fee").val(manageFee);
             }
         });
-		
 		$("#xiangmumd").modal("hide");
 	})
 	
+	
+	function save(){
+	  var prjName=$("#prjName").val();
+	  var prjNo=$("#task_no").val();
+	  var prjMoney=$("#prj_end_money").val();
+	  var contractMoney=$("#cjjine").val();
+	  var contractNo=$("#cjbianhao").val();
+	  var lyUnit=$("#lydanwei").val();
+	  var lyNo=$("#ly_no").val();
+	  var prjCwEnd=$("#end_money").val();
+	  var prjAllFb=$("#all_fb_money").val();
+	  var managementFee=$("#manage_fee").val();
+	  var managementMoney=$("#manage_money").val();
+	  
+	  $.ajax({
+          type: 'POST',
+          url: getContextPath()+'/LianYing/addLianYingHeSuan',
+          dataType: 'json',
+          data: {
+        	  prjName:prjName,
+        	  prjNo:prjNo,
+        	  prjMoney:prjMoney,
+        	  contractNo:contractNo,
+        	  contractMoney:contractMoney,
+        	  lyUnit:lyUnit,
+        	  lyNo:lyNo,
+        	  prjCwEnd:prjCwEnd,
+        	  prjAllFb:prjAllFb,
+        	  managementFee:managementFee,
+        	  managementMoney:managementMoney
+          },
+          success: function (json) {
+          	if(json.result>0){
+          		 toastr.success('保存成功');
+          		 var  hs=json.hs;
+          		 $("#myModal").modal("hide");
+          		$('#mainContent').DataTable().row.add(hs).draw(false);
+          	}else{
+          		toastr.error('保存失败');
+          	}
+          }
+      });
+  	}
 </script>
 </html>
