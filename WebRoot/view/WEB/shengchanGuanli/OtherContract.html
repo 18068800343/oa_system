@@ -708,7 +708,7 @@
 <script src="../../js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../js/datatables/dataTables.colVis.min.js"></script>
 <script src="../../js/datatables/dataTables.tableTools.min.js"></script>
-<script src="../../js/datatables/dataTables.bootstrap.min.js"></script>
+<!-- <script src="../../js/datatables/dataTables.bootstrap.min.js"></script> -->
 <script src="../../js/datatables/datatables.responsive.min.js"></script>
 <script src="../../js/datatables/dataTables.buttons.min.js" ></script>
 <script src="../../js/datatables/buttons.html5.min.js" ></script>
@@ -1058,7 +1058,7 @@
     	var contractEndTime=$("#year3").val();
     	var contractProbablyText=$("#contract_info").val();
     	var abutmentSignedTime=$("#year").val();
-    	
+    	var zandingMoney=$("#zandingjin").val()
     	var options={
     			type: 'POST',
                 url: getContextPath()+'/other/addOtherContractBySave',
@@ -1073,7 +1073,8 @@
                 	contractStartTime:contractStartTime,
                 	contractEndTime:contractEndTime,
                 	contractProbablyText:contractProbablyText,
-                	abutmentSignedTime:abutmentSignedTime
+                	abutmentSignedTime:abutmentSignedTime,
+                	zandingMoney:zandingMoney,
                 },
                 error: function (msg) {
                 	toastr.error("请求失败");
@@ -1101,10 +1102,15 @@
     	var contractEndTime=$("#year3").val();
     	var contractProbablyText=$("#contract_info").val();
     	var abutmentSignedTime=$("#year").val();
+    	var zandingMoney=$("#zandingjin").val()
     	
 		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(contractMoney)){
 			toastr.error("合同金额只能输入数字和两位小数");
+			return;
+		}
+		if(!reg.test(zandingMoney)){
+			toastr.error("暂定金只能输入数字和两位小数");
 			return;
 		}
 		if($("#new_accessory").find('tbody tr').length<1 || $("#new_accessory tbody").find("tr").eq(0).find("input").val()==''){
@@ -1140,7 +1146,8 @@
                 	contractStartTime:contractStartTime,
                 	contractEndTime:contractEndTime,
                 	contractProbablyText:contractProbablyText,
-                	abutmentSignedTime:abutmentSignedTime
+                	abutmentSignedTime:abutmentSignedTime,
+                	zandingMoney:zandingMoney,
                 },
                 error: function (msg) {
                 	toastr.error("请求失败");
@@ -1241,6 +1248,7 @@
     	$("#edit_year3").val(data.contractEndTime);
     	$("#edit_contract_info").val(data.contractProbablyText);
     	$("#edit_year").val(data.abutmentSignedTime);
+    	$("#xgzandingjin").val(data.zandingMoney)
     	
     	$("#edit_accessory tbody").html('');
     	$("#edit_accessory2 tbody").html('');
@@ -1302,7 +1310,7 @@
     	var contractEndTime=$("#edit_year3").val();
     	var contractProbablyText=$("#edit_contract_info").val();
     	var abutmentSignedTime=$("#edit_year").val();
-    	
+    	var zandingjin=$("#xgzandingjin").val();
     	var options={
     			type: 'POST',
                 url: getContextPath()+'/other/updateOtherContractBySave',
@@ -1318,7 +1326,8 @@
                 	contractStartTime:contractStartTime,
                 	contractEndTime:contractEndTime,
                 	contractProbablyText:contractProbablyText,
-                	abutmentSignedTime:abutmentSignedTime
+                	abutmentSignedTime:abutmentSignedTime,
+                	zandingMoney:zandingjin,
                 },
                 error: function (msg) {
                 	toastr.error("请求失败");
@@ -1346,7 +1355,7 @@
     	var contractEndTime=$("#edit_year3").val();
     	var contractProbablyText=$("#edit_contract_info").val();
     	var abutmentSignedTime=$("#edit_year").val();
-    	
+    	var zandingjin=$("#xgzandingjin").val();
     	var options={
     			type: 'POST',
                 url: getContextPath()+'/other/updateOtherContractBySubmit',
@@ -1362,7 +1371,8 @@
                 	contractStartTime:contractStartTime,
                 	contractEndTime:contractEndTime,
                 	contractProbablyText:contractProbablyText,
-                	abutmentSignedTime:abutmentSignedTime
+                	abutmentSignedTime:abutmentSignedTime,
+                	zandingMoney:zandingjin,
                 },
                 success: function (json) {
                 	if(json=='0'){
@@ -1428,7 +1438,7 @@
     	$("#look_year3").text(data.contractEndTime);
     	$("#look_contract_info").text(data.contractProbablyText);
     	$("#look_year").text(data.abutmentSignedTime);
-    	
+    	$("#lookzandingjin").text(data.zandingMoney)
     	$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/announcement/selectAccessoryById',
@@ -1497,7 +1507,7 @@
     	$("#look_year3_2").text(data.contractEndTime);
     	$("#look_contract_info2").text(data.contractProbablyText);
     	$("#look_year_2").text(data.abutmentSignedTime);
-    	
+    	$("#lookzandingjin2").text(data.zandingMoney)
     	$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/announcement/selectAccessoryById',

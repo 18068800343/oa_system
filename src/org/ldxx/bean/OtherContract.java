@@ -28,13 +28,22 @@ public class OtherContract {
     private String contractProbablyText;
 
     private String abutmentSignedTime;
+    private Float zandingMoney;//暂定金
 
     private List<Accessory> accessory;
     private List<Accessory> accessory2;//法律顾问签字
 
 
     
-    public List<Accessory> getAccessory2() {
+    public Float getZandingMoney() {
+		return zandingMoney;
+	}
+
+	public void setZandingMoney(Float zandingMoney) {
+		this.zandingMoney = zandingMoney;
+	}
+
+	public List<Accessory> getAccessory2() {
 		return accessory2;
 	}
 
