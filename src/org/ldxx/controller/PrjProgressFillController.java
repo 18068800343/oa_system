@@ -109,10 +109,19 @@ public class PrjProgressFillController {
 		double cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
 		double cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
 		double allCost=cost+cost2;//财务累计成本
+		double cwwx=0;//财务外协费
+		double fbIncome=0;//分包累计收入
+		List<PrjProgressFillFb> ppfb=pf.getPpfb();
+		for(int ii=0;ii<ppfb.size();ii++){
+			fbIncome=fbIncome+ppfb.get(ii).getIncomeBq();
+		}
+		
+		/*累计成本=财务累计成本-财务外协费+分包累计收入（预算分包收入）*/
+		double totalCost=allCost-cwwx+fbIncome;
 		double prjIncome=pf.getAllMoneyYuan();//项目累计收入
 		double prjMoney=pf.getPrjMoney();//任务单金额
 		double ysCost=pf.getBudgetMoneyAll();//任务总预算
-		if((allCost/prjIncome)>(1*ysCost/prjMoney)){
+		if((totalCost/prjIncome)>(1*ysCost/prjMoney)){
 			pf.setStatus(1);
 		}else{
 			pf.setStatus(3);
@@ -519,13 +528,15 @@ public class PrjProgressFillController {
 			cb=bService.selectNwCostByTaskNoAndDept(no, "劳务分包费");
 		}
 		CjContract cj=cService.selectCjContractLikeTaskNo(no);
-		String prjNo=cj.getTaskCode();
 		double allMoney=0;
-		for(int i=0;i<prjNo.split(",").length;i++){
-			PrjProgressFill pf2=service.selectLastPrjProgressFill(prjNo.split(",")[i]);
-			if(pf2!=null){
-				double allMoneyYuan=pf2.getAllMoneyYuan();
-				allMoney=allMoney+allMoneyYuan;
+		if(cj!=null){
+			String prjNo=cj.getTaskCode();
+			for(int i=0;i<prjNo.split(",").length;i++){
+				PrjProgressFill pf2=service.selectLastPrjProgressFill(prjNo.split(",")[i]);
+				if(pf2!=null){
+					double allMoneyYuan=pf2.getAllMoneyYuan();
+					allMoney=allMoney+allMoneyYuan;
+				}
 			}
 		}
 		map.put("present", last);
