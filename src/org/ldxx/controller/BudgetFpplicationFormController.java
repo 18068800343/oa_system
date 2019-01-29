@@ -14,6 +14,7 @@ import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjProgressFill;
+import org.ldxx.bean.PrjProgressFillFb;
 import org.ldxx.bean.User;
 import org.ldxx.dao.CompanyCostDao;
 import org.ldxx.dao.SecondCompanyCostDao;
@@ -308,8 +309,16 @@ public class BudgetFpplicationFormController {
 			double cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
 			double cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
 			double allCost=cost+cost2;//财务累计成本
+			double cwwx=0;//财务外协费
+			double fbIncome=0;//分包累计收入
+			List<PrjProgressFillFb> fb=service.selectPrjProgressFillFbByPpfId(ppf.getPpfId());
+			for(int ii=0;ii<fb.size();ii++){
+				fbIncome=fbIncome+fb.get(ii).getIncomeBq();
+			}
+			/*累计成本=财务累计成本-财务外协费+分包累计收入（预算分包收入）*/
+			double totalCost=allCost-cwwx+fbIncome;
 			int status=3;
-			if((allCost/prjIncome)>(1*ysCost/prjMoney)){
+			if((totalCost/prjIncome)>(1*ysCost/prjMoney)){
 				status=1;
 			}
 			String ppfId= ppf.getPpfId();
