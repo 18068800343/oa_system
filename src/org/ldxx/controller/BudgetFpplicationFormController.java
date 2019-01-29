@@ -311,9 +311,11 @@ public class BudgetFpplicationFormController {
 			double allCost=cost+cost2;//财务累计成本
 			double cwwx=0;//财务外协费
 			double fbIncome=0;//分包累计收入
-			List<PrjProgressFillFb> fb=service.selectPrjProgressFillFbByPpfId(ppf.getPpfId());
-			for(int ii=0;ii<fb.size();ii++){
-				fbIncome=fbIncome+fb.get(ii).getIncomeBq();
+			List<CostBudget> cb=bservice.selectNwCostByTaskNoAndDept(taskNo, "劳务分包费");
+			/*List<PrjProgressFillFb> fb=service.selectPrjProgressFillFbByPpfId(ppf.getPpfId());*/
+			for(int ii=0;ii<cb.size();ii++){
+				double aa=Double.valueOf(cb.get(ii).getCostAmount());
+				fbIncome=fbIncome+aa;
 			}
 			/*累计成本=财务累计成本-财务外协费+分包累计收入（预算分包收入）*/
 			double totalCost=allCost-cwwx+fbIncome;
