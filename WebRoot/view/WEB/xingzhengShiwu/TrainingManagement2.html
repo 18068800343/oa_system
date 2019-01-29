@@ -105,13 +105,11 @@
                             </tr>
                             <tr>
                                 <td style="width:15%;">培训时间  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="year"></td>
-                                <td style="width:15%;">培训地点</td>
-                                <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="new_addr"></td>
+                                <td style="width:35%;" colspan="3"><input type="text" style="width:30%;" class="form-control" id="year">-<input type="text" style="width:30%;" class="form-control" id="yearEnd"></td>
                             </tr>
                             <tr>
-                                <td style="width:15%;">培训费用</td>
-                                <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="new_money"></td>
+                                <td style="width:15%;">培训地点</td>
+                                <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="new_addr"></td>
                                 <td>培训类型</td>
 	                            <td>
 	                            	<select class="form-control" id="trainingType" style="width:60%;">
@@ -119,6 +117,12 @@
 	                            			<option>管理类</option>
 	                                </select>
 	                            </td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%;">培训费用</td>
+                                <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="new_money"></td>
+                                <td></td>
+	                            <td></td>
                             </tr>
                             <tr>
                                 <td  style="width:15%;">参加人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -324,13 +328,11 @@
                             </tr>
                             <tr>
                                 <td style="width:15%;">培训时间  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="edit_year"></td>
-                                <td style="width:15%;">培训地点</td>
-                                <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="edit_addr"></td>
+                                <td style="width:35%;" colspan="3"><input type="text" style="width:30%;" class="form-control" id="edit_year">-<input type="text" style="width:30%;" class="form-control" id="edit_yearEnd"></td>
                             </tr>
                             <tr>
-                                <td style="width:15%;">培训费用</td>
-                                <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="edit_money"></td>
+                                <td style="width:15%;">培训地点</td>
+                                <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="edit_addr"></td>
                                 <td>培训类型</td>
 	                            <td>
 	                            	<select class="form-control" id="xgtrainingType" style="width:60%;">
@@ -338,6 +340,12 @@
 	                            			<option>管理类</option>
 	                                </select>
 	                            </td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%;">培训费用</td>
+                                <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="edit_money"></td>
+                                <td></td>
+	                            <td></td>
                             </tr>
                             <tr>
                                 <td style="width:15%;">参加人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -566,8 +574,14 @@
     	laydate.render({
             elem: '#year' //指定元素
         });
+    	laydate.render({
+            elem: '#yearEnd' //指定元素
+        });
        	laydate.render({
        		elem: '#edit_year' //指定元素
+        });
+       	laydate.render({
+       		elem: '#edit_yearEnd' //指定元素
         });
         $('#editable-select').editableSelect({ 
             effects: 'slide' 
@@ -1229,7 +1243,9 @@
 		$("#new_form").ajaxSubmit(options);
 	}
 	
-	
+	function CompareDate(d1,d2){
+        return ((new Date(d1.replace(/-/g,"\/"))) > (new Date(d2.replace(/-/g,"\/"))));
+    }
 	function new_submit(){
 		var new_title=$("#new_title").val();
 		var users=$("#new_users").val().toString();
@@ -1238,6 +1254,10 @@
 		var new_training_lv=$("#new_training_lv").val();
 		var new_className=$("#new_className").val();
 		var year=$("#year").val();
+		var yearEnd=$("#yearEnd").val();
+		if(CompareDate(year,yearEnd)){
+			toastr.error("培训开始时间不能大于结束时间!");
+		}
 		var new_addr=$("#new_addr").val();
 		var new_money=$("#new_money").val();
 		var new_course_desc=$("#new_course_desc").val();
@@ -1281,6 +1301,7 @@
 	            	trainingLocation:new_addr,
 	            	trainingMoney:new_money,
 	            	trainingDate:year,
+	            	trainingDateEnd:yearEnd,
 	            	attendees:users,
 	            	courseDesc:new_course_desc,
 	            	trainingReason:new_training_reason,
@@ -1379,6 +1400,11 @@
 		$("#edit_training_lv").val(data.trainingLv);
 		$("#edit_className").val(data.courseName);
 		$("#edit_year").val(data.trainingDate);
+		if(data.trainingDateEnd!=undefined){
+		$("#edit_yearEnd").val(data.trainingDateEnd);
+		}else{
+		$("#edit_yearEnd").val(page_trainingDateEnd);
+		}
 		$("#edit_addr").val(data.trainingLocation);
 		$("#edit_money").val(data.trainingMoney);
 		$("#edit_course_desc").val(data.courseDesc);
@@ -1444,6 +1470,11 @@
 		var trainingLv=$("#edit_training_lv").val();
 		var courseName=$("#edit_className").val();
 		var trainingDate=$("#edit_year").val();
+		var trainingDateEnd=$("#edit_yearEnd").val();
+		if(CompareDate(trainingDate,trainingDateEnd)){
+			toastr.error("培训开始时间不能大于结束时间!");
+			return false;
+		}
 		var trainingLocation=$("#edit_addr").val();
 		var trainingMoney=$("#edit_money").val();
 		var courseDesc=$("#edit_course_desc").val();
@@ -1506,6 +1537,7 @@
 	            	trainingLocation:trainingLocation,
 	            	trainingMoney:trainingMoney,
 	            	trainingDate:trainingDate,
+	            	trainingDateEnd:trainingDateEnd,
 	            	attendees:users,
 	            	courseDesc:courseDesc,
 	            	trainingReason:trainingReason,
@@ -1527,7 +1559,7 @@
 		$("#edit_form").ajaxSubmit(options);
 	}
 	
-	
+	var page_trainingDateEnd;
 	function edit_submit(){
 		var otaTitle=$("#edit_title").val();
 		var omId=$("#edit_department").val();
@@ -1535,6 +1567,12 @@
 		var trainingLv=$("#edit_training_lv").val();
 		var courseName=$("#edit_className").val();
 		var trainingDate=$("#edit_year").val();
+		var trainingDateEnd=$("#edit_yearEnd").val();
+		if(CompareDate(trainingDate,trainingDateEnd)){
+			toastr.error("培训开始时间不能大于结束时间!");
+			return false;
+		}
+		page_trainingDateEnd=trainingDateEnd;
 		var trainingLocation=$("#edit_addr").val();
 		var trainingMoney=$("#edit_money").val();
 		var courseDesc=$("#edit_course_desc").val();
@@ -1598,6 +1636,7 @@
 	            	trainingLocation:trainingLocation,
 	            	trainingMoney:trainingMoney,
 	            	trainingDate:trainingDate,
+	            	trainingDateEnd:trainingDateEnd,
 	            	attendees:users,
 	            	courseDesc:courseDesc,
 	            	trainingReason:trainingReason,
@@ -1640,7 +1679,13 @@
 		$("#looktraining_name").text(data.trainingName);
 		$("#looktraining_lv").text(data.trainingLv);
 		$("#lookclassName").text(data.courseName);
-		$("#lookyear").text(data.trainingDate);
+		var dateEndJudge;
+		if(data.trainingDateEnd==undefined){
+			dateEndJudge=page_trainingDateEnd;
+		}else{
+			dateEndJudge=data.trainingDateEnd;
+		}
+		$("#lookyear").text(data.trainingDate+" 至   "+dateEndJudge);
 		$("#lookaddr").text(data.trainingLocation);
 		$("#lookmoney").text(data.trainingMoney);
 		$("#lookcourse_desc").text(data.courseDesc);

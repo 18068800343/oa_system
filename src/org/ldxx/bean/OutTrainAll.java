@@ -18,6 +18,8 @@ public class OutTrainAll {
     private float trainingMoney;
 
     private String trainingDate;
+    
+    private String trainingDateEnd;
 
     private String attendees;
 
@@ -33,7 +35,15 @@ public class OutTrainAll {
     private List<Accessory> accessory;
     
     
-    public String getDirector() {
+    public String getTrainingDateEnd() {
+		return trainingDateEnd;
+	}
+
+	public void setTrainingDateEnd(String trainingDateEnd) {
+		this.trainingDateEnd = trainingDateEnd;
+	}
+
+	public String getDirector() {
 		return director;
 	}
 
