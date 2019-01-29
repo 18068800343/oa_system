@@ -43,7 +43,7 @@
                 <form class="form-inline" id="look_form" method="post" enctype="multipart/form-data">
                     <table class="table table-bordered table-condensed">
                         <tr>
-                            <td style="width:100px;">主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题 </td>
+                            <td style="width:100px;">主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题</td>
                             <td id="looktitle"></td>
                             <td style="width:100px;">所属部门</td>
                             <td id="lookdepartment"></td>
@@ -55,22 +55,30 @@
                             <td id="lookduty" ></td>
                         </tr>
                         <tr>
+                        	<td>负责人</td>
+                        	<td id="lookfuzeren"></td>
                             <td>课程名称</td>
                             <td id="lookclassName"></td>
+                        </tr>
+                        <tr>
                             <td>申请时间</td>
                             <td id="lookyear"></td>
-                        </tr>
-                        <tr>
                             <td>培训费用</td>
                             <td id="lookstudyMoney"></td>
-                            <td>培训时间</td>
-                            <td id="lookyear2"></td>
                         </tr>
                         <tr>
+                            <td>培训时间</td>
+                            <td id="lookyear2" colspan="3"></td>
+                        </tr>
+                        <tr>
+                            <td>培训类型</td>
+                            <td id="look_trainingType"></td>
                             <td>培训地点</td>
                             <td id="lookstudyAddr"></td>
-                            <td></td>
-                            <td></td>
+                        </tr>
+                        <tr>
+                        	<td>参加人员</td>
+                        	<td colspan="3" id="look_in_users"></td>
                         </tr>
                         <tr>
                             <td>课程内容</td>
@@ -120,10 +128,11 @@
 	        	id:id
 	        },
 	        success: function (json) {
-	        	console.log(json)
+	        	//console.log(json)
 	        	data=json;
 	        	$("#looktitle").text(data.otTitle);
-	        	$.ajax({
+	    		
+	    		$.ajax({
 	    	        type: 'POST',
 	    	        url: getContextPath()+'/organizationManagement/getOrgNameById',
 	    	        dataType: 'json',
@@ -131,39 +140,34 @@
 	    	        	omId:data.proposerDepartment
 	    	        },
 	    	        success: function (json) {
-	    	        	//console.log(json)
 	    	        	$("#lookdepartment").text(json.omName);
 	    	        }
 	    	    });
-	        	$("#lookuser").text(data.proposer);
-	        	$("#lookduty").text(data.dutyId);
-	        	
-	        	$("#lookclassName").text(data.courseName);
+	    		
+	    		$("#lookuser").text(data.proposer);
+	    		$("#lookduty").text(data.dutyId);
+	    		$("#lookclassName").text(data.courseName);
 	    		$("#lookyear").text(data.applicationDate);
-	    		$("#lookyear2").text(data.otDate);
+	    		$("#lookyear2").text(data.otDate+" 至  "+data.otDateEnd);
 	    		$("#lookstudyMoney").text(data.trainingMoney);
 	    		$("#lookstudyAddr").text(data.trainingLocation);
 	    		$("#lookstudy_infos").text(data.courseDesc);
 	    		$("#lookstudy_target").text(data.trainingReason);
+	    		$("#look_in_users").text(data.inUsers)
+	    		$("#look_trainingType").text(data.trainingType)
+	    		$("#lookfuzeren").text(data.director);
 	    		
 	    		$("#buttons").html('');
 	    		$("#buttons").append("<button type='button' class='btn btn-default' data-dismiss='modal'>取消</button>")
 	    		
 	    		$("#looktable").html('');
-	    		$.ajax({
-	    			type: 'POST',
-	                url: getContextPath()+'/accessory/selectAccessoryById',
-	                dataType: 'json',
-	                data: {
-	                	id:id
-	                },
-	                success: function (json) {
-	                	 var acc=json;
-	    	    		 for(var i=0;i<acc.length;i++){
-	    	    			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-	    	    		 }
-	                }
-	    		})
+	    		var acc=data.accessory;
+	    		if(acc!=null){
+		    		 for(var i=0;i<acc.length;i++){
+		    			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+		    		 }
+	    		}
+	    		
 	    		
 	    		 
 	        }
