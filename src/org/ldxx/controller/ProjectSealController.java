@@ -18,6 +18,7 @@ import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.SignetManage;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.dao.ProjectSealDao;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.ProjectSealService;
 import org.ldxx.service.TaskService;
@@ -44,7 +45,8 @@ public class ProjectSealController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private TaskService tService;
-	
+	@Autowired
+	private ProjectSealDao projectSealDao;
 	@RequestMapping("/selectPrjSeal")
 	@ResponseBody
 	public List<SignetManage> selectPrjSeal(String status){
@@ -186,6 +188,19 @@ public class ProjectSealController {
 	@ResponseBody
 	public SignetManage selectPrjSealById(String smId){
 		return prjSealService.selectPrjSealById(smId);
+	}
+	
+	@RequestMapping("/selectPrjSealByTaskNo")
+	@ResponseBody
+	public SignetManage selectPrjSealByTaskNo(String taskNo){
+		return projectSealDao.getSignetByTaskNo(taskNo);
+	}
+	
+	@RequestMapping("/selectPrjSealBySignetNo")
+	@ResponseBody
+	public SignetManage selectPrjSealBySignetNo(String signetNo){
+		SignetManage signetManage = projectSealDao.getSignetBySignetNo(signetNo);
+		return signetManage;
 	}
 	
 	@RequestMapping("/addStop")

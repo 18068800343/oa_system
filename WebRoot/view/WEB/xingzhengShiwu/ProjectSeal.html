@@ -510,9 +510,9 @@
                                     			
                                     		</select>
                                     </td>
-                                	<td style="width:15%;">开始时间: </td>
+                                	<td style="width:15%;">印章全称: </td>
                                     <td style="width:35%;">
-                                           	  <input type="text" class="form-control" style="width:60%;" id="beginTime">
+                                         	  <span  class="form-control" style="width:60%;" id="yzqc"></span>
                                     </td>
                                 </tr>
                               <!--   <tr>
@@ -526,13 +526,15 @@
                                     </td> 
                                 </tr> -->
                                 <tr>
+                                <td style="width:15%;">开始时间: </td>
+                                    <td style="width:35%;">
+                                           	  <input type="text" class="form-control" style="width:60%;" id="beginTime">
+                                    </td>
                                 	<td style="width:15%;">保管人:</td>
                                     <td style="width:35%;">
                                     	<input type="text" class="form-control"  style="width:60%;" disabled id="baoguanren">
                                     	<button type="button" class="btn btn-default"  onclick="choosePerson(1)">选择保管人</button>
                                     </td>
-                                    <td></td>
-                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>附件</td>
@@ -1855,11 +1857,49 @@
 	            }
 	        });
 	})
+	function getYZBHByPrjNo(b){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/prjSeal/selectPrjSealByTaskNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            	taskNo:b,
+            },
+            success: function (json) {
+            	$("#signet_no2").val(json.signetNo);
+            	var option1 = $("#signet_no2 option:selected").val();
+            	if(option1==""||option1==null){
+            		var option2 = $("#signet_no2").find("option").eq(0).val();
+            		$("#signet_no2").val(option2);
+            	    $("#yzqc").empty();
+            	}
+            	$("#signet_no2").trigger("change");
+            }
+        });
+	}
+	$("#signet_no2").on("change",function(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/prjSeal/selectPrjSealBySignetNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            	signetNo:$("#signet_no2").val(),
+            },
+            success: function (json) {
+           	    $("#yzqc").empty();
+           	    $("#yzqc").append(json.signetName);
+            }
+        });
+	})
+	
 	$("#quedingxm2").click(function(){
 		var a=$("input[name='xiangmuName2']:checked").parent().next().next().text();
 		var b=$("input[name='xiangmuName2']:checked").parent().next().text();
 		$("#usePrj").val(a);
 		$("#task_no2").val(b);
+		getYZBHByPrjNo(b);
 		$("#xiangmumd2").modal("hide");
 	})
 	$("#xgchosexm2").click(function(){
@@ -2986,6 +3026,7 @@ $("#xgbumena").change(function(){
 			type:"post",
 			url:getContextPath()+"/signetUsers/selectSignetNo",
 			dataType:"json",
+			async:false,
 			data:{
 			},
 			success:function(json){

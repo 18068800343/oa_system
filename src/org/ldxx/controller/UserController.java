@@ -148,7 +148,14 @@ public class UserController {
 	
 	@RequestMapping("/selectUserByomId")
 	@ResponseBody
-	public List<User> selectUserByomId(String omId,String type){
+	public List<User> selectUserByomId(String omId){
+	 List<User> list = userservice.selectUserByomId(omId);
+	 return list;
+	}
+	
+	@RequestMapping("/selectUserByomIdYY")
+	@ResponseBody
+	public List<User> selectUserByomIdYY(String omId,String type){
 		String iString = "1";
 		if("3".equals(type)){
 			List<User> list = userservice.selectUserByomId(omId);

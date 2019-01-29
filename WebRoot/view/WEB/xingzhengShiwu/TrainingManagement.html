@@ -100,9 +100,7 @@
                         </tr>
                         <tr>
                             <td style="width:15%;">培训时间  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                            <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="year2"></td>
-                            <td style="width:15%;">培训地点  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                            <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="studyAddr"></td>
+                            <td style="width:35%;" colspan="3"><input type="text" style="width:30%;" class="form-control" id="year2">-<input type="text" style="width:30%;" class="form-control" id="year3"></td>
                         </tr>
                         <tr>
                             <td>培训类型</td>
@@ -112,8 +110,8 @@
                             			<option>管理类</option>
                                 </select>
                             </td>
-                            <td></td>
-                            <td></td>
+                            <td style="width:15%;">培训地点  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                            <td style="width:35%;"><input type="text" style="width:60%;" class="form-control" id="studyAddr"></td>
                         </tr>
                         <tr>
                             <td  style="width:15%;">参加人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -653,6 +651,9 @@
         });
     	laydate.render({
             elem: '#year2' //指定元素
+        });
+    	laydate.render({
+            elem: '#year3' //指定元素
         });
     	laydate.render({
             elem: '#edit_year' //指定元素
@@ -1478,7 +1479,9 @@
 		 $("#edit_people2").modal("hide");
 	})
 	
-	
+	function CompareDate(d1,d2){
+        return ((new Date(d1.replace(/-/g,"\/"))) > (new Date(d2.replace(/-/g,"\/"))));
+    }
 	
 	function new_save(){
 		var title=$("#title").val();
@@ -1489,6 +1492,10 @@
 		var year=$("#year").val();
 		var studyMoney=$("#studyMoney").val();
 		var year2=$("#year2").val();
+		var year3=$("#year3").val();
+		if(CompareDate(year2,year3)){
+			toastr.error("培训开始时间不能大于结束时间!");
+		}
 		var studyAddr=$("#studyAddr").val();
 		var study_infos=$("#study_infos").val();
 		var study_target=$("#study_target").val();
