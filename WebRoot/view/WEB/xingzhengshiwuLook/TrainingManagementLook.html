@@ -161,12 +161,21 @@
 	    		$("#buttons").append("<button type='button' class='btn btn-default' data-dismiss='modal'>取消</button>")
 	    		
 	    		$("#looktable").html('');
-	    		var acc=data.accessory;
-	    		if(acc!=null){
-		    		 for(var i=0;i<acc.length;i++){
-		    			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-		    		 }
-	    		}
+	    		$.ajax({
+	    			type: 'POST',
+	                url: getContextPath()+'/accessory/selectAccessoryById',
+	                dataType: 'json',
+	                data: {
+	                	id:id
+	                },
+	                success: function (json) {
+	                	$("#looktable").html('');
+		           		 var acc=json;
+		           		 for(var i=0;i<acc.length;i++){
+		           			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+		           		 }
+	                }
+	    		})
 	    		
 	    		
 	    		 

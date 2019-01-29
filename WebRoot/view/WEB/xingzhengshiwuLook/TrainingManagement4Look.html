@@ -43,18 +43,27 @@
 				<form class="form-inline" id="edit_form" method="post" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed">
                             <tr>
-                                <td style="width:100px;">培训课程名称</td>
-                                <td id="look_class_name"></td>
-                                <!-- <td style="width:100px;">参加人员</td>
-                                <td id="look_join_user"></td> -->
-                                <td style="width:100px;">资料及证书保管部门 </td>
-                                <td id="look_department"></td>
+                            	<td style="width:20%;">培训类型</td>
+                                <td style="width:30%;" id="look_px_type"></td>
+                                <td style="width:20%;">培训课程名称</td>
+                                <td style="width:30%;" id="look_class_name"></td>
                             </tr>
                             <tr>
+                            	<td>资料及证书保管部门 </td>
+                                <td id="look_department"></td>
                                 <td>培训地点</td>
                                 <td id="look_addr"></td>
-                                <td>培训时间</td>
-                                <td id="look_year"></td>
+                            </tr>
+                            <tr>
+                            	<td>培训时间</td>
+                                <td>
+                                	<div class="yihang">	
+                                		<div id="look_year"></div> &nbsp;&nbsp;-- &nbsp;&nbsp;
+                                		<div id="look_year2"></div>
+                                	</div>
+                                </td>
+                                <td>培训分类</td>
+	                            <td id="looktrainingType"></td>
                             </tr>
                             <tr>
                                 <td>培训自我总结（侧重于技术要点）</td>
@@ -97,7 +106,7 @@
                         		
                         	</tbody>
                         </table>
-                    </form> 
+                    </form>  
         
     </div>
 </body>
@@ -132,40 +141,44 @@
 	        	id:id
 	        },
 	        success: function (json) {
-	        	console.log(json)
+	        	//console.log(json)
 	        	data=json;
-	        	 $("#look_class_name").text(data.daName);
-	    		 $("#look_department").text(data.omName);
-	    		 $("#look_addr").text(data.trainingLocation);
-	    		 $("#look_year").text(data.trainingTime);
-	    		 $("#look_summarize").text(data.credentialDesc);
-		   		
-		   		$.ajax({
-					type:"post",
-					url:getContextPath()+"/accessory/selectAccessoryById",
-					dataType:"json",
-					data:{
-						id:data.daId,
-					},
-					success:function(json){
-						console.log(json)
-						$("#look_ziliao tbody").empty();
-			 			$("#look_zhengshu tbody").empty();
-			 			$("#look_zwzongjie tbody").empty();
-			            for(var i=0;i<json.length;i++){
-			            	if(json[i].aType=="资料"){
-			            		$("#look_ziliao tbody").append("<tr><td>附件</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-			        		}
-			            	if(json[i].aType=="证书"){
-			            		 $("#look_zhengshu tbody").append("<tr><td>附件</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-			   			 	}
-			            	if(json[i].aType=="自我总结"){
-			            		$("#look_zwzongjie tbody").append("<tr><td>附件</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-			   			 	}
-			            	   
-			            }
-					}
-				})
+	        	 $("#look_px_type").text(data.daType)
+		   		 $("#look_class_name").text(data.daName);
+		   		 $("#look_department").text(data.omName);
+		   		 $("#look_addr").text(data.trainingLocation);
+		   		 $("#look_year").text(data.trainingTime);
+		   		 $("#look_year2").text(data.trainingTimeEnd);
+		   		 $("#look_summarize").text(data.credentialDesc);
+		   		 $("#looktrainingType").text(data.trainingType)
+		   		 $.ajax({
+		   				type:"post",
+		   				url:getContextPath()+"/accessory/selectAccessoryById",
+		   				dataType:"json",
+		   				data:{
+		   					id:data.daId,
+		   				},
+		   				success:function(json){
+		   					//console.log(json)
+		   					$("#look_ziliao tbody").empty();
+		   		 			$("#look_zhengshu tbody").empty();
+		   		 			$("#look_zwzongjie tbody").empty();
+		   		            for(var i=0;i<json.length;i++){
+		   		            	if(json[i].aType=="资料"){
+		   		            		$("#look_ziliao tbody").append("<tr><td>附件</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+		   		        		}
+		   		            	if(json[i].aType=="证书"){
+		   		            		 $("#look_zhengshu tbody").append("<tr><td>附件</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+		   		   			 	}
+		   		            	if(json[i].aType=="自我总结"){
+		   		            		$("#look_zwzongjie tbody").append("<tr><td>附件</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+		   		   			 	}
+		   		            	   
+		   		            }
+		   				}
+		   			})
+	   			
+	   			
 	        }
 	    });
 		 

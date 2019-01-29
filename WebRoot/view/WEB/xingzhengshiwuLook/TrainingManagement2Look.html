@@ -54,17 +54,23 @@
                                <td id="looktraining_lv"></td>
                            </tr>
                            <tr>
+	                           	<td>负责人</td>
+	                        	<td id="lookfuzeren"></td>
                                <td>课程名称  </td>
                                <td id="lookclassName"></td>
-                               <td>培训时间</td>
-                               <td id="lookyear"></td>
                            </tr>
                            <tr>
+                               <td>培训时间</td>
+                               <td id="lookyear"></td>
                                <td>培训地点</td>
                                <td id="lookaddr"></td>
+                           </tr>
+                           <tr>
                                <td>培训费用</td>
                                <td id="lookmoney"></td>
-                           </tr>
+                                <td>培训类型</td>
+	                            <td id="looktrainingType"></td>
+                            </tr>
                            <tr>
                                <td>参加人员  </td>
                                <td colspan="3" id="lookusers" ></td>
@@ -119,21 +125,41 @@
 	        	id:id
 	        },
 	        success: function (json) {
-	        	console.log(json)
+	        	//console.log(json)
 	        	data=json;
 	        	$("#looktitle").text(data.otaTitle);
-	        	$("#lookdepartment").text(json.omName);
-	        	$("#looktraining_name").text(data.trainingName);
+	    		$.ajax({
+	    	        type: 'POST',
+	    	        url: getContextPath()+'/organizationManagement/getOrgNameById',
+	    	        dataType: 'json',
+	    	        data: {
+	    	        	omId:data.omId
+	    	        },
+	    	        success: function (json) {
+	    	        	$("#lookdepartment").text(json.omName);
+	    	        }
+	    	    });
+	    		$("#looktraining_name").text(data.trainingName);
 	    		$("#looktraining_lv").text(data.trainingLv);
 	    		$("#lookclassName").text(data.courseName);
-	    		$("#lookyear").text(data.trainingDate);
+	    		var dateEndJudge;
+	    		if(data.trainingDateEnd==undefined){
+	    			dateEndJudge=page_trainingDateEnd;
+	    		}else{
+	    			dateEndJudge=data.trainingDateEnd;
+	    		}
+	    		$("#lookyear").text(data.trainingDate+" 至   "+dateEndJudge);
 	    		$("#lookaddr").text(data.trainingLocation);
 	    		$("#lookmoney").text(data.trainingMoney);
 	    		$("#lookcourse_desc").text(data.courseDesc);
 	    		$("#looktraining_reason").text(data.trainingReason);
 	    		$("#lookusers").text(data.attendees);
+	    		$("#looktrainingType").text(data.trainingType)
+	    		$("#lookfuzeren").text(data.director);
+	    		
 	    		$("#lookbutton").html('');
 	    		$("#lookbutton").append('<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>');
+	    		
 	    		$("#looktable").html('');
 	    		$.ajax({
 	    			type: 'POST',
@@ -143,17 +169,16 @@
 	                	id:id
 	                },
 	                success: function (json) {
-	                	 var acc=json;
-	                	 for(var i=0;i<acc.length;i++){
-	            			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-	            		 }
+	                	$("#looktable").html('');
+		           		 var acc=json;
+		           		 for(var i=0;i<acc.length;i++){
+		           			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+		           		 }
 	                }
 	    		})
-	    		
+	    		 
 	        }
 	    });
-		
-		
 		
 		
 	}

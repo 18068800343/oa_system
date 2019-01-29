@@ -44,7 +44,7 @@
                             <tr>
                             	<td>课程名称</td>
                                 <td id="lookclassName"></td>
-                                <td style="width:100px;">所属部门</td>
+                                <td style="width:100px;">申请部门</td>
                                 <td id="lookdepartment"></td>
                             </tr>
                             <tr>
@@ -54,17 +54,33 @@
                                 <td id="lookduty" ></td>
                             </tr>
                             <tr>
+                            	<td>负责人</td>
+	                        	<td id="lookfuzeren"></td>
                                 <td>培训时间</td>
-                                <td id="lookyear"></td>
-                                <td>培训地点</td>
-                                <td id="lookaddr"></td>
+                                <td>
+                                	<div class="yihang">	
+                                		<div id="lookyear"></div> &nbsp;&nbsp;-- &nbsp;&nbsp;
+                                		<div id="lookyear2"></div>
+                                	</div>
+                                	
+                                </td>
                             </tr>
                             <tr>
+                                <td>培训地点</td>
+                                <td id="lookaddr"></td>
                                 <td>培训费用</td>
                                 <td id="lookmoney"></td>
-                                <td></td>
-                                <td></td>
                             </tr>
+                            <tr>
+                                <td>培训类型</td>
+	                            <td id="looktrainingType"></td>
+	                            <td></td>
+	                            <td></td>
+                            </tr>
+                            <tr>
+	                            <td>参加人员</td>
+	                            <td colspan="3" id="look_in_users"></td>
+	                        </tr>
                             <tr>
                                 <td>课程内容</td>
                                 <td colspan="3" id="lookclass_info"></td>
@@ -112,7 +128,7 @@
 		        	id:id
 		        },
 		        success: function (json) {
-		        	console.log(json)
+		        	//console.log(json)
 		        	data=json;
 		        	$.ajax({
 				        type: 'POST',
@@ -126,29 +142,33 @@
 				        	$("#lookdepartment").text(json.omName)
 				        }
 				    });
-		        	$("#lookclassName").text(data.courseName);
-			   		 $("#lookyear").text(data.trainingDate);
-			   		 $("#lookaddr").text(data.trainingLocation);
-			   		 $("#lookmoney").text(data.trainingMoney);
-			   		 $("#lookclass_info").text(data.trainingDesc);
-			   		 $("#looktarget").text(data.trainingReason);
-			   		 $("#lookuser").text(data.trainingMan);
-			   		 $("#lookduty").text(data.duty);
-				   		$.ajax({
-			    			type: 'POST',
-			                url: getContextPath()+'/accessory/selectAccessoryById',
-			                dataType: 'json',
-			                data: {
-			                	id:id
-			                },
-			                success: function (json) {
-			                	$("#looktable").html('');
-				           		 var acc=json;
-				           		 for(var i=0;i<acc.length;i++){
-				           			 $("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+acc[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
-				           		 }
-			                }
-			    		})
+				 $("#lookclassName").text(data.courseName);
+				 $("#lookyear").text(data.trainingDate);
+				 $("#lookyear2").text(data.trainingDateEnd)
+				 $("#lookaddr").text(data.trainingLocation);
+				 $("#lookmoney").text(data.trainingMoney);
+				 $("#lookclass_info").text(data.trainingDesc);
+				 $("#looktarget").text(data.trainingReason);
+				 $("#lookuser").text(data.trainingMan);
+				 $("#lookduty").text(data.duty);
+				 $("#look_in_users").text(data.trainingInUser)
+				 $("#looktrainingType").text(data.trainingType)
+				 $("#lookfuzeren").text(data.director);
+				 $.ajax({
+						type:"post",
+						url:getContextPath()+"/accessory/selectAccessoryById",
+						dataType:"json",
+						data:{
+							id:data.itId,
+						},
+						success:function(json){
+							$("#looktable").empty();
+				            for(var i=0;i<json.length;i++){
+				            	$("#looktable").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+json[i].acName+" class='form-control' disabled/></td><td><button type='button' data2="+json[i].acUrl+" onclick='downloadFile(this)' class='btn btn-primary'>下载附件</button></td></tr>")	 
+				        	}
+						}
+					})
+					
 			    		
 		        }
 		    });
