@@ -612,7 +612,7 @@
 		                        <tr>
 		                        	<td>合同起讫日期:</td>
 		                            <td>
-		                            	<div id="look_year"></div> -- <div id="look_year2"></div>
+		                            	<div class="yihang"><div id="look_year"></div> -- <div id="look_year2"></div></div>
 		                            </td>
 		                            <td>合同工期(天):</td>
 		                            <td id="look_work_date"></td>
@@ -1426,7 +1426,7 @@
         initbumen();
         initSelect();
         initCooperator();
-        initDetailContract();
+        //initDetailContract();
         $("#sousuodiv").hide();//超级搜索折叠div
         
         
@@ -4092,7 +4092,7 @@ function checkquxiaoSplit(){
 		$(tr).remove();
 	}
   	
-  	function initDetailContract(){
+  	/* function initDetailContract(){
   	   // 调用方法
   	   cjId=GetQueryString("cjId");
   	   if(cjId!=null&&""!=cjId&&cjId!=undefined){
@@ -4103,7 +4103,7 @@ function checkquxiaoSplit(){
         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
         if(r!=null)return  unescape(r[2]); return null;
-    }
+    } */
 	
 	function countMoney(){
 		var length=$("#new_split_table tbody").find("tr").length;
@@ -4452,5 +4452,127 @@ function checkquxiaoSplit(){
 			$("#xieban0 thead").find("input").eq(0).val(money);
 		}
 	}
+	
+	//超级链接
+	function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	ids=GetQueryString("cjId");//传入自定义参数
+   	//console.log(ids)
+   	if(ids!=null){
+   		$("#diyi").removeClass("active");
+        $("#disi").addClass("active");
+        $("#diyi a").show();
+        $("#disi a").show();
+        $("#home").removeClass("active");
+        $("#settings").addClass("active");
+        
+   		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/cj/selectCjContractById',
+            dataType: 'json',
+            data: {
+            	id:ids
+            },
+            success: function (json) {
+            	var data=json;
+            	//console.log(data)
+            	$("#look_contract_name").text(data.contractName);
+          		$("#look_contract_no").text(data.contractNo);
+          		$("#look_work_no").text(data.taskCode);
+          		$("#look_prj_name").text(data.prjName);
+          		var prjNameArray = data.prjName.split(",");
+          		var taskCodeArray = data.taskCode.split(",");
+          		var tasks = getTaskBytaskCode(data.taskCode);
+          		lookpinjieRenwudanChaifen(prjNameArray,taskCodeArray,tasks);
+          		$("#look_prj_type").text(data.prjType);
+          		$("#look_prj_jyms").text(data.jyms);
+          		$("#look_jiafangName").text(data.ccName);
+          		$("#look_yifangName").text(data.contractNameYi);
+          		$("#look_year").text(data.contractStartTime);
+          		$("#look_year2").text(data.contractEndTime);
+          		$("#look_yifang_department").text(data.omName);
+          		$("#look_work_date").text(data.contractLongTime);
+          		$("#look_receieve_money_condition").text(data.receieveMoneyCondition);
+          		$("#look_contract_money").text(data.contractMoney);
+          		$("#look_temporary_money").text(data.temporaryMoney);
+          		$("#look_year3").text(data.contractSignTime);
+          		$("#look_work_info").text(data.workInfo);
+          		var cs=data.cjSplitMoney;
+          		if(cs!=null){
+          			$("#look_split_table tbody").empty();
+                	for(var i=0;i<cs.length;i++){
+            				$("#look_split_table tbody").append("<tr><td>"
+            						+""+cs[i].year+""
+            						+"</td><td>"
+            						+""+cs[i].money+""
+            						+"</td></tr>")
+            		}
+          		}
+            	
+            	
+          		$.ajax({
+        	        type: 'POST',
+        	        url: getContextPath()+'/announcement/selectAccessoryById',
+        	        dataType: 'json',
+        	        data: {
+        	           id:ids
+        	        },
+        	        success: function (json) {
+        	        	//console.log(json)
+        	        	$("#look_accessory tbody").html('');
+        	        	$("#look_accessory2 tbody").html('');
+        	        	for(var i=0;i<json.length;i++){
+        	          		if(json[i].aType=="承接合同文本"){
+        		            	   $("#look_accessory tbody").append("<tr>"+
+        									"<td>附件</td>"+
+        				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+        				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+        				         	    "</tr>");
+        	            	   }
+        	          		if(json[i].aType=="法律顾问签字"){
+        		            	   $("#look_accessory2 tbody").append("<tr>"+
+        									"<td>附件</td>"+
+        				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+        				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+        				         	    "</tr>");
+        	            	   }
+        	        	}
+        	        }
+            	});
+          		
+          		
+            }
+  		});
+   		
+   		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cj/selectCjHistory',
+	        dataType: 'json',
+	        data: {
+	           no:data.contractNo
+	        },
+	        success: function (json) {
+	        	$('#history_table').dataTable().fnClearTable();
+                $('#history_table').DataTable().rows.add(json).draw(false);
+	        }
+    	});
+   		
+   		
+   	}
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
 </script>
 </html>
