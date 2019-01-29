@@ -18,6 +18,8 @@ public class OutTrain {
     private String dutyId;
 
     private String otDate;
+    
+    private String otDateEnd;
 
     private String applicationDate;
 
@@ -38,7 +40,14 @@ public class OutTrain {
     private List<Accessory> accessory;
     
     
-    
+	public String getOtDateEnd() {
+		return otDateEnd;
+	}
+
+	public void setOtDateEnd(String otDateEnd) {
+		this.otDateEnd = otDateEnd;
+	}
+
 	public String getDirector() {
 		return director;
 	}
