@@ -404,29 +404,33 @@ public class DataArchiveController {
 	
 	@RequestMapping("/getallName")//或得外出外部以及内部的所有课程名
 	@ResponseBody
-	public Map<String,Object> getallName(){
+	public Map<String,Object> getallName(String type){
 		Map<String,Object> map=new HashMap<>();
 		List<DataArchive> list=new ArrayList<>();
-		List<OutTrain> outTrainName = otservice.getOutTrainName();
-		for (int i = 0; i < outTrainName.size(); i++) {
-			DataArchive dataArchive=new DataArchive();
-			String name=outTrainName.get(i).getCourseName();
-			dataArchive.setDaName(name);
-			list.add(dataArchive);
-		}
-		List<OutTrainAll> outTrainAllName = otallservice.getOutTrainAllName();
-		for (int j = 0; j < outTrainAllName.size(); j++) {
-			DataArchive dataArchive=new DataArchive();
-			String name=outTrainAllName.get(j).getCourseName();
-			dataArchive.setDaName(name);
-			list.add(dataArchive);
-		}
-		List<InternalTraining> internalTrainingName = itservice.getInternalTrainingName();
-		for (int k = 0; k < internalTrainingName.size(); k++) {
-			DataArchive dataArchive=new DataArchive();
-			String name=internalTrainingName.get(k).getCourseName();
-			dataArchive.setDaName(name);
-			list.add(dataArchive);
+		if("外出培训".equals(type)){
+			List<OutTrain> outTrainName = otservice.getOutTrainName();
+			for (int i = 0; i < outTrainName.size(); i++) {
+				DataArchive dataArchive=new DataArchive();
+				String name=outTrainName.get(i).getCourseName();
+				dataArchive.setDaName(name);
+				list.add(dataArchive);
+			}
+		}else if("外部培训".equals(type)){
+			List<OutTrainAll> outTrainAllName = otallservice.getOutTrainAllName();
+			for (int j = 0; j < outTrainAllName.size(); j++) {
+				DataArchive dataArchive=new DataArchive();
+				String name=outTrainAllName.get(j).getCourseName();
+				dataArchive.setDaName(name);
+				list.add(dataArchive);
+			}
+		}else if("内部培训".equals(type)){
+			List<InternalTraining> internalTrainingName = itservice.getInternalTrainingName();
+			for (int k = 0; k < internalTrainingName.size(); k++) {
+				DataArchive dataArchive=new DataArchive();
+				String name=internalTrainingName.get(k).getCourseName();
+				dataArchive.setDaName(name);
+				list.add(dataArchive);
+			}
 		}
 		map.put("allNamelist", list);
 		return map;

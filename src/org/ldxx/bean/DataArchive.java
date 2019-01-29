@@ -5,6 +5,8 @@ import java.util.List;
 public class DataArchive {
     private String daId;
 
+    private String daType;
+    
     private String daName;
 
     private String safekeepingDepartment;
@@ -26,6 +28,14 @@ public class DataArchive {
     private String omName;
     private String trainingType;//类型
     
+    
+	public String getDaType() {
+		return daType;
+	}
+
+	public void setDaType(String daType) {
+		this.daType = daType;
+	}
 
 	public String getTrainingType() {
 		return trainingType;
