@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+//内部培训
 @Controller
 @RequestMapping("InternalTraining")
 public class InternalTrainingController {

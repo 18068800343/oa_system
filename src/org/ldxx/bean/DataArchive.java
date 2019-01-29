@@ -16,6 +16,7 @@ public class DataArchive {
     private String trainingLocation;
 
     private String trainingTime;
+    private String trainingTimeEnd;//结束时间
 
     private String credentialDesc;
     
@@ -29,6 +30,14 @@ public class DataArchive {
     private String trainingType;//类型
     
     
+	public String getTrainingTimeEnd() {
+		return trainingTimeEnd;
+	}
+
+	public void setTrainingTimeEnd(String trainingTimeEnd) {
+		this.trainingTimeEnd = trainingTimeEnd;
+	}
+
 	public String getDaType() {
 		return daType;
 	}

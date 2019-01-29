@@ -18,6 +18,7 @@ public class InternalTraining {
     private String courseName;
 
     private String trainingDate;
+    private String trainingDateEnd;//结束时间
 
     private String trainingLocation;
 
@@ -35,6 +36,14 @@ public class InternalTraining {
     
     
     
+	public String getTrainingDateEnd() {
+		return trainingDateEnd;
+	}
+
+	public void setTrainingDateEnd(String trainingDateEnd) {
+		this.trainingDateEnd = trainingDateEnd;
+	}
+
 	public String getDirector() {
 		return director;
 	}
