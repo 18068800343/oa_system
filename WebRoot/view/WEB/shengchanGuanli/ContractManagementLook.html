@@ -444,7 +444,109 @@
 	  		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
 	  	}
 		
+		function initbumenByClass(k){
+			$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/organizationManagement/selectProductionDepartment',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	
+	            },
+	            error: function (msg) {
+	            	toastr.error("请求失败");
+	            },
+	            success: function (json) {
+	                for(var i=0;i<json.length;i++){
+	                	$(".zhuban"+k+"").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                }
+	            }
+			});
+		}
 		
+	    function addBumenLookNew(i,task){
+	    	if(task.assistDepartment1!=""&&task.assistDepartment1!=null){
+	    		$("#lookxieban"+i+" tbody").append("<tr><td>协办部门1</td><td>"
+	    		  +'<form class="form-inline">'
+	              +'<select class="form-control" disabled id="lookxieban1'+task.prjNo+'" style="width:150px;">'
+	              +'</select>'
+	              +'<input type="text" id="lookxiebanMoney'+task.prjNo+'" value="'+task.assistDepartment1Money+'" disabled class="form-control" style="width:150px;" placeholder="金额">'
+	              +'</form>'
+	              +"</td><td>"
+	              +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
+	              +'<input type="text" id="lookxiebanCost'+task.prjNo+'" disabled value="'+task.assistDepartment1Cost+'" class="form-control" style="width:150px;" placeholder="金额"></div>'
+	              +"</td></tr>");
+		    	  initXiebanSelectNew(task,1);
+		    	  $("#lookxieban1"+task.prjNo+"").val(task.assistDepartment1);
+		    	  
+	    	}
+	    	if(task.assistDepartment2!=""&&task.assistDepartment2!=null){
+	    		$("#lookxieban"+i+" tbody").append("<tr><td>协办部门2</td><td>"
+	    	    		  +'<form class="form-inline">'
+	    	              +'<select class="form-control" disabled id="lookxieban2'+task.prjNo+'" style="width:150px;">'
+	    	              +'</select>'
+	    	              +'<input type="text" id="lookxiebanMoney'+task.prjNo+'" value="'+task.assistDepartment2Money+'" disabled class="form-control" style="width:150px;" placeholder="金额">'
+	    	              +'</form>'
+	    	              +"</td><td>"
+	    	              +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
+	    	              +'<input type="text" id="lookxiebanCost'+task.prjNo+'" value="'+task.assistDepartment2Cost+'" disabled class="form-control" style="width:150px;" placeholder="金额"></div>'
+	    	              +"</td></tr>");
+	    		initXiebanSelectNew(task,2);
+	    	    $("#lookxieban2"+task.prjNo+"").val(task.assistDepartment2);
+	    	}
+	    	if(task.assistDepartment3!=""&&task.assistDepartment3!=null){
+	    		$("#lookxieban"+i+" tbody").append("<tr><td>协办部门3</td><td>"
+	    	    		  +'<form class="form-inline">'
+	    	              +'<select class="form-control" disabled id="lookxieban3'+task.prjNo+'" style="width:150px;">'
+	    	              +'</select>'
+	    	              +'<input type="text" id="lookxiebanMoney'+task.prjNo+'" value="'+task.assistDepartment3Money+'" disabled class="form-control" style="width:150px;" placeholder="金额">'
+	    	              +'</form>'
+	    	              +"</td><td>"
+	    	              +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
+	    	              +'<input type="text" id="lookxiebanCost'+task.prjNo+'" value="'+task.assistDepartment3Cost+'" disabled class="form-control" style="width:150px;" placeholder="金额"></div>'
+	    	              +"</td></tr>");
+	    		initXiebanSelectNew(task,3);
+	    		    	  $("#lookxieban3"+task.prjNo+"").val(task.assistDepartment3);
+	    	}
+		    	
+	    }
+	    
+	    function initXiebanSelectNew(task,k){
+	    	$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/organizationManagement/selectProductionDepartment',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            },
+	            error: function (msg) {
+	            	toastr.error("请求失败");
+	            },
+	            success: function (json) {
+	            	$("#lookxieban"+k+""+task.prjNo+"").empty();
+	                for(var j=0;j<json.length;j++){
+	                	$("#lookxieban"+k+""+task.prjNo+"").append("<option value="+json[j].omId+">"+json[j].omName+"</option>");
+	                }
+	            }
+			});
+	    }
+		
+	    function getTaskBytaskCode(taskNos){
+	    	var array ;
+	    	$.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/task/selectTaskPrjName',
+		        dataType: 'json',
+		        async:false,
+		        data: {
+		        	prjNo:taskNos
+		        },
+		        success: function (json) {
+		        	array = json;
+		        }
+	    	})
+	    	return array;
+	    }	
   	function changeData(){
 		$.ajax({
 	        type: 'POST',
