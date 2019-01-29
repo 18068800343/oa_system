@@ -157,6 +157,10 @@ public class CjContractController {
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		map.put("chaiFenXinXiArray", Task.class);
+		User user = (User) session.getAttribute("user");
+		if(user==null){
+			return null;
+		}
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
 		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
@@ -210,7 +214,6 @@ public class CjContractController {
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(cj.getMainDepartment());
 			String omNo=om.getOmNo();
-			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
