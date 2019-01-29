@@ -1099,7 +1099,7 @@ public class TaskController {
 			String no=nos.split(",")[i];
 			Task t=tService.selectPrjLeaderByPrjNo(no);
 			if(t!=null){
-				String leader=t.getMainPrjLeader();
+				String leader=t.getMainPrjLeaderName();
 				if(list.size()!=0){
 					for(int j=0;j<list.size();j++){
 						if(!leader.equals(list.get(j))){
