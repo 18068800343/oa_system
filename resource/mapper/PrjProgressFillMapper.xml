@@ -174,14 +174,15 @@
 		LEFT JOIN (
 			select * from prj_progress_fill_cj ORDER BY bq desc
 		) as b on a.cj_id=b.cj_id
-		where a.task_code like #{no} limit 1
+		LEFT JOIN mode_status as c on a.cj_id=c.mode_id
+		where c.status=2 and a.task_code like #{no} limit 1
   	</select>
   	
   	<insert id="addPrjProgressFillFb" parameterType="java.util.List">
-  		insert into prj_progress_fill_fb(ppf_id,fb_id,fb_name,fb_unit,fb_money,income_bq,income_all,bq) 
+  		insert into prj_progress_fill_fb(ppf_id,fb_id,fb_name,department,fb_unit,fb_money,income_bq,income_all,bq) 
   		values
   		<foreach collection="fb" index="index" item="p" separator=",">
-  			(#{p.ppfId},#{p.fbId},#{p.fbName},#{p.fbUnit},#{p.fbMoney},#{p.incomeBq},#{p.incomeAll},#{p.bq})
+  			(#{p.ppfId},#{p.fbId},#{p.fbName},#{p.department},#{p.fbUnit},#{p.fbMoney},#{p.incomeBq},#{p.incomeAll},#{p.bq})
   		</foreach>
   	</insert>
   	
