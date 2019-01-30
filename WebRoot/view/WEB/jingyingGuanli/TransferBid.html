@@ -333,8 +333,11 @@ input[type=checkbox] {
 										<input type="text" class="form-control" style="width:60%;" id="xgjingyingren" disabled>
 										<button type="button" class="btn btn-primary"  id="choseren3" data-toggle="modal" data-target="#people3">选择负责人</button>
 								</td>
-								<td></td>
-								<td></td>
+								<td style="width:15%;">承办部门</td>
+								<td style="width:35%;">
+									<select class="form-control"  style="width:60%;" id="xgcbbm">
+									</select>
+								</td>
 							</tr>
                     </table>
 						<table class="table table-bordered table-condensed" id="xgTable">
@@ -1575,10 +1578,26 @@ input[type=checkbox] {
 		})
 	}
 
+	function getSCBM(){
+		$.ajax({
+			type : "POST",
+			url : getContextPath() + "/organizationManagement/selectProductionDepartment",
+			dataType : "json",
+			async:false,
+			success : function(json) {
+				$("#xgcbbm").empty();
+				for(var i in json){
+				$("#xgcbbm").append("<option value='"+json[i].omId+"'>"+json[i].omName+"</option>");
+				}
+			}
+		})
+	}
+	
 	//修改回显
 	var xgId;
 	var tr;
 	function xiugaicPrj(obj) {
+		getSCBM();
 		tr = $(obj).closest('tr');
 		$("input:checkbox").removeAttr("checked");
 		var dom = $(obj).parents("tr");
