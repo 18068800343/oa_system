@@ -16,4 +16,6 @@ public interface FbContractOverDao {
 	public int updateFbContractOver(@Param("fb")FbContractOver fbContractOver);
 
 	public float selectFbJsMoneyByNo(@Param("no")String no);
+
+	public List<FbContractOver> selectFbJsByNo(@Param("no")String no);
 }

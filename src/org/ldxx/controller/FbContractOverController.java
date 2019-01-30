@@ -256,4 +256,10 @@ public class FbContractOverController {
 	public float selectFbJsMoneyByNo(String no){
 		return service.selectFbJsMoneyByNo(no);
 	}
+	
+	@RequestMapping("/selectFbJsByNo")//通过任务单号查找结算合同
+	@ResponseBody
+	public List<FbContractOver> selectFbJsByNo(String no){
+		return service.selectFbJsByNo(no);
+	}
 }

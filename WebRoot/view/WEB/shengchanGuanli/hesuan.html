@@ -452,6 +452,7 @@
                                     <th>项目所属公司</th>
                                     <th>项目类型</th>
                                     <th>甲方单位</th>
+                                    <th>分包结算情况</th>
                             	</tr>
                             </thead>
                             <tbody>
@@ -802,6 +803,7 @@
                         <th>项目管理负责人</th>
                         <th>项目结算金额(元)</th>
                         <th>合同结算金额(元)</th>
+                        <th>分包结算信息</th>
                         <th style="width:100px;">操作</th>
                     </tr>
                 </thead>
@@ -1067,16 +1069,31 @@
             { "data": "prjJsMoney"}, 
             { "data": "contractJsMoney"}, 
             { "data": null}, 
+            { "data": null}, 
         ],
         "columnDefs": [
 						{
 								 "class": "tcenter",
-								    "targets": 7	,
+								    "targets": 8	,
 								    "searchable": true,
 								    "render": function(data, type, full) {
 								  	  		return '<i class="iconfont icon-icon-test" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookThis(this)"   id="lookDetall"></i><i class="iconfont iconxiugai icon-xiugai Pebc" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="修改" onclick="checkBudge(this)"   id="Changedanwei"></i>'
 								    }
-								  }
+								  },
+								  {	
+										 "class": "details-control",
+										    "targets": 7,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	if(full.jsState=='2'){
+										    		return '<span class="label label-danger state">尚未结算</span>';
+										    	}else if(full.jsState=='1'){
+										    		return '<span class="label label-info state">部分结算</span>';
+										    	}else if(full.jsState=='0'){
+										    		return '<span class="label label-success state">全部结算</span>';
+										    	}
+										       }
+										  }
 						],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
@@ -1114,6 +1131,7 @@
 		            { "data": "prjCompany"},
 		            { "data": "prjType2"},
 		            { "data": "ccName"},
+		            { "data": null},
 		            
 		        ],
 		        "columnDefs": [
@@ -1124,7 +1142,21 @@
 										    "render": function(data, type, full) {
 										  	  		return '<input type="radio" name="xiangmuName" style="width:16px;height:16px;">'
 										        }
-										  }
+										  },
+										  {	
+												 "class": "details-control",
+												    "targets": 6,
+												    "searchable": true,
+												    "render": function(data, type, full) {
+												    	if(full.jsState=='2'){
+												    		return '<span class="label label-danger state">尚未结算</span>';
+												    	}else if(full.jsState=='1'){
+												    		return '<span class="label label-info state">部分结算</span>';
+												    	}else if(full.jsState=='0'){
+												    		return '<span class="label label-success state">全部结算</span>';
+												    	}
+												       }
+												  }
 								],
         "order": [[1, 'asc']],
         "oLanguage": { //国际化配置
@@ -1711,7 +1743,7 @@
 		$("#xiangmumd").modal("show");
 		 $.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+	            url: getContextPath()+'/projectaccounting/selectTaskByNo',
 	            dataType: 'json',
 	            async:false,
 	            data: {

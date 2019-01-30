@@ -118,6 +118,17 @@ public class Task {
     
     private String tongjiMoney;
     
+    private String jsState;//结算状态（0:全部结算，1:部分结算，2:未结算）
+    
+    
+	public String getJsState() {
+		return jsState;
+	}
+
+	public void setJsState(String jsState) {
+		this.jsState = jsState;
+	}
+
 	public String getTongjiMoney() {
 		return tongjiMoney;
 	}

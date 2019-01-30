@@ -8,12 +8,18 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FbContract;
+import org.ldxx.bean.FbContractOver;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.ProjectAccounting;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.service.FbContractOverService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.ProjectAccountingService;
+import org.ldxx.service.SubContractService;
+import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +42,49 @@ public class ProjectAccountingController {
 	private ProjectAccountingService service;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private TaskService tService;
+	@Autowired
+	private SubContractService scService;//分包合同
+	@Autowired
+	private FbContractOverService fbOverservice;//分包结算
 	
 	@RequestMapping("/selectProjectAccounting")
 	@ResponseBody
 	public List<ProjectAccounting> selectProjectAccounting(String status){
-		return service.selectProjectAccounting(status);
+		List<ProjectAccounting> list= service.selectProjectAccounting(status);
+		for(int i=0;i<list.size();i++){
+			String prjNo = list.get(i).getPrjNo();
+			List<FbContract> subcontract=scService.selectFbContractByTaskNo(prjNo);//去查该任务单下有几个分包合同
+			List<FbContractOver> fbJs = fbOverservice.selectFbJsByNo(prjNo);//去查该任务单下已结算的分包合同
+			if(fbJs.size()==0||fbJs==null){
+				list.get(i).setJsState("2");//未结算
+			}else if(subcontract.size()==fbJs.size()){
+				list.get(i).setJsState("0");//全部结算
+			}else{
+				list.get(i).setJsState("1");//部分结算
+			}
+		}
+		return list;
+	}
+	
+	@RequestMapping("/selectTaskByNo")
+	@ResponseBody
+	public List<Task> selectTaskByNo(){
+		List<Task> list= tService.selectPrjNameAndWorkNo();
+		for(int i=0;i<list.size();i++){
+			String prjNo = list.get(i).getPrjNo();
+			List<FbContract> subcontract=scService.selectFbContractByTaskNo(prjNo);//去查该任务单下有几个分包合同
+			List<FbContractOver> fbJs = fbOverservice.selectFbJsByNo(prjNo);//去查该任务单下已结算的分包合同
+			if(fbJs.size()==0||fbJs==null){
+				list.get(i).setJsState("2");//未结算
+			}else if(subcontract.size()==fbJs.size()){
+				list.get(i).setJsState("0");//全部结算
+			}else{
+				list.get(i).setJsState("1");//部分结算
+			}
+		}
+		return list;
 	}
 	
 	@RequestMapping("/getProjectAccountingById")

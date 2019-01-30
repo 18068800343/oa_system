@@ -32,9 +32,17 @@ public class ProjectAccounting {
 	private Float jcSjMoney;//检测二部直接成本
 	
 	private List<ProjectAccountingRg> projectAccountingRg;//人员工时
-	
+	private String jsState;//结算状态（0:全部结算，1:部分结算，2:未结算）
 
 	
+	public String getJsState() {
+		return jsState;
+	}
+
+	public void setJsState(String jsState) {
+		this.jsState = jsState;
+	}
+
 	public Float getJcSjMoney() {
 		return jcSjMoney;
 	}
