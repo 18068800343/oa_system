@@ -87,7 +87,7 @@
                             		<td style="width:15%;">招标人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             		<td style="width:35%;">
                             			<input type="text" id="zhaobiaoren" style="width:60%;" class="form-control" disabled>
-                            			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择招标人</button>	
+                            			<!-- <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择招标人</button>	 -->
                             		</td>
                             	</tr>
                             	<tr>
@@ -502,10 +502,10 @@
                             			<input type="text" class="form-control" style="width:60%;" id="xgprjName" disabled>
                                 		<!-- <button type="button" class="btn btn-primary"  id="xgchosexm">选择项目</button> -->
                             		</td>
-                            		<td style="width:15%;">招标人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                            		<td style="width:15%;">业主单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             		<td style="width:35%;">
                             			<input type="text" id="xgzhaobiaoren" style="width:60%;" class="form-control" disabled>
-                            			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren" id="xzzbr">选择招标人</button>	
+                            			<!-- <button type="button" class="btn btn-default" data-toggle="modal" data-target="#xgaddGuanliren" id="xzzbr">选择招标人</button>	 -->
                             		</td>
                             	</tr>
                             	<tr>
@@ -893,7 +893,7 @@
 	                            	<tr>
 	                            		<td>标段编号</td>
 	                            		<td id="lookBdNo"></td>
-	                            		<td>招标人</td>
+	                            		<td>业主单位</td>
 	                            		<td id="lookzhaobiaoren"></td>
 	                            	</tr>
 	                            	<tr>
@@ -2191,6 +2191,7 @@
 	function lookRecord(obj){
 		var dom = $(obj).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data)
 		$("#lookprjName").text(data.prjName)
 		$("#lookprjNo").text(data.prjNo);
 		$("#lookBdNo").text(data.bdNo);
@@ -2205,7 +2206,19 @@
 		$("#lookyear2").text(data.recordDate)
 		$("#lookzongjie").text(data.conclusion)	
 		$("#lookyuanyin").text(data.unitReasonBid)
-		$("#lookzhaobiaoren").text(data.tenderer);
+		
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/BidApproval/selectBidApprovalByNo',
+	        dataType: 'json',
+	        data:{
+	        	no:data.prjNo
+	        },
+	        success: function (json) {
+	        	console.log(json)
+	        	$("#lookzhaobiaoren").text(json.ccName);
+	        }
+	    });
 		$("#lookpingbiaobanfa").text(data.bidEvaluationMethod);
 		$("#lookcantoudanwei").text(data.thisInUnit);
 		$("#lookgsbaojiazhekoulv").text(data.companyDiscountRate);
@@ -2657,7 +2670,7 @@
 		var dom = $(obj).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
 		xiugaiId=data.orId;
-		console.log(data)
+		//console.log(data)
 		$("#xgprjName").val(data.prjName);
 		$("#xgprjNo").val(data.prjNo);
 		$("#xgBdNo").val(data.bdNo);
@@ -2675,7 +2688,18 @@
 		$("#xgyear2").val(data.recordDate);
 		$("#xgzongjie").val(data.conclusion);
 		$("#xgyuanyin").val(data.unitReasonBid);
-		$("#xgzhaobiaoren").val(data.tenderer);
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/BidApproval/selectBidApprovalByNo',
+	        dataType: 'json',
+	        data:{
+	        	no:data.prjNo
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	$("#xgzhaobiaoren").val(json.ccName);
+	        }
+	    });
 		$("#xgpingbiaobanfa").val(data.bidEvaluationMethod);
 		$("#xgcantoudanwei").val(data.thisInUnit);
 		$("#xggsbaojiazhekoulv").val(data.companyDiscountRate);
