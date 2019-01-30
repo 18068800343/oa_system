@@ -91,5 +91,10 @@ public class AlreadySkInfoServiceImp implements AlreadySkInfoService {
 	public AlreadyRenling selectDeptRenlingByStartAndEndTime(String start, String end, String dept) {
 		return dao.selectDeptRenlingByStartAndEndTime(start, end, dept);
 	}
+
+	@Override
+	public double getAllSkByTaskNo(String no) {
+		return dao.getAllSkByTaskNo(no);
+	}
 	
 }

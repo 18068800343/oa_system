@@ -32,4 +32,6 @@ public interface AlreadySkInfoDao {
 	public AlreadyRenling selectDeptRenlingByTimeAndType(@Param("time")String time,@Param("dept")String dept,@Param("type")String type);//通过时间和项目类型查询全部认领金额
 
 	public AlreadyRenling selectDeptRenlingByStartAndEndTime(@Param("start")String start,@Param("end")String end,@Param("dept")String dept);//通过开始时间结束时间查询部门已认领金额
+
+	public double getAllSkByTaskNo(@Param("no")String no);
 }

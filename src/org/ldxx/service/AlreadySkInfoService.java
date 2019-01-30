@@ -2,7 +2,6 @@ package org.ldxx.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.AlreadyRenling;
 
 public interface AlreadySkInfoService {
@@ -25,4 +24,5 @@ public interface AlreadySkInfoService {
 	
 	public AlreadyRenling selectDeptRenlingByStartAndEndTime(String start,String end,String dept);
 
+	public double getAllSkByTaskNo(String no);
 }

@@ -14,6 +14,10 @@ public class Pay {
     private Float contractMoney;//分包合同金额
 
     private Float alreadyKpMoney;//已经开票金额
+    
+    private double skMoney;//收款金额
+    
+    private String skScale;//收款比例
 
     private Float thisTimeKpMoney;//本次开票金额
 
@@ -67,7 +71,19 @@ public class Pay {
     private String uName;//编制人               
     
     
-    public Float getAuthorisePayment() {
+    public double getSkMoney() {
+		return skMoney;
+	}
+	public void setSkMoney(double skMoney) {
+		this.skMoney = skMoney;
+	}
+	public String getSkScale() {
+		return skScale;
+	}
+	public void setSkScale(String skScale) {
+		this.skScale = skScale;
+	}
+	public Float getAuthorisePayment() {
 		return authorisePayment;
 	}
 	public void setAuthorisePayment(Float authorisePayment) {

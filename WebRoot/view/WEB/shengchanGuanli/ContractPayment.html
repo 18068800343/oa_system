@@ -102,6 +102,12 @@
 			                                <td>分包合同进度</td>
 			                                <td><input type="text" class="form-control" id="hetongjindu" style="width:60%;"></td>
 			                            </tr>
+			                            <tr>
+			                            	<td>收款金额(元)</td>
+			                                <td><input type="text" class="form-control" id="sk_money" style="width:60%;" disabled></td>
+			                                <td>收款比例</td>
+			                                <td><input type="text" class="form-control" id="sk_scale" style="width:60%;" disabled></td>
+			                            </tr>
 			                             <tr>
 			                                <td>主合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 			                                <td>
@@ -722,6 +728,12 @@
                             <td>分包合同进度</td>
                             <td id="lookhetongjindu"></td>
                         </tr> 
+                        <tr>
+                            <td>收款金额(元)</td>
+                            <td id="lookSkMoney"></td>
+                            <td>收款比例</td>
+                            <td id="lookSkScale"></td>
+                        </tr>
                         <tr>
                             <td>已开票金额(元)</td>
                             <td id="lookyikaipiaoMoney"></td>
@@ -1610,6 +1622,7 @@
 	        				isjinxinghetongjiesuan($('#hetonghao').val());
 	        				getTotalPayMoney($('#hetonghao').val());
 	        				getRemainPayMoney($('#hetonghao').val());
+	        				getSk(json.workNo);
 	                    }
 	          		});
 			  	})
@@ -1796,6 +1809,8 @@
 		var hetonghao=$("#hetonghao").val();
 		var fukuandanhao=$("#fukuandanhao").val();
 		var hetongMoney=$("#hetongMoney").val();
+		var skMoney=$("#sk_money").val();
+		var skScale=$("#sk_scale").val();
 		var yikaipiaoMoney=$("#yikaipiaoMoney").val();
 		var thiskaipiaoMoney=$("#thiskaipiaoMoney").val();
 		var zhuhetongming=$("#zhuhetongming").val();
@@ -1846,6 +1861,8 @@
 	            	contractName:hetongming,
 	            	contractNo:hetonghao,
 	            	payCode:fukuandanhao,
+	            	skScale:skScale,
+	            	skMoney:skMoney,
             		contractMoney:hetongMoney,
            			alreadyKpMoney:yikaipiaoMoney,
         			thisTimeKpMoney:thiskaipiaoMoney,
@@ -1888,6 +1905,8 @@
 		var hetonghao=$("#hetonghao").val();
 		var fukuandanhao=$("#fukuandanhao").val();
 		var hetongMoney=$("#hetongMoney").val();
+		var skMoney=$("#sk_money").val();
+		var skScale=$("#sk_scale").val();
 		var yikaipiaoMoney=$("#yikaipiaoMoney").val();
 		var thiskaipiaoMoney=$("#thiskaipiaoMoney").val();
 		var zhuhetongming=$("#zhuhetongming").val();
@@ -1938,6 +1957,8 @@
 	            	contractName:hetongming,
 	            	contractNo:hetonghao,
 	            	payCode:fukuandanhao,
+	            	skScale:skScale,
+	            	skMoney:skMoney,
             		contractMoney:hetongMoney,
            			alreadyKpMoney:yikaipiaoMoney,
         			thisTimeKpMoney:thiskaipiaoMoney,
@@ -2300,6 +2321,8 @@
 		$("#lookhetongming").text(data.contractName);
 		$("#lookhetonghao").text(data.contractNo);
 		$("#lookfukuandanhao").text(data.payCode);
+		$("#lookSkMoney").text(data.skMoney);
+		$("#lookSkScale").text(data.skScale);
 		$("#lookhetongMoney").text(data.contractMoney);
 		$("#lookyikaipiaoMoney").text(data.alreadyKpMoney);
 		$("#lookthiskaipiaoMoney").text(data.thisTimeKpMoney);
@@ -2575,9 +2598,27 @@
 				isjinxinghetongjiesuan(json.fbNo);
 				getTotalPayMoney(json.fbNo);
 				getRemainPayMoney(json.fbNo);
+				getSk(json.workNo);
             }
   		});
     	$("#choose_fb").modal("hide");
+    }
+    
+    function getSk(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/AlreadySk/getAllSkByTaskNo',
+            dataType: 'json',
+            data: {
+            	no:obj
+            },
+            success: function (json) {
+            	var money=json.money;
+            	var prjMoney=json.prjMoney;
+            	$("#sk_money").val(money);
+            	$("#sk_scale").val((money/prjMoney*100).toFixed(2)+"%")
+            }
+    	})
     }
     
     function getRemainPayMoney(obj){

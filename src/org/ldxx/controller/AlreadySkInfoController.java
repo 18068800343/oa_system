@@ -1,15 +1,19 @@
 package org.ldxx.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.AlreadyRenling;
 import org.ldxx.bean.ProjectList;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.service.AlreadySkInfoService;
+import org.ldxx.service.TaskService;
 import org.ldxx.util.ExportData;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +34,8 @@ public class AlreadySkInfoController {
 	
 	@Autowired
 	private AlreadySkInfoService service;
+	@Autowired
+	private TaskService tService;
 	
 	@RequestMapping("/getyirenlingfpMoneyByKpno")//通过开票申请编号查询已认领的发票金额总和
 	@ResponseBody
@@ -64,6 +70,17 @@ public class AlreadySkInfoController {
 	@ResponseBody
 	public int deleteAlreadyRenlingById(String rId){
 		return service.deleteAlreadyRenlingById(rId);
+	}
+	
+	@RequestMapping("/getAllSkByTaskNo")
+	@ResponseBody
+	public Map<String,Object> getAllSkByTaskNo(String no){
+		Map<String,Object> map=new HashMap<String, Object>();
+		Task task=tService.selectIdByNo2(no);
+		double money=service.getAllSkByTaskNo(no);
+		map.put("prjMoney", task.getPrjEstimateMoney());
+		map.put("money", money);
+		return map;
 	}
 	
 }
