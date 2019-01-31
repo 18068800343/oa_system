@@ -76,22 +76,23 @@ public class GsMaterialInController {
 		cm.setCmId(id);
 		
 		
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"gsMaterialIn"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("公司材料收货单");
 				list.add(accessory);
 			}
@@ -119,22 +120,23 @@ public class GsMaterialInController {
 		String id=uuid.getTimeUUID();
 		cm.setCmId(id);
 		
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"gsMaterialIn"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("公司材料收货单");
 				list.add(accessory);
 			}
@@ -158,7 +160,9 @@ public class GsMaterialInController {
 		
 		Map<String,Object> map=new HashMap<>();
 		String id = cm.getCmId();
-		String path="D:"+File.separator+"oa"+File.separator+"gsMaterialIn"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -173,7 +177,7 @@ public class GsMaterialInController {
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("公司材料收货单");
 				list.add(accessory);
 			}
@@ -218,21 +222,23 @@ public class GsMaterialInController {
 	@ResponseBody
 	public int updateXmState(CompanyMateriaIn gsIncl,@RequestParam MultipartFile [] file){
 		String id=gsIncl.getCmId();
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file!=null){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String acName=file[i].getOriginalFilename();
-				String url="D:"+File.separator+"oa"+File.separator+"gsMaterialIn"+File.separator+id;
-				File f=new File(url);
-				if(!f.exists()){
-					f.mkdirs();
-				}
-				String acUrl=url+File.separator+acName;
+				String acUrl=path+File.separator+acName;
 				File acFile=new File(acUrl);
 				accessory.setaId(id);
 				accessory.setAcName(acName);
-				accessory.setAcUrl(acUrl);
+				accessory.setAcUrl(id+File.separator+acName);
 				accessory.setaType("项目材料收货单");
 				list.add(accessory);
 				try {
