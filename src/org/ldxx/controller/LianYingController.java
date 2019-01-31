@@ -71,7 +71,8 @@ public class LianYingController {
 		int count=service.lyNoCount(year);
 		String lyNo="LY"+uuid.getPrjCode("", count+1);
 		ly.setLyNo(lyNo);
-		String path="D:"+File.separator+"oa"+File.separator+"LianYing"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -86,7 +87,7 @@ public class LianYingController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);  
+				accessory.setAcUrl(id+File.separator+fileName);  
 				accessory.setaType("资质证书");
 				list.add(accessory);
 			}
@@ -99,7 +100,7 @@ public class LianYingController {
 			file2.transferTo(f2);
 			accessory.setaId(id);
 			accessory.setAcName(fileName);
-			accessory.setAcUrl(filePath);  
+			accessory.setAcUrl(id+File.separator+fileName);  
 			accessory.setaType("安全生产许可证有效期");
 			list.add(accessory);
 		}
@@ -111,7 +112,7 @@ public class LianYingController {
 			file3.transferTo(f2);
 			accessory.setaId(id);
 			accessory.setAcName(fileName);
-			accessory.setAcUrl(filePath);  
+			accessory.setAcUrl(id+File.separator+fileName);  
 			accessory.setaType("开户许可证");
 			list.add(accessory);
 		}
@@ -123,7 +124,7 @@ public class LianYingController {
 			file4.transferTo(f2);
 			accessory.setaId(id);
 			accessory.setAcName(fileName);
-			accessory.setAcUrl(filePath);  
+			accessory.setAcUrl(id+File.separator+fileName);  
 			accessory.setaType("分包内容");
 			list.add(accessory);
 		}
