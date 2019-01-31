@@ -50,13 +50,14 @@ public class AnnouncementController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String acName=file[i].getOriginalFilename();
-				String url="D:"+File.separator+"oa"+File.separator+"announcement"+File.separator+id;
+				String url="D:"+File.separator+"apache-tomcat-8.5.37"+File.separator+"webapps/oa_file/announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
 				}
-				String acUrl=url+File.separator+acName;
-				File acFile=new File(acUrl);
+				String upUrl =url+File.separator+acName;
+				String acUrl="announcement/"+id+"/"+acName;
+				File acFile=new File(upUrl);
 				accessory.setaId(id);
 				accessory.setAcName(acName);
 				accessory.setAcUrl(acUrl);
@@ -121,13 +122,14 @@ public class AnnouncementController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String acName=file[i].getOriginalFilename();
-				String url="D:"+File.separator+"oa"+File.separator+"announcement"+File.separator+id;
+				String url="D:"+File.separator+"apache-tomcat-8.5.37"+File.separator+"webapps/oa_file/announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
 				}
-				String acUrl=url+File.separator+acName;
-				File acFile=new File(acUrl);
+				String upUrl =url+File.separator+acName;
+				String acUrl="announcement/"+id+"/"+acName;
+				File acFile=new File(upUrl);
 				accessory.setaId(id);
 				accessory.setAcName(acName);
 				accessory.setAcUrl(acUrl);
@@ -192,13 +194,14 @@ public class AnnouncementController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String acName=file[i].getOriginalFilename();
-				String url="D:"+File.separator+"oa"+File.separator+"announcement"+File.separator+id;
+				String url="D:"+File.separator+"apache-tomcat-8.5.37"+File.separator+"webapps/oa_file/announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
 				}
-				String acUrl=url+File.separator+acName;
-				File acFile=new File(acUrl);
+				String upUrl =url+File.separator+acName;
+				String acUrl="announcement/"+id+"/"+acName;
+				File acFile=new File(upUrl);
 				accessory.setaId(id);
 				accessory.setAcName(acName);
 				accessory.setAcUrl(acUrl);
@@ -262,13 +265,14 @@ public class AnnouncementController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String acName=file[i].getOriginalFilename();
-				String url="D:"+File.separator+"oa"+File.separator+"announcement"+File.separator+id;
+				String url="D:"+File.separator+"apache-tomcat-8.5.37"+File.separator+"webapps/oa_file/announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
 				}
-				String acUrl=url+File.separator+acName;
-				File acFile=new File(acUrl);
+				String upUrl =url+File.separator+acName;
+				String acUrl="announcement/"+id+"/"+acName;
+				File acFile=new File(upUrl);
 				accessory.setaId(id);
 				accessory.setAcName(acName);
 				accessory.setAcUrl(acUrl);
@@ -344,13 +348,14 @@ public class AnnouncementController {
 			for(int iii=0;iii<file.length;iii++){
 				Accessory accessory=new Accessory();
 				String acName=file[iii].getOriginalFilename();
-				String url="D:/oa/announcement/"+id;
+				String url="D:"+File.separator+"apache-tomcat-8.5.37"+File.separator+"webapps/oa_file/announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
 				}
-				String acUrl=url+File.separator+acName;
-				File acFile=new File(acUrl);
+				String upUrl =url+File.separator+acName;
+				String acUrl="announcement/"+id+"/"+acName;
+				File acFile=new File(upUrl);
 				accessory.setaId(id);
 				accessory.setAcName(acName);
 				accessory.setAcUrl(acUrl);
@@ -379,13 +384,14 @@ public class AnnouncementController {
 			for(int iii=0;iii<file.length;iii++){
 				Accessory accessory=new Accessory();
 				String acName=file[iii].getOriginalFilename();
-				String url="D:/oa/announcement/"+id;
+				String url="D:"+File.separator+"apache-tomcat-8.5.37"+File.separator+"webapps/oa_file/announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
 				}
-				String acUrl=url+File.separator+acName;
-				File acFile=new File(acUrl);
+				String upUrl =url+File.separator+acName;
+				String acUrl="announcement/"+id+"/"+acName;
+				File acFile=new File(upUrl);
 				accessory.setaId(id);
 				accessory.setAcName(acName);
 				accessory.setAcUrl(acUrl);
@@ -414,13 +420,14 @@ public class AnnouncementController {
 			for(int iii=0;iii<file.length;iii++){
 				Accessory accessory=new Accessory();
 				String acName=file[iii].getOriginalFilename();
-				String url="D:/oa/announcement/"+id;
+				String url="D:"+File.separator+"apache-tomcat-8.5.37"+File.separator+"webapps/oa_file/announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
 				}
-				String acUrl=url+File.separator+acName;
-				File acFile=new File(acUrl);
+				String upUrl =url+File.separator+acName;
+				String acUrl="announcement/"+id+"/"+acName;
+				File acFile=new File(upUrl);
 				accessory.setaId(id);
 				accessory.setAcName(acName);
 				accessory.setAcUrl(acUrl);
@@ -449,13 +456,14 @@ public class AnnouncementController {
 			for(int iii=0;iii<file.length;iii++){
 				Accessory accessory=new Accessory();
 				String acName=file[iii].getOriginalFilename();
-				String url="D:/oa/announcement/"+id;
+				String url="D:"+File.separator+"apache-tomcat-8.5.37"+File.separator+"webapps/oa_file/announcement"+File.separator+id;
 				File f=new File(url);
 				if(!f.exists()){
 					f.mkdirs();
 				}
-				String acUrl=url+File.separator+acName;
-				File acFile=new File(acUrl);
+				String upUrl =url+File.separator+acName;
+				String acUrl="announcement/"+id+"/"+acName;
+				File acFile=new File(upUrl);
 				accessory.setaId(id);
 				accessory.setAcName(acName);
 				accessory.setAcUrl(acUrl);
