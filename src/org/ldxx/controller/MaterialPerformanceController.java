@@ -59,7 +59,9 @@ public class MaterialPerformanceController {
 		String id=uuid.getTimeUUID();
 		c.setpId(id);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"materialPerformance"+File.separator+id;
+		
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -74,7 +76,7 @@ public class MaterialPerformanceController {
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
@@ -90,7 +92,7 @@ public class MaterialPerformanceController {
 				file2[i].transferTo(f1);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
@@ -146,7 +148,8 @@ public class MaterialPerformanceController {
 		String id=uuid.getTimeUUID();
 		c.setpId(id);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"materialPerformance"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -161,7 +164,7 @@ public class MaterialPerformanceController {
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
@@ -177,7 +180,7 @@ public class MaterialPerformanceController {
 				file2[i].transferTo(f1);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
@@ -387,7 +390,10 @@ public class MaterialPerformanceController {
 	@ResponseBody
 	public int updateMaterialPerformance(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
 		String id=c.getpId();
-		String path="D:"+File.separator+"oa"+File.separator+"materialPerformance"+File.separator+id;
+		//String path="D:"+File.separator+"oa"+File.separator+"materialPerformance"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -402,7 +408,7 @@ public class MaterialPerformanceController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
