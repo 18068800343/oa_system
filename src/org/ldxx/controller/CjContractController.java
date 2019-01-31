@@ -74,7 +74,8 @@ public class CjContractController {
 		int count=service.countNo(year);
 		String code="CJ"+uuid.getPrjCode("", count+1);
 		cj.setContractNo(code);
-		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -89,7 +90,7 @@ public class CjContractController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("承接合同文本");
 				list.add(accessory);
 			}
@@ -105,7 +106,7 @@ public class CjContractController {
 				file2[ii].transferTo(f2);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
@@ -172,7 +173,8 @@ public class CjContractController {
 		int count=service.countNo(year);
 		String code="CJ"+uuid.getPrjCode("", count+1);
 		cj.setContractNo(code);
-		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -187,7 +189,7 @@ public class CjContractController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("承接合同文本");
 				list.add(accessory);
 			}
@@ -203,7 +205,7 @@ public class CjContractController {
 				file2[ii].transferTo(f2);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
@@ -399,7 +401,8 @@ public class CjContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -414,7 +417,7 @@ public class CjContractController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("承接合同文本");
 				list.add(accessory);
 			}
@@ -430,7 +433,7 @@ public class CjContractController {
 				file2[ii].transferTo(f2);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
@@ -487,7 +490,8 @@ public class CjContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -502,7 +506,7 @@ public class CjContractController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("承接合同文本");
 				list.add(accessory);
 			}
@@ -518,7 +522,7 @@ public class CjContractController {
 				file2[ii].transferTo(f2);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
@@ -572,10 +576,12 @@ public class CjContractController {
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
 		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
-		/*TimeUUID uuid=new TimeUUID();
-		String id=uuid.getTimeUUID();
+		TimeUUID uuid=new TimeUUID();
+		/*String id=uuid.getTimeUUID();
 		cj.setCjId(id);*/
-		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+cj.getCjId();
+		String id=cj.getCjId();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -590,7 +596,7 @@ public class CjContractController {
 				file[ii].transferTo(f2);
 				accessory.setaId(cj.getCjId());
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("承接合同文本");
 				list.add(accessory);
 			}
@@ -606,7 +612,7 @@ public class CjContractController {
 				file2[ii].transferTo(f2);
 				accessory2.setaId(cj.getCjId());
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
@@ -704,7 +710,9 @@ public class CjContractController {
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
 		String id=cj.getCjId();
-		String path="D:"+File.separator+"oa"+File.separator+"CjContract"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+File.separator+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -725,7 +733,7 @@ public class CjContractController {
 				}
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("承接合同文本");
 				list.add(accessory);
 			}
@@ -747,7 +755,7 @@ public class CjContractController {
 				}
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}

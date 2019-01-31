@@ -1,9 +1,12 @@
 package org.ldxx.util;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class TimeUUID {
 
@@ -94,5 +97,12 @@ public class TimeUUID {
 		TimeUUID uuid=new TimeUUID();
 		String aa=uuid.getPrjCode("", 80);
 		System.out.println(aa);
+	}
+	
+	
+	public String getWebAppFile(){
+		String path=System.getProperty("catalina.home");
+		path+=File.separator+"webapps"+File.separator+"oa_file";
+		return path;
 	}
 }
