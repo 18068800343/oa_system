@@ -89,7 +89,8 @@ public class CgContractController {
 		cgNo="CG"+cgNo;
 		cg.setCgNo(cgNo);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -104,7 +105,7 @@ public class CgContractController {
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("采购合同文本");
 				list.add(accessory);
 			}
@@ -120,7 +121,7 @@ public class CgContractController {
 				file1[i].transferTo(f2);
 				accessory1.setaId(id);
 				accessory1.setAcName(fileName1);
-				accessory1.setAcUrl(filePath1);
+				accessory1.setAcUrl(id+File.separator+fileName1);
 				accessory1.setaType("法律顾问签字");
 				list1.add(accessory1);
 			}
@@ -189,7 +190,8 @@ public class CgContractController {
 		cgNo="CG"+cgNo;
 		cg.setCgNo(cgNo);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -204,7 +206,7 @@ public class CgContractController {
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("采购合同文本");
 				list.add(accessory);
 			}
@@ -220,7 +222,7 @@ public class CgContractController {
 				file1[i].transferTo(f2);
 				accessory1.setaId(id);
 				accessory1.setAcName(fileName1);
-				accessory1.setAcUrl(filePath1);
+				accessory1.setAcUrl(id+File.separator+fileName1);
 				accessory1.setaType("法律顾问签字");
 				list1.add(accessory1);
 			}
@@ -373,7 +375,8 @@ public class CgContractController {
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -388,7 +391,7 @@ public class CgContractController {
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("采购合同文本");
 				list.add(accessory);
 			}
@@ -404,7 +407,7 @@ public class CgContractController {
 				file1[i].transferTo(f2);
 				accessory1.setaId(id);
 				accessory1.setAcName(fileName1);
-				accessory1.setAcUrl(filePath1);
+				accessory1.setAcUrl(id+File.separator+fileName1);
 				accessory1.setaType("法律顾问签字");
 				list1.add(accessory1);
 			}
@@ -463,7 +466,8 @@ public class CgContractController {
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -478,7 +482,7 @@ public class CgContractController {
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("采购合同文本");
 				list.add(accessory);
 			}
@@ -494,7 +498,7 @@ public class CgContractController {
 				file1[i].transferTo(f2);
 				accessory1.setaId(id);
 				accessory1.setAcName(fileName1);
-				accessory1.setAcUrl(filePath1);
+				accessory1.setAcUrl(id+File.separator+fileName1);
 				accessory1.setaType("法律顾问签字");
 				list1.add(accessory1);
 			}
@@ -681,7 +685,9 @@ public class CgContractController {
 		CgContract cg=(CgContract)JSONObject.toBean(jsonObject, CgContract.class,map2);
 		String id=cg.getCgId();
 		
-		String path="D:"+File.separator+"oa"+File.separator+"CgContract"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -696,7 +702,7 @@ public class CgContractController {
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("采购合同文本");
 				list.add(accessory);
 			}
@@ -712,7 +718,7 @@ public class CgContractController {
 				file1[i].transferTo(f2);
 				accessory1.setaId(id);
 				accessory1.setAcName(fileName1);
-				accessory1.setAcUrl(filePath1);
+				accessory1.setAcUrl(id+File.separator+fileName1);
 				accessory1.setaType("法律顾问签字");
 				list1.add(accessory1);
 			}
