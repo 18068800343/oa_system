@@ -2872,7 +2872,110 @@ function checkquxiaoSplit(){
   		}	
 		return a;
 	}
-	
+    function getTaskBytaskCode(taskNos){
+    	var array ;
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/task/selectTaskPrjName',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	prjNo:taskNos
+	        },
+	        success: function (json) {
+	        	array = json;
+	        }
+    	})
+    	return array;
+    }
+	function initbumenByClass(k){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/selectProductionDepartment',
+            dataType: 'json',
+            async:false,
+            data: {
+            	
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+                for(var i=0;i<json.length;i++){
+                	$(".zhuban"+k+"").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                }
+            }
+		});
+	}
+    //增加部门
+    function addBumenEdit(i,task){
+    	if(task.assistDepartment1!=""&&task.assistDepartment1!=null){
+    		$("#xieban"+i+" tbody").append("<tr><td>协办部门1</td><td>"
+    		  +'<form class="form-inline">'
+              +'<select class="form-control" id="xieban1'+task.prjNo+'" style="width:150px;">'
+              +'</select>'
+              +'<input type="text" id="xiebanMoney'+task.prjNo+'" value="'+task.assistDepartment1Money+'" class="form-control" style="width:150px;" placeholder="金额">'
+              +"<button style='margin-left:15px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button>"
+              +'</form>'
+              +"</td><td>"
+              +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
+              +'<input type="text" id="xiebanCost'+task.prjNo+'" value="'+task.assistDepartment1Cost+'" class="form-control" style="width:150px;" placeholder="金额"></div>'
+              +"</td></tr>");
+	    	  initXiebanSelect(task,1);
+	    	  $("#xieban1"+task.prjNo+"").val(task.assistDepartment1);
+	    	  
+    	}
+    	if(task.assistDepartment2!=""&&task.assistDepartment2!=null){
+    		$("#xieban"+i+" tbody").append("<tr><td>协办部门2</td><td>"
+    	    		  +'<form class="form-inline">'
+    	              +'<select class="form-control" id="xieban2'+task.prjNo+'" style="width:150px;">'
+    	              +'</select>'
+    	              +'<input type="text" id="xiebanMoney'+task.prjNo+'" value="'+task.assistDepartment2Money+'" class="form-control" style="width:150px;" placeholder="金额">'
+    	              +"<button style='margin-left:15px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button>"
+    	              +'</form>'
+    	              +"</td><td>"
+    	              +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
+    	              +'<input type="text" id="xiebanCost'+task.prjNo+'" value="'+task.assistDepartment2Cost+'" class="form-control" style="width:150px;" placeholder="金额"></div>'
+    	              +"</td></tr>");
+    		    	  initXiebanSelect(task,2);
+    	    $("#xieban2"+task.prjNo+"").val(task.assistDepartment2);
+    	}
+    	if(task.assistDepartment3!=""&&task.assistDepartment3!=null){
+    		$("#xieban"+i+" tbody").append("<tr><td>协办部门3</td><td>"
+    	    		  +'<form class="form-inline">'
+    	              +'<select class="form-control" id="xieban3'+task.prjNo+'" style="width:150px;">'
+    	              +'</select>'
+    	              +'<input type="text" id="xiebanMoney'+task.prjNo+'" value="'+task.assistDepartment3Money+'" class="form-control" style="width:150px;" placeholder="金额">'
+    	              +"<button style='margin-left:15px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button>"
+    	              +'</form>'
+    	              +"</td><td>"
+    	              +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
+    	              +'<input type="text" id="xiebanCost'+task.prjNo+'" value="'+task.assistDepartment3Cost+'" class="form-control" style="width:150px;" placeholder="金额"></div>'
+    	              +"</td></tr>");
+    		    	  initXiebanSelect(task,3);
+    		    	  $("#xieban3"+task.prjNo+"").val(task.assistDepartment3);
+    	}
+	    	
+    }
+    function initXiebanSelect(task,k){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/selectProductionDepartment',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	$("#xieban"+k+""+task.prjNo+"").empty();
+                for(var j=0;j<json.length;j++){
+                	$("#xieban"+k+""+task.prjNo+"").append("<option value="+json[j].omId+">"+json[j].omName+"</option>");
+                }
+            }
+		});
+    }
 	function changeRWD(obj){
 		var money=$(obj).val();
 		var length=$("#renwudanFenpei").find("table").length;
