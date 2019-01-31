@@ -52,7 +52,8 @@ public class OtherContractConroller {
 		String code="QT"+uuid.getPrjCode(type, count+1);
 		other.setContractCode(code);
 		
-		String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -68,7 +69,7 @@ public class OtherContractConroller {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("其他合同文本");
 				list.add(accessory);
 			}
@@ -84,7 +85,7 @@ public class OtherContractConroller {
 				file2[ii].transferTo(f2);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
@@ -141,7 +142,8 @@ public class OtherContractConroller {
 		String type="";
 		String code="QT"+uuid.getPrjCode(type, count+1);
 		other.setContractCode(code);
-		String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -156,7 +158,7 @@ public class OtherContractConroller {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("其他合同文本");
 				list.add(accessory);
 			}
@@ -172,7 +174,7 @@ public class OtherContractConroller {
 				file2[ii].transferTo(f2);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
@@ -223,7 +225,8 @@ public class OtherContractConroller {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -238,7 +241,7 @@ public class OtherContractConroller {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("其他合同文本");
 				list.add(accessory);
 			}
@@ -254,7 +257,7 @@ public class OtherContractConroller {
 				file2[ii].transferTo(f2);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
@@ -305,7 +308,8 @@ public class OtherContractConroller {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -320,7 +324,7 @@ public class OtherContractConroller {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("其他合同文本");
 				list.add(accessory);
 			}
@@ -336,7 +340,7 @@ public class OtherContractConroller {
 				file2[ii].transferTo(f2);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
@@ -415,7 +419,9 @@ public class OtherContractConroller {
 	@ResponseBody
 	public int updateOtherContractById(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
 		String id=other.getoId();
-		String path="D:"+File.separator+"oa"+File.separator+"OtherContract"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -430,7 +436,7 @@ public class OtherContractConroller {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("其他合同文本");
 				list.add(accessory);
 			}
@@ -446,7 +452,7 @@ public class OtherContractConroller {
 				file2[ii].transferTo(f2);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("法律顾问签字");
 				list2.add(accessory2);
 			}
