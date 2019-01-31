@@ -107,7 +107,8 @@ public class OpeningRecordController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		rd.setOrId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"OpeningRecord"+File.separator+id;;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -122,7 +123,7 @@ public class OpeningRecordController {
 				file[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("开标记录公示截图");
 				list.add(accessory);
 			}
@@ -144,7 +145,8 @@ public class OpeningRecordController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		rd.setOrId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"OpeningRecord"+File.separator+id;;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -159,7 +161,7 @@ public class OpeningRecordController {
 				file[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("开标记录公示截图");
 				list.add(accessory);
 			}
@@ -183,7 +185,9 @@ public class OpeningRecordController {
 		String uName=user.getuName();
 		rd.setPreparer(uName);
 		String id=rd.getOrId();
-		String path="D:"+File.separator+"oa"+File.separator+"OpeningRecord"+File.separator+id;;
+		TimeUUID uuid2=new TimeUUID();
+		String webApps=uuid2.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -198,7 +202,7 @@ public class OpeningRecordController {
 				file[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("开标记录公示截图");
 				list.add(accessory);
 			}
@@ -247,7 +251,9 @@ public class OpeningRecordController {
 		JSONObject jsonObject=JSONObject.fromObject(record);
 		OpeningRecord rd=(OpeningRecord)JSONObject.toBean(jsonObject, OpeningRecord.class,map2);
 		String id=rd.getOrId();
-		String path="D:"+File.separator+"oa"+File.separator+"OpeningRecord"+File.separator+id;;
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -262,7 +268,7 @@ public class OpeningRecordController {
 				file[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("开标记录公示截图");
 				list.add(accessory);
 			}

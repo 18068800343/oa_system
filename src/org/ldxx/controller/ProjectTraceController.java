@@ -88,13 +88,15 @@ public class ProjectTraceController {
 		ProjectScale ps=pService.selectProjectScale(prjType, (trace.getPredictPrjScale())/10000);
 		String scale=ps.getPrjScale();
 		trace.setPrjLv(scale);
+		
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file!=null){
 			String fileName=file.getOriginalFilename();
-			String path="D:"+File.separator+"oa"+File.separator+"ProjectTrace"+File.separator+id;
-			File f=new File(path);
-			if(!f.exists()){
-				f.mkdirs();
-			}
 			String path2=path+File.separator+fileName;
 			File f2=new File(path2);
 			
@@ -103,7 +105,7 @@ public class ProjectTraceController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(path2);
+				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
 				trace.setAccessory(list);
 			} catch (Exception e) {
@@ -192,13 +194,14 @@ public class ProjectTraceController {
 		ProjectScale ps=pService.selectProjectScale(prjType, pt.getPredictPrjScale()/10000);
 		String scale=ps.getPrjScale();
 		pt.setPrjLv(scale);
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file!=null){
 			String fileName=file.getOriginalFilename();
-			String path="D:"+File.separator+"oa"+File.separator+"ProjectTrace"+File.separator+id;
-			File f=new File(path);
-			if(!f.exists()){
-				f.mkdirs();
-			}
 			String path2=path+File.separator+fileName;
 			File f2=new File(path2);
 			
@@ -207,7 +210,7 @@ public class ProjectTraceController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(path2);
+				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
 				pt.setAccessory(list);
 			} catch (Exception e) {
@@ -290,14 +293,16 @@ public class ProjectTraceController {
 	public Map<String,Object> updateProjectTraceOfSave(ProjectTrace trace,MultipartFile file){
 		List<Accessory> list=new ArrayList<>();
 		Map<String,Object> map=new HashMap<>();
+		String id=trace.getPtId();
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file!=null){
 			String fileName=file.getOriginalFilename();
-			String id=trace.getPtId();
-			String path="D:/oa/ProjectTrace/"+id;
-			File f=new File(path);
-			if(!f.exists()){
-				f.mkdirs();
-			}
 			String path2=path+File.separator+fileName;
 			File f2=new File(path2);
 			try {
@@ -305,7 +310,7 @@ public class ProjectTraceController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(path2);
+				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
 				trace.setAccessory(list);
 			} catch (Exception e) {
@@ -325,14 +330,16 @@ public class ProjectTraceController {
 	public Map<String,Object> updateProjectTraceOfSubmit(ProjectTrace trace,MultipartFile file){
 		List<Accessory> list=new ArrayList<>();
 		Map<String,Object> map=new HashMap<>();
+		String id=trace.getPtId();
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file!=null){
 			String fileName=file.getOriginalFilename();
-			String id=trace.getPtId();
-			String path="D:/oa/ProjectTrace/"+id;
-			File f=new File(path);
-			if(!f.exists()){
-				f.mkdirs();
-			}
 			String path2=path+File.separator+fileName;
 			File f2=new File(path2);
 			try {
@@ -340,7 +347,7 @@ public class ProjectTraceController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(path2);
+				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
 				trace.setAccessory(list);
 			} catch (Exception e) {

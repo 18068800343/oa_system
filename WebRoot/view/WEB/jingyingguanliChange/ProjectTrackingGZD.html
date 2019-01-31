@@ -329,9 +329,9 @@
                                 <td colspan="3" id="look_desc"></td>
                             </tr>
                             <tr id="look_tr">
-                                <td>业务附件</td>
+                                <!-- <td>业务附件</td>
                                 <td colspan="2"><input type="text" style="width:100%;" class="form-control" id="look_url"></td>
-                                <td id="download_td"></td>
+                                <td id="download_td"></td> -->
                             </tr>
                         </table>
                     </form>  
@@ -658,7 +658,7 @@
 	    		$("#look_department").text(json.traceDepartment);
 	    		$("#look_prj_desc").text(json.prjDesc);
 	    		$("#look_desc").text(json.ptInfo);
-	    		if(accessory.length==0){
+	    		/* if(accessory.length==0){
 	    			$("#look_url").val("无").attr("disabled",true);
 	    			$("#download_td").html('');
 	    		}else{
@@ -666,6 +666,12 @@
 		    		$("#look_url").val(fileName).attr("disabled",true);
 		    		url=accessory[0].acUrl;
 		    		$("#download_td").append("<button type='button' class='btn btn-primary' onclick='download()'>下载附件</button>");	
+	    		} */
+	    		$("#look_tr").html("")
+	    		for(var i=0;i<accessory.length;i++){
+                    $("#look_tr").append("<td>业务附件</td>"+
+							"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a></td>"
+		         	    );
 	    		}
 	    		
 	    		$("#look").modal("show");
@@ -673,7 +679,13 @@
 		});
 	}
 	
-
+	function getLocalPath(){
+		var pathArray = window.location.pathname.split('/');
+		var secondLevelLocation = pathArray[1];
+		var loginUrl = window.location.protocol + "//"  + window.location.host ;
+		return loginUrl;
+	}
+	
 	function download(){
 		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+url);
 	}
