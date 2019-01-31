@@ -31,59 +31,48 @@
     <div> 
 
 				<table class="table table-bordered table-condensed">
-                        	<tr>
-                                <td style="width:18%;">分包合同名称</td>
-                                <td id="fbContractName2" >
-                                    
-                                </td>
-                                <td style="width:18%;">分包合同号</td>
-                                <td id="fbContract2">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>承接合同名称</td>
-                                <td id="cjContractName2">
-                                    
-                                </td>
-                                <td>承接合同编号</td>
-                                <td id="cjContract2">
-                                	
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>任务单号</td>
-                                <td id="prjCode2" ></td>
-                                <td>审计结算类型</td>
-                                <td id="sj_type">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>时间</td>
-                                <td id="year"></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>内容概述</td>
-                                <td colspan="3" id="work_info2">
-                                     
-                                </td>
-                            </tr>
-                        </table>
+                        <tr>
+                            <td style="width:15%;">分包合同名称</td>
+                            <td id="look_fb_name2"></td>
+                            <td style="width:15%;">分包合同编号</td>
+                            <td id="look_fb_no2"></td>
+                        </tr>
+                         <tr>
+                            <td>分包合同金额</td>
+                            <td id="look_fb_money2"></td>
+                            <td>结算金额</td>
+                            <td id="look_end_money2"></td>
+                        </tr>
+                        <tr>
+                            <td>承接合同名称</td>
+                            <td id="look_cj_name2"></td>
+                            <td>承接合同编号</td>
+                            <td id="look_cj_no2"></td>
+                        </tr>
+                        <tr>
+                        	<td>任务单编号</td>
+                            <td id="look_prj_code2"></td>
+                            <!-- <td>审计结算类型</td>
+                            <td id="look_sj_type"></td> -->
+                            <td>时间</td>
+                            <td id="look_year"></td>
+                        </tr>
+                        <tr>
+                           	<td>前期经营费用(元)</td>
+                            <td id="look_qianqijyfy"></td>
+                            <td>是否扣除</td>
+                            <td id="look_sfkouchu"></td>
+                         </tr>
+                        <tr>
+                            <td>内容概述</td>
+                            <td colspan="3" id="look_work_info2"></td>
+                        </tr>
+                    </table>
                     <br/>
 					 <table class="table table-bordered table-condensed" id="look_accessory">
                         <thead>
 								<tr>
-	                                <td style="width:18%;">合同文本附件:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-	                                <td colspan="3"></td>
-                            	</tr>
-						</thead>
-                        <tbody></tbody>
-                    </table>
-                    <table class="table table-bordered table-condensed" id="look_accessory2">
-                        <thead>
-								<tr>
-	                                <td style="width:18%;">法律顾问签字:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td style="width:18%;">分包结算单:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 	                                <td colspan="3"></td>
                             	</tr>
 						</thead>
@@ -130,14 +119,18 @@
 	        success: function (json) {
 	        	console.log(json)
 	        	data=json;
-	        	$("#fbContractName2").text(data.fbName);
-	        	$("#fbContract2").text(data.fbContract);
-	        	$("#cjContractName2").text(data.cjName);
-	        	$("#cjContract2").text(data.cjContract);
-	        	$("#prjCode2").text(data.prjCode);
-	        	$("#sj_type").text(data.settlementType);
-	        	$("#year").text(data.settlementTime);
-	        	$("#work_info2").text(data.workInfo);
+	        	$("#look_fb_name2").text(data.fbName);
+	        	$("#look_fb_no2").text(data.fbContract);
+	        	$("#look_cj_name2").text(data.cjName);
+	        	$("#look_cj_no2").text(data.cjContract);
+	        	$("#look_prj_code2").text(data.prjCode);
+	        	/* $("#look_sj_type").text(data.settlementType); */
+	        	$("#look_year").text(data.settlementTime);
+	        	$("#look_work_info2").text(data.workInfo);
+	        	$("#look_fb_money2").text(data.fbMoney);
+	        	$("#look_end_money2").text(data.fbEndMoney);
+	        	$("#look_qianqijyfy").text(data.qianqijyMoney)
+	        	$("#look_sfkouchu").text(data.isKouchu)
 	        	$.ajax({
 	                type: 'POST',
 	                url: getContextPath()+'/work/selectDepartmentAndPerson',
@@ -150,18 +143,9 @@
 	                	//console.log(json)
 	                	var accessory=json.accessory;
 	                	$("#look_accessory tbody").html('');
-	                	$("#look_accessory2 tbody").html('');
 	    				for(var j=0;j<accessory.length;j++){
-	    					//$("#look_accessory tbody").append("<tr><td>附件"+(j+1)+"</td><td>"+accessory[j].acName+"</td><td><button type='button' data="+accessory[j].acUrl+" class='btn btn-primary' onclick='downLoadFile(this)'>下载附件</button></td></tr>")
 	    					if(accessory[j].aType=="合同文本"){
 	    		            	   $("#look_accessory tbody").append("<tr>"+
-	    	      	   										"<td>附件</td>"+
-	    							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
-	    							            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
-	    							            	    "</tr>");
-	    	            	   }
-	    	            	if(accessory[j].aType=="法律顾问签字"){
-	    		            	   $("#look_accessory2 tbody").append("<tr>"+
 	    	      	   										"<td>附件</td>"+
 	    							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
 	    							            	    	"<td><button type='button' class='btn btn-primary' data='"+accessory[j].acUrl+"' onclick='downLoadFile(this)'>下载附件</button></td>"+
