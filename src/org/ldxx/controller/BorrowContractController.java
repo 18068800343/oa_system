@@ -79,7 +79,8 @@ public class BorrowContractController {
 		String jkNo="JK"+uuid.getClCode("", count+1);
 		bc.setbNo(jkNo);
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"BorrowContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -94,7 +95,7 @@ public class BorrowContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("借款合同文本");
 				list.add(accessory);
 			}
@@ -110,7 +111,7 @@ public class BorrowContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("法律顾问签字");
 				list2.add(accessory);
 			}
@@ -171,7 +172,8 @@ public class BorrowContractController {
 		String jkNo="JK"+uuid.getClCode("", count+1);
 		bc.setbNo(jkNo);
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"BorrowContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -186,7 +188,7 @@ public class BorrowContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("借款合同文本");
 				list.add(accessory);
 			}
@@ -202,7 +204,7 @@ public class BorrowContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("法律顾问签字");
 				list2.add(accessory);
 			}
@@ -257,7 +259,8 @@ public class BorrowContractController {
 		String id=uuid.getTimeUUID();
 		bc.setbId(id);
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"BorrowContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -272,7 +275,7 @@ public class BorrowContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("借款合同文本");
 				list.add(accessory);
 			}
@@ -288,7 +291,7 @@ public class BorrowContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("法律顾问签字");
 				list2.add(accessory);
 			}
@@ -345,7 +348,8 @@ public class BorrowContractController {
 		String id=uuid.getTimeUUID();
 		bc.setbId(id);
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"BorrowContract"+File.separator+id;
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -360,7 +364,7 @@ public class BorrowContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("借款合同文本");
 				list.add(accessory);
 			}
@@ -376,7 +380,7 @@ public class BorrowContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("法律顾问签字");
 				list2.add(accessory);
 			}
@@ -450,8 +454,9 @@ public class BorrowContractController {
 	public Map<String,Object> updateBorrowContractById(BorrowContract bc,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		String id=bc.getbId();
-		
-		String path = "D:"+File.separator+"oa"+File.separator+"BorrowContract"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -466,7 +471,7 @@ public class BorrowContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("借款合同文本");
 				list.add(accessory);
 			}
@@ -482,7 +487,7 @@ public class BorrowContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("法律顾问签字");
 				list2.add(accessory);
 			}
