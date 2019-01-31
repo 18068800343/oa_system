@@ -75,7 +75,8 @@ public class ContractWorkController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -90,7 +91,7 @@ public class ContractWorkController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
@@ -127,7 +128,8 @@ public class ContractWorkController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -142,7 +144,7 @@ public class ContractWorkController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
@@ -197,7 +199,8 @@ public class ContractWorkController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -212,7 +215,7 @@ public class ContractWorkController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
@@ -285,7 +288,8 @@ public class ContractWorkController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -300,7 +304,7 @@ public class ContractWorkController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
@@ -313,7 +317,7 @@ public class ContractWorkController {
 			file2.transferTo(f2);
 			accessory.setaId(id);
 			accessory.setAcName(fileName);
-			accessory.setAcUrl(filePath);
+			accessory.setAcUrl(id+File.separator+fileName);
 			accessory.setaType("客户满意度");
 			list.add(accessory);
 		}
@@ -367,7 +371,9 @@ public class ContractWorkController {
 		JSONObject jsonObject=JSONObject.fromObject(work);
 		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
 		String id=cwork.getCwId();
-		String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -382,7 +388,7 @@ public class ContractWorkController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
@@ -403,7 +409,8 @@ public class ContractWorkController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -418,7 +425,7 @@ public class ContractWorkController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
@@ -491,7 +498,8 @@ public class ContractWorkController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -506,7 +514,7 @@ public class ContractWorkController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
@@ -577,7 +585,9 @@ public class ContractWorkController {
 		JSONObject jsonObject=JSONObject.fromObject(work);
 		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
 		String id=cwork.getCwId();
-		String path="D:"+File.separator+"oa"+File.separator+"ContractWork"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -592,7 +602,7 @@ public class ContractWorkController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}

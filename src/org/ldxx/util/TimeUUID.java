@@ -102,7 +102,7 @@ public class TimeUUID {
 	
 	public String getWebAppFile(){
 		String path=System.getProperty("catalina.home");
-		path+=File.separator+"webapps"+File.separator+"oa_file";
+		path+=File.separator+"webapps"+File.separator+"oa_file"+File.separator;
 		return path;
 	}
 }

@@ -81,7 +81,8 @@ public class SubContractController {
 		fbNo="FB"+fbNo;
 		fbContract.setFbNo(fbNo);	
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -96,7 +97,7 @@ public class SubContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("分包合同文本");
 				list.add(accessory);
 			}
@@ -112,7 +113,7 @@ public class SubContractController {
 				file1[i].transferTo(f1);
 				accessory1.setaId(id);
 				accessory1.setAcName(fileName);
-				accessory1.setAcUrl(filePath);
+				accessory1.setAcUrl(id+File.separator+fileName);
 				accessory1.setaType("法律顾问签字");
 				list1.add(accessory1);
 			}
@@ -177,7 +178,8 @@ public class SubContractController {
 		fbNo="FB"+fbNo;
 		fbContract.setFbNo(fbNo);
 		
-		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -192,7 +194,7 @@ public class SubContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("分包合同文本");
 				list.add(accessory);
 			}
@@ -208,7 +210,7 @@ public class SubContractController {
 				file1[i].transferTo(f1);
 				accessory1.setaId(id);
 				accessory1.setAcName(fileName);
-				accessory1.setAcUrl(filePath);
+				accessory1.setAcUrl(id+File.separator+fileName);
 				accessory1.setaType("法律顾问签字");
 				list1.add(accessory1);
 			}
@@ -360,8 +362,9 @@ public class SubContractController {
 		Map<String,Object> map = new HashMap<>();
 		String id=new TimeUUID().getTimeUUID();
 		fbContract.setFbId(id);
-		
-		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -376,7 +379,7 @@ public class SubContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("分包合同文本");
 				list.add(accessory);
 			}
@@ -392,7 +395,7 @@ public class SubContractController {
 				file1[i].transferTo(f1);
 				accessory1.setaId(id);
 				accessory1.setAcName(fileName);
-				accessory1.setAcUrl(filePath);
+				accessory1.setAcUrl(id+File.separator+fileName);
 				accessory1.setaType("法律顾问签字");
 				list1.add(accessory1);
 			}
@@ -446,8 +449,9 @@ public class SubContractController {
 		Map<String,Object> map = new HashMap<>();
 		String id=new TimeUUID().getTimeUUID();
 		fbContract.setFbId(id);
-		
-		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -462,7 +466,7 @@ public class SubContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("分包合同文本");
 				list.add(accessory);
 			}
@@ -478,7 +482,7 @@ public class SubContractController {
 				file1[i].transferTo(f1);
 				accessory1.setaId(id);
 				accessory1.setAcName(fileName);
-				accessory1.setAcUrl(filePath);
+				accessory1.setAcUrl(id+File.separator+fileName);
 				accessory1.setaType("法律顾问签字");
 				list1.add(accessory1);
 			}
@@ -609,7 +613,9 @@ public class SubContractController {
 	public int updateFbById(FbContract fbContract,@RequestParam("file")MultipartFile [] file,@RequestParam("file1")MultipartFile [] file1){
 		Map<String,Object> map = new HashMap<>();
 		String id=fbContract.getFbId();
-		String path = "D:"+File.separator+"oa"+File.separator+"subcontract"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -630,7 +636,7 @@ public class SubContractController {
 				Accessory accessory=new Accessory();
 				accessory.setaId(id);
 				accessory.setAcName(filename);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+filename);
 				accessory.setaType("分包合同文本");
 				list.add(accessory);
 			}
@@ -652,7 +658,7 @@ public class SubContractController {
 				}
 				accessory1.setaId(id);
 				accessory1.setAcName(fileName);
-				accessory1.setAcUrl(filePath);
+				accessory1.setAcUrl(id+File.separator+fileName);
 				accessory1.setaType("法律顾问签字");
 				list1.add(accessory1);
 			}

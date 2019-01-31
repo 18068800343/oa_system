@@ -1655,7 +1655,7 @@ function checkquxiaoSplit(){
 	      		$("#xgzhuban").val(data.mainDepartment);
 	        	$("#xgzhubanjine").val(data.mainDepartmentMoney);
 	        	
-	        	var cs=data.cjSplitMoney;
+	        	/* var cs=data.cjSplitMoney;
 	        	$("#edit_split_table tbody").empty();
 	        	for(var i=0;i<cs.length;i++){
 	    				$("#edit_split_table tbody").append("<tr><td>"
@@ -1663,7 +1663,38 @@ function checkquxiaoSplit(){
 	    						+"</td><td>"
 	    						+""+cs[i].money+""
 	    						+"</td></tr>")
-	    		}
+	    		} */
+	    		
+	    		$.ajax({
+        	        type: 'POST',
+        	        url: getContextPath()+'/announcement/selectAccessoryById',
+        	        dataType: 'json',
+        	        data: {
+        	           id:id
+        	        },
+        	        success: function (json) {
+        	        	$("#edit_accessory tbody").html('');
+        	        	$("#edit_accessory2 tbody").html('');
+        	        	for(var i=0;i<json.length;i++){
+        	          		if(json[i].aType=="承接合同文本"){
+        		            	   $("#edit_accessory tbody").append("<tr>"+
+        									"<td>附件</td>"+
+        									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+        				         	    	/* "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+        				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+ */
+        				         	    "</tr>");
+        	            	   }
+        	          		if(json[i].aType=="法律顾问签字"){
+        		            	   $("#edit_accessory2 tbody").append("<tr>"+
+        									"<td>附件</td>"+
+        									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+        				         	    	/* "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+        				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+ */
+        				         	    "</tr>");
+        	            	   }
+        	        	}
+        	        }
+            	});
 	        	
 	        	$("#xgxieban .xieban").empty();
 	      		if(data.assistDepartment1!=null&&data.assistDepartment1!=""){
@@ -2915,11 +2946,11 @@ function checkquxiaoSplit(){
               +'<select class="form-control" id="xieban1'+task.prjNo+'" style="width:150px;">'
               +'</select>'
               +'<input type="text" id="xiebanMoney'+task.prjNo+'" value="'+task.assistDepartment1Money+'" class="form-control" style="width:150px;" placeholder="金额">'
-              +"<button style='margin-left:15px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button>"
               +'</form>'
               +"</td><td>"
               +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
-              +'<input type="text" id="xiebanCost'+task.prjNo+'" value="'+task.assistDepartment1Cost+'" class="form-control" style="width:150px;" placeholder="金额"></div>'
+              +'<input type="text" id="xiebanCost'+task.prjNo+'" value="'+task.assistDepartment1Cost+'" class="form-control" style="width:150px;" placeholder="金额">'
+              +"<button style='margin-left:10px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button></div>"
               +"</td></tr>");
 	    	  initXiebanSelect(task,1);
 	    	  $("#xieban1"+task.prjNo+"").val(task.assistDepartment1);
@@ -2931,11 +2962,11 @@ function checkquxiaoSplit(){
     	              +'<select class="form-control" id="xieban2'+task.prjNo+'" style="width:150px;">'
     	              +'</select>'
     	              +'<input type="text" id="xiebanMoney'+task.prjNo+'" value="'+task.assistDepartment2Money+'" class="form-control" style="width:150px;" placeholder="金额">'
-    	              +"<button style='margin-left:15px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button>"
     	              +'</form>'
     	              +"</td><td>"
     	              +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
-    	              +'<input type="text" id="xiebanCost'+task.prjNo+'" value="'+task.assistDepartment2Cost+'" class="form-control" style="width:150px;" placeholder="金额"></div>'
+    	              +'<input type="text" id="xiebanCost'+task.prjNo+'" value="'+task.assistDepartment2Cost+'" class="form-control" style="width:150px;" placeholder="金额">'
+    	              +"<button style='margin-left:10px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button></div>"
     	              +"</td></tr>");
     		    	  initXiebanSelect(task,2);
     	    $("#xieban2"+task.prjNo+"").val(task.assistDepartment2);
@@ -2946,11 +2977,11 @@ function checkquxiaoSplit(){
     	              +'<select class="form-control" id="xieban3'+task.prjNo+'" style="width:150px;">'
     	              +'</select>'
     	              +'<input type="text" id="xiebanMoney'+task.prjNo+'" value="'+task.assistDepartment3Money+'" class="form-control" style="width:150px;" placeholder="金额">'
-    	              +"<button style='margin-left:15px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button>"
     	              +'</form>'
     	              +"</td><td>"
     	              +'<div class="yihang" ><div style="width:80px;">分摊比例:</div>'
-    	              +'<input type="text" id="xiebanCost'+task.prjNo+'" value="'+task.assistDepartment3Cost+'" class="form-control" style="width:150px;" placeholder="金额"></div>'
+    	              +'<input type="text" id="xiebanCost'+task.prjNo+'" value="'+task.assistDepartment3Cost+'" class="form-control" style="width:150px;" placeholder="金额">'
+    	              +"<button style='margin-left:10px;' type='button' class='btn btn-primary' onclick='removeXieBan(this)'>移除协办部门</button></div>"
     	              +"</td></tr>");
     		    	  initXiebanSelect(task,3);
     		    	  $("#xieban3"+task.prjNo+"").val(task.assistDepartment3);
