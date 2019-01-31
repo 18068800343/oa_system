@@ -61,7 +61,8 @@ public class DataArchiveController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		archive.setDaId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"DataArchive"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		List<Accessory> accList=new ArrayList<>();
 		List<Accessory> accList2=new ArrayList<>();
@@ -78,7 +79,7 @@ public class DataArchiveController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("资料");
 				accList.add(acc);
 			}
@@ -93,7 +94,7 @@ public class DataArchiveController {
 				file2[j].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("证书");
 				accList2.add(acc);
 			}
@@ -107,7 +108,7 @@ public class DataArchiveController {
 				file3[k].transferTo(f3);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("自我总结");
 				accList3.add(acc);
 			}
@@ -160,7 +161,8 @@ public class DataArchiveController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		archive.setDaId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"DataArchive"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		List<Accessory> accList=new ArrayList<>();
 		List<Accessory> accList2=new ArrayList<>();
@@ -177,7 +179,7 @@ public class DataArchiveController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("资料");
 				accList.add(acc);
 			}
@@ -192,7 +194,7 @@ public class DataArchiveController {
 				file2[j].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("证书");
 				accList2.add(acc);
 			}
@@ -206,7 +208,7 @@ public class DataArchiveController {
 				file3[k].transferTo(f3);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("自我总结");
 				accList3.add(acc);
 			}
@@ -274,7 +276,9 @@ public class DataArchiveController {
 	@ResponseBody
 	public int updateDataArchiveBySave(DataArchive archive,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3) throws IllegalStateException, IOException{
 		String id=archive.getDaId();
-		String path="D:"+File.separator+"oa"+File.separator+"DataArchive"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		List<Accessory> accList=new ArrayList<>();
 		List<Accessory> accList2=new ArrayList<>();
@@ -291,7 +295,7 @@ public class DataArchiveController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("资料");
 				accList.add(acc);
 			}
@@ -306,7 +310,7 @@ public class DataArchiveController {
 				file2[j].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("证书");
 				accList2.add(acc);
 			}
@@ -320,7 +324,7 @@ public class DataArchiveController {
 				file3[k].transferTo(f3);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("自我总结");
 				accList3.add(acc);
 			}
@@ -336,7 +340,9 @@ public class DataArchiveController {
 	@ResponseBody
 	public int updateDataArchiveBySubmit(DataArchive archive,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3) throws IllegalStateException, IOException{
 		String id=archive.getDaId();
-		String path="D:"+File.separator+"oa"+File.separator+"DataArchive"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		List<Accessory> accList=new ArrayList<>();
 		List<Accessory> accList2=new ArrayList<>();
@@ -353,7 +359,7 @@ public class DataArchiveController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("资料");
 				accList.add(acc);
 			}
@@ -368,7 +374,7 @@ public class DataArchiveController {
 				file2[j].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("证书");
 				accList2.add(acc);
 			}
@@ -382,7 +388,7 @@ public class DataArchiveController {
 				file3[k].transferTo(f3);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				acc.setaType("自我总结");
 				accList3.add(acc);
 			}

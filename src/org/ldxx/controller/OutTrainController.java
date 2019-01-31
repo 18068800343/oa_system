@@ -44,7 +44,8 @@ public class OutTrainController {
 	public int addOutTrainBySave(OutTrain outTrain,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		String path="D:"+File.separator+"oa"+File.separator+"OutTrain"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -59,7 +60,7 @@ public class OutTrainController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				accList.add(acc);
 			}
 		}
@@ -109,7 +110,8 @@ public class OutTrainController {
 	public String addOutTrainBySubmit(OutTrain outTrain,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		String path="D:"+File.separator+"oa"+File.separator+"OutTrain"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -124,7 +126,7 @@ public class OutTrainController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				accList.add(acc);
 			}
 		}
@@ -191,7 +193,9 @@ public class OutTrainController {
 	@ResponseBody
 	public int updateOutTrainBySave(OutTrain outTrain,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
 		String id=outTrain.getOtId();
-		String path="D:"+File.separator+"oa"+File.separator+"OutTrain"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -206,7 +210,7 @@ public class OutTrainController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				accList.add(acc);
 			}
 		}
@@ -219,7 +223,9 @@ public class OutTrainController {
 	@ResponseBody
 	public int updateOutTrainBySubmit(OutTrain outTrain,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
 		String id=outTrain.getOtId();
-		String path="D:"+File.separator+"oa"+File.separator+"OutTrain"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -234,7 +240,7 @@ public class OutTrainController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				accList.add(acc);
 			}
 		}

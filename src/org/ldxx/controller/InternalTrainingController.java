@@ -46,7 +46,8 @@ public class InternalTrainingController {
 	public int addInternalTrainingBySave(InternalTraining training,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		String path="D:"+File.separator+"oa"+File.separator+"InternalTraining"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -61,7 +62,7 @@ public class InternalTrainingController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				accList.add(acc);
 			}
 		}
@@ -111,7 +112,8 @@ public class InternalTrainingController {
 	public String addInternalTrainingBySubmit(InternalTraining training,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		String path="D:"+File.separator+"oa"+File.separator+"InternalTraining"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -126,7 +128,7 @@ public class InternalTrainingController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				accList.add(acc);
 			}
 		}
@@ -194,7 +196,9 @@ public class InternalTrainingController {
 	@ResponseBody
 	public int updateInternalTrainingBySave(InternalTraining training,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
 		String id=training.getItId();
-		String path="D:"+File.separator+"oa"+File.separator+"InternalTraining"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -209,7 +213,7 @@ public class InternalTrainingController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				accList.add(acc);
 			}
 		}
@@ -222,7 +226,9 @@ public class InternalTrainingController {
 	@ResponseBody
 	public int updateInternalTrainingBySubmit(InternalTraining training,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
 		String id=training.getItId();
-		String path="D:"+File.separator+"oa"+File.separator+"InternalTraining"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -237,7 +243,7 @@ public class InternalTrainingController {
 				file[i].transferTo(f2);
 				acc.setaId(id);
 				acc.setAcName(fileName);
-				acc.setAcUrl(filePath);
+				acc.setAcUrl(id+File.separator+fileName);
 				accList.add(acc);
 			}
 		}
