@@ -57,22 +57,23 @@ public class PrjWorkingHoursController {
 		String id=uuid.getTimeUUID();
 		pwh.setPwhId(id);
 		
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"PrjWorkingHours"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
 			}
 			pwh.setAccessory(list);
@@ -94,23 +95,24 @@ public class PrjWorkingHoursController {
 		PrjWorkingHours pwh=(PrjWorkingHours)JSONObject.toBean(jsonObject, PrjWorkingHours.class,map2);
 		
 		String id=pwh.getPwhId();
-		
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"PrjWorkingHours"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
 			}
 			pwh.setAccessory(list);
