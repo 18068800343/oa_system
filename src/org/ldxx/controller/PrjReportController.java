@@ -50,22 +50,23 @@ public class PrjReportController {
 		String id=uuid.getTimeUUID();
 		prjReport.setPrId(id);
 		
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"PrjReport"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
 			}
 			prjReport.setAccessory(list);;
@@ -89,23 +90,24 @@ public class PrjReportController {
 	public Map<String,Object> updatePrjReportSave(PrjReport prjReport,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		String id = prjReport.getPrId();
-		
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"PrjReport"+File.separator+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
 			}
 			prjReport.setAccessory(list);;
