@@ -90,11 +90,10 @@ public class ContractPaymentController {
 		int count=payService.fkNocount();
 		String fkNo="FBFK"+uuid.getPrjCode("", count+1);
 		pay.setPayCode(fkNo);
-		
-		String path="D:"+File.separator+"oa"+File.separator+"pay"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		List<Accessory> list=new ArrayList<>();
 		List<Accessory> list2=new ArrayList<>();
-		List<Accessory> list3=new ArrayList<>();
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -108,7 +107,7 @@ public class ContractPaymentController {
 				file1[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("开票附件");
 				list.add(accessory);
 			}
@@ -123,7 +122,7 @@ public class ContractPaymentController {
 				file2[i].transferTo(f2);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("附件上传");
 				list2.add(accessory2);
 			}
@@ -196,11 +195,10 @@ public class ContractPaymentController {
 		String fkNo=uuid.getPrjCode("", count);
 		fkNo="FBFK"+fkNo;
 		pay.setPayCode(fkNo);
-		
-		String path="D:"+File.separator+"oa"+File.separator+"pay"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		List<Accessory> list=new ArrayList<>();
 		List<Accessory> list2=new ArrayList<>();
-		List<Accessory> list3=new ArrayList<>();
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -214,7 +212,7 @@ public class ContractPaymentController {
 				file1[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("开票附件");
 				list.add(accessory);
 			}
@@ -229,7 +227,7 @@ public class ContractPaymentController {
 				file2[i].transferTo(f2);
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName);
-				accessory2.setAcUrl(filePath);
+				accessory2.setAcUrl(id+File.separator+fileName);
 				accessory2.setaType("附件上传");
 				list2.add(accessory2);
 			}

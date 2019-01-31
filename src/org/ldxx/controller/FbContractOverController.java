@@ -48,7 +48,8 @@ public class FbContractOverController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		fbContractOver.setFcoId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"fbContractOver"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -63,7 +64,7 @@ public class FbContractOverController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
@@ -132,7 +133,8 @@ public class FbContractOverController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		fbContractOver.setFcoId(id);
-		String path="D:"+File.separator+"oa"+File.separator+"fbContractOver"+File.separator+id;
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -147,7 +149,7 @@ public class FbContractOverController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
@@ -214,7 +216,9 @@ public class FbContractOverController {
 	@ResponseBody
 	public int updateFbContractOver(FbContractOver fbContractOver,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
 		String id=fbContractOver.getFcoId();
-		String path="D:"+File.separator+"oa"+File.separator+"fbContractOver"+File.separator+id;
+		TimeUUID uuid=new TimeUUID();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -229,7 +233,7 @@ public class FbContractOverController {
 				file[ii].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
