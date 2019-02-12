@@ -70,7 +70,28 @@ public class CurrentFlow {
     
     private String lastPerson;
     
-    public String getLastView() {
+    private String nowDeqPerson;
+    
+    private String nowDeqPersonId;
+    
+    
+    public String getNowDeqPerson() {
+		return nowDeqPerson;
+	}
+
+	public void setNowDeqPerson(String nowDeqPerson) {
+		this.nowDeqPerson = nowDeqPerson;
+	}
+
+	public String getNowDeqPersonId() {
+		return nowDeqPersonId;
+	}
+
+	public void setNowDeqPersonId(String nowDeqPersonId) {
+		this.nowDeqPersonId = nowDeqPersonId;
+	}
+
+	public String getLastView() {
 		return lastView;
 	}
 

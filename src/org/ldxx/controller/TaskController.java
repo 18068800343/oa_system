@@ -906,14 +906,23 @@ public class TaskController {
 	
 	@RequestMapping("/getReceiver")/*任务单保存*/
 	@ResponseBody
-	public String getReceiver(String url){
+	public String getReceiver(String url,HttpSession session){
+		User user = (User) session.getAttribute("user");
 		String string = "";
 		CurrentFlowExample example = new CurrentFlowExample();
 		example.createCriteria().andUrlEqualTo(url);
 		List<CurrentFlow> currentFlows = currentFlowMapper.selectByExample(example);
 		FlowUtill flowUtill = new FlowUtill();
+		CurrentFlow currentFlow = new CurrentFlow();
+		if(null!=user){
+			String uName = user.getuName();
+			String userId = user.getUserId();
+			currentFlow=currentFlows.get(0);
+			currentFlow.setNowDeqPerson(uName);
+			currentFlow.setNowDeqPersonId(userId);
+		}
 		try {
-			string = flowUtill.shenpiGetReceiver(currentFlows.get(0));
+			string = flowUtill.shenpiGetReceiver(currentFlow);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
