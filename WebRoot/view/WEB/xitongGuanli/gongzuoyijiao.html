@@ -52,7 +52,7 @@
             <div class="UpperPartL">
             </div> 
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建</button>
+                <button type="button" class="btn btn-primary Pmexa" data-toggle="modal" data-target="#myModal">新建</button>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -167,10 +167,39 @@
 										    "targets": 5,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-xiugai" style="font-size:22px;cursor:pointer;margin-left:10px;" title="修改" data-toggle="modal" data-target="#change" onclick="getchangeOrg(this)"></i><i class="iconfont icon-shanchu" style="font-size:22px;cursor:pointer;margin-left:10px;" title="删除" id="delOrg"></i>'
+										  	  		return '<i class="iconfont icon-xiugai Pmexb" style="font-size:22px;cursor:pointer;margin-left:10px;display:none;" title="修改" data-toggle="modal" data-target="#change" onclick="getchangeOrg(this)"></i><i class="iconfont icon-shanchu Pmexc" style="font-size:22px;cursor:pointer;margin-left:10px;display:none;" title="删除" id="delOrg"></i>'
 										        }
 										  }
 								],
+								"fnDrawCallback" : function() {
+									$.ajax({
+				                		type:"post",
+				                		url:getContextPath()+"/login/getUser",
+				                		async:false,
+				                		data:{
+				                		},
+				                		success:function(json){
+				                			
+				                			if(json!=null &&json!=""){
+				                				var arr = json.uPermissions.split(',');
+				                				
+				                				for(var i=0;i<arr.length;i++){
+				                					var arr2 = arr[i].replace("+","");
+				                					//console.log(arr2);
+				                					if(arr[i].indexOf("Pmexb") >= 0 ){
+				                						$(".Pmexb").show();
+				                					}
+				                					if(arr[i].indexOf("Pmexc") >= 0 ){
+				                						$(".Pmexc").show();
+				                					}
+				                				}
+				                				
+				                			}
+				                			
+				                		}
+				                	});
+									
+								},
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",

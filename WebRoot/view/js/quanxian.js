@@ -132,9 +132,9 @@
 	$(".Pc").hide();
 	//48	财务收款菜单栏	Pca+
 	$(".Pca").hide();
-	//49	财务收款新建	Pcaa+
+	//49	新建到账记录	Pcaa+
 	$(".Pcaa").hide();
-	//50	财务收款查看详细信息	Pcab+
+	//50	导入到账记录	Pcab+
 	$(".Pcab").hide();
 	//51	项目款认领菜单栏	Pcb+
 	$(".Pcb").hide();
@@ -781,71 +781,85 @@
 	//372 部门通知公告删除 Pbah+
 	$(".Pbah").hide();
 	
-	//373 直接成本菜单栏	  Pde+
-	//$(".Pde").hide();
+	//373 直接和间接成本菜单栏	  Pde+
+	$(".Pde").hide();
 	//374 导入成本 	Pdea+
-	//$(".Pdea").hide();
+	$(".Pdea").hide();
 	//375 预算与核算管理菜单栏   Pebx+
-	//$(".Pebx").hide();
+	$(".Pebx").hide();
 	//376	项目核算管理菜单栏	Pebxb+
-	//$(".Pebxb").hide();
+	$(".Pebxb").hide();
 	//377	填报项目核算	Pebxba+
-	//$(".Pebxba").hide();
+	$(".Pebxba").hide();
 	//378	查看项目核算	Pebxbb+
-	//$(".Pebxbb").hide();
+	$(".Pebxbb").hide();
 	//379	项目合同管理菜单栏	Pecax+
-	//$(".Pecax").hide();
+	$(".Pecax").hide();
 	//380	非项目合同管理菜单栏	Pecbx+
-	//$(".Pecbx").hide();
+	$(".Pecbx").hide();
 	//381	联营合同管理菜单栏	Peccx+
-	//$(".Peccx").hide();
+	$(".Peccx").hide();
 	//382	联营合同审签菜单栏	Peccxa+
-	//$(".Peccxa").hide();
+	$(".Peccxa").hide();
 	//383	填报联营合同审签	Peccxaa+
-	//$(".Peccxaa").hide();
+	$(".Peccxaa").hide();
 	//384	查看联营合同审签	Peccxab+
-	//$(".Peccxab").hide();
+	$(".Peccxab").hide();
 	//385	联营项目核算菜单栏	Peccxb+
-	//$(".Peccxb").hide();
+	$(".Peccxb").hide();
 	//386	填报联营项目核算	Peccxba+
-	//$(".Peccxba").hide();
+	$(".Peccxba").hide();
 	//387	查看联营项目核算	Peccxbb+
 	//$(".Peccxbb").hide();
 	//388	现场管理菜单栏	Pecgx+
-	//$(".Pecgx").hide();
+	$(".Pecgx").hide();
 	//389	检测二部收入管理菜单栏	Pfbx+
-	//$(".Pfbx").hide();
+	$(".Pfbx").hide();
 	//390	检测二部导入上月收入	Pfbxa+
-	//$(".Pfbxa").hide();
+	$(".Pfbxa").hide();
 	//391	检测二部删除上月收入	Pfbxb+
-	//$(".Pfbxb").hide();
+	$(".Pfbxb").hide();
 	//392	收款管理菜单栏	Pfcx+
-	//$(".Pfcx").hide();
+	$(".Pfcx").hide();
 	//393	检测二部直接成本菜单栏	Pfdx+
-	//$(".Pfdx").hide();
+	$(".Pfdx").hide();
 	//394	检测二部导入直接成本	Pfdxa+
-	//$(".Pfdxa").hide();
-	//395	项目报表菜单栏	Pha+
-	//$(".Pha").hide();
+	$(".Pfdxa").hide();
+	//395	项目报表菜单栏	Phax+
+	$(".Phax").hide();
 	//396	统计分析查询菜单栏	Pkd+
-	//$(".Pkd").hide();
+	$(".Pkd").hide();
 	//397	工作移交菜单栏	Pmex+
-	//$(".Pmex").hide();
+	$(".Pmex").hide();
 	//398	新建工作移交	Pmexa+
-	//$(".Pmexa").hide();
+	$(".Pmexa").hide();
 	//399	修改工作移交	Pmexb+
-	//$(".Pmexb").hide();
+	$(".Pmexb").hide();
 	//400	删除工作移交	Pmexc+
-	//$(".Pmexc").hide();
+	$(".Pmexc").hide();
 	//401	分公司管理菜单栏	Pmj+
-	//$(".Pmj").hide();
+	$(".Pmj").hide();
 	//402	新建分公司管理	Pmja+
-	//$(".Pmja").hide();
+	$(".Pmja").hide();
 	//403	修改分公司管理	Pmjb+
-	//$(".Pmjb").hide();
+	$(".Pmjb").hide();
 	//404	删除分公司管理	Pmjc+
-	//$(".Pmjc").hide();
-
+	$(".Pmjc").hide();
+	
+	//405	承接合同审签菜单栏	Pecaxa+
+	$(".Pecaxa").hide();
+	//406	分包合同审签菜单栏	Pecbxb+
+	$(".Pecbxb").hide();
+	//407	采购合同审签菜单栏	Peccxc+
+	$(".Peccxc").hide();
+	//408	任务单管理部门统计	Peaf+
+	$(".Peaf").hide();
+	//409	收款认领	Pcac+
+	$(".Pcac").hide();
+	//410	修改到账记录	Pcad+
+	$(".Pcad").hide();
+	//411	删除到账记录	Pcae+
+	$(".Pcae").hide();
 	
 	
 })(window);
