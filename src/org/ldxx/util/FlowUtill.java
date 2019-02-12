@@ -340,6 +340,8 @@ public class FlowUtill {
 					currentFlow.setDeptname(currentFlowOld.getDeptname());
 					currentFlow.setLastView(currentFlowOld.getLastView());
 					currentFlow.setLastPerson(currentFlow.getActorname());
+					currentFlow.setNowDeqPerson(currentFlowOld.getNowDeqPerson());
+					currentFlow.setNowDeqPersonId(currentFlowOld.getNowDeqPersonId());
 					historyLastOperateType = currentFlow.getLastOperateType();
 					String oldFloNodeId = currentFlow.getFloNodeId();
 					FlowNode flowNode = INSTANCE.flowNodeMapper.selectByPrimaryKey(oldFloNodeId);
