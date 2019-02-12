@@ -971,10 +971,24 @@ public class FlowUtill {
 				floNodeId = flowEdges.get(0).getFloNodeRight();
 				flowNode = INSTANCE.flowNodeMapper.selectByPrimaryKey(floNodeId);
 				boolean flag = true;
+				String deptNo = currentFlow.getFkDept();//部门编号
+				List<User> nodeActorUsers = getNodeActorUsers(floNodeId,deptNo);//下一步所有操作人;
+				String userId = currentFlow.getNowDeqPersonId();
+				if(nodeActorUsers.size()==1){
+					String nauUserId = nodeActorUsers.get(0).getUserId();
+					if(userId!=null){
+						if(userId.equals(nauUserId)){
+							flag=false;
+						}
+					}
+				}
 				if(flag){
 					return floNodeId;
 				}else{
-					deque(flowNode, currentFlow);
+					String result = deque(flowNode, currentFlow);
+					if("end".equals(result)){
+						return "end";
+					}
 				}
 			}else if(flowEdges.size()>1){
 				for (FlowEdge flowEdge : flowEdges) {
@@ -993,9 +1007,35 @@ public class FlowUtill {
 				
 			}
 		}
-		return "";
+		return floNodeId;
 	}
 	
+	public static List<User> getNodeActorUsers(String floNodeId,String deptNo){
+		List<NodeActors> nodeActors = INSTANCE.nodeActorsMapper.getNextNodeActorsByFloNodeId(floNodeId);
+		List<User> usersSubmit = new ArrayList<>();
+		if(null!=nodeActors&&nodeActors.size()>0){
+		List<User> users = INSTANCE.userDao.selectAllUser();
+			for(NodeActors nodeActors2:nodeActors){
+				String roleCode = INSTANCE.roleDao.selectRoleById(nodeActors2.getRolecode()).getRoleCode();
+				Iterator<User> iterator = users.iterator();
+				if(roleCode.endsWith("*.")){
+		    		roleCode=roleCode+"r"+deptNo+".";
+		    	}
+			    while (iterator.hasNext()) {
+			    	User user = iterator.next();
+			    	String userRole = user.getUserRole();
+			    	
+			    	
+					if(null!=userRole&&userRole.contains(roleCode)){
+						usersSubmit.add(user);
+						iterator.remove();
+					}
+			    	
+				}
+			}
+		}
+	     return usersSubmit;
+	}
 	private static Date date = null;
 	public static List<FlowHistroy> getTuiHuiFlowhistorys(List<FlowHistroy> endFlowHistorys,String url,String flowNodeLast){
 		try {

@@ -319,12 +319,14 @@ public class TaskController {
 	@RequestMapping("/addTask4")/*任务单保存*/
 	@ResponseBody
 	public JSONObject addTask4(String url,String userId,String uName,HttpSession session,String view,String omName){
+		User user = (User) session.getAttribute("user");
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
 		currentFlow.setUrl(url);
 		currentFlow.setLastView(view);
+		currentFlow.setNowDeqPerson(user.getuName());
+		currentFlow.setNowDeqPersonId(user.getUserId());
 		FlowHistroy	flowHistroy = new FlowHistroy();
-		User user = (User) session.getAttribute("user");
 	    flowHistroy.setActor(user.getUserId());
 	    flowHistroy.setActorname(user.getuName());
 	    flowHistroy.setView(view);
