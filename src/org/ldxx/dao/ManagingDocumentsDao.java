@@ -16,4 +16,6 @@ public interface ManagingDocumentsDao {
 	int updateManagingDocumentsSave(@Param("md") ManagingDocuments md);
 
 	ManagingDocuments selectManagingDocumentsById(@Param("id")String id);
+
+	ManagingDocuments selectById(@Param("id")String id);
 }

@@ -21,4 +21,6 @@ public interface ManagingDocumentsService {
 	
 	ManagingDocuments selectManagingDocumentsById(String id);
 
+	ManagingDocuments selectById(String id);
+
 }

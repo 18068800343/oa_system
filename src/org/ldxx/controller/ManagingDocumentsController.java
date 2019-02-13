@@ -48,6 +48,12 @@ public class ManagingDocumentsController {
 		return list;
 	}
 	
+	@RequestMapping("/selectById")//通过id查
+	@ResponseBody
+	public ManagingDocuments selectById(String id){
+		return service.selectById(id);
+	}
+	
 	@RequestMapping("/addManagingDocumentsSave")//添加保存
 	@ResponseBody
 	public Map<String,Object> addPaySave(String managingDocuments,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
