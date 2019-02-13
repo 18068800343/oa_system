@@ -22,8 +22,8 @@ public class ProjectIntegrated {
 	private float zdMoney;//暂定金
 	private float contractEndMoney;//合同结算金额
 	private float totalKpMoney;//累积开票金额
-	private float totalMoney;//累计收款
-	private float prjCost;//项目成本
+	private double totalMoney;//累计收款
+	private double prjCost;//项目成本
 	private String prjPlan;//项目进度
 	private String fbName;//分包项目名称
 	private float fbContractMoney;//分包合同金额
@@ -116,16 +116,16 @@ public class ProjectIntegrated {
 	public void setTotalKpMoney(float totalKpMoney) {
 		this.totalKpMoney = totalKpMoney;
 	}
-	public float getTotalMoney() {
+	public double getTotalMoney() {
 		return totalMoney;
 	}
-	public void setTotalMoney(float totalMoney) {
+	public void setTotalMoney(double totalMoney) {
 		this.totalMoney = totalMoney;
 	}
-	public float getPrjCost() {
+	public double getPrjCost() {
 		return prjCost;
 	}
-	public void setPrjCost(float prjCost) {
+	public void setPrjCost(double prjCost) {
 		this.prjCost = prjCost;
 	}
 	public String getPrjPlan() {
