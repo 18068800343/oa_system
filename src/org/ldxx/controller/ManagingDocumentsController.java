@@ -54,10 +54,10 @@ public class ManagingDocumentsController {
 		return service.selectById(id);
 	}
 	
-	@RequestMapping("/selectManagingDocumentsById")//通过任务单号查
+	@RequestMapping("/selectManagingDocumentsByNo")//通过任务单号查
 	@ResponseBody
-	public ManagingDocuments selectManagingDocumentsById(String id){
-		return service.selectManagingDocumentsById(id);
+	public ManagingDocuments selectManagingDocumentsById(String no){
+		return service.selectManagingDocumentsById(no);
 	}
 	
 	@RequestMapping("/addManagingDocumentsSave")//添加保存
