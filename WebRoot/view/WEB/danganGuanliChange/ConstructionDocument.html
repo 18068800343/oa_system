@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
+    <style lang="">
+        *{
+            font-size: 16px;
+        }
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent1 th,#mainContent2 th,#mainContent3 th,#mainContent4 th,#mainContent5 th{
+            width:15%;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>档案管理</li>
+			<li class="active">施工文档资料</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        <form id="edit_form" class="form-inline" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>项目名称</td>
+                                <td>
+                                	<input type="text" style="width:80%;" id="edit_prjName" class="form-control" disabled>
+                                </td>
+                                <td>任务单号</td>
+                                <td>
+                                	<input type="text" style="width:80%;" id="edit_prjNo" class="form-control" disabled>
+								</td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory1">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">项目实际存档目录 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile1()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory2">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">项目特点介绍、关键词 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile2()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory3">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">招投标文件 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile3()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory4">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">项目主合同 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile4()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory5">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">开工报告 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile5()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory6">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">项目总结 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile6()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory7">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">计量资料 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile7()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory8">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">设计变更资料 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile8()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory9">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">施工图和竣工图 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile9()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory10">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">开工、过程以及交竣工全部外部审查意见 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile10()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory11">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">首件工程总结 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile11()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory12">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">材料检测资料 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile12()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory13">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">中间报验资料和检验评定资料 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile13()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory14">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">施工日志<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile14()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="edit_accessory15">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">其它 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="4"><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_addFile15()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                    </form>  
+
+        
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+	});
+
+	//下载附件
+	function download_all(obj){
+		var url=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+	
+	
+	//删除
+	function deleteCd(obj){
+		$.SmartMessageBox({
+            title: "删除提示",
+            content: "确认删除？",
+            buttons: '[取消][确定]'
+        }, function (ButtonPressed) {
+        	if (ButtonPressed === "确定") {
+        		myTool.mask.show('删除中...');
+            	var dom=$(obj).parents("tr");
+        		var data=$("#mainContent").DataTable().row(dom).data();
+        		$.ajax({
+        			type:"POST",
+        			url:getContextPath()+"/ConstructionDocuments/deleteConstructionDocumentsById",
+        			dataType:"json",
+        			data:{ 
+        				id:data.cdId
+        				},
+        			success:function(json){
+        				myTool.mask.hide();
+        				if(json>0){
+        					toastr.success("删除成功")
+        					$('#mainContent').DataTable().row(dom).remove().draw(true); //删除行立即显示
+        				}else{
+        					toastr.error("删除失败")
+        				}
+        			}
+        		})
+        	}
+        });
+	}
+	
+	
+	function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("dataid");
+   	no=GetQueryString("no");
+   	var nameprj;
+   	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/task/selectTaskPrjName',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	prjNo:no
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	for(var i=0;i<json.length;i++){
+	            	nameprj=json[i].prjName
+	        	}
+	        	
+	        }
+		});
+	//修改回显
+	function initTable(){
+		
+		//console.log(data)
+		$("#edit_prjName").val(nameprj);
+		$("#edit_prjNo").val(no);
+		
+		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/ConstructionDocuments/selectAccessoryById",
+			dataType:"json",
+			data:{ 
+				id:id
+				},
+			success:function(json){
+				//console.log(json)
+				//$("#edit_accessory1 tbody").empty();
+				$("#edit_accessory1 thead").siblings().empty(); //使用siblings获取被点击元素之外的同级元素，然后使用empty()清空
+				$("#edit_accessory2 thead").siblings().empty();
+				$("#edit_accessory3 thead").siblings().empty();
+				$("#edit_accessory4 thead").siblings().empty();
+				$("#edit_accessory5 thead").siblings().empty();
+				$("#edit_accessory6 thead").siblings().empty();
+				$("#edit_accessory7 thead").siblings().empty();
+				$("#edit_accessory8 thead").siblings().empty();
+				$("#edit_accessory9 thead").siblings().empty();
+				$("#edit_accessory10 thead").siblings().empty();
+				$("#edit_accessory11 thead").siblings().empty();
+				$("#edit_accessory12 thead").siblings().empty();
+				$("#edit_accessory13 thead").siblings().empty();
+				$("#edit_accessory14 thead").siblings().empty();
+				$("#edit_accessory15 thead").siblings().empty();
+	            for(var i=0;i<json.length;i++){
+	            	if(json[i].aType=="项目实际存档目录"){
+	            	   $("#edit_accessory1 tbody").append("<tr>"+
+		       					"<td>附件</td>"+
+		            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+		            	    	"<td>附件说明</td>"+
+		            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+		            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+		            	    "</tr>");
+	            	}
+	            	if(json[i].aType=="项目特点介绍、关键词"){
+		            	   $("#edit_accessory2 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="招投标文件"){
+		            	   $("#edit_accessory3 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="项目主合同"){
+		            	   $("#edit_accessory4 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="开工报告"){
+		            	   $("#edit_accessory5 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="项目总结"){
+		            	   $("#edit_accessory6 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="计量资料"){
+		            	   $("#edit_accessory7 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="设计变更资料"){
+		            	   $("#edit_accessory8 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="施工图和竣工图"){
+		            	   $("#edit_accessory9 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="开工、过程以及交竣工全部外部审查意见"){
+		            	   $("#edit_accessory10 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="首件工程总结"){
+		            	   $("#edit_accessory11 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="材料检测资料"){
+		            	   $("#edit_accessory12 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="中间报验资料和检验评定资料"){
+		            	   $("#edit_accessory13 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="施工日志"){
+		            	   $("#edit_accessory14 tbody").append("<tr>"+
+			       					"<td>附件</td>"+
+			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td>附件说明</td>"+
+			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="其它"){
+		            	   $("#edit_accessory15 tbody").append("<tr>"+
+		       					"<td>附件</td>"+
+		            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
+		            	    	"<td>附件说明</td>"+
+		            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
+		            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+		            	    "</tr>");
+		            }
+	            } 
+			}
+		})
+	}
+	function delete_thisFile(obj){
+		var url=$(obj).attr("data1");
+		var id=$(obj).attr("data2");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
+	        dataType: 'json',
+	        data: {
+	        	aId:id,
+            	acName:name,
+            	acUrl:url
+	        },
+	        success: function (json) {
+	        	if(json>0){
+	        		toastr.success("删除成功");
+	        		$(obj).parent().parent().remove();
+	        	}else{
+	        		toastr.error("删除失败");
+	        	}
+	        }
+		});
+	}
+	
+	
+	//修改保存
+	function checkSave(){
+		var acc1=new Array();
+		$("#edit_accessory1 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr1={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr1.aDesc=desc;
+			acc1.push(arr1)
+  		})
+  		var acc2=new Array();
+		$("#edit_accessory2 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr2={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr2.aDesc=desc;
+			acc2.push(arr2)
+  		})
+  		var acc3=new Array();
+		$("#edit_accessory3 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr3={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr3.aDesc=desc;
+			acc3.push(arr3)
+  		})
+  		var acc4=new Array();
+		$("#edit_accessory4 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr4={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr4.aDesc=desc;
+			acc4.push(arr4)
+  		})
+  		var acc5=new Array();
+		$("#edit_accessory5 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr5={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr5.aDesc=desc;
+			acc5.push(arr5)
+  		})
+  		var acc6=new Array();
+		$("#edit_accessory6 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr6={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr6.aDesc=desc;
+			acc6.push(arr6)
+  		})
+  		var acc7=new Array();
+		$("#edit_accessory7 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr7={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr7.aDesc=desc;
+			acc7.push(arr7)
+  		})
+  		var acc8=new Array();
+		$("#edit_accessory8 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr8={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr8.aDesc=desc;
+			acc8.push(arr8)
+  		})
+  		var acc9=new Array();
+		$("#edit_accessory9 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr9={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr9.aDesc=desc;
+			acc9.push(arr9)
+  		})
+  		var acc10=new Array();
+		$("#edit_accessory10 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr10={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr10.aDesc=desc;
+			acc10.push(arr10)
+  		})
+  		var acc11=new Array();
+		$("#edit_accessory11 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr11={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr11.aDesc=desc;
+			acc11.push(arr11)
+  		})
+  		var acc12=new Array();
+		$("#edit_accessory12 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr12={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr12.aDesc=desc;
+			acc12.push(arr12)
+  		})
+  		var acc13=new Array();
+		$("#edit_accessory13 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr13={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr13.aDesc=desc;
+			acc13.push(arr13)
+  		})
+  		var acc14=new Array();
+		$("#edit_accessory14 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr14={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr14.aDesc=desc;
+			acc14.push(arr14)
+  		})
+  		var acc15=new Array();
+		$("#edit_accessory15 tfoot").find("tr").each(function(){
+			var desc=$(this).find("td").eq(3).find("input").val();
+			var arr15={
+					aId:null,
+					acName:undefined,
+					acUrl:undefined,
+					aType:undefined,
+					aDesc:undefined,
+			}
+			arr15.aDesc=desc;
+			acc15.push(arr15)
+  		}) 
+  		
+  		var prjName=$("#edit_prjName").val();
+		var prjNo=$("#edit_prjNo").val();
+		/* if(prjName==''){
+			toastr.error("项目名不能为空")
+			return;
+		} */
+		var cds={
+				cdId:null,
+				prjName:undefined,
+				prjNo:undefined,
+				accessory1:undefined,
+				accessory2:undefined,
+				accessory3:undefined,
+				accessory4:undefined,
+				accessory5:undefined,
+				accessory6:undefined,
+				accessory7:undefined,
+				accessory8:undefined,
+				accessory9:undefined,
+				accessory10:undefined,
+				accessory11:undefined,
+				accessory12:undefined,
+				accessory13:undefined,
+				accessory14:undefined,
+				accessory15:undefined,
+		}
+		cds.cdId=xgId;
+  		cds.prjName=prjName;
+  		cds.prjNo=prjNo;
+  		cds.accessory1=acc1;
+  		cds.accessory2=acc2;
+  		cds.accessory3=acc3;
+  		cds.accessory4=acc4;
+  		cds.accessory5=acc5;
+  		cds.accessory6=acc6;
+  		cds.accessory7=acc7;
+  		cds.accessory8=acc8;
+  		cds.accessory9=acc9;
+  		cds.accessory10=acc10;
+  		cds.accessory11=acc11;
+  		cds.accessory12=acc12;
+  		cds.accessory13=acc13;
+  		cds.accessory14=acc14;
+  		cds.accessory15=acc15;
+  		//console.log(cds)
+  		var formData = new FormData()
+  		formData.append("cds", JSON.stringify(cds));
+  		
+  		$("#edit_accessory1 tfoot").find("tr").each(function(){
+		  		formData.append("file1", $(this).find(":file")[0].files[0]);
+  		}) 
+  		$("#edit_accessory2 tfoot").find("tr").each(function(){
+	  			formData.append("file2", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory3 tfoot").find("tr").each(function(){
+  			formData.append("file3", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory4 tfoot").find("tr").each(function(){
+  			formData.append("file4", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory5 tfoot").find("tr").each(function(){
+  			formData.append("file5", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory6 tfoot").find("tr").each(function(){
+  			formData.append("file6", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory7 tfoot").find("tr").each(function(){
+	  		formData.append("file7", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory8 tfoot").find("tr").each(function(){
+  			formData.append("file8", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory9 tfoot").find("tr").each(function(){
+  			formData.append("file9", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory10 tfoot").find("tr").each(function(){
+  			formData.append("file10", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory11 tfoot").find("tr").each(function(){
+  			formData.append("file11", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory12 tfoot").find("tr").each(function(){
+  			formData.append("file12", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory13 tfoot").find("tr").each(function(){
+  			formData.append("file13", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory14 tfoot").find("tr").each(function(){
+  			formData.append("file14", $(this).find(":file")[0].files[0]);
+  		})
+  		$("#edit_accessory15 tfoot").find("tr").each(function(){
+  			formData.append("file15", $(this).find(":file")[0].files[0]);
+  		}) 
+  		
+  		$.ajax({
+	  			type: 'POST',
+	            url: getContextPath()+'/ConstructionDocuments/updateConstructionDocumentsSave',
+	            data: formData,  
+	            processData: false,
+	            contentType: false,
+	            success: function (json) {
+	            	if(json.result>0){
+	            		$("#change").modal("hide");
+	            		toastr.success("修改成功")
+	            		data.fileLength=1;
+	            		$('#mainContent').DataTable().row(dom).data(data).draw(false);;//修改行立即显示
+	            	}else{
+	            		toastr.error("修改失败")
+	            	}
+	            }
+	  		})
+  		
+	}
+	
+	function showMask() {
+    	myTool.mask.show('查询中...');
+	 }
+	function hidMask() {
+	 	myTool.mask.hide();
+	 }
+	
+	
+	function addFile1(){
+		$("#new_accessory1 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file1' id='file1' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile2(){
+		$("#new_accessory2 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file2' id='file2' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile3(){
+		$("#new_accessory3 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file3' id='file3' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile4(){
+		$("#new_accessory4 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file4' id='file4' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile5(){
+		$("#new_accessory5 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file' name='file5' id='file5' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile6(){
+		$("#new_accessory6 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file6' id='file6' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile7(){
+		$("#new_accessory7 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file7' id='file7' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile8(){
+		$("#new_accessory8 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file8' id='file8' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile9(){
+		$("#new_accessory9 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file9' id='file9' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile10(){
+		$("#new_accessory10 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file10' id='file10' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile11(){
+		$("#new_accessory11 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file' name='file11' id='file11' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile12(){
+		$("#new_accessory12 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file12' id='file12' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile13(){
+		$("#new_accessory13 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file13' id='file13' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile14(){
+		$("#new_accessory14 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file' name='file14' id='file14' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addFile15(){
+		$("#new_accessory15 tbody").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file15' id='file15' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	
+	function edit_addFile1(){
+		$("#edit_accessory1 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'   name='file1' id='xgfile1' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile2(){
+		$("#edit_accessory2 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file2' id='xgfile2' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile3(){
+		$("#edit_accessory3 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file3' id='xgfile3' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile4(){
+		$("#edit_accessory4 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file4' id='xgfile4' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile5(){
+		$("#edit_accessory5 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file' name='file5' id='xgfile5' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile6(){
+		$("#edit_accessory6 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file6' id='xgfile6' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile7(){
+		$("#edit_accessory7 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file7' id='xgfile7' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile8(){
+		$("#edit_accessory8 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file8' id='xgfile8' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile9(){
+		$("#edit_accessory9 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file9' id='xgfile9' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile10(){
+		$("#edit_accessory10 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file10' id='xgfile10' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile11(){
+		$("#edit_accessory11 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file' name='file11' id='xgfile11' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile12(){
+		$("#edit_accessory12 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file12' id='xgfile12' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile13(){
+		$("#edit_accessory13 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file13' id='xgfile13' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile14(){
+		$("#edit_accessory14 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file' name='file14' id='xgfile14' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function edit_addFile15(){
+		$("#edit_accessory15 tfoot").append("<tr><td>新附件</td><td style='width:40%;'><input style='width:80%;' type='file'  name='file15' id='xgfile15' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+    
+	function removeFile(obj){
+		var tr=$(obj).parents("tr");
+		$(tr).remove();
+	}
+	
+</script>
+</html>
