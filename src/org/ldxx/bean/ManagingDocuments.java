@@ -28,11 +28,11 @@ public class ManagingDocuments {
 	private List<ManagingDocumentsTenderer> managingDocumentsTenderer;//招标人
 	
 	private int fileLength;
-	private List<Accessory> accessory1;
-    private List<Accessory> accessory2;
-    private List<Accessory> accessory3;
-    private List<Accessory> accessory4;
-    private List<Accessory> accessory5;
+	private List<Accessory> accessory1;//招标文件
+    private List<Accessory> accessory2;//招标图纸
+    private List<Accessory> accessory3;//投标文件（技术+商务）
+    private List<Accessory> accessory4;//中标通知书（原件由经营部存档）
+    private List<Accessory> accessory5;//开标记录
     private List<Accessory> accessory6;
 	
 	

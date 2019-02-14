@@ -119,8 +119,18 @@ public class Task {
     private String tongjiMoney;
     
     private String jsState;//结算状态（0:全部结算，1:部分结算，2:未结算）
+    private int fileLength;//判断经营文档文档是否归档,非数据库对应属性；0：未归档，1：已归档
     
     
+    
+	public int getFileLength() {
+		return fileLength;
+	}
+
+	public void setFileLength(int fileLength) {
+		this.fileLength = fileLength;
+	}
+
 	public String getJsState() {
 		return jsState;
 	}

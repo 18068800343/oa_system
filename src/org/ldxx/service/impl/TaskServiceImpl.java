@@ -2,8 +2,10 @@ package org.ldxx.service.impl;
 
 import java.util.List;
 
+import org.ldxx.bean.Accessory;
 import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.Task;
+import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.EnterpriseDao;
 import org.ldxx.dao.TaskDao;
 import org.ldxx.service.TaskService;
@@ -21,6 +23,8 @@ public class TaskServiceImpl implements TaskService{
 	
 	@Autowired
 	private EnterpriseDao edao;
+	@Autowired
+	private AccessoryDao adao;
 	
 	@Transactional
 	@Override
@@ -247,6 +251,20 @@ public class TaskServiceImpl implements TaskService{
 			task.setPrjEstimateMoney(task.getPrjEstimateMoney()+prjEstimateMoney);
 		}
 		return task;
+	}
+
+	@Override
+	public List<Task> selectTask() {
+		List<Task> list=tdao.selectPrjNameAndWorkNo();
+		if(list!=null&&list.size()!=0){
+			for(int i=0;i<list.size();i++){
+				List<Accessory> Accessory = adao.selectAccessoryById(list.get(i).getPrjNo());
+				if(Accessory!=null&&Accessory.size()!=0&&Accessory.get(0).getaType().contains("JY")){
+					list.get(i).setFileLength(1);
+				}
+			}
+		}
+		return list;
 	}
 
 }

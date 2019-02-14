@@ -1254,5 +1254,11 @@ public class TaskController {
 		return task;
 	}
 	
+	@RequestMapping("/selectTask")//档案管理经营文档是否归档专用
+	@ResponseBody
+	public List<Task> selectTask(){
+		return tService.selectTask();
+	}
+	
 }
 

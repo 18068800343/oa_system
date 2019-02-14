@@ -70,7 +70,6 @@ public class ManagingDocumentsServiceImpl implements ManagingDocumentsService {
 		List<Accessory> accessory3 = md.getAccessory3();
 		List<Accessory> accessory4 = md.getAccessory4();
 		List<Accessory> accessory5 = md.getAccessory5();
-		List<Accessory> accessory6 = md.getAccessory6();
 		List<ManagingDocumentsTenderer> tenderer = md.getManagingDocumentsTenderer();
 		if(i>0){
 			if(accessory1!=null&&accessory1.size()>0){
@@ -87,9 +86,6 @@ public class ManagingDocumentsServiceImpl implements ManagingDocumentsService {
 			}
 			if(accessory5!=null&&accessory5.size()>0){
 				i=adao.addAccessory(accessory5);
-			}
-			if(accessory6!=null&&accessory6.size()>0){
-				i=adao.addAccessory(accessory6);
 			}
 			if(tenderer!=null&&tenderer.size()>0){
 				for(int k=0;k<tenderer.size();k++){
@@ -137,18 +133,14 @@ public class ManagingDocumentsServiceImpl implements ManagingDocumentsService {
 			if(accessory5!=null&&accessory5.size()>0){
 				i=adao.addAccessory(accessory5);
 			}
-			List<Accessory> accessory6 = md.getAccessory6();
-			if(accessory6!=null&&accessory6.size()>0){
-				i=adao.addAccessory(accessory6);
-			}
-			i=tdao.deletetTendererById(md.getMdId());
+			/*i=tdao.deletetTendererById(md.getMdId());
 			List<ManagingDocumentsTenderer> tenderer = md.getManagingDocumentsTenderer();
 			for(int k=0;k<tenderer.size();k++){
 				tenderer.get(k).settId(md.getMdId());
 			}
 			if(tenderer!=null&&tenderer.size()>0){
 				i=tdao.addTenderer(tenderer);
-			}
+			}*/
 		//}
 		return i;
 	}
