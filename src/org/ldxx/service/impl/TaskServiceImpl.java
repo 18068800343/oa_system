@@ -261,6 +261,14 @@ public class TaskServiceImpl implements TaskService{
 				List<Accessory> Accessory = adao.selectAccessoryById(list.get(i).getPrjNo());
 				if(Accessory!=null&&Accessory.size()!=0&&Accessory.get(0).getaType().contains("JY")){
 					list.get(i).setFileLength(1);
+				}else if(Accessory!=null&&Accessory.size()!=0&&Accessory.get(0).getaType().contains("SG")){
+					list.get(i).setFileLengthSG(1);
+				}else if(Accessory!=null&&Accessory.size()!=0&&Accessory.get(0).getaType().contains("JC")){
+					list.get(i).setFileLengthJC(1);
+				}else if(Accessory!=null&&Accessory.size()!=0&&Accessory.get(0).getaType().contains("SJ")){
+					list.get(i).setFileLengthSJ(1);
+				}else if(Accessory!=null&&Accessory.size()!=0&&Accessory.get(0).getaType().contains("KJ")){
+					list.get(i).setFileLengthKJ(1);
 				}
 			}
 		}

@@ -11,29 +11,37 @@ public class ConstructionDocuments {
 	private String cdId;// 编号
 	private String prjName;//项目名称
 	private String prjNo; //任务单号
-	private int fileLength;
+	private int fileLengthSG;
 	private List<Accessory> accessory1;//项目实际存档目录
     private List<Accessory> accessory2;//项目特点介绍、关键词
-    private List<Accessory> accessory3;//招投标文件
+    private List<Accessory> accessory3;//合同资料（合同原件提交经营部综合部）
     private List<Accessory> accessory4;//项目主合同
-    private List<Accessory> accessory5;//开工报告
+    private List<Accessory> accessory5;//项目外部评价报告（安评等咨询类）
     private List<Accessory> accessory6;//项目总结
     private List<Accessory> accessory7;//计量资料
     private List<Accessory> accessory8;//设计变更资料
     private List<Accessory> accessory9;//施工图和竣工图
-    private List<Accessory> accessory10;//开工、过程以及交竣工全部外部审查意见
+    private List<Accessory> accessory10;//开工至交竣工全部外部审查意见
     private List<Accessory> accessory11;//首件工程总结
     private List<Accessory> accessory12;//材料检测资料
     private List<Accessory> accessory13;//中间报验资料和检验评定资料
     private List<Accessory> accessory14;//施工日志
-    private List<Accessory> accessory15;//其他
+    private List<Accessory> accessory15;//获奖证书
+    private List<Accessory> accessory16;//交竣工验收文件（原件提交经营发展部）
     
     
-	public int getFileLength() {
-		return fileLength;
+	public List<Accessory> getAccessory16() {
+		return accessory16;
 	}
-	public void setFileLength(int fileLength) {
-		this.fileLength = fileLength;
+	public void setAccessory16(List<Accessory> accessory16) {
+		this.accessory16 = accessory16;
+	}
+	
+	public int getFileLengthSG() {
+		return fileLengthSG;
+	}
+	public void setFileLengthSG(int fileLengthSG) {
+		this.fileLengthSG = fileLengthSG;
 	}
 	public String getCdId() {
 		return cdId;

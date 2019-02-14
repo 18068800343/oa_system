@@ -120,9 +120,44 @@ public class Task {
     
     private String jsState;//结算状态（0:全部结算，1:部分结算，2:未结算）
     private int fileLength;//判断经营文档文档是否归档,非数据库对应属性；0：未归档，1：已归档
+    private int fileLengthSG;//判断施工文档文档是否归档,非数据库对应属性；0：未归档，1：已归档
+    private int fileLengthJC;//判断检测文档文档是否归档,非数据库对应属性；0：未归档，1：已归档
+    private int fileLengthSJ;//判断设计文档文档是否归档,非数据库对应属性；0：未归档，1：已归档
+    private int fileLengthKJ;//判断科技文档文档是否归档,非数据库对应属性；0：未归档，1：已归档
     
     
-    
+	public int getFileLengthSG() {
+		return fileLengthSG;
+	}
+
+	public void setFileLengthSG(int fileLengthSG) {
+		this.fileLengthSG = fileLengthSG;
+	}
+
+	public int getFileLengthJC() {
+		return fileLengthJC;
+	}
+
+	public void setFileLengthJC(int fileLengthJC) {
+		this.fileLengthJC = fileLengthJC;
+	}
+
+	public int getFileLengthSJ() {
+		return fileLengthSJ;
+	}
+
+	public void setFileLengthSJ(int fileLengthSJ) {
+		this.fileLengthSJ = fileLengthSJ;
+	}
+
+	public int getFileLengthKJ() {
+		return fileLengthKJ;
+	}
+
+	public void setFileLengthKJ(int fileLengthKJ) {
+		this.fileLengthKJ = fileLengthKJ;
+	}
+
 	public int getFileLength() {
 		return fileLength;
 	}

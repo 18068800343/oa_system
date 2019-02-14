@@ -213,6 +213,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick="baoCun()">保存</button>
         </div>
         </div>
     </div>
@@ -270,8 +271,12 @@
 											    "targets": 5,
 											    "searchable": true,
 											    "render": function(data, type, full) {
-											  	  		return '<button type="button" class="btn btn-primary" onclick="look2(this)">文档资料</button>'
-											        }
+											    	if(full.fileLengthSG>0 || full.fileLengthJC>0 || full.fileLengthSJ>0 || full.fileLengthKJ>0){
+											  	  		return '<button type="button" class="btn btn-primary" onclick="look2(this)">已归档</button> <i class="iconfont icon-icon-test Pjbb" style="font-size:20px;cursor:pointer;" title="查看详细信息" onclick="lookQt(this)"  id="lookDetall"></i>'
+											    	}else{
+											    		return '<button type="button" class="btn btn-danger"  onclick="look2(this)">未归档</button>'
+											    	}
+											     }
 											  },
 							],
 		"fnDrawCallback" : function() {},
@@ -595,39 +600,10 @@
 	}
 	
 	
-	function look2(aa){
-		$("#myModal2").modal('show');
-		var dom = $(aa).parents('tr');
-		var data=$('#mainContent').DataTable().row(dom).data();
-		//console.log(data)
-		
-		if(data.prjType2.indexOf("C")>=0){
-			//施工文档资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/ConstructionDocument.html?dataid='+data.prjId+'&no='+data.prjNo+'');
-		}else if(data.prjType2.indexOf("A")>=0){
-			//检测评估资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/DetectionEvaluation.html?dataid='+data.prjId+'&no='+data.prjNo+'');
-		}else if(data.prjType2.indexOf("B")>=0){
-			//设计文件资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/designDocument.html?dataid='+data.prjId+'&no='+data.prjNo+'');
-		}else if(data.prjType2.indexOf("K")>=0){
-			//科技文档资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/ScienceTechnology.html?dataid='+data.prjId+'&no='+data.prjNo+'');
-		}
-		
-	}	
-	
-	
-	
 	//保存经营资料
 	function checksave1(){
 			var ManagingDocuments={
 					mdId:null,
-					accessory1:undefined,
-					accessory2:undefined,
-					accessory3:undefined,
-					accessory4:undefined,
-					accessory5:undefined,
 			}
 			ManagingDocuments.mdId=prjNo1;
 			
@@ -691,6 +667,66 @@
 	  		})  
 			
 	} 
+	
+	
+	var type;
+	function look2(aa){
+		$("#myModal2").modal('show');
+		var dom = $(aa).parents('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data)
+		type=data.prjType2;
+		if(data.prjType2.indexOf("C")>=0){
+			//施工文档资料
+			$("#lookdangan").attr('src', '../danganGuanliChange/ConstructionDocument.html?dataid='+data.prjId+'&no='+data.prjNo+'');
+		}else if(data.prjType2.indexOf("A")>=0){
+			//检测评估资料
+			$("#lookdangan").attr('src', '../danganGuanliChange/DetectionEvaluation.html?dataid='+data.prjId+'&no='+data.prjNo+'');
+		}else if(data.prjType2.indexOf("B")>=0){
+			//设计文件资料
+			$("#lookdangan").attr('src', '../danganGuanliChange/designDocument.html?dataid='+data.prjId+'&no='+data.prjNo+'');
+		}else if(data.prjType2.indexOf("K")>=0){
+			//科技文档资料
+			$("#lookdangan").attr('src', '../danganGuanliChange/ScienceTechnology.html?dataid='+data.prjId+'&no='+data.prjNo+'');
+		}
+		
+	}	
+	
+	
+	
+	
+	
+	
+	
+	 function baoCun(){
+	    	var childWindow = $("#lookdangan")[0].contentWindow; //表示获取了嵌入在iframe中的子页面的window对象。  []将JQuery对象转成DOM对象，用DOM对象的contentWindow获取子页面window对象。
+	    	if(type.indexOf("C")>=0){
+				//施工文档资料
+	    		var result = childWindow.baocunSG();
+				console.log(result)
+			}else if(type.indexOf("A")>=0){
+				//检测评估资料
+			}else if(type.indexOf("B")>=0){
+				//设计文件资料
+			}else if(type.indexOf("K")>=0){
+				//科技文档资料
+			}
+	    	/* try {
+	    		  var result = childWindow.liuchengGaibian();
+	    		  if(result=='0'){
+	    			toastr.error("保存出错");
+	    			return '0';
+	    		  }else if(result==undefined){
+	   			    toastr.error("保存出错");
+	      			return '0'; 
+	    		  }else{
+	    			toastr.success("保存成功");
+	    			return '1';
+	    		  }
+	   		    }
+	    		catch(err){
+	   		    }  */
+	    }
 	
 	
 	

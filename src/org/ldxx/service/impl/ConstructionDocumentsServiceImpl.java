@@ -199,6 +199,10 @@ public class ConstructionDocumentsServiceImpl implements ConstructionDocumentsSe
 			if(accessory15!=null&&accessory15.size()>0){
 				i=adao.addAccessory(accessory15);
 			}
+			List<Accessory> accessory16= cd.getAccessory16();
+			if(accessory16!=null&&accessory16.size()>0){
+				i=adao.addAccessory(accessory16);
+			}
 		//}
 		return i;
 	}
