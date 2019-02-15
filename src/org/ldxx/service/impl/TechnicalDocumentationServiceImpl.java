@@ -98,10 +98,6 @@ public class TechnicalDocumentationServiceImpl implements TechnicalDocumentation
 			if(accessory17!=null&&accessory17.size()>0){
 				i=adao.addAccessory(accessory17);
 			}
-			List<Accessory> accessory18= td.getAccessory18();
-			if(accessory18!=null&&accessory18.size()>0){
-				i=adao.addAccessory(accessory18);
-			}
 		}
 		return i;
 	}
@@ -206,10 +202,6 @@ public class TechnicalDocumentationServiceImpl implements TechnicalDocumentation
 			List<Accessory> accessory17= td.getAccessory17();
 			if(accessory17!=null&&accessory17.size()>0){
 				i=adao.addAccessory(accessory17);
-			}
-			List<Accessory> accessory18= td.getAccessory18();
-			if(accessory18!=null&&accessory18.size()>0){
-				i=adao.addAccessory(accessory18);
 			}
 		//}
 		return i;

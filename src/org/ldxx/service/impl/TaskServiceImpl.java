@@ -254,21 +254,25 @@ public class TaskServiceImpl implements TaskService{
 	}
 
 	@Override
-	public List<Task> selectTask() {
-		List<Task> list=tdao.selectPrjNameAndWorkNo();
+	public List<Task> selectTask(String mainDepartment) {
+		List<Task> list=tdao.selectlikeMainDepartment(mainDepartment);
 		if(list!=null&&list.size()!=0){
 			for(int i=0;i<list.size();i++){
 				List<Accessory> Accessory = adao.selectAccessoryById(list.get(i).getPrjNo());
-				if(Accessory!=null&&Accessory.size()!=0&&Accessory.get(0).getaType().contains("JY")){
-					list.get(i).setFileLength(1);
-				}else if(Accessory!=null&&Accessory.size()!=0&&Accessory.get(0).getaType().contains("SG")){
-					list.get(i).setFileLengthSG(1);
-				}else if(Accessory!=null&&Accessory.size()!=0&&Accessory.get(0).getaType().contains("JC")){
-					list.get(i).setFileLengthJC(1);
-				}else if(Accessory!=null&&Accessory.size()!=0&&Accessory.get(0).getaType().contains("SJ")){
-					list.get(i).setFileLengthSJ(1);
-				}else if(Accessory!=null&&Accessory.size()!=0&&Accessory.get(0).getaType().contains("KJ")){
-					list.get(i).setFileLengthKJ(1);
+				if(Accessory!=null&&Accessory.size()!=0){
+					for(int j=0;j<Accessory.size();j++){
+						if(Accessory.get(j).getaType().contains("JY")){
+							list.get(i).setFileLength(1);
+						}else if(Accessory.get(j).getaType().contains("SG")){
+							list.get(i).setFileLengthSG(1);
+						}else if(Accessory.get(j).getaType().contains("JC")){
+							list.get(i).setFileLengthJC(1);
+						}else if(Accessory.get(j).getaType().contains("SJ")){
+							list.get(i).setFileLengthSJ(1);
+						}else if(Accessory.get(j).getaType().contains("KJ")){
+							list.get(i).setFileLengthKJ(1);
+						}
+					}
 				}
 			}
 		}

@@ -469,4 +469,13 @@
   	<select id="getPrjEstimateMoneyByNo" resultType="Float">
   		select a.prj_estimate_money from task a left join mode_status c on a.prj_id=c.mode_id WHERE a.prj_no=#{mainPrjNo} and a.history=1 and c.status=2
   	</select>
+  	
+  	<select id="selectlikeMainDepartment" resultType="Task">
+  		select a.*,c.cc_name,d.u_name as mainPrjLeaderName,e.om_name from task as a 
+  		left join mode_status as b on a.prj_id=b.mode_id
+  		LEFT JOIN consociation_company as c on a.prj_owner_unit=c.cc_id
+  		LEFT JOIN user as d on a.main_prj_leader=d.user_id
+  		left join organization_management e  on a.main_department=e.om_id
+  		where b.status=2 and a.history=1 and a.main_department like #{mainDepartment}
+  	</select>
 </mapper>

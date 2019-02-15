@@ -70,5 +70,5 @@ public interface TaskService {
 
 	Task selectTaskAndTaskChildrenById(String id);
 
-	public List<Task> selectTask();
+	public List<Task> selectTask(String mainDepartment);
 }

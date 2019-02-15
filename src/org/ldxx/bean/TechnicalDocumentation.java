@@ -11,7 +11,7 @@ public class TechnicalDocumentation {
 	private String tdId;// 编号
 	private String prjName;//项目名称
 	private String prjNo; //任务单号
-	private int fileLength;
+	private int fileLengthKJ;
 	private List<Accessory> accessory1;//项目实际存档目录
     private List<Accessory> accessory2;//合同资料
     private List<Accessory> accessory3;//科研申请书
@@ -29,14 +29,14 @@ public class TechnicalDocumentation {
     private List<Accessory> accessory15;//报奖文件
     private List<Accessory> accessory16;//相关论文及专利
     private List<Accessory> accessory17;//课题所用到图纸、模型和报告
-    private List<Accessory> accessory18;//其它
     
     
-	public int getFileLength() {
-		return fileLength;
+	
+	public int getFileLengthKJ() {
+		return fileLengthKJ;
 	}
-	public void setFileLength(int fileLength) {
-		this.fileLength = fileLength;
+	public void setFileLengthKJ(int fileLengthKJ) {
+		this.fileLengthKJ = fileLengthKJ;
 	}
 	public String getTdId() {
 		return tdId;
@@ -157,12 +157,6 @@ public class TechnicalDocumentation {
 	}
 	public void setAccessory17(List<Accessory> accessory17) {
 		this.accessory17 = accessory17;
-	}
-	public List<Accessory> getAccessory18() {
-		return accessory18;
-	}
-	public void setAccessory18(List<Accessory> accessory18) {
-		this.accessory18 = accessory18;
 	}
     
     

@@ -1256,8 +1256,9 @@ public class TaskController {
 	
 	@RequestMapping("/selectTask")//档案文档是否归档专用
 	@ResponseBody
-	public List<Task> selectTask(){
-		return tService.selectTask();
+	public List<Task> selectTask(String mainDepartment){
+		mainDepartment="%"+mainDepartment+"%";
+		return tService.selectTask(mainDepartment);
 	}
 	
 }

@@ -43,114 +43,100 @@
         <form class="form-inline">
                         <table class="table table-bordered">
                             	<thead>
-				                    <tr>
-				                        <th>主要工作内容</th>
-				                        <th>存档形式</th>
-				                        <th>是否强制</th>
-				                    </tr>
+				                        <tr>
+					                    	<td colspan="4"><b>科研课题</b></td>
+					                    </tr>
+					                    <tr>
+					                        <th style="width:36%">主要工作内容</th>
+					                        <th style="width:34%">存档形式</th>
+					                        <th style="width:30%">是否强制</th>
+					                    </tr>
 				                </thead>
 				                <tbody>
-				                		<tr>
+				                		<tr id="kj1">
 					                    	<td>项目实际存档目</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj2">
 					                    	<td>合同资料（合同原件提交经营部综合部）</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj3">
 					                    	<td>科研申请书</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj4">
 					                    	<td>工作大纲及评审记录</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj5">
 					                    	<td>中间报告及评审记录</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>不强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj6">
 					                    	<td>成果简介</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj7">
 					                    	<td>研究报告（内容比较全面）</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj8">
 					                    	<td>查新报告</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>不强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj9">
 					                    	<td>总结报告</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj10">
 					                    	<td>用户报告/应用证明</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>不强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj11">
 					                    	<td>鉴定(评审)证书/验收评审意见</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj12">
 					                    	<td>科研项目其他成果（指南、调查报告等）</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>不强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj13">
 					                    	<td>汇报PPT</td>
 					                    	<td>电子</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj14">
 					                    	<td>财务决算表</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj15">
 					                    	<td>报奖文件</td>
 					                    	<td>电子及纸质</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj16">
 					                    	<td>相关论文及专利</td>
 					                    	<td>电子或纸质</td>
 					                    	<td>强制</td>
-					                    	
 					                    </tr>
-					                    <tr>
+					                    <tr id="kj17">
 					                    	<td>课题所用到图纸、模型和报告</td>
 					                    	<td>电子或纸质</td>
 					                    	<td>不强制</td>
-					                    	
 					                    </tr>
 				                </tbody>
                         </table>
@@ -203,9 +189,132 @@
 		
 		$("#lookprjName").text(nameprj);
 		$("#lookprjNo").text(no);
-		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/accessory/selectAccessoryById",
+			dataType:"json",
+			data:{ 
+				id:no
+				},
+			success:function(json){
+				//console.log(json)
+				$(".lookfujian").parent().parent().empty();
+	            for(var i=0;i<json.length;i++){
+	            	if(json[i].aType=="KJ项目实际存档目"){
+		            	   $("#kj1").after("<tr>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            	}
+		            	if(json[i].aType=="KJ合同资料(合同原件提交经营部综合部)"){
+			            	   $("#kj2").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ科研申请书"){
+			            	   $("#kj3").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ工作大纲及评审记录"){
+			            	   $("#kj4").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ中间报告及评审记录"){
+			            	   $("#kj5").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ成果简介"){
+			            	   $("#kj6").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ研究报告(内容比较全面)"){
+			            	   $("#kj7").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ查新报告"){
+			            	   $("#kj8").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ总结报告"){
+			            	   $("#kj9").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ用户报告/应用证明"){
+			            	   $("#kj10").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ鉴定(评审)证书/验收评审意见"){
+			            	   $("#kj11").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ科研项目其他成果(指南、调查报告等)"){
+			            	   $("#kj12").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ汇报PPT"){
+			            	   $("#kj13").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ财务决算表"){
+			            	   $("#kj14").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ报奖文件"){
+			            	   $("#kj15").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ相关论文及专利"){
+			            	   $("#kj16").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+		            	if(json[i].aType=="KJ课题所用到图纸、模型和报告"){
+			            	   $("#kj17").after("<tr>"+
+				       					"<td>附件</td>"+
+				       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+				            	    "</tr>");
+			            }
+	            } 
+			}
+		})
 		
 	}
+	
+	function getLocalPath(){
+		var pathArray = window.location.pathname.split('/');
+		var secondLevelLocation = pathArray[1];
+		var loginUrl = window.location.protocol + "//"  + window.location.host ;
+		return loginUrl;
+	}
+	
 	//下载附件
 	function download_all(obj){
 		var url=$(obj).attr("data1");
