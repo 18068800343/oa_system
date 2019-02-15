@@ -72,18 +72,6 @@ public class TestingEvaluationServiceImpl implements TestingEvaluationService {
 			if(accessory10!=null&&accessory10.size()>0){
 				i=adao.addAccessory(accessory10);
 			}
-			List<Accessory> accessory11 = te.getAccessory11();
-			if(accessory11!=null&&accessory11.size()>0){
-				i=adao.addAccessory(accessory11);
-			}
-			List<Accessory> accessory12 = te.getAccessory12();
-			if(accessory12!=null&&accessory12.size()>0){
-				i=adao.addAccessory(accessory12);
-			}
-			List<Accessory> accessory13 = te.getAccessory13();
-			if(accessory13!=null&&accessory13.size()>0){
-				i=adao.addAccessory(accessory13);
-			}
 		}
 		return i;
 	}
@@ -132,18 +120,6 @@ public class TestingEvaluationServiceImpl implements TestingEvaluationService {
 			List<Accessory> accessory10 = te.getAccessory10();
 			if(accessory10!=null&&accessory10.size()>0){
 				i=adao.addAccessory(accessory10);
-			}
-			List<Accessory> accessory11 = te.getAccessory11();
-			if(accessory11!=null&&accessory11.size()>0){
-				i=adao.addAccessory(accessory11);
-			}
-			List<Accessory> accessory12 = te.getAccessory12();
-			if(accessory12!=null&&accessory12.size()>0){
-				i=adao.addAccessory(accessory12);
-			}
-			List<Accessory> accessory13 = te.getAccessory13();
-			if(accessory13!=null&&accessory13.size()>0){
-				i=adao.addAccessory(accessory13);
 			}
 		//}
 		return i;

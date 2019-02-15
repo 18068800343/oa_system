@@ -9,27 +9,25 @@ public class TestingEvaluation {
 	private String teId;// 编号
 	private String prjName;//项目名称
 	private String prjNo; //任务单号
-	private int fileLength;
+	private int fileLengthJC;
 	private List<Accessory> accessory1;//项目实际存档目录
     private List<Accessory> accessory2;//项目特点介绍、关键词
-    private List<Accessory> accessory3;//招投标文件
-    private List<Accessory> accessory4;//合同资料
-    private List<Accessory> accessory5;//出版报告
-    private List<Accessory> accessory6;//计算模型、计算书
-    private List<Accessory> accessory7;//外部评审意见
-    private List<Accessory> accessory8;//校审资料
-    private List<Accessory> accessory9;//技术方案
-    private List<Accessory> accessory10;//重点项目的项目总结
-    private List<Accessory> accessory11;//重点项目质量流程控制文件
-    private List<Accessory> accessory12;//依据设计图纸
-    private List<Accessory> accessory13;//其它
+    private List<Accessory> accessory3;//合同资料（合同原件提交经营部综合部）
+    private List<Accessory> accessory4;//出版报告
+    private List<Accessory> accessory5;//计算模型、计算书
+    private List<Accessory> accessory6;//外部审查意见
+    private List<Accessory> accessory7;//校审资料
+    private List<Accessory> accessory8;//技术方案
+    private List<Accessory> accessory9;//重点项目的项目总结
+    private List<Accessory> accessory10;//依据历史设计图纸
     
     
-	public int getFileLength() {
-		return fileLength;
+	
+	public int getFileLengthJC() {
+		return fileLengthJC;
 	}
-	public void setFileLength(int fileLength) {
-		this.fileLength = fileLength;
+	public void setFileLengthJC(int fileLengthJC) {
+		this.fileLengthJC = fileLengthJC;
 	}
 	public String getTeId() {
 		return teId;
@@ -108,24 +106,6 @@ public class TestingEvaluation {
 	}
 	public void setAccessory10(List<Accessory> accessory10) {
 		this.accessory10 = accessory10;
-	}
-	public List<Accessory> getAccessory11() {
-		return accessory11;
-	}
-	public void setAccessory11(List<Accessory> accessory11) {
-		this.accessory11 = accessory11;
-	}
-	public List<Accessory> getAccessory12() {
-		return accessory12;
-	}
-	public void setAccessory12(List<Accessory> accessory12) {
-		this.accessory12 = accessory12;
-	}
-	public List<Accessory> getAccessory13() {
-		return accessory13;
-	}
-	public void setAccessory13(List<Accessory> accessory13) {
-		this.accessory13 = accessory13;
 	}
     
     

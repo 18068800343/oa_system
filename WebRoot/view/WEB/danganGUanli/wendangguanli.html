@@ -61,7 +61,7 @@
                         <th>项目类型</th>
                         <th>责任部门</th>
                         <th>经营文档是否归档</th>
-                        <th>其他文档是否归档</th>
+                        <th>项目文档是否归档</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -692,10 +692,12 @@
 	
 	
 	var type;
+	var dom;
+	var data;
 	function look2(aa){
 		$("#myModal2").modal('show');
-		var dom = $(aa).parents('tr');
-		var data=$('#mainContent').DataTable().row(dom).data();
+		dom = $(aa).parents('tr');
+		data=$('#mainContent').DataTable().row(dom).data();
 		//console.log(data)
 		type=data.prjType2;
 		if(data.prjType2.indexOf("C")>=0){
@@ -719,7 +721,6 @@
 		var dom = $(aa).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
 		//console.log(data)
-		type=data.prjType2;
 		if(data.prjType2.indexOf("C")>=0){
 			//施工文档资料
 			$("#lookdangan2").attr('src', './ConstructionDocumentLook.html?dataid='+data.prjId+'&no='+data.prjNo+'');
@@ -745,15 +746,27 @@
 	    	if(type.indexOf("C")>=0){
 				//施工文档资料
 	    		var result = childWindow.baocunSG();
-	    		if(result=='0'){
+	    		if(result=='0'||result==undefined){
 	      			toastr.error("保存出错");
 	      			return false;
 	  		    }else{
 	      			toastr.success("保存成功");
 	      			$("#myModal2").modal("hide")
+	      			data.fileLengthSG=1;
+	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);;//修改行立即显示
 	  		    }
 			}else if(type.indexOf("A")>=0){
 				//检测评估资料
+				var result = childWindow.baocunJC();
+	    		if(result=='0'||result==undefined){
+	      			toastr.error("保存出错");
+	      			return false;
+	  		    }else{
+	      			toastr.success("保存成功");
+	      			$("#myModal2").modal("hide")
+	      			data.fileLengthJC=1;
+	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);;//修改行立即显示
+	  		    }
 			}else if(type.indexOf("B")>=0){
 				//设计文件资料
 			}else if(type.indexOf("K")>=0){

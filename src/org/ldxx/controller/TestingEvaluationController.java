@@ -47,12 +47,12 @@ public class TestingEvaluationController {
 		List<TestingEvaluation> list=service.selectTestingEvaluation();
 		for(int i=0;i<list.size();i++){
 			int length=aService.fileCount(list.get(i).getTeId());
-			list.get(i).setFileLength(length);
+			list.get(i).setFileLengthJC(length);
 		}
 		return list;
 	}
 	
-	@RequestMapping("/addTestingEvaluationSave")//添加保存
+	/*@RequestMapping("/addTestingEvaluationSave")//添加保存
 	@ResponseBody
 	public Map<String,Object> addTestingEvaluationSave(String tes,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
 			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8
@@ -69,9 +69,6 @@ public class TestingEvaluationController {
 		map2.put("accessory8", Accessory.class);
 		map2.put("accessory9", Accessory.class);
 		map2.put("accessory10", Accessory.class);
-		map2.put("accessory11", Accessory.class);
-		map2.put("accessory12", Accessory.class);
-		map2.put("accessory13", Accessory.class);
 		JSONObject jsonObject=JSONObject.fromObject(tes);
 		TestingEvaluation te=(TestingEvaluation)JSONObject.toBean(jsonObject, TestingEvaluation.class,map2);
 		
@@ -264,73 +261,19 @@ public class TestingEvaluationController {
 			}
 			te.setAccessory10(acc);
 		}
-		if(file11.length>0){
-			List<Accessory> acc = te.getAccessory11();
-			for(int i=0;i<file11.length;i++){
-				String fileName=file11[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f11=new File(filePath);
-				file11[i].transferTo(f11);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("重点项目质量流程控制文件");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
-			}
-			te.setAccessory11(acc);
-		}
-		if(file12.length>0){
-			List<Accessory> acc = te.getAccessory12();
-			for(int i=0;i<file12.length;i++){
-				String fileName=file12[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f12=new File(filePath);
-				file12[i].transferTo(f12);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("依据设计图纸");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
-			}
-			te.setAccessory12(acc);
-		}
-		if(file13.length>0){
-			List<Accessory> acc = te.getAccessory13();
-			for(int i=0;i<file13.length;i++){
-				String fileName=file13[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f13=new File(filePath);
-				file13[i].transferTo(f13);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("其它");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
-			}
-			te.setAccessory13(acc);
-		}
 		
 		int i=service.addTestingEvaluationSave(te);
 		map.put("result", i);
 		map.put("TestingEvaluation", te);
 		return map; 
-	}
+	}*/
 
 	
 	@RequestMapping("/updateTestingEvaluationSave")//修改保存
 	@ResponseBody
 	public Map<String,Object> updateTestingEvaluationSave(String tes,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
 			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8
-			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13,HttpServletRequest request) throws IllegalStateException, IOException{
+			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory1", Accessory.class);
@@ -343,252 +286,177 @@ public class TestingEvaluationController {
 		map2.put("accessory8", Accessory.class);
 		map2.put("accessory9", Accessory.class);
 		map2.put("accessory10", Accessory.class);
-		map2.put("accessory11", Accessory.class);
-		map2.put("accessory12", Accessory.class);
-		map2.put("accessory13", Accessory.class);
 		JSONObject jsonObject=JSONObject.fromObject(tes);
 		TestingEvaluation te=(TestingEvaluation)JSONObject.toBean(jsonObject, TestingEvaluation.class,map2);
 		
 		String id=te.getTeId();
-		String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation"+File.separator+id;;
-		
+		//String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation"+File.separator+id;;
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
 		}
 		if(file1.length>0){
-			List<Accessory> acc = te.getAccessory1();
+			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file1.length;i++){
+				Accessory accessory=new Accessory();
 				String fileName=file1[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
 				File f1=new File(filePath);
 				file1[i].transferTo(f1);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("项目实际存档目录");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JC项目实际存档目录");
+				list.add(accessory);
 			}
-			te.setAccessory1(acc);
+			te.setAccessory1(list);
 		}
 		if(file2.length>0){
-			List<Accessory> acc = te.getAccessory2();
+			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file2.length;i++){
+				Accessory accessory=new Accessory();
 				String fileName=file2[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
-				File f2=new File(filePath);
-				file2[i].transferTo(f2);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("项目特点介绍、关键词");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
+				File f1=new File(filePath);
+				file2[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JC项目特点介绍、关键词");
+				list.add(accessory);
 			}
-			te.setAccessory2(acc);
+			te.setAccessory2(list);
 		}
 		if(file3.length>0){
-			List<Accessory> acc = te.getAccessory3();
+			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file3.length;i++){
+				Accessory accessory=new Accessory();
 				String fileName=file3[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
-				File f3=new File(filePath);
-				file3[i].transferTo(f3);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("招投标文件");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
+				File f1=new File(filePath);
+				file3[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JC合同资料(合同原件提交经营部综合部)");
+				list.add(accessory);
 			}
-			te.setAccessory3(acc);
+			te.setAccessory3(list);
 		}
 		if(file4.length>0){
-			List<Accessory> acc = te.getAccessory4();
+			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file4.length;i++){
+				Accessory accessory=new Accessory();
 				String fileName=file4[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
-				File f4=new File(filePath);
-				file4[i].transferTo(f4);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("合同资料");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
+				File f1=new File(filePath);
+				file4[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JC出版报告");
+				list.add(accessory);
 			}
-			te.setAccessory4(acc);
+			te.setAccessory4(list);
 		}
 		if(file5.length>0){
-			List<Accessory> acc = te.getAccessory5();
+			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file5.length;i++){
+				Accessory accessory=new Accessory();
 				String fileName=file5[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
-				File f5=new File(filePath);
-				file5[i].transferTo(f5);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("出版报告");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
+				File f1=new File(filePath);
+				file5[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JC计算模型、计算书");
+				list.add(accessory);
 			}
-			te.setAccessory5(acc);
+			te.setAccessory5(list);
 		}
 		if(file6.length>0){
-			List<Accessory> acc = te.getAccessory6();
+			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file6.length;i++){
+				Accessory accessory=new Accessory();
 				String fileName=file6[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
-				File f6=new File(filePath);
-				file6[i].transferTo(f6);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("计算模型、计算书");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
+				File f1=new File(filePath);
+				file6[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JC外部审查意见");
+				list.add(accessory);
 			}
-			te.setAccessory6(acc);
+			te.setAccessory6(list);
 		}
 		if(file7.length>0){
-			List<Accessory> acc = te.getAccessory7();
+			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file7.length;i++){
+				Accessory accessory=new Accessory();
 				String fileName=file7[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
-				File f7=new File(filePath);
-				file7[i].transferTo(f7);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("外部评审意见");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
+				File f1=new File(filePath);
+				file7[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JC校审资料");
+				list.add(accessory);
 			}
-			te.setAccessory7(acc);
+			te.setAccessory7(list);
 		}
 		if(file8.length>0){
-			List<Accessory> acc = te.getAccessory8();
+			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file8.length;i++){
+				Accessory accessory=new Accessory();
 				String fileName=file8[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
-				File f8=new File(filePath);
-				file8[i].transferTo(f8);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("校审资料");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
+				File f1=new File(filePath);
+				file8[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JC技术方案");
+				list.add(accessory);
 			}
-			te.setAccessory8(acc);
+			te.setAccessory8(list);
 		}
 		if(file9.length>0){
-			List<Accessory> acc = te.getAccessory9();
+			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file9.length;i++){
+				Accessory accessory=new Accessory();
 				String fileName=file9[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
-				File f9=new File(filePath);
-				file9[i].transferTo(f9);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("技术方案");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
+				File f1=new File(filePath);
+				file9[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JC重点项目的项目总结");
+				list.add(accessory);
 			}
-			te.setAccessory9(acc);
+			te.setAccessory9(list);
 		}
 		if(file10.length>0){
-			List<Accessory> acc = te.getAccessory10();
+			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file10.length;i++){
+				Accessory accessory=new Accessory();
 				String fileName=file10[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
-				File f10=new File(filePath);
-				file10[i].transferTo(f10);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("重点项目的项目总结");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
+				File f1=new File(filePath);
+				file10[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JC依据历史设计图纸");
+				list.add(accessory);
 			}
-			te.setAccessory10(acc);
-		}
-		if(file11.length>0){
-			List<Accessory> acc = te.getAccessory11();
-			for(int i=0;i<file11.length;i++){
-				String fileName=file11[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f11=new File(filePath);
-				file11[i].transferTo(f11);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("重点项目质量流程控制文件");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
-			}
-			te.setAccessory11(acc);
-		}
-		if(file12.length>0){
-			List<Accessory> acc = te.getAccessory12();
-			for(int i=0;i<file12.length;i++){
-				String fileName=file12[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f12=new File(filePath);
-				file12[i].transferTo(f12);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("依据设计图纸");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
-			}
-			te.setAccessory12(acc);
-		}
-		if(file13.length>0){
-			List<Accessory> acc = te.getAccessory13();
-			for(int i=0;i<file13.length;i++){
-				String fileName=file13[i].getOriginalFilename();
-				String filePath=path+File.separator+fileName;
-				File f13=new File(filePath);
-				file13[i].transferTo(f13);
-				for(int j=0;j<acc.size();j++){
-					acc.get(j).setaId(id);
-					acc.get(j).setAcName(fileName);
-					acc.get(j).setAcUrl(filePath);
-					acc.get(j).setaType("其它");
-					String atype=acc.get(j).getaDesc();
-					acc.get(j).setaDesc(atype);
-				}
-			}
-			te.setAccessory13(acc);
+			te.setAccessory10(list);
 		}
 		
 		int i=service.updateTestingEvaluationSave(te);

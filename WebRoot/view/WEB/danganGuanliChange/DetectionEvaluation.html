@@ -46,71 +46,71 @@
 
     <div class="zhuti-content">
     		<form id="edit_form" class="form-inline" method="post" enctype="multipart/form-data">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="all_table">
                             <thead>
 		                    <tr>
-		                        <th>主要工作内容</th>
-		                        <th>存档形式</th>
-		                        <th>是否强制</th>
-		                        <th>操作</th>
+		                        <th style="width:25%">主要工作内容</th>
+		                        <th style="width:25%">存档形式</th>
+		                        <th style="width:25%">是否强制</th>
+		                        <th style="width:25%">操作</th>
 		                    </tr>
 		                </thead>
 		                <tbody>
-		                		<tr>
+		                		<tr id="jc1">
 			                    	<td>项目实际存档目录</td>
 			                    	<td>电子及纸质</td>
 			                    	<td>强制</td>
 			                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile1(this)">添加附件</button></td>
 			                    </tr>
-			                    <tr>
+			                    <tr id="jc2">
 			                    	<td>项目特点介绍、关键词</td>
 			                    	<td>电子（word）</td>
 			                    	<td>定期检查外强制</td>
 			                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile2(this)">添加附件</button></td>
 			                    </tr>
-			                    <tr>
+			                    <tr id="jc3">
 			                    	<td>合同资料（合同原件提交经营部综合部）</td>
 			                    	<td>电子及纸质</td>
 			                    	<td>强制</td>
 			                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile3(this)">添加附件</button></td>
 			                    </tr>
-			                    <tr>
+			                    <tr id="jc4">
 			                    	<td>出版报告</td>
 			                    	<td>电子及纸质</td>
 			                    	<td>强制</td>
 			                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile4(this)">添加附件</button></td>
 			                    </tr>
-			                    <tr>
+			                    <tr id="jc5">
 			                    	<td>计算模型、计算书</td>
 			                    	<td>电子或纸质</td>
 			                    	<td>强制</td>
 			                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile5(this)">添加附件</button></td>
 			                    </tr>
-			                    <tr>
+			                    <tr id="jc6">
 			                    	<td>外部审查意见</td>
 			                    	<td>电子及纸质</td>
 			                    	<td>强制</td>
 			                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile6(this)">添加附件</button></td>
 			                    </tr>
-			                    <tr>
+			                    <tr id="jc7">
 			                    	<td>校审资料</td>
 			                    	<td>纸质</td>
 			                    	<td>强制</td>
 			                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile7(this)">添加附件</button></td>
 			                    </tr>
-			                    <tr>
+			                    <tr id="jc8">
 			                    	<td>技术方案</td>
 			                    	<td>电子</td>
 			                    	<td>不强制</td>
 			                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile8(this)">添加附件</button></td>
 			                    </tr>
-			                    <tr>
+			                    <tr id="jc9">
 			                    	<td>重点项目的项目总结</td>
 			                    	<td>电子</td>
 			                    	<td>强制</td>
 			                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile9(this)">添加附件</button></td>
 			                    </tr>
-			                    <tr>
+			                    <tr id="jc10">
 			                    	<td>依据历史设计图纸</td>
 			                    	<td>电子或纸质</td>
 			                    	<td>不强制</td>
@@ -212,142 +212,83 @@
 		$("#edit_prjNo").val(no);
 		$.ajax({
 			type:"POST",
-			url:getContextPath()+"/TestingEvaluation/selectAccessoryById",
+			url:getContextPath()+"/accessory/selectAccessoryById",
 			dataType:"json",
 			data:{ 
-				id:id
+				id:no
 				},
 			success:function(json){
 				//console.log(json)
-				$("#edit_accessory1 thead").siblings().empty(); //使用siblings获取被点击元素之外的同级元素，然后使用empty()清空
-				$("#edit_accessory2 thead").siblings().empty();
-				$("#edit_accessory3 thead").siblings().empty();
-				$("#edit_accessory4 thead").siblings().empty();
-				$("#edit_accessory5 thead").siblings().empty();
-				$("#edit_accessory6 thead").siblings().empty();
-				$("#edit_accessory7 thead").siblings().empty();
-				$("#edit_accessory8 thead").siblings().empty();
-				$("#edit_accessory9 thead").siblings().empty();
-				$("#edit_accessory10 thead").siblings().empty();
-				$("#edit_accessory11 thead").siblings().empty();
-				$("#edit_accessory12 thead").siblings().empty();
-				$("#edit_accessory13 thead").siblings().empty();
+				$(".fujian").parent().parent().empty();
 	            for(var i=0;i<json.length;i++){
-	            	if(json[i].aType=="项目实际存档目录"){
-	            	   $("#edit_accessory1 tbody").append("<tr>"+
+	            	if(json[i].aType=="JC项目实际存档目录"){
+	            	   $("#jc1").after("<tr>"+
 		       					"<td>附件</td>"+
-		            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-		            	    	"<td>附件说明</td>"+
-		            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-		            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+		            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+		            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 		            	    "</tr>");
 	            	}
-	            	if(json[i].aType=="项目特点介绍、关键词"){
-		            	   $("#edit_accessory2 tbody").append("<tr>"+
+	            	if(json[i].aType=="JC项目特点介绍、关键词"){
+		            	   $("#jc2").after("<tr>"+
 			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
-	            	if(json[i].aType=="招投标文件"){
-		            	   $("#edit_accessory3 tbody").append("<tr>"+
+	            	if(json[i].aType=="JC合同资料(合同原件提交经营部综合部)"){
+		            	   $("#jc3").after("<tr>"+
 			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
-	            	if(json[i].aType=="合同资料"){
-		            	   $("#edit_accessory4 tbody").append("<tr>"+
+	            	if(json[i].aType=="JC出版报告"){
+		            	   $("#jc4").after("<tr>"+
 			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
-	            	if(json[i].aType=="出版报告"){
-		            	   $("#edit_accessory5 tbody").append("<tr>"+
+	            	if(json[i].aType=="JC计算模型、计算书"){
+		            	   $("#jc5").after("<tr>"+
 			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
-	            	if(json[i].aType=="计算模型、计算书"){
-		            	   $("#edit_accessory6 tbody").append("<tr>"+
+	            	if(json[i].aType=="JC外部审查意见"){
+		            	   $("#jc6").after("<tr>"+
 			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
-	            	if(json[i].aType=="外部评审意见"){
-		            	   $("#edit_accessory7 tbody").append("<tr>"+
+	            	if(json[i].aType=="JC校审资料"){
+		            	   $("#jc7").after("<tr>"+
 			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
-	            	if(json[i].aType=="校审资料"){
-		            	   $("#edit_accessory8 tbody").append("<tr>"+
+	            	if(json[i].aType=="JC技术方案"){
+		            	   $("#jc8").after("<tr>"+
 			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
-	            	if(json[i].aType=="技术方案"){
-		            	   $("#edit_accessory9 tbody").append("<tr>"+
+	            	if(json[i].aType=="JC重点项目的项目总结"){
+		            	   $("#jc9").after("<tr>"+
 			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
-	            	if(json[i].aType=="重点项目的项目总结"){
-		            	   $("#edit_accessory10 tbody").append("<tr>"+
+	            	if(json[i].aType=="JC依据历史设计图纸"){
+		            	   $("#jc10").after("<tr>"+
 			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
-			            	    "</tr>");
-		            }
-	            	if(json[i].aType=="重点项目质量流程控制文件"){
-		            	   $("#edit_accessory11 tbody").append("<tr>"+
-			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
-			            	    "</tr>");
-		            }
-	            	if(json[i].aType=="依据设计图纸"){
-		            	   $("#edit_accessory12 tbody").append("<tr>"+
-			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
-			            	    "</tr>");
-		            }
-	            	if(json[i].aType=="其它"){
-		            	   $("#edit_accessory13 tbody").append("<tr>"+
-			       					"<td>附件</td>"+
-			            	    	"<td style='width:40%;'><input type='text' style='width:80%;' class='form-control' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td>附件说明</td>"+
-			            	    	"<td><input type='text' style='width:80%;' class='form-control' value='"+json[i].aDesc+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            } 
@@ -753,5 +694,94 @@
 	}
     
 
+	//检测档案专用
+	function baocunJC(){
+		var tes={
+				teId:null,
+		}
+		tes.teId=no;
+		var formData = new FormData()
+  		formData.append("tes", JSON.stringify(tes));
+  		$("#all_table tbody").find("tr").each(function(){
+  			var val=$(this).find("td").eq(0).text();
+  			if(val=="新附件"){
+	  			var name=$(this).find("td").eq(1).find("input").attr("name");
+	  			if(name=="file1"){
+		  			formData.append("file1", $(this).find("input[name='file1']")[0].files[0]);
+	  			}else if(name=="file2"){
+		  			formData.append("file2", $(this).find("input[name='file2']")[0].files[0]);
+	  			}else if(name=="file3"){
+		  			formData.append("file3", $(this).find("input[name='file3']")[0].files[0]);
+	  			}else if(name=="file4"){
+		  			formData.append("file4", $(this).find("input[name='file4']")[0].files[0]);
+	  			}else if(name=="file5"){
+		  			formData.append("file5", $(this).find("input[name='file5']")[0].files[0]);
+	  			}else if(name=="file6"){
+		  			formData.append("file6", $(this).find("input[name='file6']")[0].files[0]);
+	  			}else if(name=="file7"){
+		  			formData.append("file7", $(this).find("input[name='file7']")[0].files[0]);
+	  			}else if(name=="file8"){
+		  			formData.append("file8", $(this).find("input[name='file8']")[0].files[0]);
+	  			}else if(name=="file9"){
+		  			formData.append("file9", $(this).find("input[name='file9']")[0].files[0]);
+	  			}else if(name=="file10"){
+		  			formData.append("file10", $(this).find("input[name='file10']")[0].files[0]);
+	  			}
+  			}
+  		})
+  		if($("#jc1").next().find("input").length<=0||$("input[name='file1']").val()==""){
+			toastr.error("项目实际存档目录附件为空")
+			return;
+		}
+  		if($("#jc2").next().find("input").length<=0||$("input[name='file2']").val()==""){
+			toastr.error("项目特点介绍、关键词附件为空")
+			return;
+		}
+  		if($("#jc3").next().find("input").length<=0||$("input[name='file3']").val()==""){
+			toastr.error("合同资料（合同原件提交经营部综合部）附件为空")
+			return;
+		}
+  		if($("#jc4").next().find("input").length<=0||$("input[name='file4']").val()==""){
+			toastr.error("出版报告附件为空")
+			return;
+		}
+  		if($("#jc5").next().find("input").length<=0||$("input[name='file5']").val()==""){
+			toastr.error("计算模型、计算书附件为空")
+			return;
+		}
+  		if($("#jc6").next().find("input").length<=0||$("input[name='file6']").val()==""){
+			toastr.error("外部审查意见附件为空")
+			return;
+		}
+  		if($("#jc7").next().find("input").length<=0||$("input[name='file7']").val()==""){
+			toastr.error("校审资料附件为空")
+			return;
+		}
+  		if($("#jc9").next().find("input").length<=0||$("input[name='file9']").val()==""){
+			toastr.error("重点项目的项目总结附件为空")
+			return;
+		}
+  		var result;
+  		$.ajax({
+	  			type: 'POST',
+	            url: getContextPath()+'/TestingEvaluation/updateTestingEvaluationSave',
+	            data: formData, 
+	            async:false,
+	            processData: false,
+	            contentType: false,
+	            success: function (json) {
+	            	result=json.result;
+	            	if(json.result>0){
+	            		$("#change").modal("hide");
+	            		toastr.success("修改成功")
+	            	}else{
+	            		toastr.error("修改失败")
+	            	}
+	            }
+	  		})
+  		return result;
+	}
+	
+	
 </script>
 </html>
