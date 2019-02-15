@@ -9,57 +9,71 @@ public class DesignDocuments {
 	private String ddId;// 编号
 	private String prjName;//项目名称
 	private String prjNo; //任务单号
-	private int fileLength;
+	private int fileLengthSJ;
 	private List<Accessory> accessory1;//项目实际存档目录
-    private List<Accessory> accessory2;//项目特点介绍、关键词
-    private List<Accessory> accessory3;//招投标文件
-    private List<Accessory> accessory4;//合同资料
+    private List<Accessory> accessory2;//项目特点介绍、关键词（尤其施工图阶段）
+    private List<Accessory> accessory3;//合同资料（合同原件提交经营部综合部）
     //工可/方案
-    private List<Accessory> accessory5;//工可设计任务书
-    private List<Accessory> accessory6;//工可建设用地批准书、规划要点
-    private List<Accessory> accessory7;//工可用地红线图（地形图）
-    private List<Accessory> accessory8;//工可用地实测图
-    private List<Accessory> accessory9;//工可区域控制性详细规划
-    private List<Accessory> accessory10;//工可开发可行性报告与市场调查
-    private List<Accessory> accessory11;//工可工程地质勘察报告
-    private List<Accessory> accessory12;//工可工程场地地震安评报告
-    private List<Accessory> accessory13;//工可用地范围周边市政系统情况
-    private List<Accessory> accessory14;//工可效果图
-    private List<Accessory> accessory15;//工可工可报告、图纸
-    private List<Accessory> accessory16;//工可相关单位往来函、文
-    //报批方案
-    private List<Accessory> accessory17;//报批效果图
-    private List<Accessory> accessory18;//报批文本
-    private List<Accessory> accessory19;//报批图纸
-    private List<Accessory> accessory20;//报批审查意见
-    private List<Accessory> accessory21;//报批校审单
+    private List<Accessory> accessory4;//设计任务书
+    private List<Accessory> accessory5;//建设用地批准书、规划要点
+    private List<Accessory> accessory6;//用地红线图（地形图）
+    private List<Accessory> accessory7;//用地实测图
+    private List<Accessory> accessory8;//区域控制性详细规划
+    private List<Accessory> accessory9;//开发可行性报告与市场调查
+    private List<Accessory> accessory10;//工程地质勘察报告
+    private List<Accessory> accessory11;//工程场地地震安评报告
+    private List<Accessory> accessory12;//用地范围周边市政系统情况
+    private List<Accessory> accessory13;//工可报告、图纸
+    private List<Accessory> accessory14;//相关单位往来函、文
+    private List<Accessory> accessory15;//效果图
+    private List<Accessory> accessory16;//报批文本
+    private List<Accessory> accessory17;//图纸
+    private List<Accessory> accessory18;//审查意见
+    private List<Accessory> accessory19;//校审单
     //初设阶段
-    private List<Accessory> accessory22;//初设方案批文（规划、环评、安评等）
-    private List<Accessory> accessory23;//初设施工图文件
-    private List<Accessory> accessory24;//初设概算书
-    private List<Accessory> accessory25;//初设地勘报告（初勘或详勘）
-    private List<Accessory> accessory26;//初设审查意见
-    private List<Accessory> accessory27;//初设校审单
-    private List<Accessory> accessory28;//初设相关单位往来函、文
+    private List<Accessory> accessory20;//方案批文（规划、环评、安评等）
+    private List<Accessory> accessory21;//施工图文件
+    private List<Accessory> accessory22;//概算书
+    private List<Accessory> accessory23;//地勘报告（初勘或详勘）
+    private List<Accessory> accessory24;//审查意见
+    private List<Accessory> accessory25;//校审单
+    private List<Accessory> accessory26;//相关单位往来函、文
     //施工图阶段
-    private List<Accessory> accessory29;//施工图初设批文
-    private List<Accessory> accessory30;//施工图施工图文件
-    private List<Accessory> accessory31;//施工图结构模型、计算书
-    private List<Accessory> accessory32;//施工图地勘报告（详勘）
-    private List<Accessory> accessory33;//施工图审查意见
-    private List<Accessory> accessory34;//施工图校审单
-    private List<Accessory> accessory35;//施工图施工交底记录及回复
-    private List<Accessory> accessory36;//施工图设计变更资料
-    private List<Accessory> accessory37;//施工图重点项目项目总结
-    private List<Accessory> accessory38;//施工图相关单位往来函、文
-    private List<Accessory> accessory39;//施工图重点项目质量流程内部控制文件
+    private List<Accessory> accessory27;//初设批文
+    private List<Accessory> accessory28;//施工图文件
+    private List<Accessory> accessory29;//预算书
+    private List<Accessory> accessory30;//依据历史图纸和报告
+    private List<Accessory> accessory31;//结构模型、计算书
+    private List<Accessory> accessory32;//地勘报告（详勘）
+    private List<Accessory> accessory33;//工程咨询报告
+    private List<Accessory> accessory34;//审查意见
+    private List<Accessory> accessory35;//校审单
+    private List<Accessory> accessory36;//施工交底记录及回复
+    private List<Accessory> accessory37;//设计变更资料
+    private List<Accessory> accessory38;//重点项目项目总结
+    private List<Accessory> accessory39;//交工验收文件（原件提交经营发展部，如施工任务由公司承担则不需要）
+    private List<Accessory> accessory40;//获奖证书
+    private List<Accessory> accessory41;//相关单位往来函、文
     
     
-	public int getFileLength() {
-		return fileLength;
+	
+	public int getFileLengthSJ() {
+		return fileLengthSJ;
 	}
-	public void setFileLength(int fileLength) {
-		this.fileLength = fileLength;
+	public void setFileLengthSJ(int fileLengthSJ) {
+		this.fileLengthSJ = fileLengthSJ;
+	}
+	public List<Accessory> getAccessory40() {
+		return accessory40;
+	}
+	public void setAccessory40(List<Accessory> accessory40) {
+		this.accessory40 = accessory40;
+	}
+	public List<Accessory> getAccessory41() {
+		return accessory41;
+	}
+	public void setAccessory41(List<Accessory> accessory41) {
+		this.accessory41 = accessory41;
 	}
 	public String getDdId() {
 		return ddId;

@@ -379,6 +379,14 @@ public class DesignDocumentsServiceImpl implements DesignDocumentsService {
 			if(accessory39!=null&&accessory39.size()>0){
 				i=adao.addAccessory(accessory39);
 			}
+			List<Accessory> accessory40 = dd.getAccessory40();
+			if(accessory40!=null&&accessory40.size()>0){
+				i=adao.addAccessory(accessory40);
+			}
+			List<Accessory> accessory41 = dd.getAccessory41();
+			if(accessory41!=null&&accessory41.size()>0){
+				i=adao.addAccessory(accessory41);
+			}
 		//}
 		return i;
 	}
