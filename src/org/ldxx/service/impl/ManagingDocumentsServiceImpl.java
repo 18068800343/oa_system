@@ -146,10 +146,10 @@ public class ManagingDocumentsServiceImpl implements ManagingDocumentsService {
 	}
 
 	@Override
-	public ManagingDocuments selectManagingDocumentsById(String id) {
-		ManagingDocuments md= dao.selectManagingDocumentsById(id);
+	public ManagingDocuments selectManagingDocumentsByNo(String no) {
+		ManagingDocuments md= dao.selectManagingDocumentsByNo(no);
 		if(md!=null){
-			List<ManagingDocumentsTenderer> tendererById = tdao.selectTendererById(id);
+			List<ManagingDocumentsTenderer> tendererById = tdao.selectTendererById(no);
 			md.setManagingDocumentsTenderer(tendererById);
 		}
 		return md;

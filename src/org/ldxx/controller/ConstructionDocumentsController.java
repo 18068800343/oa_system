@@ -11,6 +11,7 @@ import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ConstructionDocuments;
 import org.ldxx.bean.ManagingDocuments;
 import org.ldxx.bean.ManagingDocumentsTenderer;
+import org.ldxx.dao.ConstructionDocumentsDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.ConstructionDocumentsService;
 import org.ldxx.util.TimeUUID;
@@ -37,6 +38,8 @@ public class ConstructionDocumentsController {
 	private ConstructionDocumentsService service;
 	@Autowired
 	private AccessoryService aService;
+	@Autowired
+	private ConstructionDocumentsDao dao;
 	
 	@RequestMapping("/selectConstructionDocuments")
 	@ResponseBody
@@ -398,9 +401,14 @@ public class ConstructionDocumentsController {
 		JSONObject jsonObject=JSONObject.fromObject(cds);
 		ConstructionDocuments cd=(ConstructionDocuments)JSONObject.toBean(jsonObject, ConstructionDocuments.class,map2);
 		
-		String id=cd.getCdId();
-		//String path="D:"+File.separator+"oa"+File.separator+"ConstructionDocuments"+File.separator+id;
 		TimeUUID uuid=new TimeUUID();
+		String id=cd.getCdId();
+		if(id==null||id==""){
+			id=uuid.getTimeUUID();
+			cd.setCdId(id);
+			int i=dao.addConstructionDocumentsSave(cd);
+		}
+		//String path="D:"+File.separator+"oa"+File.separator+"ConstructionDocuments"+File.separator+id;
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
 		File f=new File(path);
@@ -670,7 +678,11 @@ public class ConstructionDocumentsController {
 		return map; 
 	}
 	
-	
+	@RequestMapping("/selectConstructionDocumentsByno")
+	@ResponseBody
+	public ConstructionDocuments selectConstructionDocumentsByno(String no){
+		return service.selectConstructionDocumentsByno(no);
+	}
 	
 	
 	@RequestMapping("/selectAccessoryById")

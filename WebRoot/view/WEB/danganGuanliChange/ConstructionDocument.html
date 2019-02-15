@@ -252,13 +252,26 @@
 		$("#edit_prjName").val(nameprj);
 		$("#edit_prjNo").val(no);
 		
+		var id;
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/ConstructionDocuments/selectConstructionDocumentsByno',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	no:no,
+	        },
+	        success: function (json) {
+	        	id=json.cdId;
+	        }
+		});
 		
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
 			dataType:"json",
 			data:{ 
-				id:no
+				id:id
 				},
 			success:function(json){
 				//$("#edit_accessory1 thead").siblings().empty(); //使用siblings获取被点击元素之外的同级元素，然后使用empty()清空
@@ -832,10 +845,27 @@
 
 	//档案专用
 	function baocunSG(){
+		var id;
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/ConstructionDocuments/selectConstructionDocumentsByno',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	no:no,
+	        },
+	        success: function (json) {
+	        	id=json.cdId;
+	        }
+		});
 		var cds={
 				cdId:null,
+				prjName:undefined,
+				prjNo:undefined,
 		}
-		cds.cdId=no;
+		cds.cdId=id;
+		cds.prjName=nameprj;
+  		cds.prjNo=no;
   		var formData = new FormData()
   		formData.append("cds", JSON.stringify(cds));
   		$("#all_table tbody").find("tr").each(function(){
@@ -926,7 +956,7 @@
 			return;
 		}
   		var result;
-  		$.ajax({
+  		 $.ajax({
 	  			type: 'POST',
 	            url: getContextPath()+'/ConstructionDocuments/updateConstructionDocumentsSave',
 	            data: formData, 
@@ -942,7 +972,7 @@
 	            		toastr.error("修改失败")
 	            	}
 	            }
-	  		})
+	  		}) 
   		return result;
 	}
 	

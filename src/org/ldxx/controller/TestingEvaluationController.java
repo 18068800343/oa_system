@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ConstructionDocuments;
 import org.ldxx.bean.TestingEvaluation;
+import org.ldxx.dao.TestingEvaluationDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.TestingEvaluationService;
 import org.ldxx.util.TimeUUID;
@@ -40,6 +41,8 @@ public class TestingEvaluationController {
 	private TestingEvaluationService service;
 	@Autowired
 	private AccessoryService aService;
+	@Autowired
+	private TestingEvaluationDao dao;
 	
 	@RequestMapping("/selectTestingEvaluation")
 	@ResponseBody
@@ -289,9 +292,14 @@ public class TestingEvaluationController {
 		JSONObject jsonObject=JSONObject.fromObject(tes);
 		TestingEvaluation te=(TestingEvaluation)JSONObject.toBean(jsonObject, TestingEvaluation.class,map2);
 		
-		String id=te.getTeId();
-		//String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation"+File.separator+id;;
 		TimeUUID uuid=new TimeUUID();
+		String id=te.getTeId();
+		if(id==null||id==""){
+			id=uuid.getTimeUUID();
+			te.setTeId(id);
+			int i=dao.addTestingEvaluationSave(te);
+		}
+		//String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation"+File.separator+id;;
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
 		File f=new File(path);
@@ -463,6 +471,12 @@ public class TestingEvaluationController {
 		map.put("result", i);
 		map.put("TestingEvaluation", te);
 		return map; 
+	}
+	
+	@RequestMapping("/selectTestingEvaluationByno")
+	@ResponseBody
+	public TestingEvaluation selectTestingEvaluationByno(String no){
+		return service.selectTestingEvaluationById(no);
 	}
 	
 	@RequestMapping("/deleteTestingEvaluationById")

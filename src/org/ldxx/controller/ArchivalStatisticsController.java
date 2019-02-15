@@ -49,7 +49,7 @@ public class ArchivalStatisticsController {
 	@ResponseBody
 	public List<List<String>> selectArchivalStatistics(String id){
 		List<List<String>> list=new ArrayList<List<String>>();
-		ConstructionDocuments cd=cService.selectConstructionDocumentsById(id);
+		ConstructionDocuments cd=cService.selectConstructionDocumentsByno(id);
 		if(cd!=null){
 			List<String> ll=new ArrayList<>();
 			ll.add(cd.getCdId());
@@ -63,7 +63,7 @@ public class ArchivalStatisticsController {
 			ll2.add("设计文件资料");
 			list.add(ll2);
 		}
-		ManagingDocuments md=mService.selectManagingDocumentsById(id);
+		ManagingDocuments md=mService.selectManagingDocumentsByNo(id);
 		if(md!=null){
 			List<String> ll3=new ArrayList<>();
 			ll3.add(md.getMdId());

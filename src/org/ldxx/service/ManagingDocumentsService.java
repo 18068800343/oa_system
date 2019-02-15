@@ -19,7 +19,7 @@ public interface ManagingDocumentsService {
 
 	int updateManagingDocumentsSave(ManagingDocuments md);
 	
-	ManagingDocuments selectManagingDocumentsById(String id);
+	ManagingDocuments selectManagingDocumentsByNo(String no);
 
 	ManagingDocuments selectById(String id);
 

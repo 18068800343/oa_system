@@ -15,6 +15,6 @@ public interface ConstructionDocumentsDao {
 
 	int updateConstructionDocumentsSave(@Param("cd")ConstructionDocuments cd);
 	
-	ConstructionDocuments selectConstructionDocumentsById(@Param("id")String id);
+	ConstructionDocuments selectConstructionDocumentsByno(@Param("id")String id);
 
 }

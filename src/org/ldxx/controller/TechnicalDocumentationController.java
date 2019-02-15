@@ -10,6 +10,7 @@ import java.util.Map;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ConstructionDocuments;
 import org.ldxx.bean.TechnicalDocumentation;
+import org.ldxx.dao.TechnicalDocumentationDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.TechnicalDocumentationService;
 import org.ldxx.util.TimeUUID;
@@ -35,6 +36,8 @@ public class TechnicalDocumentationController {
 	private TechnicalDocumentationService service;
 	@Autowired
 	private AccessoryService aService;
+	@Autowired
+	private TechnicalDocumentationDao dao;
 	
 	
 	@RequestMapping("/selectTechnicalDocumentation")
@@ -428,9 +431,14 @@ public class TechnicalDocumentationController {
 		JSONObject jsonObject=JSONObject.fromObject(tds);
 		TechnicalDocumentation td=(TechnicalDocumentation)JSONObject.toBean(jsonObject, TechnicalDocumentation.class,map2);
 		
-		String id=td.getTdId();
-		//String path="D:"+File.separator+"oa"+File.separator+"TechnicalDocumentation"+File.separator+id;;
 		TimeUUID uuid=new TimeUUID();
+		String id=td.getTdId();
+		if(id==null||id==""){
+			id=uuid.getTimeUUID();
+			td.setTdId(id);
+			int i=dao.addConstructionDocumentsSave(td);
+		}
+		//String path="D:"+File.separator+"oa"+File.separator+"TechnicalDocumentation"+File.separator+id;;
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
 		File f=new File(path);
@@ -714,6 +722,12 @@ public class TechnicalDocumentationController {
 		map.put("result", i);
 		map.put("TechnicalDocumentation", td);
 		return map; 
+	}
+	
+	@RequestMapping("/selectTechnicalDocumentationByno")
+	@ResponseBody
+	public TechnicalDocumentation selectTechnicalDocumentationById(String no){
+		return service.selectTechnicalDocumentationById(no);
 	}
 	
 	@RequestMapping("/deleteTechnicalDocumentation")

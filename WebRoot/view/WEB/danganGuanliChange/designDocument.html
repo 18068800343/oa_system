@@ -409,12 +409,26 @@
 		//console.log(data)
 		$("#edit_prjName").val(nameprj);
 		$("#edit_prjNo").val(no);
+		
+		var id;
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/DesignDocuments/selectDesignDocumentsByno',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	no:no,
+	        },
+	        success: function (json) {
+	        	id=json.ddId;
+	        }
+		});
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
 			dataType:"json",
 			data:{ 
-				id:no
+				id:id
 				},
 			success:function(json){
 				//console.log(json)
@@ -1750,10 +1764,27 @@
 	
 	//设计档案专用
 	function baocunSJ(){
+		var id;
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/DesignDocuments/selectDesignDocumentsByno',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	no:no,
+	        },
+	        success: function (json) {
+	        	id=json.ddId;
+	        }
+		});
 		var dds={
 				ddId:null,
+				prjName:undefined,
+				prjNo:undefined,
 		}
-		dds.ddId=no;
+		dds.ddId=id;
+		dds.prjName=nameprj;
+  		dds.prjNo=no;
 		var formData = new FormData()
 		formData.append("dds", JSON.stringify(dds));
 		
@@ -1847,7 +1878,7 @@
   			}
 		})
 		
-		 if($("#sj1").next().find("input").length<=0||$("input[name='file1']").val()==""){
+		if($("#sj1").next().find("input").length<=0||$("input[name='file1']").val()==""){
 			toastr.error("项目实际存档目录附件为空")
 			return;
 		}
@@ -1962,7 +1993,7 @@
   		if($("#sj41").next().find("input").length<=0||$("input[name='file41']").val()==""){
 			toastr.error("相关单位往来函、文附件为空")
 			return;
-		}
+		} 
   		var result;
   		$.ajax({
 	  			type: 'POST',

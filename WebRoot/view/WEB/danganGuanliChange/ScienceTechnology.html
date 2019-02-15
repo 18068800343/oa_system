@@ -260,13 +260,25 @@
 		
 		$("#edit_prjName").val(nameprj);
 		$("#edit_prjNo").val(no);
-		
+		var id;
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/TechnicalDocumentation/selectTechnicalDocumentationByno',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	no:no,
+	        },
+	        success: function (json) {
+	        	id=json.tdId;
+	        }
+		});
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
 			dataType:"json",
 			data:{ 
-				id:no
+				id:id
 				},
 			success:function(json){
 				//console.log(json)
@@ -915,10 +927,27 @@
 
 	//科技档案专用
 	function baocunKJ(){
+		var id;
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/TechnicalDocumentation/selectTechnicalDocumentationByno',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	no:no,
+	        },
+	        success: function (json) {
+	        	id=json.tdId;
+	        }
+		});
 		var tds={
 				tdId:null,
+				prjName:undefined,
+				prjNo:undefined,
 		}
-		tds.tdId=no;
+		tds.tdId=id;
+		tds.prjName=nameprj;
+		tds.prjNo=no;
 		var formData = new FormData()
   		formData.append("tds", JSON.stringify(tds));
 		

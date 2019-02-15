@@ -10,6 +10,7 @@ import java.util.Map;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ManagingDocuments;
 import org.ldxx.bean.ManagingDocumentsTenderer;
+import org.ldxx.dao.ManagingDocumentsDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.ManagingDocumentsService;
 import org.ldxx.util.TimeUUID;
@@ -36,6 +37,8 @@ public class ManagingDocumentsController {
 	private ManagingDocumentsService service;
 	@Autowired
 	private AccessoryService aService;
+	@Autowired
+	private ManagingDocumentsDao dao;
 	
 	@RequestMapping("/selectManagingDocuments")
 	@ResponseBody
@@ -56,8 +59,8 @@ public class ManagingDocumentsController {
 	
 	@RequestMapping("/selectManagingDocumentsByNo")//通过任务单号查
 	@ResponseBody
-	public ManagingDocuments selectManagingDocumentsById(String no){
-		return service.selectManagingDocumentsById(no);
+	public ManagingDocuments selectManagingDocumentsByNo(String no){
+		return service.selectManagingDocumentsByNo(no);
 	}
 	
 	@RequestMapping("/addManagingDocumentsSave")//添加保存
@@ -187,9 +190,14 @@ public class ManagingDocumentsController {
 		JSONObject jsonObject=JSONObject.fromObject(managingDocuments);
 		ManagingDocuments md=(ManagingDocuments)JSONObject.toBean(jsonObject, ManagingDocuments.class,map2);
 		
-		String id=md.getMdId();
-		//String path="D:"+File.separator+"oa"+File.separator+"ManagingDocuments";
 		TimeUUID uuid=new TimeUUID();
+		String id=md.getMdId();
+		if(id==""||id==null){
+			id=uuid.getTimeUUID();
+			md.setMdId(id);
+			int i=dao.addManagingDocumentsSave(md);
+		}
+		//String path="D:"+File.separator+"oa"+File.separator+"ManagingDocuments";
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
 		File f=new File(path);

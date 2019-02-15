@@ -362,7 +362,6 @@
 	
 	$("#department").on("change",function(){
 		 var department=$("#department").val();
-		 console.log(department)
 		 $.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/task/selectTask',
@@ -458,14 +457,25 @@
   		$(tr).remove();
   	}
 	
-	var prjNo1;
 	var dom;
 	var datas;
 	function look(aa){
 		$("#myModal").modal('show');
 		dom = $(aa).parents('tr');
 		datas=$('#mainContent').DataTable().row(dom).data();
-		prjNo1=datas.prjNo
+		var id;
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/ManagingDocuments/selectManagingDocumentsByNo',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	no:datas.prjNo,
+	        },
+	        success: function (json) {
+	        	id=json.mdId;
+	        }
+		});
 		/* $("#edit_prjName").val(datas.prjName);
         $("#edit_prjNo").val(datas.prjNo); 
         //回显城市 
@@ -523,13 +533,12 @@
                 
             }
         });*/
-		
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
 			dataType:"json",
 			data:{ 
-				id:datas.prjNo
+				id:id
 				},
 			success:function(json){
 				$(":file").parent().parent().empty();
@@ -603,15 +612,27 @@
 		$("#mydal2").modal('show');
 		var dom = $(obj).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
+		var id;
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/ManagingDocuments/selectManagingDocumentsByNo',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	no:data.prjNo,
+	        },
+	        success: function (json) {
+	        	id=json.mdId;
+	        }
+		});
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
 			dataType:"json",
 			data:{ 
-				id:data.prjNo
+				id:id
 				},
 			success:function(json){
-				console.log(json)
 				//$("#edit_accessory1 zb1").siblings().empty();
 				$(".lookfujian").parent().parent().empty();
 	            for(var i=0;i<json.length;i++){
@@ -669,11 +690,27 @@
 	
 	//保存经营资料
 	function checksave1(){
+		var id;
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/ManagingDocuments/selectManagingDocumentsByNo',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	no:datas.prjNo,
+	        },
+	        success: function (json) {
+	        	id=json.mdId;
+	        }
+		});
 			var ManagingDocuments={
 					mdId:null,
+					prjName:undefined,
+					prjNo:undefined,
 			}
-			ManagingDocuments.mdId=prjNo1;
-			
+			ManagingDocuments.mdId=id;
+			ManagingDocuments.prjName=datas.prjName;
+			ManagingDocuments.prjNo=datas.prjNo;
 			var formData = new FormData();
 	  		formData.append("managingDocuments", JSON.stringify(ManagingDocuments));
 	  		
@@ -714,7 +751,7 @@
 				toastr.error("开标记录附件为空")
 				return;
 			}
-			  $.ajax({
+			 $.ajax({
 	  			type: 'POST',
 	            url: getContextPath()+'/ManagingDocuments/updateManagingDocumentsSave',
 	            data: formData,  
@@ -731,7 +768,7 @@
 	            		toastr.error("保存失败")
 	            	}
 	            }
-	  		})  
+	  		}) 
 			
 	} 
 	

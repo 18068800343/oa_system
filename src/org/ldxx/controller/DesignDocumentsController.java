@@ -10,6 +10,7 @@ import java.util.Map;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ConstructionDocuments;
 import org.ldxx.bean.DesignDocuments;
+import org.ldxx.dao.DesignDocumentsDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.DesignDocumentsService;
 import org.ldxx.util.TimeUUID;
@@ -34,6 +35,8 @@ public class DesignDocumentsController {
 	private DesignDocumentsService service;
 	@Autowired
 	private AccessoryService aService;
+	@Autowired
+	private DesignDocumentsDao dao;
 	
 	
 	@RequestMapping("/selectDesignDocuments")
@@ -881,9 +884,14 @@ public class DesignDocumentsController {
 		JSONObject jsonObject=JSONObject.fromObject(dds);
 		DesignDocuments dd=(DesignDocuments)JSONObject.toBean(jsonObject, DesignDocuments.class,map2);
 		
-		String id=dd.getDdId();
-		//String path="D:"+File.separator+"oa"+File.separator+"DesignDocuments"+File.separator+id;;
 		TimeUUID uuid=new TimeUUID();
+		String id=dd.getDdId();
+		if(id==null||id==""){
+			id=uuid.getTimeUUID();
+			dd.setDdId(id);
+			int i=dao.addDesignDocumentsSave(dd);
+		}
+		//String path="D:"+File.separator+"oa"+File.separator+"DesignDocuments"+File.separator+id;;
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
 		File f=new File(path);
@@ -1553,7 +1561,11 @@ public class DesignDocumentsController {
 		return map;
 	}
 	
-	
+	@RequestMapping("/selectDesignDocumentsByno")
+	@ResponseBody
+	public DesignDocuments selectDesignDocumentsById(String no){
+		return service.selectDesignDocumentsById(no);
+	}
 	
 	
 	@RequestMapping("/deleteDesignDocuments")

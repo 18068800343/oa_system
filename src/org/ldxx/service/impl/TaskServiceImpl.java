@@ -3,11 +3,21 @@ package org.ldxx.service.impl;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
+import org.ldxx.bean.ConstructionDocuments;
+import org.ldxx.bean.DesignDocuments;
 import org.ldxx.bean.Enterprise;
+import org.ldxx.bean.ManagingDocuments;
 import org.ldxx.bean.Task;
+import org.ldxx.bean.TechnicalDocumentation;
+import org.ldxx.bean.TestingEvaluation;
 import org.ldxx.dao.AccessoryDao;
+import org.ldxx.dao.ConstructionDocumentsDao;
+import org.ldxx.dao.DesignDocumentsDao;
 import org.ldxx.dao.EnterpriseDao;
+import org.ldxx.dao.ManagingDocumentsDao;
 import org.ldxx.dao.TaskDao;
+import org.ldxx.dao.TechnicalDocumentationDao;
+import org.ldxx.dao.TestingEvaluationDao;
 import org.ldxx.service.TaskService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +35,16 @@ public class TaskServiceImpl implements TaskService{
 	private EnterpriseDao edao;
 	@Autowired
 	private AccessoryDao adao;
+	@Autowired
+	private ManagingDocumentsDao mddao;
+	@Autowired
+	private ConstructionDocumentsDao cddao;
+	@Autowired
+	private TestingEvaluationDao tedao;
+	@Autowired
+	private DesignDocumentsDao dddao;
+	@Autowired
+	private TechnicalDocumentationDao tddao;
 	
 	@Transactional
 	@Override
@@ -258,22 +278,42 @@ public class TaskServiceImpl implements TaskService{
 		List<Task> list=tdao.selectlikeMainDepartment(mainDepartment);
 		if(list!=null&&list.size()!=0){
 			for(int i=0;i<list.size();i++){
-				List<Accessory> Accessory = adao.selectAccessoryById(list.get(i).getPrjNo());
-				if(Accessory!=null&&Accessory.size()!=0){
-					for(int j=0;j<Accessory.size();j++){
-						if(Accessory.get(j).getaType().contains("JY")){
-							list.get(i).setFileLength(1);
-						}else if(Accessory.get(j).getaType().contains("SG")){
-							list.get(i).setFileLengthSG(1);
-						}else if(Accessory.get(j).getaType().contains("JC")){
-							list.get(i).setFileLengthJC(1);
-						}else if(Accessory.get(j).getaType().contains("SJ")){
-							list.get(i).setFileLengthSJ(1);
-						}else if(Accessory.get(j).getaType().contains("KJ")){
-							list.get(i).setFileLengthKJ(1);
-						}
+				ManagingDocuments managingDocuments = mddao.selectManagingDocumentsByNo(list.get(i).getPrjNo());
+				if(managingDocuments!=null){
+					List<Accessory> Accessory = adao.selectAccessoryById(managingDocuments.getMdId());
+					if(Accessory!=null&&Accessory.size()!=0){
+						list.get(i).setFileLength(1);
 					}
 				}
+				ConstructionDocuments constructionDocuments = cddao.selectConstructionDocumentsByno(list.get(i).getPrjNo());
+				if(constructionDocuments!=null){
+					List<Accessory> Accessory = adao.selectAccessoryById(constructionDocuments.getCdId());
+					if(Accessory!=null&&Accessory.size()!=0){
+						list.get(i).setFileLengthSG(1);
+					}
+				}
+				TestingEvaluation testingEvaluation = tedao.selectTestingEvaluationById(list.get(i).getPrjNo());
+				if(testingEvaluation!=null){
+					List<Accessory> Accessory = adao.selectAccessoryById(testingEvaluation.getTeId());
+					if(Accessory!=null&&Accessory.size()!=0){
+						list.get(i).setFileLengthJC(1);
+					}
+				}
+				DesignDocuments designDocuments = dddao.selectDesignDocumentsById(list.get(i).getPrjNo());
+				if(designDocuments!=null){
+					List<Accessory> Accessory = adao.selectAccessoryById(designDocuments.getDdId());
+					if(Accessory!=null&&Accessory.size()!=0){
+						list.get(i).setFileLengthSJ(1);
+					}
+				}
+				TechnicalDocumentation technicalDocumentation = tddao.selectTechnicalDocumentationById(list.get(i).getPrjNo());
+				if(technicalDocumentation!=null){
+					List<Accessory> Accessory = adao.selectAccessoryById(technicalDocumentation.getTdId());
+					if(Accessory!=null&&Accessory.size()!=0){
+						list.get(i).setFileLengthKJ(1);
+					}
+				}
+				
 			}
 		}
 		return list;
