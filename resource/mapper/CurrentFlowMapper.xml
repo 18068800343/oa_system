@@ -629,7 +629,21 @@
        	</if>
        	;
   </select>
-  
+    <select id="getCurrentFlowVoByStatus" resultType="currentFlowVo">
+		SELECT
+			a.*,
+			c.BusinessName,
+			b.`status`,
+			b.flow_status,
+			d.Step,
+			d.edit_or_view
+		FROM
+			currentFlow a
+		LEFT JOIN mode_status b ON a.mode_id = b.mode_id
+		LEFT JOIN flownode d on a.Flo_Node_ID = d.ID
+		LEFT JOIN business c ON a.Bus_ID = c.ID where a.Actor=#{userId}
+        and b.`flow_status` in('1','4');
+  </select>
   <update id="updateFkDept" parameterType="string">
     update currentFlow set FK_Dept=#{fkDept}  where id = #{id}
   </update>

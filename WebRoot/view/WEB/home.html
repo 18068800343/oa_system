@@ -40,7 +40,7 @@
 		}
 		@media screen and (max-width: 1920px) {
 		    .dada{
-		        margin-bottom:120px !important;
+		        margin-bottom:170px !important;
 		    }
 		}
 	</style>
@@ -246,7 +246,7 @@
 
 <!-- frame modal -->
 <div class="modal fade bs-example-modal-lg dada" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog modal-lg" role="document" style="width:1000px">
+    <div class="modal-dialog modal-lg" role="document" style="width:1400px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -255,18 +255,37 @@
             <div class="modal-body">
                 <iframe name="view_frame" id="rightMain" src="" frameborder="false" scrolling="auto" style="border: none;" width="100%" height=700 allowtransparency="true"></iframe>
                 
-                <!-- <div id="midBox">
-                    <div id="titles">标题</div>
+                <div id="topBox" hidden="true">
+                    <div id="titles">流程备注</div>
+                    <div id="srcontent">
+                        <textarea cols="30" rows="4" class="form-control" id="viewTop" placeholder="" disabled></textarea>
+                    </div>
+                </div>
+                <div id="nextBox" hidden="true">
+                    <div id="titles">上一步操作人:<lable id="lastPerson"></lable>&nbsp;&nbsp;意见：↓</div>
+                    <div id="srcontent">
+                        <textarea cols="30" rows="2" class="form-control" id="viewNext" placeholder="" disabled></textarea>
+                    </div>
+                </div>
+                <div id="midBox">
+                    <div id="titles">意见</div>
                     <div id="srcontent">
                         <textarea cols="30" rows="8" class="form-control" id="view" placeholder="请输入内容"></textarea>
                     </div>
-                </div>  -->
+                </div> 
             </div>
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
-                <button type="button" class="btn btn-default">退回</button>
-                <button type="button" class="btn btn-default">保存</button>
-            </div> -->
+            <div class="modal-footer">
+              <div id="tjButtons">
+                <button type="button" id="getReceiver" onclick="getReceive()" class="btn btn-success" data-dismiss="modal" >提交</button>
+                <button type="button" id="tuiHui"  onclick="tuiHui()" class="btn btn-default" data-dismiss="modal">退回</button>
+                <button type="button" id="baoCun" class="btn btn-default" onclick="baoCun()">保存</button>
+                <button type="button" id="boHui" class="btn btn-default" onclick="boHui()">驳回</button>
+               </div>
+              <div id="shanchu" hidden="true">
+                <button type="button" class="btn btn-default" onclick="shanchu()">删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
+            </div>
         </div>
     </div>
 </div>
@@ -527,7 +546,7 @@
 		/* JSON.parse(user); */
 		$.ajax({
             type: 'POST',
-            url: getContextPath()+'/currentFlow/getCurrentFlowListStatus1ByUser',
+            url: getContextPath()+'/currentFlow/getCurrentFlowListByStatus',
             data:{
             	userId:""
             },
@@ -538,11 +557,77 @@
             		json.length=10;
             	}
             	for(var i=0;i<json.length;i++){
-            		$("#tb1").append("<tr><td style='width:50px;'><span data-toggle='modal' data-target='.dada' style='cursor:pointer;' data-url='"+json[i].url+"' onclick='initIframe(this)' class='lianjieColor'>"+json[i].title+"</span></td></tr>")
+            		var full = json[i];
+            		$("#tb1").append("<tr><td style='width:50px;'><span data-toggle='modal' data-target='.dada' style='cursor:pointer;' data-wfstate="+full.wfstate+" data-flowLast="+full.flowNodeLast+" data-flowStatus="+full.flowStatus+" data-lastPerson="+full.lastPerson+" data-lastView = "+full.lastView+" data-cNodeId="+full.id+"  data-url="+full.url+" data-params="+full.params+" data-step="+full.step+"  data-edit="+full.editOrView+" data-flowNodeLast="+full.flowNodeLast+" onclick='initIframe(this)' class='lianjieColor'>"+json[i].title+"</span></td></tr>")
             	}
             }
         });
     }
+    //全局变量
+    var page_url;
+    var page_flowNodeLast;
+    var page_edit;
+    var page_step;
+    var page_cNodeId;
+    var page_flag;
+    function bindclick(dom){
+        	var data_id = $(dom).attr("data-url");
+        	var strs = data_id.split("-")
+        	var edit = $(dom).attr("data-edit");
+        	var params = $(dom).attr("data-params");
+        	var step = $(dom).attr("data-step");
+        	var cNodeId = $(dom).attr("data-cNodeId"); 
+        	var wfstate = $(dom).attr("data-wfstate");  
+        	var flowLast = $(dom).attr("data-flowLast");
+        	var lastPerson = $(dom).attr("data-lastPerson");
+        	var lastView = $(dom).attr("data-lastView");
+        	if(wfstate=='1'){
+        		$("#midBox").hide();
+        		$("#tjButtons").hide();
+        		$("#shanchu").show();
+        	}else{
+        		$("#midBox").show();
+        		$("#tjButtons").show();
+        		$("#shanchu").hide();
+        	}
+        	page_step = step;
+        	if(params.indexOf("{'cs':'1'}")!=-1||params==''||params==null){
+        		$("#topBox").hide();
+        	}else{
+        		$("#viewTop").text(params);
+        		$("#topBox").show();
+        	}
+        	if(flowLast==''||flowLast==null||lastPerson==null||lastPerson==""||lastPerson=="null"){
+        		$("#nextBox").hide();
+        	}else{
+        		$("#lastPerson").empty();
+        		$("#lastPerson").append(lastPerson);
+        		if(lastView==null||lastView==''||lastView=='null'){
+        			lastView='';
+        		}
+        		$("#viewNext").text(lastView);
+        		$("#nextBox").show();
+        	}
+        	page_flowNodeLast =  $(this).attr("data-flowNodeLast");
+        	page_url=data_id;
+        	page_edit=edit;
+        	page_cNodeId=cNodeId;
+        	var flag = $(dom).attr("data-flowStatus");
+        	page_flag=flag;
+        	var ul = strs[0];
+        	var ulnew = ul.replace("Look","Change");
+        	if(flag=='1'){
+        	$("#rightMain").attr("src","./"+strs[0]+"?prjId="+strs[1]+"&editOrView="+edit+"&step="+step);
+        	shipeitanchu(ul);
+        	$("#tuiHui").show();
+        	$("#boHui").show();
+        	}else if(flag=='4'){
+        	$("#rightMain").attr("src","./"+ulnew+"?prjId="+strs[1]+"&editOrView="+edit);
+        	$("#tuiHui").hide();
+        	$("#boHui").hide();
+        	}
+    }
+    
 	function initTable3(){
 		$.ajax({
             type: 'POST',
@@ -631,6 +716,7 @@
 		var url = $(dom).attr("data-url");
     	var strs = url.split("-");
     	$("#rightMain").attr("src","./"+strs[0]+"?prjId="+strs[1]+"&editOrView=view&viewIndex=viewIndex");
+    	bindclick(dom);
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/currentFlow/updateReadReceipts',
@@ -645,7 +731,396 @@
             }
         });
 	}
-	
+    function shipeitanchu(ul){
+    	if(ul.indexOf("NoticeBulletinLookBM")>0){
+        	$("#rightMain").attr("height",300);
+        	}else{
+       		$("#rightMain").attr("height",700);	
+       	}
+    }
+    function getReceive(){
+    	var flag = page_flag;
+    	if(flag=='4'){
+    		baoCun();
+    	}
+    	if(page_edit=='edit'&&page_step=='2'){
+    		updateFkDept2(page_cNodeId);
+    		flowEdit2();
+    	}
+    	if(page_edit=='edit'&&page_step=='3'){
+    		updateFkDept3(page_cNodeId);
+    		flowEdit3();
+    	}
+    	if(page_edit=='edit'&&page_step=='4'){
+    		flowEdit4();
+    	}
+    	if(page_edit=='edit'&&page_step=='5'){
+    		flowEdit5();
+   		}
+   		if(page_edit=='edit'&&page_step=='6'){
+    		flowEdit6();
+   		}
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/getReceiver',
+            data:{ 
+            	url:page_url,
+            },
+            dataType: 'json',
+            success: function (json) {
+            	console.log(json);
+            	lianjie=json.url;
+            	if(json.receiver!=null&&json.receiver.length>1){
+	        		  $("#tijiaogei").modal('show'); 
+	        		  $("#tijiaoren tbody").empty("");
+	        		  for(var i=0;i<json.receiver.length;i++){
+	        			  $("#tijiaoren tbody").append('<tr><td>'
+	        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+	        					  +'</td><td>'
+	        					  +json.receiver[i].omName
+	        					  +'</td><td>'
+	        					  +json.receiver[i].dutyName
+	        					  +'</td><td>'
+	        					  +json.receiver[i].uName
+	        					  +'</td></tr>');
+	        		  }
+	        	  }else if(json.receiver==null||json.receiver.length==1){
+	        		  doChildIframeMethod();
+	        		  var userId;var uName;var omName;var dutyName;var omId;var dutyId;
+	        		  if(json.receiver==undefined||json.receiver==null){
+	        			  userId="";uName="";omName="";dutyName="";omId="";dutyId="";
+	        		  }else{
+	        			  userId=json.receiver[0].userId
+	        			  uName=json.receiver[0].uName;
+	        			  omName=json.receiver[0].omName;
+	        			  dutyName=json.receiver[0].dutyName;
+	        			  omId=json.receiver[0].omId;
+	        			  dutyId=json.receiver[0].dutyId;
+	        		  }
+	        		  $.ajax({
+	        	          type: 'POST',
+	        	          url: getContextPath()+'/task/addTask4',
+	        	          dataType: 'json',
+	        	          data:{
+	        	        	  url:json.url,
+	        	        	  userId:userId,
+	        	        	  uName:uName,
+	        	        	  omName:omName,
+	        	        	  dutyName:dutyName,
+	        	        	  omId:json.omId,
+	        	        	  dutyId:dutyId,
+	        	        	  view:$("#view").val()
+	        	          },
+	        	          success: function (json) {
+	        	        	  console.log(json.end);
+	        	        	  if(json.end=="jieshu"){
+	        	        		  doChangeData(json.modeId);
+	        	        	  }
+	        	        	  if(uName!=''&&uName!=undefined){
+	        	        	  uName='至'+uName;
+	        	        	  }
+	        	        	  alert('提交'+uName+'成功');
+	        	        	  initTable1();
+	        	          }
+	        	      }); 
+	        	  }else if(json.receiver!=null&&json.receiver.length==0){
+	        		  toastr.error('下一步无操作人');
+	        	  }
+            }
+        });
+    }
+    
+    function tuiHui(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/tuiHui',
+            data:{
+            	url:page_url,
+            	view:$("#view").val()
+            },
+            dataType: 'json',
+            success: function (json) {
+              if(json.result==2){
+              $("#tuihuigei").modal('show'); 
+      		  $("#tuihuigei tbody").empty("");
+      		  for(var i=0;i<json.list.length;i++){
+      			$("#tuihuigei tbody").append('<tr><td>'
+  					  +'<input type="radio" name="tuihuiZhi"  data-id="'+json.list[i].floNodeId+'">'
+  					  +'</td><td data-name="'+json.list[i].deptname+'">'
+  					  +json.list[i].flowNodeName
+  					  +'</td><td  data-id="'+json.list[i].actor+'">'
+  					  +json.list[i].actorname
+  					  +'</td><td>'
+  					  +json.list[i].view
+  					  +'</td></tr>');
+ 		      	}
+              }
+            }
+        });
+    }
+    function tuihuisubmit(){
+    	var tuihuiFloNodeId = $("input[name='tuihuiZhi']:checked").attr("data-id");
+    	var tuihuiDeptName = $("input[name='tuihuiZhi']:checked").parent().next().attr("data-name");
+    	var tuihuiActor = $("input[name='tuihuiZhi']:checked").parent().next().next().attr("data-id");
+    	var tuihuiActorName = $("input[name='tuihuiZhi']:checked").parent().next().next().text();
+    	 $.ajax({
+             type: 'POST',
+             url: getContextPath()+'/task/returnPerson',
+             dataType: 'json',
+             data:{
+           	  url:page_url,
+           	  tuihuiFloNodeId:tuihuiFloNodeId,
+           	  tuihuiDeptName:tuihuiDeptName,
+           	  tuihuiActor:tuihuiActor,
+           	  tuihuiActorName:tuihuiActorName,
+           	  view:$("#view").val()
+             },
+             success: function (json) {
+              tuihuiActorName='至'+tuihuiActorName;
+           	  alert('退回'+tuihuiActorName+'成功');
+              initTable1();
+             }
+         });
+    }
+    function tijiaorenwudan2(){
+      doChildIframeMethod();
+  	  var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+  	  console.log(uid,omid,dutyid,bmmc,zw,uname)
+  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+  	 $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/addTask4',
+            dataType: 'json',
+            data:{
+          	  url:lianjie,
+          	  userId:uid,
+          	  uName:uname,
+          	  omName:bmmc,
+          	  dutyName:zw,
+          	  omId:omid,
+        	  dutyId:dutyid,
+        	  view:$("#view").val()
+            },
+            success: function (json) {
+              console.log(json.end);
+              if(json.end=="jieshu"){
+	            doChangeData(json.modeId);
+	          }
+              if(uname!=''&&uname!=undefined){
+              uname='至'+uname;
+              }
+              alert('提交'+uname+'成功');
+          	  initTable1();
+            }
+        });
+    }
+	 function boHui(){
+	    	var msg = "您真的确定要驳回吗？\n\n请确认！";
+	    	if (confirm(msg)==true){
+	    		if(page_flowNodeLast==null||page_flowNodeLast==undefined||page_flowNodeLast==""){
+	        		toastr.error('该步骤为第一步,无法驳回');
+	        		return false;
+	        	}
+	        	$.ajax({
+	                type: 'POST',
+	                url: getContextPath()+'/task/boHui',
+	                data:{
+	                	url:page_url,
+	                	view:$("#view").val()
+	                },
+	                dataType: 'json',
+	                success: function (json) {
+	                	  $("#myModal").modal("hide");
+	                	  toastr.success('驳回成功');
+	                	  initTable1();
+	                }
+	            });
+	    	return true;
+	    	}else{
+	    	return false;
+	    	}
+	    	
+	    	
+	    }
+
+	    function baoCun(){
+	    	var childWindow = $("#rightMain")[0].contentWindow; //表示获取了嵌入在iframe中的子页面的window对象。  []将JQuery对象转成DOM对象，用DOM对象的contentWindow获取子页面window对象。
+	    	try {
+	    		  var result = childWindow.liuchengGaibian();
+	    		  if(result=='0'){
+	    			toastr.error("保存出错");
+	    			return '0';
+	    		  }else if(result==undefined){
+	   			    toastr.error("保存出错");
+	      			return '0'; 
+	    		  }else{
+	    			toastr.success("保存成功");
+	    			return '1';
+	    		  }
+	   		    }
+	    		catch(err){
+	   		    } 
+	    		;
+	    		if(page_edit=='edit'&&page_step=='2'){
+	    		updateFkDept2(page_cNodeId);
+	    		flowEdit2();
+	    		}
+	    		if(page_edit=='edit'&&page_step=='3'){
+	   			updateFkDept3(page_cNodeId);
+	    		flowEdit3();
+	    		}
+	    		if(page_edit=='edit'&&page_step=='4'){
+	    		flowEdit4();
+	    		}
+	    		if(page_edit=='edit'&&page_step=='5'){
+	    		flowEdit5();
+	    		}
+	    		if(page_edit=='edit'&&page_step=='6'){
+	    		flowEdit6();
+	    		}
+	    }
+	    function flowEdit2(){
+	    	var childWindow = $("#rightMain")[0].contentWindow;
+	    	try {
+				var resultEdit = childWindow.saveFlow2();
+	  		    if(resultEdit=='0'){
+	      			toastr.error("保存出错");
+	      			return '0';
+	  		    }else{
+	      			toastr.success("保存成功");
+	      			return '1';
+	  		    }
+		    }
+	  		catch(err){
+		    } 
+	    }
+	    function flowEdit3(){
+	    	var childWindow = $("#rightMain")[0].contentWindow;
+	    	try {
+				var resultEdit = childWindow.saveFlow3();
+	  		    if(resultEdit=='0'){
+	      			toastr.error("保存出错");
+	      			return '0';
+	  		    }else{
+	      			toastr.success("保存成功");
+	      			return '1';
+	  		    }
+		    }
+	  		catch(err){
+		    } 
+	    }
+	    function flowEdit4(){
+	    	
+	    	var childWindow = $("#rightMain")[0].contentWindow;
+	    	try {
+				var resultEdit = childWindow.saveFlow4();
+	  		    if(resultEdit.rel=='0'){
+	      			toastr.error("保存出错");
+	      			return '0';
+	  		    }else{
+	      			toastr.success("保存成功");
+	      			return '1';
+	  		    }
+		    }
+	  		catch(err){
+		    } 
+	    }
+	    function flowEdit5(){
+	    	var childWindow = $("#rightMain")[0].contentWindow;
+	    	try {
+				var resultEdit = childWindow.saveFlow5();
+	  		    if(resultEdit.rel=='0'){
+	      			toastr.error("保存出错");
+	      			return '0';
+	  		    }else{
+	      			toastr.success("保存成功");
+	      			return '1';
+	  		    }
+		    }
+	  		catch(err){
+		    } 
+	    }
+	    function flowEdit6(){
+	    	var childWindow = $("#rightMain")[0].contentWindow;
+	    	try {
+				var resultEdit = childWindow.saveFlow6();
+	  		    if(resultEdit.rel=='0'){
+	      			toastr.error("保存出错");
+	      			return '0';
+	  		    }else{
+	      			toastr.success("保存成功");
+	      			return '1';
+	  		    }
+		    }
+	  		catch(err){
+		    } 
+	    }
+	    function updateFkDept2(page_cNodeId){
+	    	var childWindow = $("#rightMain")[0].contentWindow;
+	    	try {
+				var resultEdit = childWindow.updateFkDept2(page_cNodeId);
+	  		    if(resultEdit=='0'){
+	      			toastr.error("保存下一步部门编号出错");
+	      			return '0';
+	  		    }else{
+	      			return '1';
+	  		    }
+		    }
+	  		catch(err){
+		    } 
+	    }
+	    function updateFkDept3(page_cNodeId){
+	    	var childWindow = $("#rightMain")[0].contentWindow;
+	    	try {
+				var resultEdit = childWindow.updateFkDept3(page_cNodeId);
+	  		    if(resultEdit=='0'){
+	      			toastr.error("保存下一步部门编号出错");
+	      			return '0';
+	  		    }else{
+	      			return '1';
+	  		    }
+		    }
+	  		catch(err){
+		    } 
+	    }
+	    function doChildIframeMethod(){
+	    	var childWindow = $("#rightMain")[0].contentWindow; //表示获取了嵌入在iframe中的子页面的window对象。  []将JQuery对象转成DOM对象，用DOM对象的contentWindow获取子页面window对象。
+	    	try {
+	    		childWindow.save();
+	    		}
+	    		catch(err){
+	    		}
+	    }
+	    
+	    function doChangeData(did){
+	    	var childWindow = $("#rightMain")[0].contentWindow; //表示获取了嵌入在iframe中的子页面的window对象。  []将JQuery对象转成DOM对象，用DOM对象的contentWindow获取子页面window对象。
+	    	try {
+	    		var result = childWindow.changeData(did);
+	    		}
+	    		catch(err){
+	    		}
+	    }
+
+	    function shanchu(){
+	    	$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/deleteChaoSong',
+	            data:{
+	            	id:page_cNodeId
+	            },
+	            dataType: 'text',
+	            success: function (json) {
+	            	  $("#myModal").modal("hide");
+	            	  toastr.success('删除成功');
+	            	  initTable1();
+	            }
+	        });
+	    }
 	
 	  function getCnByOt(s){
 		  if(s==1){

@@ -65,6 +65,26 @@ public class CurrentFlowVo {
     
     private String lastView;
     
+    private String status;
+    
+    private String flowStatus;
+    
+	public String getFlowStatus() {
+		return flowStatus;
+	}
+
+	public void setFlowStatus(String flowStatus) {
+		this.flowStatus = flowStatus;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getLastPerson() {
 		return lastPerson;
 	}

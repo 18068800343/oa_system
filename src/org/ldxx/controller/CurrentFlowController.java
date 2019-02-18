@@ -53,6 +53,16 @@ public class CurrentFlowController {
  		list.addAll(list1);
 		return list;
 	}
+	@RequestMapping("/getCurrentFlowListByStatus")
+	@ResponseBody
+	public List<CurrentFlowVo> getCurrentFlowListByStatus(String userId,String statu,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		String id = user.getUserId();
+		List<CurrentFlowVo> list = currentFlowMapper.getCurrentFlowVoByStatus(id, statu);
+		List<CurrentFlowVo> list1 = currentFlowChaoSongMapper.getCurrentFlowVoChaoSongByUserId(id);
+		list.addAll(list1);
+		return list;
+	}
 	@RequestMapping("/getCurrentFlowChaoSongListByUser")
 	@ResponseBody
 	public List<CurrentFlowVo> getCurrentFlowChaoSongListByUser(String userId,String statu,HttpSession session){
