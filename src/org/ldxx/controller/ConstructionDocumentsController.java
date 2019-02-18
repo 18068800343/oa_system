@@ -3,17 +3,27 @@ package org.ldxx.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ConstructionDocuments;
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.ManagingDocuments;
 import org.ldxx.bean.ManagingDocumentsTenderer;
+import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.User;
 import org.ldxx.dao.ConstructionDocumentsDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.ConstructionDocumentsService;
+import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +50,8 @@ public class ConstructionDocumentsController {
 	private AccessoryService aService;
 	@Autowired
 	private ConstructionDocumentsDao dao;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/selectConstructionDocuments")
 	@ResponseBody
@@ -376,10 +388,10 @@ public class ConstructionDocumentsController {
 	
 	@RequestMapping("/updateConstructionDocumentsSave")//修改保存
 	@ResponseBody
-	public Map<String,Object> updateConstructionDocumentsSave(String  cds,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
+	public String updateConstructionDocumentsSave(String  cds,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
 			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8
 			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13
-			,@RequestParam MultipartFile [] file14,@RequestParam MultipartFile [] file15,@RequestParam MultipartFile [] file16) throws IllegalStateException, IOException{
+			,@RequestParam MultipartFile [] file14,@RequestParam MultipartFile [] file15,@RequestParam MultipartFile [] file16,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
 		Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory1", Accessory.class);
@@ -673,9 +685,46 @@ public class ConstructionDocumentsController {
 		}
 		
 		int i=service.updateConstructionDocumentsSave(cd);
-		map.put("result", i);
+		String string = i+"";
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(cd.getPrjName()+"施工资料归档申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(cd.getPrjName()+"施工资料归档申请流程发起");
+			currentFlow.setUrl("danganGUanli/ConstructionDocumentLook.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		response.setCharacterEncoding("UTF-8");
+		return string;
+		/*map.put("result", i);
 		map.put("ConstructionDocuments", cd);
-		return map; 
+		return map; */
 	}
 	
 	@RequestMapping("/selectConstructionDocumentsByno")
