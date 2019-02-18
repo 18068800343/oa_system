@@ -1580,7 +1580,7 @@ public class DesignDocumentsController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(dd.getPrjName()+"设计资料归档申请流程发起");
-			currentFlow.setUrl("danganGUanli/designDocumentLook.html-"+id);
+			currentFlow.setUrl("danganGUanliLook/designDocumentLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());

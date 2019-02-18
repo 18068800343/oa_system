@@ -491,7 +491,7 @@ public class TestingEvaluationController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(te.getPrjName()+"检测评估归档申请流程发起");
-			currentFlow.setUrl("danganGUanli/DetectionEvaluationLook.html-"+id);
+			currentFlow.setUrl("danganGUanliLook/DetectionEvaluationLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());

@@ -310,7 +310,7 @@ public class ManagingDocumentsController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(md.getPrjName()+"经营资料归档申请流程发起");
-			currentFlow.setUrl("danganGUanli/OperatingDocumentLook.html-"+id);
+			currentFlow.setUrl("danganGUanliLook/OperatingDocumentLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());

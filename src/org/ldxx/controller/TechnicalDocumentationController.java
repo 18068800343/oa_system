@@ -743,7 +743,7 @@ public class TechnicalDocumentationController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(td.getPrjName()+"科技资料归档申请流程发起");
-			currentFlow.setUrl("danganGUanli/ScienceTechnologyLook.html-"+id);
+			currentFlow.setUrl("danganGUanliLook/ScienceTechnologyLook.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
