@@ -84,13 +84,13 @@ public class ArchivalStatisticsController {
 			ll5.add("检测评估资料");
 			list.add(ll5);
 		}
-		MaintenanceReinforcement mr=mrService.selectAllMaintenanceReinforcementById(id);
+		/*MaintenanceReinforcement mr=mrService.selectAllMaintenanceReinforcementById(id);
 		if(mr!=null){
 			List<String> ll6=new ArrayList<>();
 			ll6.add(mr.getMrId());
 			ll6.add("维修加固设计资料");
 			list.add(ll6);
-		}
+		}*/
 		return list;
 	}
 }
