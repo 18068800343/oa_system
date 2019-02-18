@@ -15,10 +15,17 @@ public class PrjSafetyReport {
 	private String uName;//项目负责人
 	private String importance;//重要度
 	private String allMoney;//进度
+	private String ygDesign;//预工可设计
 	private String fristDesign;//初步设计
 	private String secondDesign;//施工图设计
 	
 	
+	public String getYgDesign() {
+		return ygDesign;
+	}
+	public void setYgDesign(String ygDesign) {
+		this.ygDesign = ygDesign;
+	}
 	public String getFristDesign() {
 		return fristDesign;
 	}

@@ -20,4 +20,6 @@ public interface CooperatorDao {
 	public List<Cooperator> selectCooperatorIdAndName();
 	
 	public List<Cooperator> selectCooperatorIdAndNameByCcType(@Param("ccType")String ccType);
+	
+	public Cooperator selectCooperatorByCcName(@Param("name")String name);
 }
