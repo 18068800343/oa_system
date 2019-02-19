@@ -57,29 +57,35 @@
                             <td id="lookfbhetong"></td>
                         </tr>
                         <tr>
+                        	<td>借款合同号</td>
+                        	<td id="lookborrow_no"></td>
                             <td>代购类型</td>
                             <td id="lookdaigouType"></td>
-                            <td>代购金额(元)</td>
-                            <td id="lookdaigouMoney"></td>
                         </tr>
                         <tr>
-                            <td>采购合同金额(元)</td>
+                            <td class="jinqianyanse">代购金额(元)</td>
+                            <td id="lookdaigouMoney"></td>
+                            <td class="jinqianyanse">采购合同金额(元)</td>
                             <td id="lookcghetongMoney"></td>
+                        </tr>
+                        <tr>
                             <td>合同甲方名称</td>
                             <td id="lookjiafang"></td>
-                        </tr>
-                        <tr>
                             <td>乙方</td>
                             <td id="lookyifang"></td>
-                            <td>付款方式</td>
-                            <td id="lookfukuanfangshi"></td>
                         </tr>
                         <tr>
+                            <td>付款方式</td>
+                            <td id="lookfukuanfangshi"></td>
                             <td>采购合同签订时间</td>
                             <td id="lookyear"></td>
-                            <td>采购部门</td>
-                            <td id="Historycg_bumen"></td>
                         </tr>
+                        <tr>
+                            <td>采购部门</td>
+                            <td id="lookcg_bumen"></td>
+                           	 <!--<td>运费(元)</td>
+                           	<td id="lookyunfei"></td>-->
+                         </tr> 
                         <tr>
                             <td>采购合同概述</td>
                             <td colspan="3" id="lookcghetonggaishu"></td>
@@ -217,169 +223,106 @@
 	function initTable(){
 		//console.log(data)
 			$.ajax({
-				type:"POST",
-				url:getContextPath()+"/cgcontract/selectCgContractById",
-				dataTyepe:"json",
-				async:false,
-				data:{ 
-					id:id
-					},
-				success:function(json){
-					console.log(json)
-					data=json;
-					cgNo=data.cgNo;
-					//initTableHistory();
-					
-					$("#lookcghetongming").text(data.contractName);
-					$("#lookcgNo").text(data.cgNo);
-					$("#lookcgdNo").text(data.cgdNo);
-					$("#lookcgbianhao").text(data.cgId)
-					$("#looktask_no").text(data.workNo);
-					$("#lookprjName").text(data.prjName)
-					$("#lookisdaigou").text(data.isProgram);
-					$("#lookfbhetong").text(data.fbNo==''||data.fbNo==null?"无":data.fbNo);
-					$("#lookdaigouType").text(data.programType),
-					$("#lookcgType").text(data.cgcType);
-					$("#lookdaigouMoney").text(data.programMoney);
-					$("#lookcghetongMoney").text(data.cgContractMoney);
-					$("#lookjiafang").text(data.contractNameJia);
-					$("#lookyifang").text(data.spName);
-					$("#lookfukuanfangshi").text(data.payMode);
-					$("#lookyear").text(data.contractSignTime);
-					$("#Historycg_bumen").text(json.cgDepartment);
-					$("#lookcghetonggaishu").text(data.contractSummary);
-					$("#lookgaikuang").text(data.workContent);
-					
-					var list=new Array();
-					if(data.cgdNo.indexOf(",")){
-						var no=data.cgdNo.split(",");
-						for(var i=0;i<no.length;i++){
-							list.push(no[i])
-						}
-					}else{
-						list.push(data.cgdNo)
-					}
-					if(list!=null){
-						$("#lookcghetongMoney").val("");
-						$("#lookcailiaobiaoDiv table").remove();
-						for(var i=0;i<list.length;i++){
-							//console.log(list[i])
-			        		$("#lookcailiaobiaoDiv").append(
-			        				"<table  class='table table-bordered table-condensed' id='lookcailiaobiao"+i+"'>"+
-			                    	"<thead>"+
-			                    		"<tr>"+
-			                            	"<td>采购部门</td>"+
-			                                "<td dataId='' id='lookcgbumen"+i+"'></td>"+
-			                                "<td  colspan='2'>部门采购金额</td>"+
-			                                "<td id='lookbumencgMoney"+i+"' colspan='2'></td>"+
-			                            	"<th colspan='4' style='text-align:right;'></th>"+
-			                        	"</tr>"+
-			                        	"<tr>"+
-			                            	"<th>材料名称</th>"+
-			                            	"<th>材料类型</th>"+
-				                            "<th>材料型号</th>"+
-				                            "<th style='width:6%;'>单位</th>"+
-				                            "<th>数量</th>"+
-				                            "<th style='width:8%;'>单价</th>"+
-				                            "<th style='width:8%;'>金额</th>"+
-				                            "<th>项目部推荐供应商</th>"+
-				                            "<th>公司确定供应商</th>"+
-				                            "<th>备注</th>"+
-			                        	"</tr>"+
-			                    	"</thead>"+
-			                    	"<tbody>"+
-			                    	"</tbody>"+
-			                    "</table>"
-			                    )}
-					  		$.ajax({
-					            type: 'POST',
-					            url: getContextPath()+'/PrjMaterialBuy/selectBuyByIds',
-					            dataType: 'json',
-					            data: {
-					            	ids:list.toString()
-					            },
-					            success: function (json) {
-					            	//console.log(json)
-					            	for(var i=0;i<json.length;i++){
-					            		var omName=json[i].omName
-					            		var sumPrice=json[i].sumPrice;
-					            		var pmbId=json[i].pmbId;
-					            		$("#lookcgbumen"+i+"").text(json[i].omName)
-					            		$("#lookcgbumen"+i+"").attr("dataId",pmbId)
-					            		$("#lookbumencgMoney"+i+"").text(json[i].sumPrice)
-					            		
-					            		$.ajax({
-					                        type: 'POST',
-					                        url: getContextPath()+'/cgcontract/getMdById',
-					                        dataType: 'json',
-					                        async:false,
-					                        data: {
-					                        	id:pmbId
-					                        },
-					                        success: function (json) {
-					                        	//console.log(json)
-					                        	for(var k=0;k<json.length;k++){
-					                        		$("#lookcailiaobiao"+i+" tbody").append("<tr dataId="+json[k].mdlId+"><td>"
-					                		  				+""+json[k].materialName+""
-					                		  				+"</td><td>"
-					                		  				+""+json[k].materialType+""
-					                		  				+"</td><td>"
-					                		  				+""+json[k].modeType+""
-					                		  				+"</td><td>"
-					                		  				+""+json[k].buyCompany+""
-					                		  				+"</td><td>"
-					                		  				+""+json[k].num+""
-					                		  				+"</td><td>"
-					                		  				+""+json[k].price+""
-					                		  				+"</td><td>"
-					                		  				+""+json[k].price+""
-					                		  				+"</td><td>"
-					                		  				+""+json[k].name+""
-					                		  				+"</td><td>"
-					                		  				+""+json[k].name2+""
-					                		  				+"</td><td>"
-					                		  				+""+json[k].infos+""
-					                		  				+"</td></tr>")
-					                        	} 
-					                        }
-					              		});
-					            		
-					            	}
-					            }
-					  		});
-					  		
-				  		}
-					
-					
-					$.ajax({
-						type:"post",
-						url:getContextPath()+"/cgcontract/selectAccessoryById",
-						dataType:"json",
-						async:false,
-						data:{
-							id:data.cgId,
-						},
-						success:function(json){
-							//console.log(json);
-							$("#look_all_table").empty();
-							
-				            for(var i=0;i<json.length;i++){
-				            	   if(json[i].aType=="采购合同文本"){
-					            	   $("#look_all_table").append("<tr>"+
-				      	   										"<td style='width:20%;'>采购合同文本</td>"+
-				      	   										"<td colspan='3'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
-										            	    	/* "<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
-										            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+ */
-										            	    "</tr>");
-				            	   }
-				            	  
-				               }
-						}
-					})
+			type:"post",
+			url:getContextPath()+"/cgcontract/selectCgContractById",
+			dataType:"json",
+			data:{
+				id:id,
+			},
+			success:function(json){
+				$("#lookcghetongming").text(json.contractName);
+				$("#lookcgNo").text(json.cgNo);
+				$("#lookcgdNo").text(json.cgdNo);
+				$("#lookcgbianhao").text(json.cgId)
+				$("#looktask_no").text(json.workNo);
+				$("#lookprjName").text(json.prjName)
+				$("#lookisdaigou").text(json.isProgram);
+				$("#lookfbhetong").text(json.fbNo==""?"无":json.fbNo);
+				$("#lookborrow_no").text(json.borrowNo==''||json.borrowNo==null?"无":json.borrowNo)
+				$("#lookdaigouType").text(json.programType==null?"无":json.programType),
+				$("#lookcgType").text(json.cgcType);
+				$("#lookdaigouMoney").text(json.programMoney);
+				$("#lookcghetongMoney").text(json.cgContractMoney);
+				$("#lookjiafang").text(json.contractNameJia);
+				$("#lookyifang").text(json.spName);
+				$("#lookfukuanfangshi").text(json.payMode);
+				$("#lookyear").text(json.contractSignTime);
+				$("#lookcghetonggaishu").text(json.contractSummary);
+				$("#lookgaikuang").text(json.workContent);
+				$("#lookcg_bumen").text(json.cgDepartment);
+				$("#lookyunfei").text(json.freight);
+				
+				$("#lookcailiaobiaoDiv").empty();
+				$("#lookcailiaobiaoDiv").append(
+        				"<table  class='table table-bordered table-condensed' id='lookcailiaobiao'>"+
+                    	"<thead>"+
+                        	"<tr>"+
+                            	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
+	                            "<th>材料型号</th>"+
+	                            "<th style='width:6%;'>单位</th>"+
+	                            "<th>数量</th>"+
+	                            "<th style='width:8%;'>单价</th>"+
+	                            "<th style='width:8%;'>金额</th>"+
+	                            "<th>项目部推荐供应商</th>"+
+	                            "<th>公司确定供应商</th>"+
+	                            "<th>备注</th>"+
+                        	"</tr>"+
+                    	"</thead>"+
+                    	"<tbody>"+
+                    	"</tbody>"+
+                    "</table>"
+                    )
+				if(json.cgcl!=null){
+					for(var k=0;k<json.cgcl.length;k++){
+                   		$("#lookcailiaobiao tbody").append("<tr><td style='width:10%;'>"
+           		  				+''+json.cgcl[k].clName+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+json.cgcl[k].clType+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+json.cgcl[k].clMode+'' 
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+json.cgcl[k].clUnit+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+json.cgcl[k].clNumber+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+json.cgcl[k].clPrice+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+json.cgcl[k].clMoney+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+json.cgcl[k].clspName1+''
+           		  				+"</td><td style='width:10%;'>"
+           		  				+''+json.cgcl[k].clspName2+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+json.cgcl[k].clDesc+''
+           		  				+"</td></tr>")
+                    	} 
 				}
-			}) 
+				
+			}
+		})
 					
-		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/cgcontract/selectAccessoryById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:id,
+			},
+			success:function(json){
+				$("#look_all_table").empty();
+	            for(var i=0;i<json.length;i++){
+	            	   if(json[i].aType=="采购合同文本"){
+		            	   $("#look_all_table").append("<tr>"+
+	      	   										"<td style='width:20%;'>采购合同文本</td>"+
+	      	   										"<td colspan='3'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+							            	    "</tr>");
+	            	   }
+	            	  
+	               }
+			}
+		})
 		
 	}
 	
