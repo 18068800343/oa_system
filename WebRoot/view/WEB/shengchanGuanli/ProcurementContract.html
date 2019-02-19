@@ -1224,7 +1224,7 @@
     $(document).ready( function () {
     	initTable();
     	initSelect();
-    	//initbumen();
+    	selectDepartment();
     	inityifang();
     	//initSelectfb();
         laydate.render({
@@ -1675,7 +1675,26 @@
         }
     })
     
-    
+    //初始化部门
+    function selectDepartment(){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
+	        dataType: 'json',
+	        data: {
+	           
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+        		 $("#cg_bumen").empty();
+        		$("#xgcg_bumen").empty();
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#cg_bumen").append("<option value="+json[i].omName+" selected>"+json[i].omName+"</option>")
+	        		$("#xgcg_bumen").append("<option value="+json[i].omName+" selected>"+json[i].omName+"</option>")
+	        	} 
+	        }
+	    });
+	}
     
     //选择项目
 	$("#chosexm").click(function(){
@@ -1701,28 +1720,11 @@
 	$("#quedingxm").click(function(){
 		var tr=$("input[name='xiangmuName']:checked").parents("tr");
 		var data=$('#xiangmubiao').DataTable().row(tr).data();
-		console.log(data)
+		//console.log(data)
 		$("#prjName").val(data.prjName);
 		$("#task_no").val(data.prjNo);
 		//$("#prjName").append("<option value="+data.prjName+" selected>"+data.prjName+"</option>")
 		//$("#task_no").append("<option value="+data.prjNo+" selected>"+data.prjNo+"</option>")
-		var arr=[];
-		if(data.omName!=null&&data.omName!=""){
-			arr.push(data.omName)
-		}
-		if(data.name1!=null&&data.name1!=""){
-			arr.push(data.name1)
-		}
-		if(data.name2!=null&&data.name2!=""){
-			arr.push(data.name2)
-		}
-		if(data.name3!=null&&data.name3!=""){
-			arr.push(data.name3)
-		}
-		$("#cg_bumen").empty();
-		for(var i=0;i<arr.length;i++){
-			$("#cg_bumen").append("<option value="+arr[i]+" selected>"+arr[i]+"</option>")
-		}
 		$("#xiangmumd").modal("hide");
 	})
 	
@@ -1758,23 +1760,6 @@
 		//$("#xgprjName").append("<option value="+data.prjName+" selected>"+data.prjName+"</option>")
 		//$("#xgtask_no").append("<option value="+data.prjNo+" selected>"+data.prjNo+"</option>")
 		//$("#xgcg_bumen").val(data.omName)
-		var arr=[];
-		if(data.omName!=null&&data.omName!=""){
-			arr.push(data.omName)
-		}
-		if(data.name1!=null&&data.name1!=""){
-			arr.push(data.name1)
-		}
-		if(data.name2!=null&&data.name2!=""){
-			arr.push(data.name2)
-		}
-		if(data.name3!=null&&data.name3!=""){
-			arr.push(data.name3)
-		}
-		$("#xgcg_bumen").empty();
-		for(var i=0;i<arr.length;i++){
-			$("#xgcg_bumen").append("<option value="+arr[i]+" selected>"+arr[i]+"</option>")
-		}
 		$("#xgxiangmumd").modal("hide");
 		 
 	})
@@ -3380,8 +3365,7 @@
 				$("#xgyear").val(json.contractSignTime);
 				$("#xghetonggaishu").val(json.contractSummary);
 				$("#xggaikuang").val(json.workContent);
-				//$("#xgcg_bumen").val(json.cgDepartment);
-				editDepartment(json.workNo,json.cgDepartment)
+				$("#xgcg_bumen").val(json.cgDepartment);
 				$("#xgyunfei").val(json.freight)
 				//$("#xgborrow_no").val(json.borrowNo)
 				xgselectBorrowByFbNo(json.fbNo,json.borrowNo)
@@ -3454,42 +3438,6 @@
 		}) 
 	}
 	
-	//回显负责部门
-	function editDepartment(obj1,obj2){
-		$.ajax({
-			type:"POST",
-			url:getContextPath()+"/task/selectTaskPrjName",
-			dataTyepe:"json",
-			async:false,
-			data:{ 
-				prjNo:obj1
-				},
-			success:function(json){
-				//console.log(json)
-				var array=new Array();
-            	for(var i=0;i<json.length;i++){
-                	if(json[i].omName!=null){
-                    	array.push(json[i].omName)
-                	}
-                	if(json[i].name1!=null){
-                    	array.push(json[i].name1)
-                	}
-                	if(json[i].name2!=null){
-                    	array.push(json[i].name2)
-                	}
-                	if(json[i].name3!=null){
-                    	array.push(json[i].name3)
-                	}
-            	}
-            	
-            	$("#xgcg_bumen").empty();
-            	for(var ii=0;ii<array.length;ii++){
-	            		$("#xgcg_bumen").append("<option value="+array[ii]+">"+array[ii]+"</option>")
-            	}
-            	$("#xgcg_bumen").val(obj2)
-			}
-		})
-	}
 	
 	
 	function huixianPrjNameAndNo(obj1,obj2,obj3){
