@@ -250,12 +250,16 @@
   	</select>
   	
   	<select id="selectPrjNameAndWorkNo" resultType="task">
-  		select a.*,c.cc_name,d.u_name as mainPrjLeaderName,prj_start_time,prj_end_time,e.om_name from task as a 
+  		select a.*,c.cc_name,d.u_name as mainPrjLeaderName,prj_start_time,prj_end_time,e.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3 from task as a 
   		left join mode_status as b on a.prj_id=b.mode_id
   		LEFT JOIN consociation_company as c on a.prj_owner_unit=c.cc_id
   		LEFT JOIN user as d on a.main_prj_leader=d.user_id
   		left join organization_management e  on a.main_department=e.om_id
-  		where b.status=2 and history=1
+  		left join organization_management b1 on a.assist_department1=b1.om_id 
+		left join organization_management b2 on a.assist_department2=b2.om_id 
+		left join organization_management b3 on a.assist_department3=b3.om_id
+		left join mode_status ms on a.prj_id = ms.mode_id
+  		where b.status=2 and history=1 and ms.status=2
   	</select>
   	
   	<select id="selectTaskPrjName" resultType="task">
@@ -277,7 +281,8 @@
 		left join organization_management b1 on a.assist_department1=b1.om_id 
 		left join organization_management b2 on a.assist_department2=b2.om_id 
 		left join organization_management b3 on a.assist_department3=b3.om_id
-  		where a.prj_name=#{prjName} and a.history=1
+		left join mode_status ms on a.prj_id = ms.mode_id
+  		where a.prj_name=#{prjName} and a.history=1 and ms.status=2
   	</select>
   	
   	<select id="selectNoByName" resultType="task">
