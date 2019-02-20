@@ -84,7 +84,7 @@ public class BidApprovalController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String time=sdf.format(new Date());
 		int count=service.prjNocount("%"+time+"%");
-		String no = uuid.getSerialNumber(bidder, type, count);
+		String no = uuid.getSerialNumber(bidder, type, count+1);
 		ba.setPrjNo(no);
 		int i=service.addBidApproval(ba);
 		if(i>0){
@@ -142,7 +142,7 @@ public class BidApprovalController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String time=sdf.format(new Date());
 		int count=service.prjNocount("%"+time+"%");
-		String no = uuid.getSerialNumber(bidder, type, count);
+		String no = uuid.getSerialNumber(bidder, type, count+1);
 		ba.setPrjNo(no);
 		int i=service.addBidApproval(ba);
 		String string = i+"";
@@ -204,7 +204,7 @@ public class BidApprovalController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String time=sdf.format(new Date());
 		int count=service.prjNocount("%"+time+"%");
-		String no = uuid.getSerialNumber(bidder, type, count);
+		String no = uuid.getSerialNumber(bidder, type, count+1);
 		ba.setPrjNo(no);
 		int i=service.updateBidApproval(ba);
 		map.put("result", i);
@@ -224,7 +224,7 @@ public class BidApprovalController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String time=sdf.format(new Date());
 		int count=service.prjNocount("%"+time+"%");
-		String no = uuid.getSerialNumber(bidder, type, count);
+		String no = uuid.getSerialNumber(bidder, type, count+1);
 		ba.setPrjNo(no);
 		int i=service.updateBidApproval(ba);
 		map.put("result", i);
