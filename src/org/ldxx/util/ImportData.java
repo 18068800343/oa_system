@@ -30,6 +30,7 @@ import org.ldxx.bean.ReceiveMoney;
 import org.ldxx.bean.SecondCompanyCost;
 import org.ldxx.bean.TDepartment;
 import org.ldxx.bean.Task2;
+import org.ldxx.bean.WxCost;
 import org.ldxx.dao.ReceiveMoneyDao;
 import org.ldxx.mapper.NodeActorsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -184,6 +185,61 @@ public class ImportData {
         } 
         return list;  
     }  
+	
+	
+	public List<WxCost> readXls3(InputStream is) throws IOException {  //外协费用导入
+		Workbook  hssfWorkbook=null;
+		List<WxCost> list=new ArrayList<>();
+		try {
+			hssfWorkbook = WorkbookFactory.create(is);  
+		} catch (Exception e) {
+			e.printStackTrace();
+		}  
+       
+        // 循环工作表Sheet  
+        for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) {  
+            Sheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);  
+            if (hssfSheet == null) {  
+                continue;  
+            }  
+            // 循环行Row  
+            for (int rowNum = 2; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {  
+            	try {
+					Row hssfRow = hssfSheet.getRow(rowNum);
+					if(hssfRow!=null){
+						int cells=hssfRow.getPhysicalNumberOfCells();
+						if(cells>5){
+							WxCost wx=new WxCost();
+							Cell colum1 = hssfRow.getCell(3);  
+							Cell colum2 = hssfRow.getCell(4);  
+							Cell colum3 = hssfRow.getCell(6);  
+							Cell colum4 = hssfRow.getCell(9);  
+							String no=getValue(colum1);
+							String name=getValue(colum2);
+							name=name.replace("【工程项目：", "").replace("】", "");
+							String wxName=getValue(colum3);
+							wxName=wxName.replace("【客商：", "").replace("】", "");
+							String wxCost=getValue(colum4);
+							wxCost=wxCost.replace(",", "").replace("，", "");
+							TimeUUID uuid=new TimeUUID();
+							String id=uuid.getTimeUUID();
+							wx.setWxId(id);
+							wx.setPrjNo(no);
+							wx.setPrjName(name);
+							wx.setWxCost(Double.valueOf(wxCost));
+							wx.setWxName(wxName);
+							list.add(wx);
+						}
+						
+					}
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+                }  
+            } 
+        return list;  
+    }  
+	
 	
 	 @SuppressWarnings("static-access")  
      private String getValue(Cell colum1) {
