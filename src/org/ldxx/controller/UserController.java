@@ -206,4 +206,13 @@ public class UserController {
 		}
 		return i;
 	}
+	
+	@RequestMapping("/selectGCSByDept")
+	@ResponseBody
+	public List<User> selectGCSByDept(String omId){
+		String name="%主任工程师%";
+		List<User> list=userservice.selectGCSByDept(omId,name);
+		return list;
+	}
+	
 }

@@ -44,4 +44,6 @@ public interface UserDao {
 	int updatePasswordById(@Param("userId")String userId,@Param("new_password") String new_password);
 
 	List<User> selectFgldByRoleName(String roleName);
+	
+	List<User> selectGCSByDept(@Param("id")String id,@Param("name")String name);
 }

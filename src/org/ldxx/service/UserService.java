@@ -43,5 +43,7 @@ public interface UserService {
 	List<User> selectUserByomId(String omId);
 
 	List<User> selectUserByomIdByJobFirstNames(String[] omId);
+	
+	List<User> selectGCSByDept(String id,String name);
 
 }

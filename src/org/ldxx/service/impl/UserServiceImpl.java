@@ -149,4 +149,9 @@ public class UserServiceImpl implements UserService {
 	public int updatePasswordById(String userId, String new_password) {
 		return userDao.updatePasswordById(userId,new_password);
 	}
+
+	@Override
+	public List<User> selectGCSByDept(String id,String name) {
+		return userDao.selectGCSByDept(id,name);
+	}
 }
