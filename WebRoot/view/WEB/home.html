@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="../font2/iconfont.css">
 	<link rel="stylesheet" href="../style/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="../kindeditor/themes/default/default.css">
+	<link href="./../toastr/toastr.css" rel="stylesheet">
 	<style>
 		
 		#titles{
@@ -322,7 +323,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">提交</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="tijiaorenwudan2()">提交</button>
             </div>
         </div>
     </div>
@@ -347,6 +348,38 @@
     </div>
 </div>
 <!-- frame modalyb结束 -->
+<!--  modal结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tuihuigei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">退回至</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-condensed" id="tijiaoren">
+	                   	<thead>
+	                   			<tr>
+	                         	<th></th>
+	                             <th>步骤</th>
+	                             <th>操作人</th>
+	                             <th>内容</th>
+	                         </tr>
+	                   	</thead>
+                       <tbody>
+                       	
+                       </tbody>
+                   </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="tuihuisubmit()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
 </body>
 <script src="../js/jquery.js"></script>
 <script src="../js/main.js"></script>
@@ -354,6 +387,7 @@
 <script src="../js/common-scripts.js"></script>
 <script src="../js/jquery.dataTables.min.js"></script>
 <script src="../js/jquery.cookie.js"></script>
+<script src="./../toastr/toastr.js"></script>
 <script type="text/javascript" src="../kindeditor/kindeditor-all.js" ></script>
 <script type="text/javascript" src="../kindeditor/lang/zh-CN.js" ></script>
 <script src="../../js/quanxian.js"></script>
@@ -561,9 +595,18 @@
             	if(json.length>9){
             		json.length=10;
             	}
+            	$("#tb1").empty();
+        		$("#tb1").append('<tr class="tb1-unfinish">'
+                        +'<th>'
+            	        +'<div class="yihang2">'
+            		    +'<div>待办任务(<span>10</span>)</div>'
+            		    +'<div><span style="cursor: pointer;" class="Paa"><a href="./gerenRenwu/JobManagement.html">查看更多</a></span></div>'
+            	        +'</div>'
+                        +'</th>'
+		                +'</tr>"');
             	for(var i=0;i<json.length;i++){
             		var full = json[i];
-            		$("#tb1").append("<tr><td style='width:50px;'><span data-toggle='modal' data-target='.dada' style='cursor:pointer;' data-wfstate="+full.wfstate+" data-flowLast="+full.flowNodeLast+" data-flowStatus="+full.flowStatus+" data-lastPerson="+full.lastPerson+" data-lastView = "+full.lastView+" data-cNodeId="+full.id+"  data-url="+full.url+" data-params="+full.params+" data-step="+full.step+"  data-edit="+full.editOrView+" data-flowNodeLast="+full.flowNodeLast+" onclick='initIframe(this)' class='lianjieColor'>"+json[i].title+"</span></td></tr>")
+            		$("#tb1").append("<tr><td style='width:50px;'><span data-toggle='modal' data-target='.dada' style='cursor:pointer;' data-wfstate='"+full.wfstate+"' data-flowLast='"+full.flowNodeLast+"' data-flowStatus='"+full.flowStatus+"' data-lastPerson='"+full.lastPerson+"' data-lastView='"+full.lastView+"' data-cNodeId='"+full.id+"'  data-url='"+full.url+"' data-params="+full.params+" data-step='"+full.step+"'  data-edit='"+full.editOrView+"' data-flowNodeLast='"+full.flowNodeLast+"' onclick='initIframe(this)' class='lianjieColor'>"+json[i].title+"</span></td></tr>");
             	}
             }
         });
@@ -607,7 +650,7 @@
         	}else{
         		$("#lastPerson").empty();
         		$("#lastPerson").append(lastPerson);
-        		if(lastView==null||lastView==''||lastView=='null'){
+        		if(lastView==null||lastView==''||lastView=='null'||lastView.indexOf('data-lastView')>0){
         			lastView='';
         		}
         		$("#viewNext").text(lastView);
@@ -868,6 +911,10 @@
     	var tuihuiDeptName = $("input[name='tuihuiZhi']:checked").parent().next().attr("data-name");
     	var tuihuiActor = $("input[name='tuihuiZhi']:checked").parent().next().next().attr("data-id");
     	var tuihuiActorName = $("input[name='tuihuiZhi']:checked").parent().next().next().text();
+    	if(tuihuiActor==undefined||tuihuiActor==null||tuihuiActor==""){
+    		toastr.error("未选择退回人员!");
+    		return false;
+    	}
     	 $.ajax({
              type: 'POST',
              url: getContextPath()+'/task/returnPerson',

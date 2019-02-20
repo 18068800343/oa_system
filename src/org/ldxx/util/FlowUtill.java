@@ -709,6 +709,8 @@ public class FlowUtill {
 				    String lastView = view;
 				    //退回流程，当前流程的上一步为现在正在操作的流程的 步骤主键
 				    currentFlowNow.setFlowNodeLast(currentFlowNow.getFloNodeId());
+				    String flowTmpId =  currentFlowNow.getFloTmpId();
+				    
 					//退回到指定步骤
 				    currentFlowNow.setFloNodeId(currentFlow.getFloNodeId());
 				    currentFlowNow.setActor(currentFlow.getActor());
@@ -718,6 +720,25 @@ public class FlowUtill {
 				    currentFlowNow.setLastPerson(historyActorName);
 					FlowHistroyExample example = new FlowHistroyExample();
 					INSTANCE.flowHistroyMapper.selectByExample(example);
+					
+					//--如果退回至第一步,将当前操作对象的mode_status的状态置为草稿状态
+					FlowNode flowNode = INSTANCE.flowNodeMapper.selectStartFlowNode(currentFlowNow.getFloTmpId());
+					String startFlowNodeId = flowNode.getId();
+					if(null!=startFlowNodeId&&startFlowNodeId.equals(currentFlow.getFloNodeId())){
+						ModeStatusExample modeStatusExample = new ModeStatusExample();
+						modeStatusExample.createCriteria().andModeIdEqualTo(modeId);
+						List<ModeStatus> modeStatusDuo = INSTANCE.modeStatusMapper.selectByExample(modeStatusExample);
+						modeStatus.setModeId(modeId);
+						modeStatus.setStatus("1");
+						modeStatus.setFlowStatus("4");
+						if(modeStatusDuo!=null&&modeStatusDuo.size()>0){
+							INSTANCE.modeStatusMapper.updateByExample(modeStatus, modeStatusExample);
+						}else{
+							INSTANCE.modeStatusMapper.insert(modeStatus);
+						}
+					}
+					//--//
+					
 					flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlowNow, flowHistroy);
 					flowHistroy.setFloNodeId(historyFloNodeLast);
 					flowHistroy.setFlowNodeLast(historyFloNodeId);
