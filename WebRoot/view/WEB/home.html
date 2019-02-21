@@ -268,10 +268,20 @@
                     </div>
                 </div>
                 <div id="nextBox" hidden="true">
-                    <div id="titles">上一步操作人:<lable id="lastPerson"></lable>&nbsp;&nbsp;意见：↓</div>
+                    <!-- <div id="titles">上一步操作人:<lable id="lastPerson"></lable>&nbsp;&nbsp;意见：↓</div>
                     <div id="srcontent">
                         <textarea cols="30" rows="2" class="form-control" id="viewNext" placeholder="" disabled></textarea>
-                    </div>
+                    </div> -->
+                    <table class="table table-bordered table-condensed" id="message_table">
+                    	<thead>
+                    		<tr>
+                    			<th>操作人</th>
+                    			<th>操作步骤</th>
+                    			<th>意见</th>
+                    		</tr>
+                    	</thead>
+                    	<tbody></tbody>
+                    </table>
                 </div>
                 <div id="midBox">
                     <div id="titles">意见</div>
@@ -646,15 +656,10 @@
         		$("#viewTop").text(params);
         		$("#topBox").show();
         	}
-        	if(flowLast==''||flowLast==null||lastPerson==null||lastPerson==""||lastPerson=="null"){
+        	if(flowLast==''||flowLast==null){
         		$("#nextBox").hide();
         	}else{
-        		$("#lastPerson").empty();
-        		$("#lastPerson").append(lastPerson);
-        		if(lastView==null||lastView==''||lastView=='null'||lastView.indexOf('data-lastView')>0){
-        			lastView='';
-        		}
-        		$("#viewNext").text(lastView);
+        		lookHistory(data_id);
         		$("#nextBox").show();
         	}
         	page_flowNodeLast =  $(this).attr("data-flowNodeLast");
@@ -698,6 +703,8 @@
             			statu="审批通过";
             		}else if(statu=="0"){
             			statu="审批未通过";
+            		}else if(statu=="4"){
+            			statu="进行中";
             		}
             		$("#tb3").append("<tr><td>"+json[i].title+"</td><td style='width:100px;'>"+statu+"</td></tr>");
             	}
@@ -1174,6 +1181,24 @@
 	        });
 	    }
 	
+	    function lookHistory(obj){
+	    	$.ajax({
+	        	type: 'POST',
+	            url: getContextPath()+'/flowHistory/getHistoryNowAndLast',
+	            data:{
+	            	url:obj
+	            },
+	            success: function (json) {
+	            	$("#message_table tbody").html('');
+	            	for(var i in json){
+	            		var operatorType = json[i].operateType;
+	            		operatorType = getCnByOt(operatorType);
+	                	$("#message_table tbody").append("<tr><td>"+json[i].actorname+"</td><td>"+operatorType+"</td><td>"+json[i].view+"</td></tr>")
+	            	}
+	            }
+	        });
+	    }
+	    
 	  function getCnByOt(s){
 		  if(s==1){
 			  return "提交";

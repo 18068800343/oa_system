@@ -113,17 +113,27 @@
                     </div>
                 </div>
                 <div id="nextBox" hidden="true">
-                    <div id="titles">上一步操作人:<lable id="lastPerson"></lable>&nbsp;&nbsp;意见：↓</div>
+                    <!-- <div id="titles">上一步操作人:<lable id="lastPerson"></lable>&nbsp;&nbsp;意见：↓</div>
                     <div id="srcontent">
                         <textarea cols="30" rows="2" class="form-control" id="viewNext" placeholder="" disabled></textarea>
-                    </div>
+                    </div> -->
+                    <table class="table table-bordered table-condensed" id="message_table">
+                    	<thead>
+                    		<tr>
+                    			<th>操作人</th>
+                    			<th>操作步骤</th>
+                    			<th>意见</th>
+                    		</tr>
+                    	</thead>
+                    	<tbody></tbody>
+                    </table>
                 </div>
                 <div id="midBox">
                     <div id="titles">意见</div>
                     <div id="srcontent">
                         <textarea cols="30" rows="8" class="form-control" id="view" placeholder="请输入内容"></textarea>
                     </div>
-                </div> 
+                </div>
             </div>
             <div class="modal-footer">
               <div id="tjButtons">
@@ -299,8 +309,8 @@
         	var cNodeId = $(this).attr("data-cNodeId"); 
         	var wfstate = $(this).attr("data-wfstate");  
         	var flowLast = $(this).attr("data-flowLast");
-        	var lastPerson = $(this).attr("data-lastPerson");
-        	var lastView = $(this).attr("data-lastView");
+        	/* var lastPerson = $(this).attr("data-lastPerson");
+        	var lastView = $(this).attr("data-lastView"); */
         	if(wfstate=='1'){
         		$("#midBox").hide();
         		$("#tjButtons").hide();
@@ -317,15 +327,10 @@
         		$("#viewTop").text(params);
         		$("#topBox").show();
         	}
-        	if(flowLast==''||flowLast==null||lastPerson==null||lastPerson==""){
+        	if(flowLast==''||flowLast==null){
         		$("#nextBox").hide();
         	}else{
-        		$("#lastPerson").empty();
-        		$("#lastPerson").append(lastPerson);
-        		if(lastView==null||lastView==''||lastView=='null'){
-        			lastView='';
-        		}
-        		$("#viewNext").text(lastView);
+        		lookHistory(data_id);//显示历史操作意见
         		$("#nextBox").show();
         	}
         	page_flowNodeLast =  $(this).attr("data-flowNodeLast");
@@ -764,6 +769,36 @@
             	  initTable1();
             }
         });
+    }
+    
+    function lookHistory(obj){
+    	$.ajax({
+        	type: 'POST',
+            url: getContextPath()+'/flowHistory/getHistoryNowAndLast',
+            data:{
+            	url:obj
+            },
+            success: function (json) {
+            	$("#message_table tbody").html('');
+            	for(var i in json){
+            		var operatorType = json[i].operateType;
+            		operatorType = getCnByOt(operatorType);
+                	$("#message_table tbody").append("<tr><td>"+json[i].actorname+"</td><td>"+operatorType+"</td><td>"+json[i].view+"</td></tr>")
+            	}
+            }
+        });
+    }
+    
+    function getCnByOt(s){
+  	  if(s==1){
+  		  return "提交";
+  	  }else if(s==2){
+  		  return "退回";
+  	  }else if(s==3){
+  		  return "撤销";
+  	  }else if(s==0){
+  		  return "驳回";
+  	  }
     }
 </script>
 </html>
