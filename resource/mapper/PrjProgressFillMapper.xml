@@ -120,11 +120,13 @@
   	</select>
   	
   	<select id="selectTotalIncome" resultType="PrjProgressFill">
-  		select IFNULL(SUM(c.all_money_yuan),0)as all_money_yuan from (
-		SELECT * from prj_progress_fill where this_time BETWEEN #{start} and #{end} ORDER BY this_time desc) as a  
-		LEFT JOIN mode_status as b on a.ppf_id=b.mode_id
-		LEFT JOIN prj_progress_fill_info as c on a.ppf_id=c.ppf_id
-		where b.status=2 and c.department=#{dept} GROUP BY a.task_no
+		SELECT IFNULL(SUM(d.all_money_yuan),0)as all_money_yuan from (
+			select * from (
+			SELECT * from prj_progress_fill where this_time BETWEEN #{start} and #{end} ORDER BY this_time desc ) 
+			as a group by a.task_no ) as b 
+		LEFT JOIN mode_status as c on b.ppf_id=c.mode_id
+		LEFT JOIN prj_progress_fill_info as d on b.ppf_id=d.ppf_id
+		where c.status=2 and d.type=1 and d.department=#{dept}
   	</select>
   	
   	<select id="selectYearCostByDepartment" resultType="PrjProgressFillInfo">
