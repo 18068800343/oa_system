@@ -49,7 +49,7 @@ public class FlowHistoryVo {
 	    
 	    private String flowStatus;
 
-	    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")  
+	    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")  
 	    private Date doDate;
 
 	    private String modeId;
