@@ -163,7 +163,7 @@ var table=$('#mainContent').DataTable({
 	},
 	"columns": [
 	            { "data": null},
-	            { "data": "materialType"}, 
+	            { "data": "mcName"}, 
 	        ],
 	        "columnDefs": [
 							{	
@@ -239,7 +239,7 @@ var table=$('#mainContent').DataTable({
 function initTable(){
     $.ajax({
         type: 'POST',
-        url: getContextPath()+'/MaterialType/selectMaterialType',
+        url: getContextPath()+'/MaterialCompany/getAllMaterialCompany',
         dataType: 'json',
         data: {
         },
@@ -281,24 +281,24 @@ function initTable(){
 		$("#name").val('')
 	})
 	
-	//添加材料类型
+	//添加
 	$("#addyiji").click(function(){
 		if($("#name").val().trim()==''){
-			toastr.error("材料类型为空")
+			toastr.error("材料单位为空")
 			return false;
 		}
 		$.ajax({
 		        type: 'POST',
-		        url: getContextPath()+'/MaterialType/addMaterialType',
+		        url: getContextPath()+'/MaterialCompany/addMaterialCompany',
 		        dataType: 'json',
 		        data: {
-		        	materialType:$("#name").val()
+		        	mcName:$("#name").val()
 		        },
 		        success: function (json) {
 	        	    if(json.result>0){
 	        	    	toastr.success("添加成功")
 	        	    	$("#myModal").modal('hide')
-	        	    	$('#mainContent').DataTable().row.add(json.MaterialType).draw(false);     //新增行立即显示
+	        	    	$('#mainContent').DataTable().row.add(json.MaterialCompany).draw(false);     //新增行立即显示
 	        	    	//initTable();
 	        	    }else if(json.result==-1){
 	        	    	toastr.error("该材料已存在");
@@ -322,10 +322,10 @@ function initTable(){
         		myTool.mask.show('删除中...');
         		$.ajax({
     	            type: 'POST',
-    	            url: getContextPath()+'/MaterialType/deleteMaterialTypeById',
+    	            url: getContextPath()+'/MaterialCompany/deleteMaterialCompanyById',
     	            dataType: 'json',
     	            data: {
-    	            	id:data.mId
+    	            	id:data.mcId
     	            },
     	            success: function (json) {
 						myTool.mask.hide();
@@ -350,39 +350,44 @@ function initTable(){
 			tr = $(this).closest('tr');
 			var dom = $(this).parents('tr');
 			var data=$('#mainContent').DataTable().row(dom).data();
-			xgId=data.mId;
-			$("#xgname").val(data.materialType);
+			xgId=data.mcId;
+			$("#xgname").val(data.mcName);
 		})
 	
-	var MaterialType={
-			mId:null,
-			materialType:undefined,
+	var MaterialCompany={
+			mcId:null,
+			mcName:undefined,
 	}
 	$("#changeyiji").click(function(){
 		var oldNum=$(tr.children()[0]).text();
 		if($("#xgname").val().trim()==''){
-			toastr.error("材料类型名称为空")
+			toastr.error("材料单位名称为空")
 			return false;
 		}
 		var name=$("#xgname").val();
-		MaterialType.materialType=name;
-		MaterialType.mId=xgId;
+		MaterialCompany.mcName=name;
+		MaterialCompany.mcId=xgId;
 	  		$.ajax({
 	            type: 'POST',
-	            url: getContextPath()+'/MaterialType/updateMaterialTypeById',
+	            url: getContextPath()+'/MaterialCompany/updateMaterialCompany',
 	            dataType: 'json',
 	            data:{
-	            	mId:xgId,
-	            	materialType:name
+	            	mcId:xgId,
+	            	mcName:name
 	            },
 	            success: function (json) {
-	                if(json!=0){
+	                if(json>0){
 	                	//location.reload([true]);
 	                	toastr.success('修改成功');
 	                	$("#xiugaiyiji").modal('hide')
-	                	$('#mainContent').DataTable().row(tr).data(MaterialType);//修改行立即显示
+	                	$('#mainContent').DataTable().row(tr).data(MaterialCompany);//修改行立即显示
 	                	$(tr.children()[0]).text(oldNum);
-	                }else{
+	                	$(".Plfb").show();
+ 						$(".Plfc").show();
+	                }else if(json==-1){
+	        	    	toastr.error("该材料单位已存在");
+	        	    	return false;
+	        	    }else{
 	                	toastr.error("修改失败")
 	                }
 	            }
