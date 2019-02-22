@@ -54,6 +54,10 @@
 		        margin-bottom:170px !important;
 		    }
 		}
+    @page {
+        size: auto;
+        margin: 0mm;
+    }
 	</style>
 </head>
 <body>
@@ -348,26 +352,27 @@
 <div class="modal fade bs-example-modal-lg dadayb" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog modal-lg" role="document" style="width:1400px">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">业务</h4>
-            </div>
-            <div class="modal-body">
-                <iframe name="view_frame" id="rightMainyb" src="" frameborder="false" scrolling="auto" style="border: none;" width="100%" height=700 allowtransparency="true"></iframe>
-            </div>
-            <div>
-            	<table class="table table-bordered table-condensed" id="message_table2">
-                   	<thead>
-                   		<tr>
-                   			<th>操作人</th>
-                   			<th>操作步骤</th>
-                   			<th>意见</th>
-                   		</tr>
-                   	</thead>
-                   	<tbody></tbody>
-                </table>
-            </div>
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title" id="gridSystemModalLabel">业务</h4>
+	            </div>
+	            <div class="modal-body">
+	                <iframe name="view_frame" id="rightMainyb" src="" frameborder="false" scrolling="auto" style="border: none;" width="100%" height=700 allowtransparency="true"></iframe>
+	            </div>
+	            <div id="dy_html">
+	            	<table class="table table-bordered table-condensed" id="message_table2">
+	                   	<thead>
+	                   		<tr>
+	                   			<th>操作人</th>
+	                   			<th>操作步骤</th>
+	                   			<th>意见</th>
+	                   		</tr>
+	                   	</thead>
+	                   	<tbody></tbody>
+	                </table>
+	            </div>
             <div class="modal-footer">
+            	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="day()">打印页面</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -1249,6 +1254,53 @@
 		  }
 	  }
 	
+	  
+	   function day(){
+		// 获取当前页的html代码
+		    var bdhtml = window.document.body.innerHTML;
+		    //设置打印开始区域
+		    //var startStr = '<!--startprint-->';
+		    // 设置打印结束区域
+		    //var endStr = '<!--endprint-->';
+		    //从标记里获取需要打印的页面
+		    //var printHtml = bdhtml.substring(bdhtml.indexOf(startStr) + startStr.length, bdhtml.indexOf(endStr));
+		    //隐藏不必要的按钮和样式
+		    var iframe = document.getElementById('rightMainyb');
+		    
+		    var iframeHtml=iframe.contentWindow.document.body.innerHTML;
+		    var printHtml = document.getElementById('dy_html').innerHTML;
+		    var allHtml=iframeHtml+printHtml;
+		    
+		    
+		   /*  iframe.contentWindow.focus();
+		    iframe.contentWindow.print(); */
+		    
+		 	// 通过id获取需要打印的页面
+		    
+		    window.document.body.innerHTML = allHtml;
+		    if (!!window.ActiveXObject || "ActiveXObject" in window) { //是否ie
+		        remove_ie_header_and_footer();
+		     }
+		    remove_ie_header_and_footer();
+		    window.print();
+		    // 还原界面
+		    window.document.body.innerHTML = allHtml;
+		    window.location.reload();
+	  }
 
+	  
+
+	//去掉页眉、页脚
+	function remove_ie_header_and_footer() {
+	    var hkey_path;
+	    hkey_path = "HKEY_CURRENT_USER\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
+	    try {
+	       var RegWsh = new ActiveXObject("WScript.Shell");
+	       RegWsh.RegWrite(hkey_path + "header", "");
+	       RegWsh.RegWrite(hkey_path + "footer", "");
+	    } catch (e) {
+	    }
+
+	}
 </script> 
 </html>
