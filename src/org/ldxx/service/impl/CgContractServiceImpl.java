@@ -236,4 +236,9 @@ public class CgContractServiceImpl implements CgContractService {
 		return borrowdao.getRateAndMoney(no);
 	}
 
+	@Override
+	public int updatePrjNameAndNoById(CgContract cg) {
+		return cgDao.updatePrjNameAndNoById(cg);
+	}
+
 }

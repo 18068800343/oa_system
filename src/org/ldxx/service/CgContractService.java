@@ -61,4 +61,6 @@ public interface CgContractService {
 
 	List<BorrowContract> getRateAndMoney(String no);
 
+	int updatePrjNameAndNoById(CgContract cg);
+
 }

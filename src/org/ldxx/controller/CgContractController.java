@@ -735,4 +735,10 @@ public class CgContractController {
 		return list;
 	}
 	
+	@RequestMapping("/updatePrjNameAndNoById")
+	@ResponseBody
+	public int updatePrjNameAndNoById(CgContract cg){
+		return cgService.updatePrjNameAndNoById(cg);
+	}
+	
 }
