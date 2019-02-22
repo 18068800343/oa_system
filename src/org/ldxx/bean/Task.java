@@ -96,6 +96,12 @@ public class Task {
     private List<Enterprise> enterprise;
     
     private List<CjContract> cj;
+    //合同信息
+    private String cjId;
+    private String contractName;
+    private String contractNo;
+    private String contractMoneyCj;
+    private String temporaryMoney;
     
     private String omName;//主办部门
     private String name1;//协办部门1
@@ -126,6 +132,47 @@ public class Task {
     private int fileLengthKJ;//判断科技文档文档是否归档,非数据库对应属性；0：未归档，1：已归档
     
     
+    
+	public String getCjId() {
+		return cjId;
+	}
+
+	public void setCjId(String cjId) {
+		this.cjId = cjId;
+	}
+
+	public String getContractName() {
+		return contractName;
+	}
+
+	public void setContractName(String contractName) {
+		this.contractName = contractName;
+	}
+
+	public String getContractNo() {
+		return contractNo;
+	}
+
+	public void setContractNo(String contractNo) {
+		this.contractNo = contractNo;
+	}
+
+	public String getContractMoneyCj() {
+		return contractMoneyCj;
+	}
+
+	public void setContractMoneyCj(String contractMoneyCj) {
+		this.contractMoneyCj = contractMoneyCj;
+	}
+
+	public String getTemporaryMoney() {
+		return temporaryMoney;
+	}
+
+	public void setTemporaryMoney(String temporaryMoney) {
+		this.temporaryMoney = temporaryMoney;
+	}
+
 	public int getFileLengthSG() {
 		return fileLengthSG;
 	}

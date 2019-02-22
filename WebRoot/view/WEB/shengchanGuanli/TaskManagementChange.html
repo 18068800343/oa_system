@@ -712,6 +712,7 @@
         
         initTable();
 	});
+    
     function GetQueryString(name){
         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
@@ -720,7 +721,7 @@
    // 调用方法
    	id=GetQueryString("prjId");
 
-
+    var xiugaiid = id;
     
     var tableje=$('#mainContenttjje').DataTable({
         "deferRender": true,
@@ -1541,6 +1542,7 @@
 	    	}
         	
         	var all_bili=0;
+        	var allMoney=0;
         	if(zhuban!=''&&zhuban!=undefined){
         		if(chenbenfentanbili==''){
         			toastr.error("成本分摊比例不能为空");
@@ -1549,6 +1551,7 @@
         			var bili=chenbenfentanbili.replace("%","");
         			all_bili=all_bili+parseInt(bili);
         		}
+        		allMoney=allMoney+parseInt(zhubanjine);
         	}
         	if(xieban1!=''&&xieban1!=undefined){
         		if(chenbenfentanbili1==''){
@@ -1558,6 +1561,7 @@
         			var bili1=chenbenfentanbili1.replace("%","");
         			all_bili=all_bili+parseInt(bili1);
         		}
+        		allMoney=allMoney+parseInt(xieban1jine);
         	}
 			if(xieban2!=''&&xieban2!=undefined){
 				if(chenbenfentanbili2==''){
@@ -1567,6 +1571,7 @@
         			var bili2=chenbenfentanbili2.replace("%","");
         			all_bili=all_bili+parseInt(bili2);
         		}
+				allMoney=allMoney+parseInt(xieban2jine);
         	}
 			if(xieban3!=''&&xieban3!=undefined){
 				if(chenbenfentanbili3==''){
@@ -1576,7 +1581,12 @@
         			var bili3=chenbenfentanbili3.replace("%","");
         			all_bili=all_bili+parseInt(bili3);
         		}
+				allMoney=allMoney+parseInt(xieban3jine);
         	}
+			if(allMoney!=jine){
+				toastr.error("主协办金额分配错误");
+	    		return;
+			}
 			if(all_bili!=100){
 				toastr.error("成本分摊比例总和不等于100%");
 	    		return;
@@ -1597,10 +1607,13 @@
     	    	shishe = parseInt(shishe);
     	    	allLei+=shishe
     	    }
-    	    if(allLei!=100){
-				toastr.error("成本分摊比例总和不等于100%");
-	    		return;
-			}
+    	    
+    	    if(erji.indexOf("B")>=0){
+    	    	 if(allLei!=100){
+  					toastr.error("项目B类百分比分配有误");
+  		    		return;
+   				}
+   			}
     	    var xindanwei={
     	    		prjType2:undefined,
     	    		prjNo:undefined,
@@ -1851,10 +1864,13 @@
     	    	shishe = parseInt(shishe);
     	    	allLei+=shishe
     	    }
-    	    if(allLei!=100){
-				toastr.error("成本分摊比例总和不等于100%");
-	    		return;
-			}
+    	    
+    	    if(erji.indexOf("B")>=0){
+      	    	 if(allLei!=100){
+    					toastr.error("项目B类百分比分配有误");
+    		    		return;
+     				}
+     			}
     	    var xindanwei={
     	    		prjType2:undefined,
     	    		prjNo:undefined,
@@ -2283,10 +2299,12 @@
     	    	shishe = parseInt(shishe);
     	    	allLei+=shishe
     	    }
-    	    if(allLei!=100){
-				toastr.error("成本分摊比例总和不等于100%");
-	    		return;
-			}
+    	    if(erji.indexOf("B")>=0){
+   	    	 if(allLei!=100){
+ 					toastr.error("项目B类百分比分配有误");
+ 		    		return;
+  				}
+  			}
     	    var xindanwei={
     	    		prjType2:undefined,
     	    		prjNo:undefined,
@@ -2356,8 +2374,9 @@
     		
     	      $.ajax({
                 type: 'POST',
-                url: getContextPath()+'/task/updateTask',
+                url: getContextPath()+'/task/updateTaskCG',
                 dataType: 'json',
+                async:false,
                 contentType: "application/json", 
                 data:JSON.stringify(danwei),
                 success: function (json) {
@@ -2367,6 +2386,7 @@
                          toastr.success('保存成功');
                          quxiao2();
                     }
+                    return json;
                 }
             }); 
     }
@@ -2532,10 +2552,12 @@
     	    	shishe = parseInt(shishe);
     	    	allLei+=shishe
     	    }
-    	    if(allLei!=100){
-				toastr.error("成本分摊比例总和不等于100%");
-	    		return;
-			}
+    	    if(erji.indexOf("B")>=0){
+   	    	 if(allLei!=100){
+ 					toastr.error("项目B类百分比分配有误");
+ 		    		return;
+  				}
+  			}
     	    var xindanwei={
     	    		prjType2:undefined,
     	    		prjNo:undefined,

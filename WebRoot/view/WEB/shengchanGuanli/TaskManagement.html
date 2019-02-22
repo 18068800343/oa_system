@@ -1296,7 +1296,7 @@
 		            { "data": "ccName"}, 
 		            { "data": "prjEstimateMoney"}, 
 		            { "data": "contractMoney"}, 
-		            { "data": "cj"}, 
+		            { "data": "cjId"}, 
 		            { "data": "prjStartTime"}, 
 		            { "data": "omName"}, 
 		            { "data": null},
@@ -1307,7 +1307,7 @@
 									     "targets": 8,
 									     "searchable": true,
 									     "render": function(data, type, full) {
-									    	 if(data.length==0){
+									    	 if(data==""||data==null||data==undefined||data=="null"){
 									    		 return '<button type="button" class="btn btn-danger">无</button>';
 									    	 }else{
 									    		 return '<button type="button" class="btn btn-success" onclick="lookContract(this)">有</button>';
@@ -1320,12 +1320,12 @@
 									     "targets": 11,
 									     "searchable": true,
 									     "render": function(data, type, full) {
-									    	 var cj = full.cj;
+									    	 var cj = full.cjId;
 									    	 var json =  JSON.stringify(full);
 									    	 var codeJson = encodeURIComponent(json);
 									    	 var zt =  $("#zhuangtai").val();
 									    	 var mainPrj = full.mainPrjNo;
-									    	 if(cj.length<=0&&zt=="审批结束"&&(mainPrj==""||mainPrj==null)){
+									    	 if(cj==null&&zt=="审批结束"&&(mainPrj==""||mainPrj==null)){
 						  	  		         return '<i class="iconfont icon-icon-test Peab" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息"   id="lookDetall"></i><span class="glyphicon glyphicon-resize-full Peag" style="font-size:15px;cursor:pointer;margin-left:5px;display:none;" title="拆分子任务单"   id="chaiFenTask"></span><i class="iconfont icon-xiugai Peac" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="修改"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi Peae" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="重启" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu Pead" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="项目终止"  data-toggle="modal" data-target="#myModal4"></i></i>'
 									    	 }else{
 							    		     return '<i class="iconfont icon-icon-test Peab" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息"   id="lookDetall"></i><i class="iconfont icon-xiugai Peac" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="修改"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi Peae" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="重启" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu Pead" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="项目终止"  data-toggle="modal" data-target="#myModal4"></i></i>'	 
@@ -2985,8 +2985,8 @@
 
   		var dom = $(this).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
-		var length = data.cj.length;
-		if(length>0){
+		var length = data.cjId;
+		if(length!=null&&length!=undefined&&length!=""){
 			$("#xgjine").attr("disabled","true");
 			$("#xghetonge").attr("disabled","true");
 			$("#xgzandingjin").attr("disabled","true");
@@ -3922,16 +3922,14 @@
   	function lookContract(s){
 	    var tr = $(s).parents('tr');
 		var data=$('#mainContent').DataTable().row(tr).data();
-		var cj=data.cj;
+		/* var cj=data.cj; */
 		var id=data.prjId;
 		if(stateArray.indexOf(id)>=0){
 			stateArray.splice($.inArray(id,stateArray),1);// $.inArray(data.idFirst,stateArray)获取idFirst在数组中的索引值 ；stateArray.splice(索引值，数量)删除数组中指定索引值的元素
 			$(".inTr"+id).remove();
 		}else{
 			stateArray.push(id);
-			for(var i=0;i<cj.length;i++){
-				$(tr).after("<tr class='inTr"+id+"'><td style='width:100px;color:green;' class='details-control'>"+(i+1)+"</td><td style='width:100px;color:green;' colspan='3' >合同名称：    <a onclick='tiaozhuan(this)' data-id='"+cj[i].cjId+"' style='color:green;' class='zhuashou'>"+cj[i].contractName+"</a></td><td colspan='3' style='width:100px;color:green;'>合同金额：    "+cj[i].contractMoney+"</td><td></td></tr>")
-			}
+			$(tr).after("<tr class='inTr"+id+"'><td style='width:100px;color:green;' class='details-control'>1</td><td style='width:100px;color:green;' colspan='3' >合同名称：    <a onclick='tiaozhuan(this)' data-id='"+data.cjId+"' style='color:green;' class='zhuashou'>"+data.contractName+"</a></td><td colspan='3' style='width:100px;color:green;'>合同金额：    "+data.contractMoney+"</td><td></td></tr>")
 		}
   }
   	function tiaozhuan(s){
