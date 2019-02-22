@@ -1964,6 +1964,24 @@
 	    });
 	}
     
+  //初始化材料单位
+    function selectMaterialCompany(obj){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/MaterialCompany/getAllMaterialCompany',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	for(var i=0;i<json.length;i++){
+            		$("#cl_dw"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            		$("#edit_cl_dw"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            	}
+	        }
+	    });
+	}
+	
     //选择项目
 	$("#chosexm").click(function(){
 		$('#xiangmumd').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
@@ -2042,17 +2060,7 @@
        												'</td>'+
        												'<td style="width:9%;"><input style="width:100%;" type="text" class="form-control"></td>'+
        												'<td style="width:9%;">'+
-           												'<select class="form-control">'+
-               												'<option value="个">个</option>'+
-                											'<option value="只">只</option>'+
-                											'<option value="套">套</option>'+
-                											'<option value="副">副</option>'+
-                											'<option value="双">双</option>'+
-                											/* '<option value="元">元</option>'+ */
-                											'<option value="桶">桶</option>'+
-                											'<option value="吨">吨</option>'+
-															'<option value="千克">千克</option>'+
-															'<option value="金">金</option>'+
+           												'<select class="form-control" id="cl_dw'+length+'">'+
            												'</select>'+
        												'</td>'+
 											        '<td style="width:9%;"><input style="width:100%;" type="text" class="form-control"></td>'+
@@ -2073,6 +2081,7 @@
    												"</tr>")
     				initSupplier2(length);
     				initClType2(length);
+    				selectMaterialCompany(length);
     }
     function initSupplier2(obj){
     	$.ajax({
@@ -2127,17 +2136,7 @@
        												'</td>'+
         												'<td style="width:9%;"><input style="width:100%;" type="text" class="form-control"></td>'+
         												'<td style="width:9%;">'+
-            												'<select class="form-control">'+
-	               												'<option value="个">个</option>'+
-	                											'<option value="只">只</option>'+
-	                											'<option value="套">套</option>'+
-	                											'<option value="副">副</option>'+
-	                											'<option value="双">双</option>'+
-	                											/* '<option value="元">元</option>'+ */
-	                											'<option value="桶">桶</option>'+
-	                											'<option value="吨">吨</option>'+
-																'<option value="千克">千克</option>'+
-																'<option value="金">金</option>'+
+            												'<select class="form-control" id="edit_cl_dw'+length+'">'+
             												'</select>'+
         												'</td>'+
 												        '<td style="width:9%;"><input style="width:100%;" type="text" class="form-control"></td>'+
@@ -2156,6 +2155,7 @@
     												"</tr>")
     				initSupplier3(length);
 					initClType2(length);
+					selectMaterialCompany(length);
     }
     function initSupplier3(obj){
     	$.ajax({
@@ -2437,16 +2437,6 @@
 		                		  				+'<input type="text" class="form-control" style="width:100%;" value='+json[k].modeType+' >' 
 		                		  				+"</td><td style='width:9%;'>"
 		                		  				+'<select class="form-control"  id=cl_danwei'+json[k].mdlId+'>'
-															+'<option value="个">个</option>'
-															+'<option value="只">只</option>'
-															+'<option value="套">套</option>'
-															+'<option value="副">副</option>'
-															+'<option value="双">双</option>'
-															/* +'<option value="元">元</option>' */
-															+'<option value="桶">桶</option>'
-															+'<option value="吨">吨</option>'
-															+'<option value="千克">千克</option>'
-															+'<option value="金">金</option>'
 														+'</select>'
 		                		  				+"</td><td style='width:9%;'>"
 		                		  				+'<input type="text" class="form-control" style="width:100%;" value='+json[k].num+' >'
@@ -2466,7 +2456,8 @@
 		                		  				initClType(json[k].materialType,json[k].mdlId);
 		                		  				initName1(json[k].provideCompany,json[k].mdlId);
 		                        				initName2(json[k].sureMaterialMode,json[k].mdlId);
-		                        				$("#cl_danwei"+json[k].mdlId).val(json[k].buyCompany);
+		                        				initMaterialCompany(json[k].buyCompany,json[k].mdlId)
+		                        				//$("#cl_danwei"+json[k].mdlId).val(json[k].buyCompany);
 		                		  				
 		                        	} 
 		                        }
@@ -2521,6 +2512,28 @@
     	$(tr).remove();
     	toastr.success("移除成功");
 	}
+	
+	 function initMaterialCompany(obj1,obj2){
+	    	$.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/MaterialCompany/getAllMaterialCompany',
+		        dataType: 'json',
+		        data: {
+		        },
+		        success: function (json) {
+		        	//console.log(json)
+		        	$("#cl_danwei"+obj2).empty();
+            		$("#xgcl_danwei"+obj2).empty();
+		        	for(var i=0;i<json.length;i++){
+	            		$("#cl_danwei"+obj2).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+	            		$("#xgcl_danwei"+obj2).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+	            	}
+		        	$("#cl_danwei"+obj2).val(obj1);
+            		$("#xgcl_danwei"+obj2).val(obj1);
+		        }
+		    });
+		}
+	
 	function initClType(obj1,obj2){
     	$.ajax({
             type: 'POST',
@@ -2753,16 +2766,6 @@
 		                		  				+"</td><td style='width:10%;'>"
 		                		  				//+'<input type="text" class="form-control" value='+json[k].buyCompany+' style="width:100%;">'
 		                		  				+'<select class="form-control"  id=xgcl_danwei'+json[k].mdlId+'>'
-															+'<option value="个">个</option>'
-															+'<option value="只">只</option>'
-															+'<option value="套">套</option>'
-															+'<option value="副">副</option>'
-															+'<option value="双">双</option>'
-															/* +'<option value="元">元</option>' */
-															+'<option value="桶">桶</option>'
-															+'<option value="吨">吨</option>'
-															+'<option value="千克">千克</option>'
-															+'<option value="金">金</option>'
 														+'</select>'
 		                		  				+"</td><td style='width:10%;'>"
 		                		  				+'<input type="text" class="form-control" style="width:100%;" value='+json[k].num+' >'
@@ -2780,9 +2783,10 @@
 		                		  				+'<button type="button" class="btn btn-primary" onclick="removeThis(this)">删除</button>'
 		                		  				+"</td></tr>")
 		                		  				initClType(json[k].materialType,json[k].mdlId);
-		                        				$("#xgcl_danwei"+json[k].mdlId).val(json[k].buyCompany);
 		                		  				initName1(json[k].provideCompany,json[k].mdlId);
                         						initName2(json[k].sureMaterialMode,json[k].mdlId);
+		                        				//$("#xgcl_danwei"+json[k].mdlId).val(json[k].buyCompany);
+		                        				initMaterialCompany(json[k].buyCompany,json[k].mdlId)
 		                        	} 
 		                        }
 		              		});
@@ -3682,17 +3686,7 @@
            		  				+"</td><td style='width:9%;'>"
            		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clMode+' >' 
            		  				+"</td><td style='width:9%;'>"
-           		  				+'<select class="form-control" id=cl_danwei'+k+'>'
-											+'<option value="个">个</option>'
-											+'<option value="只">只</option>'
-											+'<option value="套">套</option>'
-											+'<option value="副">副</option>'
-											+'<option value="双">双</option>'
-											/* +'<option value="元">元</option>' */
-											+'<option value="桶">桶</option>'
-											+'<option value="吨">吨</option>'
-											+'<option value="千克">千克</option>'
-											+'<option value="金">金</option>'
+           		  				+'<select class="form-control" id=xgcl_danwei'+k+'>'
 										+'</select>'
            		  				+"</td><td style='width:9%;'>"
            		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clNumber+' >'
@@ -3712,7 +3706,8 @@
            		  				initClType(json.cgcl[k].clType,k);
            		  				initName1(json.cgcl[k].clPrjSupplier,k);
                    				initName2(json.cgcl[k].clGsSupplier,k);
-                   				$("#cl_danwei"+k).val(json.cgcl[k].clUnit);
+                   				//$("#cl_danwei"+k).val(json.cgcl[k].clUnit);
+                   				initMaterialCompany(json.cgcl[k].clUnit,k)
            		  				
                     	} 
 				}

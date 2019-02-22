@@ -1446,13 +1446,6 @@
 	           		  				+'<input type="text" class="form-control" value="'+json[i].specificationModel+'" style="width:100%;">' 
 	           		  				+"</td><td style='width:7%;'>"
 	           		  				+'<select class="form-control"  id=cl_danwei'+i+'>'
-												+'<option value="个">个</option>'
-												+'<option value="只">只</option>'
-												+'<option value="套">套</option>'
-												+'<option value="副">副</option>'
-												+'<option value="双">双</option>'
-												+'<option value="元">元</option>'
-												+'<option value="桶">桶</option>'
 											+'</select>'
 	           		  				+"</td><td style='width:7%;'>"
 	           		  				+'<input type="text" class="form-control" value="'+json[i].remainNumber+'" style="width:100%;">'
@@ -1476,7 +1469,8 @@
 	           		  				initClType(json[i].materialType,i);
 	           		  				initName1(i);
 	                   				//initName2(i);
-	                   				$("#cl_danwei"+i).val(json[i].cmoUnit);
+	                   				//$("#cl_danwei"+i).val(json[i].cmoUnit);
+	           		  				initMaterialCompany(json[i].cmoUnit,i)
             		}
             		$("#outBut").attr("disabled",false);
             	}else{
@@ -1497,6 +1491,28 @@
 			$("#outBut").attr("disabled",false);
 		}
 	}
+	
+	function initMaterialCompany(obj1,obj2){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/MaterialCompany/getAllMaterialCompany',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	$("#cl_danwei"+obj2).empty();
+        		$("#xgcl_danwei"+obj2).empty();
+	        	for(var i=0;i<json.length;i++){
+            		$("#cl_danwei"+obj2).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            		$("#xgcl_danwei"+obj2).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            	}
+	        	$("#cl_danwei"+obj2).val(obj1);
+        		$("#xgcl_danwei"+obj2).val(obj1);
+	        }
+	    });
+	}
+	
 	 function initClType(obj1,obj2){
 	    	$.ajax({
 	            type: 'POST',

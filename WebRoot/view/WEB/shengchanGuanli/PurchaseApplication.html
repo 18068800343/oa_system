@@ -129,15 +129,15 @@
 	                        	<td style="width:5%;"><button type="button" class="btn btn btn-primary" onclick="add()">添加</button></td>
                         	</tr>
                         	<tr>
-	                            <td style="width:10%;">材料名称</td>
-	                            <td style="width:10%;">材料类型</td>
-	                            <td style="width:10%;">规格型号</td>
-	                            <td style="width:6%;">单位</td>
-	                            <td style="width:8%;">数量</td>
-	                            <td style="width:15%;">项目部推荐供应商</td>
-	                            <td style="width:15%;">公司确定供应商</td>
-	                            <td style="width:10%;">备注</td>
-	                            <td style="width:6%;">操作</td>
+	                            <td style="width:11%;">材料名称</td>
+	                            <td style="width:11%;">材料类型</td>
+	                            <td style="width:11%;">规格型号</td>
+	                            <td style="width:11%;">单位</td>
+	                            <td style="width:11%;">数量</td>
+	                            <td style="width:11%;">项目部推荐供应商</td>
+	                            <td style="width:11%;">公司确定供应商</td>
+	                            <td style="width:11%;">备注</td>
+	                            <td style="width:11%;">操作</td>
                         	</tr>
                         </thead>
                         <tbody>
@@ -149,24 +149,15 @@
 	                            <td><input type="text" class="form-control" id="mode_type"></td>
 	                            <td>
 	                                <select class="form-control" id="unit">
-	                                    <option value="个">个</option>
-	                                    <option value="只">只</option>
-	                                    <option value="套">套</option>
-	                                    <option value="副">副</option>
-	                                    <option value="双">双</option>
-	                                    <option value="元">元</option>
-	                                    <option value="桶">桶</option>
-	                                    <option value="吨">吨</option>
-	                                    <option value="千克">千克</option>
 	                                </select>
 	                            </td>
 	                            <td><input type="text" class="form-control" id="num"></td>
 	                            <td>
-	                            	<select class=" form-control" style="width:100%;" id="department_tj">
+	                            	<select class=" form-control" style="width:150px;" id="department_tj">
 	                                </select>
 	                            </td>
 	                            <td>
-	                            	<select class=" form-control" style="width:100%;" id="company_sure">
+	                            	<select class=" form-control" style="width:150px;" id="company_sure">
 	                                </select>
 	                            </td>
 	                            <td><input type="text" class="form-control" id="desc"></td>
@@ -607,6 +598,7 @@
     	initSupplier();
     	initTable();
     	initClType();
+    	getMaterialCompany();
     	$(".zhuangtai").trigger("change");
 	});
     
@@ -1342,39 +1334,67 @@
   		});
     }
     
+    function getMaterialCompany(){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/MaterialCompany/getAllMaterialCompany',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	for(var i=0;i<json.length;i++){
+            		$("#unit").append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            	}
+	        }
+	    });
+	}
+  //初始化材料单位
+    function selectMaterialCompany(obj){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/MaterialCompany/getAllMaterialCompany',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	for(var i=0;i<json.length;i++){
+            		$("#cl_dw"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            		$("#edit_cl_dw"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            		$("#unit"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            	}
+	        }
+	    });
+	}
+  
     function add(){
     	var length=$("#cl_table tbody").find("tr").length;
     	$("#cl_table tbody").append("<tr>"+
-        												'<td><input type="text" class="form-control"></td>'+
-        												'<td>'+
+        												'<td style="width:11%;"><input type="text" class="form-control"></td>'+
+        												'<td style="width:11%;">'+
         													'<select class="form-control" id="cl_type'+length+'"></select>'+
         												'</td>'+
-        												'<td><input type="text" class="form-control"></td>'+
-        												'<td>'+
-            												'<select class="form-control">'+
-	               												'<option value="个">个</option>'+
-	                											'<option value="只">只</option>'+
-	                											'<option value="套">套</option>'+
-	                											'<option value="副">副</option>'+
-	                											'<option value="双">双</option>'+
-	                											'<option value="元">元</option>'+
-	                											'<option value="桶">桶</option>'+
+        												'<td style="width:11%;"><input type="text" class="form-control"></td>'+
+        												'<td style="width:11%;">'+
+            												'<select class="form-control" id="cl_dw'+length+'">'+
             												'</select>'+
         												'</td>'+
-												        '<td><input type="text" class="form-control"></td>'+
-												        '<td>'+
-												        	'<select class="form-control" style="width:100%;" id="department_tj'+length+'">'+
+												        '<td style="width:11%;"><input type="text" class="form-control"></td>'+
+												        '<td style="width:11%;">'+
+												        	'<select class="form-control" style="width:150px;" id="department_tj'+length+'">'+
 												            '</select>'+
 												        '</td>'+
-												        '<td>'+
-												        	'<select class="form-control" style="width:100%;" id="company_sure'+length+'">'+
+												        '<td style="width:11%;">'+
+												        	'<select class="form-control" style="width:150px;" id="company_sure'+length+'">'+
 												            '</select>'+
 												        '</td>'+
-												        '<td><input type="text" class="form-control"></td>'+
-												        '<td><button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button></td>'+
+												        '<td style="width:11%;"><input type="text" class="form-control"></td>'+
+												        '<td style="width:11%;"><button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button></td>'+
     												"</tr>")
     				initSupplier2(length);
     				initClType2(length);
+    				selectMaterialCompany(length)
     }
     
     function add2(){
@@ -1384,28 +1404,24 @@
         												'<td><input type="text" class="form-control"></td>'+
         												'<td><input type="text" class="form-control"></td>'+
         												'<td>'+
-            												'<select class="form-control">'+
-	               												'<option value="个">个</option>'+
-	                											'<option value="只">只</option>'+
-	                											'<option value="套">套</option>'+
-	                											'<option value="副">副</option>'+
-	                											'<option value="双">双</option>'+
+            												'<select class="form-control" id="edit_cl_dw'+length+'">'+
             												'</select>'+
         												'</td>'+
 												        '<td><input type="text" class="form-control"></td>'+
 												        '<td><input type="text" class="form-control"></td>'+
 												        '<td>'+
-												        	'<select class="form-control" style="width:100%;" id="edit_department_tj'+length+'">'+
+												        	'<select class="form-control" style="width:150px;" id="edit_department_tj'+length+'">'+
 												            '</select>'+
 												        '</td>'+
 												        '<td>'+
-												        	'<select class="form-control" style="width:100%;" id="edit_company_sure'+length+'">'+
+												        	'<select class="form-control" style="width:150px;" id="edit_company_sure'+length+'">'+
 												            '</select>'+
 												        '</td>'+
 												        '<td><input type="text" class="form-control"></td>'+
 												        '<td><button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button></td>'+
     												"</tr>")
     				initSupplier3(length,"","");
+    				selectMaterialCompany(length)
     }
     
     function removeThis(obj){
@@ -1706,11 +1722,6 @@
             	        												'<td><input type="text" class="form-control" value='+json[i].materialType+'></td>'+
             	        												'<td>'+
             	            												'<select class="form-control" id="unit'+length+'">'+
-            		               												'<option value="个">个</option>'+
-            		                											'<option value="只">只</option>'+
-            		                											'<option value="套">套</option>'+
-            		                											'<option value="副">副</option>'+
-            		                											'<option value="双">双</option>'+
             	            												'</select>'+
             	        												'</td>'+
             													        '<td><input type="text" class="form-control" value='+json[i].num+'></td>'+
@@ -1727,7 +1738,8 @@
             													        '<td></td>'+
             	    												"</tr>")
             	    				initSupplier3(length,json[i].provideCompany,json[i].sureMaterialMode);
-            	    				$("#unit"+length).val(json[i].buyCompany);
+            	    				//$("#unit"+length).val(json[i].buyCompany);
+            	    				selectMaterialCompany(json[i].buyCompany,length)
             		}	
             	}
             	
