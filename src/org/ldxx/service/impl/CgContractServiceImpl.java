@@ -63,8 +63,8 @@ public class CgContractServiceImpl implements CgContractService {
 				for(int j=0;j<cgcl.size();j++){
 					cgcl.get(j).setCgId(cg.getCgId());
 				}
+				i=cgclDao.addCgCl(cgcl);
 			}
-			i=cgclDao.addCgCl(cgcl);
 			List<Accessory> accessory=cg.getAccessory();
 			if(accessory!=null){
 				i=adao.addAccessory(accessory);
