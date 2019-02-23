@@ -75,7 +75,6 @@
                             	<td style="width:13%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             	<td style="width:38%;">
                             		<select  class="form-control" style="width:60%;" id="prjName">
-                            				<option value="">烈士河大桥检测项目</option>
                             		</select>
                                 	<!-- <button type="button" class="btn btn-primary"  id="chosexm">选择项目</button> -->
                             	</td>
@@ -104,9 +103,7 @@
                             <tr>
                             	<td>业主单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             	<td>
-                            		<select style="width:60%;" class="form-control"id="yezhudanwei" >
-                            			
-                            		</select>
+                            		<select style="width:60%;" class="form-control"id="yezhudanwei" ></select>
                             	</td>
                             	<td>投标人</td>
                             	<td >
@@ -159,7 +156,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-default" onclick="addsave()">保存</button> -->
+            <button type="button" class="btn btn-success" onclick="addsave()">保存</button>
             <button type="button" class="btn btn-success" onclick="addsubmit()">提交</button>
         </div>
         </div>
@@ -1498,23 +1495,9 @@
 		var year4=$("#year4").val();
 		var baomingren=$("#baomingren").val();
 		var goumairen=$("#goumairen").val();
-		
-		if(prjName==''){
-    		toastr.error("项目名称不能为空");
-    		return;
-    	}
-		if(prjType==''){
-    		toastr.error("项目类型不能为空");
-    		return;
-    	}
-		if(yezhudanwei==''){
-    		toastr.error("业主单位不能为空");
-    		return;
-    	}
-		if(baomingren==''){
-    		toastr.error("项目报名人员不能为空");
-    		return;
-    	}
+		var bdNo=$("#bd_no").val();
+		bdNo=bdNo.replace("，",",").replace(".",",");
+		var caigou_type=$("#caigou_type").val();
 		
 		$.ajax({
 			type:"POST",
@@ -1532,14 +1515,15 @@
 				submissionTime:year4,
 				projectApplicants:baomingren,
 				purchaseTenderPersonnel:goumairen,
+				bdNo:bdNo,
+				cgType:caigou_type
 			},
 			success:function(json){
 				if(json.result>0){
-					toastr.success("添加成功");
+					toastr.success("保存成功");
 					$('#myModal').modal('hide');
 				}else {
-					toastr.error("添加失败")
-					return;
+					toastr.error("保存失败")
 				}
 			}
 		})

@@ -12,6 +12,7 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <link href="../../select/css/select2.min.css" rel="stylesheet">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -45,7 +46,9 @@
                             <tr>
                             	<td style="width:13%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             	<td style="width:38%;">
-                            		<input type="text" class="form-control" style="width:60%;" id="xgprjName">
+                            		<!-- <input type="text" class="form-control" style="width:60%;" id="xgprjName"> -->
+                            		<select  class="form-control" style="width:60%;" id="xgprjName">
+                            		</select>
                             	</td>
                             	<td  style="width:13%;">项目类型  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             	<td style="width:36%;">
@@ -62,7 +65,10 @@
                             </tr>
                             <tr>
                             	<td>业主单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                            	<td><input type="text"class="form-control" style="width:60%;" id="xgyezhudanwei" ></td>
+                            	<td>
+                            		<!-- <input type="text"class="form-control" style="width:60%;" id="xgyezhudanwei" > -->
+                            		<select style="width:60%;" class="form-control"id="xgyezhudanwei" ></select>
+                            	</td>
                             	<td>投标人</td>
                             	<td>
                             		<select class="form-control" id="xgtoubiaoren" style="width:60%;">
@@ -544,9 +550,10 @@
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
-<script src="../../js/jquery-editable-select.js">
-</script><script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../select/js/select2.min.js"></script>
 <script>
     $(document).ready( function () {
     	
@@ -576,6 +583,9 @@
             elem: '#xgyear4' //指定元素
         });
         $('#editable-select').editableSelect({ 
+            effects: 'slide' 
+        });
+        $('#prjName').editableSelect({ 
             effects: 'slide' 
         });
         //$(".zhuangtai").trigger("change");
@@ -1231,9 +1241,11 @@
 				id:id
 			},
 			success:function(json){
-				$("#xgprjName").val(json.prjName);
+//				$("#xgprjName").val(json.prjName);
+				initTable1(json.prjName);
 				$("#xgprjNo").val(json.prjNo);
-				$("#xgyezhudanwei").val(json.ownerUnit);
+				initCooperator(json.ownerUnit);
+	//			$("#xgyezhudanwei").val(json.ownerUnit);
 				$("#xgprjType").val(json.prjType);
 				$("#xgtoubiaoren").val(json.bidder);
 				$("#xgyear").val(json.pretrialSubmissionTime);
@@ -1353,7 +1365,48 @@
 		})
 	}
 	
+	function initCooperator(obj){
+    	$.ajax({
+			type: 'POST',
+            url: getContextPath()+'/cooperator/selectAllCooperator',
+            dataType: 'json',
+            data:{
+            },
+            success: function (json) {
+				$("#xgyezhudanwei").html('');
+				for(var i=0;i<json.length;i++){
+					$("#xgyezhudanwei").append("<option value="+json[i].ccId+">"+json[i].ccName+"</option>")
+				}
+				$("#xgyezhudanwei").val(obj);
+				$.fn.modal.Constructor.prototype.enforceFocus = function () { }
+           	 	$("#yezhudanwei").select2({
+                    tags: true,
+                    placeholder: '请搜索或选择语言',
+                    allowClear: true
+                });
+            }
+		})
+	}
 
+	function initTable1(obj){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/trace/selectProjectTrace',
+            dataType: 'json',
+            async:false,
+            data: {
+            	status:2
+            },
+            success: function (json) {
+            	 $("#prjName").empty();
+            	 for(var i in json){
+                	$("#prjName").append('<option value="">'+json[i].prjName+'</option>');
+            	 }
+            	 $("#prjName").val(obj)
+            }
+        });
+    }
+	
     $(".quxiao").click(function(){
         if(confirm("确定要撤销吗？")){
             return true;
