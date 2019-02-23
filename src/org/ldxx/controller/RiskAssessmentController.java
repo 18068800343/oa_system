@@ -49,7 +49,8 @@ public class RiskAssessmentController {
 		}
 		if(i>0){
 			User user = (User) session.getAttribute("user");
-			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			OrganizationManagement om=oService.getOrgIdByName(riskassessment.getCbDept());
+			
 			String omNo=om.getOmNo();
 			String string="";
 			FlowUtill flowUtill = new FlowUtill();
@@ -102,7 +103,7 @@ public class RiskAssessmentController {
 		String string = i+"";
 		if(i>0){
 			User user = (User) session.getAttribute("user");
-			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			OrganizationManagement om=oService.getOrgIdByName(riskassessment.getCbDept());
 			String omNo=om.getOmNo();
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();

@@ -291,13 +291,32 @@
 		                            	</td>
 		                            </tr>
 		                            <tr>
-		                                <td style="width:15%;">项目类型</td>
+		                            	<td style="width:15%;" class="jingyongkk">项目类型</td>
 		                                <td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgprjType" disabled></td>
-		                                <td style="width:15%;">项目规模</td>
-		                                <td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgprjScale"></td>
+		                                <td class="jingyongkk">承办部门</td>
+		                                <td><input type="text" class="form-control" style="width:60%;" id="xg_cb_dept" disabled></td>
 		                            </tr>
 		                            <tr>
-		                                <td rowspan="12">风险评估要素</td>
+		                            	<td style="width:15%;">项目规模</td>
+		                                <td style="width:35%;">
+		                                	<!-- <input type="text" class="form-control" style="width:60%;" id="xgprjScale"> -->
+		                                	<select class="form-control" style="width:60%;" id="xgprjScale">
+		                                		<option>大型项目</option>
+		                                		<option>中型项目</option>
+		                                		<option>小型项目</option>
+		                                	</select>
+		                                </td>
+		                                <td></td>
+		                                <td></td>
+		                            </tr>
+		                            <tr>
+		                            	<td>项目概况</td>
+		                            	<td colspan="3">
+		                            		<textarea style="width:100%" class="form-control" id="xg_prj_info" rows="4"></textarea>
+		                            	</td>
+		                            </tr>
+		                            <tr>
+		                                <td rowspan="13">风险评估要素</td>
 		                                <td colspan="2">评估项目</td>
 		                                <td>摘要描述</td>
 		                            </tr>
@@ -350,6 +369,13 @@
 		                                <td><textarea style="width:100%" class="form-control"id="xganquan"></textarea></td>
 		                            </tr>
 		                            <tr>
+		                            	<td>协作</td>
+		                                <td>联营或联合体单位情况</td>
+		                                <td>
+		                                	<textarea style="width:100%" class="form-control"id="xg_lianying_info"></textarea>
+		                                </td>
+		                            </tr>
+		                            <tr>
 		                                <td>评标办法</td>
 		                                <td colspan="4">
 		                                    <textarea style="width:100%" class="form-control" cols="30" rows="4" id="xgpingbiao"></textarea>
@@ -385,7 +411,7 @@
                             <tr>
                             </tr>
                             <tr>
-                                <td rowspan="12">风险评估要素</td>
+                                <td rowspan="13">风险评估要素</td>
                                 <td colspan="2">评估项目</td>
                                 <td>摘要描述</td>
                             </tr>
@@ -436,6 +462,11 @@
                             <tr>
                                 <td>安全管理难度</td>
                                 <td id="lookanquan"></td>
+                            </tr>
+                            <tr>
+                            	<td>协作</td>
+                                <td>联营或联合体单位情况</td>
+                                <td id="look_lianying_info"></td>
                             </tr>
                             <tr>
                                 <td>评标办法</td>
@@ -558,7 +589,7 @@
 					{ "data": "prjNo"},
 		            { "data": "prjName"}, 
 		            { "data": "prjType"}, 
-		            { "data": "ownerUnit"}, 
+		            { "data": "ccName"}
 		        ],
 		        "columnDefs": [
 								{	
@@ -609,7 +640,6 @@
 				status:2
 			},
 			success:function(json){
-				//console.log(json)
 				$('#xiangmubiao').dataTable().fnClearTable();
                 $('#xiangmubiao').DataTable().rows.add(json).draw(false);
 			}
@@ -650,7 +680,6 @@
 				status:2
 			},
 			success:function(json){
-				//console.log(json)
 				$('#xgxiangmubiao').dataTable().fnClearTable();
                 $('#xgxiangmubiao').DataTable().rows.add(json).draw(false);
 			}
@@ -672,18 +701,18 @@
                 $('body').addClass('modal-open')
             }
         })
-		var prjNo=$("input[name='xgxiangmuName']:checked").parent().next().text();
-		var prjname=$("input[name='xgxiangmuName']:checked").parent().next().next().text();
-		var prjtype=$("input[name='xgxiangmuName']:checked").parent().next().next().next().text();
-		$("#xgprjName").val(prjname);
-		$("#xgprjNo").val(prjNo);
-		$("#xgprjType").val(prjtype);
+        var tr=$("input[name='xgxiangmuName']:checked").parent();
+		var data=$("#xgxiangmubiao").DataTable().row(tr).data();
+		$("#xgprjName").val(data.prjName);
+		$("#xgprjNo").val(data.prjNo);
+		$("#xgprjType").val(data.prjType);
+		$("#xg_cb_dept").val(data.omName);
 		$("#xgxiangmumd").modal("hide");
 	})
 	
 	
 	//初始化项目编号
-	function initSelect(){
+	function initSelect(obj){
 		$.ajax({
         type: 'POST',
         url: getContextPath()+'/BidApproval/selectprjNameAndNo',
@@ -692,27 +721,11 @@
         	status:2
         },
         success: function (json) {
-        	//console.log(json)
-        	$("#prjNo").html('');
         	$("#xgprjNo").html('');
         	for(var i=0;i<json.length;i++){
-        		$("#prjNo").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
         		$("#xgprjNo").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
         	}
-          	$('#prjNo').editableSelect().on('select.editable-select', function (e, dom) {
-          		$.ajax({
-                    type: 'POST',
-                    url: getContextPath()+'/BidApproval/selectNameByNo',
-                    dataType: 'json',
-                    data: {
-                    	no:$('#prjNo').val()
-                    },
-                    success: function (json) {
-	                    $('#prjName').val(json.prjName);
-	                    $("#prjType").val(json.prjType);
-                    }
-          		});
-		  	})
+        	$("#xgprjNo").val(obj);
           	$('#xgprjNo').editableSelect().on('select.editable-select', function (e, dom) {
           		$.ajax({
                     type: 'POST',
@@ -722,8 +735,10 @@
                     	no:$('#xgprjNo').val()
                     },
                     success: function (json) {
+                    	console.log(json)
                     	$('#xgprjName').val(json.prjName);
 	                    $("#xgprjType").val(json.prjType);
+	                    $("#xg_cb_dept").val(json.omName);
                     }
           		});
 		  	}) 
@@ -896,9 +911,12 @@
 			 success:function(json){ 
 				 //console.log(json)
 				 $("#xgprjName").val(json.prjName);
-				 $("#xgprjNo").val(json.prjNo);
+//				 $("#xgprjNo").val(json.prjNo);
+				 initSelect(json.prjNo);
 				 $("#xgprjScale").val(json.prjScale);
 				 $("#xgprjType").val(json.prjType);
+				 $("#xg_cb_dept").val(json.cbDept);
+				 $("#xg_prj_info").val(json.prjInfo);
 				 $("#xgjiapinggu").val(json.pecificAssessment);
 				 $("#xgxianjin").val(json.flows);
 				 $("#xgyingli").val(json.profitability);
@@ -911,16 +929,19 @@
 				 $("#xgjishu").val(json.technicalDifficulty);
 				 $("#xganquan").val(json.safetyManagementDifficulty);
 				 $("#xgpingbiao").val(json.evaluationMethod);
+				 $("#xg_lianying_info").val(json.lianyingInfo)
 			 }
 		 })
 	}
 	
 	//保存修改
-	function liuchengGaibian(){
+	function liuchengGaibian(obj){
 		 var xgprjName=$("#xgprjName").val().trim();
 		 var xgprjNo=$("#xgprjNo").val();
 		 var xgprjScale=$("#xgprjScale").val();
 		 var xgprjType=$("#xgprjType").val();
+		 var xgDept=$("#xg_cb_dept").val();
+		 var xgprjInfo=$("#xg_prj_info").val();
 		 var xgjiapinggu=$("#xgjiapinggu").val();
 		 var xgxianjin=$("#xgxianjin").val();
 		 var xgyingli=$("#xgyingli").val();
@@ -932,28 +953,35 @@
 		 var xgdili=$("#xgdili").val();
 		 var xgjishu=$("#xgjishu").val();
 		 var xganquan=$("#xganquan").val();
+		 var xglianying=$("#xg_lianying_info").val();
 		 var xgpingbiao=$("#xgpingbiao").val();
-		 if(xgprjName==''){
-				toastr.error("项目名称为空");
-				return;
-			}
-		 var addJson = {
-		            "raId":xiugaiId,
-					"prjName": xgprjName,
-		            "prjScale": xgprjScale,
-		            "prjType": xgprjType,
-		            "evaluationMethod": xgpingbiao
-		        };
+		 var result="";
+		 if(obj=="1"){
+			 if(xgprjName==''){
+					toastr.error("项目名称不能为空");
+					return;
+				}
+				if(xgprjNo==''){
+					toastr.error("投标审批单号不能为空");
+					return;
+				}
+				if(xgprjScale==''){
+					toastr.error("项目规模不能为空");
+					return;
+				}
+		 }
 		 $.ajax({
 				type:"POST",
 				url:getContextPath()+"/riskAssessment/updateRiskAssessmentById",
 				dataType:"json",
 				data:{
-					raId:xiugaiId,
+					raId:id,
 					prjName:xgprjName,
 					prjNo:xgprjNo,
 					prjScale:xgprjScale,
 					prjType:xgprjType,
+					cbDept:xgDept,
+					prjInfo:xgprjInfo,
 					pecificAssessment:xgjiapinggu,
 					flows:xgxianjin,
 					profitability:xgyingli,
@@ -965,21 +993,21 @@
 					geographicalConditions:xgdili,
 					technicalDifficulty:xgjishu,
 					safetyManagementDifficulty:xganquan,
-					evaluationMethod:xgpingbiao
+					evaluationMethod:xgpingbiao,
+					lianyingInfo:xglianying
 				},
 				success:function(json){
-					//console.log(json)
+					result=json.result;
 					if(json.result==0){
 						toastr.error("修改失败")
 					}else if(json.result==1){
-						$('#change').modal('hide');
 						toastr.success("修改成功");
-						$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
 					}else if(json.result==2){
 						toastr.error("项目名称重复")
 					} 
 				}
 			})
+			return result;
 	}
 	
 	//修改提交

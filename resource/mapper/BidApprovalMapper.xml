@@ -69,9 +69,10 @@
 	</update>
 	
 	<select id="selectprjNameAndNo" resultType="BidApproval">
-		select a.prj_name,a.prj_no,c.cc_name,a.prj_type from bid_approval a 
+		select a.prj_name,a.prj_no,c.cc_name,a.prj_type,om.om_name from bid_approval a 
 		left join mode_status b on a.ba_id=b.mode_id
 		left join consociation_company as c on a.owner_unit=c.cc_id
+		left join organization_management om on a.xb_department = om.om_id
 		where b.status=#{status}
 	</select>
 	
@@ -80,9 +81,10 @@
 	</select>
 	
 	<select id="selectNameByNo" resultType="BidApproval">
-		select prj_name,prj_no,prj_type,owner_unit,c.cc_name from bid_approval as a
+		select prj_name,prj_no,prj_type,owner_unit,c.cc_name,om.om_name from bid_approval as a
 		left join consociation_company as c on a.owner_unit=c.cc_id
-		where prj_no=#{no}
+		left join organization_management om on a.xb_department = om.om_id
+		where a.prj_no=#{no}
 	</select>
 
 	<update id="updateSpPeoson" parameterType="BidApproval">
