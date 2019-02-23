@@ -64,7 +64,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			for(int ii=0;ii<ppfb.size();ii++){
 				ppfb.get(ii).setPpfId(id);
 			}
-			if(ppfb!=null){
+			if(ppfb!=null&&ppfb.size()>0){
 				i=dao.addPrjProgressFillFb(ppfb);
 			}
 			
@@ -81,7 +81,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			}*/
 			
 			List<Accessory> accessory=ppf.getAccessory();
-			if(accessory !=null){
+			if(accessory !=null&&accessory.size()>0){
 				i=aDao.addAccessory(accessory);
 			}
 		}
