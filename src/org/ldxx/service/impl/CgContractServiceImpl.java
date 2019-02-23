@@ -227,6 +227,10 @@ public class CgContractServiceImpl implements CgContractService {
 			if(accessory1!=null&&accessory1.size()>0){
 				i=adao.addAccessory(accessory1);
 			}
+			if(null!=cg.getCgcl()&&cg.getCgcl().size()>0){
+			    cgclDao.deleteCgClById(cg.getCgId());
+			    cgclDao.addCgCl(cg.getCgcl());
+			}
 		}
 		return i;
 	}

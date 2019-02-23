@@ -11,4 +11,5 @@ public interface CgClDao {
 
 	List<CgCl> selectCgClById(@Param("id")String id);
 
+	int deleteCgClById(@Param("id")String id);
 }
