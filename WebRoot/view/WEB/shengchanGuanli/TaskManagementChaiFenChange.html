@@ -741,7 +741,7 @@
 		            { "data": "ccName"}, 
 		            { "data": "prjEstimateMoney"}, 
 		            { "data": "contractMoney"}, 
-		            { "data": "cj"}, 
+		            { "data": "cjId"}, 
 		            { "data": "prjStartTime"}, 
 		            { "data": "omName"}, 
 		            { "data": null},
@@ -752,7 +752,7 @@
 									     "targets": 8,
 									     "searchable": true,
 									     "render": function(data, type, full) {
-									    	 if(data.length==0){
+									    	 if(data==""||data==null||data==undefined||data=="null"){
 									    		 return '<button type="button" class="btn btn-danger">无</button>';
 									    	 }else{
 									    		 return '<button type="button" class="btn btn-success" onclick="lookContract(this)">有</button>';
@@ -3276,18 +3276,16 @@
   	
   	var stateArray=[];
   	function lookContract(s){
-	    var tr = $(s).parents('tr');
+  		var tr = $(s).parents('tr');
 		var data=$('#mainContent').DataTable().row(tr).data();
-		var cj=data.cj;
+		/* var cj=data.cj; */
 		var id=data.prjId;
 		if(stateArray.indexOf(id)>=0){
 			stateArray.splice($.inArray(id,stateArray),1);// $.inArray(data.idFirst,stateArray)获取idFirst在数组中的索引值 ；stateArray.splice(索引值，数量)删除数组中指定索引值的元素
 			$(".inTr"+id).remove();
 		}else{
 			stateArray.push(id);
-			for(var i=0;i<cj.length;i++){
-				$(tr).after("<tr class='inTr"+id+"'><td style='width:100px;color:green;' class='details-control'>"+(i+1)+"</td><td style='width:100px;color:green;' colspan='3' >合同名称：    <a onclick='tiaozhuan(this)' data-id='"+cj[i].cjId+"' style='color:green;'>"+cj[i].contractName+"</a></td><td colspan='3' style='width:100px;color:green;'>合同金额：    "+cj[i].contractMoney+"</td><td></td></tr>")
-			}
+			$(tr).after("<tr class='inTr"+id+"'><td style='width:100px;color:green;' class='details-control'>1</td><td style='width:100px;color:green;' colspan='3' >合同名称：    <a onclick='tiaozhuan(this)' data-id='"+data.cjId+"' style='color:green;' class='zhuashou'>"+data.contractName+"</a></td><td colspan='3' style='width:100px;color:green;'>合同金额：    "+data.contractMoney+"</td><td></td></tr>")
 		}
   }
   	function tiaozhuan(s){
