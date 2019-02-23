@@ -140,7 +140,7 @@
                             </tr>
                             <tr>
                             	<td class="jinqianyanse">预估项目规模(元)</td>
-                            	<td><input type="text"class="form-control" style="width:60%;" ></td>
+                            	<td><input type="text"class="form-control" id="yuguguimo" style="width:60%;" ></td>
                             	<td>采购方式</td>
                             	<td>
                             		<select class="form-control" id="caigou_type" style="width:60%;">
@@ -149,6 +149,10 @@
                             			<option value="委托">委托</option>
                             		</select>
                             	</td>
+                            </tr>
+                            <tr>
+                                <td>概述</td>
+                                <td colspan="3"><textarea class="form-control" id="gaishu" rows="4" style="width:100%;"></textarea></td>
                             </tr>
                         </table> 
                     </form>  
@@ -606,6 +610,16 @@
                             	<td>采购方式</td>
                             	<td id="look_caigou_type"></td>
                             </tr>
+                            <tr>
+                            	<td class="jinqianyanse">预估项目规模(元)</td>
+                            	<td  id="look_yuguguimo"></td>
+                            	<td></td>
+                            	<td></td>
+                            </tr>
+                            <tr>
+	                            <td>采购合同概述</td>
+	                            <td colspan="3" id="look_gaishu"></td>
+	                        </tr>
                            <!--  <tr>
                             	<td>投标负责人</td>
                             	<td id="lookbidPeople"></td>
@@ -1314,6 +1328,11 @@
 	
 	$("#bumen").change(function(){
 		var bumen=$("#bumen").val();
+		$('#addGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/user/selectUserByomId",
@@ -1346,6 +1365,11 @@
 	})
 	$("#bumen2").change(function(){
 		var bumen=$("#bumen2").val();
+		$('#addGuanliren2').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/user/selectUserByomId",
@@ -1437,6 +1461,8 @@
 				$("#lookbidPeople").text(json.bidPeople);
 				$("#lookXzDepartment").text(json.omName);
 				$("#look_caigou_type").text(json.cgType);
+				$("#look_gaishu").text(json.baDesc)
+				$("#look_yuguguimo").text(json.yuguPrjScale)
 			}
 		})
 		
@@ -1478,6 +1504,8 @@
 				$("#lookbidPeople").text(json.bidPeople);
 				$("#lookXzDepartment").text(json.omName);
 				$("#look_caigou_type").text(json.cgType);
+				$("#look_gaishu").text(json.baDesc)
+				$("#look_yuguguimo").text(json.yuguPrjScale)
 			}
 		})
    	}
@@ -1498,7 +1526,8 @@
 		var bdNo=$("#bd_no").val();
 		bdNo=bdNo.replace("，",",").replace(".",",");
 		var caigou_type=$("#caigou_type").val();
-		
+		var gaishu=$("#gaishu").val();
+		var yuguguimo=$("#yuguguimo").val();
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/BidApproval/addBidApproval",
@@ -1516,7 +1545,9 @@
 				projectApplicants:baomingren,
 				purchaseTenderPersonnel:goumairen,
 				bdNo:bdNo,
-				cgType:caigou_type
+				cgType:caigou_type,
+				baDesc:gaishu,
+				yuguPrjScale:yuguguimo
 			},
 			success:function(json){
 				if(json.result>0){
@@ -1544,7 +1575,8 @@
 		var bdNo=$("#bd_no").val();
 		bdNo=bdNo.replace("，",",").replace(".",",");
 		var caigou_type=$("#caigou_type").val();
-		
+		var gaishu=$("#gaishu").val();
+		var yuguguimo=$("#yuguguimo").val();
 		if(prjName==''){
     		toastr.error("项目名称不能为空");
     		return;
@@ -1579,7 +1611,9 @@
 				projectApplicants:baomingren,
 				purchaseTenderPersonnel:goumairen,
 				bdNo:bdNo,
-				cgType:caigou_type
+				cgType:caigou_type,
+				baDesc:gaishu,
+				yuguPrjScale:yuguguimo
 			},
 			success:function(json){
 				$('#myModal').modal('hide');

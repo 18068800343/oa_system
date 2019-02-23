@@ -27,8 +27,23 @@ public class BidApproval {
 	private String omName;//协作单位名称
 	private String zhongbiao;
 	private String bdNo;//标段编号
+	private String baDesc;//概述
+	private Float yuguPrjScale;//预估项目规模
 	
 	
+	
+	public Float getYuguPrjScale() {
+		return yuguPrjScale;
+	}
+	public void setYuguPrjScale(Float yuguPrjScale) {
+		this.yuguPrjScale = yuguPrjScale;
+	}
+	public String getBaDesc() {
+		return baDesc;
+	}
+	public void setBaDesc(String baDesc) {
+		this.baDesc = baDesc;
+	}
 	public String getCgType() {
 		return cgType;
 	}
