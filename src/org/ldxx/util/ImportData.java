@@ -221,14 +221,16 @@ public class ImportData {
 							wxName=wxName.replace("【客商：", "").replace("】", "");
 							String wxCost=getValue(colum4);
 							wxCost=wxCost.replace(",", "").replace("，", "");
-							TimeUUID uuid=new TimeUUID();
-							String id=uuid.getTimeUUID();
-							wx.setWxId(id);
-							wx.setPrjNo(no);
-							wx.setPrjName(name);
-							wx.setWxCost(Double.valueOf(wxCost));
-							wx.setWxName(wxName);
-							list.add(wx);
+							if(!name.equals("")){
+								TimeUUID uuid=new TimeUUID();
+								String id=uuid.getTimeUUID();
+								wx.setWxId(id);
+								wx.setPrjNo(no);
+								wx.setPrjName(name);
+								wx.setWxCost(Double.valueOf(wxCost));
+								wx.setWxName(wxName);
+								list.add(wx);
+							}
 						}
 						
 					}
@@ -534,7 +536,6 @@ public class ImportData {
 							 ft.setMoney(null);
 							 ft.setMoney2(null);
 						 }
-						 ft.setDate(TimeUUID.getLastMonth());
 						 t.add(ft);
 					 }
 			 }  

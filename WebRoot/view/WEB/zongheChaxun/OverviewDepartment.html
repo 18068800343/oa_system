@@ -51,36 +51,36 @@
                		<div id="tabBtn"></div>
              </div>
         </div>
-        <div class="LowerPart" style="margin-top:3px;overflow:auto;">
+        <div class="LowerPart" style="margin-top:3px;">
             <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>  
                     <tr>
                        <!--  <th>序号</th> -->
-                        <th>任务单号</th>
-                        <th>承接合同编号</th>
-                        <th>承接合同名称</th>
-                        <th>业主单位</th>
-                        <th>合同工期</th>
-                        <th>管理部门</th>
-                        <th>项目负责人</th>
-                        <th>合同金额</th>
-                        <th>暂定金</th>
-                        <th>部门所占金额</th>
-                        <th>累计收入(比例、金额)</th>
-                        <th>当月进度</th>
-                        <th>项目预算</th>
-                        <th>累计成本</th>
-                        <th>已开票金额</th>
-                        <th>累计收款</th>
-                        <th>合同状态</th>
-                        <th>合同决算金额</th>
-                        <th>分包合同编号</th>
-                        <th>分包合同名称</th>
-                        <th>乙方单位</th>
-                        <th>分包合同金额</th>
-                        <th>分包决算金额</th>
-                        <th>累计付款</th>
-                        <th>未付金额</th>
+                        <th style="width:120px;">任务单号</th>
+                        <th style="width:120px;">承接合同编号</th>
+                        <th style="width:120px;">承接合同名称</th>
+                        <th style="width:120px;">业主单位</th>
+                        <th style="width:120px;">合同工期</th>
+                        <th style="width:120px;">管理部门</th>
+                        <th style="width:120px;">项目负责人</th>
+                        <th style="width:120px;">合同金额</th>
+                        <th style="width:120px;">暂定金</th>
+                        <th style="width:120px;">部门所占金额</th>
+                        <th style="width:120px;">累计收入(比例、金额)</th>
+                        <th style="width:120px;">当月进度</th>
+                        <th style="width:120px;">项目预算</th>
+                        <th style="width:120px;">累计成本</th>
+                        <th style="width:120px;">已开票金额</th>
+                        <th style="width:120px;">累计收款</th>
+                        <th style="width:120px;">合同状态</th>
+                        <th style="width:120px;">合同决算金额</th>
+                        <th style="width:120px;">分包合同编号</th>
+                        <th style="width:120px;">分包合同名称</th>
+                        <th style="width:120px;">乙方单位</th>
+                        <th style="width:120px;">分包合同金额</th>
+                        <th style="width:120px;">分包决算金额</th>
+                        <th style="width:120px;">累计付款</th>
+                        <th style="width:120px;">未付金额</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,6 +93,7 @@
 <script src="../../js/common-scripts.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/myTool.js"></script>
 
 <script src="../../js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../js/datatables/dataTables.colVis.min.js"></script>
@@ -124,21 +125,69 @@
                 for(var i=0;i<json.length;i++){
                 	$("#zhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                 }
-                	$("#zhuban").trigger('change');
+                $("#zhuban").trigger("change");
             }
 		});
 	}
   
- /*    var table=$('#mainContent').dataTable({
-        "deferRender": true,
+ 	var table=$('#mainContent').dataTable({
+ 		"deferRender": true,
         "processing": true,
         "bDestroy": true,
+        "autoWidth": true,
+        "sScrollX": true,
         "iDisplayLength": 10,
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
+		"sDom": "t" +
+        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+		"columns": [
+					{ "data": "prjNo"},
+		            { "data": "contractNo"}, 
+		            { "data": "contractName"},
+		            { "data": "ccName"}, 
+		            { "data": "contractLongTime"},
+		            { "data": "omName"}, 
+		            { "data": "mainPrjLeader"},
+		            { "data": "cjmoney"}, 
+		            { "data": "temporaryMoney"},
+		            { "data": "mainDepartMoney"},
+		            { "data": "iall"}, 
+		            { "data": "ibq"},
+		            { "data": "allCost"}, 
+		            { "data": null},
+		            { "data": "allKpMoney"}, 
+		            { "data": "resultMoney"},
+		            { "data": "cjStatus"}, 
+		            { "data": "contractJueSuanMoney"},
+		            { "data": "fbNo"},
+		            { "data": "fbContract"}, 
+		            { "data": "fbYiName"},
+		            { "data": "nowFbAllMoney"},
+		            { "data": "fbJueSuanMoney"},
+		            { "data": "leiJiPayMoney"},
+		            { "data": null}
+		        ],
+		        "columnDefs": [
+								{
+										 "class": "tcenter",
+										    "targets": 13,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return full.leiJiChengBen==null?0.0:full.leiJiChengBen
+										        }
+										  },{
+												 "class": "tcenter",
+												    "targets": 24,
+												    "searchable": true,
+												    "render": function(data, type, full) {
+												  	  		return full.weiPayMoney==null?0.0:full.weiPayMoney
+												        }
+												  }
+								],
         "order": [[0, 'asc']],
         "oLanguage": { //国际化配置
         "sProcessing": "正在获取数据，请稍后...",
@@ -157,30 +206,28 @@
             "sLast": "最后一页"
         }},
         
-	}); */
-	function initTable(){
+	});
+ 
+ 	$("#zhuban").on("change",function(){
+ 		$('#mainContent').dataTable().fnClearTable();
+    	myTool.mask.show('查询中...');
         $.ajax({
             type: 'POST',
-            url: '',
+            url: getContextPath()+'/allQuery/allQueryTable',
             dataType: 'json',
             data: {
-            },
-            error: function (msg) {
-                errMessage("请求UserController失败");
+            	omName:$("#zhuban option:selected").text(),
+           	 	depart:$("#zhuban").val()
             },
             success: function (json) {
+            	 $('#mainContent').DataTable().rows.add(json).draw(false);
+            	 myTool.mask.hide();
             }
         });
-    }
+ 	});
 
 
-
-    // $("#mainContent tbody tr").click(function (){
-    //     $(this).addClass('selected')
-    //     .siblings().removeClass('selected')
-    //     .end();
-    // })
-    $("#zhuban").on("change",function(){
+    /* $("#zhuban").on("change",function(){
     	 $.ajax({
              type: 'POST',
              url: getContextPath()+'/allQuery/allQueryTable',
@@ -188,9 +235,6 @@
              data: {
             	 omName:$("#zhuban option:selected").text(),
             	 depart:$("#zhuban").val()
-             },
-             error: function (msg) {
-                 errMessage("请求UserController失败");
              },
              success: function (json) {
             	 var json = json;
@@ -206,11 +250,10 @@
             		  "</tr>")
             	 }
             	 var tb = document.getElementById("mainContent");
-                 /* uniteTable(tb,18); */
-            	 
+            // uniteTable(tb,18);
              }
          });
-    });
+    }); */
     
 	//动态合并单元格
 	function uniteTable(tb,colLength){

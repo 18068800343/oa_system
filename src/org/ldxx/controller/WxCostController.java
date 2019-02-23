@@ -28,11 +28,14 @@ public class WxCostController {
 	
 	@RequestMapping("/addWxCost")
 	@ResponseBody
-	public Map<String,Object> addWxCost(@RequestParam("file2") MultipartFile file2,HttpServletResponse response,HttpSession session) throws IOException{
+	public Map<String,Object> addWxCost(@RequestParam("file2") MultipartFile file2,String time,HttpServletResponse response,HttpSession session) throws IOException{
 		Map<String,Object> map=new HashMap<>();
 		InputStream is=file2.getInputStream();
 		ImportData imp=new ImportData();
 		List<WxCost> list=imp.readXls3(is);
+		for(int ii=0;ii<list.size();ii++){
+			list.get(ii).setTime(time);
+		}
 		int i=wxService.addWxCost(list);
 		map.put("result", i);
 		map.put("wx", list);

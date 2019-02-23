@@ -76,7 +76,7 @@
 		                            	</form>
 	                        </div>
 	                        <div class="UpperPartR">
-	                            <button type="button" class="btn btn-primary Pdea"  data-toggle="modal" data-target="#myModal">导入成本</button>
+	                            <button type="button" class="btn btn-primary Pdea"  onclick="openA()">导入成本</button>
 	                        </div>
 	                    </div>
 	                    <div class="LowerPart" style="margin-top:3px;">
@@ -106,17 +106,18 @@
 		                            	</form> -->
 	                        </div>
 	                        <div class="UpperPartR">
-	                            <button type="button" class="btn btn-primary Pdea"  data-toggle="modal" data-target="#myModal2">导入外协费用</button>
+	                            <button type="button" class="btn btn-primary Pdea"  onclick="openB()">导入外协费用</button>
 	                        </div>
 	                    </div>
 	                    <div class="LowerPart" style="margin-top:3px;">
 	                        <table class="table table-bordered table-condensed" id="mainContent2">
 	                            <thead>
 	                                <tr>
-	                                    <th style="width:25%;">任务单号</th>
-	                                    <th style="width:25%;">任务单名称</th>
+	                                    <th style="width:15%;">任务单号</th>
+	                                    <th style="width:35%;">任务单名称</th>
 	                                    <th style="width:25%;">外协单位</th>
-	                                    <th style="width:25%;">外协费用(元)</th> 
+	                                    <th style="width:15%;">外协费用(元)</th> 
+	                                    <th style="width:10%;">日期</th> 
 	                                </tr>
 	                            </thead>
 	                            <tbody>
@@ -142,8 +143,20 @@
         <div class="modal-body">
                 <div>     
                     <form class="form-inline" id="form1" enctype="multipart/form-data" method="post">
-                    	<label style="width:20%;"></label>
-                        <input style="width:60%;" type="file" name="file" id="file" class="form-control">
+                    	<table  class="table table-bordered table-condensed">
+                    		<tr>
+                    			<td style="width:20%;">附件</td>
+                    			<td>
+                    				<input style="width:60%;" type="file" name="file" id="file" class="form-control">
+                    			</td>
+                    		</tr>
+                    		<tr>
+                    			<td>日期</td>
+                    			<td>
+                    				<input type="text" id="time" class="form-control">
+                    			</td>
+                    		</tr>
+                    	</table>
                     </form>  
                 </div>
         </div>
@@ -196,8 +209,20 @@
         <div class="modal-body">
                 <div>     
                     <form class="form-inline" id="form2" enctype="multipart/form-data" method="post">
-                    	<label style="width:20%;"></label>
-                        <input style="width:60%;" type="file" name="file2" id="file2" class="form-control">
+                        <table  class="table table-bordered table-condensed">
+                    		<tr>
+                    			<td style="width:20%;">附件</td>
+                    			<td>
+                    				<input style="width:60%;" type="file" name="file2" id="file2" class="form-control">
+                    			</td>
+                    		</tr>
+                    		<tr>
+                    			<td>日期</td>
+                    			<td>
+                    				<input type="text" id="time2" class="form-control">
+                    			</td>
+                    		</tr>
+                    	</table>
                     </form>  
                 </div>
         </div>
@@ -229,10 +254,17 @@
             elem: '#yuefenshaixuan' //指定元素
            ,type: 'month'
        	   ,done: function(value, date, endDate){
-       		    console.log(value); //得到日期生成的值，如：2017-08-18
 	       		 var d = value;
 	     		$("#mainContent").DataTable().search(d).draw(true);
        		  }
+        });
+    	laydate.render({
+            elem: '#time' //指定元素
+           ,type: 'month'
+        });
+    	laydate.render({
+            elem: '#time2' //指定元素
+           ,type: 'month'
         });
 	});
     
@@ -314,7 +346,8 @@
 		            { "data": "prjNo"},
 		            { "data": "prjName"},
 		            { "data": "wxName"},
-		            { "data": "wxCost"}
+		            { "data": "wxCost"},
+		            { "data": "time"}
 		        ],
 					"fnDrawCallback" : function() {
 						$.ajax({
@@ -400,7 +433,9 @@
 		myTool.mask.show('导入中...');
 		var options={
 				url:getContextPath()+'/task2/importExcelCompanyCost',
-				data:$('#from1').serialize(),  
+				data:{
+					time:$("#time").val()
+				},  
 				type:'POST',
 				dataType: 'json',
 				contentType : "application/x-www-form-urlencoded; charset=gbk",
@@ -425,7 +460,9 @@
 		}
 		var options={
 				url:getContextPath()+'/wx/addWxCost',
-				data:$('#from2').serialize(),  
+				data:{
+					time:$("#time2").val()
+				},  
 				type:'POST',
 				dataType: 'json',
 				contentType : "application/x-www-form-urlencoded; charset=gbk",
@@ -444,7 +481,21 @@
 		$("#form2").ajaxSubmit(options);
 	}
 	
+	function openA(){
+		var myDate=new Date();
+		myDate.setMonth(myDate.getMonth()-1);
+		var lastMonth=myDate.getFullYear() + "-" + (myDate.getMonth()+1);
+		$("#time").val(lastMonth);
+		$("#myModal").modal("show");
+	}
 	
+	function openB(){
+		var myDate=new Date();
+		myDate.setMonth(myDate.getMonth()-1);
+		var lastMonth=myDate.getFullYear() + "-" + (myDate.getMonth()+1);
+		$("#time2").val(lastMonth);
+		$("#myModal2").modal("show");
+	}
 		
 </script>
 

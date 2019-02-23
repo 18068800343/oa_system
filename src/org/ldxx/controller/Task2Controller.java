@@ -70,11 +70,15 @@ public class Task2Controller {
 	}
 	@RequestMapping("/importExcelCompanyCost")
 	@ResponseBody
-	public int importExcelCompanyCost(@RequestParam("file") MultipartFile file,HttpServletResponse response,HttpSession session) throws IOException{
+	public int importExcelCompanyCost(@RequestParam("file") MultipartFile file,String time,HttpServletResponse response,HttpSession session) throws IOException{
 		InputStream is=file.getInputStream();
 		ImportData importData=new ImportData();
 		Map<String,Object> map=importData.readExcelCompanyCost(is);
-		int i=ccDao.addCompanyCost((List<CompanyCost>) map.get("fR2"));
+		List<CompanyCost> cc=(List<CompanyCost>) map.get("fR2");
+		for(int ii=0;ii<cc.size();ii++){
+			cc.get(ii).setDate(time);
+		}
+		int i=ccDao.addCompanyCost(cc);
 		return i;
 	}
 
