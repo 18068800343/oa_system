@@ -585,9 +585,6 @@
         $('#editable-select').editableSelect({ 
             effects: 'slide' 
         });
-        $('#prjName').editableSelect({ 
-            effects: 'slide' 
-        });
         //$(".zhuangtai").trigger("change");
         initTable();
 	});
@@ -1258,9 +1255,9 @@
 		})
 	}
 	//修改保存
-	function liuchengGaibian(){
+	function liuchengGaibian(obj){//0保存 1提交
 		var xgprjName=$("#xgprjName").val();
-		var xgprjNo=$("#xgprjNo").val();
+//		var xgprjNo=$("#xgprjNo").val();
 		var xgyezhudanwei=$("#xgyezhudanwei").val();
 		var xgprjType=$("#xgprjType").val();
 		var xgtoubiaoren=$("#xgtoubiaoren").val();
@@ -1270,25 +1267,31 @@
 		var xgyear4=$("#xgyear4").val();
 		var xgbaomingren=$("#xgbaomingren").val();
 		var xggoumairen=$("#xggoumairen").val();
-		var addJson = {
-	            "baId":xgId,
-				"prjName": xgprjName,
-	            "ownerUnit": xgyezhudanwei,
-	            "prjType": xgprjType,
-	            "bidder": xgtoubiaoren,
-	            "pretrialSubmissionTime": xgyear,
-	            "fieldTime": xgyear2, 
-	            "pretenderMeetingTime": xgyear3, 
-	            "submissionTime": xgyear4
-	        };
+		if(obj=='0'){
+			
+		}else if(obj=='1'){
+			if(xgprjName==''){
+				toastr.error("项目名称不可以为空")
+				return;
+			}
+			if(xgyezhudanwei==''){
+				toastr.error("业主单位不可以为空")
+				return;
+			}
+			if(xgbaomingren==''){
+				toastr.error("项目报名人员不可以为空")
+				return;
+			}
+		}
+		var result="";
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/BidApproval/updateBidApprovalSave",
 			dataType:"json",
+			async:false,
 			data:{
-				baId:xgId,
+				baId:id,
 				prjName:xgprjName,
-				prjNo:xgprjNo,
 				ownerUnit:xgyezhudanwei,
 				prjType:xgprjType,
 				bidder:xgtoubiaoren,
@@ -1300,15 +1303,17 @@
 				purchaseTenderPersonnel:xggoumairen,
 			},
 			success:function(json){
+				result=json.result;
 				if(json.result>0){
 					toastr.success("修改成功");
-					$('#change').modal('hide');
-					$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+					/* $('#change').modal('hide');
+					$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示 */
 				}else {
 					toastr.error("修改失败")
 				}
 			}
 		})
+		return result;
 	}
 	
 	//修改提交
@@ -1377,13 +1382,13 @@
 				for(var i=0;i<json.length;i++){
 					$("#xgyezhudanwei").append("<option value="+json[i].ccId+">"+json[i].ccName+"</option>")
 				}
-				$("#xgyezhudanwei").val(obj);
 				$.fn.modal.Constructor.prototype.enforceFocus = function () { }
-           	 	$("#yezhudanwei").select2({
+           	 	$("#xgyezhudanwei").select2({
                     tags: true,
                     placeholder: '请搜索或选择语言',
                     allowClear: true
                 });
+           	 	$("#xgyezhudanwei").val(obj).select2();
             }
 		})
 	}
@@ -1393,16 +1398,19 @@
             type: 'POST',
             url: getContextPath()+'/trace/selectProjectTrace',
             dataType: 'json',
-            async:false,
             data: {
             	status:2
             },
             success: function (json) {
-            	 $("#prjName").empty();
+            	 $("#xgprjName").empty();
+            	 $("#xgprjName").append('<option value="">'+obj+'</option>');
             	 for(var i in json){
-                	$("#prjName").append('<option value="">'+json[i].prjName+'</option>');
+                	$("#xgprjName").append('<option value="">'+json[i].prjName+'</option>');
             	 }
-            	 $("#prjName").val(obj)
+            	 $('#xgprjName').editableSelect({ 
+                     effects: 'slide' 
+                 });
+            	 $('#xgprjName').val(obj)
             }
         });
     }
