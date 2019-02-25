@@ -74,31 +74,28 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	@Override
 	public int updateBudge(BudgetFpplicationForm budge) {
 		int i=cdao.deleteCostBudgetById(budge.getBfId());
-		List<CostBudget> costBudget = budge.getCostBudget();
-		if(costBudget.size()>0&&costBudget!=null){
-			for (int ii = 0; ii < costBudget.size(); ii++) {
-				costBudget.get(ii).setCbId(budge.getBfId());
-			}
-			
-		}
 		/*i=adao.deleteArtificialBudgetById(budge.getBfId());
 		List<ArtificialBudget> artificialBudget = budge.getArtificialBudget();
 		for(int iii=0;iii<artificialBudget.size();iii++){
 			artificialBudget.get(iii).setaId(budge.getBfId());
 		}*/
 		i=mainMaterialdao.deleteBudgetMainMaterialById(budge.getBfId());
-		List<BudgetMainMaterial> budgetMainMaterial = budge.getBudgetMainMaterial();
-		if(budgetMainMaterial!=null&&budgetMainMaterial.size()>0){
-			for(int k=0;k<budgetMainMaterial.size();k++){
-				budgetMainMaterial.get(k).setbId(budge.getBfId());
-			}
-		}
+		i=bdao.updateBudge(budge);
 		if(i>0){
-			i=bdao.updateBudge(budge);
-			if(i>0){
-				i=cdao.addCostBudget(budge.getCostBudget());
-				//i=adao.addArtificialBudget(budge.getArtificialBudget());
-				i=mainMaterialdao.addBudgetMainMaterial(budge.getBudgetMainMaterial());
+			List<CostBudget> costBudget = budge.getCostBudget();
+			if(costBudget.size()>0&&costBudget!=null){
+				for (int ii = 0; ii < costBudget.size(); ii++) {
+					costBudget.get(ii).setCbId(budge.getBfId());
+				}
+				i=cdao.addCostBudget(costBudget);
+			}
+			//i=adao.addArtificialBudget(budge.getArtificialBudget());
+			List<BudgetMainMaterial> budgetMainMaterial = budge.getBudgetMainMaterial();
+			if(budgetMainMaterial!=null&&budgetMainMaterial.size()>0){
+				for(int k=0;k<budgetMainMaterial.size();k++){
+					budgetMainMaterial.get(k).setbId(budge.getBfId());
+				}
+				i=mainMaterialdao.addBudgetMainMaterial(budgetMainMaterial);
 			}
 		}
 		return i;
