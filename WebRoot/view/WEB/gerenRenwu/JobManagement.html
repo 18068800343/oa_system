@@ -10,6 +10,13 @@
     <link href="../../style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <style lang="">
         *{
@@ -140,7 +147,7 @@
                 <button type="button" id="getReceiver" onclick="getReceive()" class="btn btn-success" data-dismiss="modal" >同意</button>
                 <button type="button" id="tuiHui"  onclick="tuiHui()" class="btn btn-default" data-dismiss="modal">退回</button>
                 <button type="button" id="baoCun" class="btn btn-default" onclick="baoCun()">保存</button>
-                <button type="button" id="shanChu" class="btn btn-default" onclick="shanChu()">删除</button>
+                <button type="button" id="shanChuFlow" class="btn btn-default" onclick="shanChuFlow()">删除</button>
                 <button type="button" id="boHui" class="btn btn-default" onclick="boHui()">不同意</button>
                </div>
               <div id="shanchu" hidden="true">
@@ -221,6 +228,7 @@
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
 <!-- <script src="../../js/quanxian.js"></script> -->
 <script>
     $(document).ready( function () {
@@ -300,8 +308,10 @@
     var page_edit;
     var page_step;
     var page_cNodeId;
+    var page_dom;
     function bindclick(){
     	$("body").on("click","i[name='mode']",function(){
+    	    page_dom = $(this);
         	var data_id = $(this).attr("data-id");
         	var strs = data_id.split("-")
         	var edit = $(this).attr("data-edit");
@@ -346,10 +356,12 @@
         	shipeitanchu(ul);
         	$("#tuiHui").show();
         	$("#boHui").show();
+        	$("#shanChuFlow").hide();
         	}else if(flag=='4'){
         	$("#rightMain").attr("src","../"+ulnew+"?prjId="+strs[1]+"&editOrView="+edit);
         	$("#tuiHui").hide();
         	$("#boHui").hide();
+        	$("#shanChuFlow").show();
         	}
         });
     }
@@ -790,7 +802,34 @@
             }
         });
     }
-    
+    function shanChuFlow(){
+		var id=page_cNodeId;
+		var tr=$(page_dom).parents("tr");
+		$.SmartMessageBox({
+            title: "删除提示",
+            content: "确认删除？",
+            buttons: '[取消][确定]'
+        }, function (ButtonPressed) {
+        	if (ButtonPressed === "确定") {
+        		$.ajax({
+                	type: 'POST',
+                    url: getContextPath()+'/flowHistory/deleteCurrentFlow',
+                    data:{
+                    	id:id
+                    },
+                    success: function (json) {
+                    	if(json>0){
+                    		toastr.success('删除成功');
+                    		$("#mainContent").DataTable().row(tr).remove().draw(false);
+                    		$("#myModal").modal("hide");
+                    	}else{
+                    		toastr.error('删除失败');
+                    	}
+                    }
+                });
+        	}
+        })
+    }
     function getCnByOt(s){
   	  if(s==1){
   		  return "提交";

@@ -1,17 +1,24 @@
 package org.ldxx.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.ModeStatus;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.mapper.FlowHistroyMapper;
+import org.ldxx.mapper.ModeStatusMapper;
 import org.ldxx.model.FlowHistoryNowAndLast;
 import org.ldxx.model.FlowHistoryVo;
 import org.ldxx.service.FlowHistoryService;
 import org.ldxx.service.UserService;
+import org.ldxx.util.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +36,10 @@ public class FlowHistoryController {
 	private FlowHistoryService flowHistoryService;
 	@Autowired
 	private FlowHistroyMapper flowHistroyMapper;
-	
+	@Autowired
+	private CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	private ModeStatusMapper modeStatusMapper;
 	@RequestMapping("/getFlowHistoryByUser")
 	@ResponseBody
 	public List<FlowHistoryVo> getFlowHistoryByUser(String status,HttpSession session){
@@ -69,6 +79,38 @@ public class FlowHistoryController {
 		int i=flowHistoryService.deleteFlowHistory(id);
 		return i;
 	}
+	
+	@RequestMapping("/deleteCurrentFlow")
+	@ResponseBody
+	public int deleteCurrentFlow(String id){
+		CurrentFlow currentFlow = currentFlowMapper.selectByPrimaryKey(id);
+		FlowHistroy flowHistroy = new FlowHistroy();
+		flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
+		flowHistroy.setFlowNodeLast(currentFlow.getFlowNodeLast());
+		flowHistroy.setLastOperateType(3);
+		flowHistroy.setOperateType(4);
+		flowHistroy.setDoDate(new Date());
+		int i = currentFlowMapper.deleteByPrimaryKey(id);
+		if(i>0){
+			 i = flowHistroyMapper.insert(flowHistroy);
+			 i = flowHistroyMapper.deleteFlowHistory(flowHistroy.getId());
+			 String modeId = currentFlow.getModeId();
+			 ModeStatus modeStatus = modeStatusMapper.selectByPrimaryKey(modeId);
+				if(null!=modeStatus){
+					modeStatus.setStatus("7");
+					modeStatus.setFlowStatus("7");
+					modeStatusMapper.updateByPrimaryKey(modeStatus);
+				}else{
+					modeStatus=new ModeStatus();
+					modeStatus.setModeId(modeId);
+					modeStatus.setStatus("7");
+					modeStatus.setFlowStatus("7");
+					modeStatusMapper.insert(modeStatus);
+				}
+		}
+		return i;
+	}
+	
 	@RequestMapping("/getHistoryNowAndLast")
 	@ResponseBody
 	public List<FlowHistoryNowAndLast> getHistoryNowAndLast(String url){
