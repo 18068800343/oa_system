@@ -82,6 +82,7 @@ public class CgContractServiceImpl implements CgContractService {
 		int i=cgDao.deleteCgContractById(id);
 		if(i>0){
 			i=adao.deleteAccessory(id);
+			i = cgclDao.deleteCgClById(id);
 		}
 		return i;
 	}
