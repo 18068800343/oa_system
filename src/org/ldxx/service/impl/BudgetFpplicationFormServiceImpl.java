@@ -39,15 +39,15 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 				for (int k = 0; k < costBudget.size(); k++) {
 					costBudget.get(k).setCbId(budge.getBfId());
 				}
+				i=cdao.addCostBudget(costBudget);
 			}
-			i=cdao.addCostBudget(costBudget);
 			List<BudgetMainMaterial> budgetMainMaterial = budge.getBudgetMainMaterial();
 			if(budgetMainMaterial.size()!=0){
 				for(int j=0;j<budgetMainMaterial.size();j++){
 					budgetMainMaterial.get(j).setbId(budge.getBfId());
 				}
+				i=mainMaterialdao.addBudgetMainMaterial(budgetMainMaterial);
 			}
-			i=mainMaterialdao.addBudgetMainMaterial(budgetMainMaterial);
 			/*List<ArtificialBudget> artificialBudget = budge.getArtificialBudget();
 			if(artificialBudget.size()!=0){
 				for (int ii = 0; ii < artificialBudget.size(); ii++) {
