@@ -75,8 +75,11 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	public int updateBudge(BudgetFpplicationForm budge) {
 		int i=cdao.deleteCostBudgetById(budge.getBfId());
 		List<CostBudget> costBudget = budge.getCostBudget();
-		for (int ii = 0; ii < costBudget.size(); ii++) {
-			costBudget.get(ii).setCbId(budge.getBfId());
+		if(costBudget.size()>0&&costBudget!=null){
+			for (int ii = 0; ii < costBudget.size(); ii++) {
+				costBudget.get(ii).setCbId(budge.getBfId());
+			}
+			
 		}
 		/*i=adao.deleteArtificialBudgetById(budge.getBfId());
 		List<ArtificialBudget> artificialBudget = budge.getArtificialBudget();
@@ -85,8 +88,10 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 		}*/
 		i=mainMaterialdao.deleteBudgetMainMaterialById(budge.getBfId());
 		List<BudgetMainMaterial> budgetMainMaterial = budge.getBudgetMainMaterial();
-		for(int k=0;k<budgetMainMaterial.size();k++){
-			budgetMainMaterial.get(k).setbId(budge.getBfId());
+		if(budgetMainMaterial!=null&&budgetMainMaterial.size()>0){
+			for(int k=0;k<budgetMainMaterial.size();k++){
+				budgetMainMaterial.get(k).setbId(budge.getBfId());
+			}
 		}
 		if(i>0){
 			i=bdao.updateBudge(budge);
