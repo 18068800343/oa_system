@@ -70,8 +70,6 @@ public class TaskController {
 	@Autowired
 	private EnterpriseService eService;
 	@Autowired
-	private CurrentFlowMapper currentFlowMapper;
-	@Autowired
 	private CjContractService cjservice;
 	@Autowired
 	private ConstructionDocumentsDao cDao;
@@ -83,6 +81,8 @@ public class TaskController {
 	private MaintenanceReinforcementDao mDao;
 	@Autowired
 	private TechnicalDocumentationDao dao;
+	@Autowired
+	private CurrentFlowMapper currentFlowMapper;
 	@Autowired
 	private OrganizationManagementDao omDao;
 	@Autowired
