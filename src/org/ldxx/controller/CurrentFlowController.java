@@ -11,10 +11,15 @@ import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.CurrentFlowExample;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.FlowHistroyExample;
+import org.ldxx.bean.FlowNode;
+import org.ldxx.bean.ModeStatus;
+import org.ldxx.bean.ModeStatusExample;
 import org.ldxx.bean.User;
 import org.ldxx.mapper.CurrentFlowChaoSongMapper;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.mapper.FlowHistroyMapper;
+import org.ldxx.mapper.FlowNodeMapper;
+import org.ldxx.mapper.ModeStatusMapper;
 import org.ldxx.model.CurrentFlowVo;
 import org.ldxx.model.FlowHistoryVo;
 import org.ldxx.service.CurrentFlowService;
@@ -42,7 +47,10 @@ public class CurrentFlowController {
 	CurrentFlowMapper currentFlowMapper;
 	@Autowired
 	CurrentFlowChaoSongMapper currentFlowChaoSongMapper;
-	
+	@Autowired
+	FlowNodeMapper flowNodeMapper;
+	@Autowired
+	ModeStatusMapper modeStatusMapper;
 	@RequestMapping("/getCurrentFlowListStatus1ByUser")
 	@ResponseBody
 	public List<CurrentFlowVo> getCurrentFlowListByUser(String userId,String statu,HttpSession session){
@@ -96,12 +104,16 @@ public class CurrentFlowController {
 		Integer readReceipts = 5;
 		
 		if(null!=currentFlows&&currentFlows.size()>0){
-			readReceipts = currentFlows.get(0).getReadreceipts();
+			//readReceipts = currentFlows.get(0).getReadreceipts();
+			readReceipts=0;
 		}else{
 			readReceipts = 1;
 		}
 		return readReceipts+"";
 	}
+	
+	
+	
 	@RequestMapping("/doChexiao")
 	@ResponseBody
 	public String doChexiao(String url,HttpSession session){
@@ -131,6 +143,24 @@ public class CurrentFlowController {
 			flowHistroy.setOperateType(3);
 			flowHistroy.setId(new TimeUUID().getTimeUUID());
 			currentFlowMapper.updateByPrimaryKeySelective(currentFlow);
+			String flowTmpId = currentFlow.getFloTmpId();
+			FlowNode flowNode = flowNodeMapper.selectStartFlowNode(flowTmpId);
+			String startFlowNodeId=flowNode.getId();
+			if(null!=floNodeLast&&floNodeLast.equals(startFlowNodeId)){
+				ModeStatusExample modeStatusExample = new ModeStatusExample();
+				String modeId = currentFlow.getModeId();
+				modeStatusExample.createCriteria().andModeIdEqualTo(modeId);
+				ModeStatus modeStatus = new ModeStatus();
+				List<ModeStatus> modeStatusDuo = modeStatusMapper.selectByExample(modeStatusExample);
+				modeStatus.setModeId(modeId);
+				modeStatus.setStatus("1");
+				modeStatus.setFlowStatus("4");
+				if(modeStatusDuo!=null&&modeStatusDuo.size()>0){
+					modeStatusMapper.updateByExample(modeStatus, modeStatusExample);
+				}else{
+					modeStatusMapper.insert(modeStatus);
+				}
+			}
 			flowHistroyMapper.insert(flowHistroy);
 		}
 		return "1";
@@ -142,5 +172,10 @@ public class CurrentFlowController {
 	public List<CurrentFlowVo> getCurrentFlowListStatus0ByUser(String userId){
 		return currentFlowService.getCurrentFlowListByUser(userId, "0");
 	}
-
+	
+	@RequestMapping("/updateFkDept")
+	@ResponseBody
+	public int updateFkDept(String id,String fkDept){
+		return currentFlowMapper.updateFkDept(id, fkDept);
+	}
 }
