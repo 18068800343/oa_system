@@ -12,4 +12,6 @@ public interface ProjectAccountingService {
 
 	ProjectAccounting getProjectAccountingById(String id);
 
+	int updateProjectAccountingById(ProjectAccounting projectAccounting);
+
 }

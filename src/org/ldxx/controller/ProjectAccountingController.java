@@ -93,6 +93,12 @@ public class ProjectAccountingController {
 		return service.getProjectAccountingById(id);
 	}
 	
+	@RequestMapping("/updateProjectAccountingById")
+	@ResponseBody
+	public int updateProjectAccountingById(ProjectAccounting projectAccounting){
+		return service.updateProjectAccountingById(projectAccounting);
+	}
+	
 	
 	@RequestMapping("/addProjectAccounting")
 	@ResponseBody
