@@ -178,4 +178,10 @@ public class CurrentFlowController {
 	public int updateFkDept(String id,String fkDept){
 		return currentFlowMapper.updateFkDept(id, fkDept);
 	}
+	
+	@RequestMapping("/updateFkDeptByModeId")
+	@ResponseBody
+	public int updateFkDeptByModeId(String id,String fkDept){
+		return currentFlowMapper.updateFkDeptByModeId(id, fkDept);
+	}
 }
