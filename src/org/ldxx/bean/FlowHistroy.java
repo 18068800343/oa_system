@@ -53,6 +53,16 @@ public class FlowHistroy {
     
     private String step;
     
+    private String delete;
+    
+	public String getDelete() {
+		return delete;
+	}
+
+	public void setDelete(String delete) {
+		this.delete = delete;
+	}
+
 	public String getStep() {
 		return step;
 	}

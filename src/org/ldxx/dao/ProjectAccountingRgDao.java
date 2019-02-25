@@ -11,4 +11,6 @@ public interface ProjectAccountingRgDao {
 
 	List<ProjectAccountingRg> getProjectAccountingRgById(@Param("id")String id);
 
+	int deleteById(@Param("paId")String paId);
+
 }
