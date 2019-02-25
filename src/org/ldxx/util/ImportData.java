@@ -208,20 +208,31 @@ public class ImportData {
 					Row hssfRow = hssfSheet.getRow(rowNum);
 					if(hssfRow!=null){
 						int cells=hssfRow.getPhysicalNumberOfCells();
-						if(cells>5){
+						if(cells>18){
 							WxCost wx=new WxCost();
-							Cell colum1 = hssfRow.getCell(3);  
-							Cell colum2 = hssfRow.getCell(4);  
-							Cell colum3 = hssfRow.getCell(6);  
-							Cell colum4 = hssfRow.getCell(9);  
+							Cell colum1 = hssfRow.getCell(3);  //项目编号列
+							Cell colum2 = hssfRow.getCell(4);  //项目名称列
+							Cell colum3 = hssfRow.getCell(6);  //客户名称
+							Cell colum4 = hssfRow.getCell(8);  //部门名称
+							Cell colum5 = hssfRow.getCell(10);  //借贷
+							Cell colum6 = hssfRow.getCell(13);  //金额
+							
 							String no=getValue(colum1);
 							String name=getValue(colum2);
 							name=name.replace("【工程项目：", "").replace("】", "");
 							String wxName=getValue(colum3);
 							wxName=wxName.replace("【客商：", "").replace("】", "");
-							String wxCost=getValue(colum4);
+							String dept=getValue(colum4);
+							if(dept.equals("工程公司")){
+								dept="工程建设一部";
+							}
+							String type=getValue(colum5);
+							String wxCost=getValue(colum6);
+							if(wxCost.equals("")){
+								wxCost="0";
+							}
 							wxCost=wxCost.replace(",", "").replace("，", "");
-							if(!name.equals("")){
+							if(!name.equals("")&&type.equals("借")){
 								TimeUUID uuid=new TimeUUID();
 								String id=uuid.getTimeUUID();
 								wx.setWxId(id);
@@ -229,6 +240,7 @@ public class ImportData {
 								wx.setPrjName(name);
 								wx.setWxCost(Double.valueOf(wxCost));
 								wx.setWxName(wxName);
+								wx.setDept(dept);
 								list.add(wx);
 							}
 						}

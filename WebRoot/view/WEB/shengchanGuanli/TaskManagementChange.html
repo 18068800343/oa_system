@@ -2195,6 +2195,10 @@
         	var gaikuang=$("#xggaikuang").val();
         	
         	if(obj=='1'){
+        		if(lianxibiao.length==0){
+        			toastr.error("联系人不能为空");
+    	    		return;
+        		}
         		if(taskName==''){
     	    		toastr.error("项目名称不能为空");
     	    		return;
@@ -2239,71 +2243,80 @@
     	    		toastr.error("暂定金不能为空");
     	    		return;
     	    	}
+            	var all_bili=0;
+            	var allMoney=0;
+            	if(zhuban!=''&&zhuban!=undefined){
+            		if(chenbenfentanbili==''){
+            			toastr.error("成本分摊比例不能为空");
+        	    		return;
+            		}else{
+            			var bili=chenbenfentanbili.replace("%","");
+            			all_bili=all_bili+parseInt(bili);
+            		}
+            		allMoney=allMoney+parseInt(zhubanjine);
+            	}
+            	if(xieban1!=''&&xieban1!=undefined){
+            		if(chenbenfentanbili1==''){
+            			toastr.error("成本分摊比例不能为空");
+        	    		return;
+            		}else{
+            			var bili1=chenbenfentanbili1.replace("%","");
+            			all_bili=all_bili+parseInt(bili1);
+            		}
+            		allMoney=allMoney+parseInt(xieban1jine);
+            	}
+    			if(xieban2!=''&&xieban2!=undefined){
+    				if(chenbenfentanbili2==''){
+            			toastr.error("成本分摊比例不能为空");
+        	    		return;
+            		}else{
+            			var bili2=chenbenfentanbili2.replace("%","");
+            			all_bili=all_bili+parseInt(bili2);
+            		}
+    				allMoney=allMoney+parseInt(xieban2jine);
+            	}
+    			if(xieban3!=''&&xieban3!=undefined){
+    				if(chenbenfentanbili3==''){
+            			toastr.error("成本分摊比例不能为空");
+        	    		return;
+            		}else{
+            			var bili3=chenbenfentanbili3.replace("%","");
+            			all_bili=all_bili+parseInt(bili3);
+            		}
+    				allMoney=allMoney+parseInt(xieban3jine);
+            	}
+    			if(allMoney!=jine){
+    				toastr.error("主协办金额分配错误");
+    	    		return;
+    			}
+    			if(all_bili!=100){
+    				toastr.error("成本分摊比例总和不等于100%");
+    	    		return;
+    			}
+    			var yugongke = $("#xgyugongke").val().replace("%","");
+        	    var chushe = $("#xgchushe").val().replace("%","");
+        	    var shishe = $("#xgshishe").val().replace("%","");
+        	    var allLei=0;
+        	    if(yugongke!=""&&yugongke!=null){
+        	    	yugongke = parseInt(yugongke);
+        	    	allLei+=yugongke;
+        	    }
+        	    if(chushe!=""&&chushe!=null){
+        	    	chushe = parseInt(chushe);
+        	    	allLei+=chushe
+        	    }
+        	    if(shishe!=""&&shishe!=null){
+        	    	shishe = parseInt(shishe);
+        	    	allLei+=shishe
+        	    }
+        	    if(erji.indexOf("B")>=0){
+       	    	 if(allLei!=100){
+     					toastr.error("项目B类百分比分配有误");
+     		    		return;
+      				}
+      			}
         	}
         	
-        	var all_bili=0;
-        	if(zhuban!=''&&zhuban!=undefined){
-        		if(chenbenfentanbili==''){
-        			toastr.error("成本分摊比例不能为空");
-    	    		return;
-        		}else{
-        			var bili=chenbenfentanbili.replace("%","");
-        			all_bili=all_bili+parseInt(bili);
-        		}
-        	}
-        	if(xieban1!=''&&xieban1!=undefined){
-        		if(chenbenfentanbili1==''){
-        			toastr.error("成本分摊比例不能为空");
-    	    		return;
-        		}else{
-        			var bili1=chenbenfentanbili1.replace("%","");
-        			all_bili=all_bili+parseInt(bili1);
-        		}
-        	}
-			if(xieban2!=''&&xieban2!=undefined){
-				if(chenbenfentanbili2==''){
-        			toastr.error("成本分摊比例不能为空");
-    	    		return;
-        		}else{
-        			var bili2=chenbenfentanbili2.replace("%","");
-        			all_bili=all_bili+parseInt(bili2);
-        		}
-        	}
-			if(xieban3!=''&&xieban3!=undefined){
-				if(chenbenfentanbili3==''){
-        			toastr.error("成本分摊比例不能为空");
-    	    		return;
-        		}else{
-        			var bili3=chenbenfentanbili3.replace("%","");
-        			all_bili=all_bili+parseInt(bili3);
-        		}
-        	}
-			if(all_bili!=100){
-				toastr.error("成本分摊比例总和不等于100%");
-	    		return;
-			}
-			var yugongke = $("#xgyugongke").val().replace("%","");
-    	    var chushe = $("#xgchushe").val().replace("%","");
-    	    var shishe = $("#xgshishe").val().replace("%","");
-    	    var allLei=0;
-    	    if(yugongke!=""&&yugongke!=null){
-    	    	yugongke = parseInt(yugongke);
-    	    	allLei+=yugongke;
-    	    }
-    	    if(chushe!=""&&chushe!=null){
-    	    	chushe = parseInt(chushe);
-    	    	allLei+=chushe
-    	    }
-    	    if(shishe!=""&&shishe!=null){
-    	    	shishe = parseInt(shishe);
-    	    	allLei+=shishe
-    	    }
-    	    if(erji.indexOf("B")>=0){
-   	    	 if(allLei!=100){
- 					toastr.error("项目B类百分比分配有误");
- 		    		return;
-  				}
-  			}
     	    var xindanwei={
     	    		prjType2:undefined,
     	    		prjNo:undefined,
@@ -2384,28 +2397,10 @@
                         toastr.error('保存失败');
                     }else{
                          toastr.success('保存成功');
-                         var omNo=json.omNo;
-                         updateFkDept(obj2,omNo);
                     }
                     return json;
                 }
             }); 
-    }
-    
-    function updateFkDept(){
-    	$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/currentFlow/updateFkDept',
-            dataType: 'json',
-            async:false,
-            data:{
-            	id:obj,
-            	fkDept:obj2
-            },
-            success: function (json) {
-				
-            }
-        }); 
     }
     
     function xgsaverenwudan(){

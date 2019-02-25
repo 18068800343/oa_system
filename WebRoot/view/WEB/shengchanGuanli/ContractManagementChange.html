@@ -65,13 +65,13 @@
 	                    </thead>
                     	<tbody>
                     			<tr>
-			                       	   <td style="width:20%;">任务单号:</td>
-			                           <td style="width:30%;">
+			                       	   <td style="width:15%;">任务单号:</td>
+			                           <td style="width:35%;">
 			                                <input type="text" style="width:70%;" class="form-control" id="edit_work_no" disabled>
 			                                <button type="button" class="btn btn-primary" onclick="chooseNo(1)">选择任务单号</button>
 			                           </td>
-			                           <td style="width:20%;">项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-			                           <td style="width:30%;">
+			                           <td style="width:15%;">项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+			                           <td style="width:35%;">
 			                               <input type="text" style="width:70%;" class="form-control" id="edit_prj_name" disabled>
 			                               <button type="button" class="btn btn-primary" onclick="chooseName(1)">选择项目名称</button>
 			                           </td>
@@ -92,12 +92,12 @@
 	                    </thead>
                     	<tbody>
                     			<tr>
-		                           <td style="width:20%;">承接合同名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-		                           <td style="width:30%;">
+		                           <td style="width:15%;">承接合同名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+		                           <td style="width:35%;">
 	 	                               	<input type="text" class="form-control" id="edit_contract_name" style="width:80%;">
 		                           </td>
-		                           <td style="width:20%;">承接合同编号:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-		                           <td style="width:30%;">
+		                           <td style="width:15%;">承接合同编号:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+		                           <td style="width:35%;">
 		                               	<input type="text" class="form-control" id="edit_contract_no" disabled style="width:80%;">
 		                           </td>
 		                       </tr>
@@ -1832,7 +1832,8 @@ function checkquxiaoSplit(){
   		}	
 		return a;
 	}
-  	function liuchengGaibian(){
+	
+  	/* function liuchengGaibian(){
   		var splitArray=new Array();
 		var deptSplitArray=new Array();
 		var chaiFenXinXiArray=new Array();
@@ -1996,16 +1997,9 @@ function checkquxiaoSplit(){
 			        	      }); 
 			        	  }
 		        	}
-		        	/* if(json>0){
-						//$("#myModal").modal("hide");
-						toastr.success("保存成功");
-						quxiaob();
-					}else{
-						toastr.error("保存失败");
-					} */
 		        }
 		})
-  	}
+  	} */
   	
   	function delteFile(obj){
   		var id=$(obj).attr("data");
@@ -2029,21 +2023,7 @@ function checkquxiaoSplit(){
   		});
   	}
   	
-  	function liuchengGaibianBC(){
-  		var splitArray=new Array();
-  		$("#edit_split_table tbody").find("tr").each(function(){
-				var years=$(this).find("td").eq(0).text();
-				var moneys=$(this).find("td").eq(1).text();
-				var arr={
-						cjId:null,
-						year:undefined,
-						money:undefined
-				}
-				arr.cjId=null;
-				arr.year=years;
-				arr.money=moneys;
-				splitArray.push(arr)
-			})
+  	function liuchengGaibian(){
 		var contract_name=$("#edit_contract_name").val();
   		var contract_no=$("#edit_contract_no").val();
   		var work_no=$("#edit_work_no").val();
@@ -2098,8 +2078,7 @@ function checkquxiaoSplit(){
 	  			assistDepartment2Money:undefined,
 	  			assistDepartment3:undefined,
 	  			assistDepartment3Money:undefined,
-	  			splitState:undefined,
-	  			cjSplitMoney:undefined
+	  			splitState:undefined
 			}
 	  	cjContract.cjId=id;
 	  	cjContract.taskCode=work_no;
@@ -2127,8 +2106,7 @@ function checkquxiaoSplit(){
 	  	cjContract.assistDepartment3=xieban3;
 	  	cjContract.assistDepartment3Money=xieban3jine;
 	  	cjContract.splitState=split_state;
-	  	cjContract.cjSplitMoney=splitArray;
-	  	console.log(cjContract)
+
 	  	var formData = new FormData();
 		formData.append("cjContract", JSON.stringify(cjContract));
 			
@@ -2142,7 +2120,7 @@ function checkquxiaoSplit(){
     	
     	$.ajax({
 			type: 'POST',
-		        url: getContextPath()+'/cj/updateCjContractBySave',
+		        url: getContextPath()+'/cj/updateCjContractById',
 		     	data: formData,  
 	            cache: false,
 	            processData: false,
@@ -2150,9 +2128,7 @@ function checkquxiaoSplit(){
 	            async: false,
 		        success: function (json) {
 					if(json>0){
-						//$("#myModal").modal("hide");
 						toastr.success("保存成功");
-						quxiaob();
 					}else{
 						toastr.error("保存失败");
 					}

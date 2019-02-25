@@ -110,8 +110,28 @@ public class ProjectIntegratedController {
 			double cost2=sccDao.selectSumMoneyByNo(no);
 			double prjCost=cost1+cost2;//项目成本
 			
+			ProjectIntegrated pi=new ProjectIntegrated();
+			pi.setPrjNo(no);
+			pi.setPrjName(prjName);
+			pi.setContractNo(contractNo);
+			pi.setContractName(contractName);
+			pi.setPrjType2(prjType);
+			pi.setPrjYs(ysCost);
+			pi.setCjDepartment(cjDepartment);
+			pi.setPrjLeader(prjLeader);
+			pi.setWorkMoney(prjMoney);
+			pi.setContractMoney(contractMoney);
+			pi.setZdMoney(zdMoney);
+			pi.setContractEndMoney(contractEndMoney);
+			pi.setTotalKpMoney(allKp);
+			pi.setTotalMoney(allReceieveMoney);
+			pi.setPrjCost(prjCost);
+			pi.setPrjPlan(prjJd);
+			list.add(pi);
+			
 			List<FbContract> fb=sService.selectFbContractByTaskNo(no);
 			if(fb.size()>0){
+				list.clear();
 				for(int ii=0;ii<fb.size();ii++){
 					String fbName=fb.get(ii).getContractName();//分包合同名称
 					String fbNo=fb.get(ii).getFbNo();//分包合同编号
@@ -129,36 +149,33 @@ public class ProjectIntegratedController {
 					}
 					Pay p2=cpService.getTotalPayMoney(fbNo);
 					fbActualPay=p2.getAlreadyAccumulateMoney();
-					ProjectIntegrated pi=new ProjectIntegrated();
-					pi.setPrjNo(no);
-					pi.setPrjName(prjName);
-					pi.setContractNo(contractNo);
-					pi.setContractName(contractName);
-					pi.setPrjType2(prjType);
-					pi.setPrjYs(ysCost);
-					pi.setCjDepartment(cjDepartment);
-					pi.setPrjLeader(prjLeader);
-					pi.setWorkMoney(prjMoney);
-					pi.setContractMoney(contractMoney);
-					pi.setZdMoney(zdMoney);
-					pi.setContractEndMoney(contractEndMoney);
-					pi.setTotalKpMoney(allKp);
-					pi.setTotalMoney(allReceieveMoney);
-					pi.setPrjCost(prjCost);
-					pi.setPrjPlan(prjJd);
-					pi.setFbName(fbName);
-					pi.setFbContractMoney(fbMoney);
-					pi.setFbEndMoney(fbOverMoney);
-					pi.setFbPlan(fbPlan);
-					pi.setPracticalFbPayMoney(fbActualPay);
-					list.add(pi);
+					ProjectIntegrated pi2=new ProjectIntegrated();
+					pi2.setPrjNo(no);
+					pi2.setPrjName(prjName);
+					pi2.setContractNo(contractNo);
+					pi2.setContractName(contractName);
+					pi2.setPrjType2(prjType);
+					pi2.setPrjYs(ysCost);
+					pi2.setCjDepartment(cjDepartment);
+					pi2.setPrjLeader(prjLeader);
+					pi2.setWorkMoney(prjMoney);
+					pi2.setContractMoney(contractMoney);
+					pi2.setZdMoney(zdMoney);
+					pi2.setContractEndMoney(contractEndMoney);
+					pi2.setTotalKpMoney(allKp);
+					pi2.setTotalMoney(allReceieveMoney);
+					pi2.setPrjCost(prjCost);
+					pi2.setPrjPlan(prjJd);
+					pi2.setFbName(fbName);
+					pi2.setFbContractMoney(fbMoney);
+					pi2.setFbEndMoney(fbOverMoney);
+					pi2.setFbPlan(fbPlan);
+					pi2.setPracticalFbPayMoney(fbActualPay);
+					list.add(pi2);
 				}
-				map.put("result", "success");
-				map.put("list", list);
-			}else{
-				map.put("result", "nothing");
 			}
-			
+			map.put("result", "success");
+			map.put("list", list);
 		} catch (Exception e) {
 			map.put("result", "error");
 			e.printStackTrace();

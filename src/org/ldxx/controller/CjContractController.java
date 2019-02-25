@@ -24,6 +24,8 @@ import org.ldxx.bean.PrjWorkingHours;
 import org.ldxx.bean.PrjWorkingHoursP;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.dao.OrganizationManagementDao;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.ContractUpdateService;
@@ -47,6 +49,10 @@ public class CjContractController {
 
 	@Autowired
 	private CjContractService service;
+	@Autowired
+	private CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	private OrganizationManagementDao omDao;
 	@Autowired
 	private OrganizationManagementService oService;
 	@Autowired
@@ -706,7 +712,6 @@ public class CjContractController {
 	@ResponseBody
 	public int updateCjContractById(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2){
 		Map<String,Class> map=new HashMap<>();
-		map.put("cjSplitMoney", CjSplitMoney.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
 		String id=cj.getCjId();
@@ -762,6 +767,12 @@ public class CjContractController {
 			cj.setAccessory2(list2);
 		}
 		int i=service.updateCjContract(cj);
+		if(i>0){
+			String mainDept=cj.getYiCjDepartment();
+			OrganizationManagement om=omDao.selectOrgById(mainDept);
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(id,omNo);
+		}
 		return i;
 	}
 	

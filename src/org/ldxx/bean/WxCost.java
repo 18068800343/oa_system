@@ -15,8 +15,15 @@ public class WxCost {
 	private String wxName;
 	private double wxCost;
 	private String time;
+	private String dept;
 	
 	
+	public String getDept() {
+		return dept;
+	}
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
 	public String getTime() {
 		return time;
 	}

@@ -418,19 +418,17 @@ public class TaskController {
 	
 	@RequestMapping("/updateTaskCG")/*任务单修改保存*/
 	@ResponseBody
-	public Map<String,Object> updateTaskCG(@RequestBody List<Task> task,HttpSession session){
-		Map<String,Object> map=new HashMap<>();
+	public int updateTaskCG(@RequestBody List<Task> task,HttpSession session){
 		Task t=task.get(0);
 		int i=tService.updateTask(t);
-		map.put("result", i);
 		if(i>0){
 			String mainDept=t.getMainDepartment();
 			String id=t.getPrjId();
-			OrganizationManagement om=omDao.selectOrgById(id);
+			OrganizationManagement om=omDao.selectOrgById(mainDept);
 			String omNo=om.getOmNo();
-			map.put("omNo", omNo);
+			currentFlowMapper.updateFkDeptByModeId(id,omNo);
 		}
-		return map;
+		return i;
 	}
 	
 	@RequestMapping("/updateTask2")/*任务单修改提交*/
