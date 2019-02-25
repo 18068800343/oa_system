@@ -233,7 +233,11 @@ public class CgContractController {
 		if(i>0){
 			User user = (User) session.getAttribute("user");
 			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNoCg = oService.getOrgIdByName(cg.getCgDepartment()).getOmNo();
 			String omNo=om.getOmNo();
+			if(!"".equals(omNoCg)){
+				omNo=omNoCg;
+			}
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");

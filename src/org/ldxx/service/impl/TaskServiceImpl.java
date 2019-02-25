@@ -52,10 +52,12 @@ public class TaskServiceImpl implements TaskService{
 		List<Enterprise> enterprise=task.getEnterprise();
 		int i=tdao.addTask(task);
 		if(i>0){
-			for(int ii=0;ii<enterprise.size();ii++){
-				enterprise.get(ii).seteId(task.getPrjId());
+			if(null!=enterprise&&enterprise.size()>0){
+				for(int ii=0;ii<enterprise.size();ii++){
+					enterprise.get(ii).seteId(task.getPrjId());
+				}
+				i=edao.addEnterprise(enterprise);
 			}
-			i=edao.addEnterprise(enterprise);
 		}
 		return i;
 	}

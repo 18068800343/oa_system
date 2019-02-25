@@ -33,6 +33,8 @@ public interface CurrentFlowMapper {
     
     int updateFkDept(@Param("id")String id,@Param("fkDept")String fkDept);
     
+    int updateFkDeptByModeId(@Param("id")String id,@Param("fkDept")String fkDept);
+    
     List<CurrentFlowVo> getCurrentFlowVoByUserId(@Param("userId")String userId,@Param("status")String status);
     
     List<CurrentFlowVo> getCurrentFlowVoByStatus(@Param("userId")String userId,@Param("status")String status);
