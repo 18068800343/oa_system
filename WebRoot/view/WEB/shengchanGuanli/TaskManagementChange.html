@@ -2139,7 +2139,7 @@
     	$(tr).remove();
     }
     
-    function liuchengGaibian(){
+    function liuchengGaibian(obj,obj2){//obj：0代表保存 1代表提交   obj2：流程id
     	var danwei= new Array();
     	var lianxibiao= new Array();
     	$("#xglianxibiaoge tbody").find("tr").each(function(){
@@ -2165,10 +2165,6 @@
     		}
     	});
     	
-    	//if(a==0){
-    		//toastr.error('存在数据未填写');
-    		//return;
-    	//}
            	var erji=$("#xgerjileixing").find("option:selected").val();
     		var taskName=$("#xgtaskName").val();
         	var taskbianhao=$("#xgtaskbianhao").val();
@@ -2198,50 +2194,53 @@
         	var chenbenfentanbili3=$("#xgchenbenfentanbili3").val();
         	var gaikuang=$("#xggaikuang").val();
         	
-        	if(taskName==''){
-	    		toastr.error("项目名称不能为空");
-	    		return;
-	    	}
-        	if(city==''){
-	    		toastr.error("所属区域不能为空");
-	    		return;
-	    	}
-        	if(moshi==''){
-	    		toastr.error("项目经营模式不能为空");
-	    		return;
-	    	}
-        	if(erji==''){
-	    		toastr.error("项目类型不能为空");
-	    		return;
-	    	}
-        	if(gongsi==''){
-	    		toastr.error("合同所属公司不能为空");
-	    		return;
-	    	}
-        	if(yezhudanwei==''){
-	    		toastr.error("甲方单位不能为空");
-	    		return;
-	    	}
-        	if(jine==''){
-	    		toastr.error("任务金额不能为空");
-	    		return;
-	    	}
-        	if(hetonge==''){
-	    		toastr.error("合同金额不能为空");
-	    		return;
-	    	}
-        	if(prjSource==''){
-	    		toastr.error("项目来源不能为空");
-	    		return;
-	    	}
-        	if(zhuban==''){
-	    		toastr.error("主办部门不能为空");
-	    		return;
-	    	}
-        	if(zandingjin==''){
-	    		toastr.error("暂定金不能为空");
-	    		return;
-	    	}
+        	if(obj=='1'){
+        		if(taskName==''){
+    	    		toastr.error("项目名称不能为空");
+    	    		return;
+    	    	}
+            	if(city==''){
+    	    		toastr.error("所属区域不能为空");
+    	    		return;
+    	    	}
+            	if(moshi==''){
+    	    		toastr.error("项目经营模式不能为空");
+    	    		return;
+    	    	}
+            	if(erji==''){
+    	    		toastr.error("项目类型不能为空");
+    	    		return;
+    	    	}
+            	if(gongsi==''){
+    	    		toastr.error("合同所属公司不能为空");
+    	    		return;
+    	    	}
+            	if(yezhudanwei==''){
+    	    		toastr.error("甲方单位不能为空");
+    	    		return;
+    	    	}
+            	if(jine==''){
+    	    		toastr.error("任务金额不能为空");
+    	    		return;
+    	    	}
+            	if(hetonge==''){
+    	    		toastr.error("合同金额不能为空");
+    	    		return;
+    	    	}
+            	if(prjSource==''){
+    	    		toastr.error("项目来源不能为空");
+    	    		return;
+    	    	}
+            	if(zhuban==''){
+    	    		toastr.error("主办部门不能为空");
+    	    		return;
+    	    	}
+            	if(zandingjin==''){
+    	    		toastr.error("暂定金不能为空");
+    	    		return;
+    	    	}
+        	}
+        	
         	var all_bili=0;
         	if(zhuban!=''&&zhuban!=undefined){
         		if(chenbenfentanbili==''){
@@ -2380,17 +2379,34 @@
                 contentType: "application/json", 
                 data:JSON.stringify(danwei),
                 success: function (json) {
-                    if(json==0){
+					var result=json.result;                	
+                    if(result==0){
                         toastr.error('保存失败');
                     }else{
                          toastr.success('保存成功');
-                         quxiao2();
+                         var omNo=json.omNo;
+                         updateFkDept(obj2,omNo);
                     }
                     return json;
                 }
             }); 
     }
     
+    function updateFkDept(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/currentFlow/updateFkDept',
+            dataType: 'json',
+            async:false,
+            data:{
+            	id:obj,
+            	fkDept:obj2
+            },
+            success: function (json) {
+				
+            }
+        }); 
+    }
     
     function xgsaverenwudan(){
     	var danwei= new Array();
@@ -2637,7 +2653,6 @@
 	            		toastr.error('保存失败');
 	            	}else{
 	            		 toastr.success('保存成功');
-	            		 quxiao2();
 	            	}
 	            }
 	        }); 

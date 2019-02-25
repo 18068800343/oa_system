@@ -111,7 +111,7 @@ public class TaskController {
 		String prjNo=uuid.getPrjCode(code, count);
 		t.setPrjNo(prjNo);
 		int i=tService.addTask(t);
-		if(i>0){
+		/*if(i>0){
 			String prjName=t.getPrjName();
 			if(code.startsWith("A")){//添加检测评估资料
 				TestingEvaluation te=new TestingEvaluation();
@@ -146,7 +146,7 @@ public class TaskController {
 				td.setPrjNo(prjNo);
 				dao.addConstructionDocumentsSave(td);
 			}
-		}
+		}*/
 		User user = (User) session.getAttribute("user");
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
@@ -176,7 +176,6 @@ public class TaskController {
 		try {
 			string = flowUtill.zancunFlow(currentFlow, flowHistroy);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return i;
@@ -202,7 +201,7 @@ public class TaskController {
 		String prjNo=uuid.getPrjCode(code, count);
 		t.setPrjNo(prjNo);
 		int i=tService.addTask(t);
-		if(i>0){
+		/*if(i>0){
 			String prjName=t.getPrjName();
 			if(code.startsWith("A")){//添加检测评估资料
 				TestingEvaluation te=new TestingEvaluation();
@@ -237,7 +236,7 @@ public class TaskController {
 				td.setPrjNo(prjNo);
 				dao.addConstructionDocumentsSave(td);
 			}
-		}
+		}*/
 		User user = (User) session.getAttribute("user");
 		FlowUtill flowUtill = new FlowUtill();
 		CurrentFlow currentFlow = new CurrentFlow();
@@ -419,12 +418,19 @@ public class TaskController {
 	
 	@RequestMapping("/updateTaskCG")/*任务单修改保存*/
 	@ResponseBody
-	public int updateTaskCG(@RequestBody List<Task> task,HttpSession session){
+	public Map<String,Object> updateTaskCG(@RequestBody List<Task> task,HttpSession session){
+		Map<String,Object> map=new HashMap<>();
 		Task t=task.get(0);
 		int i=tService.updateTask(t);
+		map.put("result", i);
 		if(i>0){
+			String mainDept=t.getMainDepartment();
+			String id=t.getPrjId();
+			OrganizationManagement om=omDao.selectOrgById(id);
+			String omNo=om.getOmNo();
+			map.put("omNo", omNo);
 		}
-		return i;
+		return map;
 	}
 	
 	@RequestMapping("/updateTask2")/*任务单修改提交*/
@@ -1139,7 +1145,17 @@ public class TaskController {
 	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
 	@ResponseBody
 	public int updateHistoryById(String id){
-		return tService.updateHistoryById(id);
+		/*TimeUUID uuid=new TimeUUID();
+		Task t=tService.selectCcNameByPrjId(id);
+		String type=t.getPrjType2();
+		String code=type.split(" ")[0];
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=tService.typeCount(year);
+		count=count+1;
+		String prjNo=uuid.getPrjCode(code, count);*/
+		int i=tService.updateHistoryById(id);
+		return i;
 	}
 	
 	@RequestMapping("/updateTaskById")
