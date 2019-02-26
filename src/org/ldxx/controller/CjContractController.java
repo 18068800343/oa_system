@@ -713,11 +713,15 @@ public class CjContractController {
 	public int updateCjContractById(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2){
 		Map<String,Class> map=new HashMap<>();
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
+		map.put("cjSplitMoney", CjSplitMoney.class);
+		map.put("chaiFenXinXiArray", Task.class);
+		map.put("cjDeptSplitMoney", CjDeptSplitMoney.class);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
 		String id=cj.getCjId();
 		TimeUUID uuid=new TimeUUID();
 		String webApp=uuid.getWebAppFile();
 		String path=webApp+File.separator+id;
+		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -771,7 +775,7 @@ public class CjContractController {
 			String mainDept=cj.getYiCjDepartment();
 			OrganizationManagement om=omDao.selectOrgById(mainDept);
 			String omNo=om.getOmNo();
-			currentFlowMapper.updateFkDeptByModeId(id,omNo);
+			int k = currentFlowMapper.updateFkDeptByModeId(id,omNo);
 		}
 		return i;
 	}

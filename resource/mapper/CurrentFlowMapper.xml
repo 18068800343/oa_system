@@ -614,6 +614,7 @@
   <select id="getCurrentFlowVoByUserId" resultType="currentFlowVo">
 		SELECT
 			a.*,
+			o.om_name,
 			c.BusinessName,
 			b.`status`,
 			b.flow_status,
@@ -622,6 +623,8 @@
 		FROM
 			currentFlow a
 		LEFT JOIN mode_status b ON a.mode_id = b.mode_id
+		LEFT JOIN user u on u.user_id = a.Starter
+		LEFT JOIN organization_management o on o.om_id = u.om_id
 		LEFT JOIN flownode d on a.Flo_Node_ID = d.ID
 		LEFT JOIN business c ON a.Bus_ID = c.ID where a.Actor=#{userId}
 		<if test="status != null and status !='' ">

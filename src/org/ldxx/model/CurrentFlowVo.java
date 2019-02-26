@@ -69,6 +69,16 @@ public class CurrentFlowVo {
     
     private String flowStatus;
     
+    private String omName;
+    
+	public String getOmName() {
+		return omName;
+	}
+
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+
 	public String getFlowStatus() {
 		return flowStatus;
 	}

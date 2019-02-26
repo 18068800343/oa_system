@@ -2024,17 +2024,28 @@ function checkquxiaoSplit(){
   	}
   	
   	function liuchengGaibian(){
+  		
+		var deptSplitArray=new Array();
+		var chaiFenXinXiArray=new Array();
+		chaiFenXinXiArray = getChaifenXinXiArray("contract_money");
+		
 		var contract_name=$("#edit_contract_name").val();
   		var contract_no=$("#edit_contract_no").val();
   		var work_no=$("#edit_work_no").val();
   		var prj_name=$("#edit_prj_name").val();
   		var prj_type=$("#edit_prj_type").val();
+  		
   		var jiafangName=$("#edit_jiafangName").val();
+  		var jfId = jiafangName;
+  		var ccName=$("#edit_jiafangName").parent("td").find("button").attr("title");
+  		
   		var yifangName=$("#edit_yifangName").val();
+  		
   		var year=$("#edit_year").val();
   		var year2=$("#edit_year2").val();
   		var yifang_department=$("#edit_yifang_department").val();
   		var work_date=$("#edit_work_date").val();
+  		
   		var receieve_money_condition=$("#edit_receieve_money_condition").val();
   		var contract_money=$("#edit_contract_money").val();
   		var temporary_money=$("#edit_temporary_money").val();
@@ -2052,6 +2063,7 @@ function checkquxiaoSplit(){
 	  	if($("#edit_split_table tbody").find('tr').length>0){
 			split_state=1;
 		}
+	  	var jyms = $("#edit_prj_jyms").val();
 	  	var cjContract={
 	  			cjId:null,
 	  			taskCode:undefined,
@@ -2106,7 +2118,10 @@ function checkquxiaoSplit(){
 	  	cjContract.assistDepartment3=xieban3;
 	  	cjContract.assistDepartment3Money=xieban3jine;
 	  	cjContract.splitState=split_state;
-
+	  	cjContract.jyms=jyms;
+	  	cjContract.cjDeptSplitMoney=deptSplitArray;
+	  	cjContract.chaiFenXinXiArray=chaiFenXinXiArray;
+	  	
 	  	var formData = new FormData();
 		formData.append("cjContract", JSON.stringify(cjContract));
 			
@@ -2117,7 +2132,7 @@ function checkquxiaoSplit(){
 				formData.append("file2", $(this).find("input")[0].files[0]);
 		})
     	
-    	
+    	var result;
     	$.ajax({
 			type: 'POST',
 		        url: getContextPath()+'/cj/updateCjContractById',
@@ -2132,8 +2147,10 @@ function checkquxiaoSplit(){
 					}else{
 						toastr.error("保存失败");
 					}
+					result = json; 
 		        }
 		})
+		return result;
   	} 
   	
   	function liuchengGaibianTJ(){
