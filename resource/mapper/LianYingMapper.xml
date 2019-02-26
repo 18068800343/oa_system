@@ -68,7 +68,7 @@
 	</select>
 	
 	<select id="selectLianYingById" resultType="LianYing">
-		SELECT a.*,c.prj_name,c.prj_area,c.prj_type2,d.cc_name,e.contract_money,e.contract_no,contract_name_yi,d2.cc_name as lyUnitName 
+		<!-- SELECT a.*,c.prj_name,c.prj_area,c.prj_type2,d.cc_name,e.contract_money,e.contract_no,contract_name_yi,d2.cc_name as lyUnitName 
 		FROM lian_ying_contract as a
 		LEFT JOIN mode_status as b on a.ly_id=b.mode_id
 		LEFT JOIN task as c on a.prj_no=c.prj_no
@@ -77,7 +77,16 @@
 		LEFT JOIN consociation_company as d2 on a.ly_unit=d2.cc_id
 		LEFT JOIN cj_contract as e on a.prj_no like concat('%',e.task_code,'%')
 		LEFT JOIN mode_status as b3 on e.cj_id=b3.mode_id
-		where a.ly_id=#{id} and b2.status=2 and b3.status=2 and c.history=1 and e.history=1
+		where a.ly_id=#{id} and b2.status=2 and b3.status=2 and c.history=1 and e.history=1 -->
+		SELECT a.*,c.prj_name,c.prj_area,c.prj_type2,d.cc_name,e.contract_money,e.contract_no,contract_name_yi,d2.cc_name as lyUnitName 
+		FROM lian_ying_contract as a
+		LEFT JOIN 
+		(select ta.* from task as ta LEFT JOIN mode_status as mo on ta.prj_id=mo.mode_id where mo.status=2 and ta.history=1) as c on a.prj_no=c.prj_no
+		LEFT JOIN consociation_company as d on c.prj_owner_unit=d.cc_id
+		LEFT JOIN consociation_company as d2 on a.ly_unit=d2.cc_id
+		LEFT JOIN 
+		(select cj.* from cj_contract as cj LEFT JOIN mode_status as mo2 on cj.cj_id=mo2.mode_id where mo2.status=2 and cj.history=1) as e on a.prj_no like concat('%',e.task_code,'%') 
+		where a.ly_id=#{id}
 	</select>
 	
 	<select id="lyNoCount" resultType="int">
