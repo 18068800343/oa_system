@@ -26,7 +26,7 @@ public class LianYingServiceImpl implements LianYingService{
 		int i=dao.addLianYing(ly);
 		if(i>0){
 			List<Accessory> accessory=ly.getAccessory();
-			if(accessory!=null){
+			if(accessory!=null&&accessory.size()>0){
 				i=aDao.addAccessory(accessory);
 			}
 		}

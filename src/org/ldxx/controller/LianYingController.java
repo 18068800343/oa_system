@@ -56,7 +56,7 @@ public class LianYingController {
 	
 	@RequestMapping("/addLianYingBySave")
 	@ResponseBody
-	public int addLianYingBySave(LianYing ly,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile file2,@RequestParam("file3") MultipartFile file3,@RequestParam("file4") MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
+	public int addLianYingBySave(LianYing ly,@RequestParam(value="file", required=false) MultipartFile [] file,@RequestParam(value="file2", required=false) MultipartFile file2,@RequestParam(value="file3", required=false) MultipartFile file3,@RequestParam(value="file4", required=false) MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
 		User user = (User) session.getAttribute("user");
 		if(user==null){
 			return 0;
