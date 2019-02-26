@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <link href="../../select/css/select2.min.css" rel="stylesheet">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         
         .UpperPart{
@@ -1285,6 +1287,8 @@
 <script src="../../js/datatables/jszip.min.js"></script>
 
 <script src="../../select/js/select2.min.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
     	/* initTable(); */
@@ -2077,6 +2081,7 @@ function quxiao3(){
 	  	}
 	//填报分包单保存
 	function saveSubContract(){
+		showMask();
 		var hetongName=$("#hetongName").val();
 		var fbNo=$("#fbNo").val();
 		var type=$("#type").val();
@@ -2198,6 +2203,7 @@ function quxiao3(){
             		rateType:rateType
             },
             success: function (json) {
+            	hidMask();
             	if(json.result==0){
 					toastr.error("添加失败")
 				}else if(json.result>0){
@@ -2699,6 +2705,7 @@ function quxiao3(){
 	
 	//修改保存
 	function checksave(){
+		showMask();
 		var xghetongName=$("#xghetongName").val()
 		var xgfbNo=$("#xgfbNo").val();
 		var xgType=$("#xgType").val()
@@ -2823,6 +2830,7 @@ function quxiao3(){
             		rateType:xgrateType
             },
             success: function (json) {
+            	hidMask();
             	if(json.result==0){
 					toastr.error("修改失败")
 				}else if(json.result>0){
@@ -3067,16 +3075,14 @@ function quxiao3(){
 	               for(var i=0;i<json.length;i++){
 	            	   if(json[i].aType=="分包合同文本"){
 		            	   $("#look_all_table").append("<tr>"+
-	      	   										"<td>分包合同文本</td>"+
+	      	   										"<td style='width:15%;'>分包合同文本</td>"+
 							            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
-							            	    	"<td></td>"+
 							            	    "</tr>");
 	            	   }
 	            	   if(json[i].aType=="法律顾问签字"){
 		            	   $("#look_all_table2").append("<tr>"+
-	      	   										"<td>法律顾问签字</td>"+
+	      	   										"<td style='width:15%;'>法律顾问签字</td>"+
 							            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
-							            	    	"<td></td>"+
 							            	    "</tr>");
 	            	   }
 	               }
@@ -3325,6 +3331,13 @@ function quxiao3(){
   		$(tr).remove();
   	}
 	
+	
+	 function showMask() {
+	    	myTool.mask.show('保存中...');
+	 }
+	 function hidMask() {
+	 	myTool.mask.hide();
+	 }
 	
     function getCreat(bb){
         var EnterpriseRating= $(bb).parent().prev().text();

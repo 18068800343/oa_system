@@ -300,7 +300,14 @@
                             	<tr>
                             		<td>年化利率</td>
                             		<td>
-                            			<input type="text" id="xgrate" style="width:70%;" class="form-control">
+                            			<!-- <input type="text" id="xgrate" style="width:70%;" class="form-control"> -->
+                            			<select class="form-control" style="width:70%;" id="xgrate">
+                                        	<option value="0">0</option>
+                                        	<option value="3">3</option>
+                                        	<option value="6">6</option>
+                                        	<option value="10">10</option>
+                                        	<option value="16">16</option>
+                                        </select>
                             		</td>
                             		<td>利息支付方式</td>
                             		<td>
@@ -343,22 +350,22 @@
                         	<thead>
                         		<tr>
 	                                <td style="width:17%;">合同文本附件:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-	                                <td colspan="2"><button type="button" class="btn btn-primary" onclick="editAccessory()">添加附件</button></td>
+	                                <td colspan="3"><button type="button" class="btn btn-primary" onclick="editAccessory()">添加附件</button></td>
                             	</tr>
                         	</thead>
                         	<tbody>
                         	</tbody>
                         </table> 
-                        <table class="table table-bordered table-condensed" id="edit_accessory2">
+                        <!-- <table class="table table-bordered table-condensed" id="edit_accessory2">
                         	<thead>
                         		<tr>
 	                                <td style="width:17%;">法律顾问签字:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-	                                <td colspan="2"><button type="button" class="btn btn-primary" onclick="editAccessory2()">添加附件</button></td>
+	                                <td colspan="3"><button type="button" class="btn btn-primary" onclick="editAccessory2()">添加附件</button></td>
                             	</tr>
                         	</thead>
                         	<tbody>
                         	</tbody>
-                        </table>
+                        </table> -->
                     </form>
 <!-- 修改model结束 -->
         </div>
@@ -581,7 +588,7 @@
     	inityifang();
     	initzhuhetong();
         laydate.render({
-            elem: '#year' //指定元素
+            elem: '#xgEndyear' //指定元素
         });
         laydate.render({
             elem: '#xgyear' //指定元素
@@ -922,16 +929,18 @@ function lookCancel(obj){
 				            	   $("#edit_accessory tbody").append("<tr>"+
 			      	   										"<td>附件</td>"+
 									            	    	"<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td ><a  class='btn btn-primary' href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window'>查看附件</a></td>"+
 									            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
 									            	    "</tr>");
 			            	   }
-			            	   if(json[i].aType=="法律顾问签字"){
+			            	   /* if(json[i].aType=="法律顾问签字"){
 				            	   $("#edit_accessory2 tbody").append("<tr>"+
 			      	   										"<td>附件</td>"+
 									            	    	"<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td ><a  class='btn btn-primary' href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window'>查看附件</a></td>"+
 									            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
 									            	    "</tr>");
-			            	   }
+			            	   } */
 			               }
 					}
 				})
@@ -972,7 +981,7 @@ function lookCancel(obj){
     	var fbhetonghao=$("#xgfbhetonghao").val();
     	var thisborrowMoney=$("#xgthisborrowMoney").val();
     	var lixizhifu=$("#xglixizhifu").val();
-    	var rate=$("xgrate").val();
+    	var rate=$("#xgrate").val();
     	var year=$("#xgyear").val();
     	var endTime=$("#xgEndyear").val();
     	var yifangleijijieMoney=$("#xgyifangleijijieMoney").val();
@@ -988,10 +997,12 @@ function lookCancel(obj){
 			toastr.error("乙方累计借款额只能输入数字和两位小数");
 			return;
 		}
+		var result;
 		var options={
 	            type: 'POST',
 	            url: getContextPath()+'/BorrowContract/updateBorrowContractById',
 	            dataType: 'json',
+	            async:false,
 	            data: { 
 	            	bId:edit_id,
 	            	bNo:xgborrowNo,
@@ -1008,16 +1019,18 @@ function lookCancel(obj){
 	            	borrowingPurposes:jiekuanyongtu,
 	            },
 	            success: function (json) {
-	            	//console.log(json);
+	            	console.log(json);
+	            	result = json.result
 	            	if(json.result==0){
-						toastr.error("添加失败")
+						toastr.error("修改失败")
 					}else if(json.result>0){
-						toastr.success("添加成功")
+						toastr.success("修改成功")
 						$("#change").modal("hide")
 					}
 	            }
 	        };
 			$("#edit_form").ajaxSubmit(options);
+		return result;
     }
     
     function edit_submit(){
