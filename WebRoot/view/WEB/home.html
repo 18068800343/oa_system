@@ -314,6 +314,7 @@
                 <button type="button" id="getReceiver" onclick="getReceive()" class="btn btn-success" data-dismiss="modal" >同意</button>
                 <button type="button" id="tuiHui"  onclick="tuiHui()" class="btn btn-default" data-dismiss="modal">退回</button>
                 <button type="button" id="baoCun" class="btn btn-default" onclick="baoCun()">保存</button>
+                <button type="button" id="shanChuFlow" class="btn btn-default" onclick="shanChuFlow()">删除</button>
                 <button type="button" id="boHui" class="btn btn-default" onclick="boHui()">不同意</button>
                </div>
               <div id="shanchu" hidden="true">
@@ -706,10 +707,14 @@
         	shipeitanchu(ul);
         	$("#tuiHui").show();
         	$("#boHui").show();
+        	$("#shanChuFlow").hide();
         	}else if(flag=='4'){
         	$("#rightMain").attr("src","./"+ulnew+"?prjId="+strs[1]+"&editOrView="+edit);
+        	$("#getReceiver").empty();
+        	$("#getReceiver").append("提交");
         	$("#tuiHui").hide();
         	$("#boHui").hide();
+        	$("#shanChuFlow").show();
         	}
     }
     
@@ -823,10 +828,16 @@
        		$("#rightMain").attr("height",700);	
        	}
     }
+    var page_save_submit="0";
     function getReceive(){
+    	page_save_submit="1";
     	var flag = page_flag;
     	if(flag=='4'){
-    		baoCun();
+    		var a = baoCun();
+    		if(a=='0'){
+    			toastr.error("保存出错");
+    			return '0';
+    		}
     	}
     	if(page_edit=='edit'&&page_step=='2'){
     		updateFkDept2(page_cNodeId);
@@ -1040,7 +1051,8 @@
 	    function baoCun(){
 	    	var childWindow = $("#rightMain")[0].contentWindow; //表示获取了嵌入在iframe中的子页面的window对象。  []将JQuery对象转成DOM对象，用DOM对象的contentWindow获取子页面window对象。
 	    	try {
-	    		  var result = childWindow.liuchengGaibian();
+	    		  var result = childWindow.liuchengGaibian(page_save_submit);
+	    		  page_save_submit="0";
 	    		  childWindow.updateFkDept(page_cNodeId);
 	    		  if(result=='0'){
 	    			toastr.error("保存出错");
@@ -1048,6 +1060,9 @@
 	    		  }else if(result==undefined){
 	   			    toastr.error("保存出错");
 	      			return '0'; 
+	    		  }else if(result=="5"){
+		   			    toastr.error("信息未填写完整");
+		      			return '0'; 
 	    		  }else{
 	    			toastr.success("保存成功");
 	    			return '1';
@@ -1252,7 +1267,34 @@
 	            }
 	        });
 	    }
-	  
+	    function shanChuFlow(){
+			var id=page_cNodeId;
+			var tr=$(page_dom).parents("tr");
+			$.SmartMessageBox({
+	            title: "删除提示",
+	            content: "确认删除？",
+	            buttons: '[取消][确定]'
+	        }, function (ButtonPressed) {
+	        	if (ButtonPressed === "确定") {
+	        		$.ajax({
+	                	type: 'POST',
+	                    url: getContextPath()+'/flowHistory/deleteCurrentFlow',
+	                    data:{
+	                    	id:id
+	                    },
+	                    success: function (json) {
+	                    	if(json>0){
+	                    		toastr.success('删除成功');
+	                    		$("#mainContent").DataTable().row(tr).remove().draw(false);
+	                    		$("#myModal").modal("hide");
+	                    	}else{
+	                    		toastr.error('删除失败');
+	                    	}
+	                    }
+	                });
+	        	}
+	        })
+	    }
 	  function getCnByOt(s){
 		  if(s==1){
 			  return "提交";

@@ -20,6 +20,8 @@ import org.ldxx.bean.FbContract;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.User;
+import org.ldxx.dao.OrganizationManagementDao;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.BorrowContractService;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractReasonService;
@@ -52,6 +54,10 @@ public class SubContractController {
 	private ContractReasonService cService;
 	@Autowired
 	private BorrowContractService bService;
+	@Autowired
+	private CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	private OrganizationManagementDao omDao;
 	
 	@RequestMapping("/selectSubContract")
 	@ResponseBody
@@ -665,6 +671,12 @@ public class SubContractController {
 			fbContract.setAccessory1(list1);
 		}
 		int i=scService.updateSubContract(fbContract);
+		if(i>0){
+			String mainDept=fbContract.getMainManageDepartment();
+			OrganizationManagement om=omDao.selectOrgById(mainDept);
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(id,omNo);
+		}
 		return i;
 	}
 	
