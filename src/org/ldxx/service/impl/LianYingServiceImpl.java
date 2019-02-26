@@ -66,4 +66,17 @@ public class LianYingServiceImpl implements LianYingService{
 		return dao.selectLianYingHeSuan();
 	}
 
+	@Transactional
+	@Override
+	public int updateLianYing(LianYing ly) {
+		int i=dao.updateLianYing(ly);
+		if(i>0){
+			List<Accessory> accessory=ly.getAccessory();
+			if(accessory!=null&&accessory.size()>0){
+				i=aDao.addAccessory(accessory);
+			}
+		}
+		return i;
+	}
+
 }

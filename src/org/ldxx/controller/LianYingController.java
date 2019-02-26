@@ -21,6 +21,7 @@ import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.dao.CompanyCostDao;
 import org.ldxx.dao.SecondCompanyCostDao;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.FbContractOverService;
 import org.ldxx.service.LianYingService;
@@ -53,6 +54,8 @@ public class LianYingController {
 	private CompanyCostDao ccDao;
 	@Autowired
 	private FbContractOverService fbService;
+	@Autowired
+	private CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/addLianYingBySave")
 	@ResponseBody
@@ -171,7 +174,7 @@ public class LianYingController {
 	
 	@RequestMapping("/addLianYing")
 	@ResponseBody
-	public String addLianYing(LianYing ly,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile file2,@RequestParam("file3") MultipartFile file3,@RequestParam("file4") MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
+	public String addLianYing(LianYing ly,@RequestParam(value="file", required=false) MultipartFile [] file,@RequestParam(value="file2", required=false) MultipartFile file2,@RequestParam(value="file3", required=false) MultipartFile file3,@RequestParam(value="file4", required=false) MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
 		User user = (User) session.getAttribute("user");
 		if(user==null){
 			return "";
@@ -285,7 +288,7 @@ public class LianYingController {
 	
 	@RequestMapping("/updateLianYingById")
 	@ResponseBody
-	public int updateLianYingById(LianYing ly,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile file2,@RequestParam("file3") MultipartFile file3,@RequestParam("file4") MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
+	public int updateLianYingById(LianYing ly,@RequestParam(value="file", required=false) MultipartFile [] file,@RequestParam(value="file2", required=false) MultipartFile file2,@RequestParam(value="file3", required=false) MultipartFile file3,@RequestParam(value="file4", required=false) MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=ly.getLyId();
 		String webApp=uuid.getWebAppFile();
@@ -346,7 +349,14 @@ public class LianYingController {
 			list.add(accessory);
 		}
 		ly.setAccessory(list);
-		return 0;
+		int i=service.updateLianYing(ly);
+		if(i>0){
+			Task t=taskService.selectIdByNo2(ly.getPrjNo());
+			OrganizationManagement om=oService.selectOrgById(t.getMainDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(id, omNo);
+		}
+		return i;
 	}
 	
 	

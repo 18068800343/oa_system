@@ -21,5 +21,7 @@ public interface LianYingDao {
 	public int addLianYingHeSuan(@Param("hs")LianYingHeSuan hs);
 	
 	public List<LianYingHeSuan> selectLianYingHeSuan();
+	
+	public int updateLianYing(@Param("ly")LianYing ly);
 
 }

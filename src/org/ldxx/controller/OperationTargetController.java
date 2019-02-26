@@ -3,7 +3,9 @@ package org.ldxx.controller;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -112,7 +114,15 @@ public class OperationTargetController {
 	@ResponseBody
 	public List<OperationTarget> selectOperationTarget(){
 		List<OperationTarget> list=oservice.selectOperationTarget();
-		for(int i=0;i<list.size();i++){
+		Map<String,Object> map=new HashMap<>();
+		map.put("time", "2019");
+		map.put("resultBm", "");
+		
+//		String result=oservice.selectGsOperationTargetByTime("2019");
+		
+		oservice.selectBmOperationTargetByTime(map);
+		System.out.println(map);
+		/*for(int i=0;i<list.size();i++){
 			float budgetCost=oservice.getSumCostByYear(list.get(i).getYear());
 			list.get(i).setBudgetCost(budgetCost);
 			List<PrjProgressFill> noList=pService.selectDistinctTaskNo(list.get(i).getYear());
@@ -276,7 +286,7 @@ public class OperationTargetController {
 			list.get(i).setActualContractAmount(allmon);
 			
 			
-		}
+		}*/
 		return list;
 	}
 	
@@ -458,7 +468,8 @@ public class OperationTargetController {
 				float money1=0;//进度部门总收入
 				if(ppf2!=null){
 					for(int k=0;k<ppf2.size();k++){
-						float allIncome = ppf2.get(k).getAllIncome();//总实际收入
+	//					float allIncome = ppf2.get(k).getAllIncome();//总实际收入
+						float allIncome =0;
 						List<PrjProgressFillInfo> ppfi=ppfservice.selectPrjProgressFillInfo(ppf2.get(k).getPpfId(), "1");
 						if(ppfi!=null){
 							for(int kk=0;kk<ppfi.size();kk++){

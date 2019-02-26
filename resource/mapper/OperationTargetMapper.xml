@@ -34,4 +34,18 @@
 		LEFT JOIN mode_status as b on a.ot_id=b.mode_id
 		where b.status=2 and a.year=#{year}
 	</select>
+	
+	<select id="selectGsOperationTargetByTime" resultType="java.lang.String">
+	    declare @result varchar(100)
+	    exec GetGSManageTarget #{time},@result output
+	    select @result
+	</select>
+    
+    <select id="selectBmOperationTargetByTime" parameterType="map"  statementType="CALLABLE">
+        {call GetBMManageTarget(
+        	#{time,mode=IN,jdbcType=VARCHAR},
+        	#{resultBm,mode=OUT,jdbcType=VARCHAR}
+        )}
+    </select>
+	
 </mapper>

@@ -1,6 +1,7 @@
 package org.ldxx.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.OperationTarget;
@@ -20,4 +21,9 @@ public interface OperationTargetDao {
 	public float getSumCostByYear(@Param("year")String year);
 	
 	public List<OperationTarget> selectOperationTargetByYear(@Param("year")String year);
+	
+	public String selectGsOperationTargetByTime(@Param("time")String time);
+	
+	public Object selectBmOperationTargetByTime(Map<String, Object> map);
+	
 }

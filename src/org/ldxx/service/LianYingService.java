@@ -20,4 +20,6 @@ public interface LianYingService {
 	public int addLianYingHeSuan(LianYingHeSuan hs);
 	
 	public List<LianYingHeSuan> selectLianYingHeSuan();
+	
+	public int updateLianYing(LianYing ly);
 }
