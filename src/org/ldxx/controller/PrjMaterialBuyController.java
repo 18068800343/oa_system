@@ -11,6 +11,7 @@ import org.ldxx.bean.MaterialDemand;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.MaterialDemandService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.PrjMaterialBuyService;
@@ -42,6 +43,8 @@ public class PrjMaterialBuyController {
 	private MaterialDemandService mservice;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/addPrjMaterialBuyBySave")
 	@ResponseBody
@@ -149,6 +152,18 @@ public class PrjMaterialBuyController {
 	public List<PrjMaterialBuy> selectPrjMaterialBuy(String status){
 		List<PrjMaterialBuy> list=service.selectPrjMaterialBuy(status);
 		return list;
+	}
+	
+	@RequestMapping("/updateById")//通过id修改
+	@ResponseBody
+	public int updateById(PrjMaterialBuy buy){
+		int i=service.updateById(buy);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(buy.getApplyDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(buy.getPmbId(), omNo);
+		}
+		return i;
 	}
 	
 	@RequestMapping("/selectBuyCode")

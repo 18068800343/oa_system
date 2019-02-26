@@ -25,5 +25,7 @@ public interface PrjMaterialBuyService {
 	public PrjMaterialBuy selectPrjMaterialBuyById(String id);
 
 	public int updateXMById(PrjMaterialBuy buy);
+
+	public int updateById(PrjMaterialBuy buy);
 	
 }

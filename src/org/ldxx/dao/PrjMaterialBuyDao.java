@@ -29,4 +29,6 @@ public interface PrjMaterialBuyDao {
 
 	public int updateXMById(@Param("buy")PrjMaterialBuy buy);
 
+	public int updateById(@Param("buy")PrjMaterialBuy buy);
+
 }
