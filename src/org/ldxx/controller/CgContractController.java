@@ -280,7 +280,7 @@ public class CgContractController {
 	
 	@RequestMapping("/submitCgCancel")//采购合同取消
 	@ResponseBody
-	public String submitCgCancel(ContractReason cr,String cgName,HttpSession session){
+	public String submitCgCancel(ContractReason cr,String cgName,String cgDepartment,HttpSession session){
 		int count=cService.countId(cr.getId());
 		int i=0;
 		if(count==0){
@@ -292,7 +292,11 @@ public class CgContractController {
 		if(i>0){
 			User user = (User) session.getAttribute("user");
 			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNoCg = oService.getOrgIdByName(cgDepartment).getOmNo();
 			String omNo=om.getOmNo();
+			if(!"".equals(omNoCg)){
+				omNo=omNoCg;
+			}
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setTitle(cgName+"取消流程发起");
@@ -327,13 +331,17 @@ public class CgContractController {
 	
 	@RequestMapping("/submitCgRestart")//采购合同取消
 	@ResponseBody
-	public String submitCgRestart(ContractReason cr,String cgName,HttpSession session){
+	public String submitCgRestart(ContractReason cr,String cgName,String cgDepartment,HttpSession session){
 		int i=cService.updateContractReasonById(cr);
 		String string = i+"";
 		if(i>0){
 			User user = (User) session.getAttribute("user");
 			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNoCg = oService.getOrgIdByName(cgDepartment).getOmNo();
 			String omNo=om.getOmNo();
+			if(!"".equals(omNoCg)){
+				omNo=omNoCg;
+			}
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setTitle(cgName+"重新启用流程发起");
@@ -427,8 +435,10 @@ public class CgContractController {
 		int i=cgService.addCgContract(cg);
 		if(i>0){
 			User user = (User) session.getAttribute("user");
-			OrganizationManagement om=oService.selectOrgById(user.getOmId());
-			String omNo=om.getOmNo();
+			//OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String departName = cg.getCgDepartment();
+			OrganizationManagement oManagement = oService.getOrgIdByName(departName);
+			String omNo=oManagement.getOmNo();
 			String string="";
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
@@ -519,8 +529,10 @@ public class CgContractController {
 		String string = i+"";
 		if(i>0){
 			User user = (User) session.getAttribute("user");
-			OrganizationManagement om=oService.selectOrgById(user.getOmId());
-			String omNo=om.getOmNo();
+			//OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String departName = cg.getCgDepartment();
+			OrganizationManagement oManagement = oService.getOrgIdByName(departName);
+			String omNo=oManagement.getOmNo();
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
