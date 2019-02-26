@@ -12,6 +12,7 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <link href="../../select/css/select2.min.css" rel="stylesheet">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -25,6 +26,9 @@
         #mainContent th{
             cursor: pointer;
         }
+        body{ font:12px/1.125 Arial, Helvetica, sans-serif; background:#fff; }
+        .none{ display:none }
+        .wrap{ width:100%;overflow-y:scroll}
     </style>
 </head>
 <body>
@@ -44,81 +48,72 @@
                     <form class="form-inline">
                         <table class="table table-bordered table-condensed">
                             <tr>
-                                <td style="width:20%;">申请部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td style="width:30%;">
-                                	<input type="text" class="form-control" id="edit_department" disabled>
-                                    <!-- <select class="form-control" style="width:70%;" id="edit_department" disabled>
-                                    </select> -->
+                                <td style="width:11%;">申请部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:39%;">
+                                    <select class="form-control" style="width:70%;" id="department">
+                                    </select>
                                 </td>
-                                <td style="width:20%;">申请人</td>
-                                <td style="width:30%;">
-                                	<input type="text" class="form-control" id="edit_person" disabled>
-                                    <!-- <select class="form-control" style="width:70%;" id="edit_person" disabled>
+                                <td style="width:10%;">申请人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:40%;">
+                                	<input type="text" id="person" class="form-control" disabled style="width:70%;">
+                                    <button type="button" class="btn btn-default"  id="choseren">选择申请人</button>
+                                    <!-- <select class="form-control" style="width:70%;" id="person">
                                     </select> -->
                                 </td>
                             </tr>
                             <tr>
                                 <td>申请项目  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
-                                	<input type="text" class="form-control" id="edit_prj_name" disabled>
-                                    <!-- <select class="form-control" style="width:70%;" id="edit_prj_name" disabled>
-                                    </select> -->
+                                    <!-- <select class="form-control" style="width:70%;" id="prj_name">
+                                    </select> -->  
+                                    <input type="text" class="form-control" id="prj_name"   style="width:70%;">
+                               		<button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="chosexm">选择项目</button>  
                                 </td>
                                 <td>任务单号</td>
                                 <td>
-                                	<input type="text" class="form-control" id="edit_prj_no" disabled>
-                                	<!-- <select class="form-control" style="width:70%;" id="edit_prj_no" disabled>
-                                    </select> -->
+                                	<select class="form-control" style="width:70%;" id="prj_no">
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td>承接合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td>承接合同名称 </td>
                                 <td>
-                                	<input type="text" class="form-control" id="edit_cj_name" disabled>
-                                    <!-- <select class="form-control" style="width:70%;" id="edit_cj_name" disabled>
+                                    <!-- <select class="form-control" style="width:70%;" id="cj_name">
                                     </select> -->
+                                    <input type="text" class="form-control" style="width:70%;" id="cj_name" disabled>
                                 </td>
                                 <td>承接合同编号</td>
                                 <td>
-                                	<input type="text" class="form-control" id="edit_cj_no" disabled>
-                                	<!-- <select class="form-control" style="width:70%;" id="edit_cj_no" disabled>
+                                	<!-- <select class="form-control" style="width:70%;" id="cj_no">
                                     </select> -->
+                                    <input type="text" class="form-control" style="width:70%;" id="cj_no" disabled>
                                 </td>
                             </tr>
                             <tr>
-                            	 <td>申请单编号</td>
-                            	 <td>
-                            	 	<input type="text" class="form-control" id="edit_code" disabled>
-                            	 </td>
-                            	 <td></td>
-                            	 <td></td>
-                            </tr>
-                            <tr>
                                 <td>申请原因</td>
-                                <td colspan="3"><textarea style="width:80%;" rows="5" id="edit_reasons" disabled></textarea></td>
+                                <td colspan="3"><textarea style="width:80%;" rows="5" id="reasons"></textarea></td>
                             </tr>
                         </table> 
                     </form>  
                 </div>
 
-                <div>
-                    <table class="table table-bordered table-condensed"  id="edit_cl_table">
+                <div class="wrap">
+                    <table class="table table-bordered table-condensed" style="width:1280px;border=1"  id="cl_table">
                     	<thead>
                     		<tr>
 	                            <td style="font-size:24px;" colspan="8">添加材料需求  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-	                        	<td style="width:5%;"><button type="button" class="btn btn btn-primary" onclick="add2()">添加</button></td>
+	                        	<td style="width:5%;"><button type="button" class="btn btn btn-primary" onclick="add()">添加</button></td>
                         	</tr>
                         	<tr>
-	                            <td>材料名称</td>
-	                            <td>材料类型</td>
-	                            <td>规格型号</td>
-	                            <td style="width:8%;">单位</td>
-	                            <td style="width:8%;">数量</td>
-	                            <td>单价</td>
-	                            <td>项目部推荐供应商</td>
-	                            <td>公司确定供应商</td>
-	                            <td>备注</td>
-	                            <td>操作</td>
+	                            <td style="width:11%;">材料名称</td>
+	                            <td style="width:11%;">材料类型</td>
+	                            <td style="width:11%;">规格型号</td>
+	                            <td style="width:11%;">单位</td>
+	                            <td style="width:11%;">数量</td>
+	                            <td style="width:11%;">项目部推荐供应商</td>
+	                            <td style="width:11%;">公司确定供应商</td>
+	                            <td style="width:11%;">备注</td>
+	                            <td style="width:11%;">操作</td>
                         	</tr>
                         </thead>
                         <tbody>
@@ -189,8 +184,8 @@
                     </form>  
                 </div>
 
-                <div>
-                    <table class="table table-bordered table-condensed"  id="cl_table">
+                <div class="wrap">
+                    <table class="table table-bordered table-condensed"  id="cl_table" style="width:1580px;">
                     	<thead>
                     		<tr>
 	                            <td style="font-size:24px;" colspan="8">添加材料需求  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -209,35 +204,7 @@
                         	</tr>
                         </thead>
                         <tbody>
-                        	<tr>
-	                        	<td><input type="text" class="form-control" id="cl_name"></td>
-	                            <td>
-	                            	<select class="form-control" id="cl_type"></select>
-	                            </td>
-	                            <td><input type="text" class="form-control" id="mode_type"></td>
-	                            <td>
-	                                <select class="form-control" id="unit">
-	                                    <option value="个">个</option>
-	                                    <option value="只">只</option>
-	                                    <option value="套">套</option>
-	                                    <option value="副">副</option>
-	                                    <option value="双">双</option>
-	                                    <option value="元">元</option>
-	                                    <option value="桶">桶</option>
-	                                </select>
-	                            </td>
-	                            <td><input type="text" class="form-control" id="num"></td>
-	                            <td>
-	                            	<select class=" form-control" style="width:100%;" id="department_tj">
-	                                </select>
-	                            </td>
-	                            <td>
-	                            	<select class=" form-control" style="width:100%;" id="company_sure">
-	                                </select>
-	                            </td>
-	                            <td><input type="text" class="form-control" id="desc"></td>
-	                            <td></td>
-                        	</tr>
+                        	
                         </tbody>
                     </table>
                 </div>
@@ -459,6 +426,8 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../select/js/select2.min.js"></script>
 <script>
     $(document).ready( function () {
     	initDepartment();
@@ -726,47 +695,12 @@
             	var task=json.task;
             	var cj=json.cj;
             	$('#prj_no').val(task.prjNo);
-            	$("#cj_name").html('');
-            	$("#cj_name").next().html('');
-            	$("#cj_no").html('');
-            	$("#cj_no").next().html('');
-            	for(var i=0;i<cj.length;i++){
-            		$("#cj_name").append('<option>'+cj[i].contractName+'</option>');
-            		$("#cj_name").next().append('<li value="'+cj[i].contractName+'" class="es-visible">'+cj[i].contractName+'</li>');
-                	$("#cj_no").append('<option>'+cj[i].contractNo+'</option>');
-                	$("#cj_no").next().append('<li value="'+cj[i].contractNo+'" class="es-visible">'+cj[i].contractNo+'</li>');
-            	}
             	
-            	$('#cj_name').editableSelect().on('select.editable-select', function (e, dom) {
-            		$.ajax({
-                        type: 'POST',
-                        url: getContextPath()+'/cj/selectCjContractByName',
-                        dataType: 'json',
-                        data: {
-                        	name:$('#cj_name').val()
-                        },
-                        success: function (json) {
-                        	$('#cj_no').val(json.contractNo);
-                        }
-              		});
-              	})
-              	$('#cj_no').editableSelect().on('select.editable-select', function (e, dom) {
-              		$.ajax({
-                        type: 'POST',
-                        url: getContextPath()+'/cj/selectCjContractByNo',
-                        dataType: 'json',
-                        data: {
-                        	no:$('#cj_no').val()
-                        },
-                        success: function (json) {
-                        	$('#cj_name').val(json.contractName);
-                        }
-              		});
-    		  	})
-            	
-            	
+            	$("#cj_name").val(cj[0].contractName);
+            	$("#cj_no").val(cj[0].contractNo);
             }
   		})
+  		
 	})
     
     /* 初始化任务单号，项目名称 以及承接编号 承接名称 change事件 */
@@ -785,65 +719,29 @@
                 	//$("#prj_name").append("<option value="+json[i].prjName+">"+json[i].prjName+"</option>");
                 	$("#prj_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
                 }
-		          	$('#prj_no').editableSelect().on('select.editable-select', function (e, dom) {
-		          		$.ajax({
-		                    type: 'POST',
-		                    url: getContextPath()+'/task/selectCjByTaskNo',
-		                    dataType: 'json',
-		                    data: {
-		                    	no:$('#prj_no').val()
-		                    },
-		                    success: function (json) {
-		                    	var task=json.task;
-		                    	var cj=json.cj;
-		                    	$('#prj_name').val(task.prjName);
-		                    	$("#cj_name").html('');
-		                    	$("#cj_name").next().html('');
-		                    	$("#cj_no").html('');
-		                    	$("#cj_no").next().html('');
-		                    	for(var i=0;i<cj.length;i++){
-		                    		$("#cj_name").append('<option>'+cj[i].contractName+'</option>');
-			                    	$("#cj_name").next().append('<li value="'+cj[i].contractName+'" class="es-visible">'+cj[i].contractName+'</li>');
-			                    	$("#cj_no").append('<option>'+cj[i].contractNo+'</option>');
-			                    	$("#cj_no").next().append('<li value="'+cj[i].contractNo+'" class="es-visible">'+cj[i].contractNo+'</li>');
-		                    	}
-		                    	
-		                    	$('#cj_name').editableSelect().on('select.editable-select', function (e, dom) {
-		                    		$.ajax({
-		                                type: 'POST',
-		                                url: getContextPath()+'/cj/selectCjContractByName',
-		                                dataType: 'json',
-		                                data: {
-		                                	name:$('#cj_name').val()
-		                                },
-		                                success: function (json) {
-		                                	$('#cj_no').val(json.contractNo);
-		                                }
-		                      		});
-		                      	})
-		                      	$('#cj_no').editableSelect().on('select.editable-select', function (e, dom) {
-		                      		$.ajax({
-		                                type: 'POST',
-		                                url: getContextPath()+'/cj/selectCjContractByNo',
-		                                dataType: 'json',
-		                                data: {
-		                                	no:$('#cj_no').val()
-		                                },
-		                                success: function (json) {
-		                                	$('#cj_name').val(json.contractName);
-		                                }
-		                      		});
-		            		  	})
-		                    	
-				  		}
-	            	})
-				})
+                $('#prj_no').editableSelect().on('select.editable-select', function (e, dom) {
+	          		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectCjByTaskNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	no:$('#prj_no').val()
+	                    },
+	                    success: function (json) {
+	                    	var task=json.task;
+	                    	var cj=json.cj;
+	                    	$('#prj_name').val(task.prjName);
+	                    	$("#cj_name").val(cj[0].contractName);
+	                    	$("#cj_no").val(cj[0].contractNo);
+			  		}
+            	})
+			})
 				
             }
     	})
     }
     
-    function initClType(){
+    function initClType(obj1,obj2){
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/MaterialType/selectMaterialType',
@@ -851,9 +749,11 @@
             data: {
             },
             success: function (json) {
+            	//console.log(json)
             	for(var i=0;i<json.length;i++){
-            		$("#cl_type").append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            		$("#cl_type"+obj2).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
             	}
+            	$("#cl_type"+obj2).val(obj1)
             }
   		});
     }
@@ -903,6 +803,18 @@
             		$("#department_tj"+obj).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
             		$("#company_sure"+obj).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
             	}
+            	$.fn.modal.Constructor.prototype.enforceFocus = function () { }
+              	 $("#department_tj"+obj).select2({
+                       tags: true,
+                       placeholder: '请搜索或选择语言',
+                       allowClear: true
+                   });
+              	 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
+                   $("#company_sure"+obj).select2({
+                       tags: true,
+                       placeholder: '请搜索或选择语言',
+                       allowClear: true
+                   });
             }
   		});
     }
@@ -930,40 +842,7 @@
   		});
     }
     
-    function add(){
-    	var length=$("#cl_table tbody").find("tr").length;
-    	$("#cl_table tbody").append("<tr>"+
-        												'<td><input type="text" class="form-control"></td>'+
-        												'<td>'+
-        													'<select class="form-control" id="cl_type'+length+'"></select>'+
-        												'</td>'+
-        												'<td><input type="text" class="form-control"></td>'+
-        												'<td>'+
-            												'<select class="form-control">'+
-	               												'<option value="个">个</option>'+
-	                											'<option value="只">只</option>'+
-	                											'<option value="套">套</option>'+
-	                											'<option value="副">副</option>'+
-	                											'<option value="双">双</option>'+
-	                											'<option value="元">元</option>'+
-	                											'<option value="桶">桶</option>'+
-            												'</select>'+
-        												'</td>'+
-												        '<td><input type="text" class="form-control"></td>'+
-												        '<td>'+
-												        	'<select class="form-control" style="width:100%;" id="department_tj'+length+'">'+
-												            '</select>'+
-												        '</td>'+
-												        '<td>'+
-												        	'<select class="form-control" style="width:100%;" id="company_sure'+length+'">'+
-												            '</select>'+
-												        '</td>'+
-												        '<td><input type="text" class="form-control"></td>'+
-												        '<td><button type="button" class="btn btn btn-primary" onclick="removeThis(this)">移除</button></td>'+
-    												"</tr>")
-    				initSupplier2(length);
-    				initClType2(length);
-    }
+   
     
     function add2(){
     	var length=$("#edit_cl_table tbody").find("tr").length;
@@ -1018,7 +897,7 @@
     }
     
     
-    function save(){
+    function liuchengGaibian(){
     	var department=$("#department").val();
     	var person=$("#person").val();
     	var prj_name=$("#prj_name").val();
@@ -1072,22 +951,24 @@
     		materialDemand.push(md);
     	})
     	PrjMaterialBuy.md=materialDemand;
-    	
+    	var result;
     	$.ajax({
             type: 'POST',
-            url: getContextPath()+'/PrjMaterialBuy/addPrjMaterialBuyBySave',
+            url: getContextPath()+'/PrjMaterialBuy/updateById',
             dataType: 'json',
             contentType:'application/json',
+            async:false,
             data:JSON.stringify(PrjMaterialBuy),
             success: function (json) {
+            	result=json;
 				if(json>0){
-					$("#myModal").modal("hide");
 					toastr.success("保存成功");
 				}else{
 					toastr.error("保存失败");
 				}
             }
   		});
+    	return result;
     }
     
     function submit(){
@@ -1162,7 +1043,52 @@
   		});
     }
     
-    var mdlId;
+    function add(){
+    	var length=$("#cl_table tbody").find("tr").length;
+    	$("#cl_table tbody").append("<tr>"+
+        												'<td><input type="text" class="form-control"></td>'+
+        												'<td>'+
+        													'<select class="form-control" id="cl_type'+length+'"></select>'+
+        												'</td>'+
+        												'<td><input type="text" class="form-control"></td>'+
+        												'<td>'+
+            												'<select class="form-control" id="cl_dw'+length+'">'+
+            												'</select>'+
+        												'</td>'+
+												        '<td><input type="text" class="form-control"></td>'+
+												        '<td>'+
+												        	'<select class="form-control" style="width:100%;" id="department_tj'+length+'">'+
+												            '</select>'+
+												        '</td>'+
+												        '<td>'+
+												        	'<select class="form-control" style="width:100%;" id="company_sure'+length+'">'+
+												            '</select>'+
+												        '</td>'+
+												        '<td><input type="text" class="form-control"></td>'+
+												        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
+    												"</tr>")
+    				initSupplier2(length);
+    				initClType2(length);
+    				selectMaterialCompany(length)
+    }
+    //初始化材料单位
+    function selectMaterialCompany(obj){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/MaterialCompany/getAllMaterialCompany',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	for(var i=0;i<json.length;i++){
+            		$("#cl_dw"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            		$("#edit_cl_dw"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            		$("#unit"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            	}
+	        }
+	    });
+	}
     function initTable(){
     	$.ajax({
 	        type: 'POST',
@@ -1173,61 +1099,47 @@
 	        },
 	        success: function (json) {
 	        	data=json;
-	        	mdlId=data.pmbId;
+	        	console.log(json)
+	        	$("#department option:selected").val(data.omName);
+	        	$("#person").val(data.uName);
+	        	$("#prj_name").val(data.applyPrj);
+	        	$("#prj_no").val(data.applyCode);
+	        	$("#cj_name").val(data.cjContractName);
+	        	$("#cj_no").val(data.cjContractCode);
+	        	$("#reasons").val(data.applyReason);
+	        	$("#code").val(data.taskCode);
 	        	
-	        	$("#edit_department").val(data.omName);
-	        	$("#edit_person").val(data.uName);
-	        	$("#edit_prj_name").val(data.applyPrj);
-	        	$("#edit_prj_no").val(data.applyCode);
-	        	$("#edit_cj_name").val(data.cjContractName);
-	        	$("#edit_cj_no").val(data.cjContractCode);
-	        	$("#edit_reasons").val(data.applyReason);
-	        	$("#edit_code").val(data.taskCode);
-	        	$.ajax({
-	                type: 'POST',
-	                url: getContextPath()+'/md/selectMaterialDemandById',
-	                dataType: 'json',
-	                data: {
-	                	id:data.pmbId
-	                },
-	                success: function (json) {
-	                	$("#edit_cl_table tbody").html('');
-	                	if(json!=null){
-	                		for(var i=0;i<json.length;i++){
-	                			var length=$("#edit_cl_table tbody").find("tr").length;
-	                	    	$("#edit_cl_table tbody").append("<tr>"+
-	                	        												'<td><input type="text" class="form-control" value='+json[i].materialName+'></td>'+
-	                	        												'<td><input type="text" class="form-control" value='+json[i].materialType+'></td>'+
-	                	        												'<td><input type="text" class="form-control" value='+json[i].materialType+'></td>'+
-	                	        												'<td>'+
-	                	            												'<select class="form-control" id="unit'+length+'">'+
-	                		               												'<option value="个">个</option>'+
-	                		                											'<option value="只">只</option>'+
-	                		                											'<option value="套">套</option>'+
-	                		                											'<option value="副">副</option>'+
-	                		                											'<option value="双">双</option>'+
-	                	            												'</select>'+
-	                	        												'</td>'+
-	                													        '<td><input type="text" class="form-control" value='+json[i].num+'></td>'+
-	                													        '<td><input type="text" class="form-control" value='+json[i].price+'></td>'+
-	                													        '<td>'+
-	                													        	'<select class="form-control" style="width:100%;" id="edit_department_tj'+length+'">'+
-	                													            '</select>'+
-	                													        '</td>'+
-	                													        '<td>'+
-	                													        	'<select class="form-control" style="width:100%;" id="edit_company_sure'+length+'">'+
-	                													            '</select>'+
-	                													        '</td>'+
-	                													        '<td><input type="text" class="form-control" value='+json[i].infos+'></td>'+
-	                													        '<td></td>'+
-	                	    												"</tr>")
-	                	    				initSupplier3(length,json[i].provideCompany,json[i].sureMaterialMode);
-	                	    				$("#unit"+length).val(json[i].buyCompany);
-	                		}	
-	                	}
-	                	
-	                }
-	      		});
+	        	if(data.md!=null){
+					for(var k=0;k<json.md.length;k++){
+                   		$("#cl_table tbody").append("<tr><td>"
+           		  				+'<input type="text" style="width:100%;" class="form-control"  value='+json.md[k].materialName+' >'
+           		  				+"</td><td>"
+           		  				+'<select style="width:100%;" class="form-control" id="cl_type'+k+'"></select>'
+           		  				+"</td><td>"
+           		  				+'<input type="text" style="width:100%;" class="form-control"  value='+json.md[k].modeType+' >' 
+           		  				+"</td><td>"
+           		  				+'<select class="form-control"style="width:100%;" id=xgcl_danwei'+k+'>'
+										+'</select>'
+           		  				+"</td><td>"
+           		  				+'<input type="text" style="width:100%;" class="form-control"  value='+json.md[k].num+' >'
+           		  				+"</td><td>"
+           		  				+'<select style="width:100%;" class="form-control" id=xm'+k+'></select>'
+           		  				+"</td><td>"
+           		  				+'<select style="width:100%;" class="form-control" id=gs'+k+'></select>'
+           		  				+"</td><td>"
+           		  				+'<input type="text" style="width:100%;" class="form-control"  value='+json.md[k].infos+' >'
+           		  				+"</td><td>"
+           		  				+'<button type="button" class="btn btn-danger" onclick="removeThis(this)">删除</button>'
+           		  				+"</td></tr>")
+           		  				initClType(json.md[k].materialType,k);
+           		  				initName1(json.md[k].provideCompany,k);
+                   				initName2(json.md[k].sureMaterialMode,k);
+                   				initMaterialCompany(json.md[k].buyCompany,k)
+           		  				
+                    	} 
+				}
+	        	//materialName  materialType        
+	        	
 	        	
 	        }
 	    });
@@ -1235,6 +1147,92 @@
     	
     }
     
+  //初始化供应商
+	function initName1(obj1,obj2){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/supplier/selectIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            success: function (json) {
+            	$("#xm"+obj2).empty();
+            	$("#xgxm"+obj2).empty();
+                for(var i=0;i<json.length;i++){
+                	$("#xm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#xgxm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                }
+                $("#xm"+obj2).val(obj1).select2();
+                $("#xgxm"+obj2).val(obj1).select2();
+                $.fn.modal.Constructor.prototype.enforceFocus = function () { }
+                $("#xm"+obj2).select2({
+	                 tags: true,
+	                 placeholder: '请搜索或选择语言',
+	                 allowClear: true
+	             });
+                $("#xgxm"+obj2).select2({
+	                 tags: true,
+	                 placeholder: '请搜索或选择语言',
+	                 allowClear: true
+	             });
+            }
+		});
+	}
+	function initMaterialCompany(obj1,obj2){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/MaterialCompany/getAllMaterialCompany',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	$("#cl_danwei"+obj2).empty();
+        		$("#xgcl_danwei"+obj2).empty();
+	        	for(var i=0;i<json.length;i++){
+            		$("#cl_danwei"+obj2).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            		$("#xgcl_danwei"+obj2).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            	}
+	        	$("#cl_danwei"+obj2).val(obj1);
+        		$("#xgcl_danwei"+obj2).val(obj1);
+	        }
+	    });
+	}
+	
+	
+	
+	function initName2(obj1,obj2){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/supplier/selectIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            success: function (json) {
+            	$("#gs"+obj2).empty();
+            	$("#xggs"+obj2).empty();
+                for(var i=0;i<json.length;i++){
+                	$("#gs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#xggs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                }
+                $("#gs"+obj2).val(obj1).select2();
+                $("#xggs"+obj2).val(obj1).select2();
+                $.fn.modal.Constructor.prototype.enforceFocus = function () { }
+                $("#gs"+obj2).select2({
+	                 tags: true,
+	                 placeholder: '请搜索或选择语言',
+	                 allowClear: true
+	             });
+                $("#xggs"+obj2).select2({
+	                 tags: true,
+	                 placeholder: '请搜索或选择语言',
+	                 allowClear: true
+	             });
+            }
+		});
+	}
     function edit_save(){
     	var materialDemand=new Array();
     	$("#edit_cl_table tbody").find("tr").each(function(){
