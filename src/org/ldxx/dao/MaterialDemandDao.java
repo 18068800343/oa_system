@@ -20,4 +20,6 @@ public interface MaterialDemandDao {
 	public int updateMaterialDemand(@Param("id")String id,@Param("number") int number);//修改剩余数量
 
 	public List<MaterialDemand> getMdById(@Param("id")String id);//查找材料信息
+
+	public int deleteBybuyId(@Param("buyId")String buyId);
 }

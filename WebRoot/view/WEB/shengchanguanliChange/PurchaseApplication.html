@@ -125,98 +125,7 @@
         <div>
             
 <!-- Modal -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
-    <div class="modal-dialog modal-lg" role="document" style="width:75%;">
-        <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel"><b>填报材料采购申请</b></h4>
-        </div>
-        <div class="modal-body">
-                <div>     
-                    <form class="form-inline">
-                        <table class="table table-bordered table-condensed">
-                            <tr>
-                                <td style="width:11%;">申请部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td style="width:39%;">
-                                    <select class="form-control" style="width:70%;" id="department">
-                                    </select>
-                                </td>
-                                <td style="width:10%;">申请人</td>
-                                <td style="width:40%;">
-                                	<input type="text" id="person" class="form-control" disabled style="width:70%;">
-                                    <button type="button" class="btn btn-default"  id="choseren">选择申请人</button>
-                                    <!-- <select class="form-control" style="width:70%;" id="person">
-                                    </select> -->
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>申请项目  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td>
-                                    <!-- <select class="form-control" style="width:70%;" id="prj_name">
-                                    </select> -->  
-                                    <input type="text" class="form-control" id="prj_name" disabled  style="width:70%;">
-                               		<button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="chosexm">选择项目</button>  
-                                </td>
-                                <td>任务单号</td>
-                                <td>
-                                	<select class="form-control" style="width:70%;" id="prj_no">
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>承接合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td>
-                                    <select class="form-control" style="width:70%;" id="cj_name">
-                                    </select>
-                                </td>
-                                <td>承接合同编号</td>
-                                <td>
-                                	<select class="form-control" style="width:70%;" id="cj_no">
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>申请原因</td>
-                                <td colspan="3"><textarea style="width:80%;" rows="5" id="reasons"></textarea></td>
-                            </tr>
-                        </table> 
-                    </form>  
-                </div>
 
-                <div class="wrap">
-                    <table class="table table-bordered table-condensed"  id="cl_table" style="width:1580px;">
-                    	<thead>
-                    		<tr>
-	                            <td style="font-size:24px;" colspan="8">添加材料需求  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-	                        	<td style="width:5%;"><button type="button" class="btn btn btn-primary" onclick="add()">添加</button></td>
-                        	</tr>
-                        	<tr>
-	                            <td style="width:10%;">材料名称</td>
-	                            <td style="width:10%;">材料类型</td>
-	                            <td style="width:10%;">规格型号</td>
-	                            <td style="width:6%;">单位</td>
-	                            <td style="width:8%;">数量</td>
-	                            <td style="width:15%;">项目部推荐供应商</td>
-	                            <td style="width:15%;">公司确定供应商</td>
-	                            <td style="width:10%;">备注</td>
-	                            <td style="width:6%;">操作</td>
-                        	</tr>
-                        </thead>
-                        <tbody>
-                        	
-                        </tbody>
-                    </table>
-                </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success" onclick="save()">保存</button>
-            <button type="button" class="btn btn-success" onclick="submit()">提交</button>
-        </div>
-        </div>
-    </div>
-</div>
 <!-- model结束 -->
 <!-- Modal项目 -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xiangmumd">
@@ -443,7 +352,7 @@
    }
    // 调用方法
    	id=GetQueryString("prjId");
-   
+   //console.log(id)
     var table=$('#mainContent').dataTable({
         "deferRender": true,
         "processing": true,
@@ -654,8 +563,12 @@
 	})
 	//添加人员到input框
 	$("#querenciren").click(function(){
-		var a=$("input[name='mingzi']:checked").parent().next().text();
-		$("#person").val(a);
+		
+		var tr=$("input[name='mingzi']:checked").parents("tr");
+  		var data=$("#mingzibiao").DataTable().row(tr).data();
+		//var a=$("input[name='mingzi']:checked").parent().next().text();
+		$("#person").attr("data_id",data.userId);
+		$("#person").val(data.uName)
 		$("#people").modal("hide");
 	})
 	
@@ -899,13 +812,14 @@
     
     function liuchengGaibian(){
     	var department=$("#department").val();
-    	var person=$("#person").val();
+    	var person=$("#person").attr("data_id");
     	var prj_name=$("#prj_name").val();
     	var prj_no=$("#prj_no").val();
     	var cj_name=$("#cj_name").val();
     	var cj_no=$("#cj_no").val();
     	var reasons=$("#reasons").val();
     	
+    	PrjMaterialBuy.pmbId=id;
     	PrjMaterialBuy.applyDepartment=department;
     	PrjMaterialBuy.applyPerson=person;
     	PrjMaterialBuy.applyCode=prj_no;
@@ -931,26 +845,39 @@
     		var name=$(this).find("input").eq(0).val();
     		var modeType=$(this).find("input").eq(1).val();
     		var num=$(this).find("input").eq(2).val();
-    		var price=$(this).find("input").eq(3).val();
-    		var infos=$(this).find("input").eq(4).val();
-    		
+    		//var price=$(this).find("input").eq(3).val();
+    		var infos=$(this).find("input").eq(3).val();
+    		if(name==""){
+    			toastr.error("材料名称不能为空")
+    			return;
+    		}
+    		if(modeType==""){
+    			toastr.error("规格型号不能为空")
+    			return;
+    		}
+    		if(num=="" || num<=0){
+    			toastr.error("数量不能小于等于0或者为空")
+    			return;
+    		}
     		var type=$(this).find("select").eq(0).val();
     		var unit=$(this).find("select").eq(1).val();
     		var department_tj=$(this).find("select").eq(2).val();
     		var company_sure=$(this).find("select").eq(3).val();
-    		md.mdlId=mdlId;
+    		//md.mdlId=mdlId;
     		md.materialName=name;
     		md.materialType=type;
     		md.modeType=modeType;
     		md.buyCompany=unit;
     		md.num=num;
-    		md.price=price;
+    		//md.price=price;
     		md.provideCompany=department_tj;
     		md.sureMaterialMode=company_sure;
     		md.infos=infos;
     		materialDemand.push(md);
+    		console.log(md)
     	})
     	PrjMaterialBuy.md=materialDemand;
+    	console.log(PrjMaterialBuy)
     	var result;
     	$.ajax({
             type: 'POST',
@@ -970,6 +897,8 @@
   		});
     	return result;
     }
+    
+    
     
     function submit(){
     	var department=$("#department").val();
@@ -1099,9 +1028,10 @@
 	        },
 	        success: function (json) {
 	        	data=json;
-	        	console.log(json)
-	        	$("#department option:selected").val(data.omName);
+	        	//console.log(json)
+	        	$("#department").val(data.applyDepartment);
 	        	$("#person").val(data.uName);
+	        	$("#person").attr("data_id",data.applyPerson);
 	        	$("#prj_name").val(data.applyPrj);
 	        	$("#prj_no").val(data.applyCode);
 	        	$("#cj_name").val(data.cjContractName);

@@ -156,7 +156,7 @@ public class PrjMaterialBuyController {
 	
 	@RequestMapping("/updateById")//通过id修改
 	@ResponseBody
-	public int updateById(PrjMaterialBuy buy){
+	public int updateById(@RequestBody PrjMaterialBuy buy){
 		int i=service.updateById(buy);
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(buy.getApplyDepartment());
