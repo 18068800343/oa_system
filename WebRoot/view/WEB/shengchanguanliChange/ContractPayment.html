@@ -953,7 +953,7 @@
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 5,
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -1216,80 +1216,8 @@
 	
 	
 	
-	//添加保存
-	function liuchengGaibian(){
-		var hetongming=$("#hetongming").val();
-		var hetonghao=$("#hetonghao").val();
-		var hetongMoney=$("#hetongMoney").val();
-		var skMoney=$("#sk_money").val();
-		var skScale=$("#sk_scale").val();
-		var yikaipiaoMoney=$("#yikaipiaoMoney").val();
-		var thiskaipiaoMoney=$("#thiskaipiaoMoney").val();
-		var zhuhetongming=$("#zhuhetongming").val();
-		var zhuhetongNo=$("#zhuhetongNo").val();
-		var zhuhetongMoney=$("#zhuhetongMoney").val();
-		var xiangmuming=$("#xiangmuming").val();
-		var renwudanhao=$("#renwudanhao").val();
-		var hetongjindu=$("#hetongjindu").val();
-		var isjinxinghetongjiesuan=$("#isjinxinghetongjiesuan").val();
-		var hetongjiesuanMoney=$("#hetongjiesuanMoney").val();
-		var yileijinfuMoney=$("#yileijinfuMoney").val();
-		var daidianMoney=$("#daidianMoney").val();
-		var bencishenqingfukuan=$("#bencishenqingfukuan").val();
-		var fukuantype=$("#fukuantype").val();
-		var fukuandanshuoming=$("#fukuandanshuoming").val();
-		var userSignetMan=$("#userSignetMan").val();
-		var year=$("#year").val();
-		
-		if(hetongming==''){
-			toastr.error("分包合同名称为空")
-			return;
-		}
-		
-		
-		
-		var options={
-	            type: 'POST',
-	            url: getContextPath()+'/pay/updatePayById',
-	            dataType: 'json',
-	            data: {
-	            	payId:id,
-	            	contractName:hetongming,
-	            	contractNo:hetonghao,
-	            	skScale:skScale,
-	            	skMoney:skMoney,
-            		contractMoney:hetongMoney,
-           			alreadyKpMoney:yikaipiaoMoney,
-        			thisTimeKpMoney:thiskaipiaoMoney,
-       				mainContractName:zhuhetongming,
-     				mainContractCode:zhuhetongNo,
-    				mainContractMoney:zhuhetongMoney,
-    				prjName:xiangmuming,
-    				prjListCode:renwudanhao,
-   					fbContractSchedule:hetongjindu,
-  					ifContractDoCost:isjinxinghetongjiesuan,
-  					contractDoCostMoney:hetongjiesuanMoney,
-  					alreadyAccumulateMoney:yileijinfuMoney,
-  					GenerationAdvancesMoney:daidianMoney,
-  					thisTimeAskMoney:bencishenqingfukuan,
-  					payMethod:fukuantype,
-  					payListExplain:fukuandanshuoming,
-  					compilerPerson:userSignetMan,
-  					compilerTime:year,
-	            },
-	            success: function (json) {
-	            	//console.log(json);
-	            	if(json==0){
-						toastr.error("添加失败")
-					}else if(json>0){
-						toastr.success("添加成功")
-						
-					}
-	            }
-	        };
-			$("#new_form").ajaxSubmit(options);
-		
-	}
+	
+	
 	//添加提交
 	function submitContractPay(){
 		var hetongming=$("#hetongming").val();
@@ -1466,7 +1394,7 @@
 	        	id:id
 	        },
 	        success: function (json) {
-	        	console.log(json)
+	        	//console.log(json)
 	        	$("#hetongming").val(json.contractName);
 	        	$("#hetonghao").val(json.contractNo);
 	        	$("#hetongMoney").val(json.contractMoney);
@@ -1492,20 +1420,21 @@
 	    		
 	        	$.ajax({
 	    			type:"post",
-	    			url:getContextPath()+"/pay/selectAccessoryById",
+	    			url:getContextPath()+"/accessory/selectAccessoryById",
 	    			dataType:"json",
 	    			async:false,
 	    			data:{
 	    				id:id,
 	    			},
 	    			success:function(json){
-	    				console.log(json);
+	    				//console.log(json);
 	    				$("#new_accessory1 tbody").empty();
 	    				$("#new_accessory2 tbody").empty();
 	    	            for(var i=0;i<json.length;i++){
 	    	            	   if(json[i].aType=="开票附件"){
 	    		            	   $("#new_accessory1 tbody").append("<tr>"+
 	    		            			   "<td>附件"+(i+1)+"</td>"+
+	    		            			   "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
 	    		            			   "<td ><a  class='btn btn-primary' href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window'>查看附件</a></td>"+
 		    								"<td style='width:20%;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' data3='"+json[i].acName+"' onclick='deletefile(this)'>删除附件</button></td>"+
 	    				         	    "</tr>");
@@ -1513,6 +1442,7 @@
 	    	            	   if(json[i].aType=="附件上传"){
 	    		            	   $("#new_accessory2 tbody").append("<tr>"+
 	    		            			   "<td>附件"+(i+1)+"</td>"+
+	    		            			   "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
 	    		            			   "<td ><a  class='btn btn-primary' href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window'>查看附件</a></td>"+
 		    								"<td style='width:20%;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' data3='"+json[i].acName+"' onclick='deletefile(this)'>删除附件</button></td>"+
 	    				         	    "</tr>");
@@ -1524,10 +1454,6 @@
 	    		
 	        }
 	    });
-		
-		
-		
-		
 	}
 	function deletefile(obj){
     	var id=$(obj).attr("data1");
@@ -1556,6 +1482,87 @@
        	        }
        		});
     }
+	
+	
+	function liuchengGaibian(){
+		var hetongming=$("#hetongming").val();
+		var hetonghao=$("#hetonghao").val();
+		var hetongMoney=$("#hetongMoney").val();
+		var skMoney=$("#sk_money").val();
+		var skScale=$("#sk_scale").val();
+		var yikaipiaoMoney=$("#yikaipiaoMoney").val();
+		var thiskaipiaoMoney=$("#thiskaipiaoMoney").val();
+		var zhuhetongming=$("#zhuhetongming").val();
+		var zhuhetongNo=$("#zhuhetongNo").val();
+		var zhuhetongMoney=$("#zhuhetongMoney").val();
+		var xiangmuming=$("#xiangmuming").val();
+		var renwudanhao=$("#renwudanhao").val();
+		var hetongjindu=$("#hetongjindu").val();
+		var isjinxinghetongjiesuan=$("#isjinxinghetongjiesuan").val();
+		var hetongjiesuanMoney=$("#hetongjiesuanMoney").val();
+		var yileijinfuMoney=$("#yileijinfuMoney").val();
+		var daidianMoney=$("#daidianMoney").val();
+		var bencishenqingfukuan=$("#bencishenqingfukuan").val();
+		var fukuantype=$("#fukuantype").val();
+		var fukuandanshuoming=$("#fukuandanshuoming").val();
+		var userSignetMan=$("#userSignetMan").val();
+		var year=$("#year").val();
+		
+		if(hetongming==''){
+			toastr.error("分包合同名称为空")
+			return;
+		}
+		
+		
+		var result;
+		var options={
+	            type: 'POST',
+	            url: getContextPath()+'/pay/updatePayById',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	payId:id,
+	            	contractName:hetongming,
+	            	contractNo:hetonghao,
+	            	skScale:skScale,
+	            	skMoney:skMoney,
+            		contractMoney:hetongMoney,
+           			alreadyKpMoney:yikaipiaoMoney,
+        			thisTimeKpMoney:thiskaipiaoMoney,
+       				mainContractName:zhuhetongming,
+     				mainContractCode:zhuhetongNo,
+    				mainContractMoney:zhuhetongMoney,
+    				prjName:xiangmuming,
+    				prjListCode:renwudanhao,
+   					fbContractSchedule:hetongjindu,
+  					ifContractDoCost:isjinxinghetongjiesuan,
+  					contractDoCostMoney:hetongjiesuanMoney,
+  					alreadyAccumulateMoney:yileijinfuMoney,
+  					GenerationAdvancesMoney:daidianMoney,
+  					thisTimeAskMoney:bencishenqingfukuan,
+  					payMethod:fukuantype,
+  					payListExplain:fukuandanshuoming,
+  					compilerPerson:userSignetMan,
+  					compilerTime:year,
+	            },
+	            success: function (json) {
+	            	//console.log(json);
+	            	result=json
+	            	if(json==0){
+						toastr.error("添加失败")
+					}else if(json>0){
+						toastr.success("添加成功")
+						
+					}
+	            }
+	        };
+			$("#new_form").ajaxSubmit(options);
+		return result;
+	}
+	
+	
+	
+	
 	//修改初始化历史信息列表
 	function initHistoryPay2(obj){
 		 $.ajax({

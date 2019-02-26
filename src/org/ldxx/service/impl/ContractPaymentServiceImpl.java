@@ -110,7 +110,18 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 
 	@Override
 	public int updatePayById(Pay pay) {
-		return payDao.updatePayById(pay);
+		int i=payDao.updatePayById(pay);
+		if(i>0){
+			List<Accessory> accessory = pay.getAccessory();
+			if(accessory!=null&&accessory.size()>0){
+				i=adao.addAccessory(accessory);
+			}
+			List<Accessory> accessory2 = pay.getAccessory2();
+			if(accessory2!=null&&accessory2.size()>0){
+				i=adao.addAccessory(accessory2);
+			}
+		}
+		return i;
 	}
 
 }

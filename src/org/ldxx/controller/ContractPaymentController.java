@@ -297,14 +297,55 @@ public class ContractPaymentController {
 	
 	@RequestMapping("/updatePayById")//通过id修改
 	@ResponseBody
-	public int updatePayById(Pay pay){
+	public int updatePayById(Pay pay,@RequestParam("file1") MultipartFile [] file1,@RequestParam("file2") MultipartFile [] file2) throws IllegalStateException, IOException{
+		TimeUUID uuid=new TimeUUID();
+		String id=pay.getPayId();
+		
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
+		List<Accessory> list=new ArrayList<>();
+		List<Accessory> list2=new ArrayList<>();
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file1.length>0){
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file1[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file1[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("开票附件");
+				list.add(accessory);
+			}
+			pay.setAccessory(list);
+		}
+		if(file2.length>0){
+			for(int i=0;i<file2.length;i++){
+				Accessory accessory2=new Accessory();
+				String fileName=file2[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file2[i].transferTo(f2);
+				accessory2.setaId(id);
+				accessory2.setAcName(fileName);
+				accessory2.setAcUrl(id+File.separator+fileName);
+				accessory2.setaType("附件上传");
+				list2.add(accessory2);
+			}
+			pay.setAccessory2(list2);
+		}
 		int i=payService.updatePayById(pay);
 		if(i>0){
 			String prjCode = pay.getPrjListCode();
 			Task task = taskDao.selectIdByNo2(prjCode);
 			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
 			String omNo=om.getOmNo();
-			currentFlowMapper.updateFkDeptByModeId(pay.getPayId(), omNo);
+			currentFlowMapper.updateFkDeptByModeId(id, omNo);
 		}
 		return i;
 	}
