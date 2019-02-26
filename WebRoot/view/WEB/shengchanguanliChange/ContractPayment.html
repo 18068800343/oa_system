@@ -305,7 +305,7 @@
                                 <td><input type="text" class="form-control" id="pay_time" style="width:60%;"></td>
                             </tr>
                         </table> 
-                        <table class="table table-bordered table-condensed" id="edit_accessory1">
+                        <!-- <table class="table table-bordered table-condensed" id="edit_accessory1">
                         	<thead>
                         		<tr>
                                 	<td style="width:15%;">开票附件  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -322,8 +322,8 @@
                             	</tr>
                         	</thead>
                         	<tbody></tbody>
-                        </table>
-                        <table class="table table-bordered table-condensed" id="edit_accessory3">
+                        </table> -->
+                        <!-- <table class="table table-bordered table-condensed" id="edit_accessory3">
                         	<thead>
                         		<tr>
                                 	<td style="width:15%;">法律顾问签字  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -331,7 +331,7 @@
                             	</tr>
                         	</thead>
                         	<tbody></tbody>
-                        </table>
+                        </table> -->
                     </form>  
 <!-- 修改model结束 -->
 
@@ -1578,7 +1578,8 @@
 	    		initHistoryPay2(xiugaiId);
 	    		$("#xghetongming").val(data.contractName);
 	    		$("#xghetonghao").val(data.contractNo);
-	    		$.ajax({
+	    		
+	    		/* $.ajax({
 	    			type:"post",
 	    			url:getContextPath()+"/pay/selectAccessoryById",
 	    			dataType:"json",
@@ -1615,7 +1616,7 @@
 	    	            	   }
 	    	               }
 	    			}
-	    		})
+	    		}) */
 	    		
 	        }
 	    });
@@ -1718,7 +1719,7 @@
 	}
 	
 	//修改保存
-	function liuchengGaibianBC(){
+	function liuchengGaibian(){
 		var resultPay=$("#xgbencishijifukuan").val();
 		var payTime=$("#pay_time").val();
 		if(resultPay==""){
@@ -1729,16 +1730,19 @@
 			toastr.error("付款时间不可以为空")
 			return;
 		}
+		var result;
 		var options={
 	            type: 'POST',
 	            url: getContextPath()+'/pay/updatePaySave',
 	            dataType: 'json',
+	            async:false,
 	            data: { 
 	            	payId:xiugaiId,
 	            	resultPay:resultPay,
 	            	payTime:payTime
 	            },
 	            success: function (json) {
+	            	result=json;
 	            	if(json==0){
 						toastr.error("保存失败")
 					}else if(json>0){
@@ -1748,6 +1752,7 @@
 	            }
 	        };
 			$("#edit_form").ajaxSubmit(options);
+			return result;
 		
 	}
 	
