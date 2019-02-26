@@ -24,6 +24,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.Pay;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.BorrowContractService;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractPaymentService;
@@ -59,6 +60,8 @@ public class BorrowContractController {
 	private SubContractController sService;
 	@Autowired
 	private ContractPaymentService cpService;
+	@Autowired
+	private CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/selectBorrowContract")
 	@ResponseBody
@@ -494,6 +497,13 @@ public class BorrowContractController {
 			bc.setAccessory2(list2);
 		}
 		int i=service.updateBorrowContractById(bc);
+		if(i>0){
+			CjContract cj=cService.getCjContractMainDepartmentLeader(bc.getCjNo());
+			String mainDepartment=cj.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(id, omNo);
+		}
 		map.put("result", i);
 		map.put("BorrowContract", bc);
 		return map;

@@ -16,6 +16,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.OtherContract;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.OtherContractService;
@@ -38,6 +39,8 @@ public class OtherContractConroller {
 	private OrganizationManagementService oService;
 	@Autowired
 	private ContractReasonService crService;
+	@Autowired
+	private CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/addOtherContractBySave")
 	@ResponseBody
@@ -459,6 +462,11 @@ public class OtherContractConroller {
 			other.setAccessory2(list2);
 		}
 		int i=service.updateOtherContractById(other);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(other.getAbutmentDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(id, omNo);
+		}
 		return i;
 	}
 	
