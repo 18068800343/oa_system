@@ -26,6 +26,7 @@ import org.ldxx.bean.PrjWorkingHours;
 import org.ldxx.bean.PrjWorkingHoursP;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.CgContractService;
 import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.OrganizationManagementService;
@@ -57,6 +58,8 @@ public class CgContractController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private ContractReasonService cService;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/selectCgContractByStatus")
 	@ResponseBody
@@ -733,6 +736,12 @@ public class CgContractController {
 			cg.setAccessory1(list1);
 		}*/
 		int i=cgService.updateCgContractById(cg);
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(cg.getCgId(), omNo);
+		}
 		return i;
 	}
 	

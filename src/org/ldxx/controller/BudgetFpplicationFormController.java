@@ -18,6 +18,7 @@ import org.ldxx.bean.PrjProgressFillFb;
 import org.ldxx.bean.User;
 import org.ldxx.dao.CompanyCostDao;
 import org.ldxx.dao.SecondCompanyCostDao;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.BudgetFpplicationFormService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.PrjProgressFillService;
@@ -49,6 +50,8 @@ public class BudgetFpplicationFormController {
 	private SecondCompanyCostDao sccDao;
 	@Autowired
 	private CompanyCostDao ccDao;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/saveBudge")
 	@ResponseBody
@@ -334,6 +337,11 @@ public class BudgetFpplicationFormController {
 	public int updateBudgetById(@RequestBody List<BudgetFpplicationForm> budge){
 		BudgetFpplicationForm b=budge.get(0);
 		int i=bservice.updateBudge(b);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(b.getDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(b.getBfId(), omNo);
+		}
 		return i;
 	}
 	@RequestMapping("/selectNwCostByTaskNo")//通过任务单号和项目明细查费用总金额

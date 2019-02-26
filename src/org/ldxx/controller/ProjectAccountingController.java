@@ -15,6 +15,7 @@ import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.ProjectAccounting;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.FbContractOverService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.ProjectAccountingService;
@@ -48,6 +49,8 @@ public class ProjectAccountingController {
 	private SubContractService scService;//分包合同
 	@Autowired
 	private FbContractOverService fbOverservice;//分包结算
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/selectProjectAccounting")
 	@ResponseBody
@@ -96,7 +99,14 @@ public class ProjectAccountingController {
 	@RequestMapping("/updateProjectAccountingById")
 	@ResponseBody
 	public int updateProjectAccountingById(ProjectAccounting projectAccounting){
-		return service.updateProjectAccountingById(projectAccounting);
+		int i=service.updateProjectAccountingById(projectAccounting);
+		if(i>0){
+			OrganizationManagement organizationManagement = oService.getOrgIdByName(projectAccounting.getCjDepartment());
+			OrganizationManagement om=oService.selectOrgById(organizationManagement.getOmId());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(projectAccounting.getPaId(), omNo);
+		}
+		return i;
 	}
 	
 	
