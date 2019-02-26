@@ -75,12 +75,13 @@ public class PrjProgressFillController {
 		String id=uuid.getTimeUUID();
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("ppfi", PrjProgressFillInfo.class);
-		classMap.put("ppfi2", PrjProgressFillInfo.class);
+		/*classMap.put("ppfi2", PrjProgressFillInfo.class);*/
 		/*classMap.put("ppfi3", PrjProgressFillInfo.class);
 		classMap.put("ppfi4", PrjProgressFillInfo.class);
 		classMap.put("ppfi5", PrjProgressFillInfo.class);
 		classMap.put("ppfi6", PrjProgressFillInfo.class);*/
-		classMap.put("ppcj", PrjProgressFillCj.class);
+		classMap.put("ppfb", PrjProgressFillFb.class);
+		/*classMap.put("ppcj", PrjProgressFillCj.class);*/
 		JSONObject jsonObject=JSONObject.fromObject(ppf);
 		PrjProgressFill pf=(PrjProgressFill)JSONObject.toBean(jsonObject, PrjProgressFill.class,classMap);
 		pf.setPpfId(id);
@@ -470,6 +471,7 @@ public class PrjProgressFillController {
 	public int updatePrjProgressFill(String ppf,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("ppfi", PrjProgressFillInfo.class);
+		classMap.put("ppfb", PrjProgressFillFb.class);
 		/*classMap.put("ppfi2", PrjProgressFillInfo.class);
 		classMap.put("ppcj", PrjProgressFillCj.class);*/
 		JSONObject jsonObject=JSONObject.fromObject(ppf);
@@ -496,19 +498,6 @@ public class PrjProgressFillController {
 			}
 			pf.setAccessory(list);
 		}
-		/*Task t=tService.selectIdByNo(pf.getTaskNo());
-		float prjMoney=t.getPrjEstimateMoney();//项目金额
-		float contractMoney=t.getContractMoney();//合同金额
-		float allCost=pf.getAllCost();//总累计成本
-		float budgetMoney=pf.getBudgetMoneyAll();//总费用预算
-		float allMoney=Float.valueOf(pf.getAllMoney().replace("%", ""));
-		float am=allMoney/100;//总累计收入
-		float allValue=am*prjMoney;//累计产值
-		if((allCost/allValue)>(budgetMoney/contractMoney)){
-			pf.setStatus(1);
-		}else{
-			pf.setStatus(3);
-		}*/
 		int i=service.updatePrjProgressFill(pf);
 		return i;
 	}

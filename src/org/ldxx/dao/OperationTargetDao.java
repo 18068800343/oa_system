@@ -24,6 +24,6 @@ public interface OperationTargetDao {
 	
 	public String selectGsOperationTargetByTime(@Param("time")String time);
 	
-	public Object selectBmOperationTargetByTime(Map<String, Object> map);
+	public String selectBmOperationTargetByTime(Map<String, Object> map);
 	
 }

@@ -21,5 +21,5 @@ public interface OperationTargetService {
 	
 	public String selectGsOperationTargetByTime(String time);
 	
-	public Object selectBmOperationTargetByTime(Map<String, Object> map);
+	public String selectBmOperationTargetByTime(Map<String, Object> map);
 }

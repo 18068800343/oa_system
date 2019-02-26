@@ -115,12 +115,12 @@ public class OperationTargetController {
 	public List<OperationTarget> selectOperationTarget(){
 		List<OperationTarget> list=oservice.selectOperationTarget();
 		Map<String,Object> map=new HashMap<>();
-		map.put("time", "2019");
-		map.put("resultBm", "");
+		map.put("nd", "2019");
+		map.put("rr", "");
 		
 //		String result=oservice.selectGsOperationTargetByTime("2019");
 		
-		oservice.selectBmOperationTargetByTime(map);
+		String aaString = oservice.selectBmOperationTargetByTime(map);
 		System.out.println(map);
 		/*for(int i=0;i<list.size();i++){
 			float budgetCost=oservice.getSumCostByYear(list.get(i).getYear());

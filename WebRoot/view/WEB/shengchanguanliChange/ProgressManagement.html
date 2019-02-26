@@ -1477,7 +1477,7 @@
     	PrjProgressFill.prjThisIncomeYuan=this_time_money_yuan;
     	PrjProgressFill.fristDesign=fristDesign;
     	PrjProgressFill.secondDesign=secondDesign;
-    	
+    	PrjProgressFill.ppfId=id;
     	var ppfiArray=new Array();
     	var ppfbArray=new Array();
     	
@@ -1554,6 +1554,7 @@
   			toastr.error("文件不可以为空");
   			return;
   		}
+  		var result;
   		$.ajax({
   			type: 'POST',
             url: getContextPath()+'/ppf/updatePrjProgressFill',
@@ -1570,8 +1571,10 @@
             	}else{
             		toastr.error("保存失败")
             	}
+            	result=json;
             }
   		})
+  		return result;
     	
     }
 	//ppf/updatePrjProgressFill
@@ -1779,13 +1782,12 @@
             success: function (json) {
             	var ppfi=json.ppfi;
             	var ppfb=json.ppfb;
-            	
             	var accessory=json.accessory;
             	$("#prjName").val(json.prjName);
             	$("#task_no").val(json.taskNo);
             	$("#prjType2").val(json.prjType);
             	$("#contractMoney").val(json.contractMoney);
-            	$("#prjMoney").val(json.prjLeader);
+            	$("#prjMoney").val(json.prjMoney);
             	$("#provisional_sum").val(json.provisionalSum);
             	$("#prj_start_time").val(json.prjStartTime);
             	$("#prj_end_time").val(json.prjEndTime);
@@ -1846,7 +1848,7 @@
                 														"<td>"+ppfb[i].fbName+"</td>"+
                 														"<td>"+ppfb[i].fbMoney+"</td>"+
                 														"<td>"+ppfb[i].fbUnit+"</td>"+
-                														"<td><input type='text' class='form-control' value="+ppfb[i].incomeAll+" onchange='getFbBq(this)'></td>"+
+                														"<td><input type='text' class='form-control' data='"+ppfb[i].fbId+"' value="+ppfb[i].incomeAll+" onchange='getFbBq(this)'></td>"+
                 														"<td><input type='text' class='form-control' value="+ppfb[i].incomeBq+" disabled></td>"+
                 													"</tr>")
                 	}

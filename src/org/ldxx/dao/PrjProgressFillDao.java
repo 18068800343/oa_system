@@ -63,6 +63,8 @@ public interface PrjProgressFillDao {
 	
 	public int deletePrjProgressFillCjById(@Param("id")String id);
 	
+	public int deletePrjProgressFillFbById(@Param("id")String id);
+	
 	public int updateAllIncomeAndCost(@Param("ppf")PrjProgressFill ppf);
 	
 	public CjContract selectCjContractAndPrjProgressFillCj(@Param("no")String no);

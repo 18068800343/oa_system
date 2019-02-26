@@ -64,7 +64,7 @@ public class OperationTargetServiceImpl implements OperationTargetService{
 	}
 
 	@Override
-	public Object selectBmOperationTargetByTime(Map<String, Object> map) {
+	public String selectBmOperationTargetByTime(Map<String, Object> map) {
 		return odao.selectBmOperationTargetByTime(map);
 	}
 
