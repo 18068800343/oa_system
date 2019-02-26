@@ -19,6 +19,7 @@ import org.ldxx.bean.Pay;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.dao.TaskDao;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.ContractPaymentService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.SubContractService;
@@ -49,6 +50,9 @@ public class ContractPaymentController {
 	private SubContractService sService;
 	@Autowired
 	private TaskDao taskDao;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
+	
 	@RequestMapping("/selectPayByStatus")
 	@ResponseBody
 	public List<Pay> selectPayByStatus(String status){
@@ -288,6 +292,21 @@ public class ContractPaymentController {
 			}
 		}
 		return string;
+	}
+	
+	
+	@RequestMapping("/updatePayById")//通过id修改
+	@ResponseBody
+	public int updatePayById(Pay pay){
+		int i=payService.updatePayById(pay);
+		if(i>0){
+			String prjCode = pay.getPrjListCode();
+			Task task = taskDao.selectIdByNo2(prjCode);
+			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(pay.getPayId(), omNo);
+		}
+		return i;
 	}
 	
 	

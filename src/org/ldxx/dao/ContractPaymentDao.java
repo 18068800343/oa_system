@@ -34,4 +34,6 @@ public interface ContractPaymentDao {
 	Pay getAllDaiDianByFbNo(@Param("no")String no);//获取所有代垫款
 	
 	int updateAuthorisePayment(@Param("id")String id,@Param("money")float money);
+
+	int updatePayById(@Param("pay")Pay pay);
 }

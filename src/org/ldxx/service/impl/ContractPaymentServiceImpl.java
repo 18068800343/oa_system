@@ -108,4 +108,9 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 		return payDao.updateAuthorisePayment(id, money);
 	}
 
+	@Override
+	public int updatePayById(Pay pay) {
+		return payDao.updatePayById(pay);
+	}
+
 }

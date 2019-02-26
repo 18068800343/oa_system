@@ -33,4 +33,6 @@ public interface ContractPaymentService {
 	
 	int updateAuthorisePayment(String id,float money);
 
+	int updatePayById(Pay pay);
+
 }
