@@ -54,6 +54,121 @@ public class LianYingController {
 	@Autowired
 	private FbContractOverService fbService;
 	
+	@RequestMapping("/addLianYingBySave")
+	@ResponseBody
+	public int addLianYingBySave(LianYing ly,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile file2,@RequestParam("file3") MultipartFile file3,@RequestParam("file4") MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
+		User user = (User) session.getAttribute("user");
+		if(user==null){
+			return 0;
+		}
+		
+		TimeUUID uuid=new TimeUUID();
+		String id=uuid.getTimeUUID();
+		ly.setLyId(id);
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=service.lyNoCount(year);
+		String lyNo="LY"+uuid.getPrjCode("", count+1);
+		ly.setLyNo(lyNo);
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		List<Accessory> list=new ArrayList<>();
+		if(file.length>0){
+			for(int ii=0;ii<file.length;ii++){
+				Accessory accessory=new Accessory();
+				String fileName=file[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[ii].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);  
+				accessory.setaType("资质证书");
+				list.add(accessory);
+			}
+		}
+		if(file2!=null){
+			Accessory accessory=new Accessory();
+			String fileName=file2.getOriginalFilename();
+			String filePath=path+File.separator+fileName;
+			File f2=new File(filePath);
+			file2.transferTo(f2);
+			accessory.setaId(id);
+			accessory.setAcName(fileName);
+			accessory.setAcUrl(id+File.separator+fileName);  
+			accessory.setaType("安全生产许可证有效期");
+			list.add(accessory);
+		}
+		if(file3!=null){
+			Accessory accessory=new Accessory();
+			String fileName=file3.getOriginalFilename();
+			String filePath=path+File.separator+fileName;
+			File f2=new File(filePath);
+			file3.transferTo(f2);
+			accessory.setaId(id);
+			accessory.setAcName(fileName);
+			accessory.setAcUrl(id+File.separator+fileName);  
+			accessory.setaType("开户许可证");
+			list.add(accessory);
+		}
+		if(file4!=null){
+			Accessory accessory=new Accessory();
+			String fileName=file4.getOriginalFilename();
+			String filePath=path+File.separator+fileName;
+			File f2=new File(filePath);
+			file4.transferTo(f2);
+			accessory.setaId(id);
+			accessory.setAcName(fileName);
+			accessory.setAcUrl(id+File.separator+fileName);  
+			accessory.setaType("分包内容");
+			list.add(accessory);
+		}
+		ly.setAccessory(list);
+		int i=service.addLianYing(ly);
+		if(i>0){
+			String string = i+"";
+			Task t=taskService.selectIdByNo2(ly.getPrjNo());
+			OrganizationManagement om=oService.selectOrgById(t.getMainDepartment());
+			String omNo=om.getOmNo();
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(ly.getPrjName()+"流程发起");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(ly.getPrjName()+"流程发起");
+			currentFlow.setUrl("shengchanguanliLook/lianying.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return i;
+	}
+	
+	
 	@RequestMapping("/addLianYing")
 	@ResponseBody
 	public String addLianYing(LianYing ly,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile file2,@RequestParam("file3") MultipartFile file3,@RequestParam("file4") MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
@@ -167,6 +282,73 @@ public class LianYingController {
 		}
 		return string;
 	}
+	
+	@RequestMapping("/updateLianYingById")
+	@ResponseBody
+	public int updateLianYingById(LianYing ly,@RequestParam("file") MultipartFile [] file,@RequestParam("file2") MultipartFile file2,@RequestParam("file3") MultipartFile file3,@RequestParam("file4") MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
+		TimeUUID uuid=new TimeUUID();
+		String id=ly.getLyId();
+		String webApp=uuid.getWebAppFile();
+		String path=webApp+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		List<Accessory> list=new ArrayList<>();
+		if(file.length>0){
+			for(int ii=0;ii<file.length;ii++){
+				Accessory accessory=new Accessory();
+				String fileName=file[ii].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file[ii].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);  
+				accessory.setaType("资质证书");
+				list.add(accessory);
+			}
+		}
+		if(file2!=null){
+			Accessory accessory=new Accessory();
+			String fileName=file2.getOriginalFilename();
+			String filePath=path+File.separator+fileName;
+			File f2=new File(filePath);
+			file2.transferTo(f2);
+			accessory.setaId(id);
+			accessory.setAcName(fileName);
+			accessory.setAcUrl(id+File.separator+fileName);  
+			accessory.setaType("安全生产许可证有效期");
+			list.add(accessory);
+		}
+		if(file3!=null){
+			Accessory accessory=new Accessory();
+			String fileName=file3.getOriginalFilename();
+			String filePath=path+File.separator+fileName;
+			File f2=new File(filePath);
+			file3.transferTo(f2);
+			accessory.setaId(id);
+			accessory.setAcName(fileName);
+			accessory.setAcUrl(id+File.separator+fileName);  
+			accessory.setaType("开户许可证");
+			list.add(accessory);
+		}
+		if(file4!=null){
+			Accessory accessory=new Accessory();
+			String fileName=file4.getOriginalFilename();
+			String filePath=path+File.separator+fileName;
+			File f2=new File(filePath);
+			file4.transferTo(f2);
+			accessory.setaId(id);
+			accessory.setAcName(fileName);
+			accessory.setAcUrl(id+File.separator+fileName);  
+			accessory.setaType("分包内容");
+			list.add(accessory);
+		}
+		ly.setAccessory(list);
+		return 0;
+	}
+	
 	
 	@RequestMapping("/selectLianYingByStatus")
 	@ResponseBody

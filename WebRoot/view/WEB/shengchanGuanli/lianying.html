@@ -240,7 +240,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-success" >保存</button> -->
+            <button type="button" class="btn btn-success"  onclick="save()">保存</button>
             <button type="button" class="btn btn-success"  onclick="submit()">提交</button>
         </div>
         </div>
@@ -1147,16 +1147,8 @@
 		            $("#xglydanwei").append( "<option value='" + json[i].ccId + "'>"
 		                    + json[i].ccName + "</option>")
 	        	}
-	        	 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
-	        	 $("#lydanwei").select2({
-	                 tags: true,
-	                 placeholder: '请搜索或选择语言',
-	                 allowClear: true
-	             });
-	        	 
 	        	 $("#lydanwei").trigger("change");
 	        	 $("#xglydanwei").trigger("change");
-	        	 
 	        }
 	    });
 	}
@@ -1198,6 +1190,70 @@
 		$("#fb_je").val(fbMoney);
 	}
     
+	function save(){
+		var prjNo=$("#task_no").val();
+		var prjName=$("#prjName").val();
+		var lyUnit=$("#lydanwei").val();
+		var uniformCode=$("#sh_code").val();
+		var certifications=$("#zz_zs").val();
+		var safetyCertificateInfo=$("#aq_zs").val();
+		var openingAccounts=$("#kh_zs").val();
+		var openingBank=$("#bank_name").val();
+		var fbInfo=$("#fb_info").val();
+		var contractType=$("#ht_type").val();
+		var managementFee=$("#gl_fl").val();
+		var otherFee=$("#qt_yd").val();
+		if(otherFee!=null){
+			otherFee = otherFee.toString();
+		}else{
+			otherFee= '';
+		}
+		var fbMoney=$("#fb_je").val();
+		if(fbMoney==''){
+			fbMoney=0;
+		}
+		var payTime=$("#pay_time").val();
+		var pbType=$("#lvyuebaozhenjin").val();
+		var pbMoney=$("#lv_bz_je").val();
+		if(pbMoney==''){
+			pbMoney=0;
+		}
+		
+		var options={
+				type: 'POST',
+	            url: getContextPath()+'/LianYing/addLianYingBySave',
+	            dataType: 'json',
+	            data: {
+	            	prjNo:prjNo,
+	            	prjName:prjName,
+	            	lyUnit:lyUnit,
+	            	uniformCode:uniformCode,
+	            	certifications:certifications,
+	            	safetyCertificateInfo:safetyCertificateInfo,
+	            	openingAccounts:openingAccounts,
+	            	openingBank:openingBank,
+	            	fbInfo:fbInfo,
+	            	contractType:contractType,
+	            	managementFee:managementFee,
+	            	otherFee:otherFee,
+	            	fbMoney:fbMoney,
+	            	payTime:payTime,
+	            	pbType:pbType,
+	            	pbMoney:pbMoney
+	            },
+	            success: function (json) {
+	            	if(json=='0'){
+	            		toastr.error("保存失败");
+	            	}else{
+	            		toastr.success("保存成功");
+	            		$("#myModal").modal("hide");
+	            	}
+	            }
+		}
+		$("#new_form").ajaxSubmit(options);
+	}
+	
+	
 	function submit(){
 		var prjNo=$("#task_no").val();
 		var prjName=$("#prjName").val();
