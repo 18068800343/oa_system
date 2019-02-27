@@ -18,6 +18,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.User;
 import org.ldxx.dao.AnnouncementDao;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.AnnouncementService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.util.FlowUtill;
@@ -40,6 +41,8 @@ public class AnnouncementController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private AnnouncementDao aDao;
+	@Autowired
+	private CurrentFlowMapper currentFlowMapper;
 	@RequestMapping("/addAnnouncementByAllAndSave")/*公司公告新建保存*/
 	@ResponseBody
 	public int addAnnouncementByAllAndSave(Announcement announcement,@RequestParam("file")MultipartFile [] file,HttpSession session){
@@ -370,6 +373,9 @@ public class AnnouncementController {
 			announcement.setAccessory(list2);
 		}
 		a=service.updateAnnouncement(announcement);
+		String omId = announcement.getaDepartment();
+		String omNo = oService.selectOrgById(omId).getOmNo();
+		currentFlowMapper.updateFkDeptByModeId(id, omNo);
 		return a;
 	}
 	

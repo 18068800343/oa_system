@@ -195,8 +195,8 @@
                                     <select class="form-control" style="width:70%;" id="edit_department">
                                     </select>
                                 </td>
-                                <!-- <td style="width:20%;">合同编号:</td>
-                                <td style="width:30%;"><input type="text" class="form-control"  id="edit_contract_no" disabled style="width:70%;"></td> -->
+                                 <td style="width:20%;hidden:">合同编号:</td>
+                                <td style="width:30%;"><input type="text" class="form-control"  id="edit_contract_no" disabled style="width:70%;"></td>
                             </tr>
                             <tr>
                                 <td>甲方单位:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -746,6 +746,7 @@
             type: 'POST',
             url: getContextPath()+'/cooperator/selectCooperatorIdAndName',
             dataType: 'json',
+            async:false,
             data: {
             },
             success: function (json) {
@@ -1022,7 +1023,7 @@
     }
     
     function liuchengGaibian(obj){
-    	var contractCode=$("#edit_contract_no").val();
+    	/* var contractCode=$("#edit_contract_no").val(); */
     	var contractName=$("#edit_contract_name").val();
     	var contractNameJia=$("#edit_organization_jia").val();
     	var contractNameYi=$("#edit_organization_yi").val();
@@ -1056,7 +1057,7 @@
                 dataType: 'json',
                 data: {
 					oId:edit_id,     	
-                	contractCode:contractCode,
+                	/* contractCode:contractCode, */
                 	contractName:contractName,
                 	contractNameJia:contractNameJia,
                 	contractNameYi:contractNameYi,
@@ -1093,11 +1094,12 @@
     	var contractEndTime=$("#edit_year3").val();
     	var contractProbablyText=$("#edit_contract_info").val();
     	var abutmentSignedTime=$("#edit_year").val();
-    	
+    	var result;
     	var options={
     			type: 'POST',
                 url: getContextPath()+'/other/updateOtherContractBySubmit',
                 dataType: 'json',
+                async:false,
                 data: {
 					oId:edit_id,     	
                 	contractCode:contractCode,
@@ -1115,6 +1117,7 @@
                 	toastr.error("请求失败");
                 },
                 success: function (json) {
+                	result=json;
                 	if(json>0){
                 		$("#change").modal("hide");
                 		toastr.success("保存成功");
@@ -1124,6 +1127,7 @@
                 }
     	}
     	$("#edit_form").ajaxSubmit(options);
+    	return result;
     }
     
     function lookDetall(obj){
