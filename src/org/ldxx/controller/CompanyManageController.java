@@ -95,8 +95,8 @@ public class CompanyManageController {
 				 float revenueTarget=0;//收入目标
 				 float contractAmount=0;//合同额目标
 				 if(dt!=null){
-					 revenueTarget=dt.getRevenueTarget();//收入目标
-					 contractAmount=dt.getContractAmount();//合同额目标
+					 revenueTarget=(float) dt.getRevenueTarget();//收入目标
+					 contractAmount=(float) dt.getContractAmount();//合同额目标
 				 }
 				 float finish=(totalAccomplish/revenueTarget)*100;
 				 String finishStr=Math.round(finish)+"%";//完成百分比

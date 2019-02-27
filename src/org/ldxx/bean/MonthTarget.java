@@ -4,9 +4,11 @@ public class MonthTarget {
 
 	private String otId;
 	private int month;
-	private float contractAmount;
-	private float revenueTarget;
-	private float collectionTarget;
+	private double contractAmount;
+	private double revenueTarget;
+	private double collectionTarget;
+	private double profit;
+	
 	
 	public String getOtId() {
 		return otId;
@@ -20,23 +22,29 @@ public class MonthTarget {
 	public void setMonth(int month) {
 		this.month = month;
 	}
-	public float getContractAmount() {
+	public double getContractAmount() {
 		return contractAmount;
 	}
-	public void setContractAmount(float contractAmount) {
+	public void setContractAmount(double contractAmount) {
 		this.contractAmount = contractAmount;
 	}
-	public float getRevenueTarget() {
+	public double getRevenueTarget() {
 		return revenueTarget;
 	}
-	public void setRevenueTarget(float revenueTarget) {
+	public void setRevenueTarget(double revenueTarget) {
 		this.revenueTarget = revenueTarget;
 	}
-	public float getCollectionTarget() {
+	public double getCollectionTarget() {
 		return collectionTarget;
 	}
-	public void setCollectionTarget(float collectionTarget) {
+	public void setCollectionTarget(double collectionTarget) {
 		this.collectionTarget = collectionTarget;
+	}
+	public double getProfit() {
+		return profit;
+	}
+	public void setProfit(double profit) {
+		this.profit = profit;
 	}
 	
 }

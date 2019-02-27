@@ -99,9 +99,9 @@ public class StatisticsController {
 		List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonth(year, month);
 		if(mt!=null){
 			for(int i=0;i<mt.size();i++){
-				float contractAmount=mt.get(i).getContractAmount();
-				float revenueTarget=mt.get(i).getRevenueTarget();
-				float collectionTarget=mt.get(i).getCollectionTarget();
+				double contractAmount=mt.get(i).getContractAmount();
+				double revenueTarget=mt.get(i).getRevenueTarget();
+				double collectionTarget=mt.get(i).getCollectionTarget();
 				mbContractMoney=mbContractMoney+contractAmount;
 				mbIncome=mbIncome+revenueTarget;
 				mbReceipt=mbReceipt+collectionTarget;
@@ -669,93 +669,93 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab2ContractMoney(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Float>> resultList=new ArrayList<>();
-		List<List<Float>> mbList=new ArrayList<>();
+		List<List<Double>> resultList=new ArrayList<>();
+		List<List<Double>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		omList.add("公司");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<Float> resultAll=new ArrayList<>();
-		List<Float> mbAll=new ArrayList<>();
-		float month1All=0;
-		float month2All=0;
-		float month3All=0;
-		float month4All=0;
-		float month5All=0;
-		float month6All=0;
-		float month7All=0;
-		float month8All=0;
-		float month9All=0;
-		float month10All=0;
-		float month11All=0;
-		float month12All=0;
-		float mbMonth1All=0;
-		float mbMonth2All=0;
-		float mbMonth3All=0;
-		float mbMonth4All=0;
-		float mbMonth5All=0;
-		float mbMonth6All=0;
-		float mbMonth7All=0;
-		float mbMonth8All=0;
-		float mbMonth9All=0;
-		float mbMonth10All=0;
-		float mbMonth11All=0;
-		float mbMonth12All=0;
+		List<Double> resultAll=new ArrayList<>();
+		List<Double> mbAll=new ArrayList<>();
+		double month1All=0;
+		double month2All=0;
+		double month3All=0;
+		double month4All=0;
+		double month5All=0;
+		double month6All=0;
+		double month7All=0;
+		double month8All=0;
+		double month9All=0;
+		double month10All=0;
+		double month11All=0;
+		double month12All=0;
+		double mbMonth1All=0;
+		double mbMonth2All=0;
+		double mbMonth3All=0;
+		double mbMonth4All=0;
+		double mbMonth5All=0;
+		double mbMonth6All=0;
+		double mbMonth7All=0;
+		double mbMonth8All=0;
+		double mbMonth9All=0;
+		double mbMonth10All=0;
+		double mbMonth11All=0;
+		double mbMonth12All=0;
 		for(int i=0;i<om.size();i++){
-			List<Float> result=new ArrayList<>();
-			List<Float> mb=new ArrayList<>();
+			List<Double> result=new ArrayList<>();
+			List<Double> mb=new ArrayList<>();
 			
 			String omId=om.get(i).getOmId();//部门编号
 			String omName=om.get(i).getOmName();//部门名称
 			omList.add(omName);
 			
 			ContractUpdate cu=cuService.selectDeptContractMoneyByTime(year+"-01", omId);
-			float month1=cu.getMoney();//部门1份月合同额
+			double month1=cu.getMoney();//部门1份月合同额
 			month1All=month1All+month1;
 			
 			ContractUpdate cu2=cuService.selectDeptContractMoneyByTime(year+"-02", omId);
-			float month2=cu2.getMoney();//部门2份月合同额
+			double month2=cu2.getMoney();//部门2份月合同额
 			month2All=month2All+month2;
 			
 			ContractUpdate cu3=cuService.selectDeptContractMoneyByTime(year+"-03", omId);
-			float month3=cu3.getMoney();//部门3份月合同额
+			double month3=cu3.getMoney();//部门3份月合同额
 			month3All=month3All+month3;
 			
 			ContractUpdate cu4=cuService.selectDeptContractMoneyByTime(year+"-04", omId);
-			float month4=cu4.getMoney();//部门4份月合同额
+			double month4=cu4.getMoney();//部门4份月合同额
 			month4All=month4All+month4;
 			
 			ContractUpdate cu5=cuService.selectDeptContractMoneyByTime(year+"-05", omId);
-			float month5=cu5.getMoney();//部门5份月合同额
+			double month5=cu5.getMoney();//部门5份月合同额
 			month5All=month5All+month5;
 			
 			ContractUpdate cu6=cuService.selectDeptContractMoneyByTime(year+"-06", omId);
-			float month6=cu6.getMoney();//部门6份月合同额
+			double month6=cu6.getMoney();//部门6份月合同额
 			month6All=month6All+month6;
 			
 			ContractUpdate cu7=cuService.selectDeptContractMoneyByTime(year+"-07", omId);
-			float month7=cu7.getMoney();//部门7份月合同额
+			double month7=cu7.getMoney();//部门7份月合同额
 			month7All=month7All+month7;
 			
 			ContractUpdate cu8=cuService.selectDeptContractMoneyByTime(year+"-08", omId);
-			float month8=cu8.getMoney();//部门8份月合同额
+			double month8=cu8.getMoney();//部门8份月合同额
 			month8All=month8All+month8;
 			
 			ContractUpdate cu9=cuService.selectDeptContractMoneyByTime(year+"-09", omId);
-			float month9=cu9.getMoney();//部门9份月合同额
+			double month9=cu9.getMoney();//部门9份月合同额
 			month9All=month9All+month9;
 			
 			ContractUpdate cu10=cuService.selectDeptContractMoneyByTime(year+"-10", omId);
-			float month10=cu10.getMoney();//部门10份月合同额
+			double month10=cu10.getMoney();//部门10份月合同额
 			month10All=month10All+month10;
 			
 			ContractUpdate cu11=cuService.selectDeptContractMoneyByTime(year+"-11", omId);
-			float month11=cu11.getMoney();//部门11份月合同额
+			double month11=cu11.getMoney();//部门11份月合同额
 			month11All=month11All+month11;
 			
 			ContractUpdate cu12=cuService.selectDeptContractMoneyByTime(year+"-12", omId);
-			float month12=cu12.getMoney();//部门12份月合同额
+			double month12=cu12.getMoney();//部门12份月合同额
 			month12All=month12All+month12;
 			
 			result.add(month1);
@@ -773,51 +773,51 @@ public class StatisticsController {
 			resultList.add(result);
 			
 			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
-			float mbMonth1=getMbContractMoney(mt);
+			double mbMonth1=getMbContractMoney(mt);
 			mbMonth1All=mbMonth1All+mbMonth1;
 			
 			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
-			float mbMonth2=getMbContractMoney(mt2);
+			double mbMonth2=getMbContractMoney(mt2);
 			mbMonth2All=mbMonth2All+mbMonth2;
 			
 			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
-			float mbMonth3=getMbContractMoney(mt3);
+			double mbMonth3=getMbContractMoney(mt3);
 			mbMonth3All=mbMonth3All+mbMonth3;
 			
 			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
-			float mbMonth4=getMbContractMoney(mt4);
+			double mbMonth4=getMbContractMoney(mt4);
 			mbMonth4All=mbMonth4All+mbMonth4;
 			
 			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
-			float mbMonth5=getMbContractMoney(mt5);
+			double mbMonth5=getMbContractMoney(mt5);
 			mbMonth5All=mbMonth5All+mbMonth5;
 			
 			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
-			float mbMonth6=getMbContractMoney(mt6);
+			double mbMonth6=getMbContractMoney(mt6);
 			mbMonth6All=mbMonth6All+mbMonth6;
 			
 			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
-			float mbMonth7=getMbContractMoney(mt7);
+			double mbMonth7=getMbContractMoney(mt7);
 			mbMonth7All=mbMonth7All+mbMonth7;
 			
 			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
-			float mbMonth8=getMbContractMoney(mt8);
+			double mbMonth8=getMbContractMoney(mt8);
 			mbMonth8All=mbMonth8All+mbMonth8;
 			
 			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
-			float mbMonth9=getMbContractMoney(mt9);
+			double mbMonth9=getMbContractMoney(mt9);
 			mbMonth9All=mbMonth9All+mbMonth9;
 			
 			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
-			float mbMonth10=getMbContractMoney(mt10);
+			double mbMonth10=getMbContractMoney(mt10);
 			mbMonth10All=mbMonth10All+mbMonth10;
 			
 			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
-			float mbMonth11=getMbContractMoney(mt11);
+			double mbMonth11=getMbContractMoney(mt11);
 			mbMonth11All=mbMonth11All+mbMonth11;
 			
 			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
-			float mbMonth12=getMbContractMoney(mt12);
+			double mbMonth12=getMbContractMoney(mt12);
 			mbMonth12All=mbMonth12All+mbMonth12;
 			
 			mb.add(mbMonth1);
@@ -871,42 +871,42 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab2Income(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Float>> resultList=new ArrayList<>();
-		List<List<Float>> mbList=new ArrayList<>();
+		List<List<Double>> resultList=new ArrayList<>();
+		List<List<Double>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		omList.add("公司");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<Float> resultAll=new ArrayList<>();
-		List<Float> mbAll=new ArrayList<>();
-		float month1All=0;
-		float month2All=0;
-		float month3All=0;
-		float month4All=0;
-		float month5All=0;
-		float month6All=0;
-		float month7All=0;
-		float month8All=0;
-		float month9All=0;
-		float month10All=0;
-		float month11All=0;
-		float month12All=0;
-		float mbMonth1All=0;
-		float mbMonth2All=0;
-		float mbMonth3All=0;
-		float mbMonth4All=0;
-		float mbMonth5All=0;
-		float mbMonth6All=0;
-		float mbMonth7All=0;
-		float mbMonth8All=0;
-		float mbMonth9All=0;
-		float mbMonth10All=0;
-		float mbMonth11All=0;
-		float mbMonth12All=0;
+		List<Double> resultAll=new ArrayList<>();
+		List<Double> mbAll=new ArrayList<>();
+		double month1All=0;
+		double month2All=0;
+		double month3All=0;
+		double month4All=0;
+		double month5All=0;
+		double month6All=0;
+		double month7All=0;
+		double month8All=0;
+		double month9All=0;
+		double month10All=0;
+		double month11All=0;
+		double month12All=0;
+		double mbMonth1All=0;
+		double mbMonth2All=0;
+		double mbMonth3All=0;
+		double mbMonth4All=0;
+		double mbMonth5All=0;
+		double mbMonth6All=0;
+		double mbMonth7All=0;
+		double mbMonth8All=0;
+		double mbMonth9All=0;
+		double mbMonth10All=0;
+		double mbMonth11All=0;
+		double mbMonth12All=0;
 		for(int i=0;i<om.size();i++){
-			List<Float> result=new ArrayList<>();
-			List<Float> mb=new ArrayList<>();
+			List<Double> result=new ArrayList<>();
+			List<Double> mb=new ArrayList<>();
 			String omName=om.get(i).getOmName();
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
@@ -934,66 +934,66 @@ public class StatisticsController {
 			month11All=month11All+ppf11.getAllMoneyYuan();
 			PrjProgressFill ppf12=pService.selectGsIncomeByTimeAndDept(year+"-12", omName);
 			month12All=month12All+ppf12.getAllMoneyYuan();
-			result.add(ppf.getAllMoneyYuan());
-			result.add(ppf2.getAllMoneyYuan());
-			result.add(ppf3.getAllMoneyYuan());
-			result.add(ppf4.getAllMoneyYuan());
-			result.add(ppf5.getAllMoneyYuan());
-			result.add(ppf6.getAllMoneyYuan());
-			result.add(ppf7.getAllMoneyYuan());
-			result.add(ppf8.getAllMoneyYuan());
-			result.add(ppf9.getAllMoneyYuan());
-			result.add(ppf10.getAllMoneyYuan());
-			result.add(ppf11.getAllMoneyYuan());
-			result.add(ppf12.getAllMoneyYuan());
+			result.add((double) ppf.getAllMoneyYuan());
+			result.add((double) ppf2.getAllMoneyYuan());
+			result.add((double) ppf3.getAllMoneyYuan());
+			result.add((double) ppf4.getAllMoneyYuan());
+			result.add((double) ppf5.getAllMoneyYuan());
+			result.add((double) ppf6.getAllMoneyYuan());
+			result.add((double) ppf7.getAllMoneyYuan());
+			result.add((double) ppf8.getAllMoneyYuan());
+			result.add((double) ppf9.getAllMoneyYuan());
+			result.add((double) ppf10.getAllMoneyYuan());
+			result.add((double) ppf11.getAllMoneyYuan());
+			result.add((double) ppf12.getAllMoneyYuan());
 			resultList.add(result);
 			
 			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
-			float mbMonth1=getMbIncome(mt);
+			double mbMonth1=getMbIncome(mt);
 			mbMonth1All=mbMonth1All+mbMonth1;
 			
 			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
-			float mbMonth2=getMbIncome(mt2);
+			double mbMonth2=getMbIncome(mt2);
 			mbMonth2All=mbMonth2All+mbMonth2;
 			
 			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
-			float mbMonth3=getMbIncome(mt3);
+			double mbMonth3=getMbIncome(mt3);
 			mbMonth3All=mbMonth3All+mbMonth3;
 			
 			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
-			float mbMonth4=getMbIncome(mt4);
+			double mbMonth4=getMbIncome(mt4);
 			mbMonth4All=mbMonth4All+mbMonth4;
 			
 			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
-			float mbMonth5=getMbIncome(mt5);
+			double mbMonth5=getMbIncome(mt5);
 			mbMonth5All=mbMonth5All+mbMonth5;
 			
 			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
-			float mbMonth6=getMbIncome(mt6);
+			double mbMonth6=getMbIncome(mt6);
 			mbMonth6All=mbMonth6All+mbMonth6;
 			
 			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
-			float mbMonth7=getMbIncome(mt7);
+			double mbMonth7=getMbIncome(mt7);
 			mbMonth7All=mbMonth7All+mbMonth7;
 			
 			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
-			float mbMonth8=getMbIncome(mt8);
+			double mbMonth8=getMbIncome(mt8);
 			mbMonth8All=mbMonth8All+mbMonth8;
 			
 			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
-			float mbMonth9=getMbIncome(mt9);
+			double mbMonth9=getMbIncome(mt9);
 			mbMonth9All=mbMonth9All+mbMonth9;
 			
 			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
-			float mbMonth10=getMbIncome(mt10);
+			double mbMonth10=getMbIncome(mt10);
 			mbMonth10All=mbMonth10All+mbMonth10;
 			
 			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
-			float mbMonth11=getMbIncome(mt11);
+			double mbMonth11=getMbIncome(mt11);
 			mbMonth11All=mbMonth11All+mbMonth11;
 			
 			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
-			float mbMonth12=getMbIncome(mt12);
+			double mbMonth12=getMbIncome(mt12);
 			mbMonth12All=mbMonth12All+mbMonth12;
 			
 			mb.add(mbMonth1);
@@ -1225,8 +1225,8 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab3ContractMoney(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Float>> resultList=new ArrayList<>();
-		List<List<Float>> mbList=new ArrayList<>();
+		List<List<Double>> resultList=new ArrayList<>();
+		List<List<Double>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		List<String> yearList=new ArrayList<>();
 		omList.add("公司");
@@ -1239,34 +1239,34 @@ public class StatisticsController {
 		yearList.add(year);
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
 		
-		List<Float> resultAll=new ArrayList<>();
-		List<Float> mbAll=new ArrayList<>();
-		float month1All=0;
-		float month2All=0;
-		float month3All=0;
+		List<Double> resultAll=new ArrayList<>();
+		List<Double> mbAll=new ArrayList<>();
+		double month1All=0;
+		double month2All=0;
+		double month3All=0;
 		
-		float mbMonth1All=0;
-		float mbMonth2All=0;
-		float mbMonth3All=0;
+		double mbMonth1All=0;
+		double mbMonth2All=0;
+		double mbMonth3All=0;
 		
 		for(int i=0;i<om.size();i++){
-			List<Float> result=new ArrayList<>();
-			List<Float> mb=new ArrayList<>();
+			List<Double> result=new ArrayList<>();
+			List<Double> mb=new ArrayList<>();
 			
 			String omId=om.get(i).getOmId();//部门编号
 			String omName=om.get(i).getOmName();//部门名称
 			omList.add(omName);
 			
 			ContractUpdate cu=cuService.selectDeptContractMoneyByTime(year3,omId);
-			float month1=cu.getMoney();//部门前年合同额
+			double month1=cu.getMoney();//部门前年合同额
 			month1All=month1All+month1;
 			
 			ContractUpdate cu2=cuService.selectDeptContractMoneyByTime(year2,omId);
-			float month2=cu2.getMoney();//部门去年合同额
+			double month2=cu2.getMoney();//部门去年合同额
 			month2All=month2All+month2;
 			
 			ContractUpdate cu3=cuService.selectDeptContractMoneyByTime(year,omId);
-			float month3=cu3.getMoney();//部门去年合同额
+			double month3=cu3.getMoney();//部门去年合同额
 			month3All=month3All+month3;
 			
 			
@@ -1276,21 +1276,21 @@ public class StatisticsController {
 			resultList.add(result);
 			
 			DepartmentTarget mt=dtService.selectDepartmentTargetByOmIdAndYear(omId, year3);
-			float mbMonth1=0;
+			double mbMonth1=0;
 			if(mt!=null){
 				mbMonth1=mt.getContractAmount();
 			}
 			mbMonth1All=mbMonth1All+mbMonth1;
 			
 			DepartmentTarget mt2=dtService.selectDepartmentTargetByOmIdAndYear(omId, year2);
-			float mbMonth2=0;
+			double mbMonth2=0;
 			if(mt2!=null){
 				mbMonth2=mt2.getContractAmount();
 			}
 			mbMonth2All=mbMonth2All+mbMonth2;
 			
 			DepartmentTarget mt3=dtService.selectDepartmentTargetByOmIdAndYear(omId, year);
-			float mbMonth3=0;
+			double mbMonth3=0;
 			if(mt3!=null){
 				 mbMonth3=mt3.getContractAmount();
 			}
@@ -1321,8 +1321,8 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab3Income(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Float>> resultList=new ArrayList<>();
-		List<List<Float>> mbList=new ArrayList<>();
+		List<List<Double>> resultList=new ArrayList<>();
+		List<List<Double>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		List<String> yearList=new ArrayList<>();
 		omList.add("公司");
@@ -1334,19 +1334,19 @@ public class StatisticsController {
 		yearList.add(year2);
 		yearList.add(year);
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<Float> resultAll=new ArrayList<>();
-		List<Float> mbAll=new ArrayList<>();
-		float month1All=0;
-		float month2All=0;
-		float month3All=0;
+		List<Double> resultAll=new ArrayList<>();
+		List<Double> mbAll=new ArrayList<>();
+		double month1All=0;
+		double month2All=0;
+		double month3All=0;
 		
-		float mbMonth1All=0;
-		float mbMonth2All=0;
-		float mbMonth3All=0;
+		double mbMonth1All=0;
+		double mbMonth2All=0;
+		double mbMonth3All=0;
 	
 		for(int i=0;i<om.size();i++){
-			List<Float> result=new ArrayList<>();
-			List<Float> mb=new ArrayList<>();
+			List<Double> result=new ArrayList<>();
+			List<Double> mb=new ArrayList<>();
 			String omName=om.get(i).getOmName();
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
@@ -1358,28 +1358,28 @@ public class StatisticsController {
 			PrjProgressFill ppf3=pService.selectGsIncomeByTimeAndDept(year, omName);
 			month3All=month3All+ppf3.getAllMoneyYuan();
 			
-			result.add(ppf.getAllMoneyYuan());
-			result.add(ppf2.getAllMoneyYuan());
-			result.add(ppf3.getAllMoneyYuan());
+			result.add((double) ppf.getAllMoneyYuan());
+			result.add((double) ppf2.getAllMoneyYuan());
+			result.add((double) ppf3.getAllMoneyYuan());
 			
 			resultList.add(result);
 			
 			DepartmentTarget mt=dtService.selectDepartmentTargetByOmIdAndYear(omId, year3);
-			float mbMonth1=0;
+			double mbMonth1=0;
 			if(mt!=null){
 				mbMonth1=mt.getRevenueTarget();
 			}
 			mbMonth1All=mbMonth1All+mbMonth1;
 			
 			DepartmentTarget mt2=dtService.selectDepartmentTargetByOmIdAndYear(omId, year2);
-			float mbMonth2=0;
+			double mbMonth2=0;
 			if(mt2!=null){
 				mbMonth2=mt2.getRevenueTarget();
 			}
 			mbMonth2All=mbMonth2All+mbMonth2;
 			
 			DepartmentTarget mt3=dtService.selectDepartmentTargetByOmIdAndYear(omId, year);
-			float mbMonth3=0;
+			double mbMonth3=0;
 			if(mt3!=null){
 				mbMonth3=mt3.getRevenueTarget();
 			}
@@ -1557,33 +1557,33 @@ public class StatisticsController {
 		return receiptAll;
 	}
 	
-	public float getMbContractMoney(List<MonthTarget> mt){
-		float money=0;
+	public double getMbContractMoney(List<MonthTarget> mt){
+		double money=0;
 		if(mt!=null){
 			for(int jj=0;jj<mt.size();jj++){
-				float contractAmount=mt.get(jj).getContractAmount();
+				double contractAmount=mt.get(jj).getContractAmount();
 				money=money+contractAmount;
 			}
 		}
 		return money;
 	}
 	
-	public float getMbIncome(List<MonthTarget> mt){
-		float money=0;
+	public double getMbIncome(List<MonthTarget> mt){
+		double money=0;
 		if(mt!=null){
 			for(int jj=0;jj<mt.size();jj++){
-				float income=mt.get(jj).getRevenueTarget();
+				double income=mt.get(jj).getRevenueTarget();
 				money=money+income;
 			}
 		}
 		return money;
 	}
 	
-	public float getMbReceipt(List<MonthTarget> mt){
-		float money=0;
+	public double getMbReceipt(List<MonthTarget> mt){
+		double money=0;
 		if(mt!=null){
 			for(int jj=0;jj<mt.size();jj++){
-				float receipt=mt.get(jj).getCollectionTarget();
+				double receipt=mt.get(jj).getCollectionTarget();
 				money=money+receipt;
 			}
 		}

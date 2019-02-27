@@ -14,14 +14,7 @@ public class OperationTarget {
 	private double profit;//利润目标
 	private double lr;//实际利润
 	private String year;
-	private String dept;//部门名称
 	
-	public String getDept() {
-		return dept;
-	}
-	public void setDept(String dept) {
-		this.dept = dept;
-	}
 	public String getOtId() {
 		return otId;
 	}

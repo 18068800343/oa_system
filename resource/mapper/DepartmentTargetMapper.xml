@@ -2,21 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.DepartmentTargetDao" >
   		<insert id="addDepartmentTarget" parameterType="java.util.List">
-  			insert into department_target(t_id,ot_id,om_id,contract_amount,revenue_target,collection_target)  values
+  			insert into department_target(t_id,ot_id,om_id,contract_amount,revenue_target,collection_target,profit)  values
 	  			<foreach collection="dTarget" item="item" separator=",">
-	  				(#{item.tId},#{item.otId},#{item.omId},#{item.contractAmount},#{item.revenueTarget},#{item.collectionTarget})
+	  				(#{item.tId},#{item.otId},#{item.omId},#{item.contractAmount},#{item.revenueTarget},#{item.collectionTarget},#{item.profit})
 	  			</foreach>
   		</insert>
   		
   		<update id="updateDepartmentTarget" parameterType="java.util.List">
   			<foreach collection="dTarget" item="item" separator=";">
-  				update department_target set contract_amount=#{item.contractAmount},revenue_target=#{item.revenueTarget},
-  						   collection_target=#{item.collectionTarget} where ot_id=#{item.otId} and om_id=#{item.omId}
+  				update department_target set 
+  							contract_amount=#{item.contractAmount},
+  							revenue_target=#{item.revenueTarget},
+  						    collection_target=#{item.collectionTarget},
+  						    profit=#{item.profit}
+  				where ot_id=#{item.otId} and om_id=#{item.omId}
   			</foreach>
   		</update>
   		
   		<select id="selectDepartmentTarget" resultType="DepartmentTarget">
-  			SELECT a.*,b.om_name FROM department_target as a LEFT JOIN organization_management as b on a.om_id=b.om_id 
+  			SELECT a.*,b.om_name as bmmc FROM department_target as a LEFT JOIN organization_management as b on a.om_id=b.om_id 
   			where a.ot_id=#{id}
   		</select>
   		
@@ -25,7 +29,8 @@
   		</select>
   		
   		<select id="selectDepartmentTargetByOmId" resultType="DepartmentTarget">
-  			SELECT a.*,b.year,c.om_name FROM department_target as a LEFT JOIN operation_target as b on a.ot_id=b.ot_id 
+  			SELECT a.*,b.year,c.om_name FROM department_target as a 
+  			LEFT JOIN operation_target as b on a.ot_id=b.ot_id 
   			LEFT JOIN organization_management as c on a.om_id=c.om_id
   			where a.om_id=#{id}
   		</select>
@@ -35,5 +40,15 @@
 	  		LEFT JOIN department_target as b on a.ot_id=b.ot_id
 	  		LEFT JOIN mode_status as c on a.ot_id=c.mode_id
 			where c.status=2 and b.om_id=#{omId} and a.year=#{year}
+  		</select>
+  		
+  		<select id="selectDepartmentTargetByIdAndOmId" resultType="DepartmentTarget">
+  			SELECT * FROM department_target where ot_id=#{id} and om_id=#{omId}
+  		</select>
+  		
+  		<select id="selectDepartmentTargetByYearAndOmId" resultType="DepartmentTarget">
+  			SELECT a.*,b.year  FROM department_target as a
+			LEFT JOIN operation_target as b on a.ot_id=b.ot_id
+			where a.om_id=#{omId} and b.year=#{year}
   		</select>
 </mapper>
