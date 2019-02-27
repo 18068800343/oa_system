@@ -12,6 +12,8 @@
     <link href="../../style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -141,7 +143,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-success" onclick="new_save()">保存</button> -->
+            <button type="button" class="btn btn-success" onclick="new_save()">保存</button> 
             <button type="button" class="btn btn-success" onclick="new_submit()">提交</button>
         </div>
         </div>
@@ -477,6 +479,8 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -790,13 +794,15 @@
 	
 	
 	function new_save(){
+		showMask();
+		var px_type=$("#new_px_type").val();
 		var new_class_name=$("#new_class_name").val();
 		var department=$("#department").val();
 		var new_addr=$("#new_addr").val();
 		var year=$("#year").val();
 		var year2=$("#year2").val();
 		var new_summarize=$("#new_summarize").val();
-		var trainingType=$("#trainingType").val()
+		var trainingType=$("#trainingType").val();
 		/* if(new_class_name==''){
     		toastr.error("培训课程名称不能为空");
     		return;
@@ -810,6 +816,7 @@
 				url: getContextPath()+'/DataArchive/addDataArchiveBySave',
 	            dataType: 'json',
 	            data: {
+	            	daType:px_type,        		
 	            	daName:new_class_name,
 	            	safekeepingDepartment:department,
 	            	trainingLocation:new_addr,
@@ -819,6 +826,7 @@
 	            	trainingTimeEnd:year2
 	            },
 	            success: function (json) {
+	            	hidMask();
 	            	if(json==0){
 	            		toastr.error("保存失败");
 	            	}else{
@@ -1296,6 +1304,13 @@
 		return loginUrl;
 	}
 
+    function showMask() {
+    	myTool.mask.show('保存中...');
+	 }
+	 function hidMask() {
+	 	myTool.mask.hide();
+	 }
+	 
     
 </script>
 </html>

@@ -19,6 +19,7 @@ import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.OutTrain;
 import org.ldxx.bean.OutTrainAll;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.AnnouncementService;
 import org.ldxx.service.DataArchiveService;
 import org.ldxx.service.InternalTrainingService;
@@ -54,6 +55,8 @@ public class DataArchiveController {
 	private OutTrainAllService otallservice;//外部
 	@Autowired
 	private InternalTrainingService itservice;//内部
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/addDataArchiveBySave")
 	@ResponseBody
@@ -119,7 +122,7 @@ public class DataArchiveController {
 		int aa=service.addDataArchive(archive);
 		if(aa>0){
 			User user = (User) session.getAttribute("user");
-			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			OrganizationManagement om=oService.selectOrgById(archive.getSafekeepingDepartment());
 			String omNo=om.getOmNo();
 			String string="";
 			FlowUtill flowUtill = new FlowUtill();
@@ -219,9 +222,9 @@ public class DataArchiveController {
 		int aa=service.addDataArchive(archive);
 		String string = aa+"";
 		if(aa>0){
-			User user = (User) session.getAttribute("user");
-			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			OrganizationManagement om=oService.selectOrgById(archive.getSafekeepingDepartment());
 			String omNo=om.getOmNo();
+			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
@@ -333,6 +336,11 @@ public class DataArchiveController {
 		archive.setAccessory2(accList2);
 		archive.setAccessory3(accList3);
 		int aa=service.updateDataArchive(archive);
+		if(aa>0){
+			OrganizationManagement om=oService.selectOrgById(archive.getSafekeepingDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(archive.getDaId(), omNo);
+		}
 		return aa;
 	}
 	
@@ -397,6 +405,11 @@ public class DataArchiveController {
 		archive.setAccessory2(accList2);
 		archive.setAccessory3(accList3);
 		int aa=service.updateDataArchive(archive);
+		if(aa>0){
+			OrganizationManagement om=oService.selectOrgById(archive.getSafekeepingDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(archive.getDaId(), omNo);
+		}
 		return aa;
 	}
 	

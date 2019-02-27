@@ -14,6 +14,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.OutTrain;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.AnnouncementService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.OutTrainService;
@@ -32,12 +33,12 @@ public class OutTrainController {
 
 	@Autowired
 	private OutTrainService oservice;
-	
 	@Autowired 
 	private AnnouncementService aservice;
-	
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/addOutTrainBySave")
 	@ResponseBody
@@ -216,6 +217,11 @@ public class OutTrainController {
 		}
 		outTrain.setAccessory(accList);
 		int i=oservice.updateOutTrain(outTrain);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(outTrain.getProposerDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(outTrain.getOtId(), omNo);
+		}
 		return i;
 	}
 	
@@ -246,6 +252,11 @@ public class OutTrainController {
 		}
 		outTrain.setAccessory(accList);
 		int i=oservice.updateOutTrain(outTrain);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(outTrain.getProposerDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(outTrain.getOtId(), omNo);
+		}
 		return i;
 	}
 	
@@ -267,4 +278,5 @@ public class OutTrainController {
 	public List<OutTrain> getOutTrainName(){
 		return oservice.getOutTrainName();
 	}
+	
 }

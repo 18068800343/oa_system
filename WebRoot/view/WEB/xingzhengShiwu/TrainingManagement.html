@@ -13,6 +13,8 @@
     <link href="../../font3/bootstrap-select.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -148,7 +150,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-default" onclick="new_save()">保存</button> -->
+            <button type="button" class="btn btn-default" onclick="new_save()">保存</button> 
             <button type="button" class="btn btn-success" onclick="new_submit()">提交</button>
         </div>
         </div>
@@ -638,6 +640,9 @@
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/quanxian.js"></script>
 <script src="../../js/bootstrap-select.js"></script>
+
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
     	initDepartment();
@@ -1497,6 +1502,7 @@
     }
 	
 	function new_save(){
+		showMask();
 		var title=$("#title").val();
 		var department=$("#department").val();
 		var user=$("#user").val();
@@ -1504,10 +1510,14 @@
 		var className=$("#className").val();
 		var year=$("#year").val();
 		var studyMoney=$("#studyMoney").val();
+		if(studyMoney==""||studyMoney==null){
+			studyMoney=0;
+		}
 		var year2=$("#year2").val();
 		var year3=$("#year3").val();
 		if(CompareDate(year2,year3)){
 			toastr.error("培训开始时间不能大于结束时间!");
+			return false;
 		}
 		var studyAddr=$("#studyAddr").val();
 		var study_infos=$("#study_infos").val();
@@ -1573,6 +1583,7 @@
 	            	director:fuzeren,
 	            },
 	            success: function (json) {
+	            	hidMask();
 	            	if(json==0){
 	            		toastr.error("保存失败");
 	            	}else{
@@ -2177,5 +2188,13 @@ Array.prototype.unique3 = function(){
 		var loginUrl = window.location.protocol + "//"  + window.location.host ;
 		return loginUrl;
 	}
+    
+    function showMask() {
+    	myTool.mask.show('保存中...');
+	 }
+	 function hidMask() {
+	 	myTool.mask.hide();
+	 }
+    
 </script>
 </html>

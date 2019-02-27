@@ -12,6 +12,8 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+     <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -144,7 +146,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-default" onclick="new_save()">保存</button> -->
+           <button type="button" class="btn btn-default" onclick="new_save()">保存</button> 
             <button type="button" class="btn btn-success" onclick="new_submit()">提交</button>
         </div>
         </div>
@@ -633,6 +635,8 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -1467,6 +1471,7 @@
 	})
 	
 	function new_save(){
+		showMask();
 		 var trainingMan=$("#new_user").val();
 		 var department=$("#new_department").val();
 		 var duty=$("#new_duty").val();
@@ -1475,6 +1480,9 @@
 		 var trainingDateEnd=$("#year2").val();
 		 var trainingLocation=$("#new_addr").val();
 		 var trainingMoney=$("#new_money").val();
+		 if(trainingMoney==""||trainingMoney==null){
+			 trainingMoney=0;
+			}
 		 var trainingDesc=$("#new_class_info").val();
 		 var trainingReason=$("#new_target").val();
 		 var in_users=$("#in_users").val();
@@ -1527,6 +1535,7 @@
 		            	trainingDateEnd:trainingDateEnd,
 		            },
 		            success: function (json) {
+		            	hidMask();
 		            	if(json==0){
 		            	    toastr.error("填报保存失败");
 		            	}else{
@@ -2047,5 +2056,12 @@
 		return loginUrl;
 	}
 
+    function showMask() {
+    	myTool.mask.show('保存中...');
+	 }
+	 function hidMask() {
+	 	myTool.mask.hide();
+	 }
+    
 </script>
 </html>

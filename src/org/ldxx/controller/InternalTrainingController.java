@@ -15,6 +15,7 @@ import org.ldxx.bean.InternalTraining;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.OutTrainAll;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.AnnouncementService;
 import org.ldxx.service.InternalTrainingService;
 import org.ldxx.service.OrganizationManagementService;
@@ -40,6 +41,8 @@ public class InternalTrainingController {
 	
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/addInternalTrainingBySave")
 	@ResponseBody
@@ -219,6 +222,11 @@ public class InternalTrainingController {
 		}
 		training.setAccessory(accList);
 		int i=iservice.updateInternalTraining(training);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(training.getDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(training.getItId(), omNo);
+		}
 		return i;
 	}
 	
@@ -249,6 +257,11 @@ public class InternalTrainingController {
 		}
 		training.setAccessory(accList);
 		int i=iservice.updateInternalTraining(training);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(training.getDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(training.getItId(), omNo);
+		}
 		return i;
 	}
 	

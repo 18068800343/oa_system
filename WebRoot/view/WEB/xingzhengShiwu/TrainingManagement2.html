@@ -12,6 +12,8 @@
     <link href="../../style/style.css" rel="stylesheet">
     <link href="../../font3/bootstrap-select.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+     <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -158,7 +160,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-success" onclick="new_save()">保存</button> -->
+           <button type="button" class="btn btn-success" onclick="new_save()">保存</button> 
             <button type="button" class="btn btn-success"  onclick="new_submit()">提交</button>
         </div>
         </div>
@@ -569,6 +571,8 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -1182,6 +1186,7 @@
 	})
 	
 	function new_save(){
+		showMask();
 		var new_title=$("#new_title").val();
 		var users=$("#new_users").val().toString();
 		var new_department=$("#new_department").val();
@@ -1191,6 +1196,9 @@
 		var year=$("#year").val();
 		var new_addr=$("#new_addr").val();
 		var new_money=$("#new_money").val();
+		if(new_money==""||new_money==null){
+			new_money=0;
+		}
 		var new_course_desc=$("#new_course_desc").val();
 		var new_training_reason=$("#new_training_reason").val();
 		var trainingType=$("#trainingType").val();
@@ -1237,6 +1245,7 @@
 	            	trainingType:trainingType
 	            },
 	            success: function (json) {
+	            	hidMask();
 	            	if(json==0){
 	            	    toastr.error("保存失败");
 	            	}else{
@@ -1794,6 +1803,13 @@ Array.prototype.unique3 = function(){
 		var loginUrl = window.location.protocol + "//"  + window.location.host ;
 		return loginUrl;
 	}
+    
+    function showMask() {
+    	myTool.mask.show('保存中...');
+	 }
+	 function hidMask() {
+	 	myTool.mask.hide();
+	 }
 
 </script>
 </html>

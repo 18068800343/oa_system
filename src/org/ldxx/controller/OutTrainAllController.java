@@ -15,6 +15,7 @@ import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.OutTrain;
 import org.ldxx.bean.OutTrainAll;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.AnnouncementService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.OutTrainAllService;
@@ -37,6 +38,8 @@ public class OutTrainAllController {
 	private AnnouncementService aservice;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/addOutTrainAllBySave")
 	@ResponseBody
@@ -213,7 +216,13 @@ public class OutTrainAllController {
 			}
 		}
 		trainAll.setAccessory(accList);
-		return oservice.updateOutTrainAll(trainAll);
+		int i= oservice.updateOutTrainAll(trainAll);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(trainAll.getOmId());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(trainAll.getOmId(), omNo);
+		}
+		return i;
 	}
 	
 	@RequestMapping("/updateOutTrainAllBySubmit")
@@ -242,7 +251,13 @@ public class OutTrainAllController {
 			}
 		}
 		trainAll.setAccessory(accList);
-		return oservice.updateOutTrainAll(trainAll);
+		int i= oservice.updateOutTrainAll(trainAll);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(trainAll.getOmId());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(trainAll.getOmId(), omNo);
+		}
+		return i;
 	}
 	
 	@RequestMapping("/selectOutTrainAll")
