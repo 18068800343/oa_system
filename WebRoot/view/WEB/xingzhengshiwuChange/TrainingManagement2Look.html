@@ -576,10 +576,8 @@
 	    		           id:id
 	    		        },
 	    		        success: function (json) {
-	    		        	
 	    		        	for(var i=0;i<json.length;i++){
-	    		        		acc=json;
-	    		        		$("#edit_table tbody").append("<tr><td>附件"+(i+1)+"</td><td><input style='width:100%;' type='text' value="+acc[i].acName+" class='form-control' disabled/></td><td><button type='button' data="+acc[i].aId+" data2="+acc[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
+	    		        		$("#edit_table tbody").append("<tr><td>附件"+(i+1)+"</td><td><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td><td><button type='button' data="+json[i].aId+" data2="+json[i].acUrl+" data3="+json[i].acName+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
 	    		        	}
 	    		        }
 	    	    	});
@@ -587,17 +585,23 @@
 	    		 
 	        }
 	    });
-		
-		
-		  
-		
-		
 	}
+	
+	
+	function getLocalPath(){
+		var pathArray = window.location.pathname.split('/');
+		var secondLevelLocation = pathArray[1];
+		var loginUrl = window.location.protocol + "//"  + window.location.host ;
+		return loginUrl;
+	}
+
+	
 	
 	function deleteFile(obj){
 		var aId=$(obj).attr("data");
 		var acUrl=$(obj).attr("data2");
-		var acName=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		//var acName=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var acName=$(obj).attr("data3");
 		var statu = confirm("确认删除吗?");
 		  if(!statu){
 		   return false;
