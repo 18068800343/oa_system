@@ -75,10 +75,10 @@
                     <form class="form-inline">
                         <table class="table table-bordered table-condensed">
                             <tr>
-                                <td style="width:100px;">年份</td>
-                                <td><input type="text" class="form-control"  id="year"></td>
-                                <td class="jinqianyanse">新签合同额目标(万元)</td>
-                                <td><input type="text" class="form-control"  id="add_contractAmount"></td>
+                                <td style="width:18%;">年份</td>
+                                <td style="width:28%;"><input type="text" class="form-control"  id="year"></td>
+                                <td style="width:25%;" class="jinqianyanse">新签合同额目标(万元)</td>
+                                <td style="width:29%;"><input type="text" class="form-control"  id="add_contractAmount"></td>
                             </tr>
                             <tr>
                             	<td class="jinqianyanse">收入目标(万元)</td>
@@ -88,16 +88,10 @@
                             </tr>
                             <tr>
                             	<td class="jinqianyanse">利润目标</td>
-                                <td><input type="text" class="form-control" id=""></td>
+                                <td><input type="text" class="form-control" id="add_profit"></td>
                                 <td></td>
                                 <td></td>
                             </tr>
-                           <!--  <tr>
-                            	<td>预算成本</td>
-                                <td><input type="text" class="form-control" id="add_budgetCost"></td>
-                                <td>实际成本</td>
-                                <td><input type="text" class="form-control" id="add_actualCost"></td>
-                            </tr> -->
                         </table> 
                     </form>  
                 </div>
@@ -150,10 +144,10 @@
                       <form class="form-inline">
                         <table class="table table-bordered table-condensed">
                             <tr>
-                                <td style="width:100px;">年份</td>
-                                <td><input type="text" class="form-control"  id="xgyear"></td>
-                                <td class="jinqianyanse">新签合同额目标(万元)</td>
-                                <td><input type="text" class="form-control"  id="xg_contractAmount"></td>
+                                <td style="width:18%;">年份</td>
+                                <td style="width:28%;"><input type="text" class="form-control"  id="xgyear"></td>
+                                <td style="width:25%;" class="jinqianyanse">新签合同额目标(万元)</td>
+                                <td style="width:29%;"><input type="text" class="form-control"  id="xg_contractAmount"></td>
                             </tr>
                             <tr>
                             	<td class="jinqianyanse">收入目标(万元)</td>
@@ -163,7 +157,7 @@
                             </tr>
                             <tr>
                             	<td class="jinqianyanse">利润目标</td>
-                                <td><input type="text" class="form-control" id=""></td>
+                                <td><input type="text" class="form-control" id="xg_profit"></td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -484,16 +478,15 @@
 					{ "data": null}, 
 		            { "data": "year"}, 
 		            { "data": "contractAmount"},
-		            { "data": "actualContractAmount"}, 
+		            { "data": "xqhte"}, 
 		            { "data": "revenueTarget"}, 
-		            { "data": "realIncome"}, 
+		            { "data": "sr"}, 
 		            { "data": "collectionTarget"}, 
-		            { "data": "actualPayment"}, 
-		            //{ "data": "budgetCost"}, 
-		            { "data": "actualCost"}, 
-		            { "data": "actualCost"}, 
-		            { "data": "actualCost"}, 
-		            { "data": "actualCost"}, 
+		            { "data": "sk"}, 
+		            { "data": "zjcb"}, 
+		            { "data": "jjcb"}, 
+		            { "data": "profit"}, 
+		            { "data": "lr"}, 
 		            { "data": null}
 		        ],
 		        "columnDefs": [
@@ -635,8 +628,6 @@
 		var contractAmount=$("#add_contractAmount").val();
 		var revenueTarget=$("#add_revenueTarget").val();
 		var collectionTarget=$("#add_collectionTarget").val();
-		/* var budgetCost=$("#add_budgetCost").val();
-		var actualCost=$("#add_actualCost").val(); */
 		var year=$("#year").val();
 		
 		$.ajax({
@@ -647,8 +638,6 @@
             	contractAmount:contractAmount,
             	revenueTarget:revenueTarget,
             	collectionTarget:collectionTarget,
-            	/* budgetCost:budgetCost,
-            	actualCost:actualCost, */
             	year:year
             },
             success: function (json) {
@@ -668,9 +657,8 @@
 		var contractAmount=$("#add_contractAmount").val();
 		var revenueTarget=$("#add_revenueTarget").val();
 		var collectionTarget=$("#add_collectionTarget").val();
-		/* var budgetCost=$("#add_budgetCost").val();
-		var actualCost=$("#add_actualCost").val(); */
 		var year=$("#year").val();
+		var profit=$("#add_profit").val();
 		
 		$.ajax({
             type: 'POST',
@@ -680,16 +668,15 @@
             	contractAmount:contractAmount,
             	revenueTarget:revenueTarget,
             	collectionTarget:collectionTarget,
-            	/* budgetCost:budgetCost,
-            	actualCost:actualCost, */
+            	profit:profit,
             	year:year
             },
             success: function (json) {
             		if(json==0){
-            			toastr.error("新建保存失败")
+            			toastr.error("提交失败")
             		}else if(json==1){
             			$("#myModal").modal("hide");
-            			toastr.success("新建保存成功")
+            			toastr.success("提交成功")
             		}else if(json==2){
             			toastr.error("年份重复")
             		}
@@ -706,6 +693,7 @@
 		$("#xg_contractAmount").val(data.contractAmount);
 		$("#xg_revenueTarget").val(data.revenueTarget);
 		$("#xg_collectionTarget").val(data.collectionTarget);
+		$("#xg_profit").val(data.profit);
 		
 		$("#change").modal("show");
 	}
@@ -763,10 +751,10 @@
             },
             success: function (json) {
             	if(json==0){
-            		toastr.error("修改失败");
+            		toastr.error("提交失败");
             	}else{
 					$("#change").modal("hide");            		
-            		toastr.success("修改成功");
+            		toastr.success("提交成功");
             	}
             }
 		});

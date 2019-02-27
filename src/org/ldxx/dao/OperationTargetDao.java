@@ -20,10 +20,10 @@ public interface OperationTargetDao {
 	
 	public float getSumCostByYear(@Param("year")String year);
 	
-	public List<OperationTarget> selectOperationTargetByYear(@Param("year")String year);
+	public OperationTarget selectOperationTargetByYear(@Param("year")String year);
 	
 	public String selectGsOperationTargetByTime(@Param("time")String time);
 	
-	public String selectBmOperationTargetByTime(Map<String, Object> map);
+	public String selectBmOperationTargetByTime(@Param("time")String time);
 	
 }

@@ -54,7 +54,7 @@ public class OperationTargetServiceImpl implements OperationTargetService{
 	}
 
 	@Override
-	public List<OperationTarget> selectOperationTargetByYear(String year) {
+	public OperationTarget selectOperationTargetByYear(String year) {
 		return odao.selectOperationTargetByYear(year);
 	}
 
@@ -64,8 +64,8 @@ public class OperationTargetServiceImpl implements OperationTargetService{
 	}
 
 	@Override
-	public String selectBmOperationTargetByTime(Map<String, Object> map) {
-		return odao.selectBmOperationTargetByTime(map);
+	public String selectBmOperationTargetByTime(String time) {
+		return odao.selectBmOperationTargetByTime(time);
 	}
 
 }

@@ -3,46 +3,24 @@ package org.ldxx.bean;
 public class OperationTarget {
 
 	private String otId;
-	private float contractAmount;//合同额目标
-	private float revenueTarget;//收入目标
-	private float collectionTarget;//收款目标
-	private float budgetCost;//预算成本
-	private float actualCost;//实际成本
+	private double contractAmount;//合同额目标
+	private double xqhte;//实际合同额
+	private double revenueTarget;//收入目标
+	private double sr;//实际收入
+	private double collectionTarget;//收款目标
+	private double sk;//实际收款
+	private double zjcb;//直接成本
+	private double jjcb;//间接成本
+	private double profit;//利润目标
+	private double lr;//实际利润
 	private String year;
-	private float actualPayment;//实际收款
-	private float realIncome;//实际收入
-	private float actualContractAmount;//实际合同额
+	private String dept;//部门名称
 	
-	
-	public float getActualContractAmount() {
-		return actualContractAmount;
+	public String getDept() {
+		return dept;
 	}
-	public void setActualContractAmount(float actualContractAmount) {
-		this.actualContractAmount = actualContractAmount;
-	}
-	public float getActualPayment() {
-		return actualPayment;
-	}
-	public void setActualPayment(float actualPayment) {
-		this.actualPayment = actualPayment;
-	}
-	public float getRealIncome() {
-		return realIncome;
-	}
-	public void setRealIncome(float realIncome) {
-		this.realIncome = realIncome;
-	}
-	public float getBudgetCost() {
-		return budgetCost;
-	}
-	public void setBudgetCost(float budgetCost) {
-		this.budgetCost = budgetCost;
-	}
-	public float getActualCost() {
-		return actualCost;
-	}
-	public void setActualCost(float actualCost) {
-		this.actualCost = actualCost;
+	public void setDept(String dept) {
+		this.dept = dept;
 	}
 	public String getOtId() {
 		return otId;
@@ -50,23 +28,65 @@ public class OperationTarget {
 	public void setOtId(String otId) {
 		this.otId = otId;
 	}
-	public float getContractAmount() {
+	public double getContractAmount() {
 		return contractAmount;
 	}
-	public void setContractAmount(float contractAmount) {
+	public void setContractAmount(double contractAmount) {
 		this.contractAmount = contractAmount;
 	}
-	public float getRevenueTarget() {
+	public double getXqhte() {
+		return xqhte;
+	}
+	public void setXqhte(double xqhte) {
+		this.xqhte = xqhte;
+	}
+	public double getRevenueTarget() {
 		return revenueTarget;
 	}
-	public void setRevenueTarget(float revenueTarget) {
+	public void setRevenueTarget(double revenueTarget) {
 		this.revenueTarget = revenueTarget;
 	}
-	public float getCollectionTarget() {
+	public double getSr() {
+		return sr;
+	}
+	public void setSr(double sr) {
+		this.sr = sr;
+	}
+	public double getCollectionTarget() {
 		return collectionTarget;
 	}
-	public void setCollectionTarget(float collectionTarget) {
+	public void setCollectionTarget(double collectionTarget) {
 		this.collectionTarget = collectionTarget;
+	}
+	public double getSk() {
+		return sk;
+	}
+	public void setSk(double sk) {
+		this.sk = sk;
+	}
+	public double getZjcb() {
+		return zjcb;
+	}
+	public void setZjcb(double zjcb) {
+		this.zjcb = zjcb;
+	}
+	public double getJjcb() {
+		return jjcb;
+	}
+	public void setJjcb(double jjcb) {
+		this.jjcb = jjcb;
+	}
+	public double getProfit() {
+		return profit;
+	}
+	public void setProfit(double profit) {
+		this.profit = profit;
+	}
+	public double getLr() {
+		return lr;
+	}
+	public void setLr(double lr) {
+		this.lr = lr;
 	}
 	public String getYear() {
 		return year;
@@ -74,11 +94,5 @@ public class OperationTarget {
 	public void setYear(String year) {
 		this.year = year;
 	}
-	@Override
-	public String toString() {
-		return "OperationTarget [otId=" + otId + ", contractAmount=" + contractAmount + ", revenueTarget="
-				+ revenueTarget + ", collectionTarget=" + collectionTarget + ", year=" + year + "]";
-	}
-	
 	
 }

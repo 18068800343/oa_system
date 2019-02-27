@@ -2,7 +2,9 @@ package org.ldxx.controller;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("operationTarget")
@@ -114,14 +118,28 @@ public class OperationTargetController {
 	@ResponseBody
 	public List<OperationTarget> selectOperationTarget(){
 		List<OperationTarget> list=oservice.selectOperationTarget();
-		Map<String,Object> map=new HashMap<>();
-		map.put("nd", "2019");
-		map.put("rr", "");
-		
-//		String result=oservice.selectGsOperationTargetByTime("2019");
-		
-		String aaString = oservice.selectBmOperationTargetByTime(map);
-		System.out.println(map);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String nowYear=sdf.format(new Date());
+		int nowY=Integer.valueOf(nowYear);
+		for(int i=2019;i<=nowY;i++){
+			String resultGs=oservice.selectGsOperationTargetByTime(i+"");
+			JSONObject jsonObject=JSONObject.fromObject(resultGs);
+			OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+			OperationTarget ot2=oservice.selectOperationTargetByYear(i+"");
+			ot.setYear(ot2.getYear());
+			ot.setContractAmount(ot2.getContractAmount());
+			ot.setRevenueTarget(ot2.getRevenueTarget());
+			ot.setCollectionTarget(ot2.getCollectionTarget());
+			ot.setProfit(ot2.getProfit());
+			ot.setXqhte(ot.getXqhte()/10000);
+			ot.setSr(ot.getSr()/10000);
+			ot.setSk(ot.getSk()/10000);
+			ot.setZjcb(ot.getZjcb()/10000);
+			ot.setJjcb(ot.getJjcb()/10000);
+			ot.setLr(ot.getLr()/10000);
+			list.add(ot);
+		}
+		return list;
 		/*for(int i=0;i<list.size();i++){
 			float budgetCost=oservice.getSumCostByYear(list.get(i).getYear());
 			list.get(i).setBudgetCost(budgetCost);
@@ -287,7 +305,6 @@ public class OperationTargetController {
 			
 			
 		}*/
-		return list;
 	}
 	
 	/***********************************************部门指标**************************************************/
