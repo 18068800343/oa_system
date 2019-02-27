@@ -27,4 +27,6 @@ public interface KpApplicationService {
 	public KpApplication getKpApplicationBykpNo(String kpno);
 
 	public KpApplication getKpApplicationById(String id);
+
+	public int updateKpApplicationById(KpApplication kp);
 }

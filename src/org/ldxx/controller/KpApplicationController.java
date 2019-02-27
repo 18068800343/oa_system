@@ -18,6 +18,7 @@ import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.dao.OrganizationManagementDao;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.KpApplicationService;
 import org.ldxx.service.PrjProgressFillService;
@@ -43,6 +44,8 @@ public class KpApplicationController {
 	private CjContractService cService;
 	@Autowired
 	private OrganizationManagementDao omDao;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/addKpApplicationBySave")
 	@ResponseBody
@@ -237,5 +240,16 @@ public class KpApplicationController {
 	public KpApplication getKpApplicationById(String id){
 		KpApplication list=service.getKpApplicationById(id);
 		return list;
+	}
+	
+	@RequestMapping("/updateKpApplicationById")//通过id修改
+	@ResponseBody
+	public int updateKpApplicationById(KpApplication kp){
+		int i=service.updateKpApplicationById(kp);
+		if(i>0){
+			String omNo = omDao.selectOrgById(kp.getKpDepartment()).getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(kp.getKpId(), omNo);
+		}
+		return i;
 	}
 }

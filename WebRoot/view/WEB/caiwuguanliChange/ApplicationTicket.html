@@ -12,6 +12,7 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <link href="../../select/css/select2.min.css" rel="stylesheet">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -617,6 +618,7 @@
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../select/js/select2.min.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -640,7 +642,6 @@
    }
    // 调用方法
    	id=GetQueryString("prjId");
-   
   	//已知部门选人
     var tableren=$('#mingzibiao').dataTable({
         "deferRender": true,
@@ -838,13 +839,20 @@
 	            type: 'POST',
 	            url: getContextPath()+'/cooperator/selectCooperatorIdAndName',
 	            dataType: 'json',
+	            async:false,
 	            data: {
 	            },
 	            success: function (json) {
 	            	$("#pay_unit").html('');
 	            	for(var i=0;i<json.length;i++){
-	            		$("#pay_unit").append("<option value="+json[i].ccId+">"+json[i].ccName+"</option>")
+	            		$("#pay_unit").append("<option  value="+json[i].ccId+">"+json[i].ccName+"</option>")
 	            	}
+	            	$.fn.modal.Constructor.prototype.enforceFocus = function () { }
+	                 $("#pay_unit").select2({
+	 	                 tags: true,
+	 	                 placeholder: '请搜索或选择语言',
+	 	                 allowClear: true
+	 	             });
 	            	$("#pay_unit").trigger("change");
 	            }
 			})
@@ -855,6 +863,7 @@
             type: 'POST',
             url: getContextPath()+'/cooperator/selectCooperatorById',
             dataType: 'json',
+            async:false,
             data: {
             	id:$("#pay_unit").val()
             },
@@ -879,6 +888,7 @@
             type: 'POST',
             url: getContextPath()+'/organizationManagement/getOrgIdAndName',
             dataType: 'json',
+            async:false,
             data: {
             },
             success: function (json) {
@@ -930,53 +940,6 @@
 		$("#sq_men").val(a);
 		
 	}
-	/* $("#bumen").change(function(){
-		var bumen=$("#bumen").val();
-		$.ajax({
-			type:"POST",
-			url:getContextPath()+"/user/selectUserByomId",
-			dataType:"json",
-			async:false,
-			data:{ 
-				omId:bumen 
-			},
-			success:function(json){
-				$("#guanliren").empty();
-				for(var i=0;i<json.length;i++){
-					$("#guanliren").append("<option value='" + json[i].userId + "'>"
-		                    + json[i].uName + "</option>")
-				}
-			}
-		})
-	})
-	
-	//保存添加收货人
-	function saveGuanliren(){
-		var bumen=$("#bumen").val();
-		var guanliren=$("#guanliren").val();
-		$('#addGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
-            if ($('.modal.in').size() >= 1) {
-                $('body').addClass('modal-open')
-            }
-        })
-		if(guanliren==''){
-			toastr.error("人员为空");
-			return;
-		}
-		$.ajax({
-			type:"POST",
-			url:getContextPath()+"/user/selectUserById",
-			dataType:"json",
-			async:false,
-			data:{ 
-				userId:guanliren 
-				},
-			success:function(json){
-				$("#sq_men").empty('');
-				$("#sq_men").val(json.uName);
-			}
-		})
-	} */
 	
 	function liuchengGaibian(){
 		var contract_name=$("#contract_name").val();
@@ -996,6 +959,7 @@
 		var bank=$("#bank").val();
 		var bankNo=$("#bank_no").val();
 		
+		var result;
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/kp/addKpApplicationBySave",
@@ -1019,6 +983,7 @@
 				bankNo:bankNo
 			},
 			success:function(json){
+				result=json;
 				if(json>0){
 					$("#myModal").modal("hide");
 					toastr.success("保存成功");
@@ -1027,81 +992,75 @@
 				}
 			}
 		})
+		return result;
 	}
 	
-	function submitApplication(){
-		var contract_name=$("#contract_name").val();
-		var contract_no=$("#contract_no").val();
-		var prj_name=$("#prj_name").val();
-		var prj_no=$("#prj_no").val();
-		var kp_money=$("#kp_money").val();
-		var time=$("#time").val();
-		var all_kp_money=$("#all_kp_money").val();
-		var fp_type=$("#fp_type").val();
-		var duty_no=$("#duty_no").val();
-		var sq_men=$("#sq_men").val();
-		var pay_unit=$("#pay_unit").find("option:selected").text();
-		var xy_code=$("#xy_code").val();
-		var address=$("#address").val();
-		var phone=$("#phone").val();
-		var bank=$("#bank").val();
-		var bankNo=$("#bank_no").val();
+	
+	
+	
+	function huixianhetongming(obj1,obj2){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/cj/selectCjContractByTaskNo',
+            dataType: 'json',
+            async:false,
+	        data: {
+            	no:obj2
+            },
+            success: function (json) {
+            	//$('#prj_no').val(task.prjNo);
+            	//$("#contract_name").empty();
+            	//$("#contract_no").empty();
+            	for(var i=0;i<json.length;i++){
+            		$("#contract_name").append('<option value='+json[i].contractName+'>'+json[i].contractName+'</option>');
+                	$("#contract_no").val(json[i].contractNo);
+            	}
+            	$("#contract_name").val(obj1)
+            	$("#contract_name").trigger("change");
+            }
+  		})
+	}
+	
+	
+	function initTable(){
 		
 		$.ajax({
-			type:"POST",
-			url:getContextPath()+"/kp/addKpApplicationBySubmit",
+			type:"post",
+			url:getContextPath()+"/kp/getKpApplicationById",
 			dataType:"json",
-			data:{ 
-				contractName:contract_name,
-				contractNo:contract_no,
-				prjName:prj_name,
-				prjNo:prj_no,
-				kpMoney:kp_money,
-				time:time,
-				allKpMoney:all_kp_money,
-				fpType:fp_type,
-				dutyNo:duty_no,
-				sqMen:sq_men,
-				payUnit:pay_unit,
-				xyCode:xy_code,
-				address:address,
-				phone:phone,
-				bank:bank,
-				bankNo:bankNo
+			data:{
+				id:id,
 			},
 			success:function(json){
-				if(json>0){
-					$("#myModal").modal("hide");
-					toastr.success("提交成功");
-				}else{
-					toastr.error("提交失败");
-				}
+				data=json
+				console.log(json)
+				//$("#contract_name").val(data.contractName);
+				//$("#contract_no").val(data.contractNo);
+				huixianhetongming(data.contractName,data.prjNo)
+				$("#prj_name").val(data.prjName);
+				$("#prj_no").val(data.prjNo);
+				$("#contract_money").val(data.contractMoney);
+				$("#bumen").val(data.kpDepartment)
+				$("#kp_money").val(data.kpMoney);
+				$("#time").val(data.time);
+				$("#all_kp_money").val(data.allKpMoney);
+				$("#fp_type").val(data.fpType);
+				$("#kp_desc").val(data.kpDesc)
+				$("#duty_no").val(data.dutyNo);
+				$("#sq_men").val(data.sqMen);
+				//$("#pay_unit").val(data.payUnit).select2();
+				$("#xy_code").val(data.xyCode);
+				$("#address").val(data.address);
+				$("#phone").val(data.phone);
+				$("#bank").val(data.bank);
+				$("#bank_no").val(data.bankNo);
+				$("#fpNo").val(data.fpNo);
+				
+				
 			}
 		})
 	}
 	
-	function initTable(){
-		
-		
-		$("#contract_name").val(data.contractName);
-		$("#contract_no").val(data.contractNo);
-		$("#prj_name").val(data.prjName);
-		$("#prj_no").val(data.prjNo);
-		$("#kp_money").val(data.kpMoney);
-		$("#time").val(data.time);
-		$("#all_kp_money").val(data.allKpMoney);
-		$("#fp_type").val(data.fpType);
-		$("#duty_no").val(data.dutyNo);
-		$("#sq_men").val(data.sqMen);
-		$("#pay_unit").val(data.payUnit);
-		$("#xy_code").val(data.xyCode);
-		$("#address").val(data.address);
-		$("#phone").val(data.phone);
-		$("#bank").val(data.bank);
-		$("#bank_no").tevalxt(data.bankNo);
-		$("#fpNo").val(data.fpNo);
-		
-	}
 	
 	$("#kp_money").on("change",function(){
 		$("#all_kp_money").val('');
@@ -1161,6 +1120,57 @@
 				}
 			}) 
 	 }
+	 
+	 function submitApplication(){
+			var contract_name=$("#contract_name").val();
+			var contract_no=$("#contract_no").val();
+			var prj_name=$("#prj_name").val();
+			var prj_no=$("#prj_no").val();
+			var kp_money=$("#kp_money").val();
+			var time=$("#time").val();
+			var all_kp_money=$("#all_kp_money").val();
+			var fp_type=$("#fp_type").val();
+			var duty_no=$("#duty_no").val();
+			var sq_men=$("#sq_men").val();
+			var pay_unit=$("#pay_unit").find("option:selected").text();
+			var xy_code=$("#xy_code").val();
+			var address=$("#address").val();
+			var phone=$("#phone").val();
+			var bank=$("#bank").val();
+			var bankNo=$("#bank_no").val();
+			
+			$.ajax({
+				type:"POST",
+				url:getContextPath()+"/kp/addKpApplicationBySubmit",
+				dataType:"json",
+				data:{ 
+					contractName:contract_name,
+					contractNo:contract_no,
+					prjName:prj_name,
+					prjNo:prj_no,
+					kpMoney:kp_money,
+					time:time,
+					allKpMoney:all_kp_money,
+					fpType:fp_type,
+					dutyNo:duty_no,
+					sqMen:sq_men,
+					payUnit:pay_unit,
+					xyCode:xy_code,
+					address:address,
+					phone:phone,
+					bank:bank,
+					bankNo:bankNo
+				},
+				success:function(json){
+					if(json>0){
+						$("#myModal").modal("hide");
+						toastr.success("提交成功");
+					}else{
+						toastr.error("提交失败");
+					}
+				}
+			})
+		}
 	 
 	 function gotoPrj(obj){
 	    	dom=$(obj).parents("tr");
