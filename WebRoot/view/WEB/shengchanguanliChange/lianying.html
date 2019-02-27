@@ -112,7 +112,7 @@
 			                            	<tr>
 			                            		<td>开户许可证</td>
 			                            		<td><input type="text"  style="width:70%;" class="form-control" id="kh_zs"></td>
-			                            		<td colspan="2"><input type="file"  name="file3" id="file3" class="form-control"></td>
+			                            		<td colspan="2"><div id="kh_zs_file"></div><div id="kh_zs_file2"><input type="file"  name="file3" id="file3" class="form-control"></div></td>
 			                            	</tr>
 			                            	<tr>
 			                            		<td>开户行</td>
@@ -134,7 +134,7 @@
 			                            		<td colspan="3"><textarea class="form-control" rows="3" style="width:100%;" id="fb_info"></textarea></td>
 			                            	</tr>
 			                            	<tr>
-			                            		<td colspan="3"><input type="file"  name="file4" id="file4" class="form-control"></td>
+			                            		<td colspan="3"><div id="fb_info_file"></div><div id="fb_info_file2"><input type="file"  name="file4" id="file4" class="form-control"></div></td>
 			                            	</tr>
 			                            	<tr>
 			                            		<td style="width:15%;">合同形式</td>
@@ -869,24 +869,32 @@
                         		'<td>资质证书附件</td>'+
                         		"<td><input type='text' class='form-control' style='width:70%;' value='"+accessory[i].acName+"' disabled></td>"+
 		            	    	"<td ><a  class='btn btn-primary' href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window'>查看附件</a></td>"+
-		            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
+		            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' onclick='deletefile2(this)'>删除附件</button></td>"+
                         	'</tr>')
             		}
-            		$("#aq_zs_file").html('');
-					if(accessory[i].aType=='安全生产许可证有效期'){
-						$("#xukezheng").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>")
+            		$("#xukezheng").html('');
+            		if(accessory[i].aType.indexOf('安全生产许可证有效期')){
+            			$("#xukezheng").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>&nbsp;&nbsp;<button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' data3='安全生产许可证有效期'  onclick='deletefile(this)'>删除附件</button>")
 						$("#xukezheng2").hide();
-					}else{
-						$("#xukezheng2").show();
-					}
-					$("#kh_zs_file").html('');
-					if(accessory[i].aType=='开户许可证'){
-						$("#kh_zs_file").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>")
-					}
-					$("#fb_info_file").html('');
-					if(accessory[i].aType=='联营合同内容'){
-						$("#fb_info_file").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>")
-					}
+            		}else{
+            			$("#xukezheng2").show();
+            		}
+            		$("#kh_zs_file").html('');
+            		if(accessory[i].aType.indexOf('开户许可证')){
+            			$("#kh_zs_file").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>&nbsp;&nbsp;<button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"'  data3='开户许可证' onclick='deletefile(this)'>删除附件</button>")
+						$("#kh_zs_file2").hide();
+            		}else{
+            			$("#kh_zs_file2").show();
+            		}
+            		$("#fb_info_file").html('');
+            		if(accessory[i].aType.indexOf('联营合同内容')){
+            			$("#fb_info_file").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>&nbsp;&nbsp;<button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"'  data3='联营合同内容' onclick='deletefile(this)'>删除附件</button>")
+						$("#fb_info_file2").hide();
+            		}else{
+            			$("#fb_info_file2").show();
+            		}
+					
+					
 					
             	}
             	
@@ -922,6 +930,7 @@
 		var id=$(obj).attr("data1");
 		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
 		var url=$(obj).attr("data2");
+		var nm=$(obj).attr("data3");
 		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
@@ -936,12 +945,49 @@
 	        		toastr.error("删除失败");
 	        	}else{
 	        		toastr.success("删除成功");
+	        		
+	        		if(nm=="安全生产许可证有效期"){
+	        			$(obj).parent().remove();
+	        			$("#xukezheng2").show();
+	        		}
+	        		if(nm=="开户许可证"){
+	        			$(obj).parent().remove();
+	        			$("#kh_zs_file2").show();
+	        		}
+	        		if(nm=="联营合同内容"){
+	        			$(obj).parent().remove();
+	        			$("#fb_info_file2").show();
+	        		}
+	        		
+	        	}
+	        }
+		});
+	}
+	function deletefile2(obj){
+		var id2=$(obj).attr("data1");
+		var name2=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var url2=$(obj).attr("data2");
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
+	        dataType: 'json',
+	        data: {
+	        	aId:id2,
+	        	acName:name2,
+	        	acUrl:url2
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("删除失败");
+	        	}else{
+	        		toastr.success("删除成功");
 	        		$(obj).parent().parent().remove();
 	        		//$('#change').modal('hide');
 	        	}
 	        }
 		});
 	}
+	
 	//选择项目
 	$("#chosexm").click(function(){
 		$("#xiangmumd").modal("show");
