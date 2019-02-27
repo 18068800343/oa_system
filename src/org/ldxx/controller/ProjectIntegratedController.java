@@ -71,9 +71,9 @@ public class ProjectIntegratedController {
 			String prjType=t.getPrjType2();
 			String cjDepartment=t.getOmName();//承接主办部门
 			String prjLeader=t.getMainPrjLeaderName();//项目负责人
-			float prjMoney=t.getPrjEstimateMoney();//项目金额
-			float contractMoney=t.getContractMoney();//合同金额
-			float zdMoney=t.getProvisionalSum();//暂定金
+			float prjMoney=(t.getPrjEstimateMoney()==null||"".equals(t.getPrjEstimateMoney()))?0:t.getPrjEstimateMoney();//项目金额
+			float contractMoney=(t.getContractMoney()==null||"".equals(t.getContractMoney()))?0:t.getContractMoney();//合同金额
+			float zdMoney=(t.getProvisionalSum()==null||"".equals(t.getProvisionalSum()))?0:t.getProvisionalSum();//暂定金
 			BudgetFpplicationForm bff=bservice.getAllCost(no);
 			float ysCost=0;//项目预算
 			if(bff!=null){
@@ -96,11 +96,11 @@ public class ProjectIntegratedController {
 			if(cj!=null&&cj.size()>0){
 				contractName=cj.get(0).getContractName();
 				contractNo=cj.get(0).getContractNo();
-				htMoney=cj.get(0).getContractMoney();
-				cjZdMoney=cj.get(0).getTemporaryMoney();
+				htMoney=(cj.get(0).getContractMoney()==null||"".equals(cj.get(0).getContractMoney()))?0:cj.get(0).getContractMoney();
+				cjZdMoney=(cj.get(0).getTemporaryMoney()==null||"".equals(cj.get(0).getTemporaryMoney()))?0:cj.get(0).getTemporaryMoney();
 				ContractWork cw=service.getContractMoney(contractNo);
 				if(cw!=null){
-					contractEndMoney=cw.getEndMoney();
+					contractEndMoney=(cw.getEndMoney()==null||"".equals(cw.getEndMoney()))?0:cw.getEndMoney();
 				}
 				allKp=kService.getAllMoney(contractNo, no);
 			}

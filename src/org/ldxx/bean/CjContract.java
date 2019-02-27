@@ -26,8 +26,8 @@ public class CjContract {
 	private String omName;//乙方承接部门名称
 	private String contractLongTime;
 	private String receieveMoneyCondition;
-	private float contractMoney;
-	private float temporaryMoney;
+	private Float contractMoney;
+	private Float temporaryMoney;
 	private String contractSignTime;
 	private String workInfo;
 	private String mainDepartment;
@@ -206,16 +206,16 @@ public class CjContract {
 	public void setReceieveMoneyCondition(String receieveMoneyCondition) {
 		this.receieveMoneyCondition = receieveMoneyCondition;
 	}
-	public float getContractMoney() {
+	public Float getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(float contractMoney) {
+	public void setContractMoney(Float contractMoney) {
 		this.contractMoney = contractMoney;
 	}
-	public float getTemporaryMoney() {
+	public Float getTemporaryMoney() {
 		return temporaryMoney;
 	}
-	public void setTemporaryMoney(float temporaryMoney) {
+	public void setTemporaryMoney(Float temporaryMoney) {
 		this.temporaryMoney = temporaryMoney;
 	}
 	public String getContractSignTime() {
