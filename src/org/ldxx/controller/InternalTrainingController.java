@@ -257,11 +257,11 @@ public class InternalTrainingController {
 		}
 		training.setAccessory(accList);
 		int i=iservice.updateInternalTraining(training);
-		if(i>0){
+		/*if(i>0){
 			OrganizationManagement om=oService.selectOrgById(training.getDepartment());
 			String omNo=om.getOmNo();
 			currentFlowMapper.updateFkDeptByModeId(training.getItId(), omNo);
-		}
+		}*/
 		return i;
 	}
 	

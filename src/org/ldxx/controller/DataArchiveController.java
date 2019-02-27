@@ -405,11 +405,11 @@ public class DataArchiveController {
 		archive.setAccessory2(accList2);
 		archive.setAccessory3(accList3);
 		int aa=service.updateDataArchive(archive);
-		if(aa>0){
+		/*if(aa>0){
 			OrganizationManagement om=oService.selectOrgById(archive.getSafekeepingDepartment());
 			String omNo=om.getOmNo();
 			currentFlowMapper.updateFkDeptByModeId(archive.getDaId(), omNo);
-		}
+		}*/
 		return aa;
 	}
 	

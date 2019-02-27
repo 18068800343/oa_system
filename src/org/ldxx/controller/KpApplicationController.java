@@ -10,7 +10,9 @@ import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.KpApplication;
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.Task;
@@ -44,7 +46,7 @@ public class KpApplicationController {
 	
 	@RequestMapping("/addKpApplicationBySave")
 	@ResponseBody
-	public int addKpApplicationBySave(KpApplication kp){
+	public int addKpApplicationBySave(KpApplication kp,HttpSession session){
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		kp.setKpId(id);
@@ -52,6 +54,40 @@ public class KpApplicationController {
 		String code="KP"+uuid.getClCode("", count+1);
 		kp.setKpNo(code);
 		int i=service.addKpApplication(kp);
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			String omNo = omDao.selectOrgById(kp.getKpDepartment()).getOmNo();
+			String string="";
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(kp.getPrjName()+"开票申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(kp.getPrjName()+"流程发起");
+			currentFlow.setUrl("caiwuguanliLook/ApplicationTicket.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return i;
 	}
 	
@@ -65,32 +101,34 @@ public class KpApplicationController {
 		String code="KP"+uuid.getClCode("", count+1);
 		kp.setKpNo(code);
 		int i=service.addKpApplication(kp);
-		User user = (User) session.getAttribute("user");
-		FlowUtill flowUtill = new FlowUtill();
-		CurrentFlow currentFlow = new CurrentFlow();
-		currentFlow.setParams("1");
-		currentFlow.setTitle(kp.getPrjName()+"开票申请");
-		currentFlow.setActor(user.getUserId());
-		currentFlow.setActorname(user.getuName());;
-		currentFlow.setMemo(kp.getPrjName()+"流程发起");
-		currentFlow.setUrl("caiwuguanliLook/ApplicationTicket.html-"+id);
-		currentFlow.setParams("{'cs':'1'}");
-		currentFlow.setStarter(user.getUserId());
-		String omNo = omDao.selectOrgById(kp.getKpDepartment()).getOmNo();
-		currentFlow.setStartername(user.getuName());
-		currentFlow.setFkDept(omNo);
-		currentFlow.setDeptname(user.getOmName());
-		currentFlow.setNodename("节点名称");
-		currentFlow.setPri(1);
-		currentFlow.setSdtofnode(new Date());
-		currentFlow.setSdtofflow(new Date());
-		currentFlow.setFlowEndState(2);
-		currentFlow.setFlowNopassState(0);
 		String string = "";
-		try {
-			string = flowUtill.submitGetReceiver(currentFlow,omNo);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			String omNo = omDao.selectOrgById(kp.getKpDepartment()).getOmNo();
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(kp.getPrjName()+"开票申请");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());;
+			currentFlow.setMemo(kp.getPrjName()+"流程发起");
+			currentFlow.setUrl("caiwuguanliLook/ApplicationTicket.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return string;
 	}

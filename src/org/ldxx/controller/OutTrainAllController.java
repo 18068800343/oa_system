@@ -252,11 +252,11 @@ public class OutTrainAllController {
 		}
 		trainAll.setAccessory(accList);
 		int i= oservice.updateOutTrainAll(trainAll);
-		if(i>0){
+		/*if(i>0){
 			OrganizationManagement om=oService.selectOrgById(trainAll.getOmId());
 			String omNo=om.getOmNo();
 			currentFlowMapper.updateFkDeptByModeId(trainAll.getOmId(), omNo);
-		}
+		}*/
 		return i;
 	}
 	

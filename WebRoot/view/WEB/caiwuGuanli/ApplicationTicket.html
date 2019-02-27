@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <link href="../../select/css/select2.min.css" rel="stylesheet">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -766,6 +768,8 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
 <script src="../../select/js/select2.min.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -1537,17 +1541,27 @@
 	}
 	
 	function saveApplication(){
+		showMask();
 		var contract_name=$("#contract_name").val();
 		var contract_no=$("#contract_no").val();
 		var prj_name=$("#prj_name").val();
 		var prj_no=$("#prj_no").val();
 		var kp_money=$("#kp_money").val();
+		if(kp_money==""||kp_money==null){
+			kp_money=0;
+		}
 		var time=$("#time").val();
 		var all_kp_money=$("#all_kp_money").val();
+		if(all_kp_money==""||all_kp_money==null){
+			all_kp_money=0;
+		}
 		var fp_type=$("#fp_type").val();
 		//var duty_no=$("#duty_no").val();
 		var sq_men=$("#sq_men").val();
-		var contract_money=$("#contract_money").val()==""?0:$("#contract_money").val();
+		var contract_money=$("#contract_money").val();
+		if(contract_money==""||contract_money==null){
+			contract_money=0;
+		}
 		var bumen=$("#bumen").val();
 		var kp_desc=$("#kp_desc").val();
 		var pay_unit=$("#pay_unit").find("option:selected").text();
@@ -1622,6 +1636,7 @@
 				kpDepartment:bumen,
 			},
 			success:function(json){
+				hidMask();
 				if(json>0){
 					$("#myModal").modal("hide");
 					toastr.success("保存成功");
@@ -1638,12 +1653,21 @@
 		var prj_name=$("#prj_name").val();
 		var prj_no=$("#prj_no").val();
 		var kp_money=$("#kp_money").val();
+		if(kp_money==""||kp_money==null){
+			kp_money=0;
+		}
 		var time=$("#time").val();
 		var all_kp_money=$("#all_kp_money").val();
+		if(all_kp_money==""||all_kp_money==null){
+			all_kp_money=0;
+		}
 		var fp_type=$("#fp_type").val();
 		//var duty_no=$("#duty_no").val();
 		var sq_men=$("#sq_men").val();
-		var contract_money=$("#contract_money").val()==""?0:$("#contract_money").val();;
+		var contract_money=$("#contract_money").val();
+		if(contract_money==""||contract_money==null){
+			contract_money=0;
+		}
 		var bumen=$("#bumen").val();
 		var kp_desc=$("#kp_desc").val();
 		var pay_unit=$("#pay_unit").find("option:selected").text();
@@ -1719,6 +1743,7 @@
 			},
 			success:function(json){
 				lianjie=json.url;
+				$("#myModal").modal("hide");
             	if(json.receiver!=null&&json.receiver.length>=1){
 	        		  $("#tijiaogei").modal('show');
 	        		  $("#tijiaoren tbody").empty("");
@@ -1890,5 +1915,13 @@
 	      });  
 		
 	  }
+	  
+	  function showMask() {
+	    	myTool.mask.show('保存中...');
+		 }
+		 function hidMask() {
+		 	myTool.mask.hide();
+		 }
+		 
 </script>
 </html>
