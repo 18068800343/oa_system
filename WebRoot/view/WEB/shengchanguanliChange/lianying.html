@@ -107,7 +107,7 @@
 			                            	<tr>
 			                            		<td>安全生产许可证有效期</td>
 			                            		<td><input type="text"  style="width:70%;" class="form-control" id="aq_zs"></td>
-			                            		<td colspan="2"><input type="file"  name="file2" id="file2" class="form-control"></td>
+			                            		<td colspan="2"><div id="xukezheng"></div><div id="xukezheng2"><input type="file"  name="file2" id="file2" class="form-control"></div></td>
 			                            	</tr>
 			                            	<tr>
 			                            		<td>开户许可证</td>
@@ -822,6 +822,35 @@
         
 	});
     
+	 //联营单位
+    function leixingSelect2(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cooperator/selectCooperatorIdAndNameByCcType',
+	        dataType: 'json',
+	        data: {
+	           ccType:'分包单位'
+	        },
+	        success: function (json) {
+	        	$("#lydanwei").html('');
+	        	$("#xglydanwei").html('');
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#lydanwei").append( "<option value='" + json[i].ccId + "'>"
+		                    + json[i].ccName + "</option>")
+		            $("#xglydanwei").append( "<option value='" + json[i].ccId + "'>"
+		                    + json[i].ccName + "</option>")
+	        	}xglydanwei
+	        	 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
+	           	 $("#lydanwei").select2({
+	                    tags: true,
+	                    placeholder: '请搜索或选择语言',
+	                    allowClear: true,
+	                });
+	        	 $("#lydanwei").trigger("change");
+	        	 $("#xglydanwei").trigger("change");
+	        }
+	    });
+	}
 	function initTable(){
 		$.ajax({
             type: 'POST',
@@ -836,53 +865,83 @@
             	var accessory=json.accessory;
             	for(var i=0;i<accessory.length;i++){
             		if(accessory[i].aType=='资质证书'){
-            			$("#zz_zs").parent("tr").after('<tr>'+
+            			$("#zz_zs_tr").after('<tr>'+
                         		'<td>资质证书附件</td>'+
-                        		"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a></td>"+
-                        		'<td></td>'+
+                        		"<td><input type='text' class='form-control' style='width:70%;' value='"+accessory[i].acName+"' disabled></td>"+
+		            	    	"<td ><a  class='btn btn-primary' href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window'>查看附件</a></td>"+
+		            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
                         	'</tr>')
             		}
             		$("#aq_zs_file").html('');
 					if(accessory[i].aType=='安全生产许可证有效期'){
-						$("#look_aq_zs_file").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>")
+						$("#xukezheng").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>")
+						$("#xukezheng2").hide();
+					}else{
+						$("#xukezheng2").show();
 					}
 					$("#kh_zs_file").html('');
 					if(accessory[i].aType=='开户许可证'){
-						$("#look_kh_zs_file").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>")
+						$("#kh_zs_file").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>")
 					}
 					$("#fb_info_file").html('');
 					if(accessory[i].aType=='联营合同内容'){
 						$("#fb_info_file").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>")
 					}
+					
             	}
             	
             	$("#prjName").val(data.prjName);
         		$("#task_no").val(data.prjNo);
-        		$("#xmleixing").val(data.prjArea);
-        		$("#yzdanwei").val(data.contractMoney);
-        		$("#diqu").val(data.contractNameYi);
-        		$("#cjbianhao").val(data.prjName);
-        		$("#cjdanwei").val(data.prjType2);
-        		$("#cjjine").val(data.ccName);
-        		$("#lydanwei").val(data.lyUnitName);
+        		$("#xmleixing").val(data.prjType2);
+        		$("#yzdanwei").val(data.ccName);
+        		$("#diqu").val(data.prjArea);
+        		$("#cjbianhao").val(data.contractNo);
+        		$("#cjdanwei").val(data.contractNameYi);
+        		$("#cjjine").val(data.contractMoney);
+        		$("#lydanwei").val(data.lyUnit).select2();
         		$("#sh_code").val(data.uniformCode);
         		$("#zz_zs").val(data.certifications);
         		$("#aq_zs").val(data.safetyCertificateInfo);
         		$("#kh_zs").val(data.openingAccounts);
         		$("#bank_name").val(data.openingBank);
         		$("#fb_info").val(data.fbInfo);
-        		$("#contract_type").val(data.contractType);
+        		$("#contract_type option:selected").val(data.contractType);
         		$("#gl_fl").val(data.managementFee);
         		$("#qt_yd").val(data.otherFee);
         		$("#fb_je").val(data.fbMoney);
         		$("#pay_time").val(data.payTime);
-        		$("#lv_bzj_type").val(data.pbType);
+        		$("#lv_bzj_type option:selected").val(data.pbType);
         		$("#lv_bzj").val(data.pbMoney);
+        		
             }
         }); 
     }
 	
-	
+	 //删除附件
+	function deletefile(obj){
+		var id=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var url=$(obj).attr("data2");
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
+	        dataType: 'json',
+	        data: {
+	        	aId:id,
+	        	acName:name,
+	        	acUrl:url
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("删除失败");
+	        	}else{
+	        		toastr.success("删除成功");
+	        		$(obj).parent().parent().remove();
+	        		//$('#change').modal('hide');
+	        	}
+	        }
+		});
+	}
 	//选择项目
 	$("#chosexm").click(function(){
 		$("#xiangmumd").modal("show");
@@ -1035,32 +1094,6 @@
         }
 		});
 	}
-	 //联营单位
-    function leixingSelect2(){
-	    $.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/cooperator/selectCooperatorIdAndNameByCcType',
-	        dataType: 'json',
-	        data: {
-	           ccType:'分包供应商'
-	        },
-	        success: function (json) {
-	        	$("#lydanwei").html('');
-	        	$("#xglydanwei").html('');
-	        	 for(var i=0;i<json.length;i++){
-	        		$("#lydanwei").append( "<option value='" + json[i].ccId + "'>"
-		                    + json[i].ccName + "</option>")
-		            $("#xglydanwei").append( "<option value='" + json[i].ccId + "'>"
-		                    + json[i].ccName + "</option>")
-	        	}
-	        	 $("#lydanwei").trigger("change");
-	        	 $("#xglydanwei").trigger("change");
-	        }
-	    });
-	}
-	
-	
-	
 	
 	
     function getCreat(bb){
@@ -1241,8 +1274,6 @@
   	}
 	
 	function lookBc(obj){
-		var tr=$(obj).parents("tr");
-		var data=$("#mainContent").DataTable().row(tr).data();
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/LianYing/selectLianYingById',
@@ -1252,6 +1283,7 @@
             },
             success: function (json) {
             	var data=json;
+                
             	var accessory=json.accessory;
             	for(var i=0;i<accessory.length;i++){
             		if(accessory[i].aType=='资质证书'){
@@ -1276,7 +1308,6 @@
             	}
             	
             	$("#look_prj_name").val(data.prjName);
-            	debugger;
         		$("#look_prj_no").val(data.prjNo);
         		$("#look_prj_area").val(data.prjArea);
         		$("#look_contract_money").val(data.contractMoney);
