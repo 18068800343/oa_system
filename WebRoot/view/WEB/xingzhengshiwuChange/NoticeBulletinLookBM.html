@@ -1576,7 +1576,7 @@
 		//var aDesc=$("#edit_info_this").val();
 		
 		// 同步数据后可以直接取得textarea的value
-		editor.sync();
+		editor2.sync();
 		var aDesc = $('#edit_info_this').val(); // jQuery
 		
 		var issuer=$("#edit_isuser_this").val();
@@ -1592,12 +1592,14 @@
 			toastr.error("内容不能为空");
 			return;
 		}
+		var result;
 		var options={
 				type: 'POST',
 	            url: getContextPath()+'/announcement/updateAnnouncementByThisAndSave',
 	            dataType: 'json',
+	            async:false,
 	            data: {
-	            	aId:id_this,
+	            	aId:id,
 	            	aTitle:aTitle,
 	            	aType:aType,
 	            	aImportance:aImportance,
@@ -1606,6 +1608,7 @@
 	            	issuer:issuer
 	            },
 	            success: function (json) {
+	            	result=json;
 	            	if(json==0){
 	            		toastr.error("修改保存失败");
 	            	}else{
@@ -1614,8 +1617,8 @@
 	            	}
 	            }
 		}
-		
 		$("#edit_form_this").ajaxSubmit(options);
+		return result;
 	}
 	
 	
