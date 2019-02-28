@@ -19,4 +19,6 @@ public interface CooperatorService {
 	public Cooperator selectOneCooperator(String id);
 	
 	public List<Cooperator> selectCooperatorIdAndName();
+
+	public Cooperator selectCooperatorByCcName(String name);
 }

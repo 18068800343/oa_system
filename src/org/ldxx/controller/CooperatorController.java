@@ -312,4 +312,10 @@ public class CooperatorController {
 		return eService.countOfEnterprise(etel);
 	}
 	
+	@RequestMapping("/selectCooperatorByCcName")
+	@ResponseBody
+	public Cooperator selectCooperatorByCcName(String name){
+		return cservice.selectCooperatorByCcName(name);
+	}
+	
 }

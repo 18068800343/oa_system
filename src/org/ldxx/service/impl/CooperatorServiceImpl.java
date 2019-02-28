@@ -146,4 +146,16 @@ public class CooperatorServiceImpl  implements CooperatorService{
 		return cDao.selectCooperatorIdAndName();
 	}
 
+	@Override
+	public Cooperator selectCooperatorByCcName(String name) {
+		Cooperator cc=cDao.selectCooperatorByCcName(name);
+		if(cc!=null){
+			List<Enterprise> enterprise=eDao.selectEnterpriseById(cc.getCcId());
+			if(enterprise!=null&&enterprise.size()!=0){
+				cc.setEnterprise(enterprise);
+			}
+		}
+		return cc;
+	}
+
 }
