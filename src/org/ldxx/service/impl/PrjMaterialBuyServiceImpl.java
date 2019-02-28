@@ -29,7 +29,7 @@ public class PrjMaterialBuyServiceImpl implements PrjMaterialBuyService{
 		if(i>0){
 			List<MaterialDemand> md=buy.getMd();
 			TimeUUID uuid=new TimeUUID();
-			if(md!=null){
+			if(md!=null&&md.size()!=0){
 				for(int a=0;a<md.size();a++){
 					md.get(a).setBuyId(id);
 					md.get(a).setMdlId(uuid.getTimeUUID());

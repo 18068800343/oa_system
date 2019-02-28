@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <link href="../../select/css/select2.min.css" rel="stylesheet">
     
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
+    
     <style lang="">
         .UpperPart{
             display: flex;
@@ -172,7 +175,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-success" onclick="save()">保存</button> -->
+            <button type="button" class="btn btn-success" onclick="save()">保存</button> 
             <button type="button" class="btn btn-success" onclick="submit()">提交</button>
         </div>
         </div>
@@ -594,6 +597,8 @@
 <script src="../../js/datatables/buttons.flash.min.js" ></script>
 <script src="../../js/datatables/jszip.min.js"></script>
 
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
     	initDepartment();
@@ -1467,6 +1472,7 @@
     
     
     function save(){
+    	showMask();
     	var department=$("#department").val();
     	//var person=$("#person").val();
     	var person=$("#person").attr("data_id");
@@ -1479,7 +1485,7 @@
 			toastr.error("申请人不能为空")
 			return;
 		} */
-    	PrjMaterialBuy.applyDepartment=department;
+		PrjMaterialBuy.applyDepartment=department;
     	PrjMaterialBuy.applyPerson=person;
     	PrjMaterialBuy.applyCode=prj_no;
     	PrjMaterialBuy.applyPrj=prj_name;
@@ -1515,15 +1521,14 @@
     			return;
     		}
     		if(num=="" || num<=0){
-    			toastr.error("数量不能为0或者为空")
+    			toastr.error("数量不能小于等于0或者为空")
     			return;
     		} */
-    		
     		var type=$(this).find("select").eq(0).val();
     		var unit=$(this).find("select").eq(1).val();
     		var department_tj=$(this).find("select").eq(2).val();
     		var company_sure=$(this).find("select").eq(3).val();
-    		md.mdlId=mdlId;
+    		//md.mdlId=mdlId;
     		md.materialName=name;
     		md.materialType=type;
     		md.modeType=modeType;
@@ -1544,6 +1549,7 @@
             contentType:'application/json',
             data:JSON.stringify(PrjMaterialBuy),
             success: function (json) {
+            	hidMask();
 				if(json>0){
 					$("#myModal").modal("hide");
 					toastr.success("保存成功");
@@ -1610,7 +1616,7 @@
     		var unit=$(this).find("select").eq(1).val();
     		var department_tj=$(this).find("select").eq(2).val();
     		var company_sure=$(this).find("select").eq(3).val();
-    		md.mdlId=mdlId;
+    		//md.mdlId=mdlId;
     		md.materialName=name;
     		md.materialType=type;
     		md.modeType=modeType;
@@ -1907,6 +1913,14 @@
 			}
 		})
     }
+    
+    
+    function showMask() {
+    	myTool.mask.show('保存中...');
+	 }
+	 function hidMask() {
+	 	myTool.mask.hide();
+	 }
     
 </script>
 </html>
