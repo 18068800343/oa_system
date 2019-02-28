@@ -128,7 +128,7 @@ public class LianYingController {
 			accessory.setaId(id);
 			accessory.setAcName(fileName);
 			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("分包内容");
+			accessory.setaType("联营合同内容");
 			list.add(accessory);
 		}
 		ly.setAccessory(list);
@@ -243,7 +243,7 @@ public class LianYingController {
 			accessory.setaId(id);
 			accessory.setAcName(fileName);
 			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("分包内容");
+			accessory.setaType("联营合同内容");
 			list.add(accessory);
 		}
 		ly.setAccessory(list);
@@ -345,7 +345,7 @@ public class LianYingController {
 			accessory.setaId(id);
 			accessory.setAcName(fileName);
 			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("分包内容");
+			accessory.setaType("联营合同内容");
 			list.add(accessory);
 		}
 		ly.setAccessory(list);
