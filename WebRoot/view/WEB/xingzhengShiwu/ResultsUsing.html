@@ -146,7 +146,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-           <!--  <button type="button" class="btn btn-default" onclick="addRUsing()">保存</button> -->
+         	<button type="button" class="btn btn-default" onclick="addRUsing()">保存</button> 
             <button type="button" class="btn btn-success" onclick="submitRUsing()" data-dismiss="modal" data-toggle="modal">提交</button>
         </div>
         </div>
@@ -605,9 +605,10 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
-<script src="../../js/SmartNotification.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 
 <script src="../../js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../js/datatables/dataTables.colVis.min.js"></script>
@@ -1451,6 +1452,7 @@
 	
 	//填报用印管理保存
 	function addRUsing(){
+		showMask();
 		var prjName=$("#prjName").val();
 		var task_no=$("#task_no").val();
 		var prj_ownerunit=$("#prj_ownerunit").val();//项目负责人
@@ -1460,12 +1462,18 @@
 		var yongzhang=$("#userSignetMan").attr("data2");
 		var prj_desc=$("#prj_desc").val();
 		var yztype=$("#yztype").val();
-		
+		var names = getYuansu();
+		var yaosuname = getYuansuname();
+	    var qitaFlag = $("#qitaxuanxiang").is(":checked");
+		var qita="";
+		if(qitaFlag){
+			qita=$("#qitamingcheng").val();
+		}
 		if($("#prjName").val()==''){
 			toastr.error("项目名称不能为空");
     		return;
 		}
-		if($("#prj_phase").val()==''){
+		/* if($("#prj_phase").val()==''){
 			toastr.error("成果类型不能为空");
     		return;
 		}
@@ -1476,7 +1484,7 @@
 		if($("#prj_desc").val()==''){
 			toastr.error("项目情况说明不能为空");
     		return;
-		}
+		} */
 		
 		$.ajax({
 			type:"post",
@@ -1487,22 +1495,26 @@
 				prjId:prjName,
 				usNo:task_no,
 				prjHead:prj_ownerunit,
+				//omId:bumen,
 				projectPhase:prj_phase,
 				divisionEngineer:divisionEngineer,
 				headEngineer:headEngineer,
 				userSignetMan:yongzhang,
 				projectDesc:prj_desc,
 				usType:yztype,
+				yaosu:names,
+				qita:qita,
+				yaosuname:yaosuname
 			},
 			success:function(json){
-				//console.log(json);
+				hidMask();
 				if(json.result==0){
 					toastr.error("添加失败")
 				}else if(json.result==1){
 					//location.reload([true]);
-					$("#mainContent2").DataTable().row.add(json.ResultManagementSignet).draw(false);
+					/* $("#mainContent2").DataTable().row.add(json.ResultManagementSignet).draw(false);
 					$(".Pbcb").show();
-					$(".Pbcc").show();
+					$(".Pbcc").show(); */
 					toastr.success("添加成功")
 					$("#myModal").modal("hide")
 				}
@@ -1932,6 +1944,13 @@
 			}
 		})
 	}
+	
+	function showMask() {
+    	myTool.mask.show('保存中...');
+	 }
+	 function hidMask() {
+	 	myTool.mask.hide();
+	 }
 	
 	
 	

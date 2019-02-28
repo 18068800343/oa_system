@@ -10,9 +10,11 @@ import javax.servlet.http.HttpSession;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.bean.ResultManagementSignet;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.ResultsUsingService;
 import org.ldxx.service.TaskService;
@@ -20,6 +22,7 @@ import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -39,6 +42,8 @@ public class ResultsUsingController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private TaskService tService;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/selectResultsUsing")
 	@ResponseBody
@@ -147,6 +152,20 @@ public class ResultsUsingController {
 	@ResponseBody
 	public int deleteResultsUsingById(String usId){
 		return rUsingService.deleteResultsUsingById(usId);
+	}
+	
+	@RequestMapping("/updateById")//通过id修改
+	@ResponseBody
+	public int updateById(ResultManagementSignet rs){
+		int i = rUsingService.updateResultsUsingByIdSave(rs);
+		if(i>0){
+			Task t=tService.selectPrjLeaderByPrjNo(rs.getUsNo());
+			String mainDepartment=t.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(rs.getUsId(), omNo);
+		}
+		return i;
 	}
 	
 	@RequestMapping("/updateResultsUsingByIdSave")/*修改保存*/
