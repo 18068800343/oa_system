@@ -1,0 +1,2631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>生产管理</li>
+			<li class="active">项目核算管理</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        <div class="UpperPart">
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document" style="width:80%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报项目核算</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="save()" >保存</button>
+            <button type="button" class="btn btn-success" onclick="submit()" >提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+<!-- Modal项目 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xiangmumd">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xiangmubiao">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>编号</th>
+                                    <th>项目名称</th>
+                                    <th>项目所属公司</th>
+                                    <th>项目类型</th>
+                                    <th>甲方单位</th>
+                                    <th>分包结算情况</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="quedingxm">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+<!--选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择申请人</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>部门:</span>
+                            <select style="width:180px;" id="bumen" class="form-control" >
+                                
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                     <table class="table table-bordered table-condensed"  id="bmmingzibiao" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 选人 modal结束 -->
+<!-- Modal修改 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog modal-lg" role="document" style="width:70%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改项目核算</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered">
+                            <tr>
+                            	<td style="width:19%;">项目名称</td>
+                            	<td>
+                            			<input type="text" class="form-control" id="prj_name" disabled  style="width:70%;">
+                               			<button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="xgchosexm">选择项目</button>
+                            	</td>
+                            	<td>任务单号</td>
+                            	<td>
+                            			<select class="form-control" id="prj_no" style="width:70%;"></select>
+                            	</td>
+                            </tr>
+                            <tr>
+                            	<td>业主单位</td>
+                            	<td><input type="text" class="form-control"  style="width:70%;" disabled></td>
+                            	<td>承接部门</td>
+                            	<td><input type="text" class="form-control"  style="width:70%;" disabled></td>
+                            </tr>
+                            <tr>
+                            	<td>项目管理负责人</td>
+                            	<td><input type="text" class="form-control" style="width:70%;" disabled></td>
+                            	<td>项目管理团队</td>
+                            	<td><input type="text" class="form-control" style="width:70%;"></td>
+                            </tr>
+                            <tr>
+                            	<td>项目合同金额</td>
+                            	<td><input type="text" class="form-control" style="width:70%;"></td>
+                            	<td>项目结算金额</td>
+                            	<td><input type="text" class="form-control" style="width:70%;"></td>
+                            </tr>
+                            <tr>
+                            	<td>项目预算成本</td>
+                            	<td><input type="text" class="form-control" style="width:70%;" disabled></td>
+                            	<td>预算毛利润</td>
+                            	<td><input type="text" class="form-control" style="width:70%;" disabled></td>
+                            </tr>
+                            <tr>
+                            	<td>预算毛利润率</td>
+                            	<td><input type="text" class="form-control" style="width:70%;" disabled></td>
+                            	<td>结算毛利润率</td>
+                            	<td><input type="text" class="form-control" style="width:70%;" disabled></td>
+                            </tr>
+                            <tr>
+                            	<td>项目核算实际成本</td>
+                            	<td><input type="text" class="form-control" style="width:70%;"></td>
+                            	<td></td>
+                            	<td></td>
+                            </tr>
+                        </table>
+						
+						<table class="table table-bordered table-condensed" id="">
+                      <thead>
+                          <tr>
+                              <th colspan="6">添加费用预算  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td style="width:19%;">分类</td>
+                              <td style="width:19%;">项目明细</td>
+                              <td style="width:19%;">部门</td>
+                              <td style="width:19%;">费用金额（元）</td>
+                              <td style="width:19%;">备注</td>
+                              <td style="width:5%;">操作</td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  <select class="form-control" id="xgkemu" style="width:70%;">
+                                  			<option>--请选择--</option>
+                                  			<option value="1">材料费用</option>
+                                  			<option value="2">设备费用</option>
+                                  			<option value="3">劳务分包费</option>
+                                  			<option value="4">人工费</option>
+                                  			<option value="5">项目部开支</option>
+                                  			<option value="6">监管维护费</option>
+                                  			<option value="7">招待费用</option>
+                                  			<option value="8">财务税务费用</option>
+                                  			<option value="9">其他直接成本</option>
+                                  			<option value="10">间接成本</option>
+                                  </select>
+                              </td>
+                              <td>
+                                  <select class="form-control" id="xgfymingxi" style="width:70%;">
+                                      
+                                  </select>
+                              </td>
+                              <td>
+                                  <select class="form-control" id="xgbumen" style="width:70%;">
+                                      
+                                  </select>
+                              </td>
+                              <td>
+                                  <input type="text" id="xgjine" class="form-control" style="width:70%;">
+                              </td>
+                              <td>
+                                  <input type="text" id="xgbeizhu" class="form-control" style="width:70%;">
+                              </td>
+                              <td>
+                                  <button type="button" class="btn btn-default"  id="xgaddyusuan">添加</button>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <table class="table table-bordered table-condensed" id="xgfyyusuan">
+                      <thead>
+                          <tr>
+                              <th colspan="6">费用预算</th>
+                          </tr>
+                      </thead>
+                      <thead>
+                      	<tr>
+                              <th style="width:19%;">分类</th>
+                              <th style="width:19%;">项目明细</th>
+                              <th style="width:19%;">部门</th>
+                              <th style="width:19%;">费用金额（元）</th>
+                              <th style="width:19%;">备注</th>
+                              <th style="width:5%;">操作</th>
+                       	</tr>
+                       </thead>
+                      <tbody>
+                          
+                          
+                      </tbody>
+                  </table>
+
+                  
+                  <table class="table table-bordered table-condensed"  id="xgcl_table">
+                    	<thead>
+                        	<tr>
+	                            <th style="width:10%;">材料名称</th>
+	                            <th style="width:10%;">材料类型</th>
+	                            <th style="width:10%;">规格型号</th>
+	                            <th style="width:6%;">单位</th>
+	                            <th style="width:8%;">数量</th>
+	                            <th style="width:10%;">单价</th>
+	                            <th style="width:6%;"><button type="button" class="btn btn btn-primary" onclick="xgadd()">添加</button></th>
+                        	</tr>
+                        </thead>
+                        <tbody>
+                        	
+                        </tbody>
+                    </table>
+                    
+                     <table class="table table-bordered table-condensed" id="">
+	                        <tbody>
+	                        	<tr>
+	                        		<td>直接成本小计</td>
+	                        		<td colspan="5">123123123</td>
+	                        	</tr>
+	                        </tbody>
+                     </table>
+                    
+                    <table class="table table-bordered table-condensed" id="">
+	                        <thead>
+	                            <tr>
+	                                <th colspan="6">添加间接成本费用  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr>
+	                              <td style="width:19%;">项目明细</td>
+	                              <td>金额</td>
+	                              <td>操作</td>
+	                            </tr>
+	                            <tr>
+	                                <td>
+	                                    <select class="form-control" id="" style="width:70%;">
+	                                    		<option>公司管理摊销</option>
+	                                    		<option>其他摊销</option>
+	                                    </select>
+	                                </td>
+	                                <td>
+	                                    <input type="text" id="" class="form-control" style="width:70%;">
+	                                </td>
+	                                <td>
+	                                    <button type="button" class="btn btn-default" >添加</button>
+	                                </td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                    <table class="table table-bordered table-condensed" id="">
+		                        <thead>
+		                            <tr>
+		                                <th colspan="6">间接成本</th>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+		                            
+		                        </tbody>
+		                        <tfoot>
+		                        	<tr>
+		                        		<td>间接成本小计</td>
+		                        		<td colspan="5">123123123</td>
+		                        	</tr>
+		                        </tfoot>
+	                     </table>
+                     
+                     <table class="table table-bordered table-condensed" id="">
+	                        <thead>
+	                            <tr>
+	                                <th colspan="6">总成本</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr>
+	                                  <td style="width:19%;">结算利润</td>
+		                              <td><input type="text" class="form-control" style="width:70%;"></td>
+		                              <td>预算利润</td>
+		                              <td><input type="text" class="form-control" style="width:70%;"></td>
+	                            </tr>
+	                            <tr>
+	                                  <td>结算利润率</td>
+		                              <td><input type="text" class="form-control" style="width:70%;"></td>
+		                              <td>预算利润率</td>
+		                              <td><input type="text" class="form-control" style="width:70%;"></td>
+	                            </tr>
+	                        </tbody>
+                      </table>
+                     
+                    </form> 
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model修改结束 -->
+<!-- Modal项目 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgxiangmumd">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xgxiangmubiao">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>编号</th>
+                                    <th>项目名称</th>
+                                    <th>项目所属公司</th>
+                                    <th>项目类型</th>
+                                    <th>甲方单位</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="xgquedingxm">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+        </div>
+        <div class="LowerPart" style="margin-top:3px;">
+                            <form class="form-inline">
+                        <table class="table table-bordered">
+                            <tr>
+                            	<td style="width:20%;">项目名称</td>
+                            	<td>
+                            			<input type="text" class="form-control" id="prj_name" disabled  style="width:70%;">
+                               			<button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="chosexm">选择项目</button>
+                            	</td>
+                            	<td>任务单号</td>
+                            	<td>
+                            			<select class="form-control" id="prj_no" style="width:70%;"></select>
+                            	</td>
+                            </tr>
+                            <tr>
+                            	<td class="jingyongkk">业主单位</td>
+                            	<td><input type="text" class="form-control" id="yezhudanwei" style="width:70%;" disabled></td>
+                            	<td class="jingyongkk">承接部门</td>
+                            	<td><input type="text" class="form-control" id="cj_bumen" style="width:70%;" disabled></td>
+                            </tr>
+                            <tr>
+                            	<td class="jingyongkk">项目管理负责人</td>
+                            	<td><input type="text" class="form-control" id="prj_leader" style="width:70%;" disabled></td>
+                            	<!-- <td>项目管理团队</td>
+                            	<td><input type="text" class="form-control" style="width:70%;"></td> -->
+                            	<!-- <td>项目合同金额</td>
+                            	<td><input type="text" class="form-control" id="contract_money" style="width:70%;" disabled></td> -->
+                            	<td class="jinqianyanse">项目结算金额(元)</td>
+                            	<td><input type="text" class="form-control" id="prj_js_money" style="width:70%;" disabled></td>
+                            </tr>
+                            <tr>
+                            	<td class="jinqianyanse">合同结算金额(元)</td>
+                            	<td><input type="text" class="form-control" id="contract_js_money" style="width:70%;" disabled></td>
+                            	<!-- <td>项目预算成本</td>
+                            	<td><input type="text" class="form-control" id="yusuanchengben" style="width:70%;" disabled></td> -->
+                            	<td></td>
+                            	<td></td>
+                            </tr>
+                        </table>
+                    <table class="table table-bordered table-condensed" >
+                    	<thead>
+                    		<tr>
+	                            <th colspan="6">直接成本</th>
+                        	</tr>
+                        	<tr>
+	                            <th style="width:20%;">科目</th>
+	                            <th colspan="2" >预算金额(元)</th>
+	                            <th colspan="2">结算金额(元)</th>
+                        	</tr>
+                        </thead>
+                        <tbody>
+                        	<tr>
+                        		<td style="width:20%;">分包</td>
+                        		<td style="width:20%;" class="jinqianyanse">预算(元)</td>
+                        		<td style="width:20%;" id="fb_ys_money"></td>
+                        		<td style="width:20%;" class="jinqianyanse">结算(元)</td>
+                        		<td style="width:20%;" id="fb_js_money"></td>
+                        	</tr>
+                        	<tr>
+                        		<td>主材</td>
+                        		<td class="jinqianyanse">预算(元)</td>
+                        		<td id="main_ys_money"></td>
+                        		<td class="jinqianyanse">结算(元)</td>
+                        		<td id="main_js_money"></td>
+                        	</tr>
+                        	<tr>
+                        		<td>项目其他直接成本</td>
+                        		<td class="jinqianyanse">预算(元)</td>
+                        		<td id="other_ys_money"></td>
+                        		<td class="jinqianyanse">实际(元)</td>
+                        		<td id="other_js_money"></td>
+                        	</tr>
+                        	<tr>
+                        		<td>检测二部直接成本</td>
+                        		<td></td>
+                        		<td></td>
+                        		<td class="jinqianyanse">实际(元)</td>
+                        		<td><input type="text" placeholder="本项目在检测二部报销的部分" id="jc2_sj_money" class="form-control" style="width:70%;"></td>
+                        	</tr>
+                        </tbody>
+                        <tfoot>
+                        	<tr>
+                        		<td style="width:20%;">直接成本小计</td>
+                        		<td style="width:20%;" class="jinqianyanse">预算小计(元)</td>
+                        		<td  id="ys_xiaoji"></td>
+                        		<td  style="width:20%;" class="jinqianyanse">核算小计(元)</td>
+                        		<td  id="hs_xiaoji" ></td>
+                        	</tr>
+                        </tfoot>
+                    </table>
+	                    <table class="table table-bordered table-condensed" id="fyyusuan2">
+		                        <thead>
+		                            <tr>
+		                                <th colspan="6">间接成本</th>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+		                        	<tr>
+		                        		<td style="width:16%;" class="jinqianyanse">项目人员薪酬(元)</td>
+		                        		<td style="width:17%;"><input type="text" class="form-control" id="prj_xinchou" style="width:70%;"></td>
+		                        	<!-- </tr>
+		                        	<tr> -->
+		                        		<td style="width:16%;" class="jinqianyanse">折旧费用(元)</td>
+		                        		<td style="width:17%;"><input type="text" id="zhejiu_fy" class="form-control" style="width:70%;"></td>
+		                        		<td style="width:16%;" class="jinqianyanse">间接成本小计(元)</td>
+		                        		<td style="width:18%;" id="jjchengbenxj"></td>
+		                        	</tr>
+		                        </tbody>
+	                     </table>
+	                     <table class="table table-bordered table-condensed" id="fyyusuanqt">
+		                        <thead>
+		                            <tr>
+		                                <th colspan="6">其他摊销费用</th>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+		                            <tr>
+		                        		<td style="width:20%;" class="jinqianyanse">公司管理费用(元)</td>
+		                        		<td><input type="text" class="form-control" id="gsgl_fy" style="width:70%;"></td>
+		                        		<td style="width:20%;" class="jinqianyanse">公司销售费用(元)</td>
+		                        		<td><input type="text" class="form-control" id="gsxs_fy" style="width:70%;"></td>
+		                        	</tr>
+		                        	<tr>
+		                        		<td style="width:20%;" class="jinqianyanse">其他摊销费用(元)</td>
+		                        		<td><input type="text" class="form-control" id="othertx_fy" style="width:70%;"></td>
+		                        		<td style="width:20%;" class="jinqianyanse">其他摊销费用小计(元)</td>
+		                        		<td colspan="5" id="qitafeiyongxiaoji"></td>
+		                        	</tr>
+		                        </tbody>
+	                     </table>
+                     
+                     <table class="table table-bordered table-condensed" id="fyyusuan3">
+	                        <thead>
+	                      		<tr>
+	                      			<td colspan="4">
+		                            <button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="jschengben()">计算成本及利润</button>
+	                      			</td>
+	                      		</tr>
+	                      		<tr>
+		                                <td style="width:20%;" class="jinqianyanse">总成本(元)</td>
+		                                <td colspan="3" id="zongchengben"></td>
+		                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr>
+	                                  <td style="width:20%;" class="jinqianyanse">结算利润(元)</td>
+		                              <td><input type="text" class="form-control" id="all_jslirun" style="width:70%;" disabled></td>
+		                              <td class="jinqianyanse">预算利润(元)</td>
+		                              <td><input type="text" class="form-control" id="all_yslirun" style="width:70%;" disabled></td>
+	                            </tr>
+	                            <tr>
+	                                  <td class="shuziyanse">结算利润率</td>
+		                              <td><input type="text" class="form-control" id="all_jslirunlv" style="width:70%;" disabled></td>
+		                              <td class="shuziyanse">预算利润率</td>
+		                              <td><input type="text" class="form-control" id="all_yslirunlv" style="width:70%;" disabled></td>
+	                            </tr>
+	                        </tbody>
+                      </table>
+                     
+                     <table class="table table-bordered" id="renyuan">
+                            <thead>
+                                <tr>
+                                    <th>人员</th>
+                                    <th>分类</th>
+                                    <th>工时</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                    	<input type="text" id="name" class="form-control" disabled>
+                                    	<button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择人员</button>	
+                                    </td>
+                                    <td>
+                                        <select class="form-control" id="fenlei" style="width:180px;">
+                                             <option>负责人</option>
+                                            <option>核心成员</option>
+                                            <option>辅助成员</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" id="gongshi" placeholder="天数" class="form-control"></td>
+                                    <td colspan="3"><button type="button" class="btn btn-primary" onclick="addrenyuan(1)">添加</button></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                        <table class="table table-bordered" id="all_renyuan">
+                            <thead>
+                                <tr>
+                                    <th colspan="4">项目管理团队</th>
+                                </tr>
+                                    <tr>
+                                        <th style="width:19%;">人员</th>
+                                        <th>分类</th>
+                                        <th>工时</th>
+                                        <th>操作</th>
+                                    </tr>
+                            </thead>
+                            <tbody>
+	                            
+                            </tbody>
+                        </table>
+                    </form>  
+        </div>
+    </div>
+<!-- allMsg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                        <table class="table table-bordered">
+                            <tr>
+                            	<td>项目名称</td>
+                            	<td id="look_prj_name"></td>
+                            	<td>任务单号</td>
+                            	<td id="look_prj_no"></td>
+                            </tr>
+                            <tr>
+                            	<td>业主单位</td>
+                            	<td id="look_yezhudanwei"></td>
+                            	<td>承接部门</td>
+                            	<td id="look_cj_bumen"></td>
+                            </tr>
+                            <tr>
+                            	<td>项目管理负责人</td>
+                            	<td id="look_prj_leader"></td>
+                            	<!-- <td>项目管理团队</td>
+                            	<td></td> -->
+                            	<td class="jinqianyanse">项目结算金额(元)</td>
+                            	<td id="look_prj_js_money"></td>
+                            </tr>
+                            <tr>
+                            	<td class="jinqianyanse">合同结算金额(元)</td>
+                            	<td id="look_contract_js_money"></td>
+                            	<td>项目核算单编号</td>
+                            	<td id="look_hsNo"></td>
+                            </tr>
+                        </table>
+						
+						
+						<table class="table table-bordered table-condensed" id="">
+	                        <thead>
+	                    		<tr>
+		                            <th colspan="6">直接成本</th>
+	                        	</tr>
+	                        	<tr>
+		                            <th style="width:20%;">科目</th>
+		                            <th colspan="2">预算金额(元)</th>
+		                            <th colspan="2">结算金额(元)</th>
+	                        	</tr>
+	                        </thead>
+	                        <tbody>
+	                        	<tr>
+	                        		<td style="width:20%;">分包</td>
+	                        		<td style="width:20%;" class="jinqianyanse">预算(元)</td>
+	                        		<td style="width:20%;" id="look_fb_ys_money"></td>
+	                        		<td style="width:20%;" class="jinqianyanse">结算(元)</td>
+	                        		<td style="width:20%;" id="look_fb_js_money"></td>
+	                        	</tr>
+	                        	<tr>
+	                        		<td>主材</td>
+	                        		<td class="jinqianyanse">预算(元)</td>
+	                        		<td id="look_main_ys_money"></td>
+	                        		<td class="jinqianyanse">结算(元)</td>
+	                        		<td id="look_main_js_money"></td>
+	                        	</tr>
+	                        	<tr>
+	                        		<td>项目其他直接成本</td>
+	                        		<td class="jinqianyanse">预算(元)</td>
+	                        		<td id="look_other_ys_money"></td>
+	                        		<td class="jinqianyanse">实际(元)</td>
+	                        		<td id="look_other_js_money"></td>
+	                        	</tr>
+	                        	<tr>
+	                        		<td>检测二部直接成本</td>
+	                        		<td></td>
+	                        		<td ></td>
+	                        		<td class="jinqianyanse">实际(元)</td>
+	                        		<td id="look_jc2_sj_money"></td>
+	                        	</tr>
+	                        </tbody>
+	                        <tfoot>
+	                        	<tr>
+	                        		<td style="width:20%;">直接成本小计</td>
+	                        		<td style="width:20%;" class="jinqianyanse">预算小计(元)</td>
+	                        		<td  id="look_ys_xiaoji"></td>
+	                        		<td  style="width:20%;" class="jinqianyanse">核算小计(元)</td>
+	                        		<td  id="look_hs_xiaoji" ></td>
+	                        	</tr>
+	                        </tfoot>
+                     </table>
+                    
+	                    <table class="table table-bordered table-condensed" id="">
+		                        <thead>
+		                            <tr>
+		                                <th colspan="6">间接成本</th>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+		                        	<tr>
+		                        		<td style="width:16%;" class="jinqianyanse">项目人员薪酬(元)</td>
+		                        		<td style="width:17%;" id="look_prj_xinchou"></td>
+		                        		<td style="width:16%;" class="jinqianyanse">折旧费用(元)</td>
+		                        		<td style="width:17%;" id="look_zhejiu_fy" ></td>
+		                        		<td style="width:16%;" class="jinqianyanse">间接成本小计(元)</td>
+		                        		<td style="width:18%;" colspan="5" id="look_jjchengbenxj"></td>
+		                        	</tr>
+		                        </tbody>
+		                        <tfoot>
+		                        </tfoot>
+	                     </table>
+                     
+                     <table class="table table-bordered table-condensed" id="">
+		                        <thead>
+		                            <tr>
+		                                <th colspan="6">其他摊销费用</th>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+		                            <tr>
+		                        		<td style="width:20%;" class="jinqianyanse">公司管理费用(元)</td>
+		                        		<td id="look_gsgl_fy"></td>
+		                        		<td style="width:20%;" class="jinqianyanse">公司销售费用(元)</td>
+		                        		<td id="look_gsxs_fy"></td>
+		                        	</tr>
+		                        	<tr>
+		                        		<td style="width:20%;" class="jinqianyanse">其他摊销费用(元)</td>
+		                        		<td id="look_othertx_fy"></td>
+		                        		<td style="width:20%;" class="jinqianyanse">其他摊销费用小计(元)</td>
+		                        		<td colspan="5" id="look_qitafeiyongxiaoji"></td>
+		                        	</tr>
+		                        </tbody>
+		                        <tfoot>
+		                        </tfoot>
+	                     </table>
+                     
+                     <table class="table table-bordered table-condensed" id="lookfyyusuan3">
+	                        <thead>
+	                            <tr>
+	                                <th class="jinqianyanse">总成本(元)</th>
+	                                <th colspan="5" id="look_zongchengben"></th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr>
+	                                  <td style="width:19%;" class="jinqianyanse">结算利润(元)</td>
+		                              <td id="look_all_jslirun"></td>
+		                              <td class="jinqianyanse">预算利润(元)</td>
+		                              <td id="look_all_yslirun"></td>
+	                            </tr>
+	                            <tr>
+	                                  <td class="shuziyanse">结算利润率</td>
+		                              <td id="look_all_jslirunlv"></td>
+		                              <td class="shuziyanse">预算利润率</td>
+		                              <td id="look_all_yslirunlv"></td>
+	                            </tr>
+	                        </tbody>
+                      </table>
+                      <table class="table table-bordered" id="look_renyuan">
+                            <thead>
+                                <tr>
+                                    <th colspan="4">项目管理团队</th>
+                                </tr>
+                                    <tr>
+                                        <th>人员</th>
+                                        <th>分类</th>
+                                        <th>工时</th>
+                                    </tr>
+                            </thead>
+                            <tbody>
+	                            
+                            </tbody>
+                        </table>
+                     
+                    </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg结束 -->
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-condensed" id="tijiaoren">
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
+                        </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitPerson()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+    	initSelect();
+    	initDepartment();
+    	/* (); */
+    	initFenLei();
+    	initClType();
+    	initClType2();
+    	initClType3();
+    	initPerson();
+	});
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   	console.log(id)
+    var user;
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": "prjName"}, 
+            { "data": "prjNo"}, 
+            { "data": "yezhu"}, 
+            { "data": "cjDepartment"},
+            { "data": "prjLeader"}, 
+            { "data": "prjJsMoney"}, 
+            { "data": "contractJsMoney"}, 
+            { "data": null}, 
+            { "data": null}, 
+        ],
+        "columnDefs": [
+						{
+								 "class": "tcenter",
+								    "targets": 8	,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<i class="iconfont icon-icon-test Pebxbb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookThis(this)"   id="lookDetall"></i><i class="iconfont iconxiugai icon-xiugai Pebc" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="修改" onclick="checkBudge(this)"   id="Changedanwei"></i>'
+								    }
+								  },
+								  {	
+										 "class": "details-control",
+										    "targets": 7,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	if(full.jsState=='2'){
+										    		return '<span class="label label-danger state">尚未结算</span>';
+										    	}else if(full.jsState=='1'){
+										    		return '<span class="label label-info state">部分结算</span>';
+										    	}else if(full.jsState=='0'){
+										    		return '<span class="label label-success state">全部结算</span>';
+										    	}
+										       }
+										  }
+						],
+						"fnDrawCallback" : function() {
+							$.ajax({
+		                		type:"post",
+		                		url:getContextPath()+"/login/getUser",
+		                		async:false,
+		                		data:{
+		                		},
+		                		success:function(json){
+		                			user=json;
+		                			if(json!=null &&json!=""){
+		                				var arr = json.uPermissions.split(',');
+		                				
+		                				for(var i=0;i<arr.length;i++){
+		                					var arr2 = arr[i].replace("+","");
+		                					if(arr[i].indexOf("Pebxba") >= 0 ){
+		                						$(".Pebxba").show();
+		                					}
+		                					if(arr[i].indexOf("Pebxbb") >= 0 ){
+		                						$(".Pebxbb").show();
+		                					}
+		                				}
+		                				
+		                			}
+		                			
+		                		}
+		                	});
+							
+						},
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table3=$('#xiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+		            { "data": "prjNo"},
+		            { "data": "prjName"},
+		            { "data": "prjCompany"},
+		            { "data": "prjType2"},
+		            { "data": "ccName"},
+		            { "data": null},
+		            
+		        ],
+		        "columnDefs": [
+								{
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xiangmuName" style="width:16px;height:16px;">'
+										        }
+										  },
+										  {	
+												 "class": "details-control",
+												    "targets": 6,
+												    "searchable": true,
+												    "render": function(data, type, full) {
+												    	if(full.jsState=='2'){
+												    		return '<span class="label label-danger state">尚未结算</span>';
+												    	}else if(full.jsState=='1'){
+												    		return '<span class="label label-info state">部分结算</span>';
+												    	}else if(full.jsState=='0'){
+												    		return '<span class="label label-success state">全部结算</span>';
+												    	}
+												       }
+												  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table5=$('#xgxiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+		            { "data": "prjNo"},
+		            { "data": "prjName"},
+		            { "data": "prjCompany"},
+		            { "data": "prjType2"},
+		            { "data": "ccName"},
+		            
+		        ],
+		        "columnDefs": [
+								{
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xgxiangmuName" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    //选部门选人
+    var bmtableren=$('#bmmingzibiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="mingzi2" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+
+    
+    $("#newkemu").click(function(){
+		if($("#newkemu").val()=="1"){
+			$("#newfymingxi").empty();
+			$("#newfymingxi").append("<option>其他材料费用</option><option value='11'>主材费用</option>")
+		}
+		if($("#newkemu").val()=="2"){
+			$("#newfymingxi").empty();
+			$("#newfymingxi").append("<option>机械设备使用费（用于实体生产）</option><option>车辆使用费（含过路费、油费）</option><option>仪器维护费</option>")
+		}
+		if($("#newkemu").val()=="3"){
+			$("#newfymingxi").empty();
+			$("#newfymingxi").append("<option>劳务分包费</option>")
+		}
+		if($("#newkemu").val()=="4"){
+			$("#newfymingxi").empty();
+			$("#newfymingxi").append("<option>项目人员薪酬</option><option>项目部用工</option>")
+		}
+		if($("#newkemu").val()=="5"){
+			$("#newfymingxi").empty();
+			$("#newfymingxi").append("<option>差旅费</option><option>驻外日杂费</option><option>办公费</option>")
+		}
+		if($("#newkemu").val()=="6"){
+			$("#newfymingxi").empty();
+			$("#newfymingxi").append("<option>监管维护费</option>")
+		}
+		if($("#newkemu").val()=="7"){
+			$("#newfymingxi").empty();
+			$("#newfymingxi").append("<option>招待费</option><option>会务费</option>")
+		}
+		if($("#newkemu").val()=="8"){
+			$("#newfymingxi").empty();
+			$("#newfymingxi").append("<option>税金</option><option>融资成本</option>")
+		}
+		if($("#newkemu").val()=="9"){
+			$("#newfymingxi").empty();
+			$("#newfymingxi").append("<option>其他直接成本</option>")
+		}
+		if($("#newkemu").val()=="10"){
+			$("#newfymingxi").empty();
+			$("#newfymingxi").append("<option>公司管理摊销</option><option>其他摊销</option>")
+		}
+	})
+	$("#newaddyusuan").click(function(){
+		$("#Newfyyusuan").append("<tr><td>"
+				+$("#newkemu option:selected").text()
+				+"</td><td>"
+				+$("#newfymingxi option:selected").text()
+				+"</td><td data-id="+$("#newbumen").val()+">"
+				+$("#newbumen option:selected").text()
+				+"</td><td>"
+				+$("#newjine").val()
+				+"</td><td>"
+				+$("#newbeizhu").val()
+				+"</td><td>"
+				+'<button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button>'
+				+"</td></tr>")
+	})
+	$("#cl_table").hide();
+    $("#addzhuchengben").hide();
+	$("#newfymingxi").click(function(){
+		if($("#newfymingxi").find("option:selected").val()!="11"){
+			if($("#cl_table tbody").find("tr").length!=0){
+				$("#newkemu").removeAttr("disabled");
+				$("#newaddyusuan").removeAttr("disabled");
+				$("#newbumen").removeAttr("disabled");
+				$("#newjine").removeAttr("disabled");
+				$("#newbeizhu").removeAttr("disabled");
+				$("#addzhuchengben").hide();
+			}else{
+				$("#newkemu").removeAttr("disabled");
+				$("#newaddyusuan").removeAttr("disabled");
+				$("#newbumen").removeAttr("disabled");
+				$("#newjine").removeAttr("disabled");
+				$("#newbeizhu").removeAttr("disabled");
+				$("#cl_table").hide();
+				$("#addzhuchengben").hide();
+			}
+			
+		}else{
+			$("#newaddyusuan").attr("disabled","disabled");
+			$("#newbumen").attr("disabled","disabled");
+			$("#newjine").attr("disabled","disabled");
+			$("#newbeizhu").attr("disabled","disabled");
+			$("#cl_table").show();
+			$("#addzhuchengben").show();
+		}
+	})
+	$("#newkemu").click(function(){
+		if($("#newkemu").val()!="1"){
+			if($("#cl_table tbody").find("tr").length!=0){
+				$("#newkemu").removeAttr("disabled");
+				$("#newaddyusuan").removeAttr("disabled");
+				$("#newbumen").removeAttr("disabled");
+				$("#newjine").removeAttr("disabled");
+				$("#newbeizhu").removeAttr("disabled");
+				$("#addzhuchengben").hide();
+			}else{
+				$("#newkemu").removeAttr("disabled");
+				$("#newaddyusuan").removeAttr("disabled");
+				$("#newbumen").removeAttr("disabled");
+				$("#newjine").removeAttr("disabled");
+				$("#newbeizhu").removeAttr("disabled");
+				$("#cl_table").hide();
+				$("#addzhuchengben").hide();
+			}
+		}
+	})
+	//xiugai
+	$("#xgkemu").click(function(){
+		if($("#xgkemu").val()=="1"){
+			$("#xgfymingxi").empty();
+			$("#xgfymingxi").append("<option>其他材料费用</option><option value='11'>主材费用</option>")
+		}
+		if($("#xgkemu").val()=="2"){
+			$("#xgfymingxi").empty();
+			$("#xgfymingxi").append("<option>机械设备使用费（用于实体生产）</option><option>车辆使用费（含过路费、油费）</option><option>仪器维护费</option>")
+		}
+		if($("#xgkemu").val()=="3"){
+			$("#xgfymingxi").empty();
+			$("#xgfymingxi").append("<option>劳务分包费</option>")
+		}
+		if($("#xgkemu").val()=="4"){
+			$("#xgfymingxi").empty();
+			$("#xgfymingxi").append("<option>项目人员薪酬</option><option>项目部用工</option>")
+		}
+		if($("#xgkemu").val()=="5"){
+			$("#xgfymingxi").empty();
+			$("#xgfymingxi").append("<option>差旅费</option><option>驻外日杂费</option><option>办公费</option>")
+		}
+		if($("#xgkemu").val()=="6"){
+			$("#xgfymingxi").empty();
+			$("#xgfymingxi").append("<option>监管维护费</option>")
+		}
+		if($("#xgkemu").val()=="7"){
+			$("#xgfymingxi").empty();
+			$("#xgfymingxi").append("<option>招待费</option><option>会务费</option>")
+		}
+		if($("#xgkemu").val()=="8"){
+			$("#xgfymingxi").empty();
+			$("#xgfymingxi").append("<option>税金</option><option>融资成本</option>")
+		}
+		if($("#xgkemu").val()=="9"){
+			$("#xgfymingxi").empty();
+			$("#xgfymingxi").append("<option>其他直接成本</option>")
+		}
+		if($("#xgkemu").val()=="10"){
+			$("#xgfymingxi").empty();
+			$("#xgfymingxi").append("<option>公司管理摊销</option><option>其他摊销</option>")
+		}
+	})
+	$("#xgaddyusuan").click(function(){
+		$("#xgfyyusuan").append("<tr><td>"
+				+$("#xgkemu option:selected").text()
+				+"</td><td>"
+				+$("#xgfymingxi option:selected").text()
+				+"</td><td data-id2="+$("#xgbumen").val()+">"
+				+$("#xgbumen").val()
+				+"</td><td>"
+				+$("#xgjine").val()
+				+"</td><td>"
+				+$("#xgbeizhu").val()
+				+"</td><td>"
+				+'<button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button>'
+				+"</td></tr>")
+	})
+	$("#xgcl_table").hide();
+    $("#xgzhuchengben").hide();
+	$("#xgfymingxi").click(function(){
+		if($("#xgfymingxi").find("option:selected").val()!="11"){
+			if($("#xgcl_table tbody").find("tr").length!=0){
+				$("#xgkemu").removeAttr("disabled");
+				$("#xgaddyusuan").removeAttr("disabled");
+				$("#xgbumen").removeAttr("disabled");
+				$("#xgjine").removeAttr("disabled");
+				$("#xgbeizhu").removeAttr("disabled");
+				$("#xgzhuchengben").hide();
+			}else{
+				$("#xgkemu").removeAttr("disabled");
+				$("#xgaddyusuan").removeAttr("disabled");
+				$("#xgbumen").removeAttr("disabled");
+				$("#xgjine").removeAttr("disabled");
+				$("#xgbeizhu").removeAttr("disabled");
+				$("#xgcl_table").hide();
+				$("#xgzhuchengben").hide();
+			}
+			
+		}else{
+			$("#xgaddyusuan").attr("disabled","disabled");
+			$("#xgbumen").attr("disabled","disabled");
+			$("#xgjine").attr("disabled","disabled");
+			$("#xgbeizhu").attr("disabled","disabled");
+			$("#xgcl_table").show();
+			$("#xgzhuchengben").show();
+		}
+	})
+	$("#xgkemu").click(function(){
+		if($("#xgkemu").val()!="1"){
+			if($("#xgcl_table tbody").find("tr").length!=0){
+				$("#xgkemu").removeAttr("disabled");
+				$("#xgaddyusuan").removeAttr("disabled");
+				$("#xgbumen").removeAttr("disabled");
+				$("#xgjine").removeAttr("disabled");
+				$("#xgbeizhu").removeAttr("disabled");
+				$("#xgzhuchengben").hide();
+			}else{
+				$("#xgkemu").removeAttr("disabled");
+				$("#xgaddyusuan").removeAttr("disabled");
+				$("#xgbumen").removeAttr("disabled");
+				$("#xgjine").removeAttr("disabled");
+				$("#xgbeizhu").removeAttr("disabled");
+				$("#xgcl_table").hide();
+				$("#xgzhuchengben").hide();
+			}
+		}
+	})
+	
+	function initClType(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#cl_type").append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            	}
+            }
+  		});
+    }
+	function initClType2(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#cl_type"+obj).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            	}
+            }
+  		});
+    }
+	function initClType3(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		$("#xgcl_type"+obj).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+            	}
+            }
+  		});
+    }
+	function newadd(){
+    	var length=$("#cl_table tbody").find("tr").length;
+    	$("#cl_table tbody").append("<tr>"+
+        												'<td><input type="text" style="width:100%;" class="form-control"></td>'+
+        												'<td>'+
+        													'<select class="form-control" style="width:100%;" id="cl_type'+length+'"></select>'+
+        												'</td>'+
+        												'<td><input type="text" style="width:100%;" class="form-control"></td>'+
+        												'<td>'+
+            												'<select class="form-control" style="width:100%;">'+
+	               												'<option value="个">个</option>'+
+	                											'<option value="只">只</option>'+
+	                											'<option value="套">套</option>'+
+	                											'<option value="副">副</option>'+
+	                											'<option value="双">双</option>'+
+	                											'<option value="元">元</option>'+
+	                											'<option value="桶">桶</option>'+
+            												'</select>'+
+        												'</td>'+
+												        '<td><input type="text" style="width:100%;" class="form-control"></td>'+
+												        '<td><input type="text" style="width:100%;" class="form-control"></td>'+
+												        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
+    												"</tr>")
+    				
+    				initClType2(length);
+    }
+	function xgadd(){
+    	var length=$("#xgcl_table tbody").find("tr").length;
+    	$("#xgcl_table tbody").append("<tr>"+
+        												'<td><input type="text" class="form-control"></td>'+
+        												'<td>'+
+        													'<select class="form-control" id="xgcl_type'+length+'"></select>'+
+        												'</td>'+
+        												'<td><input type="text" class="form-control"></td>'+
+        												'<td>'+
+            												'<select class="form-control">'+
+	               												'<option value="个">个</option>'+
+	                											'<option value="只">只</option>'+
+	                											'<option value="套">套</option>'+
+	                											'<option value="副">副</option>'+
+	                											'<option value="双">双</option>'+
+	                											'<option value="元">元</option>'+
+	                											'<option value="桶">桶</option>'+
+            												'</select>'+
+        												'</td>'+
+												        '<td><input type="text" class="form-control"></td>'+
+												        '<td><input type="text" class="form-control"></td>'+
+												        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
+    												"</tr>")
+    				
+    				initClType3(length);
+    }
+	function removeThis(obj){
+    	var tr=$(obj).parent().parent();
+    	$(tr).remove();
+    	toastr.success("移除成功");
+    	
+    	if($("#cl_table tbody").find("tr").length!=0){
+			$("#newkemu").removeAttr("disabled");
+			$("#newaddyusuan").removeAttr("disabled");
+			$("#newbumen").removeAttr("disabled");
+			$("#newjine").removeAttr("disabled");
+			$("#newbeizhu").removeAttr("disabled");
+			$("#addzhuchengben").hide();
+		}else{
+			$("#newkemu").removeAttr("disabled");
+			$("#newaddyusuan").removeAttr("disabled");
+			$("#newbumen").removeAttr("disabled");
+			$("#newjine").removeAttr("disabled");
+			$("#newbeizhu").removeAttr("disabled");
+			$("#cl_table").hide();
+			$("#addzhuchengben").hide();
+		}
+    	
+    	if($("#xgcl_table tbody").find("tr").length!=0){
+			$("#xgkemu").removeAttr("disabled");
+			$("#xgaddyusuan").removeAttr("disabled");
+			$("#xgbumen").removeAttr("disabled");
+			$("#xgjine").removeAttr("disabled");
+			$("#xgbeizhu").removeAttr("disabled");
+			$("#xgzhuchengben").hide();
+		}else{
+			$("#xgkemu").removeAttr("disabled");
+			$("#xgaddyusuan").removeAttr("disabled");
+			$("#xgbumen").removeAttr("disabled");
+			$("#xgjine").removeAttr("disabled");
+			$("#xgbeizhu").removeAttr("disabled");
+			$("#xgcl_table").hide();
+			$("#xgzhuchengben").hide();
+		}
+    	
+    }
+    
+	 function initTable(){
+			$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/projectaccounting/getProjectAccountingById',
+	            dataType: 'json',
+	            data:{
+	            	id:id,
+	            },
+	            success: function (json) {
+	            	console.log(json)
+	            	$("#prj_name").text(json.prjName)
+	            	$("#look_prj_no").text(json.prjNo)
+	            	$("#look_yezhudanwei").text(json.yezhu)
+	            	$("#look_cj_bumen").text(json.cjDepartment)
+	            	$("#look_prj_leader").text(json.prjLeader)
+	            	$("#look_prj_js_money").text(json.prjJsMoney)
+	            	$("#look_contract_js_money").text(json.contractJsMoney)
+	            	$("#look_hsNo").text(json.hsNo)
+	            	$("#look_fb_ys_money").text(json.zjFbYsMoney)
+	            	$("#look_fb_js_money").text(json.zjFbJsMoney)
+	            	$("#look_main_ys_money").text(json.zjZcYsMoney)
+	            	$("#look_main_js_money").text(json.zjZcJsMoney)
+	            	$("#look_other_ys_money").text(json.zjPrjotherYsMoney)
+	            	$("#look_other_js_money").text(json.zjPrjotherJsMoney)
+	            	$("#look_jc2_sj_money").text(json.jcSjMoney)
+	            	$("#look_ys_xiaoji").text(Number(json.zjFbYsMoney)+Number(json.zjZcYsMoney)+Number(json.zjPrjotherYsMoney))
+	            	$("#look_hs_xiaoji").text(Number(json.zjFbJsMoney)+Number(json.zjZcJsMoney)+Number(json.zjPrjotherJsMoney)+Number(json.jcSjMoney))
+	            	$("#look_prj_xinchou").text(json.jjPersonMoney)
+	            	$("#look_zhejiu_fy").text(json.jjZhejiuMoney)
+	            	$("#look_jjchengbenxj").text(Number(json.jjPersonMoney)+Number(json.jjZhejiuMoney))
+	            	$("#look_gsgl_fy").text(json.qtGsGlMoney)
+	            	$("#look_gsxs_fy").text(json.qtGsXsMoney)
+	            	$("#look_othertx_fy").text(json.qtTxMoney)
+	            	$("#look_qitafeiyongxiaoji").text(Number(json.qtGsGlMoney)+Number(json.qtGsXsMoney)+Number(json.qtTxMoney))
+	            	$("#look_zongchengben").text(json.allSubtotal)
+	            	$("#look_all_jslirun").text(json.allJsProfit)
+	            	$("#look_all_yslirun").text(json.allYsProfit)
+	            	$("#look_all_jslirunlv").text(json.allJsProfitMargin)
+	            	$("#look_all_yslirunlv").text(json.allYsProfitMargin)
+	            	
+	            	//人员工时
+	           		$("#look_renyuan tbody").empty();
+	            	if(json.projectAccountingRg!=null){
+	            		for(var i=0;i<json.projectAccountingRg.length;i++){
+	            			$("#look_renyuan tbody").append("<tr><td>"
+					    			+json.projectAccountingRg[i].name
+					    			+"</td><td>"
+					    			+json.projectAccountingRg[i].type
+					    			+"</td><td>"
+					    			+json.projectAccountingRg[i].workHours
+					    			+"</td></tr>")
+	            		}
+	            	}
+	            	
+	            }
+	        });
+    } 
+
+    
+  //初始化申请人部门及人员
+	function initPerson(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	//console.log(json);
+            	for(var i=0;i<json.length;i++){
+	            	$("#bumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+	            	$("#xgbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+            	}
+            	//$("#bumen").val(user.omId);
+	        	//$("#xgbumen").val(user.omId);
+            	$("#bumen").trigger('change');
+	        	$("#xgbumen").trigger('change');
+            }
+        });
+	}
+	$("#bumen").change(function(){
+		var bumen=$("#bumen").val();
+		$('#addGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#bmmingzibiao').dataTable().fnClearTable();
+                $('#bmmingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	//保存添加保管人
+	function saveGuanliren(){
+		var tr=$("input[name='mingzi2']:checked").parents("tr");
+		var data=$("#bmmingzibiao").DataTable().row(tr).data();
+		$("#name").val(data.uName);
+	}
+
+
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+
+
+
+    
+    
+  //选择项目
+	$("#chosexm").click(function(){
+		$("#xiangmumd").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/projectaccounting/selectTaskByNo',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            },
+	            success: function (json) {
+	                $('#xiangmubiao').dataTable().fnClearTable();
+	                $('#xiangmubiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+		 $('#xiangmumd').on('hidden.bs.modal', function () {//解决模态框关闭页面滚动问题
+	            if ($('.modal.in').size() >= 1) {
+	                $('body').addClass('modal-open')
+	            }
+	        })
+	})
+	$("#quedingxm").click(function(){
+		var dom=$("input[name='xiangmuName']:checked").parents('tr');
+		var data=$('#xiangmubiao').DataTable().row(dom).data();
+		$("#prj_name").val(data.prjName);
+		$("#prj_no").val(data.prjNo);
+		$("#prj_type").val(data.prjType2);
+		$("#yezhudanwei").val(data.ccName);
+		$("#xiangmumd").modal("hide");
+		getValue();
+	})
+	
+	function getValue(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectPrjJsMoneyByNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            	no:$('#prj_no').val()
+            },
+            success: function (json) {
+            	var array=new Array();
+            	var array2=new Array();
+            	$("#cj_bumen").val(json.omName);
+        		$("#prj_leader").val(json.mainPrjLeaderName)
+        		$("#prj_js_money").val(json.prjEstimateMoney)
+            	$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/work/selectContractWorkByprjNo',
+                    dataType: 'json',
+                    async:false,
+                    data: {
+                    	prjno:$('#prj_no').val(),
+                    	type:"3"
+                    },
+                    success: function (json) {
+                    	if(json!=null&&json.length>0){
+                    		for(var i=0;i<json.length;i++){
+        		            	$("#contract_js_money").val(json[i].endMoney)
+                    		}
+                    	}else{//如果承接合同履约竣工没有找到就找交工的
+                    		$.ajax({
+                                type: 'POST',
+                                url: getContextPath()+'/work/selectContractWorkByprjNo',
+                                dataType: 'json',
+                                async:false,
+                                data: {
+                                	prjno:$('#prj_no').val(),
+                                	type:"2"
+                                },
+                                success: function (json) {
+                                	if(json!=null&&json.length>0){
+                                		for(var i=0;i<json.length;i++){
+                    		            	$("#contract_js_money").val(json[i].endMoney)
+                                		}
+                                	}else{
+                                		$("#contract_js_money").val("")
+                                	}
+                                }
+                      		});
+                    	}
+                    }
+          		});
+            }
+  		});
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/PrjWorkingHours/selectPrjWorkingHoursByPrjNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            	prjno:$('#prj_no').val()
+            },
+            success: function (json) {
+            	var renyuan=json.prjWorkingHoursP;
+            	if(renyuan!=null&&renyuan.length>0){
+            		$("#all_renyuan tbody").empty();
+            		for(var i=0;i<renyuan.length;i++){
+	            		$("#all_renyuan tbody").append("<tr>"
+								+"<td style='width:25%;'>"+renyuan[i].name+"</td>"
+								+"<td style='width:25%;'>"+renyuan[i].type+"</td>"
+								+"<td style='width:25%;'>"+renyuan[i].workingHours+"</td>"
+								+"<td style='width:25%;'><button type='button' class='btn btn-danger' onclick='removeThis(this)'>移除</button></td>"
+						+"</tr>")
+            		}
+            	}
+            }
+  		});
+		
+		$("#fb_ys_money").text(0)
+		$("#fb_js_money").text(0)
+		$("#main_ys_money").text(0)
+		$("#main_js_money").text(0)
+		$("#other_ys_money").text(0)
+		$("#other_js_money").text(0)
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/budge/selectBudgeByNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            	no:$('#prj_no').val()
+            },
+            success: function (json) {
+            	var clfy=json.costBudget;
+            	var zclf=json.budgetMainMaterial;
+				//$("#yusuanchengben").val(json.allCost);
+            	var fb_ys_money=0
+           		var other_ys_money=0
+            	if(clfy!=null&&clfy.length>0){
+	            	for(var i=0;i<clfy.length;i++){
+	            		if(clfy[i].prjDetail=="劳务分包费"){
+		            		fb_ys_money+=Number(clfy[i].costAmount)
+	            		}else if(clfy[i].prjDetail=="其他直接成本"){
+	            			other_ys_money+=Number(clfy[i].costAmount)
+	            		}
+	            	}
+            	}
+            	$("#fb_ys_money").text(fb_ys_money)
+           		getFbJsMoney($('#prj_no').val())//获取分包结算金额
+				
+            	$("#main_ys_money").text(json.allMainMaterialMoney)
+            	getMainJsMoney($('#prj_no').val());//主材料结算金额
+           		
+           		$("#other_ys_money").text(other_ys_money)
+            	getOtherJsMoney($('#prj_no').val());//获取其他结算金额
+            	
+            }
+  		});
+    }
+	
+    //根据任务单号查分包结算金额
+    var fbjsMoney=0;
+    function getFbJsMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/fbOver/selectFbJsMoneyByNo',
+            dataType: 'json',
+            data: {
+            	no:obj
+            },
+            success: function (json) {
+            	fbjsMoney=json
+	            $("#fb_js_money").text(fbjsMoney)
+            }
+  		});
+    }
+    //根据任务单好查主材料结算金额
+    var mainJsMoney=0;
+    function getMainJsMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/gsMaterialIn/selectBytaskNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            	no:obj
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		mainJsMoney+=Number(json[i].freight)
+            		var clList=json[i].gsInCl;
+                	if(clList!=null&&clList.length>0){
+    	            	for(var j=0;j<clList.length;j++){
+    	            		mainJsMoney+=Number(clList[j].clPrice)*Number(clList[j].clRemain)
+    	            	}
+    	            	$("#main_js_money").text(mainJsMoney)
+                	}else{
+                		$("#main_js_money").text(0)
+                	}
+            	}
+            	
+            }
+  		});
+    }
+    //根据任务单好查其他结算金额
+    function getOtherJsMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task2/selectSumMoneyByNo',
+            dataType: 'json',
+            data: {
+            	no:obj
+            },
+            success: function (json) {
+            	var allMoney=json;
+            	var otherJsMoney=Number(allMoney)-Number(fbjsMoney)-Number(mainJsMoney)
+            	$("#other_js_money").text(otherJsMoney)
+            }
+  		});
+    }
+    
+    //计算实际成本及利润
+    function jschengben(){
+    	var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+    	var prj_js_money=$("#prj_js_money").val();
+    	if(prj_js_money==""){
+    		toastr.error("项目结算金额不能为空")
+    		return false;
+    	}
+    	var fb_ys_money=$("#fb_ys_money").text()
+    	var main_ys_money=$("#main_ys_money").text()
+   		var other_ys_money=$("#other_ys_money").text()
+    	var ysxiaoji=Number(fb_ys_money)+Number(main_ys_money)+Number(other_ys_money)
+    	$("#ys_xiaoji").text(ysxiaoji)//预算小计
+    	var fb_js_money=$("#fb_js_money").text()
+    	var main_js_money=$("#main_js_money").text()
+   		var other_js_money=$("#other_js_money").text()
+   		var jc2_sj_money=$("#jc2_sj_money").val();
+    	if(jc2_sj_money==""||!reg.test(jc2_sj_money)){
+    		toastr.error("检测二部直接成本不能为空并且数字只能保留两位小数")
+    		return false;
+    	}
+   		var jsxiaoji=Number(fb_js_money)+Number(main_js_money)+Number(other_js_money)+Number(jc2_sj_money)
+    	$("#hs_xiaoji").text(jsxiaoji)//核算小计
+    	
+    	
+    	var prj_xinchou=$("#prj_xinchou").val();
+    	if(prj_xinchou==""||!reg.test(prj_xinchou)){
+    		toastr.error("项目人员薪酬不能为空并且数字只能保留两位小数")
+    		return false;
+    	}
+    	var zhejiu_fy=$("#zhejiu_fy").val();
+    	if(zhejiu_fy==""||!reg.test(zhejiu_fy)){
+    		toastr.error("折旧费用不能为空并且数字只能保留两位小数")
+    		return false;
+    	}
+    	var jjchengbenxj=Number(prj_xinchou)+Number(zhejiu_fy)
+    	$("#jjchengbenxj").text(jjchengbenxj)//间接成本小计
+    	
+    	var gsgl_fy=$("#gsgl_fy").val()
+    	if(gsgl_fy==""||!reg.test(gsgl_fy)){
+    		toastr.error("公司管理费用不能为空并且数字只能保留两位小数")
+    		return false;
+    	}
+    	var gsxs_fy=$("#gsxs_fy").val();
+    	if(gsxs_fy==""||!reg.test(gsxs_fy)){
+    		toastr.error("公司销售费用不能为空并且数字只能保留两位小数")
+    		return false;
+    	}
+    	var othertx_fy=$("#othertx_fy").val();
+    	if(othertx_fy==""||!reg.test(othertx_fy)){
+    		toastr.error("其他摊销费用不能为空并且数字只能保留两位小数")
+    		return false;
+    	}
+    	var qitafeiyongxiaoji=Number(gsgl_fy)+Number(gsxs_fy)+Number(othertx_fy)
+    	$("#qitafeiyongxiaoji").text(qitafeiyongxiaoji)//其他摊销费用小计
+    	var zongchengben=Number(jsxiaoji)+Number(jjchengbenxj)+Number(qitafeiyongxiaoji);
+    	$("#zongchengben").text(zongchengben);//总成本=核算小计+间接成本小计+其他摊销费用小计
+		
+    	var alljslirun=prj_js_money/1-zongchengben/1
+    	$("#all_jslirun").val(alljslirun);//结算利润=项目结算金额-总成本
+    	var allyslirun=prj_js_money/1-ysxiaoji/1
+    	$("#all_yslirun").val(allyslirun);//预算利润=项目结算金额-预算成本
+    	
+    	$("#all_jslirunlv").val((alljslirun/prj_js_money).toFixed(2));//结算利润率=结算利润/项目结算金额
+    	$("#all_yslirunlv").val((allyslirun/prj_js_money).toFixed(2));//预算利润率=预算利润/项目结算金额 
+    }
+    
+	
+	function initName1(obj1,obj2){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/MaterialType/selectMaterialType',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	$("#leixing"+obj2).empty();
+                for(var i=0;i<json.length;i++){
+                	$("#leixing"+obj2).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+                }
+                $("#leixing"+obj2).val(obj1);
+            }
+		});
+	}
+	
+	$("#xgchosexm").click(function(){
+		$("#xgxiangmumd").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            },
+	            success: function (json) {
+	                $('#xgxiangmubiao').dataTable().fnClearTable();
+	                $('#xgxiangmubiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+		 $('#xgxiangmumd').on('hidden.bs.modal', function () {//解决模态框关闭页面滚动问题
+	            if ($('.modal.in').size() >= 1) {
+	                $('body').addClass('modal-open')
+	            }
+	        })
+	})
+	$("#xgquedingxm").click(function(){
+		var prjname=$("input[name='xgxiangmuName']:checked").parent().next().next().text();
+		var prjNo=$("input[name='xgxiangmuName']:checked").parent().next().text();
+		var prjtype2=$("input[name='xgxiangmuName']:checked").parent().next().next().next().next().text();
+		$("#xgprj_name").val(prjname);
+		$("#xgprj_no").val(prjNo);
+		$("#xgxiangmumd").modal("hide");
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectTaskPrjNo',
+            dataType: 'json',
+            data: {
+            	prjName:$('#xgprj_name').val()
+            },
+            success: function (json) {
+            	for(var i=0;i<json.length;i++){
+            		
+            	}
+            }
+  		});
+	})
+    
+  //初始化项目名称和任务单号
+    function initSelect(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/task/selectPrjNameAndWorkNo',
+	        dataType: 'json',
+	        data: {
+	        },
+	        error: function (msg) {
+	        	toastr.error("请求失败");
+	        },
+	        success: function (json) {
+	        	$("#prj_name").html('');
+	        	$("#prj_no").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		$("#prj_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+	        		$("#xgprj_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+	        	}
+	        	 $('#prj_no').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjName',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjNo:$('#prj_no').val()
+	                    },
+	                    success: function (json) {
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#prj_name").val(json[i].prjName);
+	                    		$("#prj_type").val(json[i].prjType2);
+	                    		$("#yezhudanwei").val(json[i].ccName);
+	                    	}
+	                    	getValue();
+	                    }
+	          		});
+	          	})
+	          	$('#xgprj_no').editableSelect().on('select.editable-select', function (e, dom) {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/task/selectTaskPrjName',
+	                    dataType: 'json',
+	                    data: {
+	                    	prjNo:$('#xgprj_no').val()
+	                    },
+	                    success: function (json) {
+	                    	for(var i=0;i<json.length;i++){
+	                    		$("#xgprj_name").val(json[i].prjName);
+	                    	}
+	                    }
+	          		});
+	          	})
+	          	
+	        }
+		});
+	}
+  
+    function initDepartment(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+            dataType: 'json',
+            data: {
+
+            },
+            error: function (msg) {
+            	toastr.error("请求失败");
+            },
+            success: function (json) {
+            	$("#department").html('');
+            	$("#xgdepartment").html('');
+                for(var i=0;i<json.length;i++){
+                	$("#department").append("<option value="+json[i].omName+">"+json[i].omName+"</option>");
+                	$("#xgdepartment").append("<option value="+json[i].omName+">"+json[i].omName+"</option>");
+                }
+            }
+		});
+    }
+    
+  //初始化分类
+	function initFenLei(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/costSubjects/selectAllFirstcostSubjects',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#fyfenlei").append( "<option value='" + json[i].idFirst + "'>"
+		                    + json[i].nameFirst + "</option>");
+	        		$("#xgfyfenlei").append( "<option value='" + json[i].idFirst + "'>"
+		                    + json[i].nameFirst + "</option>");
+	        	} 
+	        	$("#fyfenlei").trigger('change');
+	        	$("#xgfyfenlei").trigger('change');
+	        }
+	    });
+	}
+	
+	$("#fyfenlei").change(function(){
+		var fyfenleiId=$("#fyfenlei").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/costSubjects/selectOne_TwocostSubjects",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				idFirst:fyfenleiId 
+				},
+			success:function(json){
+				$("#fymingxi").empty();
+				for(var i=0;i<json.length;i++){
+					$("#fymingxi").append("<option value='" + json[i].dId + "'>"
+		                    + json[i].nameSecond + "</option>")
+				}
+			}
+		})
+	})
+	$("#xgfyfenlei").change(function(){
+		var fyfenleiId=$("#xgfyfenlei").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/costSubjects/selectOne_TwocostSubjects",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				idFirst:fyfenleiId 
+				},
+			success:function(json){
+				$("#xgfymingxi").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xgfymingxi").append("<option value='" + json[i].dId + "'>"
+		                    + json[i].nameSecond + "</option>")
+				}
+			}
+		})
+	})
+	
+  //添加费用核算
+	function addfyyusuan(){
+		$("#fyyusuan tbody").append("<tr><td>"
+    			+$("#fyfenlei").find("option:selected").text()
+    			+"</td><td>"
+    			+$("#fymingxi").find("option:selected").text()
+    			+"</td><td data1="+$("#bumen").find("option:selected").val()+">"
+    			+$("#bumen").find("option:selected").text()
+    			+"</td><td style='width:55px;'>"
+    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' onclick='delfyyusuan(this)' title='删除'></i>"
+    			+"</td></tr>")
+	}
+	function addfyyusuan2(){
+		$("#fyyusuan2 tbody").append("<tr><td style='width:19%;'>"
+    			+$("#fymingxi2").find("option:selected").text()
+    			+"</td><td>"
+    			+$("#fyMoney2").val()
+    			+"</td><td style='width:55px;'>"
+    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' onclick='delfyyusuan(this)' title='删除'></i>"
+    			+"</td></tr>")
+	}
+  
+  
+	function xghesuan(){
+		$("#xgfyyusuan tbody").empty("");
+    	for(var i=0;i<json.costBudget.length;i++){
+    		$("#xgfyyusuan").append("<tr><td>"
+						    			+json.costBudget[i].classify
+						    			+"</td><td>"
+						    			+json.costBudget[i].prjDetail
+						    			+"</td><td data1="+json.costBudget[i].department+">"
+						    			+json.costBudget[i].name2
+						    			+"</td><td>"
+						    			+json.costBudget[i].costAmount
+						    			+"</td><td>"
+						    			+"结算数量、金额"
+						    			+"</td></tr>")
+    	}
+	}
+    
+	function addqita(){
+		var qtmingxi=$("#qtmingxi").val();
+		var qtMoney=$("#qtMoney").val();
+		$("#fyyusuanqt tbody").append("<tr><td>"+qtmingxi+"</td><td>"+qtMoney+"</td><td><i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' onclick='delfyyusuan(this)' title='删除'></i></td></tr>")
+	}
+	//删除费用预算
+	function delfyyusuan(obj){
+		$(obj).parent().parent().remove();//此处$(obj)先获取到<a>对象，.parent()拿到<td>，再.parent()获取到tr
+	}
+    
+    function submitPerson(){
+  		var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+  	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+  	  $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/addTask4',
+            dataType: 'json',
+            data:{
+          	  url:lianjie,
+          	  userId:uid,
+          	  uName:uname,
+          	  omName:bmmc,
+          	  dutyName:zw,
+          	  omId:omid,
+          	  dutyId:dutyid
+            },
+            success: function (json) {
+          	  toastr.success('提交成功');
+            }
+        });  
+  	}
+    
+    function look(obj){
+    	var tr=$(obj).parents("tr");
+    	var data=$("#mainContent").DataTable().row(tr).data();
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'',
+            dataType: 'json',
+            data:{
+            	id:data.pcId
+            },
+            success: function (json) {
+            	
+            	
+            }
+		});
+    	$("#allMsg1").modal("show");
+    }
+    
+    function gotoPrj(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//var t = encodeURI(encodeURI(data.prjId));
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNameAndNo",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				name:data.prjName,
+				no:data.prjNo
+				},
+			success:function(json){
+				$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+data.prjNo+'');
+			}
+		})
+    }
+    
+    
+    function addrenyuan(obj){
+    	var day = new Date(); 
+		var allDays = new Date(day.getFullYear(), (day.getMonth() + 1), 0).getDate();//当前月份的天数
+		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		if(obj==1){
+			var name=$("#name").val();
+			var fenlei=$("#fenlei").val();
+			var gongshi=$("#gongshi").val();
+			if(name==''){
+				toastr.error("人员不能为空");
+				return;
+			}
+			if(!reg.test(gongshi)){
+				toastr.error("工时只能填数字");
+				return;
+			}
+			if(gongshi==''||gongshi/1>allDays/1){
+				toastr.error("工时不能为空且不能大于当月总天数");
+				return;
+			}
+			$("#all_renyuan tbody").append("<tr>"
+												+"<td style='width:25%;'>"+name+"</td>"
+												+"<td style='width:25%;'>"+fenlei+"</td>"
+												+"<td style='width:25%;'>"+gongshi+"</td>"
+												+"<td style='width:25%;'><button type='button' class='btn btn-danger' onclick='removeThis(this)'>移除</button></td>"
+										+"</tr>")
+			$("#name").val("");
+			$("#gongshi").val("");
+		}else if(obj==2){
+			var name=$("#xgname").val();
+			var fenlei=$("#xgfenlei").val();
+			var gongshi=$("#xggongshi").val();
+			if(name==''){
+				toastr.error("人员不能为空");
+				return;
+			}
+			if(!reg.test(gongshi)){
+				toastr.error("工时只能填数字");
+				return;
+			}
+			if(gongshi==''||gongshi/1>allDays/1){
+				toastr.error("工时不能为空且不能大于当月总天数");
+				return;
+			}
+			$("#edit_renyuan tbody").append("<tr>"
+												+"<td style='width:25%;'>"+name+"</td>"
+												+"<td style='width:25%;'>"+fenlei+"</td>"
+												+"<td style='width:25%;'>"+gongshi+"</td>"
+												+"<td style='width:25%;'><button type='button' class='btn btn-danger' onclick='removeThis(this)'>移除</button></td>"
+										+"</tr>")
+			$("#xgname").val("");
+			$("#xggongshi").val("");
+		}
+	}
+	function removeThis(obj){
+		var tr=$(obj).parent().parent();
+		$(tr).remove();
+	}
+	
+	
+	
+	function save(){
+		var renyuanArr=new Array();
+		$("#all_renyuan tbody").find("tr").each(function(){
+			var data = $(this).children();
+			var name=data.eq(0).text();
+			var type=data.eq(1).text();
+			var work_hours=data.eq(2).text();
+			var rg={
+					paId:undefined,
+					name:undefined,
+					type:undefined,
+					workHours:undefined,
+			}
+			rg.paId=null;
+			rg.name=name;
+			rg.type=type;
+			rg.workHours=work_hours;
+			renyuanArr.push(rg)
+		})
+		
+		var prj_name=$("#prj_name").val();
+		var prj_no=$("#prj_no").val();
+		var yezhudanwei=$("#yezhudanwei").val();
+		var cj_bumen=$("#cj_bumen").val();
+		var prj_leader=$("#prj_leader").val();
+		//var contract_money=$("#contract_money").val();
+		var prj_js_money=$("#prj_js_money").val();
+		var contract_js_money=$("#contract_js_money").val();
+		var fb_ys_money=$("#fb_ys_money").text();
+		var fb_js_money=$("#fb_js_money").text();
+		var main_ys_money=$("#main_ys_money").text();
+		var main_js_money=$("#main_js_money").text();
+		var other_ys_money=$("#other_ys_money").text();
+		var other_js_money=$("#other_js_money").text();
+		var prj_xinchou=$("#prj_xinchou").val()
+		var zhejiu_fy=$("#zhejiu_fy").val();
+		var gsgl_fy=$("#gsgl_fy").val();
+		var gsxs_fy=$("#gsxs_fy").val();
+		var othertx_fy=$("#othertx_fy").val();
+		var zongchengben=$("#zongchengben").text();
+		var all_jslirun=$("#all_jslirun").val();
+		var all_yslirun=$("#all_yslirun").val();
+		var all_jslirunlv=$("#all_jslirunlv").val();
+		var all_yslirunlv=$("#all_yslirunlv").val();
+		var jc2_sj_money=$("#jc2_sj_money").val();
+		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		if(prj_name==""){
+    		toastr.error("项目名称不能为空")
+    		return false;
+    	}
+		/* if(prj_js_money==""){
+    		toastr.error("项目结算金额不能为空")
+    		return false;
+    	}
+		if(zongchengben==""){
+			toastr.error("总成本不能为空")
+    		return false;
+		} */
+		
+		
+		var projectAccounting={
+				paId:undefined,                        
+				prjName:undefined,//项目名                
+				prjNo:undefined,//项目编号                 
+				yezhu:undefined,//业主单位                 
+				cjDepartment:undefined,//承接部门          
+				prjLeader:undefined,//项目负责人 
+				prjJsMoney:0,//项目结算金额                      
+				contractJsMoney:0,//合同结算金额                 
+				zjFbYsMoney:0,//直接成本的分包预算金额                
+				zjFbJsMoney:0,//直接成本的分包结算金额                
+				zjZcYsMoney:0,//直接成本的主材预算金额                
+				zjZcJsMoney:0,//直接成本的主材结算金额                
+				zjPrjotherYsMoney:0,//直接成本的项目其他直接成本预算金额    
+				zjPrjotherJsMoney:0,//直接成本的项目其他直接成本结算金额    
+				jjPersonMoney:0,//间接成本的项目人员薪酬金额            
+				jjZhejiuMoney:0,//间接成本的折旧费用金额              
+				qtGsGlMoney:0,//其他摊销费用的公司管理费用              
+				qtGsXsMoney:0,//其他摊销费用的公司销售费用              
+				qtTxMoney:0,//其他摊销费用的其他摊销费用                
+				allSubtotal:0,//总成本                        
+				allJsProfit:0,//总成本的结算利润       
+				allYsProfit:0,//总成本的预算利润       
+				allJsProfitMargin:undefined,//总成本的结算利润率
+				allYsProfitMargin:undefined,//总成本的预算利润率
+				projectAccountingRg:undefined,
+				jcSjMoney:0,
+				
+		}
+		projectAccounting.paId=null;
+		projectAccounting.prjName=prj_name;
+		projectAccounting.prjNo=prj_no
+		projectAccounting.yezhu=yezhudanwei;
+		projectAccounting.cjDepartment=cj_bumen;
+		projectAccounting.prjLeader=prj_leader;
+		projectAccounting.prjJsMoney=prj_js_money;
+		projectAccounting.contractJsMoney=contract_js_money;
+		projectAccounting.zjFbYsMoney=fb_ys_money;
+		projectAccounting.zjFbJsMoney=fb_js_money;
+		projectAccounting.zjZcYsMoney=main_ys_money
+		projectAccounting.zjZcJsMoney=main_js_money;
+		projectAccounting.zjPrjotherYsMoney=other_ys_money;
+		projectAccounting.zjPrjotherJsMoney=other_js_money;
+		projectAccounting.jjPersonMoney=prj_xinchou
+		projectAccounting.jjZhejiuMoney=zhejiu_fy
+		projectAccounting.qtGsGlMoney=gsgl_fy
+		projectAccounting.qtGsXsMoney=gsxs_fy
+		projectAccounting.qtTxMoney=othertx_fy
+		projectAccounting.allSubtotal=zongchengben
+		projectAccounting.allJsProfit=all_jslirun;
+		projectAccounting.allYsProfit=all_yslirun;
+		projectAccounting.allJsProfitMargin=all_jslirunlv;
+		projectAccounting.allYsProfitMargin=all_yslirunlv;
+		projectAccounting.projectAccountingRg=renyuanArr;
+		projectAccounting.jcSjMoney=jc2_sj_money;
+		
+		 $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/projectaccounting/addProjectAccounting',
+            dataType: 'json',
+            contentType: "application/json", 
+            data:JSON.stringify(projectAccounting),
+            success: function (json) {
+            	if(json.result>0){
+            		toastr.success("添加成功")
+            		$("#myModal").modal("hide")
+            		//$('#mainContent').DataTable().row.add(json.ProjectAccounting).draw(false);//新增行立即显示
+            	}else{
+            		toastr.error("添加失败");
+            	}
+            }
+        }); 
+	}
+	
+	function submit(){
+		var renyuanArr=new Array();
+		$("#all_renyuan tbody").find("tr").each(function(){
+			var data = $(this).children();
+			var name=data.eq(0).text();
+			var type=data.eq(1).text();
+			var work_hours=data.eq(2).text();
+			var rg={
+					paId:undefined,
+					name:undefined,
+					type:undefined,
+					workHours:undefined,
+			}
+			rg.paId=null;
+			rg.name=name;
+			rg.type=type;
+			rg.workHours=work_hours;
+			renyuanArr.push(rg)
+		})
+		
+		var prj_name=$("#prj_name").val();
+		var prj_no=$("#prj_no").val();
+		var yezhudanwei=$("#yezhudanwei").val();
+		var cj_bumen=$("#cj_bumen").val();
+		var prj_leader=$("#prj_leader").val();
+		//var contract_money=$("#contract_money").val();
+		var prj_js_money=$("#prj_js_money").val();
+		var contract_js_money=$("#contract_js_money").val();
+		var fb_ys_money=$("#fb_ys_money").text();
+		var fb_js_money=$("#fb_js_money").text();
+		var main_ys_money=$("#main_ys_money").text();
+		var main_js_money=$("#main_js_money").text();
+		var other_ys_money=$("#other_ys_money").text();
+		var other_js_money=$("#other_js_money").text();
+		var prj_xinchou=$("#prj_xinchou").val()
+		var zhejiu_fy=$("#zhejiu_fy").val();
+		var gsgl_fy=$("#gsgl_fy").val();
+		var gsxs_fy=$("#gsxs_fy").val();
+		var othertx_fy=$("#othertx_fy").val();
+		var zongchengben=$("#zongchengben").text();
+		var all_jslirun=$("#all_jslirun").val();
+		var all_yslirun=$("#all_yslirun").val();
+		var all_jslirunlv=$("#all_jslirunlv").val();
+		var all_yslirunlv=$("#all_yslirunlv").val();
+		var jc2_sj_money=$("#jc2_sj_money").val();
+		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		if(prj_name==""){
+    		toastr.error("项目名称不能为空")
+    		return false;
+    	}
+		if(prj_js_money==""){
+    		toastr.error("项目结算金额不能为空")
+    		return false;
+    	}
+		if(zongchengben==""){
+			toastr.error("总成本不能为空")
+    		return false;
+		}
+		
+		
+		var projectAccounting={
+				paId:undefined,                        
+				prjName:undefined,//项目名                
+				prjNo:undefined,//项目编号                 
+				yezhu:undefined,//业主单位                 
+				cjDepartment:undefined,//承接部门          
+				prjLeader:undefined,//项目负责人 
+				prjJsMoney:0,//项目结算金额                      
+				contractJsMoney:0,//合同结算金额                 
+				zjFbYsMoney:0,//直接成本的分包预算金额                
+				zjFbJsMoney:0,//直接成本的分包结算金额                
+				zjZcYsMoney:0,//直接成本的主材预算金额                
+				zjZcJsMoney:0,//直接成本的主材结算金额                
+				zjPrjotherYsMoney:0,//直接成本的项目其他直接成本预算金额    
+				zjPrjotherJsMoney:0,//直接成本的项目其他直接成本结算金额    
+				jjPersonMoney:0,//间接成本的项目人员薪酬金额            
+				jjZhejiuMoney:0,//间接成本的折旧费用金额              
+				qtGsGlMoney:0,//其他摊销费用的公司管理费用              
+				qtGsXsMoney:0,//其他摊销费用的公司销售费用              
+				qtTxMoney:0,//其他摊销费用的其他摊销费用                
+				allSubtotal:0,//总成本                        
+				allJsProfit:0,//总成本的结算利润       
+				allYsProfit:0,//总成本的预算利润       
+				allJsProfitMargin:undefined,//总成本的结算利润率
+				allYsProfitMargin:undefined,//总成本的预算利润率
+				projectAccountingRg:undefined,
+				jcSjMoney:0,
+				
+		}
+		projectAccounting.paId=null;
+		projectAccounting.prjName=prj_name;
+		projectAccounting.prjNo=prj_no
+		projectAccounting.yezhu=yezhudanwei;
+		projectAccounting.cjDepartment=cj_bumen;
+		projectAccounting.prjLeader=prj_leader;
+		projectAccounting.prjJsMoney=prj_js_money;
+		projectAccounting.contractJsMoney=contract_js_money;
+		projectAccounting.zjFbYsMoney=fb_ys_money;
+		projectAccounting.zjFbJsMoney=fb_js_money;
+		projectAccounting.zjZcYsMoney=main_ys_money
+		projectAccounting.zjZcJsMoney=main_js_money;
+		projectAccounting.zjPrjotherYsMoney=other_ys_money;
+		projectAccounting.zjPrjotherJsMoney=other_js_money;
+		projectAccounting.jjPersonMoney=prj_xinchou
+		projectAccounting.jjZhejiuMoney=zhejiu_fy
+		projectAccounting.qtGsGlMoney=gsgl_fy
+		projectAccounting.qtGsXsMoney=gsxs_fy
+		projectAccounting.qtTxMoney=othertx_fy
+		projectAccounting.allSubtotal=zongchengben
+		projectAccounting.allJsProfit=all_jslirun;
+		projectAccounting.allYsProfit=all_yslirun;
+		projectAccounting.allJsProfitMargin=all_jslirunlv;
+		projectAccounting.allYsProfitMargin=all_yslirunlv;
+		projectAccounting.projectAccountingRg=renyuanArr;
+		projectAccounting.jcSjMoney=jc2_sj_money;
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/projectaccounting/addProjectAccountingSubmit',
+            dataType: 'json',
+            contentType: "application/json", 
+            data:JSON.stringify(projectAccounting),
+            success: function (json) {
+            	if(json=='0'){
+	        		toastr.error("保存失败");
+	        	}else{
+	        		$("#myModal").modal("hide")
+	        		lianjie=json.url;
+	            	if(json.receiver!=null&&json.receiver.length>=1){
+		        		  $("#tijiaogei").modal('show');
+		        		  $("#tijiaoren tbody").empty("");
+		        		  for(var i=0;i<json.receiver.length;i++){
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" name="tijiaorenming" style="width:22px;weight:22px;" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+		        					  +'</td><td>'
+		        					  +json.receiver[i].omName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].dutyName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].uName
+		        					  +'</td></tr>');
+		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver.userId,
+		        	        	  uName:json.receiver.uName,
+		        	        	  omName:json.receiver.omName,
+		        	        	  dutyName:json.receiver.dutyName,
+		        	        	  omId:json.receiver.omId,
+		        	        	  dutyId:json.receiver.dutyId
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
+		        	  }
+	        	}  
+            	/* if(json>0){
+            		toastr.success("添加成功")
+            		$("#myModal").modal("hide")
+            		//$('#mainContent').DataTable().row.add(json.ProjectAccounting).draw(false);//新增行立即显示
+            	}else{
+            		toastr.error("添加失败");
+            	} */
+            }
+        });
+	}
+	
+	
+	
+	function lookThis(obj){
+		$("#allMsg1").modal("show");
+		var dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/projectaccounting/getProjectAccountingById',
+            dataType: 'json',
+            data:{
+            	id:data.paId,
+            },
+            success: function (json) {
+            	$("#prj_name").val(json.prjName)
+            	$("#prj_no").val(json.prjNo)
+            	$("#look_yezhudanwei").text(json.yezhu)
+            	$("#look_cj_bumen").text(json.cjDepartment)
+            	$("#look_prj_leader").text(json.prjLeader)
+            	$("#look_prj_js_money").text(json.prjJsMoney)
+            	$("#look_contract_js_money").text(json.contractJsMoney)
+            	$("#look_hsNo").text(json.hsNo)
+            	$("#look_fb_ys_money").text(json.zjFbYsMoney)
+            	$("#look_fb_js_money").text(json.zjFbJsMoney)
+            	$("#look_main_ys_money").text(json.zjZcYsMoney)
+            	$("#look_main_js_money").text(json.zjZcJsMoney)
+            	$("#look_other_ys_money").text(json.zjPrjotherYsMoney)
+            	$("#look_other_js_money").text(json.zjPrjotherJsMoney)
+            	$("#look_jc2_sj_money").text(json.jcSjMoney)
+            	$("#look_ys_xiaoji").text(Number(json.zjFbYsMoney)+Number(json.zjZcYsMoney)+Number(json.zjPrjotherYsMoney))
+            	$("#look_hs_xiaoji").text(Number(json.zjFbJsMoney)+Number(json.zjZcJsMoney)+Number(json.zjPrjotherJsMoney)+Number(json.jcSjMoney))
+            	$("#look_prj_xinchou").text(json.jjPersonMoney)
+            	$("#look_zhejiu_fy").text(json.jjZhejiuMoney)
+            	$("#look_jjchengbenxj").text(Number(json.jjPersonMoney)+Number(json.jjZhejiuMoney))
+            	$("#look_gsgl_fy").text(json.qtGsGlMoney)
+            	$("#look_gsxs_fy").text(json.qtGsXsMoney)
+            	$("#look_othertx_fy").text(json.qtTxMoney)
+            	$("#look_qitafeiyongxiaoji").text(Number(json.qtGsGlMoney)+Number(json.qtGsXsMoney)+Number(json.qtTxMoney))
+            	$("#look_zongchengben").text(json.allSubtotal)
+            	$("#look_all_jslirun").text(json.allJsProfit)
+            	$("#look_all_yslirun").text(json.allYsProfit)
+            	$("#look_all_jslirunlv").text(json.allJsProfitMargin)
+            	$("#look_all_yslirunlv").text(json.allYsProfitMargin)
+            	
+            	//人员工时
+           		$("#look_renyuan tbody").empty();
+            	if(json.projectAccountingRg!=null){
+            		for(var i=0;i<json.projectAccountingRg.length;i++){
+            			$("#look_renyuan tbody").append("<tr><td>"
+				    			+json.projectAccountingRg[i].name
+				    			+"</td><td>"
+				    			+json.projectAccountingRg[i].type
+				    			+"</td><td>"
+				    			+json.projectAccountingRg[i].workHours
+				    			+"</td></tr>")
+            		}
+            	}
+            	
+            }
+        });
+	}
+	
+	
+    
+</script>
+</html>
