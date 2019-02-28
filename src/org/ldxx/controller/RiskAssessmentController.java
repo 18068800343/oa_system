@@ -12,6 +12,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.RiskAssessment;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.RiskAssessmentService;
 import org.ldxx.util.FlowUtill;
@@ -34,6 +35,8 @@ public class RiskAssessmentController {
 	private RiskAssessmentService raService;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/addRiskAssessment")/*保存*/
 	@ResponseBody
@@ -154,6 +157,11 @@ public class RiskAssessmentController {
 		int i =raService.countOfPrjId(riskassessment.getPrjName(),riskassessment.getRaId());
 		if(i<1){
 			i = raService.updateRiskAssessmentById(riskassessment);
+			if(i>0){
+				String deptName=riskassessment.getCbDept();
+				OrganizationManagement om=oService.getOrgIdByName(deptName);
+				 currentFlowMapper.updateFkDeptByModeId(riskassessment.getRaId(), om.getOmNo());
+			}
 		}else{
 			i=2;
 		}
@@ -169,6 +177,11 @@ public class RiskAssessmentController {
 		int i =raService.countOfPrjId(riskassessment.getPrjName(),riskassessment.getRaId());
 		if(i<1){
 			i = raService.updateRiskAssessmentById(riskassessment);
+			if(i>0){
+				String deptName=riskassessment.getCbDept();
+				OrganizationManagement om=oService.getOrgIdByName(deptName);
+				 currentFlowMapper.updateFkDeptByModeId(riskassessment.getRaId(), om.getOmNo());
+			}
 		}else{
 			i=2;
 		}
