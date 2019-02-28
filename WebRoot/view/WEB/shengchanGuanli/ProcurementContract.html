@@ -2040,17 +2040,18 @@
 		 
 	})
 	
-	
+	var len=1;
 	function add(){
-    	var length=$("#cl_table tbody").find("tr").length;
+    	//var length=$("#cl_table tbody").find("tr").length;
+    	len+=1;
     	$("#cl_table tbody").append("<tr>"+
        												'<td><input style="width:100%;" type="text" class="form-control"></td>'+
        												'<td>'+
-       													'<select style="width:100%;" class="form-control" id="cl_type'+length+'"></select>'+
+       													'<select style="width:100%;" class="form-control" id="cl_type'+len+'"></select>'+
        												'</td>'+
        												'<td><input style="width:100%;" type="text" class="form-control"></td>'+
        												'<td>'+
-           												'<select class="form-control" id="cl_dw'+length+'">'+
+           												'<select class="form-control" id="cl_dw'+len+'">'+
            												'</select>'+
        												'</td>'+
 											        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
@@ -2059,21 +2060,32 @@
 											        '</td>'+
 											        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
 											        '<td>'+
-											        	'<select class="form-control" style="width:100%;" id="department_tj'+length+'">'+
+											        	'<select class="form-control" style="width:100%;" id="department_tj'+len+'">'+
 											            '</select>'+
 											        '</td>'+
 											        '<td>'+
-											        	'<select class="form-control" style="width:100%;" id="company_sure'+length+'">'+
+											        	'<select class="form-control" style="width:100%;" id="company_sure'+len+'">'+
 											            '</select>'+
 											        '</td>'+
 											        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
 											        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
    												"</tr>")
-    				initSupplier2(length);
-    				initClType2(length);
-    				selectMaterialCompany(length);
+   					var xmSupplier=$("#department_tj"+(len-1)).val()
+					var gsSupplier=$("#company_sure"+(len-1)).val()
+					if(xmSupplier==undefined&&gsSupplier==undefined){
+						for(var i=1;i<20;i++){
+							xmSupplier=$("#department_tj"+(len-i)).val();
+	    					gsSupplier=$("#company_sure"+(len-i)).val();
+	    					if(xmSupplier!=undefined&&gsSupplier!=undefined){
+	    						break;
+	    					}
+						}
+					}
+    				initSupplier2(len,xmSupplier,gsSupplier);
+    				initClType2(len);
+    				selectMaterialCompany(len);
     }
-    function initSupplier2(obj){
+    function initSupplier2(obj,obj2,obj3){
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/supplier/selectIdAndName',
@@ -2098,6 +2110,10 @@
                     placeholder: '请搜索或选择语言',
                     allowClear: true,
                 });
+                if(obj2!=undefined && obj3!=undefined){
+             	   $("#department_tj"+obj).val(obj2).select2()
+             	   $("#company_sure"+obj).val(obj3).select2()
+                }
             }
   		});
     }
@@ -2116,9 +2132,10 @@
             }
   		});
     }
-    
+    var length=1;
     function add2(){
-    	var length=$("#edit_cl_table tbody").find("tr").length;
+    	//var length=$("#edit_cl_table tbody").find("tr").length;
+    	length+=1;
     	$("#edit_cl_table tbody").append("<tr>"+
         												'<td><input style="width:100%;" type="text" class="form-control"></td>'+
         												'<td>'+
@@ -2143,11 +2160,23 @@
 												        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
 												        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
     												"</tr>")
-    				initSupplier3(length);
+					var xmSupplier=$("#edit_department_tj"+(length-1)).val()
+					var gsSupplier=$("#edit_company_sure"+(length-1)).val()
+					if(xmSupplier==undefined&&gsSupplier==undefined){
+						for(var i=1;i<20;i++){
+							xmSupplier=$("#edit_department_tj"+(length-i)).val();
+	    					gsSupplier=$("#edit_company_sure"+(length-i)).val();
+	    					if(xmSupplier!=undefined&&gsSupplier!=undefined){
+	    						console.log(xmSupplier)
+	    						break;
+	    					}
+						}
+					}
+    				initSupplier3(length,xmSupplier,gsSupplier);
 					initClType2(length);
 					selectMaterialCompany(length);
     }
-    function initSupplier3(obj){
+    function initSupplier3(obj,obj2,obj3){
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/supplier/selectIdAndName',
@@ -2171,6 +2200,10 @@
                        placeholder: '请搜索或选择语言',
                        allowClear: true,
                    });
+                   if(obj2!=undefined && obj3!=undefined){
+                	   $("#edit_department_tj"+obj).val(obj2).select2()
+                	   $("#edit_company_sure"+obj).val(obj3).select2()
+                   }
             	
             }
   		});
@@ -2309,8 +2342,10 @@
             	$("#selectpicker_no").html('');
             	$("#selectpicker_no2").html('');
             	for(var i=0;i<json.length;i++){
-            		$("#selectpicker_no").append("<option  value="+json[i].taskCode+">"+json[i].taskCode+"</option>");
-            		$("#selectpicker_no2").append("<option  value="+json[i].taskCode+">"+json[i].taskCode+"</option>");
+            		if(json[i]!=null){
+	            		$("#selectpicker_no").append("<option  value="+json[i].taskCode+">"+json[i].taskCode+"</option>");
+	            		$("#selectpicker_no2").append("<option  value="+json[i].taskCode+">"+json[i].taskCode+"</option>");
+            		}
             	}
             	$('#selectpicker_no').selectpicker('refresh');
             	$('#selectpicker_no2').selectpicker('refresh');
@@ -2554,12 +2589,15 @@
             success: function (json) {
             	$("#xm"+obj2).empty();
             	$("#xgxm"+obj2).empty();
+            	$("#edit_department_tj"+obj2).empty()
                 for(var i=0;i<json.length;i++){
                 	$("#xm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 	$("#xgxm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#edit_department_tj"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 }
                 $("#xm"+obj2).val(obj1);
                 $("#xgxm"+obj2).val(obj1);
+                $("#edit_department_tj"+obj2).val(obj1);
                 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
                 $("#xm"+obj2).select2({
 	                 tags: true,
@@ -2567,6 +2605,11 @@
 	                 allowClear: true
 	             });
                 $("#xgxm"+obj2).select2({
+	                 tags: true,
+	                 placeholder: '请搜索或选择语言',
+	                 allowClear: true
+	             });
+                $("#edit_department_tj"+obj2).select2({
 	                 tags: true,
 	                 placeholder: '请搜索或选择语言',
 	                 allowClear: true
@@ -2585,12 +2628,15 @@
             success: function (json) {
             	$("#gs"+obj2).empty();
             	$("#xggs"+obj2).empty();
+            	$("#edit_company_sure"+obj2).empty();
                 for(var i=0;i<json.length;i++){
                 	$("#gs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 	$("#xggs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#edit_company_sure"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 }
                 $("#gs"+obj2).val(obj1);
                 $("#xggs"+obj2).val(obj1);
+                $("#edit_company_sure"+obj2).val(obj1);
                 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
                 $("#gs"+obj2).select2({
 	                 tags: true,
@@ -2598,6 +2644,11 @@
 	                 allowClear: true
 	             });
                 $("#xggs"+obj2).select2({
+	                 tags: true,
+	                 placeholder: '请搜索或选择语言',
+	                 allowClear: true
+	             });
+                $("#edit_company_sure"+obj2).select2({
 	                 tags: true,
 	                 placeholder: '请搜索或选择语言',
 	                 allowClear: true
@@ -3599,6 +3650,8 @@
 	
 	//修改回显
 	var editId;
+	var xm;
+	var gs;
 	function checkCgC(obj){
 		var dom=$(obj).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
@@ -3674,6 +3727,7 @@
 				$("#edit_cl_table tbody").empty();
 				if(json.cgcl!=null){
 					for(var k=0;k<json.cgcl.length;k++){
+						length+=1;
                    		$("#edit_cl_table tbody").append("<tr><td>"
            		  				+'<input type="text" style="width:100%;" class="form-control"  value='+json.cgcl[k].clName+' >'
            		  				+"</td><td>"
@@ -3690,14 +3744,16 @@
            		  				+"</td><td>"
            		  				+'<input type="text" style="width:100%;" class="form-control" value='+json.cgcl[k].clMoney+' >'
            		  				+"</td><td>"
-           		  				+'<select style="width:100%;" class="form-control" id=xm'+k+'></select>'
+           		  				+'<select style="width:100%;" class="form-control" id=edit_department_tj'+k+'></select>'
            		  				+"</td><td>"
-           		  				+'<select style="width:100%;" class="form-control" id=gs'+k+'></select>'
+           		  				+'<select style="width:100%;" class="form-control" id=edit_company_sure'+k+'></select>'
            		  				+"</td><td>"
            		  				+'<input type="text" style="width:100%;" class="form-control"  value='+json.cgcl[k].clDesc+' >'
            		  				+"</td><td>"
            		  				+'<button type="button" class="btn btn-danger" onclick="removeThis(this)">删除</button>'
            		  				+"</td></tr>")
+           		  				xm=json.cgcl[k].clPrjSupplier
+								gs=json.cgcl[k].clGsSupplier
            		  				initClType(json.cgcl[k].clType,k);
            		  				initName1(json.cgcl[k].clPrjSupplier,k);
                    				initName2(json.cgcl[k].clGsSupplier,k);

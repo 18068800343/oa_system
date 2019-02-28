@@ -1618,6 +1618,7 @@
 	        type: 'POST',
 	        url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
 	        dataType: 'json',
+	        async:false,
 	        data: {
 	           
 	        },
@@ -1796,8 +1797,10 @@
   		});
     }
     
+    var length=1;
     function add2(){
-    	var length=$("#edit_cl_table tbody").find("tr").length;
+    	//var edit_cl_table_length=$("#edit_cl_table tbody").find("tr").length;
+    	length+=1;
     	$("#edit_cl_table tbody").append("<tr>"+
         												'<td><input style="width:100%;" type="text" class="form-control"></td>'+
         												'<td>'+
@@ -1822,15 +1825,28 @@
 												        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
 												        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
     												"</tr>")
-    				initSupplier3(length);
+					var xmSupplier=$("#edit_department_tj"+(length-1)).val()
+					var gsSupplier=$("#edit_company_sure"+(length-1)).val()
+					if(xmSupplier==undefined&&gsSupplier==undefined){
+						for(var i=1;i<20;i++){
+							xmSupplier=$("#edit_department_tj"+(length-i)).val();
+	    					gsSupplier=$("#edit_company_sure"+(length-i)).val();
+	    					if(xmSupplier!=undefined&&gsSupplier!=undefined){
+	    						console.log(xmSupplier)
+	    						break;
+	    					}
+						}
+					}
+    				initSupplier3(length,xmSupplier,gsSupplier);
 					initClType2(length);
 					selectMaterialCompany(length);
     }
-    function initSupplier3(obj){
+    function initSupplier3(obj,obj2,obj3){
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/supplier/selectIdAndName',
             dataType: 'json',
+            async:false,
             data: {
             	
             },
@@ -1850,7 +1866,10 @@
                        placeholder: '请搜索或选择语言',
                        allowClear: true,
                    });
-            	
+                   if(obj2!=undefined || obj3!=undefined){
+                	   $("#edit_department_tj"+obj).val(obj2).select2()
+                	   $("#edit_company_sure"+obj).val(obj3).select2()
+                   }
             }
   		});
     }
@@ -2236,12 +2255,15 @@
             success: function (json) {
             	$("#xm"+obj2).empty();
             	$("#xgxm"+obj2).empty();
+            	$("#edit_department_tj"+obj2).empty()
                 for(var i=0;i<json.length;i++){
                 	$("#xm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 	$("#xgxm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#edit_department_tj"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 }
                 $("#xm"+obj2).val(obj1);
                 $("#xgxm"+obj2).val(obj1);
+                $("#edit_department_tj"+obj2).val(obj1);
                 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
                 $("#xm"+obj2).select2({
 	                 tags: true,
@@ -2249,6 +2271,11 @@
 	                 allowClear: true
 	             });
                 $("#xgxm"+obj2).select2({
+	                 tags: true,
+	                 placeholder: '请搜索或选择语言',
+	                 allowClear: true
+	             });
+                $("#edit_department_tj"+obj2).select2({
 	                 tags: true,
 	                 placeholder: '请搜索或选择语言',
 	                 allowClear: true
@@ -2267,12 +2294,15 @@
             success: function (json) {
             	$("#gs"+obj2).empty();
             	$("#xggs"+obj2).empty();
+            	$("#edit_company_sure"+obj2).empty();
                 for(var i=0;i<json.length;i++){
                 	$("#gs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 	$("#xggs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#edit_company_sure"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 }
                 $("#gs"+obj2).val(obj1);
                 $("#xggs"+obj2).val(obj1);
+                $("#edit_company_sure"+obj2).val(obj1);
                 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
                 $("#gs"+obj2).select2({
 	                 tags: true,
@@ -2280,6 +2310,11 @@
 	                 allowClear: true
 	             });
                 $("#xggs"+obj2).select2({
+	                 tags: true,
+	                 placeholder: '请搜索或选择语言',
+	                 allowClear: true
+	             });
+                $("#edit_company_sure"+obj2).select2({
 	                 tags: true,
 	                 placeholder: '请搜索或选择语言',
 	                 allowClear: true
@@ -2840,6 +2875,7 @@
 				$("#edit_cl_table tbody").empty();
 				if(json.cgcl!=null){
 					for(var k=0;k<json.cgcl.length;k++){
+						length+=1;
                    		$("#edit_cl_table tbody").append("<tr><td>"
            		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clName+' >'
            		  				+"</td><td>"
@@ -2856,9 +2892,9 @@
            		  				+"</td><td>"
            		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clMoney+' >'
            		  				+"</td><td>"
-           		  				+'<select style="width:100%;" class="form-control" id=xm'+k+'></select>'
+           		  				+'<select style="width:100%;" class="form-control" id=edit_department_tj'+k+'></select>'
            		  				+"</td><td>"
-           		  				+'<select style="width:100%;" class="form-control" id=gs'+k+'></select>'
+           		  				+'<select style="width:100%;" class="form-control" id=edit_company_sure'+k+'></select>'
            		  				+"</td><td>"
            		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clDesc+' >'
            		  				+"</td><td style='width:10%;'>"
@@ -2869,7 +2905,6 @@
                    				initName2(json.cgcl[k].clGsSupplier,k);
                    				//$("#cl_danwei"+k).val(json.cgcl[k].clUnit);
                    				initMaterialCompany(json.cgcl[k].clUnit,k)
-           		  				
                     	} 
 				}
 				

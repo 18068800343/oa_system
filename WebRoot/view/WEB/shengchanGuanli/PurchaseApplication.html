@@ -144,7 +144,7 @@
                         	</tr>
                         </thead>
                         <tbody>
-                        	<tr>
+                        	<!-- <tr>
 	                        	<td><input type="text" class="form-control" id="cl_name"></td>
 	                            <td>
 	                            	<select class="form-control" id="cl_type"></select>
@@ -156,16 +156,16 @@
 	                            </td>
 	                            <td><input type="text" class="form-control" id="num"></td>
 	                            <td>
-	                            	<select class=" form-control" style="width:150px;" id="department_tj">
+	                            	<select class=" form-control" style="width:150px;" id="department_tj1">
 	                                </select>
 	                            </td>
 	                            <td>
-	                            	<select class=" form-control" style="width:150px;" id="company_sure">
+	                            	<select class=" form-control" style="width:150px;" id="company_sure1">
 	                                </select>
 	                            </td>
 	                            <td><input type="text" class="form-control" id="desc"></td>
 	                            <td></td>
-                        	</tr>
+                        	</tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -1265,27 +1265,27 @@
             	
             },
             success: function (json) {
-            	for(var i=0;i<json.length;i++){
-            		$("#department_tj").append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
-            		$("#company_sure").append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+            	/* for(var i=0;i<json.length;i++){
+            		$("#department_tj1").append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+            		$("#company_sure1").append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
             	}
             	$.fn.modal.Constructor.prototype.enforceFocus = function () { }
-            	 $("#department_tj").select2({
+            	 $("#department_tj1").select2({
                      tags: true,
                      placeholder: '请搜索或选择语言',
                      allowClear: true
                  });
             	 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
-                 $("#company_sure").select2({
+                 $("#company_sure1").select2({
                      tags: true,
                      placeholder: '请搜索或选择语言',
                      allowClear: true
-                 });
+                 }); */
             }
   		});
     }
     
-    function initSupplier2(obj){
+    function initSupplier2(obj,obj2,obj3){
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/supplier/selectIdAndName',
@@ -1310,6 +1310,10 @@
                     placeholder: '请搜索或选择语言',
                     allowClear: true
                 });
+                if(obj2!=undefined && obj3!=undefined){
+              	   $("#department_tj"+obj).val(obj2).select2()
+              	   $("#company_sure"+obj).val(obj3).select2()
+                 }
             }
   		});
     }
@@ -1371,8 +1375,10 @@
 	    });
 	}
   
+    var length=1;
     function add(){
-    	var length=$("#cl_table tbody").find("tr").length;
+    	//var length=$("#cl_table tbody").find("tr").length;
+    	length+=1;
     	$("#cl_table tbody").append("<tr>"+
         												'<td style="width:11%;"><input type="text" class="form-control"></td>'+
         												'<td style="width:11%;">'+
@@ -1395,7 +1401,18 @@
 												        '<td style="width:11%;"><input type="text" class="form-control"></td>'+
 												        '<td style="width:11%;"><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
     												"</tr>")
-    				initSupplier2(length);
+    				var xmSupplier=$("#department_tj"+(length-1)).val()
+					var gsSupplier=$("#company_sure"+(length-1)).val()
+					if(xmSupplier==undefined&&gsSupplier==undefined){
+						for(var i=1;i<20;i++){
+							xmSupplier=$("#department_tj"+(length-i)).val();
+	    					gsSupplier=$("#company_sure"+(length-i)).val();
+	    					if(xmSupplier!=undefined&&gsSupplier!=undefined){
+	    						break;
+	    					}
+						}
+					}
+    				initSupplier2(length,xmSupplier,gsSupplier);
     				initClType2(length);
     				selectMaterialCompany(length)
     }

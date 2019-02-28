@@ -703,7 +703,7 @@
   		});
     }
     
-    function initSupplier2(obj){
+    function initSupplier2(obj,obj2,obj3){
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/supplier/selectIdAndName',
@@ -728,6 +728,10 @@
                        placeholder: '请搜索或选择语言',
                        allowClear: true
                    });
+                   if(obj2!=undefined || obj3!=undefined){
+                	   $("#department_tj"+obj).val(obj2).select2()
+                	   $("#company_sure"+obj).val(obj3).select2()
+                   }
             }
   		});
     }
@@ -972,8 +976,10 @@
   		});
     }
     
+    var length=1;
     function add(){
-    	var length=$("#cl_table tbody").find("tr").length;
+    	//var length=$("#cl_table tbody").find("tr").length;
+    	length+=1;
     	$("#cl_table tbody").append("<tr>"+
         												'<td><input type="text" class="form-control"></td>'+
         												'<td>'+
@@ -996,7 +1002,19 @@
 												        '<td><input type="text" class="form-control"></td>'+
 												        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
     												"</tr>")
-    				initSupplier2(length);
+					var xmSupplier=$("#department_tj"+(length-1)).val()
+					var gsSupplier=$("#company_sure"+(length-1)).val()
+					if(xmSupplier==undefined&&gsSupplier==undefined){
+						for(var i=1;i<20;i++){
+							xmSupplier=$("#department_tj"+(length-i)).val();
+	    					gsSupplier=$("#company_sure"+(length-i)).val();
+	    					if(xmSupplier!=undefined&&gsSupplier!=undefined){
+	    						console.log(xmSupplier)
+	    						break;
+	    					}
+						}
+					}
+					initSupplier2(length,xmSupplier,gsSupplier);
     				initClType2(length);
     				selectMaterialCompany(length)
     }
@@ -1041,6 +1059,7 @@
 	        	
 	        	if(data.md!=null){
 					for(var k=0;k<json.md.length;k++){
+						length+=1;
                    		$("#cl_table tbody").append("<tr><td>"
            		  				+'<input type="text" style="width:100%;" class="form-control"  value='+json.md[k].materialName+' >'
            		  				+"</td><td>"
@@ -1053,9 +1072,9 @@
            		  				+"</td><td>"
            		  				+'<input type="text" style="width:100%;" class="form-control"  value='+json.md[k].num+' >'
            		  				+"</td><td>"
-           		  				+'<select style="width:100%;" class="form-control" id=xm'+k+'></select>'
+           		  				+'<select style="width:100%;" class="form-control" id=department_tj'+k+'></select>'
            		  				+"</td><td>"
-           		  				+'<select style="width:100%;" class="form-control" id=gs'+k+'></select>'
+           		  				+'<select style="width:100%;" class="form-control" id=company_sure'+k+'></select>'
            		  				+"</td><td>"
            		  				+'<input type="text" style="width:100%;" class="form-control"  value='+json.md[k].infos+' >'
            		  				+"</td><td>"
@@ -1089,12 +1108,15 @@
             success: function (json) {
             	$("#xm"+obj2).empty();
             	$("#xgxm"+obj2).empty();
+            	$("#department_tj"+obj2).empty();
                 for(var i=0;i<json.length;i++){
                 	$("#xm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 	$("#xgxm"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#department_tj"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 }
                 $("#xm"+obj2).val(obj1).select2();
                 $("#xgxm"+obj2).val(obj1).select2();
+                $("#department_tj"+obj2).val(obj1).select2();
                 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
                 $("#xm"+obj2).select2({
 	                 tags: true,
@@ -1102,6 +1124,11 @@
 	                 allowClear: true
 	             });
                 $("#xgxm"+obj2).select2({
+	                 tags: true,
+	                 placeholder: '请搜索或选择语言',
+	                 allowClear: true
+	             });
+                $("#department_tj"+obj2).select2({
 	                 tags: true,
 	                 placeholder: '请搜索或选择语言',
 	                 allowClear: true
@@ -1143,12 +1170,15 @@
             success: function (json) {
             	$("#gs"+obj2).empty();
             	$("#xggs"+obj2).empty();
+            	$("#company_sure"+obj2).empty();
                 for(var i=0;i<json.length;i++){
                 	$("#gs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 	$("#xggs"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+                	$("#company_sure"+obj2).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
                 }
                 $("#gs"+obj2).val(obj1).select2();
                 $("#xggs"+obj2).val(obj1).select2();
+                $("#company_sure"+obj2).val(obj1).select2();
                 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
                 $("#gs"+obj2).select2({
 	                 tags: true,
@@ -1156,6 +1186,11 @@
 	                 allowClear: true
 	             });
                 $("#xggs"+obj2).select2({
+	                 tags: true,
+	                 placeholder: '请搜索或选择语言',
+	                 allowClear: true
+	             });
+                $("#company_sure"+obj2).select2({
 	                 tags: true,
 	                 placeholder: '请搜索或选择语言',
 	                 allowClear: true

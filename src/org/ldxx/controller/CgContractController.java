@@ -749,11 +749,8 @@ public class CgContractController {
 		}*/
 		int i=cgService.updateCgContractById(cg);
 		if(i>0){
-			User user = (User) session.getAttribute("user");
 			String departName = cg.getCgDepartment();
 			OrganizationManagement oManagement = oService.getOrgIdByName(departName);
-			
-			//OrganizationManagement om=oService.selectOrgById(user.getOmId());
 			String omNo=oManagement.getOmNo();
 			currentFlowMapper.updateFkDeptByModeId(cg.getCgId(), omNo);
 		}
