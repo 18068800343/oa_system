@@ -708,7 +708,7 @@ public class CjContractController {
 		if(i>0){
 			CjContract cj=service.selectCjContractById(id);
 			String cjNo=cj.getContractNo();
-			if(cjNo.equals("")||cjNo==null){
+			if(cjNo==null||cjNo.equals("")){
 				TimeUUID uuid=new TimeUUID();
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 				String year=sdf.format(new Date());

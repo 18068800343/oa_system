@@ -203,6 +203,7 @@
 					                       	</tr>
 							</thead>
 							<tbody></tbody>
+							<tfoot></tfoot>
 						</table>
 						<table class="table table-bordered table-condensed" id="edit_accessory2">
 							<thead>
@@ -214,6 +215,7 @@
 					                       	</tr>
 							</thead>
 							<tbody></tbody>
+							<tfoot></tfoot>
 						</table>
 						<div id="edit_renwudanFenpei"></div>
 		  </form>
@@ -1071,10 +1073,10 @@ function checkquxiaoSplit(){
   	}
   	
   	function edit_accessory(){
-  		$("#edit_accessory tbody").append("<tr><td>新附件</td><td><input type='file' name='file' style='width:60%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>")
+  		$("#edit_accessory tfoot").append("<tr><td>新附件</td><td><input type='file' name='file' style='width:60%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>")
   	}
   	function edit_accessory2(){
-  		$("#edit_accessory2 tbody").append("<tr><td>新附件</td><td><input type='file' name='file2' style='width:60%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>")
+  		$("#edit_accessory2 tfoot").append("<tr><td>新附件</td><td><input type='file' name='file2' style='width:60%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>")
   	}
   	
   	function removeFile(obj){
@@ -1694,15 +1696,17 @@ function checkquxiaoSplit(){
         	          		if(json[i].aType=="承接合同文本"){
         		            	   $("#edit_accessory tbody").append("<tr>"+
         									"<td>附件</td>"+
-        									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
-        				         	    	/* "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+        									"<td><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+        				         	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"'  data4="+json[i].acName+" onclick='deletefile(this)'>删除附件</button></td>"+
+        									/* "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
         				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+ */
         				         	    "</tr>");
         	            	   }
         	          		if(json[i].aType=="法律顾问签字"){
         		            	   $("#edit_accessory2 tbody").append("<tr>"+
         									"<td>附件</td>"+
-        									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+        									"<td><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+        									"<td><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"'  data4="+json[i].acName+" onclick='deletefile(this)'>删除附件</button></td>"+
         				         	    	/* "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
         				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+ */
         				         	    "</tr>");
@@ -2046,12 +2050,12 @@ function checkquxiaoSplit(){
 		var moneyFlag = judgeInputMoney("edit_contract_money");
 		if(!moneyFlag){
 			toastr.error("金额分配有误!请检查!");
-			return false;
+			return "金额分配有误!请检查!";
 		}
 		var fentanFlag = judgeFentanbili();
 		if(fentanFlag==1){
 			toastr.error("分摊比例未填!请检查!");
-			return false;
+			return "分摊比例未填!请检查!";
 		}
 		
 		var contract_name=$("#edit_contract_name").val();
@@ -2095,28 +2099,35 @@ function checkquxiaoSplit(){
 	  	if(obj=='1'){
 			if(contract_name==''){
 				toastr.error("合同名称为空");
-				return;
+				return "合同名称为空";
 			}
 			if(prj_name==''){
 				toastr.error("项目为空");
-				return;
+				return "项目为空";
 			}
 			if(jfId==''){
 				toastr.error("甲方名称为空");
-				return;
+				return "甲方名称为空";
 			}
 			if(yifang_department==''){
 				toastr.error("承接部门为空");
-				return;
+				return "承接部门为空";
 			}
 			if(contract_money==''){
 				toastr.error("合同金额为空");
-				return;
+				return "合同金额为空";
 			}
 			if(temporary_money==''){
 				toastr.error("暂定金为空");
-				return;
+				return "暂定金为空";
 			}
+			if($("#edit_accessory tbody").find('tr').length<1){
+				if($("#edit_accessory tfoot").find('tr').length<1 || $("#edit_accessory tfoot").find("tr").eq(0).find("input").val()==''){
+					toastr.error("请上传合同文本")
+					return "请上传合同文本";
+				}
+			}
+			
 	  	}
 	  	var cjContract={
 	  			cjId:null,
@@ -2178,12 +2189,12 @@ function checkquxiaoSplit(){
 	  	cjContract.chaiFenXinXiArray=chaiFenXinXiArray;
 	  	var formData = new FormData();
 		formData.append("cjContract", JSON.stringify(cjContract));
-		$("#edit_accessory tbody").find("tr").each(function(){
+		$("#edit_accessory tfoot").find("tr").each(function(){
 			if(undefined!=$(this).find("input")[0]){
 				formData.append("file", $(this).find("input")[0].files[0]);
 			}
 		})
-		$("#edit_accessory2 tbody").find("tr").each(function(){
+		$("#edit_accessory2 tfoot").find("tr").each(function(){
 			if(undefined!=$(this).find("input")[0]){
 				formData.append("file2", $(this).find("input")[0].files[0]);
 			}
@@ -3069,6 +3080,31 @@ function checkquxiaoSplit(){
 		var secondLevelLocation = pathArray[1];
 		var loginUrl = window.location.protocol + "//"  + window.location.host ;
 		return loginUrl;
+	}
+	
+	//删除附件
+	function deletefile(obj){
+		var id=$(obj).attr("data1");
+		var name=$(obj).attr("data4");
+		var url=$(obj).attr("data2");
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
+	        dataType: 'json',
+	        data: {
+	        	aId:id,
+	        	acName:name,
+	        	acUrl:url
+	        },
+	        success: function (json) {
+	        	if(json==0){
+	        		toastr.error("删除失败");
+	        	}else{
+	        		toastr.success("删除成功");
+        			$(obj).parents("tr").remove();
+	        	}
+	        }
+		});
 	}
 </script>
 </html>
