@@ -120,6 +120,9 @@
                         <textarea cols="30" rows="4" class="form-control" id="viewTop" placeholder="" disabled></textarea>
                     </div>
                 </div>
+                <div id="NodeBox">
+                    <div class="yihang"><b>审批流程:</b><div id="nodeRole"></div></div>
+                </div>
                 <div id="nextBox" hidden="true">
                     <!-- <div id="titles">上一步操作人:<lable id="lastPerson"></lable>&nbsp;&nbsp;意见：↓</div>
                     <div id="srcontent">
@@ -270,7 +273,7 @@
             "targets": 5,
             "searchable": false,
             "render": function (data, type, full) {
-                return '<i class="iconfont icon-yewubanli Paaa" name="mode" data-wfstate="'+full.wfstate+'" data-flowLast="'+full.flowNodeLast+'" data-lastPerson="'+full.lastPerson+'" data-lastView = "'+full.lastView+'" data-cNodeId="'+full.id+'"  data-id="'+data+'" data-params="'+full.params+'" data-step="'+full.step+'"  data-edit="'+full.editOrView+'" data-flowNodeLast="'+full.flowNodeLast+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
+                return '<i class="iconfont icon-yewubanli Paaa" name="mode" data-floTmpId="'+full.floTmpId+'" data-wfstate="'+full.wfstate+'" data-flowLast="'+full.flowNodeLast+'" data-lastPerson="'+full.lastPerson+'" data-lastView = "'+full.lastView+'" data-cNodeId="'+full.id+'"  data-id="'+data+'" data-params="'+full.params+'" data-step="'+full.step+'"  data-edit="'+full.editOrView+'" data-flowNodeLast="'+full.flowNodeLast+'" style="font-size:18px;cursor:pointer;" title="业务办理" data-toggle="modal" data-target=".dada"></i>';
             }
         }], 
         "order": [[5, 'desc']],
@@ -321,10 +324,12 @@
     	$("body").on("click","i[name='mode']",function(){
     	    page_dom = $(this);
         	var data_id = $(this).attr("data-id");
+        	var floTmpId = $(this).attr("data-floTmpId");
         	var strs = data_id.split("-")
         	var edit = $(this).attr("data-edit");
         	var params = $(this).attr("data-params");
         	var step = $(this).attr("data-step");
+        	addNodeRoles(floTmpId,step);
         	var cNodeId = $(this).attr("data-cNodeId"); 
         	var wfstate = $(this).attr("data-wfstate");  
         	var flowLast = $(this).attr("data-flowLast");
@@ -373,6 +378,38 @@
         	$("#boHui").hide();
         	$("#shanChuFlow").show();
         	}
+        });
+    }
+    
+    function addNodeRoles(floTmpId,step){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/flowNode/getNodeRoleById',
+            data:{
+            	id:floTmpId
+            },
+            dataType: 'json',
+            success: function (json) {
+            	for(var i in json){
+           		 var name = json[i];
+           		 if(name==null||name==""||name=="null"){
+           			name="提交人"; 
+           		 }
+           		 if(i==json.length-1){
+           			 if(step!=null&&i==step-1){
+           		      $("#nodeRole").append("<lable style='color:red'>"+name+"</lable>");
+           			 }else{
+           			  $("#nodeRole").append("<lable>"+name+"</lable>"); 
+           			 }
+           		 }else{
+           			 if(step!=null&&i==step-1){
+            		      $("#nodeRole").append("<lable style='color:red'>"+name+"→</lable>");
+           			 }else{
+           			  $("#nodeRole").append("<lable>"+name+"→</lable>"); 
+           			 }
+           		 }
+            	}
+            }
         });
     }
     function shipeitanchu(ul){

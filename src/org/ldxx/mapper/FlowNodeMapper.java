@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.FlowNode;
 import org.ldxx.bean.FlowNodeExample;
 import org.ldxx.bean.NodeActorsVo;
+import org.ldxx.bean.NodeRoleName;
 
 public interface FlowNodeMapper {
     int countByExample(FlowNodeExample example);
@@ -24,6 +25,8 @@ public interface FlowNodeMapper {
     NodeActorsVo selectNodeActors(String id);
 
     FlowNode selectByPrimaryKey(String id);
+    
+    List<String> selectFlowNodeRoleByTmpId(String id);
 
     int updateByExampleSelective(@Param("record") FlowNode record, @Param("example") FlowNodeExample example);
 

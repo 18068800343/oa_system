@@ -48,6 +48,14 @@ public class FlowNodeController {
 	}
 	
 	@ResponseBody
+	@RequestMapping("/getNodeRoleById")
+	public List<String> getNodeRoleById(String id){
+		
+		List<String> strs = flowNodeMapper.selectFlowNodeRoleByTmpId(id);
+		return strs;
+	}
+	
+	@ResponseBody
 	@RequestMapping("/addFlowNode")
 	public String addFlowNode(String floNodeName,String lastFloNode,String floNodeRoles,String page_floTmpId){
 		FlowNode flowNode = new FlowNode();
