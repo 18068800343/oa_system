@@ -98,7 +98,7 @@ public class ProjectAccountingController {
 	
 	@RequestMapping("/updateProjectAccountingById")
 	@ResponseBody
-	public int updateProjectAccountingById(ProjectAccounting projectAccounting){
+	public int updateProjectAccountingById(@RequestBody ProjectAccounting projectAccounting){
 		int i=service.updateProjectAccountingById(projectAccounting);
 		if(i>0){
 			OrganizationManagement organizationManagement = oService.getOrgIdByName(projectAccounting.getCjDepartment());

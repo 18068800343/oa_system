@@ -314,26 +314,30 @@
                      <table class="table table-bordered table-condensed" id="fyyusuan3">
 	                        <thead>
 	                      		<tr>
-	                      			<td colspan="4">
+	                      			<td colspan="6">
 		                            <button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="jschengben()">计算成本及利润</button>
 	                      			</td>
 	                      		</tr>
 	                      		<tr>
 		                                <td style="width:20%;" class="jinqianyanse">总成本(元)</td>
-		                                <td colspan="3" id="zongchengben"></td>
+		                                <td colspan="5" id="zongchengben"></td>
 		                            </tr>
 	                        </thead>
 	                        <tbody>
 	                            <tr>
-	                                  <td style="width:20%;" class="jinqianyanse">结算利润(元)</td>
+	                                  <td style="width:16%;" class="jinqianyanse">结算净利润(元)</td>
 		                              <td><input type="text" class="form-control" id="all_jslirun" style="width:70%;" disabled></td>
-		                              <td class="jinqianyanse">预算利润(元)</td>
+		                              <td style="width:16%;" class="jinqianyanse">结算毛利润(元)</td>
+		                              <td><input type="text" class="form-control" id="all_js_maolirun" style="width:70%;" disabled></td>
+		                              <td class="jinqianyanse">预算毛利润(元)</td>
 		                              <td><input type="text" class="form-control" id="all_yslirun" style="width:70%;" disabled></td>
 	                            </tr>
 	                            <tr>
-	                                  <td class="shuziyanse">结算利润率</td>
+	                                  <td class="shuziyanse">结算净利润率</td>
 		                              <td><input type="text" class="form-control" id="all_jslirunlv" style="width:70%;" disabled></td>
-		                              <td class="shuziyanse">预算利润率</td>
+		                              <td class="shuziyanse">结算毛利润率</td>
+		                              <td><input type="text" class="form-control" id="all_js_maolirunlv" style="width:70%;" disabled></td>
+		                              <td class="shuziyanse">预算毛利润率</td>
 		                              <td><input type="text" class="form-control" id="all_yslirunlv" style="width:70%;" disabled></td>
 	                            </tr>
 	                        </tbody>
@@ -614,8 +618,8 @@
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
-    	initTable();
     	initSelect();
+    	initTable();
     	initDepartment();
     	/* (); */
     	initFenLei();
@@ -1244,13 +1248,14 @@
 	            type: 'POST',
 	            url: getContextPath()+'/projectaccounting/getProjectAccountingById',
 	            dataType: 'json',
+	            async:false,
 	            data:{
 	            	id:id,
 	            },
 	            success: function (json) {
 	            	console.log(json);
 	            	$("#prj_name").val(json.prjName)
-	            	$("#prj_no  option:selected").val(json.prjNo)
+	            	$("#prj_no").val(json.prjNo)
 	            	$("#yezhudanwei").val(json.yezhu)
 	            	$("#cj_bumen").val(json.cjDepartment)
 	            	$("#prj_leader").val(json.prjLeader)
@@ -1263,39 +1268,34 @@
 	            	$("#main_js_money").text(json.zjZcJsMoney)
 	            	$("#other_ys_money").text(json.zjPrjotherYsMoney)
 	            	$("#other_js_money").text(json.zjPrjotherJsMoney)
-	            	$("#jc2_sj_money").text(json.jcSjMoney)
+	            	$("#jc2_sj_money").val(json.jcSjMoney)
 	            	$("#ys_xiaoji").text(Number(json.zjFbYsMoney)+Number(json.zjZcYsMoney)+Number(json.zjPrjotherYsMoney))
 	            	$("#hs_xiaoji").text(Number(json.zjFbJsMoney)+Number(json.zjZcJsMoney)+Number(json.zjPrjotherJsMoney)+Number(json.jcSjMoney))
-	            	$("#prj_xinchou").text(json.jjPersonMoney)
-	            	$("#zhejiu_fy").text(json.jjZhejiuMoney)
+	            	$("#prj_xinchou").val(json.jjPersonMoney==null?0:json.jjPersonMoney)
+	            	$("#zhejiu_fy").val(json.jjZhejiuMoney==null?0:json.jjZhejiuMoney)
 	            	$("#jjchengbenxj").text(Number(json.jjPersonMoney)+Number(json.jjZhejiuMoney))
-	            	$("#gsgl_fy").text(json.qtGsGlMoney)
-	            	$("#gsxs_fy").text(json.qtGsXsMoney)
-	            	$("#othertx_fy").text(json.qtTxMoney)
+	            	$("#gsgl_fy").val(json.qtGsGlMoney==null?0:json.qtGsGlMoney)
+	            	$("#gsxs_fy").val(json.qtGsXsMoney==null?0:json.qtGsXsMoney)
+	            	$("#othertx_fy").val(json.qtTxMoney==null?0:json.qtTxMoney)
 	            	$("#qitafeiyongxiaoji").text(Number(json.qtGsGlMoney)+Number(json.qtGsXsMoney)+Number(json.qtTxMoney))
-	            	$("#zongchengben").text(json.allSubtotal)
-	            	$("#all_jslirun").text(json.allJsProfit)
-	            	$("#all_yslirun").text(json.allYsProfit)
-	            	$("#all_jslirunlv").text(json.allJsProfitMargin)
-	            	$("# all_yslirunlv").text(json.allYsProfitMargin)
-	            	if (json.length===null)
-					  {
-					
-					  }
-					else
-					  {
-					
-					  }
+	            	$("#zongchengben").text(json.allSubtotal==null?0:json.allSubtotal)
+	            	$("#all_jslirun").val(json.allJsProfit==null?0:json.allJsProfit)
+	            	$("#all_yslirun").val(json.allYsProfit==null?0:json.allYsProfit)
+	            	$("#all_jslirunlv").val(json.allJsProfitMargin==null?0:json.allJsProfitMargin)
+	            	$("#all_yslirunlv").val(json.allYsProfitMargin==null?0:json.allYsProfitMargin)
+	            	$("#all_js_maolirun").val(json.allJsMargin==null?0:json.allJsMargin);
+					$("#all_js_maolirunlv").val(json.allJsMarginLv==null?0:json.allJsMarginLv);
 	            	//人员工时
-	           		$("#look_renyuan tbody").empty();
+	           		$("#all_renyuan tbody").empty();
 	            	if(json.projectAccountingRg!=null){
 	            		for(var i=0;i<json.projectAccountingRg.length;i++){
-	            			$("#look_renyuan tbody").append("<tr><td>"
+	            			$("#all_renyuan tbody").append("<tr><td>"
 					    			+json.projectAccountingRg[i].name
 					    			+"</td><td>"
 					    			+json.projectAccountingRg[i].type
 					    			+"</td><td>"
 					    			+json.projectAccountingRg[i].workHours
+					    			+"</td><td style='width:25%;'><button type='button' class='btn btn-danger' onclick='removeThis(this)'>移除</button>"
 					    			+"</td></tr>")
 	            		}
 	            	}
@@ -1643,9 +1643,12 @@
     	$("#all_jslirun").val(alljslirun);//结算利润=项目结算金额-总成本
     	var allyslirun=prj_js_money/1-ysxiaoji/1
     	$("#all_yslirun").val(allyslirun);//预算利润=项目结算金额-预算成本
+    	var all_js_maolirun=prj_js_money/1-jsxiaoji/1
+    	$("#all_js_maolirun").val(all_js_maolirun);//结算毛利润=项目结算金额—直接成本
     	
     	$("#all_jslirunlv").val((alljslirun/prj_js_money).toFixed(2));//结算利润率=结算利润/项目结算金额
     	$("#all_yslirunlv").val((allyslirun/prj_js_money).toFixed(2));//预算利润率=预算利润/项目结算金额 
+    	$("#all_js_maolirunlv").val((all_js_maolirun/prj_js_money).toFixed(2));//结算毛利润率=结算毛利润/项目结算金额
     }
     
 	
@@ -1714,6 +1717,7 @@
 	        type: 'POST',
 	        url: getContextPath()+'/task/selectPrjNameAndWorkNo',
 	        dataType: 'json',
+	        async:false,
 	        data: {
 	        },
 	        error: function (msg) {
@@ -1731,6 +1735,7 @@
 	                    type: 'POST',
 	                    url: getContextPath()+'/task/selectTaskPrjName',
 	                    dataType: 'json',
+	                    async:false,
 	                    data: {
 	                    	prjNo:$('#prj_no').val()
 	                    },
@@ -1741,21 +1746,6 @@
 	                    		$("#yezhudanwei").val(json[i].ccName);
 	                    	}
 	                    	getValue();
-	                    }
-	          		});
-	          	})
-	          	$('#xgprj_no').editableSelect().on('select.editable-select', function (e, dom) {
-	        		$.ajax({
-	                    type: 'POST',
-	                    url: getContextPath()+'/task/selectTaskPrjName',
-	                    dataType: 'json',
-	                    data: {
-	                    	prjNo:$('#xgprj_no').val()
-	                    },
-	                    success: function (json) {
-	                    	for(var i=0;i<json.length;i++){
-	                    		$("#xgprj_name").val(json[i].prjName);
-	                    	}
 	                    }
 	          		});
 	          	})
@@ -2022,7 +2012,7 @@
 	
 	
 	
-	function save(){
+	function liuchengGaibian(){
 		var renyuanArr=new Array();
 		$("#all_renyuan tbody").find("tr").each(function(){
 			var data = $(this).children();
@@ -2067,6 +2057,8 @@
 		var all_jslirunlv=$("#all_jslirunlv").val();
 		var all_yslirunlv=$("#all_yslirunlv").val();
 		var jc2_sj_money=$("#jc2_sj_money").val();
+		var all_js_maolirun=$("#all_js_maolirun").val();
+		var all_js_maolirunlv=$("#all_js_maolirunlv").val();
 		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(prj_name==""){
     		toastr.error("项目名称不能为空")
@@ -2109,9 +2101,11 @@
 				allYsProfitMargin:undefined,//总成本的预算利润率
 				projectAccountingRg:undefined,
 				jcSjMoney:0,
+				allJsMargin:0,
+				allJsMarginLv:undefined,
 				
 		}
-		projectAccounting.paId=null;
+		projectAccounting.paId=id;
 		projectAccounting.prjName=prj_name;
 		projectAccounting.prjNo=prj_no
 		projectAccounting.yezhu=yezhudanwei;
@@ -2137,15 +2131,20 @@
 		projectAccounting.allYsProfitMargin=all_yslirunlv;
 		projectAccounting.projectAccountingRg=renyuanArr;
 		projectAccounting.jcSjMoney=jc2_sj_money;
+		projectAccounting.allJsMargin=all_js_maolirun;
+		projectAccounting.allJsMarginLv=all_js_maolirunlv;
 		
+		var result;
 		 $.ajax({
             type: 'POST',
-            url: getContextPath()+'/projectaccounting/addProjectAccounting',
+            url: getContextPath()+'/projectaccounting/updateProjectAccountingById',
             dataType: 'json',
+            async:false,
             contentType: "application/json", 
             data:JSON.stringify(projectAccounting),
             success: function (json) {
-            	if(json.result>0){
+            	result=json;
+            	if(json>0){
             		toastr.success("添加成功")
             		$("#myModal").modal("hide")
             		//$('#mainContent').DataTable().row.add(json.ProjectAccounting).draw(false);//新增行立即显示
@@ -2154,6 +2153,7 @@
             	}
             }
         }); 
+		 return result;
 	}
 	
 	function submit(){
