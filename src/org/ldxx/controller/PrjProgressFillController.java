@@ -44,7 +44,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.sf.json.JSONObject;
-
+/**
+ * 进度管理
+ * @author hp
+ *
+ */
 @Controller
 @RequestMapping("ppf")
 public class PrjProgressFillController {
@@ -91,7 +95,9 @@ public class PrjProgressFillController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"PrjProgressFill"+File.separator+id;
+				//String path="D:"+File.separator+"oa"+File.separator+"PrjProgressFill"+File.separator+id;
+				String webApps=uuid.getWebAppFile();
+				String path=webApps+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -101,7 +107,7 @@ public class PrjProgressFillController {
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
 			}
 			pf.setAccessory(list);
@@ -193,7 +199,9 @@ public class PrjProgressFillController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"PrjProgressFill"+File.separator+id;
+				//String path="D:"+File.separator+"oa"+File.separator+"PrjProgressFill"+File.separator+id;
+				String webApps=uuid.getWebAppFile();
+				String path=webApps+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -203,7 +211,7 @@ public class PrjProgressFillController {
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
 			}
 			pf.setAccessory(list);
@@ -483,7 +491,10 @@ public class PrjProgressFillController {
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				String path="D:"+File.separator+"oa"+File.separator+"PrjProgressFill"+File.separator+id;
+				//String path="D:"+File.separator+"oa"+File.separator+"PrjProgressFill"+File.separator+id;
+				TimeUUID uuid=new TimeUUID();
+				String webApps=uuid.getWebAppFile();
+				String path=webApps+id;
 				File f=new File(path);
 				if(!f.exists()){
 					f.mkdirs();
@@ -493,7 +504,7 @@ public class PrjProgressFillController {
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(filePath);
+				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
 			}
 			pf.setAccessory(list);
