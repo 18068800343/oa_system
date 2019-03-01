@@ -57,12 +57,13 @@ public class ProjectAccountingServiceImpl implements ProjectAccountingService {
 	public int updateProjectAccountingById(ProjectAccounting projectAccounting) {
 		int i=dao.updateProjectAccountingById(projectAccounting);
 		if(i>0){
-			i=rgdao.deleteById(projectAccounting.getPaId());
-			if(i>0){
-				List<ProjectAccountingRg> accountingRg = projectAccounting.getProjectAccountingRg();
-				if(accountingRg!=null&&accountingRg.size()!=0){
-					i=rgdao.addProjectAccountingRg(accountingRg);
+			rgdao.deleteById(projectAccounting.getPaId());
+			List<ProjectAccountingRg> accountingRg = projectAccounting.getProjectAccountingRg();
+			if(accountingRg!=null&&accountingRg.size()!=0){
+				for(int j=0;j<accountingRg.size();j++){
+					accountingRg.get(j).setPaId(projectAccounting.getPaId());
 				}
+				i=rgdao.addProjectAccountingRg(accountingRg);
 			}
 		}
 		return i;
