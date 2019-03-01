@@ -19,6 +19,7 @@ import org.ldxx.bean.SignetManage;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.dao.ProjectSealDao;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.ProjectSealService;
 import org.ldxx.service.TaskService;
@@ -47,6 +48,10 @@ public class ProjectSealController {
 	private TaskService tService;
 	@Autowired
 	private ProjectSealDao projectSealDao;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
+	
+	
 	@RequestMapping("/selectPrjSeal")
 	@ResponseBody
 	public List<SignetManage> selectPrjSeal(String status){
@@ -169,6 +174,11 @@ public class ProjectSealController {
 	public Map<String,Object> updatePrjSealById(SignetManage signetManage){
 		Map<String,Object> map = new HashMap<>();
 		int i = prjSealService.updatePrjSealById(signetManage);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(signetManage.getOmId());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(signetManage.getSmId(), omNo);
+		}
 		map.put("result", i);
 		map.put("signetManage", signetManage);
 		return map;
