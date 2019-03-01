@@ -1145,14 +1145,17 @@ public class TaskController {
 		if(i>0){
 			TimeUUID uuid=new TimeUUID();
 			Task t=tService.selectCcNameByPrjId(id);
-			String type=t.getPrjType2();
-			String code=type.split(" ")[0];
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
-			String year=sdf.format(new Date());
-			int count=tService.typeCount(year);
-			count=count+1;
-			String prjNo=uuid.getPrjCode(code, count);
-			i=tService.updateTaskNoById(prjNo, id);
+			String oldNo=t.getPrjNo();
+			if(oldNo==null||oldNo.equals("")){
+				String type=t.getPrjType2();
+				String code=type.split(" ")[0];
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+				String year=sdf.format(new Date());
+				int count=tService.typeCount(year);
+				count=count+1;
+				String prjNo=uuid.getPrjCode(code, count);
+				i=tService.updateTaskNoById(prjNo, id);
+			}
 		}
 		return i;
 	}

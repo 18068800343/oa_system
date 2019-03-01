@@ -244,9 +244,9 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public int updateHistoryById(String id) {
 		int i= tdao.updateHistoryById(id);
-		if(i>0){
-			i=tdao.updateHistoryNow(id);
-		}
+		
+		i=tdao.updateHistoryNow(id);
+		
 		return i;
 	}
 
