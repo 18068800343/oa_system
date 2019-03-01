@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.CurrentFlow;
+import org.ldxx.bean.CurrentFlowExample;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.ModeStatus;
 import org.ldxx.bean.User;
@@ -115,6 +116,18 @@ public class FlowHistoryController {
 	@ResponseBody
 	public List<FlowHistoryNowAndLast> getHistoryNowAndLast(String url){
 		List<FlowHistoryNowAndLast> list =flowHistroyMapper.getFlowHistorysLeftJoinByUrl(url);
+/*		CurrentFlowExample currentFlowExample = new CurrentFlowExample();
+		currentFlowExample.createCriteria().andUrlEqualTo(url);
+		List<CurrentFlow> list2 = currentFlowMapper.selectByExample(currentFlowExample);
+		FlowHistoryNowAndLast flowHistoryNowAndLast = new FlowHistoryNowAndLast();
+		if(list2.size()==1){
+			CurrentFlow currentFlow = list2.get(0);
+			flowHistoryNowAndLast.setTitle(currentFlow.getTitle());
+			flowHistoryNowAndLast.setActorname(currentFlow.getActorname());
+			flowHistoryNowAndLast.setView("");
+			flowHistoryNowAndLast.setDoDate(null);
+			flowHistoryNowAndLast.setOperateType(8);
+		}*/
 		return list;
 	}
 
