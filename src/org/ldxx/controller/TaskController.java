@@ -102,14 +102,14 @@ public class TaskController {
 		String mainDepartMentId = t.getMainDepartment();
 		OrganizationManagement oManagement = omDao.selectOrgById(mainDepartMentId);
 		String omNo =oManagement.getOmNo();
-		String type=t.getPrjType2();
+		/*String type=t.getPrjType2();
 		String code=type.split(" ")[0];
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=tService.typeCount(year);
 		count=count+1;
 		String prjNo=uuid.getPrjCode(code, count);
-		t.setPrjNo(prjNo);
+		t.setPrjNo(prjNo);*/
 		int i=tService.addTask(t);
 		/*if(i>0){
 			String prjName=t.getPrjName();
@@ -192,14 +192,14 @@ public class TaskController {
 		t.setPrjId(id);
 		String mainDepartMentId = t.getMainDepartment();
 		String omNo = omDao.selectOrgById(mainDepartMentId).getOmNo();
-		String type=t.getPrjType2();
+		/*String type=t.getPrjType2();
 		String code=type.split(" ")[0];
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=tService.typeCount(year);
 		count=count+1;
 		String prjNo=uuid.getPrjCode(code, count);
-		t.setPrjNo(prjNo);
+		t.setPrjNo(prjNo);*/
 		int i=tService.addTask(t);
 		/*if(i>0){
 			String prjName=t.getPrjName();
@@ -607,8 +607,6 @@ public class TaskController {
 				modeStatusMapper.insert(modeStatus);
 			}
 		}
-		
-
 		return i;
 	}
 	
@@ -1143,16 +1141,19 @@ public class TaskController {
 	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
 	@ResponseBody
 	public int updateHistoryById(String id){
-		/*TimeUUID uuid=new TimeUUID();
-		Task t=tService.selectCcNameByPrjId(id);
-		String type=t.getPrjType2();
-		String code=type.split(" ")[0];
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
-		String year=sdf.format(new Date());
-		int count=tService.typeCount(year);
-		count=count+1;
-		String prjNo=uuid.getPrjCode(code, count);*/
 		int i=tService.updateHistoryById(id);
+		if(i>0){
+			TimeUUID uuid=new TimeUUID();
+			Task t=tService.selectCcNameByPrjId(id);
+			String type=t.getPrjType2();
+			String code=type.split(" ")[0];
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String year=sdf.format(new Date());
+			int count=tService.typeCount(year);
+			count=count+1;
+			String prjNo=uuid.getPrjCode(code, count);
+			i=tService.updateTaskNoById(prjNo, id);
+		}
 		return i;
 	}
 	

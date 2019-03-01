@@ -321,4 +321,9 @@ public class TaskServiceImpl implements TaskService{
 		return list;
 	}
 
+	@Override
+	public int updateTaskNoById(String no, String id) {
+		return tdao.updateTaskNoById(no, id);
+	}
+
 }

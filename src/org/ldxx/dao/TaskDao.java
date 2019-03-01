@@ -84,4 +84,6 @@ public interface TaskDao {
 	public List<Task> selectTaskAndTaskChildrenByMainPrjNo(@Param("mainPrjNo")String mainPrjNo, @Param("id")String id);
 
 	public List<Task> selectlikeMainDepartment(@Param("mainDepartment")String mainDepartment);
+	
+	public int updateTaskNoById(@Param("no")String no,@Param("id")String id);
 }
