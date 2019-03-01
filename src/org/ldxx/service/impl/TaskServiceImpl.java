@@ -77,7 +77,7 @@ public class TaskServiceImpl implements TaskService{
 	public int updateTask(Task task) {
 		int i=tdao.updateTask(task);
 		if(i>0){
-			i=edao.deleteEnterprise(task.getPrjId());
+			edao.deleteEnterprise(task.getPrjId());
 			List<Enterprise> enterprise=task.getEnterprise();
 			if(enterprise.size()>0){
 				for(int ii=0;ii<enterprise.size();ii++){
