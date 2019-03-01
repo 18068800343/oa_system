@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.CjDeptSplitMoney;
 
@@ -54,5 +55,7 @@ public interface CjContractService {
 	public CjContract selectCjContractLikeTaskNo(String no);
 	
 	public CjContract selectCjContractLikeTaskCode(String no);
+	
+	public int updateCjNoById(String no,String id);
 	
 }

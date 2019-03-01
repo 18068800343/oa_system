@@ -69,4 +69,6 @@ public interface CjContractDao {
 	
 	public CjContract selectCjContractLikeTaskCode(@Param("no")String no);
 	
+	public int updateCjNoById(@Param("no")String no,@Param("id")String id);
+	
 }

@@ -189,9 +189,9 @@ public class CjContractServiceImpl implements CjContractService{
 	@Override
 	public int updateHistoryById(String id) {
 		int i= dao.updateHistoryById(id);
-		if(i>0){
-			i=dao.updateHistoryNow(id);
-		}
+
+		i=dao.updateHistoryNow(id);
+		
 		return i;
 	}
 
@@ -209,6 +209,11 @@ public class CjContractServiceImpl implements CjContractService{
 	@Override
 	public CjContract selectCjContractLikeTaskCode(String no) {
 		return dao.selectCjContractLikeTaskCode(no);
+	}
+
+	@Override
+	public int updateCjNoById(String no, String id) {
+		return dao.updateCjNoById(no, id);
 	}
 
 }

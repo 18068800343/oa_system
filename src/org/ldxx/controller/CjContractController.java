@@ -75,11 +75,11 @@ public class CjContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+	/*	SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=service.countNo(year);
 		String code="CJ"+uuid.getPrjCode("", count+1);
-		cj.setContractNo(code);
+		cj.setContractNo(code);*/
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
 		File f=new File(path);
@@ -174,11 +174,11 @@ public class CjContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		/*SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=service.countNo(year);
 		String code="CJ"+uuid.getPrjCode("", count+1);
-		cj.setContractNo(code);
+		cj.setContractNo(code);*/
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
 		File f=new File(path);
@@ -705,6 +705,18 @@ public class CjContractController {
 	@ResponseBody
 	public int updateHistoryById(String id){
 		int i=service.updateHistoryById(id);
+		if(i>0){
+			CjContract cj=service.selectCjContractById(id);
+			String cjNo=cj.getContractNo();
+			if(cjNo.equals("")||cjNo==null){
+				TimeUUID uuid=new TimeUUID();
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+				String year=sdf.format(new Date());
+				int count=service.countNo(year);
+				String code="CJ"+uuid.getPrjCode("", count+1);
+				i=service.updateCjNoById(code, id);
+			}
+		}
 		return i;
 	}
 	
