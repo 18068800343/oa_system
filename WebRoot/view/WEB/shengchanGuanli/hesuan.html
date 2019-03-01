@@ -350,26 +350,30 @@
                      <table class="table table-bordered table-condensed" id="fyyusuan3">
 	                        <thead>
 	                      		<tr>
-	                      			<td colspan="4">
+	                      			<td colspan="6">
 		                            <button type="button" style="margin-left: 5px;" class="btn btn-primary" onclick="jschengben()">计算成本及利润</button>
 	                      			</td>
 	                      		</tr>
 	                      		<tr>
 		                                <td style="width:20%;" class="jinqianyanse">总成本(元)</td>
-		                                <td colspan="3" id="zongchengben"></td>
+		                                <td colspan="5" id="zongchengben"></td>
 		                            </tr>
 	                        </thead>
 	                        <tbody>
 	                            <tr>
-	                                  <td style="width:20%;" class="jinqianyanse">结算利润(元)</td>
+	                                  <td style="width:16%;" class="jinqianyanse">结算净利润(元)</td>
 		                              <td><input type="text" class="form-control" id="all_jslirun" style="width:70%;" disabled></td>
-		                              <td class="jinqianyanse">预算利润(元)</td>
+		                              <td style="width:16%;" class="jinqianyanse">结算毛利润(元)</td>
+		                              <td><input type="text" class="form-control" id="all_js_maolirun" style="width:70%;" disabled></td>
+		                              <td class="jinqianyanse">预算毛利润(元)</td>
 		                              <td><input type="text" class="form-control" id="all_yslirun" style="width:70%;" disabled></td>
 	                            </tr>
 	                            <tr>
-	                                  <td class="shuziyanse">结算利润率</td>
+	                                  <td class="shuziyanse">结算净利润率</td>
 		                              <td><input type="text" class="form-control" id="all_jslirunlv" style="width:70%;" disabled></td>
-		                              <td class="shuziyanse">预算利润率</td>
+		                              <td class="shuziyanse">结算毛利润率</td>
+		                              <td><input type="text" class="form-control" id="all_js_maolirunlv" style="width:70%;" disabled></td>
+		                              <td class="shuziyanse">预算毛利润率</td>
 		                              <td><input type="text" class="form-control" id="all_yslirunlv" style="width:70%;" disabled></td>
 	                            </tr>
 	                        </tbody>
@@ -815,7 +819,7 @@
     </div>
 <!-- allMsg -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document" style="width:80%;">
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -959,15 +963,19 @@
 	                        </thead>
 	                        <tbody>
 	                            <tr>
-	                                  <td style="width:19%;" class="jinqianyanse">结算利润(元)</td>
-		                              <td id="look_all_jslirun"></td>
-		                              <td class="jinqianyanse">预算利润(元)</td>
-		                              <td id="look_all_yslirun"></td>
+	                                  <td style="width:16%;" class="jinqianyanse">结算净利润(元)</td>
+		                              <td style="width:17%;" id="look_all_jslirun"></td>
+		                              <td style="width:16%;" class="jinqianyanse">结算毛利润(元)</td>
+		                              <td style="width:17%;" id="look_all_js_maolirun"></td>
+		                              <td style="width:16%;" class="jinqianyanse">预算毛利润(元)</td>
+		                              <td style="width:18%;" id="look_all_yslirun"></td>
 	                            </tr>
 	                            <tr>
-	                                  <td class="shuziyanse">结算利润率</td>
+	                                  <td class="shuziyanse">结算净利润率</td>
 		                              <td id="look_all_jslirunlv"></td>
-		                              <td class="shuziyanse">预算利润率</td>
+		                              <td class="shuziyanse">结算毛利润率</td>
+		                              <td id="look_all_js_maolirunlv"></td>
+		                              <td class="shuziyanse">预算毛利润率</td>
 		                              <td id="look_all_yslirunlv"></td>
 	                            </tr>
 	                        </tbody>
@@ -2094,9 +2102,12 @@
     	$("#all_jslirun").val(alljslirun);//结算利润=项目结算金额-总成本
     	var allyslirun=prj_js_money/1-ysxiaoji/1
     	$("#all_yslirun").val(allyslirun);//预算利润=项目结算金额-预算成本
+    	var all_js_maolirun=prj_js_money/1-jsxiaoji/1
+    	$("#all_js_maolirun").val(all_js_maolirun);//结算毛利润=项目结算金额—直接成本
     	
     	$("#all_jslirunlv").val((alljslirun/prj_js_money).toFixed(2));//结算利润率=结算利润/项目结算金额
     	$("#all_yslirunlv").val((allyslirun/prj_js_money).toFixed(2));//预算利润率=预算利润/项目结算金额 
+    	$("#all_js_maolirunlv").val((all_js_maolirun/prj_js_money).toFixed(2));//结算毛利润率=结算毛利润/项目结算金额
     }
     
 	
@@ -2518,6 +2529,8 @@
 		var all_jslirunlv=$("#all_jslirunlv").val();
 		var all_yslirunlv=$("#all_yslirunlv").val();
 		var jc2_sj_money=$("#jc2_sj_money").val();
+		var all_js_maolirun=$("#all_js_maolirun").val();
+		var all_js_maolirunlv=$("#all_js_maolirunlv").val();
 		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(prj_name==""){
     		toastr.error("项目名称不能为空")
@@ -2560,6 +2573,8 @@
 				allYsProfitMargin:undefined,//总成本的预算利润率
 				projectAccountingRg:undefined,
 				jcSjMoney:0,
+				allJsMargin:0,
+				allJsMarginLv:undefined,
 				
 		}
 		projectAccounting.paId=null;
@@ -2588,6 +2603,8 @@
 		projectAccounting.allYsProfitMargin=all_yslirunlv;
 		projectAccounting.projectAccountingRg=renyuanArr;
 		projectAccounting.jcSjMoney=jc2_sj_money;
+		projectAccounting.allJsMargin=all_js_maolirun;
+		projectAccounting.allJsMarginLv=all_js_maolirunlv;
 		
 		 $.ajax({
             type: 'POST',
@@ -2652,6 +2669,8 @@
 		var all_jslirunlv=$("#all_jslirunlv").val();
 		var all_yslirunlv=$("#all_yslirunlv").val();
 		var jc2_sj_money=$("#jc2_sj_money").val();
+		var all_js_maolirun=$("#all_js_maolirun").val();
+		var all_js_maolirunlv=$("#all_js_maolirunlv").val();
 		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(prj_name==""){
     		toastr.error("项目名称不能为空")
@@ -2694,6 +2713,8 @@
 				allYsProfitMargin:undefined,//总成本的预算利润率
 				projectAccountingRg:undefined,
 				jcSjMoney:0,
+				allJsMargin:0,
+				allJsMarginLv:undefined,
 				
 		}
 		projectAccounting.paId=null;
@@ -2722,6 +2743,8 @@
 		projectAccounting.allYsProfitMargin=all_yslirunlv;
 		projectAccounting.projectAccountingRg=renyuanArr;
 		projectAccounting.jcSjMoney=jc2_sj_money;
+		projectAccounting.allJsMargin=all_js_maolirun;
+		projectAccounting.allJsMarginLv=all_js_maolirunlv;
 		
 		$.ajax({
             type: 'POST',
@@ -2823,7 +2846,8 @@
             	$("#look_all_yslirun").text(json.allYsProfit)
             	$("#look_all_jslirunlv").text(json.allJsProfitMargin)
             	$("#look_all_yslirunlv").text(json.allYsProfitMargin)
-            	
+            	$("#look_all_js_maolirun").text(json.allJsMargin)
+            	$("#look_all_js_maolirunlv").text(json.allJsMarginLv)
             	//人员工时
            		$("#look_renyuan tbody").empty();
             	if(json.projectAccountingRg!=null){

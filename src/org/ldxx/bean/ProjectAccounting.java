@@ -25,16 +25,34 @@ public class ProjectAccounting {
 	private Float  qtGsXsMoney;//其他摊销费用的公司销售费用
 	private Float  qtTxMoney;//其他摊销费用的其他摊销费用
 	private Float  allSubtotal;//总成本
-	private Float  allJsProfit;//总成本的结算利润
-	private Float  allYsProfit;//总成本的预算利润
-	private String allJsProfitMargin;//总成本的结算利润率
-	private String allYsProfitMargin;//总成本的预算利润率
+	private Float  allJsProfit;//总成本的结算jing利润(结算利润=项目结算金额-总成本)
+	private Float  allYsProfit;//总成本的预算jing利润(预算利润=项目结算金额-预算成本)
+	private String allJsProfitMargin;//总成本的结算jing利润率(结算利润率=结算利润/项目结算金额)
+	private String allYsProfitMargin;//总成本的预算jing利润率(预算利润率=预算利润/项目结算金额)
+	private Float allJsMargin;//结算毛利润（结算毛利润=项目结算金额—直接成本）
+	private String allJsMarginLv;//结算毛利润率（结算毛利润率=结算毛利润/项目结算金额 ）
 	private Float jcSjMoney;//检测二部直接成本
 	
 	private List<ProjectAccountingRg> projectAccountingRg;//人员工时
 	private String jsState;//结算状态（0:全部结算，1:部分结算，2:未结算）
 
 	
+	public Float getAllJsMargin() {
+		return allJsMargin;
+	}
+
+	public void setAllJsMargin(Float allJsMargin) {
+		this.allJsMargin = allJsMargin;
+	}
+
+	public String getAllJsMarginLv() {
+		return allJsMarginLv;
+	}
+
+	public void setAllJsMarginLv(String allJsMarginLv) {
+		this.allJsMarginLv = allJsMarginLv;
+	}
+
 	public String getJsState() {
 		return jsState;
 	}
