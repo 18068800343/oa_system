@@ -73,6 +73,17 @@ public class CurrentFlowVo {
     
     private String omName;
     
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")  
+    private Date startDate;
+    
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
 	public String getOmName() {
 		return omName;
 	}

@@ -620,7 +620,7 @@
 			b.flow_status,
 			d.Step,
 			d.edit_or_view,
-			f.do_date
+			f.do_date start_date
 		FROM
 			currentFlow a
 		LEFT JOIN mode_status b ON a.mode_id = b.mode_id
@@ -628,7 +628,7 @@
 		LEFT JOIN organization_management o on o.om_id = u.om_id
 		LEFT JOIN flownode d on a.Flo_Node_ID = d.ID
 		LEFT JOIN business c ON a.Bus_ID = c.ID 
-		LEFT JOIN (select ff.* from (SELECT * FROM flowhistroy ORDER BY do_date)as ff GROUP BY URL) as f on a.URL=f.URL
+		LEFT JOIN (select ff.* from (SELECT * FROM flowhistroy ORDER BY do_date asc)as ff GROUP BY URL order by ff.do_date asc) as f on a.URL=f.URL
 		where a.Actor=#{userId}
 		<if test="status != null and status !='' ">
         and b.`flow_status`=#{status}
