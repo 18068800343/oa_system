@@ -22,9 +22,19 @@ public class SignetUsers {
     private String status;//归还状态
 
     private List<Accessory> accessory;
+    
+    private String yinzhangName;//印章全称
 
 
     
+	public String getYinzhangName() {
+		return yinzhangName;
+	}
+
+	public void setYinzhangName(String yinzhangName) {
+		this.yinzhangName = yinzhangName;
+	}
+
 	public String getReturnPerson() {
 		return returnPerson;
 	}

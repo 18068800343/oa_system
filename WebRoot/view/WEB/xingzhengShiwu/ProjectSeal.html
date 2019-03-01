@@ -549,6 +549,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addbc()">保存</button>
             <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addJie()">提交</button>
             <!-- <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addsUsersSubmit()" data-toggle="modal">提交</button> -->
         </div>
@@ -820,20 +821,20 @@
                                             <tr>
                                             	<td>印章编号</td>
                                                 <td  id="look_signet_no2"></td>
+                                                <td>印章全称: </td>
+			                                    <td  id="look_yzqc">></td>
+                                            </tr>
+                                            <tr>
                                                 <td>开始时间</td>
                                                 <td  id="lookbeginTime"></td>
-                                            </tr>
-                                            <tr>
                                             	<td>归还时间</td>
                                                 <td id="lookendTime"></td>
-                                                <td>归还人</td>
-                                                <td id="lookreturnperson"></td>
                                             </tr>
                                             <tr>
+                                                <td>归还人</td>
+                                                <td id="lookreturnperson"></td>
                                             	<td>保管人</td>
                                                 <td id="lookbaoguan"></td>
-                                                <td></td>
-                                                <td></td>
                                             </tr>
                                             <!-- <tr>
 			                                    <td>附件</td>
@@ -2299,7 +2300,7 @@ $("#xgbumena").change(function(){
 		})
 	}
 	
-	//添加使用管理
+	//提交使用管理
 	function addJie(){
 		var usePrj=$("#usePrj").val();
 		var task_no2=$("#task_no2").val();
@@ -2309,7 +2310,11 @@ $("#xgbumena").change(function(){
 		var endTime="";
 		var status="0";
 		var returnPerson="";
-		
+		var yinzhangName=$("#yzqc").text();
+		if(usePrj==''){
+			toastr.error("使用的项目为空");
+    		return;
+		}
 		if(baoguanren==''){
 			toastr.error("保管人为空");
     		return;
@@ -2331,7 +2336,8 @@ $("#xgbumena").change(function(){
 				custodyMan:baoguanren,
 				endTime:endTime,
 				returnPerson:returnPerson,
-				status:status
+				status:status,
+				yinzhangName:yinzhangName
 			},
 			success:function(json){
 				if(json=='0'){
@@ -2390,16 +2396,22 @@ $("#xgbumena").change(function(){
 		$("#new_form2").ajaxSubmit(options);
 	}
 	
-	
-	/* function addsUsersSubmit(){
-		var beginTime=$("#beginTime").val();
-		var endTime=$("#endTime").val();
-		var baoguanren=$("#baoguanren").attr("data1");
+	//baocun
+	 function addbc(){
 		var usePrj=$("#usePrj").val();
 		var task_no2=$("#task_no2").val();
-		var xiaohuiTime=$("#xiaohuiTime").val();
-		
-		if($("#baoguanren").val()==''){
+		var signetNo=$("#signet_no2").val();
+		var beginTime=$("#beginTime").val();
+		var baoguanren=$("#baoguanren").val();
+		var endTime="";
+		var status="0";
+		var returnPerson="";
+		var yinzhangName=$("#yzqc").text();
+		if(usePrj==''){
+			toastr.error("使用的项目为空");
+    		return;
+		}
+		/* if($("#baoguanren").val()==''){
 			toastr.error("保管人为空");
     		return;
 		}
@@ -2414,38 +2426,35 @@ $("#xgbumena").change(function(){
 		if(xiaohuiTime==''){
     		toastr.error("销毁时间为空");
     		return;
-    	}
+    	} */
 		
 		var options={
 			type:"post",
-			url:getContextPath()+"/signetUsers/submitsUser",
+			url:getContextPath()+"/signetUsers/bcsUser",
 			dataType:"json",
 			data:{
-				beginTime:beginTime,
-				endTime:endTime,
-				custodyMan:baoguanren,
 				useProject:usePrj,
 				taskNo:task_no2,
-				destroyTime:xiaohuiTime,
+				signetNo:signetNo,
+				beginTime:beginTime,
+				custodyMan:baoguanren,
+				endTime:endTime,
+				returnPerson:returnPerson,
+				status:status,
+				yinzhangName:yinzhangName,
 			},
 			success:function(json){
 				//console.log(json);
-				if(json.result==0){
-					toastr.error("提交失败")
-				}else if(json.result>0){
-					//location.reload([true]);
-					toastr.success("提交成功")
-					var result=json.sUser;
-					$("#mainContent2").DataTable().row.add(result).draw(false);
+				if(json==0){
+					toastr.error("保存失败")
+				}else if(json>0){
+					toastr.success("保存成功")
 					$("#shiyonggl").modal("hide")
-					$(".Pbbe").show();
-					$(".Pbbf").show();
-					//initTable2();
 				}
 			}
 		}
 		$("#new_form2").ajaxSubmit(options);
-	} */
+	} 
 	
 	
 	//删除使用管理
@@ -2515,13 +2524,21 @@ $("#xgbumena").change(function(){
 				$("#edit_all_table2").empty();
 	            for(var i=0;i<json.length;i++){
 	            	   $("#edit_all_table2").append("<tr>"+
-	            	   														"<td style='width:15% ;'>附件"+(i+1)+"</td>"+
-													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-													            	    	"<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_this(this)'>删除附件</button></td>"+
-													            	    "</tr>");
+          	   								"<td style='width:15% ;'>附件"+(i+1)+"</td>"+
+										    /* "<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+ */
+										    "<td><a href="+getLocalPath()+"/oa_file/"+json[i].acUrl+" target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+										    "<td style='width:100px;'><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_this(this)'>删除附件</button></td>"+
+										   "</tr>");
 	               }
 			}
 		})
+	}
+	
+	function getLocalPath(){
+		var pathArray = window.location.pathname.split('/');
+		var secondLevelLocation = pathArray[1];
+		var loginUrl = window.location.protocol + "//"  + window.location.host ;
+		return loginUrl;
 	}
 	
 	/* function initFileInput2(){
@@ -2711,6 +2728,7 @@ $("#xgbumena").change(function(){
 		$("#lookbaoguan").text(data2.custodyMan);
 		$("#lookendTime").text(data2.endTime);
 		$("#lookreturnperson").text(data2.returnPerson);
+		$("#look_yzqc").text(data2.yinzhangName)
 		
 		$.ajax({
 			type:"post",
@@ -2724,9 +2742,10 @@ $("#xgbumena").change(function(){
 				$("#look_table2").empty();
 	               for(var i=0;i<json.length;i++){
 	            	   $("#look_table2").append("<tr>"+
-	            	   														"<td>附件"+(i+1)+"</td>"+
-													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download2(this)'>下载附件</button></td>"+
+	            	   														"<td style='width:15% ;'>附件"+(i+1)+"</td>"+
+													            	    	/* "<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+ */
+													            	    	"<td><a href="+getLocalPath()+"/oa_file/"+json[i].acUrl+" target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+													            	    	/* "<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download2(this)'>下载附件</button></td>"+ */
 													            	    "</tr>");
 	               }
 			}

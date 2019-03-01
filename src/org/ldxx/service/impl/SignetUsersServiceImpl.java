@@ -48,7 +48,7 @@ public class SignetUsersServiceImpl implements SignetUsersService {
 		int i= sUserDao.updatesUser(sUser);
 		if(i>0){
 			List<Accessory> accessory = sUser.getAccessory();
-			if(accessory!=null){
+			if(accessory!=null&&accessory.size()!=0){
 				i=adao.addAccessory(accessory);
 			}
 		}

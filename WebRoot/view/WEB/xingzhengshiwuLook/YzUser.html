@@ -51,15 +51,26 @@
                                             <tr>
                                             	<td>印章编号</td>
                                                 <td  id="look_signet_no2"></td>
-                                                <td>开始时间</td>
-                                                <td  id="lookbeginTime"></td>
+                                                <td>印章全称: </td>
+			                                    <td  id="look_yzqc">></td>
                                             </tr>
                                             <tr>
+                                                <td>开始时间</td>
+                                                <td  id="lookbeginTime"></td>
+                                            	<td>归还时间</td>
+                                                <td id="lookendTime"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>归还人</td>
+                                                <td id="lookreturnperson"></td>
                                             	<td>保管人</td>
                                                 <td id="lookbaoguan"></td>
-                                                <td></td>
-                                                <td></td>
                                             </tr>
+                                            <!-- <tr>
+			                                    <td>附件</td>
+				                            	<td colspan="2"><input type="text" class="form-control" id="looksyfile" ></td>
+				                            	<td id="download_file2"></td>
+			                                </tr> -->
                                         </table> 
                                         <table class="table table-bordered table-condensed" id="look_table2">
                         	
@@ -99,24 +110,26 @@
 	        type: 'POST',
 	        url: getContextPath()+'/signetUsers/selectUsersById',
 	        dataType: 'json',
+	        async:false,
 	        data:{
 	        	suId:id
 	        },
 	        success: function (json) {
-	        	//console.log(json)
+	        	console.log(json)
 	        	data2=json;
 	        	$("#lookusePrj").text(data2.useProject);
 	    		$("#looktask_no2").text(data2.taskNo);
 	    		$("#look_signet_no2").text(data2.signetNo);
 	    		$("#lookbeginTime").text(data2.beginTime);
 	    		$("#lookbaoguan").text(data2.custodyMan);
-	    		//$("#lookendTime").text(data2.endTime);
-	    		//$("#lookreturnperson").text(data2.returnPerson);
+	    		$("#lookendTime").text(data2.endTime);
+	    		$("#lookreturnperson").text(data2.returnPerson);
+	    		$("#look_yzqc").text(data2.yinzhangName)
 	    		
 	    		
 	    		$.ajax({
 	    			type:"post",
-	    			url:getContextPath()+"/signetUsers/selectAccessoryById",
+	    			url:getContextPath()+"/accessory/selectAccessoryById",
 	    			dataType:"json",
 	    			data:{
 	    				id:id,
@@ -126,9 +139,10 @@
 	    				$("#look_table2").empty();
 	    	               for(var i=0;i<json.length;i++){
 	    	            	   $("#look_table2").append("<tr>"+
-	    	            	   														"<td>附件"+(i+1)+"</td>"+
-	    													            	    	"<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-	    													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download2(this)'>下载附件</button></td>"+
+	    	            	   														"<td style='width:15%;'>附件"+(i+1)+"</td>"+
+	    													            	    	/* "<td colspan='2'><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+	    													            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download2(this)'>下载附件</button></td>"+ */
+	    													            	    	"<td><a href="+getLocalPath()+"/oa_file/"+json[i].acUrl+" target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
 	    													            	    "</tr>");
 	    	               }
 	    			}
@@ -137,6 +151,13 @@
 	    });
 		
 		
+	}
+	
+	function getLocalPath(){
+		var pathArray = window.location.pathname.split('/');
+		var secondLevelLocation = pathArray[1];
+		var loginUrl = window.location.protocol + "//"  + window.location.host ;
+		return loginUrl;
 	}
 	
 	function download2(obj){
