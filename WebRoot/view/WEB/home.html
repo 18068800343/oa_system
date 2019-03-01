@@ -286,6 +286,9 @@
                         <textarea cols="30" rows="4" class="form-control" id="viewTop" placeholder="" disabled></textarea>
                     </div>
                 </div>
+                <div id="NodeBox">
+                    <div class="yihang"><b>审批流程:</b><div id="nodeRole"></div></div>
+                </div>                
                 <div id="nextBox" hidden="true">
                     <!-- <div id="titles">上一步操作人:<lable id="lastPerson"></lable>&nbsp;&nbsp;意见：↓</div>
                     <div id="srcontent">
@@ -650,7 +653,7 @@
         		$(".yihang2 div:first-of-type").eq(0).find("span").html(json.length)
             	for(var i=0;i<json.length;i++){
             		var full = json[i];
-            		$("#tb1").append("<tr><td style='width:50px;'><span data-toggle='modal' data-target='.dada' style='cursor:pointer;' data-wfstate='"+full.wfstate+"' data-flowLast='"+full.flowNodeLast+"' data-flowStatus='"+full.flowStatus+"' data-lastPerson='"+full.lastPerson+"' data-lastView='"+full.lastView+"' data-cNodeId='"+full.id+"'  data-url='"+full.url+"' data-params="+full.params+" data-step='"+full.step+"'  data-edit='"+full.editOrView+"' data-flowNodeLast='"+full.flowNodeLast+"' onclick='initIframe(this)' class='lianjieColor'>"+json[i].title+"</span></td></tr>");
+            		$("#tb1").append("<tr><td style='width:50px;'><span data-toggle='modal' data-target='.dada' style='cursor:pointer;' data-floTmpId='"+full.floTmpId+"' data-wfstate='"+full.wfstate+"' data-flowLast='"+full.flowNodeLast+"' data-flowStatus='"+full.flowStatus+"' data-lastPerson='"+full.lastPerson+"' data-lastView='"+full.lastView+"' data-cNodeId='"+full.id+"'  data-url='"+full.url+"' data-params="+full.params+" data-step='"+full.step+"'  data-edit='"+full.editOrView+"' data-flowNodeLast='"+full.flowNodeLast+"' onclick='initIframe(this)' class='lianjieColor'>"+json[i].title+"</span></td></tr>");
             	}
             }
         });
@@ -700,6 +703,8 @@
         	page_edit=edit;
         	page_cNodeId=cNodeId;
         	var flag = $(dom).attr("data-flowStatus");
+        	var floTmpId = $(dom).attr("data-floTmpId");
+        	addNodeRoles(floTmpId,step);
         	page_flag=flag;
         	var ul = strs[0];
         	var ulnew = ul.replace("Look","Change");
@@ -718,7 +723,38 @@
         	$("#shanChuFlow").show();
         	}
     }
-    
+    function addNodeRoles(floTmpId,step){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/flowNode/getNodeRoleById',
+            data:{
+            	id:floTmpId
+            },
+            dataType: 'json',
+            success: function (json) {
+            	$("#nodeRole").empty();
+            	for(var i in json){
+           		 var name = json[i];
+           		 if(name==null||name==""||name=="null"){
+           			name="提交人"; 
+           		 }
+           		 if(i==json.length-1){
+           			 if(step!=null&&i==step-1){
+           		      $("#nodeRole").append("<lable style='color:red'>"+name+"</lable>");
+           			 }else{
+           			  $("#nodeRole").append("<lable>"+name+"</lable>"); 
+           			 }
+           		 }else{
+           			 if(step!=null&&i==step-1){
+            		      $("#nodeRole").append("<lable style='color:red'>"+name+"→</lable>");
+           			 }else{
+           			  $("#nodeRole").append("<lable>"+name+"→</lable>"); 
+           			 }
+           		 }
+            	}
+            }
+        });
+    }
 	function initTable3(){
 		$.ajax({
             type: 'POST',
