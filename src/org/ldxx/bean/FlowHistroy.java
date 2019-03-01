@@ -2,6 +2,8 @@ package org.ldxx.bean;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class FlowHistroy {
     private String id;
 
@@ -223,6 +225,7 @@ public class FlowHistroy {
         this.actorresult = actorresult;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getDoDate() {
         return doDate;
     }
