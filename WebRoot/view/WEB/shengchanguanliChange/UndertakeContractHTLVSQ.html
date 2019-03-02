@@ -140,8 +140,8 @@
                             <tr>
                                 <td>履约完结时间  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td><input type="text" class="form-control" style="width:70%;" id="cj_contract_end_time"></td>
-                            	<td></td>
-                            	<td></td>
+                            	<td>项目进度偏差 <i class="iconfont icon-xingxing-copy pianchachange" style="color:red;"></i></td>
+	                            	<td><input type="text" name="" id="" value="" class="form-control pianchachange"/></td>
                             </tr>
                             <tr>
                                 <td>项目概况</td>
@@ -830,6 +830,118 @@
         }},
         
 	});
+    
+    //初始化承接合同名称和承接合同号
+  	 function initSelect(){
+  			$.ajax({
+  	        type: 'POST',
+  	        url: getContextPath()+'/cj/selectNameAndNo',
+  	        dataType: 'json',
+  	        data: {
+  	        },
+  	        error: function (msg) {
+  	        	toastr.error("请求失败");
+  	        },
+  	        success: function (json) {
+  	        	console.log(json)
+  	        	$("#contract_no").html('');
+  	        	/* $("#contract_name").html(''); */
+  	        	$("#contract_no2").html('');
+  	        	/* $("#contract_name2").html(''); */
+  	        	$("#contract_no3").html('');
+  	        	/* $("#contract_name3").html(''); */
+  	        	for(var i=0;i<json.length;i++){
+  	        		/* $("#contract_name").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>"); */
+  	        		$("#contract_no").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
+  	        		/* $("#contract_name2").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>"); */
+  	        		$("#contract_no2").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
+  	        		/* $("#contract_name3").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>"); */
+  	        		$("#contract_no3").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
+  	        	}
+  	        	$(".pianchachange").val(countTime(json[0].contractEndTime,json[0].contractStartTime,json[0].contractLongTime))
+  	          	$('#contract_no').editableSelect().on('select.editable-select', function (e, dom) {
+  	          		$.ajax({
+  	                    type: 'POST',
+  	                    url: getContextPath()+'/cj/selectCjContractByNo',
+  	                    dataType: 'json',
+  	                    data: {
+  	                    	no:$('#contract_no').val()
+  	                    },
+  	                    success: function (json) {
+  	                    	$('#contract_name').val(json.contractName);
+  	                    	$('#work_no').val(json.taskCode);
+  	                    }
+  	          		});
+  			  	})
+  	          	$('#contract_no2').editableSelect().on('select.editable-select', function (e, dom) {
+  	          		$.ajax({
+  	                    type: 'POST',
+  	                    url: getContextPath()+'/cj/selectCjContractByNo',
+  	                    dataType: 'json',
+  	                    data: {
+  	                    	no:$('#contract_no2').val()
+  	                    },
+  	                    success: function (json) {
+  	                    	$('#contract_name2').val(json.contractName);
+  	                    	$('#prj_no').val(json.taskCode);
+  	                    	$("#contract_money2").val(json.contractMoney);
+  	                    	$("#jiafang2").val(json.ccName);
+  	                    	/* $("#all_money2").val(""); */
+  	                    	/* getTotalMoney($('#contract_no2').val()); */
+  	                    	getLeader($('#prj_no').val())
+  	                    }
+  	          		});
+  			  	})
+  	          	$('#contract_no3').editableSelect().on('select.editable-select', function (e, dom) {
+  	          		$.ajax({
+  	                    type: 'POST',
+  	                    url: getContextPath()+'/cj/selectCjContractByNo',
+  	                    dataType: 'json',
+  	                    data: {
+  	                    	no:$('#contract_no3').val()
+  	                    },
+  	                    success: function (json) {
+  	                    	$('#contract_name3').val(json.contractName);
+  	                    	$('#prj_no3').val(json.taskCode);
+  	                    	$('#contract_money3').val(json.contractMoney);
+  	                    	$("#jiafang3").val(json.ccName);
+  	                    }
+  	          		});
+  			  	})
+  			  	
+  	        }
+  			});
+  		}
+//  		用的时候把字段里面的开始日期和截止日期穿进去,列入countTime(endtime, starttime)
+  		function countTime (e,s,day) {
+  			console.log(e)
+  			console.log(s)
+  			console.log(day)
+  		    var d = 0,
+  		    str = '',
+  		    //设置截止时间  
+  			endstr = e,//截止日期
+  		    str1 = s,//开始日期
+  		    endDate = new Date(endstr),
+  		    end = endDate.getTime(),//计算毫秒数
+  		    startDate = new Date(str1),
+  			start = startDate.getTime(),//计算毫秒数
+  		    //时间差  
+  			disparity = end - start;
+  		    if( disparity >= 0 ) {
+  			  	d = Math.floor( disparity/ 1000 / 60 / 60 / 24 , 10);
+  			}else{
+  				d = 0
+  			}
+//  			d就是相差天数 
+  			if(d -parseInt(day)>0){
+  				str = '推迟'+ d -parseInt(day)+"天"
+  			}else{
+  				str = '提前'+ (Math.abs(d -parseInt(day)))+"天"
+  			}
+  		    return str
+  		}  
+
   //选部门选人
     var bmtableren=$('#bmmingzibiao1').dataTable({
         "deferRender": true,
@@ -1539,6 +1651,7 @@
   	  	  		$("#prj_duration2").val(data.prjDuration);//项目工期开始时间
   	  	  		$("#prj_duration2_end").val(data.prjDurationEnd);//项目工期结束时间
   	  	  		$("#prj_grade2").val(data.prjGrade);//公路等级
+  	  	  	    $(".pianchachange").val(data.xmJinduPiancha);//偏差
   	  	  		$("#cj_contract_end_time").val(data.cjContractEndTime);
   		  			/* $("#department2 tbody").html('');
   		  			$("#department2 tbody").append("<tr><td>主办部门</td><td>"+data.name+"</td><td>金额</td><td>"+data.mainDepartmentMoney+"</td></tr>")
