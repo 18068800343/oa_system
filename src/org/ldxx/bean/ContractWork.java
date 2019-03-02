@@ -47,7 +47,35 @@ public class ContractWork {
 	
 	private String cjContractEndTime;//履约完结时间
 	
+	private String contractStartTime;//承接合同开始时间
+	private String contractEndTime;//承接合同结束时间
+	private String contractLongTime;//承接合同工期
 	
+	
+	public String getContractStartTime() {
+		return contractStartTime;
+	}
+
+	public void setContractStartTime(String contractStartTime) {
+		this.contractStartTime = contractStartTime;
+	}
+
+	public String getContractEndTime() {
+		return contractEndTime;
+	}
+
+	public void setContractEndTime(String contractEndTime) {
+		this.contractEndTime = contractEndTime;
+	}
+
+	public String getContractLongTime() {
+		return contractLongTime;
+	}
+
+	public void setContractLongTime(String contractLongTime) {
+		this.contractLongTime = contractLongTime;
+	}
+
 	public List<Task> getTaskArray() {
 		return taskArray;
 	}
