@@ -74,8 +74,17 @@ public class CurrentFlow {
     
     private String nowDeqPersonId;
     
+    private String businessname;
     
-    public String getNowDeqPerson() {
+    public String getBusinessname() {
+		return businessname;
+	}
+
+	public void setBusinessname(String businessname) {
+		this.businessname = businessname;
+	}
+
+	public String getNowDeqPerson() {
 		return nowDeqPerson;
 	}
 
