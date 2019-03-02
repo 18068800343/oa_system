@@ -37,7 +37,7 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 		String id=work.getCwId();
 		if(i>0){
 			List<Accessory> accessory=work.getAccessory();
-			if(accessory!=null){
+			if(accessory!=null&&accessory.size()!=0){
 				i=adao.addAccessory(accessory);
 			}
 			/*List<Accessory> accessory1=work.getAccessory1();
@@ -45,7 +45,7 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 				i=adao.addAccessory(accessory1);
 			}*/
 			List<Enterprise> enterprise=work.getEnterprise();
-			if(enterprise!=null){
+			if(enterprise!=null&&enterprise.size()!=0){
 				for(int a=0;a<enterprise.size();a++){
 					enterprise.get(a).seteId(id);
 				}
