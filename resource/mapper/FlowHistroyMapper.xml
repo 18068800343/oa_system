@@ -592,10 +592,13 @@
 		SELECT
 			a.*,
 			c.BusinessName,
-			b.`flow_status`,count(DISTINCT a.URL)
+			b.`flow_status`,count(DISTINCT a.URL),
+			fn.Step
 		FROM
 			flowhistroy a
 		LEFT JOIN mode_status b ON a.mode_id = b.mode_id
+		LEFT JOIN currentFlow cf on cf.mode_id = a.mode_id
+		LEFT JOIN flownode fn on cf.Flo_Node_ID = fn.ID
 		LEFT JOIN business c ON a.Bus_ID = c.ID where a.Actor=#{userId}
         and b.`flow_status` !='4' and b.`flow_status` !='7'
        	and IFNULL(a.delete,'1') !=0

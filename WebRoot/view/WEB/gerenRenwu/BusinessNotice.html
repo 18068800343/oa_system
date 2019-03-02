@@ -57,6 +57,7 @@
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="look_modal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+       
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel"><b>查看审批进度</b></h4>
@@ -79,6 +80,9 @@
                     </form>  
                 </div>
         </div>
+        <div id="NodeBox" style="margin-left:15px;">
+            <div class="yihang"><b>审批流程:</b><div id="nodeRole"></div></div>
+        </div> 
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
         </div>
@@ -133,7 +137,7 @@
             "targets": 3,
             "searchable": false,
             "render": function (data, type, full) {
-               return '<i class="iconfont icon-icon-test Pfac" data-url="'+data+'" data-title="'+full.title+'" style="font-size: 20px; cursor: pointer; margin-left: 5px;" title="查看历史流程信息" onclick="lookHistory(this)"></i>';
+               return '<i class="iconfont icon-icon-test Pfac" data-url="'+data+'" data-step="'+full.step+'" data-flowTmpId="'+full.floTmpId+'" data-title="'+full.title+'" style="font-size: 20px; cursor: pointer; margin-left: 5px;" title="查看历史流程信息" onclick="lookHistory(this)"></i>';
             }
         }], 
         "order": false,
@@ -171,6 +175,9 @@
     }
     function lookHistory(dom){
     	var url = $(dom).attr("data-url");
+    	var step = $(dom).attr("data-step");
+    	var floTmpId = $(dom).attr("data-flowTmpId");
+    	addNodeRoles(floTmpId,step);
     	$.ajax({
         	type: 'POST',
             url: getContextPath()+'/flowHistory/getHistoryNowAndLast',
@@ -198,6 +205,38 @@
             		}
                 	$("#d_table tbody").append("<tr><td>"+title+"</td><td>"+name+"</td><td></td><td>"+operatorType+"</td><td>"+date+"</td></tr>");
                     $("#look_modal").modal("show");
+            	}
+            }
+        });
+    }
+    function addNodeRoles(floTmpId,step){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/flowNode/getNodeRoleById',
+            data:{
+            	id:floTmpId
+            },
+            dataType: 'json',
+            success: function (json) {
+            	$("#nodeRole").empty();
+            	for(var i in json){
+           		 var name = json[i];
+           		 if(name==null||name==""||name=="null"){
+           			name="提交人"; 
+           		 }
+           		 if(i==json.length-1){
+           			 if(step!=null&&i==step-1){
+           		      $("#nodeRole").append("<lable style='color:red'>"+name+"</lable>");
+           			 }else{
+           			  $("#nodeRole").append("<lable>"+name+"</lable>"); 
+           			 }
+           		 }else{
+           			 if(step!=null&&i==step-1){
+            		      $("#nodeRole").append("<lable style='color:red'>"+name+"→</lable>");
+           			 }else{
+           			  $("#nodeRole").append("<lable>"+name+"→</lable>"); 
+           			 }
+           		 }
             	}
             }
         });

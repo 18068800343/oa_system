@@ -60,7 +60,17 @@ public class FlowHistoryVo {
 
 	    private Integer operateType;
 
-	    public String getFlowStatus() {
+	    private Integer step;
+	    
+	    public Integer getStep() {
+			return step;
+		}
+
+		public void setStep(Integer step) {
+			this.step = step;
+		}
+
+		public String getFlowStatus() {
 			return flowStatus;
 		}
 
