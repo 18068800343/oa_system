@@ -116,7 +116,7 @@ public class FlowHistoryController {
 	@ResponseBody
 	public List<FlowHistoryNowAndLast> getHistoryNowAndLast(String url){
 		List<FlowHistoryNowAndLast> list =flowHistroyMapper.getFlowHistorysLeftJoinByUrl(url);
-/*		CurrentFlowExample currentFlowExample = new CurrentFlowExample();
+        CurrentFlowExample currentFlowExample = new CurrentFlowExample();
 		currentFlowExample.createCriteria().andUrlEqualTo(url);
 		List<CurrentFlow> list2 = currentFlowMapper.selectByExample(currentFlowExample);
 		FlowHistoryNowAndLast flowHistoryNowAndLast = new FlowHistoryNowAndLast();
@@ -127,8 +127,10 @@ public class FlowHistoryController {
 			flowHistoryNowAndLast.setView("");
 			flowHistoryNowAndLast.setDoDate(null);
 			flowHistoryNowAndLast.setOperateType(8);
-		}*/
+		}
+		if(flowHistoryNowAndLast.getTitle()!=null){
+			list.add(flowHistoryNowAndLast);
+		}
 		return list;
 	}
-
 }
