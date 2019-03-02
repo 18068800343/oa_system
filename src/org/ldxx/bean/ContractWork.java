@@ -46,12 +46,21 @@ public class ContractWork {
 	private String prjGrade;//公路等级
 	
 	private String cjContractEndTime;//履约完结时间
+	private String xmJinduPiancha;//项目进度偏差
 	
 	private String contractStartTime;//承接合同开始时间
 	private String contractEndTime;//承接合同结束时间
 	private String contractLongTime;//承接合同工期
 	
 	
+	public String getXmJinduPiancha() {
+		return xmJinduPiancha;
+	}
+
+	public void setXmJinduPiancha(String xmJinduPiancha) {
+		this.xmJinduPiancha = xmJinduPiancha;
+	}
+
 	public String getContractStartTime() {
 		return contractStartTime;
 	}
