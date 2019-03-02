@@ -198,11 +198,30 @@
       when COUNT(prj_id)>=2 and sc=1 then cc.contract_name_yi 
       when COUNT(prj_id)>=2 and sc>=2 then '' 
       else '' end as prj_company1,COUNT(prj_id),sc,
-      a.*,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3,b4.cc_name,cc.contract_name_yi,ssw.sc,cc.task_code from task a 
+      a.*,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3,b4.cc_name,cc.contract_name_yi,ssw.sc,cc.task_code, 
+      u1.u_name as mainPrjLeaderName,u2.u_name as mainEngineerName,u3.u_name as mainOtherName,
+      u4.u_name as assist1PrjLeaderName,u5.u_name as assist1EngineerName,u6.u_name as assist1OtherName,
+      u7.u_name as assist2PrjLeaderName,u8.u_name as assist2EngineerName,u9.u_name as assist2OtherName,
+      u10.u_name as assist3PrjLeaderName,u11.u_name as assist3EngineerName,u12.u_name as assist3OtherName
+      from task a 
 		left join organization_management b  on a.main_department=b.om_id 
 		left join organization_management b1 on a.assist_department1=b1.om_id 
 		left join organization_management b2 on a.assist_department2=b2.om_id 
 		left join organization_management b3 on a.assist_department3=b3.om_id
+		
+		left join user u1 on a.main_prj_leader=u1.user_id
+		left join user u2 on a.main_engineer=u2.user_id
+		left join user u3 on a.main_other=u3.user_id
+		left join user u4 on a.assist1_prj_leader=u4.user_id
+		left join user u5 on a.assist1_engineer=u5.user_id
+		left join user u6 on a.assist1_other=u6.user_id
+		left join user u7 on a.assist2_prj_leader=u7.user_id
+		left join user u8 on a.assist2_engineer=u8.user_id
+		left join user u9 on a.assist2_other=u9.user_id
+		left join user u10 on a.assist3_prj_leader=u10.user_id
+		left join user u11 on a.assist3_engineer=u11.user_id
+		left join user u12 on a.assist3_other=u12.user_id
+		
 		LEFT JOIN consociation_company as b4 on a.prj_owner_unit=b4.cc_id
       LEFT JOIN cj_contract cc on cc.task_code = a.prj_no
       LEFT JOIN (select count(1) sc,sss.task_code from ((select COUNT(cjc.contract_name_yi) sc,cjc.task_code from cj_contract cjc where cjc.task_code =(select prj_no from task where prj_id=#{id}) GROUP BY cjc.contract_name_yi) as sss)) as ssw

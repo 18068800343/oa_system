@@ -48,12 +48,13 @@ public class Task {
     private String mainDepartmentCost;
     
     private String mainPrjLeader;
-    
     private String mainPrjLeaderName;
     
     private String mainEngineer;
+    private String mainEngineerName;
     
     private String mainOther;
+    private String mainOtherName;
 
     private String assistDepartment1;
 
@@ -62,10 +63,13 @@ public class Task {
     private String assistDepartment1Cost;
     
     private String assist1PrjLeader;
+    private String assist1PrjLeaderName;
     
     private String assist1Engineer;
+    private String assist1EngineerName;
     
     private String assist1Other;
+    private String assist1OtherName;
     
     private String assistDepartment2;
 
@@ -74,10 +78,13 @@ public class Task {
     private String assistDepartment2Cost;
     
     private String assist2PrjLeader;
+    private String assist2PrjLeaderName;
     
     private String assist2Engineer;
+    private String assist2EngineerName;
     
     private String assist2Other;
+    private String assist2OtherName;
 
     private String assistDepartment3;
 
@@ -86,10 +93,13 @@ public class Task {
     private String assistDepartment3Cost;
     
     private String assist3PrjLeader;
+    private String assist3PrjLeaderName;
     
     private String assist3Engineer;
+    private String assist3EngineerName;
     
     private String assist3Other;
+    private String assist3OtherName;
 
     private String importance;
     
@@ -131,8 +141,105 @@ public class Task {
     private int fileLengthSJ;//判断设计文档文档是否归档,非数据库对应属性；0：未归档，1：已归档
     private int fileLengthKJ;//判断科技文档文档是否归档,非数据库对应属性；0：未归档，1：已归档
     
+    private String lxTime;//立项时间
     
     
+	public String getLxTime() {
+		return lxTime;
+	}
+
+	public void setLxTime(String lxTime) {
+		this.lxTime = lxTime;
+	}
+
+	public String getMainEngineerName() {
+		return mainEngineerName;
+	}
+
+	public void setMainEngineerName(String mainEngineerName) {
+		this.mainEngineerName = mainEngineerName;
+	}
+
+	public String getMainOtherName() {
+		return mainOtherName;
+	}
+
+	public void setMainOtherName(String mainOtherName) {
+		this.mainOtherName = mainOtherName;
+	}
+
+	public String getAssist1PrjLeaderName() {
+		return assist1PrjLeaderName;
+	}
+
+	public void setAssist1PrjLeaderName(String assist1PrjLeaderName) {
+		this.assist1PrjLeaderName = assist1PrjLeaderName;
+	}
+
+	public String getAssist1EngineerName() {
+		return assist1EngineerName;
+	}
+
+	public void setAssist1EngineerName(String assist1EngineerName) {
+		this.assist1EngineerName = assist1EngineerName;
+	}
+
+	public String getAssist1OtherName() {
+		return assist1OtherName;
+	}
+
+	public void setAssist1OtherName(String assist1OtherName) {
+		this.assist1OtherName = assist1OtherName;
+	}
+
+	public String getAssist2PrjLeaderName() {
+		return assist2PrjLeaderName;
+	}
+
+	public void setAssist2PrjLeaderName(String assist2PrjLeaderName) {
+		this.assist2PrjLeaderName = assist2PrjLeaderName;
+	}
+
+	public String getAssist2EngineerName() {
+		return assist2EngineerName;
+	}
+
+	public void setAssist2EngineerName(String assist2EngineerName) {
+		this.assist2EngineerName = assist2EngineerName;
+	}
+
+	public String getAssist2OtherName() {
+		return assist2OtherName;
+	}
+
+	public void setAssist2OtherName(String assist2OtherName) {
+		this.assist2OtherName = assist2OtherName;
+	}
+
+	public String getAssist3PrjLeaderName() {
+		return assist3PrjLeaderName;
+	}
+
+	public void setAssist3PrjLeaderName(String assist3PrjLeaderName) {
+		this.assist3PrjLeaderName = assist3PrjLeaderName;
+	}
+
+	public String getAssist3EngineerName() {
+		return assist3EngineerName;
+	}
+
+	public void setAssist3EngineerName(String assist3EngineerName) {
+		this.assist3EngineerName = assist3EngineerName;
+	}
+
+	public String getAssist3OtherName() {
+		return assist3OtherName;
+	}
+
+	public void setAssist3OtherName(String assist3OtherName) {
+		this.assist3OtherName = assist3OtherName;
+	}
+
 	public String getCjId() {
 		return cjId;
 	}
