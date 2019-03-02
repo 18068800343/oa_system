@@ -126,11 +126,12 @@
 		                        <th style="width:22%;">项目名称</th>
 		                        <th style="width:10%;">任务单号</th>
 		                        <th style="width:10%;">任务金额(元)</th>
-		                        <th style="width:18%;">甲方单位 </th>
-		                        <th style="width:12%;">预算编制日期</th>
-		                        <th style="width:12%;">预算金额(元)</th>
+		                        <th style="width:16%;">甲方单位 </th>
+		                        <th style="width:8%;">预算编制日期</th>
+		                        <th style="width:10%;">预算金额(元)</th>
+		                        <th style="width:10%;">预算毛利润(元)</th>
 		                        <th style="width:8%;">查看部门预算</th>
-		                        <th  style="width:8%;">操作</th>
+		                        <th  style="width:6%;">操作</th>
 		                    </tr>
 		                </thead>
 		                <tbody>
@@ -573,8 +574,8 @@
                         <tr>
                             <td>项目经营模式</td>
                             <td id="look_prj_mode" ></td>
-                            <td></td>
-                            <td></td>
+                            <td>预算毛利润</td>
+                            <td id="look_ys_maolirun"></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -1086,6 +1087,7 @@
             { "data": "budgetDate"}, 
             { "data": "allCost"}, 
             { "data": null}, 
+            { "data": null}, 
         ],
         "columnDefs": [
 						{	
@@ -1097,8 +1099,19 @@
 						  }
 						},
 						{
+							 "class": "tcenter",
+							    "targets": 6,
+							    "searchable": true,
+							    "render": function(data, type, full) {
+							    		var renwujin=full.prjEstimateMoney;
+							    		var yusuanjin=full.allCost;
+							    		var ysmaolirun=renwujin/1-yusuanjin/1;
+							  	  		return ysmaolirun;
+							    }
+							  },
+						{
 								 "class": "tcenter",
-								    "targets": 7,
+								    "targets": 8,
 								    "searchable": true,
 								    "render": function(data, type, full) {
 								  	  		return '<i class="iconfont icon-icon-test Pebb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookThis(this)"   id="lookDetall"></i><i class="iconfont iconxiugai icon-xiugai Pebc" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="修改" onclick="checkBudge(this)"   id="Changedanwei"></i>'
@@ -1107,7 +1120,7 @@
 								  },
 							  {
 					                "class":'tubiaoming',
-					                "targets": 6,
+					                "targets": 7,
 					                "orderable":false,
 					                "data":null,
 					                "defaultContent": ''
@@ -2785,6 +2798,7 @@
 				id:data.bfId,
 			},
 			success:function(json){
+				console.log(json)
 				$("#lookprjName").text(json.prjId)
 				$("#lookrenwudan").text(json.taskNo)
 				$("#lookjfdanwei").text(json.prjUnit)
@@ -2794,6 +2808,10 @@
 				$("#lookbfNo").text(json.bfNo)
 				$("#look_prj_mode").text(json.prjMode)
 				$("#lookall_zhu_money").text(json.allMainMaterialMoney)
+				var renwujin=json.prjEstimateMoney;
+				var yusuanjin=json.allCost;
+				var ysmaolirun=renwujin/1-yusuanjin/1;//预估毛利润=任务金额—预算金额
+				$("#look_ys_maolirun").text(ysmaolirun)
 				//费用预算
 				$("#lookfyyusuan tbody").empty("");
             	for(var i=0;i<json.costBudget.length;i++){
