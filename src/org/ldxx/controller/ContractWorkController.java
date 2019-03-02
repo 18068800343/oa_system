@@ -19,6 +19,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractUpdateService;
@@ -63,6 +64,8 @@ public class ContractWorkController {
 	private TaskService tService;
 	@Autowired
 	private ContractUpdateService cuService;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/addContractWorkBySave")
 	@ResponseBody
@@ -364,7 +367,7 @@ public class ContractWorkController {
 	
 	@RequestMapping("/updateContractWork2")
 	@ResponseBody
-	public int updateContractWork2(String work,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
+	public int updateContractWork2(String work,@RequestParam MultipartFile [] file,@RequestParam("file2") MultipartFile file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		classMap.put("taskArray", Task.class);
@@ -378,8 +381,8 @@ public class ContractWorkController {
 		if(!f.exists()){
 			f.mkdirs();
 		}
+		List<Accessory> list=new ArrayList<>();
 		if(file.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
 				Accessory accessory=new Accessory();
 				String fileName=file[ii].getOriginalFilename();
@@ -392,9 +395,26 @@ public class ContractWorkController {
 				accessory.setaType("合同文本");
 				list.add(accessory);
 			}
-			cwork.setAccessory(list);
+		}
+		if(file2!=null){
+			Accessory accessory=new Accessory();
+			String fileName=file2.getOriginalFilename();
+			String filePath=path+File.separator+fileName;
+			File f2=new File(filePath);
+			file2.transferTo(f2);
+			accessory.setaId(id);
+			accessory.setAcName(fileName);
+			accessory.setAcUrl(id+File.separator+fileName);
+			accessory.setaType("客户满意度");
+			list.add(accessory);
 		}
 		int i=service.updateContractWork3(cwork);
+		if(i>0){
+			CjContract cj=cService.selectCjContractByNo(cwork.getCjContractCode());
+			OrganizationManagement om=oService.selectOrgById(cj.getYiCjDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(cwork.getCwId(), omNo);
+		}
 		return i;
 	}
 	
