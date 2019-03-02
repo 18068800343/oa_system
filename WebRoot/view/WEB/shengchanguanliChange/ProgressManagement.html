@@ -1803,9 +1803,10 @@
             	$("#new_accessory tbody").html('');
             	for(var i=0;i<accessory.length;i++){
             		$("#new_accessory tbody").append("<tr>"+
-            									"<td>附件"+(i+1)+"</td>"+
-            									"<td>"+accessory[i].acName+"</td>"+
-            									"<td><button type='button' class='btn btn-primary' data="+accessory[i].acUrl+" onclick='downloadFile(this)'>下载附件</button>   <button type='button' class='btn btn-primary' data1='"+accessory[i].acUrl+"' data2='"+accessory[i].aId+"' onclick='delete_this(this)'>删除附件</button></td>"+
+            				"<td>附件"+(i+1)+"</td>"+
+		         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+accessory[i].acName+"' disabled></td>"+
+		         	    	"<td ><a  class='btn btn-primary' href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window'>查看附件</a></td>"+
+		         	    	"<td ><button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' data3='"+accessory[i].acName+"' onclick='delete_this(this)'>删除附件</button></td>"+
             								"</tr>")
             	}
             	
@@ -1867,8 +1868,8 @@
 	}
     
     function delete_this(obj){
-		var url=$(obj).attr("data1");
-		var id=$(obj).attr("data2");
+		var id=$(obj).attr("data1");
+		var url=$(obj).attr("data2");
 		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
 		var statu = confirm("确认删除吗?");
 		  if(!statu){
@@ -1876,8 +1877,9 @@
 		  }
 		$.ajax({
 			type: 'POST',
-            url: getContextPath()+'/announcement/deleteAccessory',
+            url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
             dataType: 'json',
+            async:false,
             data: {
             	aId:id,
             	acName:name,
