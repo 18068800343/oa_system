@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.FbContract;
@@ -49,5 +50,7 @@ public interface SubContractService {
 	FbContract selectYiFangByNo(String no);
 	
 	List<FbContract> selectFbContractByTaskNo(String no);
+	
+	public int updateFbNoById(String id,String no);
 
 }

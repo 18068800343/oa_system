@@ -146,9 +146,9 @@ public class SubContractServiceImpl implements SubContractService {
 	@Override
 	public int updateHistoryById(String id) {
 		int i= scDao.updateHistoryById(id);
-		if(i>0){
-			i=scDao.updateHistoryNow(id);
-		}
+		
+		i=scDao.updateHistoryNow(id);
+		
 		return i;
 	}
 
@@ -165,6 +165,11 @@ public class SubContractServiceImpl implements SubContractService {
 	@Override
 	public List<FbContract> selectFbContractByTaskNo(String no) {
 		return scDao.selectFbContractByTaskNo(no);
+	}
+
+	@Override
+	public int updateFbNoById(String id, String no) {
+		return scDao.updateFbNoById(id, no);
 	}
 
 }

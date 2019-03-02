@@ -47,4 +47,6 @@ public interface SubContractDao {
 	FbContract selectYiFangByNo(@Param("no")String no);
 	
 	List<FbContract> selectFbContractByTaskNo(@Param("no")String no);
+	
+	public int updateFbNoById(@Param("id")String id,@Param("no")String no);
 }

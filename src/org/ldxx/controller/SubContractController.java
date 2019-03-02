@@ -77,7 +77,7 @@ public class SubContractController {
 		String id=uuid.getTimeUUID();
 		fbContract.setFbId(id);
 		
-		String type = fbContract.getFbcType();
+		/*String type = fbContract.getFbcType();
 		String code = type.split(" ")[0];
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
@@ -85,7 +85,7 @@ public class SubContractController {
 		count=count+1;
 		String fbNo=uuid.getPrjCode(code, count);
 		fbNo="FB"+fbNo;
-		fbContract.setFbNo(fbNo);	
+		fbContract.setFbNo(fbNo);	*/
 		
 		String webApp=uuid.getWebAppFile();
 		String path=webApp+id;
@@ -174,7 +174,7 @@ public class SubContractController {
 		String id=uuid.getTimeUUID();
 		fbContract.setFbId(id);
 		
-		String type = fbContract.getFbcType();
+		/*String type = fbContract.getFbcType();
 		String code = type.split(" ")[0];
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
@@ -182,7 +182,7 @@ public class SubContractController {
 		count=count+1;
 		String fbNo=uuid.getPrjCode(code, count);
 		fbNo="FB"+fbNo;
-		fbContract.setFbNo(fbNo);
+		fbContract.setFbNo(fbNo);*/
 		
 		String webApp=uuid.getWebAppFile();
 		String path=webApp+id;
@@ -611,7 +611,21 @@ public class SubContractController {
 	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
 	@ResponseBody
 	public int updateHistoryById(String id){
-		return scService.updateHistoryById(id);
+		int i=scService.updateHistoryById(id);
+		if(i>0){
+			TimeUUID uuid=new TimeUUID();
+			FbContract fb=scService.selectSubContractById(id);
+			String type = fb.getFbcType();
+			String code = type.split(" ")[0];
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String year=sdf.format(new Date());
+			int count=scService.fbNocount(year);
+			count=count+1;
+			String fbNo=uuid.getPrjCode(code, count);
+			fbNo="FB"+fbNo;
+			i=scService.updateFbNoById(id, fbNo);
+		}
+		return i;
 	}
 	
 	@RequestMapping("/updateFbById")
