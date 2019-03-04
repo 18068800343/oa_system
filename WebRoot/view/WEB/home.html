@@ -925,6 +925,11 @@
     			return ;
     		}
    		}
+   		var dok = doChildIframeMethod();
+	    if(dok=="0"){
+		   toastr.error("请检查信息完整性!");
+	 	   return;
+	    }
    		$("#tjModal").modal("hide");
     	$.ajax({
             type: 'POST',
@@ -951,7 +956,7 @@
 	        					  +'</td></tr>');
 	        		  }
 	        	  }else if(json.receiver==null||json.receiver.length==1){
-	        		  doChildIframeMethod();
+	        		  
 	        		  var userId;var uName;var omName;var dutyName;var omId;var dutyId;
 	        		  if(json.receiver==undefined||json.receiver==null){
 	        			  userId="";uName="";omName="";dutyName="";omId="";dutyId="";
@@ -1053,7 +1058,11 @@
          });
     }
     function tijiaorenwudan2(){
-      doChildIframeMethod();
+   	  var dok = doChildIframeMethod();
+	  if(dok=="0"){
+		  toastr.error("请检查信息完整性!");
+		  return;
+	  }
   	  var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
   	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
 	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
@@ -1195,10 +1204,8 @@
 	    	try {
 				var resultEdit = childWindow.saveFlow4(view);
 	  		    if(resultEdit=='0'){
-	      			toastr.error("保存出错");
 	      			return '0';
-	  		    }else{
-	      			toastr.success("保存成功");
+	  		    }else if(resultEdit=='1'){
 	      			return '1';
 	  		    }
 		    }
@@ -1268,7 +1275,10 @@
 	    function doChildIframeMethod(){
 	    	var childWindow = $("#rightMain")[0].contentWindow; //表示获取了嵌入在iframe中的子页面的window对象。  []将JQuery对象转成DOM对象，用DOM对象的contentWindow获取子页面window对象。
 	    	try {
-	    		childWindow.save();
+	    		var a = childWindow.save();
+	    		if(a=="0"){
+	    			return "0";
+	    		}
 	    		}
 	    		catch(err){
 	    		}

@@ -149,7 +149,7 @@
             </div>
             <div class="modal-footer">
               <div id="tjButtons" style="text-align:center">
-                <button type="button" id="getReceiver" onclick="getReceive()" class="btn btn-success" data-dismiss="modal" >同意</button>
+                <button type="button" id="getReceiver" onclick="getReceive()" class="btn btn-success">同意</button>
                 <button type="button" id="tuiHui"  onclick="tuiHui()" class="btn btn-default" data-dismiss="modal">退回</button>
                 <button type="button" id="baoCun" class="btn btn-default" onclick="baoCun()">保存</button>
                 <button type="button" id="shanChuFlow" class="btn btn-default" onclick="shanChuFlow()">删除</button>
@@ -476,6 +476,12 @@
     			return ;
     		}
    		}
+		 var i= doChildIframeMethod();
+		 if(i=="0"){
+			 toastr.error("检查信息完整性!")
+			 return ;
+		 }
+		$("#myModal").modal("hide");
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/task/getReceiver',
@@ -501,11 +507,6 @@
 	        					  +'</td></tr>');
 	        		  }
 	        	  }else if(json.receiver==null||json.receiver.length==1){
-	        		 var i= doChildIframeMethod();
-	        		 if(i=="0"){
-	        			 toastr.error("修改信息失败")
-	        			 return ;
-	        		 }
 	        		  var userId;var uName;var omName;var dutyName;var omId;var dutyId;
 	        		  if(json.receiver==undefined||json.receiver==null){
 	        			  userId="";uName="";omName="";dutyName="";omId="";dutyId="";
@@ -607,7 +608,11 @@
          });
     }
     function tijiaorenwudan2(){
-      doChildIframeMethod();
+	  var i= doChildIframeMethod();
+	  if(i=="0"){
+	 	 toastr.error("检查信息完整性!")
+		 return ;
+	  }
   	  var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
   	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
 	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
@@ -769,9 +774,8 @@
     	try {
 			var resultEdit = childWindow.saveFlow4(view);
   		    if(resultEdit=='0'){
-      			toastr.error("保存出错");
       			return '0';
-  		    }else{
+  		    }else if(resultEdit=='1'){
       			toastr.success("保存成功");
       			return '1';
   		    }
