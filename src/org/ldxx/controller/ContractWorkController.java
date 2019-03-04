@@ -193,7 +193,7 @@ public class ContractWorkController {
 	
 	@RequestMapping("/addContractWork2BySave")
 	@ResponseBody
-	public int addContractWork2BySave( String work,@RequestParam(value="file", required=false) MultipartFile [] file,@RequestParam("file2") MultipartFile file2,HttpSession session) throws IllegalStateException, IOException{
+	public int addContractWork2BySave( String work,@RequestParam(value="file", required=false) MultipartFile [] file,@RequestParam(value="file2", required=false) MultipartFile file2,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		classMap.put("taskArray", Task.class);

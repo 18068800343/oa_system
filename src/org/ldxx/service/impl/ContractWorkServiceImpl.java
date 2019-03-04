@@ -102,6 +102,9 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 				i=edao.addEnterprise(enterprise);
 			}
 		}
+		List<Task> task=work.getTaskArray();
+		i=tdao.updateTasks(task);
+		i=cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
 		return i;
 	}
 	
