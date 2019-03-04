@@ -270,7 +270,7 @@
 	</div>
 
 <!-- frame modal -->
-<div class="modal fade bs-example-modal-lg dada" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade bs-example-modal-lg dada" id="tjModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog modal-lg" role="document" style="width:85%;">
         <div class="modal-content">
             <div class="modal-header">
@@ -300,6 +300,7 @@
                     			<th>操作人</th>
                     			<th>操作步骤</th>
                     			<th>意见</th>
+                    			<th>操作时间</th>
                     		</tr>
                     	</thead>
                     	<tbody></tbody>
@@ -315,7 +316,7 @@
             <div class="modal-footer">
               <div id="tjButtons" >
                 <div  style="text-align:center" >
-                  <button type="button" id="getReceiver" onclick="getReceive()" class="btn btn-success" data-dismiss="modal" >同意</button>
+                  <button type="button" id="getReceiver" onclick="getReceive()" class="btn btn-success"  >同意</button>
                   <button type="button" id="tuiHui"  onclick="tuiHui()" class="btn btn-default" data-dismiss="modal">退回</button>
                   <button type="button" id="baoCun" class="btn btn-default" onclick="baoCun()">保存</button>
                   <button type="button" id="shanChuFlow" class="btn btn-default" onclick="shanChuFlow()">删除</button>
@@ -640,9 +641,9 @@
             dataType: 'json',
             success: function (json) {
             	
-            	if(json.length>9){
+            	/* if(json.length>9){
             		json.length=10;
-            	}
+            	} */
             	$("#tb1").empty();
         		$("#tb1").append('<tr class="tb1-unfinish">'
                         +'<th>'
@@ -880,7 +881,7 @@
 	 			toastr.error("保存出错");
 	 		}else if(page_result=='1'){
 	 			toastr.success("保存成功");
-	 		}else{
+	 		}else{	
 	 			if(page_result!=undefined&&page_result!=""){
 	 			toastr.error(page_result);
 	 			return ;
@@ -924,6 +925,7 @@
     			return ;
     		}
    		}
+   		$("#tjModal").modal("hide");
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/task/getReceiver',
@@ -1192,7 +1194,7 @@
 	    	var view=$("#view").val();
 	    	try {
 				var resultEdit = childWindow.saveFlow4(view);
-	  		    if(resultEdit.rel=='0'){
+	  		    if(resultEdit=='0'){
 	      			toastr.error("保存出错");
 	      			return '0';
 	  		    }else{
@@ -1208,7 +1210,7 @@
 	    	var view=$("#view").val();
 	    	try {
 				var resultEdit = childWindow.saveFlow5(view);
-	  		    if(resultEdit.rel=='0'){
+	  		    if(resultEdit=='0'){
 	      			toastr.error("保存出错");
 	      			return '0';
 	  		    }else{
@@ -1224,10 +1226,10 @@
 	    	var view=$("#view").val();
 	    	try {
 				var resultEdit = childWindow.saveFlow6(view);
-	  		    if(resultEdit.rel=='0'){
+	  		    if(resultEdit=='0'){
 	      			toastr.error("保存出错");
 	      			return '0';
-	  		    }else if(resultEdit.rel=='1'){
+	  		    }else if(resultEdit=='1'){
 	      			toastr.success("保存成功");
 	      			return '1';
 	  		    }
