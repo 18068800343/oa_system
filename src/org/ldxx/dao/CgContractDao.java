@@ -50,4 +50,6 @@ public interface CgContractDao {
 
 	int updatePrjNameAndNoById(@Param("cg")CgContract cg);
 
+	int updatecgNoById(@Param("id")String id,@Param("cgNo2") String cgNo2);
+
 }

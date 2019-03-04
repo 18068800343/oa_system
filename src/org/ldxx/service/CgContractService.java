@@ -63,4 +63,6 @@ public interface CgContractService {
 
 	int updatePrjNameAndNoById(CgContract cg);
 
+	int updatecgNoById(String id, String cgNo2);
+
 }

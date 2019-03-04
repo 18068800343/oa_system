@@ -142,9 +142,9 @@ public class CgContractServiceImpl implements CgContractService {
 	@Override
 	public int updateHistoryById(String id) {
 		int i= cgDao.updateHistoryById(id);
-		if(i>0){
+		//if(i>0){
 			i=cgDao.updateHistoryNow(id);
-		}
+		//}
 		return i;
 	}
 
@@ -250,6 +250,11 @@ public class CgContractServiceImpl implements CgContractService {
 	@Override
 	public int updatePrjNameAndNoById(CgContract cg) {
 		return cgDao.updatePrjNameAndNoById(cg);
+	}
+
+	@Override
+	public int updatecgNoById(String id, String cgNo2) {
+		return cgDao.updatecgNoById(id,cgNo2);
 	}
 
 }
