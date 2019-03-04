@@ -313,8 +313,8 @@
                 </div> 
             </div>
             <div class="modal-footer">
-              <div id="tjButtons" class="ott">
-                <div class="itt" style="text-align:center" >
+              <div id="tjButtons" >
+                <div  style="text-align:center" >
                   <button type="button" id="getReceiver" onclick="getReceive()" class="btn btn-success" data-dismiss="modal" >同意</button>
                   <button type="button" id="tuiHui"  onclick="tuiHui()" class="btn btn-default" data-dismiss="modal">退回</button>
                   <button type="button" id="baoCun" class="btn btn-default" onclick="baoCun()">保存</button>
@@ -875,33 +875,52 @@
    		    baoCun();
 	 		if(page_result=='0'){
 	 			toastr.error("保存出错");
-	 			return '0';
 	 		}else if(page_result==undefined){
 	 			toastr.error("保存出错");
-	 			return '0';
 	 		}else if(page_result=='1'){
 	 			toastr.success("保存成功");
 	 		}else{
+	 			if(page_result!=undefined&&page_result!=""){
 	 			toastr.error(page_result);
-	 			return page_result;
+	 			}
 	 		}
     	}
     	if(page_edit=='edit'&&page_step=='2'){
     		updateFkDept2(page_cNodeId);
-    		flowEdit2();
+    		var k = flowEdit2();
+    		if(k=="0"){
+    			toastr.error("请检查信息是否完整!");
+    			return ;
+    		}
     	}
     	if(page_edit=='edit'&&page_step=='3'){
     		updateFkDept3(page_cNodeId);
-    		flowEdit3();
+    		var k = flowEdit3();
+    		if(k=="0"){
+    			toastr.error("请检查信息是否完整!");
+    			return ;
+    		}
     	}
     	if(page_edit=='edit'&&page_step=='4'){
-    		flowEdit4();
+    		var k = flowEdit4();
+    		if(k=="0"){
+    			toastr.error("请检查信息是否完整!");
+    			return ;
+    		}
     	}
     	if(page_edit=='edit'&&page_step=='5'){
-    		flowEdit5();
+    		var k = flowEdit5();
+    		if(k=="0"){
+    			toastr.error("请检查信息是否完整!");
+    			return ;
+    		}
    		}
    		if(page_edit=='edit'&&page_step=='6'){
-    		flowEdit6();
+    		var k = flowEdit6();
+    		if(k=="0"){
+    			toastr.error("请检查信息是否完整!");
+    			return ;
+    		}
    		}
     	$.ajax({
             type: 'POST',
@@ -1135,7 +1154,7 @@
 	    }
 	    function flowEdit2(){
 	    	var childWindow = $("#rightMain")[0].contentWindow;
-	    	var view=$("#view").val()
+	    	var view=$("#view").val();
 	    	try {
 				var resultEdit = childWindow.saveFlow2(view);
 	  		    if(resultEdit=='0'){
@@ -1151,7 +1170,7 @@
 	    }
 	    function flowEdit3(){
 	    	var childWindow = $("#rightMain")[0].contentWindow;
-	    	var view=$("#view").val()
+	    	var view=$("#view").val();
 	    	try {
 				var resultEdit = childWindow.saveFlow3(view);
 	  		    if(resultEdit=='0'){
@@ -1168,7 +1187,7 @@
 	    function flowEdit4(){
 	    	
 	    	var childWindow = $("#rightMain")[0].contentWindow;
-	    	var view=$("#view").val()
+	    	var view=$("#view").val();
 	    	try {
 				var resultEdit = childWindow.saveFlow4(view);
 	  		    if(resultEdit.rel=='0'){
@@ -1184,7 +1203,7 @@
 	    }
 	    function flowEdit5(){
 	    	var childWindow = $("#rightMain")[0].contentWindow;
-	    	var view=$("#view").val()
+	    	var view=$("#view").val();
 	    	try {
 				var resultEdit = childWindow.saveFlow5(view);
 	  		    if(resultEdit.rel=='0'){
@@ -1200,13 +1219,13 @@
 	    }
 	    function flowEdit6(){
 	    	var childWindow = $("#rightMain")[0].contentWindow;
-	    	var view=$("#view").val()
+	    	var view=$("#view").val();
 	    	try {
 				var resultEdit = childWindow.saveFlow6(view);
 	  		    if(resultEdit.rel=='0'){
 	      			toastr.error("保存出错");
 	      			return '0';
-	  		    }else{
+	  		    }else if(resultEdit.rel=='1'){
 	      			toastr.success("保存成功");
 	      			return '1';
 	  		    }
