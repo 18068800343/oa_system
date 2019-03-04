@@ -862,6 +862,9 @@
             success: function (json) {
             	var data=json;
             	var accessory=json.accessory;
+            	$("#xukezheng").html('');
+            	$("#kh_zs_file").html('');
+            	$("#fb_info_file").html('');
             	for(var i=0;i<accessory.length;i++){
             		if(accessory[i].aType=='资质证书'){
             			$("#zz_zs_tr").after('<tr>'+
@@ -871,28 +874,27 @@
 		            	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' data3='资质证书' data4="+accessory[i].acName+" onclick='deletefile(this)'>删除附件</button></td>"+
                         	'</tr>')
             		}
-            		$("#xukezheng").html('');
-            		if(accessory[i].aType.indexOf('安全生产许可证有效期')){
+            		
+            		if(accessory[i].aType=='安全生产许可证有效期'){
             			$("#xukezheng").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>&nbsp;&nbsp;<button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' data3='安全生产许可证有效期' data4="+accessory[i].acName+" onclick='deletefile(this)'>删除附件</button>")
 						$("#xukezheng2").hide();
-            		}else{
+            		}/* else{
             			$("#xukezheng2").show();
-            		}
-            		$("#kh_zs_file").html('');
-            		if(accessory[i].aType.indexOf('开户许可证')){
+            		} */
+            		
+            		if(accessory[i].aType=='开户许可证'){
             			$("#kh_zs_file").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>&nbsp;&nbsp;<button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"'  data3='开户许可证' data4="+accessory[i].acName+" onclick='deletefile(this)'>删除附件</button>")
 						$("#kh_zs_file2").hide();
-            		}else{
+            		}/* else{
             			$("#kh_zs_file2").show();
-            		}
-            		$("#fb_info_file").html('');
-            		if(accessory[i].aType.indexOf('联营合同内容')){
+            		} */
+            		
+            		if(accessory[i].aType=='联营合同内容'){
             			$("#fb_info_file").append("<a href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window' style='color:blue;'>"+accessory[i].acName+"</a>&nbsp;&nbsp;<button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"'  data3='联营合同内容' data4="+accessory[i].acName+" onclick='deletefile(this)'>删除附件</button>")
 						$("#fb_info_file2").hide();
-            		}else{
+            		}/* else{
             			$("#fb_info_file2").show();
-            		}
-					
+            		} */
             	}
             	
             	$("#prjName").val(data.prjName);
@@ -947,16 +949,21 @@
 	        		toastr.error("删除失败");
 	        	}else{
 	        		toastr.success("删除成功");
-        			$(obj).parent().remove();
 	        		
+        			if(nm=="资质证书"){
+        				var tr=$(obj).parents("tr");
+        				$(tr).remove();
+        			}
 	        		if(nm=="安全生产许可证有效期"){
-	        			$(obj).parents("tr").remove();
+	        			$(obj).parent().remove();
 	        			$("#xukezheng2").show();
 	        		}
 	        		if(nm=="开户许可证"){
+	        			$(obj).parent().remove();
 	        			$("#kh_zs_file2").show();
 	        		}
 	        		if(nm=="联营合同内容"){
+	        			$(obj).parent().remove();
 	        			$("#fb_info_file2").show();
 	        		}
 	        		

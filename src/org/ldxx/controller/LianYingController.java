@@ -96,40 +96,40 @@ public class LianYingController {
 			}
 		}
 		if(file2!=null){
-			Accessory accessory=new Accessory();
+			Accessory accessory2=new Accessory();
 			String fileName=file2.getOriginalFilename();
 			String filePath=path+File.separator+fileName;
 			File f2=new File(filePath);
 			file2.transferTo(f2);
-			accessory.setaId(id);
-			accessory.setAcName(fileName);
-			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("安全生产许可证有效期");
-			list.add(accessory);
+			accessory2.setaId(id);
+			accessory2.setAcName(fileName);
+			accessory2.setAcUrl(id+File.separator+fileName);  
+			accessory2.setaType("安全生产许可证有效期");
+			list.add(accessory2);
 		}
 		if(file3!=null){
-			Accessory accessory=new Accessory();
+			Accessory accessory3=new Accessory();
 			String fileName=file3.getOriginalFilename();
 			String filePath=path+File.separator+fileName;
 			File f2=new File(filePath);
 			file3.transferTo(f2);
-			accessory.setaId(id);
-			accessory.setAcName(fileName);
-			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("开户许可证");
-			list.add(accessory);
+			accessory3.setaId(id);
+			accessory3.setAcName(fileName);
+			accessory3.setAcUrl(id+File.separator+fileName);  
+			accessory3.setaType("开户许可证");
+			list.add(accessory3);
 		}
 		if(file4!=null){
-			Accessory accessory=new Accessory();
+			Accessory accessory4=new Accessory();
 			String fileName=file4.getOriginalFilename();
 			String filePath=path+File.separator+fileName;
 			File f2=new File(filePath);
 			file4.transferTo(f2);
-			accessory.setaId(id);
-			accessory.setAcName(fileName);
-			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("联营合同内容");
-			list.add(accessory);
+			accessory4.setaId(id);
+			accessory4.setAcName(fileName);
+			accessory4.setAcUrl(id+File.separator+fileName);  
+			accessory4.setaType("联营合同内容");
+			list.add(accessory4);
 		}
 		ly.setAccessory(list);
 		int i=service.addLianYing(ly);
@@ -211,40 +211,40 @@ public class LianYingController {
 			}
 		}
 		if(file2!=null){
-			Accessory accessory=new Accessory();
+			Accessory accessory2=new Accessory();
 			String fileName=file2.getOriginalFilename();
 			String filePath=path+File.separator+fileName;
 			File f2=new File(filePath);
 			file2.transferTo(f2);
-			accessory.setaId(id);
-			accessory.setAcName(fileName);
-			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("安全生产许可证有效期");
-			list.add(accessory);
+			accessory2.setaId(id);
+			accessory2.setAcName(fileName);
+			accessory2.setAcUrl(id+File.separator+fileName);  
+			accessory2.setaType("安全生产许可证有效期");
+			list.add(accessory2);
 		}
 		if(file3!=null){
-			Accessory accessory=new Accessory();
+			Accessory accessory3=new Accessory();
 			String fileName=file3.getOriginalFilename();
 			String filePath=path+File.separator+fileName;
 			File f2=new File(filePath);
 			file3.transferTo(f2);
-			accessory.setaId(id);
-			accessory.setAcName(fileName);
-			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("开户许可证");
-			list.add(accessory);
+			accessory3.setaId(id);
+			accessory3.setAcName(fileName);
+			accessory3.setAcUrl(id+File.separator+fileName);  
+			accessory3.setaType("开户许可证");
+			list.add(accessory3);
 		}
 		if(file4!=null){
-			Accessory accessory=new Accessory();
+			Accessory accessory4=new Accessory();
 			String fileName=file4.getOriginalFilename();
 			String filePath=path+File.separator+fileName;
 			File f2=new File(filePath);
 			file4.transferTo(f2);
-			accessory.setaId(id);
-			accessory.setAcName(fileName);
-			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("联营合同内容");
-			list.add(accessory);
+			accessory4.setaId(id);
+			accessory4.setAcName(fileName);
+			accessory4.setAcUrl(id+File.separator+fileName);  
+			accessory4.setaType("联营合同内容");
+			list.add(accessory4);
 		}
 		ly.setAccessory(list);
 		int i=service.addLianYing(ly);
@@ -313,40 +313,40 @@ public class LianYingController {
 			}
 		}
 		if(file2!=null){
-			Accessory accessory=new Accessory();
+			Accessory accessory2=new Accessory();
 			String fileName=file2.getOriginalFilename();
 			String filePath=path+File.separator+fileName;
 			File f2=new File(filePath);
 			file2.transferTo(f2);
-			accessory.setaId(id);
-			accessory.setAcName(fileName);
-			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("安全生产许可证有效期");
-			list.add(accessory);
+			accessory2.setaId(id);
+			accessory2.setAcName(fileName);
+			accessory2.setAcUrl(id+File.separator+fileName);  
+			accessory2.setaType("安全生产许可证有效期");
+			list.add(accessory2);
 		}
 		if(file3!=null){
-			Accessory accessory=new Accessory();
+			Accessory accessory3=new Accessory();
 			String fileName=file3.getOriginalFilename();
 			String filePath=path+File.separator+fileName;
 			File f2=new File(filePath);
 			file3.transferTo(f2);
-			accessory.setaId(id);
-			accessory.setAcName(fileName);
-			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("开户许可证");
-			list.add(accessory);
+			accessory3.setaId(id);
+			accessory3.setAcName(fileName);
+			accessory3.setAcUrl(id+File.separator+fileName);  
+			accessory3.setaType("开户许可证");
+			list.add(accessory3);
 		}
 		if(file4!=null){
-			Accessory accessory=new Accessory();
+			Accessory accessory4=new Accessory();
 			String fileName=file4.getOriginalFilename();
 			String filePath=path+File.separator+fileName;
 			File f2=new File(filePath);
 			file4.transferTo(f2);
-			accessory.setaId(id);
-			accessory.setAcName(fileName);
-			accessory.setAcUrl(id+File.separator+fileName);  
-			accessory.setaType("联营合同内容");
-			list.add(accessory);
+			accessory4.setaId(id);
+			accessory4.setAcName(fileName);
+			accessory4.setAcUrl(id+File.separator+fileName);  
+			accessory4.setaType("联营合同内容");
+			list.add(accessory4);
 		}
 		ly.setAccessory(list);
 		int i=service.updateLianYing(ly);
@@ -410,6 +410,18 @@ public class LianYingController {
 	public List<LianYingHeSuan> selectLianYingHeSuan(){
 		List<LianYingHeSuan> list=service.selectLianYingHeSuan();
 		return list;
+	}
+	
+	@RequestMapping("/updateHistory")
+	@ResponseBody
+	public int updateHistory(String id){
+		TimeUUID uuid=new TimeUUID();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		int count=service.lyNoCount(year);
+		String lyNo="LY"+uuid.getPrjCode("", count+1);
+		int i=service.updateLyNoById(id, lyNo);
+		return i;
 	}
 	
 }

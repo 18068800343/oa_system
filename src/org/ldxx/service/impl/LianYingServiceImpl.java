@@ -73,10 +73,15 @@ public class LianYingServiceImpl implements LianYingService{
 		if(i>0){
 			List<Accessory> accessory=ly.getAccessory();
 			if(accessory!=null&&accessory.size()>0){
-				i=aDao.addAccessory(accessory);
+				aDao.addAccessory(accessory);
 			}
 		}
 		return i;
+	}
+
+	@Override
+	public int updateLyNoById(String id, String no) {
+		return dao.updateLyNoById(id, no);
 	}
 
 }

@@ -1153,6 +1153,8 @@ public class TaskController {
 		if(i>0){
 			TimeUUID uuid=new TimeUUID();
 			Task t=tService.selectCcNameByPrjId(id);
+			String mainDept=t.getMainDepartment();
+			String company=t.getPrjCompany();
 			String oldNo=t.getPrjNo();
 			if(oldNo==null||oldNo.equals("")){
 				String type=t.getPrjType2();
@@ -1162,6 +1164,11 @@ public class TaskController {
 				int count=tService.typeCount(year);
 				count=count+1;
 				String prjNo=uuid.getPrjCode(code, count);
+				if("华汇".equals(company)&&"0e69a68c37cc".equals(mainDept)){
+					prjNo="HH"+prjNo;
+				}else{
+					prjNo="HT"+prjNo;
+				}
 				i=tService.updateTaskNoById(prjNo, id);
 			}
 		}
