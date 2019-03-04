@@ -12,6 +12,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.Pay;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.MaterialSubcontractService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.util.FlowUtill;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 材料分包合同的履约评价
+ * 采购合同履约下的履约评价
  * @author hp
  *
  */
@@ -35,6 +36,8 @@ public class MaterialSubcontractController {
 	private MaterialSubcontractService msService;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	
 	@RequestMapping("/selectmSubcontractByStatus")//初始化履约评价
@@ -234,6 +237,11 @@ public class MaterialSubcontractController {
 	@ResponseBody
 	public int updatemSubcontractById(ClfbContractEvaluate c){
 		int i=msService.updatemSubcontractById(c);
+		if(i>0){
+			OrganizationManagement om=oService.selectOrgById(c.getDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(c.getCeId(), omNo);
+		}
 		return i;
 	}
 	
