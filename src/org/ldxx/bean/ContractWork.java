@@ -32,6 +32,7 @@ public class ContractWork {
     private String type;
 
 	private List<Accessory> accessory;
+	private List<Accessory> accessory2;
 	
 	private List<Enterprise> enterprise;
 	

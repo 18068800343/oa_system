@@ -159,7 +159,7 @@
 	                                <td>履约完结时间  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 	                                <td><input type="text" class="form-control" style="width:70%;" id="cj_contract_end_time"></td>
 	                            	<td>项目进度偏差 <i class="iconfont icon-xingxing-copy piancha" style="color:red;"></i></td>
-	                            	<td><input type="text" name="" id="" value="" class="form-control piancha"/></td>
+	                            	<td><input type="text" name="" id="xmJinduPiancha" value="" class="form-control piancha"/></td>
 	                            </tr>
 	                            <tr>
 	                                <td>项目概况</td>
@@ -190,6 +190,18 @@
 	                                <td colspan="2">
 	                                    <button type="button" class="btn btn-primary" onclick="new_accessory2()">增加附件</button>
 	                                </td>
+                            	</tr>
+							</thead>
+							<tbody></tbody>
+							<tfoot></tfoot>
+						</table>
+						<table class="table table-bordered table-condensed" id="new_accessory3">
+							<thead>
+								<tr>
+	                                <td style="width:15%;">客户满意度附件:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <!-- <td colspan="2">
+	                                    <button type="button" class="btn btn-primary" onclick="new_accessory2()">增加附件</button>
+	                                </td> -->
                             	</tr>
 							</thead>
 							<tbody></tbody>
@@ -743,6 +755,12 @@
     $(document).ready( function () {
     	laydate.render({
             elem: '#cj_contract_end_time' //指定元素
+        });
+        laydate.render({
+            elem: '#prj_duration2' //指定元素
+        });
+        laydate.render({
+            elem: '#prj_duration2_end' //指定元素
         });
         initbumen();
         initCooperator();
@@ -1621,7 +1639,8 @@
   				prjGeneral:undefined,//项目总工
 	  			prjDuration:undefined,//项目工期
 	  			prjGrade:undefined,//公路等级
-	  			cjContractEndTime:undefined//履约完结时间
+	  			cjContractEndTime:undefined,//履约完结时间
+	  			xmJinduPiancha:undefined//履约完结时间
   		}
 
   		
@@ -1634,7 +1653,7 @@
   		
   		function new_accessory2(){
   			var length=$("#new_accessory2 tr").length;
-  			$("#new_accessory2 tbody").append("<tr><td>新附件</td><td><input type='file' id='file"+length+"' name='file' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removePerson(this)'>移除</button></td></tr>")
+  			$("#new_accessory2 tfoot").append("<tr><td>新附件</td><td><input type='file' id='file"+length+"' name='file' class='form-control'></td><td><button type='button' class='btn btn-primary' onclick='removePerson(this)'>移除</button></td></tr>")
   		}
   		function new_accessory21(){
   			var length=$("#new_accessory21 tr").length;
@@ -1689,14 +1708,17 @@
 	  	                type: 'POST',
 	  	                url: getContextPath()+'/work/selectDepartmentAndPerson',
 	  	                dataType: 'json',
+	  	                async:false,
 	  	                data: {
-	  	                	id:data.cwId
+	  	                	id:id
 	  	                },
-	  	                success: function (json) {
-	  	                	var enterprise=json.enterprise;
-	  	                	var accessory=json.accessory;
+	  	                success: function (json2) {
+	  	                	var enterprise=json2.enterprise;
+	  	                	var accessory=json2.accessory;
+	  	                	console.log(accessory)
 	  	                	$("#person_table2 tbody").html('');
 	  	                	$("#new_accessory2 tbody").html('');
+	  	                	$("#new_accessory3 tbody").empty();
 	  	                	//$("#new_accessory21 tbody").html('');
 	  	                	for(var i=0;i<enterprise.length;i++){
 	  	                		$("#person_table2 tbody").append("<tr><td>"+enterprise[i].eMan+"</td><td>"+enterprise[i].eTel+"</td></tr>")
@@ -1706,9 +1728,17 @@
 	  							if(accessory[j].aType=="合同文本"){
 	  				            	   $("#new_accessory2 tbody").append("<tr>"+
 	  				            			 "<td>附件"+(i+1)+"</td>"+
-	  					         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+accessory[i].acName+"' disabled></td>"+
-	  					         	    	"<td ><a  class='btn btn-primary' href='"+getLocalPath()+"/oa_file/"+accessory[i].acUrl+"' target='view_window'>查看附件</a></td>"+
-	  					         	    	"<td ><button type='button' class='btn btn-primary' data1='"+accessory[i].aId+"' data2='"+accessory[i].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
+	  					         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
+	  					         	    	"<td ><a  class='btn btn-primary' href='"+getLocalPath()+"/oa_file/"+accessory[j].acUrl+"' target='view_window'>查看附件</a></td>"+
+	  					         	    	"<td ><button type='button' class='btn btn-primary' data1='"+accessory[j].aId+"' data2='"+accessory[j].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
+	  									            	    "</tr>");
+	  			            	   }
+	  							if(accessory[j].aType=="客户满意度"){
+	  				            	   $("#new_accessory3 tbody").append("<tr>"+
+	  				            			 "<td>附件"+(i+1)+"</td>"+
+	  					         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+accessory[j].acName+"' disabled></td>"+
+	  					         	    	"<td ><a  class='btn btn-primary' href='"+getLocalPath()+"/oa_file/"+accessory[j].acUrl+"' target='view_window'>查看附件</a></td>"+
+	  					         	    	"<td ><button type='button' class='btn btn-primary' data1='"+accessory[j].aId+"' data2='"+accessory[j].acUrl+"' onclick='deletefile(this)'>删除附件</button></td>"+
 	  									            	    "</tr>");
 	  			            	   }
 	  			            	/*  if(accessory[j].aType=="法律顾问签字"){
@@ -1729,7 +1759,31 @@
   			
   			
   		}
-  		
+  	//删除附件
+  		function deletefile(obj){
+  			var id=$(obj).attr("data1");
+  			var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+  			var url=$(obj).attr("data2");
+  			$.ajax({
+  		        type: 'POST',
+  		        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
+  		        dataType: 'json',
+  		        data: {
+  		        	aId:id,
+  		        	acName:name,
+  		        	acUrl:url
+  		        },
+  		        success: function (json) {
+  		        	if(json==0){
+  		        		toastr.error("删除失败");
+  		        	}else{
+  		        		toastr.success("删除成功");
+  		        		$(obj).parent().parent().remove();
+  		        		//$('#change').modal('hide');
+  		        	}
+  		        }
+  			});
+  		}
 
   		function deleteXieBan(obj){
   	    	var tr=$(obj).parent().parent().parent();
@@ -1751,6 +1805,9 @@
   			var gqText=$("#gq_info2").val();
   			var contractMoney=$("#contract_money2").val();
   			var endMoney=$("#end_money2").val();
+  			if(endMoney==null||endMoney==""){
+  				endMoney=0;
+  			}
   			var prjChargeMan=$("#prj_leader2").val();
   			var rating="";
   			var type='2';
@@ -1762,7 +1819,8 @@
 	  		var prj_duration2_end=$("#prj_duration2_end").val();//项目工期结束时间
 	  		var prjGrade=$("#prj_grade2").val();//公路等级
 	  		var lyEndTime=$("#cj_contract_end_time").val();//履约完结时间
-  		
+	  		var xmJinduPiancha=$("#xmJinduPiancha").val();
+	  		
 	  		var taskArray=new Array();
 	  		var allPrjMoney=0;
 	  		var flag=0;
@@ -1901,11 +1959,13 @@
 	  		contractWork.prjDurationEnd=prj_duration2_end;//项目工期结束时间
 	  		contractWork.prjGrade=prjGrade;//公路等级
 	  		contractWork.cjContractEndTime=lyEndTime;//履约完结时间
+	  		contractWork.xmJinduPiancha=xmJinduPiancha;
 	  		
 	  		var formData = new FormData();
 	  		formData.append("work", JSON.stringify(contractWork));
-	  		formData.append("file2", document.getElementById("rating_file").files[0]);
-	  		$("#new_accessory2 tbody").find("tr").each(function(){
+	  		var file2=document.getElementById("rating_file").files[0]
+		  	formData.append("file2", document.getElementById("rating_file").files[0]);
+	  		$("#new_accessory2 tfoot").find("tr").each(function(){
 	  			formData.append("file", $(this).find("input")[0].files[0]);
 	  		})
 	  			
@@ -1914,7 +1974,6 @@
 	  			type: 'POST',
 	            url: getContextPath()+'/work/updateContractWork2',
 	            data: formData,  
-	            cache: false,
 	            processData: false,
 	            contentType: false,
 	            async: false,
