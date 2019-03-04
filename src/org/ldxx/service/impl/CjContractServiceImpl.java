@@ -29,11 +29,11 @@ public class CjContractServiceImpl implements CjContractService{
 		if(i>0){
 			List<Accessory> accessory=cj.getAccessory();
 			if(accessory!=null){
-				i=adao.addAccessory(accessory);
+				adao.addAccessory(accessory);
 			}
 			List<Accessory> accessory2=cj.getAccessory2();
 			if(accessory2!=null){
-				i=adao.addAccessory(accessory2);
+				adao.addAccessory(accessory2);
 			}
 			/*List<CjSplitMoney> cjSplitMoney = cj.getCjSplitMoney();
 			for(int j=0;j<cjSplitMoney.size();j++){
@@ -61,15 +61,15 @@ public class CjContractServiceImpl implements CjContractService{
 			dao.deleteCjSplitMoneyById(cj.getCjId());
 			List<CjSplitMoney> cs=cj.getCjSplitMoney();
 			if(null!=cs&&cs.size()>0){
-				i=dao.addCjSplitMoneySave(cs);
+				dao.addCjSplitMoneySave(cs);
 			}
 			List<Accessory> accessory=cj.getAccessory();
 			if(accessory!=null){
-				i=adao.addAccessory(accessory);
+				adao.addAccessory(accessory);
 			}
 			List<Accessory> accessory2=cj.getAccessory2();
 			if(accessory2!=null){
-				i=adao.addAccessory(accessory2);
+				adao.addAccessory(accessory2);
 			}
 		}
 		return i;

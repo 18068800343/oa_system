@@ -62,18 +62,18 @@ public class LianYingController {
 	public int addLianYingBySave(LianYing ly,@RequestParam(value="file", required=false) MultipartFile [] file,@RequestParam(value="file2", required=false) MultipartFile file2,@RequestParam(value="file3", required=false) MultipartFile file3,@RequestParam(value="file4", required=false) MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
 		User user = (User) session.getAttribute("user");
 		if(user==null){
-			return 0;
+			return 2;
 		}
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		ly.setLyId(id);
 		
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		/*SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=service.lyNoCount(year);
 		String lyNo="LY"+uuid.getPrjCode("", count+1);
-		ly.setLyNo(lyNo);
+		ly.setLyNo(lyNo);*/
 		String webApp=uuid.getWebAppFile();
 		String path=webApp+id;
 		File f=new File(path);
@@ -177,18 +177,18 @@ public class LianYingController {
 	public String addLianYing(LianYing ly,@RequestParam(value="file", required=false) MultipartFile [] file,@RequestParam(value="file2", required=false) MultipartFile file2,@RequestParam(value="file3", required=false) MultipartFile file3,@RequestParam(value="file4", required=false) MultipartFile file4,HttpSession session) throws IllegalStateException, IOException{
 		User user = (User) session.getAttribute("user");
 		if(user==null){
-			return "";
+			return "2";
 		}
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		ly.setLyId(id);
 		
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		/*SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=service.lyNoCount(year);
 		String lyNo="LY"+uuid.getPrjCode("", count+1);
-		ly.setLyNo(lyNo);
+		ly.setLyNo(lyNo);*/
 		String webApp=uuid.getWebAppFile();
 		String path=webApp+id;
 		File f=new File(path);

@@ -109,10 +109,10 @@ public class OtherContractServiceImpl implements OtherContractService{
 
 	@Override
 	public int updateHistoryById(String id) {
-		int i= dao.updateHistoryById(id);
-		if(i>0){
-			i=dao.updateHistoryNow(id);
-		}
+		int i=dao.updateHistoryById(id);
+		
+		i=dao.updateHistoryNow(id);
+		
 		return i;
 	}
 
@@ -129,6 +129,12 @@ public class OtherContractServiceImpl implements OtherContractService{
 				i=adao.addAccessory(accessory2);
 			}
 		}
+		return i;
+	}
+
+	@Override
+	public int updateOnoById(String id, String no) {
+		int i=dao.updateOnoById(id, no);
 		return i;
 	}
 

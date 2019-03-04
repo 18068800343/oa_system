@@ -33,11 +33,11 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 		if(i>0){
 			List<Accessory> accessory = pay.getAccessory();
 			if(accessory!=null&&accessory.size()>0){
-				i=adao.addAccessory(accessory);
+				adao.addAccessory(accessory);
 			}
 			List<Accessory> accessory2 = pay.getAccessory2();
 			if(accessory2!=null&&accessory2.size()>0){
-				i=adao.addAccessory(accessory2);
+				adao.addAccessory(accessory2);
 			}
 			/*List<Accessory> accessory3 = pay.getAccessory3();
 			if(accessory3!=null&&accessory3.size()>0){
@@ -114,11 +114,11 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 		if(i>0){
 			List<Accessory> accessory = pay.getAccessory();
 			if(accessory!=null&&accessory.size()>0){
-				i=adao.addAccessory(accessory);
+				adao.addAccessory(accessory);
 			}
 			List<Accessory> accessory2 = pay.getAccessory2();
 			if(accessory2!=null&&accessory2.size()>0){
-				i=adao.addAccessory(accessory2);
+				adao.addAccessory(accessory2);
 			}
 		}
 		return i;

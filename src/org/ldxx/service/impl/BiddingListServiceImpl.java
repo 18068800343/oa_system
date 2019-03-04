@@ -25,15 +25,15 @@ public class BiddingListServiceImpl implements BiddingListService {
 		if(i>0){
 			List<Accessory> accessory = projectList.getAccessory1();
 			if(accessory!=null&&accessory.size()>0){
-				i = adao.addAccessory(accessory);
+				adao.addAccessory(accessory);
 			}
 			List<Accessory> accessory2 = projectList.getAccessory2();
 			if(accessory2!=null&&accessory2.size()>0){
-				i = adao.addAccessory(accessory2);
+				adao.addAccessory(accessory2);
 			}
 			List<Accessory> accessory3 = projectList.getAccessory3();
 			if(accessory3!=null&&accessory3.size()>0){
-				i = adao.addAccessory(accessory3);
+				adao.addAccessory(accessory3);
 			}
 		}
 		return i;
@@ -62,15 +62,15 @@ public class BiddingListServiceImpl implements BiddingListService {
 		if(i>0){
 			List<Accessory> accessory = projectList.getAccessory1();
 			if(accessory!=null&&accessory.size()>0){
-				i = adao.addAccessory(accessory);
+				adao.addAccessory(accessory);
 			}
 			List<Accessory> accessory2 = projectList.getAccessory2();
 			if(accessory2!=null&&accessory2.size()>0){
-				i = adao.addAccessory(accessory2);
+				adao.addAccessory(accessory2);
 			}
 			List<Accessory> accessory3 = projectList.getAccessory3();
 			if(accessory3!=null&&accessory3.size()>0){
-				i = adao.addAccessory(accessory3);
+				adao.addAccessory(accessory3);
 			}
 		}
 		return i;

@@ -30,5 +30,7 @@ public interface OtherContractService {
 	public int updateHistoryById(String id);
 
 	public int updateOtherContractById(OtherContract other);
+	
+	public int updateOnoById(String id,String no);
 
 }

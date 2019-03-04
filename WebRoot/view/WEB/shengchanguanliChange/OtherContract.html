@@ -190,12 +190,13 @@
                                 <td style="width:30%;">
                                     <input type="text" class="form-control"  id="edit_contract_name" style="width:70%;">
                                 </td>
-                                <td>对接部门:</td>
-                                <td>
+                                <td style="width:20%;">对接部门:</td>
+                                <td style="width:30%;">
                                     <select class="form-control" style="width:70%;" id="edit_department">
                                     </select>
                                 </td>
-                                
+                               <!--  <td style="width:20%;hidden:">合同编号:</td>
+                                <td style="width:30%;"><input type="text" class="form-control"  id="edit_contract_no" disabled style="width:70%;"></td> -->
                             </tr>
                             <tr>
                                 <td>甲方单位:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -227,8 +228,8 @@
                             <tr>
                             	<td>合同签订时间:</td>
                                 <td><input type="text" class="form-control" id="edit_year" style="width:70%;"> </td>
-                                <td style="width:20%;hidden:">合同编号:</td>
-                                <td style="width:30%;"><input type="text" class="form-control"  id="edit_contract_no" disabled style="width:70%;"></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>合同概述:</td>
@@ -970,7 +971,7 @@
 	    	        		if(json[i].aType=="其他合同文本"){
 	    		          		$("#edit_accessory tbody").append("<tr>"+
 	    								"<td>附件"+(i+1)+"</td>"+
-	    								"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+	    								"<td><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
 	    								"<td style='width:20%;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' data3='"+json[i].acName+"' onclick='deletefile(this)'>删除附件</button></td>"+
 	    								/* "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
 	    			         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+ */
@@ -979,7 +980,7 @@
 	    	          		if(json[i].aType=="法律顾问签字"){
 	    		            	   $("#edit_accessory2 tbody").append("<tr>"+
 	    									"<td>附件"+(i+1)+"</td>"+
-	    									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+	    									"<td><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
 	    									"<td style='width:20%;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' data3='"+json[i].acName+"' onclick='deletefile(this)'>删除附件</button></td>"+
 	    									/* "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
 	    				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+ */
@@ -1033,8 +1034,20 @@
     	var contractProbablyText=$("#edit_contract_info").val();
     	var abutmentSignedTime=$("#edit_year").val();
     	var zanding=$("#zandingjin").val();
+    	var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+    	if(contractMoney!=''){
+    		if(!reg.test(contractMoney)){
+    			toastr.error("合同金额只能输入数字和两位小数");
+    			return "合同金额只能输入数字和两位小数";
+    		}
+    	}
+    	if(zanding!=''){
+    		if(!reg.test(zanding)){
+    			toastr.error("暂定金只能输入数字和两位小数");
+    			return "暂定金只能输入数字和两位小数";
+    		}
+    	}
     	if(obj=='1'){
-    		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
     		if(!reg.test(contractMoney)){
     			toastr.error("合同金额只能输入数字和两位小数");
     			return "合同金额只能输入数字和两位小数";
@@ -1054,8 +1067,9 @@
     			type: 'POST',
                 url: getContextPath()+'/other/updateOtherContractById',
                 dataType: 'json',
+                async:false,
                 data: {
-					oId:edit_id,     	
+					oId:id,     	
                 	/* contractCode:contractCode, */
                 	contractName:contractName,
                 	contractNameJia:contractNameJia,

@@ -44,16 +44,16 @@ public class OtherContractConroller {
 	
 	@RequestMapping("/addOtherContractBySave")
 	@ResponseBody
-	public int addOtherContractBySave(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
+	public int addOtherContractBySave(OtherContract other,@RequestParam(value="file",required=false) MultipartFile [] file,@RequestParam(value="file2",required=false) MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		/*SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=service.countNo(year);
 		String type="";
 		String code="QT"+uuid.getPrjCode(type, count+1);
-		other.setContractCode(code);
+		other.setContractCode(code);*/
 		
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
@@ -135,16 +135,16 @@ public class OtherContractConroller {
 	
 	@RequestMapping("/addOtherContractBySubmit")
 	@ResponseBody
-	public String addOtherContractBySubmit(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
+	public String addOtherContractBySubmit(OtherContract other,@RequestParam(value="file",required=false) MultipartFile [] file,@RequestParam(value="file2",required=false) MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		/*SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=service.countNo(year);
 		String type="";
 		String code="QT"+uuid.getPrjCode(type, count+1);
-		other.setContractCode(code);
+		other.setContractCode(code);*/
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
 		File f=new File(path);
@@ -224,7 +224,7 @@ public class OtherContractConroller {
 	
 	@RequestMapping("/updateOtherContractBySave")
 	@ResponseBody
-	public int updateOtherContractBySave(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
+	public int updateOtherContractBySave(OtherContract other,@RequestParam(value="file",required=false) MultipartFile [] file,@RequestParam(value="file2",required=false) MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
@@ -307,7 +307,7 @@ public class OtherContractConroller {
 	
 	@RequestMapping("/updateOtherContractBySubmit")
 	@ResponseBody
-	public String updateOtherContractBySubmit(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
+	public String updateOtherContractBySubmit(OtherContract other,@RequestParam(value="file",required=false) MultipartFile [] file,@RequestParam(value="file2",required=false) MultipartFile [] file2,HttpSession session) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		other.setoId(id);
@@ -415,12 +415,22 @@ public class OtherContractConroller {
 	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
 	@ResponseBody
 	public int updateHistoryById(String id){
-		return service.updateHistoryById(id);
+		int i=service.updateHistoryById(id);
+		if(i>0){
+			TimeUUID uuid=new TimeUUID();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String year=sdf.format(new Date());
+			int count=service.countNo(year);
+			String type="";
+			String code="QT"+uuid.getPrjCode(type, count+1);
+			i=service.updateOnoById(id, code);
+		}
+		return i;
 	}
 	
 	@RequestMapping("/updateOtherContractById")
 	@ResponseBody
-	public int updateOtherContractById(OtherContract other,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2) throws IllegalStateException, IOException{
+	public int updateOtherContractById(OtherContract other,@RequestParam(value="file",required=false) MultipartFile [] file,@RequestParam(value="file2",required=false) MultipartFile [] file2) throws IllegalStateException, IOException{
 		String id=other.getoId();
 		TimeUUID uuid=new TimeUUID();
 		String webApps=uuid.getWebAppFile();
