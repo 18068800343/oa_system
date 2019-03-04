@@ -101,10 +101,10 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 				}
 				i=edao.addEnterprise(enterprise);
 			}
+			List<Task> task=work.getTaskArray();
+			i=tdao.updateTasks(task);
+			i=cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
 		}
-		List<Task> task=work.getTaskArray();
-		i=tdao.updateTasks(task);
-		i=cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
 		return i;
 	}
 	
@@ -115,17 +115,20 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 		String id=work.getCwId();
 		if(i>0){
 			List<Accessory> accessory=work.getAccessory();
-			if(accessory!=null){
+			if(accessory!=null&&accessory.size()!=0){
 				i=adao.addAccessory(accessory);
 			}
-			i=edao.deleteEnterprise(id);
+			edao.deleteEnterprise(id);
 			List<Enterprise> enterprise=work.getEnterprise();
-			if(enterprise!=null){
+			if(enterprise!=null&&enterprise.size()!=0){
 				for(int a=0;a<enterprise.size();a++){
 					enterprise.get(a).seteId(id);
 				}
 				i=edao.addEnterprise(enterprise);
 			}
+			List<Task> task=work.getTaskArray();
+			i=tdao.updateTasks(task);
+			i=cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
 		}
 		return i;
 	}

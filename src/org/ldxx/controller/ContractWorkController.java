@@ -614,7 +614,7 @@ public class ContractWorkController {
 	public int updateContractWork3(String work,@RequestParam MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
-		
+		classMap.put("taskArray", Task.class);
 		JSONObject jsonObject=JSONObject.fromObject(work);
 		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
 		String id=cwork.getCwId();
@@ -642,6 +642,12 @@ public class ContractWorkController {
 			cwork.setAccessory(list);
 		}
 		int i=service.updateContractWork3(cwork);
+		if(i>0){
+			CjContract cj=cService.selectCjContractByNo(cwork.getCjContractCode());
+			OrganizationManagement om=oService.selectOrgById(cj.getYiCjDepartment());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(cwork.getCwId(), omNo);
+		}
 		return i;
 	}
 	
