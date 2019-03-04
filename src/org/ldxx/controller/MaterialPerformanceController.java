@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 材料分包合同下的采购合同履约
+ * 采购合同履约下的采购合同履约
  * @author hp
  *
  */
@@ -111,7 +111,7 @@ public class MaterialPerformanceController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(c.getCgContract()+"材料采购合同履约流程发起");
-			currentFlow.setUrl("shengchanGuanli/SubcontractMaterialHTLY.html-"+id);
+			currentFlow.setUrl("shengchanguanliLook/SubcontractMaterialHTLY.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
