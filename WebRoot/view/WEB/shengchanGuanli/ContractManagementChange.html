@@ -960,13 +960,115 @@ function checkquxiaoSplit(){
 		if(no_list!=null){
 		  		$.ajax({
 		            type: 'POST',
-		            url: getContextPath()+'/task/selectTaskByCj',
+		            url: getContextPath()+'/task/selectTaskPrjName',
 		            dataType: 'json',
 		            async:false,
 		            data: {
 		            	prjNo:no_list.toString()
 		            },
 		            success: function (json) {
+		            	var deptArray=new Array();
+		            	for(var ii=0;ii<json.length;ii++){
+		            		var mainDept=json[ii].mainDepartment;
+		            		var omName=json[ii].omName;
+		            		var xbDept=json[ii].assist_department1;
+		            		var xbname=json[ii].name1;
+		            		var xbDept2=json[ii].assist_department2;
+		            		var xbname2=json[ii].name2;
+		            		var xbDept3=json[ii].assist_department3;
+		            		var xbname3=json[ii].name3;
+		            		if(mainDept!=null&&mainDept!=''){
+		            			var dept={
+			            				id:undefined,
+			            				name:undefined
+			            		}
+		            			dept.id=mainDept;
+		            			dept.name=omName;
+		            			if(deptArray.length>0){
+		            				var count=0;
+		            				for(var d=0;d<deptArray.length;d++){
+			            				if(deptArray[d].id==mainDept){
+			            					count=1;
+			            				}
+			            			}
+		            				if(count!=1){
+		            					deptArray.push(dept);
+		            				}
+		            			}else{
+		            				deptArray.push(dept);
+		            			}
+		            		}
+		            		
+		            		if(xbDept!=null&&xbDept!=''){
+		            			var dept2={
+			            				id:undefined,
+			            				name:undefined
+			            		}
+		            			dept2.id=xbDept;
+		            			dept2.name=xbname;
+		            			if(deptArray.length>0){
+		            				var count=0;
+		            				for(var d=0;d<deptArray.length;d++){
+			            				if(deptArray[d].id==xbDept){
+			            					count=1;
+			            				}
+			            			}
+		            				if(count!=1){
+		            					deptArray.push(dept2);
+		            				}
+		            			}else{
+		            				deptArray.push(dept2);
+		            			}
+		            		}
+		            		
+		            		if(xbDept2!=null&&xbDept2!=''){
+		            			var dept3={
+			            				id:undefined,
+			            				name:undefined
+			            		}
+		            			dept3.id=xbDept2;
+		            			dept3.name=xbname2;
+		            			if(deptArray.length>0){
+		            				var count=0;
+		            				for(var d=0;d<deptArray.length;d++){
+			            				if(deptArray[d].id==xbDept2){
+			            					count=1;
+			            				}
+			            			}
+		            				if(count!=1){
+		            					deptArray.push(dept3);
+		            				}
+		            			}else{
+		            				deptArray.push(dept3);
+		            			}
+		            		}
+		            		if(xbDept3!=null&&xbDept3!=''){
+		            			var dept4={
+			            				id:undefined,
+			            				name:undefined
+			            		}
+		            			dept4.id=xbDept3;
+		            			dept4.name=xbname3;
+		            			if(deptArray.length>0){
+		            				var count=0;
+		            				for(var d=0;d<deptArray.length;d++){
+			            				if(deptArray[d].id==xbDept3){
+			            					count=1;
+			            				}
+			            			}
+		            				if(count!=1){
+		            					deptArray.push(dept4);
+		            				}
+		            			}else{
+		            				deptArray.push(dept4);
+		            			}
+		            		}
+		            		
+		            	}
+		            	$("#yifang_department").html('');
+		            	for(var c=0;c<deptArray.length;c++){
+		            		$("#yifang_department").append("<option value="+deptArray[c].id+">"+deptArray[c].name+"</option>")
+		            	}
 		            	var array=new Array();
 		            	var array2=new Array();
 		            	for(var i=0;i<json.length;i++){
@@ -980,11 +1082,18 @@ function checkquxiaoSplit(){
 		            		$('#work_no').val(no_list)
 			            	$('#prj_name').val(array.toString())
 			            	$('#prj_type').val(array2.toString())
+			            	var tasks = getTaskBytaskCode(no_list.toString());
+			            	pinjieRenwudanChaifen(array,no_list,tasks);
+			            	var jyms = getJYMS(tasks);
+			            	$('#prj_jyms').val(jyms);
 			            	$("#chooseNo").modal("hide");
 		            	}else if(noType==1){
 		            		$('#edit_work_no').val(no_list)
 			            	$('#edit_prj_name').val(array.toString())
 			            	$('#edit_prj_type').val(array2.toString())
+			            	var tasks = getTaskBytaskCode(no_list.toString());
+		            		
+		            		editpinjieRenwudanChaifen(array,no_list,tasks);
 			            	$("#chooseNo").modal("hide");
 		            	}
 		            	
