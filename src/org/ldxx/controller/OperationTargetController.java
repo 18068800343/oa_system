@@ -119,8 +119,8 @@ public class OperationTargetController {
 	@ResponseBody
 	public List<OperationTarget> selectOperationTarget(){
 		List<OperationTarget> list=oservice.selectOperationTarget();
-		int count=oservice.countOperationTarget();
-		if(count>0){
+		/*int count=oservice.countOperationTarget();
+		if(count>0){*/
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 			String nowYear=sdf.format(new Date());
 			int nowY=Integer.valueOf(nowYear);
@@ -129,12 +129,21 @@ public class OperationTargetController {
 				JSONObject jsonObject=JSONObject.fromObject(resultGs);
 				OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
 				OperationTarget ot2=oservice.selectOperationTargetByYear(i+"");
-				ot.setOtId(ot2.getOtId());
-				ot.setYear(ot2.getYear());
-				ot.setContractAmount(ot2.getContractAmount());
-				ot.setRevenueTarget(ot2.getRevenueTarget());
-				ot.setCollectionTarget(ot2.getCollectionTarget());
-				ot.setProfit(ot2.getProfit());
+				if(ot2!=null){
+					ot.setOtId(ot2.getOtId());
+					ot.setYear(ot2.getYear());
+					ot.setContractAmount(ot2.getContractAmount());
+					ot.setRevenueTarget(ot2.getRevenueTarget());
+					ot.setCollectionTarget(ot2.getCollectionTarget());
+					ot.setProfit(ot2.getProfit());
+				}else{
+					ot.setOtId("");
+					ot.setYear(i+"");
+					ot.setContractAmount(0);
+					ot.setRevenueTarget(0);
+					ot.setCollectionTarget(0);
+					ot.setProfit(0);
+				}
 				ot.setXqhte(ot.getXqhte()/10000);
 				ot.setSr(ot.getSr()/10000);
 				ot.setSk(ot.getSk()/10000);
@@ -143,7 +152,7 @@ public class OperationTargetController {
 				ot.setLr(ot.getLr()/10000);
 				list.add(ot);
 			}
-		}
+		/*}*/
 		return list;
 		/*for(int i=0;i<list.size();i++){
 			float budgetCost=oservice.getSumCostByYear(list.get(i).getYear());
