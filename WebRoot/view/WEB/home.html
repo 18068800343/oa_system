@@ -103,7 +103,7 @@
 				<div id="scrollDiv" class="mission">
 					<div class="task">
 						<div class="yihang2">
-                       		<div>通知公告(<span>10</span>)</div>
+                       		<div >通知公告(<span>10</span>)</div>
                        		<div><span style="cursor: pointer;" class="Pba"><a href="./xingzhengShiwu/NoticeBulletin.html">查看更多</a></span></div>
                        	</div>
                     </div>
@@ -803,12 +803,26 @@
             },
             dataType: 'json',
             success: function (json) {
-            	$(".yihang2 div:first-of-type").eq(2).find("span").html(json.length);
-            	if(json.length>9){
-            		json.length=10;
-            	}
+            	$(".yihang2 div:first-of-type").eq(3).find("span").html(json.length);
             	for(var i=0;i<json.length;i++){
             		$("#tb2").append("<tr><td><span data-toggle='modal' data-target='.dadayb' style='cursor:pointer;' class='lianjieColor' data-url='"+json[i].url+"' onclick='initIframeDb(this)'>"+json[i].title+"</span></td></tr>");
+            	}
+            }
+        });
+    }
+	function initTable4(){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/flowHistory/getFlowHistoryByUser',
+            data:{
+            	userId:"88b6f133f129",
+            	status:''
+            },
+            dataType: 'json',
+            success: function (json) {
+            	$(".yihang2 div:first-of-type").eq(2).find("span").html(json.length);
+            	for(var i=0;i<json.length;i++){
+            		$("#tb4").append("<tr><td>"+json[i].title+"</td><td style='width:100px;'>"+statu+"</td></tr>");
             	}
             }
         });
@@ -823,12 +837,10 @@
             },
             dataType: 'json',
             success: function (json) {
-            	$(".yihang2 div:first-of-type").eq(2).find("span").html(json.length);
+            	$(".yihang2 div:first-of-type").eq(4).find("span").html(json.length);
             	$("#tb5T").empty('');
             	$("#tb6T").empty('');
-            	 if(json.length>9){
-            		json.length=10;
-            	}
+
            	    if(json.length>0){
             	 for(var i=0;i<json.length;i++){
             		 var op =getCnByOt(json[i].operateType);
@@ -842,6 +854,7 @@
             }
         });
     }
+
 	function initIframeDb(dom){
 		var url = $(dom).attr("data-url");
     	var strs = url.split("-");
