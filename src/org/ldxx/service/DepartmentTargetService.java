@@ -22,4 +22,6 @@ public interface DepartmentTargetService {
 	public DepartmentTarget selectDepartmentTargetByIdAndOmId(String id,String omId);
 	
 	public DepartmentTarget selectDepartmentTargetByYearAndOmId(String year,String omId);
+	
+	public int countDepartmentTarget(String omId);
 }

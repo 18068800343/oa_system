@@ -22,4 +22,6 @@ public interface DepartmentTargetDao {
 	public DepartmentTarget selectDepartmentTargetByIdAndOmId(@Param("id")String id,@Param("omId")String omId);
 	
 	public DepartmentTarget selectDepartmentTargetByYearAndOmId(@Param("year")String year,@Param("omId")String omId);
+
+	public int countDepartmentTarget(@Param("omId")String omId);
 }

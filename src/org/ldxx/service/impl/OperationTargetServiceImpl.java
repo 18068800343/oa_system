@@ -68,4 +68,9 @@ public class OperationTargetServiceImpl implements OperationTargetService{
 		return odao.selectBmOperationTargetByTime(time);
 	}
 
+	@Override
+	public int countOperationTarget() {
+		return odao.countOperationTarget();
+	}
+
 }

@@ -119,27 +119,30 @@ public class OperationTargetController {
 	@ResponseBody
 	public List<OperationTarget> selectOperationTarget(){
 		List<OperationTarget> list=oservice.selectOperationTarget();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
-		String nowYear=sdf.format(new Date());
-		int nowY=Integer.valueOf(nowYear);
-		for(int i=2019;i<=nowY;i++){
-			String resultGs=oservice.selectGsOperationTargetByTime(i+"");
-			JSONObject jsonObject=JSONObject.fromObject(resultGs);
-			OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
-			OperationTarget ot2=oservice.selectOperationTargetByYear(i+"");
-			ot.setOtId(ot2.getOtId());
-			ot.setYear(ot2.getYear());
-			ot.setContractAmount(ot2.getContractAmount());
-			ot.setRevenueTarget(ot2.getRevenueTarget());
-			ot.setCollectionTarget(ot2.getCollectionTarget());
-			ot.setProfit(ot2.getProfit());
-			ot.setXqhte(ot.getXqhte()/10000);
-			ot.setSr(ot.getSr()/10000);
-			ot.setSk(ot.getSk()/10000);
-			ot.setZjcb(ot.getZjcb()/10000);
-			ot.setJjcb(ot.getJjcb()/10000);
-			ot.setLr(ot.getLr()/10000);
-			list.add(ot);
+		int count=oservice.countOperationTarget();
+		if(count>0){
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String nowYear=sdf.format(new Date());
+			int nowY=Integer.valueOf(nowYear);
+			for(int i=2019;i<=nowY;i++){
+				String resultGs=oservice.selectGsOperationTargetByTime(i+"");
+				JSONObject jsonObject=JSONObject.fromObject(resultGs);
+				OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+				OperationTarget ot2=oservice.selectOperationTargetByYear(i+"");
+				ot.setOtId(ot2.getOtId());
+				ot.setYear(ot2.getYear());
+				ot.setContractAmount(ot2.getContractAmount());
+				ot.setRevenueTarget(ot2.getRevenueTarget());
+				ot.setCollectionTarget(ot2.getCollectionTarget());
+				ot.setProfit(ot2.getProfit());
+				ot.setXqhte(ot.getXqhte()/10000);
+				ot.setSr(ot.getSr()/10000);
+				ot.setSk(ot.getSk()/10000);
+				ot.setZjcb(ot.getZjcb()/10000);
+				ot.setJjcb(ot.getJjcb()/10000);
+				ot.setLr(ot.getLr()/10000);
+				list.add(ot);
+			}
 		}
 		return list;
 		/*for(int i=0;i<list.size();i++){
@@ -544,27 +547,30 @@ public class OperationTargetController {
 	@RequestMapping("/selectDepartmentTargetByOmId")/*各部门指标列表*/
 	@ResponseBody
 	public List<DepartmentTarget> selectDepartmentTargetByOmId(HttpSession session){
-		User user=(User) session.getAttribute("user");
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
-		String nowYear=sdf.format(new Date());
-		int nowY=Integer.valueOf(nowYear);
 		List<DepartmentTarget> dtList=new ArrayList<>();
-		for(int i=2019;i<=nowY;i++){
-			String resultBm=oservice.selectBmOperationTargetByTime(i+"");
-			List<DepartmentTarget> dt=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
-			String omName=user.getOmName();
-			for(int j=0;j<dt.size();j++){
-				if(dt.get(j).getBmmc().equals(omName)){
-					DepartmentTarget d=dt.get(j);
-					DepartmentTarget d2=dservice.selectDepartmentTargetByYearAndOmId(i+"", user.getOmId());
-					d2.setBmmc(d.getBmmc());
-					d2.setXqhte(d.getXqhte()/10000);
-					d2.setSr(d.getSr()/10000);
-					d2.setSk(d.getSk()/10000);
-					d2.setZjcb(d.getZjcb()/10000);
-					d2.setJjcb(d.getJjcb()/10000);
-					d2.setLr(d.getLr()/10000);
-					dtList.add(d2);
+		User user=(User) session.getAttribute("user");
+		int count=dservice.countDepartmentTarget(user.getOmId());
+		if(count>0){
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String nowYear=sdf.format(new Date());
+			int nowY=Integer.valueOf(nowYear);
+			for(int i=2019;i<=nowY;i++){
+				String resultBm=oservice.selectBmOperationTargetByTime(i+"");
+				List<DepartmentTarget> dt=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+				String omName=user.getOmName();
+				for(int j=0;j<dt.size();j++){
+					if(dt.get(j).getBmmc().equals(omName)){
+						DepartmentTarget d=dt.get(j);
+						DepartmentTarget d2=dservice.selectDepartmentTargetByYearAndOmId(i+"", user.getOmId());
+						d2.setBmmc(d.getBmmc());
+						d2.setXqhte(d.getXqhte()/10000);
+						d2.setSr(d.getSr()/10000);
+						d2.setSk(d.getSk()/10000);
+						d2.setZjcb(d.getZjcb()/10000);
+						d2.setJjcb(d.getJjcb()/10000);
+						d2.setLr(d.getLr()/10000);
+						dtList.add(d2);
+					}
 				}
 			}
 		}

@@ -342,8 +342,10 @@
                                         	<option>其他借款</option>
                                         </select>
                             		</td>
-                            		<td>借款合同号</td>
-                            		<td><input type="text" id="xgborrowNo" style="width:70%;" class="form-control" disabled></td>
+                            		<td></td>
+                            		<td></td>
+                            		<!-- <td>借款合同号</td>
+                            		<td><input type="text" id="xgborrowNo" style="width:70%;" class="form-control" disabled></td> -->
                             	</tr>
                         </table>
                         <table class="table table-bordered table-condensed" id="edit_accessory">
@@ -986,7 +988,7 @@ function lookCancel(obj){
     	var endTime=$("#xgEndyear").val();
     	var yifangleijijieMoney=$("#xgyifangleijijieMoney").val();
     	var jiekuanyongtu=$("#xgjiekuanyongtu").val();
-    	var xgborrowNo=$("#xgborrowNo").val();
+    	/* var xgborrowNo=$("#xgborrowNo").val(); */
     	if(obj=='1'){
     		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
     		if(!reg.test(thisborrowMoney)){
@@ -997,6 +999,10 @@ function lookCancel(obj){
     			toastr.error("乙方累计借款额只能输入数字和两位小数");
     			return "乙方累计借款额只能输入数字和两位小数";
     		}
+    		if($("#edit_accessory tbody").find('tr').length<1 || $("#edit_accessory tbody").find("tr").eq(0).find("input").val()==''){
+    			toastr.error("请上传合同文本")
+    			return "请上传合同文本";
+    		}
     	}
 		var result;
 		var options={
@@ -1006,7 +1012,6 @@ function lookCancel(obj){
 	            async:false,
 	            data: { 
 	            	bId:edit_id,
-	            	bNo:xgborrowNo,
 	            	unitJia:jiafang,
 	            	unitYi:yifang,
 	            	cjNo:zhuhetonghao,
@@ -1020,7 +1025,6 @@ function lookCancel(obj){
 	            	borrowingPurposes:jiekuanyongtu,
 	            },
 	            success: function (json) {
-	            	console.log(json);
 	            	result = json.result
 	            	if(json.result==0){
 						toastr.error("修改失败")

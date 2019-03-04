@@ -114,5 +114,11 @@ public class BorrowContractServiceImpl implements BorrowContractService {
 	public int updateHistory(String id) {
 		return dao.updateHistory(id);
 	}
+
+	@Override
+	public int updateBorrowNoById(String id, String no) {
+		int i=dao.updateBorrowNoById(id, no);
+		return i;
+	}
 	
 }

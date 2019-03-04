@@ -28,4 +28,6 @@ public interface BorrowContractDao {
 	BorrowContract selectAllBorrowByFbNo(@Param("no")String no);
 
 	List<BorrowContract> getRateAndMoney(@Param("no")String no);
+	
+	public int updateBorrowNoById(@Param("id")String id,@Param("no")String no);
 }

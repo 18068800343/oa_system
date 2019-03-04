@@ -76,11 +76,11 @@ public class BorrowContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		bc.setbId(id);
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		/*SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=service.JKNocount(year);
 		String jkNo="JK"+uuid.getClCode("", count+1);
-		bc.setbNo(jkNo);
+		bc.setbNo(jkNo);*/
 		
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
@@ -169,11 +169,11 @@ public class BorrowContractController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		bc.setbId(id);
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		/*SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=service.JKNocount(year);
 		String jkNo="JK"+uuid.getClCode("", count+1);
-		bc.setbNo(jkNo);
+		bc.setbNo(jkNo);*/
 		
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
@@ -650,6 +650,14 @@ public class BorrowContractController {
 	@ResponseBody
 	public int updateHistory(String id){
 		int i=service.updateHistory(id);
+		if(i>0){
+			TimeUUID uuid=new TimeUUID();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String year=sdf.format(new Date());
+			int count=service.JKNocount(year);
+			String jkNo="JK"+uuid.getClCode("", count+1);
+			i=service.updateBorrowNoById(id, jkNo);
+		}
 		return i;
 	}
 	

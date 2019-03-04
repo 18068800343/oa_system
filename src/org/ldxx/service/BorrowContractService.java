@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.BorrowContract;
 
 public interface BorrowContractService {
@@ -25,5 +26,7 @@ public interface BorrowContractService {
 	BorrowContract selectAllBorrowByFbNo(String no);
 	
 	List<BorrowContract> getRateAndMoney(String no);
+	
+	public int updateBorrowNoById(String id,String no);
 
 }

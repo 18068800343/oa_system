@@ -22,4 +22,6 @@ public interface OperationTargetService {
 	public String selectGsOperationTargetByTime(String time);
 	
 	public String selectBmOperationTargetByTime(String time);
+	
+	public int countOperationTarget();
 }

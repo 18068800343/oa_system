@@ -26,4 +26,6 @@ public interface OperationTargetDao {
 	
 	public String selectBmOperationTargetByTime(@Param("time")String time);
 	
+	public int countOperationTarget();
+	
 }
