@@ -73,15 +73,14 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	@Transactional
 	@Override
 	public int updateBudge(BudgetFpplicationForm budge) {
-		int i=cdao.deleteCostBudgetById(budge.getBfId());
 		/*i=adao.deleteArtificialBudgetById(budge.getBfId());
 		List<ArtificialBudget> artificialBudget = budge.getArtificialBudget();
 		for(int iii=0;iii<artificialBudget.size();iii++){
 			artificialBudget.get(iii).setaId(budge.getBfId());
 		}*/
-		i=mainMaterialdao.deleteBudgetMainMaterialById(budge.getBfId());
-		i=bdao.updateBudge(budge);
+		int i=bdao.updateBudge(budge);
 		if(i>0){
+			cdao.deleteCostBudgetById(budge.getBfId());
 			List<CostBudget> costBudget = budge.getCostBudget();
 			if(costBudget.size()>0&&costBudget!=null){
 				for (int ii = 0; ii < costBudget.size(); ii++) {
@@ -90,6 +89,7 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 				i=cdao.addCostBudget(costBudget);
 			}
 			//i=adao.addArtificialBudget(budge.getArtificialBudget());
+			mainMaterialdao.deleteBudgetMainMaterialById(budge.getBfId());
 			List<BudgetMainMaterial> budgetMainMaterial = budge.getBudgetMainMaterial();
 			if(budgetMainMaterial!=null&&budgetMainMaterial.size()>0){
 				for(int k=0;k<budgetMainMaterial.size();k++){
