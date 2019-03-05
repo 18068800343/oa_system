@@ -480,25 +480,21 @@ public class PrjProgressFillController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("ppfi", PrjProgressFillInfo.class);
 		classMap.put("ppfb", PrjProgressFillFb.class);
-		/*classMap.put("ppfi2", PrjProgressFillInfo.class);
-		classMap.put("ppcj", PrjProgressFillCj.class);*/
 		JSONObject jsonObject=JSONObject.fromObject(ppf);
 		PrjProgressFill pf=(PrjProgressFill)JSONObject.toBean(jsonObject, PrjProgressFill.class,classMap);
 		String id=pf.getPpfId();
-		
 		if(file!=null){
+			TimeUUID uuid=new TimeUUID();
+			String webApps=uuid.getWebAppFile();
+			String path=webApps+id;
+			File f=new File(path);
+			if(!f.exists()){
+				f.mkdirs();
+			}
 			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
-				//String path="D:"+File.separator+"oa"+File.separator+"PrjProgressFill"+File.separator+id;
-				TimeUUID uuid=new TimeUUID();
-				String webApps=uuid.getWebAppFile();
-				String path=webApps+id;
-				File f=new File(path);
-				if(!f.exists()){
-					f.mkdirs();
-				}
 				String filePath=path+File.separator+fileName;
 				File f2=new File(filePath);
 				file[i].transferTo(f2);
@@ -510,6 +506,9 @@ public class PrjProgressFillController {
 			pf.setAccessory(list);
 		}
 		int i=service.updatePrjProgressFill(pf);
+		if(i>0){
+			
+		}
 		return i;
 	}
 	
