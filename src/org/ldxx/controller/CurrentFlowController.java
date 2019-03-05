@@ -161,6 +161,7 @@ public class CurrentFlowController {
 					modeStatusMapper.insert(modeStatus);
 				}
 			}
+			flowHistroy.setDoDate(new Date());
 			flowHistroyMapper.insert(flowHistroy);
 		}
 		return "1";

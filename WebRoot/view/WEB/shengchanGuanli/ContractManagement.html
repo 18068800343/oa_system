@@ -184,6 +184,7 @@
 	    </div>
 	    
 	    <div role="tabpanel" class="tab-pane" id="profile">
+	    <!--startprint-->
 	    <form class="form-inline" method="post" id="new_form" enctype="multipart/form-data">
 	    	<table class="table table-bordered table-condensed">
 	                    <thead>
@@ -366,7 +367,9 @@
 			                  </tbody>
 		              </table> -->
 		   </form>    
+		   <!--endprint-->
 		              <div class="modal-footer">
+		                <!-- <button type="button" class="btn btn-success" onclick="day()">打印页面</button> -->
 			            <button type="button" class="btn btn-default"  onclick="quxiaoa()">取消</button>
 			            <button type="button" class="btn btn-success" onclick="new_save()">保存</button>
 			            <button type="button" class="btn btn-success" onclick="new_submit()">提交</button>
@@ -4556,5 +4559,44 @@ function checkquxiaoSplit(){
 		return loginUrl;
 	}
    	
+    function day(){
+		// 获取当前页的html代码
+		    var bdhtml = window.document.body.innerHTML;
+		    //设置打印开始区域
+		    var startStr = '<!--startprint-->';
+		    // 设置打印结束区域
+		    var endStr = '<!--endprint-->';
+		    //从标记里获取需要打印的页面
+		    var printHtml = bdhtml.substring(bdhtml.indexOf(startStr) + startStr.length, bdhtml.indexOf(endStr));
+		    //隐藏不必要的按钮和样式
+		    
+		    
+		 	// 通过id获取需要打印的页面
+		    
+		    window.document.body.innerHTML = printHtml;
+		    if (!!window.ActiveXObject || "ActiveXObject" in window) { //是否ie
+		        remove_ie_header_and_footer();
+		     }
+		    remove_ie_header_and_footer();
+		    window.print();
+		    // 还原界面
+		    window.document.body.innerHTML = bdhtml;
+		    //window.location.reload();
+	  }
+
+	  
+
+	//去掉页眉、页脚
+	function remove_ie_header_and_footer() {
+	    var hkey_path;
+	    hkey_path = "HKEY_CURRENT_USER\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
+	    try {
+	       var RegWsh = new ActiveXObject("WScript.Shell");
+	       RegWsh.RegWrite(hkey_path + "header", "");
+	       RegWsh.RegWrite(hkey_path + "footer", "");
+	    } catch (e) {
+	    }
+
+	}
 </script>
 </html>
