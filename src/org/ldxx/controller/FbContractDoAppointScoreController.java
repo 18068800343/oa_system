@@ -11,6 +11,7 @@ import org.ldxx.bean.FbContractDoAppointScore;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.FbContractDoAppointScoreService;
 import org.ldxx.service.OrganizationManagementService;
@@ -31,6 +32,8 @@ public class FbContractDoAppointScoreController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private CjContractService cService;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("addFbContractDoAppointScoreBySave")
 	@ResponseBody
@@ -130,6 +133,13 @@ public class FbContractDoAppointScoreController {
 	@ResponseBody
 	public int updateFbContractDoAppointScore(FbContractDoAppointScore FbContractDoAppoint){
 		int i=service.updateFbContractDoAppointScore(FbContractDoAppoint);
+		if(i>0){
+			CjContract cj=cService.getCjContractMainDepartmentLeader(FbContractDoAppoint.getCjContractCode());
+			String mainDepartment=cj.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(FbContractDoAppoint.getFcdId(), omNo);
+		}
 		return i;
 	}
 	

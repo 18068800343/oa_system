@@ -15,6 +15,7 @@ import org.ldxx.bean.FbContractOver;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.User;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.FbContractOverService;
 import org.ldxx.service.OrganizationManagementService;
@@ -41,6 +42,8 @@ public class FbContractOverController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private CjContractService cService;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/addFbContractOverBySave")
 	@ResponseBody
@@ -240,6 +243,13 @@ public class FbContractOverController {
 			fbContractOver.setAccessory(list);
 		}
 		int i=service.updateFbContractOver(fbContractOver);
+		if(i>0){
+			CjContract cj=cService.getCjContractMainDepartmentLeader(fbContractOver.getCjContract());
+			String mainDepartment=cj.getMainDepartment();
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(fbContractOver.getFcoId(), omNo);
+		}
 		return i;
 	}
 	

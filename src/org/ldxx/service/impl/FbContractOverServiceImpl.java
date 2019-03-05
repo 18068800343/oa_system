@@ -49,7 +49,9 @@ public class FbContractOverServiceImpl implements FbContractOverService{
 		int i=dao.updateFbContractOver(fbContractOver);
 		if(i>0){
 			List<Accessory> accessory=fbContractOver.getAccessory();
-			i=adao.addAccessory(accessory);
+			if(accessory!=null&&accessory.size()!=0){
+				i=adao.addAccessory(accessory);
+			}
 		}
 		return i;
 	}

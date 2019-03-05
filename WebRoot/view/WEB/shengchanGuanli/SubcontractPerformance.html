@@ -12,6 +12,8 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -208,7 +210,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <!-- <button type="button" class="btn btn-success" onclick="save()">保存</button> -->
+                        <button type="button" class="btn btn-success" onclick="save()">保存</button>
                         <button type="button" class="btn btn-success" onclick="submit()">提交</button>
                     </div>
                     </div>
@@ -759,7 +761,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-success" onclick="save2()">保存</button> -->
+            <button type="button" class="btn btn-default" onclick="save2()">保存</button>
             <button type="button" class="btn btn-success" onclick="submit2()">提交</button>
         </div>
         </div>
@@ -1660,6 +1662,8 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 
 <script src="../../js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../js/datatables/dataTables.colVis.min.js"></script>
@@ -3047,6 +3051,7 @@
   
     
     function save(){
+    	showMask();
     	var cj_name=$("#new_cj_name").val();
     	var cj_no=$("#new_cj_no").val();
     	var prj_no=$("#new_prj_no").val();
@@ -3054,13 +3059,21 @@
     	var fb_no=$("#new_fb_no").val();
     	var fb_department=$("#new_fb_department").val();
     	var leader=$("#leader").val();
-    	var score=$("input[name='pj']:checked").val();
-    	var score2=$("input[name='pj2']:checked").val();
-    	var score3=$("input[name='pj3']:checked").val();
-    	var score4=$("input[name='pj4']:checked").val();
-    	var score5=$("input[name='pj5']:checked").val();
+    	var score=$("#pj").val();
+    	var score2=$("#pj2").val();
+    	var score3=$("#pj3").val();
+    	var score4=$("#pj4").val();
+    	var score5=$("#pj5").val();
     	/* var score6=$("input[name='pj6']:checked").val(); */
-    	var all_score=$("input[name='pj7']:checked").val();
+    	var all_score=$("#pj7").val();
+    	//获取当前年
+    	var myDate = new Date();
+    	var thisYear=myDate.getFullYear();
+    	
+    	if(cj_name==''){
+    		toastr.error("承接合同为空");
+    		return;
+    	}
     	
     	$.ajax({
             type: 'POST',
@@ -3080,9 +3093,11 @@
             	scoreCompanyReputation:score4,
             	scoreJinduControl:score5,
             	/* safetyCivilizationEnvironment:score6, */
-            	allScore:all_score
+            	allScore:all_score,
+            	thisYear:thisYear
             },
             success: function (json) {
+            	hidMask();
             	if(json>0){
             		$("#myModal").modal("hide");
             		toastr.success("保存成功")
@@ -3326,17 +3341,30 @@
     }
     
     function  save2(){
+    	showMask();
     	var fbName=$("#fbContractName2").val();
     	var fbNo=$("#fbContract2").val();
     	var cjName=$("#cjContractName2").val();
     	var cjNo=$("#cjContract2").val();
     	var prjNo=$("#prjCode2").val();
     	/* var sj_type=$("#sj_type").val(); */
-    	var fbMoney=$("#fb_money2");
+    	var fbMoney=$("#fb_money2").val();
     	var fbEndMoney=$("#fb_end_money2").val();
-    	var sj_type=$("#sj_type").val();
+    	if(fbEndMoney==""){
+    		fbEndMoney=0;
+    	}
     	var year=$("#year").val();
     	var work_info2=$("#work_info2").val();
+    	var qianqijyfy=$("#qianqijyfy").val();//前期经营费用
+    	if(qianqijyfy==""){
+    		qianqijyfy=0;
+    	}
+    	var isKouchu="";
+    	if($("input[type='checkbox']").is(':checked')){//为true是选中
+    		isKouchu="是";
+    	}else{
+    		isKouchu="否";
+    	}
     	
     	var options={
     			type: 'POST',
@@ -3352,14 +3380,17 @@
                 	fbMoney:fbMoney,
                 	fbEndMoney:fbEndMoney,
                 	settlementTime:year,
-                	workInfo:work_info2
+                	workInfo:work_info2,
+                	qianqijyMoney:qianqijyfy,
+                	isKouchu:isKouchu
                 },
                 success: function (json) {
+                	hidMask();
                 	if(json>0){
                 		$("#myModal2").modal("hide");
-                		toastr.success("提交成功")
+                		toastr.success("保存成功")
                 	}else{
-                		toastr.error("提交失败")
+                		toastr.error("保存失败")
                 	}
                 }
     	}
@@ -4103,11 +4134,18 @@
     	   $("#pj7").val(all.toFixed(2));
        }
        
-       function getLocalPath(){
+    function getLocalPath(){
  			var pathArray = window.location.pathname.split('/');
  			var secondLevelLocation = pathArray[1];
  			var loginUrl = window.location.protocol + "//"  + window.location.host ;
  			return loginUrl;
- 		}
+ 	}
+     function showMask() {
+	    	myTool.mask.show('保存中...');
+	 }
+	 function hidMask() {
+	 	myTool.mask.hide();
+	 }
+	 
 </script>
 </html>
