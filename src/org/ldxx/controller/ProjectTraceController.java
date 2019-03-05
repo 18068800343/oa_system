@@ -21,6 +21,7 @@ import org.ldxx.bean.ProjectScale;
 import org.ldxx.bean.ProjectTrace;
 import org.ldxx.bean.User;
 import org.ldxx.service.AnnouncementService;
+import org.ldxx.service.EnterpriseService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.ProjectScaleService;
 import org.ldxx.service.ProjectTraceService;
@@ -53,22 +54,30 @@ public class ProjectTraceController {
 	private OrganizationManagementService oService;
 	@Autowired
 	private ProjectScaleService pService;
+	@Autowired
+	private EnterpriseService eService;
 	
 	@RequestMapping("/addProjectTraceOfSave")
 	@ResponseBody
-	public Map<String,Object> addProjectTraceOfSave(ProjectTrace trace,MultipartFile file,HttpSession session){
+	public int addProjectTraceOfSave(String trace,@RequestParam(required=false,value="file")MultipartFile file,HttpSession session){
+		Map<String, Class> classMap = new HashMap<String, Class>();
+		classMap.put("enterprise", Enterprise.class);
+		
+		JSONObject jsonObject=JSONObject.fromObject(trace);
+		ProjectTrace pt=(ProjectTrace)JSONObject.toBean(jsonObject, ProjectTrace.class,classMap);
+		
 		List<Accessory> list=new ArrayList<>();
-		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
-		trace.setPtId(id);
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
-		String time=sdf.format(new Date());
-		int count=service.dateCount(trace.getFillTime());
-		String prjNo="GZ"+time+(count+1);
-		trace.setPrjNo(prjNo);
+		pt.setPtId(id);
 		
-		String type=trace.getBusinessType();
+		/*SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+		String time=sdf.format(new Date());
+		int count=service.dateCount(pt.getFillTime());
+		String prjNo="GZ"+time+(count+1);
+		pt.setPrjNo(prjNo);*/
+		
+		String type=pt.getBusinessType();
 		String prjType="";
 		if(type.equals("JC 检测类")){
 			prjType="检测项目";
@@ -78,17 +87,14 @@ public class ProjectTraceController {
 			prjType="加固施工";
 		}else if(type.equals("SJ 设计")){
 			prjType="设计项目";
-		}else if(type.equals("JSFW 技术服务")){
-			prjType="信息化项目";
+		}else if(type.equals("EPC EPC")){
+			prjType="新建施工";
 		}else if(type.equals("QT 其他")){
 			prjType="信息化项目";
-		}else if(type.equals("KY 科研")){
-			prjType="信息化项目";
 		}
-		ProjectScale ps=pService.selectProjectScale(prjType, (trace.getPredictPrjScale())/10000);
+		ProjectScale ps=pService.selectProjectScale(prjType, pt.getPredictPrjScale()/10000);
 		String scale=ps.getPrjScale();
-		trace.setPrjLv(scale);
-		
+		pt.setPrjLv(scale);
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
 		File f=new File(path);
@@ -107,13 +113,12 @@ public class ProjectTraceController {
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
-				trace.setAccessory(list);
+				pt.setAccessory(list);
 			} catch (Exception e) {
 				e.printStackTrace();
-				map.put("result", 0);
 			}
 		}
-		int i=service.addProjectTrace(trace);
+		int i=service.addProjectTrace(pt);
 		if(i>0){
 			User user = (User) session.getAttribute("user");
 			OrganizationManagement om=oService.selectOrgById(user.getOmId());
@@ -122,10 +127,10 @@ public class ProjectTraceController {
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
 			currentFlow.setParams("1");
-			currentFlow.setTitle(trace.getPrjName()+"项目跟踪单申请");
+			currentFlow.setTitle(pt.getPrjName()+"项目跟踪单申请");
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
-			currentFlow.setMemo(trace.getPrjName()+"项目跟踪单申请流程发起");
+			currentFlow.setMemo(pt.getPrjName()+"项目跟踪单申请流程发起");
 			currentFlow.setUrl("jingyingguanliLook/ProjectTrackingGZD.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
 			currentFlow.setStarter(user.getUserId());
@@ -149,15 +154,13 @@ public class ProjectTraceController {
 				e.printStackTrace();
 			}
 		}
-		map.put("result", i);
-		map.put("trace", trace);
-		return map;
+		return i;
 	}
 	
 	
 	@RequestMapping("/addProjectTraceOfSubmit")
 	@ResponseBody
-	public String addProjectTraceOfSubmit(String trace,@RequestParam("file")MultipartFile file,HttpSession session){
+	public String addProjectTraceOfSubmit(String trace,@RequestParam(required=false,value="file")MultipartFile file,HttpSession session){
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
@@ -170,11 +173,11 @@ public class ProjectTraceController {
 		String id=uuid.getTimeUUID();
 		pt.setPtId(id);
 		
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+		/*SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
 		String time=sdf.format(new Date());
 		int count=service.dateCount(pt.getFillTime());
 		String prjNo="GZ"+time+(count+1);
-		pt.setPrjNo(prjNo);
+		pt.setPrjNo(prjNo);*/
 		
 		String type=pt.getBusinessType();
 		String prjType="";
@@ -290,10 +293,33 @@ public class ProjectTraceController {
 	
 	@RequestMapping("/updateProjectTraceOfSave")
 	@ResponseBody
-	public Map<String,Object> updateProjectTraceOfSave(ProjectTrace trace,MultipartFile file){
+	public int updateProjectTraceOfSave(String trace,@RequestParam(required=false,value="file")MultipartFile file,HttpSession session){
+		Map<String, Class> classMap = new HashMap<String, Class>();
+		classMap.put("enterprise", Enterprise.class);
+		
+		JSONObject jsonObject=JSONObject.fromObject(trace);
+		ProjectTrace pt=(ProjectTrace)JSONObject.toBean(jsonObject, ProjectTrace.class,classMap);
+		
+		String type=pt.getBusinessType();
+		String prjType="";
+		if(type.equals("JC 检测类")){
+			prjType="检测项目";
+		}else if(type.equals("XJSG 新建施工")){
+			prjType="新建施工";
+		}else if(type.equals("JGSG 加固施工")){
+			prjType="加固施工";
+		}else if(type.equals("SJ 设计")){
+			prjType="设计项目";
+		}else if(type.equals("EPC EPC")){
+			prjType="新建施工";
+		}else if(type.equals("QT 其他")){
+			prjType="信息化项目";
+		}
+		ProjectScale ps=pService.selectProjectScale(prjType, pt.getPredictPrjScale()/10000);
+		String scale=ps.getPrjScale();
+		pt.setPrjLv(scale);
 		List<Accessory> list=new ArrayList<>();
-		Map<String,Object> map=new HashMap<>();
-		String id=trace.getPtId();
+		String id=pt.getPtId();
 		TimeUUID uuid=new TimeUUID();
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
@@ -312,16 +338,13 @@ public class ProjectTraceController {
 				accessory.setAcName(fileName);
 				accessory.setAcUrl(id+File.separator+fileName);
 				list.add(accessory);
-				trace.setAccessory(list);
+				pt.setAccessory(list);
 			} catch (Exception e) {
 				e.printStackTrace();
-				map.put("result", 0);
 			}
 		}
-		int i=service.updateProjectTrace(trace);
-		map.put("result", i);
-		map.put("trace", trace);
-		return map;
+		int i=service.updateProjectTrace(pt);
+		return i;
 	}
 	
 	
@@ -371,7 +394,10 @@ public class ProjectTraceController {
 	@RequestMapping("/selectProjectTraceById")
 	@ResponseBody
 	public ProjectTrace selectProjectTraceById(String id){
-		return service.selectProjectTraceById(id);
+		ProjectTrace pt=service.selectProjectTraceById(id);
+		List<Enterprise> enterprise=eService.selectEnterpriseById(id);
+		pt.setEnterprise(enterprise);
+		return pt;
 	}
 	
 	@RequestMapping("/selectProjectTraceByNo")
@@ -392,4 +418,18 @@ public class ProjectTraceController {
 		int i=service.updateTraceEnd(gzEnd, id);
 		return i;
 	}
+	
+	@RequestMapping("/updateHistory")
+	@ResponseBody
+	public int updateHistory(String id){
+		TimeUUID uuid=new TimeUUID();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String time=sdf.format(new Date());
+		int count=service.dateCount(time);
+		String prjNo=uuid.getPrjCode("", count+1);
+		prjNo="GZ"+prjNo;
+		int i=service.updatePrjNoById(id, prjNo);
+		return i;
+	}
+	
 }

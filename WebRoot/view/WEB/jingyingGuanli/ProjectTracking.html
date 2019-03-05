@@ -238,7 +238,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-default" onclick="new_save()">保存</button> -->
+            <button type="button" class="btn btn-default" onclick="new_save()">保存</button>
             <button type="button" class="btn btn-success" onclick="new_submit()">提交</button>
         </div>
         </div>
@@ -387,7 +387,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <!-- <button type="button" class="btn btn-default" onclick="edit_save()">保存</button> -->
+            <!-- <button type="button" class="btn btn-success" onclick="edit_save()">保存</button> -->
             <button type="button" class="btn btn-success" onclick="edit_submit()">提交</button>
         </div>
         </div>
@@ -1252,71 +1252,90 @@
 		var new_business_type=$("#new_business_type").val();
 		var new_prj_addr=$("#new_prj_addr").val();
 		var new_prj_scale=$("#new_prj_scale").val();
+		if(new_prj_scale==''){
+			new_prj_scale=0;
+		}
 		var year=$("#year").val();
 		var new_isbid=$("#new_isbid").val();
 		var new_department=$("#new_department").val();
+		var new_person=$("#new_person").val();
 		var new_prj_desc=$("#new_prj_desc").val();
 		var new_desc=$("#new_desc").val();
 		var yezhudanwei=$("#yezhudanwei").val();
+		var enterpriseList=new Array();
+		$("#lianxibiaoge tbody").find("tr").each(function(){
+			var enterprise={
+					eId:undefined,
+					eMan:undefined,
+					eTel:undefined
+			}
+			enterprise.eMan=$(this).find("input").eq(0).val();
+			enterprise.eTel=$(this).find("input").eq(1).val();
+			enterpriseList.push(enterprise);
+		})
+		
+		var trace={
+			ptId:null,
+        	prjNo:undefined,
+        	prjName:undefined,
+        	prjStates:undefined,
+        	prjLv:undefined,
+        	businessType:undefined,
+        	prjAddr:undefined,
+        	fillTime:undefined,
+        	isbid:undefined,
+        	traceDepartment:undefined,
+        	predictPrjScale:undefined,
+        	prjDesc:undefined,
+        	ptInfo:undefined,
+        	ptUser:undefined,
+        	prjUnit:undefined,
+        	gzEnd:undefined,
+        	enterprise:undefined
+		}
+		
+			trace.prjName=new_prj_name;
+			trace.prjStates=new_prj_status;
+			trace.businessType=new_business_type;
+			trace.prjAddr=new_prj_addr;
+			trace.predictPrjScale=new_prj_scale;
+			trace.fillTime=year;
+			trace.isbid=new_isbid;
+			trace.traceDepartment=new_department;
+			trace.ptUser=new_person;
+			trace.prjDesc=new_prj_desc;
+			trace.ptInfo=new_desc;
+			trace.prjUnit=yezhudanwei;
+			trace.enterprise=enterpriseList;
+		
 		if(new_prj_name==''){
 			toastr.error("项目名称不能为空");
 			return;
 		}
-		/* if(new_prj_status==''){
-			toastr.error("项目状态不能为空");
-			return;
-		}
-		if(new_prj_desc==''){
-			toastr.error("项目概况不能为空");
-			return;
-		}
-		if(new_prj_addr==''){
-			toastr.error("项目地址不能为空");
-			return;
-		}
-		if(new_business_type==''){
-			toastr.error("业务类型不能为空");
-			return;
-		}
-		if(new_prj_scale==''){
-			toastr.error("预估项目规模(不能为空");
-			return;
-		}
-		if(year==''){
-			toastr.error("填报时间不能为空");
-			return;
-		} */
 		
-		var options={
-				type: 'POST',
-		        url: getContextPath()+'/trace/addProjectTraceOfSave',
-		        dataType: 'json',
-		        data: {
-		        	ptId:null,
-		        	prjName:new_prj_name,
-		        	prjStates:new_prj_status,
-		        	businessType:new_business_type,
-		        	prjAddr:new_prj_addr,
-		        	predictPrjScale:new_prj_scale,
-		        	fillTime:year,
-		        	isbid:new_isbid,
-		        	traceDepartment:new_department,
-		        	ptUser:new_person,
-		        	prjDesc:new_prj_desc,
-		        	ptInfo:new_desc,
-		        	prjUnit:yezhudanwei
-		        },
-		        success: function (json) {
-		        	if(json.result==0){
-		        		toastr.error("保存失败");
-		        	}else{
-		        		/*$('#mainContent').DataTable().row.add(json.trace).draw(false); */
-		        		toastr.success("保存成功");
-		        		$("#myModal").modal("hide");
-		        	}
-		        }
-		}
-		$("#new_form").ajaxSubmit(options);
+		var formData = new FormData();
+  		formData.append("trace", JSON.stringify(trace));
+  		
+  		formData.append("file", $("#add_file").find("input")[0].files[0]);
+		
+  		$.ajax({
+  			type: 'POST',
+  			url: getContextPath()+'/trace/addProjectTraceOfSave',
+            data: formData,  
+            cache: false,
+            processData: false,
+            contentType: false,
+            async: false,
+            dataType: 'json',
+            success: function (json) {
+             	if(json>0){
+             		toastr.success("保存成功");
+             		$("#myModal").modal("hide");
+             	}else{
+             		toastr.error("保存失败");
+             	}
+            }
+  		});
 	}
 	
 	
@@ -1349,10 +1368,10 @@
 		
 		var trace={
 			ptId:null,
-        	prj_no:undefined,
+        	prjNo:undefined,
         	prjName:undefined,
         	prjStates:undefined,
-        	prj_lv:undefined,
+        	prjLv:undefined,
         	businessType:undefined,
         	prjAddr:undefined,
         	fillTime:undefined,
@@ -1389,6 +1408,10 @@
 			toastr.error("项目状态不能为空");
 			return;
 		}
+		if(yezhudanwei==''){
+			toastr.error("业主单位不能为空");
+			return;
+		}
 		if(new_prj_desc==''){
 			toastr.error("项目概况不能为空");
 			return;
@@ -1402,7 +1425,7 @@
 			return;
 		}
 		if(new_prj_scale==''){
-			toastr.error("预估项目规模(不能为空");
+			toastr.error("预估项目规模不能为空");
 			return;
 		}
 		if(year==''){
@@ -1412,6 +1435,11 @@
 		
 		var formData = new FormData();
   		formData.append("trace", JSON.stringify(trace));
+  		
+  		if($("#add_file").find("input").length<1||$("#add_file").find("input").eq(0).val()==''){
+				toastr.error("请上传业务附件");
+				return;
+		}
   		
   		formData.append("file", $("#add_file").find("input")[0].files[0]);
 		

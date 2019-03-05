@@ -23,4 +23,6 @@ public interface ProjectTraceService {
 	public ProjectTrace selectProjectTraceByName(String name);
 	
 	public int updateTraceEnd(String gzEnd,String id);
+	
+	public int updatePrjNoById(String id,String no);
 }

@@ -57,13 +57,19 @@ public class ProjectTraceServiceImpl implements ProjectTraceService{
 		return i;
 	}
 
+	@Transactional
 	@Override
 	public int updateProjectTrace(ProjectTrace trace) {
 		int i=dao.updateProjectTrace(trace);
 		if(i>0){
+			List<Enterprise> enterprise=trace.getEnterprise();
+			eDao.deleteEnterprise(trace.getPtId());
+			if(enterprise!=null){
+				eDao.addEnterprise(enterprise);
+			}
 			List<Accessory> accessory=trace.getAccessory();
 			if(accessory!=null){
-				i=adao.addAccessory(trace.getAccessory());
+				adao.addAccessory(trace.getAccessory());
 			}
 		}
 		return i;
@@ -82,6 +88,7 @@ public class ProjectTraceServiceImpl implements ProjectTraceService{
 
 	@Override
 	public int dateCount(String time) {
+		time="%"+time+"%";
 		return dao.dateCount(time);
 	}
 
@@ -98,6 +105,11 @@ public class ProjectTraceServiceImpl implements ProjectTraceService{
 	@Override
 	public int updateTraceEnd(String gzEnd, String id) {
 		return dao.updateTraceEnd(gzEnd, id);
+	}
+
+	@Override
+	public int updatePrjNoById(String id, String no) {
+		return dao.updatePrjNoById(id, no);
 	}
 
 }

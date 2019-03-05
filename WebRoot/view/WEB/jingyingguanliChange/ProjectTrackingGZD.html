@@ -47,8 +47,10 @@
                             <tr>
                                 <td style="width:20%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="edit_prj_name"></td>
-                                <td style="width:20%;">项目编号</td>
-                                <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="edit_prj_no"></td>
+                                <td>业主单位</td>
+                                <td>
+                                	<select class="form-control" style="width:70%;" id="yezhudanwei" data-live-search="true"></select>
+                                </td>
                             </tr>
                             <tr>
                                 <td style="width:20%;">项目状态  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -76,7 +78,18 @@
                             <tr>
                                 <td style="width:20%;">项目地址  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;">
-                                    <input type="text" class="form-control" style="width:70%;" id="edit_prj_addr">
+                                   <!--  <input type="text" class="form-control" style="width:70%;" id="edit_prj_addr"> -->
+                                    <div class="docs-methods" style="width:100%;">
+                                                <form class="form-inline">
+                                                    <div id="distpicker">
+                                                        <div class="form-group">
+                                                            <div style="position: relative;">
+                                                                <input id="edit_prj_addr" class="form-control" readonly type="text" value="" data-toggle="city-picker">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div> 
                                 </td>
                                 <td style="width:20%;">预估项目规模  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="edit_prj_scale"></td>
@@ -86,14 +99,14 @@
                                 <td style="width:30%;"><input type="text" style="width:70%;" class="form-control" id="edit_year"></td>
                                 <td style="width:20%;">跟踪部门  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;">
-                                    <select class="form-control" style="width:70%;" id="edit_department">
+                                    <select class="form-control" style="width:70%;" id="edit_department" disabled>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:20%;">发包方式</td>
                                 <td style="width:30%;">
-                                    <select class="form-control" style="width:70%;" id="">
+                                    <select class="form-control" style="width:70%;" id="edit_isbid">
                                         <option value="直接委托">直接委托</option>
                                         <option value="邀请招标">邀请招标</option>
                                         <option value="公开招标">公开招标</option>
@@ -101,7 +114,7 @@
                                 </td>
                                 <td style="width:20%;">跟踪人</td>
                                 <td style="width:30%;">
-                                    <input type="text" style="width:70%;" class="form-control" id="" disabled>
+                                    <input type="text" style="width:70%;" class="form-control" id="edit_user" disabled>
                                 </td>
                             </tr>
                             <tr>
@@ -114,9 +127,47 @@
                             </tr>
                             <tr id="file_tr">
                                 <td>业务附件</td>
-                                <td id="file_tr_td" colspan="2"><input type="text" style="width:100%;" class="form-control" id="edit_fileName"></td>
-                                <td id="file_tr_td2"><button type="button" class="btn btn-primary" onclick="deleteFile()">删除附件</button></td>
+                                <td id="file_tr_td" colspan="2"></td>
+                                <td id="file_tr_td2"></td>
                             </tr>
+                        </table>
+                         <table class="table table-bordered table-condensed">
+                        	<thead>
+                        		<tr>
+                        			<th colspan="5">添加联系人,联系方式</th>
+                        		</tr>
+                        	</thead>
+                            <tr>
+                                <td style="width:15%;">联系人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:35%;">
+                                    <select class="form-control" style="width:200px;" id="lianxiren">
+                                    </select>
+                                </td>
+                                <td style="width:10%;">联系方式  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td style="width:20%;">
+                                    <select class="form-control" style="width:200px;" id="lianxifangshi">
+                                    </select>
+                                </td>
+                                <td style="width:20%;">
+	                                <button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="xuanzelianxiren" data-toggle="modal" data-target="#addGuanliren">新建联系人</button>
+	                                <button type="button" class="btn btn-info" onclick="addLianxiren(this)">添加</button>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="lianxibiaoge">
+                            <thead>
+                                <tr>
+                                    <th colspan="3">添加的联系人,联系方式</th>
+                                </tr>
+                                <tr>
+                                    <th  style="width:15%;">联系人</th>
+                                    <th>联系方式</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
                         </table>
                     </form>  
                     
@@ -219,6 +270,39 @@
     </div>
 </div>
 <!-- model结束 -->
+
+<!--选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">新建联系人,联系方式</h4>
+            </div>
+            <div class="modal-body">
+            
+                <div>
+                	
+                	<table class="table table-bordered table-condensed" >
+                		<tr>
+                			<td>联系人</td>
+                			<td><input type="text" class="form-control" style="width:180px;" id="xinjianlianxiren"></td>
+                			<td>联系方式</td>
+                			<td><input type="text" class="form-control" style="width:180px;" id="xinjianlianxifangshi"></td>
+                		</tr>
+                	</table>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 选人 modal结束 --> 
+
 <!-- 提交 modal -->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
     <div class="modal-dialog" role="document">
@@ -356,6 +440,8 @@
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
+<script src="../../js/city-picker.data.js"></script>
+<script src="../../js/city-picker.js"></script>
 <script src="../../js/quanxian.js"></script>
 <script>
     $(document).ready( function () {
@@ -366,10 +452,8 @@
             effects: 'slide' 
         });
         
-        
+        leixingSelect2();
         initDepartment();
-        
-        
        	initTable();
 	});
     
@@ -388,26 +472,16 @@
 	function initDepartment(){
 		$.ajax({
 	        type: 'POST',
-	        url: getContextPath()+'/organizationManagement/getAllOrganizationManagement',
+	        url: getContextPath()+'/organizationManagement/selectProductionDepartment',
 	        dataType: 'json',
 	        async:false,
 	        data: {
 	           
 	        },
 	        success: function (json) {
-	        	$("#new_department").html('');
 	        	$("#edit_department").html('');
-	        	$("#look_department").html('');
-	        	$("#new_main_department").html('');
-	        	$("#edit_main_department").html('');
-	        	$("#look_main_department").html('');
 	        	for(var i=0;i<json.length;i++){
-	        		$("#new_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	        		$("#edit_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	        		$("#look_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	        		$("#new_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	        		$("#edit_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	        		$("#look_main_department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	        		$("#edit_department").append("<option value="+json[i].omName+">"+json[i].omName+"</option>");
 	        	}
 	        }
 		});
@@ -552,19 +626,38 @@
 	        	id:id,
 	        },
 	        success: function (json) {
-	        	console.log(json)
 	        	$("#edit_prj_name").val(json.prjName);
 	    		$("#edit_prj_no").val(json.prjNo);
 	    		$("#edit_prj_status").val(json.prjStates);
 	    		$("#edit_prj_lv").val(json.prjLv);
 	    		$("#edit_business_type").val(json.businessType);
-	    		$("#edit_prj_addr").val(json.prjAddr);
+	    		$("#yezhudanwei").val(json.prjUnit);
+	    		var area=json.prjAddr;
+	    		if(area!=''&&area!=null){
+            		var province=area.split("/")[0];
+	            	var city=area.split("/")[1];
+	            	var district=area.split("/")[2];
+	            	$("#edit_prj_addr").citypicker("reset");
+	          		$("#edit_prj_addr").citypicker("destroy");
+	          		$("#edit_prj_addr").citypicker({
+	          			province:province,
+	          			city:city,
+	          			district:district
+	          		});
+            	}
 	    		$("#edit_prj_scale").val(json.predictPrjScale);
 	    		$("#edit_year").val(json.fillTime);
 	    		$("#edit_isbid").val(json.isbid);
 	    		$("#edit_department").val(json.traceDepartment);
+	    		$("#edit_user").val(json.ptUser);
 	    		$("#edit_prj_desc").val(json.prjDesc);
 	    		$("#edit_desc").val(json.ptInfo);
+	    		var enterprise=json.enterprise;
+	    		$("#lianxibiaoge tbody").html('');
+            	for(var i=0;i<enterprise.length;i++){
+            		$("#lianxibiaoge tbody").append("<tr><td><input type='text' class='form-control' value="+enterprise[i].eMan+" disabled></td><td><input type='text' class='form-control' value="+enterprise[i].eTel+" disabled></td><td><button type='button' class='btn btn-primary' onclick='deleteLianxiren(this)'>移除联系人</button></td></tr>")
+            	}
+	    		
 	    		$.ajax({
 	    			type: 'POST',
 	                url: getContextPath()+'/accessory/selectAccessoryById',
@@ -581,9 +674,8 @@
 	    					acUrl=acc.acUrl;
 	    					$("#file_tr_td").empty();
 	    					$("#file_tr_td2").empty();
-	    					$("#file_tr_td").append("<input type='text' style='width:100%;' class='form-control' id='edit_fileName'>");
-	    					$("#file_tr_td2").append("<button type='button' class='btn btn-primary' onclick='deleteFile()'>删除附件</button>");
-	    		    		$("#edit_fileName").val(acc.acName).attr("disabled",true);
+	    					$("#file_tr_td").append("<a href='"+getLocalPath()+"/oa_file/"+acUrl+"' target='view_window' style='color:blue;'>"+acName+"</a>");
+	    					$("#file_tr_td2").append("<button type='button' class='btn btn-primary' data1='"+aId+"' data2='"+acUrl+"' data3='"+acName+"'  onclick='deleteFile(this)'>删除附件</button>");
 	    				}else{
 	    					initFileInput();
 	    				}
@@ -601,19 +693,22 @@
 		$("#file_tr_td").append("<input name='file' type='file' class='form-control'>");
 	}
 	
-	function deleteFile(){
+	function deleteFile(obj){
 		var statu = confirm("确认删除吗?");
 		  if(!statu){
 		   return false;
 		  }
+		var id=$(obj).attr("data1");
+		var name=$(obj).attr("data3");
+		var url=$(obj).attr("data2");
 		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/trace/deleteAccessory',
 	        dataType: 'json',
 	        data: {
-	        	aId:aId,
-	        	acName:acName,
-	        	acUrl:acUrl
+	        	aId:id,
+	        	acName:name,
+	        	acUrl:url
 	        },
 	        success: function (json) {
 	        	if(json==0){
@@ -691,66 +786,119 @@
 	}
 	
 	
-	function liuchengGaibian(){
+	function liuchengGaibian(obj){
 		var edit_prj_name=$("#edit_prj_name").val();
-		var edit_prj_no=$("#edit_prj_no").val();
 		var edit_prj_status=$("#edit_prj_status").val();
-		var edit_prj_lv=$("#edit_prj_lv").val();
 		var edit_business_type=$("#edit_business_type").val();
 		var edit_prj_addr=$("#edit_prj_addr").val();
 		var edit_prj_scale=$("#edit_prj_scale").val();
 		var edit_year=$("#edit_year").val();
 		var edit_isbid=$("#edit_isbid").val();
+		var edit_person=$("#edit_user").val();
 		var edit_department=$("#edit_department").val();
 		var edit_prj_desc=$("#edit_prj_desc").val();
 		var edit_desc=$("#edit_desc").val();
+		var edit_prj_unit=$("#yezhudanwei").val();
+		
+		var enterpriseList=new Array();
+		$("#lianxibiaoge tbody").find("tr").each(function(){
+			var enterprise={
+					eId:undefined,
+					eMan:undefined,
+					eTel:undefined
+			}
+			enterprise.eId=id;
+			enterprise.eMan=$(this).find("input").eq(0).val();
+			enterprise.eTel=$(this).find("input").eq(1).val();
+			enterpriseList.push(enterprise);
+		})
+		
+		var trace={
+			ptId:null,
+        	prjNo:undefined,
+        	prjName:undefined,
+        	prjStates:undefined,
+        	prjLv:undefined,
+        	businessType:undefined,
+        	prjAddr:undefined,
+        	fillTime:undefined,
+        	isbid:undefined,
+        	traceDepartment:undefined,
+        	predictPrjScale:undefined,
+        	prjDesc:undefined,
+        	ptInfo:undefined,
+        	ptUser:undefined,
+        	prjUnit:undefined,
+        	gzEnd:undefined,
+        	enterprise:undefined
+		}
+			trace.ptId=id;
+			trace.prjName=edit_prj_name;
+			trace.prjStates=edit_prj_status;
+			trace.businessType=edit_business_type;
+			trace.prjAddr=edit_prj_addr;
+			trace.predictPrjScale=edit_prj_scale;
+			trace.fillTime=edit_year;
+			trace.isbid=edit_isbid;
+			trace.traceDepartment=edit_department;
+			trace.ptUser=edit_person;
+			trace.prjDesc=edit_prj_desc;
+			trace.ptInfo=edit_desc;
+			trace.prjUnit=edit_prj_unit;
+			trace.enterprise=enterpriseList;
+		
+		
+		
 		if(edit_prj_name==''){
 			toastr.error("项目名称不能为空");
-			return;
+			return "项目名称不能为空";
 		}
-		if(edit_prj_status==''){
-			toastr.error("项目状态不能为空");
-			return;
+		if(obj=='1'){
+			if(edit_prj_status==''){
+				toastr.error("项目状态不能为空");
+				return "项目状态不能为空";
+			}
+			if(edit_department==''){
+				toastr.error("跟踪部门不能为空");
+				return "跟踪部门不能为空";
+			}
+			if(edit_prj_desc==''){
+				toastr.error("项目概况不能为空");
+				return "项目概况不能为空";
+			}
+			if($("#file_tr_td").find("a").length<1){
+	  			if($("#file_tr_td").find("input").length<1||$("#file_tr_td").find("input").eq(0).val()==''){
+	  				toastr.error("请上传业务附件");
+					return "请上传业务附件";
+	  			}
+	  		}
 		}
-		if(edit_department==''){
-			toastr.error("跟踪部门不能为空");
-			return;
-		}
-		if(edit_prj_desc==''){
-			toastr.error("项目概况不能为空");
-			return;
-		}
-		
-		var options={
-				type: 'POST',
-		        url: getContextPath()+'/trace/updateProjectTraceOfSave',
-		        dataType: 'json',
-		        data: {
-					ptId:edit_id,		        	
-		        	prjName:edit_prj_name,
-		        	prjNo:edit_prj_no,
-		        	prjStates:edit_prj_status,
-		        	prjLv:edit_prj_lv,
-		        	businessType:edit_business_type,
-		        	prjAddr:edit_prj_addr,
-		        	predictPrjScale:edit_prj_scale,
-		        	fillTime:edit_year,
-		        	isbid:edit_isbid,
-		        	traceDepartment:edit_department,
-		        	prjDesc:edit_prj_desc,
-		        	ptInfo:edit_desc
-		        },
-		        success: function (json) {
-		        	if(json.result==0){
-		        		toastr.error("修改保存失败");
-		        	}else{
-		        		/* $('#mainContent').DataTable().row.add(json.trace).draw(false); */
-		        		toastr.success("修改保存成功");
-		        		$("#change").modal("hide");
-		        	}
-		        }
-		}
-		$("#edit_form").ajaxSubmit(options);
+		var formData = new FormData();
+  		formData.append("trace", JSON.stringify(trace));
+  		
+  		if($("#file_tr_td").find("input").length>0){
+  			formData.append("file", $("#file_tr_td").find("input")[0].files[0]);
+  		}
+		var result;
+  		$.ajax({
+  			type: 'POST',
+  			url: getContextPath()+'/trace/updateProjectTraceOfSave',
+            data: formData,  
+            cache: false,
+            processData: false,
+            contentType: false,
+            async: false,
+            dataType: 'json',
+            success: function (json) {
+            	result=json;
+            	if(json.result==0){
+            		toastr.error("保存失败");
+            	}else{
+            		toastr.success("保存成功");
+            	}
+            }
+  		})
+  		return result;
 	}
 	
 	
@@ -971,7 +1119,126 @@
 		});
 	}
 	
-
-
+	
+	//增加联系人联系电话
+    function addLianxiren(aa){
+    	var eid=$(aa).parent().prev().prev().prev().find("select").find("option:selected").attr("data-id");
+	    var dianhua=$(aa).parent().prev().find("select").val();
+	    var ren=$(aa).parent().prev().prev().prev().find("select").val();
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cooperator/countOfEnterprise',
+	        dataType: 'json',
+	        data:{
+	        	eId:eid,
+	        	eMan:dianhua,
+	        	eTel:ren
+	        },
+	        success: function (json) {
+	        	var lianxiren=$("#lianxiren").val();
+	        	var lianxifangshi=$("#lianxifangshi").val();
+	        	if(lianxiren==null||lianxifangshi==null||lianxiren==''||lianxifangshi==''){
+	        		toastr.error("联系人或联系方式为空");
+	        		return;
+	        	}
+	        	$("#lianxibiaoge tbody").append("<tr><td>"
+	        			+'<input type="text" class="form-control" value='+lianxiren+' disabled>'
+	        			+"</td><td>"
+	        			+'<input type="text" class="form-control" value='+lianxifangshi+' disabled>'
+	        			+"</td><td><button type='button' style='text-align:right;' class='btn btn-primary' onclick='deleteLianxiren(this)'>移除联系人</button></td></tr>")
+	        }
+	    }); 
+    }
+	
+    function saveGuanliren(){
+  		 $.ajax({
+  	        type: 'POST',
+  	        url: getContextPath()+'/cooperator/countOfEnterprise',
+  	        dataType: 'json',
+  	        data:{
+  	        	eId:lianxiid,
+  	        	eMan:$("#xinjianlianxiren").val(),
+  	        	eTel:$("#xinjianlianxifangshi").val()
+  	        },
+  	        success: function (json) {
+  	        	
+  	        	$("#lianxibiaoge tbody").append("<tr><td>"
+  	        			+'<input type="text" class="form-control" value='+$("#xinjianlianxiren").val()+' disabled>'
+  	        			+"</td><td>"
+  	        			+'<input type="text" class="form-control" value='+$("#xinjianlianxifangshi").val()+' disabled>'
+  	        			+"</td><td><button type='button' style='text-align:right;' class='btn btn-primary' onclick='deleteLianxiren(this)'>移除联系人</button></td></tr>")
+  	        }
+  	    });
+  		
+      }
+  //业主单位
+	 var lianxiid;
+   function leixingSelect2(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cooperator/selectCooperatorIdAndNameByCcType',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	           ccType:'业主单位'
+	        },
+	        success: function (json) {
+	        	$("#yezhudanwei").html('');
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#yezhudanwei").append( "<option value='" + json[i].ccId + "' data-id='" + json[i].ccId + "'>"
+		                    + json[i].ccName + "</option>")
+	        	}
+	        	 $("#yezhudanwei").trigger("change");
+	        	 $('#yezhudanwei').editableSelect().on('select.editable-select', function (e, dom) {
+	                 	console.log(dom.attr("data-id"));
+		                 var yezhudanwei=$("#yezhudanwei").val();
+		                
+		             	$.ajax({
+		         	        type: 'POST',
+		         	        url: getContextPath()+'/task/getEnterpriseById',
+		         	        dataType: 'json',
+		         	        data: {
+		         	           id:dom.attr("data-id")
+		         	        },
+		         	        success: function (json) {
+		         	        	$("#lianxiren").html('');
+		         	        	
+		         	        	for(var i=0;i<json.length;i++){
+		         	        		lianxiid=json[0].eId
+		         	        		$("#lianxiren").append("<option data-id="+json[i].eId+" value="+json[i].eMan+">"+json[i].eMan+"</option>");
+		         	        	}
+		         	        	
+		         	        	$("#lianxiren").trigger("change");
+		         	        }
+		             	});
+		             	$("#lianxiren").on("change",function(){
+		                	var yezhudanwei=$("#yezhudanwei").val();
+		                	var name=$("#lianxiren").val();
+		                	$.ajax({
+		            	        type: 'POST',
+		            	        url: getContextPath()+'/task/getEnterpriseByIdAndName',
+		            	        dataType: 'json',
+		            	        data: {
+		            	           id:dom.attr("data-id"),
+		            	           name:name
+		            	        },
+		            	        success: function (json) {
+		            	        	$("#lianxifangshi").html('');
+		            	        	for(var i=0;i<json.length;i++){
+		            	        		$("#lianxifangshi").append("<option value="+json[i].eTel+">"+json[i].eTel+"</option>");
+		            	        	}
+		            	        }
+		                	});
+		                })
+		                
+         		 });
+	        }
+	    });
+	}
+   
+   function deleteLianxiren(obj){
+	   	var tr=$(obj).parent().parent();
+	   	$(tr).remove();
+   }
 </script>
 </html>

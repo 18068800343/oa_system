@@ -14,11 +14,20 @@
   </delete>
   
   <update id="updateProjectTrace" parameterType="ProjectTrace">
-  		update project_trace set prj_no=#{trace.prjNo},prj_name=#{trace.prjName},prj_states=#{trace.prjStates},prj_lv=#{trace.prjLv},
-  					      business_type=#{trace.businessType},prj_addr=#{trace.prjAddr},
-  						  fill_time=#{trace.fillTime}, isbid=#{trace.isbid},trace_department=#{trace.traceDepartment},
-  						  predict_prj_scale=#{trace.predictPrjScale},prj_desc=#{trace.prjDesc},pt_info=#{trace.ptInfo},
-  						  pt_user=#{trace.ptUser},prj_unit=#{trace.prjUnit}
+  		update project_trace set 
+  			prj_name=#{trace.prjName},
+  			prj_states=#{trace.prjStates},
+  			prj_lv=#{trace.prjLv},
+  			business_type=#{trace.businessType},
+  			prj_addr=#{trace.prjAddr},
+		  	fill_time=#{trace.fillTime}, 
+		  	isbid=#{trace.isbid},
+		  	trace_department=#{trace.traceDepartment},
+		  	predict_prj_scale=#{trace.predictPrjScale},
+		  	prj_desc=#{trace.prjDesc},
+		  	pt_info=#{trace.ptInfo},
+		  	pt_user=#{trace.ptUser},
+		  	prj_unit=#{trace.prjUnit}
        where pt_id=#{trace.ptId}
   </update>
   
@@ -45,7 +54,7 @@
   </select>
   
   <select id="dateCount" resultType="int">
-  	SELECT COUNT(1) FROM project_trace where fill_time =#{time}
+  	select COUNT(1) from (SELECT DISTINCT prj_no FROM project_trace where prj_no like #{time}) as a
   </select>
   
     <select id="selectProjectTraceByNo" resultType="ProjectTrace">
@@ -62,5 +71,9 @@
     
     <update id="updateTraceEnd">
     	update project_trace set gz_end=#{gzEnd} where pt_id=#{id}
+    </update>
+    
+    <update id="updatePrjNoById">
+		update project_trace set prj_no=#{no} where pt_id=#{id}  
     </update>
 </mapper>
