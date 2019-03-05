@@ -19,6 +19,7 @@ import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.ProjectList;
 import org.ldxx.bean.User;
 import org.ldxx.bean.clfbCgcontractPerformance;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.MaterialPerformanceService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.util.ExportData;
@@ -44,6 +45,8 @@ public class MaterialPerformanceController {
 	private MaterialPerformanceService mpService;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	CurrentFlowMapper currentFlowMapper;
 	
 	@RequestMapping("/selectmaterialPerformanceByStatus")
 	@ResponseBody
@@ -388,7 +391,7 @@ public class MaterialPerformanceController {
 	
 	@RequestMapping("/updateMaterialPerformance")
 	@ResponseBody
-	public int updateMaterialPerformance(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file) throws IllegalStateException, IOException{
+	public int updateMaterialPerformance(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file,HttpSession session) throws IllegalStateException, IOException{
 		String id=c.getpId();
 		//String path="D:"+File.separator+"oa"+File.separator+"materialPerformance"+File.separator+id;
 		TimeUUID uuid=new TimeUUID();
@@ -415,6 +418,12 @@ public class MaterialPerformanceController {
 			c.setAccessory(list);
 		}
 		int i=mpService.updateMaterialPerformance(c);
+		if(i>0){
+			User user = (User) session.getAttribute("user");
+			OrganizationManagement om=oService.selectOrgById(user.getOmId());
+			String omNo=om.getOmNo();
+			currentFlowMapper.updateFkDeptByModeId(c.getpId(), omNo);
+		}
 		return i;
 	}
 	
