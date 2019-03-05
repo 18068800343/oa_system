@@ -29,9 +29,14 @@ public class BidApproval {
 	private String bdNo;//标段编号
 	private String baDesc;//概述
 	private Float yuguPrjScale;//预估项目规模
+	private String biaoxunlaiyuan;
 	
-	
-	
+	public String getBiaoxunlaiyuan() {
+		return biaoxunlaiyuan;
+	}
+	public void setBiaoxunlaiyuan(String biaoxunlaiyuan) {
+		this.biaoxunlaiyuan = biaoxunlaiyuan;
+	}
 	public Float getYuguPrjScale() {
 		return yuguPrjScale;
 	}
