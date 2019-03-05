@@ -1341,7 +1341,7 @@
             { "data": "contractName"}, 
             { "data": "cgcType"}, 
             { "data": "spName"}, 
-            { "data": "cgContractMoney"}, 
+            { "data": "cgContractMoney",render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
             { "data": "contractSignTime"}, 
         ],
         "columnDefs": [
@@ -2070,26 +2070,36 @@
 											        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
 											        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
    												"</tr>")
-   					var xmSupplier=$("#department_tj"+(len-1)).val()
-					var gsSupplier=$("#company_sure"+(len-1)).val()
-					if(xmSupplier==undefined&&gsSupplier==undefined){
-						for(var i=1;i<20;i++){
-							xmSupplier=$("#department_tj"+(len-i)).val();
-	    					gsSupplier=$("#company_sure"+(len-i)).val();
-	    					if(xmSupplier!=undefined&&gsSupplier!=undefined){
-	    						break;
-	    					}
-						}
-					}
-    				initSupplier2(len,xmSupplier,gsSupplier);
-    				initClType2(len);
-    				selectMaterialCompany(len);
+   												var xmSupplier;
+    											var gsSupplier;
+    											var clbiao_length=$("#cl_table tbody").find("tr").length;
+   												if(clbiao_length==1){//为添加的第一行
+   													xmSupplier=$("#yifang").val();
+   							    					gsSupplier=$("#yifang").val();
+   												}else{
+								   					xmSupplier=$("#department_tj"+(len-1)).val()
+													gsSupplier=$("#company_sure"+(len-1)).val()
+													if(xmSupplier==undefined&&gsSupplier==undefined){
+														for(var i=1;i<20;i++){
+															xmSupplier=$("#department_tj"+(len-i)).val();
+									    					gsSupplier=$("#company_sure"+(len-i)).val();
+									    					if(xmSupplier!=undefined&&gsSupplier!=undefined){
+									    						break;
+									    					}
+														}
+													}
+   													
+   												}
+							    				initSupplier2(len,xmSupplier,gsSupplier);
+							    				initClType2(len);
+							    				selectMaterialCompany(len);
     }
     function initSupplier2(obj,obj2,obj3){
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/supplier/selectIdAndName',
             dataType: 'json',
+            async:false,
             data: {
             	
             },
@@ -2160,16 +2170,24 @@
 												        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
 												        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
     												"</tr>")
-					var xmSupplier=$("#edit_department_tj"+(length-1)).val()
-					var gsSupplier=$("#edit_company_sure"+(length-1)).val()
-					if(xmSupplier==undefined&&gsSupplier==undefined){
-						for(var i=1;i<20;i++){
-							xmSupplier=$("#edit_department_tj"+(length-i)).val();
-	    					gsSupplier=$("#edit_company_sure"+(length-i)).val();
-	    					if(xmSupplier!=undefined&&gsSupplier!=undefined){
-	    						console.log(xmSupplier)
-	    						break;
-	    					}
+    				var xmSupplier;
+    				var gsSupplier;
+    				var xgclbiao_length=$("#edit_cl_table tbody").find("tr").length;
+					if(xgclbiao_length==1){//为添加的第一行
+						xmSupplier=$("#xgyifang").val();
+						gsSupplier=$("#xgyifang").val();
+					}else{
+	    				xmSupplier=$("#edit_department_tj"+(length-1)).val()
+						gsSupplier=$("#edit_company_sure"+(length-1)).val()
+						if(xmSupplier==undefined&&gsSupplier==undefined){
+							for(var i=1;i<20;i++){
+								xmSupplier=$("#edit_department_tj"+(length-i)).val();
+		    					gsSupplier=$("#edit_company_sure"+(length-i)).val();
+		    					if(xmSupplier!=undefined&&gsSupplier!=undefined){
+		    						console.log(xmSupplier)
+		    						break;
+		    					}
+							}
 						}
 					}
     				initSupplier3(length,xmSupplier,gsSupplier);
