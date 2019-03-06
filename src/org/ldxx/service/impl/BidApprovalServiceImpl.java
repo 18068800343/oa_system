@@ -102,4 +102,9 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 		return dao.selectBidApprovalByNo(no);
 	}
 
+	@Override
+	public int updateBidNoById(String no, String id) {
+		return dao.updateBidNoById(no, id);
+	}
+
 }

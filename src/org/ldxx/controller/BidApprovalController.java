@@ -232,6 +232,22 @@ public class BidApprovalController {
 		return map;
 	}
 	
+	/*@RequestMapping("/updateHistory")
+	@ResponseBody
+	public int updateHistory(String id){
+		TimeUUID uuid=new TimeUUID();
+		BidApproval ba=service.selectBidApprovalById(id);
+		String bid = ba.getBidder();
+		String bidder = bid.split(" ")[0];
+		String prjtype = ba.getPrjType();
+		String type = prjtype.split(" ")[0];
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String time=sdf.format(new Date());
+		int count=service.prjNocount("%"+time+"%");
+		String no = uuid.getSerialNumber(bidder, type, count+1);
+		int i=service.updateBidNoById(no, id);
+		return i;
+	}*/
 	
 	@RequestMapping("/selectprjNameAndNo")//初始化项目名称和项目编号（投标审批单号）
 	@ResponseBody

@@ -33,4 +33,6 @@ public interface BidApprovalService {
 	List<BidApproval> selectBidApprovalByTypeAndDepartment(String type,String department); 
 
 	BidApproval selectBidApprovalByNo(String no);
+	
+	int updateBidNoById(String no,String id);
 }

@@ -2,7 +2,9 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,7 @@ import org.ldxx.service.ProjectOverService;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -69,29 +72,38 @@ public class OpeningRecordController {
 		return openingRecordDao.updateIsQibiao(isQibiao,orId);
 	}
 	
+	@Transactional
 	@RequestMapping("/addOpeningRecord")
 	@ResponseBody
 	public int addOpeningRecord(String id){
+		TimeUUID uuid=new TimeUUID();
 		List<OpeningRecord> rdList=new ArrayList<>();
 		BidApproval ba=bService.selectBidApprovalById(id);
 		String prjName=ba.getPrjName();
-		String prjNo=ba.getPrjNo();
-		String prjType=ba.getPrjType();
 		String bdNo=ba.getBdNo();
-		
-		for(int a=0;a<bdNo.split(",").length;a++){
-			OpeningRecord rd=new OpeningRecord();
-			TimeUUID uuid=new TimeUUID();
-			String rdId=uuid.getTimeUUID();
-			rd.setOrId(rdId);
-			String bd=bdNo.split(",")[a];
-			rd.setPrjName(prjName);
-			rd.setPrjNo(prjNo);
-			rd.setPrjType(prjType);
-			rd.setBdNo(bd);
-			rdList.add(rd);
+		String bid = ba.getBidder();
+		String bidder = bid.split(" ")[0];
+		String prjtype = ba.getPrjType();
+		String type = prjtype.split(" ")[0];
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String time=sdf.format(new Date());
+		int count=bService.prjNocount("%"+time+"%");
+		String no = uuid.getSerialNumber(bidder, type, count+1);
+		int i=bService.updateBidNoById(no, id);
+		if(i>0){
+			for(int a=0;a<bdNo.split(",").length;a++){
+				OpeningRecord rd=new OpeningRecord();
+				String rdId=uuid.getTimeUUID();
+				rd.setOrId(rdId);
+				String bd=bdNo.split(",")[a];
+				rd.setPrjName(prjName);
+				rd.setPrjNo(no);
+				rd.setPrjType(prjtype);
+				rd.setBdNo(bd);
+				rdList.add(rd);
+			}
+			i=service.addOpeningRecord(rdList);
 		}
-		int i=service.addOpeningRecord(rdList);
 		return i;
 	}
 	
