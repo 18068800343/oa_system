@@ -1157,18 +1157,19 @@ public class TaskController {
 			String company=t.getPrjCompany();
 			String oldNo=t.getPrjNo();
 			if(oldNo==null||oldNo.equals("")){
+				String gs="";
+				if("华汇".equals(company)){
+					gs="HH";
+				}else{
+					gs="HT";
+				}
 				String type=t.getPrjType2();
 				String code=type.split(" ")[0];
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 				String year=sdf.format(new Date());
-				int count=tService.typeCount(year);
-				count=count+1;
-				String prjNo=uuid.getPrjCode(code, count);
-				if("华汇".equals(company)&&"0e69a68c37cc".equals(mainDept)){
-					prjNo="HH"+prjNo;
-				}else{
-					prjNo="HT"+prjNo;
-				}
+				int count=tService.typeCount(gs+year);
+				String prjNo=uuid.getPrjCode(code, count+1);
+				prjNo=gs+prjNo;
 				i=tService.updateTaskNoById(prjNo, id);
 			}
 		}
