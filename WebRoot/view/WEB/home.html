@@ -87,10 +87,10 @@
 				</table>
 			</div>
 
-				<div class="management-notifications mission">
+				<div class="management-notifications mission" style="float:left;width:67% !important;">
 					<table id="tb3" class="tb3 table table-hover">
 						<tr class="tb3-management">
-							<th colspan="2">
+							<th colspan="4">
 								<div class="yihang2">
 	                        		<div>任务通知(<span>10</span>)</div>
 	                        		<div><span style="cursor: pointer;" class="Pad"><a href="./gerenRenwu/BusinessNotice.html">查看更多</a></span></div>
@@ -447,6 +447,41 @@
     </div>
 </div>
 <!-- 提交 modal结束 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="look_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+       
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>查看审批进度</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" >
+                    	<table class="table table-bordered table-condensed" id="d_table">
+                    		<thead>
+                    			<tr>
+                    				<th style="width:30%;">业务名称</th>
+                    				<th style="width:12%;">操作人</th>
+                    				<th style="width:23%;">意见</th>
+                    				<th style="width:12%;">操作类型</th>
+                    				<th style="width:23%;">操作时间</th>
+                    			</tr>
+                    		</thead>
+                    		<tbody></tbody>
+                    	</table>
+                    </form>  
+                </div>
+        </div>
+        <div id="NodeBox" style="margin-left:15px;">
+            <div class="yihang"><b>审批流程:</b><div id="nodeRole"></div></div>
+        </div> 
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div> 
 </body>
 <script src="../js/jquery.js"></script>
 <script src="../js/main.js"></script>
@@ -802,11 +837,53 @@
             		}else if(statu=="4"){
             			statu="进行中";
             		}
-            		$("#tb3").append("<tr><td>"+json[i].title+"</td><td style='width:100px;'>"+statu+"</td></tr>");
+            		$("#tb3").append("<tr><td>"+json[i].businessname+"</td><td>"+json[i].title+"</td><td style='width:100px;'>"+statu+"</td>"+
+            		"<td><i class='iconfont icon-icon-test Pfac' data-url="+json[i].url+" data-step="+json[i].step+" data-flowTmpId="+json[i].floTmpId+" data-title="+json[i].title+" style='font-size: 20px; cursor: pointer; margin-left: 5px;' title='查看历史流程信息' onclick='lookHistory3(this)'></i></td>"+
+            		"</tr>");
             	}
             }
         });
     }
+	
+	
+	function lookHistory3(dom){
+    	var url = $(dom).attr("data-url");
+    	var step = $(dom).attr("data-step");
+    	var floTmpId = $(dom).attr("data-flowTmpId");
+    	addNodeRoles(floTmpId,step);
+    	$.ajax({
+        	type: 'POST',
+            url: getContextPath()+'/flowHistory/getHistoryNowAndLast',
+            data:{
+            	url:url
+            },
+            success: function (json) {
+            		$("#d_table tbody").html('');
+            	for(var i in json){
+            		var operatorType = json[i].operateType;
+            		operatorType = getCnByOt(operatorType);
+            		var date = json[i].doDate;
+            		var title = json[i].title;
+            		var name = json[i].actorname;
+            		if(date == null){
+            			date="";
+            			if(json[i].operateType==8){
+            				title="<lable style='color:red'>"+json[i].title+"</lable>";
+            				name="<lable style='color:red'>"+json[i].actorname+"</lable>";
+            				operatorType="<lable style='color:red'>"+operatorType+"</lable>";
+            			}else{
+            				title = json[i].title;
+            				name = json[i].actorname;
+            			}
+            		}
+                	$("#d_table tbody").append("<tr><td>"+title+"</td><td>"+name+"</td><td></td><td>"+operatorType+"</td><td>"+date+"</td></tr>");
+                    $("#look_modal").modal("show");
+            	}
+            }
+        });
+    }
+	
+	
 	function initTable2(){
 		$.ajax({
             type: 'POST',
