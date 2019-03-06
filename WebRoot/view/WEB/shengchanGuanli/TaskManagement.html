@@ -268,15 +268,15 @@
                             </tr>
                             <tr>
                             	<td class="jinqianyanse">任务金额  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td><input type="text" class="form-control" style="width:100%;" id="jine"></td>
+                                <td><input type="text" placeholder="不含管理费" class="form-control" style="width:100%;" id="jine"></td>
                                 <td class="jinqianyanse">合同金额  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td><input type="text" placeholder="不含暂定金" class="form-control" style="width:100%;" id="hetonge"></td>
+                                <td><input type="text" placeholder="不含管理费,不含暂定金" class="form-control" style="width:100%;" id="hetonge"></td>
                             </tr>
                             <tr>
                             	<td class="jinqianyanse">暂定金  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td><input type="text" class="form-control" style="width:100%;" id="zandingjin"></td>
-                                <td></td>
-                                <td></td>
+                                <td>管理费</td>
+                                <td><input type="text" class="form-control" style="width:100%;" id="guanliMoney"></td>
                             </tr>
                             <tr>
                                 <td>项目起止时间</td>
@@ -511,6 +511,12 @@
                                     </select>  
                                 </td>
                             </tr>
+                            <tr>
+                            	<td>管理费</td>
+                                <td><input type="text" class="form-control" style="width:100%;" id="xgguanliMoney"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             <!-- <tr>
                             	<td>主任务单号</td>
                                 <td>
@@ -665,6 +671,12 @@
 	                            <td id="look_prj_source"></td>
 	                            <td>立项时间</td>
 	                        	<td id="look_lx_time"></td>
+	                        </tr>
+	                        <tr>
+	                        	<td class="jinqianyanse">管理费</td>
+	                        	<td id="look_guanliMoney"></td>
+	                        	<td></td>
+	                        	<td></td>
 	                        </tr>
 	                         <tr>
 		                            <td>项目概况及工作内容</td>
@@ -1030,8 +1042,8 @@
 					                            <td id="historystartTime"></td>
 					                            <td>项目结束时间</td>
 					                            <td id="historyendTime"></td>
-					                            <td>预估合同金额</td>
-					                            <td></td>
+					                            <td class="jinqianyanse">管理费</td>
+					                            <td id="history_guanliMoney"></td>
 					                            <td></td>
 					                            <td></td>
 					                        </tr>
@@ -2447,6 +2459,7 @@
         	var xieban3jine=$("#xiebanMoney3").val();
         	var chenbenfentanbili3=$("#chenbenfentanbili3").val();
         	var gaikuang=$("#gaikuang").val();
+        	var guanliMoney=$("#guanliMoney").val();
         	
         	if(taskName==''){
 	    		toastr.error("项目名称不能为空");
@@ -2500,6 +2513,7 @@
 	            	assistDepartment3Money:undefined,
 	            	assistDepartment3Cost:undefined,
 	            	enterprise:undefined,
+	            	guanliMoney:undefined,
    			}
 
     	    xindanwei.prjArea=city;
@@ -2534,6 +2548,7 @@
     	    xindanwei.yugongkebili = yugongke;
     	    xindanwei.chushebili = chushe;
     	    xindanwei.shishebili = shishe;
+    	    xindanwei.guanliMoney=guanliMoney;
     	    danwei.push(xindanwei);
     		//console.log(danwei)
     	    $.ajax({
@@ -2613,6 +2628,7 @@
         	var xieban3jine=$("#xiebanMoney3").val();
         	var chenbenfentanbili3=$("#chenbenfentanbili3").val();
         	var gaikuang=$("#gaikuang").val();
+        	var guanliMoney=$("#guanliMoney").val();
         	
         	if(taskName==''){
 	    		toastr.error("项目名称不能为空");
@@ -2658,6 +2674,10 @@
 	    		toastr.error("暂定金不能为空");
 	    		return;
 	    	}
+        	if(guanliMoney==''){
+        		toastr.error("管理费不能为空");
+	    		return;
+        	}
         	
         	var all_bili=0;
         	var allMoney=0;
@@ -2763,6 +2783,7 @@
 	            	assistDepartment3Money:undefined,
 	            	assistDepartment3Cost:undefined,
 	            	enterprise:undefined,
+	            	guanliMoney:undefined,
    			}
 
     	    xindanwei.prjArea=city;
@@ -2797,6 +2818,7 @@
     	    xindanwei.yugongkebili = yugongke;
     	    xindanwei.chushebili = chushe;
     	    xindanwei.shishebili = shishe;
+    	    xindanwei.guanliMoney=guanliMoney;
     	    danwei.push(xindanwei);
     		
     	     $.ajax({
@@ -2943,6 +2965,7 @@
 	            	$("#xgzhubanjine").val(json.mainDepartmentMoney);
 	            	$("#xgchenbenfentanbili").val(json.mainDepartmentCost);
 	            	$("#xggaikuang").val(json.workContent);
+	            	$("#xgguanliMoney").val(json.guanliMoney)
 	            	/* var xieban1=$("#xgxieban1").val(json.assistDepartment1);
 	            	var xieban1jine=$("#xgxiebanMoney1").val(json.assistDepartment1Money);
 	            	var xieban2=$("#xgxieban2").val(json.assistDepartment2);
@@ -3075,6 +3098,7 @@
         	var xieban3jine=$("#xgxiebanMoney3").val();
         	var chenbenfentanbili3=$("#xgchenbenfentanbili3").val();
         	var gaikuang=$("#xggaikuang").val();
+        	var xgguanliMoney=$("#xgguanliMoney").val();
         	
         	if(taskName==''){
 	    		toastr.error("项目名称不能为空");
@@ -3120,6 +3144,10 @@
 	    		toastr.error("暂定金不能为空");
 	    		return;
 	    	}
+        	if(xgguanliMoney==''){
+        		toastr.error("管理费不能为空")
+        		return;
+        	}
         	var all_bili=0;
         	if(zhuban!=''&&zhuban!=undefined){
         		if(chenbenfentanbili==''){
@@ -3214,6 +3242,7 @@
 	            	assistDepartment3Cost:undefined,
 	            	enterprise:undefined,
 	            	prjId:undefined,
+	            	guanliMoney:undefined,
    			}
     	    xindanwei.prjArea=city;
     	    xindanwei.importance=importance;
@@ -3248,6 +3277,7 @@
     	    xindanwei.yugongkebili = yugongke;
     	    xindanwei.chushebili = chushe;
     	    xindanwei.shishebili = shishe;
+    	    xindanwei.guanliMoney=xgguanliMoney;
     	    danwei.push(xindanwei);
     		
     	      $.ajax({
@@ -3355,6 +3385,7 @@
         	var xieban3jine=$("#xgxiebanMoney3").val();
         	var chenbenfentanbili3=$("#xgchenbenfentanbili3").val();
         	var gaikuang=$("#xggaikuang").val();
+        	var xgguanliMoney=$("#xgguanliMoney").val();
         	
         	/* if(taskName==''){
 	    		toastr.error("项目名称不能为空");
@@ -3494,6 +3525,7 @@
 	            	assistDepartment3Cost:undefined,
 	            	enterprise:undefined,
 	            	prjId:undefined,
+	            	guanliMoney:undefined,
    			}
     	    
     	    xindanwei.prjArea=city;
@@ -3529,6 +3561,7 @@
     	    xindanwei.yugongkebili = yugongke;
     	    xindanwei.chushebili = chushe;
     	    xindanwei.shishebili = shishe;
+    	    xindanwei.guanliMoney=xgguanliMoney;
     	    danwei.push(xindanwei);
     		
     	      $.ajax({
@@ -3598,6 +3631,7 @@
             	$("#lookstartTime").text(task.prjStartTime);
             	$("#lookendTime").text(task.prjEndTime);
             	$("#lookgaikuang").text(task.workContent);
+            	$("#look_guanliMoney").text(task.guanliMoney)
             	
             	$("#look_xieban_table tbody").html('');
             	$("#look_xieban_table tbody").append("<tr><td>主办部门</td><td>"+task.omName+"</td><td>金额</td><td>"+task.mainDepartmentMoney+"</td><td>成本分摊比例</td><td>"+task.mainDepartmentCost+"</td><td>部门负责人</td><td>"+task.mainPrjLeaderName+"</td><td>部门工程师</td><td>"+task.mainEngineerName+"</td><td>其他管理人员</td><td>"+task.mainOtherName+"</td></tr>")
@@ -3664,6 +3698,7 @@
             	$("#lookstartTime").text(task.prjStartTime);
             	$("#lookendTime").text(task.prjEndTime);
             	$("#lookgaikuang").text(task.workContent);
+            	$("#look_guanliMoney").text(task.guanliMoney==null?"":task.guanliMoney)
             	
             	$("#look_xieban_table tbody").html('');
             	$("#look_xieban_table tbody").append("<tr><td>主办部门</td><td>"+task.omName+"</td><td>金额</td><td>"+task.mainDepartmentMoney+"</td><td>成本分摊比例</td><td>"+task.mainDepartmentCost+"</td><td>部门负责人</td><td>"+task.mainPrjLeaderName+"</td><td>部门工程师</td><td>"+task.mainEngineerName+"</td><td>其他管理人员</td><td>"+task.mainOtherName+"</td></tr>")
@@ -3771,6 +3806,7 @@
             	$("#historystartTime").text(json.prjStartTime);
             	$("#historyendTime").text(json.prjEndTime);
             	$("#historygaikuang").text(json.workContent);
+            	$("#history_guanliMoney").text(json.guanliMoney)
             	
             	$("#history_xieban_table tbody").html('');
             	$("#history_xieban_table tbody").append("<tr><td>主办部门</td><td>"+json.omName+"</td><td>金额</td><td>"+json.mainDepartmentMoney+"</td></tr>")
