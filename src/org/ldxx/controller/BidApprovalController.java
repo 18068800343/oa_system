@@ -77,7 +77,7 @@ public class BidApprovalController {
 		String id = uuid.getTimeUUID();
 		ba.setBaId(id);
 		
-		String bid = ba.getBidder();
+		/*String bid = ba.getBidder();
 		String bidder = bid.split(" ")[0];
 		String prjtype = ba.getPrjType();
 		String type = prjtype.split(" ")[0];
@@ -85,7 +85,7 @@ public class BidApprovalController {
 		String time=sdf.format(new Date());
 		int count=service.prjNocount("%"+time+"%");
 		String no = uuid.getSerialNumber(bidder, type, count+1);
-		ba.setPrjNo(no);
+		ba.setPrjNo(no);*/
 		int i=service.addBidApproval(ba);
 		if(i>0){
 			User user = (User) session.getAttribute("user");
@@ -135,7 +135,7 @@ public class BidApprovalController {
 		String id = uuid.getTimeUUID();
 		ba.setBaId(id);
 		
-		String bid = ba.getBidder();
+		/*String bid = ba.getBidder();
 		String bidder = bid.split(" ")[0];
 		String prjtype = ba.getPrjType();
 		String type = prjtype.split(" ")[0];
@@ -143,7 +143,7 @@ public class BidApprovalController {
 		String time=sdf.format(new Date());
 		int count=service.prjNocount("%"+time+"%");
 		String no = uuid.getSerialNumber(bidder, type, count+1);
-		ba.setPrjNo(no);
+		ba.setPrjNo(no);*/
 		int i=service.addBidApproval(ba);
 		String string = i+"";
 		if(i>0){
@@ -217,7 +217,7 @@ public class BidApprovalController {
 	public Map<String,Object> updateBidApprovalSubmit(BidApproval ba){
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
-		String bid = ba.getBidder();
+		/*String bid = ba.getBidder();
 		String bidder = bid.split(" ")[0];
 		String prjtype = ba.getPrjType();
 		String type = prjtype.split(" ")[0];
@@ -225,7 +225,7 @@ public class BidApprovalController {
 		String time=sdf.format(new Date());
 		int count=service.prjNocount("%"+time+"%");
 		String no = uuid.getSerialNumber(bidder, type, count+1);
-		ba.setPrjNo(no);
+		ba.setPrjNo(no);*/
 		int i=service.updateBidApproval(ba);
 		map.put("result", i);
 		map.put("BidApproval", ba);
