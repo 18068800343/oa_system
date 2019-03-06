@@ -21,5 +21,7 @@ public interface ContractUpdateService {
 	public ContractUpdate selectDeptContractMoneyByTimeAndType(String time,String dept,String type);
 	
 	public ContractUpdate selectDeptContractMoneyByStartAndEndTime(String start,String end,String dept);
+
+	int addContractUpdateMainTask(List<Task> task);
 	
 }

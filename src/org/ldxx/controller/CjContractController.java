@@ -814,6 +814,14 @@ public class CjContractController {
 		return i;
 	}
 	
+	//对任务单进行拆分
+	@RequestMapping("/addContractUpdateTask")
+	@ResponseBody
+ 	public int addContractUpdateTask(@RequestBody List<Task> task){
+		int i=cuService.addContractUpdateMainTask(task);
+		return i;
+	}
+	
 	@RequestMapping("/selectCjContractLikeTaskCode")
 	@ResponseBody
 	public CjContract selectCjContractLikeTaskCode(String no){
