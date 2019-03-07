@@ -408,8 +408,8 @@ public class ImportData {
 	        return map;  
 	    }
 	 
-	 //检测二部财务收款
-	 public  Map<String,Object> readExcelSecondCompanyCost(InputStream is) throws IOException { 
+	 //检测二部直接成本
+	 public  Map<String,Object> readExcelSecondCompanyCost(InputStream is, String time) throws IOException { 
 			Map<String,Object> map=new HashMap<String, Object>();
 			Workbook  hssfWorkbook=null;
 			try {
@@ -435,6 +435,7 @@ public class ImportData {
 	                Cell colum3 = hssfRow.getCell(2);  
 	                Cell colum4 = hssfRow.getCell(3);  
 	                Cell colum5 = hssfRow.getCell(4);
+	                Cell colum6 = hssfRow.getCell(5);
 	                boolean flag=true;
 	                /*if(t.size()>0){
 	                	for(int i=0;i<t.size();i++){
@@ -447,14 +448,15 @@ public class ImportData {
 	                    	}
 	                    }
 	                }*/
-	                if(flag==true){
+	                String val6 = getValue(colum6);
+	                if(flag==true&&val6.contains(time)){
 	                	ft.setId(new TimeUUID().getTimeUUID());
 	                	ft.setXuhao(getValue(colum1));
 	                	ft.setCompanyName(getValue(colum2));
 	                	ft.setTaskCode(getValue(colum3));
 	                	ft.setDepartName(getValue(colum4));
 	                	ft.setMoney(Float.valueOf((getValue(colum5))));
-	                	ft.setDate(TimeUUID.getLastMonth());
+	                	ft.setDate(val6);
 	                    t.add(ft);
 	                }
 	                }  
