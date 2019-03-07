@@ -50,7 +50,7 @@ public class ImportData {
 	@Autowired
 	ReceiveMoneyDao receiveMoneyDao;
 	
-	public Map<String,Object> readXls(InputStream is) throws IOException {  
+	public Map<String,Object> readXls(InputStream is, String time) throws IOException {  
 		Map<String,Object> map=new HashMap<String, Object>();
 		Workbook  hssfWorkbook=null;
 		
@@ -82,6 +82,8 @@ public class ImportData {
 						Cell colum3 = hssfRow.getCell(2);  
 						Cell colum4 = hssfRow.getCell(3);  
 						Cell colum5 = hssfRow.getCell(4);
+						Cell colum6 = hssfRow.getCell(5);
+						Cell colum7 = hssfRow.getCell(6);
 						String tNo=getValue(colum1);
 						boolean flag=true;
 						if(t.size()>0){
@@ -95,17 +97,22 @@ public class ImportData {
 								}
 							}
 						}
-						if(flag==true){
-							t2.settId(uuid.getTimeUUID());
-							t2.settNo(tNo);
-							t2.settName(getValue(colum2));
-							t2.settType(getValue(colum4));
-							t.add(t2);
+						String val5 = getValue(colum5);
+						if(val5.contains(time)){
+							if(flag==true){
+								t2.settId(uuid.getTimeUUID());
+								t2.settNo(tNo);
+								t2.settName(getValue(colum2));
+								t2.settType(getValue(colum4));
+								t2.settDate(val5);
+								t2.settDesc(getValue(colum7));
+								t.add(t2);
+							}
+							td.settNo(getValue(colum1));
+							td.setdName(getValue(colum6));
+							td.setdMoney(Float.valueOf(getValue(colum3)));
+							d.add(td);
 						}
-						td.settNo(getValue(colum1));
-						td.setdName(getValue(colum5));
-						td.setdMoney(Float.valueOf(getValue(colum3)));
-						d.add(td);
 					}
 				} catch (NumberFormatException e) {
 					e.printStackTrace();

@@ -13,6 +13,21 @@ public class Task2 {
 	private String tNo;
 	private String tName;
 	private String tType;
+	private String tDate;//填报日期
+	private String tDesc;//备注
+	
+	public String gettDesc() {
+		return tDesc;
+	}
+	public void settDesc(String tDesc) {
+		this.tDesc = tDesc;
+	}
+	public String gettDate() {
+		return tDate;
+	}
+	public void settDate(String tDate) {
+		this.tDate = tDate;
+	}
 	public String gettId() {
 		return tId;
 	}

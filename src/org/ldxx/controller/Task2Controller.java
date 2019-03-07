@@ -52,10 +52,10 @@ public class Task2Controller {
 	private CompanyCostDao ccDao;
 	@RequestMapping("/importExcel")
 	@ResponseBody
-	public int importExcel(@RequestParam("file") MultipartFile file,HttpServletResponse response,HttpSession session) throws IOException{
+	public int importExcel(@RequestParam("file") MultipartFile file,String time,HttpServletResponse response,HttpSession session) throws IOException{
 		InputStream is=file.getInputStream();
 		ImportData importData=new ImportData();
-		Map<String,Object> map=importData.readXls(is);
+		Map<String,Object> map=importData.readXls(is,time);
 		int i=tService.addTask2(map);
 		return i;
 	}
