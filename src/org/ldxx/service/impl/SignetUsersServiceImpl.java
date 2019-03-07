@@ -49,7 +49,7 @@ public class SignetUsersServiceImpl implements SignetUsersService {
 		if(i>0){
 			List<Accessory> accessory = sUser.getAccessory();
 			if(accessory!=null&&accessory.size()!=0){
-				i=adao.addAccessory(accessory);
+				adao.addAccessory(accessory);
 			}
 		}
 		return i;

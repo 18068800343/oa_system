@@ -50,7 +50,7 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 		if(i>0){
 			List<Accessory> accessory=announcement.getAccessory();
 			if(accessory !=null){
-				i=dao.addAccessory(accessory);
+				dao.addAccessory(accessory);
 			}
 		}
 		return i;

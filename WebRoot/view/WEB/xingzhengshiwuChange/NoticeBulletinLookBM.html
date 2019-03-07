@@ -338,7 +338,8 @@
                             </tr>
                         </table>
                         <table class="table table-bordered table-condensed"  id="edit_table">
-                        
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
                         </table>
                     </form>  
                         </div>
@@ -1521,12 +1522,12 @@
 		            	id:id
 		            },
 		            success: function (json) {
-		            	$("#edit_table").empty();
+		            	$("#edit_table tbody").empty();
 		               for(var i=0;i<json.length;i++){
-		            	   $("#edit_table").append("<tr>"+
+		            	   $("#edit_table tbody").append("<tr>"+
 		            	   														"<td>附件"+(i+1)+"</td>"+
-														            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
-														            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_this(this)'>删除附件</button></td>"+
+		            	   														"<td ><a  href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+		            	   									         	    	"<td ><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' data3='"+json[i].acName+"' onclick='delete_this(this)'>删除附件</button></td>"+
 														            	    "</tr>");
 		               }
 		            }
@@ -1540,17 +1541,18 @@
 	
 	
 	function delete_this(obj){
-		var url=$(obj).attr("data1");
-		var id=$(obj).attr("data2");
-		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var id=$(obj).attr("data1");
+		var url=$(obj).attr("data2");
+		var name=$(obj).attr("data3");
 		var statu = confirm("确认删除吗?");
 		  if(!statu){
 		   return false;
 		  }
 		$.ajax({
 			type: 'POST',
-            url: getContextPath()+'/announcement/deleteAccessory',
+            url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
             dataType: 'json',
+            async:false,
             data: {
             	aId:id,
             	acName:name,
@@ -1568,7 +1570,7 @@
 	}
 	
 	
-	function liuchengGaibian(){
+	function liuchengGaibian(obj){
 		var aTitle=$("#edit_title_this").val();
 		var aType=$("#edit_type_this").val();
 		var aImportance=$("#edit_importance_this").val();
@@ -1577,21 +1579,27 @@
 		
 		// 同步数据后可以直接取得textarea的value
 		editor2.sync();
-		var aDesc = $('#edit_info_this').val(); // jQuery
-		
 		var issuer=$("#edit_isuser_this").val();
-		if(aTitle==''){
-			toastr.error("标题不能为空");
-			return;
+		var aDesc = $('#edit_info_this').val(); // jQuery
+		if(obj=='1'){
+			if(issuer==''){
+				toastr.error("发布人不能为空");
+				return;
+			}
+			if(aTitle==''){
+				toastr.error("标题不能为空");
+				return;
+			}
+			if(aDepartment==''){
+				toastr.error("部门不能为空");
+				return;
+			}
+			if(aDesc==''){
+				toastr.error("内容不能为空");
+				return;
+			}
 		}
-		if(aDepartment==''){
-			toastr.error("部门不能为空");
-			return;
-		}
-		if(aDesc==''){
-			toastr.error("内容不能为空");
-			return;
-		}
+		
 		var result;
 		var options={
 				type: 'POST',
@@ -1696,13 +1704,17 @@
     });
 
     $("#xguploaderBox2").on("click",function(){
-    	$("#edit_table").append("<tr>"+
+    	$("#edit_table tfoot").append("<tr>"+
 													"<td>新附件</td>"+
-													"<td colspan='3'><input name='file' type='file'/></td>"+
+													"<td><input name='file' type='file'/></td>"+
+													"<td><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td>"+
 												 "</tr>");
     });
     
-    
+    function removeFile(obj){
+    	var tr=$(obj).parent().parent();
+    	$(tr).remove();
+    }
 
 </script>
 </html>
