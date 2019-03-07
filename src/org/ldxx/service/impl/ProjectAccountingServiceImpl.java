@@ -63,7 +63,7 @@ public class ProjectAccountingServiceImpl implements ProjectAccountingService {
 				for(int j=0;j<accountingRg.size();j++){
 					accountingRg.get(j).setPaId(projectAccounting.getPaId());
 				}
-				i=rgdao.addProjectAccountingRg(accountingRg);
+				rgdao.addProjectAccountingRg(accountingRg);
 			}
 		}
 		return i;

@@ -91,7 +91,7 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 		if(i>0){
 			List<Accessory> accessory=work.getAccessory();
 			if(accessory!=null&&accessory.size()!=0){
-				i=adao.addAccessory(accessory);
+				adao.addAccessory(accessory);
 			}
 			edao.deleteEnterprise(id);
 			List<Enterprise> enterprise=work.getEnterprise();
@@ -99,11 +99,11 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 				for(int a=0;a<enterprise.size();a++){
 					enterprise.get(a).seteId(id);
 				}
-				i=edao.addEnterprise(enterprise);
+				edao.addEnterprise(enterprise);
 			}
 			List<Task> task=work.getTaskArray();
-			i=tdao.updateTasks(task);
-			i=cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
+			tdao.updateTasks(task);
+			cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
 		}
 		return i;
 	}
@@ -116,7 +116,7 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 		if(i>0){
 			List<Accessory> accessory=work.getAccessory();
 			if(accessory!=null&&accessory.size()!=0){
-				i=adao.addAccessory(accessory);
+				adao.addAccessory(accessory);
 			}
 			edao.deleteEnterprise(id);
 			List<Enterprise> enterprise=work.getEnterprise();
@@ -124,11 +124,11 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 				for(int a=0;a<enterprise.size();a++){
 					enterprise.get(a).seteId(id);
 				}
-				i=edao.addEnterprise(enterprise);
+				edao.addEnterprise(enterprise);
 			}
 			List<Task> task=work.getTaskArray();
-			i=tdao.updateTasks(task);
-			i=cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
+			tdao.updateTasks(task);
+			cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
 		}
 		return i;
 	}
