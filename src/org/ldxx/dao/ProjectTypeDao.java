@@ -45,4 +45,6 @@ public interface ProjectTypeDao {
 
 	public List<Dictionary> selectAllSecond();
 	
+	public List<Dictionary> selectSecondPrjType(@Param("type")String type);
+	
 }

@@ -2045,16 +2045,16 @@
         			$("#xgzandingjin").removeAttr("disabled");
         		} */
         		
-            	$("#xgerjileixing").val(json.prjType2);
             	$("#xgshishe").val(json.shishebili);
             	$("#xgchushe").val(json.chushebili);
             	$("#xgyugongke").val(json.yugongkebili);
-            	$("#xgerjileixing").trigger("click");
             	
         		$("#xgtaskName").val(json.prjName);
             	$("#xgtaskbianhao").val(json.prjNo);
             	$("#xgmoshi").val(json.prjManagementModel);
-            	$("#xggongsi").val(json.prjCompany1);
+            	$("#xggongsi").val(json.prjCompany);
+            	$("#xggongsi").trigger("change");
+            	$("#xgerjileixing").val(json.prjType2);
             	/* 回显城市 */
             	var area=json.prjArea;
             	if(area!=''&&area!=null){
@@ -2925,6 +2925,29 @@
 		setCookie("chaiFenData",jsonData);
 		location.href = "../shengchanGuanli/TaskManagementChaiFen.html";
   	});
+  	 
+  	$("#xggongsi").on("change",function(){
+ 		 var gongsi=$("#xggongsi").val();
+ 		 var type='1';
+ 		 if(gongsi=='华汇'){
+ 			 type='3';
+ 		 }
+ 		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/projectType/selectSecondPrjType',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	type:type
+	            },
+	            success: function (json) {
+	            	 $("#xgerjileixing").html("");
+	                 for(var i=0;i<json.length;i++){
+	                 	$("#xgerjileixing").append("<option value='"+json[i].nameSecond+"'>"+json[i].nameSecond+"</option>")
+	                 }
+	            }
+	      });
+ 	 })
 </script>
 
 </html>

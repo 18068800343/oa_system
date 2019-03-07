@@ -95,6 +95,11 @@ public class ProjectTypeServiceImpl implements ProjectTypeService {
 	public List<Dictionary> selectAllSecond() {
 		return projectTypeDao.selectAllSecond();
 	}
+
+	@Override
+	public List<Dictionary> selectSecondPrjType(String type) {
+		return projectTypeDao.selectSecondPrjType(type);
+	}
 	
 
 }

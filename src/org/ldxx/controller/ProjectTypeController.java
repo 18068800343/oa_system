@@ -115,4 +115,10 @@ public class ProjectTypeController {
 		return projectTypeService.selectAllSecond();
 	}
 	
+	@RequestMapping("/selectSecondPrjType")
+	@ResponseBody
+	public List<Dictionary> selectSecondPrjType(String type){
+		return projectTypeService.selectSecondPrjType(type);
+	}
+	
 }
