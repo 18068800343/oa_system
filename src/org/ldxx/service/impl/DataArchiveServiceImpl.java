@@ -69,13 +69,13 @@ public class DataArchiveServiceImpl implements DataArchiveService{
 		int i=dao.updateDataArchive(archive);
 		if(i>0){
 			if(list.size()>0){
-				i=adao.addAccessory(list);
+				adao.addAccessory(list);
 			}
 			if(list2.size()>0){
-				i=adao.addAccessory(list2);
+				adao.addAccessory(list2);
 			}
 			if(list3.size()>0){
-				i=adao.addAccessory(list3);
+				adao.addAccessory(list3);
 			}
 		}
 		return i;

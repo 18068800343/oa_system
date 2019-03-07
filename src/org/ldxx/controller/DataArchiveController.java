@@ -277,7 +277,7 @@ public class DataArchiveController {
 	
 	@RequestMapping("/updateDataArchiveBySave")
 	@ResponseBody
-	public int updateDataArchiveBySave(DataArchive archive,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3) throws IllegalStateException, IOException{
+	public int updateDataArchiveBySave(DataArchive archive,@RequestParam(required=false,value="file") MultipartFile [] file,@RequestParam(required=false,value="file2") MultipartFile [] file2,@RequestParam(required=false,value="file3") MultipartFile [] file3) throws IllegalStateException, IOException{
 		String id=archive.getDaId();
 		TimeUUID uuid=new TimeUUID();
 		String webApp=uuid.getWebAppFile();

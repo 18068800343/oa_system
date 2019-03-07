@@ -59,7 +59,7 @@ public class InternalTrainingServiceImpl implements InternalTrainingService{
 		if(i>0){
 			List<Accessory> list=training.getAccessory();
 			if(list.size()>0){
-				i=adao.addAccessory(list);
+				adao.addAccessory(list);
 			}
 		}
 		return i;

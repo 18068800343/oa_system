@@ -45,7 +45,7 @@ public class OutTrainServiceImpl implements OutTrainService{
 		if(i>0){
 			List<Accessory> list=outTrain.getAccessory();
 			if(list.size()>0){
-				i=adao.addAccessory(list);
+				adao.addAccessory(list);
 			}
 		}
 		return i;

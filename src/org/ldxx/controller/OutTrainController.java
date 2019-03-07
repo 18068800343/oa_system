@@ -192,7 +192,7 @@ public class OutTrainController {
 	
 	@RequestMapping("/updateOutTrainBySave")
 	@ResponseBody
-	public int updateOutTrainBySave(OutTrain outTrain,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int updateOutTrainBySave(OutTrain outTrain,@RequestParam(required=false,value="file") MultipartFile [] file) throws IllegalStateException, IOException{
 		String id=outTrain.getOtId();
 		TimeUUID uuid=new TimeUUID();
 		String webApp=uuid.getWebAppFile();

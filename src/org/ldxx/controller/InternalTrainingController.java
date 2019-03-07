@@ -197,7 +197,7 @@ public class InternalTrainingController {
 	
 	@RequestMapping("/updateInternalTrainingBySave")
 	@ResponseBody
-	public int updateInternalTrainingBySave(InternalTraining training,@RequestParam MultipartFile [] file) throws IllegalStateException, IOException{
+	public int updateInternalTrainingBySave(InternalTraining training,@RequestParam(required=false,value="file") MultipartFile [] file) throws IllegalStateException, IOException{
 		String id=training.getItId();
 		TimeUUID uuid=new TimeUUID();
 		String webApp=uuid.getWebAppFile();

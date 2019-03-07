@@ -637,7 +637,7 @@
 	}
 	
 	//保存修改
-	function liuchengGaibian(){
+	function liuchengGaibian(obj){
 		var xgprjName=$("#xgprjName").val();
 		var xgtask_no=$("#xgtask_no").val();
 		var xgprj_ownerunit=$("#xgprj_ownerunit").val();//项目负责人
@@ -656,20 +656,23 @@
 		}
 		if($("#xgprjName").val()==''){
 			toastr.error("项目名称不能为空");
-    		return;
+    		return "项目名称不能为空";
 		}
-		/* if($("#xgprj_phase").val()==''){
-			toastr.error("成果类型不能为空");
-    		return;
+		if(obj=='1'){
+			 if($("#xgprj_phase").val()==''){
+				toastr.error("成果类型不能为空");
+	    		return "成果类型不能为空";
+			}
+			if($("#xguserSignetMan").val()==''){
+				toastr.error("用章管理人不能为空");
+	    		return "用章管理人不能为空";
+			}
+			if($("#xgprj_desc").val()==''){
+				toastr.error("项目情况说明不能为空");
+	    		return "项目情况说明不能为空";
+			}
 		}
-		if($("#xguserSignetMan").val()==''){
-			toastr.error("用章管理人不能为空");
-    		return;
-		}
-		if($("#xgprj_desc").val()==''){
-			toastr.error("项目情况说明不能为空");
-    		return;
-		} */
+		
 		var result;
 		$.ajax({
 			type:"post",
@@ -692,16 +695,11 @@
 				yaosuname:yaosuname
 			},
 			success:function(json){
-				//console.log(json);
 				result=json;
 				if(json.result==0){
 					toastr.error("修改失败")
 				}else if(json.result==1){
-					//location.reload([true]);
 					toastr.success("修改成功")
-					$("#change").modal("hide")
-					$('#mainContent').DataTable().row(tr).data(rsJson);//修改行立即显示
-					//initTable();
 				}
 			}
 		})
