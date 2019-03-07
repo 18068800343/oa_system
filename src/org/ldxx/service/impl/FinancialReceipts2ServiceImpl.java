@@ -64,7 +64,7 @@ public class FinancialReceipts2ServiceImpl implements FinancialReceipts2Service{
 		List<FinancialTables> list = (List<FinancialTables>) map.get("fR2");
 		int num=0;
 		if(list.size()!=0){
-			for(int i=0;i<list.size();i++){
+			/*for(int i=0;i<list.size();i++){
 				String no=list.get(i).gettNo();
 				String name = list.get(i).gettName();
 				String department = list.get(i).gettDepartment();
@@ -80,7 +80,8 @@ public class FinancialReceipts2ServiceImpl implements FinancialReceipts2Service{
 				f.settDesc(desc);
 				f.settTime(time);
 				num=dao.updateValueByNo(f);
-			}
+			}*/
+			num=dao.addFinancialReceipts2(list);
 		}
 		return num;
 	}

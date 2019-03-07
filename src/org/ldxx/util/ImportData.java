@@ -281,7 +281,7 @@ public class ImportData {
          }  
 
 	 //检测二部财务收款
-	 public Map<String,Object> fR2readXls(InputStream is) throws IOException {  
+	 public Map<String,Object> fR2readXls(InputStream is, String time) throws IOException {  
 			Map<String,Object> map=new HashMap<String, Object>();
 			Workbook  hssfWorkbook=null;
 			try {
@@ -306,7 +306,7 @@ public class ImportData {
 	                Cell colum1 = hssfRow.getCell(0);  
 	                Cell colum2 = hssfRow.getCell(1);  
 	                Cell colum3 = hssfRow.getCell(2);  
-	                Cell colum4 = hssfRow.getCell(3);  
+	                Cell colum4 = hssfRow.getCell(3); 
 	                Cell colum5 = hssfRow.getCell(4);
 	                Cell colum6 = hssfRow.getCell(5);
 	                
@@ -323,14 +323,15 @@ public class ImportData {
 	                    	}
 	                    }
 	                }*/
-	                if(flag==true){
+	                String val6 = getValue(colum6);
+	                if(flag==true&&val6.contains(time)){
 	                	ft.settId(uuid.getTimeUUID());
 	                	ft.settNo(tNo);
 	                	ft.settName(getValue(colum2));
 	                	ft.settDepartment(getValue(colum3));
-	                	ft.settCollectionValue(Float.valueOf(getValue(colum4)));
+	                	ft.settCollectionValue(Float.valueOf(getValue(colum4)==""?"0":getValue(colum4)));
 	                	ft.settDesc(getValue(colum5));
-	                	ft.settTime(getValue(colum6));
+	                	ft.settTime(val6);
 	                    t.add(ft);
 	                }
 	                }  

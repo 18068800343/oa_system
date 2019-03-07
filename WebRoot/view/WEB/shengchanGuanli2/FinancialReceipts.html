@@ -58,8 +58,14 @@
         <div class="modal-body">
                 <div style="overflow:auto;">     
                     <form class="form-inline" id="form1" enctype="multipart/form-data" method="post">
-                            <label style="width:20%;"></label>
-                        	<input style="width:60%;" type="file" name="file" id="file" class="form-control">
+                    	<table>
+                    		<tr>
+                    			<td>导入月份 <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+				                <td><input type="text" class="form-control" id="this_time" style="width:60%;"></td>
+	                            <td><label ></label></td>
+	                        	<td><input style="width:100%;" type="file" name="file" id="file" class="form-control"></td>
+                    		</tr>
+                    	</table>
                     </form>  
                 </div>
         </div>
@@ -476,6 +482,10 @@
     	laydate.render({
             elem: '#year' //指定元素
         });
+        laydate.render({
+            elem: '#this_time', //指定元素
+            type:'month'
+        });
     	initTable();
     	initSelect();
 	});
@@ -646,7 +656,9 @@
 		}
 		var options={
 				url:getContextPath()+'/FinancialReceipts2/importExcel',
-				data:$('#from1').serialize(),  
+				data:{
+					time:$("#this_time").val()
+				},  
 				type:'POST',
 				dataType: 'json',
 				contentType : "application/x-www-form-urlencoded; charset=gbk",
@@ -654,7 +666,8 @@
 					if(json>0){
 						toastr.success('导入成功');
 						$("#myModal2").modal("hide");
-						location.reload([true]);
+						//location.reload([true]);
+						initTable();
 					}else{
 						toastr.error('导入失败');
 					}

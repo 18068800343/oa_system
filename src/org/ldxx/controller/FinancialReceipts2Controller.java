@@ -49,14 +49,14 @@ public class FinancialReceipts2Controller {
 		return list;
 	}
 	
-	@RequestMapping("/importExcel")
+	@RequestMapping("/importExcel")//导入收款项目
 	@ResponseBody
-	public int importExcel(@RequestParam("file") MultipartFile file,HttpServletResponse response,HttpSession session) throws IOException{
+	public int importExcel(@RequestParam("file") MultipartFile file,String time,HttpServletResponse response,HttpSession session) throws IOException{
 		InputStream is=file.getInputStream();
 		ImportData importData=new ImportData();
-		Map<String, Object> map = importData.fR2readXls(is);
+		Map<String, Object> map = importData.fR2readXls(is,time);
 		int i=service.addFinancialReceipts2(map);//
-		return 1;
+		return i;
 	}
 	
 	
