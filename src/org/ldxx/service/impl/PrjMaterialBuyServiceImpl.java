@@ -100,7 +100,7 @@ public class PrjMaterialBuyServiceImpl implements PrjMaterialBuyService{
 	public int updateById(PrjMaterialBuy buy) {
 		int i=dao.updateById(buy);
 		if(i>0){
-			i=mdao.deleteBybuyId(buy.getPmbId());
+			mdao.deleteBybuyId(buy.getPmbId());
 			List<MaterialDemand> md = buy.getMd();
 			if(md!=null&&md.size()!=0){
 				TimeUUID uuid=new TimeUUID();
@@ -108,7 +108,7 @@ public class PrjMaterialBuyServiceImpl implements PrjMaterialBuyService{
 					md.get(a).setBuyId(buy.getPmbId());
 					md.get(a).setMdlId(uuid.getTimeUUID());
 				}
-				i=mdao.addMaterialDemand(md);
+				mdao.addMaterialDemand(md);
 			}
 		}
 		return i;

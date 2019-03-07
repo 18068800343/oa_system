@@ -64,7 +64,7 @@ public class MaterialPerformanceServiceImpl implements MaterialPerformanceServic
 		if(i>0){
 			List<Accessory> accessory=c.getAccessory();
 			if(accessory!=null){
-				i=adao.addAccessory(accessory);
+				adao.addAccessory(accessory);
 			}
 		}
 		return i;

@@ -223,16 +223,16 @@ public class CgContractServiceImpl implements CgContractService {
 			if(isProgram.equals("是")){	//当是否代购为是时，金额统计到付款申请代垫款中。
 				Pay pay=payDao.selectPayByNo(cg.getFbNo());
 				if(pay!=null){
-					i=payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
+					payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
 				}
 			}
 			List<Accessory> accessory=cg.getAccessory();
 			if(accessory!=null){
-				i=adao.addAccessory(accessory);
+				adao.addAccessory(accessory);
 			}
 			List<Accessory> accessory1=cg.getAccessory1();
 			if(accessory1!=null&&accessory1.size()>0){
-				i=adao.addAccessory(accessory1);
+				adao.addAccessory(accessory1);
 			}
 			if(null!=cg.getCgcl()&&cg.getCgcl().size()>0){
 			    cgclDao.deleteCgClById(cg.getCgId());
