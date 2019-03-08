@@ -31,4 +31,6 @@ public interface KpApplicationDao {
 
 	public int updateKpApplicationById(@Param("kp")KpApplication kp);
 
+	public int updateKpNoById(@Param("id")String id,@Param("code") String code);
+
 }

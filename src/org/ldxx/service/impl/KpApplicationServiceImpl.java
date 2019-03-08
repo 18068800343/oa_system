@@ -75,4 +75,9 @@ public class KpApplicationServiceImpl implements KpApplicationService{
 		return dao.updateKpApplicationById(kp);
 	}
 
+	@Override
+	public int updateKpNoById(String id, String code) {
+		return dao.updateKpNoById(id,code);
+	}
+
 }

@@ -53,9 +53,9 @@ public class KpApplicationController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		kp.setKpId(id);
-		int count=service.countfpNo();
+		/*int count=service.countfpNo();
 		String code="KP"+uuid.getClCode("", count+1);
-		kp.setKpNo(code);
+		kp.setKpNo(code);*/
 		int i=service.addKpApplication(kp);
 		if(i>0){
 			User user = (User) session.getAttribute("user");
@@ -100,9 +100,9 @@ public class KpApplicationController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		kp.setKpId(id);
-		int count=service.countfpNo();
+		/*int count=service.countfpNo();
 		String code="KP"+uuid.getClCode("", count+1);
-		kp.setKpNo(code);
+		kp.setKpNo(code);*/
 		int i=service.addKpApplication(kp);
 		String string = "";
 		if(i>0){
@@ -250,6 +250,16 @@ public class KpApplicationController {
 			String omNo = omDao.selectOrgById(kp.getKpDepartment()).getOmNo();
 			currentFlowMapper.updateFkDeptByModeId(kp.getKpId(), omNo);
 		}
+		return i;
+	}
+	
+	@RequestMapping("/updateKpNoById")//流程最后一步通过id修改编号
+	@ResponseBody
+	public int updateKpNoById(String id){
+		TimeUUID uuid=new TimeUUID();
+		int count=service.countfpNo();
+		String code="KP"+uuid.getClCode("", count+1);
+		int i=service.updateKpNoById(id,code);
 		return i;
 	}
 }
