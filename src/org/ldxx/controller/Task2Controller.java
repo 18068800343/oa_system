@@ -112,10 +112,10 @@ public class Task2Controller {
 	
 	@RequestMapping("/importExcel2")
 	@ResponseBody
-	public int importExcel2(@RequestParam("file") MultipartFile file,HttpServletResponse response,HttpSession session) throws IOException, ParseException{
+	public int importExcel2(@RequestParam("file") MultipartFile file,String time,HttpServletResponse response,HttpSession session) throws IOException, ParseException{
 		InputStream is=file.getInputStream();
 		ImportData importData=new ImportData();
-		List<TDepartment> td=importData.readXls2(is);
+		List<TDepartment> td=importData.readXls2(is,time);
 		
 		int i=tdService.updateIncome(td);
 		

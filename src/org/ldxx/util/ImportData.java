@@ -124,7 +124,7 @@ public class ImportData {
         return map;  
     }  
 	
-	public List<TDepartment> readXls2(InputStream is) throws IOException, ParseException {  
+	public List<TDepartment> readXls2(InputStream is,String time) throws IOException, ParseException {  
 		 List<TDepartment> list=new ArrayList<>();
 		Workbook  hssfWorkbook=null;
 		try {
@@ -138,26 +138,28 @@ public class ImportData {
             if (hssfSheet == null) {  
                 continue;  
             }  
-            SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM");
-            SimpleDateFormat sdf2=new SimpleDateFormat("yyyy/MM/dd");
-    		String time=sdf.format(new Date());
-    		String year=time.split("/")[0];
-    		int month=Integer.valueOf(time.split("/")[1]);
+            SimpleDateFormat sdf2=new SimpleDateFormat("yyyy-MM-dd");
+    		String year=time.split("-")[0];
+    		int month=Integer.valueOf(time.split("-")[1]);
+    		int yearInt = Integer.valueOf(time.split("-")[0]);
     		String startTime="";
-    		if(month!=1){
-    			startTime=year+"/"+(month-1)+"/01";
-    		}else{
-    			int newYear=Integer.valueOf(year);
-    			startTime=(newYear-1)+"/12/01";
-    		}
-    		String endTime=time+"/01";
+			startTime=year+"-"+month+"-01";
+			String endTime;
+			yearInt+=1;
+			if(month==12){
+				month=1;
+				endTime=yearInt+"-"+month+"-"+"01";
+			}else{
+				month+=1;
+				endTime=year+"-"+month+"-"+"01";
+			}
     		float start=sdf2.parse(startTime).getTime();
     		float end=sdf2.parse(endTime).getTime();
     		
     		Calendar calendar = new GregorianCalendar(1900,0,-1);  
             Date d = calendar.getTime(); 
             // 循环行Row  
-            for (int rowNum = 2; rowNum <hssfSheet.getLastRowNum(); rowNum++) {  
+            for (int rowNum = 2; rowNum <=hssfSheet.getLastRowNum(); rowNum++) {  
             	Row hssfRow = hssfSheet.getRow(rowNum);
                 int cells=hssfRow.getPhysicalNumberOfCells();
                
