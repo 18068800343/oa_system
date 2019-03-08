@@ -33,9 +33,9 @@ public class Task {
 
     private Double prjEstimateMoney;
 
-    private Float contractMoney;
+    private Double contractMoney;
 
-    private Float provisionalSum;
+    private Double provisionalSum;
     
     private Float guanliMoney;//管理费
 
@@ -716,19 +716,19 @@ public class Task {
 		this.prjEstimateMoney = prjEstimateMoney;
 	}
 
-	public Float getContractMoney() {
+	public Double getContractMoney() {
 		return contractMoney;
 	}
 
-	public void setContractMoney(Float contractMoney) {
+	public void setContractMoney(Double contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 
-	public Float getProvisionalSum() {
+	public Double getProvisionalSum() {
 		return provisionalSum;
 	}
 
-	public void setProvisionalSum(Float provisionalSum) {
+	public void setProvisionalSum(Double provisionalSum) {
 		this.provisionalSum = provisionalSum;
 	}
 

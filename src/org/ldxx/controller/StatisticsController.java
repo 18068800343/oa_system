@@ -1590,8 +1590,8 @@ public class StatisticsController {
 		return money;
 	}
 	
-	public float getReceiptByPrjType(String type,List<CjContract> cj){
-		float money=0;
+	public Double getReceiptByPrjType(String type,List<CjContract> cj){
+		Double money=(double) 0;
 		if(cj!=null){
 			for(int i=0;i<cj.size();i++){
 				float resultReceipt=cj.get(i).getTemporaryMoney();//实际收款
@@ -1601,7 +1601,7 @@ public class StatisticsController {
 					String no=prjNo.split(",")[ii];
 					Task t=tService.selectTaskByNoAndType(type, no);
 					if(t!=null){
-						float contractMoney=t.getContractMoney();//任务单合同金额
+						Double contractMoney=t.getContractMoney();//任务单合同金额
 						money=money+(cjContractMoney/contractMoney)*resultReceipt;
 					}
 				}

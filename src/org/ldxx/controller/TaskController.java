@@ -821,7 +821,7 @@ public class TaskController {
 		Task task1=taskDao.selectTaskById(id);
 		List<Task> taskChildren = taskDao.selectTaskAndTaskChildrenByMainPrjNo(task1.getPrjNo(),id);
 		Double mainTaskMoney = task1.getPrjEstimateMoney();
-		Float mainTaskContractMoney = task1.getContractMoney();
+		Double mainTaskContractMoney = task1.getContractMoney();
 		int i=0;
 		for(Task task : taskChildren){
 			String modeId = task.getPrjId();
@@ -833,7 +833,7 @@ public class TaskController {
 			example.createCriteria().andModeIdEqualTo(modeId);
 			i= modeStatusMapper.updateByExampleSelective(modeStatus, example);
 			mainTaskMoney = mainTaskMoney-task.getPrjEstimateMoney();
-			mainTaskContractMoney = mainTaskContractMoney - task.getContractMoney();
+			mainTaskContractMoney = (Double) (mainTaskContractMoney - task.getContractMoney());
 		}
 		i=taskDao.updateTaskMoneyByIdChaifen(mainTaskMoney, mainTaskContractMoney, id);
 		return i;
@@ -1061,7 +1061,7 @@ public class TaskController {
 	@ResponseBody
 	public Map<String,String> getLeader(String nos){
 		Map<String,String> map=new HashMap<>();
-		float money=0;
+		Double money=(double) 0;
 		String leader="";
 		for(int i=0;i<nos.split(",").length;i++){
 			Task task=tService.selectIdByNo(nos.split(",")[i]);

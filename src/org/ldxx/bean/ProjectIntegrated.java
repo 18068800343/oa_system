@@ -18,8 +18,8 @@ public class ProjectIntegrated {
 	private String cjDepartment;//承接部门
 	private String prjLeader;//项目负责人
 	private float workMoney;//任务单金额
-	private float contractMoney;//合同金额
-	private float zdMoney;//暂定金
+	private Double contractMoney;//合同金额
+	private Double zdMoney;//暂定金
 	private float contractEndMoney;//合同结算金额
 	private float totalKpMoney;//累积开票金额
 	private double totalMoney;//累计收款
@@ -92,16 +92,16 @@ public class ProjectIntegrated {
 	public void setWorkMoney(float workMoney) {
 		this.workMoney = workMoney;
 	}
-	public float getContractMoney() {
+	public Double getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(float contractMoney) {
+	public void setContractMoney(Double contractMoney) {
 		this.contractMoney = contractMoney;
 	}
-	public float getZdMoney() {
+	public Double getZdMoney() {
 		return zdMoney;
 	}
-	public void setZdMoney(float zdMoney) {
+	public void setZdMoney(Double zdMoney) {
 		this.zdMoney = zdMoney;
 	}
 	public float getContractEndMoney() {
