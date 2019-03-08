@@ -27,5 +27,7 @@ public interface PrjMaterialBuyService {
 	public int updateXMById(PrjMaterialBuy buy);
 
 	public int updateById(PrjMaterialBuy buy);
+
+	public int updateTaskNoById(String id, String taskCode);
 	
 }

@@ -52,12 +52,12 @@ public class PrjMaterialBuyController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		buy.setPmbId(id);
-		int count=service.selectPrjMaterialBuyCount();
+		/*int count=service.selectPrjMaterialBuyCount();
 		count=count+1;
 		OrganizationManagement om2=oservice.selectOrgById(buy.getApplyDepartment());
 		String omNo2=om2.getOmNo();
 		String taskCode=uuid.getClCode(omNo2, count);
-		buy.setTaskCode(taskCode);
+		buy.setTaskCode(taskCode);*/
 		int i=service.addPrjMaterialBuy(buy);
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(buy.getApplyDepartment());
@@ -103,11 +103,11 @@ public class PrjMaterialBuyController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		buy.setPmbId(id);
-		int count=service.selectPrjMaterialBuyCount();
+		/*int count=service.selectPrjMaterialBuyCount();
 		OrganizationManagement om2=oservice.selectOrgById(buy.getApplyDepartment());
 		String omNo2=om2.getOmNo();
 		String taskCode=uuid.getClCode(omNo2, count+1);
-		buy.setTaskCode(taskCode);
+		buy.setTaskCode(taskCode);*/
 		int i=service.addPrjMaterialBuy(buy);
 		String string = i+"";
 		if(i>0){
@@ -216,5 +216,18 @@ public class PrjMaterialBuyController {
 	@ResponseBody
 	public int updateXMById(PrjMaterialBuy buy){
 		return service.updateXMById(buy);
+	}
+	
+	@RequestMapping("/updateTaskNoById")//通过id修改申请单编号
+	@ResponseBody
+	public int updateTaskNoById(String id){
+		PrjMaterialBuy buy = service.selectPrjMaterialBuyById(id);
+		TimeUUID uuid=new TimeUUID();
+		int count=service.selectPrjMaterialBuyCount();
+		OrganizationManagement om2=oservice.selectOrgById(buy.getApplyDepartment());
+		String omNo2=om2.getOmNo();
+		String taskCode=uuid.getClCode(omNo2, count+1);
+		int i= service.updateTaskNoById(id,taskCode);
+		return i;
 	}
 }

@@ -31,4 +31,6 @@ public interface PrjMaterialBuyDao {
 
 	public int updateById(@Param("buy")PrjMaterialBuy buy);
 
+	public int updateTaskNoById(@Param("id")String id,@Param("taskCode") String taskCode);
+
 }

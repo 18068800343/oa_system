@@ -114,4 +114,9 @@ public class PrjMaterialBuyServiceImpl implements PrjMaterialBuyService{
 		return i;
 	}
 
+	@Override
+	public int updateTaskNoById(String id, String taskCode) {
+		return dao.updateTaskNoById(id,taskCode);
+	}
+
 }
