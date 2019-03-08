@@ -164,7 +164,7 @@ public class ImportData {
                 TDepartment td=new TDepartment();
                 
                 Cell colum1 = hssfRow.getCell(0);  
-                /*Cell colum2 = hssfRow.getCell(2);  */
+                Cell colum2 = hssfRow.getCell(1); 
                 Cell colum3 = hssfRow.getCell(3);  
                 Cell colum4 = hssfRow.getCell(4);  
                 Cell colum5 = hssfRow.getCell(5);
@@ -183,6 +183,7 @@ public class ImportData {
                 		String date1 = simpleDateFormat.format(date);
                 		td.settNo(getValue(colum1));
                 		td.setdName(getValue(colum4));
+                		td.settName(getValue(colum2));
                 		td.setdIncome(Float.valueOf(getValue(colum3)));
                 		td.setDate(date1);
                 		list.add(td);

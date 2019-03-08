@@ -23,10 +23,7 @@ public class TDepartmentServiceImpl implements TDepartmentService{
 	public int updateIncome(List<TDepartment> td) {
 		int i=0;
 		for(TDepartment tDepartment:td){
-			i=dao.updateIncomeOne(tDepartment);
-			if(i>0){
-				i=dao.addTDepartmentIncome(tDepartment);
-			}
+		  i=dao.addTDepartmentIncome(tDepartment);
 		}
 		return i;
 		
