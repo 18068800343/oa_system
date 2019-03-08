@@ -97,21 +97,34 @@ public class ImportData {
 								}
 							}
 						}
-						String val5 = getValue(colum5);
-						if(val5.contains(time)){
+						 String date1;
+	                	if (colum5.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+	                		Date date = new Date();
+	                		date = colum5.getDateCellValue();
+	                		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	                		date1 = simpleDateFormat.format(date);
+	                	}else{
+	                		date1 = getValue(colum5);
+	                	}
+						//String val5 = getValue(colum5);
+						if(date1.contains(time)){
 							if(flag==true){
 								t2.settId(uuid.getTimeUUID());
 								t2.settNo(tNo);
 								t2.settName(getValue(colum2));
 								t2.settType(getValue(colum4));
-								t2.settDate(val5);
+								t2.settDate(date1);
 								t2.settDesc(getValue(colum7));
 								t.add(t2);
+								td.settNo(getValue(colum1));
+								td.setdName(getValue(colum6));
+								String cl3 = getValue(colum3);
+								if(cl3.isEmpty()){
+									cl3="0";
+								}
+								td.setdMoney(Float.valueOf(cl3));
+								d.add(td);
 							}
-							td.settNo(getValue(colum1));
-							td.setdName(getValue(colum6));
-							td.setdMoney(Float.valueOf(getValue(colum3)));
-							d.add(td);
 						}
 					}
 				} catch (NumberFormatException e) {
@@ -291,67 +304,75 @@ public class ImportData {
 		 }
          }  
 
-	 //检测二部财务收款
-	 public Map<String,Object> fR2readXls(InputStream is, String time) throws IOException {  
-			Map<String,Object> map=new HashMap<String, Object>();
-			Workbook  hssfWorkbook=null;
-			try {
-				hssfWorkbook = WorkbookFactory.create(is);  
-			} catch (Exception e) {
-				e.printStackTrace();
-			}  
-			List<FinancialTables> t = new ArrayList<FinancialTables>();
-	        // 循环工作表Sheet  
-	        for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) { 
-	            Sheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);  
-	            if (hssfSheet == null) {  
-	                continue;  
-	            }  
-	            // 循环行Row  
-	            for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {  
-	            	Row hssfRow = hssfSheet.getRow(rowNum);
-	                int cells=hssfRow.getPhysicalNumberOfCells();
-	                
-	                FinancialTables ft=new FinancialTables();
-	                TimeUUID uuid=new TimeUUID();
-	                Cell colum1 = hssfRow.getCell(0);  
-	                Cell colum2 = hssfRow.getCell(1);  
-	                Cell colum3 = hssfRow.getCell(2);  
-	                Cell colum4 = hssfRow.getCell(3); 
-	                Cell colum5 = hssfRow.getCell(4);
-	                Cell colum6 = hssfRow.getCell(5);
-	                
-	                String tNo=getValue(colum1);
-	                boolean flag=true;
-	                /*if(t.size()>0){
-	                	for(int i=0;i<t.size();i++){
-	                    	String no=t.get(i).gettNo();
-	                    	if(no.equals(tNo)){
-	                    		flag=false;
-	                    		break;
-	                    	}else{
-	                    		flag=true;
-	                    	}
-	                    }
-	                }*/
-	                String val6 = getValue(colum6);
-	                if(flag==true&&val6.contains(time)){
-	                	ft.settId(uuid.getTimeUUID());
-	                	ft.settNo(tNo);
-	                	ft.settName(getValue(colum2));
-	                	ft.settDepartment(getValue(colum3));
-	                	ft.settCollectionValue(Float.valueOf(getValue(colum4)==""?"0":getValue(colum4)));
-	                	ft.settDesc(getValue(colum5));
-	                	ft.settTime(val6);
-	                    t.add(ft);
-	                }
-	                }  
-	            } 
-	        map.put("fR2", t);
-	        return map;  
-	    }
+	//检测二部财务收款
+		 public Map<String,Object> fR2readXls(InputStream is, String time) throws IOException {  
+				Map<String,Object> map=new HashMap<String, Object>();
+				Workbook  hssfWorkbook=null;
+				try {
+					hssfWorkbook = WorkbookFactory.create(is);  
+				} catch (Exception e) {
+					e.printStackTrace();
+				}  
+				List<FinancialTables> t = new ArrayList<FinancialTables>();
+		        // 循环工作表Sheet  
+		        for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) { 
+		            Sheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);  
+		            if (hssfSheet == null) {  
+		                continue;  
+		            }  
+		            // 循环行Row  
+		            for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {  
+		            	Row hssfRow = hssfSheet.getRow(rowNum);
+		                int cells=hssfRow.getPhysicalNumberOfCells();
+		                
+		                FinancialTables ft=new FinancialTables();
+		                TimeUUID uuid=new TimeUUID();
+		                Cell colum1 = hssfRow.getCell(0);  
+		                Cell colum2 = hssfRow.getCell(1);  
+		                Cell colum3 = hssfRow.getCell(2);  
+		                Cell colum4 = hssfRow.getCell(3); 
+		                Cell colum5 = hssfRow.getCell(4);
+		                Cell colum6 = hssfRow.getCell(5);
+		                
+		                String tNo=getValue(colum1);
+		                boolean flag=true;
+		                /*if(t.size()>0){
+		                	for(int i=0;i<t.size();i++){
+		                    	String no=t.get(i).gettNo();
+		                    	if(no.equals(tNo)){
+		                    		flag=false;
+		                    		break;
+		                    	}else{
+		                    		flag=true;
+		                    	}
+		                    }
+		                }*/
+		                String date1;
+	                	if (colum6.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+	                		Date date = new Date();
+	                		date = colum6.getDateCellValue();
+	                		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	                		date1 = simpleDateFormat.format(date);
+	                	}else{
+	                		date1 = getValue(colum6);
+	                	}
+		                if(flag==true&&date1.contains(time)){
+		                	ft.settId(uuid.getTimeUUID());
+		                	ft.settNo(tNo);
+		                	ft.settName(getValue(colum2));
+		                	ft.settDepartment(getValue(colum3));
+		                	ft.settCollectionValue(Float.valueOf(getValue(colum4).isEmpty()?"0":getValue(colum4)));
+		                	ft.settDesc(getValue(colum5));
+		                	ft.settTime(date1);
+		                    t.add(ft);
+		                }
+		                }  
+		            } 
+		        map.put("fR2", t);
+		        return map;  
+		    }
 	 
-	 //检测二部财务收款
+	 
 	 public  Map<String,Object> readExcelShouKuan(InputStream is) throws IOException { 
 			Map<String,Object> map=new HashMap<String, Object>();
 			Workbook  hssfWorkbook=null;
@@ -419,62 +440,71 @@ public class ImportData {
 	        return map;  
 	    }
 	 
-	 //检测二部直接成本
-	 public  Map<String,Object> readExcelSecondCompanyCost(InputStream is, String time) throws IOException { 
-			Map<String,Object> map=new HashMap<String, Object>();
-			Workbook  hssfWorkbook=null;
-			try {
-				hssfWorkbook = WorkbookFactory.create(is);  
-			} catch (Exception e) {
-				e.printStackTrace();
-			}  
-			List<SecondCompanyCost> t = new ArrayList<SecondCompanyCost>();
-	        // 循环工作表Sheet  
-	        for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) { 
-	            Sheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);  
-	            if (hssfSheet == null) {  
-	                continue;  
-	            }  
-	            // 循环行Row  
-	            for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {  
-	            	Row hssfRow = hssfSheet.getRow(rowNum);
-	                int cells=hssfRow.getPhysicalNumberOfCells();
-	                
-	                SecondCompanyCost ft=new SecondCompanyCost();
-	                Cell colum1 = hssfRow.getCell(0);  
-	                Cell colum2 = hssfRow.getCell(1);  
-	                Cell colum3 = hssfRow.getCell(2);  
-	                Cell colum4 = hssfRow.getCell(3);  
-	                Cell colum5 = hssfRow.getCell(4);
-	                Cell colum6 = hssfRow.getCell(5);
-	                boolean flag=true;
-	                /*if(t.size()>0){
-	                	for(int i=0;i<t.size();i++){
-	                    	String no=t.get(i).gettNo();
-	                    	if(no.equals(tNo)){
-	                    		flag=false;
-	                    		break;
-	                    	}else{
-	                    		flag=true;
-	                    	}
-	                    }
-	                }*/
-	                String val6 = getValue(colum6);
-	                if(flag==true&&val6.contains(time)){
-	                	ft.setId(new TimeUUID().getTimeUUID());
-	                	ft.setXuhao(getValue(colum1));
-	                	ft.setCompanyName(getValue(colum2));
-	                	ft.setTaskCode(getValue(colum3));
-	                	ft.setDepartName(getValue(colum4));
-	                	ft.setMoney(Float.valueOf((getValue(colum5))));
-	                	ft.setDate(val6);
-	                    t.add(ft);
-	                }
-	                }  
-	            } 
-	        map.put("fR2", t);
-	        return map;  
-	    }
+	//检测二部直接成本
+		 public  Map<String,Object> readExcelSecondCompanyCost(InputStream is, String time) throws IOException { 
+				Map<String,Object> map=new HashMap<String, Object>();
+				Workbook  hssfWorkbook=null;
+				try {
+					hssfWorkbook = WorkbookFactory.create(is);  
+				} catch (Exception e) {
+					e.printStackTrace();
+				}  
+				List<SecondCompanyCost> t = new ArrayList<SecondCompanyCost>();
+		        // 循环工作表Sheet  
+		        for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) { 
+		            Sheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);  
+		            if (hssfSheet == null) {  
+		                continue;  
+		            }  
+		            // 循环行Row  
+		            for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {  
+		            	Row hssfRow = hssfSheet.getRow(rowNum);
+		                int cells=hssfRow.getPhysicalNumberOfCells();
+		                
+		                SecondCompanyCost ft=new SecondCompanyCost();
+		                Cell colum1 = hssfRow.getCell(0);  
+		                Cell colum2 = hssfRow.getCell(1);  
+		                Cell colum3 = hssfRow.getCell(2);  
+		                Cell colum4 = hssfRow.getCell(3);  
+		                Cell colum5 = hssfRow.getCell(4);
+		                Cell colum6 = hssfRow.getCell(5);
+		                boolean flag=true;
+		                /*if(t.size()>0){
+		                	for(int i=0;i<t.size();i++){
+		                    	String no=t.get(i).gettNo();
+		                    	if(no.equals(tNo)){
+		                    		flag=false;
+		                    		break;
+		                    	}else{
+		                    		flag=true;
+		                    	}
+		                    }
+		                }*/
+		                String date1;
+	                	if (colum6.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+	                		Date date = new Date();
+	                		date = colum6.getDateCellValue();
+	                		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	                		date1 = simpleDateFormat.format(date);
+	                	}else{
+	                		date1 = getValue(colum6);
+	                	}
+		                //String val6 = getValue(colum6);
+		                if(flag==true&&date1.contains(time)){
+		                	ft.setId(new TimeUUID().getTimeUUID());
+		                	ft.setXuhao(getValue(colum1));
+		                	ft.setCompanyName(getValue(colum2));
+		                	ft.setTaskCode(getValue(colum3));
+		                	ft.setDepartName(getValue(colum4));
+		                	ft.setMoney(Float.valueOf((getValue(colum5).isEmpty()?"0":getValue(colum5))));
+		                	ft.setDate(date1);
+		                    t.add(ft);
+		                }
+		                }  
+		            } 
+		        map.put("fR2", t);
+		        return map;  
+		    }
 	 public  Map<String,Object> readExcelCompanyCost(InputStream is) throws IOException { 
 		 Map<String,Object> map=new HashMap<String, Object>();
 		 Workbook  hssfWorkbook=null;
