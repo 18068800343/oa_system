@@ -77,7 +77,7 @@ public interface TaskDao {
 
 	public Task selectPrjJsMoneyByNo(@Param("no")String no);
 	
-	public int updateTaskMoneyByIdChaifen(@Param("prjMoney")Float prjMoney,@Param("contractMoney")Float contractMoney,@Param("id")String id);
+	public int updateTaskMoneyByIdChaifen(@Param("prjMoney")Double prjMoney,@Param("contractMoney")Float contractMoney,@Param("id")String id);
 
 	public Float getPrjEstimateMoneyByNo(@Param("mainPrjNo")String mainPrjNo);
 

@@ -22,9 +22,9 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 	@Autowired
 	private TaskDao taskDao;
 	@Override
-	public float selectContractUpdateByPrjNoAndDept(String no, String dept) {
+	public Double selectContractUpdateByPrjNoAndDept(String no, String dept) {
 		ContractUpdate cu=dao.selectContractUpdateByPrjNoAndDept(no, dept);
-		float money=cu.getMoney();
+		Double money=cu.getMoney();
 		return money;
 	}
 
@@ -35,8 +35,8 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 		List<ContractUpdate> cus=splitTask(task);
 		for(int ii=0;ii<cus.size();ii++){
 			ContractUpdate cu=dao.selectContractUpdateByPrjNoAndDept(cus.get(ii).getPrjNo(), cus.get(ii).getDept());
-			float sumMoney=cu.getMoney();
-			float resultMoney=cus.get(ii).getMoney()-sumMoney;
+			Double sumMoney=cu.getMoney();
+			Double resultMoney= (cus.get(ii).getMoney()-sumMoney);
 			cus.get(ii).setMoney(resultMoney);
 		}
 		i=dao.addContractUpdate(cus);
@@ -50,8 +50,8 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 		List<ContractUpdate> cus=splitTask(task);
 		for(int ii=0;ii<cus.size();ii++){
 			ContractUpdate cu=dao.selectContractUpdateByPrjNoAndDept(task.get(0).getMainPrjNo(), cus.get(ii).getDept());
-			float sumMoney=cu.getMoney();
-			float resultMoney=cus.get(ii).getMoney()-sumMoney;
+			Double sumMoney=cu.getMoney();
+			Double resultMoney=cus.get(ii).getMoney()-sumMoney;
 			cus.get(ii).setMoney(resultMoney);
 		}
 		i=dao.addContractUpdate(cus);

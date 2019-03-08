@@ -820,7 +820,7 @@ public class TaskController {
 	public int updateTaskChildrenModeStatusById(String id){
 		Task task1=taskDao.selectTaskById(id);
 		List<Task> taskChildren = taskDao.selectTaskAndTaskChildrenByMainPrjNo(task1.getPrjNo(),id);
-		Float mainTaskMoney = task1.getPrjEstimateMoney();
+		Double mainTaskMoney = task1.getPrjEstimateMoney();
 		Float mainTaskContractMoney = task1.getContractMoney();
 		int i=0;
 		for(Task task : taskChildren){

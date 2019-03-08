@@ -15,4 +15,6 @@ public interface Task2Service {
 	public int deleteTask2(String no);
 
 	public List<Task2> selectTask2ByYear(String y);
+
+	int deleteTDepartmentIncomeById(String id);
 }

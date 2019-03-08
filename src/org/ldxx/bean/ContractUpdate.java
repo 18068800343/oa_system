@@ -11,7 +11,7 @@ public class ContractUpdate {
 
 	private String prjNo;
 	private String dept;
-	private float money;
+	private Double money;
 	private String time;
 	public String getPrjNo() {
 		return prjNo;
@@ -25,10 +25,10 @@ public class ContractUpdate {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public float getMoney() {
+	public Double getMoney() {
 		return money;
 	}
-	public void setMoney(float money) {
+	public void setMoney(Double money) {
 		this.money = money;
 	}
 	public String getTime() {

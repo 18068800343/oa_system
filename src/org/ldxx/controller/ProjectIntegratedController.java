@@ -71,7 +71,7 @@ public class ProjectIntegratedController {
 			String prjType=t.getPrjType2();
 			String cjDepartment=t.getOmName();//承接主办部门
 			String prjLeader=t.getMainPrjLeaderName();//项目负责人
-			float prjMoney=(t.getPrjEstimateMoney()==null||"".equals(t.getPrjEstimateMoney()))?0:t.getPrjEstimateMoney();//项目金额
+			float prjMoney=(float) ((t.getPrjEstimateMoney()==null||"".equals(t.getPrjEstimateMoney()))?0:t.getPrjEstimateMoney());//项目金额
 			float contractMoney=(t.getContractMoney()==null||"".equals(t.getContractMoney()))?0:t.getContractMoney();//合同金额
 			float zdMoney=(t.getProvisionalSum()==null||"".equals(t.getProvisionalSum()))?0:t.getProvisionalSum();//暂定金
 			BudgetFpplicationForm bff=bservice.getAllCost(no);

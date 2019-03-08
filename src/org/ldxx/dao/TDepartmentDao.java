@@ -24,4 +24,6 @@ public interface TDepartmentDao {
 	public int selectDepartmentCountByTNoAndDepart(@Param("no")String no,@Param("depart")String depart);
 	
 	public int deleteDepartmentByNo(@Param("no")String no);
+	
+	public int deleteDepartmentInComeById(@Param("id")String id);
 }

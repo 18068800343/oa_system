@@ -188,6 +188,7 @@ public class ImportData {
                 		td.settName(getValue(colum2));
                 		td.setdIncome(Float.valueOf(getValue(colum3)));
                 		td.setDate(date1);
+                		td.setId(new TimeUUID().getTimeUUID());
                 		list.add(td);
                 	}
                 }

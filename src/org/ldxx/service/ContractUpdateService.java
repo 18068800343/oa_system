@@ -10,7 +10,7 @@ public interface ContractUpdateService {
 
 	public int addContractUpdate(List<Task> task);
 	
-	public float selectContractUpdateByPrjNoAndDept(String no,String dept);
+	public Double selectContractUpdateByPrjNoAndDept(String no,String dept);
 
 	int addContractAndTaskUpdate(List<Task> task);
 	

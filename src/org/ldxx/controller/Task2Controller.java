@@ -136,6 +136,13 @@ public class Task2Controller {
 		return list;
 	}
 	
+	@RequestMapping("/deleteDepartmentIncome")
+	@ResponseBody
+	public Integer deleteDepartmentIncome(String id){
+		Integer i=tDepartmentDao.deleteDepartmentInComeById(id);
+		return i;
+	}
+	
 	@RequestMapping("/deleteTask2")
 	@ResponseBody
 	public int deleteTask2(String no){

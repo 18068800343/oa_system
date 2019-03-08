@@ -15,7 +15,14 @@ public class TDepartment {
 	private float dIncome;
 	private String date;
 	private String tName;
+	private String id;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String gettName() {
 		return tName;
 	}

@@ -175,8 +175,8 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> seachTab(String prjType){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Float>> resultContract=new ArrayList<>();//实际月部门新签合同额按项目类型
-		List<List<Float>> resultIncome=new ArrayList<>();//实际月部门累计收入按项目类型
+		List<List<Double>> resultContract=new ArrayList<>();//实际月部门新签合同额按项目类型
+		List<List<Double>> resultIncome=new ArrayList<>();//实际月部门累计收入按项目类型
 		List<List<Double>> resultReceipt=new ArrayList<>();//实际月部门累计收款按项目类型
 		List<String> omList=new ArrayList<>();
 		omList.add("公司");
@@ -185,33 +185,33 @@ public class StatisticsController {
 		
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
 		//公司月份部门累加
-		List<Float> gsContractMoney=new ArrayList<>();
-		float gsContractMoneyMonth1All=0;
-		float gsContractMoneyMonth2All=0;
-		float gsContractMoneyMonth3All=0;
-		float gsContractMoneyMonth4All=0;
-		float gsContractMoneyMonth5All=0;
-		float gsContractMoneyMonth6All=0;
-		float gsContractMoneyMonth7All=0;
-		float gsContractMoneyMonth8All=0;
-		float gsContractMoneyMonth9All=0;
-		float gsContractMoneyMonth10All=0;
-		float gsContractMoneyMonth11All=0;
-		float gsContractMoneyMonth12All=0;
+		List<Double> gsContractMoney=new ArrayList<>();
+		Double gsContractMoneyMonth1All=(double) 0;
+		Double gsContractMoneyMonth2All=(double) 0;
+		Double gsContractMoneyMonth3All=(double) 0;
+		Double gsContractMoneyMonth4All=(double) 0;
+		Double gsContractMoneyMonth5All=(double) 0;
+		Double gsContractMoneyMonth6All=(double) 0;
+		Double gsContractMoneyMonth7All=(double) 0;
+		Double gsContractMoneyMonth8All=(double) 0;
+		Double gsContractMoneyMonth9All=(double) 0;
+		Double gsContractMoneyMonth10All=(double) 0;
+		Double gsContractMoneyMonth11All=(double) 0;
+		Double gsContractMoneyMonth12All=(double) 0;
 		
-		List<Float> gsIncome=new ArrayList<>();
-		float gsIncomeMonth1All=0;
-		float gsIncomeMonth2All=0;
-		float gsIncomeMonth3All=0;
-		float gsIncomeMonth4All=0;
-		float gsIncomeMonth5All=0;
-		float gsIncomeMonth6All=0;
-		float gsIncomeMonth7All=0;
-		float gsIncomeMonth8All=0;
-		float gsIncomeMonth9All=0;
-		float gsIncomeMonth10All=0;
-		float gsIncomeMonth11All=0;
-		float gsIncomeMonth12All=0;
+		List<Double> gsIncome=new ArrayList<>();
+		Double gsIncomeMonth1All=(double) 0;
+		Double gsIncomeMonth2All=(double) 0;
+		Double gsIncomeMonth3All=(double) 0;
+		Double gsIncomeMonth4All=(double) 0;
+		Double gsIncomeMonth5All=(double) 0;
+		Double gsIncomeMonth6All=(double) 0;
+		Double gsIncomeMonth7All=(double) 0;
+		Double gsIncomeMonth8All=(double) 0;
+		Double gsIncomeMonth9All=(double) 0;
+		Double gsIncomeMonth10All=(double) 0;
+		Double gsIncomeMonth11All=(double) 0;
+		Double gsIncomeMonth12All=(double) 0;
 		
 		List<Double> gsReceipt=new ArrayList<>();
 		double gsReceiptMonth1All=0;
@@ -232,33 +232,33 @@ public class StatisticsController {
 			omList.add(omName);
 			
 			//部门新签合同额按项目类型
-			List<Float> contractMoneyList=new ArrayList<>();
-			float contractMonth1All=0;
-			float contractMonth2All=0;
-			float contractMonth3All=0;
-			float contractMonth4All=0;
-			float contractMonth5All=0;
-			float contractMonth6All=0;
-			float contractMonth7All=0;
-			float contractMonth8All=0;
-			float contractMonth9All=0;
-			float contractMonth10All=0;
-			float contractMonth11All=0;
-			float contractMonth12All=0;
+			List<Double> contractMoneyList=new ArrayList<>();
+			Double contractMonth1All=(double) 0;
+			Double contractMonth2All=(double) 0;
+			Double contractMonth3All=(double) 0;
+			Double contractMonth4All=(double) 0;
+			Double contractMonth5All=(double) 0;
+			Double contractMonth6All=(double) 0;
+			Double contractMonth7All=(double) 0;
+			Double contractMonth8All=(double) 0;
+			Double contractMonth9All=(double) 0;
+			Double contractMonth10All=(double) 0;
+			Double contractMonth11All=(double) 0;
+			Double contractMonth12All=(double) 0;
 			//部门累计收入按项目类型
-			List<Float> inComeMoneyList=new ArrayList<>();
-			float inComeMonth1All=0;
-			float inComeMonth2All=0;
-			float inComeMonth3All=0;
-			float inComeMonth4All=0;
-			float inComeMonth5All=0;
-			float inComeMonth6All=0;
-			float inComeMonth7All=0;
-			float inComeMonth8All=0;
-			float inComeMonth9All=0;
-			float inComeMonth10All=0;
-			float inComeMonth11All=0;
-			float inComeMonth12All=0;
+			List<Double> inComeMoneyList=new ArrayList<>();
+			Double inComeMonth1All=(double) 0;
+			Double inComeMonth2All=(double) 0;
+			Double inComeMonth3All=(double) 0;
+			Double inComeMonth4All=(double) 0;
+			Double inComeMonth5All=(double) 0;
+			Double inComeMonth6All=(double) 0;
+			Double inComeMonth7All=(double) 0;
+			Double inComeMonth8All=(double) 0;
+			Double inComeMonth9All=(double) 0;
+			Double inComeMonth10All=(double) 0;
+			Double inComeMonth11All=(double) 0;
+			Double inComeMonth12All=(double) 0;
 			//部门累计收款按项目类型
 			List<Double> receiptMoneyList=new ArrayList<>();
 			double receiptMonth1All=0;
@@ -278,40 +278,40 @@ public class StatisticsController {
 				//部门新签合同额按项目类型
 				String type=prjType.split(",")[i];
 				ContractUpdate cu=cuService.selectDeptContractMoneyByTimeAndType(year+"-01", omId, type);
-				float contractMonth1=cu.getMoney();
+				Double contractMonth1=cu.getMoney();
 				contractMonth1All=contractMonth1All+contractMonth1;
 				ContractUpdate cu2=cuService.selectDeptContractMoneyByTimeAndType(year+"-02", omId, type);
-				float contractMonth2=cu2.getMoney();
+				Double contractMonth2=cu2.getMoney();
 				contractMonth2All=contractMonth2All+contractMonth2;
 				ContractUpdate cu3=cuService.selectDeptContractMoneyByTimeAndType(year+"-03", omId, type);
-				float contractMonth3=cu3.getMoney();
+				Double contractMonth3=cu3.getMoney();
 				contractMonth3All=contractMonth3All+contractMonth3;
 				ContractUpdate cu4=cuService.selectDeptContractMoneyByTimeAndType(year+"-04", omId, type);
-				float contractMonth4=cu4.getMoney();
+				Double contractMonth4=cu4.getMoney();
 				contractMonth4All=contractMonth4All+contractMonth4;
 				ContractUpdate cu5=cuService.selectDeptContractMoneyByTimeAndType(year+"-05", omId, type);
-				float contractMonth5=cu5.getMoney();
+				Double contractMonth5=cu5.getMoney();
 				contractMonth5All=contractMonth5All+contractMonth5;
 				ContractUpdate cu6=cuService.selectDeptContractMoneyByTimeAndType(year+"-06", omId, type);
-				float contractMonth6=cu6.getMoney();
+				Double contractMonth6=cu6.getMoney();
 				contractMonth6All=contractMonth6All+contractMonth6;
 				ContractUpdate cu7=cuService.selectDeptContractMoneyByTimeAndType(year+"-07", omId, type);
-				float contractMonth7=cu7.getMoney();
+				Double contractMonth7=cu7.getMoney();
 				contractMonth7All=contractMonth7All+contractMonth7;
 				ContractUpdate cu8=cuService.selectDeptContractMoneyByTimeAndType(year+"-08", omId, type);
-				float contractMonth8=cu8.getMoney();
+				Double contractMonth8=cu8.getMoney();
 				contractMonth8All=contractMonth8All+contractMonth8;
 				ContractUpdate cu9=cuService.selectDeptContractMoneyByTimeAndType(year+"-09", omId, type);
-				float contractMonth9=cu9.getMoney();
+				Double contractMonth9=cu9.getMoney();
 				contractMonth9All=contractMonth9All+contractMonth9;
 				ContractUpdate cu10=cuService.selectDeptContractMoneyByTimeAndType(year+"-10", omId, type);
-				float contractMonth10=cu10.getMoney();
+				Double contractMonth10=cu10.getMoney();
 				contractMonth10All=contractMonth10All+contractMonth10;
 				ContractUpdate cu11=cuService.selectDeptContractMoneyByTimeAndType(year+"-11", omId, type);
-				float contractMonth11=cu11.getMoney();
+				Double contractMonth11=cu11.getMoney();
 				contractMonth11All=contractMonth11All+contractMonth11;
 				ContractUpdate cu12=cuService.selectDeptContractMoneyByTimeAndType(year+"-12", omId, type);
-				float contractMonth12=cu12.getMoney();
+				Double contractMonth12=cu12.getMoney();
 				contractMonth12All=contractMonth12All+contractMonth12;
 				
 				
@@ -527,8 +527,8 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> seachTab3(String prjType){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Float>> resultContract=new ArrayList<>();//实际年部门新签合同额按项目类型
-		List<List<Float>> resultIncome=new ArrayList<>();//实际年部门累计收入按项目类型
+		List<List<Double>> resultContract=new ArrayList<>();//实际年部门新签合同额按项目类型
+		List<List<Double>> resultIncome=new ArrayList<>();//实际年部门累计收入按项目类型
 		List<List<Double>> resultReceipt=new ArrayList<>();//实际年部门累计收款按项目类型
 		List<String> omList=new ArrayList<>();
 		List<String> yearList=new ArrayList<>();
@@ -543,51 +543,51 @@ public class StatisticsController {
 		year="%"+year+"%";
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
 		//公司月份部门累加
-		List<Float> gsContractMoney=new ArrayList<>();
-		float gsContractYear1All=0;
-		float gsContractYear2All=0;
-		float gsContractYear3All=0;
+		List<Double> gsContractMoney=new ArrayList<>();
+		Double gsContractYear1All=(double) 0;
+		Double gsContractYear2All=(double) 0;
+		Double gsContractYear3All=(double) 0;
 		
-		List<Float> gsIncome=new ArrayList<>();
-		float gsIncomeYear1All=0;
-		float gsIncomeYear2All=0;
-		float gsIncomeYear3All=0;
+		List<Double> gsIncome=new ArrayList<>();
+		Double gsIncomeYear1All=(double) 0;
+		Double gsIncomeYear2All=(double) 0;
+		Double gsIncomeYear3All=(double) 0;
 		
 		List<Double> gsReceipt=new ArrayList<>();
-		double gsReceiptYear1All=0;
-		double gsReceiptYear2All=0;
-		double gsReceiptYear3All=0;
+		Double gsReceiptYear1All=(double) 0;
+		Double gsReceiptYear2All=(double) 0;
+		Double gsReceiptYear3All=(double) 0;
 		for(int o=0;o<om.size();o++){
 			String omId=om.get(o).getOmId();
 			String omName=om.get(o).getOmName();
 			omList.add(omName);
 			
 			//部门新签合同额按项目类型
-			List<Float> contractMoneyList=new ArrayList<>();
-			float contractYear1All=0;
-			float contractYear2All=0;
-			float contractYear3All=0;
+			List<Double> contractMoneyList=new ArrayList<>();
+			Double contractYear1All=(double) 0;
+			Double contractYear2All=(double) 0;
+			Double contractYear3All=(double) 0;
 			//部门累计收入按项目类型
-			List<Float> inComeMoneyList=new ArrayList<>();
-			float inComeYear1All=0;
-			float inComeYear2All=0;
-			float inComeYear3All=0;
+			List<Double> inComeMoneyList=new ArrayList<>();
+			Double inComeYear1All=(double) 0;
+			Double inComeYear2All=(double) 0;
+			Double inComeYear3All=(double) 0;
 			//部门累计收款按项目类型
 			List<Double> receiptMoneyList=new ArrayList<>();
-			double receiptYear1All=0;
-			double receiptYear2All=0;
-			double receiptYear3All=0;
+			Double receiptYear1All=(double) 0;
+			Double receiptYear2All=(double) 0;
+			Double receiptYear3All=(double) 0;
 			for(int i=0;i<prjType.split(",").length;i++){
 				String type=prjType.split(",")[i];
 				//部门新签合同额按项目类型
 				ContractUpdate cu=cuService.selectDeptContractMoneyByTimeAndType(year3, omId, type);
-				float contractMonth1=cu.getMoney();
+				Double contractMonth1=cu.getMoney();
 				contractYear1All=contractYear1All+contractMonth1;
 				ContractUpdate cu2=cuService.selectDeptContractMoneyByTimeAndType(year2, omId, type);
-				float contractMonth2=cu2.getMoney();
+				Double contractMonth2=cu2.getMoney();
 				contractYear2All=contractYear2All+contractMonth2;
 				ContractUpdate cu3=cuService.selectDeptContractMoneyByTimeAndType(year, omId, type);
-				float contractMonth3=cu3.getMoney();
+				Double contractMonth3=cu3.getMoney();
 				contractYear3All=contractYear3All+contractMonth3;
 				
 				
@@ -1515,8 +1515,8 @@ public class StatisticsController {
 		return contractMoney;
 	}
 	
-	public float getDepartmentMoneyByTask(List<Task> task,String omId){
-		float contractMoney=0;
+	public Double getDepartmentMoneyByTask(List<Task> task,String omId){
+		Double contractMoney=(double) 0;
 		for(int i=0;i<task.size();i++){
 			if(omId.equals(task.get(i).getMainDepartment())){
 				contractMoney=task.get(i).getMainDepartmentMoney();

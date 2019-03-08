@@ -1177,6 +1177,7 @@
 	        type: 'POST',
 	        url: getContextPath()+'/cooperator/selectCooperatorIdAndNameByCcType',
 	        dataType: 'json',
+	        async:false,
 	        data: {
 	           ccType:'业主单位'
 	        },
@@ -1576,9 +1577,9 @@
     	    		return;
         		}else{
         			var bili2=chenbenfentanbili2.replace("%","");
-        			all_bili=all_bili+parseInt(bili2);
+        			all_bili=all_bili+parseFloat(bili2);
         		}
-				allMoney=allMoney+parseInt(xieban2jine);
+				allMoney=allMoney+parseFloat(xieban2jine);
         	}
 			if(xieban3!=''&&xieban3!=undefined){
 				if(chenbenfentanbili3==''){
@@ -1588,7 +1589,7 @@
         			var bili3=chenbenfentanbili3.replace("%","");
         			all_bili=all_bili+parseInt(bili3);
         		}
-				allMoney=allMoney+parseInt(xieban3jine);
+				allMoney=allMoney+parseFloat(xieban3jine);
         	}
 			if(allMoney!=jine){
 				toastr.error("主协办金额分配错误");
@@ -2266,7 +2267,7 @@
             			var bili=chenbenfentanbili.replace("%","");
             			all_bili=all_bili+parseInt(bili);
             		}
-            		allMoney=allMoney+parseInt(zhubanjine);
+            		allMoney=accAdd(allMoney,zhubanjine);
             	}
             	if(xieban1!=''&&xieban1!=undefined){
             		if(chenbenfentanbili1==''){
@@ -2276,7 +2277,7 @@
             			var bili1=chenbenfentanbili1.replace("%","");
             			all_bili=all_bili+parseInt(bili1);
             		}
-            		allMoney=allMoney+parseInt(xieban1jine);
+            		allMoney=accAdd(allMoney,xieban1jine);
             	}
     			if(xieban2!=''&&xieban2!=undefined){
     				if(chenbenfentanbili2==''){
@@ -2286,7 +2287,7 @@
             			var bili2=chenbenfentanbili2.replace("%","");
             			all_bili=all_bili+parseInt(bili2);
             		}
-    				allMoney=allMoney+parseInt(xieban2jine);
+    				allMoney=accAdd(allMoney,xieban2jine);
             	}
     			if(xieban3!=''&&xieban3!=undefined){
     				if(chenbenfentanbili3==''){
@@ -2296,8 +2297,9 @@
             			var bili3=chenbenfentanbili3.replace("%","");
             			all_bili=all_bili+parseInt(bili3);
             		}
-    				allMoney=allMoney+parseInt(xieban3jine);
+    				allMoney=accAdd(allMoney,xieban3jine);
             	}
+    			jine = (jine*1).toFixed(2);
     			if(allMoney!=jine){
     				toastr.error("主协办金额分配错误");
     	    		return "主协办金额分配错误";
@@ -2948,6 +2950,15 @@
 	            }
 	      });
  	 })
+ 	 
+	function accAdd(arg1,arg2){
+	    var r1,r2,m;
+	    try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+	    try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+	    m=Math.pow(10,Math.max(r1,r2))
+	    return ((arg1*m+arg2*m)/m).toFixed(2);
+	}
+
 </script>
 
 </html>

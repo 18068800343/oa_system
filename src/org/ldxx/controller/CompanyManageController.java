@@ -102,7 +102,7 @@ public class CompanyManageController {
 				 String finishStr=Math.round(finish)+"%";//完成百分比
 				 
 				 ContractUpdate cu=cuService.selectDeptContractMoneyByStartAndEndTime(startTime, endTime, omId);
-				 float allContractMoney=cu.getMoney();//新签合同金额
+				 Double allContractMoney=cu.getMoney();//新签合同金额
 				 
 				 List<CjContract> cj=cService.selectNoAndMoneyByDepartment(omId,y);
 				 float temporaryMoney=0;//暂定金

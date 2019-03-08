@@ -16,7 +16,7 @@ public class CompanyManage {
 	private double moneyReceipt;//已收款
 	private double accruedAssets;//未收款
 	private double cost;//成本
-	private float newContractAmount;//新签合同额
+	private Double newContractAmount;//新签合同额
 	private float contractZdMoney;//合同暂定金
 	private float contractTargetMoney;//合同目标额
 	
@@ -63,10 +63,10 @@ public class CompanyManage {
 	public void setPercentage(String percentage) {
 		this.percentage = percentage;
 	}
-	public float getNewContractAmount() {
+	public Double getNewContractAmount() {
 		return newContractAmount;
 	}
-	public void setNewContractAmount(float newContractAmount) {
+	public void setNewContractAmount(Double newContractAmount) {
 		this.newContractAmount = newContractAmount;
 	}
 	public float getContractZdMoney() {

@@ -184,10 +184,10 @@ public class KpApplicationController {
 			for(int i=0;i<nos.split(",").length;i++){
 				PrjProgressFill pf=pService.selectLastPrjProgressFill(nos.split(",")[i]);
 				Task t=tService.selectIdByNo(nos.split(",")[i]);
-				float prjMoney=t.getPrjEstimateMoney();
+				Double prjMoney=t.getPrjEstimateMoney();
 				String allMoney=pf.getAllMoney().replace("%", "");
 				float am=Float.valueOf(allMoney);
-				sumMoney=sumMoney+(prjMoney*am)/100;
+				sumMoney=(float) (sumMoney+(prjMoney*am)/100);
 			}
 			float jd2=(sumMoney/contractMoney)*100;
 			jindu=jd2+"%";

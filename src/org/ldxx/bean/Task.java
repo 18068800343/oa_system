@@ -31,7 +31,7 @@ public class Task {
 
     private String workContent;
 
-    private Float prjEstimateMoney;
+    private Double prjEstimateMoney;
 
     private Float contractMoney;
 
@@ -45,7 +45,7 @@ public class Task {
 
     private String mainDepartment;
 
-    private Float mainDepartmentMoney;
+    private Double mainDepartmentMoney;
     
     private String mainDepartmentCost;
     
@@ -60,7 +60,7 @@ public class Task {
 
     private String assistDepartment1;
 
-    private Float assistDepartment1Money;
+    private Double assistDepartment1Money;
     
     private String assistDepartment1Cost;
     
@@ -75,7 +75,7 @@ public class Task {
     
     private String assistDepartment2;
 
-    private Float assistDepartment2Money;
+    private Double assistDepartment2Money;
     
     private String assistDepartment2Cost;
     
@@ -90,7 +90,7 @@ public class Task {
 
     private String assistDepartment3;
 
-    private Float assistDepartment3Money;
+    private Double assistDepartment3Money;
     
     private String assistDepartment3Cost;
     
@@ -708,11 +708,11 @@ public class Task {
 		this.workContent = workContent;
 	}
 
-	public Float getPrjEstimateMoney() {
+	public Double getPrjEstimateMoney() {
 		return prjEstimateMoney;
 	}
 
-	public void setPrjEstimateMoney(Float prjEstimateMoney) {
+	public void setPrjEstimateMoney(Double prjEstimateMoney) {
 		this.prjEstimateMoney = prjEstimateMoney;
 	}
 
@@ -756,11 +756,11 @@ public class Task {
 		this.mainDepartment = mainDepartment;
 	}
 
-	public Float getMainDepartmentMoney() {
+	public Double getMainDepartmentMoney() {
 		return mainDepartmentMoney;
 	}
 
-	public void setMainDepartmentMoney(Float mainDepartmentMoney) {
+	public void setMainDepartmentMoney(Double mainDepartmentMoney) {
 		this.mainDepartmentMoney = mainDepartmentMoney;
 	}
 
@@ -772,11 +772,11 @@ public class Task {
 		this.assistDepartment1 = assistDepartment1;
 	}
 
-	public Float getAssistDepartment1Money() {
+	public Double getAssistDepartment1Money() {
 		return assistDepartment1Money;
 	}
 
-	public void setAssistDepartment1Money(Float assistDepartment1Money) {
+	public void setAssistDepartment1Money(Double assistDepartment1Money) {
 		this.assistDepartment1Money = assistDepartment1Money;
 	}
 
@@ -788,11 +788,11 @@ public class Task {
 		this.assistDepartment2 = assistDepartment2;
 	}
 
-	public Float getAssistDepartment2Money() {
+	public Double getAssistDepartment2Money() {
 		return assistDepartment2Money;
 	}
 
-	public void setAssistDepartment2Money(Float assistDepartment2Money) {
+	public void setAssistDepartment2Money(Double assistDepartment2Money) {
 		this.assistDepartment2Money = assistDepartment2Money;
 	}
 
@@ -804,11 +804,11 @@ public class Task {
 		this.assistDepartment3 = assistDepartment3;
 	}
 
-	public Float getAssistDepartment3Money() {
+	public Double getAssistDepartment3Money() {
 		return assistDepartment3Money;
 	}
 
-	public void setAssistDepartment3Money(Float assistDepartment3Money) {
+	public void setAssistDepartment3Money(Double assistDepartment3Money) {
 		this.assistDepartment3Money = assistDepartment3Money;
 	}
 
