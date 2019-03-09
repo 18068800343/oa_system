@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link href="../../font3/bootstrap-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css"> 
+    <link href="../../select/css/select2.min.css" rel="stylesheet">
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
+    <style lang="">
+        
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .UpperPartL{
+            font-size: 16px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        body{ font:12px/1.125 Arial, Helvetica, sans-serif; background:#fff; }
+        .none{ display:none }
+        .wrap{ width:100%;overflow-y:scroll}
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>生产管理</li>
+            <li>合同管理</li>
+            <li>项目合同管理</li>
+            <li>采购合同管理</li>
+			<li class="active">采购合同审签</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+    
+    	<div>
+
+		  <!-- Nav tabs -->
+		  <ul class="nav nav-tabs" role="tablist">
+		    <!-- <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a> -->
+		    <!-- <li role="presentation" id="dier"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">打印预览</a> -->
+		    <!--<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
+		    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a> -->
+		  </ul>
+		
+		  <!-- Tab panes -->
+		  <div class="tab-content">
+		    <div role="tabpanel" class="tab-pane active" id="home">
+		    </div>
+		    <div role="tabpanel" class="tab-pane" id="profile">
+		    	<table class="table table-bordered table-condensed">
+		    				<tr>
+		    					<td colspan="4" height="60px" style="text-align:center;font-size:30px;">采购合同单</td>
+		    				</tr>
+					                        <tr>
+					                            <td style="width:20%;">采购合同名称</td>
+					                            <td style="width:30%;" id="lookcghetongming"></td>
+					                            <td style="width:20%;">采购合同编号</td>
+					                            <td style="width:30%;" id="lookcgNo"></td>
+					                        </tr>
+					                        <tr>
+					                        	<td>采购单号</td>
+					                            <td id="lookcgdNo"></td>
+					                            <td style="width:100px;">采购合同类型</td>
+					                            <td id="lookcgType"></td>
+					                        </tr>
+					                        <tr>
+					                            <td>项目名称</td>
+					                            <td id="lookprjName"></td>
+					                            <td>任务单号</td>
+					                            <td id="looktask_no"></td>
+					                        </tr>
+					                        <tr>
+					                            <td>是否代购</td>
+					                            <td id="lookisdaigou"></td>
+					                            <td>分包合同</td>
+					                            <td id="lookfbhetong"></td>
+					                        </tr>
+					                        <tr>
+					                        	<td>借款合同号</td>
+					                        	<td id="lookborrow_no"></td>
+					                            <td>代购类型</td>
+					                            <td id="lookdaigouType"></td>
+					                        </tr>
+					                        <tr>
+					                            <td class="jinqianyanse">代购金额(元)</td>
+					                            <td id="lookdaigouMoney"></td>
+					                            <td class="jinqianyanse">采购合同金额(元)</td>
+					                            <td id="lookcghetongMoney"></td>
+					                        </tr>
+					                        <tr>
+					                            <td>合同甲方名称</td>
+					                            <td id="lookjiafang"></td>
+					                            <td>乙方</td>
+					                            <td id="lookyifang"></td>
+					                        </tr>
+					                        <tr>
+					                            <td>付款方式</td>
+					                            <td id="lookfukuanfangshi"></td>
+					                            <td>采购合同签订时间</td>
+					                            <td id="lookyear"></td>
+					                        </tr>
+					                        <tr>
+					                            <td>采购部门</td>
+					                            <td id="lookcg_bumen"></td>
+					                           	<td class="jinqianyanse">运费(元)</td>
+					                           	<td id="lookyunfei"></td>
+					                         </tr> 
+					                        <tr>
+					                            <td>采购合同概述</td>
+					                            <td colspan="3"  id="lookcghetonggaishu"></td>
+					                        </tr>
+					                        <!-- <tr>
+					                            <td>合同处理意见</td>
+					                            <td colspan="3"  id="lookhetongchuliyijian"></td>
+					                        </tr>
+					                        <tr>
+					                            <td>编制人</td>
+					                            <td id="lookbianzhiren"></td>
+					                           	<td>编制时间</td>
+					                           	<td id="lookbianzhishijian"></td>
+					                         </tr>  -->
+					                        <!-- <tr>
+					                            <td>主要概况及工作内容</td>
+					                            <td colspan="3" id="lookgaikuang"></td>
+					                        </tr> -->
+					                        <!-- <tr>
+					                            <td>采购合同文本</td>
+					                            <td colspan="3"></td>
+					                        </tr> -->
+					                    </table>
+					                    <table class="table table-bordered table-condensed" id="d_table">
+				                    		<thead>
+				                    			<tr>
+				                    				<th colspan="5">合同处理意见</th>
+				                    			</tr>
+				                    			<tr>
+				                    				<th style="width:30%;">业务名称</th>
+				                    				<th style="width:12%;">操作人</th>
+				                    				<th style="width:23%;">意见</th>
+				                    				<th style="width:12%;">操作类型</th>
+				                    				<th style="width:23%;">操作时间</th>
+				                    			</tr>
+				                    		</thead>
+				                    		<tbody></tbody>
+				                    	</table>
+					                    <table class="table table-bordered table-condensed"  id="look_all_table">
+									                        		
+									    </table>
+									   <!--  <table class="table table-bordered table-condensed"  id="look_all_table1">
+									                        		
+									    </table> -->
+									    <div class="wrap">
+									    <div id="lookcailiaobiaoDiv" style="width:100%;border=1">
+									    
+					                    </div>
+									    </div>
+									    <!-- 历史信息表格 -->
+									    <!-- <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory">
+					                        <thead>
+					                            <tr>
+					                                <th colspan="6">历史信息</th>
+					                            </tr>
+					                            <tr>
+					                                <td style="width:20%;">采购合同编号</td>
+					                                <td style="width:20%;">采购合同名称</td>
+					                                <td style="width:20%;">合同类型</td>
+					                                <td style="width:20%;">修改时间</td>
+					                                <td style="width:20%;">操作</td>
+					                            </tr>
+					                        </thead>
+					                        <tbody>
+					                            
+					                        </tbody>
+					                    </table> -->
+				<div class="modal-footer">
+		          <button type="button" class="btn btn-default" onclick="quxiao()">取消</button>
+		          <button type="button" class="btn btn-success" data-dismiss="modal" onclick="day()">打印页面</button>
+		        </div>
+		    </div>
+		    <div role="tabpanel" class="tab-pane" id="messages">...</div>
+		    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+		  </div>
+		
+		</div>
+		    	
+    
+    </div>
+
+<!-- model结束 -->
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script> 
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/bootstrap-select.js"></script>
+<script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<!-- <script src="../../js/datatables/dataTables.bootstrap.min.js"></script> -->
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
+
+<script src="../../select/js/select2.min.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
+
+<script>
+    $(document).ready( function () {
+    	initTable();
+    	/* initSelect();
+    	selectDepartment();
+    	inityifang(); */
+    	//initSelectfb();
+    	//initPrj();
+        laydate.render({
+            elem: '#year' //指定元素
+        });
+        laydate.render({
+            elem: '#xgyear' //指定元素
+        });
+        laydate.render({
+            elem: '#seach_time_min' //指定元素
+        });
+        laydate.render({
+            elem: '#seach_time_max' //指定元素
+        });
+    	
+        $("#sousuodiv").hide();//超级搜索折叠div
+        $("#isdaigou").trigger("change");
+	});
+    
+  //超级搜索折叠div
+    var zhediepanduan=true;
+    $("#zhedieBtn").click(function(){
+    	if(zhediepanduan==true){
+    		$("#sousuodiv").show(300);
+    		zhediepanduan=false;
+    	}else{
+    		$("#sousuodiv").hide(300);
+    		zhediepanduan=true;
+    	}
+    })
+    
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    var table=$('#mainContent').DataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": null}, 
+            { "data": "cgNo"},
+            { "data": "contractName"}, 
+            { "data": "cgcType"}, 
+            { "data": "spName"}, 
+            { "data": "cgContractMoney",render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
+            { "data": "contractSignTime"}, 
+        ],
+        "columnDefs": [
+						{	
+								 "class": "tcenter",
+								    "targets": 7,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								    	if(full.workNo==""||full.workNo==null){
+								  	  		return '<i class="iconfont icon-icon-test Peccb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookCgC(this)" data-toggle="modal" data-target="#allMsg1"   id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai Peccc" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="合同变更" onclick="checkCgC(this)" data-toggle="modal" data-target="#change"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi Peccf" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" title="重启" onclick="openModal3(this)"></i><i class="iconfont icon-tuichu iconzhongzhi Peccd" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="采购合同取消"  onclick="openModal2(this)"></i>  <i class="iconfont icon-icon_edit bulu" style="font-size:18px;cursor:pointer;display:none;" title="补录项目" onclick="buluxiangmu(this)"></i>'
+								    	}else{
+								    		return '<i class="iconfont icon-icon-test Peccb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookCgC(this)" data-toggle="modal" data-target="#allMsg1"   id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai Peccc" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="合同变更" onclick="checkCgC(this)" data-toggle="modal" data-target="#change"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi Peccf" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" title="重启" onclick="openModal3(this)"></i><i class="iconfont icon-tuichu iconzhongzhi Peccd" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="采购合同取消"  onclick="openModal2(this)"></i>'
+								    	}
+								  	  	
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        "fnDrawCallback"  : function(){
+          　　this.api().column(0).nodes().each(function(cell, i) {
+          　　　　cell.innerHTML =  i + 1;
+         });
+	        $.ajax({
+	     		type:"post",
+	     		url:getContextPath()+"/login/getUser",
+	     		async:false,
+	     		data:{
+	     		},
+	     		success:function(json){
+	     			
+	     			if(json!=null &&json!=""){
+	     				var arr = json.uPermissions.split(',');
+	     				for(var i=0;i<arr.length;i++){
+	     					var arr2 = arr[i].replace("+","");
+	     					if(arr[i].indexOf("Peccb") >= 0 ){
+	     						$(".Peccb").show();
+	     						$(".bulu").show();
+	     					}
+	     					if(arr[i].indexOf("Peccc") >= 0 ){
+	     						$(".Peccc").show();
+	     						$(".bulu").show();
+	     					}
+	     					if(arr[i].indexOf("Peccd") >= 0 ){
+	     						$(".Peccd").show();
+	     						$(".bulu").show();
+	     					}
+	     				}
+	     			}
+	     		}
+	     	});
+        },
+        "buttons": [
+		        	{
+		                extend: "csv",
+		                text: "导出csv",
+		                bom: true,
+		                filename: '采购合同',
+		                fieldSeparator: ',',
+		                exportOptions: {
+		                	format: {
+		                        header: function ( data) {
+		                            return data;
+		                        },
+		                        body: function ( data, columnIdx, rowIdx, code ) {
+					                return data;
+					            }
+		                    },
+		                    columns:[1,2,3,4,5,6]
+		                }
+		            }
+		        ]
+	});
+    
+    $(".hasinput").on( 'change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw(false);
+    } );
+ 
+ 
+  table.buttons().container().appendTo( $('#tabBtn') );
+   $('.buttons-csv').addClass('btn btn-primary');
+    
+    
+    
+ // 调用方法
+  	//GetQueryString("id");
+  	var searchUrl = window.location.href;
+  var searchData = searchUrl.split("="); //截取 url中的“=”,获得“=”后面的参数
+  var id = decodeURI(searchData[1]); //decodeURI解码
+ console.log(id)
+	function initTable(){
+		 $("#diyi").removeClass("active");
+	     $("#dier").addClass("active");
+	     $("#diyi a").show();
+	     $("#dier a").show();
+	     $("#home").removeClass("active");
+	     $("#profile").addClass("active");
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/cgcontract/selectCgContractById",
+			dataType:"json",
+			data:{
+				id:id,
+			},
+			success:function(json){
+				console.log(json)
+				$("#lookcghetongming").text(json.contractName);
+				$("#lookcgNo").text(json.cgNo);
+				$("#lookcgdNo").text(json.cgdNo);
+				$("#lookcgbianhao").text(json.cgId)
+				$("#looktask_no").text(json.workNo);
+				$("#lookprjName").text(json.prjName)
+				$("#lookisdaigou").text(json.isProgram);
+				$("#lookfbhetong").text(json.fbNo==""?"无":json.fbNo);
+				$("#lookborrow_no").text(json.borrowNo==''||json.borrowNo==null?"无":json.borrowNo)
+				$("#lookdaigouType").text(json.programType==null?"无":json.programType),
+				$("#lookcgType").text(json.cgcType);
+				$("#lookdaigouMoney").text(json.programMoney==null?"":json.programMoney);
+				$("#lookcghetongMoney").text(json.cgContractMoney==null?"":json.cgContractMoney);
+				$("#lookjiafang").text(json.contractNameJia==null?"":json.contractNameJia);
+				$("#lookyifang").text(json.spName==null?"":json.spName);
+				$("#lookfukuanfangshi").text(json.payMode==null?"":json.payMode);
+				$("#lookyear").text(json.contractSignTime==null?"":json.contractSignTime);
+				$("#lookcghetonggaishu").text(json.contractSummary==null?"":json.contractSummary);
+				$("#lookgaikuang").text(json.workContent==null?"":json.workContent);
+				$("#lookcg_bumen").text(json.cgDepartment);
+				$("#lookyunfei").text(json.freight);
+				
+				$("#lookcailiaobiaoDiv").empty();
+				$("#lookcailiaobiaoDiv").append(
+        				"<table  class='table table-bordered table-condensed' id='lookcailiaobiao'>"+
+                    	"<thead>"+
+                        	"<tr>"+
+                            	"<th>材料名称</th>"+
+                            	"<th>材料类型</th>"+
+	                            "<th>材料型号</th>"+
+	                            "<th style='width:6%;'>单位</th>"+
+	                            "<th>数量</th>"+
+	                            "<th style='width:8%;'>单价</th>"+
+	                            "<th style='width:8%;'>金额</th>"+
+	                            "<th>项目部推荐供应商</th>"+
+	                            /* "<th>公司确定供应商</th>"+ */
+	                            "<th>备注</th>"+
+                        	"</tr>"+
+                    	"</thead>"+
+                    	"<tbody>"+
+                    	"</tbody>"+
+                    "</table>"
+                    )
+				if(json.cgcl!=null){
+					for(var k=0;k<json.cgcl.length;k++){
+                   		$("#lookcailiaobiao tbody").append("<tr><td style='width:10%;'>"
+           		  				+''+(json.cgcl[k].clName==null?"":json.cgcl[k].clName)+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+(json.cgcl[k].clType==null?"":json.cgcl[k].clType)+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+(json.cgcl[k].clMode==null?"":json.cgcl[k].clMode)+'' 
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+(json.cgcl[k].clUnit==null?"":json.cgcl[k].clUnit)+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+(json.cgcl[k].clNumber==null?"":json.cgcl[k].clNumber)+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+(json.cgcl[k].clPrice==null?"":json.cgcl[k].clPrice)+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+(json.cgcl[k].clMoney==null?"":json.cgcl[k].clMoney)+''
+           		  				+"</td><td style='width:9%;'>"
+           		  				+''+(json.cgcl[k].clspName1==null?"":json.cgcl[k].clspName1)+''
+           		  				+"</td><td style='width:10%;'>"
+           		  				/* +''+(json.cgcl[k].clspName2==null?"":json.cgcl[k].clspName2)+''
+           		  				+"</td><td style='width:9%;'>" */
+           		  				+''+(json.cgcl[k].clDesc==null?"":json.cgcl[k].clDesc)+''
+           		  				+"</td></tr>")
+                    	} 
+				}
+				
+				$.ajax({
+					type:"post",
+					url:getContextPath()+"/cgcontract/selectAccessoryById",
+					dataType:"json",
+					data:{
+						id:json.cgId,
+					},
+					success:function(json){
+						$("#look_all_table").empty();
+						//$("#look_all_table1").empty();
+			            for(var i=0;i<json.length;i++){
+			            	   if(json[i].aType=="采购合同文本"){
+				            	   $("#look_all_table").append("<tr>"+
+			      	   										"<td style='width:20%;'>采购合同文本</td>"+
+			      	   										"<td colspan='3'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+									            	    	/* "<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+ */
+									            	    "</tr>");
+			            	   }
+			            	   /* if(json[i].aType=="法律顾问签字"){
+				            	   $("#look_all_table1").append("<tr>"+
+			      	   										"<td>法律顾问签字</td>"+
+									            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+									            	    "</tr>");
+			            	   } */
+			               }
+					}
+				})
+				
+				
+				$.ajax({
+		        	type: 'POST',
+		            url: getContextPath()+'/flowHistory/getHistoryNowAndLast',
+		            data:{
+		            	url:"shengchanguanliLook/ProcurementContract.html-"+json.cgId,
+		            },
+		            success: function (json) {
+		            	$("#d_table tbody").html('');
+		            	for(var i in json){
+		            		var operatorType = json[i].operateType;
+		            		operatorType = getCnByOt(operatorType);
+		            		var date = json[i].doDate;
+		            		var title = json[i].title;
+		            		var name = json[i].actorname;
+		            		if(date == null){
+		            			date="";
+		            			if(json[i].operateType==8){
+		            				title="<lable style='color:red'>"+json[i].title+"</lable>";
+		            				name="<lable style='color:red'>"+json[i].actorname+"</lable>";
+		            				operatorType="<lable style='color:red'>"+operatorType+"</lable>";
+		            			}else{
+		            				title = json[i].title;
+		            				name = json[i].actorname;
+		            			}
+		            		}
+		            		if(title!=undefined||name!=undefined||operatorType!=undefined||date!=""){
+			                	$("#d_table tbody").append("<tr><td>"+title+"</td><td>"+name+"</td><td></td><td>"+operatorType+"</td><td>"+date+"</td></tr>");
+		            		}
+		                    $("#look_modal").modal("show");
+		            	}
+		            }
+		        });
+				
+			}
+		})
+		
+    }
+	
+	/*  function addNodeRoles3(obj){
+			$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/flowNode/getNodeRoleById',
+	            data:{
+	            	id:floTmpId
+	            },
+	            dataType: 'json',
+	            success: function (json) {
+	            	$("#nodeRole3").empty();
+	            	for(var i in json){
+	           		 var name = json[i];
+	           		 if(name==null||name==""||name=="null"){
+	           			name="提交人"; 
+	           		 }
+	           		 if(i==json.length-1){
+	           			 if(step!=null&&i==step-1){
+	           		      $("#nodeRole3").append("<lable style='color:red'>"+name+"</lable>");
+	           			 }else{
+	           			  $("#nodeRole3").append("<lable>"+name+"</lable>"); 
+	           			 }
+	           		 }else{
+	           			 if(step!=null&&i==step-1){
+	            		      $("#nodeRole3").append("<lable style='color:red'>"+name+"→</lable>");
+	           			 }else{
+	           			  $("#nodeRole3").append("<lable>"+name+"→</lable>"); 
+	           			 }
+	           		 }
+	            	}
+	            }
+	        });
+	    } */
+  
+  
+	 function getCnByOt(s){
+		  if(s==1){
+			  return "提交";
+		  }else if(s==2){
+			  return "退回";
+		  }else if(s==3){
+			  return "撤销";
+		  }else if(s==0){
+			  return "驳回";
+		  }else if(s==8){
+			  return "待审批";
+		  }
+	 }
+	 
+	 function quxiao(){
+		 window.history.back(-1);
+	 }
+	 
+	  function day(){
+			// 获取当前页的html代码
+			    var bdhtml = window.document.body.innerHTML;
+			    //设置打印开始区域
+			    //var startStr = '<!--startprint-->';
+			    // 设置打印结束区域
+			    //var endStr = '<!--endprint-->';
+			    //从标记里获取需要打印的页面
+			    //var printHtml = bdhtml.substring(bdhtml.indexOf(startStr) + startStr.length, bdhtml.indexOf(endStr));
+			    //隐藏不必要的按钮和样式
+			    var iframe = document.getElementById('rightMain');
+			    var iframeHtml=iframe.contentWindow.document.body;
+			    $(iframeHtml).find("a").each(function(){
+			    	var fileName=$(this).text();
+			    	var qq=$(this).parent("td");
+			    	qq.empty();
+			    	qq.append("<span>"+fileName+"</span>");
+			    })
+			    var iframeHtml2=iframeHtml.innerHTML;
+			    var printHtml = document.getElementById('dy_html').innerHTML;
+			    var allHtml=iframeHtml2+printHtml;
+			    
+			    
+			   //iframe.contentWindow.focus();
+			   //iframe.contentWindow.print(); 
+			    
+			 	// 通过id获取需要打印的页面
+			    
+			    window.document.body.innerHTML = allHtml;
+			    if (!!window.ActiveXObject || "ActiveXObject" in window) { //是否ie
+			        remove_ie_header_and_footer();
+			     }
+			    remove_ie_header_and_footer();
+			    window.print();
+			    // 还原界面
+			    window.document.body.innerHTML = allHtml;
+			    window.location.reload();
+		  } 
+	 
+	
+    function getCreat(bb){
+        var EnterpriseRating= $(bb).parent().prev().text();
+        var Remarks= $(bb).parent().prev().prev().text();
+        var ContactPhone1= $(bb).parent().prev().prev().prev().text();
+        var Contacts= $(bb).parent().prev().prev().prev().prev().text();
+        var address= $(bb).parent().prev().prev().prev().prev().prev().text();
+        var ProprietorUnit= $(bb).parent().prev().prev().prev().prev().prev().prev().text();
+        var Code= $(bb).parent().prev().prev().prev().prev().prev().prev().prev().text();
+        $("#CEnterprise-rating").val(EnterpriseRating);
+        $("#CRemarks").val(Remarks);
+        $("#CContact-phone1").val(ContactPhone1);
+        $("#CContacts").val(Contacts);
+        $("#Caddress").val(address);
+        $("#CProprietor-unit").val(ProprietorUnit);
+        $("#CCode").val(Code);
+        rowIndex = bb.parentNode.parentNode.rowIndex; 
+    }
+
+    // $("#mainContent tbody tr").click(function (){
+    //     $(this).addClass('selected')
+    //     .siblings().removeClass('selected')
+    //     .end();
+    // })
+//数组去重
+Array.prototype.unique3 = function(){
+ var res = [];
+ var json = {};
+ for(var i = 0; i < this.length; i++){
+  if(!json[this[i]]){
+   res.push(this[i]);
+   json[this[i]] = 1;
+  }
+ }
+ return res;
+}
+
+    var arr=[];
+    // $('#renwuDanhao')[0].selectedIndex = -1;
+    $("#renwuDanhao").change(function(){
+        arr.push($("#renwuDanhao").val())
+        $("#rwdh").text(arr.unique3())
+    })
+    var arr2=[];
+    // $('#renwuDanhao2')[0].selectedIndex = -1;
+    $("#renwuDanhao2").change(function(){
+        arr2.push($("#renwuDanhao2").val())
+        $("#rwdh2").text(arr2.unique3())
+    })
+
+    $(".zhuangtai").change(function(){
+        var zt=$(".zhuangtai").val();
+        if(zt=="合同终止"){
+            $(".quxiao").hide();
+            $(".chongqi").show()
+        }else{
+            $(".quxiao").show();
+            $(".chongqi").hide();
+        }
+    })
+    
+    
+
+</script>
+</html>
