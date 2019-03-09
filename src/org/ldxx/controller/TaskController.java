@@ -845,10 +845,12 @@ public class TaskController {
 		Map<String,Object> map=new HashMap<>();
 		Task t=tService.selectTaskById(id);
 		FlowHistroy fh=histroyMapper.selectLastDoDate(id);
-		Date doDate=fh.getDoDate();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String lxTime=sdf.format(doDate);
-		t.setLxTime(lxTime);
+		if(null!=fh){
+			Date doDate=fh.getDoDate();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String lxTime=sdf.format(doDate);
+			t.setLxTime(lxTime);
+		}
 		map.put("task", t);
 		List<Task> list=tService.selectTaskHistory(no);
 		map.put("taskList", list);

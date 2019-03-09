@@ -52,6 +52,8 @@ public interface FlowHistroyMapper {
     
     List<FlowHistoryNowAndLast> getFlowHistorysLeftJoinByUrl(String url);
     
+    List<FlowHistoryNowAndLast> getFlowHistorysLeftJoinByModeId(String modeId);
+    
     List<FlowHistroy> getDistinctFlowHistorysByOperateType(String url);
     
     FlowHistroy selectLastDoDate(@Param("id")String id);
