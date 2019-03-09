@@ -95,7 +95,7 @@ public class PrjRecordController {
 				String fileName1=file2[i].getOriginalFilename();
 				String filePath2=path+File.separator+fileName1;
 				File f2=new File(filePath2);
-				file2[i].transferTo(f2);
+				file2[i].transferTo(f2); 
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName1);
 				accessory2.setAcUrl(id+File.separator+fileName1);
