@@ -181,9 +181,9 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	@Override
 	public int updateHistoryById(String id) {
 		int i=bdao.updateHistoryById(id);
-		if(i>0){
+		//if(i>0){
 			i=bdao.changeStateById(id);
-		}
+		//}
 		return i;
 	}
 
@@ -195,6 +195,11 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	@Override
 	public List<CostBudget> selectNwCostByTaskNoAndDept(String no, String type) {
 		return bdao.selectNwCostByTaskNoAndDept(no, type);
+	}
+
+	@Override
+	public int updateBfNoById(String id, String code) {
+		return bdao.updateBfNoById(id,code);
 	}
 
 }

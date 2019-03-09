@@ -38,5 +38,7 @@ public interface BudgetFpplicationFormDao {
 	CostBudget selectNwCostByTaskNo(@Param("no")String no,@Param("type")String type);
 	
 	List<CostBudget> selectNwCostByTaskNoAndDept(@Param("no")String no,@Param("type")String type);
+
+	int updateBfNoById(@Param("id")String id,@Param("code") String code);
 	
 }

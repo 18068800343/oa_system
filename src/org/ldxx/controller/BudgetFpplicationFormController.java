@@ -61,11 +61,11 @@ public class BudgetFpplicationFormController {
 		String id=uuid.getTimeUUID();
 		BudgetFpplicationForm budge = budges.get(0);
 		budge.setBfId(id);
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		/*SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=bservice.countNo(year);
 		String code="YS"+uuid.getPrjCode("", count+1);
-		budge.setBfNo(code);
+		budge.setBfNo(code);*/
 		int i=bservice.saveBudge(budge);
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(budge.getDepartment());
@@ -112,11 +112,11 @@ public class BudgetFpplicationFormController {
 		String id=uuid.getTimeUUID();
 		BudgetFpplicationForm budge = budges.get(0);
 		budge.setBfId(id);
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		/*SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		int count=bservice.countNo(year);
 		String code="YS"+uuid.getPrjCode("", count+1);
-		budge.setBfNo(code);
+		budge.setBfNo(code);*/
 		int i=bservice.saveBudge(budge);
 		String string = i+"";
 		if(i>0){
@@ -300,6 +300,19 @@ public class BudgetFpplicationFormController {
 		//更改历史操作
 		int i=bservice.updateHistoryById(id);
 		BudgetFpplicationForm bff=bservice.selectBudgeById(id);
+		if(i>0){
+			BudgetFpplicationForm budgetFpplicationForm = bservice.selectBudgeById(id);
+			String bfNo = budgetFpplicationForm.getBfNo();
+			if(bfNo==null||"".equals(bfNo)){
+				TimeUUID uuid=new TimeUUID();
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+				String year=sdf.format(new Date());
+				int count=bservice.countNo(year);
+				String code="YS"+uuid.getPrjCode("", count+1);
+				//budge.setBfNo(code);
+				i=bservice.updateBfNoById(id,code);
+			}
+		}
 		
 		//重新计算项目进度是否预警
 		double ysCost=bff.getAllCost();//预算总费用

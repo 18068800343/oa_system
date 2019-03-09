@@ -222,12 +222,16 @@ public class PrjMaterialBuyController {
 	@ResponseBody
 	public int updateTaskNoById(String id){
 		PrjMaterialBuy buy = service.selectPrjMaterialBuyById(id);
-		TimeUUID uuid=new TimeUUID();
-		int count=service.selectPrjMaterialBuyCount();
-		OrganizationManagement om2=oservice.selectOrgById(buy.getApplyDepartment());
-		String omNo2=om2.getOmNo();
-		String taskCode=uuid.getClCode(omNo2, count+1);
-		int i= service.updateTaskNoById(id,taskCode);
+		String no = buy.getTaskCode();
+		int i=0;
+		if(no==null||"".equals(no)){
+			TimeUUID uuid=new TimeUUID();
+			int count=service.selectPrjMaterialBuyCount();
+			OrganizationManagement om2=oservice.selectOrgById(buy.getApplyDepartment());
+			String omNo2=om2.getOmNo();
+			String taskCode=uuid.getClCode(omNo2, count+1);
+			i= service.updateTaskNoById(id,taskCode);
+		}
 		return i;
 	}
 }

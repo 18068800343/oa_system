@@ -256,10 +256,15 @@ public class KpApplicationController {
 	@RequestMapping("/updateKpNoById")//流程最后一步通过id修改编号
 	@ResponseBody
 	public int updateKpNoById(String id){
-		TimeUUID uuid=new TimeUUID();
-		int count=service.countfpNo();
-		String code="KP"+uuid.getClCode("", count+1);
-		int i=service.updateKpNoById(id,code);
+		KpApplication kpApplication = service.getKpApplicationById(id);
+		String kpNo = kpApplication.getKpNo();
+		int i=0;
+		if(kpNo==null||"".equals(kpNo)){
+			TimeUUID uuid=new TimeUUID();
+			int count=service.countfpNo();
+			String code="KP"+uuid.getClCode("", count+1);
+			i=service.updateKpNoById(id,code);
+		}
 		return i;
 	}
 }

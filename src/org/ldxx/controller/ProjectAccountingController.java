@@ -117,7 +117,7 @@ public class ProjectAccountingController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		projectAccounting.setPaId(id);
-		projectAccounting.setHsNo("HS"+projectAccounting.getPrjNo());
+		//projectAccounting.setHsNo("HS"+projectAccounting.getPrjNo());
 		int i=service.addProjectAccounting(projectAccounting);
 		if(i>0){
 			OrganizationManagement organizationManagement = oService.getOrgIdByName(projectAccounting.getCjDepartment());
@@ -167,7 +167,7 @@ public class ProjectAccountingController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		projectAccounting.setPaId(id);
-		projectAccounting.setHsNo("HS"+projectAccounting.getPrjNo());
+		//projectAccounting.setHsNo("HS"+projectAccounting.getPrjNo());
 		int i=service.addProjectAccounting(projectAccounting);
 		String string = i+"";
 		if(i>0){
@@ -211,4 +211,18 @@ public class ProjectAccountingController {
 		return map;*/
 	}
 
+	
+	@RequestMapping("/updateHSNoById")
+	@ResponseBody
+	public int updateHSNoById(String id){
+		ProjectAccounting projectAccounting = service.getProjectAccountingById(id);
+		String hsNo = projectAccounting.getHsNo();
+		int i=0;
+		if(hsNo==null||"".equals(hsNo)){
+			String code="HS"+projectAccounting.getPrjNo();
+			i=service.updateHSNoById(id,code);
+		}
+		return i;
+	}
+	
 }

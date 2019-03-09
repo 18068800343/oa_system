@@ -15,4 +15,6 @@ public interface ProjectAccountingDao {
 
 	int updateProjectAccountingById(@Param("projectAccounting")ProjectAccounting projectAccounting);
 
+	int updateHSNoById(@Param("id")String id,@Param("code") String code);
+
 }

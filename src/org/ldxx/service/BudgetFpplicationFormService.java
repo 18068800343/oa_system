@@ -35,5 +35,7 @@ public interface BudgetFpplicationFormService {
 	CostBudget selectNwCostByTaskNo(String no,String type);
 	
 	List<CostBudget> selectNwCostByTaskNoAndDept(String no,String type);
+
+	int updateBfNoById(String id, String code);
 	
 }

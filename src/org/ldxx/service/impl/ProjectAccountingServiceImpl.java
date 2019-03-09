@@ -69,4 +69,9 @@ public class ProjectAccountingServiceImpl implements ProjectAccountingService {
 		return i;
 	}
 
+	@Override
+	public int updateHSNoById(String id, String code) {
+		return dao.updateHSNoById(id,code);
+	}
+
 }

@@ -1581,6 +1581,7 @@
     	PrjMaterialBuy.cjContractName=cj_name;
     	PrjMaterialBuy.applyReason=reasons;
     	
+    	var flag=true;
     	var materialDemand=new Array();
     	$("#cl_table tbody").find("tr").each(function(){
     		var md={
@@ -1602,14 +1603,17 @@
     		var infos=$(this).find("input").eq(3).val();
     		if(name==""){
     			toastr.error("材料名称不能为空")
+    			flag=false;
     			return;
     		}
     		if(modeType==""){
     			toastr.error("规格型号不能为空")
+    			flag=false;
     			return;
     		}
     		if(num=="" || num<=0){
     			toastr.error("数量不能小于等于0或者为空")
+    			flag=false;
     			return;
     		}
     		var type=$(this).find("select").eq(0).val();
@@ -1630,61 +1634,67 @@
     	})
     	PrjMaterialBuy.md=materialDemand;
     	
-    	$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/PrjMaterialBuy/addPrjMaterialBuyBySubmit',
-            dataType: 'json',
-            contentType:'application/json',
-            data:JSON.stringify(PrjMaterialBuy),
-            success: function (json) {
-            	if(json=='0'){
-	        		toastr.error("保存失败");
-	        	}else{
-	        		$("#myModal").modal("hide");
-	        		lianjie=json.url;
-	            	if(json.receiver!=null&&json.receiver.length>=1){
-		        		  $("#tijiaogei").modal('show');
-		        		  $("#tijiaoren tbody").empty("");
-		        		  for(var i=0;i<json.receiver.length;i++){
-		        			  $("#tijiaoren tbody").append('<tr><td>'
-		        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
-		        					  +'</td><td>'
-		        					  +json.receiver[i].omName
-		        					  +'</td><td>'
-		        					  +json.receiver[i].dutyName
-		        					  +'</td><td>'
-		        					  +json.receiver[i].uName
-		        					  +'</td></tr>');
-		        		  }
-		        	  }else if(json.receiver.length==1){
-		        		  $.ajax({
-		        	          type: 'POST',
-		        	          url: getContextPath()+'/task/addTask4',
-		        	          dataType: 'json',
-		        	          data:{
-		        	        	  url:json.url,
-		        	        	  userId:json.receiver.userId,
-		        	        	  uName:json.receiver.uName,
-		        	        	  omName:json.receiver.omName,
-		        	        	  dutyName:json.receiver.dutyName,
-		        	        	  omId:json.receiver.omId,
-		        	        	  dutyId:json.receiver.dutyId
-		        	          },
-		        	          success: function (json) {
-		        	        	  toastr.success('提交成功');
-		        	          }
-		        	      }); 
-		        	  }
-	        	}
-            	
-				/* if(json>0){
-					$("#myModal").modal("hide");
-					toastr.success("提交成功");
-				}else{
-					toastr.error("提交失败");
-				} */
-            }
-  		});
+    	if(flag==true&&materialDemand.length!=0){
+	    	$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/PrjMaterialBuy/addPrjMaterialBuyBySubmit',
+	            dataType: 'json',
+	            contentType:'application/json',
+	            data:JSON.stringify(PrjMaterialBuy),
+	            success: function (json) {
+	            	if(json=='0'){
+		        		toastr.error("保存失败");
+		        	}else{
+		        		$("#myModal").modal("hide");
+		        		lianjie=json.url;
+		            	if(json.receiver!=null&&json.receiver.length>=1){
+			        		  $("#tijiaogei").modal('show');
+			        		  $("#tijiaoren tbody").empty("");
+			        		  for(var i=0;i<json.receiver.length;i++){
+			        			  $("#tijiaoren tbody").append('<tr><td>'
+			        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+			        					  +'</td><td>'
+			        					  +json.receiver[i].omName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].dutyName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].uName
+			        					  +'</td></tr>');
+			        		  }
+			        	  }else if(json.receiver.length==1){
+			        		  $.ajax({
+			        	          type: 'POST',
+			        	          url: getContextPath()+'/task/addTask4',
+			        	          dataType: 'json',
+			        	          data:{
+			        	        	  url:json.url,
+			        	        	  userId:json.receiver.userId,
+			        	        	  uName:json.receiver.uName,
+			        	        	  omName:json.receiver.omName,
+			        	        	  dutyName:json.receiver.dutyName,
+			        	        	  omId:json.receiver.omId,
+			        	        	  dutyId:json.receiver.dutyId
+			        	          },
+			        	          success: function (json) {
+			        	        	  toastr.success('提交成功');
+			        	          }
+			        	      }); 
+			        	  }
+		        	}
+	            	
+					/* if(json>0){
+						$("#myModal").modal("hide");
+						toastr.success("提交成功");
+					}else{
+						toastr.error("提交失败");
+					} */
+	            }
+	  		});
+    		
+    	}else{
+    		toastr.error("材料需求至少添加一条信息")
+			return;
+    	}
     }
     
     function submitPerson(){
