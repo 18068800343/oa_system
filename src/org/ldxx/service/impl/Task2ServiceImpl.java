@@ -28,21 +28,21 @@ public class Task2ServiceImpl implements Task2Service{
 		List<TDepartment> td=(List<TDepartment>) map.get("department");
 		int k=0;
 		for(Task2 task:t2){
-			int i = dao.selectTask2CountByTaskNo(task.gettNo());
+			/*int i = dao.selectTask2CountByTaskNo(task.gettNo());
 			if(i>0){
 				
 			}else{
-				if(task.gettNo()!=null&&!"".equals(task.gettNo())){
+				if(task.gettNo()!=null&&!"".equals(task.gettNo())){*/
 					k=dao.addTask2One(task);
-				}
-			}
+				//}
+			//}
 		}
 		if(k>0){
 			for(TDepartment tDepartment:td){
-				int l = tDao.selectDepartmentCountByTNoAndDepart(tDepartment.gettNo(), tDepartment.getdName());
-				if(l<=0){
+				/*int l = tDao.selectDepartmentCountByTNoAndDepart(tDepartment.gettNo(), tDepartment.getdName());
+				if(l<=0){*/
 					k=tDao.addTDepartmentOne(tDepartment);
-				}
+				//}
 			}
 		}
 		return k;
