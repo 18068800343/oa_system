@@ -394,7 +394,7 @@ public class ConstructionDocumentsController {
 	public int updateConstructionDocumentsSave(String  id,@RequestParam(required=false,value="file1") MultipartFile [] file1,@RequestParam(required=false,value="file2") MultipartFile [] file2,@RequestParam(required=false,value="file3") MultipartFile [] file3,
 			@RequestParam(required=false,value="file4") MultipartFile [] file4,@RequestParam(required=false,value="file5") MultipartFile [] file5,@RequestParam(required=false,value="file6") MultipartFile [] file6,@RequestParam(required=false,value="file7") MultipartFile [] file7,@RequestParam(required=false,value="file8") MultipartFile [] file8
 			,@RequestParam(required=false,value="file9") MultipartFile [] file9,@RequestParam(required=false,value="file10") MultipartFile [] file10,@RequestParam(required=false,value="file11") MultipartFile [] file11,@RequestParam(required=false,value="file12") MultipartFile [] file12,@RequestParam(required=false,value="file13") MultipartFile [] file13
-			,@RequestParam(required=false,value="file14") MultipartFile [] file14,@RequestParam(required=false,value="file15") MultipartFile [] file15,@RequestParam(required=false,value="file16") MultipartFile [] file16,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
+			,@RequestParam(required=false,value="file14") MultipartFile [] file14,@RequestParam(required=false,value="file15") MultipartFile [] file15,@RequestParam(required=false,value="file16") MultipartFile [] file16,@RequestParam(required=false,value="file17") MultipartFile [] file17,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
@@ -644,8 +644,23 @@ public class ConstructionDocumentsController {
 			}
 			num+=1;
 		}
+		if(file17.length>0){
+			for(int i=0;i<file17.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file17[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file17[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("SG其他");
+				list.add(accessory);
+			}
+			num+=1;
+		}
 		if(num>0){
-			prService.updateScStatus(id, 1);
+			prService.updateScStatus(id, 1);  
 		}
 		int i=aService.addAccessory(list);
 		/*String string = i+"";

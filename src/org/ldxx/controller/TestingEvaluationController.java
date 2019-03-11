@@ -22,6 +22,7 @@ import org.ldxx.bean.User;
 import org.ldxx.dao.TestingEvaluationDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.PrjRecordService;
 import org.ldxx.service.TestingEvaluationService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
@@ -54,6 +55,8 @@ public class TestingEvaluationController {
 	private TestingEvaluationDao dao;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private PrjRecordService prService;
 	
 	@RequestMapping("/selectTestingEvaluation")
 	@ResponseBody
@@ -285,40 +288,19 @@ public class TestingEvaluationController {
 	
 	@RequestMapping("/updateTestingEvaluationSave")//修改保存
 	@ResponseBody
-	public String updateTestingEvaluationSave(String tes,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
-			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8
-			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
-		Map<String,Object> map=new HashMap<>();
-		Map<String,Class> map2=new HashMap<>();
-		map2.put("accessory1", Accessory.class);
-		map2.put("accessory2", Accessory.class);
-		map2.put("accessory3", Accessory.class);
-		map2.put("accessory4", Accessory.class);
-		map2.put("accessory5", Accessory.class);
-		map2.put("accessory6", Accessory.class);
-		map2.put("accessory7", Accessory.class);
-		map2.put("accessory8", Accessory.class);
-		map2.put("accessory9", Accessory.class);
-		map2.put("accessory10", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(tes);
-		TestingEvaluation te=(TestingEvaluation)JSONObject.toBean(jsonObject, TestingEvaluation.class,map2);
-		
+	public int updateTestingEvaluationSave(String id,@RequestParam(required=false,value="file1") MultipartFile [] file1,@RequestParam(required=false,value="file2") MultipartFile [] file2,@RequestParam(required=false,value="file3") MultipartFile [] file3,
+			@RequestParam(required=false,value="file4") MultipartFile [] file4,@RequestParam(required=false,value="file5") MultipartFile [] file5,@RequestParam(required=false,value="file6") MultipartFile [] file6,@RequestParam(required=false,value="file7") MultipartFile [] file7,@RequestParam(required=false,value="file8") MultipartFile [] file8
+			,@RequestParam(required=false,value="file9") MultipartFile [] file9,@RequestParam(required=false,value="file10") MultipartFile [] file10,@RequestParam(required=false,value="file11") MultipartFile [] file11,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
-		String id=te.getTeId();
-		if(id==null||id==""){
-			id=uuid.getTimeUUID();
-			te.setTeId(id);
-			int i=dao.addTestingEvaluationSave(te);
-		}
-		//String path="D:"+File.separator+"oa"+File.separator+"TestingEvaluation"+File.separator+id;;
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
 		}
+		List<Accessory> list=new ArrayList<>();
+		int num=0;
 		if(file1.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file1.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file1[i].getOriginalFilename();
@@ -331,10 +313,9 @@ public class TestingEvaluationController {
 				accessory.setaType("JC项目实际存档目录");
 				list.add(accessory);
 			}
-			te.setAccessory1(list);
+			num+=1;
 		}
 		if(file2.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file2.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file2[i].getOriginalFilename();
@@ -347,10 +328,9 @@ public class TestingEvaluationController {
 				accessory.setaType("JC项目特点介绍、关键词");
 				list.add(accessory);
 			}
-			te.setAccessory2(list);
+			num+=1;
 		}
 		if(file3.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file3.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file3[i].getOriginalFilename();
@@ -363,10 +343,9 @@ public class TestingEvaluationController {
 				accessory.setaType("JC合同资料(合同原件提交经营部综合部)");
 				list.add(accessory);
 			}
-			te.setAccessory3(list);
+			num+=1;
 		}
 		if(file4.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file4.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file4[i].getOriginalFilename();
@@ -379,10 +358,9 @@ public class TestingEvaluationController {
 				accessory.setaType("JC出版报告");
 				list.add(accessory);
 			}
-			te.setAccessory4(list);
+			num+=1;
 		}
 		if(file5.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file5.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file5[i].getOriginalFilename();
@@ -395,10 +373,9 @@ public class TestingEvaluationController {
 				accessory.setaType("JC计算模型、计算书");
 				list.add(accessory);
 			}
-			te.setAccessory5(list);
+			num+=1;
 		}
 		if(file6.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file6.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file6[i].getOriginalFilename();
@@ -411,10 +388,9 @@ public class TestingEvaluationController {
 				accessory.setaType("JC外部审查意见");
 				list.add(accessory);
 			}
-			te.setAccessory6(list);
+			num+=1;
 		}
 		if(file7.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file7.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file7[i].getOriginalFilename();
@@ -427,10 +403,9 @@ public class TestingEvaluationController {
 				accessory.setaType("JC校审资料");
 				list.add(accessory);
 			}
-			te.setAccessory7(list);
+			num+=1;
 		}
 		if(file8.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file8.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file8[i].getOriginalFilename();
@@ -443,10 +418,9 @@ public class TestingEvaluationController {
 				accessory.setaType("JC技术方案");
 				list.add(accessory);
 			}
-			te.setAccessory8(list);
+			num+=1;
 		}
 		if(file9.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file9.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file9[i].getOriginalFilename();
@@ -459,10 +433,9 @@ public class TestingEvaluationController {
 				accessory.setaType("JC重点项目的项目总结");
 				list.add(accessory);
 			}
-			te.setAccessory9(list);
+			num+=1;
 		}
 		if(file10.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file10.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file10[i].getOriginalFilename();
@@ -475,11 +448,28 @@ public class TestingEvaluationController {
 				accessory.setaType("JC依据历史设计图纸");
 				list.add(accessory);
 			}
-			te.setAccessory10(list);
+			num+=1;
 		}
-		
-		int i=service.updateTestingEvaluationSave(te);
-		String string = i+"";
+		if(file11.length>0){
+			for(int i=0;i<file11.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file11[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file11[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JC其他");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(num>0){
+			prService.updateScStatus(id, 1);
+		}
+		int i=aService.addAccessory(list);
+		/*String string = i+"";
 		if(i>0){
 			User user = (User) session.getAttribute("user");
 			OrganizationManagement om=oService.selectOrgById(user.getOmId());
@@ -515,10 +505,8 @@ public class TestingEvaluationController {
 			}
 		}
 		response.setCharacterEncoding("UTF-8");
-		return string;
-		/*map.put("result", i);
-		map.put("TestingEvaluation", te);
-		return map;*/ 
+		return string;*/
+		return i;
 	}
 	
 	@RequestMapping("/selectTestingEvaluationByno")

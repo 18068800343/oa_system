@@ -17,7 +17,11 @@ public class AccessoryServiceImpl implements AccessoryService{
 	
 	@Override
 	public int addAccessory(List<Accessory> accessory) {
-		return dao.addAccessory(accessory);
+		int i=0;
+		if(accessory!=null&&accessory.size()>0){
+			i=dao.addAccessory(accessory);
+		}
+		return i;
 	}
 
 	@Override

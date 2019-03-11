@@ -53,7 +53,7 @@
                          <thead>
 		                   <tr>
 		                        <th style="width:25%">主要工作内容</th>
-		                        <th style="width:25%">存档形式</th>
+		                        <th style="width:25%">存档形式</th> 
 		                        <th style="width:25%">是否强制</th>
 		                        <th style="width:25%">操作</th>
 		                    </tr>
@@ -154,6 +154,12 @@
 		                    	<td>原件及电子版</td>
 		                    	<td>强制</td>
 		                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile16(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sg17">
+		                    	<td>其他</td>
+		                    	<td>原件及电子版</td>
+		                    	<td>不强制</td>
+		                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile17(this)">添加附件</button></td>
 		                    </tr>
 		                </tbody>
                      </table>
@@ -394,6 +400,13 @@
 		            }
 	            	if(json[i].aType=="SG交竣工验收文件(原件提交经营发展部)"){
 		            	   $("#sg16").after("<tr class='append_tr'>"+
+		       					"<td>附件</td>"+
+		            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+		            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+		            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SG其他"){
+		            	   $("#sg17").after("<tr class='append_tr'>"+
 		       					"<td>附件</td>"+
 		            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
 		            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
@@ -851,6 +864,9 @@
 	function edit_addFile16(aa){
 		$(aa).parent().parent().after("<tr><td>新附件</td><td  colspan='2'><input style='width:80%;' type='file'  name='file16' id='xgfile16' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
 	}
+	function edit_addFile17(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td  colspan='2'><input style='width:80%;' type='file'  name='file17' id='xgfile17' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
     
 	function removeFile(obj){
 		var tr=$(obj).parents("tr");
@@ -861,6 +877,7 @@
 
 	//档案专用
 	function baocunSG(){
+		var result;
   		var options={
   				type: 'POST',
 	            url: getContextPath()+'/ConstructionDocuments/updateConstructionDocumentsSave',
@@ -872,7 +889,8 @@
 	            	result=json;
 	            }
   		} 
-		$("#edit_form").ajaxSubmit(options);  		
+		$("#edit_form").ajaxSubmit(options);  	
+  		return result;
 	}
 	
 	

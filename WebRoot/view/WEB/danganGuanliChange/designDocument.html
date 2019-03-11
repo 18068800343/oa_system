@@ -45,7 +45,7 @@
     </div>
 
     <div class="zhuti-content">
-       <form class="form-inline">
+       <form id="edit_form" class="form-inline" method="post" enctype="multipart/form-data">
                         <table class="table table-bordered" id="all_table">
                         <thead>
 		                    <tr>
@@ -311,6 +311,12 @@
 		                    	<td>电子及纸质</td>
 		                    	<td>强制</td>
 		                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile41(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj42">
+		                    	<td>其他</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>不强制</td>
+		                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile42(this)">添加附件</button></td>
 		                    </tr>
 		                </tbody>
                         </table>
@@ -727,6 +733,13 @@
 		            }
 	            	if(json[i].aType=="SJsgt相关单位往来函、文"){
 		            	   $("#sj41").after("<tr class='append_tr'>"+
+			       					"<td>附件</td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt其他"){
+		            	   $("#sj42").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
 			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
 			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
@@ -1769,6 +1782,9 @@
 	function addxgFile41(aa){
 		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file41' id='file41' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
 	}
+	function addxgFile42(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file42' id='file42' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
 	
 	function removeFile(obj){
 		var tr=$(obj).parents("tr");
@@ -1779,6 +1795,25 @@
 	
 	//设计档案专用
 	function baocunSJ(){
+  		var result;
+  		var options={
+  				type: 'POST',
+	            url: getContextPath()+'/DesignDocuments/updateDesignDocumentsSave',
+	            data: {
+	            	id:id
+	            }, 
+	            async:false,
+	            dataType: 'json',
+	            success: function (json) {
+	            	result=json;
+	            }
+  		}
+  		$("#edit_form").ajaxSubmit(options);
+  		return result;
+	}
+	
+	
+	function baocunSJ222(){
 		var id;
 		$.ajax({
 	        type: 'POST',

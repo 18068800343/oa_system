@@ -116,6 +116,12 @@
 			                    	<td>不强制</td>
 			                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile10(this)">添加附件</button></td>
 			                    </tr>
+			                    <tr id="jc11">
+			                    	<td>其他</td>
+			                    	<td>电子或纸质</td>
+			                    	<td>不强制</td>
+			                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  onclick="edit_addFile11(this)">添加附件</button></td>
+			                    </tr>
 		                </tbody>
                         </table>
                     </form>  
@@ -311,6 +317,13 @@
 		            }
 	            	if(json[i].aType=="JC依据历史设计图纸"){
 		            	   $("#jc10").after("<tr class='append_tr'>"+
+			       					"<td>附件</td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="JC其他"){
+		            	   $("#jc11").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
 			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
 			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
@@ -703,7 +716,10 @@
 	function edit_addFile10(aa){
 		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file10' id='xgfile10' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
 	}
-	function edit_addFile11(){
+	function edit_addFile11(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file11' id='xgfile11' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	/* function edit_addFile11(){
 		$("#edit_accessory11 tfoot").append("<tr><td>新附件</td><td><input style='width:80%;' type='file' name='file11' id='xgfile11' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' name='file1' class='form-control'></td ><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
 	}
 	function edit_addFile12(){
@@ -711,7 +727,7 @@
 	}
 	function edit_addFile13(){
 		$("#edit_accessory13 tfoot").append("<tr><td>新附件</td><td><input style='width:80%;' type='file'  name='file13' id='xgfile13' class='form-control'></td><td>附件说明</td><td><input style='width:80%;' type='text' name='file1' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
-	}
+	} */
     
 	function removeFile(obj){
 		var tr=$(obj).parents("tr");
@@ -721,6 +737,26 @@
 
 	//检测档案专用
 	function baocunJC(){
+		var result;
+  		var options={
+  				type: 'POST',
+	            url: getContextPath()+'/TestingEvaluation/updateTestingEvaluationSave',
+	            data: {
+	            	id:id
+	            }, 
+	            async:false,
+	            dataType: 'json',
+	            success: function (json) {
+	            	result=json;
+	            }
+  		}
+		$("#edit_form").ajaxSubmit(options);
+  		return result;
+	}
+	
+	
+	
+	function baocunJC2222(){
 		var id;
 		$.ajax({
 	        type: 'POST',

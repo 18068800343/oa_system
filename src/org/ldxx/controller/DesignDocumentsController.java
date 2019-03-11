@@ -22,6 +22,7 @@ import org.ldxx.dao.DesignDocumentsDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.DesignDocumentsService;
 import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.PrjRecordService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,8 @@ public class DesignDocumentsController {
 	private DesignDocumentsDao dao;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private PrjRecordService prService;
 	
 	
 	@RequestMapping("/selectDesignDocuments")
@@ -841,16 +844,16 @@ public class DesignDocumentsController {
 	
 	@RequestMapping("/updateDesignDocumentsSave")
 	@ResponseBody
-	public String updateDesignDocumentsSave(String dds,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
-			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8
-			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13
-			,@RequestParam MultipartFile [] file14,@RequestParam MultipartFile [] file15,@RequestParam MultipartFile [] file16,@RequestParam MultipartFile [] file17,@RequestParam MultipartFile [] file18
-			,@RequestParam MultipartFile [] file19,@RequestParam MultipartFile [] file20,@RequestParam MultipartFile [] file21,@RequestParam MultipartFile [] file22,@RequestParam MultipartFile [] file23
-			,@RequestParam MultipartFile [] file24,@RequestParam MultipartFile [] file25,@RequestParam MultipartFile [] file26,@RequestParam MultipartFile [] file27,@RequestParam MultipartFile [] file28
-			,@RequestParam MultipartFile [] file29,@RequestParam MultipartFile [] file30,@RequestParam MultipartFile [] file31,@RequestParam MultipartFile [] file32,@RequestParam MultipartFile [] file33
-			,@RequestParam MultipartFile [] file34,@RequestParam MultipartFile [] file35,@RequestParam MultipartFile [] file36,@RequestParam MultipartFile [] file37,@RequestParam MultipartFile [] file38
-			,@RequestParam MultipartFile [] file39,@RequestParam MultipartFile [] file40,@RequestParam MultipartFile [] file41,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
-		Map<String,Object> map=new HashMap<>();
+	public int updateDesignDocumentsSave(String id,@RequestParam(required=false,value="file1") MultipartFile [] file1,@RequestParam(required=false,value="file2") MultipartFile [] file2,@RequestParam(required=false,value="file3") MultipartFile [] file3,
+			@RequestParam(required=false,value="file4") MultipartFile [] file4,@RequestParam(required=false,value="file5") MultipartFile [] file5,@RequestParam(required=false,value="file6") MultipartFile [] file6,@RequestParam(required=false,value="file7") MultipartFile [] file7,@RequestParam(required=false,value="file8") MultipartFile [] file8
+			,@RequestParam(required=false,value="file9") MultipartFile [] file9,@RequestParam(required=false,value="file10") MultipartFile [] file10,@RequestParam(required=false,value="file11") MultipartFile [] file11,@RequestParam(required=false,value="file12") MultipartFile [] file12,@RequestParam(required=false,value="file13") MultipartFile [] file13
+			,@RequestParam(required=false,value="file14") MultipartFile [] file14,@RequestParam(required=false,value="file15") MultipartFile [] file15,@RequestParam(required=false,value="file16") MultipartFile [] file16,@RequestParam(required=false,value="file17") MultipartFile [] file17,@RequestParam(required=false,value="file18") MultipartFile [] file18
+			,@RequestParam(required=false,value="file19") MultipartFile [] file19,@RequestParam(required=false,value="file20") MultipartFile [] file20,@RequestParam(required=false,value="file21") MultipartFile [] file21,@RequestParam(required=false,value="file22") MultipartFile [] file22,@RequestParam(required=false,value="file23") MultipartFile [] file23
+			,@RequestParam(required=false,value="file24") MultipartFile [] file24,@RequestParam(required=false,value="file25") MultipartFile [] file25,@RequestParam(required=false,value="file26") MultipartFile [] file26,@RequestParam(required=false,value="file27") MultipartFile [] file27,@RequestParam(required=false,value="file28") MultipartFile [] file28
+			,@RequestParam(required=false,value="file29") MultipartFile [] file29,@RequestParam(required=false,value="file30") MultipartFile [] file30,@RequestParam(required=false,value="file31") MultipartFile [] file31,@RequestParam(required=false,value="file32") MultipartFile [] file32,@RequestParam(required=false,value="file33") MultipartFile [] file33
+			,@RequestParam(required=false,value="file34") MultipartFile [] file34,@RequestParam(required=false,value="file35") MultipartFile [] file35,@RequestParam(required=false,value="file36") MultipartFile [] file36,@RequestParam(required=false,value="file37") MultipartFile [] file37,@RequestParam(required=false,value="file38") MultipartFile [] file38
+			,@RequestParam(required=false,value="file39") MultipartFile [] file39,@RequestParam(required=false,value="file40") MultipartFile [] file40,@RequestParam(required=false,value="file41") MultipartFile [] file41,@RequestParam(required=false,value="file42") MultipartFile [] file42,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
+		/*Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory1", Accessory.class);
 		map2.put("accessory2", Accessory.class);
@@ -894,15 +897,15 @@ public class DesignDocumentsController {
 		map2.put("accessory40", Accessory.class);
 		map2.put("accessory41", Accessory.class);
 		JSONObject jsonObject=JSONObject.fromObject(dds);
-		DesignDocuments dd=(DesignDocuments)JSONObject.toBean(jsonObject, DesignDocuments.class,map2);
+		DesignDocuments dd=(DesignDocuments)JSONObject.toBean(jsonObject, DesignDocuments.class,map2);*/
 		
 		TimeUUID uuid=new TimeUUID();
-		String id=dd.getDdId();
+		/*String id=dd.getDdId();
 		if(id==null||id==""){
 			id=uuid.getTimeUUID();
 			dd.setDdId(id);
 			int i=dao.addDesignDocumentsSave(dd);
-		}
+		}*/
 		//String path="D:"+File.separator+"oa"+File.separator+"DesignDocuments"+File.separator+id;;
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
@@ -910,8 +913,9 @@ public class DesignDocumentsController {
 		if(!f.exists()){
 			f.mkdirs();
 		}
+		List<Accessory> list=new ArrayList<>();
+		int num=0;
 		if(file1.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file1.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file1[i].getOriginalFilename();
@@ -924,10 +928,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJ项目实际存档目录");
 				list.add(accessory);
 			}
-			dd.setAccessory1(list);
+			num+=1;
 		}
 		if(file2.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file2.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file2[i].getOriginalFilename();
@@ -940,10 +943,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJ项目特点介绍、关键词(尤其施工图阶段)");
 				list.add(accessory);
 			}
-			dd.setAccessory2(list);
+			num+=1;
 		}
 		if(file3.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file3.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file3[i].getOriginalFilename();
@@ -956,10 +958,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJ合同资料(合同原件提交经营部综合部)");
 				list.add(accessory);
 			}
-			dd.setAccessory3(list);
+			num+=1;
 		}
 		if(file4.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file4.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file4[i].getOriginalFilename();
@@ -972,10 +973,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk设计任务书");
 				list.add(accessory);
 			}
-			dd.setAccessory4(list);
+			num+=1;
 		}
 		if(file5.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file5.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file5[i].getOriginalFilename();
@@ -988,10 +988,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk建设用地批准书、规划要点");
 				list.add(accessory);
 			}
-			dd.setAccessory5(list);
+			num+=1;
 		}
 		if(file6.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file6.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file6[i].getOriginalFilename();
@@ -1004,10 +1003,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk用地红线图(地形图)");
 				list.add(accessory);
 			}
-			dd.setAccessory6(list);
+			num+=1;
 		}
 		if(file7.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file7.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file7[i].getOriginalFilename();
@@ -1020,10 +1018,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk用地实测图");
 				list.add(accessory);
 			}
-			dd.setAccessory7(list);
+			num+=1;
 		}
 		if(file8.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file8.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file8[i].getOriginalFilename();
@@ -1036,10 +1033,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk区域控制性详细规划");
 				list.add(accessory);
 			}
-			dd.setAccessory8(list);
+			num+=1;
 		}
 		if(file9.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file9.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file9[i].getOriginalFilename();
@@ -1052,10 +1048,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk开发可行性报告与市场调查");
 				list.add(accessory);
 			}
-			dd.setAccessory9(list);
+			num+=1;
 		}
 		if(file10.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file10.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file10[i].getOriginalFilename();
@@ -1068,10 +1063,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk工程地质勘察报告");
 				list.add(accessory);
 			}
-			dd.setAccessory10(list);
+			num+=1;
 		}
 		if(file11.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file11.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file11[i].getOriginalFilename();
@@ -1084,10 +1078,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk工程场地地震安评报告");
 				list.add(accessory);
 			}
-			dd.setAccessory11(list);
+			num+=1;
 		}
 		if(file12.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file12.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file12[i].getOriginalFilename();
@@ -1100,10 +1093,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk用地范围周边市政系统情况");
 				list.add(accessory);
 			}
-			dd.setAccessory12(list);
+			num+=1;
 		}
 		if(file13.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file13.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file13[i].getOriginalFilename();
@@ -1116,10 +1108,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk工可报告、图纸");
 				list.add(accessory);
 			}
-			dd.setAccessory13(list);
+			num+=1;
 		}
 		if(file14.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file14.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file14[i].getOriginalFilename();
@@ -1132,10 +1123,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk相关单位往来函、文");
 				list.add(accessory);
 			}
-			dd.setAccessory14(list);
+			num+=1;
 		}
 		if(file15.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file15.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file15[i].getOriginalFilename();
@@ -1148,10 +1138,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk效果图");
 				list.add(accessory);
 			}
-			dd.setAccessory15(list);
+			num+=1;
 		}
 		if(file16.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file16.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file16[i].getOriginalFilename();
@@ -1164,10 +1153,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk报批文本");
 				list.add(accessory);
 			}
-			dd.setAccessory16(list);
+			num+=1;
 		}
 		if(file17.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file17.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file17[i].getOriginalFilename();
@@ -1180,10 +1168,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk图纸");
 				list.add(accessory);
 			}
-			dd.setAccessory17(list);
+			num+=1;
 		}
 		if(file18.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file18.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file18[i].getOriginalFilename();
@@ -1196,10 +1183,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk审查意见");
 				list.add(accessory);
 			}
-			dd.setAccessory18(list);
+			num+=1;
 		}
 		if(file19.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file19.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file19[i].getOriginalFilename();
@@ -1212,10 +1198,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJgk校审单");
 				list.add(accessory);
 			}
-			dd.setAccessory19(list);
+			num+=1;
 		}
 		if(file20.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file20.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file20[i].getOriginalFilename();
@@ -1228,10 +1213,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJcs方案批文(规划、环评、安评等)");
 				list.add(accessory);
 			}
-			dd.setAccessory20(list);
+			num+=1;
 		}
 		if(file21.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file21.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file21[i].getOriginalFilename();
@@ -1244,10 +1228,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJcs施工图文件");
 				list.add(accessory);
 			}
-			dd.setAccessory21(list);
+			num+=1;
 		}
 		if(file22.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file22.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file22[i].getOriginalFilename();
@@ -1260,10 +1243,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJcs概算书");
 				list.add(accessory);
 			}
-			dd.setAccessory22(list);
+			num+=1;
 		}
 		if(file23.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file23.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file23[i].getOriginalFilename();
@@ -1276,10 +1258,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJcs地勘报告(初勘或详勘)");
 				list.add(accessory);
 			}
-			dd.setAccessory23(list);
+			num+=1;
 		}
 		if(file24.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file24.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file24[i].getOriginalFilename();
@@ -1292,10 +1273,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJcs审查意见");
 				list.add(accessory);
 			}
-			dd.setAccessory24(list);
+			num+=1;
 		}
 		if(file25.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file25.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file25[i].getOriginalFilename();
@@ -1308,10 +1288,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJcs校审单");
 				list.add(accessory);
 			}
-			dd.setAccessory25(list);
+			num+=1;
 		}
 		if(file26.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file26.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file26[i].getOriginalFilename();
@@ -1324,10 +1303,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJcs相关单位往来函、文");
 				list.add(accessory);
 			}
-			dd.setAccessory26(list);
+			num+=1;
 		}
 		if(file27.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file27.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file27[i].getOriginalFilename();
@@ -1340,10 +1318,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt初设批文");
 				list.add(accessory);
 			}
-			dd.setAccessory27(list);
+			num+=1;
 		}
 		if(file28.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file28.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file28[i].getOriginalFilename();
@@ -1356,10 +1333,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt施工图文件");
 				list.add(accessory);
 			}
-			dd.setAccessory28(list);
+			num+=1;
 		}
 		if(file29.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file29.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file29[i].getOriginalFilename();
@@ -1372,10 +1348,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt预算书");
 				list.add(accessory);
 			}
-			dd.setAccessory29(list);
+			num+=1;
 		}
 		if(file30.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file30.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file30[i].getOriginalFilename();
@@ -1388,10 +1363,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt依据历史图纸和报告");
 				list.add(accessory);
 			}
-			dd.setAccessory30(list);
+			num+=1;
 		}
 		if(file31.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file31.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file31[i].getOriginalFilename();
@@ -1404,10 +1378,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt结构模型、计算书");
 				list.add(accessory);
 			}
-			dd.setAccessory31(list);
+			num+=1;
 		}
 		if(file32.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file32.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file32[i].getOriginalFilename();
@@ -1420,10 +1393,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt地勘报告(详勘)");
 				list.add(accessory);
 			}
-			dd.setAccessory32(list);
+			num+=1;
 		}
 		if(file33.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file33.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file33[i].getOriginalFilename();
@@ -1436,10 +1408,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt工程咨询报告");
 				list.add(accessory);
 			}
-			dd.setAccessory33(list);
+			num+=1;
 		}
 		if(file34.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file34.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file34[i].getOriginalFilename();
@@ -1452,10 +1423,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt审查意见");
 				list.add(accessory);
 			}
-			dd.setAccessory34(list);
+			num+=1;
 		}
 		if(file35.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file35.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file35[i].getOriginalFilename();
@@ -1468,10 +1438,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt校审单");
 				list.add(accessory);
 			}
-			dd.setAccessory35(list);
+			num+=1;
 		}
 		if(file36.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file36.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file36[i].getOriginalFilename();
@@ -1484,10 +1453,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt施工交底记录及回复");
 				list.add(accessory);
 			}
-			dd.setAccessory36(list);
+			num+=1;
 		}
 		if(file37.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file37.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file37[i].getOriginalFilename();
@@ -1500,10 +1468,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt设计变更资料");
 				list.add(accessory);
 			}
-			dd.setAccessory37(list);
+			num+=1;
 		}
 		if(file38.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file38.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file38[i].getOriginalFilename();
@@ -1516,10 +1483,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt重点项目项目总结");
 				list.add(accessory);
 			}
-			dd.setAccessory38(list);
+			num+=1;
 		}
 		if(file39.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file39.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file39[i].getOriginalFilename();
@@ -1532,10 +1498,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt交工验收文件(原件提交经营发展部，如施工任务由公司承担则不需要)");
 				list.add(accessory);
 			}
-			dd.setAccessory39(list);
+			num+=1;
 		}
 		if(file40.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file40.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file40[i].getOriginalFilename();
@@ -1548,10 +1513,9 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt获奖证书");
 				list.add(accessory);
 			}
-			dd.setAccessory40(list);
+			num+=1;
 		}
 		if(file41.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file41.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file41[i].getOriginalFilename();
@@ -1564,11 +1528,28 @@ public class DesignDocumentsController {
 				accessory.setaType("SJsgt相关单位往来函、文");
 				list.add(accessory);
 			}
-			dd.setAccessory41(list);
+			num+=1;
 		}
-		
-		int i=service.updateDesignDocumentsSave(dd);
-		String string = i+"";
+		if(file42.length>0){
+			for(int i=0;i<file42.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file42[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file42[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("SJsgt其他");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(num>0){
+			prService.updateScStatus(id, 1);
+		}
+		int i=aService.addAccessory(list);
+		/*String string = i+"";
 		if(i>0){
 			User user = (User) session.getAttribute("user");
 			OrganizationManagement om=oService.selectOrgById(user.getOmId());
@@ -1604,10 +1585,8 @@ public class DesignDocumentsController {
 			}
 		}
 		response.setCharacterEncoding("UTF-8");
-		return string;
-		/*map.put("result", i);
-		map.put("DesignDocuments", dd);
-		return map;*/
+		return string;*/
+		return i;
 	}
 	
 	@RequestMapping("/selectDesignDocumentsByno")

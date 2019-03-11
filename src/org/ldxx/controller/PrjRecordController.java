@@ -17,9 +17,12 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.ManagingDocuments;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjRecord;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.dao.AccessoryDao;
+import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.PrjRecordService;
+import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,10 @@ public class PrjRecordController {
 	private PrjRecordService pServcie;
 	@Autowired
 	private AccessoryDao aDao;
+	@Autowired
+	private TaskService tService;
+	@Autowired
+	private OrganizationManagementService oService;
 	
 	@RequestMapping("/addPrjRecord")
 	@ResponseBody
@@ -64,7 +71,7 @@ public class PrjRecordController {
 	@RequestMapping("/addScRecord")
 	@ResponseBody
 	public Map<String,Object> addScRecord(String id,@RequestParam(required=false,value="file1") MultipartFile [] file1,@RequestParam(required=false,value="file2") MultipartFile [] file2,@RequestParam(required=false,value="file3") MultipartFile [] file3,
-			@RequestParam(required=false,value="file4") MultipartFile [] file4,@RequestParam(required=false,value="file5") MultipartFile [] file5,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
+			@RequestParam(required=false,value="file4") MultipartFile [] file4,@RequestParam(required=false,value="file5") MultipartFile [] file5,@RequestParam(required=false,value="file6") MultipartFile [] file6,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
 		response.setCharacterEncoding("UTF-8");
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
@@ -151,6 +158,21 @@ public class PrjRecordController {
 			}
 			num+=1;
 		}
+		if(file6.length>0){
+			for(int i=0;i<file6.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file6[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file6[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setaType("JY其他");
+				list.add(accessory);
+			}
+			num+=1;
+		}
 		int i=aDao.addAccessory(list);
 		if(i>0){
 			if(num>0){
@@ -160,6 +182,108 @@ public class PrjRecordController {
 		map.put("result", i);
 		map.put("num", num);
 		return map;
+	}
+	
+	@RequestMapping("/submitPrjRecordJY")
+	@ResponseBody
+	public String submitPrjRecordJY(String id,String no,HttpSession session){
+		String string="";
+		User user = (User) session.getAttribute("user");
+		Task task=tService.selectTaskPrjName(no);
+		OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
+		String omNo=om.getOmNo();
+		FlowUtill flowUtill = new FlowUtill();
+		CurrentFlow currentFlow = new CurrentFlow();
+		currentFlow.setParams("1");
+		currentFlow.setTitle(task.getPrjName()+"-项目经营资料归档");
+		currentFlow.setActor(user.getUserId());
+		currentFlow.setActorname(user.getuName());;
+		currentFlow.setMemo(task.getPrjName()+"-项目经营资料归档");
+		currentFlow.setUrl("danganGUanliLook/OperatingDocumentLook.html-"+id);
+		currentFlow.setParams("{'cs':'1'}");
+		currentFlow.setStarter(user.getUserId());
+		currentFlow.setStartername(user.getuName());
+		currentFlow.setFkDept(omNo);
+		currentFlow.setDeptname(user.getOmName());
+		currentFlow.setNodename("节点名称");
+		currentFlow.setPri(1);
+		currentFlow.setSdtofnode(new Date());
+		currentFlow.setSdtofflow(new Date());
+		currentFlow.setFlowEndState(2);
+		currentFlow.setFlowNopassState(0);
+		FlowHistroy flowHistroy = new FlowHistroy();
+		flowHistroy.setActor(user.getUserId());
+		flowHistroy.setActorname(user.getuName());
+		flowHistroy.setActorresult(0);
+		flowHistroy.setView("");
+		try {
+			string = flowUtill.submitGetReceiver(currentFlow,omNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return string;
+	}
+	
+	@RequestMapping("/submitPrjRecordSc")
+	@ResponseBody
+	public String submitPrjRecordSc(String id,String no,String type,HttpSession session){
+		String string="";
+		User user = (User) session.getAttribute("user");
+		Task task=tService.selectTaskPrjName(no);
+		OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
+		String omNo=om.getOmNo();
+		FlowUtill flowUtill = new FlowUtill();
+		CurrentFlow currentFlow = new CurrentFlow();
+		currentFlow.setParams("1");
+		currentFlow.setTitle(task.getPrjName()+"-项目生产资料归档");
+		currentFlow.setActor(user.getUserId());
+		currentFlow.setActorname(user.getuName());
+		currentFlow.setMemo(task.getPrjName()+"-项目生产资料归档");
+		if(type.startsWith("C")){
+			currentFlow.setUrl("danganGUanliLook/ConstructionDocumentLook.html-"+id);
+		}else if(type.startsWith("A")){
+			currentFlow.setUrl("danganGUanliLook/DetectionEvaluationLook.html-"+id);
+		}else if(type.startsWith("B")){
+			currentFlow.setUrl("danganGUanliLook/designDocumentLook.html-"+id);
+		}else if(type.startsWith("K")){
+			currentFlow.setUrl("danganGUanliLook/ScienceTechnologyLook.html-"+id);
+		}
+		currentFlow.setParams("{'cs':'1'}");
+		currentFlow.setStarter(user.getUserId());
+		currentFlow.setStartername(user.getuName());
+		currentFlow.setFkDept(omNo);
+		currentFlow.setDeptname(user.getOmName());
+		currentFlow.setNodename("节点名称");
+		currentFlow.setPri(1);
+		currentFlow.setSdtofnode(new Date());
+		currentFlow.setSdtofflow(new Date());
+		currentFlow.setFlowEndState(2);
+		currentFlow.setFlowNopassState(0);
+		FlowHistroy flowHistroy = new FlowHistroy();
+		flowHistroy.setActor(user.getUserId());
+		flowHistroy.setActorname(user.getuName());
+		flowHistroy.setActorresult(0);
+		flowHistroy.setView("");
+		try {
+			string = flowUtill.submitGetReceiver(currentFlow,omNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return string;
+	}
+	
+	@RequestMapping("/updateJYStatus")
+	@ResponseBody
+	public int updateJYStatus(String id){
+		int i=pServcie.updateJyStatus(id, 2);
+		return i;
+	}
+	
+	@RequestMapping("/updateSCStatus")
+	@ResponseBody
+	public int updateSCStatus(String id){
+		int i=pServcie.updateScStatus(id, 2);
+		return i;
 	}
 	
 }

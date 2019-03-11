@@ -74,6 +74,11 @@
 		                    	<td>纸质或电子</td>
 		                    	<td>强制</td>
 		                    </tr>
+		                     <tr id="zb6_look">
+		                    	<td>其他</td>
+		                    	<td>纸质或电子</td>
+		                    	<td>不强制</td>
+		                    </tr>
 		                </tbody>   
 		            </table>
                         
@@ -137,13 +142,12 @@
 			dataType:"json",
 			data:{ 
 				id:id
-				},
+			},
 			success:function(json){
-				//$("#edit_accessory1 zb1").siblings().empty();
-				$(".lookfujian").parent().parent().empty();
+				$(".look_tr").empty();
 	            for(var i=0;i<json.length;i++){
 	            	if(json[i].aType=="JY招标文件"){
-	            	   $("#zb1_look").after("<tr>"+
+	            	   $("#zb1_look").after("<tr class='look_tr'>"+
 								"<td>附件</td>"+
 								"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
 		            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
@@ -151,7 +155,7 @@
 		            	    "</tr>");
 	            	}
 	            	if(json[i].aType=="JY招标图纸"){
-		            	   $("#zb2_look").after("<tr>"+
+		            	   $("#zb2_look").after("<tr class='look_tr'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
 			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
@@ -159,7 +163,7 @@
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY投标文件(技术+商务)"){
-		            	   $("#zb3_look").after("<tr>"+
+		            	   $("#zb3_look").after("<tr class='look_tr'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
 			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
@@ -167,7 +171,7 @@
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY中标通知书(原件由经营部存档)"){
-		            	   $("#zb4_look").after("<tr>"+
+		            	   $("#zb4_look").after("<tr class='look_tr'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
 			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
@@ -175,7 +179,15 @@
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY开标记录"){
-		            	   $("#zb5_look").after("<tr>"+
+		            	   $("#zb5_look").after("<tr class='look_tr'>"+
+									"<td>附件</td>"+
+									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+ */
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="JY其他"){
+		            	   $("#zb6_look").after("<tr class='look_tr'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
 			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
@@ -288,13 +300,12 @@
 	function changeData(){
 		$.ajax({
 	        type: 'POST',
-	        url: getContextPath()+'/',
+	        url: getContextPath()+'/PrjRecord/updateJYStatus',
 	        dataType: 'json',
 	        data:{
 	        	id:id
 	        },
 	        success: function (json) {
-	        	//console.log(json)
 	        	
 	        }
 	    });

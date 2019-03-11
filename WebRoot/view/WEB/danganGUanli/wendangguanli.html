@@ -193,6 +193,12 @@
 		                    	<td>强制</td>
 		                    	<td><button type="button" class="btn btn-primary weui-uploader__input "  id="uploaderBox5">添加附件</button></td>
 		                    </tr>
+		                    <tr id="zb6">
+		                    	<td>其他</td>
+		                    	<td>纸质或电子</td>
+		                    	<td>不强制</td>
+		                    	<td><button type="button" class="btn btn-primary weui-uploader__input "  id="uploaderBox6">添加附件</button></td>
+		                    </tr>
 		                </tbody>   
 		            </table>
                         
@@ -252,6 +258,11 @@
 		                    	<td>开标记录</td>
 		                    	<td>纸质或电子</td>
 		                    	<td>强制</td>
+		                    </tr>
+		                    <tr id="zb6_look">
+		                    	<td>其他</td>
+		                    	<td>纸质或电子</td>
+		                    	<td>不强制</td>
 		                    </tr>
 		                </tbody>   
 		            </table>
@@ -642,6 +653,14 @@
         								      "</tr>");
         
     });
+	$("#uploaderBox6").on("click", function(e) {
+        $(this).parent().parent().after("<tr>"+
+        											"<td>新附件</td>"+
+        											"<td colspan='2'><input name='file6' type='file'/></td>"+
+        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
+        								      "</tr>");
+        
+    });
 	function removeFile(obj){
   		var tr=$(obj).parents("tr");
   		$(tr).remove();
@@ -701,6 +720,13 @@
 			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
+	            	if(json[i].aType=="JY其他"){
+		            	   $("#zb6").after("<tr class='append_tr'>"+
+									"<td>附件</td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    "</tr>");
+		            }
 	            } 
 			}
 		})
@@ -740,30 +766,17 @@
 		var data=$('#mainContent').DataTable().row(dom).data();
 		var id;
 		$.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/ManagingDocuments/selectManagingDocumentsByNo',
-	        dataType: 'json',
-	        async:false,
-	        data: {
-	        	no:data.prjNo,
-	        },
-	        success: function (json) {
-	        	id=json.mdId;
-	        }
-		});
-		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
 			dataType:"json",
 			data:{ 
-				id:id
-				},
+				id:data.id
+			},
 			success:function(json){
-				//$("#edit_accessory1 zb1").siblings().empty();
-				$(".lookfujian").parent().parent().empty();
+				$(".lookfujian").empty();
 	            for(var i=0;i<json.length;i++){
 	            	if(json[i].aType=="JY招标文件"){
-	            	   $("#zb1_look").after("<tr>"+
+	            	   $("#zb1_look").after("<tr class='lookfujian'>"+
 								"<td>附件</td>"+
 								"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
 		            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
@@ -771,7 +784,7 @@
 		            	    "</tr>");
 	            	}
 	            	if(json[i].aType=="JY招标图纸"){
-		            	   $("#zb2_look").after("<tr>"+
+		            	   $("#zb2_look").after("<tr class='lookfujian'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
 			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
@@ -779,7 +792,7 @@
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY投标文件(技术+商务)"){
-		            	   $("#zb3_look").after("<tr>"+
+		            	   $("#zb3_look").after("<tr class='lookfujian'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
 			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
@@ -787,7 +800,7 @@
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY中标通知书(原件由经营部存档)"){
-		            	   $("#zb4_look").after("<tr>"+
+		            	   $("#zb4_look").after("<tr class='lookfujian'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
 			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
@@ -795,7 +808,15 @@
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY开标记录"){
-		            	   $("#zb5_look").after("<tr>"+
+		            	   $("#zb5_look").after("<tr class='lookfujian'>"+
+									"<td>附件</td>"+
+									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+ */
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="JY其他"){
+		            	   $("#zb6_look").after("<tr class='lookfujian'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
 			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
@@ -806,6 +827,7 @@
 			}
 		})
 	}
+	
 	function getLocalPath(){
 		var pathArray = window.location.pathname.split('/');
 		var secondLevelLocation = pathArray[1];
@@ -1027,19 +1049,18 @@
 		$("#myModal4").modal('show');
 		var dom = $(aa).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
-		//console.log(data)
-		if(data.prjType2.indexOf("C")>=0){
+		if(data.prjType.indexOf("C")>=0){
 			//施工文档资料
-			$("#lookdangan2").attr('src', './ConstructionDocumentLook.html?prjId='+data.prjId);
-		}else if(data.prjType2.indexOf("A")>=0){
+			$("#lookdangan2").attr('src', '../danganGUanliLook/ConstructionDocumentLook.html?prjId='+data.id);
+		}else if(data.prjType.indexOf("A")>=0){
 			//检测评估资料
-			$("#lookdangan2").attr('src', './DetectionEvaluationLook.html?prjId='+data.prjId);
-		}else if(data.prjType2.indexOf("B")>=0){
+			$("#lookdangan2").attr('src', '../danganGUanliLook/DetectionEvaluationLook.html?prjId='+data.id);
+		}else if(data.prjType.indexOf("B")>=0){
 			//设计文件资料
-			$("#lookdangan2").attr('src', './designDocumentLook.html?prjId='+data.prjId);
-		}else if(data.prjType2.indexOf("K")>=0){
+			$("#lookdangan2").attr('src', '../danganGUanliLook/designDocumentLook.html?prjId='+data.id);
+		}else if(data.prjType.indexOf("K")>=0){
 			//科技文档资料
-			$("#lookdangan2").attr('src', './ScienceTechnologyLook.html?prjId='+data.prjId);
+			$("#lookdangan2").attr('src', '../danganGUanliLook/ScienceTechnologyLook.html?prjId='+data.id);
 		}
 		
 	}
@@ -1059,7 +1080,7 @@
 	  		    }else{
 	      			toastr.success("保存成功");
 	      			$("#myModal2").modal("hide")
-	      			data.fileLengthSG=1;
+	      			data.scStatus=1;
 	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
 	  		    }
 			}else if(type.indexOf("A")>=0){
@@ -1071,7 +1092,7 @@
 	  		    }else{
 	      			toastr.success("保存成功");
 	      			$("#myModal2").modal("hide")
-	      			data.fileLengthJC=1;
+	      			data.scStatus=1;
 	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
 	  		    }
 			}else if(type.indexOf("B")>=0){
@@ -1083,7 +1104,7 @@
 	  		    }else{
 	      			toastr.success("保存成功");
 	      			$("#myModal2").modal("hide")
-	      			data.fileLengthSJ=1;
+	      			data.scStatus=1;
 	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
 	  		    }
 			}else if(type.indexOf("K")>=0){
@@ -1095,7 +1116,7 @@
 	  		    }else{
 	      			toastr.success("保存成功");
 	      			$("#myModal2").modal("hide")
-	      			data.fileLengthKJ=1;
+	      			data.scStatus=1;
 	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
 	  		    }
 			}
@@ -1192,5 +1213,113 @@
 		 
 	 }
 	
+	 function submitJY(obj){
+		 var tr=$(obj).parents("tr");
+		 var data=$("#mainContent").DataTable().row(tr).data();
+		 var statu = confirm("确认提交吗?");
+		 if(!statu){
+		   	return false;
+		 }
+		 $.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/PrjRecord/submitPrjRecordJY',
+		        dataType: 'json',
+		        data: {
+		        	id:data.id,
+		        	no:data.prjNo
+		        },
+		        success: function (json) {
+		        	lianjie=json.url;
+	            	if(json.receiver!=null&&json.receiver.length>=1){
+		            	  $("#tijiaogei").modal('show');
+		        		  $("#tijiaoren tbody").empty("");
+		        		  for(var i=0;i<json.receiver.length;i++){
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" style="width:22px;height:22px;" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+		        					  +'</td><td>'
+		        					  +json.receiver[i].omName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].dutyName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].uName
+		        					  +'</td></tr>');
+		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver.userId,
+		        	        	  uName:json.receiver.uName,
+		        	        	  omName:json.receiver.omName,
+		        	        	  dutyName:json.receiver.dutyName,
+		        	        	  omId:json.receiver.omId,
+		        	        	  dutyId:json.receiver.dutyId
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
+		        	  }
+		        }
+		    });
+	 }
+	 
+	 function submitSC(obj){
+		 var tr=$(obj).parents("tr");
+		 var data=$("#mainContent").DataTable().row(tr).data();
+		 var statu = confirm("确认提交吗?");
+		 if(!statu){
+		   	return false;
+		 }
+		 $.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/PrjRecord/submitPrjRecordSc',
+		        dataType: 'json',
+		        data: {
+		        	id:data.id,
+		        	no:data.prjNo,
+		        	type:data.prjType
+		        },
+		        success: function (json) {
+		        	lianjie=json.url;
+	            	if(json.receiver!=null&&json.receiver.length>=1){
+		            	  $("#tijiaogei").modal('show');
+		        		  $("#tijiaoren tbody").empty("");
+		        		  for(var i=0;i<json.receiver.length;i++){
+		        			  $("#tijiaoren tbody").append('<tr><td>'
+		        					  +'<input type="radio" style="width:22px;height:22px;" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+		        					  +'</td><td>'
+		        					  +json.receiver[i].omName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].dutyName
+		        					  +'</td><td>'
+		        					  +json.receiver[i].uName
+		        					  +'</td></tr>');
+		        		  }
+		        	  }else if(json.receiver.length==1){
+		        		  $.ajax({
+		        	          type: 'POST',
+		        	          url: getContextPath()+'/task/addTask4',
+		        	          dataType: 'json',
+		        	          data:{
+		        	        	  url:json.url,
+		        	        	  userId:json.receiver.userId,
+		        	        	  uName:json.receiver.uName,
+		        	        	  omName:json.receiver.omName,
+		        	        	  dutyName:json.receiver.dutyName,
+		        	        	  omId:json.receiver.omId,
+		        	        	  dutyId:json.receiver.dutyId
+		        	          },
+		        	          success: function (json) {
+		        	        	  toastr.success('提交成功');
+		        	          }
+		        	      }); 
+		        	  }
+		        }
+		    });
+	 }
 </script>
 </html>
