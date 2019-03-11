@@ -637,11 +637,14 @@
 			 fa.title,fa.ActorName,ifnull(fa.view,'') view,fa.operate_type,fa.ID,count(distinct fa.ID), fb.Actor actorLast,
 			ifnull(fb.ActorName,'') actorNameLast,
 			ifnull(fb.`view`,'') viewLast,
-			fb.operate_type viewLastType,fa.do_date 
+			fb.operate_type viewLastType,fa.do_date,
+      r.role_name
 		FROM
 			flowhistroy fa
 		LEFT JOIN flowhistroy fb ON fa.Flow_Node_Last = fb.Flo_Node_ID
-		where fa.mode_id = #{modeId} and fa.operate_type!='4'
+    LEFT JOIN nodeactors na on na.Flo_Node_ID = fa.Flo_Node_ID
+    LEFT JOIN role r on r.id = na.RoleCode
+		where fa.mode_id = #{modeId} and fa.operate_type!='4' and role_name IS NOT NULL and role_name!=""
     GROUP BY fa.ID ORDER BY fa.do_date desc
   </select>
   <select id="getDistinctFlowHistorysByOperateType" resultMap="ResultMapWithBLOBs">

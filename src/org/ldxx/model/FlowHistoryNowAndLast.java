@@ -59,7 +59,17 @@ public class FlowHistoryNowAndLast {
 	    
 	    private String viewLastType;
 	    
-	    public String getActorLast() {
+	    private String roleName;
+	    
+	    public String getRoleName() {
+			return roleName;
+		}
+
+		public void setRoleName(String roleName) {
+			this.roleName = roleName;
+		}
+
+		public String getActorLast() {
 			return actorLast;
 		}
 
