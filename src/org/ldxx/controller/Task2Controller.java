@@ -110,6 +110,12 @@ public class Task2Controller {
 		return cc;
 	}
 	
+	@RequestMapping("/selectTask2ById")//通过id查
+	@ResponseBody
+	public Task2 selectTask2ById(String id){
+		return tService.selectTask2ById(id);
+	}
+	
 	@RequestMapping("/importExcel2")
 	@ResponseBody
 	public int importExcel2(@RequestParam("file") MultipartFile file,String time,HttpServletResponse response,HttpSession session) throws IOException, ParseException{

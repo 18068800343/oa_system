@@ -37,14 +37,14 @@ public class Task2ServiceImpl implements Task2Service{
 				//}
 			//}
 		}
-		if(k>0){
+		/*if(k>0){
 			for(TDepartment tDepartment:td){
-				/*int l = tDao.selectDepartmentCountByTNoAndDepart(tDepartment.gettNo(), tDepartment.getdName());
-				if(l<=0){*/
+				int l = tDao.selectDepartmentCountByTNoAndDepart(tDepartment.gettNo(), tDepartment.getdName());
+				if(l<=0){
 					k=tDao.addTDepartmentOne(tDepartment);
-				//}
+				}
 			}
-		}
+		}*/
 		return k;
 	}
 
@@ -72,6 +72,11 @@ public class Task2ServiceImpl implements Task2Service{
 	@Override
 	public List<Task2> selectTask2ByYear(String y) {
 		return dao.selectTask2ByYear(y);
+	}
+
+	@Override
+	public Task2 selectTask2ById(String id) {
+		return dao.selectTask2ById(id);
 	}
 	
 	

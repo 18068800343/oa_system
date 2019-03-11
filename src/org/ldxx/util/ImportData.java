@@ -87,7 +87,7 @@ public class ImportData {
 						String tNo=getValue(colum1);
 						boolean flag=true;
 						if(t.size()>0){
-							for(int i=0;i<t.size();i++){
+							/*for(int i=0;i<t.size();i++){
 								String no=t.get(i).gettNo();
 								if(no.equals(tNo)){
 									flag=false;
@@ -95,7 +95,7 @@ public class ImportData {
 								}else{
 									flag=true;
 								}
-							}
+							}*/
 						}
 						 String date1;
 	                	if (colum5.getCellType() == Cell.CELL_TYPE_NUMERIC) {
@@ -115,14 +115,16 @@ public class ImportData {
 								t2.settType(getValue(colum4));
 								t2.settDate(date1);
 								t2.settDesc(getValue(colum7));
-								t.add(t2);
-								td.settNo(getValue(colum1));
-								td.setdName(getValue(colum6));
+								
+								//td.settNo(getValue(colum1));
+								t2.setdName(getValue(colum6));
 								String cl3 = getValue(colum3);
 								if(cl3.isEmpty()){
 									cl3="0";
 								}
-								td.setdMoney(Float.valueOf(cl3));
+								t2.setdMoney(Double.valueOf(cl3));
+								t2.setdIncome(Double.valueOf(0));
+								t.add(t2);
 								d.add(td);
 							}
 						}
