@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>采购合同</title>
     <link rel="stylesheet" href="../../font2/iconfont.css">
     <link rel="stylesheet" href="../../font3/iconfont.css">
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
@@ -498,7 +498,7 @@
 		            	id:id
 		            },
 		            success: function (json) {
-		            	console.log(json)
+		            	//console.log(json)
 		            	var dom = $("#lookFlowHistory").nextAll();
 						$(dom).each(function(){
 							$(this).remove();
@@ -514,114 +514,20 @@
 		            			view="无";
 		            		}
 		            		if(i==json.length-1){
-		                	$("#lookFlowHistory").after("<tr><td rowspan="+json.length+" style='display:table-cell;vertical-align:middle;'>审批流程</td><td colspan='3'>操作人:"+name+";操作类型:"+operatorType+";操作意见:"+view+";操作时间:"+date+"</td></tr>");
-		            		}else{
-		                	$("#lookFlowHistory").after("<tr><td colspan='3'>操作人:"+name+";操作类型:"+operatorType+";操作意见:"+view+";操作时间:"+date+"</td></tr>");
-		            		}
+	                    		$("#lookFlowHistory").after("<tr><td rowspan="+json.length+" style='display:table-cell;vertical-align:middle;'>审批流程</td><td colspan='3'>"+json[i].roleName+""+name+";操作类型:"+operatorType+";操作意见:"+view+";操作时间:"+date+"</td></tr>");
+	                		}else{
+	                    		$("#lookFlowHistory").after("<tr><td colspan='3'>"+json[i].roleName+""+name+";操作类型:"+operatorType+";操作意见:"+view+";操作时间:"+date+"</td></tr>");
+	                		}
 		            	}
 		            	
-		            	/* $("#d_table tbody").html('');
-		            	for(var i in json){
-		            		var operatorType = json[i].operateType;
-		            		operatorType = getCnByOt(operatorType);
-		            		var date = json[i].doDate;
-		            		var title = json[i].title;
-		            		var name = json[i].actorname;
-		            		if(date == null){
-		            			date="";
-		            			if(json[i].operateType==8){
-		            				title="<lable style='color:red'>"+json[i].title+"</lable>";
-		            				name="<lable style='color:red'>"+json[i].actorname+"</lable>";
-		            				operatorType="<lable style='color:red'>"+operatorType+"</lable>";
-		            			}else{
-		            				title = json[i].title;
-		            				name = json[i].actorname;
-		            			}
-		            		}
-		            		if(title!=undefined||name!=undefined||operatorType!=undefined||date!=""){
-			                	$("#d_table tbody").append("<tr><td>"+title+"</td><td>"+name+"</td><td></td><td>"+operatorType+"</td><td>"+date+"</td></tr>");
-		            		}
-		                    $("#look_modal").modal("show");
-		            	} */
 		            }
 		        });
 				
-				//shenpiliucheng();
 				
 			}
 		})
 		
     }
-  
-  	function shenpiliucheng(){
-  		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/flowHistory/getDistinctFlowHistoryByUser',
-            data:{
-            	userId:"88b6f133f129"
-            },
-            dataType: 'json',
-            success: function (json) {
-            	console.log(json)
-            	$(".yihang2 div:first-of-type").eq(1).find("span").html(json.length);
-            	if(json.length>9){
-            		json.length=10;
-            	}
-            	for(var i=0;i<json.length;i++){
-            		var statu = json[i].flowStatus;
-            		if(statu=="1"){
-            			statu="进行中";
-            		}else if(statu=="2"){
-            			statu="审批通过";
-            		}else if(statu=="0"){
-            			statu="审批未通过";
-            		}else if(statu=="4"){
-            			statu="进行中";
-            		}
-            		$("#tb3").append("<tr><td>"+json[i].businessname+"</td><td>"+json[i].title+"</td><td style='width:100px;'>"+statu+"</td>"+
-            		"<td><i class='iconfont icon-icon-test Pfac' data-url="+json[i].url+" data-step="+json[i].step+" data-flowTmpId="+json[i].floTmpId+" data-title="+json[i].title+" id='btn' style='font-size: 20px; cursor: pointer; margin-left: 5px;' title='查看历史流程信息' onclick='lookHistory3(this)'></i></td>"+
-            		"</tr>");
-            		var step = json[i].step;
-                	var floTmpId = json[i].floTmpId;
-                	addNodeRoles3(floTmpId,json[i].step);
-            	}
-            }
-        });
-  	}
-  	
-	  function addNodeRoles3(floTmpId,step){
-			$.ajax({
-	            type: 'POST',
-	            url: getContextPath()+'/flowNode/getNodeRoleById',
-	            data:{
-	            	id:'ca66331cdd39'
-	            },
-	            dataType: 'json',
-	            success: function (json) {
-	            	console.log(json)
-	            	$("#nodeRole3").empty();
-	            	for(var i in json){
-	           		 var name = json[i];
-	           		 if(name==null||name==""||name=="null"){
-	           			name="提交人"; 
-	           		 }
-	           		 if(i==json.length-1){
-	           			 if(step!=null&&i==step-1){
-	           		      $("#nodeRole3").append("<lable style='color:red'>"+name+"</lable>");
-	           			 }else{
-	           			  $("#nodeRole3").append("<lable>"+name+"</lable>"); 
-	           			 }
-	           		 }else{
-	           			 if(step!=null&&i==step-1){
-	            		      $("#nodeRole3").append("<lable style='color:red'>"+name+"→</lable>");
-	           			 }else{
-	           			  $("#nodeRole3").append("<lable>"+name+"→</lable>"); 
-	           			 }
-	           		 }
-	            	}
-	            }
-	        });
-	    } 
   
   
 	 function getCnByOt(s){
