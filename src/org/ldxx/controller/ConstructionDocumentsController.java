@@ -23,6 +23,7 @@ import org.ldxx.dao.ConstructionDocumentsDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.ConstructionDocumentsService;
 import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.PrjRecordService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,8 @@ public class ConstructionDocumentsController {
 	private ConstructionDocumentsDao dao;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private PrjRecordService prService;
 	
 	@RequestMapping("/selectConstructionDocuments")
 	@ResponseBody
@@ -400,6 +403,7 @@ public class ConstructionDocumentsController {
 			f.mkdirs();
 		}
 		List<Accessory> list=new ArrayList<>();
+		int num=0;
 		if(file1.length>0){
 			for(int i=0;i<file1.length;i++){
 				Accessory accessory=new Accessory();
@@ -413,6 +417,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG项目实际存档目录");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file2.length>0){
 			for(int i=0;i<file2.length;i++){
@@ -427,6 +432,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG项目特点介绍、关键词");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file3.length>0){
 			for(int i=0;i<file3.length;i++){
@@ -441,6 +447,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG合同资料(合同原件提交经营部综合部)");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file4.length>0){
 			for(int i=0;i<file4.length;i++){
@@ -455,6 +462,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG开工报告(含专项方案及评审)");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file5.length>0){
 			for(int i=0;i<file5.length;i++){
@@ -469,6 +477,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG项目外部评价报告(安评等咨询类)");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file6.length>0){
 			for(int i=0;i<file6.length;i++){
@@ -483,6 +492,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG项目总结(应包括照片并分类整理好)");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file7.length>0){
 			for(int i=0;i<file7.length;i++){
@@ -497,6 +507,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG计量资料(原件提交经营发展部，审计结算报告需扫描件)");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file8.length>0){
 			for(int i=0;i<file8.length;i++){
@@ -511,6 +522,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG设计变更资料");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file9.length>0){
 			for(int i=0;i<file9.length;i++){
@@ -525,6 +537,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG施工图和竣工图");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file10.length>0){
 			for(int i=0;i<file10.length;i++){
@@ -539,6 +552,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG开工至交竣工全部外部审查意见");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file11.length>0){
 			for(int i=0;i<file11.length;i++){
@@ -553,6 +567,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG首件工程总结");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file12.length>0){
 			for(int i=0;i<file12.length;i++){
@@ -567,6 +582,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG材料检测资料");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file13.length>0){
 			for(int i=0;i<file13.length;i++){
@@ -581,6 +597,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG中间报验资料和检验评定资料");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file14.length>0){
 			for(int i=0;i<file14.length;i++){
@@ -595,6 +612,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG施工日志");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file15.length>0){
 			for(int i=0;i<file15.length;i++){
@@ -609,6 +627,7 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG获奖证书");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file16.length>0){
 			for(int i=0;i<file16.length;i++){
@@ -623,8 +642,11 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG交竣工验收文件(原件提交经营发展部)");
 				list.add(accessory);
 			}
+			num+=1;
 		}
-		
+		if(num>0){
+			prService.updateScStatus(id, 1);
+		}
 		int i=aService.addAccessory(list);
 		/*String string = i+"";
 		if(i>0){

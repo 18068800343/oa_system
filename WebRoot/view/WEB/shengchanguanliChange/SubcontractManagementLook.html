@@ -170,7 +170,7 @@
                                 <td>合同起日期:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td><input type="text" class="form-control" id="xgyear" style="width:70%;"></td>
                                 <td>合同讫日期:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td><input type="text" class="form-control" id="xgyear2" style="width:70%;"></td>
+                                <td><input type="text" class="form-control" id="xgyear2" style="width:70%;" onblur="getGongQi()"></td>
                             </tr>
                             <tr>
                                 <td>合同工期:</td>
@@ -614,8 +614,25 @@
             elem: '#xgyear' //指定元素
         });
         laydate.render({
-            elem: '#xgyear2' //指定元素
+            elem: '#xgyear2', //指定元素
+        	done: function(value, date, endDate){
+           		if($("#xgyear").val()!=""||$("#xgyear").val()!=null){
+               		var t1 = $("#xgyear").val();
+                   	var d1 = t1.replace(/\-/g, "/");
+                   	var date1 = new Date(d1);
+                   	
+                   	var t2 = $("#xgyear2").val();
+                   	var d2 = t2.replace(/\-/g, "/");
+                   	var date2 = new Date(d2);
+                   	
+                   	var timeType =1000*3600*24;
+                   	var aa=parseInt((date2.getTime() - date1.getTime()) / parseInt(timeType));
+                   	$("#xghetonggongqi").val(aa+"天");
+               	}
+       	  }
         });
+        
+        
         laydate.render({
             elem: '#seach_start_time_min' //指定元素
         });
@@ -1333,7 +1350,7 @@
 	        	id:id
 	        },
 	        success: function (json) {
-	        	//console.log(json)
+	        	console.log(json)
 	        	data=json;
 	        	$("#xghetongName").val(data.contractName)
 	    		$("#xgfbNo").val(data.fbNo);
@@ -1363,20 +1380,31 @@
 	       				$("#xgprjName").val(data.prjName)
 	       				$("#xgtask_no").val(data.workNo)
 	       				
-	       				$("#xgjiafangbumen").html('');
-	       		    	$("#xgjiafangbumen").append("<option value="+json.mainDepartment+">"+json.name+"</option>")
-	       		    	if(json.assistDepartment1!=null&&json.assistDepartment1!=''){
-	       		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment1+">"+json.name2+"</option>")
-	       		    	}
-	       		    	if(json.assistDepartment2!=null&&json.assistDepartment2!=''){
-	       		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment2+">"+json.name3+"</option>")
-	       		    	}
-	       		    	if(json.assistDepartment3!=null&&json.assistDepartment3!=''){
-	       		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment3+">"+json.name4+"</option>")
-	       		    	}
-	       		    	$("#xgjiafangbumen").val(data.mainManageDepartment)
 	                 }
 	       		});
+	    		
+	    		$.ajax({
+	                type: 'POST',
+	                url: getContextPath()+'/task/selectIdByNo2',
+	                dataType: 'json',
+	                data: {
+	                	no:data.workNo
+	                },
+	                success: function (json) {
+	                	$("#xgjiafangbumen").html('');
+	       		    	$("#xgjiafangbumen").append("<option value="+json.mainDepartment+">"+json.omName+"</option>")
+	       		    	if(json.assistDepartment1!=null&&json.assistDepartment1!=''){
+	       		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment1+">"+json.name1+"</option>")
+	       		    	}
+	       		    	if(json.assistDepartment2!=null&&json.assistDepartment2!=''){
+	       		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment2+">"+json.name2+"</option>")
+	       		    	}
+	       		    	if(json.assistDepartment3!=null&&json.assistDepartment3!=''){
+	       		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment3+">"+json.name3+"</option>")
+	       		    	}
+	       		    	$("#xgjiafangbumen").val(data.mainManageDepartment)
+	                }
+	      		});
 	    		
 	    		$("#xgchengjiehetongName").val(data.cjContractName)
 	    		$("#xgchengjiehetonghao").val(data.cjContractCode)
@@ -2266,6 +2294,46 @@
 		}) 
 		
     }
+    
+    $("#xgtask_no").on("change",function(){
+    	$.ajax({
+			type:"POST",
+			url:getContextPath()+"/task/selectIdByNo2",
+			dataTyepe:"json",
+			async:false,
+			data:{ 
+				no:$("#xgtask_no").val()
+			},
+			success:function(json){
+				$("#xgprjName").val(json.prjName);
+			}
+		})  
+    })
+    
+    $("#xgtask_no").on("change",function(){
+  		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectIdByNo2',
+            dataType: 'json',
+            async:false,
+            data: {
+            	no:$('#xgtask_no').val()
+            },
+            success: function (json) {
+            	$("#xgjiafangbumen").html('');
+  		    	$("#xgjiafangbumen").append("<option value="+json.mainDepartment+">"+json.omName+"</option>")
+  		    	if(json.assistDepartment1!=null&&json.assistDepartment1!=''){
+  		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment1+">"+json.name1+"</option>")
+  		    	}
+  		    	if(json.assistDepartment2!=null&&json.assistDepartment2!=''){
+  		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment2+">"+json.name2+"</option>")
+  		    	}
+  		    	if(json.assistDepartment3!=null&&json.assistDepartment3!=''){
+  		    		$("#xgjiafangbumen").append("<option value="+json.assistDepartment3+">"+json.name3+"</option>")
+  		    	}
+            }
+  		});
+  	})
     
 </script>
 </html>
