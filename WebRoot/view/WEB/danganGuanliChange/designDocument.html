@@ -416,7 +416,6 @@
    }
    // 调用方法
    	id=GetQueryString("prjId");
-   	no=GetQueryString("no");
 	var nameprj;
    	$.ajax({
 	        type: 'POST',
@@ -436,320 +435,301 @@
 		});
 	//修改回显
 	function initTable(){
-		
-		//console.log(data)
-		$("#edit_prjName").val(nameprj);
-		$("#edit_prjNo").val(no);
-		
-		var id;
-		$.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/DesignDocuments/selectDesignDocumentsByno',
-	        dataType: 'json',
-	        async:false,
-	        data: {
-	        	no:no,
-	        },
-	        success: function (json) {
-	        	id=json.ddId;
-	        }
-		});
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
 			dataType:"json",
 			data:{ 
 				id:id
-				},
+			},
 			success:function(json){
-				//console.log(json)
-				$(".fujian").parent().parent().empty();
+				$(".append_tr").empty();
 	            for(var i=0;i<json.length;i++){
 	            	if(json[i].aType=="SJ项目实际存档目录"){
-	            	   $("#sj1").after("<tr>"+
+	            	   $("#sj1").after("<tr class='append_tr'>"+
 		       					"<td>附件</td>"+
-		            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-		            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+		            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+		            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 		            	    "</tr>");
 	            	}
 	            	if(json[i].aType=="SJ项目特点介绍、关键词(尤其施工图阶段)"){
-		            	   $("#sj2").after("<tr>"+
+		            	   $("#sj2").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJ合同资料(合同原件提交经营部综合部)"){
-		            	   $("#sj3").after("<tr>"+
+		            	   $("#sj3").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk设计任务书"){
-		            	   $("#sj4").after("<tr>"+
+		            	   $("#sj4").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk建设用地批准书、规划要点"){
-		            	   $("#sj5").after("<tr>"+
+		            	   $("#sj5").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk用地红线图(地形图)"){
-		            	   $("#sj6").after("<tr>"+
+		            	   $("#sj6").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk用地实测图"){
-		            	   $("#sj7").after("<tr>"+
+		            	   $("#sj7").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk区域控制性详细规划"){
-		            	   $("#sj8").after("<tr>"+
+		            	   $("#sj8").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk开发可行性报告与市场调查"){
-		            	   $("#sj9").after("<tr>"+
+		            	   $("#sj9").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk工程地质勘察报告"){
-		            	   $("#sj10").after("<tr>"+
+		            	   $("#sj10").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk工程场地地震安评报告"){
-		            	   $("#sj11").after("<tr>"+
+		            	   $("#sj11").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk用地范围周边市政系统情况"){
-		            	   $("#sj12").after("<tr>"+
+		            	   $("#sj12").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk工可报告、图纸"){
-		            	   $("#sj13").after("<tr>"+
+		            	   $("#sj13").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk相关单位往来函、文"){
-		            	   $("#sj14").after("<tr>"+
+		            	   $("#sj14").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk效果图"){
-		            	   $("#sj15").after("<tr>"+
+		            	   $("#sj15").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk报批文本"){
-		            	   $("#sj16").after("<tr>"+
+		            	   $("#sj16").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk图纸"){
-		            	   $("#sj17").after("<tr>"+
+		            	   $("#sj17").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk审查意见"){
-		            	   $("#sj18").after("<tr>"+
+		            	   $("#sj18").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJgk校审单"){
-		            	   $("#sj19").after("<tr>"+
+		            	   $("#sj19").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJcs方案批文(规划、环评、安评等)"){
-		            	   $("#sj20").after("<tr>"+
+		            	   $("#sj20").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJcs施工图文件"){
-		            	   $("#sj21").after("<tr>"+
+		            	   $("#sj21").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJcs概算书"){
-		            	   $("#sj22").after("<tr>"+
+		            	   $("#sj22").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJcs地勘报告(初勘或详勘)"){
-		            	   $("#sj23").after("<tr>"+
+		            	   $("#sj23").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJcs审查意见"){
-		            	   $("#sj24").after("<tr>"+
+		            	   $("#sj24").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJcs校审单"){
-		            	   $("#sj25").after("<tr>"+
+		            	   $("#sj25").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJcs相关单位往来函、文"){
-		            	   $("#sj26").after("<tr>"+
+		            	   $("#sj26").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt初设批文"){
-		            	   $("#sj27").after("<tr>"+
+		            	   $("#sj27").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt施工图文件"){
-		            	   $("#sj28").after("<tr>"+
+		            	   $("#sj28").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt预算书"){
-		            	   $("#sj29").after("<tr>"+
+		            	   $("#sj29").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt依据历史图纸和报告"){
-		            	   $("#sj30").after("<tr>"+
+		            	   $("#sj30").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt结构模型、计算书"){
-		            	   $("#sj31").after("<tr>"+
+		            	   $("#sj31").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt地勘报告(详勘)"){
-		            	   $("#sj32").after("<tr>"+
+		            	   $("#sj32").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt工程咨询报告"){
-		            	   $("#sj33").after("<tr>"+
+		            	   $("#sj33").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt审查意见"){
-		            	   $("#sj34").after("<tr>"+
+		            	   $("#sj34").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt校审单"){
-		            	   $("#sj35").after("<tr>"+
+		            	   $("#sj35").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt施工交底记录及回复"){
-		            	   $("#sj36").after("<tr>"+
+		            	   $("#sj36").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt设计变更资料"){
-		            	   $("#sj37").after("<tr>"+
+		            	   $("#sj37").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt重点项目项目总结"){
-		            	   $("#sj38").after("<tr>"+
+		            	   $("#sj38").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt交工验收文件(原件提交经营发展部，如施工任务由公司承担则不需要)"){
-		            	   $("#sj39").after("<tr>"+
+		            	   $("#sj39").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt获奖证书"){
-		            	   $("#sj40").after("<tr>"+
+		            	   $("#sj40").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="SJsgt相关单位往来函、文"){
-		            	   $("#sj41").after("<tr>"+
+		            	   $("#sj41").after("<tr class='append_tr'>"+
 			       					"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            } 
@@ -759,7 +739,11 @@
 	function delete_thisFile(obj){
 		var url=$(obj).attr("data1");
 		var id=$(obj).attr("data2");
-		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var name=$(obj).attr("data3");
+		var statu = confirm("确认删除吗?");
+		  if(!statu){
+		   return false;
+		  }
 		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',

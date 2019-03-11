@@ -63,10 +63,10 @@ public class PrjRecordController {
 	
 	@RequestMapping("/addScRecord")
 	@ResponseBody
-	public int addScRecord(String id,@RequestParam(required=false,value="file1") MultipartFile [] file1,@RequestParam(required=false,value="file2") MultipartFile [] file2,@RequestParam(required=false,value="file3") MultipartFile [] file3,
+	public Map<String,Object> addScRecord(String id,@RequestParam(required=false,value="file1") MultipartFile [] file1,@RequestParam(required=false,value="file2") MultipartFile [] file2,@RequestParam(required=false,value="file3") MultipartFile [] file3,
 			@RequestParam(required=false,value="file4") MultipartFile [] file4,@RequestParam(required=false,value="file5") MultipartFile [] file5,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
 		response.setCharacterEncoding("UTF-8");
-		
+		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
@@ -75,6 +75,7 @@ public class PrjRecordController {
 			f.mkdirs();
 		}
 		List<Accessory> list=new ArrayList<>();
+		int num=0;
 		if(file1.length>0){
 			for(int i=0;i<file1.length;i++){
 				Accessory accessory1=new Accessory();
@@ -88,6 +89,7 @@ public class PrjRecordController {
 				accessory1.setaType("JY招标文件");
 				list.add(accessory1);
 			}
+			num+=1;
 		}
 		if(file2.length>0){
 			for(int i=0;i<file2.length;i++){
@@ -102,6 +104,7 @@ public class PrjRecordController {
 				accessory2.setaType("JY招标图纸");
 				list.add(accessory2);
 			}
+			num+=1;
 		}
 		if(file3.length>0){
 			for(int i=0;i<file3.length;i++){
@@ -116,6 +119,7 @@ public class PrjRecordController {
 				accessory.setaType("JY投标文件(技术+商务)");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file4.length>0){
 			for(int i=0;i<file4.length;i++){
@@ -130,6 +134,7 @@ public class PrjRecordController {
 				accessory.setaType("JY中标通知书(原件由经营部存档)");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		if(file5.length>0){
 			for(int i=0;i<file5.length;i++){
@@ -144,9 +149,17 @@ public class PrjRecordController {
 				accessory.setaType("JY开标记录");
 				list.add(accessory);
 			}
+			num+=1;
 		}
 		int i=aDao.addAccessory(list);
-		return i;
+		if(i>0){
+			if(num>0){
+				pServcie.updateJyStatus(id, 1);
+			}
+		}
+		map.put("result", i);
+		map.put("num", num);
+		return map;
 	}
 	
 }

@@ -31,4 +31,14 @@ public class PrjRecordServiceImpl implements PrjRecordService{
 		return list;
 	}
 
+	@Override
+	public int updateJyStatus(String id, int status) {
+		return pDao.updateJyStatus(id, status);
+	}
+
+	@Override
+	public int updateScStatus(String id, int status) {
+		return pDao.updateScStatus(id, status);
+	}
+
 }

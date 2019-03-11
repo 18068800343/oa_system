@@ -388,47 +388,19 @@ public class ConstructionDocumentsController {
 	
 	@RequestMapping("/updateConstructionDocumentsSave")//修改保存
 	@ResponseBody
-	public String updateConstructionDocumentsSave(String  cds,@RequestParam MultipartFile [] file1,@RequestParam MultipartFile [] file2,@RequestParam MultipartFile [] file3,
-			@RequestParam MultipartFile [] file4,@RequestParam MultipartFile [] file5,@RequestParam MultipartFile [] file6,@RequestParam MultipartFile [] file7,@RequestParam MultipartFile [] file8
-			,@RequestParam MultipartFile [] file9,@RequestParam MultipartFile [] file10,@RequestParam MultipartFile [] file11,@RequestParam MultipartFile [] file12,@RequestParam MultipartFile [] file13
-			,@RequestParam MultipartFile [] file14,@RequestParam MultipartFile [] file15,@RequestParam MultipartFile [] file16,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
-		Map<String,Object> map=new HashMap<>();
-		Map<String,Class> map2=new HashMap<>();
-		map2.put("accessory1", Accessory.class);
-		map2.put("accessory2", Accessory.class);
-		map2.put("accessory3", Accessory.class);
-		map2.put("accessory4", Accessory.class);
-		map2.put("accessory5", Accessory.class);
-		map2.put("accessory6", Accessory.class);
-		map2.put("accessory7", Accessory.class);
-		map2.put("accessory8", Accessory.class);
-		map2.put("accessory9", Accessory.class);
-		map2.put("accessory10", Accessory.class);
-		map2.put("accessory11", Accessory.class);
-		map2.put("accessory12", Accessory.class);
-		map2.put("accessory13", Accessory.class);
-		map2.put("accessory14", Accessory.class);
-		map2.put("accessory15", Accessory.class);
-		map2.put("accessory16", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cds);
-		ConstructionDocuments cd=(ConstructionDocuments)JSONObject.toBean(jsonObject, ConstructionDocuments.class,map2);
-		
+	public int updateConstructionDocumentsSave(String  id,@RequestParam(required=false,value="file1") MultipartFile [] file1,@RequestParam(required=false,value="file2") MultipartFile [] file2,@RequestParam(required=false,value="file3") MultipartFile [] file3,
+			@RequestParam(required=false,value="file4") MultipartFile [] file4,@RequestParam(required=false,value="file5") MultipartFile [] file5,@RequestParam(required=false,value="file6") MultipartFile [] file6,@RequestParam(required=false,value="file7") MultipartFile [] file7,@RequestParam(required=false,value="file8") MultipartFile [] file8
+			,@RequestParam(required=false,value="file9") MultipartFile [] file9,@RequestParam(required=false,value="file10") MultipartFile [] file10,@RequestParam(required=false,value="file11") MultipartFile [] file11,@RequestParam(required=false,value="file12") MultipartFile [] file12,@RequestParam(required=false,value="file13") MultipartFile [] file13
+			,@RequestParam(required=false,value="file14") MultipartFile [] file14,@RequestParam(required=false,value="file15") MultipartFile [] file15,@RequestParam(required=false,value="file16") MultipartFile [] file16,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
-		String id=cd.getCdId();
-		if(id==null||id==""){
-			id=uuid.getTimeUUID();
-			cd.setCdId(id);
-			int i=dao.addConstructionDocumentsSave(cd);
-		}
-		//String path="D:"+File.separator+"oa"+File.separator+"ConstructionDocuments"+File.separator+id;
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
 		}
+		List<Accessory> list=new ArrayList<>();
 		if(file1.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file1.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file1[i].getOriginalFilename();
@@ -441,10 +413,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG项目实际存档目录");
 				list.add(accessory);
 			}
-			cd.setAccessory1(list);
 		}
 		if(file2.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file2.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file2[i].getOriginalFilename();
@@ -457,10 +427,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG项目特点介绍、关键词");
 				list.add(accessory);
 			}
-			cd.setAccessory2(list);
 		}
 		if(file3.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file3.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file3[i].getOriginalFilename();
@@ -473,10 +441,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG合同资料(合同原件提交经营部综合部)");
 				list.add(accessory);
 			}
-			cd.setAccessory3(list);
 		}
 		if(file4.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file4.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file4[i].getOriginalFilename();
@@ -489,10 +455,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG开工报告(含专项方案及评审)");
 				list.add(accessory);
 			}
-			cd.setAccessory4(list);
 		}
 		if(file5.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file5.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file5[i].getOriginalFilename();
@@ -505,10 +469,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG项目外部评价报告(安评等咨询类)");
 				list.add(accessory);
 			}
-			cd.setAccessory5(list);
 		}
 		if(file6.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file6.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file6[i].getOriginalFilename();
@@ -521,10 +483,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG项目总结(应包括照片并分类整理好)");
 				list.add(accessory);
 			}
-			cd.setAccessory6(list);
 		}
 		if(file7.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file7.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file7[i].getOriginalFilename();
@@ -537,10 +497,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG计量资料(原件提交经营发展部，审计结算报告需扫描件)");
 				list.add(accessory);
 			}
-			cd.setAccessory7(list);
 		}
 		if(file8.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file8.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file8[i].getOriginalFilename();
@@ -553,10 +511,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG设计变更资料");
 				list.add(accessory);
 			}
-			cd.setAccessory8(list);
 		}
 		if(file9.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file9.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file9[i].getOriginalFilename();
@@ -569,10 +525,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG施工图和竣工图");
 				list.add(accessory);
 			}
-			cd.setAccessory9(list);
 		}
 		if(file10.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file10.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file10[i].getOriginalFilename();
@@ -585,10 +539,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG开工至交竣工全部外部审查意见");
 				list.add(accessory);
 			}
-			cd.setAccessory10(list);
 		}
 		if(file11.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file11.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file11[i].getOriginalFilename();
@@ -601,10 +553,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG首件工程总结");
 				list.add(accessory);
 			}
-			cd.setAccessory11(list);
 		}
 		if(file12.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file12.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file12[i].getOriginalFilename();
@@ -617,10 +567,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG材料检测资料");
 				list.add(accessory);
 			}
-			cd.setAccessory12(list);
 		}
 		if(file13.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file13.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file13[i].getOriginalFilename();
@@ -633,10 +581,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG中间报验资料和检验评定资料");
 				list.add(accessory);
 			}
-			cd.setAccessory13(list);
 		}
 		if(file14.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file14.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file14[i].getOriginalFilename();
@@ -649,10 +595,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG施工日志");
 				list.add(accessory);
 			}
-			cd.setAccessory14(list);
 		}
 		if(file15.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file15.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file15[i].getOriginalFilename();
@@ -665,10 +609,8 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG获奖证书");
 				list.add(accessory);
 			}
-			cd.setAccessory15(list);
 		}
 		if(file16.length>0){
-			List<Accessory> list=new ArrayList<>();
 			for(int i=0;i<file16.length;i++){
 				Accessory accessory=new Accessory();
 				String fileName=file16[i].getOriginalFilename();
@@ -681,11 +623,10 @@ public class ConstructionDocumentsController {
 				accessory.setaType("SG交竣工验收文件(原件提交经营发展部)");
 				list.add(accessory);
 			}
-			cd.setAccessory16(list);
 		}
 		
-		int i=service.updateConstructionDocumentsSave(cd);
-		String string = i+"";
+		int i=aService.addAccessory(list);
+		/*String string = i+"";
 		if(i>0){
 			User user = (User) session.getAttribute("user");
 			OrganizationManagement om=oService.selectOrgById(user.getOmId());
@@ -721,10 +662,8 @@ public class ConstructionDocumentsController {
 			}
 		}
 		response.setCharacterEncoding("UTF-8");
-		return string;
-		/*map.put("result", i);
-		map.put("ConstructionDocuments", cd);
-		return map; */
+		return string;*/
+		return i;
 	}
 	
 	@RequestMapping("/selectConstructionDocumentsByno")

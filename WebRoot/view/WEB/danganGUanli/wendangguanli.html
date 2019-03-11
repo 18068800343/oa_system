@@ -152,7 +152,7 @@
         </div>
         <div class="modal-body">
                 <div>     
-                    <form class="form-inline" method="post" enctype="multipart/form-data">
+                    <form class="form-inline"  id="jy_form" method="post" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed" id="all_table">
 		                <thead>
 		                    <tr>
@@ -392,6 +392,7 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/myTool.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
@@ -654,76 +655,7 @@
 		dom = $(aa).parents('tr');
 		datas=$('#mainContent').DataTable().row(dom).data();
 		jyId=datas.id;
-		/* var id;
-		$.ajax({
-	        type: 'POST',
-	        url: getContextPath()+'/ManagingDocuments/selectManagingDocumentsByNo',
-	        dataType: 'json',
-	        async:false,
-	        data: {
-	        	no:datas.prjNo,
-	        },
-	        success: function (json) {
-	        	id=json.mdId;
-	        }
-		}); */
-		/* $("#edit_prjName").val(datas.prjName);
-        $("#edit_prjNo").val(datas.prjNo); 
-        //回显城市 
-    	var area=datas.prjArea;
-    	if(area!=''&&area!=null){
-    		var province=area.split("/")[0];
-        	var city=area.split("/")[1];
-        	var district=area.split("/")[2];
-        	$("#edit_prjArea").citypicker("reset");
-      		$("#edit_prjArea").citypicker("destroy");
-      		$("#edit_prjArea").citypicker({
-      			province:province,
-      			city:city,
-      			district:district
-      		});
-    	}
-		$("#edit_prjType").val(datas.prjType2);
-        $.ajax({
-            type: 'POST',
-            url: getContextPath()+'/ManagingDocuments/selectManagingDocumentsByNo',
-            dataType: 'json',
-            data: {
-            	no:datas.prjNo
-            },
-            success: function (json) {
-            	data=json;
-            	console.log(data)
-            	
-        		$("#edit_fill_in_one").val(data.fillInOne);
-        		$("#edit_key_word").val(data.keyWord);
-        		$("#edit_bidding_agent").val(data.biddingAgent);
-        		$("#edit_year1").val(data.prjBidTime);
-        		$("#edit_isBidding").val(data.isBidding);
-        		$("#edit_number").val(data.numberParticipatingUnits);
-        		$("#edit_offer").val(data.offer);
-        		$("#edit_prj_manager").val(data.biddingPrjManager);
-        		$("#edit_prj_general").val(data.prjGeneral);
-        		$("#edit_year2").val(data.prjStartTime);
-        		$("#edit_year3").val(data.prjEndTime);
-        		$("#edit_bidding_price").val(data.biddingPrice);
-        		$("#edit_bidding_unit").val(data.biddingUnit);
-        		$("#edit_bid_price_limit").val(data.bidPriceLimit);
-        		$("#edit_prj_budget_price").val(data.prjBudgetPrice);
-        		$("#edit_bid_evaluation_method").val(data.bidEvaluationMethod);
-                
-        		var tender=data.managingDocumentsTenderer;
-        		$("#edit_table_Tender tbody").empty();
-        		for(var i=0;i<tender.length;i++){
-        			$("#edit_table_Tender tbody").append("<tr>"
-        					+"<td style='width:25%;'>"+tender[i].tName+"</td>"
-        					+"<td style='width:25%;'><button type='button' class='btn btn-primary' onclick='removeTender(this)'>移除</button></td>"
-        			+"</tr>")
-        		}
-        		
-                
-            }
-        });*/
+		
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
@@ -732,42 +664,41 @@
 				id:datas.id
 			},
 			success:function(json){
-				$(":file").parent().parent().empty();
-				$(".fujian").parent().parent().empty();
+				$(".append_tr").empty();
 	            for(var i=0;i<json.length;i++){
 	            	if(json[i].aType=="JY招标文件"){
-	            	   $("#zb1").after("<tr>"+
+	            	   $("#zb1").after("<tr class='append_tr'>"+
 								"<td>附件</td>"+
-		            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-		            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+		            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+		            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 		            	    "</tr>");
 	            	}
 	            	if(json[i].aType=="JY招标图纸"){
-		            	   $("#zb2").after("<tr>"+
+		            	   $("#zb2").after("<tr class='append_tr'>"+
 									"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY投标文件(技术+商务)"){
-		            	   $("#zb3").after("<tr>"+
+		            	   $("#zb3").after("<tr class='append_tr'>"+
 									"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY中标通知书(原件由经营部存档)"){
-		            	   $("#zb4").after("<tr>"+
+		            	   $("#zb4").after("<tr class='append_tr'>"+
 									"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY开标记录"){
-		            	   $("#zb5").after("<tr>"+
+		            	   $("#zb5").after("<tr class='append_tr'>"+
 									"<td>附件</td>"+
-			            	    	"<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
+			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            } 
@@ -777,7 +708,11 @@
 	function delete_thisFile(obj){
 		var url=$(obj).attr("data1");
 		var id=$(obj).attr("data2");
-		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		var name=$(obj).attr("data3");
+		var statu = confirm("确认删除吗?");
+		  if(!statu){
+		   return false;
+		  }
 		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
@@ -909,32 +844,46 @@
   	}
 	
 	function saveSc(){
-			$("#all_table tbody").find("tr").each(function(){
-		  			formData.append("file1", $(this).find("input[name='file1']")[0].files[0]);
-		  			formData.append("file2", $(this).find("input[name='file2']")[0].files[0]);
-		  			formData.append("file3", $(this).find("input[name='file3']")[0].files[0]);
-		  			formData.append("file4", $(this).find("input[name='file4']")[0].files[0]);
-		  			formData.append("file5", $(this).find("input[name='file5']")[0].files[0]);
-	  		})
-	  	 formData.append("id",jyId);
-		 $.ajax({
-  			type: 'POST',
-            url: getContextPath()+'/PrjRecord/addScRecord',
-            data: formData,  
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            success: function (json) {
-            	
-            }
-		 })
-            	
+		/* var formData = new FormData();
+		$("#all_table tbody").find("tr").each(function(){
+	  			formData.append("file1", $(this).find("input[name='file1']")[0].files[0]);
+	  			formData.append("file2", $(this).find("input[name='file2']")[0].files[0]);
+	  			formData.append("file3", $(this).find("input[name='file3']")[0].files[0]);
+	  			formData.append("file4", $(this).find("input[name='file4']")[0].files[0]);
+	  			formData.append("file5", $(this).find("input[name='file5']")[0].files[0]);
+  		})
+	  	 formData.append("id",jyId); */
+	  	 var options={
+	  			type: 'POST',
+	            url: getContextPath()+'/PrjRecord/addScRecord',
+	            data: {
+	            	id:jyId
+	            },  
+	            dataType: 'json',
+	            success: function (json) {
+	            	var result=json.result;
+	            	if(result>0){
+	            		var num=json.num;
+	            		if(num>0){
+	            			datas.jyStatus=1;
+	            		}else{
+	            			datas.jyStatus=0;
+	            		}
+	            		$("#myModalss").modal("hide");
+	            		toastr.success("保存成功")
+	            		$("#mainContent").DataTable().row(dom).data(datas).draw(false);
+	            	}else{
+	            		toastr.error("保存失败")
+	            	}
+	            }
+	  	 }
+		  $("#jy_form").ajaxSubmit(options);          	
 	}
 	
 	
 	
 	//保存经营资料
-	function xxxxxx{
+	/* function xxxxxx{
 		var id;
 		$.ajax({
 	        type: 'POST',
@@ -1043,19 +992,10 @@
 			        	      }); 
 			        	  }
 		        	}
-	            	/* if(json.result>0){
-	            		$("#myModal").modal("hide");
-	            		toastr.success("保存成功")
-	            		//$('#mainContent').DataTable().row.add(json.ManagingDocuments).draw(false);     //新增行立即显示
-	            		datas.fileLength=1;
-	            		$('#mainContent').DataTable().row(dom).data(datas).draw(false);;//修改行立即显示
-	            	}else{
-	            		toastr.error("保存失败")
-	            	} */
 	            }
 	  		}) 
 			
-	} 
+	}  */
 	
 	
 	var type;
@@ -1069,16 +1009,16 @@
 		type=data.prjType;
 		if(data.prjType.indexOf("C")>=0){
 			//施工文档资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/ConstructionDocument.html?prjId='+data.prjId+'&no='+data.prjNo+'');
+			$("#lookdangan").attr('src', '../danganGuanliChange/ConstructionDocument.html?prjId='+data.id);
 		}else if(data.prjType.indexOf("A")>=0){
 			//检测评估资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/DetectionEvaluation.html?prjId='+data.prjId+'&no='+data.prjNo+'');
+			$("#lookdangan").attr('src', '../danganGuanliChange/DetectionEvaluation.html?prjId='+data.id);
 		}else if(data.prjType.indexOf("B")>=0){
 			//设计文件资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/designDocument.html?prjId='+data.prjId+'&no='+data.prjNo+'');
+			$("#lookdangan").attr('src', '../danganGuanliChange/designDocument.html?prjId='+data.id);
 		}else if(data.prjType.indexOf("K")>=0){
 			//科技文档资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/ScienceTechnology.html?prjId='+data.prjId+'&no='+data.prjNo+'');
+			$("#lookdangan").attr('src', '../danganGuanliChange/ScienceTechnology.html?prjId='+data.id);
 		}
 		
 	}	
@@ -1090,16 +1030,16 @@
 		//console.log(data)
 		if(data.prjType2.indexOf("C")>=0){
 			//施工文档资料
-			$("#lookdangan2").attr('src', './ConstructionDocumentLook.html?prjId='+data.prjId+'&no='+data.prjNo+'');
+			$("#lookdangan2").attr('src', './ConstructionDocumentLook.html?prjId='+data.prjId);
 		}else if(data.prjType2.indexOf("A")>=0){
 			//检测评估资料
-			$("#lookdangan2").attr('src', './DetectionEvaluationLook.html?prjId='+data.prjId+'&no='+data.prjNo+'');
+			$("#lookdangan2").attr('src', './DetectionEvaluationLook.html?prjId='+data.prjId);
 		}else if(data.prjType2.indexOf("B")>=0){
 			//设计文件资料
-			$("#lookdangan2").attr('src', './designDocumentLook.html?prjId='+data.prjId+'&no='+data.prjNo+'');
+			$("#lookdangan2").attr('src', './designDocumentLook.html?prjId='+data.prjId);
 		}else if(data.prjType2.indexOf("K")>=0){
 			//科技文档资料
-			$("#lookdangan2").attr('src', './ScienceTechnologyLook.html?prjId='+data.prjId+'&no='+data.prjNo+'');
+			$("#lookdangan2").attr('src', './ScienceTechnologyLook.html?prjId='+data.prjId);
 		}
 		
 	}
@@ -1113,191 +1053,50 @@
 	    	if(type.indexOf("C")>=0){
 				//施工文档资料
 	    		var result = childWindow.baocunSG();
-	    		//result=JSON.parse(result)
-	    		if(result=='0'||result==undefined){
-	      			toastr.error("提交出错");
-	      			return false;
-	  		    }else{
-	      			//toastr.success("提交成功");
-	      			$("#myModal2").modal("hide")
-	      			data.fileLengthSG=1;
-	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);;//修改行立即显示
-	        		lianjie=result.url;
-	            	if(result.receiver!=null&&result.receiver.length>=1){
-		        		  $("#tijiaogei").modal('show');
-		        		  $("#tijiaoren tbody").empty("");
-		        		  for(var i=0;i<result.receiver.length;i++){
-		        			  $("#tijiaoren tbody").append('<tr><td>'
-		        					  +'<input type="radio" name="tijiaorenming" data-id="'+result.receiver[i].userId+'" data-id2="'+result.receiver[i].omId+'" data-id3="'+result.receiver[i].dutyId+'">'
-		        					  +'</td><td>'
-		        					  +result.receiver[i].omName
-		        					  +'</td><td>'
-		        					  +result.receiver[i].dutyName
-		        					  +'</td><td>'
-		        					  +result.receiver[i].uName
-		        					  +'</td></tr>');
-		        		  }
-		        	  }else if(result.receiver.length==1){
-		        		  $.ajax({
-		        	          type: 'POST',
-		        	          url: getContextPath()+'/task/addTask4',
-		        	          dataType: 'json',
-		        	          data:{
-		        	        	  url:result.url,
-		        	        	  userId:result.receiver.userId,
-		        	        	  uName:result.receiver.uName,
-		        	        	  omName:result.receiver.omName,
-		        	        	  dutyName:result.receiver.dutyName,
-		        	        	  omId:result.receiver.omId,
-		        	        	  dutyId:result.receiver.dutyId
-		        	          },
-		        	          success: function (json) {
-		        	        	  toastr.success('提交成功');
-		        	          }
-		        	      }); 
-		        	  } 
-	  		    }
-			}else if(type.indexOf("A")>=0){
-				//检测评估资料
-				var result = childWindow.baocunJC();
-				//result=JSON.parse(result)
-	    		if(result=='0'||result==undefined){
-	      			toastr.error("提交出错");
-	      			return false;
-	  		    }else{
-	      			//toastr.success("提交成功");
-	      			$("#myModal2").modal("hide")
-	      			data.fileLengthJC=1;
-	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);;//修改行立即显示
-	        		lianjie=result.url;
-	            	if(result.receiver!=null&&result.receiver.length>=1){
-		        		  $("#tijiaogei").modal('show');
-		        		  $("#tijiaoren tbody").empty("");
-		        		  for(var i=0;i<result.receiver.length;i++){
-		        			  $("#tijiaoren tbody").append('<tr><td>'
-		        					  +'<input type="radio" name="tijiaorenming" data-id="'+result.receiver[i].userId+'" data-id2="'+result.receiver[i].omId+'" data-id3="'+result.receiver[i].dutyId+'">'
-		        					  +'</td><td>'
-		        					  +result.receiver[i].omName
-		        					  +'</td><td>'
-		        					  +result.receiver[i].dutyName
-		        					  +'</td><td>'
-		        					  +result.receiver[i].uName
-		        					  +'</td></tr>');
-		        		  }
-		        	  }else if(result.receiver.length==1){
-		        		  $.ajax({
-		        	          type: 'POST',
-		        	          url: getContextPath()+'/task/addTask4',
-		        	          dataType: 'json',
-		        	          data:{
-		        	        	  url:result.url,
-		        	        	  userId:result.receiver.userId,
-		        	        	  uName:result.receiver.uName,
-		        	        	  omName:result.receiver.omName,
-		        	        	  dutyName:result.receiver.dutyName,
-		        	        	  omId:result.receiver.omId,
-		        	        	  dutyId:result.receiver.dutyId
-		        	          },
-		        	          success: function (json) {
-		        	        	  toastr.success('提交成功');
-		        	          }
-		        	      }); 
-		        	  } 
-	      			
-	  		    }
-			}else if(type.indexOf("B")>=0){
-				//设计文件资料
-				var result = childWindow.baocunSJ();
-				//result=JSON.parse(result)
-	    		if(result=='0'||result==undefined){
-	      			toastr.error("提交出错");
-	      			return false;
-	  		    }else{
-	      			//toastr.success("提交成功");
-	      			$("#myModal2").modal("hide")
-	      			data.fileLengthSJ=1;
-	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);;//修改行立即显示
-	            	lianjie=result.url;
-	            	if(result.receiver!=null&&result.receiver.length>=1){
-		        		  $("#tijiaogei").modal('show');
-		        		  $("#tijiaoren tbody").empty("");
-		        		  for(var i=0;i<result.receiver.length;i++){
-		        			  $("#tijiaoren tbody").append('<tr><td>'
-		        					  +'<input type="radio" name="tijiaorenming" data-id="'+result.receiver[i].userId+'" data-id2="'+result.receiver[i].omId+'" data-id3="'+result.receiver[i].dutyId+'">'
-		        					  +'</td><td>'
-		        					  +result.receiver[i].omName
-		        					  +'</td><td>'
-		        					  +result.receiver[i].dutyName
-		        					  +'</td><td>'
-		        					  +result.receiver[i].uName
-		        					  +'</td></tr>');
-		        		  }
-		        	  }else if(result.receiver.length==1){
-		        		  $.ajax({
-		        	          type: 'POST',
-		        	          url: getContextPath()+'/task/addTask4',
-		        	          dataType: 'json',
-		        	          data:{
-		        	        	  url:result.url,
-		        	        	  userId:result.receiver.userId,
-		        	        	  uName:result.receiver.uName,
-		        	        	  omName:result.receiver.omName,
-		        	        	  dutyName:result.receiver.dutyName,
-		        	        	  omId:result.receiver.omId,
-		        	        	  dutyId:result.receiver.dutyId
-		        	          },
-		        	          success: function (json) {
-		        	        	  toastr.success('提交成功');
-		        	          }
-		        	      }); 
-		        	  } 
-	  		    }
-			}else if(type.indexOf("K")>=0){
-				//科技文档资料
-				var result = childWindow.baocunKJ();
-				//result=JSON.parse(result)
 	    		if(result=='0'||result==undefined){
 	      			toastr.error("保存出错");
 	      			return false;
 	  		    }else{
-	      			//toastr.success("保存成功");
+	      			toastr.success("保存成功");
+	      			$("#myModal2").modal("hide")
+	      			data.fileLengthSG=1;
+	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
+	  		    }
+			}else if(type.indexOf("A")>=0){
+				//检测评估资料
+				var result = childWindow.baocunJC();
+	    		if(result=='0'||result==undefined){
+	      			toastr.error("保存出错");
+	      			return false;
+	  		    }else{
+	      			toastr.success("保存成功");
+	      			$("#myModal2").modal("hide")
+	      			data.fileLengthJC=1;
+	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
+	  		    }
+			}else if(type.indexOf("B")>=0){
+				//设计文件资料
+				var result = childWindow.baocunSJ();
+	    		if(result=='0'||result==undefined){
+	      			toastr.error("保存出错");
+	      			return false;
+	  		    }else{
+	      			toastr.success("保存成功");
+	      			$("#myModal2").modal("hide")
+	      			data.fileLengthSJ=1;
+	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
+	  		    }
+			}else if(type.indexOf("K")>=0){
+				//科技文档资料
+				var result = childWindow.baocunKJ();
+	    		if(result=='0'||result==undefined){
+	      			toastr.error("保存出错");
+	      			return false;
+	  		    }else{
+	      			toastr.success("保存成功");
 	      			$("#myModal2").modal("hide")
 	      			data.fileLengthKJ=1;
-	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);;//修改行立即显示
-	            	lianjie=result.url;
-	            	if(result.receiver!=null&&result.receiver.length>=1){
-		        		  $("#tijiaogei").modal('show');
-		        		  $("#tijiaoren tbody").empty("");
-		        		  for(var i=0;i<result.receiver.length;i++){
-		        			  $("#tijiaoren tbody").append('<tr><td>'
-		        					  +'<input type="radio" name="tijiaorenming" data-id="'+result.receiver[i].userId+'" data-id2="'+result.receiver[i].omId+'" data-id3="'+result.receiver[i].dutyId+'">'
-		        					  +'</td><td>'
-		        					  +result.receiver[i].omName
-		        					  +'</td><td>'
-		        					  +result.receiver[i].dutyName
-		        					  +'</td><td>'
-		        					  +result.receiver[i].uName
-		        					  +'</td></tr>');
-		        		  }
-		        	  }else if(result.receiver.length==1){
-		        		  $.ajax({
-		        	          type: 'POST',
-		        	          url: getContextPath()+'/task/addTask4',
-		        	          dataType: 'json',
-		        	          data:{
-		        	        	  url:result.url,
-		        	        	  userId:result.receiver.userId,
-		        	        	  uName:result.receiver.uName,
-		        	        	  omName:result.receiver.omName,
-		        	        	  dutyName:result.receiver.dutyName,
-		        	        	  omId:result.receiver.omId,
-		        	        	  dutyId:result.receiver.dutyId
-		        	          },
-		        	          success: function (json) {
-		        	        	  toastr.success('提交成功');
-		        	          }
-		        	      }); 
-		        	  } 
+	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
 	  		    }
 			}
 	    }

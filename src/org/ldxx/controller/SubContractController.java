@@ -19,6 +19,7 @@ import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FbContract;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.dao.OrganizationManagementDao;
 import org.ldxx.mapper.CurrentFlowMapper;
@@ -27,6 +28,7 @@ import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.SubContractService;
+import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,8 @@ public class SubContractController {
 	private CurrentFlowMapper currentFlowMapper;
 	@Autowired
 	private OrganizationManagementDao omDao;
+	@Autowired
+	private TaskService tService;
 	
 	@RequestMapping("/selectSubContract")
 	@ResponseBody
@@ -127,8 +131,8 @@ public class SubContractController {
 		}
 		int i=scService.saveSubContract(fbContract);
 		if(i>0){
-			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
-			String mainDepartment=cj.getMainDepartment();
+			Task t=tService.selectPrjLeaderByPrjNo(fbContract.getWorkNo());
+			String mainDepartment=t.getMainDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			String string="";
@@ -225,8 +229,8 @@ public class SubContractController {
 		int i=scService.saveSubContract(fbContract);
 		String string = i+"";
 		if(i>0){
-			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
-			String mainDepartment=cj.getMainDepartment();
+			Task t=tService.selectPrjLeaderByPrjNo(fbContract.getWorkNo());
+			String mainDepartment=t.getMainDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
