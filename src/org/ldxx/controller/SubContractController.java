@@ -78,7 +78,7 @@ public class SubContractController {
 		Map<String,Object> map = new HashMap<>();
 		
 		TimeUUID uuid=new TimeUUID();
-		String id=uuid.getTimeUUID();
+		String id=uuid.getTimeUUID(); 
 		fbContract.setFbId(id);
 		
 		/*String type = fbContract.getFbcType();
