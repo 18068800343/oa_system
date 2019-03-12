@@ -65,7 +65,7 @@ public class OpeningRecordServiceImpl implements OpeningRecordService {
 			}
 			idao.deleteOpeningInformation(record.getOrId());
 			List<OpeningInformation> list = record.getOpeningInformation();
-			if(list!=null){
+			if(list!=null&&list.size()>0){
 				for(int ii=0;ii<list.size();ii++){
 					list.get(ii).setOiId(record.getOrId());
 				}
