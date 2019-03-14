@@ -862,6 +862,19 @@
 	$(".Pcae").hide();
 	//412	任务单拆分 	Peag+
 	$(".Peag").hide();
+	//413	工时管理菜单栏	Pehx
+	$(".Pehx").hide();
+	//414	项目非工时管理菜单栏	Pehxb+
+	$(".Pehxb").hide();
+	//415	项目非工时管理填报	Pehxba+
+	$(".Pehxba").hide();
+	//416	项目非工时管理删除	Pehxbb+
+	$(".Pehxbb").hide();
+	//417	项目非工时管理查看详细信息	Pehxbc+
+	$(".Pehxbc").hide();
+	//418	项目非工时管理修改 	Pehxbd+
+	$(".Pehxbd").hide();
+
 	
 	
 })(window);
