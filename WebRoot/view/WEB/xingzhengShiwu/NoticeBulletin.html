@@ -275,7 +275,7 @@
 				                            </tr>
 				                            <tr>
 				                                <td colspan="4" >
-				                                	<textarea style="width:100%;height:400px;" class="form-control" id="look_info_all"></textarea>
+				                                	<textarea style="width:100%;height:400px;" class="form-control" id="look_info_all" disabled></textarea>
 				                                </td>
 				                            </tr>
 				                        </table>
@@ -1449,8 +1449,8 @@
                         'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
                         'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
                         'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-                        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', /* 'image', 'multiimage', */
-                        'flash', 'media', /* 'insertfile', */ 'table', 'hr', 'emoticons', /* 'baidumap', */ 'pagebreak',
+                        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|',
+                        'flash', 'media',  'table', 'hr', 'emoticons',  'pagebreak',
                         'anchor', 'link', 'unlink', '|', 'about'
                 ],
                 allowFileManager:true,
@@ -1458,6 +1458,7 @@
             });
          	
         });
+	
 	function save_all(){
 		
 		var title=$("#title_all").val();
@@ -1617,7 +1618,8 @@
             }
         });  
   	}
-	
+	var page_flag=0;
+	var  editor5;
 	function lookAll(obj){
 		$("#look_modal_all").modal("show");
 		
@@ -1628,24 +1630,22 @@
 		$("#look_type_all").text(data.aType);
 		$("#look_importance_all").text(data.aImportance);
 		$("#look_user_all").text(data.issuer);
-		//$("#look_info_all").text(data.aDesc);
-		KindEditor.ready(function(K) {
-            window.editor5 = K.create('#look_info_all',{
+//		$("#look_info_all").text(data.aDesc);
+        
+         try{
+        	 editor5.remove('#look_info_all');
+         }catch{
+        	 
+         }
+            editor5 = new KindEditor.create('#look_info_all',{
                 items : [
-                        
                 ],
                 allowFileManager:true,
-                afterBlur:function(){this.sync();},
-                readonlyMode : true
+                afterBlur:function(){},
+                readonlyMode : true,
+                html:data.aDesc
             });
-         
-         // 取得HTML内容
-            html = editor5.html();
-            // 同步数据后可以直接取得textarea的value
-            editor5.sync();
-            // 设置HTML内容
-            editor5.html(data.aDesc);
-        });
+   	        editor5.html(data.aDesc);
 		
 		$.ajax({
 	        type: 'POST',
@@ -1704,7 +1704,23 @@
 		$("#edit_user_all").val(data.issuer);
 		//$("#edit_info_all").val(data.aDesc);
 		$("#xgfabubumen").val(data.aDepartment);
+		
+		/* editor5 = new KindEditor.create('#look_this_info',{
+               items : [
+               ],
+               allowFileManager:true,
+               afterBlur:function(){},
+               readonlyMode : true,
+               html:data.aDesc
+           });
+  	        editor5.html(data.aDesc); */
+		
 		KindEditor.ready(function(K) {
+			try{
+				window.editor4.remove('#edit_info_all');
+	        }catch{
+	       	 
+	        }
             window.editor4 = K.create('#edit_info_all',{
                 items : [
 						'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
@@ -2205,7 +2221,24 @@
 	    });
 		$("#look_this_isuser").text(data.issuer);
 		//$("#look_this_info").text(data.aDesc);
-		KindEditor.ready(function(K) {
+		
+		try{
+        	 editor5.remove('#look_info_all');
+         }catch{
+        	 
+         }
+		
+		editor5 = new KindEditor.create('#look_this_info',{
+                items : [
+                ],
+                allowFileManager:true,
+                afterBlur:function(){},
+                readonlyMode : true,
+                html:data.aDesc
+            });
+   	        editor5.html(data.aDesc);
+		
+		/* KindEditor.ready(function(K) {
             window.editor5 = K.create('#look_this_info',{
                 items : [
                         
@@ -2215,13 +2248,11 @@
                 readonlyMode : true
             });
          
-         // 取得HTML内容
-            html = editor5.html();
-            // 同步数据后可以直接取得textarea的value
-            editor5.sync();
             // 设置HTML内容
             editor5.html(data.aDesc);
-        });
+            // 同步数据后可以直接取得textarea的value
+            editor5.sync();
+        }); */
 		var id=data.aId;
 		$.ajax({
 			type: 'POST',
@@ -2269,6 +2300,11 @@
 		//initUser3(data.issuer);
 		//$("#edit_info_this").val(data.aDesc);
 		 KindEditor.ready(function(K) {
+			 	try{
+					window.editor2.remove('#edit_info_this');
+		        }catch{
+		       	 
+		        }
 	            window.editor2 = K.create('#edit_info_this',{
 	                items : [
 							'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
