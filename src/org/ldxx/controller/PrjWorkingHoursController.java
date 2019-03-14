@@ -40,7 +40,8 @@ public class PrjWorkingHoursController {
 	@RequestMapping("/selectPrjWorkingHours")
 	@ResponseBody
 	public List<PrjWorkingHours> selectPrjWorkingHours(){
-		return service.selectPrjWorkingHours();
+		List<PrjWorkingHours> list= service.selectPrjWorkingHours();
+		return list;
 	}
 	
 	
@@ -121,9 +122,7 @@ public class PrjWorkingHoursController {
 		map.put("result", i);
 		map.put("PrjWorkingHours", pwh);
 		return map;
-	}
-	
-	
+	}	
 	
 	@RequestMapping("/deletePrjWorkingHours")
 	@ResponseBody
@@ -154,6 +153,22 @@ public class PrjWorkingHoursController {
 	@ResponseBody
 	public PrjWorkingHours selectPrjWorkingHoursByPrjNo(String prjno){
 		return service.selectPrjWorkingHoursByPrjNo(prjno);
+	}
+	
+	//190313当未填写项目信息的时候添加项目信息用的 
+	@RequestMapping("/updatePrjWorkingHoursAddInfo")//修改保存
+	@ResponseBody
+	public Map<String,Object> updatePrjWorkingHoursAddInfo(String prjGsAddInfo) throws IllegalStateException, IOException{
+		Map<String,Object> map=new HashMap<>();
+		Map<String,Class> map2=new HashMap<>();
+		map2.put("prjWorkingHoursP", PrjWorkingHoursP.class);
+		JSONObject jsonObject=JSONObject.fromObject(prjGsAddInfo);
+		PrjWorkingHours pwh=(PrjWorkingHours)JSONObject.toBean(jsonObject, PrjWorkingHours.class,map2);
+		
+		int i=service.updatePrjWorkingHoursAddInfo(pwh);
+		map.put("result", i);
+		map.put("PrjWorkingHours", pwh);
+		return map;
 	}
 
 }

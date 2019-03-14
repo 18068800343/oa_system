@@ -17,22 +17,75 @@
 		delete from prj_working_hours where pwh_id=#{id}
 	</delete>
 	
+	<!--190313 修改为动态更新sql，当取到的值为空时，不更新空值项 -->
 	<update id="updatePrjWorkingHoursSave" parameterType="PrjWorkingHours">
-		update prj_working_hours set 
-		prj_name=#{pwh.prjName},
-		prj_no=#{pwh.prjNo},
-		contract_money=#{pwh.contractMoney},
-		design_input=#{pwh.designInput},
-		prj_unit=#{pwh.prjUnit},
-		attendance_time=#{pwh.attendanceTime},
-		prj_type=#{pwh.prjType},
-		person_dynamics=#{pwh.personDynamics},
-		attendance_desc=#{pwh.attendanceDesc},
-		prj_leader=#{pwh.prjLeader}
+
+		update prj_working_hours
+		<set>
+			<if test="pwh.prjName!=null and pwh.prjName!=''">
+			prj_name=#{pwh.prjName},
+			</if>
+			<if test="pwh.prjNo!=null and pwh.prjNo!=''">
+			prj_no=#{pwh.prjNo},
+			</if>
+			<if test="pwh.contractMoney!=null and pwh.contractMoney!=''">
+			contract_money=#{pwh.contractMoney},
+			</if>
+			<if test="pwh.designInput!=null and pwh.designInput!=''">
+			design_input=#{pwh.designInput},
+			</if>
+			<if test="pwh.prjUnit!=null and pwh.prjUnit!=''">
+			prj_unit=#{pwh.prjUnit},
+			</if>
+			<if test="pwh.attendanceTime!=null and pwh.attendanceTime!=''">
+			attendance_time=#{pwh.attendanceTime},
+			</if>
+			<if test="pwh.prjType!=null and pwh.prjType!=''">
+			prj_type=#{pwh.prjType},
+			</if>
+			<if test="pwh.personDynamics!=null and pwh.personDynamics!=''">
+			person_dynamics=#{pwh.personDynamics},
+			</if>
+			<if test="pwh.attendanceDesc!=null and pwh.attendanceDesc!=''">
+			attendance_desc=#{pwh.attendanceDesc},
+			</if>
+			<if test="pwh.prjLeader!=null and pwh.prjLeader!=''">
+			prj_leader=#{pwh.prjLeader},
+			</if>
+		</set>
 		where pwh_id=#{pwh.pwhId}
 	</update>
 	
 	<select id="selectPrjWorkingHoursByPrjNo" resultType="PrjWorkingHours">
 		select * from prj_working_hours where prj_no=#{prjno}
 	</select>
+	
+	<!--190313 当未填写项目信息的时候添加项目信息用的 -->
+	<update id="updatePrjWorkingHoursAddInfo" parameterType="PrjWorkingHours">
+		update prj_working_hours
+		<set>
+				<if test="pwh.prjName!=null and pwh.prjName!=''">
+				prj_name=#{pwh.prjName},
+				</if>
+				<if test="pwh.prjNo!=null and pwh.prjNo!=''">
+				prj_no=#{pwh.prjNo},
+				</if>
+				<if test="pwh.contractMoney!=null and pwh.contractMoney!=''">
+				contract_money=#{pwh.contractMoney},
+				</if>
+				<if test="pwh.prjUnit!=null and pwh.prjUnit!=''">
+				prj_unit=#{pwh.prjUnit},
+				</if>
+				<if test="pwh.attendanceTime!=null and pwh.attendanceTime!=''">
+				attendance_time=#{pwh.attendanceTime},
+				</if>
+				<if test="pwh.prjType!=null and pwh.prjType!=''">
+				prj_type=#{pwh.prjType},
+				</if>
+				<if test="pwh.prjLeader!=null and pwh.prjLeader!=''">
+				prj_leader=#{pwh.prjLeader},
+				</if>
+		</set>
+		where pwh_id=#{pwh.pwhId}
+	</update>
 </mapper>

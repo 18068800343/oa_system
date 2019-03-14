@@ -16,5 +16,8 @@ public interface PrjWorkingHoursDao {
 	int updatePrjWorkingHoursSave(@Param("pwh")PrjWorkingHours pwh);
 
 	PrjWorkingHours selectPrjWorkingHoursByPrjNo(@Param("prjno")String prjno);
+	
+	//190313 当未填写项目信息的时候添加项目信息用的
+	int updatePrjWorkingHoursAddInfo(@Param("pwh")PrjWorkingHours pwh);
 
 }

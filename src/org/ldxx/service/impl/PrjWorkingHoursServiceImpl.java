@@ -130,4 +130,10 @@ public class PrjWorkingHoursServiceImpl implements PrjWorkingHoursService {
 		}
 		return pws;
 	}
+
+	@Override
+	public int updatePrjWorkingHoursAddInfo(PrjWorkingHours pwh) {
+		int i=dao.updatePrjWorkingHoursAddInfo(pwh);
+		return i;
+	}
 }

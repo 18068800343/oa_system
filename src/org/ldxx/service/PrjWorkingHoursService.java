@@ -20,6 +20,8 @@ public interface PrjWorkingHoursService {
 	int deleteAccessoryByIdAndName(Accessory accessory);
 
 	PrjWorkingHours selectPrjWorkingHoursByPrjNo(String prjno);
-
-
+	
+	//190313当未填写项目信息的时候添加项目信息用的
+	int updatePrjWorkingHoursAddInfo(PrjWorkingHours pwh);
+	
 }
