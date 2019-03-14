@@ -10,11 +10,13 @@ import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FbContractDoAppointScore;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.FbContractDoAppointScoreService;
 import org.ldxx.service.OrganizationManagementService;
+import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,9 @@ public class FbContractDoAppointScoreController {
 	@Autowired
 	private CjContractService cService;
 	@Autowired
-	CurrentFlowMapper currentFlowMapper;
+	private CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	private TaskService tService;
 	
 	@RequestMapping("addFbContractDoAppointScoreBySave")
 	@ResponseBody
@@ -45,7 +49,7 @@ public class FbContractDoAppointScoreController {
 		if(i>0){
 			String string ="";
 			CjContract cj=cService.getCjContractMainDepartmentLeader(FbContractDoAppoint.getCjContractCode());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
@@ -92,7 +96,7 @@ public class FbContractDoAppointScoreController {
 		String string = i+"";
 		if(i>0){
 			CjContract cj=cService.getCjContractMainDepartmentLeader(FbContractDoAppoint.getCjContractCode());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");

@@ -131,11 +131,11 @@ public class SubContractController {
 		}
 		int i=scService.saveSubContract(fbContract);
 		if(i>0){
-			Task t=tService.selectPrjLeaderByPrjNo(fbContract.getWorkNo());
-			String mainDepartment=t.getMainDepartment();
+			String string="";
+			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
-			String string="";
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
@@ -229,8 +229,8 @@ public class SubContractController {
 		int i=scService.saveSubContract(fbContract);
 		String string = i+"";
 		if(i>0){
-			Task t=tService.selectPrjLeaderByPrjNo(fbContract.getWorkNo());
-			String mainDepartment=t.getMainDepartment();
+			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
@@ -280,7 +280,7 @@ public class SubContractController {
 		String string = i+"";
 		if(i>0){
 			CjContract cj=cjService.getCjContractMainDepartmentLeader(cjNo);
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
@@ -323,7 +323,7 @@ public class SubContractController {
 		String string = i+"";
 		if(i>0){
 			CjContract cj=cjService.getCjContractMainDepartmentLeader(cjNo);
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
@@ -414,7 +414,7 @@ public class SubContractController {
 		int i=scService.saveSubContract(fbContract);
 		if(i>0){
 			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			String string="";
@@ -502,7 +502,7 @@ public class SubContractController {
 		String string = i+"";
 		if(i>0){
 			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");

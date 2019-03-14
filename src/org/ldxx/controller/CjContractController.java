@@ -120,7 +120,7 @@ public class CjContractController {
 		}
 		int i=service.addCjContract(cj);
 		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(cj.getMainDepartment());
+			OrganizationManagement om=oService.selectOrgById(cj.getYiCjDepartment());
 			String omNo=om.getOmNo();
 			String string="";
 			User user = (User) session.getAttribute("user");
@@ -220,7 +220,7 @@ public class CjContractController {
 		int i=service.addCjContract(cj);
 		String string = i+"";
 		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(cj.getMainDepartment());
+			OrganizationManagement om=oService.selectOrgById(cj.getYiCjDepartment());
 			String omNo=om.getOmNo();
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
