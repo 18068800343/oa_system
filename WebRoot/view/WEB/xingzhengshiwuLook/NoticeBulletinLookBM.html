@@ -12,6 +12,7 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <link rel="stylesheet" href="../../kindeditor/themes/default/default.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -61,7 +62,9 @@
                             </tr>
                             <tr>
                                 <td>内容</td>
-                                <td colspan="3" id="look_this_info"></td>
+                                <td colspan="3">
+                                	<textarea style="width:100%;height:400px;" id="look_this_info"></textarea>
+                                </td>
                             </tr>
                         </table>
                         <table class="table table-bordered table-condensed" id="look_table">
@@ -79,6 +82,8 @@
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
+<script type="text/javascript" src="../../kindeditor/kindeditor-all.js" ></script>
+<script type="text/javascript" src="../../kindeditor/lang/zh-CN.js" ></script>
 <script>
     $(document).ready( function () {
     	lookThis();
@@ -129,7 +134,21 @@
 			        }
 			    });
 				$("#look_this_isuser").text(data.issuer);
-				$("#look_this_info").text(data.aDesc);
+	//			$("#look_this_info").text(data.aDesc);
+			 try{
+	        	 editor5.remove('#look_this_info');
+	         }catch{
+	        	 
+	         }
+            editor5 = new KindEditor.create('#look_this_info',{
+                items : [
+                ],
+                allowFileManager:true,
+                afterBlur:function(){},
+                readonlyMode : true,
+                html:data.aDesc
+            });
+   	        editor5.html(data.aDesc);
 				
 				var id=data.aId;
 				$.ajax({
