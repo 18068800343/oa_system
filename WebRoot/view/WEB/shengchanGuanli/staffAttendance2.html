@@ -528,24 +528,24 @@
                                 <td style="width:35%;">
                                 	<input style="width:65%" type="text" id="prjLeaderAddInfo" class="form-control" disabled>
                                 </td>
-                                <td style="width:15%;">项目管理单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+<!--                                 <td style="width:15%;">项目管理单位  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:35%;">
                                     <select style="width:65%" class="form-control" id="prjUnitAddInfo" >
                                         <option>华通</option>
                                         <option>设计院</option>
                                     </select>
-                                </td>
+                                </td> -->
                                 <!-- <td style="width:15%;">设计院手动输入</td>
                                 <td style="width:35%;">
                                 	<input style="width:65%" type="text" id="sjyInput" class="form-control">
                                 </td> -->
                             </tr>
-                            <tr>
+<!--                             <tr>
                                 <td style="width:15%;">考勤时间</td>
                                 <td style="width:35%;"><input style="width:65%" type="text"  style="width:70%" id="yearAddInfo" class="form-control"></td>
                                 <td></td>
                                 <td></td>
-                            </tr>
+                            </tr> -->
                         </table>
                         
 
@@ -766,7 +766,7 @@
 							    			return '<i class="iconfont icon-shanchu Pegb" style="font-size:18px;cursor:pointer;display:none;"  title="删除" onclick="deleteGS(this)"  id="delyiji"></i> '
 							    			      +'<i class="iconfont icon-icon-test Pegc" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookGS(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>'
 							    			      +'<i class="iconfont icon-xiugai iconxiugai Pegd" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="checkGs(this)" data-toggle="modal" data-target="#change" ></i>'
-							    			      +'<i class="iconfont icon-xiugai icon-zengjia Pegd" style="font-size:18px;cursor:pointer;display:none;" title="添加合同信息" onclick="checkGs(this)" data-toggle="modal" data-target="#ModalAddInfo" ></i>';
+							    			      +'<i class="iconfont icon-xiugai icon-zengjia Pegd" style="font-size:18px;cursor:pointer;display:none;" title="添加合同信息" onclick="checkAddInfo(this)" data-toggle="modal" data-target="#ModalAddInfo" ></i>';
 							    		}else{
 							  	  			return '<i class="iconfont icon-shanchu Pegb" style="font-size:18px;cursor:pointer;display:none;"  title="删除" onclick="deleteGS(this)"  id="delyiji"></i>  <i class="iconfont icon-icon-test Pegc" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookGS(this)" data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>  <i class="iconfont icon-xiugai iconxiugai Pegd" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="checkGs(this)" data-toggle="modal" data-target="#change" ></i>'
 							    		}
@@ -1436,7 +1436,12 @@
 			var renyuandongtai=$("#renyuandongtai").val();
 			var desc=$("#desc").val();
 			var prjLeader=$("#prjLeader").val();
+			
 			//19.03.13需求改动，前期可以先添加，后期修改内容
+			if(year==''){
+				toastr.error("考勤时间不能为空");
+				return;
+			}
 	//	 	if(prjName==''){
 	//			toastr.error("项目名称不能为空");
 	//			return;
@@ -1600,6 +1605,7 @@
 		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
 	}
 	
+
 	
 	//修改回显
 	var xgId;
@@ -1784,13 +1790,25 @@
 		}
 	}
 	
+	var yearAddInfo;
+	var prjUnitAddInfo;
+	var pwhIdAddInfo;
+	//addinfo回显数据
+	function checkAddInfo(obj){
+		var dom=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(dom).data();
+		yearAddInfo=data.attendanceTime;
+		prjUnitAddInfo=data.prjUnit;
+		pwhIdAddInfo=data.pwhId;
+	}
+	
 	//添加项目信息保存AddInfo
 	function saveAddInfo(){
 			var prjName=$("#prjNameAddInfo").val();
 			var prjNo=$("#prjNoAddInfo").val();
 			var hetongMoney=$("#hetongMoneyAddInfo").val();
-			var prjUnit=$("#prjUnitAddInfo").val();
-			var year=$("#yearAddInfo").val();
+		//	var prjUnit=$("#prjUnitAddInfo").val();
+		//	var year=$("#yearAddInfo").val();
 			var prjType=$("#prjTypeAddInfo").val();
 			var prjLeader=$("#prjLeaderAddInfo").val();
 			
@@ -1816,16 +1834,17 @@
 					prjWorkingHoursP:undefined,
 					prjLeader:undefined,
 			}
-			PrjWorkingHours.pwhId=xgId;
+			PrjWorkingHours.pwhId=pwhIdAddInfo;
 			PrjWorkingHours.prjName=prjName;
 			PrjWorkingHours.prjNo=prjNo;
 			PrjWorkingHours.contractMoney=hetongMoney;
-			PrjWorkingHours.prjUnit=prjUnit;
-			PrjWorkingHours.attendanceTime=year;
+		//	PrjWorkingHours.prjUnit=prjUnit;
+		//	PrjWorkingHours.attendanceTime=year;
 			PrjWorkingHours.prjType=prjType;
 			PrjWorkingHours.prjLeader=prjLeader;
 			var formData = new FormData();
 	  		formData.append("prjGsAddInfo", JSON.stringify(PrjWorkingHours));
+	  		
 	  		
 			$.ajax({
 	  			type: 'POST',
@@ -1840,6 +1859,8 @@
 	            		$("#ModalAddInfo").modal("hide");
 	            		toastr.success("添加成功");
 	            		// 人员修改界面显示开始
+	            		PrjWorkingHours.prjUnit=prjUnitAddInfo;
+	            		PrjWorkingHours.attendanceTime=yearAddInfo;
 	            		var rengs=new Array();//人员工时
 	            		$("#edit_renyuan tbody").find("tr").each(function(){
 										var data = $(this).children();
@@ -1893,10 +1914,7 @@
 	}
 	
 	
-	
-	
-	
-	
+
 	
     function getCreat(bb){
         var EnterpriseRating= $(bb).parent().prev().text();
