@@ -995,6 +995,7 @@ public class FlowUtill {
 				flowNode = INSTANCE.flowNodeMapper.selectByPrimaryKey(floNodeId);
 				boolean flag = true;
 				String deptNo = currentFlow.getFkDept();//部门编号
+				String agentType = currentFlow.getAgenttype();
 				List<User> nodeActorUsers = getNodeActorUsers(floNodeId,deptNo);//下一步所有操作人;
 				String userId = currentFlow.getNowDeqPersonId();
 				if(nodeActorUsers.size()==1){
@@ -1005,12 +1006,22 @@ public class FlowUtill {
 						}
 					}
 				}
+				//投标审批单第二步不选，跳过第三步第四步
+				if(nodeActorUsers.size()==0){
+					if("tbsp".equals(agentType)){
+						if("".equals(deptNo)){
+							flag=false;
+						}
+					}
+				}
 				if(flag){
 					return floNodeId;
 				}else{
 					String result = deque(flowNode, currentFlow);
 					if("end".equals(result)){
 						return "end";
+					}else{
+						return result;
 					}
 				}
 			}else if(flowEdges.size()>1){
@@ -1025,7 +1036,7 @@ public class FlowUtill {
 				if(flag){
 					return floNodeId;
 				}else{
-					deque(flowNode, currentFlow);
+					return deque(flowNode, currentFlow);
 				}
 				
 			}

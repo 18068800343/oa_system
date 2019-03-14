@@ -14,15 +14,15 @@ public class OpeningRecord {
 	private String bidEvaluationMethod;//评标办法
 	private String thisInUnit;//本次参投单位
 	private String companyDiscountRate;//公司报价折扣率
-	private Float calculateCost;//测算成本
-	private Float ownerControlledPrice;//业主控制价(项目限价)
-	private Float bidEvaluationBenchmarkPrice;//评标基准价
+	private Double calculateCost;//测算成本
+	private Double ownerControlledPrice;//业主控制价(项目限价)
+	private Double bidEvaluationBenchmarkPrice;//评标基准价
 	private String percentageFluctuation;//基准价折扣率
 	private String winningUnit;//中标单位
 	private String bidOpeningTime;//开标时间
-	private Float bidPrice;//中标价格
+	private Double bidPrice;//中标价格
 	private String bidRate;//中标费率
-	private Float actualCost;//实际成本
+	private Double actualCost;//实际成本
 	private String isScrap;//是否废标
 	private String zhongbiao;//是否中标
 	private String preparer;//填表人
@@ -122,16 +122,16 @@ public class OpeningRecord {
 	public void setCompanyDiscountRate(String companyDiscountRate) {
 		this.companyDiscountRate = companyDiscountRate;
 	}
-	public Float getCalculateCost() {
+	public Double getCalculateCost() {
 		return calculateCost;
 	}
-	public void setCalculateCost(Float calculateCost) {
+	public void setCalculateCost(Double calculateCost) {
 		this.calculateCost = calculateCost;
 	}
-	public Float getActualCost() {
+	public Double getActualCost() {
 		return actualCost;
 	}
-	public void setActualCost(Float actualCost) {
+	public void setActualCost(Double actualCost) {
 		this.actualCost = actualCost;
 	}
 	public List<OpeningInformation> getOpeningInformation() {
@@ -140,22 +140,22 @@ public class OpeningRecord {
 	public void setOpeningInformation(List<OpeningInformation> openingInformation) {
 		this.openingInformation = openingInformation;
 	}
-	public Float getOwnerControlledPrice() {
+	public Double getOwnerControlledPrice() {
 		return ownerControlledPrice;
 	}
-	public void setOwnerControlledPrice(Float ownerControlledPrice) {
+	public void setOwnerControlledPrice(Double ownerControlledPrice) {
 		this.ownerControlledPrice = ownerControlledPrice;
 	}
-	public Float getBidEvaluationBenchmarkPrice() {
+	public Double getBidEvaluationBenchmarkPrice() {
 		return bidEvaluationBenchmarkPrice;
 	}
-	public void setBidEvaluationBenchmarkPrice(Float bidEvaluationBenchmarkPrice) {
+	public void setBidEvaluationBenchmarkPrice(Double bidEvaluationBenchmarkPrice) {
 		this.bidEvaluationBenchmarkPrice = bidEvaluationBenchmarkPrice;
 	}
-	public Float getBidPrice() {
+	public Double getBidPrice() {
 		return bidPrice;
 	}
-	public void setBidPrice(Float bidPrice) {
+	public void setBidPrice(Double bidPrice) {
 		this.bidPrice = bidPrice;
 	}
 	public String getOrId() {

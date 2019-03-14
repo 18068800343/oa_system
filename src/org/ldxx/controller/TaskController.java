@@ -1185,6 +1185,17 @@ public class TaskController {
 		record.setFkDept(fkdept);
 		return currentFlowMapper.updateByPrimaryKeySelective(record);
 	}
+	@RequestMapping("/updateFlowFkDeptTBSP")
+	@ResponseBody
+	public int updateFlowFkDeptTBSP(String cFlowId,String fkdept,String agent,String agentType){
+		
+		CurrentFlow record = new CurrentFlow();
+		record.setId(cFlowId);
+		record.setFkDept(fkdept);
+		record.setAgent(agent);
+		record.setAgenttype(agentType);
+		return currentFlowMapper.updateByPrimaryKeySelective(record);
+	}
 	
 	@RequestMapping("/updateImportance")
 	@ResponseBody

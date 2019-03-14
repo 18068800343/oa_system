@@ -712,11 +712,12 @@
 				omId:id
 				},
 			success:function(json){
-				console.log(json)
+				console.log(json);
 				$("#lindao").empty();
+				$("#lindao").append("<option value=''>无</option>")
 				for(var i=0;i<json.length;i++){
 					$("#lindao").append("<option data-id='" + json[i].flowOmNo + "' value='"+json[i].userId+"'>"
-		                    + json[i].uName + "</option>")
+		                    + json[i].uName + "</option>");
 				}
 			}
 		})
@@ -992,13 +993,19 @@
     //修改对应步骤的下一步抽象部门具体部门编号
     function updateFkDept2(page_cNodeId){
     	var pcid = page_cNodeId;
+    	var fkDept = $("#lindao option:selected").attr("data-id");
+    	if(fkDept==null||fkDept==undefined){
+    		fkDept='';	
+    	}
     	$.ajax({
             type: 'POST',
-            url: getContextPath()+'/task/updateFlowFkDept',
+            url: getContextPath()+'/task/updateFlowFkDeptTBSP',
             async:false,
             data:{
             	cFlowId:page_cNodeId,
-            	fkdept:$("#lindao option:selected").attr("data-id")
+            	fkdept:fkDept,
+            	agent:"投标审批单",
+            	agentType:"tbsp"
             },
             dataType: 'text',
             success: function (json) {
