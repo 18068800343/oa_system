@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
+    <style lang="">
+        *{
+            font-size: 16px;
+        }
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent1 th,#mainContent2 th,#mainContent3 th,#mainContent4 th,#mainContent5 th{
+            width:15%;
+        }
+          .details-control{
+        	text-align:center;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>档案管理</li>
+			<li class="active">其他文件资料管理</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        <div class="UpperPart">
+            <div class="UpperPartL">
+                <div class="yihang">
+                	<!-- <div>部门筛选：</div>
+	            	<div>
+		            	<select class="form-control" id="department">
+                        </select>
+	            	</div> -->
+                </div>
+               
+            </div>
+            <div class="UpperPartR">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="showUserName()">新增文件资料</button>
+            </div>
+
+        </div>
+        <div class="LowerPart">
+            <table class="table table-bordered table-condensed" id="mainContent">
+                <thead>
+                    <tr>
+                        <th style="width:30%;">文件名</th>
+                        <th style="width:10%;">文件类型</th>
+                        <th style="width:15%;">文件日期</th>
+                        <th style="width:25%;">关键字</th>
+                        <th style="width:10%;">上传用户</th>
+                        <th style="width:10%;">文件操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>   
+            </table>
+        </div>
+
+        
+    </div>
+    
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>其他文件资料上传</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+		                	<tr >
+		                		<td style="width:15%;">文件名</td>
+		                		<td style="width:35%;">
+		                			<input type="file" id="fileUrl" name="file" class="form-control" style="width:75%;" multiple="multiple">
+		                			<!--<button type="button" style="margin-left: 5px;" class="btn btn-primary" id="chosexm">选择文件</button>-->
+		                		</td>
+		                		<td >新文件名</td>
+		                		<td >
+		                			<input type="text" id="fileName" class="form-control" style="width:75%;" placeholder="未填写将使用当前文件名" >
+		                		</td>
+		                	</tr>
+		                	<tr>
+		                		<td >关键字</td>
+		                		<td >
+		                			<input type="text" id="fileKeywords" class="form-control" style="width:75%;" >
+		                		</td>
+		                		<td >选择文件类型</td>
+		                		<td>
+		                			<select class="form-control" id="fileType" style="width:75%;">
+		                				<option value="技术类">技术类</option>
+		                				<option value="管理类">管理类</option>
+		                				<option value="其他">其他</option>
+		                			</select>
+		                		</td>
+		                	</tr>
+		                	<tr>
+		                		<td>日期</td>
+                    			<td>
+                    				<input type="text" id="fileDate" class="form-control" style="width:75%;" placeholder="未选择，将使用当日日期">
+                    			</td>
+<!-- 		                		<td>上传人</td>
+                    			<td>
+                    				<input type="text" id="fileUser" class="form-control" style="width:70%;" disabled="disabled">
+                    			</td> -->
+                    			<td></td>
+                    			<td></td>
+		                	</tr>
+		            	</table>
+                    </form> 
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick="saveOtherFile(this)">上传文件</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script src="../../js/city-picker.data.js"></script>
+<script src="../../js/city-picker.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script>
+	$(document).ready( function () {
+    	initTable();
+    	laydate.render({
+            elem: '#fileDate' //指定元素
+           
+        });
+/*     	laydate.render({
+            elem: '#yuefenshaixuan' //指定元素
+           ,type: 'month'
+       	   ,done: function(value, date, endDate){
+	       		 var d = value;
+	     		$("#mainContent").DataTable().search(d).draw(true);
+       		  }
+        }); */
+	});
+	
+	
+    var table=$('#mainContent').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "fileName"}, 
+		            { "data": "fileType"},
+		            { "data": "fileDate"},
+		            { "data": "fileKeywords"},
+		            { "data": "fileUser"},
+		            { "data": "fileUrl"}
+		        ],
+		        "columnDefs": [
+									{
+									"class": "tcenter",
+									"targets": 5,
+									"searchable": false,
+									"render": function(data, type, full) {
+										    	return  '<a href="'+data+'" download="'+data+'"><i class="iconfont icon-xiazai Pfac" style="font-size:20px;cursor:pointer;margin-left:5px;" title="下载" onclick="javascript:;"></i></a>'
+														+'<i class="iconfont icon-shanchu Pfad" style="font-size:20px;cursor:pointer;margin-left:5px;" title="删除" onclick="deleteFile(this)"></i>';
+										        }
+									},
+								],
+		"fnDrawCallback" : function() {},
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    
+    
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/otherFile/showFileList',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }	
+
+	
+	function removeFile(obj){
+  		var tr=$(obj).parents("tr");
+  		$(tr).remove();
+  	}
+	
+	
+	
+	function getLocalPath(){
+		var pathArray = window.location.pathname.split('/');
+		var secondLevelLocation = pathArray[1];
+		var loginUrl = window.location.protocol + "//"  + window.location.host ;
+		return loginUrl;
+	}
+				
+	 function showMask() {
+	    	myTool.mask.show('查询中...');
+	 }
+	 function hidMask() {
+	 	myTool.mask.hide();
+	 }
+	 
+	 //显示上传用户
+	 function showUserName(){
+			/* var dom=$(obj).parents("tr");
+			var data=$("#mainContent").DataTable().row(dom).data();
+			
+		 	$(#"fileUser").val(); */
+	 }
+	 function saveOtherFile(){
+		 var fileName=$("#fileName").val();
+		 var fileKeywords=$("#fileKeywords").val();
+		 var fileType=$("#fileType").val();
+		 var fileDate=$("#fileDate").val();
+		 var fileUrl=$("#fileUrl").val();
+		 if(fileUrl==''){
+			toastr.error("请选择上传文件");
+			return;
+		 }
+		 var OtherFile={
+				 fileId:null,
+			     fileName:undefined,
+			     fileKeywords:undefined,
+			     fileType:undefined,
+			     fileDate:undefined,
+			     fileUser:undefined,
+			     fileUrl:undefined
+		 }
+		 OtherFile.fileId=null;
+		 OtherFile.fileName=fileName;
+		 OtherFile.fileKeywords=fileKeywords;
+		 OtherFile.fileType=fileType;
+		 OtherFile.fileDate=fileDate;
+		 OtherFile.fileUser;
+		 OtherFile.fileUrl=fileUrl;
+		 var formData = new FormData();
+		 formData.append("fileJson", JSON.stringify(OtherFile));
+		 formData.append("file",$("#fileUrl")[0].files[0]);
+		 $.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/otherFile/addFileUpload',
+	            data: formData,  
+	            cache: false,
+	            processData: false,
+	            contentType: false,
+	            async: false,
+		        success: function (json) {
+	        		var result=json.result;
+	        		if(result>0){
+	        			var OtherFile=json.OtherFile;
+	        			toastr.success('保存成功');
+	        			var otherFileUrl = json.otherFileUrl;
+	        			OtherFile.fileUrl = otherFileUrl;
+	        			$('#mainContent').DataTable().row.add(OtherFile).draw(false);
+	        			$("#myModal").modal("hide");
+	        		}else if(result==-2){
+	        			toastr.error('请先刷新页面后登陆');
+	        		}else{
+	        			toastr.error('保存失败');
+	        		}
+		        }
+		    });
+		
+	 }
+	 
+	 
+		function deleteFile(obj){
+			var dom=$(obj).parents("tr");
+			var data=$("#mainContent").DataTable().row(dom).data();
+			$.SmartMessageBox({
+	            title: "删除提示",
+	            content: "确认删除？",
+	            buttons: '[取消][确定]'
+	        }, function (ButtonPressed) {
+	        	if (ButtonPressed === "确定") {
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/otherFile/deleteFile',
+	                    dataType: 'json',
+	                    data: {
+	                    	fileId:data.fileId
+	                    },
+	                    success: function (json) {
+	                        if(json>0){
+	                        	toastr.success('删除成功');
+	                        	$("#mainContent").DataTable().row(dom).remove().draw(false);//删除行立即显示
+			
+	                        }else{
+	                        	toastr.error('删除失败');
+	                        }
+	                    }
+	                });
+	        	}
+	        });
+		}
+		
+	 
+</script>
+</html>
