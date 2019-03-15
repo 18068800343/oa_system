@@ -129,28 +129,34 @@ public class OperationTargetController {
 				JSONObject jsonObject=JSONObject.fromObject(resultGs);
 				OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
 				OperationTarget ot2=oservice.selectOperationTargetByYear(i+"");
+				OperationTarget new_ot=new OperationTarget();
+				
 				if(ot2!=null){
-					ot.setOtId(ot2.getOtId());
-					ot.setYear(ot2.getYear());
-					ot.setContractAmount(ot2.getContractAmount());
-					ot.setRevenueTarget(ot2.getRevenueTarget());
-					ot.setCollectionTarget(ot2.getCollectionTarget());
-					ot.setProfit(ot2.getProfit());
+					new_ot.setOtId(ot2.getOtId());
+					new_ot.setYear(ot2.getYear());
+					new_ot.setContractAmount(ot2.getContractAmount());
+					new_ot.setRevenueTarget(ot2.getRevenueTarget());
+					new_ot.setCollectionTarget(ot2.getCollectionTarget());
+					new_ot.setProfit(ot2.getProfit());
 				}else{
-					ot.setOtId("");
-					ot.setYear(i+"");
-					ot.setContractAmount(0);
-					ot.setRevenueTarget(0);
-					ot.setCollectionTarget(0);
-					ot.setProfit(0);
+					new_ot.setOtId("");
+					new_ot.setYear(i+"");
+					new_ot.setContractAmount(0);
+					new_ot.setRevenueTarget(0);
+					new_ot.setCollectionTarget(0);
+					new_ot.setProfit(0);
 				}
-				ot.setXqhte(ot.getXqhte()/10000);
-				ot.setSr(ot.getSr()/10000);
-				ot.setSk(ot.getSk()/10000);
-				ot.setZjcb(ot.getZjcb()/10000);
-				ot.setJjcb(ot.getJjcb()/10000);
-				ot.setLr(ot.getLr()/10000);
-				list.add(ot);
+				if(ot!=null){
+					new_ot.setXqhte(ot.getXqhte()/10000);
+					new_ot.setSr(ot.getSr()/10000);
+					new_ot.setSk(ot.getSk()/10000);
+					new_ot.setZjcb(ot.getZjcb()/10000);
+					new_ot.setJjcb(ot.getJjcb()/10000);
+					new_ot.setLr(ot.getLr()/10000);
+				}
+				if(new_ot!=null){
+					list.add(new_ot);
+				}
 			}
 		/*}*/
 		return list;

@@ -1284,7 +1284,7 @@
 								    "targets": 11,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return '  <i class="iconfont icon-xiugai Pdbcc" style="font-size:18px;cursor:pointer;display:none;" onclick="xiugaicPrj(this)" title="填报" id="ChangeRisk"></i>  <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" title="弃标" style="font-size:16px;cursor:pointer;" data-toggle="modal" data-target="#bidRejection2" id="huixianqibiao"></span> '
+								  	  		return '  <i class="iconfont icon-xiugai Pdbcc" style="font-size:18px;cursor:pointer;display:none;" onclick="xiugaicPrj(this)" title="填报" id="ChangeRisk"></i>  <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" title="弃标" style="font-size:16px;cursor:pointer;" id="huixianqibiao"></span> '
 								  	  	/* <i class="iconfont icon-icon-test Pdbcb" style="font-size:18px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookRecord(this)"  id="lookDetall"></i>    */
 								    }
 								  },{	
@@ -3220,13 +3220,22 @@
 	}
 	
 	var qibiaoid;
+	var Q_dom;
+	var Q_data;
 	$('#mainContent').delegate('#huixianqibiao','click', function () {
-		var dom = $(this).parents('tr');
-		var data=$('#mainContent').DataTable().row(dom).data();
-		qibiaoid=data.orId;
-		$("#qibiaoyuanyin").val(data.isQibiao);
+		Q_dom = $(this).parents('tr');
+		Q_data=$('#mainContent').DataTable().row(Q_dom).data();
+		qibiaoid=Q_data.orId;
+		$("#qibiaoyuanyin").val(Q_data.isQibiao);
+		$("#bidRejection2").modal("show");
 	})
+	
 	function qibiao(){
+		var isQibiao=$("#qibiaoyuanyin").val();
+		if(isQibiao==''){
+			toastr.error("弃标原因为空")
+			return;
+		}
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/OpeningRecord/updateIsQibiao',
@@ -3236,8 +3245,9 @@
             	isQibiao:$("#qibiaoyuanyin").val()
             },
             success: function (json) {
-            	console.log(json)
-            	$("#bidRejection2").modal("hide")
+            	Q_data.isQibiao=isQibiao;
+            	$('#mainContent').DataTable().row(Q_dom).data(Q_data).draw(false);
+            	$("#bidRejection2").modal("hide");
             }
   		});
 		
