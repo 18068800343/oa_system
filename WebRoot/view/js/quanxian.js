@@ -874,6 +874,21 @@
 	$(".Pehxbc").hide();
 	//418	项目非工时管理修改 	Pehxbd+
 	$(".Pehxbd").hide();
+	//419	项目档案管理菜单栏	Pjax+
+	$(".Pjax").hide();
+	//420	项目档案新增归档	Pjaxa+
+	$(".Pjaxa").hide();
+	//421	项目档案归档提交	Pjaxb+
+	$(".Pjaxb").hide();
+	//422	其他文件资料管理菜单栏	Pjcx+
+	$(".Pjcx").hide();
+	//423	其他文件资料管理新增文件资料	Pjcxa+
+	$(".Pjcxa").hide();
+	//424	其他文件资料管理下载	Pjcxb+
+	$(".Pjcxb").hide();
+	//425	其他文件资料管理删除	Pjcxc+
+	$(".Pjcxc").hide();
+
 
 	
 	

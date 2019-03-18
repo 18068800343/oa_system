@@ -62,7 +62,7 @@
                
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="showUserName()">新增文件资料</button>
+                <button type="button" class="btn btn-primary Pjcxa" data-toggle="modal" data-target="#myModal" onclick="showUserName()">新增文件资料</button>
             </div>
 
         </div>
@@ -204,11 +204,40 @@
 									"targets": 5,
 									"searchable": false,
 									"render": function(data, type, full) {
-										    	return  '<a href="'+data+'" download="'+data+'"><i class="iconfont icon-xiazai Pfac" style="font-size:20px;cursor:pointer;margin-left:5px;" title="下载" onclick="javascript:;"></i></a>'
-														+'<i class="iconfont icon-shanchu Pfad" style="font-size:20px;cursor:pointer;margin-left:5px;" title="删除" onclick="deleteFile(this)"></i>';
+										    	return  '<a href="'+data+'" download="'+data+'"><i class="iconfont icon-xiazai Pjcxb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="下载" onclick="javascript:;"></i></a>'
+														+'<i class="iconfont icon-shanchu Pjcxc" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="删除" onclick="deleteFile(this)"></i>';
 										        }
 									},
 								],
+								"fnDrawCallback" : function() {
+									$.ajax({
+				                		type:"post",
+				                		url:getContextPath()+"/login/getUser",
+				                		async:false,
+				                		data:{
+				                		},
+				                		success:function(json){
+				                			
+				                			if(json!=null &&json!=""){
+				                				var arr = json.uPermissions.split(',');
+				                				
+				                				for(var i=0;i<arr.length;i++){
+				                					var arr2 = arr[i].replace("+","");
+				                					if(arr[i].indexOf("Pjcxb") >= 0 ){
+				                						$(".Pjcxb").show();
+				                					}
+				                					if(arr[i].indexOf("Pjcxc") >= 0 ){
+				                						$(".Pjcxc").show();
+				                					}
+				                					
+				                				}
+				                				
+				                			} 
+				                			
+				                		}
+				                	});
+									
+								},
 		"fnDrawCallback" : function() {},
         "order": [[1, 'asc']],
         "oLanguage": { //国际化配置
@@ -241,6 +270,32 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		async:false,
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					if(arr[i].indexOf("Pjcxb") >= 0 ){
+            						$(".Pjcxb").show();
+            					}
+            					if(arr[i].indexOf("Pjcxc") >= 0 ){
+            						$(".Pjcxc").show();
+            					}
+            					
+            				}
+            				
+            			} 
+            			
+            		}
+            	});
             }
         });
     }	
@@ -320,6 +375,8 @@
 	        			OtherFile.fileUrl = otherFileUrl;
 	        			$('#mainContent').DataTable().row.add(OtherFile).draw(false);
 	        			$("#myModal").modal("hide");
+    					$(".Pjcxb").show();
+    					$(".Pjcxc").show();
 	        		}else if(result==-2){
 	        			toastr.error('请先刷新页面后登陆');
 	        		}else{

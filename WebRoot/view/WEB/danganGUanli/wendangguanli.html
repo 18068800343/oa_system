@@ -62,7 +62,7 @@
                
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新增归档</button>
+                <button type="button" class="btn btn-primary Pjaxa" data-toggle="modal" data-target="#myModal">新增归档</button>
             </div>
 
         </div>
@@ -435,9 +435,9 @@
 									    "searchable": true,
 									    "render": function(data, type, full) {
 										    	if(data==0){
-										    		return '<button type="button" class="btn btn-danger"  onclick="look(this)">未归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary"  onclick="submitJY(this)">提交</button>'
+										    		return '<button type="button" class="btn btn-danger"  onclick="look(this)">未归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary Pjaxb" style="display:none;"  onclick="submitJY(this)">提交</button>'
 										    	}else if(data==1){
-										    		return '<button type="button" class="btn btn-info"  onclick="look(this)">部分归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary"  onclick="submitJY(this)">提交</button>'
+										    		return '<button type="button" class="btn btn-info"  onclick="look(this)">部分归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary Pjaxb" style="display:none;"  onclick="submitJY(this)">提交</button>'
 										    	}else if(data==2){
 										    		return '<button type="button" class="btn btn-primary"  onclick="lookJY(this)">已归档</button>'
 										    	}
@@ -449,9 +449,9 @@
 											    "searchable": true,
 											    "render": function(data, type, full) {
 											    	if(data==0){
-											    		return '<button type="button" class="btn btn-danger"  onclick="look2(this)">未归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary"  onclick="submitSC(this)">提交</button>'
+											    		return '<button type="button" class="btn btn-danger"  onclick="look2(this)">未归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary Pjaxb" style="display:none;"  onclick="submitSC(this)">提交</button>'
 											    	}else if(data==1){
-											    		return '<button type="button" class="btn btn-info"  onclick="look2(this)">部分归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary"  onclick="submitSC(this)">提交</button>'
+											    		return '<button type="button" class="btn btn-info"  onclick="look2(this)">部分归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary Pjaxb" style="display:none;"  onclick="submitSC(this)">提交</button>'
 											    	}else if(data==2){
 											    		return '<button type="button" class="btn btn-primary" onclick="lookQt(this)">已归档</button>'
 											    	}
@@ -459,6 +459,32 @@
 											     }
 											  },
 							],
+							"fnDrawCallback" : function() {
+								$.ajax({
+			                		type:"post",
+			                		url:getContextPath()+"/login/getUser",
+			                		async:false,
+			                		data:{
+			                		},
+			                		success:function(json){
+			                			
+			                			if(json!=null &&json!=""){
+			                				var arr = json.uPermissions.split(',');
+			                				
+			                				for(var i=0;i<arr.length;i++){
+			                					var arr2 = arr[i].replace("+","");
+			                					if(arr[i].indexOf("Pjaxb") >= 0 ){
+			                						$(".Pjaxb").show();
+			                					}
+			                					
+			                				}
+			                				
+			                			} 
+			                			
+			                		}
+			                	});
+								
+							},
 		"fnDrawCallback" : function() {},
         "order": [[1, 'asc']],
         "oLanguage": { //国际化配置
@@ -538,6 +564,29 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		async:false,
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					if(arr[i].indexOf("Pjaxb") >= 0 ){
+            						$(".Pjaxb").show();
+            					}
+            					
+            				}
+            				
+            			} 
+            			
+            		}
+            	});
             }
         });
     }
@@ -1205,6 +1254,7 @@
 	        			toastr.success('保存成功');
 	        			$('#mainContent').DataTable().row.add(pr).draw(false);
 	        			$("#myModal").modal("hide");
+	        			$(".Pjaxb").show();
 	        		}else{
 	        			toastr.error('保存失败');
 	        		}
