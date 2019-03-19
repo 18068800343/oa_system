@@ -53,9 +53,11 @@ public class CgContractServiceImpl implements CgContractService {
 		if(i>0){
 			String isProgram = cg.getIsProgram();
 			if(isProgram.equals("是")){	//当是否代购为是时，金额统计到付款申请代垫款中。
-				Pay pay=payDao.selectPayByNo(cg.getFbNo());
-				if(pay!=null){
-					i=payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
+				if(cg.getFbNo()!=null&&cg.getFbNo()!=""){
+					Pay pay=payDao.selectPayByNo(cg.getFbNo());
+					if(pay!=null){
+						i=payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
+					}
 				}
 			}
 			List<CgCl> cgcl = cg.getCgcl();
@@ -221,9 +223,11 @@ public class CgContractServiceImpl implements CgContractService {
 		if(i>0){
 			String isProgram = cg.getIsProgram();
 			if(isProgram.equals("是")){	//当是否代购为是时，金额统计到付款申请代垫款中。
-				Pay pay=payDao.selectPayByNo(cg.getFbNo());
-				if(pay!=null){
-					payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
+				if(cg.getFbNo()!=null&&cg.getFbNo()!=""){
+					Pay pay=payDao.selectPayByNo(cg.getFbNo());
+					if(pay!=null){
+						payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
+					}
 				}
 			}
 			List<Accessory> accessory=cg.getAccessory();
@@ -249,7 +253,16 @@ public class CgContractServiceImpl implements CgContractService {
 
 	@Override
 	public int updatePrjNameAndNoById(CgContract cg) {
-		return cgDao.updatePrjNameAndNoById(cg);
+		int i= cgDao.updatePrjNameAndNoById(cg);
+		if(i>0){
+			if(cg.getFbNo()!=null&&cg.getFbNo()!=""){
+				Pay pay=payDao.selectPayByNo(cg.getFbNo());
+				if(pay!=null){
+					payDao.updateGenerationAdvancesMoney(cg.getProgramMoney(),pay.getPayId());
+				}
+			}
+		}
+		return i;
 	}
 
 	@Override
