@@ -53,4 +53,5 @@ public interface SubContractService {
 	
 	public int updateFbNoById(String id,String no);
 
+	public FbContract selectFbContractShowByFbNo(@Param("no") String fbNo);
 }

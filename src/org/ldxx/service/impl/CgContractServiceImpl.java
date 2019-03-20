@@ -270,4 +270,20 @@ public class CgContractServiceImpl implements CgContractService {
 		return cgDao.updatecgNoById(id,cgNo2);
 	}
 
+	@Override
+	public CgContract selectCgContractShowByCgNo(String cgNo) {
+		CgContract cgc = cgDao.selectCgContractShowByCgNo(cgNo);
+		
+		List<Accessory> list = adao.selectAccessoryById(cgc.getCgId());
+		if(list!=null){
+			cgc.setAccessory(list);
+		}
+		List<CgCl> cgcl=cgclDao.selectCgClById(cgc.getCgId());
+		if(cgcl!=null&&cgcl.size()>0){
+			cgc.setCgcl(cgcl);
+		}
+		// TODO Auto-generated method stub
+		return cgc;
+	}
+
 }

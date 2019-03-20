@@ -52,4 +52,5 @@ public interface CgContractDao {
 
 	int updatecgNoById(@Param("id")String id,@Param("cgNo2") String cgNo2);
 
+	CgContract selectCgContractShowByCgNo(@Param("cgNo")String cgNo);
 }

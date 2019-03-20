@@ -172,4 +172,15 @@ public class SubContractServiceImpl implements SubContractService {
 		return scDao.updateFbNoById(id, no);
 	}
 
+	@Override
+	public FbContract selectFbContractShowByFbNo(String fbNo) {
+		FbContract fbc = scDao.selectFbContractShowByFbNo(fbNo);
+		//页面里有别人写的查询附件代码了。
+		//List<Accessory> list = adao.selectAccessoryById(fbc.getFbId());
+		//if(null!=list&&list.size()!=0){
+			//fbc.setAccessory(list);
+		//}
+		return fbc;
+	}
+
 }
