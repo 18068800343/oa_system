@@ -49,7 +49,15 @@ public class CjContract {
 	private List<CjDeptSplitMoney> cjDeptSplitMoney;//承接合同部门拆分金额
 	private List<Task> chaiFenXinXiArray;
 	private String jyms;//经营模式
+	private Double sm;//根据承接合同查出来的累计分包金额
 	
+	
+	public Double getSm() {
+		return sm;
+	}
+	public void setSm(Double sm) {
+		this.sm = sm;
+	}
 	public String getJyms() {
 		return jyms;
 	}

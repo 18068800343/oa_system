@@ -23,9 +23,9 @@ public class FbContract {
 
     private String cjContractName;//承接合同名称
 
-    private Float mainContractMoney;//主合同金额
+    private Double mainContractMoney;//主合同金额
 
-    private Float nowFbAllMoney;//已经累计分包金额
+    private Double nowFbAllMoney;//已经累计分包金额
 
     private String contractStartTime;//合同开始时间
 
@@ -37,11 +37,11 @@ public class FbContract {
 
     private String payMode;//付款方式
 
-    private Float contractMoney;//合同金额
+    private Double contractMoney;//合同金额
 
-    private Float temporaryMoney;//暂定金
+    private Double temporaryMoney;//暂定金
 
-    private Float performanceBond;//已收履约保证金
+    private Double performanceBond;//已收履约保证金
     
     private String workContent;//工作内容
     private String makeTime; //当前时间
@@ -55,8 +55,15 @@ public class FbContract {
     private List<Accessory> accessory;
     private List<Accessory> accessory1;//法律顾问签字
     
-    
-    
+    private String sm;
+
+    public String getSm() {
+		return sm;
+	}
+
+	public void setSm(String sm) {
+		this.sm = sm;
+	}
 
 	public String getRate() {
 		return rate;
@@ -124,11 +131,11 @@ public class FbContract {
 	}
 
 
-	public Float getPerformanceBond() {
+	public Double getPerformanceBond() {
 		return performanceBond;
 	}
 
-	public void setPerformanceBond(Float performanceBond) {
+	public void setPerformanceBond(Double performanceBond) {
 		this.performanceBond = performanceBond;
 	}
 
@@ -222,19 +229,19 @@ public class FbContract {
         this.cjContractName = cjContractName == null ? null : cjContractName.trim();
     }
 
-    public Float getMainContractMoney() {
+    public Double getMainContractMoney() {
         return mainContractMoney;
     }
 
-    public void setMainContractMoney(Float mainContractMoney) {
+    public void setMainContractMoney(Double mainContractMoney) {
         this.mainContractMoney = mainContractMoney;
     }
 
-    public Float getNowFbAllMoney() {
+    public Double getNowFbAllMoney() {
         return nowFbAllMoney;
     }
 
-    public void setNowFbAllMoney(Float nowFbAllMoney) {
+    public void setNowFbAllMoney(Double nowFbAllMoney) {
         this.nowFbAllMoney = nowFbAllMoney;
     }
 
@@ -278,19 +285,19 @@ public class FbContract {
         this.payMode = payMode == null ? null : payMode.trim();
     }
 
-    public Float getContractMoney() {
+    public Double getContractMoney() {
         return contractMoney;
     }
 
-    public void setContractMoney(Float contractMoney) {
+    public void setContractMoney(Double contractMoney) {
         this.contractMoney = contractMoney;
     }
 
-    public Float getTemporaryMoney() {
+    public Double getTemporaryMoney() {
         return temporaryMoney;
     }
 
-    public void setTemporaryMoney(Float temporaryMoney) {
+    public void setTemporaryMoney(Double temporaryMoney) {
         this.temporaryMoney = temporaryMoney;
     }
 

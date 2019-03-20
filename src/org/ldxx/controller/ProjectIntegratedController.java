@@ -135,7 +135,7 @@ public class ProjectIntegratedController {
 				for(int ii=0;ii<fb.size();ii++){
 					String fbName=fb.get(ii).getContractName();//分包合同名称
 					String fbNo=fb.get(ii).getFbNo();//分包合同编号
-					float fbMoney=fb.get(ii).getContractMoney();//分包合同金额
+					Double fbMoney=fb.get(ii).getContractMoney();//分包合同金额
 					FbContractOverWj fw=fService.getFbOverMoney(fbNo);
 					float fbOverMoney=0;
 					if(fw!=null){

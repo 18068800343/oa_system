@@ -135,7 +135,10 @@ public class SubContractController {
 			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
 			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
-			String omNo=om.getOmNo();
+			String omNo="";
+			if(null!=om){
+				omNo=om.getOmNo();
+			}
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();

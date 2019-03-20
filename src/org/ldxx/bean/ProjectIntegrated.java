@@ -26,7 +26,7 @@ public class ProjectIntegrated {
 	private double prjCost;//项目成本
 	private String prjPlan;//项目进度
 	private String fbName;//分包项目名称
-	private float fbContractMoney;//分包合同金额
+	private Double fbContractMoney;//分包合同金额
 	private float fbEndMoney;//分包结算金额
 	private String fbPlan;//分包进度
 	private float practicalFbPayMoney;//实际分包付款金额
@@ -134,10 +134,10 @@ public class ProjectIntegrated {
 	public void setPrjPlan(String prjPlan) {
 		this.prjPlan = prjPlan;
 	}
-	public float getFbContractMoney() {
+	public Double getFbContractMoney() {
 		return fbContractMoney;
 	}
-	public void setFbContractMoney(float fbContractMoney) {
+	public void setFbContractMoney(Double fbContractMoney) {
 		this.fbContractMoney = fbContractMoney;
 	}
 	public float getFbEndMoney() {

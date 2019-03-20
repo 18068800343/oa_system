@@ -603,7 +603,7 @@
     	
     	initSelect2();
     	initbumen();
-    	inityifang();
+    	
         laydate.render({
             elem: '#year' //指定元素
         });
@@ -946,11 +946,12 @@
 	
 	
 	//初始化乙方
-    function inityifang(){
+    function inityifang(dom){
 	    $.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/cooperator/selectCooperatorIdAndName',
 	        dataType: 'json',
+	        async:false,
 	        data: {
 	        },
 	        success: function (json) {
@@ -962,6 +963,7 @@
 		            $("#xgyifang").append( "<option value='" + json[i].ccId + "'>"
 		                    + json[i].ccName + "</option>")
 	        	}
+	        	 $("#xgyifang").val(dom).select2();
 	        	 $("#xgyifang").select2({
 	                 tags: true,
 	                 placeholder: '请搜索或选择语言',
@@ -1355,8 +1357,9 @@
 	        	$("#xghetongName").val(data.contractName)
 	    		$("#xgfbNo").val(data.fbNo);
 	    		$("#xgType").val(data.fbcType)
-	    		$("#xgjiafang").val(data.contractNameJia)
-	    		$("#xgyifang").val(data.contractNameYi).select2()
+	    		$("#xgjiafang").val(data.contractNameJia);
+	    		inityifang(data.contractNameYi);
+	    		
 	    		
 	    		$.ajax({
 	                 type: 'POST',
