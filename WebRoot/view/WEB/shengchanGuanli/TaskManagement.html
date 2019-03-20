@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <!-- <link rel="stylesheet" href="../../style/jquery-editable-select.css"> -->
     <link href="../../select/css/select2.min.css" rel="stylesheet">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         body{
             background: #fff;
@@ -930,7 +932,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal"  onclick="tijiaorenwudan2()">提交</button>
+                <button type="button" class="btn btn-success" onclick="tijiaorenwudan2()">提交</button>
             </div>
         </div>
     </div>
@@ -1193,7 +1195,8 @@
 <script src="../../js/datatables/buttons.flash.min.js" ></script>
 <script src="../../js/datatables/jszip.min.js"></script>
 <script src="../../js/jquery.cookie.js"></script>
-
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 <script src="../../select/js/select2.min.js"></script>
 <script>  
     $(document).ready( function () {
@@ -2820,7 +2823,7 @@
     	    xindanwei.shishebili = shishe;
     	    xindanwei.guanliMoney=guanliMoney;
     	    danwei.push(xindanwei);
-    		
+    	    showMask();
     	     $.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/task/addTask2',
@@ -2830,6 +2833,7 @@
 	            success: function (json) {
 	            	lianjie=json.url;
 	            	if(json.receiver!=null&&json.receiver.length>=1){
+	            		  hidMask();
 		            	  $("#tijiaogei").modal('show');
 		        		  $("#tijiaoren tbody").empty("");
 		        		  for(var i=0;i<json.receiver.length;i++){
@@ -2859,6 +2863,7 @@
 		        	          },
 		        	          success: function (json) {
 		        	        	  toastr.success('提交成功');
+		        	        	  hidMask();
 		        	          }
 		        	      }); 
 		        	  }
@@ -2872,7 +2877,12 @@
    		}
     	quxiao();
     }
-    
+	function showMask() {
+	   	myTool.mask.show('拉取审批负责人中...');
+	}
+	function hidMask() {
+		myTool.mask.hide();
+	}
   function tijiaorenwudan2(){
 	  var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
 	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
@@ -2881,6 +2891,10 @@
 	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
 	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
 	  //var uname=$("input[name='tijiaorenming']:checked").val();
+	  if(uname==""||uname==null){
+		  toastr.error("请选择审批人!")
+		  return;
+	  }
 	$.ajax({
           type: 'POST',
           url: getContextPath()+'/task/addTask4',
@@ -2895,6 +2909,7 @@
         	  dutyId:dutyid
           },
           success: function (json) {
+              $("#tijiaogei").modal("hide");
         	  toastr.success('提交成功');
           }
       });  
@@ -3634,16 +3649,16 @@
             	$("#look_guanliMoney").text(task.guanliMoney)
             	
             	$("#look_xieban_table tbody").html('');
-            	$("#look_xieban_table tbody").append("<tr><td>主办部门</td><td>"+task.omName+"</td><td>金额</td><td>"+task.mainDepartmentMoney+"</td><td>成本分摊比例</td><td>"+task.mainDepartmentCost+"</td><td>部门负责人</td><td>"+task.mainPrjLeaderName+"</td><td>部门工程师</td><td>"+task.mainEngineerName+"</td><td>其他管理人员</td><td>"+task.mainOtherName+"</td></tr>")
+            	$("#look_xieban_table tbody").append("<tr><td>主办部门</td><td>"+task.omName+"</td><td>金额</td><td>"+task.mainDepartmentMoney+"</td><td>成本分摊比例</td><td>"+task.mainDepartmentCost+"</td><td>项目负责人</td><td>"+task.mainPrjLeaderName+"</td><td>部门主任工程师</td><td>"+task.mainEngineerName+"</td><td>其他管理人员</td><td>"+task.mainOtherName+"</td></tr>")
             	
             	if(task.name1!=null&&task.name1!=''){
-            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name1+"</td><td>金额</td><td>"+task.assistDepartment1Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment1Cost+"</td><td>部门负责人</td><td>"+task.assist1PrjLeaderName+"</td><td>部门工程师</td><td>"+task.assist1EngineerName+"</td><td>其他管理人员</td><td>"+task.assist1OtherName+"</td></tr>")
+            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name1+"</td><td>金额</td><td>"+task.assistDepartment1Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment1Cost+"</td><td>项目负责人</td><td>"+task.assist1PrjLeaderName+"</td><td>部门主任工程师</td><td>"+task.assist1EngineerName+"</td><td>其他管理人员</td><td>"+task.assist1OtherName+"</td></tr>")
             	}
 				if(task.name2!=null&&task.name2!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name2+"</td><td>金额</td><td>"+task.assistDepartment2Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment2Cost+"</td><td>部门负责人</td><td>"+task.assist2PrjLeaderName+"</td><td>部门工程师</td><td>"+task.assist2EngineerName+"</td><td>其他管理人员</td><td>"+task.assist2OtherName+"</td></tr>")
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name2+"</td><td>金额</td><td>"+task.assistDepartment2Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment2Cost+"</td><td>项目负责人</td><td>"+task.assist2PrjLeaderName+"</td><td>部门主任工程师</td><td>"+task.assist2EngineerName+"</td><td>其他管理人员</td><td>"+task.assist2OtherName+"</td></tr>")
             	}
 				if(task.name3!=null&&task.name3!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name3+"</td><td>金额</td><td>"+task.assistDepartment3Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment3Cost+"</td><td>部门负责人</td><td>"+task.assist3PrjLeaderName+"</td><td>部门工程师</td><td>"+task.assist3EngineerName+"</td><td>其他管理人员</td><td>"+task.assist3OtherName+"</td></tr>")
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name3+"</td><td>金额</td><td>"+task.assistDepartment3Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment3Cost+"</td><td>项目负责人</td><td>"+task.assist3PrjLeaderName+"</td><td>部门主任工程师</td><td>"+task.assist3EngineerName+"</td><td>其他管理人员</td><td>"+task.assist3OtherName+"</td></tr>")
 				}
             	
             	$("#looklianxibiaoge tbody").empty("");
@@ -3701,16 +3716,16 @@
             	$("#look_guanliMoney").text(task.guanliMoney==null?"":task.guanliMoney)
             	
             	$("#look_xieban_table tbody").html('');
-            	$("#look_xieban_table tbody").append("<tr><td>主办部门</td><td>"+task.omName+"</td><td>金额</td><td>"+task.mainDepartmentMoney+"</td><td>成本分摊比例</td><td>"+task.mainDepartmentCost+"</td><td>部门负责人</td><td>"+task.mainPrjLeaderName+"</td><td>部门工程师</td><td>"+task.mainEngineerName+"</td><td>其他管理人员</td><td>"+task.mainOtherName+"</td></tr>")
+            	$("#look_xieban_table tbody").append("<tr><td>主办部门</td><td>"+task.omName+"</td><td>金额</td><td>"+task.mainDepartmentMoney+"</td><td>成本分摊比例</td><td>"+task.mainDepartmentCost+"</td><td>项目负责人</td><td>"+task.mainPrjLeaderName+"</td><td>部门主任工程师</td><td>"+task.mainEngineerName+"</td><td>其他管理人员</td><td>"+task.mainOtherName+"</td></tr>")
             	
             	if(task.name1!=null&&task.name1!=''){
-            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name1+"</td><td>金额</td><td>"+task.assistDepartment1Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment1Cost+"</td><td>部门负责人</td><td>"+task.assist1PrjLeaderName+"</td><td>部门工程师</td><td>"+task.assist1EngineerName+"</td><td>其他管理人员</td><td>"+task.assist1OtherName+"</td></tr>")
+            		$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name1+"</td><td>金额</td><td>"+task.assistDepartment1Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment1Cost+"</td><td>项目负责人</td><td>"+task.assist1PrjLeaderName+"</td><td>部门主任工程师</td><td>"+task.assist1EngineerName+"</td><td>其他管理人员</td><td>"+task.assist1OtherName+"</td></tr>")
             	}
 				if(task.name2!=null&&task.name2!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name2+"</td><td>金额</td><td>"+task.assistDepartment2Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment2Cost+"</td><td>部门负责人</td><td>"+task.assist2PrjLeaderName+"</td><td>部门工程师</td><td>"+task.assist2EngineerName+"</td><td>其他管理人员</td><td>"+task.assist2OtherName+"</td></tr>")
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name2+"</td><td>金额</td><td>"+task.assistDepartment2Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment2Cost+"</td><td>项目负责人</td><td>"+task.assist2PrjLeaderName+"</td><td>部门主任工程师</td><td>"+task.assist2EngineerName+"</td><td>其他管理人员</td><td>"+task.assist2OtherName+"</td></tr>")
             	}
 				if(task.name3!=null&&task.name3!=''){
-					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name3+"</td><td>金额</td><td>"+task.assistDepartment3Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment3Cost+"</td><td>部门负责人</td><td>"+task.assist3PrjLeaderName+"</td><td>部门工程师</td><td>"+task.assist3EngineerName+"</td><td>其他管理人员</td><td>"+task.assist3OtherName+"</td></tr>")
+					$("#look_xieban_table tbody").append("<tr><td>协办部门</td><td>"+task.name3+"</td><td>金额</td><td>"+task.assistDepartment3Money+"</td><td>成本分摊比例</td><td>"+task.assistDepartment3Cost+"</td><td>项目负责人</td><td>"+task.assist3PrjLeaderName+"</td><td>部门主任工程师</td><td>"+task.assist3EngineerName+"</td><td>其他管理人员</td><td>"+task.assist3OtherName+"</td></tr>")
 				}
             	
             	$("#looklianxibiaoge tbody").empty("");
