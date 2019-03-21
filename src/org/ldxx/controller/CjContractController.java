@@ -708,12 +708,16 @@ public class CjContractController {
 		if(i>0){
 			CjContract cj=service.selectCjContractById(id);
 			String cjNo=cj.getContractNo();
+			String prjType=cj.getPrjType();
 			if(cjNo==null||cjNo.equals("")){
 				TimeUUID uuid=new TimeUUID();
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 				String year=sdf.format(new Date());
 				int count=service.countNo(year);
-				String code="CJ"+uuid.getPrjCode("", count+1);
+				if(null!=prjType&&!"".equals(prjType)){
+					prjType = prjType.charAt(0)+"";
+				}
+				String code="HT"+uuid.getPrjCode("", count+1)+prjType;
 				i=service.updateCjNoById(code, id);
 			}
 		}
