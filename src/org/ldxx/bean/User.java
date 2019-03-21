@@ -71,6 +71,7 @@ public class User {
     
     private String userRoleNames;
     
+    private String rtx;
     
     private List<Accessory> accessory;
 
@@ -82,6 +83,14 @@ public class User {
 
 	public void setFlowOmNo(String flowOmNo) {
 		this.flowOmNo = flowOmNo;
+	}
+
+	public String getRtx() {
+		return rtx;
+	}
+
+	public void setRtx(String rtx) {
+		this.rtx = rtx;
 	}
 
 	public List<Accessory> getAccessory() {
