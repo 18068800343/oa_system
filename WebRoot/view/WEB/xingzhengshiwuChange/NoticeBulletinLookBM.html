@@ -26,6 +26,9 @@
         #mainContent th{
             cursor: pointer;
         }
+        #edit_container{
+            height:100%;
+        }
     </style>
 </head>
 <body>
@@ -327,10 +330,11 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>内容  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td colspan="3">
-                                    <textarea style="width:100%;" rows="4" id="edit_info_this"></textarea>
-                                </td>
+                              		<td>内容  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+			                                <td colspan="3" style="height:100%">
+			                                    <textarea id="edit_container" name="edit_content" style="width:100%;height:100%" rows="4" class="form-control" ></textarea>
+			                                    <input id='edit_desc' type='hidden'  />
+			                        </td>
                             </tr>
                             <tr>
                                 <td>附件</td>
@@ -360,6 +364,17 @@
 <script src="../../js/quanxian.js"></script>
 <script type="text/javascript" src="../../kindeditor/kindeditor-all.js" ></script>
 <script type="text/javascript" src="../../kindeditor/lang/zh-CN.js" ></script>
+<script type="text/javascript" charset="utf-8" src="../../ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../ueditor/ueditor.all.min.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="../../ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+       /*  var ue = UE.getEditor('container'); */
+        var ue2 = UE.getEditor('edit_container');
+        /* var ue3=UE.getEditor('look_contrainer');
+        var ue4=UE.getEditor('look_contrainer'); */
+    </script> 
 <script>
     $(document).ready( function () {
     	$('#editable-select').editableSelect({ 
@@ -724,10 +739,9 @@
 		
 		//var info=$("#info_all").val();
 		// 将编辑器的HTML数据同步到textarea
-		editor.sync();
-		var info = $('#info_all').val(); // jQuery
+	 	var aDesc =UE.getEditor('edit_container').getContent()
 		
-		var department=$("#fabubumen").val();
+		var aDepartment=$("#fabubumen").val();
 		if(title==''){
 			toastr.error("标题不能为空");
 			return;
@@ -1490,30 +1504,12 @@
 				$("#edit_importance_this").val(data.aImportance);
 				$("#edit_department_this").val(data.aDepartment);
 				$("#edit_isuser_this").val(data.issuer);
+				$("#edit_desc").val(data.aDesc);
+				ue2.ready(function(){
+					ue2.setContent($("#edit_desc").val());
+				});
 				//initUser3(data.issuer);
 				//$("#edit_info_this").val(data.aDesc);
-				KindEditor.ready(function(K) {
-		            window.editor2 = K.create('#edit_info_this',{
-		                items : [
-								'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
-								'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
-								'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-								'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
-								'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-								'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', /* 'image', 'multiimage', */
-								'flash', 'media', /* 'insertfile', */ 'table', 'hr', 'emoticons', /* 'baidumap', */ 'pagebreak',
-								'anchor', 'link', 'unlink', '|', 'about'
-		                ],
-		                allowFileManager:true,
-		                afterBlur:function(){this.sync();}
-		            });
-		         // 取得HTML内容
-		            html = editor2.html();
-		            // 同步数据后可以直接取得textarea的value
-		            editor2.sync();
-		            // 设置HTML内容
-		            editor2.html(data.aDesc);
-		        });
 				$.ajax({
 					type: 'POST',
 		            url: getContextPath()+'/announcement/selectAccessoryById',
