@@ -717,7 +717,7 @@ public class CjContractController {
 				if(null!=prjType&&!"".equals(prjType)){
 					prjType = prjType.charAt(0)+"";
 				}
-				String code="HT"+uuid.getPrjCode("", count+1)+prjType;
+				String code="CJ"+uuid.getPrjCode("", count+1)+prjType;
 				i=service.updateCjNoById(code, id);
 			}
 		}
