@@ -38,6 +38,7 @@ import org.ldxx.service.CjContractService;
 import org.ldxx.service.EnterpriseService;
 import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
+import org.ldxx.util.SendSms;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -328,6 +329,12 @@ public class TaskController {
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject = flowUtill.submitFlow(currentFlow, flowHistroy, userId, uName);
+			SendSms ss=new SendSms();
+			CurrentFlowExample example=new CurrentFlowExample();
+			example.createCriteria().andUrlEqualTo(url);
+			List<CurrentFlow> cf =currentFlowMapper.selectByExample(example);
+			User u=userDao.selectUserById(userId);
+			ss.sendMessage(u.getRtx(), "审批通知", cf.get(0).getTitle(), "0", "0");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return jsonObject;
