@@ -26,6 +26,9 @@
         #mainContent th{
             cursor: pointer;
         }
+        #edit_container,#look_contrainer,#containerbm,#xg_container,#look_contrainerbm{
+            height:100%;
+        }
        /*  @media screen and (max-width: 1600px) {
 		    #change_all {
 		        margin-bottom:150px !important;
@@ -213,8 +216,8 @@
 			                            </tr>
 			                            <tr>
 			                                <td>内容  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-			                                <td colspan="3">
-			                                    <textarea id="edit_container" name="edit_content" style="width:100%;" rows="4" class="form-control" ></textarea>
+			                                <td colspan="3" style="height:100%">
+			                                    <textarea id="edit_container" name="edit_content" style="width:100%;height:100%" rows="4" class="form-control" ></textarea>
 			                                    <input id='edit_desc' type='hidden'  />
 			                                </td>
 			                            </tr>
@@ -446,8 +449,8 @@
                             <tr>
                                 <td>内容  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td colspan="3">
-                                    <textarea style="width:100%;" rows="4" id="new_this_info"></textarea>
-                                </td>
+				                       <textarea style="width:100%;" rows="4" class="form-control" id="containerbm"></textarea>
+				                 </td>
                             </tr>
                             
                         </table>
@@ -525,9 +528,10 @@
                             </tr>
                             <tr>
                                 <td>内容  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-                                <td colspan="3">
-                                    <textarea style="width:100%;" rows="4" id="edit_info_this"></textarea>
-                                </td>
+                                 <td colspan="3">
+				                       <textarea style="width:100%;" rows="4" class="form-control" id="xg_container"></textarea>
+				                        <input id='xg_desc' type='hidden'  />
+				                 </td>
                             </tr>
                             
                         </table>
@@ -560,6 +564,8 @@
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel"><b>查看部门通知公告</b></h4>
+            <table>
+            </table>
         </div>
         <div class="modal-body">
                 <div>     
@@ -577,16 +583,18 @@
                                 <td>发布部门</td>
                                 <td id="look_this_department"></td>
                             </tr>
-                            <tr>
+                            <tr>	
                                 <td>发布人  </td>
                                 <td id="look_this_isuser"></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td colspan="4" >
-                                	<textarea style="width:100%;height:400px;" id="look_this_info"></textarea>
-                                </td>
+                            <td>内容</td>
+                                 <td colspan="3">
+                                 <input id='look_desc2' type='hidden'  />
+				                       <textarea style="width:100%;" rows="4" class="form-control" id="look_contrainerbm"></textarea>
+				                 </td>
                             </tr>
                         </table>
                         <table class="table table-bordered table-condensed" id="look_table">
@@ -762,9 +770,12 @@
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
 <script type="text/javascript" charset="utf-8" src="../../ueditor/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
-        var ue = UE.getEditor('container');
         var ue2 = UE.getEditor('edit_container');
+        var ue = UE.getEditor('container');
         var ue3=UE.getEditor('look_contrainer');
+        var uebm=UE.getEditor('containerbm');
+        var uexg=UE.getEditor('xg_container');
+        var uelook=UE.getEditor('look_contrainerbm');
     </script> 
 <script>
     $(document).ready( function () {
@@ -2090,9 +2101,10 @@
 		
 		//var aDesc=$("#new_this_info").val();
 		// 同步数据后可以直接取得textarea的value
-		editor3.sync();
-		var aDesc = $('#new_this_info').val(); // jQuery
-		
+	/* 	editor3.sync(); */
+		/* var aDesc = $('#new_this_info').val(); // jQuery */
+		var aDesc=UE.getEditor('containerbm').getContent()
+		console.log(aDesc)
 		if(aTitle==''){
 			toastr.error("标题不能为空");
 			return;
@@ -2104,8 +2116,7 @@
 		if(aDesc==''){
 			toastr.error("内容不能为空");
 			return;
-		}
-		
+		} 		
 		var options={
 				type: 'POST',
 				url: getContextPath()+'/announcement/addAnnouncementByThisAndSave',
@@ -2127,9 +2138,9 @@
 	            		toastr.success("保存成功");
 	            	}
 	            }
-		}
+		} 
 		
-		$("#new_form_this").ajaxSubmit(options);
+	$("#new_form_this").ajaxSubmit(options); 
 	}
 	
 	
@@ -2141,8 +2152,9 @@
 		var aDepartment=$("#new_this_department").val();
 		//var aDesc=$("#new_this_info").val();
 		// 同步数据后可以直接取得textarea的value
-		editor.sync();
-		var aDesc = $('#new_this_info').val(); // jQuery
+	/* 	editor.sync();
+		var aDesc = $('#new_this_info').val(); // jQuery */
+		var aDesc=UE.getEditor('containerbm').getContent()
 		if(aTitle==''){
 			toastr.error("标题不能为空");
 			return;
@@ -2248,22 +2260,16 @@
 	    });
 		$("#look_this_isuser").text(data.issuer);
 		//$("#look_this_info").text(data.aDesc);
-		
-		try{
+		 $("#look_desc2").val(data.aDesc)
+	    uelook.ready(function(){
+	    	uelook.setContent($("#look_desc2").val());
+		    UE.getEditor('look_contrainerbm').setDisabled('fullscreen');
+		});
+		/* try{
         	 editor5.remove('#look_info_all');
          }catch{
         	 
-         }
-		
-		editor5 = new KindEditor.create('#look_this_info',{
-                items : [
-                ],
-                allowFileManager:true,
-                afterBlur:function(){},
-                readonlyMode : true,
-                html:data.aDesc
-            });
-   	        editor5.html(data.aDesc);
+         } */
 		
 		/* KindEditor.ready(function(K) {
             window.editor5 = K.create('#look_this_info',{
@@ -2324,35 +2330,15 @@
 		$("#edit_importance_this").val(data.aImportance);
 		$("#edit_department_this").val(data.aDepartment);
 		$("#edit_isuser_this").val(data.issuer);
+		/* $("#xg_container").val(data.issuer); */
+     
 		//initUser3(data.issuer);
 		//$("#edit_info_this").val(data.aDesc);
-		 KindEditor.ready(function(K) {
-			 	try{
-					window.editor2.remove('#edit_info_this');
-		        }catch{
-		       	 
-		        }
-	            window.editor2 = K.create('#edit_info_this',{
-	                items : [
-							'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
-							'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
-							'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-							'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
-							'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-							'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', /* 'image', 'multiimage', */
-							'flash', 'media', /* 'insertfile', */ 'table', 'hr', 'emoticons', /* 'baidumap', */ 'pagebreak',
-							'anchor', 'link', 'unlink', '|', 'about'
-	                ],
-	                allowFileManager:true,
-	                afterBlur:function(){this.sync();}
-	            });
-	         // 取得HTML内容
-	            html = editor2.html();
-	            // 同步数据后可以直接取得textarea的value
-	            editor2.sync();
-	            // 设置HTML内容
-	            editor2.html(data.aDesc);
-	        });
+		$("#xg_desc").val(data.aDesc)
+		uexg.ready(function(){
+			uexg.setContent($("#xg_desc").val());
+		});
+
 		 
 		id_this=data.aId;
 		$.ajax({
@@ -2479,9 +2465,10 @@
 		var aDepartment=$("#edit_department_this").val();
 		//var aDesc=$("#edit_info_this").val();
 		// 同步数据后可以直接取得textarea的value
-		editor.sync();
-		var aDesc = $('#edit_info_this').val(); // jQuery
-		
+	/* 	editor.sync();
+		var aDesc = $('#edit_info_this').val(); // jQuery */
+		var aDesc=UE.getEditor('xg_container').getContent()
+		 
 		var issuer=$("#edit_isuser_this").val();
 		if(aTitle==''){
 			toastr.error("标题不能为空");
