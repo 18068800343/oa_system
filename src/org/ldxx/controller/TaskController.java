@@ -329,12 +329,12 @@ public class TaskController {
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject = flowUtill.submitFlow(currentFlow, flowHistroy, userId, uName);
-			SendSms ss=new SendSms();
+			/*SendSms ss=new SendSms();
 			CurrentFlowExample example=new CurrentFlowExample();
 			example.createCriteria().andUrlEqualTo(url);
 			List<CurrentFlow> cf =currentFlowMapper.selectByExample(example);
 			User u=userDao.selectUserById(userId);
-			ss.sendMessage(u.getRtx(), "审批通知", cf.get(0).getTitle(), "0", "0");
+			ss.sendMessage(u.getRtx(), "审批通知", cf.get(0).getTitle(), "0", "0");*/
 		} catch (Exception e) {
 			e.printStackTrace();
 			return jsonObject;
