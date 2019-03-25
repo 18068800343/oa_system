@@ -258,7 +258,7 @@ public class ImportData {
 								wxCost="0";
 							}
 							wxCost=wxCost.replace(",", "").replace("，", "");
-							if(!name.equals("")&&type.equals("借")){
+							if(!name.equals("")/*&&type.equals("借")*/){
 								TimeUUID uuid=new TimeUUID();
 								String id=uuid.getTimeUUID();
 								wx.setWxId(id);
