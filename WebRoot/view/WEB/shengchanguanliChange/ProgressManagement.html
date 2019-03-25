@@ -127,6 +127,16 @@
 	                                <td>本期收入（元）  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 	                                <td><input type="text" class="form-control" style="width:70%;" id="this_time_money_yuan" disabled></td>
 	                            </tr>
+	                           <tr>
+		                            <td class="shuziyanse">税率</td>
+		                            <td>
+		                            	<input type="text" class="form-control" style="width:60%;" id="new_rate" onchange="getRateMoney(this)">
+		                            </td>
+		                            <td style="width:20%;" class="jinqianyanse">税金</td>
+		                            <td style="width:30%;">
+		                            	<input type="text" class="form-control" style="width:70%;" id="new_rate_money" disabled>
+		                            </td>
+		                        </tr>
                             </tbody>                     
                         </table>
                         
@@ -1616,6 +1626,8 @@
     	var contract_income=$("#contract_income").val();
     	/* var this_time_money=$("#this_time_money").val(); */
     	var this_time_money_yuan=$("#this_time_money_yuan").val();
+    	var rate=$("#new_rate").val();
+    	var rateMoney=$("#new_rate_money").val();
     	
     	var PrjProgressFill={
     			ppfId:undefined,
@@ -1641,7 +1653,9 @@
     			prjThisIncomeYuan:0,
     			ppfi:undefined,
     			/* ppcj:undefined, */
-    			ppfb:undefined
+    			ppfb:undefined,
+    			rate:0,
+    			rateMoney:0
     	}
     	
     	PrjProgressFill.prjName=prj_name;
@@ -1664,6 +1678,8 @@
     	PrjProgressFill.fristDesign=chubu;
     	PrjProgressFill.secondDesign=shigongtu;
     	PrjProgressFill.ppfId=id;
+    	PrjProgressFill.rate=rate;
+    	PrjProgressFill.rateMoney=rateMoney;
     	var ppfiArray=new Array();
     	var ppfbArray=new Array();
     	
@@ -1998,6 +2014,8 @@
             	$("#contract_income").val(json.contractIncome);
             	$("#all_money_yuan").val(json.allMoneyYuan);
             	$("#this_time_money_yuan").val(json.prjThisIncomeYuan);
+            	$("#new_rate").val(json.rate);
+            	$("#new_rate_money").val(json.rateMoney);
             	
             	$("#new_accessory tbody").html('');
             	for(var i=0;i<accessory.length;i++){
@@ -2252,6 +2270,18 @@
     	var aa=$(this).val();
     	$("#b4_span2_1").text(aa+"%");
     })
+    
+    function getRateMoney(obj){
+    	var rate=$(obj).val();
+    	var all_money_yuan=$("#all_money_yuan").val();
+    	if(all_money_yuan==''||all_money_yuan==null){
+    		toastr.error('累计收入为空');
+    		$(obj).val('');
+    		return;
+    	}
+    	var sum=rate*all_money_yuan;
+    	$("#new_rate_money").val(sum);
+    }
     
 </script>
 </html>
