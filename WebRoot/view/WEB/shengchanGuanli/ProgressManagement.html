@@ -170,6 +170,16 @@
 				                            	<!-- <td>本期收入（%）  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 				                                <td><input type="text" class="form-control" style="width:60%;" id="this_time_money" disabled></td> -->
 				                            </tr>
+				                            <tr>
+					                            <td class="shuziyanse">税率</td>
+					                            <td>
+					                            	<input type="text" class="form-control" style="width:60%;" id="new_rate" onchange="getRateMoney(this)">
+					                            </td>
+					                            <td style="width:20%;" class="jinqianyanse">税金</td>
+					                            <td style="width:30%;">
+					                            	<input type="text" class="form-control" style="width:70%;" id="new_rate_money" disabled>
+					                            </td>
+					                        </tr>
 			                            </tbody>                     
 			                        </table>
 			                        
@@ -919,6 +929,12 @@
 	                            <td id="look_all_money_yuan"></td>
 	                            <td style="width:20%;" class="shuziyanse">合同进度（%）</td>
 	                            <td style="width:30%;" id="look_contract_income"></td>
+	                        </tr>
+	                        <tr>
+	                            <td class="jinqianyanse">税率</td>
+	                            <td id="look_rate"></td>
+	                            <td style="width:20%;" class="shuziyanse">税金</td>
+	                            <td style="width:30%;" id="look_rate_money"></td>
 	                        </tr>
                     	</tbody>
                     </table>
@@ -2572,6 +2588,8 @@
     	var all_money_yuan=$("#all_money_yuan").val();
     	var contract_income=$("#contract_income").val();
     	var this_time_money_yuan=$("#this_time_money_yuan").val();
+    	var rate=$("#new_rate").val();
+    	var rateMoney=$("#new_rate_money").val();
     	
     	var PrjProgressFill={
     			ppfId:undefined,
@@ -2595,7 +2613,9 @@
     			allMoneyYuan:0,
     			prjThisIncomeYuan:0,
     			ppfi:undefined,
-    			ppfb:undefined
+    			ppfb:undefined,
+    			rate:0,
+    			rateMoney:0
     	}
     	
     	PrjProgressFill.prjName=prj_name;
@@ -2617,6 +2637,8 @@
     	PrjProgressFill.ygDesign=yugongke;
     	PrjProgressFill.fristDesign=chubu;
     	PrjProgressFill.secondDesign=shigongtu;
+    	PrjProgressFill.rate=rate;
+    	PrjProgressFill.rateMoney=rateMoney;
     	
     	var ppfiArray=new Array();
     	var ppfbArray=new Array();
@@ -2751,6 +2773,8 @@
     	var contract_income=$("#contract_income").val();
     	/* var this_time_money=$("#this_time_money").val(); */
     	var this_time_money_yuan=$("#this_time_money_yuan").val();
+    	var rate=$("#new_rate").val();
+    	var rateMoney=$("#new_rate_money").val();
     	
     	var PrjProgressFill={
     			ppfId:undefined,
@@ -2776,7 +2800,9 @@
     			prjThisIncomeYuan:0,
     			ppfi:undefined,
     			/* ppcj:undefined, */
-    			ppfb:undefined
+    			ppfb:undefined,
+    			rate:0,
+    			rateMoney:0
     	}
     	
     	PrjProgressFill.prjName=prj_name;
@@ -2798,6 +2824,8 @@
     	PrjProgressFill.ygDesign=yugongke;
     	PrjProgressFill.fristDesign=chubu;
     	PrjProgressFill.secondDesign=shigongtu;
+    	PrjProgressFill.rate=rate;
+    	PrjProgressFill.rateMoney=rateMoney;
     	
     	var ppfiArray=new Array();
     	/* var ppfiArray2=new Array(); */
@@ -3569,5 +3597,17 @@
 		var loginUrl = window.location.protocol + "//"  + window.location.host ;
 		return loginUrl;
 	}
+    
+    function getRateMoney(obj){
+    	var rate=$(obj).val();
+    	var all_money_yuan=$("#all_money_yuan").val();
+    	if(all_money_yuan==''||all_money_yuan==null){
+    		toastr.error('累计收入为空');
+    		$(obj).val('');
+    		return;
+    	}
+    	var sum=rate*all_money_yuan;
+    	$("#new_rate_money").val(sum);
+    }
 </script>
 </html>

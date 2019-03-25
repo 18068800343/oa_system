@@ -33,6 +33,8 @@ public class PrjProgressFill {
 	private String ygDesign;//预工可设计
 	private String fristDesign;//初步设计
 	private String secondDesign;//施工图设计
+	private double rate;//税率
+	private double rateMoney;//税金
 	
 	private double totalCost;//财务累计成本
 	
@@ -48,7 +50,18 @@ public class PrjProgressFill {
 	private List<Accessory> accessory;
 	private CjContract cj;
 	
-	
+	public double getRate() {
+		return rate;
+	}
+	public void setRate(double rate) {
+		this.rate = rate;
+	}
+	public double getRateMoney() {
+		return rateMoney;
+	}
+	public void setRateMoney(double rateMoney) {
+		this.rateMoney = rateMoney;
+	}
 	public CjContract getCj() {
 		return cj;
 	}
