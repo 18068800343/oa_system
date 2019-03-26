@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.SubContractDao2" >
+	<select id="selectSubContract" resultType="org.ldxx.bean.FbCgContract">
+		select f.*,o.om_name,c.cc_name from fb_cg_contract  f
+			left join mode_status m on m.mode_id=f.fb_id
+			left join organization_management o on o.om_id=f.main_manage_department
+			left join consociation_company c on c.cc_id=f.contract_name_yi
+			<where>
+				<if test="startMin!=''">
+					contract_start_time &gt;= #{startMin} and contract_start_time &lt;= #{startMax} and 
+				</if>
+				<if test="endMin!=''">
+					contract_end_time &gt;= #{endMin} and contract_end_time &lt;= #{endMax} and 
+				</if>
+				<if test="mainDp!='%'.toString()">
+					main_manage_department =#{mainDp} and 
+				</if>
+				<if test="spType!='%'.toString()">
+					rate_type = #{spType} and 
+				</if>
+				<if test="contractMoneyMin!=0">
+					contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and 
+				</if>
+				<if test="fbMoneyMin!=0">
+					now_fb_all_money &gt;=#{fbMoneyMin} and now_fb_all_money &lt;=#{fbMoneyMax} and 
+				</if>
+				<if test="zdMoneyMin!=0">
+					temporary_money &gt;=#{zdMoneyMin} and temporary_money &lt;= #{zdMoneyMax} and  
+				</if>
+				   m.status=#{status} and f.history=1
+			</where>
+	</select>
+	<insert id="saveSubContract" parameterType="org.ldxx.bean.FbCgContract">
+		insert into fb_cg_contract(fb_id,contract_name,fb_no,fbc_type,contract_name_jia,contract_name_yi,prj_name,work_no,cj_contract_name,
+			cj_contract_code,main_contract_money,now_fb_all_money,contract_start_time,contract_end_time,main_manage_department,contract_long_time,
+			pay_mode,contract_money,temporary_money,performance_bond,work_content,make_time,history,rate_type)
+			values(#{fbContract.fbId},
+				#{fbContract.contractName},
+				#{fbContract.fbNo},
+				#{fbContract.fbcType},
+				#{fbContract.contractNameJia},
+				#{fbContract.contractNameYi},
+				#{fbContract.prjName},
+				#{fbContract.workNo},
+				#{fbContract.cjContractName},
+				#{fbContract.cjContractCode},
+				#{fbContract.mainContractMoney},
+				#{fbContract.nowFbAllMoney},
+				#{fbContract.contractStartTime},
+				#{fbContract.contractEndTime},
+				#{fbContract.mainManageDepartment},
+				#{fbContract.contractLongTime},
+				#{fbContract.payMode},
+				#{fbContract.contractMoney},
+				#{fbContract.temporaryMoney},
+				#{fbContract.performanceBond},
+				#{fbContract.workContent},
+				now(),1,#{fbContract.rateType})
+	</insert>
+	<delete id="deleteSubContractById" parameterType="String">
+		delete from fb_cg_contract where fb_id=#{id}
+	</delete>
+	<select id="selectSubContractById" parameterType="String" resultType="org.ldxx.bean.FbCgContract">
+		select f.*,o.om_name,j.contract_name,c.cc_name,fba.acjc,fba.sm from fb_cg_contract f
+			left join organization_management o on o.om_id=f.main_manage_department
+			left join cj_contract j on j.contract_no = f.cj_contract_code
+			left join (select sum(contract_money) sm,cj_contract_code acjc from fb_cg_contract fb LEFT JOIN mode_status ms on fb.fb_id = ms.mode_id where ms.status in("1","2") and   fb.history=1 GROUP BY cj_contract_code) fba on fba.acjc = j.contract_no
+			left join consociation_company c on c.cc_id=f.contract_name_yi
+		where fb_id=#{id}
+	</select>
+	<select id="selectsubcontractHistory" parameterType="String" resultType="org.ldxx.bean.FbCgContract">
+		select f.*,c.cc_name,o.om_name from fb_cg_contract f
+			left join consociation_company c on c.cc_id=f.contract_name_yi
+			left join organization_management o on o.om_id=f.main_manage_department
+		 where fb_no=#{fbNo} and history=0
+	</select>
+	<select id="fbNocount" resultType="int">
+		select count(1) from (select distinct fb_no from fb_cg_contract where fb_no like #{year}) as a
+	</select>
+	
+	<select id="getFBNameAndNo" resultType="org.ldxx.bean.FbCgContract">
+		select f.fb_id,f.contract_name,f.fb_no,f.contract_name_yi,c.cc_name,f.contract_start_time,f.contract_end_time,
+			contract_money,temporary_money,cj_contract_code,cj_contract_name,work_no from fb_cg_contract f
+			left join mode_status m on m.mode_id=f.fb_id
+			left join consociation_company c on c.cc_id=f.contract_name_yi
+		where m.status=2 and f.history=1
+	</select>
+	<select id="getFBNameAndNo2" resultType="org.ldxx.bean.FbCgContract">
+		select f.fb_id,f.contract_name,f.fb_no,f.contract_money from fb_cg_contract f
+			left join mode_status m on m.mode_id=f.fb_id
+		where m.status=2 and f.history=1
+	</select>
+	<select id="getFBNameByNo" resultType="org.ldxx.bean.FbCgContract">
+		select f.fb_id,f.contract_name,f.contract_name_yi,c.cc_name,contract_money,
+		temporary_money,work_no,cj_contract_code,cj_contract_name from fb_cg_contract f
+		left join consociation_company c on c.cc_id=f.contract_name_yi
+		 where f.fb_no=#{fbNo} and f.history=1
+	</select>
+	<select id="getFBNoByName" resultType="org.ldxx.bean.FbCgContract">
+		select f.fb_no,f.contract_name_yi,c.cc_name from fb_cg_contract f 
+		left join consociation_company c on c.cc_id=f.contract_name_yi
+		where contract_name=#{contractName} and history=1
+	</select>
+	<select id="getFBContractByName" resultType="org.ldxx.bean.FbCgContract">
+		select fb_no,cj_contract_name,cj_contract_code,main_contract_money,prj_name,work_no,contract_money
+		from fb_cg_contract as a 
+		left join mode_status as b on a.fb_id=b.mode_id
+		where contract_name=#{contractName} and history=1 and b.status=2
+	</select>
+	
+	<select id="getFBContractByNo" resultType="org.ldxx.bean.FbCgContract">
+		select contract_name,cj_contract_name,cj_contract_code,main_contract_money,prj_name,work_no,contract_money
+		from fb_cg_contract  as a
+		left join mode_status as b on a.fb_id=b.mode_id
+		where fb_no=#{no} and history=1 and b.status=2
+	</select>
+	
+	<select id="getFbcjNo" resultType="org.ldxx.bean.FbCgContract">
+		select DISTINCT cj_contract_code from fb_cg_contract f 
+		left join mode_status m on m.mode_id=f.fb_id
+		where m.status=2 and f.history=1
+	</select>
+	
+	<select id="getFBNoBycjNo" resultType="org.ldxx.bean.FbCgContract">
+		select DISTINCT fb_no from fb_cg_contract f 
+		left join mode_status m on m.mode_id=f.fb_id
+		where m.status=2 and f.history=1 and cj_contract_code=#{no}
+	</select>
+	
+	<update id="updateHistoryById">
+		UPDATE fb_cg_contract SET history=0  where fb_no =(select a.fb_no from (SELECT fb_no from fb_cg_contract WHERE fb_id=#{id}) AS a)
+	</update>
+	<update id="updateHistoryNow">
+		update fb_cg_contract set history=1 where fb_id=#{id}
+	</update>
+	
+	<select id="getCjContractMainPrjLeaderByFbNo" resultType="CjContract">
+		SELECT main_department FROM fb_cg_contract as a
+		LEFT JOIN cj_contract as b on a.cj_contract_code=b.contract_no
+		where a.fb_no=#{fbNo} and a.history=1 limit 1
+	</select>
+	
+  <update id="updateSubContract" parameterType="org.ldxx.bean.FbCgContract" >
+    update fb_cg_contract
+    set contract_name = #{fbContract.contractName},
+   	  fb_no=#{fbContract.fbNo},
+      fbc_type = #{fbContract.fbcType},
+      contract_name_jia = #{fbContract.contractNameJia},
+      contract_name_yi = #{fbContract.contractNameYi},
+      work_no = #{fbContract.workNo},
+      prj_name = #{fbContract.prjName},
+      cj_contract_code = #{fbContract.cjContractCode},
+      cj_contract_name = #{fbContract.cjContractName},
+      main_contract_money = #{fbContract.mainContractMoney},
+      now_fb_all_money = #{fbContract.nowFbAllMoney},
+      contract_start_time = #{fbContract.contractStartTime},
+      contract_end_time = #{fbContract.contractEndTime},
+      main_manage_department = #{fbContract.mainManageDepartment},
+      contract_long_time = #{fbContract.contractLongTime},
+      pay_mode = #{fbContract.payMode},
+      contract_money = #{fbContract.contractMoney},
+      temporary_money=#{fbContract.temporaryMoney},
+      performance_bond=#{fbContract.performanceBond},
+      work_content=#{fbContract.workContent},
+      make_time=now(),
+      rate_type=#{fbContract.rateType} 
+    where fb_id = #{fbContract.fbId}
+  </update>
+  
+  <select id="selectYiFangByNo" resultType="org.ldxx.bean.FbCgContract">
+		SELECT b.cc_name FROM fb_cg_contract as a
+		LEFT JOIN consociation_company as b on a.contract_name_yi=b.cc_id
+		where fb_no=#{no} and history=1 LIMIT 1
+	</select>
+	
+	<select id="selectFbContractByTaskNo" resultType="org.ldxx.bean.FbCgContract">
+		SELECT a.contract_name,a.fb_no,a.contract_money,b.cc_name,d.om_name FROM fb_cg_contract as a 
+		LEFT JOIN consociation_company as b on a.contract_name_yi=b.cc_id
+		LEFT JOIN mode_status as c on a.fb_id=c.mode_id
+		LEFT JOIN organization_management as d on a.main_manage_department=d.om_id
+		where a.work_no=#{no} and c.status=2 and a.history=1
+	</select>
+	
+	<update id="updateFbNoById">
+		update fb_cg_contract set fb_no=#{no} where fb_id=#{id}
+	</update>
+	
+	<select id="selectFbContractShowByFbNo" parameterType="String" resultType="org.ldxx.bean.FbCgContract">
+		SELECT a.*,b.cc_name,d.om_name FROM fb_cg_contract as a
+		LEFT JOIN consociation_company as b on a.contract_name_yi=b.cc_id
+		LEFT JOIN mode_status as c on a.fb_id=c.mode_id
+		LEFT JOIN organization_management as d on a.main_manage_department=d.om_id
+		WHERE a.fb_no=#{no} and c.status=2 and a.history=1
+	</select>
+</mapper>
