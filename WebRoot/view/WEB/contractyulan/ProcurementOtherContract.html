@@ -52,7 +52,7 @@
             <li>合同管理</li>
             <li>项目合同管理</li>
             <li>采购合同管理</li>
-			<li class="active">材料设备采购合同审签</li>
+			<li class="active">其他采购合同审签</li>
 		</ul>
     </div>
 
@@ -76,41 +76,23 @@
 		    <div role="tabpanel" class="tab-pane" id="profile">
 		    	<table class="table table-bordered table-condensed">
 		    				<tr>
-		    					<th colspan="4"  style="text-align:center;font-size:30px;" height="60px">材料设备采购合同单</th>
+		    					<th colspan="4"  style="text-align:center;font-size:30px;" height="60px">采购合同单</th>
 		    				</tr>
 					                        <tr>
-					                            <td style="width:20%;">采购合同名称</td>
+					                            <td style="width:20%;">其他采购合同名称</td>
 					                            <td style="width:30%;" id="lookcghetongming"></td>
 					                            <td style="width:20%;">采购合同编号</td>
 					                            <td style="width:30%;" id="lookcgNo"></td>
 					                        </tr>
 					                        <tr>
-					                        	<td>采购单号</td>
-					                            <td id="lookcgdNo"></td>
 					                            <td style="width:100px;">采购合同类型</td>
 					                            <td id="lookcgType"></td>
-					                        </tr>
-					                        <tr>
 					                            <td>项目名称</td>
 					                            <td id="lookprjName"></td>
+					                        </tr>
+					                        <tr>
 					                            <td>任务单号</td>
-					                            <td id="looktask_no"></td>
-					                        </tr>
-					                        <tr>
-					                            <td>是否代购</td>
-					                            <td id="lookisdaigou"></td>
-					                            <td>分包合同</td>
-					                            <td id="lookfbhetong"></td>
-					                        </tr>
-					                        <tr>
-					                        	<td>借款合同号</td>
-					                        	<td id="lookborrow_no"></td>
-					                            <td>代购类型</td>
-					                            <td id="lookdaigouType"></td>
-					                        </tr>
-					                        <tr>
-					                            <td>代购金额(元)</td>
-					                            <td id="lookdaigouMoney"></td>
+                           						<td id="looktask_no"></td>
 					                            <td>采购合同金额(元)</td>
 					                            <td id="lookcghetongMoney"></td>
 					                        </tr>
@@ -287,11 +269,11 @@
 		},
 		"columns": [
             { "data": null}, 
-            { "data": "cgNo"},
+            { "data": "cgoNo"},
             { "data": "contractName"}, 
-            { "data": "cgcType"}, 
+            { "data": "cgocType"}, 
             { "data": "spName"}, 
-            { "data": "cgContractMoney",render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
+            { "data": "cgoContractMoney",render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
             { "data": "contractSignTime"}, 
         ],
         "columnDefs": [
@@ -408,7 +390,7 @@
 	     $("#profile").addClass("active");
 		$.ajax({
 			type:"post",
-			url:getContextPath()+"/cgcontract/selectCgContractById",
+			url:getContextPath()+"/cgOtherContract/selectCgoContractById",
 			dataType:"json",
 			data:{
 				id:id,
@@ -416,75 +398,22 @@
 			success:function(json){
 				console.log(json)
 				$("#lookcghetongming").text(json.contractName);
-				$("#lookcgNo").text(json.cgNo);
-				$("#lookcgdNo").text(json.cgdNo);
-				$("#lookcgbianhao").text(json.cgId)
-				$("#looktask_no").text(json.workNo);
+				$("#lookcgNo").text(json.cgoNo);
+				$("#lookcgbianhao").text(json.cgoId)
 				$("#lookprjName").text(json.prjName)
-				$("#lookisdaigou").text(json.isProgram);
-				$("#lookfbhetong").text(json.fbNo==""?"无":json.fbNo);
-				$("#lookborrow_no").text(json.borrowNo==''||json.borrowNo==null?"无":json.borrowNo)
-				$("#lookdaigouType").text(json.programType==null?"无":json.programType),
-				$("#lookcgType").text(json.cgcType);
-				$("#lookdaigouMoney").text(json.programMoney==null?"":json.programMoney);
-				$("#lookcghetongMoney").text(json.cgContractMoney==null?"":json.cgContractMoney);
+				$("#looktask_no").text(json.workNo);
+				$("#lookcgType").text(json.cgocType);
+				$("#lookcghetongMoney").text(json.cgoContractMoney==null?"":json.cgoContractMoney);
 				$("#lookjiafang").text(json.contractNameJia==null?"":json.contractNameJia);
 				$("#lookyifang").text(json.spName==null?"":json.spName);
 				$("#lookfukuanfangshi").text(json.payMode==null?"":json.payMode);
 				$("#lookyear").text(json.contractSignTime==null?"":json.contractSignTime);
 				$("#lookcghetonggaishu").text(json.contractSummary==null?"":json.contractSummary);
 				$("#lookgaikuang").text(json.workContent==null?"":json.workContent);
-				$("#lookcg_bumen").text(json.cgDepartment);
+				$("#lookcg_bumen").text(json.cgoDepartment);
 				$("#lookyunfei").text(json.freight);
 				
-				$("#lookcailiaobiaoDiv").empty();
-				$("#lookcailiaobiaoDiv").append(
-        				"<table  class='table table-bordered table-condensed' id='lookcailiaobiao'>"+
-                    	"<thead>"+
-                        	"<tr>"+
-                            	"<td>名称</td>"+
-                            	"<td>类型</td>"+
-	                            "<td>型号</td>"+
-	                            "<td style='width:6%;'>单位</td>"+
-	                            "<td>数量</td>"+
-	                            "<td style='width:8%;'>单价</td>"+
-	                            "<td style='width:8%;'>金额</td>"+
-	                            /*"<td>项目部推荐供应商</td>"+
-	                             "<th>公司确定供应商</th>"+ */
-	                            "<td>备注</td>"+
-                        	"</tr>"+
-                    	"</thead>"+
-                    	"<tbody>"+
-                    	"</tbody>"+
-                    "</table>"
-                    )
-				if(json.cgcl!=null){
-					for(var k=0;k<json.cgcl.length;k++){
-                   		$("#lookcailiaobiao tbody").append("<tr><td style='width:10%;'>"
-           		  				+''+(json.cgcl[k].clName==null?"":json.cgcl[k].clName)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(json.cgcl[k].clType==null?"":json.cgcl[k].clType)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(json.cgcl[k].clMode==null?"":json.cgcl[k].clMode)+'' 
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(json.cgcl[k].clUnit==null?"":json.cgcl[k].clUnit)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(json.cgcl[k].clNumber==null?"":json.cgcl[k].clNumber)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(json.cgcl[k].clPrice==null?"":json.cgcl[k].clPrice)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(json.cgcl[k].clMoney==null?"":json.cgcl[k].clMoney)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  			/*+''+(json.cgcl[k].clspName1==null?"":json.cgcl[k].clspName1)+''
-           		  				+"</td><td style='width:10%;'>"
-           		  				 +''+(json.cgcl[k].clspName2==null?"":json.cgcl[k].clspName2)+''
-           		  				+"</td><td style='width:9%;'>" */
-           		  				+''+(json.cgcl[k].clDesc==null?"":json.cgcl[k].clDesc)+''
-           		  				+"</td></tr>")
-                    	} 
-				}
-				
-				
+
 				
 				$.ajax({
 		        	type: 'POST',

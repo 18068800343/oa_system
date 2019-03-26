@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link href="../../font3/bootstrap-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css"> 
+    <style lang="">
+        
+    </style>
+</head>
+<body>
+
+<!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>生产管理</li>
+            <li>材料采购管理</li>
+			<li class="active">其他采购合同管理</li>
+		</ul>
+    </div>
+    
+    
+    <div class="zhuti-content">
+    			<table class="table table-bordered table-condensed">
+                        <tr>
+                            <td style="width:15%;">采购合同名称</td>
+                            <td style="width:35%;" id="lookcghetongming"></td>
+                            <td style="width:15%;">采购合同编号</td>
+                            <td style="width:35%;" id="lookcgNo"></td>
+                        </tr>
+                        <tr>
+                            <td style="width:100px;">采购合同类型</td>
+                            <td id="lookcgType"></td>
+                            <td>项目名称</td>
+                            <td id="lookprjName"></td>
+                        </tr>
+                        <tr>
+                            <td>任务单号</td>
+                            <td id="looktask_no"></td>
+                            <td class="jinqianyanse">采购合同金额(元)</td>
+                            <td id="lookcghetongMoney"></td>
+                        </tr>
+                        <tr>
+                            <td>合同甲方名称</td>
+                            <td id="lookjiafang"></td>
+                            <td>乙方</td>
+                            <td id="lookyifang"></td>
+                        </tr>
+                        <tr>
+                            <td>付款方式</td>
+                            <td id="lookfukuanfangshi"></td>
+                            <td>采购合同签订时间</td>
+                            <td id="lookyear"></td>
+                        </tr>
+                        <tr>
+                            <td>采购部门</td>
+                            <td id="lookcg_bumen"></td>
+                           	<td class="jinqianyanse">运费(元)</td>
+                           	<td id="lookyunfei"></td>
+                         </tr> 
+                        <tr>
+                            <td>采购合同概述</td>
+                            <td colspan="3" id="lookcghetonggaishu"></td>
+                        </tr>
+                    </table>
+                    <table class="table table-bordered table-condensed"  id="look_all_table">
+				                        		
+				    </table>
+
+     </div>
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/bootstrap-select.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+    	
+	});
+    
+	 function GetQueryString(name){
+       var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+       var r = window.location.search.substr(1).match(reg);
+       if(r!=null)return  unescape(r[2]); return null;
+  }
+	// 调用方法
+  	id=GetQueryString("prjId");
+  	//console.log(id)
+	var cgoNo;
+	function initTable(){
+		//console.log(data)
+			$.ajax({
+			type:"post",
+			url:getContextPath()+"/cgOtherContract/selectCgoContractById",
+			dataType:"json",
+			data:{
+				id:id,
+			},
+			success:function(json){
+				$("#lookcghetongming").text(json.contractName==null?"":json.contractName);
+				var lookcgoNoClick = '<a href="../chankanxiangqing/cgoContractDetails.html?cgoNo='
+	    			+json.cgoNo
+	    			+'" target="_blank" style="color:blue;">'+json.cgoNo+'</a>';	
+	    		$("#lookcgNo").append(lookcgoNoClick);	
+				//$("#lookcgNo").text(json.cgNo==null?"":json.cgoNo);
+				$("#lookcgbianhao").text(json.cgoId==null?"":json.cgoId)
+				var taskprjNoClick = '<a href="../chankanxiangqing/taskDetails.html?prjNo='
+	    			+json.workNo
+	    			+'" target="_blank" style="color:blue;">'+json.workNo+'</a>';		
+				$("#looktask_no").append(taskprjNoClick);
+				$("#lookprjName").text(json.prjName==null?"":json.prjName)
+				$("#lookcgType").text(json.cgocType==null?"":json.cgocType);
+				$("#lookcghetongMoney").text(json.cgoContractMoney==null?"":json.cgoContractMoney);
+				$("#lookjiafang").text(json.contractNameJia==null?"":json.contractNameJia);
+				$("#lookyifang").text(json.spName==null?"":json.spName);
+				$("#lookfukuanfangshi").text(json.payMode==null?"":json.payMode);
+				$("#lookyear").text(json.contractSignTime==null?"":json.contractSignTime);
+				$("#lookcghetonggaishu").text(json.contractSummary==null?"":json.contractSummary);
+				$("#lookgaikuang").text(json.workContent==null?"":json.workContent);
+				$("#lookcg_bumen").text(json.cgoDepartment==null?"":json.cgoDepartment);
+				$("#lookyunfei").text(json.freight);
+				
+			}
+		})
+					
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/cgOtherContract/selectAccessoryById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:id,
+			},
+			success:function(json){
+				$("#look_all_table").empty();
+	            for(var i=0;i<json.length;i++){
+	            	   if(json[i].aType=="采购合同文本"){
+		            	   $("#look_all_table").append("<tr>"+
+	      	   										"<td style='width:20%;'>采购合同文本</td>"+
+	      	   										"<td colspan='3'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+							            	    "</tr>");
+	            	   }
+	            	  
+	               }
+			}
+		})
+		
+	}
+	
+	
+	function getLocalPath(){
+		var pathArray = window.location.pathname.split('/');
+		var secondLevelLocation = pathArray[1];
+		var loginUrl = window.location.protocol + "//"  + window.location.host ;
+		return loginUrl;
+	}
+	
+	//下载附件
+	function download_all(obj){
+		var url=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+	//初始化历史列表
+	function initTableHistory(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/cgOtherContract/selectHistoryByNo',
+            dataType: 'json',
+            data: {
+            	cgoNo:cgoNo,
+            },
+            error: function (msg) {
+                errMessage("请求失败");
+            },
+            success: function (json) {
+            	//console.log(json)
+                $('#lookHistory').dataTable().fnClearTable();
+                $('#lookHistory').DataTable().rows.add(json).draw(false);
+            }
+        });
+    }
+
+	function changeData(did){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/cgOtherContract/updateHistoryById',
+	        dataType: 'json',
+	        data:{
+	        	id:did
+	        },
+	        success: function (json) {
+	        	
+	        }
+	    });
+	}
+
+</script>
+</html>

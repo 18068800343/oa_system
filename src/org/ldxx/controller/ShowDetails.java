@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.ldxx.bean.CgContract;
+import org.ldxx.bean.CgOtherContract;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.CjSplitMoney;
 import org.ldxx.bean.Enterprise;
@@ -14,6 +15,7 @@ import org.ldxx.bean.Task;
 import org.ldxx.dao.CjContractDao;
 import org.ldxx.dao.EnterpriseDao;
 import org.ldxx.service.CgContractService;
+import org.ldxx.service.CgOtherContractService;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.SubContractService;
 import org.ldxx.service.TaskService;
@@ -38,6 +40,9 @@ public class ShowDetails {
 	private SubContractService scService;
 	@Autowired
 	private CgContractService cgcService;
+	@Autowired
+	private CgOtherContractService cgocService;
+	
 	
 	@RequestMapping("/task")
 	@ResponseBody
@@ -114,6 +119,23 @@ public class ShowDetails {
 		if(null!=cgc)
 		{
 			map.put("cgc",cgc);
+			result=1;
+		}else{
+			result = -1;
+		}
+		map.put("result", result);
+		return map;
+	}
+	@RequestMapping("/cgoContract")
+	@ResponseBody
+	public Map<String,Object> selectcgoContractByPrjNo(String cgoNo){
+		Map<String,Object> map = new HashMap<String,Object>();
+		//设定个返回值，1为成功，0为失败，-1为未找到编号数据
+		int result = 0; 
+		CgOtherContract cgoc = cgocService.selectCgOtherContractShowByCgoNo(cgoNo);
+		if(null!=cgoc)
+		{
+			map.put("cgoc",cgoc);
 			result=1;
 		}else{
 			result = -1;

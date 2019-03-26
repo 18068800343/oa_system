@@ -44,7 +44,7 @@
                     <table class="table table-bordered table-condensed">
                    		<thead>
 	                    		<tr>
-	                    			<th colspan="10" style="text-align:center;font-size:30px;" height="60px">材料设备采购合同</th>
+	                    			<th colspan="10" style="text-align:center;font-size:30px;" height="60px">其他采购合同</th>
 	                    		</tr>	                    
 	                    		<tr>
 	                    			<th colspan="10">项目基本信息</th>
@@ -58,32 +58,14 @@
                             <td style="width:30%" id="lookcgNo"></td>
                         </tr>
                         <tr>
-                        	<td>采购单号</td>
-                            <td id="lookcgdNo"></td>
                             <td style="width:100px;">采购合同类型</td>
                             <td id="lookcgType"></td>
-                        </tr>
-                        <tr>
                             <td>项目名称</td>
                             <td id="lookprjName"></td>
+                        </tr>
+                        <tr>
                             <td>任务单号</td>
                             <td id="looktask_no"></td>
-                        </tr>
-                        <tr>
-                            <td>是否代购</td>
-                            <td id="lookisdaigou"></td>
-                            <td>分包合同</td>
-                            <td id="lookfbhetong"></td>
-                        </tr>
-                        <tr>
-                        	<td>借款合同号</td>
-                        	<td id="lookborrow_no"></td>
-                            <td>代购类型</td>
-                            <td id="lookdaigouType"></td>
-                        </tr>
-                        <tr>
-                            <td class="jinqianyanse">代购金额(元)</td>
-                            <td id="lookdaigouMoney"></td>
                             <td class="jinqianyanse">采购合同金额(元)</td>
                             <td id="lookcghetongMoney"></td>
                         </tr>
@@ -114,11 +96,6 @@
                     <table class="table table-bordered table-condensed"  id="look_all_table">                      		
 				    </table>
 
-				    <div class="wrap">
-				    <div id="lookcailiaobiaoDiv" style="width:1580px;border=1">
-				    
-                    </div>
-				    </div>
             </div>
 
 </body>
@@ -159,88 +136,35 @@
         return paramValue == "" && (paramValue = null), paramValue 
     } 
     
-    var cgNo=getParam("cgNo");
+    var cgoNo=getParam("cgoNo");
     function initTable(){
 		$.ajax({
             type: 'POST',
-            url: getContextPath()+'/showDetailsPanel/cgContract',
+            url: getContextPath()+'/showDetailsPanel/cgoContract',
             dataType: 'json',
             async:false,
             data: {
-            	cgNo:cgNo
+            	cgoNo:cgoNo
             },
             success: function (json) {
-            	var data = json.cgc;
+            	var data = json.cgoc;
             	var result = json.result;
 				$("#lookcghetongming").text(data.contractName);
-				$("#lookcgNo").text(data.cgNo);
-				$("#lookcgdNo").text(data.cgdNo);
-				$("#lookcgbianhao").text(data.cgId)
+				$("#lookcgNo").text(data.cgoNo);
+				$("#lookcgbianhao").text(data.cgoId)
 				$("#looktask_no").text(data.workNo);
 				$("#lookprjName").text(data.prjName)
-				$("#lookisdaigou").text(data.isProgram);
-				$("#lookfbhetong").text(data.fbNo==""?"无":data.fbNo);
-				$("#lookborrow_no").text(data.borrowNo==''||data.borrowNo==null?"无":data.borrowNo)
-				$("#lookdaigouType").text(data.programType==null?"无":data.programType),
-				$("#lookcgType").text(data.cgcType);
-				$("#lookdaigouMoney").text(data.programMoney==null?"":data.programMoney);
-				$("#lookcghetongMoney").text(data.cgContractMoney==null?"":data.cgContractMoney);
+				$("#lookcgType").text(data.cgocType);
+				$("#lookcghetongMoney").text(data.cgoContractMoney==null?"":data.cgoContractMoney);
 				$("#lookjiafang").text(data.contractNameJia==null?"":data.contractNameJia);
 				$("#lookyifang").text(data.spName==null?"":data.spName);
 				$("#lookfukuanfangshi").text(data.payMode==null?"":data.payMode);
 				$("#lookyear").text(data.contractSignTime==null?"":data.contractSignTime);
 				$("#lookcghetonggaishu").text(data.contractSummary==null?"":data.contractSummary);
 				$("#lookgaikuang").text(data.workContent==null?"":data.workContent);
-				$("#lookcg_bumen").text(data.cgDepartment);
+				$("#lookcg_bumen").text(data.cgoDepartment);
 				$("#lookyunfei").text(data.freight);
-				
-				$("#lookcailiaobiaoDiv").empty();
-				$("#lookcailiaobiaoDiv").append(
-        				"<table  class='table table-bordered table-condensed' id='lookcailiaobiao'>"+
-                    	"<thead>"+
-                        	"<tr>"+
-                            	"<th>材料名称</th>"+
-                            	"<th>材料类型</th>"+
-	                            "<th>材料型号</th>"+
-	                            "<th style='width:6%;'>单位</th>"+
-	                            "<th>数量</th>"+
-	                            "<th style='width:8%;'>单价</th>"+
-	                            "<th style='width:8%;'>金额</th>"+
-	                            /*"<th>项目部推荐供应商</th>"+
-	                             "<th>公司确定供应商</th>"+ */
-	                            "<th>备注</th>"+
-                        	"</tr>"+
-                    	"</thead>"+
-                    	"<tbody>"+
-                    	"</tbody>"+
-                    "</table>"
-                    )
-				if(data.cgcl!=null){
-					for(var k=0;k<data.cgcl.length;k++){
-                   		$("#lookcailiaobiao tbody").append("<tr><td style='width:10%;'>"
-           		  				+''+(data.cgcl[k].clName==null?"":data.cgcl[k].clName)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(data.cgcl[k].clType==null?"":data.cgcl[k].clType)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(data.cgcl[k].clMode==null?"":data.cgcl[k].clMode)+'' 
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(data.cgcl[k].clUnit==null?"":data.cgcl[k].clUnit)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(data.cgcl[k].clNumber==null?"":data.cgcl[k].clNumber)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(data.cgcl[k].clPrice==null?"":data.cgcl[k].clPrice)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  				+''+(data.cgcl[k].clMoney==null?"":data.cgcl[k].clMoney)+''
-           		  				+"</td><td style='width:9%;'>"
-           		  			/*+''+(data.cgcl[k].clspName1==null?"":data.cgcl[k].clspName1)+''
-           		  				+"</td><td style='width:10%;'>"
-           		  				 +''+(data.cgcl[k].clspName2==null?"":data.cgcl[k].clspName2)+''
-           		  				+"</td><td style='width:9%;'>" */
-           		  				+''+(data.cgcl[k].clDesc==null?"":data.cgcl[k].clDesc)+''
-           		  				+"</td></tr>")
-                    	} 
-				}
-				
+							
 			}
         });
     }
