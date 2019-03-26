@@ -13,4 +13,6 @@ public interface JobLvService {
 	public int deleteJobLv(String id);
 	
 	public int updateJobLv(JobLv job);
+	
+	public List<JobLv> selectAllJobLv();
 }

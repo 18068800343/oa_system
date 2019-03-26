@@ -22,4 +22,6 @@ public interface JobLvDao {
 	public int countOfNameToEdit(@Param("name")String name,@Param("id")String id);
 	
 	public int countOfSizeToEdit(@Param("size")int size,@Param("id")String id);
+	
+	public List<JobLv> selectAllJobLv();
 }

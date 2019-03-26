@@ -57,4 +57,9 @@ public class JobLvServiceImpl implements JobLvService{
 		return i;
 	}
 
+	@Override
+	public List<JobLv> selectAllJobLv() {
+		return jldao.selectAllJobLv();
+	}
+
 }

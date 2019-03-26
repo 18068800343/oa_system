@@ -54,4 +54,12 @@ public class JobLvController {
 		map.put("job", job);
 		return map;
 	}
+	
+	@RequestMapping("/selectAllJobLv")
+	@ResponseBody
+	public List<JobLv> selectAllJobLv(){
+		List<JobLv> list=jlservice.selectAllJobLv();
+		return list;
+	}
+	
 }
