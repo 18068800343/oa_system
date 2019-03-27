@@ -129,6 +129,12 @@
                                 <td><input type="text" class="form-control" id="year3" style="width:70%;"></td>
                             </tr>
                             <tr>
+                                <td>税率:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="rate" style="width:70%;" placeholder="请填写小数"  onchange="getRateMoney(this)"></td>
+                                <td>税金:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="rate_money" style="width:70%;" disabled></td>
+                            </tr>
+                            <tr>
                                 <td>合同签订时间:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td><input type="text" class="form-control" id="year" style="width:70%;"> </td>
                                 <td></td>
@@ -154,7 +160,7 @@
                         <table class="table table-bordered table-condensed" id="new_accessory2">
                         	<thead>
                         		<tr>
-	                                <td style="width:30%;">法律顾问签字 :  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td style="width:30%;">法律顾问签字 :  </td>
 	                                <td colspan="2"><button type="button" class="btn btn-primary" onclick="addAccessory2()">添加附件</button></td>
                             	</tr>
                         	</thead>
@@ -259,6 +265,12 @@
                                 <td><input type="text" class="form-control" id="edit_year3" style="width:70%;"></td>
                             </tr>
                             <tr>
+                                <td>税率:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="edit_rate" style="width:70%;" placeholder="请填写小数" onchange="getRateMoney2(this)"></td>
+                                <td>税金:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                <td><input type="text" class="form-control" id="edit_rate_money" style="width:70%;" disabled></td>
+                            </tr>
+                            <tr>
                             	<td>合同签订时间:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td><input type="text" class="form-control" id="edit_year" style="width:70%;"> </td>
                                 <td>对接部门:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -287,7 +299,7 @@
                         <table class="table table-bordered table-condensed" id="edit_accessory2">
                         	<thead>
                         		<tr>
-	                                <td style="width:30%;">法律顾问签字 :  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td style="width:30%;">法律顾问签字 :  </td>
 	                                <td colspan="2"><button type="button" class="btn btn-primary" onclick="editAccessory2()">添加附件</button></td>
                             	</tr>
                         	</thead>
@@ -529,6 +541,12 @@
                         <td id="look_year3"></td>
                     </tr>
                     <tr>
+                        <td>税率:</td>
+                        <td id="look_rate"></td>
+                        <td>税金</td>
+                        <td  id="look_rate_money" ></td>
+                    </tr>
+                    <tr>
                     	<td>合同签订时间:</td>
                         <td id="look_year"></td>
                          <td>对接部门:</td>
@@ -624,7 +642,7 @@
                         <td>结束时间:</td>
                         <td id="look_year3_2"></td>
                         <td>暂定金</td>
-                        <td  id="lookzandingjin2" ></td>
+                        <td  id="c" ></td>
                     </tr>
                     <tr>
                         <td>合同概述:</td>
@@ -1076,7 +1094,10 @@
     	var contractEndTime=$("#year3").val();
     	var contractProbablyText=$("#contract_info").val();
     	var abutmentSignedTime=$("#year").val();
-    	var zandingMoney=$("#zandingjin").val()
+    	var zandingMoney=$("#zandingjin").val();
+    	var rate=$("#rate").val();
+    	var rateMoney=$("#rate_money").val();
+    	
     	var options={
     			type: 'POST',
                 url: getContextPath()+'/other/addOtherContractBySave',
@@ -1093,6 +1114,8 @@
                 	contractProbablyText:contractProbablyText,
                 	abutmentSignedTime:abutmentSignedTime,
                 	zandingMoney:zandingMoney,
+                	rate:rate,
+                	rateMoney:rateMoney
                 },
                 error: function (msg) {
                 	toastr.error("请求失败");
@@ -1120,8 +1143,18 @@
     	var contractEndTime=$("#year3").val();
     	var contractProbablyText=$("#contract_info").val();
     	var abutmentSignedTime=$("#year").val();
-    	var zandingMoney=$("#zandingjin").val()
+    	var zandingMoney=$("#zandingjin").val();
+    	var rate=$("#rate").val();
+    	var rateMoney=$("#rate_money").val();
     	
+    	if(rate==''){
+    		toastr.error("税率为空");
+			return;
+    	}
+    	if(rateMoney==''){
+    		toastr.error("税金为空");
+			return;
+    	}
 		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test(contractMoney)){
 			toastr.error("合同金额只能输入数字和两位小数");
@@ -1135,10 +1168,10 @@
 			toastr.error("合同文本为空")
 			return;
 		}
-		if($("#new_accessory2").find('tbody tr').length<1 || $("#new_accessory2 tbody").find("tr").eq(0).find("input").val()==''){
+		/* if($("#new_accessory2").find('tbody tr').length<1 || $("#new_accessory2 tbody").find("tr").eq(0).find("input").val()==''){
 			toastr.error("法律顾问签字为空")
 			return;
-		}
+		} */
 		var i=0;
 		$("#new_form").find("input").each(function(){
 			if($(this).val()==''||$(this).val()==null){
@@ -1166,6 +1199,8 @@
                 	contractProbablyText:contractProbablyText,
                 	abutmentSignedTime:abutmentSignedTime,
                 	zandingMoney:zandingMoney,
+                	rate:rate,
+                	rateMoney:rateMoney
                 },
                 error: function (msg) {
                 	toastr.error("请求失败");
@@ -1329,6 +1364,9 @@
     	var contractProbablyText=$("#edit_contract_info").val();
     	var abutmentSignedTime=$("#edit_year").val();
     	var zandingjin=$("#xgzandingjin").val();
+    	var rate=$("#edit_rate").val();
+    	var rateMoney=$("#edit_rate_money").val();
+    	
     	var options={
     			type: 'POST',
                 url: getContextPath()+'/other/updateOtherContractBySave',
@@ -1346,6 +1384,8 @@
                 	contractProbablyText:contractProbablyText,
                 	abutmentSignedTime:abutmentSignedTime,
                 	zandingMoney:zandingjin,
+                	rate:rate,
+                	rateMoney:rateMoney
                 },
                 error: function (msg) {
                 	toastr.error("请求失败");
@@ -1374,6 +1414,27 @@
     	var contractProbablyText=$("#edit_contract_info").val();
     	var abutmentSignedTime=$("#edit_year").val();
     	var zandingjin=$("#xgzandingjin").val();
+    	var rate=$("#edit_rate").val();
+    	var rateMoney=$("#edit_rate_money").val();
+    	
+    	if(rate==''){
+    		toastr.error("税率为空");
+			return;
+    	}
+    	if(rateMoney==''){
+    		toastr.error("税金为空");
+			return;
+    	}
+		var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
+		if(!reg.test(contractMoney)){
+			toastr.error("合同金额只能输入数字和两位小数");
+			return;
+		}
+		if(!reg.test(zandingMoney)){
+			toastr.error("暂定金只能输入数字和两位小数");
+			return;
+		}
+    	
     	var options={
     			type: 'POST',
                 url: getContextPath()+'/other/updateOtherContractBySubmit',
@@ -1391,6 +1452,8 @@
                 	contractProbablyText:contractProbablyText,
                 	abutmentSignedTime:abutmentSignedTime,
                 	zandingMoney:zandingjin,
+                	rate:rate,
+                	rateMoney:rateMoney
                 },
                 success: function (json) {
                 	if(json=='0'){
@@ -1458,7 +1521,10 @@
     	$("#look_year3").text(data.contractEndTime);
     	$("#look_contract_info").text(data.contractProbablyText);
     	$("#look_year").text(data.abutmentSignedTime);
-    	$("#lookzandingjin").text(data.zandingMoney)
+    	$("#lookzandingjin").text(data.zandingMoney);
+    	$("#look_rate").text(data.rate);
+    	$("#look_rate_money").text(data.rateMoney);
+    	
     	$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/announcement/selectAccessoryById',
@@ -1537,7 +1603,9 @@
     	$("#look_year3_2").text(data.contractEndTime);
     	$("#look_contract_info2").text(data.contractProbablyText);
     	$("#look_year_2").text(data.abutmentSignedTime);
-    	$("#lookzandingjin2").text(data.zandingMoney)
+    	$("#lookzandingjin2").text(data.zandingMoney);
+    	$("#look_rate").text(data.rate);
+    	$("#look_rate_money").text(data.rateMoney);
     	$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/announcement/selectAccessoryById',
@@ -1719,8 +1787,31 @@
 	//打印预览
 	 function dayinyulan(){
 	    	window.open("../contractyulan/OtherContract.html?id="+LookOtherId+"");
-	    }
+	 }
 	
+	function getRateMoney(obj){
+		var rate=$(obj).val();
+		var money=$("#contract_money").val();
+		if(money==''||money==null){
+    		toastr.error('合同金额为空');
+    		$(obj).val('');
+    		return;
+    	}
+		var sum=rate*money;
+    	$("#rate_money").val(sum);
+	}
+	
+	function getRateMoney2(obj){
+		var rate=$(obj).val();
+		var money=$("#edit_contract_money").val();
+		if(money==''||money==null){
+    		toastr.error('合同金额为空');
+    		$(obj).val('');
+    		return;
+    	}
+		var sum=rate*money;
+    	$("#edit_rate_money").val(sum);
+	}
     
 </script>
 </html>

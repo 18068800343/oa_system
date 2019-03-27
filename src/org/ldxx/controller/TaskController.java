@@ -329,18 +329,28 @@ public class TaskController {
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject = flowUtill.submitFlow(currentFlow, flowHistroy, userId, uName);
-			/*SendSms ss=new SendSms();
+			SendSms ss=new SendSms();
 			CurrentFlowExample example=new CurrentFlowExample();
 			example.createCriteria().andUrlEqualTo(url);
 			List<CurrentFlow> cf =currentFlowMapper.selectByExample(example);
 			User u=userDao.selectUserById(userId);
-			ss.sendMessage(u.getRtx(), "审批通知", cf.get(0).getTitle(), "0", "0");*/
+			ss.sendMessage(u.getRtx(), "待审批通知", cf.get(0).getTitle(), "0", "0");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return jsonObject;
 		}
 		return jsonObject;
 	}
+	
+	
+	@RequestMapping("/testRtx")
+	@ResponseBody
+	public int testRtx(){
+		SendSms ss=new SendSms();
+		int i=ss.sendMessage("wangjun1", "待审批通知", "47.92.99.112rtx测试", "0", "0");
+		return i;
+	}
+	
 	
 /*	@RequestMapping("/addTask5")任务单保存
 	@ResponseBody

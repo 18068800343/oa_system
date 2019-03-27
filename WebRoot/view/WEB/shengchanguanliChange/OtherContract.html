@@ -226,6 +226,12 @@
                                 <td><input type="text" class="form-control" id="edit_year3" style="width:70%;"></td>
                             </tr>
                             <tr>
+                                <td>税率:</td>
+                                <td><input type="text" class="form-control" id="edit_rate" style="width:70%;" placeholder="请填写小数" onchange="getRateMoney(this)"></td>
+                                <td>税金:</td>
+                                <td><input type="text" class="form-control" id="edit_rate_money" style="width:70%;" disabled></td>
+                            </tr>
+                            <tr>
                             	<td>合同签订时间:</td>
                                 <td><input type="text" class="form-control" id="edit_year" style="width:70%;"> </td>
                                 <td></td>
@@ -957,6 +963,9 @@
 	        	$("#edit_contract_info").val(data.contractProbablyText);
 	        	$("#edit_year").val(data.abutmentSignedTime);
 	        	$("#zandingjin").val(data.zandingMoney);
+	        	$("#edit_rate").val(data.rate);
+	        	$("#edit_rate_money").val(data.rateMoney);
+	        	
 	        	$.ajax({
 	    	        type: 'POST',
 	    	        url: getContextPath()+'/accessory/selectAccessoryById',
@@ -1034,6 +1043,8 @@
     	var contractProbablyText=$("#edit_contract_info").val();
     	var abutmentSignedTime=$("#edit_year").val();
     	var zanding=$("#zandingjin").val();
+    	var rate=$("#edit_rate").val();
+    	var rateMoney=$("#edit_rate_money").val();
     	var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
     	if(contractMoney!=''){
     		if(!reg.test(contractMoney)){
@@ -1048,6 +1059,14 @@
     		}
     	}
     	if(obj=='1'){
+    		if(rate==''){
+    			toastr.error("税率为空");
+    			return "税率为空";
+    		}
+    		if(rateMoney==''){
+    			toastr.error("税金为空");
+    			return "税金为空";
+    		}
     		if(!reg.test(contractMoney)){
     			toastr.error("合同金额只能输入数字和两位小数");
     			return "合同金额只能输入数字和两位小数";
@@ -1080,7 +1099,9 @@
                 	contractEndTime:contractEndTime,
                 	contractProbablyText:contractProbablyText,
                 	abutmentSignedTime:abutmentSignedTime,
-                	zandingMoney:zanding
+                	zandingMoney:zanding,
+                	rate:rate,
+                	rateMoney:rateMoney
                 },
                 error: function (msg) {
                 	toastr.error("请求失败");
@@ -1269,6 +1290,18 @@
     	});
     	
     	$("#allMsg2").modal("show");
+	}
+	
+	function getRateMoney(obj){
+		var rate=$(obj).val();
+		var money=$("#edit_contract_money").val();
+		if(money==''||money==null){
+    		toastr.error('合同金额为空');
+    		$(obj).val('');
+    		return;
+    	}
+		var sum=rate*money;
+    	$("#edit_rate_money").val(sum);
 	}
     
 </script>

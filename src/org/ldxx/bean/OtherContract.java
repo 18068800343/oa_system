@@ -29,13 +29,31 @@ public class OtherContract {
 
     private String abutmentSignedTime;
     private Float zandingMoney;//暂定金
+    
+    private double rate;
+    private double rateMoney;
 
     private List<Accessory> accessory;
     private List<Accessory> accessory2;//法律顾问签字
 
 
-    
-    public Float getZandingMoney() {
+    public double getRate() {
+		return rate;
+	}
+
+	public void setRate(double rate) {
+		this.rate = rate;
+	}
+
+	public double getRateMoney() {
+		return rateMoney;
+	}
+
+	public void setRateMoney(double rateMoney) {
+		this.rateMoney = rateMoney;
+	}
+
+	public Float getZandingMoney() {
 		return zandingMoney;
 	}
 
