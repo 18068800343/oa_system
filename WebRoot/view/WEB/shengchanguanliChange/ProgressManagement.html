@@ -170,15 +170,17 @@
 			                        <table class="table table-bordered table-condensed" id="fb_table">
 			                            <thead>
 			                                <tr>
-			                                    <th colspan="6">分包收入</th>
+			                                    <th colspan="8">分包收入</th>
 			                                </tr>
 			                                <tr>
 			                                    <th style="width:22%;">分包合同名称</th>
-			                                    <th style="width:14%;">管理部门</th>
-			                                    <th style="width:14%;">分包合同金额(元)</th>
-			                                    <th style="width:22%;">分包方名称</th>
-			                                    <th style="width:14%;">累计收入(元)</th>
-			                                    <th style="width:14%;">本期收入(元)</th>
+			                                    <th style="width:10%;">管理部门</th>
+			                                    <th style="width:12%;">分包合同金额(元)</th>
+			                                    <th style="width:16%;">分包方名称</th>
+			                                    <th style="width:11%;">累计收入(元)</th>
+			                                    <th style="width:11%;">本期收入(元)</th>
+			                                    <th style="width:9%;">税率</th>
+			                                    <th style="width:9%;">税金(元)</th>
 			                                </tr>
 			                            </thead>
 			                            <tbody>
@@ -2057,25 +2059,39 @@
             	}
         	}
             	
-            	
-            	
-            	$("#fb_table tbody").html('');
-            	if(ppfb!=null){
-            		for(var i=0;i<ppfb.length;i++){
-            		var depart = ppfb[i].department;
-            		if(depart==null){
-            			depart="";
-            		}
-                		$("#fb_table tbody").append("<tr>"+
-                														"<td>"+ppfb[i].fbName+"</td>"+
-                														"<td>"+depart+"</td>"+
-                														"<td>"+ppfb[i].fbMoney+"</td>"+
-                														"<td>"+ppfb[i].fbUnit+"</td>"+
-                														"<td><input type='text' class='form-control' data='"+ppfb[i].fbId+"' value="+ppfb[i].incomeAll+" onchange='getFbBq(this)'></td>"+
-                														"<td><input type='text' class='form-control' value="+ppfb[i].incomeBq+" disabled></td>"+
-                													"</tr>")
-                	}
+            $("#fb_table tbody").html('');
+        	$("#fb_ys_table tbody").html('');
+        	if(ppfb!=null){
+        		for(var i=0;i<ppfb.length;i++){
+        			if(ppfb[i].fbName!=""&&ppfb[i].fbName!=null){
+                		var depart = ppfb[i].department;
+                		if(depart==null){
+                			depart="";
+                		}
+        				$("#fb_table tbody").append("<tr>"+
+								"<td>"+ppfb[i].fbName+"</td>"+
+								"<td>"+depart+"</td>"+
+								"<td>"+ppfb[i].fbMoney+"</td>"+
+								"<td>"+ppfb[i].fbUnit+"</td>"+
+								"<td>"+ppfb[i].incomeAll+"</td>"+
+								"<td>"+ppfb[i].incomeBq+"</td>"+
+								"<td>"+ppfb[i].rate+"</td>"+
+								"<td>"+ppfb[i].rateMoney+"</td>"+
+							"</tr>")
+						$("#fb_table").show();
+                    	$("#fb_ys_table").hide();
+        			}else{
+        				$("#fb_ys_table tbody").append("<tr>"+
+        																			"<td>"+ppfb[i].department+"</td>"+
+        																			"<td>"+ppfb[i].incomeBq+"</td>"+
+        																	 +"</tr>")
+        				$("#fb_table").hide();
+                    	$("#fb_ys_table").show();
+        			}
+            		
             	}
+        	}	
+            
             	myTool.mask.hide();
             	
             }

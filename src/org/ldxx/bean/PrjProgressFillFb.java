@@ -11,8 +11,22 @@ public class PrjProgressFillFb {
 	private float incomeAll;
 	private float incomeBq;
 	private String bq;
+	private double rate;
+	private double rateMoney;
 	
 	
+	public double getRate() {
+		return rate;
+	}
+	public void setRate(double rate) {
+		this.rate = rate;
+	}
+	public double getRateMoney() {
+		return rateMoney;
+	}
+	public void setRateMoney(double rateMoney) {
+		this.rateMoney = rateMoney;
+	}
 	public String getDepartment() {
 		return department;
 	}
