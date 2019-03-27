@@ -9,4 +9,8 @@ public class BasePathUtil {
 		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 		return basePath; 
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(984400-909500);
+	}
 }
