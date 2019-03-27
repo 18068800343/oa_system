@@ -111,7 +111,7 @@ public class CgContractServiceImpl implements CgContractService {
 	public CgContract selectCgContractById(String id) {
 		CgContract cg=cgDao.selectCgContractById(id);
 		List<Accessory> list = adao.selectAccessoryById(id);
-		if(list!=null){
+		if(list!=null&&list.size()!=0){
 			cg.setAccessory(list);
 		}
 		List<CgCl> cgcl=cgclDao.selectCgClById(id);

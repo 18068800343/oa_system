@@ -198,6 +198,15 @@
                             	<td style="width:30%;"><input type="text" class="form-control" id="yunfei" style="width:60%;"></td> 
                             </tr> 
                             <tr>
+                                <td class="jinqianyanse" style="width:15%;">税率</td>
+                                <td style="width:30%;">
+                                	<input type="text" placeholder="小数" class="form-control" id="shuilv" style="width:60%;">
+                                	<button type="button" class="btn btn-primary weui-uploader__input" onclick="jisuanshuijin()">计算税金</button>
+                                </td>
+                            	 <td class="jinqianyanse" style="width:15%;">税金</td>
+                            	<td style="width:30%;"><input type="text" class="form-control" id="shuijin" style="width:60%;"></td> 
+                            </tr> 
+                            <tr>
                                 <td>采购合同概述</td>
                                 <td colspan="3"><textarea class="form-control" id="hetonggaishu" rows="4" style="width:100%;"></textarea></td>
                             </tr>
@@ -499,6 +508,15 @@
                             	<td style="width:15%;" class="jinqianyanse">运费(元)</td>
                             	<td style="width:30%;"><input type="text" class="form-control" id="xgyunfei" style="width:60%;"></td>
                             </tr> 
+                            <tr>
+                                <td class="jinqianyanse" style="width:15%;">税率</td>
+                                <td style="width:30%;">
+                                	<input type="text" placeholder="小数" class="form-control" id="xgshuilv" style="width:60%;">
+                                	<button type="button" class="btn btn-primary weui-uploader__input" onclick="xgjisuanshuijin()">计算税金</button>
+                                </td>
+                            	 <td class="jinqianyanse" style="width:15%;">税金</td>
+                            	<td style="width:30%;"><input type="text" class="form-control" id="xgshuijin" style="width:60%;"></td> 
+                            </tr>
                             <tr>
                                 <td>采购合同概述</td>
                                 <td colspan="3"><textarea class="form-control" id="xghetonggaishu" rows="4" style="width:100%;"></textarea></td>
@@ -855,6 +873,12 @@
                            	<td class="jinqianyanse">运费(元)</td>
                            	<td id="lookyunfei"></td>
                          </tr> 
+                         <tr>
+                             <td class="jinqianyanse" style="width:15%;">税率</td>
+                             <td id="look_shuilv"></td>
+                           	 <td class="jinqianyanse" style="width:15%;">税金</td>
+                           	 <td id="look_shuijin"></td> 
+                          </tr>
                         <tr>
                             <td>采购合同概述</td>
                             <td colspan="3" id="lookcghetonggaishu"></td>
@@ -974,6 +998,12 @@
                            	<td class="jinqianyanse">运费(元)</td>
                            	<td id="Historyyunfei"></td>
                           </tr> 
+                          <tr>
+                             <td class="jinqianyanse" style="width:15%;">税率</td>
+                             <td id="History_shuilv"></td>
+                           	 <td class="jinqianyanse" style="width:15%;">税金</td>
+                           	 <td id="History_shuijin"></td> 
+                          </tr>
                         <tr>
                             <td>采购合同概述</td>
                             <td colspan="3" id="Historycghetonggaishu"></td>
@@ -2064,6 +2094,38 @@
         	
         }
     })
+    
+    //计算税金
+    function jisuanshuijin(){
+		var shuilv=$("#shuilv").val();
+		var contractMoney=$("#cghetongMoney").val();
+		var reg=/^[0-1]{1}([.]([0-9]){1,2})?$/;
+		if(shuilv==''||!reg.test(shuilv)){
+			toastr.error("税率不能为空且税率只能填0-1之间的小数且只能有两位小数")
+			return;
+		}
+		if(contractMoney==''){
+			toastr.error("合同金额不能为空")
+			return;
+		}
+		var shuijin=shuilv/1*contractMoney/1;
+		$("#shuijin").val(shuijin)
+	}
+    function xgjisuanshuijin(){
+    	var xgshuilv=$("#xgshuilv").val();
+		var xgcontractMoney=$("#xgcghetongMoney").val();
+		var reg=/^[0-1]{1}([.]([0-9]){1,2})?$/;
+		if(xgshuilv==''||!reg.test(xgshuilv)){
+			toastr.error("税率不能为空且税率只能填0-1之间的小数且只能有两位小数")
+			return;
+		}
+		if(xgcontractMoney==''){
+			toastr.error("合同金额不能为空")
+			return;
+		}
+		var xgshuijin=xgshuilv/1*xgcontractMoney/1;
+		$("#xgshuijin").val(xgshuijin)
+    }
     
     //初始化部门
     function selectDepartment(){
@@ -3203,6 +3265,8 @@
 		var cg_bumen=$("#cg_bumen").val();
 		var yunfei=$("#yunfei").val();
 		var borrowNo=$("#borrow_no").val();
+		var shuilv=$("#shuilv").val();
+		var shuijin=$("#shuijin").val();
 		if(borrowNo=="请选择"){
 			borrowNo="";
 		}
@@ -3281,6 +3345,8 @@
 				 cgDepartment:undefined,
 				 freight:0,
 				 borrowNo:undefined,
+				 shuilv:0,
+				 shuijin:0,
 		}
 		cgContract.contractName=cghetongming;
 		cgContract.cgdNo=cgdNo;
@@ -3302,6 +3368,8 @@
 		cgContract.cgDepartment=cg_bumen;
 		cgContract.freight=yunfei;
 		cgContract.borrowNo=borrowNo;
+		cgContract.shuilv=shuilv;
+		cgContract.shuijin=shuijin;
 		//console.log(cgContract)
 		var formData = new FormData();
   		formData.append("cgContract", JSON.stringify(cgContract));
@@ -3433,6 +3501,8 @@
 		var cg_bumen=$("#cg_bumen").val();
 		var yunfei=$("#yunfei").val();
 		var borrowNo=$("#borrow_no").val();
+		var shuilv=$("#shuilv").val();
+		var shuijin=$("#shuijin").val();
 		if(borrowNo=="请选择"){
 			borrowNo="";
 		}
@@ -3495,6 +3565,15 @@
 			toastr.error("运费只能输入数字且只能有两位小数");
 			return;
 		} 
+		var reg=/^[0-1]{1}([.]([0-9]){1,2})?$/;
+		if(shuilv==''||!reg.test(shuilv)){
+			toastr.error("税率不能为空且税率只能填0-1之间的小数且只能有两位小数")
+			return;
+		}
+		if(shuijin==''){
+			toastr.error("税金不能为空")
+			return;
+		}
 		
 		var cgContract={
 				 cgId:undefined,   //编号                   
@@ -3521,6 +3600,8 @@
 				 cgDepartment:undefined,
 				 freight:0,
 				 borrowNo:undefined,
+				 shuilv:0,
+				 shuijin:0,
 		}
 		cgContract.contractName=cghetongming;
 		cgContract.cgdNo=cgdNo;
@@ -3542,6 +3623,8 @@
 		cgContract.cgDepartment=cg_bumen;
 		cgContract.freight=yunfei;
 		cgContract.borrowNo=borrowNo;
+		cgContract.shuilv=shuilv;
+		cgContract.shuijin=shuijin;
 		
 		var formData = new FormData();
   		formData.append("cgContract", JSON.stringify(cgContract));
@@ -3909,6 +3992,9 @@
 				$("#xgyunfei").val(json.freight)
 				//$("#xgborrow_no").val(json.borrowNo)
 				xgselectBorrowByFbNo(json.fbNo,json.borrowNo)
+				
+				$("#xgshuilv").val(json.shuilv);
+				$("#xgshuijin").val(json.shuijin);
 				/* $("#xgcailiaobiaoDiv").empty()
 				$("#xgcailiaobiaoDiv").append(
 					// "<button type='button' id='xgyijianjiesuanMoney' onclick='yijianjiesuan(2)' class='btn btn-primary' >一键结算金额</button>"+ 
@@ -4124,6 +4210,9 @@
 		var xgcg_bumen=$("#xgcg_bumen").val()
 		var xgyunfei=$("#xgyunfei").val();
 		var xgborrowNo=$("#xgborrow_no").val();
+		var xgshuilv=$("#xgshuilv").val();
+		var xgshuijin=$("#xgshuijin").val();
+		
 		if(xgborrowNo=="请选择"){
 			xgborrowNo="";
 		}
@@ -4204,6 +4293,8 @@
 				 cgDepartment:undefined,
 				 freight:0,
 				 borrowNo:undefined,
+				 shuilv:0,
+				 shuijin:0,
 		}
 		cgContract.contractName=xgcghetongming;
 		cgContract.cgNo=xgcgNo;
@@ -4226,6 +4317,8 @@
 		cgContract.cgDepartment=xgcg_bumen;
 		cgContract.freight=xgyunfei;
 		cgContract.borrowNo=xgborrowNo;
+		cgContract.shuilv=xgshuilv;
+		cgContract.shuijin=xgshuijin;
 		
 		var formData = new FormData();
  		formData.append("cgContract", JSON.stringify(cgContract));
@@ -4356,6 +4449,9 @@
 		var xgcg_bumen=$("#xgcg_bumen").val()
 		var xgyunfei=$("#xgyunfei").val();
 		var xgborrowNo=$("#xgborrow_no").val();
+		var xgshuilv=$("#xgshuilv").val();
+		var xgshuijin=$("#xgshuijin").val();
+		
 		if(xgborrowNo=="请选择"){
 			xgborrowNo="";
 		}
@@ -4423,6 +4519,15 @@
 			toastr.error("运费只能输入数字且只能有两位小数");
 			return;
 		} 
+		var reg=/^[0-1]{1}([.]([0-9]){1,2})?$/;
+		if(xgshuilv==''||!reg.test(xgshuilv)){
+			toastr.error("税率不能为空且税率只能填0-1之间的小数且只能有两位小数")
+			return;
+		}
+		if(xgshuijin==''){
+			toastr.error("税金不能为空")
+			return;
+		}
 		
 		var cgContract={
 				 cgId:undefined,   //编号                   
@@ -4449,6 +4554,8 @@
 				 cgDepartment:undefined,
 				 freight:0,
 				 borrowNo:undefined,
+				 shuilv:0,
+				 shuijin:0,
 		}
 		cgContract.contractName=xgcghetongming;
 		cgContract.cgNo=xgcgNo;
@@ -4471,6 +4578,8 @@
 		cgContract.cgDepartment=xgcg_bumen;
 		cgContract.freight=xgyunfei;
 		cgContract.borrowNo=xgborrowNo;
+		cgContract.shuilv=xgshuilv;
+		cgContract.shuijin=xgshuijin;
 		
 		var formData = new FormData();
  		formData.append("cgContract", JSON.stringify(cgContract));
@@ -4582,7 +4691,9 @@
 				$("#lookcghetonggaishu").text(json.contractSummary==null?"":json.contractSummary);
 				$("#lookgaikuang").text(json.workContent==null?"":json.workContent);
 				$("#lookcg_bumen").text(json.cgDepartment);
-				$("#lookyunfei").text(json.freight);
+				$("#lookyunfei").text(json.freight==null?"":json.freight);
+				$("#look_shuilv").text(json.shuilv==null?"":json.shuilv);
+				$("#look_shuijin").text(json.shuijin==null?"":json.shuijin);
 				
 				$("#lookcailiaobiaoDiv").empty();
 				$("#lookcailiaobiaoDiv").append(
@@ -4747,6 +4858,8 @@
 				$("#lookyear").text(data.contractSignTime);
 				$("#lookcghetonggaishu").text(data.contractSummary);
 				$("#lookgaikuang").text(data.workContent);
+				$("#look_shuilv").text(json.shuilv);
+				$("#look_shuijin").text(json.shuijin);
 				
 				var list=new Array();
 				if(data.cgdNo.indexOf(",")){
@@ -4920,7 +5033,9 @@
 				$("#Historycghetonggaishu").text(json.contractSummary==null?"":json.contractSummary);
 				$("#Historygaikuang").text(json.workContent==null?"":json.workContent);
 				$("#Historycg_bumen").text(json.cgDepartment==null?"":json.cgDepartment);
-				$("#Historyyunfei").text(json.freight);
+				$("#Historyyunfei").text(json.freight==null?"":json.freight);
+				$("#History_shuilv").text(json.shuilv==null?"":json.shuilv);
+				$("#History_shuijin").text(json.shuijin==null?"":json.shuijin);
 				
 				$("#HistorycailiaobiaoDiv").empty();
 				$("#HistorycailiaobiaoDiv").append(

@@ -32,6 +32,9 @@ public class CgContract {
 	private String cgDepartment;//采购部门
 	private Float freight;//运费
 	private String borrowNo;//借款合同号
+	
+	private Double shuilv;//税率
+	private Double shuijin;//税金
 	    
 	private List<Accessory> accessory;
 	private List<Accessory> accessory1;
@@ -41,6 +44,22 @@ public class CgContract {
 	
 	
 	
+	public Double getShuilv() {
+		return shuilv;
+	}
+
+	public void setShuilv(Double shuilv) {
+		this.shuilv = shuilv;
+	}
+
+	public Double getShuijin() {
+		return shuijin;
+	}
+
+	public void setShuijin(Double shuijin) {
+		this.shuijin = shuijin;
+	}
+
 	public String getBorrowNo() {
 		return borrowNo;
 	}
