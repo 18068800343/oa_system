@@ -445,6 +445,14 @@
                             	<td><input type="text" class="form-control" id="xgyunfei" style="width:60%;"></td>
                             </tr> 
                             <tr>
+                                <td class="jinqianyanse" style="width:15%;">税率</td>
+                                <td style="width:30%;">
+                                	<input type="text" placeholder="小数" class="form-control" id="xgshuilv" style="width:60%;" onchange="xggetRateMoney(this)">
+                                </td>
+                            	 <td class="jinqianyanse" style="width:15%;">税金</td>
+                            	<td style="width:30%;"><input type="text" class="form-control" id="xgshuijin" style="width:60%;"></td> 
+                            </tr>
+                            <tr>
                                 <td>采购合同概述</td>
                                 <td colspan="3"><textarea class="form-control" id="xghetonggaishu" rows="4" style="width:100%;"></textarea></td>
                             </tr>
@@ -1730,6 +1738,19 @@
   	}
 	
 	
+	function xggetRateMoney(obj){
+		var xgshuilv=$(obj).val();
+		var xgmoney=$("#xgcghetongMoney").val();
+		if(xgmoney==''||xgmoney==null){
+    		toastr.error('采购合同金额为空');
+    		$(obj).val('');
+    		return;
+    	}
+		var sum=xgshuilv/1*xgmoney/1;
+    	$("#xgshuijin").val(sum);
+	}
+	
+	
 	function GetQueryString(name){
         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
@@ -1767,6 +1788,8 @@
 				$("#xggaikuang").val(json.workContent);
 				$("#xgcg_bumen").val(json.cgoDepartment);
 				$("#xgyunfei").val(json.freight)
+				$("#xgshuilv").val(json.shuilv);
+				$("#xgshuijin").val(json.shuijin);
 				
 			}
 		}) 
@@ -1868,6 +1891,8 @@
 		var xggaikuang=$("#xggaikuang").val();
 		var xgcgo_bumen=$("#xgcg_bumen").val()
 		var xgyunfei=$("#xgyunfei").val();
+		var xgshuilv=$("#xgshuilv").val();
+		var xgshuijin=$("#xgshuijin").val();
 
 		if(obj=="1"){
 			if(xgcgohetongming==''){
@@ -1911,6 +1936,16 @@
 			}
 			var reg=/^\d+(\.\d{0,2})?$/;//只能输入数字或含两位小数的正则
 			
+			var reg=/^[0-1]{1}([.]([0-9]){1,2})?$/;
+			if(xgshuilv==''||!reg.test(xgshuilv)){
+				toastr.error("税率不能为空且税率只能填0-1之间的小数且只能有两位小数")
+				return "税率不能为空且税率只能填0-1之间的小数且只能有两位小数";
+			}
+			if(xgshuijin==''){
+				toastr.error("税金不能为空")
+				return "税金不能为空";
+			}
+			
 		}
 		
 		
@@ -1932,6 +1967,8 @@
 				 history:undefined,   //历史状态              
 				 cgoDepartment:undefined,
 				 freight:0,
+				 shuilv:0,
+				 shuijin:0,
 		}
 		cgOtherContract.contractName=xgcgohetongming;
 		cgOtherContract.cgoNo=xgcgoNo;
@@ -1947,6 +1984,8 @@
 		cgOtherContract.workContent=xggaikuang;
 		cgOtherContract.cgoDepartment=xgcgo_bumen;
 		cgOtherContract.freight=xgyunfei;
+		cgOtherContract.shuilv=xgshuilv;
+		cgOtherContract.shuijin=xgshuijin;
 		cgOtherContract.cgoId = id;
 		
 		var formData = new FormData();

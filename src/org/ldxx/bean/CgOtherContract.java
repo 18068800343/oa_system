@@ -26,11 +26,30 @@ public class CgOtherContract {
 	private String history;//历史状态
 	private String cgoDepartment;//采购部门
 	private Float freight;//运费
+	private Double shuilv;//税率
+	private Double shuijin;//税金
 	    
 	private List<Accessory> accessory;
 	private List<Accessory> accessory1;
 
 	private String spName;// 乙方单位名称
+
+	
+	public Double getShuilv() {
+		return shuilv;
+	}
+
+	public void setShuilv(Double shuilv) {
+		this.shuilv = shuilv;
+	}
+
+	public Double getShuijin() {
+		return shuijin;
+	}
+
+	public void setShuijin(Double shuijin) {
+		this.shuijin = shuijin;
+	}
 
 	public String getCgoId() {
 		return cgoId;
