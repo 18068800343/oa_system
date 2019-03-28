@@ -993,19 +993,21 @@
             url: getContextPath()+'/subcontract/selectFbContractByTaskNo',
             dataType: 'json',
             data: {
-            	no:prjNo
+            	no:data.prjNo
             },
             success: function (json) {
             	$("#fb_table tbody").html('');
             	for(var i=0;i<json.length;i++){
             		$("#fb_table tbody").append("<tr>"
-							+"<td>"+json[i].contractName+"</td>"
-							+"<td>"+json[i].omName+"</td>"
-							+"<td>"+json[i].contractMoney+"</td>"
-							+"<td>"+json[i].ccName+"</td>"
-							+"<td><input type='text' data="+json[i].fbNo+" class='form-control' onchange='getFbBq(this)' style='width:80%;'></td>"
-							+"<td><input type='text' class='form-control' style='width:80%;' disabled></td>"
-						+"</tr>")
+		            													+"<td>"+json[i].contractName+"</td>"
+		            													+"<td>"+json[i].omName+"</td>"
+		            													+"<td>"+json[i].contractMoney+"</td>"
+		            													+"<td>"+json[i].ccName+"</td>"
+		            													+"<td><input type='text' data="+json[i].fbNo+" class='form-control' onchange='getFbBq(this)' style='width:100%;'></td>"
+		            													+"<td><input type='text' class='form-control' style='width:100%;' disabled></td>"
+		            													+"<td><input type='text' class='form-control' onchange='getRate(this)' style='width:100%;' placeholder='请填小数'></td>"
+		            													+"<td><input type='text' class='form-control' style='width:100%;' disabled></td>"
+		            												+"</tr>")
             	}
             }
 		})
@@ -1247,6 +1249,8 @@
 											+"<td>"+json[i].ccName+"</td>"
 											+"<td><input type='text' data="+json[i].fbNo+" class='form-control' onchange='getFbBq(this)' style='width:80%;'></td>"
 											+"<td><input type='text' class='form-control' style='width:80%;' disabled></td>"
+											+"<td><input type='text' class='form-control' onchange='getRate(this)' style='width:100%;' placeholder='请填小数'></td>"
+											+"<td><input type='text' class='form-control' style='width:100%;' disabled></td>"
 										+"</tr>")
                             	}
                             }
@@ -1562,6 +1566,25 @@
            	   $("#this_time_money_yuan").val(income-present);
            	   var contractMoney=$("#contractMoney").val();
                $("#contract_income").val(((allMoney+income-present)*100/contractMoney).toFixed(2)+"%")
+               
+               var infoNum=$("#xieban1 tbody").find("tr").length;
+	       		if(infoNum==1){
+	       			$("#xieban1 tbody").find("tr").eq(0).find("input").eq(0).val(100).trigger("change");
+	       		}else if(infoNum==2){
+	       			$("#xieban1 tbody").find("tr").eq(0).find("input").eq(0).val(100).trigger("change");
+	       			$("#xieban1 tbody").find("tr").eq(1).find("input").eq(0).val(0).trigger("change");
+	       		}else if(infoNum==3){
+	       			$("#xieban1 tbody").find("tr").eq(0).find("input").eq(0).val(100).trigger("change");
+	       			$("#xieban1 tbody").find("tr").eq(1).find("input").eq(0).val(0).trigger("change");
+	       			$("#xieban1 tbody").find("tr").eq(2).find("input").eq(0).val(0).trigger("change");
+	       		}else if(infoNum==4){
+	       			$("#xieban1 tbody").find("tr").eq(0).find("input").eq(0).val(100).trigger("change");
+	       			$("#xieban1 tbody").find("tr").eq(1).find("input").eq(0).val(0).trigger("change");
+	       			$("#xieban1 tbody").find("tr").eq(2).find("input").eq(0).val(0).trigger("change");
+	       			$("#xieban1 tbody").find("tr").eq(3).find("input").eq(0).val(0).trigger("change");
+	       		}
+               
+               
             }
         });
 	})
@@ -2073,10 +2096,10 @@
 								"<td>"+depart+"</td>"+
 								"<td>"+ppfb[i].fbMoney+"</td>"+
 								"<td>"+ppfb[i].fbUnit+"</td>"+
-								"<td>"+ppfb[i].incomeAll+"</td>"+
-								"<td>"+ppfb[i].incomeBq+"</td>"+
-								"<td>"+ppfb[i].rate+"</td>"+
-								"<td>"+ppfb[i].rateMoney+"</td>"+
+								"<td><input type='text' class='form-control' style='width:100%;' data="+ppfb[i].fbId+" value="+ppfb[i].incomeAll+" onchange='getFbBq(this)'></td>"+
+								"<td><input type='text' class='form-control' style='width:100%;' value="+ppfb[i].incomeBq+" disabled></td>"+
+								"<td><input type='text' class='form-control' style='width:100%;' value="+ppfb[i].rate+" onchange='getRate(this)'></td>"+
+								"<td><input type='text' class='form-control' style='width:100%;' value="+ppfb[i].rateMoney+" disabled></td>"+
 							"</tr>")
 						$("#fb_table").show();
                     	$("#fb_ys_table").hide();
@@ -2303,6 +2326,18 @@
     	}
     	var sum=rate*all_money_yuan;
     	$("#new_rate_money").val(sum);
+    }
+	
+	function getRate(obj){
+    	var rate=$(obj).val();
+    	var money=$(obj).parents("tr").find("input").eq(0).val();
+    	if(money==''||money==null){
+    		toastr.error('累计收入为空');
+    		$(obj).val('');
+    		return;
+    	}
+    	var sum=rate*money;
+    	$(obj).parents("tr").find("input").eq(3).val(sum);
     }
     
 </script>
