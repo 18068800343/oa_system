@@ -317,30 +317,37 @@ public class PrjProgressFillController {
 		List<CjContract> list=new ArrayList<>();
 		List<PrjProgressFill> ppf=service.selectPrjProgressFill("2");
 		for(int i=0;i<ppf.size();i++){
-			String taskNo=ppf.get(i).getTaskNo();
-			String thisTime=ppf.get(i).getThisTime();
-			double plan=Double.valueOf(ppf.get(i).getContractIncome().replace("%", ""));
-			CjContract cj=cService.selectCjContractLikeTaskCode("%"+taskNo+"%");
-			if(list.size()!=0){
-				int end=0;
-				for(int ii=0;ii<list.size();ii++){
-					if(list.get(ii).getContractNo().equals(cj.getContractNo())&&list.get(ii).getContractSignTime().equals(thisTime)){
-						 end=1;
-						 double old_plan=Double.valueOf(list.get(ii).getWorkInfo().replace("%", ""));
-						 if(old_plan<plan){
-							 list.get(ii).setWorkInfo(plan+"%");
-						 }
+			try {
+				String taskNo=ppf.get(i).getTaskNo();
+				String thisTime=ppf.get(i).getThisTime();
+				String aas=ppf.get(i).getContractIncome().equals("")?"0":ppf.get(i).getContractIncome();
+				double plan=Double.valueOf(aas.replace("%", ""));
+				CjContract cj=cService.selectCjContractLikeTaskCode("%"+taskNo+"%");
+				if(cj!=null){
+					if(list.size()!=0){
+						int end=0;
+						for(int ii=0;ii<list.size();ii++){
+							if(list.get(ii).getContractNo().equals(cj.getContractNo())&&list.get(ii).getContractSignTime().equals(thisTime)){
+								 end=1;
+								 double old_plan=Double.valueOf(list.get(ii).getWorkInfo().replace("%", ""));
+								 if(old_plan<plan){
+									 list.get(ii).setWorkInfo(plan+"%");
+								 }
+							}
+						}
+						if(end==0){
+							cj.setContractSignTime(thisTime);
+							cj.setWorkInfo(plan+"%");
+							list.add(cj);
+						}
+					}else{
+						cj.setContractSignTime(thisTime);
+						cj.setWorkInfo(plan+"%");
+						list.add(cj);
 					}
 				}
-				if(end==0){
-					cj.setContractSignTime(thisTime);
-					cj.setWorkInfo(plan+"%");
-					list.add(cj);
-				}
-			}else{
-				cj.setContractSignTime(thisTime);
-				cj.setWorkInfo(plan+"%");
-				list.add(cj);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
 		}
 		return list;
