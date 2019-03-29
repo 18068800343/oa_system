@@ -888,6 +888,34 @@
 	$(".Pjcxb").hide();
 	//425	其他文件资料管理删除	Pjcxc+
 	$(".Pjcxc").hide();
+	
+	//426	其他采购合同审签菜单栏	Pecacb+
+	$(".Pecacb").hide();
+	//427	其他采购合同审签填报	Pecacba+
+	$(".Pecacba").hide();
+	//428	其他采购合同审签查看详细信息	Pecacbb+
+	$(".Pecacbb").hide();
+	//429	其他采购合同审签合同变更	Pecacbc+
+	$(".Pecacbc").hide();
+	//430	其他采购合同审签合同取消	Pecacbd+
+	$(".Pecacbd").hide();
+	//431	其他采购合同审签合同重启	Pecacbf+
+	$(".Pecacbf").hide();
+	//432	检测二部分包采购合同管理菜单栏	Pfe+
+	$(".Pfe").hide();
+	//433	检测二部分包采购合同审签菜单栏	Pfea+
+	$(".Pfea").hide();
+	//434	检测二部分包采购合同审签填报	Pfeaa+
+	$(".Pfeaa").hide();
+	//435	检测二部分包采购合同审签查看详细信息	Pfeab+
+	$(".Pfeab").hide();
+	//436	检测二部分包采购合同审签变更	Pfeac+
+	$(".Pfeac").hide();
+	//437	检测二部分包采购合同审签取消	Pfead+
+	$(".Pfead").hide();
+	//438	检测二部分包采购合同审签重启	Pfeae+
+	$(".Pfeae").hide();
+
 
 
 	
