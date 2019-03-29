@@ -292,6 +292,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 
 	@Override
 	public CjContract selectCjContractAndPrjProgressFillCj(String no) {
+		no="%"+no+"%";
 		return dao.selectCjContractAndPrjProgressFillCj(no);
 	}
 
