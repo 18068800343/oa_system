@@ -128,9 +128,6 @@
                                 <td style="width:15%;">合同甲方名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td style="width:30%;">
                                     <select class="form-control" id="hetongjiafang" style="width:60%;">
-                                        <option value="江苏华通工程检测有限公司">江苏华通工程检测有限公司</option>
-                                        <option value="江苏华汇工程检测有限公司">江苏华汇工程检测有限公司</option>
-                                        <option value="宿迁分公司">宿迁分公司</option>
                                     </select>  
                                 </td>
                                 <td style="width:15%;">乙方  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -325,9 +322,6 @@
                                 <td>合同甲方名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                                 <td>
                                     <select class="form-control" id="xghetongjiafang" style="width:60%;">
-                                        <option value="江苏华通工程检测有限公司">江苏华通工程检测有限公司</option>
-                                        <option value="江苏华汇工程检测有限公司">江苏华汇工程检测有限公司</option>
-                                        <option value="宿迁分公司">宿迁分公司</option>
                                     </select>  
                                 </td>
                                 <td>乙方  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -848,6 +842,8 @@
     	inityifang();
     	//初始化任务单
     	initPrj();
+    	//初始化甲方
+    	initFenGs();
         laydate.render({
             elem: '#year' //指定元素
         });
@@ -1389,6 +1385,25 @@
         	
         }
     })
+    
+    //初始化甲方
+    function initFenGs(){
+  		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/job/selectAllJobLv',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	 $("#hetongjiafang").html("");
+            	 $("#xghetongjiafang").html("");
+                 for(var i=0;i<json.length;i++){
+                 	$("#hetongjiafang").append("<option value='"+json[i].jobLvName+"'>"+json[i].jobLvName+"</option>")
+                 	$("#xghetongjiafang").append("<option value='"+json[i].jobLvName+"'>"+json[i].jobLvName+"</option>")
+                 }
+            }
+      });
+  	 }
     
     //计算税金
     function getRateMoney(obj){
