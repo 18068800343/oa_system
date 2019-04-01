@@ -326,4 +326,9 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.updateTaskNoById(no, id);
 	}
 
+	@Override
+	public String CreateTaskNumOrder(String gs,String year, String type) {
+		return tdao.CreateTaskNumOrder(gs,year, type);
+	}
+
 }

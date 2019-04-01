@@ -86,4 +86,6 @@ public interface TaskDao {
 	public List<Task> selectlikeMainDepartment(@Param("mainDepartment")String mainDepartment);
 	
 	public int updateTaskNoById(@Param("no")String no,@Param("id")String id);
+	
+	public String CreateTaskNumOrder(@Param("gs")String gs,@Param("year")String year,@Param("type")String type);
 }

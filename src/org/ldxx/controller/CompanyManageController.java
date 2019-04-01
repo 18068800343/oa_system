@@ -86,7 +86,7 @@ public class CompanyManageController {
 				 String omId=om.get(i).getOmId();
 				 
 				 PrjProgressFill ppf=pService.selectTotalIncome(omName, startTime, endTime);
-				 float totalAccomplish=0;
+				 double totalAccomplish=0;
 				 if(ppf!=null){
 					 totalAccomplish=ppf.getAllMoneyYuan();//累计完成收入
 				 }
@@ -98,7 +98,7 @@ public class CompanyManageController {
 					 revenueTarget=(float) dt.getRevenueTarget();//收入目标
 					 contractAmount=(float) dt.getContractAmount();//合同额目标
 				 }
-				 float finish=(totalAccomplish/revenueTarget)*100;
+				 double finish=(totalAccomplish/revenueTarget)*100;
 				 String finishStr=Math.round(finish)+"%";//完成百分比
 				 
 				 ContractUpdate cu=cuService.selectDeptContractMoneyByStartAndEndTime(startTime, endTime, omId);

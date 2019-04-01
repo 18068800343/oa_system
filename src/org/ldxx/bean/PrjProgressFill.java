@@ -15,19 +15,19 @@ public class PrjProgressFill {
 	private String prjName;
 	private String taskNo;
 	private String prjType;
-	private float contractMoney;
-	private float prjMoney;
+	private double contractMoney;
+	private double prjMoney;
 	private String prjLeader;
-	private float provisionalSum;
+	private double provisionalSum;
 	private String prjStartTime;
 	private String prjEndTime;
-	private float budgetMoneyAll;
+	private double budgetMoneyAll;
 	private String thisTime;
 	private String prjMode;
 	private String allMoney;
 	private String contractIncome;//合同收入比例
-	private float allMoneyYuan;
-	private float prjThisIncomeYuan;
+	private double allMoneyYuan;
+	private double prjThisIncomeYuan;
 	private int status;
 	private String infos;
 	private String ygDesign;//预工可设计
@@ -104,10 +104,10 @@ public class PrjProgressFill {
 	public void setSecondDesign(String secondDesign) {
 		this.secondDesign = secondDesign;
 	}
-	public float getPrjMoney() {
+	public double getPrjMoney() {
 		return prjMoney;
 	}
-	public void setPrjMoney(float prjMoney) {
+	public void setPrjMoney(double prjMoney) {
 		this.prjMoney = prjMoney;
 	}
 	public int getStatus() {
@@ -164,10 +164,10 @@ public class PrjProgressFill {
 	public void setPrjType(String prjType) {
 		this.prjType = prjType;
 	}
-	public float getContractMoney() {
+	public double getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(float contractMoney) {
+	public void setContractMoney(double contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 	public String getPrjLeader() {
@@ -176,10 +176,10 @@ public class PrjProgressFill {
 	public void setPrjLeader(String prjLeader) {
 		this.prjLeader = prjLeader;
 	}
-	public float getProvisionalSum() {
+	public double getProvisionalSum() {
 		return provisionalSum;
 	}
-	public void setProvisionalSum(float provisionalSum) {
+	public void setProvisionalSum(double provisionalSum) {
 		this.provisionalSum = provisionalSum;
 	}
 	public String getPrjStartTime() {
@@ -194,10 +194,10 @@ public class PrjProgressFill {
 	public void setPrjEndTime(String prjEndTime) {
 		this.prjEndTime = prjEndTime;
 	}
-	public float getBudgetMoneyAll() {
+	public double getBudgetMoneyAll() {
 		return budgetMoneyAll;
 	}
-	public void setBudgetMoneyAll(float budgetMoneyAll) {
+	public void setBudgetMoneyAll(double budgetMoneyAll) {
 		this.budgetMoneyAll = budgetMoneyAll;
 	}
 	public String getThisTime() {
@@ -212,16 +212,16 @@ public class PrjProgressFill {
 	public void setAllMoney(String allMoney) {
 		this.allMoney = allMoney;
 	}
-	public float getAllMoneyYuan() {
+	public double getAllMoneyYuan() {
 		return allMoneyYuan;
 	}
-	public void setAllMoneyYuan(float allMoneyYuan) {
+	public void setAllMoneyYuan(double allMoneyYuan) {
 		this.allMoneyYuan = allMoneyYuan;
 	}
-	public float getPrjThisIncomeYuan() {
+	public double getPrjThisIncomeYuan() {
 		return prjThisIncomeYuan;
 	}
-	public void setPrjThisIncomeYuan(float prjThisIncomeYuan) {
+	public void setPrjThisIncomeYuan(double prjThisIncomeYuan) {
 		this.prjThisIncomeYuan = prjThisIncomeYuan;
 	}
 	

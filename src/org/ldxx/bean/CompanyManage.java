@@ -10,15 +10,15 @@ package org.ldxx.bean;
 public class CompanyManage {
 
 	private String departmentName;
-	private float totalAccomplish;//累计完成收入
-	private float targetRevenues;//目标收入
+	private double totalAccomplish;//累计完成收入
+	private double targetRevenues;//目标收入
 	private String percentage;//完成百分比
 	private double moneyReceipt;//已收款
 	private double accruedAssets;//未收款
 	private double cost;//成本
 	private Double newContractAmount;//新签合同额
-	private float contractZdMoney;//合同暂定金
-	private float contractTargetMoney;//合同目标额
+	private double contractZdMoney;//合同暂定金
+	private double contractTargetMoney;//合同目标额
 	
 	
 	public double getMoneyReceipt() {
@@ -45,16 +45,16 @@ public class CompanyManage {
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
 	}
-	public float getTotalAccomplish() {
+	public double getTotalAccomplish() {
 		return totalAccomplish;
 	}
-	public void setTotalAccomplish(float totalAccomplish) {
+	public void setTotalAccomplish(double totalAccomplish) {
 		this.totalAccomplish = totalAccomplish;
 	}
-	public float getTargetRevenues() {
+	public double getTargetRevenues() {
 		return targetRevenues;
 	}
-	public void setTargetRevenues(float targetRevenues) {
+	public void setTargetRevenues(double targetRevenues) {
 		this.targetRevenues = targetRevenues;
 	}
 	public String getPercentage() {
@@ -69,16 +69,16 @@ public class CompanyManage {
 	public void setNewContractAmount(Double newContractAmount) {
 		this.newContractAmount = newContractAmount;
 	}
-	public float getContractZdMoney() {
+	public double getContractZdMoney() {
 		return contractZdMoney;
 	}
-	public void setContractZdMoney(float contractZdMoney) {
+	public void setContractZdMoney(double contractZdMoney) {
 		this.contractZdMoney = contractZdMoney;
 	}
-	public float getContractTargetMoney() {
+	public double getContractTargetMoney() {
 		return contractTargetMoney;
 	}
-	public void setContractTargetMoney(float contractTargetMoney) {
+	public void setContractTargetMoney(double contractTargetMoney) {
 		this.contractTargetMoney = contractTargetMoney;
 	}
 	

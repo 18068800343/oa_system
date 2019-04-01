@@ -317,40 +317,40 @@ public class StatisticsController {
 				
 				//部门累计收入按项目类型
 				PrjProgressFill ppf=pService.selectDeptIncomeByTimeAndType(year+"-01", omName, type);
-				float inComeMonth1=ppf.getAllMoneyYuan();
+				double inComeMonth1=ppf.getAllMoneyYuan();
 				inComeMonth1All=inComeMonth1All+inComeMonth1;
 				PrjProgressFill ppf2=pService.selectDeptIncomeByTimeAndType(year+"-02", omName, type);
-				float inComeMonth2=ppf2.getAllMoneyYuan();
+				double inComeMonth2=ppf2.getAllMoneyYuan();
 				inComeMonth2All=inComeMonth2All+inComeMonth2;
 				PrjProgressFill ppf3=pService.selectDeptIncomeByTimeAndType(year+"-03", omName, type);
-				float inComeMonth3=ppf3.getAllMoneyYuan();
+				double inComeMonth3=ppf3.getAllMoneyYuan();
 				inComeMonth3All=inComeMonth3All+inComeMonth3;
 				PrjProgressFill ppf4=pService.selectDeptIncomeByTimeAndType(year+"-04", omName, type);
-				float inComeMonth4=ppf4.getAllMoneyYuan();
+				double inComeMonth4=ppf4.getAllMoneyYuan();
 				inComeMonth4All=inComeMonth4All+inComeMonth4;
 				PrjProgressFill ppf5=pService.selectDeptIncomeByTimeAndType(year+"-05", omName, type);
-				float inComeMonth5=ppf5.getAllMoneyYuan();
+				double inComeMonth5=ppf5.getAllMoneyYuan();
 				inComeMonth5All=inComeMonth5All+inComeMonth5;
 				PrjProgressFill ppf6=pService.selectDeptIncomeByTimeAndType(year+"-06", omName, type);
-				float inComeMonth6=ppf6.getAllMoneyYuan();
+				double inComeMonth6=ppf6.getAllMoneyYuan();
 				inComeMonth6All=inComeMonth6All+inComeMonth6;
 				PrjProgressFill ppf7=pService.selectDeptIncomeByTimeAndType(year+"-07", omName, type);
-				float inComeMonth7=ppf7.getAllMoneyYuan();
+				double inComeMonth7=ppf7.getAllMoneyYuan();
 				inComeMonth7All=inComeMonth7All+inComeMonth7;
 				PrjProgressFill ppf8=pService.selectDeptIncomeByTimeAndType(year+"-08", omName, type);
-				float inComeMonth8=ppf8.getAllMoneyYuan();
+				double inComeMonth8=ppf8.getAllMoneyYuan();
 				inComeMonth8All=inComeMonth8All+inComeMonth8;
 				PrjProgressFill ppf9=pService.selectDeptIncomeByTimeAndType(year+"-09", omName, type);
-				float inComeMonth9=ppf9.getAllMoneyYuan();
+				double inComeMonth9=ppf9.getAllMoneyYuan();
 				inComeMonth9All=inComeMonth9All+inComeMonth9;
 				PrjProgressFill ppf10=pService.selectDeptIncomeByTimeAndType(year+"-10", omName, type);
-				float inComeMonth10=ppf10.getAllMoneyYuan();
+				double inComeMonth10=ppf10.getAllMoneyYuan();
 				inComeMonth10All=inComeMonth10All+inComeMonth10;
 				PrjProgressFill ppf11=pService.selectDeptIncomeByTimeAndType(year+"-11", omName, type);
-				float inComeMonth11=ppf11.getAllMoneyYuan();
+				double inComeMonth11=ppf11.getAllMoneyYuan();
 				inComeMonth11All=inComeMonth11All+inComeMonth11;
 				PrjProgressFill ppf12=pService.selectDeptIncomeByTimeAndType(year+"-12", omName, type);
-				float inComeMonth12=ppf12.getAllMoneyYuan();
+				double inComeMonth12=ppf12.getAllMoneyYuan();
 				inComeMonth12All=inComeMonth12All+inComeMonth12;
 				
 				
@@ -593,13 +593,13 @@ public class StatisticsController {
 				
 				//部门累计收入按项目类型
 				PrjProgressFill ppf=pService.selectDeptIncomeByTimeAndType(year3, omName, type);
-				float inComeMonth1=ppf.getAllMoneyYuan();
+				double inComeMonth1=ppf.getAllMoneyYuan();
 				inComeYear1All=inComeYear1All+inComeMonth1;
 				PrjProgressFill ppf2=pService.selectDeptIncomeByTimeAndType(year2, omName, type);
-				float inComeMonth2=ppf2.getAllMoneyYuan();
+				double inComeMonth2=ppf2.getAllMoneyYuan();
 				inComeYear2All=inComeYear2All+inComeMonth2;
 				PrjProgressFill ppf3=pService.selectDeptIncomeByTimeAndType(year, omName, type);
-				float inComeMonth3=ppf3.getAllMoneyYuan();
+				double inComeMonth3=ppf3.getAllMoneyYuan();
 				inComeYear3All=inComeYear3All+inComeMonth3;
 				
 				//部门累计收款按项目类型

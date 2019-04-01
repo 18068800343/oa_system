@@ -35,6 +35,7 @@ import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.mapper.FlowHistroyMapper;
 import org.ldxx.mapper.ModeStatusMapper;
 import org.ldxx.service.CjContractService;
+import org.ldxx.service.ContractUpdateService;
 import org.ldxx.service.EnterpriseService;
 import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
@@ -86,6 +87,9 @@ public class TaskController {
 	private RoleDao roleDao;
 	@Autowired
 	private ModeStatusMapper modeStatusMapper;
+	@Autowired
+	private ContractUpdateService cuService;
+	
 	@RequestMapping("/addTask")/*任务单保存*/
 	@ResponseBody
 	public int addTask(@RequestBody List<Task> task,HttpSession session){
@@ -1163,6 +1167,7 @@ public class TaskController {
 		if(i>0){
 			TimeUUID uuid=new TimeUUID();
 			Task t=tService.selectCcNameByPrjId(id);
+			cuService.addContractUpdate((List<Task>) t);
 			String mainDept=t.getMainDepartment();
 			String company=t.getPrjCompany();
 			String oldNo=t.getPrjNo();
@@ -1177,9 +1182,11 @@ public class TaskController {
 				String code=type.split(" ")[0];
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 				String year=sdf.format(new Date());
-				int count=tService.typeCount(gs+year);
-				String prjNo=uuid.getPrjCode(code, count+1);
-				prjNo=gs+prjNo;
+				String count=tService.CreateTaskNumOrder(gs, year, code);
+//				int count=tService.typeCount(gs+year);
+//				String prjNo=uuid.getPrjCode(code, count+1);
+//				prjNo=gs+prjNo;
+				String prjNo=gs+year+count+code;
 				i=tService.updateTaskNoById(prjNo, id);
 			}
 		}
