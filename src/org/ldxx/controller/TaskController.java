@@ -1167,7 +1167,6 @@ public class TaskController {
 		if(i>0){
 			TimeUUID uuid=new TimeUUID();
 			Task t=tService.selectCcNameByPrjId(id);
-			cuService.addContractUpdate((List<Task>) t);
 			String mainDept=t.getMainDepartment();
 			String company=t.getPrjCompany();
 			String oldNo=t.getPrjNo();
@@ -1177,15 +1176,20 @@ public class TaskController {
 					gs="HH";
 				}
 				String type=t.getPrjType2();
-				String code=type.split(" ")[0];
+				String code=type.substring(0, 1);
+				String code2=type.split(" ")[0];
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 				String year=sdf.format(new Date());
 				String count=tService.CreateTaskNumOrder(gs, year, code);
 //				int count=tService.typeCount(gs+year);
 //				String prjNo=uuid.getPrjCode(code, count+1);
 //				prjNo=gs+prjNo;
-				String prjNo=gs+year+count+code;
+				String prjNo=gs+year+count+code2;
 				i=tService.updateTaskNoById(prjNo, id);
+				t.setPrjNo(prjNo);
+				List<Task> taskList=new ArrayList<>();
+				taskList.add(t);
+				cuService.addContractUpdate(taskList);
 			}
 		}
 		return i;
