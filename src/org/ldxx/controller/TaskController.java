@@ -1175,8 +1175,6 @@ public class TaskController {
 				String gs="";
 				if("华汇".equals(company)){
 					gs="HH";
-				}else{
-					gs="HT";
 				}
 				String type=t.getPrjType2();
 				String code=type.split(" ")[0];
@@ -1191,6 +1189,13 @@ public class TaskController {
 			}
 		}
 		return i;
+	}
+	
+	@RequestMapping("/CreateTaskNumOrder")
+	@ResponseBody
+	public String CreateTaskNumOrder(){
+		String count=tService.CreateTaskNumOrder("HT", "2019", "A");
+		return count;
 	}
 	
 	@RequestMapping("/updateTaskById")
