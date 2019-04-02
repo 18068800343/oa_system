@@ -202,4 +202,9 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 		return bdao.updateBfNoById(id,code);
 	}
 
+	@Override
+	public String CreateBudgetNumOrder(String year) {
+		return bdao.CreateBudgetNumOrder(year);
+	}
+
 }

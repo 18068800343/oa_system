@@ -216,4 +216,9 @@ public class CjContractServiceImpl implements CjContractService{
 		return dao.updateCjNoById(no, id);
 	}
 
+	@Override
+	public String CreateContractNumOrder(String type, String year) {
+		return dao.CreateContractNumOrder(type, year);
+	}
+
 }
