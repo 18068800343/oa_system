@@ -48,7 +48,8 @@ public class ShowDetails {
 	@ResponseBody
 	public Map<String,Object> selectTaskByPrjNo(String prjNo){
 		Map<String,Object> map = new HashMap<String,Object>();
-		Task task=tService.selectTaskPrjName(prjNo);
+		String prjId=tService.selectIdByTaskNo(prjNo);
+		Task task = tService.selectTaskById(prjId);
 		//设定个返回值，1为成功，0为失败，-1为未找到编号数据
 		int result = 0; 
 		List<Enterprise> enterprise;
