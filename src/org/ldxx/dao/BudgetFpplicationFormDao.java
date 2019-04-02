@@ -41,4 +41,6 @@ public interface BudgetFpplicationFormDao {
 
 	int updateBfNoById(@Param("id")String id,@Param("code") String code);
 	
+	String CreateBudgetNumOrder(@Param("year")String year);
+	
 }

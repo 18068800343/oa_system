@@ -710,18 +710,26 @@ public class CjContractController {
 			String cjNo=cj.getContractNo();
 			String prjType=cj.getPrjType();
 			if(cjNo==null||cjNo.equals("")){
-				TimeUUID uuid=new TimeUUID();
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 				String year=sdf.format(new Date());
-				int count=service.countNo(year);
-				if(null!=prjType&&!"".equals(prjType)){
+		/*		if(null!=prjType&&!"".equals(prjType)){
 					prjType = prjType.charAt(0)+"";
 				}
-				String code="CJ"+uuid.getPrjCode("", count+1)+prjType;
+				TimeUUID uuid=new TimeUUID();
+				int count=service.countNo(year);
+				String code="CJ"+uuid.getPrjCode("", count+1)+prjType;*/
+				String code="CJ"+year+service.CreateContractNumOrder("CJ", year);
 				i=service.updateCjNoById(code, id);
 			}
 		}
 		return i;
+	}
+	
+	@RequestMapping("/CreateContractNumOrder")
+	@ResponseBody
+	public String CreateContractNumOrder(){
+		String code="CJ"+"2019"+service.CreateContractNumOrder("CJ", "2019");
+		return code;
 	}
 	
 	@RequestMapping("/updateCjContractById")

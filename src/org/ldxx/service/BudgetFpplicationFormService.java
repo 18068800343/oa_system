@@ -38,4 +38,6 @@ public interface BudgetFpplicationFormService {
 
 	int updateBfNoById(String id, String code);
 	
+	String CreateBudgetNumOrder(String year);
+	
 }

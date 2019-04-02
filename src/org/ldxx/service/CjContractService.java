@@ -58,4 +58,6 @@ public interface CjContractService {
 	
 	public int updateCjNoById(String no,String id);
 	
+	public String CreateContractNumOrder(String type,String year);
+	
 }

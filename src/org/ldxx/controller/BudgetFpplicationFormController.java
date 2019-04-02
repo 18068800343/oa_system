@@ -304,11 +304,12 @@ public class BudgetFpplicationFormController {
 			BudgetFpplicationForm budgetFpplicationForm = bservice.selectBudgeById(id);
 			String bfNo = budgetFpplicationForm.getBfNo();
 			if(bfNo==null||"".equals(bfNo)){
-				TimeUUID uuid=new TimeUUID();
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 				String year=sdf.format(new Date());
+				/*TimeUUID uuid=new TimeUUID();
 				int count=bservice.countNo(year);
-				String code="YS"+uuid.getPrjCode("", count+1);
+				String code="YS"+uuid.getPrjCode("", count+1);*/
+				String code="YS"+year+bservice.CreateBudgetNumOrder(year);
 				//budge.setBfNo(code);
 				i=bservice.updateBfNoById(id,code);
 			}
@@ -343,6 +344,13 @@ public class BudgetFpplicationFormController {
 			i=service.updateStatusAndDesc(status, "",ppfId);
 		}
 		return i;
+	}
+	
+	@RequestMapping("/CreateBudgetNumOrder")
+	@ResponseBody
+	public String CreateBudgetNumOrder(){
+		String code="YS"+"2019"+bservice.CreateBudgetNumOrder("2019");
+		return code;
 	}
 	
 	@RequestMapping("/updateBudgetById")
