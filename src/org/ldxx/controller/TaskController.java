@@ -1059,7 +1059,8 @@ public class TaskController {
 	@RequestMapping("/selectIdByNo2")
 	@ResponseBody
 	public Task selectIdByNo2(String no){
-		return tService.selectIdByNo2(no);
+		Task task=tService.selectIdByNo2(no);
+		return task;
 	}
 	
 	@RequestMapping("/selectPrjandNoAndPrjMoney")//获取项目名、任务单号、项目金额、签订时间

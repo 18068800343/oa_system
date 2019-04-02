@@ -28,6 +28,7 @@ import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.CgContractService;
+import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.TaskService;
@@ -60,6 +61,8 @@ public class CgContractController {
 	private ContractReasonService cService;
 	@Autowired
 	CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	private CjContractService cjService;
 	
 	@RequestMapping("/selectCgContractByStatus")
 	@ResponseBody
@@ -705,13 +708,21 @@ public class CgContractController {
 				String code = type.split(" ")[0];
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 				String year=sdf.format(new Date());
-				int count=cgService.cgNocount(year);
+				/*int count=cgService.cgNocount(year);
 				count=count+1;
-				String cgNo2="CG"+uuid.getPrjCode(code, count);
+				String cgNo2="CG"+uuid.getPrjCode(code, count);*/
+				String cgNo2="CG"+year+cjService.CreateContractNumOrder("CG", year)+code;
 				i=cgService.updatecgNoById(id,cgNo2);
 			}
 		}
 		return i;
+	}
+	
+	@RequestMapping("/CreateContractNumOrder")
+	@ResponseBody
+	public String CreateContractNumOrder(){
+		String cgNo2="CG"+"2019"+cjService.CreateContractNumOrder("CG", "2019")+"A";
+		return cgNo2;
 	}
 	
 	@RequestMapping("/updateCgContractById")//修改

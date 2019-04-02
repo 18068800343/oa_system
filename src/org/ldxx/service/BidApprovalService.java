@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.BidApproval;
 
 public interface BidApprovalService {
@@ -35,4 +36,6 @@ public interface BidApprovalService {
 	BidApproval selectBidApprovalByNo(String no);
 	
 	int updateBidNoById(String no,String id);
+	
+	String CreateBidApprovalNumOrder(String year);
 }

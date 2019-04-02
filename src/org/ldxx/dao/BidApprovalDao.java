@@ -38,4 +38,6 @@ public interface BidApprovalDao {
 	BidApproval selectBidApprovalByNo(@Param("no")String no);
 	
 	int updateBidNoById(@Param("no")String no,@Param("id")String id);
+	
+	String CreateBidApprovalNumOrder(@Param("year")String year);
 }

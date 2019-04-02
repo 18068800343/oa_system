@@ -17,6 +17,7 @@ import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.OtherContract;
 import org.ldxx.bean.User;
 import org.ldxx.mapper.CurrentFlowMapper;
+import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.OtherContractService;
@@ -41,6 +42,8 @@ public class OtherContractConroller {
 	private ContractReasonService crService;
 	@Autowired
 	private CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	private CjContractService cjService;
 	
 	@RequestMapping("/addOtherContractBySave")
 	@ResponseBody
@@ -417,12 +420,13 @@ public class OtherContractConroller {
 	public int updateHistoryById(String id){
 		int i=service.updateHistoryById(id);
 		if(i>0){
-			TimeUUID uuid=new TimeUUID();
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 			String year=sdf.format(new Date());
+			/*TimeUUID uuid=new TimeUUID();
 			int count=service.countNo(year);
 			String type="";
-			String code="QT"+uuid.getPrjCode(type, count+1);
+			String code="QT"+uuid.getPrjCode(type, count+1);*/
+			String code="QT"+year+cjService.CreateContractNumOrder("QT", year);
 			i=service.updateOnoById(id, code);
 		}
 		return i;

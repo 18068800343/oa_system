@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.FbCgContract;
-import org.ldxx.bean.FbContract;
 
 public interface SubContractService2 {
 
@@ -55,4 +54,6 @@ public interface SubContractService2 {
 	public int updateFbNoById(String id,String no);
 
 	public FbCgContract selectFbContractShowByFbNo(@Param("no") String fbNo);
+	
+	public String CreateEBContractNumOrder(String year);
 }

@@ -107,4 +107,9 @@ public class BidApprovalServiceImpl implements BidApprovalService {
 		return dao.updateBidNoById(no, id);
 	}
 
+	@Override
+	public String CreateBidApprovalNumOrder(String year) {
+		return dao.CreateBidApprovalNumOrder(year);
+	}
+
 }

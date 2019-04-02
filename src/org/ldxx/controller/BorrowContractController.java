@@ -123,7 +123,7 @@ public class BorrowContractController {
 		int i=service.addBorrowContractSave(bc);
 		if(i>0){
 			CjContract cj=cService.getCjContractMainDepartmentLeader(bc.getCjNo());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			String string="";
@@ -217,7 +217,7 @@ public class BorrowContractController {
 		String string = i+"";
 		if(i>0){
 			CjContract cj=cService.getCjContractMainDepartmentLeader(bc.getCjNo());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
@@ -303,7 +303,7 @@ public class BorrowContractController {
 		int i=service.addBorrowContractSave(bc);
 		if(i>0){
 			CjContract cj=cService.getCjContractMainDepartmentLeader(bc.getCjNo());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			String string="";
@@ -393,7 +393,7 @@ public class BorrowContractController {
 		String string = i+"";
 		if(i>0){
 			CjContract cj=cService.getCjContractMainDepartmentLeader(bc.getCjNo());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
@@ -499,7 +499,7 @@ public class BorrowContractController {
 		int i=service.updateBorrowContractById(bc);
 		if(i>0){
 			CjContract cj=cService.getCjContractMainDepartmentLeader(bc.getCjNo());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			currentFlowMapper.updateFkDeptByModeId(id, omNo);
@@ -525,7 +525,7 @@ public class BorrowContractController {
 		if(i>0){
 			BorrowContract bc = service.selectBorrowById(cr.getId());
 			CjContract cj=cService.getCjContractMainDepartmentLeader(bc.getCjNo());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
@@ -569,7 +569,7 @@ public class BorrowContractController {
 		if(i>0){
 			BorrowContract bc = service.selectBorrowById(cr.getId());
 			CjContract cj=cService.getCjContractMainDepartmentLeader(bc.getCjNo());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
@@ -651,15 +651,23 @@ public class BorrowContractController {
 	public int updateHistory(String id){
 		int i=service.updateHistory(id);
 		if(i>0){
-			TimeUUID uuid=new TimeUUID();
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 			String year=sdf.format(new Date());
+			SimpleDateFormat sdf2=new SimpleDateFormat("yyyyMM");
+			String year2=sdf2.format(new Date());
+			/*TimeUUID uuid=new TimeUUID();
 			int count=service.JKNocount(year);
-			String jkNo="JK"+uuid.getClCode("", count+1);
+			String jkNo="JK"+uuid.getClCode("", count+1);*/
+			String jkNo="JK"+year2+cService.CreateContractNumOrder("JK", year);
 			i=service.updateBorrowNoById(id, jkNo);
 		}
 		return i;
 	}
 	
+	@RequestMapping("/getBorrowContractBybNo")//通过借款合同号查
+	@ResponseBody
+	public BorrowContract getBorrowContractBybNo(String bno){
+		return service.getBorrowContractBybNo(bno);
+	}
 	
 }

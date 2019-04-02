@@ -186,4 +186,9 @@ public class SubContractServiceImpl2 implements SubContractService2 {
 		return fbc;
 	}
 
+	@Override
+	public String CreateEBContractNumOrder(String year) {
+		return scDao.CreateEBContractNumOrder(year);
+	}
+
 }

@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 /**
- * 分包合同管理
+ * 检测二部分包合同管理
  * @author hp
  *
  */
@@ -622,19 +622,27 @@ public class SubContractController2 {
 	public int updateHistoryById(String id){
 		int i=scService.updateHistoryById(id);
 		if(i>0){
-			TimeUUID uuid=new TimeUUID();
 			FbCgContract fb=scService.selectSubContractById(id);
 			String type = fb.getFbcType();
 			String code = type.split(" ")[0];
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 			String year=sdf.format(new Date());
+			String fbNo="EBHT"+year+scService.CreateEBContractNumOrder(year)+code;
+			/*TimeUUID uuid=new TimeUUID();
 			int count=scService.fbNocount(year);
 			count=count+1;
 			String fbNo=uuid.getPrjCode(code, count);
-			fbNo="EBHTFB"+fbNo;
+			fbNo="EBHT"+fbNo;*/
 			i=scService.updateFbNoById(id, fbNo);
 		}
 		return i;
+	}
+	
+	@RequestMapping("/CreateEBContractNumOrder")
+	@ResponseBody
+	public String CreateEBContractNumOrder(){
+		String fbNo="EBHT"+"2019"+scService.CreateEBContractNumOrder("2019")+"B";
+		return fbNo;
 	}
 	
 	@RequestMapping("/updateFbById")

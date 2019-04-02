@@ -85,10 +85,11 @@ public class OpeningRecordController {
 		String bidder = bid.split(" ")[0];
 		String prjtype = ba.getPrjType();
 		String type = prjtype.split(" ")[0];
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
 		String time=sdf.format(new Date());
-		int count=bService.prjNocount("%"+time+"%");
-		String no = uuid.getSerialNumber(bidder, type, count+1);
+		/*int count=bService.prjNocount("%"+time+"%");
+		String no = uuid.getSerialNumber(bidder, type, count+1);*/
+		String no=type+time+bService.CreateBidApprovalNumOrder(time);
 		int i=bService.updateBidNoById(no, id);
 		if(i>0){
 			for(int a=0;a<bdNo.split(",").length;a++){
@@ -107,6 +108,12 @@ public class OpeningRecordController {
 		return i;
 	}
 	
+	@RequestMapping("/CreateBidApprovalNumOrder")
+	@ResponseBody
+	public String CreateBidApprovalNumOrder(){
+		String no="HTJC"+"201904"+bService.CreateBidApprovalNumOrder("201904");
+		return no;
+	}
 	
 	@RequestMapping("/addOpeningRecordSave")
 	@ResponseBody

@@ -620,19 +620,27 @@ public class SubContractController {
 	public int updateHistoryById(String id){
 		int i=scService.updateHistoryById(id);
 		if(i>0){
-			TimeUUID uuid=new TimeUUID();
 			FbContract fb=scService.selectSubContractById(id);
 			String type = fb.getFbcType();
 			String code = type.split(" ")[0];
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 			String year=sdf.format(new Date());
+			/*TimeUUID uuid=new TimeUUID();
 			int count=scService.fbNocount(year);
 			count=count+1;
 			String fbNo=uuid.getPrjCode(code, count);
-			fbNo="FB"+fbNo;
+			fbNo="FB"+fbNo;*/
+			String fbNo="FB"+year+cjService.CreateContractNumOrder("FB", year)+code;
 			i=scService.updateFbNoById(id, fbNo);
 		}
 		return i;
+	}
+	
+	@RequestMapping("/CreateContractNumOrder")
+	@ResponseBody
+	public String CreateContractNumOrder(){
+		String fbNo="FB"+"2019"+cjService.CreateContractNumOrder("FB", "2019")+"A";
+		return fbNo;
 	}
 	
 	@RequestMapping("/updateFbById")

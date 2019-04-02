@@ -23,6 +23,7 @@ import org.ldxx.dao.CompanyCostDao;
 import org.ldxx.dao.SecondCompanyCostDao;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.AccessoryService;
+import org.ldxx.service.CjContractService;
 import org.ldxx.service.FbContractOverService;
 import org.ldxx.service.LianYingService;
 import org.ldxx.service.OrganizationManagementService;
@@ -56,6 +57,8 @@ public class LianYingController {
 	private FbContractOverService fbService;
 	@Autowired
 	private CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	private CjContractService cjService;
 	
 	@RequestMapping("/addLianYingBySave")
 	@ResponseBody
@@ -415,11 +418,12 @@ public class LianYingController {
 	@RequestMapping("/updateHistory")
 	@ResponseBody
 	public int updateHistory(String id){
-		TimeUUID uuid=new TimeUUID();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
+		/*TimeUUID uuid=new TimeUUID();
 		int count=service.lyNoCount(year);
-		String lyNo="LY"+uuid.getPrjCode("", count+1);
+		String lyNo="LY"+uuid.getPrjCode("", count+1);*/
+		String lyNo="LY"+year+cjService.CreateContractNumOrder("LY", year);
 		int i=service.updateLyNoById(id, lyNo);
 		return i;
 	}

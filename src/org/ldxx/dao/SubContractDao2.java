@@ -51,5 +51,7 @@ public interface SubContractDao2 {
 	
 	public int updateFbNoById(@Param("id")String id,@Param("no")String no);
 	
-	public FbCgContract selectFbContractShowByFbNo(@Param("no") String fbNo);
+	public FbCgContract selectFbContractShowByFbNo(@Param("no")String fbNo);
+	
+	public String CreateEBContractNumOrder(@Param("year")String year);
 }
