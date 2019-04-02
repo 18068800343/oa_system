@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ldxx.bean.BorrowContract;
 import org.ldxx.bean.CgContract;
 import org.ldxx.bean.CgOtherContract;
 import org.ldxx.bean.CjContract;
@@ -14,6 +15,7 @@ import org.ldxx.bean.FbContract;
 import org.ldxx.bean.Task;
 import org.ldxx.dao.CjContractDao;
 import org.ldxx.dao.EnterpriseDao;
+import org.ldxx.service.BorrowContractService;
 import org.ldxx.service.CgContractService;
 import org.ldxx.service.CgOtherContractService;
 import org.ldxx.service.CjContractService;
@@ -42,6 +44,8 @@ public class ShowDetails {
 	private CgContractService cgcService;
 	@Autowired
 	private CgOtherContractService cgocService;
+	@Autowired
+	private BorrowContractService borrowservice;
 	
 	
 	@RequestMapping("/task")
@@ -143,5 +147,11 @@ public class ShowDetails {
 		}
 		map.put("result", result);
 		return map;
+	}
+	
+	@RequestMapping("/getBorrowContractBybNo")//通过借款合同号查
+	@ResponseBody
+	public BorrowContract getBorrowContractBybNo(String bno){
+		return borrowservice.getBorrowContractBybNo(bno);
 	}
 }
