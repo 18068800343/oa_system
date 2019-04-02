@@ -29,4 +29,6 @@ public interface BorrowContractService {
 	
 	public int updateBorrowNoById(String id,String no);
 
+	BorrowContract getBorrowContractBybNo(String bno);
+
 }

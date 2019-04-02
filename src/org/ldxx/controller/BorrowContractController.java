@@ -661,4 +661,10 @@ public class BorrowContractController {
 		return i;
 	}
 	
+	@RequestMapping("/getBorrowContractBybNo")//通过借款合同号查
+	@ResponseBody
+	public BorrowContract getBorrowContractBybNo(String bno){
+		return service.getBorrowContractBybNo(bno);
+	}
+	
 }

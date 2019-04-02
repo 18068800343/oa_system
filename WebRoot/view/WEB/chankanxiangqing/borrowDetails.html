@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>借款合同</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
+    <style lang="">
+        
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .UpperPartL{
+            font-size: 16px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+            font-size: 14px;
+        }
+        @media screen and (max-width: 1920px) {
+		    #myModal4{
+		        margin-bottom:120px !important;
+		    }
+		}
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+			<li>生产管理</li>
+			<li>项目合同管理</li>
+			<li class="active">借款合同管理</li>
+		</ul>
+    </div>
+ <!--startprint-->
+    <div class="zhuti-content">
+        <table class="table table-bordered table-condensed">
+                    			<tr>
+	                    			<th colspan="4"  style="text-align:center;font-size:30px;" height="60px">借款合同</th>
+	                    		</tr>
+                    			<tr>
+                            		<td style="width:20%;">甲方</td>
+                            		<td style="width:30%;">华通</td>
+                            		<td style="width:20%;">乙方</td>
+                            		<td style="width:30%;" id="lookyifang"></td>
+                            	</tr>
+                            	<tr>
+                            		<td>主合同号</td>
+                            		<td id="lookzhuhetonghao"></td>
+                            		<td>分包合同号</td>
+                            		<td id="lookfbhetonghao"></td>
+                            	</tr>
+                            	<tr>
+                            		<td>年化利率</td>
+                            		<td id="look_rate"></td>
+                            		<td>利息支付方式</td>
+                            		<td id="looklixizhifu"></td>
+                            	</tr>
+                            	<tr>
+                            		<td>本次借款金额(元)</td>
+                            		<td id="lookthisborrowMoney"></td>
+                            		<td>借款开始时间</td>
+                            		<td id="lookyear"></td>
+                            	</tr>
+                            	<tr>
+                            		<td>借款结束时间</td>
+                            		<td id="lookEndyear"></td>
+                            		<td>乙方累计借款额</td>
+                            		<td id="lookyifangleijijieMoney"></td>
+                            	</tr>
+                            	<tr id="lookFlowHistory">
+                            		<td>借款用途</td>
+                            		<td id="lookjiekuanyongtu"></td>
+                            		<td>借款合同号</td>
+                            		<td id="lookborrowNo"></td>
+                            	</tr>
+		                        <tr>
+		                            <td>审批流程:</td>
+		                            <td></td>
+		                        </tr>
+                    </table>
+        
+    </div>
+<!--endprint-->
+				<div class="modal-footer">
+		          <!-- <button type="button" class="btn btn-default" onclick="quxiao()">取消</button> -->
+		          <button type="button" class="btn btn-success" data-dismiss="modal" onclick="day()">打印</button>
+		        </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<!-- <script src="../../js/datatables/dataTables.bootstrap.min.js"></script> -->
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+	});
+    
+    
+    
+  //获取url传参
+    function getParam(paramName) { 
+        paramValue = "", isFound = !1; 
+        if (this.location.search.indexOf("?") == 0 && this.location.search.indexOf("=") > 1) { 
+            arrSource = unescape(this.location.search).substring(1, this.location.search.length).split("&"), i = 0; 
+            while (i < arrSource.length && !isFound) arrSource[i].indexOf("=") > 0 && arrSource[i].split("=")[0].toLowerCase() == paramName.toLowerCase() && (paramValue = arrSource[i].split("=")[1], isFound = !0), i++ 
+        } 
+        return paramValue == "" && (paramValue = null), paramValue 
+    } 
+    
+    var borrowNo=getParam("borrowNo");
+    console.log(borrowNo)
+	function initTable(){
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/BorrowContract/getBorrowContractBybNo',
+            dataType: 'json',
+            data: {
+            	bno:borrowNo
+            },
+            success: function (json) {
+            	console.log(json)
+            	data=json;
+            	$("#lookjiafang").text(data.unitJia==null?"":data.unitJia);
+            	$("#lookyifang").text(data.unitYi==null?"":data.unitYi);
+            	$("#lookzhuhetonghao").text(data.cjNo==null?"":data.cjNo);
+            	$("#lookfbhetonghao").text(data.fbNo==null?"":data.fbNo);
+            	$("#lookthisborrowMoney").text(data.thisBorrowMoney==null?"":data.thisBorrowMoney);
+            	$("#looklixizhifu").text(data.interestPaymentMethod==null?"":data.interestPaymentMethod);
+            	$("#look_rate").text(data.rate==null?"":data.rate);
+            	$("#lookyear").text(data.borrowTime==null?"":data.borrowTime);
+            	$("#lookEndyear").text(data.borrowEndTime==null?"":data.borrowEndTime);
+            	$("#lookyifangleijijieMoney").text(data.accumulatedBorrowingMoney==null?"":data.accumulatedBorrowingMoney);
+            	$("#lookjiekuanyongtu").text(data.borrowingPurposes==null?"":data.borrowingPurposes);
+            	$("#lookborrowNo").text(data.bNo==null?"":data.bNo)
+            	
+            	getHistoryNowAndLast();
+            }
+        });
+    }
+
+ 	function removeTr(){
+		var dom = $("#lookFlowHistory").nextAll();
+		$(dom).each(function(){
+			$(this).remove();
+		})
+	}
+	function getHistoryNowAndLast(){
+    	$.ajax({
+        	type: 'POST',
+            url: getContextPath()+'/flowHistory/getHistoryNowAndLastByModeId',
+            data:{
+            	id:id
+            },
+            success: function (json) {
+            	removeTr();
+            	for(var i in json){
+            		var operatorType = json[i].operateType;
+            		operatorType = getCnByOt(operatorType);
+            		var date = json[i].doDate;
+            		var title = json[i].title;
+            		var name = json[i].actorname;
+            		var view=json[i].view;
+            		if(json[i].view==""||json[i].view==null){
+            			view="无";
+            		}
+            		if(i==json.length-1){
+                	$("#lookFlowHistory").after("<tr><td rowspan="+json.length+" style='display:table-cell;vertical-align:middle;'>审批流程</td><td colspan='3'>"+json[i].roleName+""+name+";操作类型:"+operatorType+";操作意见:"+view+";操作时间:"+date+"</td></tr>");
+            		}else{
+                	$("#lookFlowHistory").after("<tr><td colspan='3'>"+json[i].roleName+""+name+";操作类型:"+operatorType+";操作意见:"+view+";操作时间:"+date+"</td></tr>");
+            		}
+            	}
+            }
+        });
+	}
+	
+	function getCnByOt(s){
+		  if(s==1){
+			  return "提交";
+		  }else if(s==2){
+			  return "退回";
+		  }else if(s==3){
+			  return "撤销";
+		  }else if(s==0){
+			  return "驳回";
+		  }else if(s==8){
+			  return "待审批";
+		  }
+	  }
+    
+	
+	function day(){
+		// 获取当前页的html代码
+		    var bdhtml = window.document.body.innerHTML;
+		    //设置打印开始区域
+		    var startStr = '<!--startprint-->';
+		    // 设置打印结束区域
+		    var endStr = '<!--endprint-->';
+		    //从标记里获取需要打印的页面
+		    var printHtml = bdhtml.substring(bdhtml.indexOf(startStr) + startStr.length, bdhtml.indexOf(endStr));
+		    //隐藏不必要的按钮和样式
+		   /*  var iframe = document.getElementById('rightMain');
+		    var iframeHtml=iframe.contentWindow.document.body;
+		    $(iframeHtml).find("a").each(function(){
+		    	var fileName=$(this).text();
+		    	var qq=$(this).parent("td");
+		    	qq.empty();
+		    	qq.append("<span>"+fileName+"</span>");
+		    })
+		    var iframeHtml2=iframeHtml.innerHTML;
+		    var printHtml = document.getElementById('dy_html').innerHTML;
+		    var allHtml=iframeHtml2+printHtml; */
+		    var allHtml=printHtml;
+		    
+		   //iframe.contentWindow.focus();
+		   //iframe.contentWindow.print(); 
+		    
+		 	// 通过id获取需要打印的页面
+		    
+		    window.document.body.innerHTML = allHtml;
+		    if (!!window.ActiveXObject || "ActiveXObject" in window) { //是否ie
+		        remove_ie_header_and_footer();
+		     }
+		    remove_ie_header_and_footer();
+		    window.print();
+		    // 还原界面
+		    window.document.body.innerHTML = allHtml;
+		    window.location.reload();
+	  } 
+//去掉页眉、页脚
+	function remove_ie_header_and_footer() {
+	  var hkey_path;
+	  hkey_path = "HKEY_CURRENT_USER\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
+	  try {
+	     var RegWsh = new ActiveXObject("WScript.Shell");
+	     RegWsh.RegWrite(hkey_path + "header", "");
+	     RegWsh.RegWrite(hkey_path + "footer", "");
+	  } catch (e) {
+	  }
+	
+	}
+	
+	
+</script>
+</html>

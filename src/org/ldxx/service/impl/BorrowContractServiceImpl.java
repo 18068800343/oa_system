@@ -120,5 +120,10 @@ public class BorrowContractServiceImpl implements BorrowContractService {
 		int i=dao.updateBorrowNoById(id, no);
 		return i;
 	}
+
+	@Override
+	public BorrowContract getBorrowContractBybNo(String bno) {
+		return dao.getBorrowContractBybNo(bno);
+	}
 	
 }
