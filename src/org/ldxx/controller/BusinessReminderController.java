@@ -29,10 +29,14 @@ public class BusinessReminderController {
 	@RequestMapping("/selectBusinessReminder")
 	@ResponseBody
 	public List<CurrentFlow> selectBusinessReminder(String status,HttpSession session){
+		List<CurrentFlow> list =null;
 		User user = (User) session.getAttribute("user");
+		if(null==user) {
+			return list;
+		}
 	    String userId = user.getUserId();
 	    user.getuName();
-	    List<CurrentFlow> list=service.selectBusinessReminder(userId,status);
+	    list=service.selectBusinessReminder(userId,status);
 	    return list;
 	}
 

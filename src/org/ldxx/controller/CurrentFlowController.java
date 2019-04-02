@@ -54,9 +54,13 @@ public class CurrentFlowController {
 	@RequestMapping("/getCurrentFlowListStatus1ByUser")
 	@ResponseBody
 	public List<CurrentFlowVo> getCurrentFlowListByUser(String userId,String statu,HttpSession session){
+		List<CurrentFlowVo> list=null;
 		User user = (User) session.getAttribute("user");
+		if(null==user) {
+			return list;
+		}
 		String id = user.getUserId();
- 		List<CurrentFlowVo> list = currentFlowService.getCurrentFlowListByUser(id, statu);
+ 		list = currentFlowService.getCurrentFlowListByUser(id, statu);
  		List<CurrentFlowVo> list1 = currentFlowChaoSongMapper.getCurrentFlowVoChaoSongByUserId(id);
  		list.addAll(list1);
 		return list;
@@ -64,9 +68,13 @@ public class CurrentFlowController {
 	@RequestMapping("/getCurrentFlowListByStatus")
 	@ResponseBody
 	public List<CurrentFlowVo> getCurrentFlowListByStatus(String userId,String statu,HttpSession session){
+		List<CurrentFlowVo> list=null;
 		User user = (User) session.getAttribute("user");
+		if(null==user) {
+			return list;
+		}
 		String id = user.getUserId();
-		List<CurrentFlowVo> list = currentFlowMapper.getCurrentFlowVoByStatus(id, statu);
+		list = currentFlowMapper.getCurrentFlowVoByStatus(id, statu);
 		List<CurrentFlowVo> list1 = currentFlowChaoSongMapper.getCurrentFlowVoChaoSongByUserId(id);
 		list.addAll(list1);
 		return list;
@@ -74,9 +82,13 @@ public class CurrentFlowController {
 	@RequestMapping("/getCurrentFlowChaoSongListByUser")
 	@ResponseBody
 	public List<CurrentFlowVo> getCurrentFlowChaoSongListByUser(String userId,String statu,HttpSession session){
+		List<CurrentFlowVo> list=null;
 		User user = (User) session.getAttribute("user");
+		if(null==user) {
+			return list;
+		}
 		String id = user.getUserId();
- 		List<CurrentFlowVo> list = currentFlowService.getCurrentFlowListByUser(id, statu);
+ 		list = currentFlowService.getCurrentFlowListByUser(id, statu);
  		List<CurrentFlowVo> list1 = currentFlowChaoSongMapper.getCurrentFlowVoChaoSongByUserId(userId);
  		list.addAll(list1);
 		return list;

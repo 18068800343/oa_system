@@ -44,28 +44,43 @@ public class FlowHistoryController {
 	@RequestMapping("/getFlowHistoryByUser")
 	@ResponseBody
 	public List<FlowHistoryVo> getFlowHistoryByUser(String status,HttpSession session){
+		List<FlowHistoryVo> list=null;
 		User user = (User) session.getAttribute("user");
+		if(null==user) {
+			return list;
+		}
 	    String userId = user.getUserId();
 	    user.getuName();
-		return flowHistoryService.getFlowHistoryByUser(userId,status);
+	    list = flowHistoryService.getFlowHistoryByUser(userId,status);
+		return list;
 	}
 	
 	@RequestMapping("/getFlowHistoryDeleteByUser")
 	@ResponseBody
 	public List<FlowHistoryVo> getFlowHistoryDeleteByUser(String status,HttpSession session){
+		List<FlowHistoryVo> list=null;
 		User user = (User) session.getAttribute("user");
+		if(null==user) {
+			return list;
+		}
 		String userId = user.getUserId();
 		user.getuName();
-		return flowHistroyMapper.getFlowHistoryDeleteVoByUserId(userId, status);
+		list = flowHistroyMapper.getFlowHistoryDeleteVoByUserId(userId, status);
+		return list;
 	}
 	
 	@RequestMapping("/getDistinctFlowHistoryByUser")
 	@ResponseBody
 	public List<FlowHistoryVo> getDistinctFlowHistoryByUser(String status,HttpSession session){
+		List<FlowHistoryVo> list=null;
 		User user = (User) session.getAttribute("user");
+		if(null==user) {
+			return list;
+		}
 	    String userId = user.getUserId();
 	    user.getuName();
-		return flowHistoryService.getDistinctFlowHistoryByUser(userId,status);
+		list = flowHistoryService.getDistinctFlowHistoryByUser(userId,status);
+		return list;
 	}
 	
 	@RequestMapping("/getFlowHistoryByUserAlreadyEnd")

@@ -91,7 +91,11 @@ public class TaskServiceImpl implements TaskService{
 
 	@Override
 	public Task selectTaskById(String id) {
-		Task task=tdao.selectTaskById(id);
+		Task task = null;
+		task=tdao.selectTaskById(id);
+		if(null==task) {
+			return task;
+		}
 		String prjCompany1 = task.getPrjCompany1();
 		if(null!=prjCompany1&&!"".equals(prjCompany1)){
 			if(prjCompany1.contains("华通")){
