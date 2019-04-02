@@ -28,8 +28,9 @@
 		where cj_id=#{cj.cjId}
 	</update>
 	
-	<select id="selectCjContractByStatus" resultType="CjContract">
-		select a.*,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4 
+<!-- 	<select id="selectCjContractByStatus" resultType="CjContract">
+		select a.*,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4,
+		Num_char_extract(a.contract_no,0) as cno_sort
 		from cj_contract as a left join mode_status as b on a.cj_id=b.mode_id
 		left join organization_management as d on a.yi_cj_department=d.om_id 
 		left join organization_management as d2 on a.main_department=d2.om_id
@@ -55,9 +56,48 @@
 			<if test="zdMoneyMin!=0">
 				temporary_money &gt;=#{zdMoneyMin} and temporary_money &lt;= #{zdMoneyMax} and 
 			</if>
-			b.status=#{status} and a.history=1 order by a.contract_no desc
-		</where>
-		
+			b.status=#{status} and a.history=1 order by cno_sort desc
+		</where>	
+	</select> -->
+	
+		<select id="selectCjContractByStatus" resultType="CjContract">
+		SELECT a.cj_id,a.task_code,a.contract_name,a.contract_no,a.prj_name,
+		a.prj_type,a.contract_name_jia,a.cc_name,a.contract_name_yi,a.contract_start_time,
+		a.contract_end_time,a.contract_long_time,a.receieve_money_condition,a.contract_money,
+		a.temporary_money,a.contract_sign_time,a.work_info,a.main_department_money,
+		a.assist_department1_money,a.assist_department2_money,assist_department3_money,
+		a.split_state,a.jyms,
+		d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4,
+		Num_char_extract(a.contract_no,0) as cno_sort
+		FROM cj_contract as a 
+		left join mode_status as b on a.cj_id=b.mode_id
+		left join organization_management as d on a.yi_cj_department=d.om_id 
+		left join organization_management as d2 on a.main_department=d2.om_id
+		left join organization_management as d3 on a.assist_department1=d3.om_id
+		left join organization_management as d4 on a.assist_department2=d4.om_id
+		left join organization_management as d5 on a.assist_department3=d5.om_id
+		<where>
+			<if test="startMin!=''">
+				contract_start_time &gt;= #{startMin} and contract_start_time &lt;= #{startMax} and 
+			</if>
+			<if test="endMin!=''">
+				contract_end_time &gt;= #{endMin} and contract_end_time &lt;= #{endMax} and 
+			</if>
+			<if test="mainDp!='%'.toString()">
+				main_department =#{mainDp} and 
+			</if>
+			<if test="xbDp!='%'.toString()">
+				assist_department1 =#{xbDp} or assist_department2 =#{xbDp} or assist_department3 =#{xbDp} and 
+			</if>
+			<if test="contractMoneyMin!=0">
+				contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and
+			</if>
+			<if test="zdMoneyMin!=0">
+				temporary_money &gt;=#{zdMoneyMin} and temporary_money &lt;= #{zdMoneyMax} and 
+			</if>
+			b.status=#{status} and a.history=1 order by cno_sort desc
+			
+		</where>	
 	</select>
 	
 	<select id="selectCjHistory" resultType="CjContract">
@@ -68,7 +108,7 @@
 		left join organization_management as d3 on a.assist_department1=d3.om_id
 		left join organization_management as d4 on a.assist_department2=d4.om_id
 		left join organization_management as d5 on a.assist_department3=d5.om_id
-		where contract_no=#{no} and history=0
+		where contract_no=#{no} and history=0 
 	</select>
 	
 	<select id="selectCjContractById" resultType="CjContract">
