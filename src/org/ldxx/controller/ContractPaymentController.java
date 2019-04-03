@@ -91,9 +91,9 @@ public class ContractPaymentController {
 		String id=uuid.getTimeUUID();
 		pay.setPayId(id);
 		
-		/*int count=payService.fkNocount();
+		int count=payService.fkNocount();
 		String fkNo="FBFK"+uuid.getPrjCode("", count+1);
-		pay.setPayCode(fkNo);*/
+		pay.setPayCode(fkNo);
 		String webApp=uuid.getWebAppFile();
 		String path=webApp+id;
 		List<Accessory> list=new ArrayList<>();
@@ -194,11 +194,11 @@ public class ContractPaymentController {
 		String id=uuid.getTimeUUID();
 		pay.setPayId(id);
 		
-		/*int count=payService.fkNocount();
+		int count=payService.fkNocount();
 		count=count+1;
 		String fkNo=uuid.getPrjCode("", count);
 		fkNo="FBFK"+fkNo;
-		pay.setPayCode(fkNo);*/
+		pay.setPayCode(fkNo);
 		String webApp=uuid.getWebAppFile();
 		String path=webApp+id;
 		List<Accessory> list=new ArrayList<>();
@@ -398,7 +398,6 @@ public class ContractPaymentController {
 			/*TimeUUID uuid=new TimeUUID();
 			int count=payService.fkNocount();
 			String fkNo="FBFK"+uuid.getPrjCode("", count+1);*/
-			
 		}
 		return i;
 	}
