@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -91,9 +92,9 @@ public class ContractPaymentController {
 		String id=uuid.getTimeUUID();
 		pay.setPayId(id);
 		
-		int count=payService.fkNocount();
+		/*int count=payService.fkNocount();
 		String fkNo="FBFK"+uuid.getPrjCode("", count+1);
-		pay.setPayCode(fkNo);
+		pay.setPayCode(fkNo);*/
 		String webApp=uuid.getWebAppFile();
 		String path=webApp+id;
 		List<Accessory> list=new ArrayList<>();
@@ -194,11 +195,11 @@ public class ContractPaymentController {
 		String id=uuid.getTimeUUID();
 		pay.setPayId(id);
 		
-		int count=payService.fkNocount();
+		/*int count=payService.fkNocount();
 		count=count+1; 
 		String fkNo=uuid.getPrjCode("", count);
 		fkNo="FBFK"+fkNo;
-		pay.setPayCode(fkNo);
+		pay.setPayCode(fkNo);*/
 		String webApp=uuid.getWebAppFile();
 		String path=webApp+id;
 		List<Accessory> list=new ArrayList<>();
@@ -393,12 +394,10 @@ public class ContractPaymentController {
 	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
 	@ResponseBody
 	public int updateHistoryById(String id){
-		int i=payService.updateHistoryById(id);
-		if(i>0){
-			/*TimeUUID uuid=new TimeUUID();
-			int count=payService.fkNocount();
-			String fkNo="FBFK"+uuid.getPrjCode("", count+1);*/
-		}
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		String code="FBFK"+year+payService.CreatePayNumOrder(year);
+		int i=payService.updatePayNo(id, code);
 		return i;
 	}
 	

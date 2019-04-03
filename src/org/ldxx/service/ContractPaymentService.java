@@ -34,5 +34,9 @@ public interface ContractPaymentService {
 	int updateAuthorisePayment(String id,float money);
 
 	int updatePayById(Pay pay);
+	
+	String CreatePayNumOrder(String year);
+	
+	int updatePayNo(String id,String no);
 
 }

@@ -124,4 +124,14 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 		return i;
 	}
 
+	@Override
+	public String CreatePayNumOrder(String year) {
+		return payDao.CreatePayNumOrder(year);
+	}
+
+	@Override
+	public int updatePayNo(String id, String no) {
+		return payDao.updatePayNo(id, no);
+	}
+
 }

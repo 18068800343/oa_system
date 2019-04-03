@@ -36,5 +36,9 @@ public interface ContractPaymentDao {
 	int updateAuthorisePayment(@Param("id")String id,@Param("money")float money);
 
 	int updatePayById(@Param("pay")Pay pay);
+	
+	String CreatePayNumOrder(@Param("year")String year);
+	
+	int updatePayNo(@Param("id")String id,@Param("no")String no);
 
 }
