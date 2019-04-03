@@ -84,4 +84,9 @@ public class LianYingServiceImpl implements LianYingService{
 		return dao.updateLyNoById(id, no);
 	}
 
+	@Override
+	public LianYing getLianYingBylyNo(String no) {
+		return dao.getLianYingBylyNo(no);
+	}
+
 }

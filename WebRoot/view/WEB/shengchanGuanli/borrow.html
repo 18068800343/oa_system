@@ -713,14 +713,30 @@
 		"columns": [
             { "data": "unitJia"}, 
             { "data": "unitYi"},
-            { "data": "cjNo"}, 
-            { "data": "fbNo"}, 
+            { "data": null}, 
+            { "data": null}, 
             { "data": "thisBorrowMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
             { "data": "borrowTime"}, 
             { "data": "history"}
         ],
         "columnDefs": [
-						{	
+			        	{	
+							 "class": "tcenter",
+							  "targets": 2,
+							  "searchable": true,
+							  "render": function(data, type, full) {
+								  return '<a href="../chankanxiangqing/cjContractDetails.html?cjCNo='+data.cjNo+'" style="color:#4876FF;cursor: pointer;" target="_blank" >'+data.cjNo+'</a>'
+							  }
+							},
+							{	
+								 "class": "tcenter",
+								  "targets": 3,
+								  "searchable": true,
+								  "render": function(data, type, full) {
+									  return '<a href="../chankanxiangqing/fbContractDetails.html?fbNo='+data.fbNo+'" style="color:#4876FF;cursor: pointer;" target="_blank" >'+data.fbNo+'</a>'
+								  }
+								},
+        					{	
 								 "class": "tcenter",
 								    "targets": 7,
 								    "searchable": true,
@@ -1522,8 +1538,26 @@
   		/* initTableHistory(data.bNo) */
   		$("#lookjiafang").text(data.unitJia);
     	$("#lookyifang").text(data.unitYi);
-    	$("#lookzhuhetonghao").text(data.cjNo);
-    	$("#lookfbhetonghao").text(data.fbNo);
+    	//$("#lookzhuhetonghao").text(data.cjNo);
+    	$("#lookzhuhetonghao").html("")
+		if(data.cjNo==""||data.cjNo==null){
+			$("#lookzhuhetonghao").text('');
+		}else{
+			var cjContractClick = '<a href="../chankanxiangqing/cjContractDetails.html?cjCNo='
+				+data.cjNo
+				+'" target="_blank" style="color:blue;">'+data.cjNo+'</a>';
+				$("#lookzhuhetonghao").append(cjContractClick);
+		}
+    	//$("#lookfbhetonghao").text(data.fbNo);
+    	$("#lookfbhetonghao").html("")
+		if(data.fbNo==""||data.fbNo==null){
+			$("#lookfbhetonghao").text('');
+		}else{
+			var fbContractClick = '<a href="../chankanxiangqing/fbContractDetails.html?fbNo='
+				+data.fbNo
+				+'" target="_blank" style="color:blue;">'+data.fbNo+'</a>';
+				$("#lookfbhetonghao").append(fbContractClick);
+		}
     	$("#lookthisborrowMoney").text(data.thisBorrowMoney);
     	$("#looklixizhifu").text(data.interestPaymentMethod);
     	$("#look_rate").text(data.rate);

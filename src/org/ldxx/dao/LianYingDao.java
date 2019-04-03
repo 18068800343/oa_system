@@ -26,4 +26,6 @@ public interface LianYingDao {
 	
 	public int updateLyNoById(@Param("id")String id,@Param("no")String no);
 
+	public LianYing getLianYingBylyNo(@Param("no")String no);
+
 }

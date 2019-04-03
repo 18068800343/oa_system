@@ -12,6 +12,7 @@ import org.ldxx.bean.CjContract;
 import org.ldxx.bean.CjSplitMoney;
 import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.FbContract;
+import org.ldxx.bean.LianYing;
 import org.ldxx.bean.Task;
 import org.ldxx.dao.CjContractDao;
 import org.ldxx.dao.EnterpriseDao;
@@ -19,6 +20,7 @@ import org.ldxx.service.BorrowContractService;
 import org.ldxx.service.CgContractService;
 import org.ldxx.service.CgOtherContractService;
 import org.ldxx.service.CjContractService;
+import org.ldxx.service.LianYingService;
 import org.ldxx.service.SubContractService;
 import org.ldxx.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,8 @@ public class ShowDetails {
 	private CgOtherContractService cgocService;
 	@Autowired
 	private BorrowContractService borrowservice;
+	@Autowired
+	private LianYingService lianYingservice;
 	
 	
 	@RequestMapping("/task")
@@ -153,5 +157,23 @@ public class ShowDetails {
 	@ResponseBody
 	public BorrowContract getBorrowContractBybNo(String bno){
 		return borrowservice.getBorrowContractBybNo(bno);
+	}
+	
+	@RequestMapping("/selectLianYingByNo")
+	@ResponseBody
+	public Map<String,Object> selectLianYingByNo(String no){
+		Map<String,Object> map = new HashMap<String,Object>();
+		LianYing ly=lianYingservice.getLianYingBylyNo(no);
+		//设定个返回值，1为成功，0为失败，-1为未找到编号数据
+		int result = 0; 
+		if(null!=ly)
+		{
+			map.put("ly",ly);
+			result=1;
+		}else{
+			result = -1;
+		}
+		map.put("result", result);
+		return map;
 	}
 }

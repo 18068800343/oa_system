@@ -102,6 +102,26 @@
 		                            <td></td>
 		                        </tr>
                     </table>
+                    <table class="table table-bordered table-condensed" id="look_accessory">
+                    	<thead>
+                    		<tr>
+                    			<td style="width:15%;">借款合同文本</td>
+                    			<td style="width:70%;">附件名称</td>
+                    			<td style="width:15%;">操作</td>
+                    		</tr>
+                    	</thead>
+                    	<tbody></tbody>
+                    </table>
+                    <!-- <table class="table table-bordered table-condensed" id="look_accessory2">
+                    	<thead>
+                    		<tr>
+                    			<td style="width:15%;">法律顾问签字</td>
+                    			<td style="width:70%;">附件名称</td>
+                    			<td style="width:25%;">操作</td>
+                    		</tr>
+                    	</thead>
+                    	<tbody></tbody>
+                    </table> -->
         
     </div>
 <!--endprint-->
@@ -152,13 +172,12 @@
 	function initTable(){
         $.ajax({
             type: 'POST',
-            url: getContextPath()+'/borrowservice/getBorrowContractBybNo',
+            url: getContextPath()+'/showDetailsPanel/getBorrowContractBybNo',
             dataType: 'json',
             data: {
             	bno:borrowNo
             },
             success: function (json) {
-            	console.log(json)
             	data=json;
             	$("#lookjiafang").text(data.unitJia==null?"":data.unitJia);
             	$("#lookyifang").text(data.unitYi==null?"":data.unitYi);
@@ -173,7 +192,39 @@
             	$("#lookjiekuanyongtu").text(data.borrowingPurposes==null?"":data.borrowingPurposes);
             	$("#lookborrowNo").text(data.bNo==null?"":data.bNo)
             	
-            	getHistoryNowAndLast();
+            	
+            	$.ajax({
+					type:"post",
+					url:getContextPath()+"/accessory/selectAccessoryById",
+					dataType:"json",
+					async:false,
+					data:{
+						id:data.bId,
+					},
+					success:function(json){
+						$("#look_accessory tbody").empty();
+						$("#look_accessory2 tbody").empty();
+			               for(var i=0;i<json.length;i++){
+			            	   if(json[i].aType=="借款合同文本"){
+				            	   $("#look_accessory tbody").append("<tr>"+
+			      	   										"<td>附件</td>"+
+			      	   									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+									            	    	/* "<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+ */
+									            	    "</tr>");
+			            	   }
+			            	   if(json[i].aType=="法律顾问签字"){
+				            	   $("#look_accessory2 tbody").append("<tr>"+
+			      	   										"<td>附件</td>"+
+			      	   									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+									            	    	/* "<td><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+									            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+ */
+									            	    "</tr>");
+			            	   }
+			               }
+					}
+				})
+            	
             }
         });
     }
@@ -183,100 +234,6 @@
 		$(dom).each(function(){
 			$(this).remove();
 		})
-	}
-	function getHistoryNowAndLast(){
-    	$.ajax({
-        	type: 'POST',
-            url: getContextPath()+'/flowHistory/getHistoryNowAndLastByModeId',
-            data:{
-            	id:id
-            },
-            success: function (json) {
-            	removeTr();
-            	for(var i in json){
-            		var operatorType = json[i].operateType;
-            		operatorType = getCnByOt(operatorType);
-            		var date = json[i].doDate;
-            		var title = json[i].title;
-            		var name = json[i].actorname;
-            		var view=json[i].view;
-            		if(json[i].view==""||json[i].view==null){
-            			view="无";
-            		}
-            		if(i==json.length-1){
-                	$("#lookFlowHistory").after("<tr><td rowspan="+json.length+" style='display:table-cell;vertical-align:middle;'>审批流程</td><td colspan='3'>"+json[i].roleName+""+name+";操作类型:"+operatorType+";操作意见:"+view+";操作时间:"+date+"</td></tr>");
-            		}else{
-                	$("#lookFlowHistory").after("<tr><td colspan='3'>"+json[i].roleName+""+name+";操作类型:"+operatorType+";操作意见:"+view+";操作时间:"+date+"</td></tr>");
-            		}
-            	}
-            }
-        });
-	}
-	
-	function getCnByOt(s){
-		  if(s==1){
-			  return "提交";
-		  }else if(s==2){
-			  return "退回";
-		  }else if(s==3){
-			  return "撤销";
-		  }else if(s==0){
-			  return "驳回";
-		  }else if(s==8){
-			  return "待审批";
-		  }
-	  }
-    
-	
-	function day(){
-		// 获取当前页的html代码
-		    var bdhtml = window.document.body.innerHTML;
-		    //设置打印开始区域
-		    var startStr = '<!--startprint-->';
-		    // 设置打印结束区域
-		    var endStr = '<!--endprint-->';
-		    //从标记里获取需要打印的页面
-		    var printHtml = bdhtml.substring(bdhtml.indexOf(startStr) + startStr.length, bdhtml.indexOf(endStr));
-		    //隐藏不必要的按钮和样式
-		   /*  var iframe = document.getElementById('rightMain');
-		    var iframeHtml=iframe.contentWindow.document.body;
-		    $(iframeHtml).find("a").each(function(){
-		    	var fileName=$(this).text();
-		    	var qq=$(this).parent("td");
-		    	qq.empty();
-		    	qq.append("<span>"+fileName+"</span>");
-		    })
-		    var iframeHtml2=iframeHtml.innerHTML;
-		    var printHtml = document.getElementById('dy_html').innerHTML;
-		    var allHtml=iframeHtml2+printHtml; */
-		    var allHtml=printHtml;
-		    
-		   //iframe.contentWindow.focus();
-		   //iframe.contentWindow.print(); 
-		    
-		 	// 通过id获取需要打印的页面
-		    
-		    window.document.body.innerHTML = allHtml;
-		    if (!!window.ActiveXObject || "ActiveXObject" in window) { //是否ie
-		        remove_ie_header_and_footer();
-		     }
-		    remove_ie_header_and_footer();
-		    window.print();
-		    // 还原界面
-		    window.document.body.innerHTML = allHtml;
-		    window.location.reload();
-	  } 
-//去掉页眉、页脚
-	function remove_ie_header_and_footer() {
-	  var hkey_path;
-	  hkey_path = "HKEY_CURRENT_USER\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
-	  try {
-	     var RegWsh = new ActiveXObject("WScript.Shell");
-	     RegWsh.RegWrite(hkey_path + "header", "");
-	     RegWsh.RegWrite(hkey_path + "footer", "");
-	  } catch (e) {
-	  }
-	
 	}
 	
 	

@@ -2224,7 +2224,8 @@
 						  "targets": 2,
 						  "searchable": true,
 						  "render": function(data, type, full) {
-								return '<a onclick="gotoPrj(this)" style="color:#4876FF;cursor: pointer;">'+data.prjName+'</a>'
+								/* return '<a onclick="gotoPrj(this)" style="color:#4876FF;cursor: pointer;">'+data.prjName+'</a>' */
+							  return '<a href="../chankanxiangqing/taskDetails.html?prjNo='+data.taskNo+'" style="color:#4876FF;cursor: pointer;" target="_blank" >'+data.prjName+'</a>'
 						  }
 						},
 						{	
@@ -2764,7 +2765,8 @@
 						   "targets": 1,
 						   "searchable": true,
 						   "render": function(data, type, full) {
-								return '<a onclick="gotoCg2(this)" style="color:#4876FF;cursor: pointer;">'+data.cgContract+'</a>'
+								/* return '<a onclick="gotoCg2(this)" style="color:#4876FF;cursor: pointer;">'+data.cgContract+'</a>' */
+							   return '<a href="../chankanxiangqing/cgContractDetails.html?cgNo='+data.cgNo+'" style="color:#4876FF;cursor: pointer;" target="_blank" >'+data.cgContract+'</a>'
 						   }
 						},
 						/* {	
@@ -4320,18 +4322,27 @@
 		var dom=$(obj).parents('tr');
 		var data=$('#mainContent3').DataTable().row(dom).data();
 		
-		$("#lookcghetongming").text(data.cgContract);
-		$("#lookcghetonghao").text(data.cgNo);
-		$("#lookrenwudanhao").text(data.taskNo);
-		$("#lookprjperson3").text(data.prjPerson);
-		$("#lookyifang").text(data.spName);
-		$("#lookfbperson").text(data.fbPerson);
-		$("#lookhetongMoney").text(data.contractMoney);
-		$("#lookjiesuanMoney").text(data.settlementMoney);
-		$("#lookjiesuandesc").text(data.settlementDesc);
-		$("#lookljfukuan").text(data.accumulativePaymentMoney);
-		$("#looklypingji").text(data.performanceGrade);
-		$("#lookprjgaikuang").text(data.performanceDesc);
+		//$("#lookcghetongming").text(data.cgContract);
+		$("#lookcghetongming").html("")
+		if(data.cgContract==""||data.cgContract==null){
+			$("#lookcghetongming").text('');
+		}else{
+			var lookcgNoClick = '<a href="../chankanxiangqing/cgContractDetails.html?cgNo='
+				+data.cgNo
+				+'" target="_blank" style="color:blue;">'+data.cgContract+'</a>';	
+			$("#lookcghetongming").append(lookcgNoClick);
+		}
+		$("#lookcghetonghao").text(data.cgNo==null?"":data.cgNo);
+		$("#lookrenwudanhao").text(data.taskNo==null?"":data.taskNo);
+		$("#lookprjperson3").text(data.prjPerson==null?"":data.prjPerson);
+		$("#lookyifang").text(data.spName==null?"":data.spName);
+		$("#lookfbperson").text(data.fbPerson==null?"":data.fbPerson);
+		$("#lookhetongMoney").text(data.contractMoney==null?"":data.contractMoney);
+		$("#lookjiesuanMoney").text(data.settlementMoney==null?"":data.settlementMoney);
+		$("#lookjiesuandesc").text(data.settlementDesc==null?"":data.settlementDesc);
+		$("#lookljfukuan").text(data.accumulativePaymentMoney==null?"":data.accumulativePaymentMoney);
+		$("#looklypingji").text(data.performanceGrade==null?"":data.performanceGrade);
+		$("#lookprjgaikuang").text(data.performanceDesc==null?"":data.performanceDesc);
 		
 		//initTableHistory3();
 		
@@ -6032,15 +6043,46 @@
 		console.log(data)
 		code=data.materialContractCode
 		
-		$("#lookprjName").text(data.prjName);
-		$("#looktaskNo").text(data.taskNo);
-		$("#lookprjfuzeren").text(data.prjPerson);
-		$("#lookdepartment").text(data.omName);
-		$("#lookclcgbianhao").text(data.materialContractCode);
-		$("#lookhetongleijiMoney").text(data.contractAllMoney);
-		$("#lookhetongshijijiesuanMoney").text(data.contractEndMoney);
-		$("#lookfukuantype").text(data.payMode);
-		$("#lookshijifuzeren").text(data.actualChargePerson);
+		//$("#lookprjName").text(data.prjName);
+		$("#lookprjName").html("")
+		if(data.prjName==""||data.prjName==null){
+			$("#lookprjName").text('');
+		}else{
+			var taskprjNoClick = '<a href="../chankanxiangqing/taskDetails.html?prjNo='
+    			+data.taskNo
+    			+'" target="_blank" style="color:blue;">'+data.prjName+'</a>';		
+			$("#lookprjName").append(taskprjNoClick);
+		}
+		$("#looktaskNo").text(data.taskNo==null?"":data.taskNo);
+		$("#lookprjfuzeren").text(data.prjPerson==null?"":data.prjPerson);
+		$("#lookdepartment").text(data.omName==null?"":data.omName);
+		//$("#lookclcgbianhao").text(data.materialContractCode);
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/cgcontract/getCGNoByName',
+            dataType: 'json',
+            data: {
+            	contractName:data.materialContractCode,
+            },
+            success: function (json) {
+            	var cgNo=json[0].cgNo;
+				//材料设备采购合同
+				$("#lookclcgbianhao").html("")
+				if(data.materialContractCode==""||data.materialContractCode==null){
+					$("#lookclcgbianhao").text('');
+				}else{
+					var lookcgNoClick = '<a href="../chankanxiangqing/cgContractDetails.html?cgNo='
+						+cgNo
+						+'" target="_blank" style="color:blue;">'+data.materialContractCode+'</a>';	
+					$("#lookclcgbianhao").append(lookcgNoClick);
+				}
+            }
+        });
+		
+		$("#lookhetongleijiMoney").text(data.contractAllMoney==null?"":data.contractAllMoney);
+		$("#lookhetongshijijiesuanMoney").text(data.contractEndMoney==null?"":data.contractEndMoney);
+		$("#lookfukuantype").text(data.payMode==null?"":data.payMode);
+		$("#lookshijifuzeren").text(data.actualChargePerson==null?"":data.actualChargePerson);
 		
 		$("#lookpj1").text(data.scoreProductQualityEase);
 		$("#lookpj2").text(data.scoreGiveProductionTime)
