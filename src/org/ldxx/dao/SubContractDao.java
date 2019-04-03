@@ -31,6 +31,8 @@ public interface SubContractDao {
 	FbContract getFBNoByName(@Param("contractName")String contractName);
 
 	FbContract getFBContractByName(@Param("contractName")String contractName);
+	
+	FbContract getFBContractByFbNo(@Param("fbNo")String contractName);
 
 	FbContract getFBContractByNo(@Param("no")String no);
 
