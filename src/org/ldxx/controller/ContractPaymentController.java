@@ -195,7 +195,7 @@ public class ContractPaymentController {
 		pay.setPayId(id);
 		
 		int count=payService.fkNocount();
-		count=count+1;
+		count=count+1; 
 		String fkNo=uuid.getPrjCode("", count);
 		fkNo="FBFK"+fkNo;
 		pay.setPayCode(fkNo);
