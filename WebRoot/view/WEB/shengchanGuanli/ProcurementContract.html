@@ -941,7 +941,8 @@ body {
 					<tr>
 						<th style="width: 4%;">序号</th>
 						<th style="width: 10%;">采购合同编号</th>
-						<th style="width: 40%;">采购合同名称</th>
+						<th style="width: 30%;">采购合同名称</th>
+						<th style="width: 10%;">任务单号</th>
 						<th style="width: 10%;">采购合同类型</th>
 						<th style="width: 15%;">合同乙方</th>
 						<th style="width: 10%;" class="jinqianyanse">采购合同金额(元)</th>
@@ -1652,15 +1653,24 @@ body {
             { "data": null}, 
             { "data": "cgNo"},
             { "data": "contractName"}, 
+            { "data": null},
             { "data": "cgcType"}, 
             { "data": "spName"}, 
             { "data": "cgContractMoney",render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
             { "data": "contractSignTime"}, 
         ],
         "columnDefs": [
-						{	
+			        	{	
+							 "class": "tcenter",
+							  "targets": 3,
+							  "searchable": true,
+							  "render": function(data, type, full) {
+								  return '<a href="../chankanxiangqing/taskDetails.html?prjNo='+data.workNo+'" style="color:#4876FF;cursor: pointer;" target="_blank" >'+data.workNo+'</a>'
+							  }
+							},
+        					{	
 								 "class": "tcenter",
-								    "targets": 7,
+								    "targets": 8,
 								    "searchable": true,
 								    "render": function(data, type, full) {
 								    	if(full.workNo==""||full.workNo==null){
@@ -1740,7 +1750,7 @@ body {
 					                return data;
 					            }
 		                    },
-		                    columns:[1,2,3,4,5,6]
+		                    columns:[1,2,3,4,5,6,7]
 		                }
 		            }
 		        ]
@@ -2094,6 +2104,7 @@ body {
             	status:2
             },
             success: function (json) {
+            	console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
