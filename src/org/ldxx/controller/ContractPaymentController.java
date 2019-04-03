@@ -397,7 +397,7 @@ public class ContractPaymentController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		String code="FBFK"+year+payService.CreatePayNumOrder(year);
-		int i=payService.updatePayNo(id, code);
+		int i=payService.updatePayNo(id, code); 
 		return i;
 	}
 	
