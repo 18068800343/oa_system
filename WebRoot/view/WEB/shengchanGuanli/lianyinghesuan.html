@@ -226,17 +226,43 @@
 		},
 		"columns": [
 		            { "data": null}, 
-		            { "data": "prjName"},
-		            { "data": "contractNo"}, 
+		            { "data": null},
+		            { "data": null}, 
 		            { "data": "contractMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
 		            { "data": "prjMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
 		            { "data": "lyUnit"}, 
-		            { "data": "lyNo"},
+		            { "data": null},
 		            { "data": "prjCwEnd"},
 		            { "data": "prjAllFb", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},
 		            { "data": "managementMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},
 		            { "data": "managementFee", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}
 		        ],
+		        "columnDefs": [
+			        	 {	
+							 "class": "tcenter",
+							  "targets": 1,
+							  "searchable": true,
+							  "render": function(data, type, full) {
+								  return '<a href="../chankanxiangqing/taskDetails.html?prjNo='+data.prjNo+'" style="color:#4876FF;cursor: pointer;" target="_blank" >'+data.prjName+'</a>'
+							  }
+							},
+							{	
+								 "class": "tcenter",
+								  "targets": 2,
+								  "searchable": true,
+								  "render": function(data, type, full) {
+									  return '<a href="../chankanxiangqing/cjContractDetails.html?cjCNo='+data.contractNo+'" style="color:#4876FF;cursor: pointer;" target="_blank" >'+data.contractNo+'</a>'
+								  }
+								},
+								{	
+									 "class": "tcenter",
+									  "targets": 6,
+									  "searchable": true,
+									  "render": function(data, type, full) {
+										  return '<a href="../chankanxiangqing/lianyingDetails.html?lyNo='+data.lyNo+'" style="color:#4876FF;cursor: pointer;" target="_blank" >'+data.lyNo+'</a>'
+									  }
+									}
+    				],
 		        "fnDrawCallback" : function() {
 					$.ajax({
                 		type:"post",
@@ -343,6 +369,7 @@
             data: {
             },
             success: function (json) {
+            	console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }

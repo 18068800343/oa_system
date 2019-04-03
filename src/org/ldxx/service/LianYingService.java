@@ -25,4 +25,6 @@ public interface LianYingService {
 	public int updateLianYing(LianYing ly);
 	
 	public int updateLyNoById(String id,String no);
+
+	public LianYing getLianYingBylyNo(String no);
 }
