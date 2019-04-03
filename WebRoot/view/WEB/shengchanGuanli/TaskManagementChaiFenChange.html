@@ -1776,28 +1776,7 @@
        	            elem: '#ziTaskEnd'+length+'' //指定元素
        	        });
        			
-    			$.ajax({
-                    type: 'POST',
-                    url: getContextPath()+'/organizationManagement/selectProductionDepartment',
-                    dataType: 'json',
-                    async:false,
-                    data: {
 
-                    },
-                    error: function (msg) {
-                    	toastr.error("请求失败");
-                    },
-                    success: function (json) {
-                    	$("#zhubanBumen"+length+"").empty();
-                        for(var i=0;i<json.length;i++){
-                        	$("#zhubanBumen"+length+"").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-                        }
-                        zhubanChange(length);
-                        $("#zhubanBumen"+length+"").trigger("change");
-                        huitianTaskBumen(length);
-                    }
-        		});
-    			huitianTaskMsg(length);
     			if(jsonData.assistDepartment1!=null&&jsonData.assistDepartment1!=""){
     				page_no = 1;
     				var changdu = $("button[name='addzirenwudanBumen']").length;
@@ -1816,6 +1795,29 @@
     				
     				$("button[name='addzirenwudanBumen']").eq(changdu-1).trigger("click");
     			}
+    			$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/organizationManagement/selectProductionDepartment',
+                    dataType: 'json',
+                    async:false,
+                    data: {
+
+                    },
+                    error: function (msg) {
+                    	toastr.error("请求失败");
+                    },
+                    success: function (json) {
+                    	$("#zhubanBumen"+length+"").empty();
+                        for(var i=0;i<json.length;i++){
+                        	$("#zhubanBumen"+length+"").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                        }
+                        zhubanChange(length);
+                        huitianTaskBumen(length);
+                        $("#zhubanBumen"+length+"").trigger("change");
+                        huitianTaskFzr(length);
+                    }
+        		});
+    			huitianTaskMsg(length);
     }
     var page_no;
     function huitianTaskBumen(length){
@@ -1828,6 +1830,8 @@
     	if(jsonData.mainDepartmentCost!=null&&""!=jsonData.mainDepartmentCost){
     		$("#zhubanFentan"+length+"").val(jsonData.mainDepartmentCost);
     	}
+    }
+    function huitianTaskFzr(length){
     	if(jsonData.mainPrjLeader!=null&&""!=jsonData.mainPrjLeader){
     		$("#xmfzr"+length+"").val(jsonData.mainPrjLeader);
     	}
