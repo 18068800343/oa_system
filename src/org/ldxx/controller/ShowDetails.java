@@ -118,6 +118,7 @@ public class ShowDetails {
 		return map;
 	}
 	
+	
 	@RequestMapping("/cgContract")
 	@ResponseBody
 	public Map<String,Object> selectcgContractByPrjNo(String cgNo){
