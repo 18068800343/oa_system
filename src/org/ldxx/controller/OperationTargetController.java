@@ -363,12 +363,21 @@ public class OperationTargetController {
 			String bmmc=dt.get(i).getBmmc();
 			OrganizationManagement om=oService.getOrgIdByName(bmmc);
 			DepartmentTarget d=dservice.selectDepartmentTargetByIdAndOmId(id, om.getOmId());
-			dt.get(i).settId(d.gettId());
-			dt.get(i).setOtId(d.getOtId());
-			dt.get(i).setContractAmount(d.getContractAmount());
-			dt.get(i).setRevenueTarget(d.getRevenueTarget());
-			dt.get(i).setCollectionTarget(d.getCollectionTarget());
-			dt.get(i).setProfit(d.getProfit());
+			if(d!=null){
+				dt.get(i).settId(d.gettId());
+				dt.get(i).setOtId(d.getOtId());
+				dt.get(i).setContractAmount(d.getContractAmount());
+				dt.get(i).setRevenueTarget(d.getRevenueTarget());
+				dt.get(i).setCollectionTarget(d.getCollectionTarget());
+				dt.get(i).setProfit(d.getProfit());
+			}else{
+				dt.get(i).settId("");
+				dt.get(i).setOtId("");
+				dt.get(i).setContractAmount(0);
+				dt.get(i).setRevenueTarget(0);
+				dt.get(i).setCollectionTarget(0);
+				dt.get(i).setProfit(0);
+			}
 			dt.get(i).setXqhte(dt.get(i).getXqhte()/10000);
 			dt.get(i).setSr(dt.get(i).getSr()/10000);
 			dt.get(i).setSk(dt.get(i).getSk()/10000);
