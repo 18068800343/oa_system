@@ -183,4 +183,9 @@ public class SubContractServiceImpl implements SubContractService {
 		return fbc;
 	}
 
+	@Override
+	public Double getShenpiFbMoneyByCjNo(String cjno) {
+		return scDao.getShenpiFbMoneyByCjNo(cjno);
+	}
+
 }

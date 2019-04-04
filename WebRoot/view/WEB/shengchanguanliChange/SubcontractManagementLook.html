@@ -122,9 +122,7 @@
 								<td>合同甲方名称:</td>
                                 <td>
                                     <select class="form-control" style="width:70%;" id="xgjiafang">
-                                        <option value="江苏华通工程检测有限公司">江苏华通工程检测有限公司</option>
-                                        <option value="江苏华汇工程检测有限公司">江苏华汇工程检测有限公司</option>
-                                        <option value="宿迁分公司">宿迁分公司</option>
+                                        
                                     </select>
                                 </td>     
                                 <td style="width:15%;" class="jinqianyanse">主合同金额(元):</td>
@@ -195,8 +193,8 @@
                                         <option>增值税专用发票</option>
                                     </select>
                                 </td>
-                                <td></td>
-                                <td></td>
+                                <td class="jinqianyanse">审批中的分包金额</td>
+			                    <td><input type="text" class="form-control" id="xgshenpiFbMoney" style="width:70%;" disabled></td>
                             </tr>
                             <tr>
                                 <td>付款方式:</td>
@@ -604,6 +602,7 @@
     	
     	initSelect2();
     	initbumen();
+    	initFenGs();
     	
         laydate.render({
             elem: '#year' //指定元素
@@ -944,6 +943,25 @@
         }
     })
 	
+     //甲方
+	function initFenGs(){
+  		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/job/selectAllJobLv',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            success: function (json) {
+            	 $("#jiafang").html("");
+            	 $("#xgjiafang").html("");
+                 for(var i=0;i<json.length;i++){
+                 	$("#jiafang").append("<option value='"+json[i].jobLvName+"'>"+json[i].jobLvName+"</option>")
+                 	$("#xgjiafang").append("<option value='"+json[i].jobLvName+"'>"+json[i].jobLvName+"</option>")
+                 }
+            }
+      });
+  	 }
 	
 	
 	//初始化乙方
@@ -1057,7 +1075,7 @@
 	                    success: function (json) {
 	                    	$('#xgchengjiehetongName').val(json.contractName);
 	                    	$('#xgzhuhetongMoney').val(json.contractMoney);
-	                    	
+	                    	getshenpifbMoney($('#xgchengjiehetonghao').val());
 	                    	var prjName=json.prjName;
 	                    	var taskCode=json.taskCode;
 	                    	$("#xgprjName").html('');
@@ -1344,6 +1362,21 @@
         });  
   	}
 	
+	//通过承接合同号查询审批中的分包合同金额
+  	function getshenpifbMoney(obj){
+  		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getShenpiFbMoneyByCjNo',
+            dataType: 'json',
+            data: {
+            	cjno:obj
+            },
+            success: function (json) {
+            	$("#xgshenpiFbMoney").val(json)
+            }
+  		});
+  	}
+	
 	//修改回显
 	function initTable(){
 		$.ajax({
@@ -1413,6 +1446,7 @@
 	    		
 	    		$("#xgchengjiehetongName").val(data.cjContractName)
 	    		$("#xgchengjiehetonghao").val(data.cjContractCode)
+	    		getshenpifbMoney(data.cjContractCode);
 	    		$("#xgzhuhetongMoney").val(data.mainContractMoney)
 	    		$('#xgleijifenbaoMoney').val(data.nowFbAllMoney)
 	    		$("#xgyear").val(data.contractStartTime)
@@ -2243,6 +2277,7 @@
     	}
     	$("#xgchengjiehetongName").val(data.contractName);
     	$("#xgchengjiehetonghao").val(data.contractNo);
+    	getshenpifbMoney(data.contractNo);
     	var prjName=data.prjName;
     	var taskCode=data.taskCode;
     	$("#xgprjName").html('');

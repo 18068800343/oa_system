@@ -727,4 +727,11 @@ public class SubContractController {
 		return list;
 	}
 	
+	@RequestMapping("/getShenpiFbMoneyByCjNo")//通过承接合同号查询审批中的分包合同金额
+	@ResponseBody
+	public Double getShenpiFbMoneyByCjNo(String cjno){
+		Double fbMoney=scService.getShenpiFbMoneyByCjNo(cjno);
+		return fbMoney;
+	}
+	
 }

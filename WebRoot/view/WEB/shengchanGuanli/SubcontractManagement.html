@@ -181,13 +181,14 @@
 			                <thead>
 			                    <tr>
 			                        <th style="width:8%">分包合同编号</th>
-			                        <th style="width:14%">分包合同名称</th>
-			                        <th style="width:12%">甲方</th>
+			                        <th style="width:20%">分包合同名称</th>
+			                        <th style="width:6%">甲方</th>
 			                        <th style="width:12%">乙方</th>
 			                        <!-- <th style="width:12%">项目名称</th> -->
-			                        <th style="width:18%">承接合同名称</th>
-			                        <th style="width:8%">分包合同金额(元)</th>
-			                        <th style="width:8%">累计分包金额(元)</th>
+			                        <th style="width:10%">承接合同编号</th>
+			                        <th style="width:10%">签订时间</th>
+			                        <th style="width:8%" class="jinqianyanse">分包合同金额(元)</th>
+			                        <th style="width:8%" class="jinqianyanse">累计分包金额(元)</th>
 			                        <th  style="width:5%">操作</th>
 			                    </tr>
 			                </thead>
@@ -260,9 +261,7 @@
 	                            	<td>合同甲方名称:</td>
 	                                <td>
 	                                    <select class="form-control" style="width:70%;" id="jiafang">
-	                                        <option value="江苏华通工程检测有限公司">江苏华通工程检测有限公司</option>
-	                                        <option value="江苏华汇工程检测有限公司">江苏华汇工程检测有限公司</option>
-	                                        <option value="宿迁分公司">宿迁分公司</option>
+	                                        
 	                                    </select>
 	                                </td>
 	                                <td class="jinqianyanse">主合同金额(元):</td>
@@ -336,6 +335,8 @@
 			                                        <option>增值税专用发票</option>
 			                                    </select>
 			                                </td>
+			                                <td class="jinqianyanse">审批中的分包金额</td>
+			                                <td><input type="text" class="form-control" id="shenpiFbMoney" style="width:70%;" disabled></td>
 			                            </tr>
 			                            <tr>
 			                                <td>付款方式:</td>
@@ -448,9 +449,7 @@
 											<td>合同甲方名称:</td>
 			                                <td>
 			                                    <select class="form-control" style="width:70%;" id="xgjiafang">
-			                                        <option value="江苏华通工程检测有限公司">江苏华通工程检测有限公司</option>
-			                                        <option value="江苏华汇工程检测有限公司">江苏华汇工程检测有限公司</option>
-			                                        <option value="宿迁分公司">宿迁分公司</option>
+			                                        
 			                                    </select>
 			                                </td>                                
 			                                <td class="jinqianyanse">主合同金额(元):</td>
@@ -524,6 +523,8 @@
 			                                        <option>增值税专用发票</option>
 			                                    </select>
 			                                </td>
+			                                <td class="jinqianyanse">审批中的分包金额</td>
+			                                <td><input type="text" class="form-control" id="xgshenpiFbMoney" style="width:70%;" disabled></td>
 			                            </tr>
 			                            <tr>
 			                                <td>付款方式:</td>
@@ -656,6 +657,8 @@
 			                            <td id="lookrate" style="display:none"></td>
 			                            <td>税票类型</td>
 			                            <td id="lookrateType"></td>
+			                            <td class="jinqianyanse">审批中的分包金额</td>
+			                            <td id="lookshenpiFbMoney"></td>
 			                        </tr>
 			                        <tr>
 			                            <td>付款方式:</td>
@@ -1296,6 +1299,7 @@
     $(document).ready( function () {
     	/* initTable(); */
     	initSelect2WithSearch();
+    	initFenGs();
     	inityifang();
     	initSelect2();
     	initbumen();
@@ -1468,6 +1472,7 @@ function quxiao3(){
             { "data": "ccName"}, 
             /* { "data": null,"visible": false},  */
             { "data": null}, 
+            { "data": "contractStartTime"}, 
             { "data": "contractMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
             { "data": "nowFbAllMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
         ],
@@ -1493,12 +1498,13 @@ function quxiao3(){
 							  "targets": 4,
 							  "searchable": true,
 							  "render": function(data, type, full) {
-								  return '<a onclick="gotoCj(this)" style="color:#4876FF;cursor: pointer;">'+data.cjContractName+'</a>' 
+								  /* return '<a onclick="gotoCj(this)" style="color:#4876FF;cursor: pointer;">'+data.cjContractName+'</a>' */
+								  return '<a href="../chankanxiangqing/cjContractDetails.html?cjCNo='+data.cjContractCode+'" style="color:#4876FF;cursor: pointer;" target="_blank" >'+data.cjContractCode+'</a>'
 						  }
 						},
 						{	
 								 "class": "tcenter",
-								    "targets": 7,
+								    "targets": 8,
 								    "searchable": true,
 								    "render": function(data, type, full) {
 								  	  		return '<i class="iconfont icon-icon-test Pecbb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookSubcontract(this)"   id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai Pecbc" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="合同变更" onclick="checkSubcontract(this)"   id="Changedanwei"></i><i class="iconfont icon-arrow chongqi Pecbf" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="重启" onclick="openModal3(this)"></i><i class="iconfont icon-tuichu iconzhongzhi Pecbd" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="分包合同取消"  onclick="openModal2(this)"></i>'
@@ -1577,7 +1583,7 @@ function quxiao3(){
 					                return data;
 					            }
 		                    },
-		                    columns:[0,1,2,3,4,5,6]
+		                    columns:[0,1,2,3,4,5,6,7]
 		                }
 		            }
 		        ]
@@ -1883,6 +1889,24 @@ function quxiao3(){
         }
     })
 	
+    //甲方
+	function initFenGs(){
+  		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/job/selectAllJobLv',
+            dataType: 'json',
+            data: {
+            },
+            success: function (json) {
+            	 $("#jiafang").html("");
+            	 $("#xgjiafang").html("");
+                 for(var i=0;i<json.length;i++){
+                 	$("#jiafang").append("<option value='"+json[i].jobLvName+"'>"+json[i].jobLvName+"</option>")
+                 	$("#xgjiafang").append("<option value='"+json[i].jobLvName+"'>"+json[i].jobLvName+"</option>")
+                 }
+            }
+      });
+  	 }
 	
 	
 	//初始化乙方
@@ -1967,6 +1991,7 @@ function quxiao3(){
 	                    	no:$('#chengjiehetonghao').val()
 	                    },
 	                    success: function (json) {
+	                    	getshenpifbMoney($('#chengjiehetonghao').val());
 	                    	$('#chengjiehetongName').val(json.contractName);
 	                    	$("#zhuhetongMoney").val(json.contractMoney);
 	                    	var prjName=json.prjName;
@@ -1981,6 +2006,7 @@ function quxiao3(){
 	          					$("#task_no").append("<option>"+taskCode.split(",")[i]+"</option>")
 	          				}
 	          				$("#task_no").trigger("change");
+	          				
 	                    }
 	          		});
 			  	})
@@ -2011,7 +2037,7 @@ function quxiao3(){
 	                    success: function (json) {
 	                    	$('#xgchengjiehetongName').val(json.contractName);
 	                    	$('#xgzhuhetongMoney').val(json.contractMoney);
-	                    	
+	                    	getshenpifbMoney($('#xgchengjiehetonghao').val());
 	                    	var prjName=json.prjName;
 	                    	var taskCode=json.taskCode;
 	                    	$("#xgprjName").html('');
@@ -2078,6 +2104,23 @@ function quxiao3(){
             }
   		});
   	})
+  	
+  	//通过承接合同号查询审批中的分包合同金额
+  	function getshenpifbMoney(obj){
+  		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getShenpiFbMoneyByCjNo',
+            dataType: 'json',
+            data: {
+            	cjno:obj
+            },
+            success: function (json) {
+            	$("#shenpiFbMoney").val(json)
+            	$("#xgshenpiFbMoney").val(json)
+            	$("#lookshenpiFbMoney").text(json)
+            }
+  		});
+  	}
   
 	 function lookCancel(obj){
 	  		$("#look_cancel").modal("show");
@@ -2609,6 +2652,7 @@ function quxiao3(){
 		
 		$("#xgchengjiehetongName").val(data.cjContractName)
 		$("#xgchengjiehetonghao").val(data.cjContractCode)
+		getshenpifbMoney(data.cjContractCode)
 		$("#xgzhuhetongMoney").val(data.mainContractMoney)
 		$('#xgleijifenbaoMoney').val(data.nowFbAllMoney)
 		$("#xgyear").val(data.contractStartTime)
@@ -3050,6 +3094,7 @@ function quxiao3(){
 		$("#looktask_no").text(data.workNo)
 		$("#lookchengjiehetongName").text(data.cjContractName)
 		$("#lookchengjiehetonghao").text(data.cjContractCode)
+		getshenpifbMoney(data.cjContractCode)
 		$("#lookzhuhetongMoney").text(data.mainContractMoney)
 		$('#lookleijifenbaoMoney').text(data.nowFbAllMoney)
 		$("#lookyear").text(data.contractStartTime)
@@ -3418,6 +3463,7 @@ function quxiao3(){
     	$("#leijifenbaoMoney").val(data.sm);
     	$("#chengjiehetongName").val(data.contractName);
     	$("#chengjiehetonghao").val(data.contractNo);
+    	getshenpifbMoney(data.contractNo);
     	var prjName=data.prjName;
     	var taskCode=data.taskCode;
     	$("#prjName").html('');
@@ -3502,6 +3548,7 @@ function quxiao3(){
     	
     	$("#xgchengjiehetongName").val(data.contractName);
     	$("#xgchengjiehetonghao").val(data.contractNo);
+    	getshenpifbMoney(data.contractNo);
     	var prjName=data.prjName;
     	var taskCode=data.taskCode;
     	$("#xgprjName").html('');
