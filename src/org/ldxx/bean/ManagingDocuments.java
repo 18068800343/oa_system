@@ -15,12 +15,12 @@ public class ManagingDocuments {
 	private String prjBidTime;//项目投标时间
 	private String isBidding;//是否中标
 	private String numberParticipatingUnits;//参与开标单位数量
-	private Float offer;//本公司报价
+	private String offer;//本公司报价
 	private String biddingPrjManager;//中标项目经理
 	private String prjGeneral;//项目总工
 	private String prjStartTime;//项目工起期
 	private String prjEndTime;//项目工止期
-	private Float biddingPrice;//中标价
+	private String biddingPrice;//中标价
 	private String biddingUnit;//中标单位
 	private Float bidPriceLimit;//投标限价
 	private Float prjBudgetPrice;//项目预算价
@@ -138,10 +138,10 @@ public class ManagingDocuments {
 	public void setNumberParticipatingUnits(String numberParticipatingUnits) {
 		this.numberParticipatingUnits = numberParticipatingUnits;
 	}
-	public Float getOffer() {
+	public String getOffer() {
 		return offer;
 	}
-	public void setOffer(Float offer) {
+	public void setOffer(String offer) {
 		this.offer = offer;
 	}
 	public String getIsBidding() {
@@ -174,10 +174,10 @@ public class ManagingDocuments {
 	public void setPrjEndTime(String prjEndTime) {
 		this.prjEndTime = prjEndTime;
 	}
-	public Float getBiddingPrice() {
+	public String getBiddingPrice() {
 		return biddingPrice;
 	}
-	public void setBiddingPrice(Float biddingPrice) {
+	public void setBiddingPrice(String biddingPrice) {
 		this.biddingPrice = biddingPrice;
 	}
 	public String getBiddingUnit() {

@@ -25,7 +25,7 @@ public class ProjectOver {
     private String prjDesc;
 
     /*合同金额*/
-    private Float contractAmount;
+    private String contractAmount;
 
     /*项目工期*/
     private String projectDuration;
@@ -171,11 +171,11 @@ public class ProjectOver {
 
     
 
-    public Float getContractAmount() {
+    public String getContractAmount() {
 		return contractAmount;
 	}
 
-	public void setContractAmount(Float contractAmount) {
+	public void setContractAmount(String contractAmount) {
 		this.contractAmount = contractAmount;
 	}
 
