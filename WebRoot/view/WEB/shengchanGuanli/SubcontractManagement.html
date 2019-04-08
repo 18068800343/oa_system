@@ -190,6 +190,7 @@
 			                        <th style="width:8%" class="jinqianyanse">分包合同金额(元)</th>
 			                        <th style="width:8%" class="jinqianyanse">累计分包金额(元)</th>
 			                        <th  style="width:5%">操作</th>
+			                        <th>任务单号</th>
 			                    </tr>
 			                </thead>
 			                <tbody>
@@ -1475,6 +1476,8 @@ function quxiao3(){
             { "data": "contractStartTime"}, 
             { "data": "contractMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
             { "data": "nowFbAllMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
+            { "data": null},
+            { "data": "workNo",visible:false},
         ],
         "columnDefs": [
 						/* {
@@ -1566,11 +1569,9 @@ function quxiao3(){
         }},
         "buttons": [
 		        	{
-		                extend: "csv",
-		                text: "导出csv",
-		                bom: true,
+		                extend: "excel",
+		                text: "导出excel",
 		                filename: '分包合同',
-		                fieldSeparator: ',',
 		                exportOptions: {
 		                	format: {
 		                        header: function ( data) {
@@ -1578,13 +1579,17 @@ function quxiao3(){
 		                        },
 		                        body: function ( data, columnIdx, rowIdx, code ) {
 		                        	if(rowIdx==4){
-		                        		data=data.replace("</a>","")
-		                        		data=data.replace('<a onclick="gotoCj(this)" style="color:#4876FF;cursor: pointer;">',"")
+		                        		//data=data.replace("</a>","")
+		                        		if(data!="无"){
+		                        		var start = data.indexOf(">");
+		                        		var end = data.lastIndexOf("<");
+		                        		data = data.substring(start+1,end);
+		                        		}
 		                        	}
 					                return data;
 					            }
 		                    },
-		                    columns:[0,1,2,3,4,5,6,7]
+		                    columns:[0,1,2,3,4,5,6,7,9]
 		                }
 		            }
 		        ]
@@ -1598,7 +1603,7 @@ function quxiao3(){
     } );
  
   table.buttons().container().appendTo( $('#tabBtn') );
-   $('.buttons-csv').addClass('btn btn-primary');
+   $('.buttons-excel').addClass('btn btn-primary');
     
     var table3=$('#cj_table').dataTable({
         "deferRender": true,
