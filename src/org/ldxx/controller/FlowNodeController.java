@@ -95,7 +95,7 @@ public class FlowNodeController {
 		FlowNode flowNode = new FlowNode();
 		flowNode.setFloNodeLeft(lastFloNode);
 		flowNode.setFlownodename(floNodeName);
-		flowNodeMapper.updateByPrimaryKeySelective(flowNode);
+		int i =flowNodeMapper.updateByPrimaryKeySelective(flowNode);
 		NodeActorsExample example = new NodeActorsExample();
 		example.createCriteria().andFloNodeIdEqualTo(floNodeId);
 		nodeActorsMapper.deleteByExample(example);
@@ -106,7 +106,7 @@ public class FlowNodeController {
 				nodeActors.setFloNodeId(floNodeId);
 				nodeActors.setId(new TimeUUID().getTimeUUID());
 				nodeActors.setRolecode(roleId);
-				nodeActorsMapper.insert(nodeActors);
+				int k = nodeActorsMapper.insert(nodeActors);
 			}
 		}
 		//修改FlowEdge
@@ -118,7 +118,7 @@ public class FlowNodeController {
 				if(!"".equals(lastFloNode)&&null!=lastFloNode){
 					flowEdge.setFloNodeLeft(lastFloNode);
 				}
-				flowEdgeMapper.updateByPrimaryKeySelective(flowEdge);
+				int j = flowEdgeMapper.updateByPrimaryKeySelective(flowEdge);
 			}
 		return "1";
 	}
