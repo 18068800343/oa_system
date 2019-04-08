@@ -245,6 +245,7 @@
 </script><script src="../../toastr/toastr.js"></script>
 <script>
     $(document).ready( function () {
+    	getUser();
     	initTable();
     	/* initlindao(); */
 	});
@@ -403,6 +404,19 @@
    	viewIndex=GetQueryString("viewIndex");
    	console.log(id,editOrView,step)
 	
+   	var user;
+   	function getUser(){
+   		$.ajax({
+    		type:"post",
+    		url:getContextPath()+"/login/getUser",
+    		async:false,
+    		data:{
+    		},
+    		success:function(json){
+    			user=json;
+    		}
+    	});
+   	}
 	
 	function initTable(){
 		$.ajax({
@@ -741,9 +755,8 @@
 			async:false,
 			data:{ 
 				
-				},
+			},
 			success:function(json){
-				//console.log(json)
 				$("#bumenshangwu").empty();
 				$("#bumenbaojia").empty();
 				$("#toubiaobumen").empty();
@@ -758,6 +771,9 @@
                   $("#bumenzerenren").append("<option value='" + json[i].omId + "'>"
                    			+ json[i].omName + "</option>")
 				}
+				$("#bumenbaojia").val(user.omId);
+				$("#bumenshangwu").val(user.omId);
+				$("#bumenzerenren").val(user.omId);
 				$("#bumenshangwu").trigger('change');
 				$("#bumenbaojia").trigger('change');
 				$("#bumenzerenren").trigger('change');
@@ -779,7 +795,7 @@
 			async:false,
 			data:{ 
 				omId:bumen 
-				},
+			},
 			success:function(json){
 				$('#mingzibiaoshangwu').dataTable().fnClearTable();
                 $('#mingzibiaoshangwu').DataTable().rows.add(json).draw(false);
@@ -797,6 +813,7 @@
 		//console.log($("#shangwu").attr('data-id'));
 		$("#people1").modal("hide");
 	})
+	
 	$("#bumenbaojia").change(function(){
 		$('#people2').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
             if ($('.modal.in').size() >= 1) {

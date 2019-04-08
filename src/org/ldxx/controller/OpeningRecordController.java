@@ -91,6 +91,16 @@ public class OpeningRecordController {
 		String no = uuid.getSerialNumber(bidder, type, count+1);*/
 		String no=type+time+bService.CreateBidApprovalNumOrder(time);
 		int i=bService.updateBidNoById(no, id);
+		String thisUnit="";
+		if(bid.equals("HT 江苏华通工程检测有限公司")){
+			thisUnit="华通";
+		}else if(bid.equals("ZS 中设设计集团股份有限公司")){
+			thisUnit="中设";
+		}else if(bid.equals("HH 江苏华汇工程科技有限公司")){
+			thisUnit="华汇";
+		}else if(bid.equals("SQ 宿迁分公司")){
+			thisUnit="宿迁分公司";
+		}
 		if(i>0){
 			for(int a=0;a<bdNo.split(",").length;a++){
 				OpeningRecord rd=new OpeningRecord();
@@ -101,6 +111,7 @@ public class OpeningRecordController {
 				rd.setPrjNo(no);
 				rd.setPrjType(prjtype);
 				rd.setBdNo(bd);
+				rd.setThisInUnit(thisUnit);
 				rdList.add(rd);
 			}
 			i=service.addOpeningRecord(rdList);
