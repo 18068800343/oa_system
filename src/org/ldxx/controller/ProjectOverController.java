@@ -53,7 +53,10 @@ public class ProjectOverController {
 	@RequestMapping("/selectPrjOver2")
 	@ResponseBody
 	public List<ProjectOver> selectPrjOver2(){
-		return prjOverService.selectPrjOver2();
+		List<ProjectOver> list =null;
+		list = prjOverService.selectPrjOver2();	
+		return list;
+		
 	}
 	
 	@RequestMapping("/selectPrjOverCountByNo")
