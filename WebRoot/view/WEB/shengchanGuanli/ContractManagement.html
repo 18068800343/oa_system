@@ -688,6 +688,22 @@
 	                <tbody>
 	                </tbody>  
 	         </table>
+	         
+	         <br/>
+					<h2 style="color:red;">审批详情</h2>
+					<table class="table table-bordered table-condensed" id="d_table">
+                    		<thead>
+                    			<tr>
+                    				<th style="width:30%;">业务名称</th>
+                    				<th style="width:12%;">操作人</th>
+                    				<th style="width:23%;">意见</th>
+                    				<th style="width:12%;">操作类型</th>
+                    				<th style="width:23%;">操作时间</th>
+                    			</tr>
+                    		</thead>
+                    		<tbody></tbody>
+                    	</table>
+	         
 	        <div class="modal-footer">
 		            <a href=""  class="btn btn-default" target="view_window" style="color:blue;" id="dyyl">打印预览</a>
 		            <button type="button" class="btn btn-default"  onclick="quxiao3()">取消</button>
@@ -3241,6 +3257,36 @@ function checkquxiaoSplit(){
                 $('#history_table').DataTable().rows.add(json).draw(false);
 	        }
     	});
+    	
+    	 $.ajax({
+	        	type: 'POST',
+	            url: getContextPath()+'/flowHistory/getHistoryNowAndLastByModeId',
+	            data:{
+	            	id:data.cjId
+	            },
+	            success: function (json) {
+	            	$("#d_table tbody").html('');
+	            	for(var i in json){
+	            		var operatorType = json[i].operateType;
+	            		operatorType = getCnByOt(operatorType);
+	            		var date = json[i].doDate;
+	            		var title = json[i].title;
+	            		var name = json[i].actorname;
+	            		if(date == null){
+	            			date="";
+	            			if(json[i].operateType==8){
+	            				title="<lable style='color:red'>"+json[i].title+"</lable>";
+	            				name="<lable style='color:red'>"+json[i].actorname+"</lable>";
+	            				operatorType="<lable style='color:red'>"+operatorType+"</lable>";
+	            			}else{
+	            				title = json[i].title;
+	            				name = json[i].actorname;
+	            			}
+	            		}
+	                	$("#d_table tbody").append("<tr><td>"+title+"</td><td>"+name+"</td><td></td><td>"+operatorType+"</td><td>"+date+"</td></tr>");
+	            	}
+	            }
+	        });
   		
   		//$("#allMsg1").modal("show");
     	$("#diyi").removeClass("active");
@@ -3250,6 +3296,20 @@ function checkquxiaoSplit(){
         $("#home").removeClass("active");
         $("#settings").addClass("active");
   	}
+  	
+  	function getCnByOt(s){
+  	  if(s==1){
+  		  return "提交";
+  	  }else if(s==2){
+  		  return "退回";
+  	  }else if(s==3){
+  		  return "撤销";
+  	  }else if(s==0){
+  		  return "驳回";
+  	  }else if(s==8){
+  		  return "待审批";
+  	  }
+    }
   	
   	function selectCjDeptSplitMoney(id,dept){
   		$.ajax({
