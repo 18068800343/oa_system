@@ -9,12 +9,12 @@ public class SecondCompanyCost {
 	private String departId;
 	private String departName;
 	private String date;
-	private Float money;
+	private Double money;
 	
-	public Float getMoney() {
+	public Double getMoney() {
 		return money;
 	}
-	public void setMoney(Float money) {
+	public void setMoney(Double money) {
 		this.money = money;
 	}
 	public String getId() {
