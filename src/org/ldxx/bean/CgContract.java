@@ -42,8 +42,18 @@ public class CgContract {
 	private String spName;// 乙方单位名称
 	private List<CgCl> cgcl;//采购材料
 	
+	private String startername;
 	
 	
+	
+	public String getStartername() {
+		return startername;
+	}
+
+	public void setStartername(String startername) {
+		this.startername = startername;
+	}
+
 	public Double getShuilv() {
 		return shuilv;
 	}

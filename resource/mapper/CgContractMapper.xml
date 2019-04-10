@@ -52,7 +52,10 @@
 	</delete>
 	
 	<select id="selectCgContractById" resultType="CgContract">
-		select *,c.sp_name  from cg_contract a left join sourcing_purchasing c on c.sp_id=a.contract_name_yi  where cg_id=#{id}
+		select *,c.sp_name  from cg_contract a 
+		left join sourcing_purchasing c on c.sp_id=a.contract_name_yi  
+		left join (select StarterName,mode_id from flowhistroy where mode_id = #{id} limit 1) b on a.cg_id = b.mode_id
+		where cg_id=#{id}
 	</select>
 	
 	<select id="selectCgIdAndName" resultType="CgContract">
