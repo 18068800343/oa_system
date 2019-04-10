@@ -372,8 +372,8 @@ input[type=checkbox] {
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-				<button type="button" class="btn btn-success" onclick="savexiugai()">保存</button>
-				<!-- <button type="button" class="btn btn-success" onclick="submitxiugai()">提交</button> -->
+				<!-- <button type="button" class="btn btn-success" onclick="savexiugai()">保存</button> -->
+				<button type="button" class="btn btn-success" onclick="submitxiugai()">保存</button>
 			</div>
 		</div>
 	</div>
@@ -421,17 +421,17 @@ input[type=checkbox] {
 					<table class="table table-bordered table-condensed" id="mainContent">
 						<thead>
 							<tr>
-								<th>项目名称</th>
-								<th>项目类型</th>
-								<th>标段编号</th>
-								<th>业主单位</th>
-								<th class="jinqianyanse">合同金额</th>
-								<th>项目工期</th>
-								<th>中标项目经理</th>
-								<th>中标单位</th>
-								<th>管理模式</th>
-								<th>承接部门</th>
-								<th style="width: 75px;">操作</th>
+								<th style="width:12%;">项目名称</th>
+								<th style="width:8%;">项目类型</th>
+								<th style="width:10%;">标段编号</th>
+								<th style="width:12%;">业主单位</th>
+								<th style="width:8%;" class="jinqianyanse">合同金额</th>
+								<th style="width:10%;">项目工期</th>
+								<th style="width:8%;">中标项目经理</th>
+								<th style="width:12%;">中标单位</th>
+								<th style="width:6%;">管理模式</th>
+								<th style="width:8%;">承接部门</th>
+								<th style="width:6%;">操作</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -456,10 +456,10 @@ input[type=checkbox] {
                 <form class="form-inline">
                     <table class="table table-bordered" >
                         <tr>
-							<td>项目名称</td>
-							<td id="lookmingcheng"></td>
-							<td>投标审批单号</td>
-							<td id="lookprjNo"></td>
+							<td style="width:15%;">项目名称</td>
+							<td style="width:35%;" id="lookmingcheng"></td>
+							<td style="width:15%;">投标审批单号</td>
+							<td style="width:35%;" id="lookprjNo"></td>
 						</tr>
 						<tr>
 							<td>标段编号</td>
@@ -516,7 +516,20 @@ input[type=checkbox] {
 							<td colspan="3" id="lookgaikuang"></td>
 						</tr>
                     </table>
-                    
+                    <br/>
+					<h2 style="color:red;">审批详情</h2>
+					<table class="table table-bordered table-condensed" id="d_table">
+                    		<thead>
+                    			<tr>
+                    				<th style="width:30%;">业务名称</th>
+                    				<th style="width:12%;">操作人</th>
+                    				<th style="width:23%;">意见</th>
+                    				<th style="width:12%;">操作类型</th>
+                    				<th style="width:23%;">操作时间</th>
+                    			</tr>
+                    		</thead>
+                    		<tbody></tbody>
+                    	</table>
                 </form>  
             </div>
         </div>
@@ -746,14 +759,18 @@ input[type=checkbox] {
 				{"data" : "tenderCompany"}, 
 				{"data" : "managementModel"},
 				{"data" : "cjDeptName"},
-				{"data" : null}
+				{"data" : "status"}
 				],
 		"columnDefs" : [ {
 						"class" : "tcenter",
 						"targets" : 10,
 						"searchable" : true,
 						"render" : function(data, type, full) {
-							return '<i class="iconfont icon-icon-test Pdbdb" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i><i class="iconfont icon-xiugai Pdbdc ChangeRisk" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" onclick="xiugaicPrj(this)" title="填报移交" data-toggle="modal" data-target="#change"></i><i class="glyphicon glyphicon-ok Pdbdc qryy" style="font-size: 20px; cursor: pointer; margin-left: 5px;" title="移交确认" onclick="checkStatus(this)"></i>'
+							if(data=='1'){
+								return '<i class="iconfont icon-icon-test Pdbdb" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i><i class="iconfont icon-xiugai Pdbdc ChangeRisk" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" onclick="xiugaicPrj(this)" title="填报移交" data-toggle="modal" data-target="#change"></i><i class="glyphicon glyphicon-ok Pdbdd qryy" style=" display : none;  font-size: 20px; cursor: pointer; margin-left: 6px; " title="移交确认" onclick="checkStatus(this)"></i>'
+							}else{
+								return '<i class="iconfont icon-icon-test Pdbdb" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" title="查看详细信息"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i><i class="iconfont icon-xiugai Pdbdc ChangeRisk" style="font-size:20px;cursor:pointer;display:none;margin-left:5px;" onclick="xiugaicPrj(this)" title="填报移交" data-toggle="modal" data-target="#change"></i><i class="glyphicon glyphicon-ok Pdbdd qryy" style="font-size: 20px; cursor: pointer; margin-left: 5px;" title="移交确认" onclick="checkStatus(this)"></i>'
+						 }
 						}
 					} ],
 					"fnDrawCallback" : function() {
@@ -1090,7 +1107,6 @@ input[type=checkbox] {
     				$('#mainContent').dataTable().fnClearTable();
     				$('#mainContent').DataTable().rows.add(json).draw(false);
     				$(".ChangeRisk").hide();
-    				$(".qryy").show();
     			}
     		});
     	}
@@ -1589,8 +1605,8 @@ input[type=checkbox] {
 			async:false,
 			success : function(json) {
 				$("#xgcbbm").empty();
-				for(var i=0;i<= json.length;i++){
-				$("#xgcbbm").append("<option value='"+json[i].omId+"'>"+json[i].omName+"</option>");
+				for(var i=0;i<json.length;i++){
+					$("#xgcbbm").append("<option value='"+json[i].omId+"'>"+json[i].omName+"</option>");
 				}
 			}
 		})
@@ -1841,6 +1857,11 @@ input[type=checkbox] {
 		var xgjingyingren=$("#xgjingyingren").val();//经营负责人
 		var xgcjDept=$("#xgcbbm").val();
 		
+		if(xgcjDept==''||xgcjDept==null){
+			toastr.error("承办部门为空");
+    		return;
+		}
+		
 		var arr2=new Array();
 		$("input:checkbox[name=xgjiaojie]:checked").each(function(i){
 			arr2[i]=$(this).val();
@@ -1902,11 +1923,13 @@ input[type=checkbox] {
 			},
 			success : function(json) {
 				if (json.result >0) {
-					toastr.success("修改成功");
+					toastr.success("移交成功");
 					$('#change').modal('hide');
-					$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+					$('#mainContent').DataTable().row(tr).remove().draw(false);
+//					$('#mainContent').DataTable().row(tr).data(addJson);//修改行立即显示
+					$(".qryy").hide();
 				} else {
-					toastr.error("修改失败");
+					toastr.error("移交失败");
 				}
 			}
 		}) 
@@ -1949,16 +1972,54 @@ input[type=checkbox] {
 				$("#lookjiaojienr").text(json.transferContent);
 				$("#lookdaibannr").text(json.contentBacklog);
 				$("#lookgaikuang").text(json.prjDesc);
-				
-				
 			}
 		})
+		
+		 $.ajax({
+	        	type: 'POST',
+	            url: getContextPath()+'/flowHistory/getHistoryNowAndLastByModeId',
+	            data:{
+	            	id:data.xgId
+	            },
+	            success: function (json) {
+	            	$("#d_table tbody").html('');
+	            	for(var i in json){
+	            		var operatorType = json[i].operateType;
+	            		operatorType = getCnByOt(operatorType);
+	            		var date = json[i].doDate;
+	            		var title = json[i].title;
+	            		var name = json[i].actorname;
+	            		if(date == null){
+	            			date="";
+	            			if(json[i].operateType==8){
+	            				title="<lable style='color:red'>"+json[i].title+"</lable>";
+	            				name="<lable style='color:red'>"+json[i].actorname+"</lable>";
+	            				operatorType="<lable style='color:red'>"+operatorType+"</lable>";
+	            			}else{
+	            				title = json[i].title;
+	            				name = json[i].actorname;
+	            			}
+	            		}
+	                	$("#d_table tbody").append("<tr><td>"+title+"</td><td>"+name+"</td><td></td><td>"+operatorType+"</td><td>"+date+"</td></tr>");
+	            	}
+	            }
+	        });
+		
 	}) 
 		
-
-	
-
-	
+	function getCnByOt(s){
+	  if(s==1){
+		  return "提交";
+	  }else if(s==2){
+		  return "退回";
+	  }else if(s==3){
+		  return "撤销";
+	  }else if(s==0){
+		  return "驳回";
+	  }else if(s==8){
+		  return "待审批";
+	  }
+  }
 	
 	function getCreat(bb) {
 		var EnterpriseRating = $(bb).parent().prev().text();
@@ -2005,16 +2066,18 @@ input[type=checkbox] {
         	if (ButtonPressed === "确定") {
         		$.ajax({
         			type:"post",
-        			url:getContextPath()+"/ResultsUsing/updateUseStatus",
+        			url:getContextPath()+"/prjOver/updateUseStatus",
         			dataType:"json",
         			data:{
-        				id:data.usId
+        				id:data.poId
         			},
         			success:function(json){
         				if(json>0){
         					toastr.success("确认成功")
         					data.useStatus='1';
             				$("#mainContent").DataTable().row(tr).data(data).draw(false);
+            				$(".ChangeRisk").hide();
+            				$(".qryy").hide();
         				}else{
         					toastr.error("确认失败")
         				}
