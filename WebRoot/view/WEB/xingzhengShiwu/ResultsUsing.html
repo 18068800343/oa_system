@@ -1936,8 +1936,18 @@
 			},
 			success:function(json){
 				//console.log(json);
-				$("#lookprjName").text(json.prjId);
-				$("#looktask_no").text(json.usNo);
+				$("#looktask_no").text(json.prjId);
+				
+				if(json.usNo==""||json.usNo==null){
+					$("#looktask_no").text(json.usNo);
+				}else{
+					var taskprjNoClick = '<a href="../chankanxiangqing/taskDetails.html?prjNo='
+						+json.usNo
+						+'" target="_blank" style="color:blue;">'+json.usNo+'</a>';		
+					$("#looktask_no").append(taskprjNoClick);
+				}
+				
+				//$("#looktask_no").text(json.usNo);
 				$("#lookprj_ownerunit").text(json.prjHead);//项目负责人
 				$("#lookprj_phase").text(json.projectPhase);//项目阶段
 				$("#lookdivisionEngineer").text(json.divisionEngineer);//主任
@@ -1967,7 +1977,7 @@
 	            },
 	            success: function (json) {
 	            	$("#d_table tbody").html('');
-	            	for(var i in json){
+	            	for(var i=0;i<= json.length;i++){
 	            		var operatorType = json[i].operateType;
 	            		operatorType = getCnByOt(operatorType);
 	            		var date = json[i].doDate;
