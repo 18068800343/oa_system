@@ -96,7 +96,7 @@ public class FinancialReceipts2ServiceImpl implements FinancialReceipts2Service{
 				String no=list.get(i).gettNo();
 				String name = list.get(i).gettName();
 				String department = list.get(i).gettDepartment();
-				float collectionValue = list.get(i).gettCollectionValue();
+				Double collectionValue = list.get(i).gettCollectionValue();
 				String desc = list.get(i).gettDesc();
 				String time = list.get(i).gettTime();
 				FinancialTables CollectionValue2=dao.selectValueByno(no);

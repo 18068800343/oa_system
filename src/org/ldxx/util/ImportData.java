@@ -201,7 +201,7 @@ public class ImportData {
                 		td.settNo(getValue(colum1));
                 		td.setdName(getValue(colum4));
                 		td.settName(getValue(colum2));
-                		td.setdIncome(Float.valueOf(getValue(colum3)));
+                		td.setdIncome(Double.valueOf(getValue(colum3)));
                 		td.setDate(date1);
                 		td.setId(new TimeUUID().getTimeUUID());
                 		list.add(td);
@@ -363,7 +363,7 @@ public class ImportData {
 		                	ft.settNo(tNo);
 		                	ft.settName(getValue(colum2));
 		                	ft.settDepartment(getValue(colum3));
-		                	ft.settCollectionValue(Float.valueOf(getValue(colum4).isEmpty()?"0":getValue(colum4)));
+		                	ft.settCollectionValue(Double.valueOf(getValue(colum4).isEmpty()?"0":getValue(colum4)));
 		                	ft.settDesc(getValue(colum5));
 		                	ft.settTime(date1);
 		                    t.add(ft);
@@ -498,7 +498,7 @@ public class ImportData {
 		                	ft.setCompanyName(getValue(colum2));
 		                	ft.setTaskCode(getValue(colum3));
 		                	ft.setDepartName(getValue(colum4));
-		                	ft.setMoney(Float.valueOf((getValue(colum5).isEmpty()?"0":getValue(colum5))));
+		                	ft.setMoney(Double.valueOf((getValue(colum5).isEmpty()?"0":getValue(colum5))));
 		                	ft.setDate(date1);
 		                    t.add(ft);
 		                }

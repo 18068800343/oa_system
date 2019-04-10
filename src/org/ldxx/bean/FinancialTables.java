@@ -6,7 +6,7 @@ public class FinancialTables {
 	private String tNo;//项目编号
 	private String tName;//项目名称
 	private String tDepartment;//核算部门
-	private float tCollectionValue;//收款值
+	private Double tCollectionValue;//收款值
 	private String tDesc;//备注
 	private String tTime;//到账时间
 	private String state;//状态：1：未认领，0：已认领
@@ -36,10 +36,10 @@ public class FinancialTables {
 	public void settDepartment(String tDepartment) {
 		this.tDepartment = tDepartment;
 	}
-	public float gettCollectionValue() {
+	public Double gettCollectionValue() {
 		return tCollectionValue;
 	}
-	public void settCollectionValue(float tCollectionValue) {
+	public void settCollectionValue(Double tCollectionValue) {
 		this.tCollectionValue = tCollectionValue;
 	}
 	public String gettDesc() {

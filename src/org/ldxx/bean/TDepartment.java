@@ -11,8 +11,8 @@ public class TDepartment {
 
 	private String tNo;
 	private String dName;
-	private float dMoney;
-	private float dIncome;
+	private Double dMoney;
+	private Double dIncome;
 	private String date;
 	private String tName;
 	private String id;
@@ -47,16 +47,16 @@ public class TDepartment {
 	public void setdName(String dName) {
 		this.dName = dName;
 	}
-	public float getdMoney() {
+	public Double getdMoney() {
 		return dMoney;
 	}
-	public void setdMoney(float dMoney) {
+	public void setdMoney(Double dMoney) {
 		this.dMoney = dMoney;
 	}
-	public float getdIncome() {
+	public Double getdIncome() {
 		return dIncome;
 	}
-	public void setdIncome(float dIncome) {
+	public void setdIncome(Double dIncome) {
 		this.dIncome = dIncome;
 	}
 	
