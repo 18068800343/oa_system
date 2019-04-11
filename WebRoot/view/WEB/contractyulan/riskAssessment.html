@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+        .yijian{
+        	width:25px;
+        	height:25px;
+        }
+    </style>
+</head>
+<body>
+<!-- 面包屑 -->
+    <!-- <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>经营管理</li>
+            <li>项目投标</li>
+			<li class="active">项目风险评估</li>
+		</ul>
+    </div> -->
+    
+			<!--startprint-->
+    		<div class="zhuti-content">
+					<table class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+	                    		<th colspan="5"  style="text-align:center;font-size:30px;" height="60px">项目风险评估</th>
+	                    	</tr>
+						</thead>
+						<tbody>
+                          <tr>
+                              <td style="width:11%">项目名称</td>
+                              <td colspan="2" style="width:39%" id="lookprjName"></td>
+                              <td style="width:11%">投标审批单号</td>
+                              <td id="lookprjNo"></td>
+                          </tr>
+                          <tr>
+                              <td style="width:11%">项目类型</td>
+                              <td colspan="2" id="lookprjType"></td>
+                              <td >承办部门</td>
+                              <td id="look_cb_dept"></td>
+                          </tr>
+                          <tr>
+                          	  <td>项目规模</td>
+                              <td colspan="4" id="lookprjScale"></td>
+                          </tr>
+                          <tr>
+	                           	<td>项目概况</td>
+	                           	<td colspan="5"  id="prj_info"></td>
+                           </tr>
+                          <tr>
+                              <td rowspan="13">风险评估要素</td>
+                              <td style="width:39%" colspan="2">评估项目</td>
+                              <td colspan="2" style="width:50%">摘要描述</td>
+                          </tr>
+                          <tr>
+                              <td colspan="2">甲方单位评估</td>
+                              <td colspan="2" id="lookjiapinggu"></td>
+                          </tr>
+                          <tr>
+                              <td style="width:19%;" rowspan="2">财务</td>
+                              <td style="width:20%;">现金流量</td>
+                              <td colspan="2" id="lookxianjin"></td>
+                          </tr>
+                          <tr>
+                              <td>盈利能力</td>
+                              <td colspan="2" id="lookyingli"></td>
+                          </tr>
+                          <tr>
+                              <td rowspan="4">合同条款</td>
+                              <td>合同模式</td>
+                              <td colspan="2" id="lookhetong"></td>
+                          </tr>
+                          <tr>
+                              <td>合同中对人员、主材、财务、变更条件等条款的约定</td>
+                              <td colspan="2" id="looktiaokuan"></td>
+                          </tr>
+                          <tr>
+                              <td>价差调整</td>
+                              <td colspan="2" id="lookchajia"></td>
+                          </tr>
+                          <tr>
+                              <td>付款条件</td>
+                              <td colspan="2" id="lookfukuan"></td>
+                          </tr>
+                          <tr>
+                              <td rowspan="2">环境</td>
+                              <td>人文环境</td>
+                              <td colspan="2" id="lookrenwen"></td>
+                          </tr>
+                          <tr>
+                              <td>地理环境</td>
+                              <td colspan="2" id="lookdili"></td>
+                          </tr>
+                          <tr>
+                              <td rowspan="2">技术</td>
+                              <td>技术负杂程度</td>
+                              <td colspan="2" id="lookjishu"></td>
+                          </tr>
+                          <tr>
+                              <td>安全管理难度</td>
+                              <td colspan="2" id="lookanquan"></td>
+                          </tr>
+                          <tr>
+                            	<td>协作</td>
+                                <td>联营或联合体单位情况</td>
+                                <td colspan="2" id="lianying_info" ></td>
+                            </tr>
+                          <tr>
+                              <td>评标办法</td>
+                              <td colspan="4" id="lookpingbiao"> </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                       
+	        		  <table class="table table-bordered table-condensed">
+	        				<tr id="jyfzb">
+	                              <td>经营发展部意见</td>
+	                              <td>
+	                              		<input type="radio" name="jingyingfazhanbu" value="一般风险" class="yijian">一般风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfazhanbu" value="较大风险" class="yijian">较大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfazhanbu" value="重大风险" class="yijian">重大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfazhanbu" value="特大风险" class="yijian">特大风险&nbsp;&nbsp;
+	                              </td>
+                             </tr>
+                             <tr id="jyfzbyj">
+                             	<td></td>
+                             	<td id="view2"></td>
+                             </tr>
+                             <tr id="zhcwb">
+	                              <td>综合财务部意见</td>
+	                              <td>
+	                              		<input type="radio" name="zonghecaiwubu" value="一般风险" class="yijian">一般风险&nbsp;&nbsp;
+	                              		<input type="radio" name="zonghecaiwubu" value="较大风险" class="yijian">较大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="zonghecaiwubu" value="重大风险" class="yijian">重大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="zonghecaiwubu" value="特大风险" class="yijian">特大风险&nbsp;&nbsp;
+	                              </td>
+                             </tr>
+                             <tr id="zhcwbyj">
+                             	<td></td>
+                             	<td id="view3"></td>
+                             </tr>
+                             <tr id="xmcbb">
+	                              <td>项目承办部门意见</td>
+	                              <td>
+	                              		<input type="radio" name="xiangmuchengbanbu" value="一般风险" class="yijian">一般风险&nbsp;&nbsp;
+	                              		<input type="radio" name="xiangmuchengbanbu" value="较大风险" class="yijian">较大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="xiangmuchengbanbu" value="重大风险" class="yijian">重大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="xiangmuchengbanbu" value="特大风险" class="yijian">特大风险&nbsp;&nbsp;
+	                              </td>
+                             </tr>
+                             <tr id="xmcbbyj">
+                             	<td></td>
+                             	<td id="view4"></td>
+                             </tr>
+                             <tr id="zlaqb">
+	                              <td>质量安全部门意见</td>
+	                              <td>
+	                              		<input type="radio" name="anquanzhiliangbu" value="一般风险" class="yijian">一般风险&nbsp;&nbsp;
+	                              		<input type="radio" name="anquanzhiliangbu" value="较大风险" class="yijian">较大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="anquanzhiliangbu" value="重大风险" class="yijian">重大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="anquanzhiliangbu" value="特大风险" class="yijian">特大风险&nbsp;&nbsp;
+	                              </td>
+                             </tr>
+                             <tr id="zlaqbyj">
+                             	<td></td>
+                             	<td id="view5"></td>
+                             </tr>
+                             <tr id="jyfg">
+	                              <td>经营分管领导</td>
+	                              <td>
+	                              		<input type="radio" name="jingyingfenguan" value="一般风险" class="yijian">一般风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfenguan" value="较大风险" class="yijian">较大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfenguan" value="重大风险" class="yijian">重大风险&nbsp;&nbsp;
+	                              		<input type="radio" name="jingyingfenguan" value="特大风险" class="yijian">特大风险&nbsp;&nbsp;
+	                              </td>
+                             </tr>
+                             <tr id="jyfgyj">
+                             	<td></td>
+                             	<td id="view6"></td>
+                             </tr>
+	        		  </table>
+	        		  <table class="table table-bordered table-condensed" id="lookFlowHistory">
+                 	
+                 	  </table>
+	        		  <!--endprint-->	 
+                 <div class="modal-footer">
+		            <button type="button" class="btn btn-default" onclick="day()">打印</button>
+				</div>
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script>
+    $(document).ready( function () {
+    	initTable();
+    	
+	});
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+//   	editOrView=GetQueryString("editOrView");
+//  	step=GetQueryString("step");
+	editOrView="view";
+	step=8;
+	console.log(id,editOrView,step)
+	function initTable(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/riskAssessment/selectRiskAssessmentById',
+	        dataType: 'json',
+	        data:{
+	        	raId:id
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	data=json;
+	        	 $("#prj_info").text(data.prjInfo);
+	        	 $("#lianying_info").text(data.lianyingInfo);
+	        	 $("#lookprjName").text(data.prjName);
+	    		 $("#lookprjNo").text(data.prjNo);
+	    		 $("#lookprjScale").text(data.prjScale);
+	    		 $("#lookprjType").text(data.prjType);
+	    		 $("#look_cb_dept").text(data.cbDept);
+	    		 $("#lookjiapinggu").text(data.pecificAssessment);
+	    		 $("#lookxianjin").text(data.flows);
+	    		 $("#lookyingli").text(data.profitability);
+	    		 $("#lookhetong").text(data.contractModel);
+	    		 $("#looktiaokuan").text(data.conditionsTerms);
+	    		 $("#lookchajia").text(data.priceAdjustment);
+	    		 $("#lookfukuan").text(data.paymentClause);
+	    		 $("#lookrenwen").text(data.culturalEnvironment);
+	    		 $("#lookdili").text(data.geographicalConditions);
+	    		 $("#lookjishu").text(data.technicalDifficulty);
+	    		 $("#lookanquan").text(data.safetyManagementDifficulty);
+	    		 $("#lookpingbiao").text(data.evaluationMethod);
+	    		 
+	    		 $("#jyfzb").hide();
+	    		 $("#jyfzbyj").hide()
+	    		 $("#zhcwb").hide();
+	    		 $("#zhcwbyj").hide();
+	    		 $("#xmcbb").hide();
+	    		 $("#xmcbbyj").hide();
+	    		 $("#zlaqb").hide();
+	    		 $("#zlaqbyj").hide();
+	    		 $("#jyfg").hide();
+	    		 $("#jyfgyj").hide();
+	    		//view
+	    		 if(editOrView=="view"&&step=="2"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").hide();
+		    		 $("#xmcbb").hide();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="view"&&step=="3"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").hide();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="view"&&step=="4"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").show();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="view"&&step=="5"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").show();
+		    		 $("#zlaqb").show();
+		    		 $("#jyfg").hide();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zlaqb").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="view"&&step=="6"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").show();
+		    		 $("#zlaqb").show();
+		    		 $("#jyfg").show();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zlaqb").find("input:radio").attr("disabled","disabled");
+		    		 $("#jyfg").find("input:radio").attr("disabled","disabled");
+	    		 }else if(editOrView=="view"&&step=="7"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").show();
+		    		 $("#zlaqb").show();
+		    		 $("#jyfg").show();
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+		    		 $("#zlaqb").find("input:radio").attr("disabled","disabled");
+		    		 $("#jyfg").find("input:radio").attr("disabled","disabled");
+	    		 }
+	    		//edit
+	    		 if(editOrView=="edit"&&step=="2"){
+	    			 $("#jyfzb").show();
+	    			 $("#zhcwb").hide();
+		    		 $("#xmcbb").hide();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+	    		 }else if(editOrView=="edit"&&step=="3"){
+	    			 $("#jyfzb").show();
+	    			 $("#jyfzbyj").show();
+	    			 $("#zhcwb").show();
+		    		 $("#xmcbb").hide();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+		    		 $("input[name='jingyingfazhanbu'][value="+data.step2+"]").attr("checked",true);
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view2").text(data.view2)
+	    		 }else if(editOrView=="edit"&&step=="4"){
+	    			 $("#jyfzb").show();
+	    			 $("#jyfzbyj").show();
+	    			 $("#zhcwb").show();
+	    			 $("#zhcwbyj").show();
+		    		 $("#xmcbb").show();
+		    		 $("#zlaqb").hide();
+		    		 $("#jyfg").hide();
+		    		 $("input[name='jingyingfazhanbu'][value="+data.step2+"]").attr("checked",true);
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view2").text(data.view2)
+		    		 $("input[name='zonghecaiwubu'][value="+data.step3+"]").attr("checked",true);
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view3").text(data.view3)
+	    		 }else if(editOrView=="edit"&&step=="5"){
+	    			 $("#jyfzb").show();
+	    			 $("#jyfzbyj").show();
+	    			 $("#zhcwb").show();
+	    			 $("#zhcwbyj").show();
+		    		 $("#xmcbb").show();
+		    		 $("#xmcbbyj").show();
+		    		 $("#zlaqb").show();
+		    		 $("#jyfg").hide();
+		    		 $("input[name='jingyingfazhanbu'][value="+data.step2+"]").attr("checked",true);
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view2").text(data.view2)
+		    		 $("input[name='zonghecaiwubu'][value="+data.step3+"]").attr("checked",true);
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view3").text(data.view3)
+		    		 $("input[name='xiangmuchengbanbu'][value="+data.step4+"]").attr("checked",true);
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view4").text(data.view4)
+	    		 }else if(editOrView=="edit"&&step=="6"){
+	    			 $("#jyfzb").show();
+	    			 $("#jyfzbyj").show();
+	    			 $("#zhcwb").show();
+	    			 $("#zhcwbyj").show();
+		    		 $("#xmcbb").show();
+		    		 $("#xmcbbyj").show();
+		    		 $("#zlaqb").show();
+		    		 $("#zlaqbyj").show();
+		    		 $("#jyfg").show();
+		    		 $("input[name='jingyingfazhanbu'][value="+data.step2+"]").attr("checked",true);
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view2").text(data.view2)
+		    		 $("input[name='zonghecaiwubu'][value="+data.step3+"]").attr("checked",true);
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view3").text(data.view3)
+		    		 $("input[name='xiangmuchengbanbu'][value="+data.step4+"]").attr("checked",true);
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view4").text(data.view4)
+		    		 $("input[name='anquanzhiliangbu'][value="+data.step5+"]").attr("checked",true);
+		    		 $("#zlaqb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view5").text(data.view5)
+	    		 }else if(editOrView=="edit"&&step=="7"){
+	    			 $("#jyfzb").show();
+	    			 $("#jyfzbyj").show();
+	    			 $("#zhcwb").show();
+	    			 $("#zhcwbyj").show();
+		    		 $("#xmcbb").show();
+		    		 $("#xmcbbyj").show();
+		    		 $("#zlaqb").show();
+		    		 $("#zlaqbyj").show();
+		    		 $("#jyfg").show();
+		    		 $("#jyfgyj").show();
+		    		 $("input[name='jingyingfazhanbu'][value="+data.step2+"]").attr("checked",true);
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view2").text(data.view2)
+		    		 $("input[name='zonghecaiwubu'][value="+data.step3+"]").attr("checked",true);
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view3").text(data.view3)
+		    		 $("input[name='xiangmuchengbanbu'][value="+data.step4+"]").attr("checked",true);
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view4").text(data.view4)
+		    		 $("input[name='anquanzhiliangbu'][value="+data.step5+"]").attr("checked",true);
+		    		 $("#zlaqb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view5").text(data.view5)
+		    		 $("input[name='jingyingfenguan'][value="+data.step6+"]").attr("checked",true);
+		    		 $("#jyfg").find("input:radio").attr("disabled","disabled");
+		    		 $("#view6").text(data.view6)
+	    		 }else if(editOrView=="view"&&step=="8"){
+	    			 $("#jyfzb").show();
+	    			 $("#jyfzbyj").show();
+	    			 $("#zhcwb").show();
+	    			 $("#zhcwbyj").show();
+		    		 $("#xmcbb").show();
+		    		 $("#xmcbbyj").show();
+		    		 $("#zlaqb").show();
+		    		 $("#zlaqbyj").show();
+		    		 $("#jyfg").show();
+		    		 $("#jyfgyj").show();
+		    		 $("input[name='jingyingfazhanbu'][value="+data.step2+"]").attr("checked",true);
+		    		 $("#jyfzb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view2").text(data.view2)
+		    		 $("input[name='zonghecaiwubu'][value="+data.step3+"]").attr("checked",true);
+		    		 $("#zhcwb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view3").text(data.view3)
+		    		 $("input[name='xiangmuchengbanbu'][value="+data.step4+"]").attr("checked",true);
+		    		 $("#xmcbb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view4").text(data.view4)
+		    		 $("input[name='anquanzhiliangbu'][value="+data.step5+"]").attr("checked",true);
+		    		 $("#zlaqb").find("input:radio").attr("disabled","disabled");
+		    		 $("#view5").text(data.view5)
+		    		 $("input[name='jingyingfenguan'][value="+data.step6+"]").attr("checked",true);
+		    		 $("#jyfg").find("input:radio").attr("disabled","disabled");
+		    		 $("#view6").text(data.view6)
+	    		 }
+	    		
+	        }
+	    });
+		
+    }
+	
+	function saveFlow2(view){
+		var result="";
+		var aa = $('input:radio[name="jingyingfazhanbu"]:checked').val();
+		if(aa==""||aa==undefined){
+			toastr.error("未勾选风险评估");
+			return "0";
+		}
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/riskAssessment/updateStep2',
+	        dataType: 'json',
+	        async:false,
+	        data:{
+	        	id:id,
+	        	step:$('input:radio[name="jingyingfazhanbu"]:checked').val(),
+	        	view:view,
+	        },
+	        success: function (json) {
+	        	result=json;
+	        }
+	    }); 
+		return result;
+	}
+	
+	function saveFlow3(view){
+		var result="";
+		var aa = $('input:radio[name="zonghecaiwubu"]:checked').val();
+		if(aa==""||aa==undefined){
+			toastr.error("未勾选风险评估");
+			return "0";
+		}
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/riskAssessment/updateStep3',
+	        dataType: 'json',
+	        async:false,
+	        data:{
+	        	id:id,
+	        	step:$('input:radio[name="zonghecaiwubu"]:checked').val(),
+	        	view:view,
+	        },
+	        success: function (json) {
+	        	result=json;
+	        }
+	    }); 
+		return result;
+	}
+	
+	function saveFlow4(view){
+		var result="";
+		var aa = $('input:radio[name="xiangmuchengbanbu"]:checked').val();
+		if(aa==""||aa==undefined){
+			toastr.error("未勾选风险评估");
+			return "0";
+		}
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/riskAssessment/updateStep4',
+	        dataType: 'json',
+	        async:false,
+	        data:{
+	        	id:id,
+	        	step:$('input:radio[name="xiangmuchengbanbu"]:checked').val(),
+	        	view:view,
+	        },
+	        success: function (json) {
+	        	result=json;
+	        }
+	    }); 
+		return result;
+	}
+	
+	function saveFlow5(view){
+		var result="";
+		var aa = $('input:radio[name="anquanzhiliangbu"]:checked').val();
+		if(aa==""||aa==undefined){
+			toastr.error("未勾选风险评估");
+			return "0";
+		}
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/riskAssessment/updateStep5',
+	        dataType: 'json',
+	        async:false,
+	        data:{
+	        	id:id,
+	        	step:$('input:radio[name="anquanzhiliangbu"]:checked').val(),
+	        	view:view,
+	        },
+	        success: function (json) {
+	        	result=json;
+	        }
+	    }); 
+		return result;
+	}
+	
+	function saveFlow6(view){
+		var result="";
+		var aa = $('input:radio[name="jingyingfenguan"]:checked').val();
+		if(aa==""||aa==undefined){
+			toastr.error("未勾选风险评估");
+			return "0";
+		}
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/riskAssessment/updateStep6',
+	        dataType: 'json',
+	        async:false,
+	        data:{
+	        	id:id,
+	        	step:$('input:radio[name="jingyingfenguan"]:checked').val(),
+	        	view:view,
+	        },
+	        success: function (json) {
+	        	result=json;
+	        }
+	    }); 
+		return result;
+	}
+	
+	 //打印代码开始
+	  function day(){
+	// 获取当前页的html代码
+	    var bdhtml = window.document.body.innerHTML;
+	    //设置打印开始区域
+	    var startStr = '<!--startprint-->';
+	    // 设置打印结束区域
+	    var endStr = '<!--endprint-->';
+	    //从标记里获取需要打印的页面
+	    var printHtml = bdhtml.substring(bdhtml.indexOf(startStr) + startStr.length, bdhtml.indexOf(endStr));
+	    //隐藏不必要的按钮和样式
+	    var allHtml=printHtml;
+	    
+	    
+	   /*  iframe.contentWindow.focus();
+	    iframe.contentWindow.print(); */
+	    
+	 	// 通过id获取需要打印的页面
+	    
+	    window.document.body.innerHTML = allHtml;
+	    if (!!window.ActiveXObject || "ActiveXObject" in window) { //是否ie
+	        remove_ie_header_and_footer();
+	     }
+	    remove_ie_header_and_footer();
+	    window.print();
+	    // 还原界面
+	    window.document.body.innerHTML = bdhtml;
+	    window.location.reload();
+}
+//去掉页眉、页脚
+function remove_ie_header_and_footer() {
+var hkey_path;
+hkey_path = "HKEY_CURRENT_USER\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
+try {
+   var RegWsh = new ActiveXObject("WScript.Shell");
+   RegWsh.RegWrite(hkey_path + "header", "");
+   RegWsh.RegWrite(hkey_path + "footer", "");
+} catch (e) {
+}
+
+}
+
+</script>
+</html>
