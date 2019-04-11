@@ -96,5 +96,10 @@ public class AlreadySkInfoServiceImp implements AlreadySkInfoService {
 	public double getAllSkByTaskNo(String no) {
 		return dao.getAllSkByTaskNo(no);
 	}
+
+	@Override
+	public int buleFpNo(String id, String fpNo) {
+		return dao.buleFpNo(id,fpNo);
+	}
 	
 }

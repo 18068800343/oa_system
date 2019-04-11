@@ -558,6 +558,34 @@
     </div>
 </div>
 <!-- model结束 -->
+<!-- 补录Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="blue">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>补录发票编号</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered">
+                        	<tr>
+                        		<td style="width:25%;">发票编号</td>
+                        		<td style="width:75%;"><input type="text" id="fp_no" class="form-control" style="width:80%;"></td>
+                        	</tr>
+                        </table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success"  onclick="saveBule()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
@@ -653,7 +681,11 @@
 												    "targets": 17,
 												    "searchable": true,
 												    "render": function(data, type, full) {
-												    	return '<span class="glyphicon glyphicon-remove Pcbb" aria-hidden="true" style="font-size:20px;cursor:pointer;display:none;" title="取消认领" onclick="tuihui(this)"></span>'
+												    	if(full.fpNo==null||full.fpNo==""){
+												    		return '<span class="glyphicon glyphicon-remove Pcbb" aria-hidden="true" style="font-size:20px;cursor:pointer;display:none;" title="取消认领" onclick="tuihui(this)"></span> &nbsp <span class="iconfont icon-icon_edit Pcbb" aria-hidden="true" style="font-size:20px;cursor:pointer;display:none;" title="补录发票" onclick="backTracking(this)"></span>'
+												    	}else{
+													    	return '<span class="glyphicon glyphicon-remove Pcbb" aria-hidden="true" style="font-size:20px;cursor:pointer;display:none;" title="取消认领" onclick="tuihui(this)"></span>'
+												    	}
 												    	
 												        }
 												  }
@@ -962,10 +994,37 @@
     }
     
     
+    var dataB;
+	var trB;
+	 function backTracking(obj){
+		 trB=$(obj).parents("tr");
+		 dataB=$("#mainContentx").DataTable().row(trB).data();
+		 //$("#fp_no").val(dataB.fpNo)
+    	 $("#blue").modal("show");
+	 }
     
-    
-    
-    
+	 function saveBule(){
+		 var fpNo=$("#fp_no").val();
+		 $.ajax({
+				type:"POST",
+				url:getContextPath()+"/AlreadySk/buleFpNo2",
+				dataType:"json",
+				data:{
+					id:dataB.rId,
+					fpNo:fpNo,
+				},
+				success:function(json){
+					if(json>0){
+						dataB.fpNo=fpNo;
+						$("#mainContentx").DataTable().row(trB).data(dataB).draw(false);
+						toastr.success("补录成功")
+						$("#blue").modal("hide");
+					}else{
+						toastr.error("补录失败")
+					}
+				}
+			}) 
+	 }
     
     
     
