@@ -154,4 +154,11 @@ public class FlowHistoryController {
 		List<FlowHistoryNowAndLast> list =flowHistroyMapper.getFlowHistorysLeftJoinByModeId(id);
 		return list;
 	}
+	
+	@RequestMapping("/getHistoryNowAndLastAndDeptNoByModeId")
+	@ResponseBody
+	public List<FlowHistoryNowAndLast> getHistoryNowAndLastAndDeptNoByModeId(String id){
+		List<FlowHistoryNowAndLast> list =flowHistroyMapper.getHistoryNowAndLastAndDeptNoByModeId(id);
+		return list;
+	}
 }

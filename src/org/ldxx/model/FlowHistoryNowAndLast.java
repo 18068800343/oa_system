@@ -60,8 +60,18 @@ public class FlowHistoryNowAndLast {
 	    private String viewLastType;
 	    
 	    private String roleName;
+	    //当前步骤的部门编号
+	    private String omNo;
 	    
-	    public String getRoleName() {
+	    public String getOmNo() {
+			return omNo;
+		}
+
+		public void setOmNo(String omNo) {
+			this.omNo = omNo;
+		}
+
+		public String getRoleName() {
 			return roleName;
 		}
 
