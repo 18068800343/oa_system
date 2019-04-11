@@ -83,4 +83,11 @@ public class AlreadySkInfoController {
 		return map;
 	}
 	
+	@RequestMapping("/buleFpNo2")
+	@ResponseBody
+	public int buleFpNo(String id,String fpNo){
+		int i=service.buleFpNo(id,fpNo);
+		return i;
+	}
+	
 }

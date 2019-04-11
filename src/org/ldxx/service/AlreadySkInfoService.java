@@ -25,4 +25,6 @@ public interface AlreadySkInfoService {
 	public AlreadyRenling selectDeptRenlingByStartAndEndTime(String start,String end,String dept);
 
 	public double getAllSkByTaskNo(String no);
+
+	int buleFpNo(String id, String fpNo);
 }
