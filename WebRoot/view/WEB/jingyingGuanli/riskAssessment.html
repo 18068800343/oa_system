@@ -608,6 +608,7 @@
                 </div>
         </div>
         <div class="modal-footer">
+        	<a href=""  class="btn btn-success" target="view_window"  id="dyyl">打印预览</a>
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
         </div>
         </div>
@@ -1681,6 +1682,7 @@
 		 var dom=$(obj).parents('tr');
 		 var data=$('#mainContent').DataTable().row(dom).data();
 		 //console.log(data)
+		 $("#dyyl").prop("href","../contractyulan/riskAssessment.html?prjId="+data.raId)
 		 $("#lookprjName").text(data.prjName);
 		 $("#lookprjNo").text(data.prjNo);
 		 $("#lookprjScale").text(data.prjScale);
@@ -1791,43 +1793,40 @@
     		 $("#jyfg").find("input:radio").eq(returnEq(data.step6)).prop("checked",true);
     		 $("#view6").text(data.view6)
     		 
-    		 
 		 }
-	}
-	
-	
-	
-	function getFlowDetail(raId){
-		//data.raId
+		
+
 		 $.ajax({
-	        	type: 'POST',
-	            url: getContextPath()+'/flowHistory/getHistoryNowAndLastByModeId',
-	            data:{
-	            	id:raId
-	            },
-	            success: function (json) {
-	            	$("#d_table tbody").html('');
-	            	for(var i=0;i<json.length;i++){
-	            		var operatorType = json[i].operateType;
-	            		operatorType = getCnByOt(operatorType);
-	            		var date = json[i].doDate;
-	            		var title = json[i].title;
-	            		var name = json[i].actorname;
-	            		if(date == null){
-	            			date="";
-	            			if(json[i].operateType==8){
-	            				title="<lable style='color:red'>"+json[i].title+"</lable>";
-	            				name="<lable style='color:red'>"+json[i].actorname+"</lable>";
-	            				operatorType="<lable style='color:red'>"+operatorType+"</lable>";
-	            			}else{
-	            				title = json[i].title;
-	            				name = json[i].actorname;
-	            			}
-	            		}
-	                	$("#d_table tbody").append("<tr><td>"+title+"</td><td>"+name+"</td><td></td><td>"+operatorType+"</td><td>"+date+"</td></tr>");
-	            	}
-	            }
-	        });
+			        	type: 'POST',
+			            url: getContextPath()+'/flowHistory/getHistoryNowAndLastByModeId',
+			            data:{
+			            	id:data.raId
+			            },
+			            success: function (json) {
+			            	$("#d_table tbody").html('');
+			            	for(var i=0;i<json.length;i++){
+			            		var operatorType = json[i].operateType;
+			            		operatorType = getCnByOt(operatorType);
+			            		var date = json[i].doDate;
+			            		var title = json[i].title;
+			            		var name = json[i].actorname;
+			            		if(date == null){
+			            			date="";
+			            			if(json[i].operateType==8){
+			            				title="<lable style='color:red'>"+json[i].title+"</lable>";
+			            				name="<lable style='color:red'>"+json[i].actorname+"</lable>";
+			            				operatorType="<lable style='color:red'>"+operatorType+"</lable>";
+			            			}else{
+			            				title = json[i].title;
+			            				name = json[i].actorname;
+			            			}
+			            		}
+			                	$("#d_table tbody").append("<tr><td>"+title+"</td><td>"+name+"</td><td></td><td>"+operatorType+"</td><td>"+date+"</td></tr>");
+			            	}
+			            }
+			        });
+		
+		
 	}
 	
 	function getCnByOt(s){
