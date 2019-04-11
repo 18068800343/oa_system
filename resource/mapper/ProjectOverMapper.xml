@@ -104,24 +104,43 @@
     where po_id = #{projectOver.poId}
   </update>
   <select id="selectPrjOver" resultType="org.ldxx.bean.ProjectOver">
-  	<!-- select *,c.om_name as cjDeptName from project_over as a
+  	select *,c.om_name as cjDeptName from project_over as a
   	left join mode_status as b on a.po_id=b.mode_id
   	LEFT JOIN organization_management as c on a.cj_dept=c.om_id
-  	where b.status=2 -->
-  	select a.*,c.om_name as cjDeptName from project_over as a 
+  	where b.flow_status=2
+  	
+ <!--  	select a.*,c.om_name as cjDeptName from project_over as a 
   	LEFT JOIN organization_management as c on a.cj_dept=c.om_id
-  	where a.cj_dept != '' or a.cj_dept is not null 
+  	where a.cj_dept != '' or a.cj_dept is not null  -->
   </select>
   <select id="selectPrjOver2" resultType="org.ldxx.bean.ProjectOver">
-  	<!-- select a.*,c.om_name as cjDeptName from project_over as a
+   <!--  select a.*,c.om_name as cjDeptName from project_over as a
   	left join mode_status as b on a.po_id=b.mode_id
 	LEFT JOIN organization_management as c on a.cj_dept=c.om_id
   	where b.status !='2' -->
-  	select a.*,c.om_name as cjDeptName from project_over as a 
+  	<!-- select a.*,c.om_name as cjDeptName from project_over as a 
   	LEFT JOIN organization_management as c on a.cj_dept=c.om_id
-  	where a.cj_dept = '' or a.cj_dept is  null 
+  	where a.cj_dept = '' or a.cj_dept is  null --> 
+	  	select a.*,c.om_name as cjDeptName from project_over as a
+	  	left join mode_status as b on a.po_id=b.mode_id
+		LEFT JOIN organization_management as c on a.cj_dept=c.om_id
+	  	where b.flow_status='0' or b.flow_status is null
+  	
   </select>
+    <select id="selectPrjOverYiJiaoZhong" resultType="org.ldxx.bean.ProjectOver">
+	   	select a.*,c.om_name as cjDeptName from project_over as a
+	  	left join mode_status as b on a.po_id=b.mode_id
+		LEFT JOIN organization_management as c on a.cj_dept=c.om_id
+	  	where b.flow_status='1' or b.flow_status='4'
+	  	<!-- select a.*,c.om_name as cjDeptName from project_over as a 
+	  	LEFT JOIN organization_management as c on a.cj_dept=c.om_id
+	  	where a.cj_dept = '' or a.cj_dept is  null --> 
+  </select>
+  
+  
   <select id="selectPrjOverById" resultType="org.ldxx.bean.ProjectOver">
-  	select * from project_over where po_id = #{poId}
+	  	SELECT a.*,c.om_name as cjDeptName FROM project_over as a
+	  	LEFT JOIN organization_management as c on a.cj_dept=c.om_id
+	  	WHERE a.po_id = #{poId}
   </select>
 </mapper>

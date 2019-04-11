@@ -42,6 +42,11 @@ public class ProjectOverServiceImpl implements ProjectOverService {
 	}
 
 	@Override
+	public List<ProjectOver> selectPrjOverYiJiaoZhong() {
+		return prjDao.selectPrjOverYiJiaoZhong();
+	}
+	
+	@Override
 	public ProjectOver selectPrjOverById(String poId) {
 		return prjDao.selectPrjOverById(poId);
 	}

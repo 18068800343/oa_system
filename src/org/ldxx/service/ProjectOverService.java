@@ -15,11 +15,15 @@ public interface ProjectOverService {
 	List<ProjectOver> selectPrjOver();
 	
 	List<ProjectOver> selectPrjOver2();
+	
+	List<ProjectOver> selectPrjOverYiJiaoZhong();
 
 	ProjectOver selectPrjOverById(String poId);
 	
 	int selectPrjOverCountByNo(String no);
 	
 	int updateUseStatus(String id);
+	
+	 
 
 }

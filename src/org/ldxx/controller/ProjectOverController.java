@@ -55,8 +55,16 @@ public class ProjectOverController {
 	public List<ProjectOver> selectPrjOver2(){
 		List<ProjectOver> list =null;
 		list = prjOverService.selectPrjOver2();	
-		return list;
-		
+		return list;	
+	}
+	
+	
+	@RequestMapping("/selectPrjOverYiJiaoZhong")
+	@ResponseBody
+	public List<ProjectOver> selectPrjOverYiJiaoZhong(){
+		List<ProjectOver> list =null;
+		list = prjOverService.selectPrjOverYiJiaoZhong();	
+		return list;	
 	}
 	
 	@RequestMapping("/selectPrjOverCountByNo")
@@ -142,9 +150,51 @@ public class ProjectOverController {
 		return i;
 	}
 	
-	@RequestMapping("/updatePrjOverById")/*修改保存*/
+	@RequestMapping("/updatePrjOverByIdSave")/*修改保存*/
 	@ResponseBody
-	public String updatePrjOverById(ProjectOver projectOver,HttpSession session){
+	public int updatePrjOverById(ProjectOver projectOver,HttpSession session){
+		int i =prjOverService.updatePrjOverById(projectOver);
+		String string=i+"";
+		String id=projectOver.getPoId();
+		if(i>0){
+			String omNo="";
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(projectOver.getPrjName()+"流程提交");
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setMemo(projectOver.getPrjName()+"流程提交");
+			currentFlow.setUrl("jingyingguanliLook/TransferBid.html-"+id);
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(2);
+			currentFlow.setFlowNopassState(0);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getuName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {				
+				string = flowUtill.zancunFlow(currentFlow,flowHistroy);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return i;
+	}
+	
+	@RequestMapping("/updatePrjOverByIdSubmit")/*修改提交*/
+	@ResponseBody
+	public String updatePrjOverByIdSubmit(ProjectOver projectOver,HttpSession session){
 		int i =prjOverService.updatePrjOverById(projectOver);
 		String string=i+"";
 		String id=projectOver.getPoId();
@@ -184,20 +234,11 @@ public class ProjectOverController {
 		return string;
 	}
 	
-	@RequestMapping("/updatePrjOverByIdSubmit")/*修改提交*/
-	@ResponseBody
-	public Map<String,Object> updatePrjOverByIdSubmit(ProjectOver projectOver){
-		Map<String,Object> map = new HashMap<>();
-		int i =prjOverService.updatePrjOverById(projectOver);
-		map.put("result", i);
-		map.put("projectOver", projectOver);
-		return map;
-	}
-	
 	@RequestMapping("/selectPrjOverById")
 	@ResponseBody
 	public ProjectOver selectPrjOverById(String poId){
-		return prjOverService.selectPrjOverById(poId);
+		ProjectOver po = prjOverService.selectPrjOverById(poId);
+		return po;
 	}
 	
 	@RequestMapping("/updateUseStatus")
