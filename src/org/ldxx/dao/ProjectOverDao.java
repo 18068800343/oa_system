@@ -16,6 +16,8 @@ public interface ProjectOverDao {
 	List<ProjectOver> selectPrjOver();
 	
 	List<ProjectOver> selectPrjOver2();
+	
+	List<ProjectOver> selectPrjOverYiJiaoZhong();
 
 	ProjectOver selectPrjOverById(@Param("poId")String poId);
 	

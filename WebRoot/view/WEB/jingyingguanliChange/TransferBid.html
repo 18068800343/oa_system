@@ -57,30 +57,32 @@
                             	</td>
 							</tr>
 							<tr>
+								<td style="width:15%;" class="jingyongkk">标段编号</td>
+								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgbdNo" disabled></td>
 								<td style="width:15%;">业主单位</td>
 								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgyezhudanwei" disabled></td>
+							</tr>
+							<tr>
 								<td style="width:15%;">项目类型</td>
 								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgprjType" disabled></td>
+								<td style="width:15%;">日 期</td>
+								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgyear"></td>		
 							</tr>
 							<tr>
-								<td style="width:15%;">日 期</td>
-								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgyear"></td>
 								<td style="width:15%;">编 号</td>
 								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgbianhao"></td>
+								<td style="width:15%;">合同金额</td>
+								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xghetongjin"></td>			
 							</tr>
 							<tr>
-								<td style="width:15%;">合同金额</td>
-								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xghetongjin"></td>
 								<td style="width:15%;">项目工期</td>
 								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgxiangmugongqi"></td>
-							</tr>
-							<tr>
 								<td style="width:15%;">中标项目经理</td>
 								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgzhongbiaojingli"></td>
-								<td style="width:15%;">中标项目总工</td>
-								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgzhongbiaozonggong"></td>
 							</tr>
 							<tr>
+								<td style="width:15%;">中标项目总工</td>
+								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgzhongbiaozonggong"></td>
 								<td style="width:15%;">管理模式</td>
 								<td style="width:35%;">
 									<select class="form-control"  style="width:60%;" id="xgmoshi">
@@ -88,27 +90,36 @@
                                    		<option value="合营">合营</option>
                                    		<option value="大包">大包</option>
 									</select>
-								</td>
-								<td style="width:15%;">中标单位 <i class="iconfont icon-xingxing-copy" style="color: red;"></i></td>
-								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgzhongbiaodanwei"></td>
+								</td>		
 							</tr>
 							<tr>
+								<td style="width:15%;">中标单位 <i class="iconfont icon-xingxing-copy" style="color: red;"></i></td>
+								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgzhongbiaodanwei"></td>
 								<td style="width:15%;">跟踪部门或信息来源</td>
-								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgxinxilaiyuan"></td>
+								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgxinxilaiyuan"></td>	
+							</tr>
+							<tr>
 								<td style="width:15%;">经营负责人 <i class="iconfont icon-xingxing-copy" style="color: red;"></i></td>
 								<td style="width:35%;"><input type="text" class="form-control" style="width:60%;" id="xgjingyingren"></td>
+								<td style="width:15%;">承办部门</td>
+								<td style="width:35%;">
+									<select class="form-control"  style="width:60%;" id="xgcbbm">
+									</select>
+								</td>
 							</tr>
 							<tr>
 								<td style="width:15%;">交接内容</td>
-								<td style="width:35%;">
+								<td colspan="3">
 										<input type="checkbox" name="xgjiaojie" value="招标文件复印件">招标文件复印件 
 										<input type="checkbox" name="xgjiaojie" value="图纸">图纸 
 										<input type="checkbox" name="xgjiaojie" value="投标文件电子稿">投标文件电子稿
 										<input type="checkbox" name="xgjiaojie" value="中标通知书">中标通知书
 										<input type="checkbox" name="xgjiaojie" value="其他">其他
 								</td>
+							</tr>
+							<tr>
 								<td style="width:15%;">待办内容</td>
-								<td style="width:35%;">
+								<td colspan="3">
 										<input type="checkbox" name="xgdaiban" value="领中标通知书">领中标通知书 
 										<input type="checkbox" name="xgdaiban" value="履约担保/签订合同">履约担保/签订合同 
 										<input type="checkbox" name="xgdaiban" value="对接业主/项目管理">对接业主/项目管理
@@ -872,9 +883,24 @@
 		})
 	}
 
+	function getSCBM(){
+		$.ajax({
+			type : "POST",
+			url : getContextPath() + "/organizationManagement/selectProductionDepartment",
+			dataType : "json",
+			async:false,
+			success : function(json) {
+				$("#xgcbbm").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xgcbbm").append("<option value='"+json[i].omId+"'>"+json[i].omName+"</option>");
+				}
+			}
+		})
+	}
+	
 	//修改回显
 	function initTable() {
-		
+		getSCBM();
 		$("input:checkbox").removeAttr("checked");
 		
 		$.ajax({
@@ -886,9 +912,10 @@
 				poId : id
 			},
 			success : function(json) {
-				console.log(json)
+				//console.log(json)
 				$("#xgprjName").val(json.prjName);//项目名称
 				$("#xgprjNo").val(json.prjNo);//项目名称
+				$("#xgbdNo").val(json.bdNo);//标段编号
 				$("#xgyezhudanwei").val(json.productOwners);//业主单位
 				$("#xgprjType").val(json.prjType);//项目类型
 				$("#xgyear").val(json.poDate);//日期
@@ -902,6 +929,7 @@
 				$("#xgjingyingren").val(json.businessDirector);//经营负责人
 				$("#xggaikuang").val(json.prjDesc);//项目概况
 				$("#xgmoshi").val(json.managementModel);
+				$("#xgcbbm").val(json.cjDept);//承接部门
 				
 				var transferContent=json.transferContent;//交接内容
 				var td_dom2=$("#xgTable").find("tbody tr").eq(7).find("td").eq(1).find("input");
@@ -941,6 +969,8 @@
 		var xgzhongbiaodanwei=$("#xgzhongbiaodanwei").val();//中标单位
 		var xgxinxilaiyuan=$("#xgxinxilaiyuan").val();//信息来源
 		var xgjingyingren=$("#xgjingyingren").val();//经营负责人
+		var xgcjDept=$("#xgcbbm").val();
+		
 		
 		var arr2=new Array();
 		$("input:checkbox[name=xgjiaojie]:checked").each(function(i){
@@ -1000,7 +1030,8 @@
 				businessDirector : xgjingyingren,
 				transferContent : xgjiaojie,
 				contentBacklog : xgdaiban,
-				prjDesc : xggaikuang
+				prjDesc : xggaikuang,
+				cjDept : xgcjDept
 
 			},
 			success : function(json) {
@@ -1032,7 +1063,12 @@
 		var xgzhongbiaodanwei=$("#xgzhongbiaodanwei").val();//中标单位
 		var xgxinxilaiyuan=$("#xgxinxilaiyuan").val();//信息来源
 		var xgjingyingren=$("#xgjingyingren").val();//经营负责人
+		var xgcjDept=$("#xgcbbm").val();
 		
+		if(xgcjDept==''||xgcjDept==null){
+			toastr.error("承办部门为空");
+    		return;
+		}
 		var arr2=new Array();
 		$("input:checkbox[name=xgjiaojie]:checked").each(function(i){
 			arr2[i]=$(this).val();
@@ -1089,7 +1125,8 @@
 				businessDirector : xgjingyingren,
 				transferContent : xgjiaojie,
 				contentBacklog : xgdaiban,
-				prjDesc : xggaikuang
+				prjDesc : xggaikuang,
+				cjDept : xgcjDept
 
 			},
 			success : function(json) {
@@ -1185,5 +1222,8 @@
 			return false;
 		}
 	})
+	
+	
+	
 </script>
 </html>
