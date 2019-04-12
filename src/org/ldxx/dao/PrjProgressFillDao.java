@@ -92,4 +92,6 @@ public interface PrjProgressFillDao {
 	public PrjProgressFill selectTotalIncome(@Param("dept")String dept,@Param("start")String start,@Param("end")String end);
 
 	public PrjProgressFill selectNewPlanByTaskNo(@Param("no")String no);
+	
+	public PrjProgressFillFb selectNewFbInfoByFbId(@Param("no")String no);
 }

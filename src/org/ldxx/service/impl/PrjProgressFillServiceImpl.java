@@ -351,4 +351,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.selectNewPlanByTaskNo(no);
 	}
 
+	@Override
+	public PrjProgressFillFb selectNewFbInfoByFbId(String no) {
+		return dao.selectNewFbInfoByFbId(no);
+	}
+
 }

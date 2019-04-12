@@ -25,4 +25,6 @@ public interface ProjectOverDao {
 
 	int updateUseStatus(@Param("id")String id);
 	
+	int deleteDataIfExist(@Param("prjNo")String prjNo,@Param("bdNo")String bdNo);
+	
 }

@@ -582,4 +582,13 @@ public class PrjProgressFillController {
 		return money;
 	}
 	
+	@RequestMapping("/selectNewFbInfoByFbId")
+	@ResponseBody
+	public Map<String,PrjProgressFillFb> selectNewFbInfoByFbId(String no){
+		Map<String,PrjProgressFillFb> map=new HashMap<>();
+		PrjProgressFillFb ppfb=service.selectNewFbInfoByFbId(no);
+		map.put("ppfb", ppfb);
+		return map;
+	}
+	
 }

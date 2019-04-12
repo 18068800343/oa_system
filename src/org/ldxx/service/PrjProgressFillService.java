@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.PrjProgressFillCj;
@@ -71,5 +72,7 @@ public interface PrjProgressFillService {
 	public PrjProgressFill selectTotalIncome(String dept,String start,String end);
 	
 	public PrjProgressFill selectNewPlanByTaskNo(String no);
+	
+	public PrjProgressFillFb selectNewFbInfoByFbId(String no);
 	
 }

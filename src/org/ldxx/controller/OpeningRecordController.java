@@ -264,7 +264,9 @@ public class OpeningRecordController {
 					/*pService.updateStatus2(rd.getPrjNo(),"1");*/
 				}
 			}else{
-				/*pService.updateStatus2(rd.getPrjNo(),"0");*/
+				String bdNo=rd.getBdNo();
+				String prjNo=rd.getPrjNo();
+				pService.deleteDataIfExist(prjNo, bdNo);
 			}
 		}
 		map.put("result", i);

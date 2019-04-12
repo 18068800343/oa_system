@@ -61,4 +61,9 @@ public class ProjectOverServiceImpl implements ProjectOverService {
 		return prjDao.updateUseStatus(id);
 	}
 
+	@Override
+	public int deleteDataIfExist(String prjNo, String bdNo) {
+		return prjDao.deleteDataIfExist(prjNo, bdNo);
+	}
+
 }

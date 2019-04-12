@@ -102,7 +102,7 @@
 			                                <td class="jinqianyanse">分包合同金额(元)</td>
 			                                <td><input type="text" class="form-control" id="hetongMoney" style="width:60%;" disabled></td>
 			                                <td class="shuziyanse">分包合同进度</td>
-			                                <td><input type="text" class="form-control" id="hetongjindu" style="width:60%;"></td>
+			                                <td><input type="text" class="form-control" id="hetongjindu" style="width:60%;" disabled></td>
 			                            </tr>
 			                            <tr>
 			                            	<td class="jinqianyanse">收款金额(元)</td>
@@ -1628,6 +1628,23 @@
 	          	$('#hetonghao').editableSelect().on('select.editable-select', function (e, dom) {
 	          		$.ajax({
 	                    type: 'POST',
+	                    url: getContextPath()+'/ppf/selectNewFbInfoByFbId',
+	                    dataType: 'json',
+	                    data: {
+	                    	no:$('#hetonghao').val()
+	                    },
+	                    success: function (json) {
+	                    	var ppfb=json.ppfb;
+	                    	if(ppfb==null){
+	                    		$("#hetongjindu").val("0%");
+	                    	}else{
+	                        	var bili=((ppfb.incomeAll)*100/(ppfb.fbMoney)).toFixed(2)+"%";
+	                        	$("#hetongjindu").val(bili);
+	                    	}
+	                    }
+	          		});
+	          		$.ajax({
+	                    type: 'POST',
 	                    url: getContextPath()+'/subcontract/getFBContractByNo',
 	                    dataType: 'json',
 	                    data: {
@@ -2679,6 +2696,24 @@
     		toastr.error("请选择")
     		return;
     	}
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/ppf/selectNewFbInfoByFbId',
+            dataType: 'json',
+            data: {
+            	no:data.fbNo
+            },
+            success: function (json) {
+            	var ppfb=json.ppfb;
+            	if(ppfb==null){
+            		$("#hetongjindu").val("0%");
+            	}else{
+            		var bili=((ppfb.incomeAll)*100/(ppfb.fbMoney)).toFixed(2)+"%";
+                	$("#hetongjindu").val(bili);
+            	}
+            }
+  		});
+    	
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/subcontract/getFBContractByNo',
