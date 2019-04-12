@@ -42,4 +42,9 @@ public class PrjRecordServiceImpl implements PrjRecordService{
 		return pDao.updateScStatus(id, status);
 	}
 
+	@Override
+	public int prjCount(String no) {
+		return pDao.prjCount(no);
+	}
+
 }

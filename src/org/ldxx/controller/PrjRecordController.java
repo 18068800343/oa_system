@@ -51,11 +51,16 @@ public class PrjRecordController {
 	@ResponseBody
 	public Map<String,Object> addPrjRecord(PrjRecord pr){
 		Map<String,Object> map=new HashMap<String, Object>();
-		TimeUUID uuid=new TimeUUID();
-		String id=uuid.getTimeUUID();
-		pr.setId(id);
-		int i = pServcie.addPrjRecord(pr);
-		map.put("result", i);
+		int i=pServcie.prjCount(pr.getPrjNo());
+		if(i==0){
+			TimeUUID uuid=new TimeUUID();
+			String id=uuid.getTimeUUID();
+			pr.setId(id);
+			i = pServcie.addPrjRecord(pr);
+			map.put("result", i);
+		}else{
+			map.put("result", 2);
+		}
 		map.put("pr", pr);
 		return map;		
 	}
