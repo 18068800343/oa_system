@@ -626,12 +626,14 @@
 			ifnull(fb.ActorName,'') actorNameLast,
 			ifnull(fb.`view`,'') viewLast,
 			fb.operate_type viewLastType,fa.do_date,IFNULL(fa.delete,5) as ode,
-			fa.DeptName
+			ifnull(om.om_name,'') as DeptName
 		FROM
 			flowhistroy fa
 		LEFT JOIN flowhistroy fb ON fa.Flow_Node_Last = fb.Flo_Node_ID
+		LEFT JOIN user u ON fa.actor =u.user_id
+		LEFT JOIN organization_management om ON u.om_id=om.om_id
 		where fa.URL = #{url} and fa.operate_type!='4'
-    GROUP BY fa.ID ORDER BY fa.do_date) os where os.ode!=0
+ GROUP BY fa.ID ORDER BY fa.do_date) os where os.ode!=0
   </select>
   <select id="getFlowHistorysLeftJoinByModeId" resultType="flowHistoryNowAndLast">
 	SELECT
@@ -640,12 +642,14 @@
 			ifnull(fb.`view`,'') viewLast,
 			fb.operate_type viewLastType,fa.do_date,
      		r.role_name,
-     		fa.DeptName
+     		ifnull(om.om_name,'') as DeptName
 		FROM
 			flowhistroy fa
 		LEFT JOIN flowhistroy fb ON fa.Flow_Node_Last = fb.Flo_Node_ID
-    LEFT JOIN nodeactors na on na.Flo_Node_ID = fa.Flo_Node_ID
-    LEFT JOIN role r on r.id = na.RoleCode
+	    LEFT JOIN nodeactors na on na.Flo_Node_ID = fa.Flo_Node_ID
+	    LEFT JOIN role r on r.id = na.RoleCode
+   		LEFT JOIN user u ON fa.actor =u.user_id
+		LEFT JOIN organization_management om ON u.om_id=om.om_id
 		where fa.mode_id = #{modeId} and fa.operate_type!='4' and role_name IS NOT NULL and role_name!=""
     GROUP BY fa.ID ORDER BY fa.do_date
   </select>
