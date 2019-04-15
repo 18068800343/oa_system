@@ -63,7 +63,7 @@ public class AlreadySkInfoServiceImp implements AlreadySkInfoService {
 	public int deleteAlreadyRenlingById(String rId) {
 		int i=dao.deleteAlreadyRenlingById(rId);
 		if(i>0){
-			i=dao.deleteAlreadySkOmInfoByrId(rId);
+			dao.deleteAlreadySkOmInfoByrId(rId);
 		}
 		return i;
 	}
