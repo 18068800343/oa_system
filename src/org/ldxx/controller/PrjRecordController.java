@@ -291,4 +291,12 @@ public class PrjRecordController {
 		return i;
 	}
 	
+	
+	@RequestMapping("/delPrj")
+	@ResponseBody
+	public int delPrj(String id){
+		int i=pServcie.delPrj(id);
+		return i;
+	}
+	
 }

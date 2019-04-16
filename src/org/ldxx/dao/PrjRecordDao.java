@@ -16,4 +16,6 @@ public interface PrjRecordDao {
 	public int updateScStatus(@Param("id")String id,@Param("status")int status);
 	
 	public int prjCount(@Param("no")String no);
+	
+	public int delPrj(@Param("id")String id);
 }

@@ -16,4 +16,6 @@ public interface PrjRecordService{
 	public int updateScStatus(String id,int status);
 	
 	public int prjCount(String no);
+	
+	public int delPrj(String id);
 }

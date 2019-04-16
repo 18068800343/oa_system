@@ -554,7 +554,7 @@ public class PrjProgressFillController {
 	
 	@RequestMapping("/selectPrjProgressFillFbByFbId")
 	@ResponseBody
-	public float selectPrjProgressFillFbByFbId(String id){
+	public double selectPrjProgressFillFbByFbId(String id){
 		PrjProgressFillFb fb=service.selectPrjProgressFillFbByFbId(id);
 		if(fb!=null){
 			return fb.getIncomeAll();

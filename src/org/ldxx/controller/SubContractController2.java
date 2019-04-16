@@ -627,7 +627,7 @@ public class SubContractController2 {
 			String code = type.split(" ")[0];
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 			String year=sdf.format(new Date());
-			String fbNo="EBHT"+year+scService.CreateEBContractNumOrder(year)+code;
+			String fbNo="EBFB"+year+scService.CreateEBContractNumOrder(year)+code;
 			/*TimeUUID uuid=new TimeUUID();
 			int count=scService.fbNocount(year);
 			count=count+1;
@@ -641,7 +641,7 @@ public class SubContractController2 {
 	@RequestMapping("/CreateEBContractNumOrder")
 	@ResponseBody
 	public String CreateEBContractNumOrder(){
-		String fbNo="EBHT"+"2019"+scService.CreateEBContractNumOrder("2019")+"B";
+		String fbNo="EBFB"+"2019"+scService.CreateEBContractNumOrder("2019")+"B";
 		return fbNo;
 	}
 	

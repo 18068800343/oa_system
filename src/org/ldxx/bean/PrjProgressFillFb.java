@@ -7,14 +7,21 @@ public class PrjProgressFillFb {
 	private String fbName;
 	private String department;
 	private String fbUnit;
-	private float fbMoney;
-	private float incomeAll;
-	private float incomeBq;
+	private double fbMoney;
+	private double incomeAllBili;//比例
+	private double incomeAll;
+	private double incomeBq;
 	private String bq;
 	private double rate;
 	private double rateMoney;
 	
 	
+	public double getIncomeAllBili() {
+		return incomeAllBili;
+	}
+	public void setIncomeAllBili(double incomeAllBili) {
+		this.incomeAllBili = incomeAllBili;
+	}
 	public double getRate() {
 		return rate;
 	}
@@ -45,10 +52,10 @@ public class PrjProgressFillFb {
 	public void setFbUnit(String fbUnit) {
 		this.fbUnit = fbUnit;
 	}
-	public float getFbMoney() {
+	public double getFbMoney() {
 		return fbMoney;
 	}
-	public void setFbMoney(float fbMoney) {
+	public void setFbMoney(double fbMoney) {
 		this.fbMoney = fbMoney;
 	}
 	public String getFbId() {
@@ -63,16 +70,16 @@ public class PrjProgressFillFb {
 	public void setFbName(String fbName) {
 		this.fbName = fbName;
 	}
-	public float getIncomeAll() {
+	public double getIncomeAll() {
 		return incomeAll;
 	}
-	public void setIncomeAll(float incomeAll) {
+	public void setIncomeAll(double incomeAll) {
 		this.incomeAll = incomeAll;
 	}
-	public float getIncomeBq() {
+	public double getIncomeBq() {
 		return incomeBq;
 	}
-	public void setIncomeBq(float incomeBq) {
+	public void setIncomeBq(double incomeBq) {
 		this.incomeBq = incomeBq;
 	}
 	public String getBq() {

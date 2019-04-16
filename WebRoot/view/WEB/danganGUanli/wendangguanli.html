@@ -464,14 +464,7 @@
 													    "targets": 7,
 													    "searchable": true,
 													    "render": function(data, type, full) {
-													    	if(data==0){
-													    		return '<button type="button" class="btn btn-danger"  onclick="look2(this)">未归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary Pjaxb" style="display:none;"  onclick="submitSC(this)">提交</button>'
-													    	}else if(data==1){
-													    		return '<button type="button" class="btn btn-info"  onclick="look2(this)">部分归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary Pjaxb" style="display:none;"  onclick="submitSC(this)">提交</button>'
-													    	}else if(data==2){
-													    		return '<button type="button" class="btn btn-primary" onclick="lookQt(this)">已归档</button>'
-													    	}
-													    	
+															return '<i class="iconfont icon-shanchu" style="font-size: 18px; cursor: pointer;" title="删除" onclick="delPrj(this)"></i>';													    	
 													     }
 													  }
 							],
@@ -1388,6 +1381,37 @@
 		        	  }
 		        }
 		    });
+	 }
+	 
+	 function delPrj(obj){
+		 var statu = confirm("确认删除吗?");
+		 if(!statu){
+		   	return false;
+		 }
+		 var tr=$(obj).parents("tr");
+		 var data=$("#mainContent").DataTable().row(tr).data();
+		 var scStatus=data.scStatus;
+		 var jyStatus=data.jyStatus;
+		 if(scStatus==2||jyStatus==2){
+			 toastr.error('已归档不可删除');
+			 return;
+		 }
+		 $.ajax({
+	          type: 'POST',
+	          url: getContextPath()+'/PrjRecord/delPrj',
+	          dataType: 'json',
+	          data:{
+	        	 id:data.id
+	          },
+	          success: function (json) {
+	        	 if(json>0){
+	        		 $("#mainContent").DataTable().row(tr).remove().draw(false);
+	        		 toastr.success('删除成功');
+	        	 }else{
+	        		 toastr.error('删除失败');
+	        	 }
+	          }
+	      }); 
 	 }
 </script>
 </html>

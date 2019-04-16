@@ -47,4 +47,13 @@ public class PrjRecordServiceImpl implements PrjRecordService{
 		return pDao.prjCount(no);
 	}
 
+	@Override
+	public int delPrj(String id) {
+		int i=pDao.delPrj(id);
+		if(i>0){
+			aDao.deleteAccessory(id);
+		}
+		return i;
+	}
+
 }
