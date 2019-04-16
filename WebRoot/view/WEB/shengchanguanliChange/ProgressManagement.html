@@ -170,17 +170,18 @@
 			                        <table class="table table-bordered table-condensed" id="fb_table">
 			                            <thead>
 			                                <tr>
-			                                    <th colspan="8">分包收入</th>
+			                                    <th colspan="9">分包收入</th>
 			                                </tr>
 			                                <tr>
-			                                    <th style="width:22%;">分包合同名称</th>
+			                                    <th style="width:15%;">分包合同名称</th>
 			                                    <th style="width:10%;">管理部门</th>
 			                                    <th style="width:12%;">分包合同金额(元)</th>
-			                                    <th style="width:16%;">分包方名称</th>
+			                                    <th style="width:15%;">分包方名称</th>
+			                                    <th style="width:9%;">累计收入(%)</th>
 			                                    <th style="width:11%;">累计收入(元)</th>
 			                                    <th style="width:11%;">本期收入(元)</th>
-			                                    <th style="width:9%;">税率</th>
-			                                    <th style="width:9%;">税金(元)</th>
+			                                    <th style="width:9%;">税率(%)</th>
+			                                    <th style="width:8%;">税金(元)</th>
 			                                </tr>
 			                            </thead>
 			                            <tbody>
@@ -999,15 +1000,16 @@
             	$("#fb_table tbody").html('');
             	for(var i=0;i<json.length;i++){
             		$("#fb_table tbody").append("<tr>"
-		            													+"<td>"+json[i].contractName+"</td>"
-		            													+"<td>"+json[i].omName+"</td>"
-		            													+"<td>"+json[i].contractMoney+"</td>"
-		            													+"<td>"+json[i].ccName+"</td>"
-		            													+"<td><input type='text' data="+json[i].fbNo+" class='form-control' onchange='getFbBq(this)' style='width:100%;'></td>"
-		            													+"<td><input type='text' class='form-control' style='width:100%;' disabled></td>"
-		            													+"<td><input type='text' class='form-control' onchange='getRate(this)' style='width:100%;' placeholder='请填小数'></td>"
-		            													+"<td><input type='text' class='form-control' style='width:100%;' disabled></td>"
-		            												+"</tr>")
+							+"<td>"+json[i].contractName+"</td>"
+							+"<td>"+json[i].omName+"</td>"
+							+"<td>"+json[i].contractMoney+"</td>"
+							+"<td>"+json[i].ccName+"</td>"
+							+"<td><input type='text' data="+json[i].fbNo+" class='form-control' onchange='getFbBq(this)' placeholder='请填整数' style='width:100%;'></td>"
+							+"<td><input type='text' data="+json[i].fbNo+" class='form-control' style='width:100%;' disabled></td>"
+							+"<td><input type='text' class='form-control' style='width:100%;' disabled></td>"
+							+"<td><input type='text' class='form-control' onchange='getRate(this)' style='width:100%;' placeholder='请填整数'></td>"
+							+"<td><input type='text' class='form-control' style='width:100%;' disabled></td>"
+						+"</tr>")
             	}
             }
 		})
@@ -1128,6 +1130,14 @@
 	
 	function getFbBq(obj){
 		var all=$(obj).val();
+		var reg=/^([1-9]\d?|100)$/;
+    	if(!reg.test(all)){
+    		toastr.error('请填写1-100');
+    		$(obj).val('');
+    		return;
+    	}
+    	var fbMoney=$(obj).parents("tr").find("td").eq(2).text();
+    	var allMoney=(fbMoney*all/100).toFixed(2);
 		var fbId=$(obj).attr("data");
 		$.ajax({
 	        type: 'POST',
@@ -1141,7 +1151,8 @@
 	        	if(json!=null&&json!=''){
 	        		last=json;
 	        	}
-	        	$(obj).parents("tr").find("input").eq(1).val(all-last);
+	        	$(obj).parents("tr").find("input").eq(1).val(allMoney);
+	        	$(obj).parents("tr").find("input").eq(2).val(allMoney-last);
 	        }
 		});
 	}
@@ -1247,9 +1258,10 @@
 											+"<td>"+json[i].omName+"</td>"
 											+"<td>"+json[i].contractMoney+"</td>"
 											+"<td>"+json[i].ccName+"</td>"
-											+"<td><input type='text' data="+json[i].fbNo+" class='form-control' onchange='getFbBq(this)' style='width:80%;'></td>"
-											+"<td><input type='text' class='form-control' style='width:80%;' disabled></td>"
-											+"<td><input type='text' class='form-control' onchange='getRate(this)' style='width:100%;' placeholder='请填小数'></td>"
+											+"<td><input type='text' data="+json[i].fbNo+" class='form-control' onchange='getFbBq(this)' placeholder='请填整数' style='width:100%;'></td>"
+											+"<td><input type='text' data="+json[i].fbNo+" class='form-control' style='width:100%;' disabled></td>"
+											+"<td><input type='text' class='form-control' style='width:100%;' disabled></td>"
+											+"<td><input type='text' class='form-control' onchange='getRate(this)' style='width:100%;' placeholder='请填整数'></td>"
 											+"<td><input type='text' class='form-control' style='width:100%;' disabled></td>"
 										+"</tr>")
                             	}
@@ -1563,7 +1575,9 @@
                var prjMoney=$("#prjMoney").val();
                var income=$("#all_money").val().replace("%","")*prjMoney/100;
    			   $("#all_money_yuan").val(income);
-           	   $("#this_time_money_yuan").val(income-present);
+   			   
+   			   var ttmy=accSub(income,present);
+           	   $("#this_time_money_yuan").val(ttmy);
            	   var contractMoney=$("#contractMoney").val();
                $("#contract_income").val(((allMoney+income-present)*100/contractMoney).toFixed(2)+"%")
                
@@ -1747,6 +1761,7 @@
     				fbMoney:undefined,
     				incomeBq:0,
     				incomeAll:0,
+    				incomeAllBili:0,
     				bq:undefined,
     				rate:0,
     				rateMoney:0
@@ -1756,15 +1771,17 @@
     		var department=$(this).find("td").eq(1).text();
     		var fbMoney=$(this).find("td").eq(2).text();
     		var fbUnit=$(this).find("td").eq(3).text();
-    		var incomeBq=$(this).find("input").eq(1).val();
-    		var incomeAll=$(this).find("input").eq(0).val();
-    		var fbRate=$(this).find("input").eq(2).val();
-    		var fbRateMoney=$(this).find("input").eq(3).val();
+    		var incomeAllBili=$(this).find("input").eq(0).val();
+    		var incomeAll=$(this).find("input").eq(1).val();
+    		var incomeBq=$(this).find("input").eq(2).val();
+    		var fbRate=$(this).find("input").eq(3).val();
+    		var fbRateMoney=$(this).find("input").eq(4).val();
     		
     		ppfb.fbName=fbName;
     		ppfb.department=department;
     		ppfb.incomeBq=incomeBq;
     		ppfb.incomeAll=incomeAll;
+    		ppfb.incomeAllBili=incomeAllBili;
     		ppfb.fbId=fbId;
     		ppfb.bq=this_time;
     		ppfb.fbMoney=fbMoney;
@@ -2106,7 +2123,8 @@
 								"<td>"+depart+"</td>"+
 								"<td>"+ppfb[i].fbMoney+"</td>"+
 								"<td>"+ppfb[i].fbUnit+"</td>"+
-								"<td><input type='text' class='form-control' style='width:100%;' data="+ppfb[i].fbId+" value="+ppfb[i].incomeAll+" onchange='getFbBq(this)'></td>"+
+								"<td><input type='text' class='form-control' style='width:100%;' data="+ppfb[i].fbId+" value="+ppfb[i].incomeAllBili+" onchange='getFbBq(this)'></td>"+
+								"<td><input type='text' class='form-control' style='width:100%;' data="+ppfb[i].fbId+" value="+ppfb[i].incomeAll+" disabled></td>"+
 								"<td><input type='text' class='form-control' style='width:100%;' value="+ppfb[i].incomeBq+" disabled></td>"+
 								"<td><input type='text' class='form-control' style='width:100%;' value="+ppfb[i].rate+" onchange='getRate(this)'></td>"+
 								"<td><input type='text' class='form-control' style='width:100%;' value="+ppfb[i].rateMoney+" disabled></td>"+
@@ -2334,20 +2352,50 @@
     		$(obj).val('');
     		return;
     	}
-    	var sum=rate*all_money_yuan;
+    	var reg=/^([1-9]\d?|100)$/;
+    	if(!reg.test(rate)){
+    		toastr.error('请填写1-100');
+    		$(obj).val('');
+    		return;
+    	}
+    	var sum=(rate*all_money_yuan/100).toFixed(2);
     	$("#new_rate_money").val(sum);
     }
-	
-	function getRate(obj){
+    
+    function getRate(obj){
     	var rate=$(obj).val();
-    	var money=$(obj).parents("tr").find("input").eq(0).val();
+    	var money=$(obj).parents("tr").find("input").eq(1).val();
     	if(money==''||money==null){
     		toastr.error('累计收入为空');
     		$(obj).val('');
     		return;
     	}
-    	var sum=rate*money;
-    	$(obj).parents("tr").find("input").eq(3).val(sum);
+    	var reg=/^([1-9]\d?|100)$/;
+    	if(!reg.test(rate)){
+    		toastr.error('请填写1-100');
+    		$(obj).val('');
+    		return;
+    	}
+    	var sum=(rate*money/100).toFixed(2);
+    	$(obj).parents("tr").find("input").eq(4).val(sum);
+    }
+    
+ // 两个浮点数相减
+    function accSub(num1,num2){
+       var r1,r2,m;
+       try{
+           r1 = num1.toString().split('.')[1].length;
+       }catch(e){
+           r1 = 0;
+       }
+       try{
+           r2=num2.toString().split(".")[1].length;
+       }catch(e){
+           r2=0;
+       }
+       m=Math.pow(10,Math.max(r1,r2));
+       n=(r1>=r2)?r1:r2;
+       return (Math.round(num1*m-num2*m)/m).toFixed(n);
     }
     
 </script>
