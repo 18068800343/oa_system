@@ -134,9 +134,10 @@ public class SubContractController2 {
 		int i=scService.saveSubContract(fbContract);
 		if(i>0){
 			String string="";
-			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
+			/*CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
 			String mainDepartment=cj.getYiCjDepartment();
-			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);*/
+			OrganizationManagement om=oService.selectOrgById(fbContract.getMainManageDepartment());
 			String omNo="";
 			if(null!=om){
 				omNo=om.getOmNo();
@@ -234,9 +235,10 @@ public class SubContractController2 {
 		int i=scService.saveSubContract(fbContract);
 		String string = i+"";
 		if(i>0){
-			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
+			/*CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
 			String mainDepartment=cj.getYiCjDepartment();
-			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);*/
+			OrganizationManagement om=oService.selectOrgById(fbContract.getMainManageDepartment());
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
@@ -418,9 +420,10 @@ public class SubContractController2 {
 		}
 		int i=scService.saveSubContract(fbContract);
 		if(i>0){
-			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
+			/*CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
 			String mainDepartment=cj.getYiCjDepartment();
-			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);*/
+			OrganizationManagement om=oService.selectOrgById(fbContract.getMainManageDepartment());
 			String omNo=om.getOmNo();
 			String string="";
 			User user = (User) session.getAttribute("user");
@@ -506,9 +509,10 @@ public class SubContractController2 {
 		int i=scService.saveSubContract(fbContract);
 		String string = i+"";
 		if(i>0){
-			CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
+			/*CjContract cj=cjService.getCjContractMainDepartmentLeader(fbContract.getCjContractCode());
 			String mainDepartment=cj.getYiCjDepartment();
-			OrganizationManagement om=oService.selectOrgById(mainDepartment);
+			OrganizationManagement om=oService.selectOrgById(mainDepartment);*/
+			OrganizationManagement om=oService.selectOrgById(fbContract.getMainManageDepartment());
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();

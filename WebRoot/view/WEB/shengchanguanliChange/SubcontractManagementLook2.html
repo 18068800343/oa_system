@@ -68,32 +68,27 @@
 	                    		</tr>
 	                    	</thead>
 	                    	<tbody>
-	                    		 <tr>
+	                    		 <!-- <tr>
 	                            	<td style="width:15%;">承接合同名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 	                                <td style="width:35%;"> 
-	                                        <!-- <select class="form-control" style="width:70%;" id="xgchengjiehetongName">
-	                                            
-	                                        </select> -->
 	                                        <input type="text" class="form-control" id="xgchengjiehetongName" disabled style="width:70%;">
 	                                        <button type="button" class="btn btn-primary weui-uploader__input" onclick="select_cj2()">选择承接合同</button>
 	                                </td>
 	                                <td style="width:15%;">承接合同号:</td>
 	                                <td style="width:35%;">
-	                                	<!-- <input type="text" class="form-control" id="xgchengjiehetonghao" disabled> -->
 	                                        <select class="form-control" style="width:70%;" id="xgchengjiehetonghao">
 	                                            
 	                                        </select>
 	                                </td>
-	                            </tr>
+	                            </tr> -->
 	                            <tr>
-	                           		<td>项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-	                                <td>
-		                            	<!-- <input type="text" class="form-control" id="xgprjName" disabled style="width:70%;"> -->
-	                                    <select class="form-control" style="width:70%;" id="xgprjName">
-	                                	</select>
+	                           		<td style="width:15%;">项目名称:  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+	                                <td style="width:35%;">
+		                            	 <input type="text" class="form-control" id="xgprjName" disabled style="width:70%;"> 
+		                            	 <button type="button" style="margin-left: 5px;" class="btn btn-primary"  id="xgchosexm">选择项目</button>
 	                                </td>
-	                                <td>任务单号:</td>
-	                                <td>
+	                                <td style="width:15%;">任务单号:</td>
+	                                <td style="width:35%;">
 	                                	<!-- <input type="text" class="form-control" id="xgtask_no" disabled style="width:70%;"> -->
 	                                        <select class="form-control" style="width:70%;" id="xgtask_no">
 	                                        </select>
@@ -585,6 +580,43 @@
     </div>
 </div>
 <!-- model结束 -->
+<!-- xg项目 Modalxg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgxiangmumd">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择项目</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="xgxiangmubiao">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>编号</th>
+                                    <th>项目名称</th>
+                                    <th>项目所属公司</th>
+                                    <th>项目类型</th>
+                                    <th>甲方单位</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" id="xgquedingxm">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!--xg项目  modelxg结束 -->
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
@@ -600,10 +632,10 @@
 <script>
     $(document).ready( function () {
     	
-    	
-    	initSelect2();
+    	initSelect();
+    	//initSelect2();
     	initbumen();
-    	
+    	initTable();
         laydate.render({
             elem: '#year' //指定元素
         });
@@ -655,7 +687,7 @@
             effects: 'slide' 
         });
         
-        initTable();
+        
        
 	});
     function GetQueryString(name){
@@ -809,7 +841,218 @@
             "sLast": "最后一页"
         }},
 	});
+    var tablexmxg=$('#xgxiangmubiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null},
+		            { "data": "prjNo"}, 
+		            { "data": "prjName"},
+		            { "data": "prjCompany"}, 
+		            { "data": "prjType2"},
+		            { "data": "ccName"},
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xgxiangmuName" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[1, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
 
+    
+    $("#xgchosexm").click(function(){
+		$("#xgxiangmumd").modal("show");
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task2/gettaskAndtask2',
+	            dataType: 'json',
+	            data: {
+	            },
+	            success: function (json) {
+	                $('#xgxiangmubiao').dataTable().fnClearTable();
+	                $('#xgxiangmubiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+	})
+	$("#xgquedingxm").click(function(){
+		var tr=$("input[name='xgxiangmuName']:checked").parents("tr");
+    	var data=$("#xgxiangmubiao").DataTable().row(tr).data();
+    	$("#xgprjName").val(data.prjName);
+		$("#xgtask_no").val(data.prjNo);
+		$("#xgzhuhetongMoney").val(data.contractMoney); 
+		$("#xgjiafangbumen").html('');
+    	$("#xgjiafangbumen").append("<option value="+data.mainDepartment+">"+data.omName+"</option>")
+    	if(data.assistDepartment1!=null&&data.assistDepartment1!=''){
+    		$("#xgjiafangbumen").append("<option value="+data.assistDepartment1+">"+data.name1+"</option>")
+    	}
+    	if(data.assistDepartment2!=null&&data.assistDepartment2!=''){
+    		$("#xgjiafangbumen").append("<option value="+data.assistDepartment2+">"+data.name2+"</option>")
+    	}
+    	if(data.assistDepartment3!=null&&data.assistDepartment3!=''){
+    		$("#xgjiafangbumen").append("<option value="+data.assistDepartment3+">"+data.name3+"</option>")
+    	}
+    	$("#xgxiangmumd").modal("hide");
+	})
+	
+	//初始化项目名和任务单号
+    function initSelect(){
+		$.ajax({
+        type: 'POST',
+        url: getContextPath()+'/task2/gettaskAndtask2',
+        dataType: 'json',
+        async:false,
+        data: {
+        },
+        error: function (msg) {
+        	toastr.error("请求失败");
+        },
+        success: function (json) {
+        	//console.log(json)
+        	$("#prjName").html('');
+        	$("#task_no").html('');
+        	$("#xgprjName").html('');
+        	$("#xgtask_no").html('');
+        	for(var i=0;i<json.length;i++){
+        		$("#task_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+        		$("#xgtask_no").append("<option value="+json[i].prjNo+">"+json[i].prjNo+"</option>");
+        	}
+        	
+          	$('#task_no').editableSelect().on('select.editable-select', function (e, dom) {
+          		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    async:false,
+                    data: {
+                    	prjNo:$('#task_no').val()
+                    },
+                    success: function (json) {
+                    	if(json!=null&&json.length!=0){
+                    		$("#jiafangbumen").html('');
+                    		for(var i=0;i<json.length;i++){
+	                    		$("#prjName").val(json[i].prjName);
+	                    		$("#task_no").val(json[i].prjNo);
+	                    		$("#zhuhetongMoney").val(json[i].contractMoney); 
+	                        	$("#jiafangbumen").append("<option value="+json[i].mainDepartment+">"+json[i].omName+"</option>")
+	                        	if(json[i].assistDepartment1!=null&&json[i].assistDepartment1!=''){
+	                        		$("#jiafangbumen").append("<option value="+json[i].assistDepartment1+">"+json[i].name1+"</option>")
+	                        	}
+	                        	if(json[i].assistDepartment2!=null&&json[i].assistDepartment2!=''){
+	                        		$("#jiafangbumen").append("<option value="+json[i].assistDepartment2+">"+json[i].name2+"</option>")
+	                        	}
+	                        	if(json[i].assistDepartment3!=null&&json[i].assistDepartment3!=''){
+	                        		$("#jiafangbumen").append("<option value="+json[i].assistDepartment3+">"+json[i].name3+"</option>")
+	                        	}
+                    		}
+                    	}else{
+                    		$.ajax({
+                                type: 'POST',
+                                url: getContextPath()+'/task2/selectTask2ByNo',
+                                dataType: 'json',
+                                async:false,
+                                data: {
+                                	no:$('#task_no').val()
+                                },
+                                success: function (json2) {
+                                	if(json2!=null&&json2.length!=0){
+           	                    		$("#jiafangbumen").html('');
+                                		for(var j=0;j<json2.length;j++){
+            	                    		$("#prjName").val(json2[j].tName);
+            	                    		$("#task_no").val(json2[j].tNo);
+            	                    		$("#zhuhetongMoney").val(json2[j].dMoney); 
+            	                        	$("#jiafangbumen").append("<option value="+json2[j].omId+">"+json2[j].dName+"</option>")
+                                		}
+                                	}
+                                }
+                      		});
+                    	}
+                    }
+          		});
+		  	})
+		  	
+          	$('#xgtask_no').editableSelect().on('select.editable-select', function (e, dom) {
+          		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    data: {
+                    	prjNo:$('#xgtask_no').val()
+                    },
+                    success: function (json) {
+                    	if(json!=null&&json.length!=0){
+                    		$("#xgjiafangbumen").html('');
+                    		for(var i=0;i<json.length;i++){
+	                    		$("#xgprjName").val(json[i].prjName);
+	                    		$("#xgtask_no").val(json[i].prjNo);
+	                    		$("#xgzhuhetongMoney").val(json[i].contractMoney); 
+	                        	$("#xgjiafangbumen").append("<option value="+json[i].mainDepartment+">"+json[i].omName+"</option>")
+	                        	if(json[i].assistDepartment1!=null&&json[i].assistDepartment1!=''){
+	                        		$("#xgjiafangbumen").append("<option value="+json[i].assistDepartment1+">"+json[i].name1+"</option>")
+	                        	}
+	                        	if(json[i].assistDepartment2!=null&&json[i].assistDepartment2!=''){
+	                        		$("#xgjiafangbumen").append("<option value="+json[i].assistDepartment2+">"+json[i].name2+"</option>")
+	                        	}
+	                        	if(json[i].assistDepartment3!=null&&json[i].assistDepartment3!=''){
+	                        		$("#xgjiafangbumen").append("<option value="+json[i].assistDepartment3+">"+json[i].name3+"</option>")
+	                        	}
+                    		}
+                    	}else{
+                    		$.ajax({
+                                type: 'POST',
+                                url: getContextPath()+'/task2/selectTask2ByNo',
+                                dataType: 'json',
+                                data: {
+                                	no:$('#task_no').val()
+                                },
+                                success: function (json2) {
+                                	if(json2!=null&&json2.length!=0){
+           	                    		$("#xgjiafangbumen").html('');
+                                		for(var j=0;j<json2.length;j++){
+            	                    		$("#xgprjName").val(json2[j].tName);
+            	                    		$("#xgtask_no").val(json2[j].tNo);
+            	                    		$("#xgzhuhetongMoney").val(json2[j].dMoney); 
+            	                        	$("#xgjiafangbumen").append("<option value="+json2[j].omId+">"+json2[j].dName+"</option>")
+                                		}
+                                	}
+                                }
+                      		});
+                    	}
+                    }
+          		});
+		  	}) 
+        }
+		});
+	}
     
   //初始化部门
 	function initbumen(){
@@ -822,8 +1065,8 @@
             success: function (json) {
             	$("#seach_department").append("<option value='%'>全部</option>")
             	for(var i=0;i<json.length;i++){
-	            	$("#jiafangbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
-	            	$("#xgjiafangbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+	            	//$("#jiafangbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
+	            	//$("#xgjiafangbumen").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
 	            	$("#seach_department").append("<option value='"+json[i].omId+"'>" + json[i].omName+ "</option>");
             	}
             	$(".zhuangtai").trigger("change");
@@ -1045,7 +1288,7 @@
 	                    }
 	          		});
 	          	}) */
-	          	$('#xgchengjiehetonghao').editableSelect().on('select.editable-select', function (e, dom) {
+	          	/* $('#xgchengjiehetonghao').editableSelect().on('select.editable-select', function (e, dom) {
 	          		$.ajax({
 	                    type: 'POST',
 	                    url: getContextPath()+'/cj/selectCjContractByNo',
@@ -1071,7 +1314,7 @@
 	          				$("#xgtask_no").trigger("change");
 	                    }
 	          		});
-			  	}) 
+			  	})  */
 	        }
 			});
 		}
@@ -1349,6 +1592,7 @@
 	        type: 'POST',
 	        url: getContextPath()+'/subcontract2/selectSubContractById',
 	        dataType: 'json',
+	        async:false,
 	        data:{
 	        	id:id
 	        },
@@ -1361,8 +1605,54 @@
 	    		$("#xgjiafang").val(data.contractNameJia);
 	    		inityifang(data.contractNameYi);
 	    		
-	    		
+	    		$("#xgprjName").val(data.prjName)
+	    		$("#xgtask_no").val(data.workNo)
 	    		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    data: {
+                    	prjNo:data.workNo
+                    },
+                    success: function (json) {
+                    	if(json!=null&&json.length!=0){
+                    		$("#xgjiafangbumen").html('');
+                    		for(var i=0;i<json.length;i++){
+	                        	$("#xgjiafangbumen").append("<option value="+json[i].mainDepartment+">"+json[i].omName+"</option>")
+	                        	if(json[i].assistDepartment1!=null&&json[i].assistDepartment1!=''){
+	                        		$("#xgjiafangbumen").append("<option value="+json[i].assistDepartment1+">"+json[i].name1+"</option>")
+	                        	}
+	                        	if(json[i].assistDepartment2!=null&&json[i].assistDepartment2!=''){
+	                        		$("#xgjiafangbumen").append("<option value="+json[i].assistDepartment2+">"+json[i].name2+"</option>")
+	                        	}
+	                        	if(json[i].assistDepartment3!=null&&json[i].assistDepartment3!=''){
+	                        		$("#xgjiafangbumen").append("<option value="+json[i].assistDepartment3+">"+json[i].name3+"</option>")
+	                        	}
+                    		}
+                    		
+                    	}else{
+                    		$.ajax({
+                                type: 'POST',
+                                url: getContextPath()+'/task2/selectTask2ByNo',
+                                dataType: 'json',
+                                data: {
+                                	no:data.workNo
+                                },
+                                success: function (json2) {
+                                	if(json2!=null&&json2.length!=0){
+           	                    		$("#xgjiafangbumen").html('');
+                                		for(var j=0;j<json2.length;j++){
+            	                        	$("#xgjiafangbumen").append("<option value="+json2[j].omId+">"+json2[j].dName+"</option>")
+                                		}
+                                		//$("#xgjiafangbumen").val(data.mainManageDepartment)
+                                	}
+                                }
+                      		});
+                    	}
+                    }
+          		})
+          		$("#xgjiafangbumen").val(data.mainManageDepartment)
+	    		/* $.ajax({
 	                 type: 'POST',
 	                 url: getContextPath()+'/cj/selectCjContractByNo', 
 	                 dataType: 'json',
@@ -1408,7 +1698,7 @@
 	       		    	}
 	       		    	$("#xgjiafangbumen").val(data.mainManageDepartment)
 	                }
-	      		});
+	      		}); */
 	    		
 	    		$("#xgchengjiehetongName").val(data.cjContractName)
 	    		$("#xgchengjiehetonghao").val(data.cjContractCode)
@@ -1530,10 +1820,10 @@
 				toastr.error("项目名称不能为空");
 				return "项目名称不能为空";
 			}
-			if(xgchengjiehetongName==''||xgchengjiehetongName==null){
+			/* if(xgchengjiehetongName==''||xgchengjiehetongName==null){
 				toastr.error("承接合同名称不能为空");
 				return "承接合同名称不能为空";
-			}
+			} */
 			if(xgyifang==''||xgyifang==null){
 				toastr.error("乙方不能为空");
 				return "乙方不能为空";
@@ -2314,7 +2604,7 @@
 		})  
     })
     
-    $("#xgtask_no").on("change",function(){
+    /* $("#xgtask_no").on("change",function(){
   		$.ajax({
             type: 'POST',
             url: getContextPath()+'/task/selectIdByNo2',
@@ -2337,7 +2627,7 @@
   		    	}
             }
   		});
-  	})
+  	}) */
     
 </script>
 </html>

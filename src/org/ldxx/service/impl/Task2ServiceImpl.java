@@ -78,6 +78,11 @@ public class Task2ServiceImpl implements Task2Service{
 	public Task2 selectTask2ById(String id) {
 		return dao.selectTask2ById(id);
 	}
+
+	@Override
+	public List<Task2> selectTask2ByNo(String no) {
+		return dao.selectTask2ByNo(no);
+	}
 	
 	
 

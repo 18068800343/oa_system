@@ -21,5 +21,7 @@ public interface Task2Dao {
 	public List<Task2> selectTask2ByYear(@Param("y")String y);
 
 	public Task2 selectTask2ById(@Param("id")String id);
+
+	public List<Task2> selectTask2ByNo(@Param("no")String no);
 	
 }

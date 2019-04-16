@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.ldxx.bean.CompanyCost;
 import org.ldxx.bean.SecondCompanyCost;
 import org.ldxx.bean.TDepartment;
+import org.ldxx.bean.Task;
 import org.ldxx.bean.Task2;
 import org.ldxx.dao.CompanyCostDao;
 import org.ldxx.dao.SecondCompanyCostDao;
@@ -19,6 +20,7 @@ import org.ldxx.dao.TDepartmentDao;
 import org.ldxx.dao.Task2Dao;
 import org.ldxx.service.TDepartmentService;
 import org.ldxx.service.Task2Service;
+import org.ldxx.service.TaskService;
 import org.ldxx.util.ImportData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,6 +52,9 @@ public class Task2Controller {
 	private TDepartmentDao tDepartmentDao;
 	@Autowired
 	private CompanyCostDao ccDao;
+	@Autowired
+	private TaskService taskService;
+	
 	@RequestMapping("/importExcel")
 	@ResponseBody
 	public int importExcel(@RequestParam("file") MultipartFile file,String time,HttpServletResponse response,HttpSession session) throws IOException{
@@ -156,4 +161,31 @@ public class Task2Controller {
 		return i;
 	}
 	
+	
+	@RequestMapping("/selectTask2ByNo")
+	@ResponseBody
+	public List<Task2> selectTask2ByNo(String no){
+		return tService.selectTask2ByNo(no);
+	}
+	
+	
+	@RequestMapping("/gettaskAndtask2")
+	@ResponseBody
+	public List<Task> gettaskAndtask2(){
+		List<Task> list = taskService.selectPrjNameAndWorkNo();
+		List<Task2> list2 = tService.selectTask2();
+		if(list2!=null&&list2.size()!=0){
+			for (int i=0;i<list2.size();i++) {
+				Task task=new Task();
+				task.setPrjName(list2.get(i).gettName());
+				task.setPrjNo(list2.get(i).gettNo());
+				task.setContractMoney(list2.get(i).getdMoney());
+				task.setPrjType2(list2.get(i).gettType());
+				task.setMainDepartment(list2.get(i).getOmId());
+				task.setOmName(list2.get(i).getdName());
+				list.add(task);
+			}
+		}
+		return list;
+	}
 }

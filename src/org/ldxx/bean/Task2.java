@@ -16,11 +16,19 @@ public class Task2 {
 	private String tDate;//填报日期
 	private String tDesc;//备注
 	private String dName;//部门
+	private String omId;//部门id
 	private Double dMoney;//金额
 	private Double dIncome;//部门总收入
 	
 	
 	
+	
+	public String getOmId() {
+		return omId;
+	}
+	public void setOmId(String omId) {
+		this.omId = omId;
+	}
 	public Double getdIncome() {
 		return dIncome;
 	}
