@@ -147,12 +147,12 @@ public class OperationTargetController {
 					new_ot.setProfit(0);
 				}
 				if(ot!=null){
-					new_ot.setXqhte(ot.getXqhte()/10000);
-					new_ot.setSr(ot.getSr()/10000);
-					new_ot.setSk(ot.getSk()/10000);
-					new_ot.setZjcb(ot.getZjcb()/10000);
-					new_ot.setJjcb(ot.getJjcb()/10000);
-					new_ot.setLr(ot.getLr()/10000);
+					new_ot.setXqhte(ot.getXqhte());
+					new_ot.setSr(ot.getSr());
+					new_ot.setSk(ot.getSk());
+					new_ot.setZjcb(ot.getZjcb());
+					new_ot.setJjcb(ot.getJjcb());
+					new_ot.setLr(ot.getLr());
 				}
 				if(new_ot!=null){
 					list.add(new_ot);
@@ -378,12 +378,12 @@ public class OperationTargetController {
 				dt.get(i).setCollectionTarget(0);
 				dt.get(i).setProfit(0);
 			}
-			dt.get(i).setXqhte(dt.get(i).getXqhte()/10000);
-			dt.get(i).setSr(dt.get(i).getSr()/10000);
-			dt.get(i).setSk(dt.get(i).getSk()/10000);
-			dt.get(i).setZjcb(dt.get(i).getZjcb()/10000);
-			dt.get(i).setJjcb(dt.get(i).getJjcb()/10000);
-			dt.get(i).setLr(dt.get(i).getLr()/10000);
+			dt.get(i).setXqhte(dt.get(i).getXqhte());
+			dt.get(i).setSr(dt.get(i).getSr());
+			dt.get(i).setSk(dt.get(i).getSk());
+			dt.get(i).setZjcb(dt.get(i).getZjcb());
+			dt.get(i).setJjcb(dt.get(i).getJjcb());
+			dt.get(i).setLr(dt.get(i).getLr());
 		}
 		return dt;
 		/*List<DepartmentTarget> list=dservice.selectDepartmentTarget(id);
@@ -587,12 +587,12 @@ public class OperationTargetController {
 						DepartmentTarget d=dt.get(j);
 						DepartmentTarget d2=dservice.selectDepartmentTargetByYearAndOmId(i+"", user.getOmId());
 						d2.setBmmc(d.getBmmc());
-						d2.setXqhte(d.getXqhte()/10000);
-						d2.setSr(d.getSr()/10000);
-						d2.setSk(d.getSk()/10000);
-						d2.setZjcb(d.getZjcb()/10000);
-						d2.setJjcb(d.getJjcb()/10000);
-						d2.setLr(d.getLr()/10000);
+						d2.setXqhte(d.getXqhte());
+						d2.setSr(d.getSr());
+						d2.setSk(d.getSk());
+						d2.setZjcb(d.getZjcb());
+						d2.setJjcb(d.getJjcb());
+						d2.setLr(d.getLr());
 						dtList.add(d2);
 					}
 				}
