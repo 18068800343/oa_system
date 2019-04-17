@@ -38,9 +38,15 @@
   	</select>
   	
   	<select id="selectTask2ByNo" resultType="Task2">
-  		select a.*,b.om_id from task2 as a
+  		select SUM(d_money) as dMoney2,a.*,b.om_id from task2 as a
   		left join organization_management as b on a.d_name=b.om_name
-  		 where t_no = #{no} limit 1
+  		 where t_no = #{no} GROUP BY t_no
+  	</select>
+  	
+  	<select id="selectDistinctTask2" resultType="Task2">
+  		SELECT SUM(d_money) as dMoney2,a.*,b.om_id FROM (SELECT * FROM task2 ) a 
+  		left join organization_management as b on a.d_name=b.om_name
+  		GROUP BY t_no
   	</select>
   	
 </mapper>

@@ -165,7 +165,16 @@ public class Task2Controller {
 	@RequestMapping("/selectTask2ByNo")
 	@ResponseBody
 	public List<Task2> selectTask2ByNo(String no){
-		return tService.selectTask2ByNo(no);
+		 List<Task2> task2ByNo = tService.selectTask2ByNo(no);
+		 TDepartment td=tDepartmentDao.getDistinctDepartmentIncomeByNo(no);
+		 if(td!=null){
+			 for(int i=0;i<task2ByNo.size();i++){
+				 Double income2 = td.getdIncome2();
+				 Double money2 = task2ByNo.get(i).getdMoney2();
+				 task2ByNo.get(i).setdMoney2(income2+money2);
+			 }
+		 }
+		 return task2ByNo;
 	}
 	
 	
@@ -173,16 +182,38 @@ public class Task2Controller {
 	@ResponseBody
 	public List<Task> gettaskAndtask2(){
 		List<Task> list = taskService.selectPrjNameAndWorkNo();
-		List<Task2> list2 = tService.selectTask2();
+		List<Task2> list2 = task2Dao.selectDistinctTask2();
+		List<TDepartment> list3 = tDepartmentDao.getDistinctDepartmentIncome();
+		
 		if(list2!=null&&list2.size()!=0){
 			for (int i=0;i<list2.size();i++) {
+				for(int a=0;a<list3.size();a++){
+					String no1 = list2.get(i).gettNo();
+					String no2 = list3.get(a).gettNo();
+					if(no1.equals(no2)){
+						list2.get(i).setdMoney2(list2.get(i).getdMoney2()+list3.get(a).getdIncome2());
+						TDepartment tDepartment = list3.get(a);
+						list3.remove(tDepartment);
+					}
+				}
 				Task task=new Task();
 				task.setPrjName(list2.get(i).gettName());
 				task.setPrjNo(list2.get(i).gettNo());
-				task.setContractMoney(list2.get(i).getdMoney());
+				task.setContractMoney(list2.get(i).getdMoney2());
 				task.setPrjType2(list2.get(i).gettType());
 				task.setMainDepartment(list2.get(i).getOmId());
 				task.setOmName(list2.get(i).getdName());
+				list.add(task);
+			}
+		}
+		if(list3!=null&&list3.size()!=0){
+			for(int j=0;j<list3.size();j++){
+				Task task=new Task();
+				task.setPrjName(list3.get(j).gettName());
+				task.setPrjNo(list3.get(j).gettNo());
+				task.setContractMoney(list3.get(j).getdIncome2());
+				task.setMainDepartment(list3.get(j).getOmId());
+				task.setOmName(list3.get(j).getdName());
 				list.add(task);
 			}
 		}

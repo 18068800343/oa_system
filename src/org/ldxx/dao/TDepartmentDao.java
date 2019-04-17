@@ -26,4 +26,8 @@ public interface TDepartmentDao {
 	public int deleteDepartmentByNo(@Param("no")String no);
 	
 	public int deleteDepartmentInComeById(@Param("id")String id);
+
+	public List<TDepartment> getDistinctDepartmentIncome();
+
+	public TDepartment getDistinctDepartmentIncomeByNo(@Param("no")String no);
 }

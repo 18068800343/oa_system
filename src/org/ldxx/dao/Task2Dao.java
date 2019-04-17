@@ -23,5 +23,7 @@ public interface Task2Dao {
 	public Task2 selectTask2ById(@Param("id")String id);
 
 	public List<Task2> selectTask2ByNo(@Param("no")String no);
+
+	public List<Task2> selectDistinctTask2();
 	
 }

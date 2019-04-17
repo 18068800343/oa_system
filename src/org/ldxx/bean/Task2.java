@@ -20,9 +20,15 @@ public class Task2 {
 	private Double dMoney;//金额
 	private Double dIncome;//部门总收入
 	
+	private Double dMoney2;//
 	
 	
-	
+	public Double getdMoney2() {
+		return dMoney2;
+	}
+	public void setdMoney2(Double dMoney2) {
+		this.dMoney2 = dMoney2;
+	}
 	public String getOmId() {
 		return omId;
 	}

@@ -50,4 +50,16 @@
   	<delete id="deleteDepartmentInComeById" parameterType="String">
   		delete from t_department_income where id=#{id}
   	</delete>
+  	
+  	<select id="getDistinctDepartmentIncome" resultType="TDepartment">
+  		SELECT SUM(d_income) as dIncome2,a.*,b.om_id FROM (SELECT * FROM t_department_income )a 
+  		left join organization_management as b on a.d_name=b.om_name
+  		GROUP BY t_no
+  	</select>
+  	
+  	<select id="getDistinctDepartmentIncomeByNo" resultType="TDepartment">
+  		select SUM(d_income) as dIncome2,a.*,b.om_id from t_department_income as a
+  		left join organization_management as b on a.d_name=b.om_name
+  		 where t_no = #{no} GROUP BY t_no
+  	</select>
 </mapper>

@@ -17,6 +17,23 @@ public class TDepartment {
 	private String tName;
 	private String id;
 	
+	private String omId;
+	private Double dIncome2;
+	
+	
+	
+	public String getOmId() {
+		return omId;
+	}
+	public void setOmId(String omId) {
+		this.omId = omId;
+	}
+	public Double getdIncome2() {
+		return dIncome2;
+	}
+	public void setdIncome2(Double dIncome2) {
+		this.dIncome2 = dIncome2;
+	}
 	public String getId() {
 		return id;
 	}
