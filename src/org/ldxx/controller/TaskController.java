@@ -833,7 +833,8 @@ public class TaskController {
 	@RequestMapping("/selectTaskAndChildrenById")
 	@ResponseBody
 	public Task selectTaskAndChildrenById(String id){
-		return tService.selectTaskAndTaskChildrenById(id);
+		Task t = tService.selectTaskAndTaskChildrenById(id);
+		return t;
 	}
 	
 	@RequestMapping("/updateTaskChildrenModeStatusById")
