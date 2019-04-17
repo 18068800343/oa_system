@@ -840,6 +840,7 @@ public class TaskController {
 	@RequestMapping("/updateTaskChildrenModeStatusById")
 	@ResponseBody
 	public int updateTaskChildrenModeStatusById(String id){
+		
 		Task task1=taskDao.selectTaskById(id);
 		List<Task> taskChildren = taskDao.selectTaskAndTaskChildrenByMainPrjNo(task1.getPrjNo(),id);
 		Double mainTaskMoney = task1.getPrjEstimateMoney();
@@ -855,7 +856,6 @@ public class TaskController {
 			example.createCriteria().andModeIdEqualTo(modeId);
 			i= modeStatusMapper.updateByExampleSelective(modeStatus, example);
 			mainTaskMoney = mainTaskMoney-task.getPrjEstimateMoney();
-			mainTaskContractMoney = (Double) (mainTaskContractMoney - task.getContractMoney());
 		}
 		i=taskDao.updateTaskMoneyByIdChaifen(mainTaskMoney, mainTaskContractMoney, id);
 		return i;
