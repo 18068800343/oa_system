@@ -174,7 +174,15 @@ public class FlowUtill {
 					String roleCode = INSTANCE.roleDao.selectRoleById(nodeActors2.getRolecode()).getRoleCode();
 					Iterator<User> iterator = users.iterator();
 					if(roleCode.endsWith("*.")){
-			    		roleCode=roleCode+"r"+deptNo+".";
+						if("r38*.".equals(roleCode)){
+							if(deptNo.equals("20")){
+								roleCode=roleCode+"r60.";
+							}else{
+								roleCode=roleCode+"r41.";
+							}
+						}else{
+							roleCode=roleCode+"r"+deptNo+".";
+						}
 			    	}
 				    while (iterator.hasNext()) {
 				    	User user = iterator.next();
@@ -277,7 +285,15 @@ public class FlowUtill {
 					String roleCode = INSTANCE.roleDao.selectRoleById(nodeActors2.getRolecode()).getRoleCode();
 					Iterator<User> iterator = users.iterator();
 					if(roleCode.endsWith("*.")){
-			    		roleCode=roleCode+"r"+deptNo+".";
+						if("r38*.".equals(roleCode)){
+							if(deptNo.equals("20")){
+								roleCode=roleCode+"r60.";
+							}else{
+								roleCode=roleCode+"r41.";
+							}
+						}else{
+							roleCode=roleCode+"r"+deptNo+".";
+						}
 			    	}
 				    while (iterator.hasNext()) {
 				    	User user = iterator.next();
@@ -447,7 +463,15 @@ public class FlowUtill {
 					String roleCode = INSTANCE.roleDao.selectRoleById(nodeActors2.getRolecode()).getRoleCode();
 					Iterator<User> iterator = users.iterator();
 					if(roleCode.endsWith("*.")){
-			    		roleCode=roleCode+"r"+deptNo+".";
+						if("r38*.".equals(roleCode)){
+							if(deptNo.equals("20")){
+								roleCode=roleCode+"r60.";
+							}else{
+								roleCode=roleCode+"r41.";
+							}
+						}else{
+							roleCode=roleCode+"r"+deptNo+".";
+						}
 			    	}
 				    while (iterator.hasNext()) {
 				    	User user = iterator.next();
@@ -1053,7 +1077,15 @@ public class FlowUtill {
 				String roleCode = INSTANCE.roleDao.selectRoleById(nodeActors2.getRolecode()).getRoleCode();
 				Iterator<User> iterator = users.iterator();
 				if(roleCode.endsWith("*.")){
-		    		roleCode=roleCode+"r"+deptNo+".";
+					if("r38*.".equals(roleCode)){
+						if(deptNo.equals("20")){
+							roleCode=roleCode+"r60.";
+						}else{
+							roleCode=roleCode+"r41.";
+						}
+					}else{
+						roleCode=roleCode+"r"+deptNo+".";
+					}
 		    	}
 			    while (iterator.hasNext()) {
 			    	User user = iterator.next();
