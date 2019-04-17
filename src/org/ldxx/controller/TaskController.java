@@ -1173,7 +1173,7 @@ public class TaskController {
 			String company=t.getPrjCompany();
 			String oldNo=t.getPrjNo();
 			if(oldNo==null||oldNo.equals("")){
-				String gs="";
+				String gs="HT";
 				if("华汇".equals(company)){
 					gs="HH";
 				}
@@ -1186,6 +1186,9 @@ public class TaskController {
 //				int count=tService.typeCount(gs+year);
 //				String prjNo=uuid.getPrjCode(code, count+1);
 //				prjNo=gs+prjNo;
+				if(gs.equals("HT")){
+					gs="";
+				}
 				String prjNo=gs+year+count+code2;
 				i=tService.updateTaskNoById(prjNo, id);
 				t.setPrjNo(prjNo);

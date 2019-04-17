@@ -17,5 +17,4 @@ public class SendSms{
         	RtxsvrapiObj.UnInit();
         	return iRet;
 	}
-	
 }
