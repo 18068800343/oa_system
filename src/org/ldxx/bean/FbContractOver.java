@@ -13,15 +13,15 @@ public class FbContractOver {/*分包结算申请*/
     private String fbContract;//分包单号
     private String fbName;//分包名称
 
-    private float fbMoney;//分包合同金额
+    private Double fbMoney;//分包合同金额
     
-    private float fbEndMoney;//分包结算金额
+    private Double fbEndMoney;//分包结算金额
    /* private String settlementType;//结算类型*/
     
     private String settlementTime;//时间
     
     private String workInfo;
-    private float qianqijyMoney;//前期经营费用
+    private Double qianqijyMoney;//前期经营费用
     private String isKouchu;//是否扣除
     
     private List<Accessory> accessory;
@@ -29,15 +29,15 @@ public class FbContractOver {/*分包结算申请*/
 
     
     
-    public float getFbMoney() {
+    public Double getFbMoney() {
 		return fbMoney;
 	}
 
-	public float getQianqijyMoney() {
+	public Double getQianqijyMoney() {
 		return qianqijyMoney;
 	}
 
-	public void setQianqijyMoney(float qianqijyMoney) {
+	public void setQianqijyMoney(Double qianqijyMoney) {
 		this.qianqijyMoney = qianqijyMoney;
 	}
 
@@ -49,15 +49,15 @@ public class FbContractOver {/*分包结算申请*/
 		this.isKouchu = isKouchu;
 	}
 
-	public void setFbMoney(float fbMoney) {
+	public void setFbMoney(Double fbMoney) {
 		this.fbMoney = fbMoney;
 	}
 
-	public float getFbEndMoney() {
+	public Double getFbEndMoney() {
 		return fbEndMoney;
 	}
 
-	public void setFbEndMoney(float fbEndMoney) {
+	public void setFbEndMoney(Double fbEndMoney) {
 		this.fbEndMoney = fbEndMoney;
 	}
 

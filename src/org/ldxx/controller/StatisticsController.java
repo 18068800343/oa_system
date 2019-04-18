@@ -1496,8 +1496,8 @@ public class StatisticsController {
 	}
 	
 	
-	public float getDepartmentMoney(List<CjContract> cj,String omId){
-		float contractMoney=0;
+	public Double getDepartmentMoney(List<CjContract> cj,String omId){
+		Double contractMoney=(double) 0;
 		for(int i=0;i<cj.size();i++){
 			if(omId.equals(cj.get(i).getMainDepartment())){
 				contractMoney=cj.get(i).getMainDepartmentMoney();

@@ -13,7 +13,7 @@ public class FinancialHk {
 	private String prjName;
 	private String prjNo;
 	private String prjLeader;
-	private float hkMoney;
+	private Double hkMoney;
 	private String hkType;
 	private String hkTime;
 	public String getHkId() {
@@ -40,10 +40,10 @@ public class FinancialHk {
 	public void setPrjLeader(String prjLeader) {
 		this.prjLeader = prjLeader;
 	}
-	public float getHkMoney() {
+	public Double getHkMoney() {
 		return hkMoney;
 	}
-	public void setHkMoney(float hkMoney) {
+	public void setHkMoney(Double hkMoney) {
 		this.hkMoney = hkMoney;
 	}
 	public String getHkType() {

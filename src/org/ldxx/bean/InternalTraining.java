@@ -22,7 +22,7 @@ public class InternalTraining {
 
     private String trainingLocation;
 
-    private float trainingMoney;
+    private Double trainingMoney;
 
     private List<Accessory> accessory;
 
@@ -124,11 +124,11 @@ public class InternalTraining {
 		this.trainingLocation = trainingLocation;
 	}
 
-	public float getTrainingMoney() {
+	public Double getTrainingMoney() {
 		return trainingMoney;
 	}
 
-	public void setTrainingMoney(float trainingMoney) {
+	public void setTrainingMoney(Double trainingMoney) {
 		this.trainingMoney = trainingMoney;
 	}
 

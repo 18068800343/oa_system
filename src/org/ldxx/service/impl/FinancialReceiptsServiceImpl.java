@@ -56,12 +56,12 @@ public class FinancialReceiptsServiceImpl implements FinancialReceiptsService{
 	}
 
 	@Override
-	public float selectResultMoneyBySignTime(String time) {
-		float money=0;
+	public Double selectResultMoneyBySignTime(String time) {
+		Double money=(double) 0;
 		List<FinancialReceipts> fr=dao.selectResultMoneyBySignTime(time);
 		if(fr!=null){
 			for(int i=0;i<fr.size();i++){
-				float resultMoney=fr.get(i).getResultMoney();
+				Double resultMoney=fr.get(i).getResultMoney();
 				money=money+resultMoney;
 			}
 		}

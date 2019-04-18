@@ -25,7 +25,7 @@ public interface FinancialReceiptsService {
 	
 	public FinancialReceipts selectResultMoneyAll(String no);
 	
-	public float selectResultMoneyBySignTime(String time);
+	public Double selectResultMoneyBySignTime(String time);
 	
 	public List<CjContract> selectResultMoneyByCjAndTime(String time);
 	

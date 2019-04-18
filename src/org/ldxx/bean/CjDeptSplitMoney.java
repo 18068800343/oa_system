@@ -19,7 +19,7 @@ public class CjDeptSplitMoney {
 
 	private String id;
 	private String dept;
-	private float money;
+	private Double money;
 	private String year;
 	public String getId() {
 		return id;
@@ -33,10 +33,10 @@ public class CjDeptSplitMoney {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public float getMoney() {
+	public Double getMoney() {
 		return money;
 	}
-	public void setMoney(float money) {
+	public void setMoney(Double money) {
 		this.money = money;
 	}
 	public String getYear() {

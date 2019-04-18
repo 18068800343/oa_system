@@ -19,14 +19,14 @@ public class FinancialReceipts {
 	private String prjLeader;
 	private String htContract;
 	private String contractNo;
-	private float contractMoney;
-	private float contractMoneyEnd;
-	private float totalMoney;
-	private float kpMoney;
+	private Double contractMoney;
+	private Double contractMoneyEnd;
+	private Double totalMoney;
+	private Double kpMoney;
 	private String fpNo;
 	private String collectionTerms;
 	private String prjPlan;
-	private float resultMoney;
+	private Double resultMoney;
 	private String departmentInfo;
 	private String financeInfo;
 	private String status;
@@ -105,28 +105,28 @@ public class FinancialReceipts {
 	public void setHtContract(String htContract) {
 		this.htContract = htContract;
 	}
-	public float getContractMoney() {
+	public Double getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(float contractMoney) {
+	public void setContractMoney(Double contractMoney) {
 		this.contractMoney = contractMoney;
 	}
-	public float getContractMoneyEnd() {
+	public Double getContractMoneyEnd() {
 		return contractMoneyEnd;
 	}
-	public void setContractMoneyEnd(float contractMoneyEnd) {
+	public void setContractMoneyEnd(Double contractMoneyEnd) {
 		this.contractMoneyEnd = contractMoneyEnd;
 	}
-	public float getTotalMoney() {
+	public Double getTotalMoney() {
 		return totalMoney;
 	}
-	public void setTotalMoney(float totalMoney) {
+	public void setTotalMoney(Double totalMoney) {
 		this.totalMoney = totalMoney;
 	}
-	public float getKpMoney() {
+	public Double getKpMoney() {
 		return kpMoney;
 	}
-	public void setKpMoney(float kpMoney) {
+	public void setKpMoney(Double kpMoney) {
 		this.kpMoney = kpMoney;
 	}
 	public String getFpNo() {
@@ -147,10 +147,10 @@ public class FinancialReceipts {
 	public void setPrjPlan(String prjPlan) {
 		this.prjPlan = prjPlan;
 	}
-	public float getResultMoney() {
+	public Double getResultMoney() {
 		return resultMoney;
 	}
-	public void setResultMoney(float resultMoney) {
+	public void setResultMoney(Double resultMoney) {
 		this.resultMoney = resultMoney;
 	}
 	public String getDepartmentInfo() {

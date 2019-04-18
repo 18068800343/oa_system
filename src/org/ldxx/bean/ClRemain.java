@@ -25,8 +25,8 @@ public class ClRemain {
 	private String cmoUnit;
 	private int cmoNumber;
 	private int remainNumber;
-	private float cmoUnitPrice;
-	private float cmoMoney;
+	private Double cmoUnitPrice;
+	private Double cmoMoney;
 	private String pickDate;
 	private outRemain outRemain;
 	private String oldClId;//入库的材料id
@@ -93,16 +93,16 @@ public class ClRemain {
 	public void setRemainNumber(int remainNumber) {
 		this.remainNumber = remainNumber;
 	}
-	public float getCmoUnitPrice() {
+	public Double getCmoUnitPrice() {
 		return cmoUnitPrice;
 	}
-	public void setCmoUnitPrice(float cmoUnitPrice) {
+	public void setCmoUnitPrice(Double cmoUnitPrice) {
 		this.cmoUnitPrice = cmoUnitPrice;
 	}
-	public float getCmoMoney() {
+	public Double getCmoMoney() {
 		return cmoMoney;
 	}
-	public void setCmoMoney(float cmoMoney) {
+	public void setCmoMoney(Double cmoMoney) {
 		this.cmoMoney = cmoMoney;
 	}
 	public String getPickDate() {

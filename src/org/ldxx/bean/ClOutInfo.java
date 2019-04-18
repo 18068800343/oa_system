@@ -22,9 +22,9 @@ public class ClOutInfo {
 	private String modeType;
 	private String unit;
 	private String num;//库存数量
-	private Float price;//单价
+	private Double price;//单价
 	private String lingNum;//认领数量
-	private Float sumPrice;//认领金额
+	private Double sumPrice;//认领金额
 	private String clPrjSupplier;
 	private String clGsSupplier;
 	private String clDesc;
@@ -85,10 +85,10 @@ public class ClOutInfo {
 	public void setClspNamegs(String clspNamegs) {
 		this.clspNamegs = clspNamegs;
 	}
-	public void setPrice(Float price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public void setSumPrice(Float sumPrice) {
+	public void setSumPrice(Double sumPrice) {
 		this.sumPrice = sumPrice;
 	}
 	public outRemain getOutRemain() {
@@ -133,16 +133,16 @@ public class ClOutInfo {
 	public void setNum(String num) {
 		this.num = num;
 	}
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(float price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
-	public float getSumPrice() {
+	public double getSumPrice() {
 		return sumPrice;
 	}
-	public void setSumPrice(float sumPrice) {
+	public void setSumPrice(double sumPrice) {
 		this.sumPrice = sumPrice;
 	}
 	

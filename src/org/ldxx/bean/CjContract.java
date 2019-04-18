@@ -32,16 +32,16 @@ public class CjContract {
 	private String workInfo;
 	private String mainDepartment;
 	private String name;
-	private float mainDepartmentMoney;
+	private Double mainDepartmentMoney;
 	private String assistDepartment1;
 	private String name2;
-	private float assistDepartment1Money;
+	private Double assistDepartment1Money;
 	private String assistDepartment2;
 	private String name3;
-	private float assistDepartment2Money;
+	private Double assistDepartment2Money;
 	private String assistDepartment3;
 	private String name4;
-	private float assistDepartment3Money;
+	private Double assistDepartment3Money;
 	private List<Accessory> accessory;
 	private List<Accessory> accessory2;//法律顾问签字
 	private List<CjSplitMoney> cjSplitMoney;//承接合同拆分金额
@@ -244,10 +244,10 @@ public class CjContract {
 	public void setMainDepartment(String mainDepartment) {
 		this.mainDepartment = mainDepartment;
 	}
-	public float getMainDepartmentMoney() {
+	public Double getMainDepartmentMoney() {
 		return mainDepartmentMoney;
 	}
-	public void setMainDepartmentMoney(float mainDepartmentMoney) {
+	public void setMainDepartmentMoney(Double mainDepartmentMoney) {
 		this.mainDepartmentMoney = mainDepartmentMoney;
 	}
 	public String getAssistDepartment1() {
@@ -256,10 +256,10 @@ public class CjContract {
 	public void setAssistDepartment1(String assistDepartment1) {
 		this.assistDepartment1 = assistDepartment1;
 	}
-	public float getAssistDepartment1Money() {
+	public Double getAssistDepartment1Money() {
 		return assistDepartment1Money;
 	}
-	public void setAssistDepartment1Money(float assistDepartment1Money) {
+	public void setAssistDepartment1Money(Double assistDepartment1Money) {
 		this.assistDepartment1Money = assistDepartment1Money;
 	}
 	public String getAssistDepartment2() {
@@ -268,10 +268,10 @@ public class CjContract {
 	public void setAssistDepartment2(String assistDepartment2) {
 		this.assistDepartment2 = assistDepartment2;
 	}
-	public float getAssistDepartment2Money() {
+	public Double getAssistDepartment2Money() {
 		return assistDepartment2Money;
 	}
-	public void setAssistDepartment2Money(float assistDepartment2Money) {
+	public void setAssistDepartment2Money(Double assistDepartment2Money) {
 		this.assistDepartment2Money = assistDepartment2Money;
 	}
 	public String getAssistDepartment3() {
@@ -280,10 +280,10 @@ public class CjContract {
 	public void setAssistDepartment3(String assistDepartment3) {
 		this.assistDepartment3 = assistDepartment3;
 	}
-	public float getAssistDepartment3Money() {
+	public Double getAssistDepartment3Money() {
 		return assistDepartment3Money;
 	}
-	public void setAssistDepartment3Money(float assistDepartment3Money) {
+	public void setAssistDepartment3Money(Double assistDepartment3Money) {
 		this.assistDepartment3Money = assistDepartment3Money;
 	}
 	@Override
