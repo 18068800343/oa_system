@@ -534,4 +534,19 @@ public class AnnouncementController {
 		List<FbContract> fbContracts=aDao.selectHuankuanFbByTaskNo(taskNo);
 		return fbContracts;
 	}
+	
+	@RequestMapping("/getAnnouncementNum")
+	@ResponseBody
+	public List<Announcement> getAnnouncementNum(HttpSession session){
+		List<Announcement> announcement = service.selectAnnouncement("1","2");
+		String department="%";
+		User u=(User) session.getAttribute("user");
+		String omId=u.getOmId();
+		if(!omId.equals("8187e2b1d153")){
+			department="%"+omId+"%";
+		}
+		List<Announcement> list=service.selectAnnouncement2("2","2",department);
+		announcement.addAll(list); 
+		return announcement;
+	}
 }

@@ -595,6 +595,8 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/quanxian.js"></script>
 <script src="../../js/bootstrap-select.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
 
 <script src="../../js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../js/datatables/dataTables.colVis.min.js"></script>
@@ -628,7 +630,7 @@
     		zhediepanduan=true;
     	}
     })
-    
+    var user;
     $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
     var table=$('#mainContentx').DataTable({
         "deferRender": true,
@@ -698,7 +700,7 @@
 				                		data:{
 				                		},
 				                		success:function(json){
-				                			
+				                			user=json;
 				                			if(json!=null &&json!=""){
 				                				var arr = json.uPermissions.split(',');
 				                				
@@ -936,43 +938,60 @@
     function tuihui(obj){
 		var tr=$(obj).parents("tr");
 		var data=$("#mainContentx").DataTable().row(tr).data();
-		if(!confirm("确认退回？")){
+		/* if(!confirm("确认退回？")){
 			return false;
-		}
-		$.ajax({
-    		type:"post",
-    		url:getContextPath()+"/AlreadySk/deleteAlreadyRenlingById",
-    		dataType: 'json',
-    		data:{
-    			rId:data.rId,
-    		},
-    		success:function(json){
-    			if(json>0){
-    				toastr.success("退回成功")
-    				$("#caiwurenling").modal("hide")
-    				//location.reload([true]);
-    				$.ajax({
-    		    		type:"post",
-    		    		url:getContextPath()+"/AlreadySk/selectAlreadySkBySkno",
-    		    		dataType: 'json',
-    		    		data:{
-    		    			skno:data.skNo,
-    		    		},
-    		    		success:function(json2){
-    		    			var status=2; 
-    		    			if(json2.length=="0"){
-    		    				status=0;
-    		    			}else{
-    		    				status=1;
-    		    			}
-    		    			changeState(data.skNo,status);
-    		    		}
-    		    	});
-    			}else{
-    				toastr.error("退回失败")
-    			}
-    		}
-    	});
+		} */
+		
+		$.SmartMessageBox({
+	            title: "退回提示",
+	            content: "确认退回？",
+	            buttons: '[取消][确定]'
+	        }, function (ButtonPressed) {
+	        	if (ButtonPressed === "确定") {
+	        		if(user.uName==data.thisPerson){
+	        			myTool.mask.show('退回中...');
+		        		$.ajax({
+		            		type:"post",
+		            		url:getContextPath()+"/AlreadySk/deleteAlreadyRenlingById",
+		            		dataType: 'json',
+		            		data:{
+		            			rId:data.rId,
+		            		},
+		            		success:function(json){
+		            			myTool.mask.hide();
+		            			if(json>0){
+		            				toastr.success("退回成功")
+		            				$("#caiwurenling").modal("hide")
+		            				//location.reload([true]);
+		            				$.ajax({
+		            		    		type:"post",
+		            		    		url:getContextPath()+"/AlreadySk/selectAlreadySkBySkno",
+		            		    		dataType: 'json',
+		            		    		data:{
+		            		    			skno:data.skNo,
+		            		    		},
+		            		    		success:function(json2){
+		            		    			var status=2; 
+		            		    			if(json2.length=="0"){
+		            		    				status=0;
+		            		    			}else{
+		            		    				status=1;
+		            		    			}
+		            		    			changeState(data.skNo,status);
+		            		    		}
+		            		    	});
+		            			}else{
+		            				toastr.error("退回失败")
+		            			}
+		            		}
+		            	});
+	        	}else{
+	        			toastr.error("当前登录用户与确认人不一致")
+	        	}
+	        }
+	    });
+		
+		
 		
 	}
     
