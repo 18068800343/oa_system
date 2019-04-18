@@ -17,15 +17,15 @@ public class FinancialReceivables {
 
     private String contractNo;
 
-    private Float contractAmount;
+    private Double contractAmount;
 
-    private Float contractAmount2;
+    private Double contractAmount2;
 
-    private Float cumulativeCollection;
+    private Double cumulativeCollection;
 
-    private Float extendedAmount;
+    private Double extendedAmount;
 
-    private Float extendedAmount2;
+    private Double extendedAmount2;
 
     private String invoiceNo;
 
@@ -35,9 +35,9 @@ public class FinancialReceivables {
 
     private String receivingNode;
 
-    private Float receivingNodeMoney;
+    private Double receivingNodeMoney;
 
-    private Float actualPayment;
+    private Double actualPayment;
 
     private String departmentFeedback;
 
@@ -107,43 +107,43 @@ public class FinancialReceivables {
         this.contractNo = contractNo == null ? null : contractNo.trim();
     }
 
-    public Float getContractAmount() {
+    public Double getContractAmount() {
         return contractAmount;
     }
 
-    public void setContractAmount(Float contractAmount) {
+    public void setContractAmount(Double contractAmount) {
         this.contractAmount = contractAmount;
     }
 
-    public Float getContractAmount2() {
+    public Double getContractAmount2() {
         return contractAmount2;
     }
 
-    public void setContractAmount2(Float contractAmount2) {
+    public void setContractAmount2(Double contractAmount2) {
         this.contractAmount2 = contractAmount2;
     }
 
-    public Float getCumulativeCollection() {
+    public Double getCumulativeCollection() {
         return cumulativeCollection;
     }
 
-    public void setCumulativeCollection(Float cumulativeCollection) {
+    public void setCumulativeCollection(Double cumulativeCollection) {
         this.cumulativeCollection = cumulativeCollection;
     }
 
-    public Float getExtendedAmount() {
+    public Double getExtendedAmount() {
         return extendedAmount;
     }
 
-    public void setExtendedAmount(Float extendedAmount) {
+    public void setExtendedAmount(Double extendedAmount) {
         this.extendedAmount = extendedAmount;
     }
 
-    public Float getExtendedAmount2() {
+    public Double getExtendedAmount2() {
         return extendedAmount2;
     }
 
-    public void setExtendedAmount2(Float extendedAmount2) {
+    public void setExtendedAmount2(Double extendedAmount2) {
         this.extendedAmount2 = extendedAmount2;
     }
 
@@ -179,19 +179,19 @@ public class FinancialReceivables {
         this.receivingNode = receivingNode == null ? null : receivingNode.trim();
     }
 
-    public Float getReceivingNodeMoney() {
+    public Double getReceivingNodeMoney() {
         return receivingNodeMoney;
     }
 
-    public void setReceivingNodeMoney(Float receivingNodeMoney) {
+    public void setReceivingNodeMoney(Double receivingNodeMoney) {
         this.receivingNodeMoney = receivingNodeMoney;
     }
 
-    public Float getActualPayment() {
+    public Double getActualPayment() {
         return actualPayment;
     }
 
-    public void setActualPayment(Float actualPayment) {
+    public void setActualPayment(Double actualPayment) {
         this.actualPayment = actualPayment;
     }
 

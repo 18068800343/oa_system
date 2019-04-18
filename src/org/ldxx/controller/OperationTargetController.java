@@ -238,7 +238,7 @@ public class OperationTargetController {
 							float f=0;
 							if(mon.contains("%")){
 								mon=mon.replaceAll("%", "");
-								f = (Float.valueOf(mon))/100;//换算成小数
+								f = (Double.valueOf(mon))/100;//换算成小数
 							}
 							money1=money1+(f*allIncome);
 						}
@@ -294,7 +294,7 @@ public class OperationTargetController {
 					}else{//查其他合同
 						OtherContract otherContract = ocservice.selectOtherContractByNo(contractNo);
 						if(otherContract!=null){
-							Float contractMoney = otherContract.getContractMoney();//合同金额
+							Double contractMoney = otherContract.getContractMoney();//合同金额
 							String omName2 = otherContract.getOmName();//其他合同的合同部门名称
 							if(omName2!=null){
 								actualMoney=actualMoney+contractMoney;
@@ -400,7 +400,7 @@ public class OperationTargetController {
 				float actualCost=0;//获取部门实际成本
 				PrjProgressFillInfo fillInfo=pService.selectYearCostByDepartment(omName, "%"+year+"%");
 				if(fillInfo!=null){
-					actualCost=Float.valueOf(fillInfo.getMoney());
+					actualCost=Double.valueOf(fillInfo.getMoney());
 				}
 				list.get(i).setActualCost(actualCost);
 				
@@ -437,7 +437,7 @@ public class OperationTargetController {
 						}else{//查其他合同
 							OtherContract otherContract = ocservice.selectOtherContractByNo(contractNo);
 							if(otherContract!=null){
-								Float contractMoney = otherContract.getContractMoney();//合同金额
+								Double contractMoney = otherContract.getContractMoney();//合同金额
 								String omName2 = otherContract.getOmName();//其他合同的合同部门名称
 								if(omName2!=null && omName.equals(omName2)){
 									actualMoney=actualMoney+contractMoney;
@@ -528,7 +528,7 @@ public class OperationTargetController {
 									float f=0;
 									if(mon.contains("%")){
 										mon=mon.replaceAll("%", "");
-										f = (Float.valueOf(mon))/100;//换算成小数
+										f = (Double.valueOf(mon))/100;//换算成小数
 									}
 									money1=money1+(f*allIncome);
 								}

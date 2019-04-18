@@ -674,52 +674,52 @@ public class FinancialReceivablesExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountEqualTo(Float value) {
+        public Criteria andContractAmountEqualTo(Double value) {
             addCriterion("contract_amount =", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountNotEqualTo(Float value) {
+        public Criteria andContractAmountNotEqualTo(Double value) {
             addCriterion("contract_amount <>", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountGreaterThan(Float value) {
+        public Criteria andContractAmountGreaterThan(Double value) {
             addCriterion("contract_amount >", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountGreaterThanOrEqualTo(Float value) {
+        public Criteria andContractAmountGreaterThanOrEqualTo(Double value) {
             addCriterion("contract_amount >=", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountLessThan(Float value) {
+        public Criteria andContractAmountLessThan(Double value) {
             addCriterion("contract_amount <", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountLessThanOrEqualTo(Float value) {
+        public Criteria andContractAmountLessThanOrEqualTo(Double value) {
             addCriterion("contract_amount <=", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountIn(List<Float> values) {
+        public Criteria andContractAmountIn(List<Double> values) {
             addCriterion("contract_amount in", values, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountNotIn(List<Float> values) {
+        public Criteria andContractAmountNotIn(List<Double> values) {
             addCriterion("contract_amount not in", values, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountBetween(Float value1, Float value2) {
+        public Criteria andContractAmountBetween(Double value1, Double value2) {
             addCriterion("contract_amount between", value1, value2, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountNotBetween(Float value1, Float value2) {
+        public Criteria andContractAmountNotBetween(Double value1, Double value2) {
             addCriterion("contract_amount not between", value1, value2, "contractAmount");
             return (Criteria) this;
         }
@@ -734,52 +734,52 @@ public class FinancialReceivablesExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2EqualTo(Float value) {
+        public Criteria andContractAmount2EqualTo(Double value) {
             addCriterion("contract_amount2 =", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2NotEqualTo(Float value) {
+        public Criteria andContractAmount2NotEqualTo(Double value) {
             addCriterion("contract_amount2 <>", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2GreaterThan(Float value) {
+        public Criteria andContractAmount2GreaterThan(Double value) {
             addCriterion("contract_amount2 >", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2GreaterThanOrEqualTo(Float value) {
+        public Criteria andContractAmount2GreaterThanOrEqualTo(Double value) {
             addCriterion("contract_amount2 >=", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2LessThan(Float value) {
+        public Criteria andContractAmount2LessThan(Double value) {
             addCriterion("contract_amount2 <", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2LessThanOrEqualTo(Float value) {
+        public Criteria andContractAmount2LessThanOrEqualTo(Double value) {
             addCriterion("contract_amount2 <=", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2In(List<Float> values) {
+        public Criteria andContractAmount2In(List<Double> values) {
             addCriterion("contract_amount2 in", values, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2NotIn(List<Float> values) {
+        public Criteria andContractAmount2NotIn(List<Double> values) {
             addCriterion("contract_amount2 not in", values, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2Between(Float value1, Float value2) {
+        public Criteria andContractAmount2Between(Double value1, Double value2) {
             addCriterion("contract_amount2 between", value1, value2, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2NotBetween(Float value1, Float value2) {
+        public Criteria andContractAmount2NotBetween(Double value1, Double value2) {
             addCriterion("contract_amount2 not between", value1, value2, "contractAmount2");
             return (Criteria) this;
         }
@@ -794,52 +794,52 @@ public class FinancialReceivablesExample {
             return (Criteria) this;
         }
 
-        public Criteria andCumulativeCollectionEqualTo(Float value) {
+        public Criteria andCumulativeCollectionEqualTo(Double value) {
             addCriterion("cumulative_collection =", value, "cumulativeCollection");
             return (Criteria) this;
         }
 
-        public Criteria andCumulativeCollectionNotEqualTo(Float value) {
+        public Criteria andCumulativeCollectionNotEqualTo(Double value) {
             addCriterion("cumulative_collection <>", value, "cumulativeCollection");
             return (Criteria) this;
         }
 
-        public Criteria andCumulativeCollectionGreaterThan(Float value) {
+        public Criteria andCumulativeCollectionGreaterThan(Double value) {
             addCriterion("cumulative_collection >", value, "cumulativeCollection");
             return (Criteria) this;
         }
 
-        public Criteria andCumulativeCollectionGreaterThanOrEqualTo(Float value) {
+        public Criteria andCumulativeCollectionGreaterThanOrEqualTo(Double value) {
             addCriterion("cumulative_collection >=", value, "cumulativeCollection");
             return (Criteria) this;
         }
 
-        public Criteria andCumulativeCollectionLessThan(Float value) {
+        public Criteria andCumulativeCollectionLessThan(Double value) {
             addCriterion("cumulative_collection <", value, "cumulativeCollection");
             return (Criteria) this;
         }
 
-        public Criteria andCumulativeCollectionLessThanOrEqualTo(Float value) {
+        public Criteria andCumulativeCollectionLessThanOrEqualTo(Double value) {
             addCriterion("cumulative_collection <=", value, "cumulativeCollection");
             return (Criteria) this;
         }
 
-        public Criteria andCumulativeCollectionIn(List<Float> values) {
+        public Criteria andCumulativeCollectionIn(List<Double> values) {
             addCriterion("cumulative_collection in", values, "cumulativeCollection");
             return (Criteria) this;
         }
 
-        public Criteria andCumulativeCollectionNotIn(List<Float> values) {
+        public Criteria andCumulativeCollectionNotIn(List<Double> values) {
             addCriterion("cumulative_collection not in", values, "cumulativeCollection");
             return (Criteria) this;
         }
 
-        public Criteria andCumulativeCollectionBetween(Float value1, Float value2) {
+        public Criteria andCumulativeCollectionBetween(Double value1, Double value2) {
             addCriterion("cumulative_collection between", value1, value2, "cumulativeCollection");
             return (Criteria) this;
         }
 
-        public Criteria andCumulativeCollectionNotBetween(Float value1, Float value2) {
+        public Criteria andCumulativeCollectionNotBetween(Double value1, Double value2) {
             addCriterion("cumulative_collection not between", value1, value2, "cumulativeCollection");
             return (Criteria) this;
         }
@@ -854,52 +854,52 @@ public class FinancialReceivablesExample {
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmountEqualTo(Float value) {
+        public Criteria andExtendedAmountEqualTo(Double value) {
             addCriterion("extended_amount =", value, "extendedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmountNotEqualTo(Float value) {
+        public Criteria andExtendedAmountNotEqualTo(Double value) {
             addCriterion("extended_amount <>", value, "extendedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmountGreaterThan(Float value) {
+        public Criteria andExtendedAmountGreaterThan(Double value) {
             addCriterion("extended_amount >", value, "extendedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmountGreaterThanOrEqualTo(Float value) {
+        public Criteria andExtendedAmountGreaterThanOrEqualTo(Double value) {
             addCriterion("extended_amount >=", value, "extendedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmountLessThan(Float value) {
+        public Criteria andExtendedAmountLessThan(Double value) {
             addCriterion("extended_amount <", value, "extendedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmountLessThanOrEqualTo(Float value) {
+        public Criteria andExtendedAmountLessThanOrEqualTo(Double value) {
             addCriterion("extended_amount <=", value, "extendedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmountIn(List<Float> values) {
+        public Criteria andExtendedAmountIn(List<Double> values) {
             addCriterion("extended_amount in", values, "extendedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmountNotIn(List<Float> values) {
+        public Criteria andExtendedAmountNotIn(List<Double> values) {
             addCriterion("extended_amount not in", values, "extendedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmountBetween(Float value1, Float value2) {
+        public Criteria andExtendedAmountBetween(Double value1, Double value2) {
             addCriterion("extended_amount between", value1, value2, "extendedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmountNotBetween(Float value1, Float value2) {
+        public Criteria andExtendedAmountNotBetween(Double value1, Double value2) {
             addCriterion("extended_amount not between", value1, value2, "extendedAmount");
             return (Criteria) this;
         }
@@ -914,52 +914,52 @@ public class FinancialReceivablesExample {
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmount2EqualTo(Float value) {
+        public Criteria andExtendedAmount2EqualTo(Double value) {
             addCriterion("extended_amount2 =", value, "extendedAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmount2NotEqualTo(Float value) {
+        public Criteria andExtendedAmount2NotEqualTo(Double value) {
             addCriterion("extended_amount2 <>", value, "extendedAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmount2GreaterThan(Float value) {
+        public Criteria andExtendedAmount2GreaterThan(Double value) {
             addCriterion("extended_amount2 >", value, "extendedAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmount2GreaterThanOrEqualTo(Float value) {
+        public Criteria andExtendedAmount2GreaterThanOrEqualTo(Double value) {
             addCriterion("extended_amount2 >=", value, "extendedAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmount2LessThan(Float value) {
+        public Criteria andExtendedAmount2LessThan(Double value) {
             addCriterion("extended_amount2 <", value, "extendedAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmount2LessThanOrEqualTo(Float value) {
+        public Criteria andExtendedAmount2LessThanOrEqualTo(Double value) {
             addCriterion("extended_amount2 <=", value, "extendedAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmount2In(List<Float> values) {
+        public Criteria andExtendedAmount2In(List<Double> values) {
             addCriterion("extended_amount2 in", values, "extendedAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmount2NotIn(List<Float> values) {
+        public Criteria andExtendedAmount2NotIn(List<Double> values) {
             addCriterion("extended_amount2 not in", values, "extendedAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmount2Between(Float value1, Float value2) {
+        public Criteria andExtendedAmount2Between(Double value1, Double value2) {
             addCriterion("extended_amount2 between", value1, value2, "extendedAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andExtendedAmount2NotBetween(Float value1, Float value2) {
+        public Criteria andExtendedAmount2NotBetween(Double value1, Double value2) {
             addCriterion("extended_amount2 not between", value1, value2, "extendedAmount2");
             return (Criteria) this;
         }
@@ -1254,52 +1254,52 @@ public class FinancialReceivablesExample {
             return (Criteria) this;
         }
 
-        public Criteria andReceivingNodeMoneyEqualTo(Float value) {
+        public Criteria andReceivingNodeMoneyEqualTo(Double value) {
             addCriterion("receiving_node_money =", value, "receivingNodeMoney");
             return (Criteria) this;
         }
 
-        public Criteria andReceivingNodeMoneyNotEqualTo(Float value) {
+        public Criteria andReceivingNodeMoneyNotEqualTo(Double value) {
             addCriterion("receiving_node_money <>", value, "receivingNodeMoney");
             return (Criteria) this;
         }
 
-        public Criteria andReceivingNodeMoneyGreaterThan(Float value) {
+        public Criteria andReceivingNodeMoneyGreaterThan(Double value) {
             addCriterion("receiving_node_money >", value, "receivingNodeMoney");
             return (Criteria) this;
         }
 
-        public Criteria andReceivingNodeMoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andReceivingNodeMoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("receiving_node_money >=", value, "receivingNodeMoney");
             return (Criteria) this;
         }
 
-        public Criteria andReceivingNodeMoneyLessThan(Float value) {
+        public Criteria andReceivingNodeMoneyLessThan(Double value) {
             addCriterion("receiving_node_money <", value, "receivingNodeMoney");
             return (Criteria) this;
         }
 
-        public Criteria andReceivingNodeMoneyLessThanOrEqualTo(Float value) {
+        public Criteria andReceivingNodeMoneyLessThanOrEqualTo(Double value) {
             addCriterion("receiving_node_money <=", value, "receivingNodeMoney");
             return (Criteria) this;
         }
 
-        public Criteria andReceivingNodeMoneyIn(List<Float> values) {
+        public Criteria andReceivingNodeMoneyIn(List<Double> values) {
             addCriterion("receiving_node_money in", values, "receivingNodeMoney");
             return (Criteria) this;
         }
 
-        public Criteria andReceivingNodeMoneyNotIn(List<Float> values) {
+        public Criteria andReceivingNodeMoneyNotIn(List<Double> values) {
             addCriterion("receiving_node_money not in", values, "receivingNodeMoney");
             return (Criteria) this;
         }
 
-        public Criteria andReceivingNodeMoneyBetween(Float value1, Float value2) {
+        public Criteria andReceivingNodeMoneyBetween(Double value1, Double value2) {
             addCriterion("receiving_node_money between", value1, value2, "receivingNodeMoney");
             return (Criteria) this;
         }
 
-        public Criteria andReceivingNodeMoneyNotBetween(Float value1, Float value2) {
+        public Criteria andReceivingNodeMoneyNotBetween(Double value1, Double value2) {
             addCriterion("receiving_node_money not between", value1, value2, "receivingNodeMoney");
             return (Criteria) this;
         }
@@ -1314,52 +1314,52 @@ public class FinancialReceivablesExample {
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentEqualTo(Float value) {
+        public Criteria andActualPaymentEqualTo(Double value) {
             addCriterion("actual_payment =", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentNotEqualTo(Float value) {
+        public Criteria andActualPaymentNotEqualTo(Double value) {
             addCriterion("actual_payment <>", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentGreaterThan(Float value) {
+        public Criteria andActualPaymentGreaterThan(Double value) {
             addCriterion("actual_payment >", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentGreaterThanOrEqualTo(Float value) {
+        public Criteria andActualPaymentGreaterThanOrEqualTo(Double value) {
             addCriterion("actual_payment >=", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentLessThan(Float value) {
+        public Criteria andActualPaymentLessThan(Double value) {
             addCriterion("actual_payment <", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentLessThanOrEqualTo(Float value) {
+        public Criteria andActualPaymentLessThanOrEqualTo(Double value) {
             addCriterion("actual_payment <=", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentIn(List<Float> values) {
+        public Criteria andActualPaymentIn(List<Double> values) {
             addCriterion("actual_payment in", values, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentNotIn(List<Float> values) {
+        public Criteria andActualPaymentNotIn(List<Double> values) {
             addCriterion("actual_payment not in", values, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentBetween(Float value1, Float value2) {
+        public Criteria andActualPaymentBetween(Double value1, Double value2) {
             addCriterion("actual_payment between", value1, value2, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentNotBetween(Float value1, Float value2) {
+        public Criteria andActualPaymentNotBetween(Double value1, Double value2) {
             addCriterion("actual_payment not between", value1, value2, "actualPayment");
             return (Criteria) this;
         }

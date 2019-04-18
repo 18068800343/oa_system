@@ -954,52 +954,52 @@ public class FbContractOverWjExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyEqualTo(Float value) {
+        public Criteria andContractMoneyEqualTo(Double value) {
             addCriterion("contract_money =", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotEqualTo(Float value) {
+        public Criteria andContractMoneyNotEqualTo(Double value) {
             addCriterion("contract_money <>", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyGreaterThan(Float value) {
+        public Criteria andContractMoneyGreaterThan(Double value) {
             addCriterion("contract_money >", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andContractMoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("contract_money >=", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyLessThan(Float value) {
+        public Criteria andContractMoneyLessThan(Double value) {
             addCriterion("contract_money <", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyLessThanOrEqualTo(Float value) {
+        public Criteria andContractMoneyLessThanOrEqualTo(Double value) {
             addCriterion("contract_money <=", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyIn(List<Float> values) {
+        public Criteria andContractMoneyIn(List<Double> values) {
             addCriterion("contract_money in", values, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotIn(List<Float> values) {
+        public Criteria andContractMoneyNotIn(List<Double> values) {
             addCriterion("contract_money not in", values, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyBetween(Float value1, Float value2) {
+        public Criteria andContractMoneyBetween(Double value1, Double value2) {
             addCriterion("contract_money between", value1, value2, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotBetween(Float value1, Float value2) {
+        public Criteria andContractMoneyNotBetween(Double value1, Double value2) {
             addCriterion("contract_money not between", value1, value2, "contractMoney");
             return (Criteria) this;
         }
@@ -1014,52 +1014,52 @@ public class FbContractOverWjExample {
             return (Criteria) this;
         }
 
-        public Criteria andProvisionalMoneyEqualTo(Float value) {
+        public Criteria andProvisionalMoneyEqualTo(Double value) {
             addCriterion("provisional_money =", value, "provisionalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andProvisionalMoneyNotEqualTo(Float value) {
+        public Criteria andProvisionalMoneyNotEqualTo(Double value) {
             addCriterion("provisional_money <>", value, "provisionalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andProvisionalMoneyGreaterThan(Float value) {
+        public Criteria andProvisionalMoneyGreaterThan(Double value) {
             addCriterion("provisional_money >", value, "provisionalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andProvisionalMoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andProvisionalMoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("provisional_money >=", value, "provisionalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andProvisionalMoneyLessThan(Float value) {
+        public Criteria andProvisionalMoneyLessThan(Double value) {
             addCriterion("provisional_money <", value, "provisionalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andProvisionalMoneyLessThanOrEqualTo(Float value) {
+        public Criteria andProvisionalMoneyLessThanOrEqualTo(Double value) {
             addCriterion("provisional_money <=", value, "provisionalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andProvisionalMoneyIn(List<Float> values) {
+        public Criteria andProvisionalMoneyIn(List<Double> values) {
             addCriterion("provisional_money in", values, "provisionalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andProvisionalMoneyNotIn(List<Float> values) {
+        public Criteria andProvisionalMoneyNotIn(List<Double> values) {
             addCriterion("provisional_money not in", values, "provisionalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andProvisionalMoneyBetween(Float value1, Float value2) {
+        public Criteria andProvisionalMoneyBetween(Double value1, Double value2) {
             addCriterion("provisional_money between", value1, value2, "provisionalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andProvisionalMoneyNotBetween(Float value1, Float value2) {
+        public Criteria andProvisionalMoneyNotBetween(Double value1, Double value2) {
             addCriterion("provisional_money not between", value1, value2, "provisionalMoney");
             return (Criteria) this;
         }
@@ -1074,52 +1074,52 @@ public class FbContractOverWjExample {
             return (Criteria) this;
         }
 
-        public Criteria andOverWorkMoneyEqualTo(Float value) {
+        public Criteria andOverWorkMoneyEqualTo(Double value) {
             addCriterion("over_work_money =", value, "overWorkMoney");
             return (Criteria) this;
         }
 
-        public Criteria andOverWorkMoneyNotEqualTo(Float value) {
+        public Criteria andOverWorkMoneyNotEqualTo(Double value) {
             addCriterion("over_work_money <>", value, "overWorkMoney");
             return (Criteria) this;
         }
 
-        public Criteria andOverWorkMoneyGreaterThan(Float value) {
+        public Criteria andOverWorkMoneyGreaterThan(Double value) {
             addCriterion("over_work_money >", value, "overWorkMoney");
             return (Criteria) this;
         }
 
-        public Criteria andOverWorkMoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andOverWorkMoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("over_work_money >=", value, "overWorkMoney");
             return (Criteria) this;
         }
 
-        public Criteria andOverWorkMoneyLessThan(Float value) {
+        public Criteria andOverWorkMoneyLessThan(Double value) {
             addCriterion("over_work_money <", value, "overWorkMoney");
             return (Criteria) this;
         }
 
-        public Criteria andOverWorkMoneyLessThanOrEqualTo(Float value) {
+        public Criteria andOverWorkMoneyLessThanOrEqualTo(Double value) {
             addCriterion("over_work_money <=", value, "overWorkMoney");
             return (Criteria) this;
         }
 
-        public Criteria andOverWorkMoneyIn(List<Float> values) {
+        public Criteria andOverWorkMoneyIn(List<Double> values) {
             addCriterion("over_work_money in", values, "overWorkMoney");
             return (Criteria) this;
         }
 
-        public Criteria andOverWorkMoneyNotIn(List<Float> values) {
+        public Criteria andOverWorkMoneyNotIn(List<Double> values) {
             addCriterion("over_work_money not in", values, "overWorkMoney");
             return (Criteria) this;
         }
 
-        public Criteria andOverWorkMoneyBetween(Float value1, Float value2) {
+        public Criteria andOverWorkMoneyBetween(Double value1, Double value2) {
             addCriterion("over_work_money between", value1, value2, "overWorkMoney");
             return (Criteria) this;
         }
 
-        public Criteria andOverWorkMoneyNotBetween(Float value1, Float value2) {
+        public Criteria andOverWorkMoneyNotBetween(Double value1, Double value2) {
             addCriterion("over_work_money not between", value1, value2, "overWorkMoney");
             return (Criteria) this;
         }
@@ -1204,52 +1204,52 @@ public class FbContractOverWjExample {
             return (Criteria) this;
         }
 
-        public Criteria andAllPayMoneyEqualTo(Float value) {
+        public Criteria andAllPayMoneyEqualTo(Double value) {
             addCriterion("all_pay_money =", value, "allPayMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllPayMoneyNotEqualTo(Float value) {
+        public Criteria andAllPayMoneyNotEqualTo(Double value) {
             addCriterion("all_pay_money <>", value, "allPayMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllPayMoneyGreaterThan(Float value) {
+        public Criteria andAllPayMoneyGreaterThan(Double value) {
             addCriterion("all_pay_money >", value, "allPayMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllPayMoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andAllPayMoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("all_pay_money >=", value, "allPayMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllPayMoneyLessThan(Float value) {
+        public Criteria andAllPayMoneyLessThan(Double value) {
             addCriterion("all_pay_money <", value, "allPayMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllPayMoneyLessThanOrEqualTo(Float value) {
+        public Criteria andAllPayMoneyLessThanOrEqualTo(Double value) {
             addCriterion("all_pay_money <=", value, "allPayMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllPayMoneyIn(List<Float> values) {
+        public Criteria andAllPayMoneyIn(List<Double> values) {
             addCriterion("all_pay_money in", values, "allPayMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllPayMoneyNotIn(List<Float> values) {
+        public Criteria andAllPayMoneyNotIn(List<Double> values) {
             addCriterion("all_pay_money not in", values, "allPayMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllPayMoneyBetween(Float value1, Float value2) {
+        public Criteria andAllPayMoneyBetween(Double value1, Double value2) {
             addCriterion("all_pay_money between", value1, value2, "allPayMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllPayMoneyNotBetween(Float value1, Float value2) {
+        public Criteria andAllPayMoneyNotBetween(Double value1, Double value2) {
             addCriterion("all_pay_money not between", value1, value2, "allPayMoney");
             return (Criteria) this;
         }

@@ -18,11 +18,11 @@ public class clfbCgcontractPerformance {
 	private String prjPerson;//项目负责人
 	private String contractYi;//合同乙方
 	private String fbPerson;//分包负责人
-	private Float contractMoney;//合同金额
-	private Float provisionalMoney;//暂定金
-	private Float settlementMoney;//结算金额
+	private Double contractMoney;//合同金额
+	private Double provisionalMoney;//暂定金
+	private Double settlementMoney;//结算金额
 	private String settlementDesc;//结算说明
-	private Float accumulativePaymentMoney;//累计付款
+	private Double accumulativePaymentMoney;//累计付款
 	private String performanceGrade;//履约评级
 	private String performanceDesc;//项目概况及工作内容
 	private String makeTime;
@@ -107,27 +107,27 @@ public class clfbCgcontractPerformance {
 		this.fbPerson = fbPerson;
 	}
 
-	public Float getContractMoney() {
+	public Double getContractMoney() {
 		return contractMoney;
 	}
 
-	public void setContractMoney(Float contractMoney) {
+	public void setContractMoney(Double contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 
-	public Float getProvisionalMoney() {
+	public Double getProvisionalMoney() {
 		return provisionalMoney;
 	}
 
-	public void setProvisionalMoney(Float provisionalMoney) {
+	public void setProvisionalMoney(Double provisionalMoney) {
 		this.provisionalMoney = provisionalMoney;
 	}
 
-	public Float getSettlementMoney() {
+	public Double getSettlementMoney() {
 		return settlementMoney;
 	}
 
-	public void setSettlementMoney(Float settlementMoney) {
+	public void setSettlementMoney(Double settlementMoney) {
 		this.settlementMoney = settlementMoney;
 	}
 
@@ -139,11 +139,11 @@ public class clfbCgcontractPerformance {
 		this.settlementDesc = settlementDesc;
 	}
 
-	public Float getAccumulativePaymentMoney() {
+	public Double getAccumulativePaymentMoney() {
 		return accumulativePaymentMoney;
 	}
 
-	public void setAccumulativePaymentMoney(Float accumulativePaymentMoney) {
+	public void setAccumulativePaymentMoney(Double accumulativePaymentMoney) {
 		this.accumulativePaymentMoney = accumulativePaymentMoney;
 	}
 

@@ -19,7 +19,7 @@ public interface ContractPaymentDao {
 	
 	Pay selectPayByNo(@Param("fbNo")String fbNo);
 
-	int updateGenerationAdvancesMoney(@Param("programMoney")Float programMoney, @Param("id")String id);
+	int updateGenerationAdvancesMoney(@Param("programMoney")Double programMoney, @Param("id")String id);
 
 	Pay getFbPayPlanAndMoney(@Param("no")String no);
 	

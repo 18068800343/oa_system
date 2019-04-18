@@ -674,52 +674,52 @@ public class ContractWorkExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyEqualTo(Float value) {
+        public Criteria andContractMoneyEqualTo(Double value) {
             addCriterion("contract_money =", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotEqualTo(Float value) {
+        public Criteria andContractMoneyNotEqualTo(Double value) {
             addCriterion("contract_money <>", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyGreaterThan(Float value) {
+        public Criteria andContractMoneyGreaterThan(Double value) {
             addCriterion("contract_money >", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andContractMoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("contract_money >=", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyLessThan(Float value) {
+        public Criteria andContractMoneyLessThan(Double value) {
             addCriterion("contract_money <", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyLessThanOrEqualTo(Float value) {
+        public Criteria andContractMoneyLessThanOrEqualTo(Double value) {
             addCriterion("contract_money <=", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyIn(List<Float> values) {
+        public Criteria andContractMoneyIn(List<Double> values) {
             addCriterion("contract_money in", values, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotIn(List<Float> values) {
+        public Criteria andContractMoneyNotIn(List<Double> values) {
             addCriterion("contract_money not in", values, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyBetween(Float value1, Float value2) {
+        public Criteria andContractMoneyBetween(Double value1, Double value2) {
             addCriterion("contract_money between", value1, value2, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotBetween(Float value1, Float value2) {
+        public Criteria andContractMoneyNotBetween(Double value1, Double value2) {
             addCriterion("contract_money not between", value1, value2, "contractMoney");
             return (Criteria) this;
         }
@@ -734,52 +734,52 @@ public class ContractWorkExample {
             return (Criteria) this;
         }
 
-        public Criteria andEndMoneyEqualTo(Float value) {
+        public Criteria andEndMoneyEqualTo(Double value) {
             addCriterion("end_money =", value, "endMoney");
             return (Criteria) this;
         }
 
-        public Criteria andEndMoneyNotEqualTo(Float value) {
+        public Criteria andEndMoneyNotEqualTo(Double value) {
             addCriterion("end_money <>", value, "endMoney");
             return (Criteria) this;
         }
 
-        public Criteria andEndMoneyGreaterThan(Float value) {
+        public Criteria andEndMoneyGreaterThan(Double value) {
             addCriterion("end_money >", value, "endMoney");
             return (Criteria) this;
         }
 
-        public Criteria andEndMoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andEndMoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("end_money >=", value, "endMoney");
             return (Criteria) this;
         }
 
-        public Criteria andEndMoneyLessThan(Float value) {
+        public Criteria andEndMoneyLessThan(Double value) {
             addCriterion("end_money <", value, "endMoney");
             return (Criteria) this;
         }
 
-        public Criteria andEndMoneyLessThanOrEqualTo(Float value) {
+        public Criteria andEndMoneyLessThanOrEqualTo(Double value) {
             addCriterion("end_money <=", value, "endMoney");
             return (Criteria) this;
         }
 
-        public Criteria andEndMoneyIn(List<Float> values) {
+        public Criteria andEndMoneyIn(List<Double> values) {
             addCriterion("end_money in", values, "endMoney");
             return (Criteria) this;
         }
 
-        public Criteria andEndMoneyNotIn(List<Float> values) {
+        public Criteria andEndMoneyNotIn(List<Double> values) {
             addCriterion("end_money not in", values, "endMoney");
             return (Criteria) this;
         }
 
-        public Criteria andEndMoneyBetween(Float value1, Float value2) {
+        public Criteria andEndMoneyBetween(Double value1, Double value2) {
             addCriterion("end_money between", value1, value2, "endMoney");
             return (Criteria) this;
         }
 
-        public Criteria andEndMoneyNotBetween(Float value1, Float value2) {
+        public Criteria andEndMoneyNotBetween(Double value1, Double value2) {
             addCriterion("end_money not between", value1, value2, "endMoney");
             return (Criteria) this;
         }
@@ -794,52 +794,52 @@ public class ContractWorkExample {
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentEqualTo(Float value) {
+        public Criteria andMainDepartmentEqualTo(Double value) {
             addCriterion("main_department =", value, "mainDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentNotEqualTo(Float value) {
+        public Criteria andMainDepartmentNotEqualTo(Double value) {
             addCriterion("main_department <>", value, "mainDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentGreaterThan(Float value) {
+        public Criteria andMainDepartmentGreaterThan(Double value) {
             addCriterion("main_department >", value, "mainDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentGreaterThanOrEqualTo(Float value) {
+        public Criteria andMainDepartmentGreaterThanOrEqualTo(Double value) {
             addCriterion("main_department >=", value, "mainDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentLessThan(Float value) {
+        public Criteria andMainDepartmentLessThan(Double value) {
             addCriterion("main_department <", value, "mainDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentLessThanOrEqualTo(Float value) {
+        public Criteria andMainDepartmentLessThanOrEqualTo(Double value) {
             addCriterion("main_department <=", value, "mainDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentIn(List<Float> values) {
+        public Criteria andMainDepartmentIn(List<Double> values) {
             addCriterion("main_department in", values, "mainDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentNotIn(List<Float> values) {
+        public Criteria andMainDepartmentNotIn(List<Double> values) {
             addCriterion("main_department not in", values, "mainDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentBetween(Float value1, Float value2) {
+        public Criteria andMainDepartmentBetween(Double value1, Double value2) {
             addCriterion("main_department between", value1, value2, "mainDepartment");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentNotBetween(Float value1, Float value2) {
+        public Criteria andMainDepartmentNotBetween(Double value1, Double value2) {
             addCriterion("main_department not between", value1, value2, "mainDepartment");
             return (Criteria) this;
         }
@@ -854,52 +854,52 @@ public class ContractWorkExample {
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney1EqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney1EqualTo(Double value) {
             addCriterion("cooperation_department_money1 =", value, "cooperationDepartmentMoney1");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney1NotEqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney1NotEqualTo(Double value) {
             addCriterion("cooperation_department_money1 <>", value, "cooperationDepartmentMoney1");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney1GreaterThan(Float value) {
+        public Criteria andCooperationDepartmentMoney1GreaterThan(Double value) {
             addCriterion("cooperation_department_money1 >", value, "cooperationDepartmentMoney1");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney1GreaterThanOrEqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney1GreaterThanOrEqualTo(Double value) {
             addCriterion("cooperation_department_money1 >=", value, "cooperationDepartmentMoney1");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney1LessThan(Float value) {
+        public Criteria andCooperationDepartmentMoney1LessThan(Double value) {
             addCriterion("cooperation_department_money1 <", value, "cooperationDepartmentMoney1");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney1LessThanOrEqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney1LessThanOrEqualTo(Double value) {
             addCriterion("cooperation_department_money1 <=", value, "cooperationDepartmentMoney1");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney1In(List<Float> values) {
+        public Criteria andCooperationDepartmentMoney1In(List<Double> values) {
             addCriterion("cooperation_department_money1 in", values, "cooperationDepartmentMoney1");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney1NotIn(List<Float> values) {
+        public Criteria andCooperationDepartmentMoney1NotIn(List<Double> values) {
             addCriterion("cooperation_department_money1 not in", values, "cooperationDepartmentMoney1");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney1Between(Float value1, Float value2) {
+        public Criteria andCooperationDepartmentMoney1Between(Double value1, Double value2) {
             addCriterion("cooperation_department_money1 between", value1, value2, "cooperationDepartmentMoney1");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney1NotBetween(Float value1, Float value2) {
+        public Criteria andCooperationDepartmentMoney1NotBetween(Double value1, Double value2) {
             addCriterion("cooperation_department_money1 not between", value1, value2, "cooperationDepartmentMoney1");
             return (Criteria) this;
         }
@@ -914,52 +914,52 @@ public class ContractWorkExample {
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney2EqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney2EqualTo(Double value) {
             addCriterion("cooperation_department_money2 =", value, "cooperationDepartmentMoney2");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney2NotEqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney2NotEqualTo(Double value) {
             addCriterion("cooperation_department_money2 <>", value, "cooperationDepartmentMoney2");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney2GreaterThan(Float value) {
+        public Criteria andCooperationDepartmentMoney2GreaterThan(Double value) {
             addCriterion("cooperation_department_money2 >", value, "cooperationDepartmentMoney2");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney2GreaterThanOrEqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney2GreaterThanOrEqualTo(Double value) {
             addCriterion("cooperation_department_money2 >=", value, "cooperationDepartmentMoney2");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney2LessThan(Float value) {
+        public Criteria andCooperationDepartmentMoney2LessThan(Double value) {
             addCriterion("cooperation_department_money2 <", value, "cooperationDepartmentMoney2");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney2LessThanOrEqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney2LessThanOrEqualTo(Double value) {
             addCriterion("cooperation_department_money2 <=", value, "cooperationDepartmentMoney2");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney2In(List<Float> values) {
+        public Criteria andCooperationDepartmentMoney2In(List<Double> values) {
             addCriterion("cooperation_department_money2 in", values, "cooperationDepartmentMoney2");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney2NotIn(List<Float> values) {
+        public Criteria andCooperationDepartmentMoney2NotIn(List<Double> values) {
             addCriterion("cooperation_department_money2 not in", values, "cooperationDepartmentMoney2");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney2Between(Float value1, Float value2) {
+        public Criteria andCooperationDepartmentMoney2Between(Double value1, Double value2) {
             addCriterion("cooperation_department_money2 between", value1, value2, "cooperationDepartmentMoney2");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney2NotBetween(Float value1, Float value2) {
+        public Criteria andCooperationDepartmentMoney2NotBetween(Double value1, Double value2) {
             addCriterion("cooperation_department_money2 not between", value1, value2, "cooperationDepartmentMoney2");
             return (Criteria) this;
         }
@@ -974,52 +974,52 @@ public class ContractWorkExample {
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney3EqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney3EqualTo(Double value) {
             addCriterion("cooperation_department_money3 =", value, "cooperationDepartmentMoney3");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney3NotEqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney3NotEqualTo(Double value) {
             addCriterion("cooperation_department_money3 <>", value, "cooperationDepartmentMoney3");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney3GreaterThan(Float value) {
+        public Criteria andCooperationDepartmentMoney3GreaterThan(Double value) {
             addCriterion("cooperation_department_money3 >", value, "cooperationDepartmentMoney3");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney3GreaterThanOrEqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney3GreaterThanOrEqualTo(Double value) {
             addCriterion("cooperation_department_money3 >=", value, "cooperationDepartmentMoney3");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney3LessThan(Float value) {
+        public Criteria andCooperationDepartmentMoney3LessThan(Double value) {
             addCriterion("cooperation_department_money3 <", value, "cooperationDepartmentMoney3");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney3LessThanOrEqualTo(Float value) {
+        public Criteria andCooperationDepartmentMoney3LessThanOrEqualTo(Double value) {
             addCriterion("cooperation_department_money3 <=", value, "cooperationDepartmentMoney3");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney3In(List<Float> values) {
+        public Criteria andCooperationDepartmentMoney3In(List<Double> values) {
             addCriterion("cooperation_department_money3 in", values, "cooperationDepartmentMoney3");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney3NotIn(List<Float> values) {
+        public Criteria andCooperationDepartmentMoney3NotIn(List<Double> values) {
             addCriterion("cooperation_department_money3 not in", values, "cooperationDepartmentMoney3");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney3Between(Float value1, Float value2) {
+        public Criteria andCooperationDepartmentMoney3Between(Double value1, Double value2) {
             addCriterion("cooperation_department_money3 between", value1, value2, "cooperationDepartmentMoney3");
             return (Criteria) this;
         }
 
-        public Criteria andCooperationDepartmentMoney3NotBetween(Float value1, Float value2) {
+        public Criteria andCooperationDepartmentMoney3NotBetween(Double value1, Double value2) {
             addCriterion("cooperation_department_money3 not between", value1, value2, "cooperationDepartmentMoney3");
             return (Criteria) this;
         }
@@ -1034,52 +1034,52 @@ public class ContractWorkExample {
             return (Criteria) this;
         }
 
-        public Criteria andAllReceieveMoneyEqualTo(Float value) {
+        public Criteria andAllReceieveMoneyEqualTo(Double value) {
             addCriterion("all_receieve_money =", value, "allReceieveMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllReceieveMoneyNotEqualTo(Float value) {
+        public Criteria andAllReceieveMoneyNotEqualTo(Double value) {
             addCriterion("all_receieve_money <>", value, "allReceieveMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllReceieveMoneyGreaterThan(Float value) {
+        public Criteria andAllReceieveMoneyGreaterThan(Double value) {
             addCriterion("all_receieve_money >", value, "allReceieveMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllReceieveMoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andAllReceieveMoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("all_receieve_money >=", value, "allReceieveMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllReceieveMoneyLessThan(Float value) {
+        public Criteria andAllReceieveMoneyLessThan(Double value) {
             addCriterion("all_receieve_money <", value, "allReceieveMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllReceieveMoneyLessThanOrEqualTo(Float value) {
+        public Criteria andAllReceieveMoneyLessThanOrEqualTo(Double value) {
             addCriterion("all_receieve_money <=", value, "allReceieveMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllReceieveMoneyIn(List<Float> values) {
+        public Criteria andAllReceieveMoneyIn(List<Double> values) {
             addCriterion("all_receieve_money in", values, "allReceieveMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllReceieveMoneyNotIn(List<Float> values) {
+        public Criteria andAllReceieveMoneyNotIn(List<Double> values) {
             addCriterion("all_receieve_money not in", values, "allReceieveMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllReceieveMoneyBetween(Float value1, Float value2) {
+        public Criteria andAllReceieveMoneyBetween(Double value1, Double value2) {
             addCriterion("all_receieve_money between", value1, value2, "allReceieveMoney");
             return (Criteria) this;
         }
 
-        public Criteria andAllReceieveMoneyNotBetween(Float value1, Float value2) {
+        public Criteria andAllReceieveMoneyNotBetween(Double value1, Double value2) {
             addCriterion("all_receieve_money not between", value1, value2, "allReceieveMoney");
             return (Criteria) this;
         }

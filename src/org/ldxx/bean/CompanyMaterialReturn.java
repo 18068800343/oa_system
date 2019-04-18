@@ -9,14 +9,14 @@ public class CompanyMaterialReturn {
 	private String materialModel;//规格型号
 	private String cmrUnit;//单位
 	private int dealNumber;//处理数量
-	private Float cmrPrice;//采购价格
-	private Float cmrMoney ;//金额
+	private Double cmrPrice;//采购价格
+	private Double cmrMoney ;//金额
 	private String applyPerson;//申请人
 	private String dealReason;//处理原因
 	private String dealMode;//处理方式
-	private Float quasiDiscountMoney;//退货出售金额
-	private Float actualDiscountMoney;//实际退货出售金额
-	private Float costMoney;//成本费用
+	private Double quasiDiscountMoney;//退货出售金额
+	private Double actualDiscountMoney;//实际退货出售金额
+	private Double costMoney;//成本费用
 	private String cmrDesc;
 	
 	
@@ -57,16 +57,16 @@ public class CompanyMaterialReturn {
 	public void setDealNumber(int dealNumber) {
 		this.dealNumber = dealNumber;
 	}
-	public Float getCmrPrice() {
+	public Double getCmrPrice() {
 		return cmrPrice;
 	}
-	public void setCmrPrice(Float cmrPrice) {
+	public void setCmrPrice(Double cmrPrice) {
 		this.cmrPrice = cmrPrice;
 	}
-	public Float getCmrMoney() {
+	public Double getCmrMoney() {
 		return cmrMoney;
 	}
-	public void setCmrMoney(Float cmrMoney) {
+	public void setCmrMoney(Double cmrMoney) {
 		this.cmrMoney = cmrMoney;
 	}
 	public String getApplyPerson() {
@@ -87,22 +87,22 @@ public class CompanyMaterialReturn {
 	public void setDealMode(String dealMode) {
 		this.dealMode = dealMode;
 	}
-	public Float getQuasiDiscountMoney() {
+	public Double getQuasiDiscountMoney() {
 		return quasiDiscountMoney;
 	}
-	public void setQuasiDiscountMoney(Float quasiDiscountMoney) {
+	public void setQuasiDiscountMoney(Double quasiDiscountMoney) {
 		this.quasiDiscountMoney = quasiDiscountMoney;
 	}
-	public Float getActualDiscountMoney() {
+	public Double getActualDiscountMoney() {
 		return actualDiscountMoney;
 	}
-	public void setActualDiscountMoney(Float actualDiscountMoney) {
+	public void setActualDiscountMoney(Double actualDiscountMoney) {
 		this.actualDiscountMoney = actualDiscountMoney;
 	}
-	public Float getCostMoney() {
+	public Double getCostMoney() {
 		return costMoney;
 	}
-	public void setCostMoney(Float costMoney) {
+	public void setCostMoney(Double costMoney) {
 		this.costMoney = costMoney;
 	}
 	public String getCmrDesc() {

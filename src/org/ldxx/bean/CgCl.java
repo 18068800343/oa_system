@@ -12,8 +12,8 @@ public class CgCl {
 	private String clMode;
 	private String clUnit;
 	private String clNumber;
-	private Float clPrice;
-	private Float clMoney;
+	private Double clPrice;
+	private Double clMoney;
 	private String clPrjSupplier;
 	private String clGsSupplier;
 	private String clDesc;
@@ -71,16 +71,16 @@ public class CgCl {
 	public void setClNumber(String clNumber) {
 		this.clNumber = clNumber;
 	}
-	public Float getClPrice() {
+	public Double getClPrice() {
 		return clPrice;
 	}
-	public void setClPrice(Float clPrice) {
+	public void setClPrice(Double clPrice) {
 		this.clPrice = clPrice;
 	}
-	public Float getClMoney() {
+	public Double getClMoney() {
 		return clMoney;
 	}
-	public void setClMoney(Float clMoney) {
+	public void setClMoney(Double clMoney) {
 		this.clMoney = clMoney;
 	}
 	public String getClPrjSupplier() {

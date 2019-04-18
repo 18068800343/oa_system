@@ -17,13 +17,13 @@ public class FlowNode {
 
     private Integer nodeworktype;
 
-    private Float tspanday;
+    private Double tspanday;
 
-    private Float tspanhour;
+    private Double tspanhour;
 
-    private Float warningday;
+    private Double warningday;
 
-    private Float warninghour;
+    private Double warninghour;
 
     private String fwcnodename;
 
@@ -165,35 +165,35 @@ public class FlowNode {
         this.nodeworktype = nodeworktype;
     }
 
-    public Float getTspanday() {
+    public Double getTspanday() {
         return tspanday;
     }
 
-    public void setTspanday(Float tspanday) {
+    public void setTspanday(Double tspanday) {
         this.tspanday = tspanday;
     }
 
-    public Float getTspanhour() {
+    public Double getTspanhour() {
         return tspanhour;
     }
 
-    public void setTspanhour(Float tspanhour) {
+    public void setTspanhour(Double tspanhour) {
         this.tspanhour = tspanhour;
     }
 
-    public Float getWarningday() {
+    public Double getWarningday() {
         return warningday;
     }
 
-    public void setWarningday(Float warningday) {
+    public void setWarningday(Double warningday) {
         this.warningday = warningday;
     }
 
-    public Float getWarninghour() {
+    public Double getWarninghour() {
         return warninghour;
     }
 
-    public void setWarninghour(Float warninghour) {
+    public void setWarninghour(Double warninghour) {
         this.warninghour = warninghour;
     }
 

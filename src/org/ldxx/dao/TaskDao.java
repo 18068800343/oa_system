@@ -79,7 +79,7 @@ public interface TaskDao {
 	
 	public int updateTaskMoneyByIdChaifen(@Param("prjMoney")Double prjMoney,@Param("contractMoney")Double contractMoney,@Param("id")String id);
 
-	public Float getPrjEstimateMoneyByNo(@Param("mainPrjNo")String mainPrjNo);
+	public Double getPrjEstimateMoneyByNo(@Param("mainPrjNo")String mainPrjNo);
 
 	public List<Task> selectTaskAndTaskChildrenByMainPrjNo(@Param("mainPrjNo")String mainPrjNo, @Param("id")String id);
 

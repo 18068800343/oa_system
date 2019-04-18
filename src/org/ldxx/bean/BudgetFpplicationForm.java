@@ -29,13 +29,13 @@ public class BudgetFpplicationForm {
 	private List<BudgetMainMaterial> budgetMainMaterial;//主材料费
 	
     private String ccName;//项目负责人
-    private Float prjEstimateMoney;//任务单金额
+    private Double prjEstimateMoney;//任务单金额
 	
     
-	public Float getPrjEstimateMoney() {
+	public Double getPrjEstimateMoney() {
 		return prjEstimateMoney;
 	}
-	public void setPrjEstimateMoney(Float prjEstimateMoney) {
+	public void setPrjEstimateMoney(Double prjEstimateMoney) {
 		this.prjEstimateMoney = prjEstimateMoney;
 	}
 	public String getPrjMode() {

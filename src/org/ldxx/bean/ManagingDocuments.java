@@ -22,8 +22,8 @@ public class ManagingDocuments {
 	private String prjEndTime;//项目工止期
 	private String biddingPrice;//中标价
 	private String biddingUnit;//中标单位
-	private Float bidPriceLimit;//投标限价
-	private Float prjBudgetPrice;//项目预算价
+	private Double bidPriceLimit;//投标限价
+	private Double prjBudgetPrice;//项目预算价
 	private String bidEvaluationMethod;//评标办法
 	private List<ManagingDocumentsTenderer> managingDocumentsTenderer;//招标人
 	
@@ -186,16 +186,16 @@ public class ManagingDocuments {
 	public void setBiddingUnit(String biddingUnit) {
 		this.biddingUnit = biddingUnit;
 	}
-	public Float getBidPriceLimit() {
+	public Double getBidPriceLimit() {
 		return bidPriceLimit;
 	}
-	public void setBidPriceLimit(Float bidPriceLimit) {
+	public void setBidPriceLimit(Double bidPriceLimit) {
 		this.bidPriceLimit = bidPriceLimit;
 	}
-	public Float getPrjBudgetPrice() {
+	public Double getPrjBudgetPrice() {
 		return prjBudgetPrice;
 	}
-	public void setPrjBudgetPrice(Float prjBudgetPrice) {
+	public void setPrjBudgetPrice(Double prjBudgetPrice) {
 		this.prjBudgetPrice = prjBudgetPrice;
 	}
 	public String getBidEvaluationMethod() {

@@ -584,52 +584,52 @@ public class FlowNodeExample {
             return (Criteria) this;
         }
 
-        public Criteria andTspandayEqualTo(Float value) {
+        public Criteria andTspandayEqualTo(Double value) {
             addCriterion("TSpanDay =", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayNotEqualTo(Float value) {
+        public Criteria andTspandayNotEqualTo(Double value) {
             addCriterion("TSpanDay <>", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayGreaterThan(Float value) {
+        public Criteria andTspandayGreaterThan(Double value) {
             addCriterion("TSpanDay >", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayGreaterThanOrEqualTo(Float value) {
+        public Criteria andTspandayGreaterThanOrEqualTo(Double value) {
             addCriterion("TSpanDay >=", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayLessThan(Float value) {
+        public Criteria andTspandayLessThan(Double value) {
             addCriterion("TSpanDay <", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayLessThanOrEqualTo(Float value) {
+        public Criteria andTspandayLessThanOrEqualTo(Double value) {
             addCriterion("TSpanDay <=", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayIn(List<Float> values) {
+        public Criteria andTspandayIn(List<Double> values) {
             addCriterion("TSpanDay in", values, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayNotIn(List<Float> values) {
+        public Criteria andTspandayNotIn(List<Double> values) {
             addCriterion("TSpanDay not in", values, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayBetween(Float value1, Float value2) {
+        public Criteria andTspandayBetween(Double value1, Double value2) {
             addCriterion("TSpanDay between", value1, value2, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayNotBetween(Float value1, Float value2) {
+        public Criteria andTspandayNotBetween(Double value1, Double value2) {
             addCriterion("TSpanDay not between", value1, value2, "tspanday");
             return (Criteria) this;
         }
@@ -644,52 +644,52 @@ public class FlowNodeExample {
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourEqualTo(Float value) {
+        public Criteria andTspanhourEqualTo(Double value) {
             addCriterion("TSpanHour =", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourNotEqualTo(Float value) {
+        public Criteria andTspanhourNotEqualTo(Double value) {
             addCriterion("TSpanHour <>", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourGreaterThan(Float value) {
+        public Criteria andTspanhourGreaterThan(Double value) {
             addCriterion("TSpanHour >", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourGreaterThanOrEqualTo(Float value) {
+        public Criteria andTspanhourGreaterThanOrEqualTo(Double value) {
             addCriterion("TSpanHour >=", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourLessThan(Float value) {
+        public Criteria andTspanhourLessThan(Double value) {
             addCriterion("TSpanHour <", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourLessThanOrEqualTo(Float value) {
+        public Criteria andTspanhourLessThanOrEqualTo(Double value) {
             addCriterion("TSpanHour <=", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourIn(List<Float> values) {
+        public Criteria andTspanhourIn(List<Double> values) {
             addCriterion("TSpanHour in", values, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourNotIn(List<Float> values) {
+        public Criteria andTspanhourNotIn(List<Double> values) {
             addCriterion("TSpanHour not in", values, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourBetween(Float value1, Float value2) {
+        public Criteria andTspanhourBetween(Double value1, Double value2) {
             addCriterion("TSpanHour between", value1, value2, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourNotBetween(Float value1, Float value2) {
+        public Criteria andTspanhourNotBetween(Double value1, Double value2) {
             addCriterion("TSpanHour not between", value1, value2, "tspanhour");
             return (Criteria) this;
         }
@@ -704,52 +704,52 @@ public class FlowNodeExample {
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayEqualTo(Float value) {
+        public Criteria andWarningdayEqualTo(Double value) {
             addCriterion("WarningDay =", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayNotEqualTo(Float value) {
+        public Criteria andWarningdayNotEqualTo(Double value) {
             addCriterion("WarningDay <>", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayGreaterThan(Float value) {
+        public Criteria andWarningdayGreaterThan(Double value) {
             addCriterion("WarningDay >", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayGreaterThanOrEqualTo(Float value) {
+        public Criteria andWarningdayGreaterThanOrEqualTo(Double value) {
             addCriterion("WarningDay >=", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayLessThan(Float value) {
+        public Criteria andWarningdayLessThan(Double value) {
             addCriterion("WarningDay <", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayLessThanOrEqualTo(Float value) {
+        public Criteria andWarningdayLessThanOrEqualTo(Double value) {
             addCriterion("WarningDay <=", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayIn(List<Float> values) {
+        public Criteria andWarningdayIn(List<Double> values) {
             addCriterion("WarningDay in", values, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayNotIn(List<Float> values) {
+        public Criteria andWarningdayNotIn(List<Double> values) {
             addCriterion("WarningDay not in", values, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayBetween(Float value1, Float value2) {
+        public Criteria andWarningdayBetween(Double value1, Double value2) {
             addCriterion("WarningDay between", value1, value2, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayNotBetween(Float value1, Float value2) {
+        public Criteria andWarningdayNotBetween(Double value1, Double value2) {
             addCriterion("WarningDay not between", value1, value2, "warningday");
             return (Criteria) this;
         }
@@ -764,52 +764,52 @@ public class FlowNodeExample {
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourEqualTo(Float value) {
+        public Criteria andWarninghourEqualTo(Double value) {
             addCriterion("WarningHour =", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourNotEqualTo(Float value) {
+        public Criteria andWarninghourNotEqualTo(Double value) {
             addCriterion("WarningHour <>", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourGreaterThan(Float value) {
+        public Criteria andWarninghourGreaterThan(Double value) {
             addCriterion("WarningHour >", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourGreaterThanOrEqualTo(Float value) {
+        public Criteria andWarninghourGreaterThanOrEqualTo(Double value) {
             addCriterion("WarningHour >=", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourLessThan(Float value) {
+        public Criteria andWarninghourLessThan(Double value) {
             addCriterion("WarningHour <", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourLessThanOrEqualTo(Float value) {
+        public Criteria andWarninghourLessThanOrEqualTo(Double value) {
             addCriterion("WarningHour <=", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourIn(List<Float> values) {
+        public Criteria andWarninghourIn(List<Double> values) {
             addCriterion("WarningHour in", values, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourNotIn(List<Float> values) {
+        public Criteria andWarninghourNotIn(List<Double> values) {
             addCriterion("WarningHour not in", values, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourBetween(Float value1, Float value2) {
+        public Criteria andWarninghourBetween(Double value1, Double value2) {
             addCriterion("WarningHour between", value1, value2, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourNotBetween(Float value1, Float value2) {
+        public Criteria andWarninghourNotBetween(Double value1, Double value2) {
             addCriterion("WarningHour not between", value1, value2, "warninghour");
             return (Criteria) this;
         }

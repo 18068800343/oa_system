@@ -187,7 +187,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			for(int i=0;i<ppi.size();i++){
 				float prjMoney=ppi.get(i).getPrjMoney();
 				String this_income=ppi.get(i).getPrjThisIncome().replace("%", "");
-				float income=Float.valueOf(this_income);
+				float income=Double.valueOf(this_income);
 				float come=prjMoney*income/100;
 				money=money+come;
 			}
@@ -204,7 +204,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 				float contractMoney=list.get(i).getPrjMoney();
 				String income=list.get(i).getPrjThisIncome();
 				income=income.replace("%", "");
-				float bl=Float.valueOf(income);
+				float bl=Double.valueOf(income);
 				money=money+(contractMoney*bl/100);
 			}
 		}
@@ -220,7 +220,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 				float contractMoney=list.get(i).getPrjMoney();
 				String income=list.get(i).getPrjThisIncome();
 				income=income.replace("%", "");
-				float bl=Float.valueOf(income);
+				float bl=Double.valueOf(income);
 				money=money+(contractMoney*bl/100);
 			}
 		}

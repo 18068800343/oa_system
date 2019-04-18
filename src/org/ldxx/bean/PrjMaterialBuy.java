@@ -23,7 +23,7 @@ public class PrjMaterialBuy {
 
     private String applyReason;//申请原因
     
-    private Float sumPrice;//总价格
+    private Double sumPrice;//总价格
     
     private List<MaterialDemand> md;
     
@@ -68,11 +68,11 @@ public class PrjMaterialBuy {
 		this.taskCode = taskCode;
 	}
 
-	public Float getSumPrice() {
+	public Double getSumPrice() {
 		return sumPrice;
 	}
 
-	public void setSumPrice(Float sumPrice) {
+	public void setSumPrice(Double sumPrice) {
 		this.sumPrice = sumPrice;
 	}
 

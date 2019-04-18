@@ -28,7 +28,7 @@ public class BidApproval {
 	private String zhongbiao;
 	private String bdNo;//标段编号
 	private String baDesc;//概述
-	private Float yuguPrjScale;//预估项目规模
+	private Double yuguPrjScale;//预估项目规模
 	private String biaoxunlaiyuan;
 	
 	public String getBiaoxunlaiyuan() {
@@ -37,10 +37,10 @@ public class BidApproval {
 	public void setBiaoxunlaiyuan(String biaoxunlaiyuan) {
 		this.biaoxunlaiyuan = biaoxunlaiyuan;
 	}
-	public Float getYuguPrjScale() {
+	public Double getYuguPrjScale() {
 		return yuguPrjScale;
 	}
-	public void setYuguPrjScale(Float yuguPrjScale) {
+	public void setYuguPrjScale(Double yuguPrjScale) {
 		this.yuguPrjScale = yuguPrjScale;
 	}
 	public String getBaDesc() {

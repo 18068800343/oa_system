@@ -3,7 +3,7 @@ package org.ldxx.bean;
 public class CjSplitMoney {
 	private String cjId;
 	private String year;//拆分年份
-	private Float money;//拆分金额
+	private Double money;//拆分金额
 	
 	
 	public String getCjId() {
@@ -18,10 +18,10 @@ public class CjSplitMoney {
 	public void setYear(String year) {
 		this.year = year;
 	}
-	public Float getMoney() {
+	public Double getMoney() {
 		return money;
 	}
-	public void setMoney(Float money) {
+	public void setMoney(Double money) {
 		this.money = money;
 	}
 }

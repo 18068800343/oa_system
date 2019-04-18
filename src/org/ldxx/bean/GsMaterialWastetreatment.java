@@ -16,7 +16,7 @@ public class GsMaterialWastetreatment {
 	private String applyDate;//申请时间
 	private String dealReason;//处理原因
 	private String dealMode;//处理方式
-	private Float costMoney;//成本费用
+	private Double costMoney;//成本费用
 	private String cmwDesc;
 	private String type;//0:废旧品处理；1：退货
 	private List<GsMaterialWastetreatmentCl> gsMaterialWastetreatmentCl;
@@ -85,10 +85,10 @@ public class GsMaterialWastetreatment {
 		this.dealMode = dealMode;
 	}
 	
-	public Float getCostMoney() {
+	public Double getCostMoney() {
 		return costMoney;
 	}
-	public void setCostMoney(Float costMoney) {
+	public void setCostMoney(Double costMoney) {
 		this.costMoney = costMoney;
 	}
 	public String getCmwDesc() {

@@ -8,10 +8,10 @@ public class GsMaterialWastetreatmentCl {
 	private String materialModel;//规格型号
 	private String unit;//单位
 	private int dealNumber;//处理数量
-	private Float price;//采购单价
-	private Float money ;//金额
-	private Float quasiDiscountMoney;//拟折价出售金额
-	private Float actualDiscountMoney;//实际折价出售金额
+	private Double price;//采购单价
+	private Double money ;//金额
+	private Double quasiDiscountMoney;//拟折价出售金额
+	private Double actualDiscountMoney;//实际折价出售金额
 	
 	
 	public String getCwmclId() {
@@ -50,28 +50,28 @@ public class GsMaterialWastetreatmentCl {
 	public void setDealNumber(int dealNumber) {
 		this.dealNumber = dealNumber;
 	}
-	public Float getPrice() {
+	public Double getPrice() {
 		return price;
 	}
-	public void setPrice(Float price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public Float getMoney() {
+	public Double getMoney() {
 		return money;
 	}
-	public void setMoney(Float money) {
+	public void setMoney(Double money) {
 		this.money = money;
 	}
-	public Float getQuasiDiscountMoney() {
+	public Double getQuasiDiscountMoney() {
 		return quasiDiscountMoney;
 	}
-	public void setQuasiDiscountMoney(Float quasiDiscountMoney) {
+	public void setQuasiDiscountMoney(Double quasiDiscountMoney) {
 		this.quasiDiscountMoney = quasiDiscountMoney;
 	}
-	public Float getActualDiscountMoney() {
+	public Double getActualDiscountMoney() {
 		return actualDiscountMoney;
 	}
-	public void setActualDiscountMoney(Float actualDiscountMoney) {
+	public void setActualDiscountMoney(Double actualDiscountMoney) {
 		this.actualDiscountMoney = actualDiscountMoney;
 	}
 	

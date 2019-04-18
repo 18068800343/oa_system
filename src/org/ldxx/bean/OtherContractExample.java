@@ -534,52 +534,52 @@ public class OtherContractExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyEqualTo(Float value) {
+        public Criteria andContractMoneyEqualTo(Double value) {
             addCriterion("contract_money =", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotEqualTo(Float value) {
+        public Criteria andContractMoneyNotEqualTo(Double value) {
             addCriterion("contract_money <>", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyGreaterThan(Float value) {
+        public Criteria andContractMoneyGreaterThan(Double value) {
             addCriterion("contract_money >", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andContractMoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("contract_money >=", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyLessThan(Float value) {
+        public Criteria andContractMoneyLessThan(Double value) {
             addCriterion("contract_money <", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyLessThanOrEqualTo(Float value) {
+        public Criteria andContractMoneyLessThanOrEqualTo(Double value) {
             addCriterion("contract_money <=", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyIn(List<Float> values) {
+        public Criteria andContractMoneyIn(List<Double> values) {
             addCriterion("contract_money in", values, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotIn(List<Float> values) {
+        public Criteria andContractMoneyNotIn(List<Double> values) {
             addCriterion("contract_money not in", values, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyBetween(Float value1, Float value2) {
+        public Criteria andContractMoneyBetween(Double value1, Double value2) {
             addCriterion("contract_money between", value1, value2, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotBetween(Float value1, Float value2) {
+        public Criteria andContractMoneyNotBetween(Double value1, Double value2) {
             addCriterion("contract_money not between", value1, value2, "contractMoney");
             return (Criteria) this;
         }

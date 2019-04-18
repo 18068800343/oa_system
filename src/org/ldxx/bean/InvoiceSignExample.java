@@ -254,52 +254,52 @@ public class InvoiceSignExample {
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyEqualTo(Float value) {
+        public Criteria andInvoiceMoneyEqualTo(Double value) {
             addCriterion("invoice_money =", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyNotEqualTo(Float value) {
+        public Criteria andInvoiceMoneyNotEqualTo(Double value) {
             addCriterion("invoice_money <>", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyGreaterThan(Float value) {
+        public Criteria andInvoiceMoneyGreaterThan(Double value) {
             addCriterion("invoice_money >", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andInvoiceMoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("invoice_money >=", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyLessThan(Float value) {
+        public Criteria andInvoiceMoneyLessThan(Double value) {
             addCriterion("invoice_money <", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyLessThanOrEqualTo(Float value) {
+        public Criteria andInvoiceMoneyLessThanOrEqualTo(Double value) {
             addCriterion("invoice_money <=", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyIn(List<Float> values) {
+        public Criteria andInvoiceMoneyIn(List<Double> values) {
             addCriterion("invoice_money in", values, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyNotIn(List<Float> values) {
+        public Criteria andInvoiceMoneyNotIn(List<Double> values) {
             addCriterion("invoice_money not in", values, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyBetween(Float value1, Float value2) {
+        public Criteria andInvoiceMoneyBetween(Double value1, Double value2) {
             addCriterion("invoice_money between", value1, value2, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyNotBetween(Float value1, Float value2) {
+        public Criteria andInvoiceMoneyNotBetween(Double value1, Double value2) {
             addCriterion("invoice_money not between", value1, value2, "invoiceMoney");
             return (Criteria) this;
         }

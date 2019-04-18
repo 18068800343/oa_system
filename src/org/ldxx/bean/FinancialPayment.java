@@ -15,13 +15,13 @@ public class FinancialPayment {
 
     private String administration;
 
-    private Float contractAmount;
+    private Double contractAmount;
 
-    private Float contractAmount2;
+    private Double contractAmount2;
 
-    private Float contractPayment;
+    private Double contractPayment;
 
-    private Float collectionRatio;
+    private Double collectionRatio;
 
     private String contractNoSplit;
 
@@ -29,19 +29,19 @@ public class FinancialPayment {
 
     private String secondParty;
 
-    private Float contractAmountSplit;
+    private Double contractAmountSplit;
 
-    private Float contractAmountSplit2;
+    private Double contractAmountSplit2;
 
-    private Float accumulatedPayment;
+    private Double accumulatedPayment;
 
-    private Float invoicedAmount;
+    private Double invoicedAmount;
 
     private String invoiceNumberOther;
 
-    private Float amountReceived;
+    private Double amountReceived;
 
-    private Float actualPayment;
+    private Double actualPayment;
 
     public String getFpId() {
         return fpId;
@@ -99,35 +99,35 @@ public class FinancialPayment {
         this.administration = administration == null ? null : administration.trim();
     }
 
-    public Float getContractAmount() {
+    public Double getContractAmount() {
         return contractAmount;
     }
 
-    public void setContractAmount(Float contractAmount) {
+    public void setContractAmount(Double contractAmount) {
         this.contractAmount = contractAmount;
     }
 
-    public Float getContractAmount2() {
+    public Double getContractAmount2() {
         return contractAmount2;
     }
 
-    public void setContractAmount2(Float contractAmount2) {
+    public void setContractAmount2(Double contractAmount2) {
         this.contractAmount2 = contractAmount2;
     }
 
-    public Float getContractPayment() {
+    public Double getContractPayment() {
         return contractPayment;
     }
 
-    public void setContractPayment(Float contractPayment) {
+    public void setContractPayment(Double contractPayment) {
         this.contractPayment = contractPayment;
     }
 
-    public Float getCollectionRatio() {
+    public Double getCollectionRatio() {
         return collectionRatio;
     }
 
-    public void setCollectionRatio(Float collectionRatio) {
+    public void setCollectionRatio(Double collectionRatio) {
         this.collectionRatio = collectionRatio;
     }
 
@@ -155,35 +155,35 @@ public class FinancialPayment {
         this.secondParty = secondParty == null ? null : secondParty.trim();
     }
 
-    public Float getContractAmountSplit() {
+    public Double getContractAmountSplit() {
         return contractAmountSplit;
     }
 
-    public void setContractAmountSplit(Float contractAmountSplit) {
+    public void setContractAmountSplit(Double contractAmountSplit) {
         this.contractAmountSplit = contractAmountSplit;
     }
 
-    public Float getContractAmountSplit2() {
+    public Double getContractAmountSplit2() {
         return contractAmountSplit2;
     }
 
-    public void setContractAmountSplit2(Float contractAmountSplit2) {
+    public void setContractAmountSplit2(Double contractAmountSplit2) {
         this.contractAmountSplit2 = contractAmountSplit2;
     }
 
-    public Float getAccumulatedPayment() {
+    public Double getAccumulatedPayment() {
         return accumulatedPayment;
     }
 
-    public void setAccumulatedPayment(Float accumulatedPayment) {
+    public void setAccumulatedPayment(Double accumulatedPayment) {
         this.accumulatedPayment = accumulatedPayment;
     }
 
-    public Float getInvoicedAmount() {
+    public Double getInvoicedAmount() {
         return invoicedAmount;
     }
 
-    public void setInvoicedAmount(Float invoicedAmount) {
+    public void setInvoicedAmount(Double invoicedAmount) {
         this.invoicedAmount = invoicedAmount;
     }
 
@@ -195,19 +195,19 @@ public class FinancialPayment {
         this.invoiceNumberOther = invoiceNumberOther == null ? null : invoiceNumberOther.trim();
     }
 
-    public Float getAmountReceived() {
+    public Double getAmountReceived() {
         return amountReceived;
     }
 
-    public void setAmountReceived(Float amountReceived) {
+    public void setAmountReceived(Double amountReceived) {
         this.amountReceived = amountReceived;
     }
 
-    public Float getActualPayment() {
+    public Double getActualPayment() {
         return actualPayment;
     }
 
-    public void setActualPayment(Float actualPayment) {
+    public void setActualPayment(Double actualPayment) {
         this.actualPayment = actualPayment;
     }
 }

@@ -18,8 +18,8 @@ public class CgContract {
 	private String isProgram;// 是否代购
 	private String programType;// 代购类型
 	private String cgcType;// 采购合同类型
-	private Float programMoney;// 代购金额
-	private Float cgContractMoney;// 采购合同金额
+	private Double programMoney;// 代购金额
+	private Double cgContractMoney;// 采购合同金额
 	private String contractNameJia;// 合同甲方名称
 	private String contractNameYi;// 乙方
 	private String payMode;// 付款方式
@@ -30,7 +30,7 @@ public class CgContract {
 	private String history;//历史状态
 	private String fbNo;//关联的分保合同编号
 	private String cgDepartment;//采购部门
-	private Float freight;//运费
+	private Double freight;//运费
 	private String borrowNo;//借款合同号
 	
 	private Double shuilv;//税率
@@ -78,11 +78,11 @@ public class CgContract {
 		this.borrowNo = borrowNo;
 	}
 
-	public Float getFreight() {
+	public Double getFreight() {
 		return freight;
 	}
 
-	public void setFreight(Float freight) {
+	public void setFreight(Double freight) {
 		this.freight = freight;
 	}
 
@@ -206,19 +206,19 @@ public class CgContract {
 		this.cgcType = cgcType;
 	}
 
-	public Float getProgramMoney() {
+	public Double getProgramMoney() {
 		return programMoney;
 	}
 
-	public void setProgramMoney(Float programMoney) {
+	public void setProgramMoney(Double programMoney) {
 		this.programMoney = programMoney;
 	}
 
-	public Float getCgContractMoney() {
+	public Double getCgContractMoney() {
 		return cgContractMoney;
 	}
 
-	public void setCgContractMoney(Float cgContractMoney) {
+	public void setCgContractMoney(Double cgContractMoney) {
 		this.cgContractMoney = cgContractMoney;
 	}
 

@@ -221,7 +221,7 @@ public class PrjProgressFillController {
 		float contractMoney=t.getContractMoney();//合同金额
 		float allCost=pf.getAllCost();//总累计成本
 		float budgetMoney=pf.getBudgetMoneyAll();//总费用预算
-		float allMoney=Float.valueOf(pf.getAllMoney().replace("%", ""));
+		float allMoney=Double.valueOf(pf.getAllMoney().replace("%", ""));
 		float am=allMoney/100;//总累计收入
 		float allValue=am*prjMoney;//累计产值
 		if((allCost/allValue)>(budgetMoney/contractMoney)){
@@ -424,14 +424,14 @@ public class PrjProgressFillController {
 	public Map<String,String> cjBq(String all,String no,String id){
 		Map<String,String> map=new HashMap<>();
 		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
-		float a=Float.valueOf(all.replace("%",""));
+		float a=Double.valueOf(all.replace("%",""));
 		float m=0;
 		if(pf!=null){
 			String ppfId=pf.getPpfId();
 			PrjProgressFillCj cj=service.cjBq(ppfId, id);
 			if(cj!=null){
 				String incomeAll=cj.getIncomeAll();
-				m=Float.valueOf(incomeAll.replace("%",""));
+				m=Double.valueOf(incomeAll.replace("%",""));
 			}
 		}
 		float p=a-m;

@@ -11,21 +11,21 @@ public class Pay {
     
     private String contractNo;//分包合同编号
 
-    private Float contractMoney;//分包合同金额
+    private Double contractMoney;//分包合同金额
 
-    private Float alreadyKpMoney;//已经开票金额
+    private Double alreadyKpMoney;//已经开票金额
     
     private double skMoney;//收款金额
     
     private String skScale;//收款比例
 
-    private Float thisTimeKpMoney;//本次开票金额
+    private Double thisTimeKpMoney;//本次开票金额
 
     private String mainContractCode;//主合同号
 
     private String mainContractName;//主合同名称
 
-    private Float mainContractMoney;//主合同金额
+    private Double mainContractMoney;//主合同金额
 
     private String prjListCode;//任务单号
 
@@ -65,7 +65,7 @@ public class Pay {
     private List<Accessory> accessory2;
     /*private List<Accessory> accessory3;//法律顾问签字*/    
     
-    private Float fbcontractMoney;//分包合同金额
+    private Double fbcontractMoney;//分包合同金额
     private String contractNameYi;//分包合同乙方单位(分包单位)id
     private String ccName;//分包合同乙方单位名称(分包单位)
     private String uName;//编制人               
@@ -143,22 +143,22 @@ public class Pay {
 	public void setContractName(String contractName) {
 		this.contractName = contractName;
 	}
-	public Float getContractMoney() {
+	public Double getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(Float contractMoney) {
+	public void setContractMoney(Double contractMoney) {
 		this.contractMoney = contractMoney;
 	}
-	public Float getAlreadyKpMoney() {
+	public Double getAlreadyKpMoney() {
 		return alreadyKpMoney;
 	}
-	public void setAlreadyKpMoney(Float alreadyKpMoney) {
+	public void setAlreadyKpMoney(Double alreadyKpMoney) {
 		this.alreadyKpMoney = alreadyKpMoney;
 	}
-	public Float getThisTimeKpMoney() {
+	public Double getThisTimeKpMoney() {
 		return thisTimeKpMoney;
 	}
-	public void setThisTimeKpMoney(Float thisTimeKpMoney) {
+	public void setThisTimeKpMoney(Double thisTimeKpMoney) {
 		this.thisTimeKpMoney = thisTimeKpMoney;
 	}
 	public String getMainContractCode() {
@@ -173,10 +173,10 @@ public class Pay {
 	public void setMainContractName(String mainContractName) {
 		this.mainContractName = mainContractName;
 	}
-	public Float getMainContractMoney() {
+	public Double getMainContractMoney() {
 		return mainContractMoney;
 	}
-	public void setMainContractMoney(Float mainContractMoney) {
+	public void setMainContractMoney(Double mainContractMoney) {
 		this.mainContractMoney = mainContractMoney;
 	}
 	public String getPrjListCode() {
@@ -270,10 +270,10 @@ public class Pay {
 	public void setAccessory2(List<Accessory> accessory2) {
 		this.accessory2 = accessory2;
 	}
-	public Float getFbcontractMoney() {
+	public Double getFbcontractMoney() {
 		return fbcontractMoney;
 	}
-	public void setFbcontractMoney(Float fbcontractMoney) {
+	public void setFbcontractMoney(Double fbcontractMoney) {
 		this.fbcontractMoney = fbcontractMoney;
 	}
 	public String getuName() {

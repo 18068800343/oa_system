@@ -19,9 +19,9 @@ public class PrjEndWorkApply {
 
     private String workText;
 
-    private Float contractMoney;
+    private Double contractMoney;
 
-    private Float endMoney;
+    private Double endMoney;
 
     private String otherFilePath;
 
@@ -97,19 +97,19 @@ public class PrjEndWorkApply {
         this.workText = workText == null ? null : workText.trim();
     }
 
-    public Float getContractMoney() {
+    public Double getContractMoney() {
         return contractMoney;
     }
 
-    public void setContractMoney(Float contractMoney) {
+    public void setContractMoney(Double contractMoney) {
         this.contractMoney = contractMoney;
     }
 
-    public Float getEndMoney() {
+    public Double getEndMoney() {
         return endMoney;
     }
 
-    public void setEndMoney(Float endMoney) {
+    public void setEndMoney(Double endMoney) {
         this.endMoney = endMoney;
     }
 

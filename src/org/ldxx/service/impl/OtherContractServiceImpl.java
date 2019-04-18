@@ -82,12 +82,12 @@ public class OtherContractServiceImpl implements OtherContractService{
 	}
 
 	@Override
-	public float selectOtherContractMoneyBySignTime(String time) {
-		float money=0;
+	public Double selectOtherContractMoneyBySignTime(String time) {
+		Double money=(double) 0;
 		List<OtherContract> other=dao.selectOtherContractMoneyBySignTime(time);
 		if(other!=null){
 			for(int i=0;i<other.size();i++){
-				float otherMoney=other.get(i).getContractMoney();
+				Double otherMoney=other.get(i).getContractMoney();
 				money=money+otherMoney;
 			}
 		}
@@ -95,12 +95,12 @@ public class OtherContractServiceImpl implements OtherContractService{
 	}
 
 	@Override
-	public float selectOtherContractMoneyBySignTimeAndDepartment(String time, String department) {
-		float money=0;
+	public Double selectOtherContractMoneyBySignTimeAndDepartment(String time, String department) {
+		Double money=(double) 0;
 		List<OtherContract> other=dao.selectOtherContractMoneyBySignTimeAndDepartment(time, department);
 		if(other!=null){
 			for(int i=0;i<other.size();i++){
-				float contractMoney=other.get(i).getContractMoney();
+				Double contractMoney=other.get(i).getContractMoney();
 				money=money+contractMoney;
 			}
 		}

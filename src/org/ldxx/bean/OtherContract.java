@@ -16,7 +16,7 @@ public class OtherContract {
     private String contractNameYi;
     private String ccName;
 
-    private Float contractMoney;
+    private Double contractMoney;
 
     private String abutmentDepartment;
     private String omName;
@@ -28,7 +28,7 @@ public class OtherContract {
     private String contractProbablyText;
 
     private String abutmentSignedTime;
-    private Float zandingMoney;//暂定金
+    private Double zandingMoney;//暂定金
     
     /*private double rate;
     private double rateMoney;*/
@@ -53,11 +53,11 @@ public class OtherContract {
 		this.rateMoney = rateMoney;
 	}*/
 
-	public Float getZandingMoney() {
+	public Double getZandingMoney() {
 		return zandingMoney;
 	}
 
-	public void setZandingMoney(Float zandingMoney) {
+	public void setZandingMoney(Double zandingMoney) {
 		this.zandingMoney = zandingMoney;
 	}
 
@@ -134,11 +134,11 @@ public class OtherContract {
         this.contractNameYi = contractNameYi == null ? null : contractNameYi.trim();
     }
 
-    public Float getContractMoney() {
+    public Double getContractMoney() {
         return contractMoney;
     }
 
-    public void setContractMoney(Float contractMoney) {
+    public void setContractMoney(Double contractMoney) {
         this.contractMoney = contractMoney;
     }
 

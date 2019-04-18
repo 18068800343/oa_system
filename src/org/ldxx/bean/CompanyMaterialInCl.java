@@ -8,8 +8,8 @@ public class CompanyMaterialInCl {
 	private String clMode;
 	private String clUnit;
 	private String clNumber;
-	private Float  clPrice;
-	private Float  clMoney;			//金额=数量*单价
+	private Double  clPrice;
+	private Double  clMoney;			//金额=数量*单价
 	private String clPrjSupplier;
 	private String clGsSupplier;
 	private String clDesc;
@@ -92,16 +92,16 @@ public class CompanyMaterialInCl {
 	public void setClNumber(String clNumber) {
 		this.clNumber = clNumber;
 	}
-	public Float getClPrice() {
+	public Double getClPrice() {
 		return clPrice;
 	}
-	public void setClPrice(Float clPrice) {
+	public void setClPrice(Double clPrice) {
 		this.clPrice = clPrice;
 	}
-	public Float getClMoney() {
+	public Double getClMoney() {
 		return clMoney;
 	}
-	public void setClMoney(Float clMoney) {
+	public void setClMoney(Double clMoney) {
 		this.clMoney = clMoney;
 	}
 	public String getClPrjSupplier() {

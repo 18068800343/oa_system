@@ -5,7 +5,7 @@ public class InvoiceSign {
 
     private String invoiceDate;
 
-    private Float invoiceMoney;
+    private Double invoiceMoney;
 
     private String invoiceType;
 
@@ -45,11 +45,11 @@ public class InvoiceSign {
         this.invoiceDate = invoiceDate == null ? null : invoiceDate.trim();
     }
 
-    public Float getInvoiceMoney() {
+    public Double getInvoiceMoney() {
         return invoiceMoney;
     }
 
-    public void setInvoiceMoney(Float invoiceMoney) {
+    public void setInvoiceMoney(Double invoiceMoney) {
         this.invoiceMoney = invoiceMoney;
     }
 

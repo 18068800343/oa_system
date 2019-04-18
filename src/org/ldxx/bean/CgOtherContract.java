@@ -15,7 +15,7 @@ public class CgOtherContract {
 	private String workNo;// 任务单号
 	private String prjName;//项目名称
 	private String cgocType;// 采购合同类型
-	private Float CgoContractMoney;// 采购合同金额
+	private Double CgoContractMoney;// 采购合同金额
 	private String contractNameJia;// 合同甲方名称
 	private String contractNameYi;// 乙方
 	private String payMode;// 付款方式
@@ -25,7 +25,7 @@ public class CgOtherContract {
 	private String makeTime; //当前时间
 	private String history;//历史状态
 	private String cgoDepartment;//采购部门
-	private Float freight;//运费
+	private Double freight;//运费
 	private Double shuilv;//税率
 	private Double shuijin;//税金
 	    
@@ -99,11 +99,11 @@ public class CgOtherContract {
 		this.cgocType = cgocType;
 	}
 
-	public Float getCgoContractMoney() {
+	public Double getCgoContractMoney() {
 		return CgoContractMoney;
 	}
 
-	public void setCgoContractMoney(Float cgoContractMoney) {
+	public void setCgoContractMoney(Double cgoContractMoney) {
 		CgoContractMoney = cgoContractMoney;
 	}
 
@@ -179,11 +179,11 @@ public class CgOtherContract {
 		this.cgoDepartment = cgoDepartment;
 	}
 
-	public Float getFreight() {
+	public Double getFreight() {
 		return freight;
 	}
 
-	public void setFreight(Float freight) {
+	public void setFreight(Double freight) {
 		this.freight = freight;
 	}
 

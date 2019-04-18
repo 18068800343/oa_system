@@ -1164,52 +1164,52 @@ public class TaskExample {
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyEqualTo(Float value) {
+        public Criteria andMainDepartmentMoneyEqualTo(Double value) {
             addCriterion("main_department_money =", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyNotEqualTo(Float value) {
+        public Criteria andMainDepartmentMoneyNotEqualTo(Double value) {
             addCriterion("main_department_money <>", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyGreaterThan(Float value) {
+        public Criteria andMainDepartmentMoneyGreaterThan(Double value) {
             addCriterion("main_department_money >", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andMainDepartmentMoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("main_department_money >=", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyLessThan(Float value) {
+        public Criteria andMainDepartmentMoneyLessThan(Double value) {
             addCriterion("main_department_money <", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyLessThanOrEqualTo(Float value) {
+        public Criteria andMainDepartmentMoneyLessThanOrEqualTo(Double value) {
             addCriterion("main_department_money <=", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyIn(List<Float> values) {
+        public Criteria andMainDepartmentMoneyIn(List<Double> values) {
             addCriterion("main_department_money in", values, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyNotIn(List<Float> values) {
+        public Criteria andMainDepartmentMoneyNotIn(List<Double> values) {
             addCriterion("main_department_money not in", values, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyBetween(Float value1, Float value2) {
+        public Criteria andMainDepartmentMoneyBetween(Double value1, Double value2) {
             addCriterion("main_department_money between", value1, value2, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyNotBetween(Float value1, Float value2) {
+        public Criteria andMainDepartmentMoneyNotBetween(Double value1, Double value2) {
             addCriterion("main_department_money not between", value1, value2, "mainDepartmentMoney");
             return (Criteria) this;
         }
@@ -1294,52 +1294,52 @@ public class TaskExample {
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyEqualTo(Float value) {
+        public Criteria andAssistDepartment1MoneyEqualTo(Double value) {
             addCriterion("assist_department1_money =", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyNotEqualTo(Float value) {
+        public Criteria andAssistDepartment1MoneyNotEqualTo(Double value) {
             addCriterion("assist_department1_money <>", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyGreaterThan(Float value) {
+        public Criteria andAssistDepartment1MoneyGreaterThan(Double value) {
             addCriterion("assist_department1_money >", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andAssistDepartment1MoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("assist_department1_money >=", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyLessThan(Float value) {
+        public Criteria andAssistDepartment1MoneyLessThan(Double value) {
             addCriterion("assist_department1_money <", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyLessThanOrEqualTo(Float value) {
+        public Criteria andAssistDepartment1MoneyLessThanOrEqualTo(Double value) {
             addCriterion("assist_department1_money <=", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyIn(List<Float> values) {
+        public Criteria andAssistDepartment1MoneyIn(List<Double> values) {
             addCriterion("assist_department1_money in", values, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyNotIn(List<Float> values) {
+        public Criteria andAssistDepartment1MoneyNotIn(List<Double> values) {
             addCriterion("assist_department1_money not in", values, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyBetween(Float value1, Float value2) {
+        public Criteria andAssistDepartment1MoneyBetween(Double value1, Double value2) {
             addCriterion("assist_department1_money between", value1, value2, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyNotBetween(Float value1, Float value2) {
+        public Criteria andAssistDepartment1MoneyNotBetween(Double value1, Double value2) {
             addCriterion("assist_department1_money not between", value1, value2, "assistDepartment1Money");
             return (Criteria) this;
         }
@@ -1424,52 +1424,52 @@ public class TaskExample {
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyEqualTo(Float value) {
+        public Criteria andAssistDepartment2MoneyEqualTo(Double value) {
             addCriterion("assist_department2_money =", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyNotEqualTo(Float value) {
+        public Criteria andAssistDepartment2MoneyNotEqualTo(Double value) {
             addCriterion("assist_department2_money <>", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyGreaterThan(Float value) {
+        public Criteria andAssistDepartment2MoneyGreaterThan(Double value) {
             addCriterion("assist_department2_money >", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andAssistDepartment2MoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("assist_department2_money >=", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyLessThan(Float value) {
+        public Criteria andAssistDepartment2MoneyLessThan(Double value) {
             addCriterion("assist_department2_money <", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyLessThanOrEqualTo(Float value) {
+        public Criteria andAssistDepartment2MoneyLessThanOrEqualTo(Double value) {
             addCriterion("assist_department2_money <=", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyIn(List<Float> values) {
+        public Criteria andAssistDepartment2MoneyIn(List<Double> values) {
             addCriterion("assist_department2_money in", values, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyNotIn(List<Float> values) {
+        public Criteria andAssistDepartment2MoneyNotIn(List<Double> values) {
             addCriterion("assist_department2_money not in", values, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyBetween(Float value1, Float value2) {
+        public Criteria andAssistDepartment2MoneyBetween(Double value1, Double value2) {
             addCriterion("assist_department2_money between", value1, value2, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyNotBetween(Float value1, Float value2) {
+        public Criteria andAssistDepartment2MoneyNotBetween(Double value1, Double value2) {
             addCriterion("assist_department2_money not between", value1, value2, "assistDepartment2Money");
             return (Criteria) this;
         }
@@ -1554,52 +1554,52 @@ public class TaskExample {
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyEqualTo(Float value) {
+        public Criteria andAssistDepartment3MoneyEqualTo(Double value) {
             addCriterion("assist_department3_money =", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyNotEqualTo(Float value) {
+        public Criteria andAssistDepartment3MoneyNotEqualTo(Double value) {
             addCriterion("assist_department3_money <>", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyGreaterThan(Float value) {
+        public Criteria andAssistDepartment3MoneyGreaterThan(Double value) {
             addCriterion("assist_department3_money >", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyGreaterThanOrEqualTo(Float value) {
+        public Criteria andAssistDepartment3MoneyGreaterThanOrEqualTo(Double value) {
             addCriterion("assist_department3_money >=", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyLessThan(Float value) {
+        public Criteria andAssistDepartment3MoneyLessThan(Double value) {
             addCriterion("assist_department3_money <", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyLessThanOrEqualTo(Float value) {
+        public Criteria andAssistDepartment3MoneyLessThanOrEqualTo(Double value) {
             addCriterion("assist_department3_money <=", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyIn(List<Float> values) {
+        public Criteria andAssistDepartment3MoneyIn(List<Double> values) {
             addCriterion("assist_department3_money in", values, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyNotIn(List<Float> values) {
+        public Criteria andAssistDepartment3MoneyNotIn(List<Double> values) {
             addCriterion("assist_department3_money not in", values, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyBetween(Float value1, Float value2) {
+        public Criteria andAssistDepartment3MoneyBetween(Double value1, Double value2) {
             addCriterion("assist_department3_money between", value1, value2, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyNotBetween(Float value1, Float value2) {
+        public Criteria andAssistDepartment3MoneyNotBetween(Double value1, Double value2) {
             addCriterion("assist_department3_money not between", value1, value2, "assistDepartment3Money");
             return (Criteria) this;
         }

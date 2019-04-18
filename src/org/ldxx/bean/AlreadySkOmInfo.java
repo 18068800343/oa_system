@@ -10,7 +10,7 @@ public class AlreadySkOmInfo {
 	private String rId;//已认领收款信息id
 	private String omId;//部门id
 	private String omName;//部门名
-	private Float omAlreadyMoney;//部门实际收款金额 
+	private Double omAlreadyMoney;//部门实际收款金额 
 	private String time;
 	private String operatorPerson;//操作人
 	
@@ -39,10 +39,10 @@ public class AlreadySkOmInfo {
 	public void setOmName(String omName) {
 		this.omName = omName;
 	}
-	public Float getOmAlreadyMoney() {
+	public Double getOmAlreadyMoney() {
 		return omAlreadyMoney;
 	}
-	public void setOmAlreadyMoney(Float omAlreadyMoney) {
+	public void setOmAlreadyMoney(Double omAlreadyMoney) {
 		this.omAlreadyMoney = omAlreadyMoney;
 	}
 	public String getTime() {

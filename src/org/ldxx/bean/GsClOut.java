@@ -23,10 +23,10 @@ public class GsClOut {
 	private String materialType;//材料类型
 	private String specificationModel;//规格型号
 	private String cmoUnit;//单位
-	private Float cmoUnitPrice;//单价
+	private Double cmoUnitPrice;//单价
 	private int cmoNumber;// 出库总数量
 	private int remainNumber;//剩余数量
-	private Float cmoMoney;//出库的金额
+	private Double cmoMoney;//出库的金额
 	private String pickDate;//领料日期
 	
 	public String getGsId() {
@@ -83,16 +83,16 @@ public class GsClOut {
 	public void setRemainNumber(int remainNumber) {
 		this.remainNumber = remainNumber;
 	}
-	public Float getCmoUnitPrice() {
+	public Double getCmoUnitPrice() {
 		return cmoUnitPrice;
 	}
-	public void setCmoUnitPrice(Float cmoUnitPrice) {
+	public void setCmoUnitPrice(Double cmoUnitPrice) {
 		this.cmoUnitPrice = cmoUnitPrice;
 	}
-	public Float getCmoMoney() {
+	public Double getCmoMoney() {
 		return cmoMoney;
 	}
-	public void setCmoMoney(Float cmoMoney) {
+	public void setCmoMoney(Double cmoMoney) {
 		this.cmoMoney = cmoMoney;
 	}
 	

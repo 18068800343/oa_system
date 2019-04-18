@@ -32,7 +32,7 @@ public class CompanyMateriaIn {
 	private List<ClRemain> clremain;//公司结余材料信息
 	
 	private String isProgram;// 是否代购
-	private Float programMoney;// 代购金额
+	private Double programMoney;// 代购金额
 
 
 	public String getIsProgram() {
@@ -43,11 +43,11 @@ public class CompanyMateriaIn {
 		this.isProgram = isProgram;
 	}
 
-	public Float getProgramMoney() {
+	public Double getProgramMoney() {
 		return programMoney;
 	}
 
-	public void setProgramMoney(Float programMoney) {
+	public void setProgramMoney(Double programMoney) {
 		this.programMoney = programMoney;
 	}
 

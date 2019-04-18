@@ -37,7 +37,7 @@ public class Task {
 
     private Double provisionalSum;
     
-    private Float guanliMoney;//管理费
+    private Double guanliMoney;//管理费
 
     private String prjStartTime;
 
@@ -146,11 +146,11 @@ public class Task {
     private String lxTime;//立项时间
     
     
-	public Float getGuanliMoney() {
+	public Double getGuanliMoney() {
 		return guanliMoney;
 	}
 
-	public void setGuanliMoney(Float guanliMoney) {
+	public void setGuanliMoney(Double guanliMoney) {
 		this.guanliMoney = guanliMoney;
 	}
 

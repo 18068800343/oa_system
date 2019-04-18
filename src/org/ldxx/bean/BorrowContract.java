@@ -11,12 +11,12 @@ public class BorrowContract {
 	private String ccName;// 乙方单位名称
 	private String cjNo;// 主合同号
 	private String fbNo;// 分包合同号
-	private Float thisBorrowMoney;// 本次借款金额
+	private Double thisBorrowMoney;// 本次借款金额
 	private String interestPaymentMethod;// 利息支付方式
 	private String rate;//利率
 	private String borrowTime;// 借款开始时间
 	private String borrowEndTime;// 借款结束时间
-	private Float accumulatedBorrowingMoney;// 乙方累计借款额
+	private Double accumulatedBorrowingMoney;// 乙方累计借款额
 	private String borrowingPurposes;// 借款用途
 	private String makeTime; // 当前时间
 	private String history;// 历史状态
@@ -121,11 +121,11 @@ public class BorrowContract {
 		this.fbNo = fbNo;
 	}
 
-	public Float getThisBorrowMoney() {
+	public Double getThisBorrowMoney() {
 		return thisBorrowMoney;
 	}
 
-	public void setThisBorrowMoney(Float thisBorrowMoney) {
+	public void setThisBorrowMoney(Double thisBorrowMoney) {
 		this.thisBorrowMoney = thisBorrowMoney;
 	}
 
@@ -145,11 +145,11 @@ public class BorrowContract {
 		this.borrowTime = borrowTime;
 	}
 
-	public Float getAccumulatedBorrowingMoney() {
+	public Double getAccumulatedBorrowingMoney() {
 		return accumulatedBorrowingMoney;
 	}
 
-	public void setAccumulatedBorrowingMoney(Float accumulatedBorrowingMoney) {
+	public void setAccumulatedBorrowingMoney(Double accumulatedBorrowingMoney) {
 		this.accumulatedBorrowingMoney = accumulatedBorrowingMoney;
 	}
 
