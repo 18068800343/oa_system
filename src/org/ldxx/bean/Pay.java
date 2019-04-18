@@ -35,13 +35,13 @@ public class Pay {
 
     private String ifContractDoCost;//是否进行合同履约结算
 
-    private Float contractDoCostMoney;//合同履约结算金额
+    private Double contractDoCostMoney;//合同履约结算金额
 
-    private Float alreadyAccumulateMoney;//已累计进付金额
+    private Double alreadyAccumulateMoney;//已累计进付金额
 
-    private Float GenerationAdvancesMoney; //付款申请代垫款
+    private Double GenerationAdvancesMoney; //付款申请代垫款
     
-    private Float thisTimeAskMoney;//本次申请付款
+    private Double thisTimeAskMoney;//本次申请付款
 
     private String payMethod;//付款性质
 
@@ -113,10 +113,10 @@ public class Pay {
 	public void setContractNo(String contractNo) {
 		this.contractNo = contractNo;
 	}
-	public Float getGenerationAdvancesMoney() {
+	public Double getGenerationAdvancesMoney() {
 		return GenerationAdvancesMoney;
 	}
-	public void setGenerationAdvancesMoney(Float generationAdvancesMoney) {
+	public void setGenerationAdvancesMoney(Double generationAdvancesMoney) {
 		GenerationAdvancesMoney = generationAdvancesMoney;
 	}
 	public String getContractNameYi() {
@@ -203,22 +203,22 @@ public class Pay {
 	public void setIfContractDoCost(String ifContractDoCost) {
 		this.ifContractDoCost = ifContractDoCost;
 	}
-	public Float getContractDoCostMoney() {
+	public Double getContractDoCostMoney() {
 		return contractDoCostMoney;
 	}
-	public void setContractDoCostMoney(Float contractDoCostMoney) {
+	public void setContractDoCostMoney(Double contractDoCostMoney) {
 		this.contractDoCostMoney = contractDoCostMoney;
 	}
-	public Float getAlreadyAccumulateMoney() {
+	public Double getAlreadyAccumulateMoney() {
 		return alreadyAccumulateMoney;
 	}
-	public void setAlreadyAccumulateMoney(Float alreadyAccumulateMoney) {
+	public void setAlreadyAccumulateMoney(Double alreadyAccumulateMoney) {
 		this.alreadyAccumulateMoney = alreadyAccumulateMoney;
 	}
-	public Float getThisTimeAskMoney() {
+	public Double getThisTimeAskMoney() {
 		return thisTimeAskMoney;
 	}
-	public void setThisTimeAskMoney(Float thisTimeAskMoney) {
+	public void setThisTimeAskMoney(Double thisTimeAskMoney) {
 		this.thisTimeAskMoney = thisTimeAskMoney;
 	}
 	public String getPayMethod() {

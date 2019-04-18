@@ -19,10 +19,10 @@ public class BudgetFpplicationForm {
 	private String declarer;//申报人
 	private String makeTime;//填报时间
 	private String state;//数据状态：0 历史数据 ； 1 最新数据
-	private Float allCost;//总预算金额
+	private Double allCost;//总预算金额
 	private String department;//负责部门id
 	private String omName;//部门名称
-	private Float allMainMaterialMoney;//主材料总费用
+	private Double allMainMaterialMoney;//主材料总费用
 	
 	private List<CostBudget> costBudget;//材料费用
 	private List<ArtificialBudget> artificialBudget;//人工费用
@@ -44,10 +44,10 @@ public class BudgetFpplicationForm {
 	public void setPrjMode(String prjMode) {
 		this.prjMode = prjMode;
 	}
-	public Float getAllMainMaterialMoney() {
+	public Double getAllMainMaterialMoney() {
 		return allMainMaterialMoney;
 	}
-	public void setAllMainMaterialMoney(Float allMainMaterialMoney) {
+	public void setAllMainMaterialMoney(Double allMainMaterialMoney) {
 		this.allMainMaterialMoney = allMainMaterialMoney;
 	}
 	public List<BudgetMainMaterial> getBudgetMainMaterial() {
@@ -68,10 +68,10 @@ public class BudgetFpplicationForm {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	public Float getAllCost() {
+	public Double getAllCost() {
 		return allCost;
 	}
-	public void setAllCost(Float allCost) {
+	public void setAllCost(Double allCost) {
 		this.allCost = allCost;
 	}
 	public String getBfNo() {

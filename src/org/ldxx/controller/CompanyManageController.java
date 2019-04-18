@@ -105,9 +105,9 @@ public class CompanyManageController {
 				 Double allContractMoney=cu.getMoney();//新签合同金额
 				 
 				 List<CjContract> cj=cService.selectNoAndMoneyByDepartment(omId,y);
-				 float temporaryMoney=0;//暂定金
+				 Double temporaryMoney=(double) 0;//暂定金
 				 for(int ii=0;ii<cj.size();ii++){
-					 float zdMoney=cj.get(ii).getTemporaryMoney();
+					 Double zdMoney=cj.get(ii).getTemporaryMoney();
 					 temporaryMoney=temporaryMoney+zdMoney;
 				 }
 				 AlreadyRenling ar=aService.selectDeptRenlingByStartAndEndTime(startTime, endTime, omName);

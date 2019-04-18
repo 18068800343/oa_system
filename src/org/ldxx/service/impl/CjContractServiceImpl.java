@@ -169,12 +169,12 @@ public class CjContractServiceImpl implements CjContractService{
 	}
 
 	@Override
-	public float selectCjContractMoneyBySignTime(String time) {
-		float money=0;
+	public Double selectCjContractMoneyBySignTime(String time) {
+		Double money=(double) 0;
 		List<CjContract> cj=dao.selectCjContractMoneyBySignTime(time);
 		if(cj!=null){
 			for(int i=0;i<cj.size();i++){
-				float contractMoney=cj.get(i).getContractMoney();
+				Double contractMoney=cj.get(i).getContractMoney();
 				money=money+contractMoney;
 			}
 		}

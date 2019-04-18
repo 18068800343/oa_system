@@ -188,12 +188,12 @@ public class ceshi {
 						String yezhu=getValue(colum6);
 						String info=getValue(colum7);
 						System.out.println(prjNo);
-						float m=0;
+						Double m=(double) 0;
 						if(money!=""){
 							BigDecimal bigDecimal = new BigDecimal(money);
 							BigDecimal bigDecimal2 = new BigDecimal("10000");
 							BigDecimal bigDecimalMultiply = bigDecimal.multiply(bigDecimal2);
-							m = (float) bigDecimalMultiply.doubleValue();
+							m = (Double) bigDecimalMultiply.doubleValue();
 						}
 						String cjId=uuid.getTimeUUID();
 						cj.setCjId(cjId);

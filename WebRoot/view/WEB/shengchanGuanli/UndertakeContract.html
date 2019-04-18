@@ -605,9 +605,11 @@
 	                                <td>公路等级</td>
 	                                <td>
 	                                	<select class="form-control" style="width:70%;"  id="prj_grade2">
+	                                        <option>高速</option>
 	                                        <option>一级</option>
 	                                        <option>二级</option>
 	                                        <option>三级</option>
+	                                        <option>其他</option>
 	                                    </select>
 	                                </td>
 	                            </tr>
@@ -3404,6 +3406,8 @@
   			$("#allMsg1").modal("show");
   		}
   		
+  		var page_task;
+  		
   		function look2(obj){
   			var tr=$(obj).parents("tr");
   			var data=$('#mainContent2').DataTable().row(tr).data();
@@ -3459,6 +3463,7 @@
             	prjNo:data.prjCode
             },
             success: function (json) {
+            	page_task = json;
 				$("#look_abcd").html('');		            	
                 for(var i=0;i<json.length;i++){
                 	$("#look_abcd").append('<table class="table table-bordered table-condensed" id="look_task_table'+(i+1)+'">'
@@ -3766,6 +3771,20 @@
   			window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
   		}
   		
+  		function endMoneyBlur(json){
+  		$("#end_money2").on('blur',function(){
+  			var dom = $(this).val();
+  			setTaskMoney(json,dom);
+  		});
+  		}
+  		
+  		function setTaskMoney(json,dom){
+  			if(json.length==1){
+  				$("#taskMoney1").val(dom);
+  				$("#mainDepartMoney1").val(dom);
+  			}
+  		} 
+  		
   		function save2(){
   			
   			var prjCode=$("#prj_no").val();
@@ -3823,7 +3842,7 @@
 	  			var prjId=$(this).find("tr").eq(0).find("input").eq(0).attr("data");
 	  			var prjNo=$(this).find("tr").eq(0).find("input").eq(0).val();
 	  			var prjMoney=$(this).find("tr").eq(0).find("input").eq(1).val();
-	  			allPrjMoney=parseInt(allPrjMoney)+parseInt(prjMoney);
+	  			allPrjMoney=parseFloat(allPrjMoney)+parseFloat(prjMoney);
 				var mainDept=$(this).find("tr").eq(1).find("select").eq(0).val();
 				var mainDeptMoney=$(this).find("tr").eq(1).find("input").eq(0).val();
 				var mainDeptCost=$(this).find("tr").eq(1).find("input").eq(1).val();
@@ -3857,7 +3876,7 @@
 					xb3Dept='';
 				}
 				
-				if(parseInt(mainDeptMoney)+parseInt(xbDeptMoney)+parseInt(xb2DeptMoney)+parseInt(xb3DeptMoney)!=prjMoney){
+				if(parseFloat(mainDeptMoney)+parseFloat(xbDeptMoney)+parseFloat(xb2DeptMoney)+parseFloat(xb3DeptMoney)!=prjMoney){
 					flag=1;
 					return;
 				}
@@ -4012,7 +4031,7 @@
 	  			var prjId=$(this).find("tr").eq(0).find("input").eq(0).attr("data");
 	  			var prjNo=$(this).find("tr").eq(0).find("input").eq(0).val();
 	  			var prjMoney=$(this).find("tr").eq(0).find("input").eq(1).val();
-	  			allPrjMoney=parseInt(allPrjMoney)+parseInt(prjMoney);
+	  			allPrjMoney=parseFloat(allPrjMoney)+parseFloat(prjMoney);
 				var mainDept=$(this).find("tr").eq(1).find("select").eq(0).val();
 				var mainDeptMoney=$(this).find("tr").eq(1).find("input").eq(0).val();
 				var mainDeptCost=$(this).find("tr").eq(1).find("input").eq(1).val();
@@ -4046,7 +4065,7 @@
 					xb3Dept='';
 				}
 				
-				if(parseInt(mainDeptMoney)+parseInt(xbDeptMoney)+parseInt(xb2DeptMoney)+parseInt(xb3DeptMoney)!=prjMoney){
+				if(parseFloat(mainDeptMoney)+parseFloat(xbDeptMoney)+parseFloat(xb2DeptMoney)+parseFloat(xb3DeptMoney)!=prjMoney){
 					flag=1;
 					return;
 				}
@@ -4283,7 +4302,7 @@
 	  			var prjId=$(this).find("tr").eq(0).find("input").eq(0).attr("data");
 	  			var prjNo=$(this).find("tr").eq(0).find("input").eq(0).val();
 	  			var prjMoney=$(this).find("tr").eq(0).find("input").eq(1).val();
-	  			allPrjMoney=parseInt(allPrjMoney)+parseInt(prjMoney);
+	  			allPrjMoney=parseFloat(allPrjMoney)+parseFloat(prjMoney);
 				var mainDept=$(this).find("tr").eq(1).find("select").eq(0).val();
 				var mainDeptMoney=$(this).find("tr").eq(1).find("input").eq(0).val();
 				var mainDeptCost=$(this).find("tr").eq(1).find("input").eq(1).val();
@@ -4317,7 +4336,7 @@
 					xb3Dept='';
 				}
 				
-				if(parseInt(mainDeptMoney)+parseInt(xbDeptMoney)+parseInt(xb2DeptMoney)+parseInt(xb3DeptMoney)!=prjMoney){
+				if(parseFloat(mainDeptMoney)+parseFloat(xbDeptMoney)+parseFloat(xb2DeptMoney)+parseFloat(xb3DeptMoney)!=prjMoney){
 					flag=1;
 					return;
 				}
@@ -4457,7 +4476,7 @@
 	  			var prjId=$(this).find("tr").eq(0).find("input").eq(0).attr("data");
 	  			var prjNo=$(this).find("tr").eq(0).find("input").eq(0).val();
 	  			var prjMoney=$(this).find("tr").eq(0).find("input").eq(1).val();
-	  			allPrjMoney=parseInt(allPrjMoney)+parseInt(prjMoney);
+	  			allPrjMoney=parseFloat(allPrjMoney)+parseFloat(prjMoney);
 				var mainDept=$(this).find("tr").eq(1).find("select").eq(0).val();
 				var mainDeptMoney=$(this).find("tr").eq(1).find("input").eq(0).val();
 				var mainDeptCost=$(this).find("tr").eq(1).find("input").eq(1).val();
@@ -4491,7 +4510,7 @@
 					xb3Dept='';
 				}
 				
-				if(parseInt(mainDeptMoney)+parseInt(xbDeptMoney)+parseInt(xb2DeptMoney)+parseInt(xb3DeptMoney)!=prjMoney){
+				if(parseFloat(mainDeptMoney)+parseFloat(xbDeptMoney)+parseFloat(xb2DeptMoney)+parseFloat(xb3DeptMoney)!=prjMoney){
 					flag=1;
 					return;
 				}
@@ -4738,13 +4757,14 @@
 		            	prjNo:data.taskCode
 		            },
 		            success: function (json) {
+		            	endMoneyBlur(json);
 						$("#abcd").html('');		            	
 		                for(var i=0;i<json.length;i++){
 		                	$("#abcd").append('<table class="table table-bordered table-condensed" id="task_table'+(i+1)+'">'
 									                            +'<thead>'
 									                            +'<tr>'
 									                            	 +'<th style="width:30%;">任务单号：<input type="text" class="form-control" data='+json[i].prjId+' style="width:60%;" value='+json[i].prjNo+' disabled></th>'
-									                                 +'<th style="width:55%;">任务金额：<input type="text" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+'></th>'
+									                                 +'<th style="width:55%;">任务金额：<input type="text" id="taskMoney'+(i+1)+'" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+'></th>'
 									                                 +'<th><button type="button" class="btn btn-primary" data="task_table'+(i+1)+'" onclick="addBumen2(this)">添加协办</button></th>'
 									                            +' </tr>'
 									                      	+' </thead>'
@@ -4758,7 +4778,7 @@
 				                                +'     <form class="form-inline">'
 				                                   +'      <select class="form-control" style="width:180px;" id="task_main'+(i+1)+'">'
 				                                   +'      </select>'
-				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额" value='+json[i].mainDepartmentMoney+'>'
+				                                   +'      <input type="text" class="form-control" style="width:150px;" id="mainDepartMoney'+(i+1)+'" placeholder="金额" value='+json[i].mainDepartmentMoney+'>'
 				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例" onchange="appendBfh(this)"  value='+json[i].mainDepartmentCost+'>'
 				                                   +'  </form>'
 				                               +'  </td>'

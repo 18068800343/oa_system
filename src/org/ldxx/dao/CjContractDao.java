@@ -65,7 +65,7 @@ public interface CjContractDao {
 
 	public CjContract selectCjContractLikeTaskNo(@Param("no")String no);
 	
-	public int updateCjContractMoney(@Param("no")String no,@Param("money")float money);
+	public int updateCjContractMoney(@Param("no")String no,@Param("money")Double money);
 	
 	public CjContract selectCjContractLikeTaskCode(@Param("no")String no);
 	

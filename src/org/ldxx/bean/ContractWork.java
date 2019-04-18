@@ -21,11 +21,11 @@ public class ContractWork {
     
     private String rating;
 
-    private Float contractMoney;
+    private Double contractMoney;
 
-    private Float endMoney;
+    private Double endMoney;
 
-    private Float allReceieveMoney;
+    private Double allReceieveMoney;
 
     private String prjChargeMan;
 
@@ -237,27 +237,27 @@ public class ContractWork {
 		this.workText = workText;
 	}
 
-	public Float getContractMoney() {
+	public Double getContractMoney() {
 		return contractMoney;
 	}
 
-	public void setContractMoney(Float contractMoney) {
+	public void setContractMoney(Double contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 
-	public Float getEndMoney() {
+	public Double getEndMoney() {
 		return endMoney;
 	}
 
-	public void setEndMoney(Float endMoney) {
+	public void setEndMoney(Double endMoney) {
 		this.endMoney = endMoney;
 	}
 
-	public Float getAllReceieveMoney() {
+	public Double getAllReceieveMoney() {
 		return allReceieveMoney;
 	}
 
-	public void setAllReceieveMoney(Float allReceieveMoney) {
+	public void setAllReceieveMoney(Double allReceieveMoney) {
 		this.allReceieveMoney = allReceieveMoney;
 	}
 

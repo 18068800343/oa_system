@@ -145,8 +145,8 @@ public class KpApplicationController {
 	
 	@RequestMapping("/getAllMoney")
 	@ResponseBody
-	public float getAllMoney(String contractNo,String prjNo){
-		float all=service.getAllMoney(contractNo, prjNo);
+	public Double getAllMoney(String contractNo,String prjNo){
+		Double all=service.getAllMoney(contractNo, prjNo);
 		return all;
 	}
 	
@@ -176,20 +176,20 @@ public class KpApplicationController {
 	public Map<String,Object> getPrjPlan(String nos,String contractNo){
 		Map<String,Object> map=new HashMap<String, Object>();
 		String jindu="";
-		float jd=0; 
+		Double jd=(double) 0; 
 		if(nos.indexOf(",")>0){
-			float sumMoney=0;
+			Double sumMoney=(double) 0;
 			CjContract cj=cService.selectCjContractByNo(contractNo);
-			float contractMoney=cj.getContractMoney();
+			Double contractMoney=cj.getContractMoney();
 			for(int i=0;i<nos.split(",").length;i++){
 				PrjProgressFill pf=pService.selectLastPrjProgressFill(nos.split(",")[i]);
 				Task t=tService.selectIdByNo(nos.split(",")[i]);
 				Double prjMoney=t.getPrjEstimateMoney();
 				String allMoney=pf.getAllMoney().replace("%", "");
-				float am=Float.valueOf(allMoney);
-				sumMoney=(float) (sumMoney+(prjMoney*am)/100);
+				Double am=Double.valueOf(allMoney);
+				sumMoney=(Double) (sumMoney+(prjMoney*am)/100);
 			}
-			float jd2=(sumMoney/contractMoney)*100;
+			Double jd2=(sumMoney/contractMoney)*100;
 			jindu=jd2+"%";
 		}else{
 			PrjProgressFill pf=pService.selectLastPrjProgressFill(nos);

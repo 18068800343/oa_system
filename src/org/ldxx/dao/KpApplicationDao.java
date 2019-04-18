@@ -11,7 +11,7 @@ public interface KpApplicationDao {
 	
 	public List<KpApplication> selectKpApplication(@Param("status")String status);
 	
-	public float getAllMoney(@Param("contractNo")String contractNo,@Param("prjNo")String prjNo);
+	public Double getAllMoney(@Param("contractNo")String contractNo,@Param("prjNo")String prjNo);
 	
 	public int buleFpNo(@Param("no")String no,@Param("id")String id);
 	

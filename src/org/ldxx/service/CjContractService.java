@@ -44,7 +44,7 @@ public interface CjContractService {
 	
 	public List<CjContract> selectNoAndMoneyByDepartment(String department,String year);
 	
-	public float selectCjContractMoneyBySignTime(String time);
+	public Double selectCjContractMoneyBySignTime(String time);
 	
 	public CjContract getCjContractMainDepartmentLeader(String no);
 

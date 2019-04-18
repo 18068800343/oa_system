@@ -14,22 +14,22 @@ public class ProjectIntegrated {
 	private String contractNo;//合同编号
 	private String contractName;//合同名称
 	private String prjType2;//项目类型
-	private float prjYs;//项目预算
+	private Double prjYs;//项目预算
 	private String cjDepartment;//承接部门
 	private String prjLeader;//项目负责人
-	private float workMoney;//任务单金额
+	private Double workMoney;//任务单金额
 	private Double contractMoney;//合同金额
 	private Double zdMoney;//暂定金
-	private float contractEndMoney;//合同结算金额
-	private float totalKpMoney;//累积开票金额
+	private Double contractEndMoney;//合同结算金额
+	private Double totalKpMoney;//累积开票金额
 	private double totalMoney;//累计收款
 	private double prjCost;//项目成本
 	private String prjPlan;//项目进度
 	private String fbName;//分包项目名称
 	private Double fbContractMoney;//分包合同金额
-	private float fbEndMoney;//分包结算金额
+	private Double fbEndMoney;//分包结算金额
 	private String fbPlan;//分包进度
-	private float practicalFbPayMoney;//实际分包付款金额
+	private Double practicalFbPayMoney;//实际分包付款金额
 	
 	
 	public String getFbName() {
@@ -68,10 +68,10 @@ public class ProjectIntegrated {
 	public void setPrjType2(String prjType2) {
 		this.prjType2 = prjType2;
 	}
-	public float getPrjYs() {
+	public Double getPrjYs() {
 		return prjYs;
 	}
-	public void setPrjYs(float prjYs) {
+	public void setPrjYs(Double prjYs) {
 		this.prjYs = prjYs;
 	}
 	public String getCjDepartment() {
@@ -86,10 +86,10 @@ public class ProjectIntegrated {
 	public void setPrjLeader(String prjLeader) {
 		this.prjLeader = prjLeader;
 	}
-	public float getWorkMoney() {
+	public Double getWorkMoney() {
 		return workMoney;
 	}
-	public void setWorkMoney(float workMoney) {
+	public void setWorkMoney(Double workMoney) {
 		this.workMoney = workMoney;
 	}
 	public Double getContractMoney() {
@@ -104,16 +104,16 @@ public class ProjectIntegrated {
 	public void setZdMoney(Double zdMoney) {
 		this.zdMoney = zdMoney;
 	}
-	public float getContractEndMoney() {
+	public Double getContractEndMoney() {
 		return contractEndMoney;
 	}
-	public void setContractEndMoney(float contractEndMoney) {
+	public void setContractEndMoney(Double contractEndMoney) {
 		this.contractEndMoney = contractEndMoney;
 	}
-	public float getTotalKpMoney() {
+	public Double getTotalKpMoney() {
 		return totalKpMoney;
 	}
-	public void setTotalKpMoney(float totalKpMoney) {
+	public void setTotalKpMoney(Double totalKpMoney) {
 		this.totalKpMoney = totalKpMoney;
 	}
 	public double getTotalMoney() {
@@ -140,10 +140,10 @@ public class ProjectIntegrated {
 	public void setFbContractMoney(Double fbContractMoney) {
 		this.fbContractMoney = fbContractMoney;
 	}
-	public float getFbEndMoney() {
+	public Double getFbEndMoney() {
 		return fbEndMoney;
 	}
-	public void setFbEndMoney(float fbEndMoney) {
+	public void setFbEndMoney(Double fbEndMoney) {
 		this.fbEndMoney = fbEndMoney;
 	}
 	public String getFbPlan() {
@@ -152,10 +152,10 @@ public class ProjectIntegrated {
 	public void setFbPlan(String fbPlan) {
 		this.fbPlan = fbPlan;
 	}
-	public float getPracticalFbPayMoney() {
+	public Double getPracticalFbPayMoney() {
 		return practicalFbPayMoney;
 	}
-	public void setPracticalFbPayMoney(float practicalFbPayMoney) {
+	public void setPracticalFbPayMoney(Double practicalFbPayMoney) {
 		this.practicalFbPayMoney = practicalFbPayMoney;
 	}
 	

@@ -640,7 +640,7 @@ public class BorrowContractController {
 			rateMoney=Double.valueOf(rateMoneyString);
 		}
 		Pay pay=cpService.getAllDaiDianByFbNo(no);
-		float daiDian=pay.getGenerationAdvancesMoney();//已还借款金额
+		Double daiDian=pay.getGenerationAdvancesMoney();//已还借款金额
 		RemainPayMoney=rateMoney-daiDian;
 		return RemainPayMoney;
 	}

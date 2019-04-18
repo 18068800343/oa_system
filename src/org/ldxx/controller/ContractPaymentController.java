@@ -61,7 +61,7 @@ public class ContractPaymentController {
 		for(int i=0;i<pay.size();i++){
 			String fbNo=pay.get(i).getContractNo();
 			Pay p=payService.getTotalPayMoney(fbNo);
-			float alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
+			Double alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
 			pay.get(i).setAlreadyAccumulateMoney(alreadyAccumulateMoney);
 		}
 		return pay;
@@ -79,7 +79,7 @@ public class ContractPaymentController {
 		Pay pay=payService.selectPayById(id);
 		String fbNo=pay.getContractNo();
 		Pay p=payService.getTotalPayMoney(fbNo);
-		float alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
+		Double alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
 		pay.setAlreadyAccumulateMoney(alreadyAccumulateMoney);
 		return pay;
 	}

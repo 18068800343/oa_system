@@ -25,7 +25,7 @@ public class KpApplicationServiceImpl implements KpApplicationService{
 	}
 
 	@Override
-	public float getAllMoney(String contractNo, String prjNo) {
+	public Double getAllMoney(String contractNo, String prjNo) {
 		return dao.getAllMoney(contractNo, prjNo);
 	}
 

@@ -1534,12 +1534,12 @@ public class StatisticsController {
 		return contractMoney;
 	}
 	
-	public float getDepartmentReceipt(List<CjContract> cj,String omId){
-		float receiptAll=0;
+	public Double getDepartmentReceipt(List<CjContract> cj,String omId){
+		Double receiptAll=(double) 0;
 		if(cj!=null){
 			for(int j=0;j<cj.size();j++){
-				float contractMoney=cj.get(j).getContractMoney();//承接合同金额
-				float resultMoney=cj.get(j).getTemporaryMoney();//承接合同收款金额
+				Double contractMoney=cj.get(j).getContractMoney();//承接合同金额
+				Double resultMoney=cj.get(j).getTemporaryMoney();//承接合同收款金额
 				if(omId.equals(cj.get(j).getMainDepartment())){
 					receiptAll=receiptAll+(cj.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
 				}
@@ -1594,8 +1594,8 @@ public class StatisticsController {
 		Double money=(double) 0;
 		if(cj!=null){
 			for(int i=0;i<cj.size();i++){
-				float resultReceipt=cj.get(i).getTemporaryMoney();//实际收款
-				float cjContractMoney=cj.get(i).getContractMoney();//承接合同金额
+				Double resultReceipt=cj.get(i).getTemporaryMoney();//实际收款
+				Double cjContractMoney=cj.get(i).getContractMoney();//承接合同金额
 				String prjNo=cj.get(i).getTaskCode();
 				for(int ii=0;ii<prjNo.split(",").length;ii++){
 					String no=prjNo.split(",")[ii];

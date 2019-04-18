@@ -25,15 +25,15 @@ public class FbContractOverWj {
 
     private String prjProbablyText;//项目概况
 
-    private Float contractMoney;//合同金额
+    private Double contractMoney;//合同金额
 
-    private Float provisionalMoney;//暂定金
+    private Double provisionalMoney;//暂定金
 
-    private Float overWorkMoney;//结算金额
+    private Double overWorkMoney;//结算金额
 
     private String overWorkExplain;//结算说明
 
-    private Float allPayMoney;//累计付款
+    private Double allPayMoney;//累计付款
 
     private String doAppointScore;//履约评级
     
@@ -147,27 +147,27 @@ public class FbContractOverWj {
     }
 
 
-    public Float getContractMoney() {
+    public Double getContractMoney() {
         return contractMoney;
     }
 
-    public void setContractMoney(Float contractMoney) {
+    public void setContractMoney(Double contractMoney) {
         this.contractMoney = contractMoney;
     }
 
-    public Float getProvisionalMoney() {
+    public Double getProvisionalMoney() {
         return provisionalMoney;
     }
 
-    public void setProvisionalMoney(Float provisionalMoney) {
+    public void setProvisionalMoney(Double provisionalMoney) {
         this.provisionalMoney = provisionalMoney;
     }
 
-    public Float getOverWorkMoney() {
+    public Double getOverWorkMoney() {
         return overWorkMoney;
     }
 
-    public void setOverWorkMoney(Float overWorkMoney) {
+    public void setOverWorkMoney(Double overWorkMoney) {
         this.overWorkMoney = overWorkMoney;
     }
 
@@ -179,11 +179,11 @@ public class FbContractOverWj {
         this.overWorkExplain = overWorkExplain == null ? null : overWorkExplain.trim();
     }
 
-    public Float getAllPayMoney() {
+    public Double getAllPayMoney() {
         return allPayMoney;
     }
 
-    public void setAllPayMoney(Float allPayMoney) {
+    public void setAllPayMoney(Double allPayMoney) {
         this.allPayMoney = allPayMoney;
     }
 

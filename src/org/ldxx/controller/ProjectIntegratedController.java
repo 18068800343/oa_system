@@ -71,11 +71,11 @@ public class ProjectIntegratedController {
 			String prjType=t.getPrjType2();
 			String cjDepartment=t.getOmName();//承接主办部门
 			String prjLeader=t.getMainPrjLeaderName();//项目负责人
-			float prjMoney=(float) ((t.getPrjEstimateMoney()==null||"".equals(t.getPrjEstimateMoney()))?0:t.getPrjEstimateMoney());//项目金额
+			Double prjMoney=(Double) ((t.getPrjEstimateMoney()==null||"".equals(t.getPrjEstimateMoney()))?0:t.getPrjEstimateMoney());//项目金额
 			Double contractMoney=(t.getContractMoney()==null||"".equals(t.getContractMoney()))?0:t.getContractMoney();//合同金额
 			Double zdMoney=(t.getProvisionalSum()==null||"".equals(t.getProvisionalSum()))?0:t.getProvisionalSum();//暂定金
 			BudgetFpplicationForm bff=bservice.getAllCost(no);
-			float ysCost=0;//项目预算
+			Double ysCost=(double) 0;//项目预算
 			if(bff!=null){
 				 ysCost=bff.getAllCost();
 			}
@@ -89,10 +89,10 @@ public class ProjectIntegratedController {
 			List<CjContract> cj=cService.selectCjContractByTaskNo(no);
 			String contractName="";//承接合同名称
 			String contractNo="";//承接合同编号
-			float htMoney=0;//承接合同金额
-			float cjZdMoney=0;//承接合同暂定金
-			float contractEndMoney=0;//结算金额
-			float allKp=0;//累计开票金额
+			Double htMoney=(double) 0;//承接合同金额
+			Double cjZdMoney=(double) 0;//承接合同暂定金
+			Double contractEndMoney=(double) 0;//结算金额
+			Double allKp=(double) 0;//累计开票金额
 			if(cj!=null&&cj.size()>0){
 				contractName=cj.get(0).getContractName();
 				contractNo=cj.get(0).getContractNo();
@@ -137,13 +137,13 @@ public class ProjectIntegratedController {
 					String fbNo=fb.get(ii).getFbNo();//分包合同编号
 					Double fbMoney=fb.get(ii).getContractMoney();//分包合同金额
 					FbContractOverWj fw=fService.getFbOverMoney(fbNo);
-					float fbOverMoney=0;
+					Double fbOverMoney=(double) 0;
 					if(fw!=null){
 						fbOverMoney=fw.getOverWorkMoney();//分包结算金额
 					}
 					Pay cp=cpService.getFbPayPlanAndMoney(fbNo);
 					String fbPlan="0%";
-					float fbActualPay=0;
+					Double fbActualPay=(double) 0;
 					if(cp!=null){
 						fbPlan=cp.getFbContractSchedule();//分包进度
 					}
