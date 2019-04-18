@@ -907,8 +907,9 @@ public class DesignDocumentsController {
 			int i=dao.addDesignDocumentsSave(dd);
 		}*/
 		//String path="D:"+File.separator+"oa"+File.separator+"DesignDocuments"+File.separator+id;;
+		String id2=uuid.getTimeUUID();
 		String webApps=uuid.getWebAppFile();
-		String path=webApps+id;
+		String path=webApps+id2;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -924,7 +925,7 @@ public class DesignDocumentsController {
 				file1[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJ项目实际存档目录");
 				list.add(accessory);
 			}
@@ -939,7 +940,7 @@ public class DesignDocumentsController {
 				file2[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJ项目特点介绍、关键词(尤其施工图阶段)");
 				list.add(accessory);
 			}
@@ -954,7 +955,7 @@ public class DesignDocumentsController {
 				file3[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJ合同资料(合同原件提交经营部综合部)");
 				list.add(accessory);
 			}
@@ -969,7 +970,7 @@ public class DesignDocumentsController {
 				file4[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk设计任务书");
 				list.add(accessory);
 			}
@@ -984,7 +985,7 @@ public class DesignDocumentsController {
 				file5[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk建设用地批准书、规划要点");
 				list.add(accessory);
 			}
@@ -999,7 +1000,7 @@ public class DesignDocumentsController {
 				file6[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk用地红线图(地形图)");
 				list.add(accessory);
 			}
@@ -1014,7 +1015,7 @@ public class DesignDocumentsController {
 				file7[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk用地实测图");
 				list.add(accessory);
 			}
@@ -1029,7 +1030,7 @@ public class DesignDocumentsController {
 				file8[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk区域控制性详细规划");
 				list.add(accessory);
 			}
@@ -1044,7 +1045,7 @@ public class DesignDocumentsController {
 				file9[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk开发可行性报告与市场调查");
 				list.add(accessory);
 			}
@@ -1059,7 +1060,7 @@ public class DesignDocumentsController {
 				file10[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk工程地质勘察报告");
 				list.add(accessory);
 			}
@@ -1074,7 +1075,7 @@ public class DesignDocumentsController {
 				file11[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk工程场地地震安评报告");
 				list.add(accessory);
 			}
@@ -1089,7 +1090,7 @@ public class DesignDocumentsController {
 				file12[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk用地范围周边市政系统情况");
 				list.add(accessory);
 			}
@@ -1104,7 +1105,7 @@ public class DesignDocumentsController {
 				file13[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk工可报告、图纸");
 				list.add(accessory);
 			}
@@ -1119,7 +1120,7 @@ public class DesignDocumentsController {
 				file14[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk相关单位往来函、文");
 				list.add(accessory);
 			}
@@ -1134,7 +1135,7 @@ public class DesignDocumentsController {
 				file15[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk效果图");
 				list.add(accessory);
 			}
@@ -1149,7 +1150,7 @@ public class DesignDocumentsController {
 				file16[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk报批文本");
 				list.add(accessory);
 			}
@@ -1164,7 +1165,7 @@ public class DesignDocumentsController {
 				file17[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk图纸");
 				list.add(accessory);
 			}
@@ -1179,7 +1180,7 @@ public class DesignDocumentsController {
 				file18[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk审查意见");
 				list.add(accessory);
 			}
@@ -1194,7 +1195,7 @@ public class DesignDocumentsController {
 				file19[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJgk校审单");
 				list.add(accessory);
 			}
@@ -1209,7 +1210,7 @@ public class DesignDocumentsController {
 				file20[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJcs方案批文(规划、环评、安评等)");
 				list.add(accessory);
 			}
@@ -1224,7 +1225,7 @@ public class DesignDocumentsController {
 				file21[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJcs施工图文件");
 				list.add(accessory);
 			}
@@ -1239,7 +1240,7 @@ public class DesignDocumentsController {
 				file22[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJcs概算书");
 				list.add(accessory);
 			}
@@ -1254,7 +1255,7 @@ public class DesignDocumentsController {
 				file23[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJcs地勘报告(初勘或详勘)");
 				list.add(accessory);
 			}
@@ -1269,7 +1270,7 @@ public class DesignDocumentsController {
 				file24[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJcs审查意见");
 				list.add(accessory);
 			}
@@ -1284,7 +1285,7 @@ public class DesignDocumentsController {
 				file25[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJcs校审单");
 				list.add(accessory);
 			}
@@ -1299,7 +1300,7 @@ public class DesignDocumentsController {
 				file26[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJcs相关单位往来函、文");
 				list.add(accessory);
 			}
@@ -1314,7 +1315,7 @@ public class DesignDocumentsController {
 				file27[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt初设批文");
 				list.add(accessory);
 			}
@@ -1329,7 +1330,7 @@ public class DesignDocumentsController {
 				file28[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt施工图文件");
 				list.add(accessory);
 			}
@@ -1344,7 +1345,7 @@ public class DesignDocumentsController {
 				file29[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt预算书");
 				list.add(accessory);
 			}
@@ -1359,7 +1360,7 @@ public class DesignDocumentsController {
 				file30[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt依据历史图纸和报告");
 				list.add(accessory);
 			}
@@ -1374,7 +1375,7 @@ public class DesignDocumentsController {
 				file31[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt结构模型、计算书");
 				list.add(accessory);
 			}
@@ -1389,7 +1390,7 @@ public class DesignDocumentsController {
 				file32[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt地勘报告(详勘)");
 				list.add(accessory);
 			}
@@ -1404,7 +1405,7 @@ public class DesignDocumentsController {
 				file33[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt工程咨询报告");
 				list.add(accessory);
 			}
@@ -1419,7 +1420,7 @@ public class DesignDocumentsController {
 				file34[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt审查意见");
 				list.add(accessory);
 			}
@@ -1434,7 +1435,7 @@ public class DesignDocumentsController {
 				file35[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt校审单");
 				list.add(accessory);
 			}
@@ -1449,7 +1450,7 @@ public class DesignDocumentsController {
 				file36[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt施工交底记录及回复");
 				list.add(accessory);
 			}
@@ -1464,7 +1465,7 @@ public class DesignDocumentsController {
 				file37[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt设计变更资料");
 				list.add(accessory);
 			}
@@ -1479,7 +1480,7 @@ public class DesignDocumentsController {
 				file38[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt重点项目项目总结");
 				list.add(accessory);
 			}
@@ -1494,7 +1495,7 @@ public class DesignDocumentsController {
 				file39[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt交工验收文件(原件提交经营发展部，如施工任务由公司承担则不需要)");
 				list.add(accessory);
 			}
@@ -1509,7 +1510,7 @@ public class DesignDocumentsController {
 				file40[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt获奖证书");
 				list.add(accessory);
 			}
@@ -1524,7 +1525,7 @@ public class DesignDocumentsController {
 				file41[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt相关单位往来函、文");
 				list.add(accessory);
 			}
@@ -1539,16 +1540,23 @@ public class DesignDocumentsController {
 				file42[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SJsgt其他");
 				list.add(accessory);
 			}
 			num+=1;
 		}
-		if(num>0){
-			prService.updateScStatus(id, 1);
+		int i=0;
+		if(list.size()==0||list==null){
+			i=-1;
+		}else{
+			i=aService.addAccessory(list);
+			if(i>0){
+				if(i>0){
+					prService.updateScStatus(id, 1);
+				}
+			}
 		}
-		int i=aService.addAccessory(list);
 		/*String string = i+"";
 		if(i>0){
 			User user = (User) session.getAttribute("user");

@@ -6,6 +6,7 @@ import java.util.List;
 import org.ldxx.bean.Accessory;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.service.AccessoryService;
+import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +39,9 @@ public class AccessoryServiceImpl implements AccessoryService{
 	public int deleteAccessoryByIdAndName(Accessory accessory) {
 		int i=dao.deleteAccessoryByIdAndName(accessory);
 		if(i>0){
+			String webApps=new TimeUUID().getWebAppFile();
 			String path=accessory.getAcUrl();
-			File f=new File(path);
+			File f=new File(webApps+path);
 			f.delete();
 		}
 		return i;

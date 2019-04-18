@@ -80,8 +80,9 @@ public class PrjRecordController {
 		response.setCharacterEncoding("UTF-8");
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
+		String id2=uuid.getTimeUUID();
 		String webApps=uuid.getWebAppFile();
-		String path=webApps+id;
+		String path=webApps+id2;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -97,7 +98,7 @@ public class PrjRecordController {
 				file1[i].transferTo(f1);
 				accessory1.setaId(id);
 				accessory1.setAcName(fileName1);
-				accessory1.setAcUrl(id+File.separator+fileName1);
+				accessory1.setAcUrl(id2+File.separator+fileName1);
 				accessory1.setaType("JY招标文件");
 				list.add(accessory1);
 			}
@@ -112,7 +113,7 @@ public class PrjRecordController {
 				file2[i].transferTo(f2); 
 				accessory2.setaId(id);
 				accessory2.setAcName(fileName1);
-				accessory2.setAcUrl(id+File.separator+fileName1);
+				accessory2.setAcUrl(id2+File.separator+fileName1);
 				accessory2.setaType("JY招标图纸");
 				list.add(accessory2);
 			}
@@ -127,7 +128,7 @@ public class PrjRecordController {
 				file3[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("JY投标文件(技术+商务)");
 				list.add(accessory);
 			}
@@ -142,7 +143,7 @@ public class PrjRecordController {
 				file4[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("JY中标通知书(原件由经营部存档)");
 				list.add(accessory);
 			}
@@ -157,7 +158,7 @@ public class PrjRecordController {
 				file5[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("JY开标记录");
 				list.add(accessory);
 			}
@@ -172,18 +173,24 @@ public class PrjRecordController {
 				file6[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("JY其他");
 				list.add(accessory);
 			}
 			num+=1;
 		}
-		int i=aDao.addAccessory(list);
-		if(i>0){
-			if(num>0){
-				pServcie.updateJyStatus(id, 1);
+		int i=0;
+		if(list.size()==0||list==null){
+			i=-1;
+		}else{
+			i=aDao.addAccessory(list);
+			if(i>0){
+				if(num>0){
+					pServcie.updateJyStatus(id, 1);
+				}
 			}
 		}
+		
 		map.put("result", i);
 		map.put("num", num);
 		return map;

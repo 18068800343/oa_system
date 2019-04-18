@@ -396,8 +396,9 @@ public class ConstructionDocumentsController {
 			,@RequestParam(required=false,value="file9") MultipartFile [] file9,@RequestParam(required=false,value="file10") MultipartFile [] file10,@RequestParam(required=false,value="file11") MultipartFile [] file11,@RequestParam(required=false,value="file12") MultipartFile [] file12,@RequestParam(required=false,value="file13") MultipartFile [] file13
 			,@RequestParam(required=false,value="file14") MultipartFile [] file14,@RequestParam(required=false,value="file15") MultipartFile [] file15,@RequestParam(required=false,value="file16") MultipartFile [] file16,@RequestParam(required=false,value="file17") MultipartFile [] file17,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
+		String id2=uuid.getTimeUUID();
 		String webApps=uuid.getWebAppFile();
-		String path=webApps+id;
+		String path=webApps+id2;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -413,7 +414,7 @@ public class ConstructionDocumentsController {
 				file1[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG项目实际存档目录");
 				list.add(accessory);
 			}
@@ -428,7 +429,7 @@ public class ConstructionDocumentsController {
 				file2[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG项目特点介绍、关键词");
 				list.add(accessory);
 			}
@@ -443,7 +444,7 @@ public class ConstructionDocumentsController {
 				file3[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG合同资料(合同原件提交经营部综合部)");
 				list.add(accessory);
 			}
@@ -458,7 +459,7 @@ public class ConstructionDocumentsController {
 				file4[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG开工报告(含专项方案及评审)");
 				list.add(accessory);
 			}
@@ -473,7 +474,7 @@ public class ConstructionDocumentsController {
 				file5[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG项目外部评价报告(安评等咨询类)");
 				list.add(accessory);
 			}
@@ -488,7 +489,7 @@ public class ConstructionDocumentsController {
 				file6[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG项目总结(应包括照片并分类整理好)");
 				list.add(accessory);
 			}
@@ -503,7 +504,7 @@ public class ConstructionDocumentsController {
 				file7[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG计量资料(原件提交经营发展部，审计结算报告需扫描件)");
 				list.add(accessory);
 			}
@@ -518,7 +519,7 @@ public class ConstructionDocumentsController {
 				file8[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG设计变更资料");
 				list.add(accessory);
 			}
@@ -533,7 +534,7 @@ public class ConstructionDocumentsController {
 				file9[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG施工图和竣工图");
 				list.add(accessory);
 			}
@@ -548,7 +549,7 @@ public class ConstructionDocumentsController {
 				file10[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG开工至交竣工全部外部审查意见");
 				list.add(accessory);
 			}
@@ -563,7 +564,7 @@ public class ConstructionDocumentsController {
 				file11[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG首件工程总结");
 				list.add(accessory);
 			}
@@ -578,7 +579,7 @@ public class ConstructionDocumentsController {
 				file12[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG材料检测资料");
 				list.add(accessory);
 			}
@@ -593,7 +594,7 @@ public class ConstructionDocumentsController {
 				file13[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG中间报验资料和检验评定资料");
 				list.add(accessory);
 			}
@@ -608,7 +609,7 @@ public class ConstructionDocumentsController {
 				file14[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG施工日志");
 				list.add(accessory);
 			}
@@ -623,7 +624,7 @@ public class ConstructionDocumentsController {
 				file15[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG获奖证书");
 				list.add(accessory);
 			}
@@ -638,7 +639,7 @@ public class ConstructionDocumentsController {
 				file16[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG交竣工验收文件(原件提交经营发展部)");
 				list.add(accessory);
 			}
@@ -653,16 +654,22 @@ public class ConstructionDocumentsController {
 				file17[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("SG其他");
 				list.add(accessory);
 			}
 			num+=1;
 		}
-		if(num>0){
-			prService.updateScStatus(id, 1);  
+		int i=0;
+		if(list.size()==0||list==null){
+			i=-1;
+		}else{
+			i=aService.addAccessory(list);
+			if(i>0){
+				prService.updateScStatus(id, 1);  
+			}
 		}
-		int i=aService.addAccessory(list);
+		
 		/*String string = i+"";
 		if(i>0){
 			User user = (User) session.getAttribute("user");

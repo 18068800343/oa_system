@@ -454,8 +454,9 @@ public class TechnicalDocumentationController {
 			int i=dao.addConstructionDocumentsSave(td);
 		}*/
 		//String path="D:"+File.separator+"oa"+File.separator+"TechnicalDocumentation"+File.separator+id;;
+		String id2=uuid.getTimeUUID();
 		String webApps=uuid.getWebAppFile();
-		String path=webApps+id;
+		String path=webApps+id2;
 		File f=new File(path);
 		if(!f.exists()){
 			f.mkdirs();
@@ -471,7 +472,7 @@ public class TechnicalDocumentationController {
 				file1[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ项目实际存档目");
 				list.add(accessory);
 			}
@@ -486,7 +487,7 @@ public class TechnicalDocumentationController {
 				file2[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ合同资料(合同原件提交经营部综合部)");
 				list.add(accessory);
 			}
@@ -501,7 +502,7 @@ public class TechnicalDocumentationController {
 				file3[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ科研申请书");
 				list.add(accessory);
 			}
@@ -516,7 +517,7 @@ public class TechnicalDocumentationController {
 				file4[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ工作大纲及评审记录");
 				list.add(accessory);
 			}
@@ -531,7 +532,7 @@ public class TechnicalDocumentationController {
 				file5[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ中间报告及评审记录");
 				list.add(accessory);
 			}
@@ -546,7 +547,7 @@ public class TechnicalDocumentationController {
 				file6[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ成果简介");
 				list.add(accessory);
 			}
@@ -561,7 +562,7 @@ public class TechnicalDocumentationController {
 				file7[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ研究报告(内容比较全面)");
 				list.add(accessory);
 			}
@@ -576,7 +577,7 @@ public class TechnicalDocumentationController {
 				file8[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ查新报告");
 				list.add(accessory);
 			}
@@ -591,7 +592,7 @@ public class TechnicalDocumentationController {
 				file9[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ总结报告");
 				list.add(accessory);
 			}
@@ -606,7 +607,7 @@ public class TechnicalDocumentationController {
 				file10[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ用户报告/应用证明");
 				list.add(accessory);
 			}
@@ -621,7 +622,7 @@ public class TechnicalDocumentationController {
 				file11[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ鉴定(评审)证书/验收评审意见");
 				list.add(accessory);
 			}
@@ -636,7 +637,7 @@ public class TechnicalDocumentationController {
 				file12[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ科研项目其他成果(指南、调查报告等)");
 				list.add(accessory);
 			}
@@ -651,7 +652,7 @@ public class TechnicalDocumentationController {
 				file13[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ汇报PPT");
 				list.add(accessory);
 			}
@@ -666,7 +667,7 @@ public class TechnicalDocumentationController {
 				file14[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ财务决算表");
 				list.add(accessory);
 			}
@@ -681,7 +682,7 @@ public class TechnicalDocumentationController {
 				file15[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ报奖文件");
 				list.add(accessory);
 			}
@@ -696,7 +697,7 @@ public class TechnicalDocumentationController {
 				file16[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ相关论文及专利");
 				list.add(accessory);
 			}
@@ -711,7 +712,7 @@ public class TechnicalDocumentationController {
 				file17[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ课题所用到图纸、模型和报告");
 				list.add(accessory);
 			}
@@ -726,16 +727,23 @@ public class TechnicalDocumentationController {
 				file18[i].transferTo(f1);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
-				accessory.setAcUrl(id+File.separator+fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
 				accessory.setaType("KJ其他");
 				list.add(accessory);
 			}
 			num+=1;
 		}
-		if(num>0){
-			prService.updateScStatus(id, 1);
+		int i=0;
+		if(list.size()==0||list==null){
+			i=-1;
+		}else{
+			i=aService.addAccessory(list);
+			if(i>0){
+				if(i>0){
+					prService.updateScStatus(id, 1);
+				}
+			}
 		}
-		int i=aService.addAccessory(list);
 		return i;
 		/*String string = i+"";
 		if(i>0){
