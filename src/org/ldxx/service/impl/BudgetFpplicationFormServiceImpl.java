@@ -163,7 +163,7 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	}
 
 	@Override
-	public float getBudgeCost(String department,String year) {
+	public Double getBudgeCost(String department,String year) {
 		return bdao.getBudgeCost(department,year);
 	}
 
@@ -173,8 +173,8 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	}
 
 	@Override
-	public List<BudgetFpplicationForm> selectBudgeByStatus(String status, String timeMin, String timeMax, float costMin,
-			float costMax) {
+	public List<BudgetFpplicationForm> selectBudgeByStatus(String status, String timeMin, String timeMax, Double costMin,
+			Double costMax) {
 		return bdao.selectBudgeByStatus(status, timeMin, timeMax, costMin, costMax);
 	}
 

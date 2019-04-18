@@ -28,7 +28,7 @@ public class WasteDispose {
 	private String wasteTime;
 	private String wasteReason;
 	private String wasteType;
-	private float wasteMoney;
+	private Double wasteMoney;
 	private String wasteDesc;
 	private List<WasteDisposeCl> wdc;
 	private List<outRemain> oRemain;
@@ -100,10 +100,10 @@ public class WasteDispose {
 	public void setWasteType(String wasteType) {
 		this.wasteType = wasteType;
 	}
-	public float getWasteMoney() {
+	public Double getWasteMoney() {
 		return wasteMoney;
 	}
-	public void setWasteMoney(float wasteMoney) {
+	public void setWasteMoney(Double wasteMoney) {
 		this.wasteMoney = wasteMoney;
 	}
 	public String getWasteDesc() {

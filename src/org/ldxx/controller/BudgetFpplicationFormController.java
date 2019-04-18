@@ -258,7 +258,7 @@ public class BudgetFpplicationFormController {
 	
 	@RequestMapping("/selectBudgeByStatus")
 	@ResponseBody
-	public List<BudgetFpplicationForm> selectBudgeByStatus(String status,String timeMin,String timeMax,@RequestParam(defaultValue="0")float costMin,@RequestParam(defaultValue="0")float costMax){
+	public List<BudgetFpplicationForm> selectBudgeByStatus(String status,String timeMin,String timeMax,@RequestParam(defaultValue="0")Double costMin,@RequestParam(defaultValue="0")Double costMax){
 		return bservice.selectBudgeByStatus(status,timeMin,timeMax,costMin,costMax);
 	}
 	

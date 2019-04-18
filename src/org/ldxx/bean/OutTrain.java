@@ -27,7 +27,7 @@ public class OutTrain {
 
     private String trainingLocation;
 
-    private float trainingMoney;
+    private Double trainingMoney;
     
     private String courseDesc;
     
@@ -168,11 +168,11 @@ public class OutTrain {
 		this.trainingLocation = trainingLocation;
 	}
 
-	public float getTrainingMoney() {
+	public Double getTrainingMoney() {
 		return trainingMoney;
 	}
 
-	public void setTrainingMoney(float trainingMoney) {
+	public void setTrainingMoney(Double trainingMoney) {
 		this.trainingMoney = trainingMoney;
 	}
 

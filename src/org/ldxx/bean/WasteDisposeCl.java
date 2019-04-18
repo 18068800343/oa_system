@@ -23,10 +23,10 @@ public class WasteDisposeCl {
 	private String specificationModel;
 	private String cmoUnit;
 	private int cmoNumber;
-	private float cmoUnitPrice;
-	private float cmoMoney;
-	private float wasteWantMoney;
-	private float wasteActualMoney;
+	private Double cmoUnitPrice;
+	private Double cmoMoney;
+	private Double wasteWantMoney;
+	private Double wasteActualMoney;
 	public String getWpId() {
 		return wpId;
 	}
@@ -63,28 +63,28 @@ public class WasteDisposeCl {
 	public void setCmoNumber(int cmoNumber) {
 		this.cmoNumber = cmoNumber;
 	}
-	public float getCmoUnitPrice() {
+	public Double getCmoUnitPrice() {
 		return cmoUnitPrice;
 	}
-	public void setCmoUnitPrice(float cmoUnitPrice) {
+	public void setCmoUnitPrice(Double cmoUnitPrice) {
 		this.cmoUnitPrice = cmoUnitPrice;
 	}
-	public float getCmoMoney() {
+	public Double getCmoMoney() {
 		return cmoMoney;
 	}
-	public void setCmoMoney(float cmoMoney) {
+	public void setCmoMoney(Double cmoMoney) {
 		this.cmoMoney = cmoMoney;
 	}
-	public float getWasteWantMoney() {
+	public Double getWasteWantMoney() {
 		return wasteWantMoney;
 	}
-	public void setWasteWantMoney(float wasteWantMoney) {
+	public void setWasteWantMoney(Double wasteWantMoney) {
 		this.wasteWantMoney = wasteWantMoney;
 	}
-	public float getWasteActualMoney() {
+	public Double getWasteActualMoney() {
 		return wasteActualMoney;
 	}
-	public void setWasteActualMoney(float wasteActualMoney) {
+	public void setWasteActualMoney(Double wasteActualMoney) {
 		this.wasteActualMoney = wasteActualMoney;
 	}
 	

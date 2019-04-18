@@ -15,9 +15,9 @@ public class KpApplication {
 	private String contractNo;
 	private String prjName;
 	private String prjNo;
-	private float kpMoney;
+	private Double kpMoney;
 	private String time;
-	private float allKpMoney;
+	private Double allKpMoney;
 	private String fpType;
 	private String dutyNo;
 	private String sqMen;
@@ -28,7 +28,7 @@ public class KpApplication {
 	private String bank;
 	private String bankNo;
 	
-	private float contractMoney;
+	private Double contractMoney;
 	private String kpDepartment;
 	private String omName;//部门名
 	private String kpDesc;
@@ -53,10 +53,10 @@ public class KpApplication {
 	public void setKpDepartment(String kpDepartment) {
 		this.kpDepartment = kpDepartment;
 	}
-	public float getContractMoney() {
+	public Double getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(float contractMoney) {
+	public void setContractMoney(Double contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 	public String getKpDesc() {
@@ -101,10 +101,10 @@ public class KpApplication {
 	public void setPrjNo(String prjNo) {
 		this.prjNo = prjNo;
 	}
-	public float getKpMoney() {
+	public Double getKpMoney() {
 		return kpMoney;
 	}
-	public void setKpMoney(float kpMoney) {
+	public void setKpMoney(Double kpMoney) {
 		this.kpMoney = kpMoney;
 	}
 	public String getTime() {
@@ -113,10 +113,10 @@ public class KpApplication {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	public float getAllKpMoney() {
+	public Double getAllKpMoney() {
 		return allKpMoney;
 	}
-	public void setAllKpMoney(float allKpMoney) {
+	public void setAllKpMoney(Double allKpMoney) {
 		this.allKpMoney = allKpMoney;
 	}
 	public String getFpType() {

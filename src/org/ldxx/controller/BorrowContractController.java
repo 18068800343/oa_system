@@ -622,10 +622,10 @@ public class BorrowContractController {
 				double thisMoney=list.get(i).getThisBorrowMoney();
 				String rateString=list.get(i).getRate();
 				
-				float rateDouble=Float.valueOf((rateString.replace("%", "")));
+				Double rateDouble=Double.valueOf((rateString.replace("%", "")));
 				DecimalFormat decimalFormat=new DecimalFormat(".0000");
 				String string=decimalFormat.format(rateDouble/100);
-				float rate=Float.valueOf(string);
+				Double rate=Double.valueOf(string);
 				
 				String startTime=list.get(i).getBorrowTime();
 				String endTime=list.get(i).getBorrowEndTime();

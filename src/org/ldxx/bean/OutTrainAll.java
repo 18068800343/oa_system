@@ -15,7 +15,7 @@ public class OutTrainAll {
 
     private String trainingLocation;
 
-    private float trainingMoney;
+    private Double trainingMoney;
 
     private String trainingDate;
     
@@ -131,11 +131,11 @@ public class OutTrainAll {
         this.trainingLocation = trainingLocation == null ? null : trainingLocation.trim();
     }
 
-    public float getTrainingMoney() {
+    public Double getTrainingMoney() {
         return trainingMoney;
     }
 
-    public void setTrainingMoney(float trainingMoney) {
+    public void setTrainingMoney(Double trainingMoney) {
         this.trainingMoney = trainingMoney;
     }
 

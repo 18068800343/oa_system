@@ -51,13 +51,13 @@ public class Pay {
 
     private String compilerTime;//编制时间
     
-    private Float authorisePayment;//批准付款
+    private Double authorisePayment;//批准付款
 
     private String makeTime;
 
     private String history;
 
-    private float resultPay;//实际支付金额
+    private Double resultPay;//实际支付金额
     
     private String payTime;//支付时间
     
@@ -83,16 +83,16 @@ public class Pay {
 	public void setSkScale(String skScale) {
 		this.skScale = skScale;
 	}
-	public Float getAuthorisePayment() {
+	public Double getAuthorisePayment() {
 		return authorisePayment;
 	}
-	public void setAuthorisePayment(Float authorisePayment) {
+	public void setAuthorisePayment(Double authorisePayment) {
 		this.authorisePayment = authorisePayment;
 	}
-	public float getResultPay() {
+	public Double getResultPay() {
 		return resultPay;
 	}
-	public void setResultPay(float resultPay) {
+	public void setResultPay(Double resultPay) {
 		this.resultPay = resultPay;
 	}
 	public String getPayTime() {

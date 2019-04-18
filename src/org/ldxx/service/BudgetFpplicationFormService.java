@@ -14,7 +14,7 @@ public interface BudgetFpplicationFormService {
 
 	int updateBudge(BudgetFpplicationForm budge);
 
-	List<BudgetFpplicationForm> selectBudgeByStatus(String status,String timeMin,String timeMax,float costMin,float costMax);
+	List<BudgetFpplicationForm> selectBudgeByStatus(String status,String timeMin,String timeMax,Double costMin,Double costMax);
 
 	BudgetFpplicationForm selectBudgeById(String id);
 
@@ -26,7 +26,7 @@ public interface BudgetFpplicationFormService {
 	
 	BudgetFpplicationForm selectBudgeByName(String name);
 	
-	float getBudgeCost(String department,String year);
+	Double getBudgeCost(String department,String year);
 	
 	BudgetFpplicationForm getAllCost(String no);
 

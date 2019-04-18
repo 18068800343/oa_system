@@ -15,10 +15,10 @@ public class PrjClosingAudit {
 	private String prjName;
 	private String prjNo;
 	private String department;
-	private float endMoney;
+	private Double endMoney;
 	private String evaluate;
 	private String prjType;
-	private float contractMoney;
+	private Double contractMoney;
 	private String prjStartTime;
 	private String prjEndTime;
 	
@@ -30,10 +30,10 @@ public class PrjClosingAudit {
 	public void setPrjType(String prjType) {
 		this.prjType = prjType;
 	}
-	public float getContractMoney() {
+	public Double getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(float contractMoney) {
+	public void setContractMoney(Double contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 	public String getPrjStartTime() {
@@ -79,10 +79,10 @@ public class PrjClosingAudit {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	public float getEndMoney() {
+	public Double getEndMoney() {
 		return endMoney;
 	}
-	public void setEndMoney(float endMoney) {
+	public void setEndMoney(Double endMoney) {
 		this.endMoney = endMoney;
 	}
 	public String getEvaluate() {

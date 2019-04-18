@@ -565,20 +565,20 @@ public class PrjProgressFillController {
 	
 	@RequestMapping("/selectPrjProgressFillCjIncomeBq")
 	@ResponseBody
-	public float selectPrjProgressFillCjIncomeBq(String id,String bq){
+	public Double selectPrjProgressFillCjIncomeBq(String id,String bq){
 		PrjProgressFillCj cj=service.selectPrjProgressFillCjIncomeBq(id, bq);
 		if(cj!=null){
 			return cj.getIncomeBq();
 		}else{
-			return 0;
+			return (double) 0;
 		}
 	}
 	
 	@RequestMapping("/selectPrjProgressFillInfoTotalByTaskAndDept")
 	@ResponseBody
-	public float selectPrjProgressFillInfoTotalByTaskAndDept(String no,String dept){
+	public Double selectPrjProgressFillInfoTotalByTaskAndDept(String no,String dept){
 		PrjProgressFillInfo info=service.selectPrjProgressFillInfoTotalByTaskAndDept(no, dept);
-		float money=info.getAllMoneyYuan();
+		Double money=info.getAllMoneyYuan();
 		return money;
 	}
 	

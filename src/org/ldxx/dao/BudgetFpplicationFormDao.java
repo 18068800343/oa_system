@@ -14,7 +14,7 @@ public interface BudgetFpplicationFormDao {
 
 	int updateBudge(@Param("budge")BudgetFpplicationForm budge);
 
-	List<BudgetFpplicationForm> selectBudgeByStatus(@Param("status")String status,@Param("timeMin")String timeMin,@Param("timeMax")String timeMax,@Param("costMin")float costMin,@Param("costMax")float costMax);
+	List<BudgetFpplicationForm> selectBudgeByStatus(@Param("status")String status,@Param("timeMin")String timeMin,@Param("timeMax")String timeMax,@Param("costMin")Double costMin,@Param("costMax")Double costMax);
 
 	BudgetFpplicationForm selectBudgeById(@Param("id")String id);
 
@@ -27,7 +27,7 @@ public interface BudgetFpplicationFormDao {
 	
 	BudgetFpplicationForm selectBudgeByName(@Param("name")String name);
 	
-	float getBudgeCost(@Param("department")String department,@Param("year")String year);
+	Double getBudgeCost(@Param("department")String department,@Param("year")String year);
 	
 	BudgetFpplicationForm getAllCost(@Param("no")String no);
 

@@ -4,8 +4,8 @@ public class PrjProgressFillCj {
 
 	private String cjId;
 	private String cjName;
-	private float incomeBq;
-	private float incomeAll;
+	private Double incomeBq;
+	private Double incomeAll;
 	private String bq;
 	
 	public String getCjId() {
@@ -20,16 +20,16 @@ public class PrjProgressFillCj {
 	public void setCjName(String cjName) {
 		this.cjName = cjName;
 	}
-	public float getIncomeBq() {
+	public Double getIncomeBq() {
 		return incomeBq;
 	}
-	public void setIncomeBq(float incomeBq) {
+	public void setIncomeBq(Double incomeBq) {
 		this.incomeBq = incomeBq;
 	}
-	public float getIncomeAll() {
+	public Double getIncomeAll() {
 		return incomeAll;
 	}
-	public void setIncomeAll(float incomeAll) {
+	public void setIncomeAll(Double incomeAll) {
 		this.incomeAll = incomeAll;
 	}
 	public String getBq() {
