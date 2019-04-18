@@ -221,8 +221,8 @@ public class TaskServiceImpl implements TaskService{
 
 	@Override
 	public List<Task> selectTaskByStatus(String status, String startMin, String startMax, String endMin, String endMax,
-			String mainDp, String xbDp, float prjMoneyMin, float prjMoneyMax, float contractMoneyMin,
-			float contractMoneyMax, float zdMoneyMin, float zdMoneyMax) {
+			String mainDp, String xbDp, Double prjMoneyMin, Double prjMoneyMax, Double contractMoneyMin,
+			Double contractMoneyMax, Double zdMoneyMin, Double zdMoneyMax) {
 		return tdao.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 

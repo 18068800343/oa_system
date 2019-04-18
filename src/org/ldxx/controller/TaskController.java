@@ -790,9 +790,9 @@ public class TaskController {
 	@RequestMapping("/selectTaskByStatus")
 	@ResponseBody
 	public List<Task>selectTaskByStatus(String status,@RequestParam(defaultValue="")String startMin,@RequestParam(defaultValue="")String startMax,@RequestParam(defaultValue="")String endMin,
-		@RequestParam(defaultValue="")String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")float prjMoneyMin,@RequestParam(defaultValue="0")float prjMoneyMax,
-		@RequestParam(defaultValue="0")float contractMoneyMin,@RequestParam(defaultValue="0")float contractMoneyMax,
-		@RequestParam(defaultValue="0")float zdMoneyMin,@RequestParam(defaultValue="0")float zdMoneyMax){
+		@RequestParam(defaultValue="")String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")Double prjMoneyMin,@RequestParam(defaultValue="0")Double prjMoneyMax,
+		@RequestParam(defaultValue="0")Double contractMoneyMin,@RequestParam(defaultValue="0")Double contractMoneyMax,
+		@RequestParam(defaultValue="0")Double zdMoneyMin,@RequestParam(defaultValue="0")Double zdMoneyMax){
 		List<Task> task=tService.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 		/*for(int i=0;i<task.size();i++){
 			String no=task.get(i).getPrjNo();

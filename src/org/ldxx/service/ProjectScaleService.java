@@ -10,5 +10,5 @@ public interface ProjectScaleService {
 	
 	public int updateScale(Scale scale);
 	
-	public ProjectScale selectProjectScale(String type,float money);
+	public ProjectScale selectProjectScale(String type,Double money);
 }

@@ -150,7 +150,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 	}
 
 	@Override
-	public float getDepartmentCost(String department, String id) {
+	public Double getDepartmentCost(String department, String id) {
 		return dao.getDepartmentCost(department, id);
 	}
 
