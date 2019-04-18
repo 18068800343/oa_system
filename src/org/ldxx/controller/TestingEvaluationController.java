@@ -292,7 +292,7 @@ public class TestingEvaluationController {
 			@RequestParam(required=false,value="file4") MultipartFile [] file4,@RequestParam(required=false,value="file5") MultipartFile [] file5,@RequestParam(required=false,value="file6") MultipartFile [] file6,@RequestParam(required=false,value="file7") MultipartFile [] file7,@RequestParam(required=false,value="file8") MultipartFile [] file8
 			,@RequestParam(required=false,value="file9") MultipartFile [] file9,@RequestParam(required=false,value="file10") MultipartFile [] file10,@RequestParam(required=false,value="file11") MultipartFile [] file11,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
-		String id2=uuid.getTimeUUID();
+		String id2=id+"2";
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id2;
 		File f=new File(path);

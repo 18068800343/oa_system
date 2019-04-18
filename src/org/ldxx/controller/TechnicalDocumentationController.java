@@ -454,7 +454,7 @@ public class TechnicalDocumentationController {
 			int i=dao.addConstructionDocumentsSave(td);
 		}*/
 		//String path="D:"+File.separator+"oa"+File.separator+"TechnicalDocumentation"+File.separator+id;;
-		String id2=uuid.getTimeUUID();
+		String id2=id+"2";
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id2;
 		File f=new File(path);

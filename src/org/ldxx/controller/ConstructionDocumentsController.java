@@ -396,7 +396,7 @@ public class ConstructionDocumentsController {
 			,@RequestParam(required=false,value="file9") MultipartFile [] file9,@RequestParam(required=false,value="file10") MultipartFile [] file10,@RequestParam(required=false,value="file11") MultipartFile [] file11,@RequestParam(required=false,value="file12") MultipartFile [] file12,@RequestParam(required=false,value="file13") MultipartFile [] file13
 			,@RequestParam(required=false,value="file14") MultipartFile [] file14,@RequestParam(required=false,value="file15") MultipartFile [] file15,@RequestParam(required=false,value="file16") MultipartFile [] file16,@RequestParam(required=false,value="file17") MultipartFile [] file17,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
 		TimeUUID uuid=new TimeUUID();
-		String id2=uuid.getTimeUUID();
+		String id2=id+"2";
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id2;
 		File f=new File(path);

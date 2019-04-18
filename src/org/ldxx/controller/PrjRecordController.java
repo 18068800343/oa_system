@@ -80,7 +80,7 @@ public class PrjRecordController {
 		response.setCharacterEncoding("UTF-8");
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
-		String id2=uuid.getTimeUUID();
+		String id2=id+"1";
 		String webApps=uuid.getWebAppFile();
 		String path=webApps+id2;
 		File f=new File(path);
