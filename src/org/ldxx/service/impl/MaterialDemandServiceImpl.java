@@ -36,11 +36,11 @@ public class MaterialDemandServiceImpl implements MaterialDemandService{
 		if(i>0){
 			i=dao.addMaterialDemand(md);
 			if(i>0){
-				float sumPrice=0;
+				Double sumPrice=(double) 0;
 				for(int a=0;a<md.size();a++){
 					int num=md.get(a).getNum();
-					float price=md.get(a).getPrice();
-					float sum=num*price;
+					Double price=md.get(a).getPrice();
+					Double sum=num*price;
 					sumPrice=sumPrice+sum;
 				}
 				i=pdao.updateSumPrice(sumPrice, id);

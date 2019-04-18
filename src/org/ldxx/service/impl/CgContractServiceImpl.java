@@ -188,7 +188,7 @@ public class CgContractServiceImpl implements CgContractService {
 
 
 	@Override
-	public int updateDepartmentMoney(float price, String id) {
+	public int updateDepartmentMoney(Double price, String id) {
 		return pdao.updateSumPrice(price,id);
 	}
 

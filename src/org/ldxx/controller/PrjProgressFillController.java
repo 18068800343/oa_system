@@ -386,13 +386,13 @@ public class PrjProgressFillController {
 	public Map<String,String> getPresent(String all,String no){
 		Map<String,String> map=new HashMap<>();
 		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
-		float a=Float.valueOf(all.replace("%",""));
-		float l=0;
+		Double a=Double.valueOf(all.replace("%",""));
+		Double l=(double) 0;
 		if(pf!=null){
 			String last=pf.getAllMoney();
-			l=Float.valueOf(last.replace("%",""));
+			l=Double.valueOf(last.replace("%",""));
 		}
-		float p=a-l;
+		Double p=a-l;
 		String present=p+"%";
 		map.put("present", present);
 		return map;
@@ -403,17 +403,17 @@ public class PrjProgressFillController {
 	public Map<String,String> getBq(String all,String no,String department){
 		Map<String,String> map=new HashMap<>();
 		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
-		float a=Float.valueOf(all.replace("%",""));
-		float m=0;
+		Double a=Double.valueOf(all.replace("%",""));
+		Double m=(double) 0;
 		if(pf!=null){
 			String ppfId=pf.getPpfId();
 			PrjProgressFillInfo ppfi=service.getLastByDepartmentAndId(ppfId, department);
 			if(ppfi!=null){
 				String money=ppfi.getMoney();
-				m=Float.valueOf(money.replace("%",""));
+				m=Double.valueOf(money.replace("%",""));
 			}
 		}
-		float p=a-m;
+		Double p=a-m;
 		String bq=p+"%";
 		map.put("bq", bq);
 		return map;

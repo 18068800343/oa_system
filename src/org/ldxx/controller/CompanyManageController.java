@@ -92,11 +92,11 @@ public class CompanyManageController {
 				 }
 				 
 				 DepartmentTarget dt=dService.selectDepartmentTargetByOmIdAndYear(omId, year);
-				 float revenueTarget=0;//收入目标
-				 float contractAmount=0;//合同额目标
+				 Double revenueTarget=(double) 0;//收入目标
+				 Double contractAmount=(double) 0;//合同额目标
 				 if(dt!=null){
-					 revenueTarget=(float) dt.getRevenueTarget();//收入目标
-					 contractAmount=(float) dt.getContractAmount();//合同额目标
+					 revenueTarget=(Double) dt.getRevenueTarget();//收入目标
+					 contractAmount=(Double) dt.getContractAmount();//合同额目标
 				 }
 				 double finish=(totalAccomplish/revenueTarget)*100;
 				 String finishStr=Math.round(finish)+"%";//完成百分比
