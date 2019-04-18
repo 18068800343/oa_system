@@ -712,13 +712,14 @@ public class CjContractController {
 			if(cjNo==null||cjNo.equals("")){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 				String year=sdf.format(new Date());
-		/*		if(null!=prjType&&!"".equals(prjType)){
-					prjType = prjType.charAt(0)+"";
+				String type="";
+				if(null!=prjType&&!"".equals(prjType)){
+					type = prjType.charAt(0)+"";
 				}
-				TimeUUID uuid=new TimeUUID();
+		/*		TimeUUID uuid=new TimeUUID();
 				int count=service.countNo(year);
 				String code="CJ"+uuid.getPrjCode("", count+1)+prjType;*/
-				String code="CJ"+year+service.CreateContractNumOrder("CJ", year);
+				String code="CJ"+year+service.CreateContractNumOrder("CJ", year)+type;
 				i=service.updateCjNoById(code, id);
 			}
 		}

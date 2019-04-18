@@ -154,4 +154,9 @@ public class UserServiceImpl implements UserService {
 	public List<User> selectGCSByDept(String id,String name) {
 		return userDao.selectGCSByDept(id,name);
 	}
+
+	@Override
+	public int updateUserInfoByuName(User user) {
+		return userDao.updateUserInfoByuName(user);
+	}
 }

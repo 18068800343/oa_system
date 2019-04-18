@@ -2,6 +2,7 @@ package org.ldxx.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.User;
 
 public interface UserService {
@@ -45,5 +46,7 @@ public interface UserService {
 	List<User> selectUserByomIdByJobFirstNames(String[] omId);
 	
 	List<User> selectGCSByDept(String id,String name);
+	
+	int updateUserInfoByuName(User user);
 
 }

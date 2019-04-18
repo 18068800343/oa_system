@@ -46,4 +46,6 @@ public interface UserDao {
 	List<User> selectFgldByRoleName(String roleName);
 	
 	List<User> selectGCSByDept(@Param("id")String id,@Param("name")String name);
+	
+	int updateUserInfoByuName(@Param("user")User user);
 }
