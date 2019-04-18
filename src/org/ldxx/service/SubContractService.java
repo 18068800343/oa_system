@@ -9,7 +9,7 @@ import org.ldxx.bean.FbContract;
 
 public interface SubContractService {
 
-	List<FbContract> selectSubContract(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String spType,float fbMoneyMin,float fbMoneyMax,float contractMoneyMin,float contractMoneyMax,float zdMoneyMin,float zdMoneyMax);
+	List<FbContract> selectSubContract(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String spType,Double fbMoneyMin,Double fbMoneyMax,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax);
 
 	int saveSubContract(FbContract fbContract);
 

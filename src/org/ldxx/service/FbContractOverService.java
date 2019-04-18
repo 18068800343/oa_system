@@ -14,7 +14,7 @@ public interface FbContractOverService {
 	
 	public int updateFbContractOver(FbContractOver fbContractOver);
 
-	public float selectFbJsMoneyByNo(String no);
+	public Double selectFbJsMoneyByNo(String no);
 
 	public List<FbContractOver> selectFbJsByNo(String no);
 }

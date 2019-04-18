@@ -23,7 +23,7 @@ public class ProjectTrace {
 
     private String traceDepartment;
     
-    private Float predictPrjScale;
+    private Double predictPrjScale;
 
     private String prjDesc;
 
@@ -146,11 +146,11 @@ public class ProjectTrace {
 		this.traceDepartment = traceDepartment;
 	}
 
-	public Float getPredictPrjScale() {
+	public Double getPredictPrjScale() {
 		return predictPrjScale;
 	}
 
-	public void setPredictPrjScale(Float predictPrjScale) {
+	public void setPredictPrjScale(Double predictPrjScale) {
 		this.predictPrjScale = predictPrjScale;
 	}
 

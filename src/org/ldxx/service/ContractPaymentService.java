@@ -25,13 +25,13 @@ public interface ContractPaymentService {
 	
 	public Pay getTotalPayMoney(String no);
 	
-	public int addPayResultInfo(String id,float resultPay,String payTime);
+	public int addPayResultInfo(String id,Double resultPay,String payTime);
 
 	int updateHistoryById(String id);
 	
 	Pay getAllDaiDianByFbNo(String no);//获取所有代垫款
 	
-	int updateAuthorisePayment(String id,float money);
+	int updateAuthorisePayment(String id,Double money);
 
 	int updatePayById(Pay pay);
 	

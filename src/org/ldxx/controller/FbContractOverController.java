@@ -267,7 +267,7 @@ public class FbContractOverController {
 	
 	@RequestMapping("/selectFbJsMoneyByNo")//通过任务单号查找结算金额
 	@ResponseBody
-	public float selectFbJsMoneyByNo(String no){
+	public Double selectFbJsMoneyByNo(String no){
 		return service.selectFbJsMoneyByNo(no);
 	}
 	

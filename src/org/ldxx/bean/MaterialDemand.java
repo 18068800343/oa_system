@@ -13,7 +13,7 @@ public class MaterialDemand {
 
     private String buyCompany;
 
-    private Float price;
+    private Double price;
     
     private int num;
 
@@ -146,11 +146,11 @@ public class MaterialDemand {
 		this.sureMaterialMode = sureMaterialMode;
 	}
 
-	public Float getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Float price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

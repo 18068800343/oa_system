@@ -44,7 +44,7 @@ public interface CgOtherContractService {
 
 	List<CgOtherContract> getCGoNametaskNoAndByPrjName(String name);
 
-	int updateDepartmentMoney(float price, String id);
+	int updateDepartmentMoney(Double price, String id);
 
 	int updateMaterial(MaterialDemand md);
 

@@ -85,7 +85,7 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 	}
 
 	@Override
-	public int addPayResultInfo(String id, float resultPay, String payTime) {
+	public int addPayResultInfo(String id, Double resultPay, String payTime) {
 		return payDao.addPayResultInfo(id, resultPay, payTime);
 	}
 
@@ -104,7 +104,7 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 	}
 
 	@Override
-	public int updateAuthorisePayment(String id, float money) {
+	public int updateAuthorisePayment(String id, Double money) {
 		return payDao.updateAuthorisePayment(id, money);
 	}
 

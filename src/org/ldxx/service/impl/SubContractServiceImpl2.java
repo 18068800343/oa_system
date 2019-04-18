@@ -141,8 +141,8 @@ public class SubContractServiceImpl2 implements SubContractService2 {
 
 	@Override
 	public List<FbCgContract> selectSubContract(String status, String startMin, String startMax, String endMin,
-			String endMax, String mainDp, String spType, float fbMoneyMin, float fbMoneyMax, float contractMoneyMin,
-			float contractMoneyMax, float zdMoneyMin, float zdMoneyMax) {
+			String endMax, String mainDp, String spType, Double fbMoneyMin, Double fbMoneyMax, Double contractMoneyMin,
+			Double contractMoneyMax, Double zdMoneyMin, Double zdMoneyMax) {
 		return scDao.selectSubContract(status, startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 

@@ -25,7 +25,7 @@ public interface ContractPaymentDao {
 	
 	public Pay getTotalPayMoney(@Param("no")String no);
 	
-	public int addPayResultInfo(@Param("id")String id,@Param("resultPay")float resultPay,@Param("payTime")String payTime);
+	public int addPayResultInfo(@Param("id")String id,@Param("resultPay")Double resultPay,@Param("payTime")String payTime);
 
 	int updateHistoryById(@Param("id")String id);
 
@@ -33,7 +33,7 @@ public interface ContractPaymentDao {
 
 	Pay getAllDaiDianByFbNo(@Param("no")String no);//获取所有代垫款
 	
-	int updateAuthorisePayment(@Param("id")String id,@Param("money")float money);
+	int updateAuthorisePayment(@Param("id")String id,@Param("money")Double money);
 
 	int updatePayById(@Param("pay")Pay pay);
 	

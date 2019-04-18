@@ -354,7 +354,7 @@ public class ContractPaymentController {
 	
 	@RequestMapping("/updatePaySave")//修改保存
 	@ResponseBody
-	public int updatePaySave(String payId,float resultPay,String payTime) throws IllegalStateException, IOException{
+	public int updatePaySave(String payId,Double resultPay,String payTime) throws IllegalStateException, IOException{
 		int i=payService.addPayResultInfo(payId, resultPay, payTime);
 		return i;
 	}
@@ -404,7 +404,7 @@ public class ContractPaymentController {
 	@RequestMapping("/updateAuthorisePayment")
 	@ResponseBody
 	public int updateAuthorisePayment(String id,String money){
-		Float money1 = Float.valueOf(money);
+		Double money1 = Double.valueOf(money);
 		int i=payService.updateAuthorisePayment(id, money1);
 		return i;
 	}

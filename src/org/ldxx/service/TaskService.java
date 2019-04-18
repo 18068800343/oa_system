@@ -13,7 +13,7 @@ public interface TaskService {
 	
 	public int updateTask(Task task);
 	
-	public List<Task> selectTaskByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,float prjMoneyMin,float prjMoneyMax,float contractMoneyMin,float contractMoneyMax,float zdMoneyMin,float zdMoneyMax);
+	public List<Task> selectTaskByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double prjMoneyMin,Double prjMoneyMax,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax);
 	
 	public List<Task> selectTaskByStatus2(String status);
 	

@@ -645,7 +645,7 @@ public class CgOtherContractController {
 	
 	@RequestMapping("/updateDepartmentMoney")//修改部门金额
 	@ResponseBody
-	public int updateDepartmentMoney(float price,String id){
+	public int updateDepartmentMoney(Double price,String id){
 		return cgoService.updateDepartmentMoney(price,id);
 	}
 	

@@ -13,7 +13,7 @@ public interface CjContractDao {
 	
 	public int updateCjContract(@Param("cj")CjContract cj);
 	
-	public List<CjContract> selectCjContractByStatus(@Param("status")String status,@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("contractMoneyMin") float contractMoneyMin,@Param("contractMoneyMax") float contractMoneyMax,@Param("zdMoneyMin") float zdMoneyMin,@Param("zdMoneyMax") float zdMoneyMax);
+	public List<CjContract> selectCjContractByStatus(@Param("status")String status,@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("contractMoneyMin") Double contractMoneyMin,@Param("contractMoneyMax") Double contractMoneyMax,@Param("zdMoneyMin") Double zdMoneyMin,@Param("zdMoneyMax") Double zdMoneyMax);
 	
 	public CjContract selectCjContractById(@Param("id")String id);
 	

@@ -35,7 +35,7 @@ public interface PrjProgressFillService {
 	
 	public PrjProgressFill getCost(String no);
 	
-	public float getDepartmentCost(String department,String id);
+	public Double getDepartmentCost(String department,String id);
 	
 	public int countOfDepartmentCost(String department,String id);
 

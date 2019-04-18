@@ -8,7 +8,7 @@ import org.ldxx.bean.FbContract;
 
 public interface SubContractDao {
 
-	List<FbContract> selectSubContract(@Param("status")String status,@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")float fbMoneyMin,@Param("fbMoneyMax")float fbMoneyMax,@Param("contractMoneyMin")float contractMoneyMin,@Param("contractMoneyMax")float contractMoneyMax,@Param("zdMoneyMin")float zdMoneyMin,@Param("zdMoneyMax")float zdMoneyMax);
+	List<FbContract> selectSubContract(@Param("status")String status,@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")Double fbMoneyMin,@Param("fbMoneyMax")Double fbMoneyMax,@Param("contractMoneyMin")Double contractMoneyMin,@Param("contractMoneyMax")Double contractMoneyMax,@Param("zdMoneyMin")Double zdMoneyMin,@Param("zdMoneyMax")Double zdMoneyMax);
 
 	int saveSubContract(@Param("fbContract")FbContract fbContract);
 
