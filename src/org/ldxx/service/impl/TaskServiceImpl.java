@@ -128,6 +128,7 @@ public class TaskServiceImpl implements TaskService{
 		task.setEnterprise(enterprise);
 		String mainPrjNo = task.getPrjNo();
 		List<Task> taskChildren = tdao.selectTaskAndTaskChildrenByMainPrjNo(mainPrjNo,id);
+		taskChildren.add(task);
 		task.setTaskChildren(taskChildren);
 		return task;
 	}
