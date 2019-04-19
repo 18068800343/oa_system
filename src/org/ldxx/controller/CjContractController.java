@@ -831,7 +831,7 @@ public class CjContractController {
 	@RequestMapping("/addContractUpdateTask")
 	@ResponseBody
  	public int addContractUpdateTask(@RequestBody List<Task> task){
-		int i=cuService.addContractUpdateMainTask(task);
+		int i=cuService.addContractUpdateMainTaskchaifen(task);
 		return i;
 	}
 	

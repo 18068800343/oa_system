@@ -140,4 +140,28 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 		return dao.selectDeptContractMoneyByStartAndEndTime(start, end, dept);
 	}
 	
+	@Override
+	public int addContractUpdateMainTaskchaifen(List<Task> task) {
+			int i=0;
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM");
+			String year=sdf.format(new Date());
+			//拆分任务单子任务单contractUpdate列
+			List<ContractUpdate> cus=splitTask(task);
+			
+			//拆分任务单主任务单contractUpdate列,对应子任务单金额的负数（0-Money）。
+			List<ContractUpdate> cut=new ArrayList<ContractUpdate>();
+			//创建主任务单对应原本的需要减少的负钱款
+			Task mtask = taskDao.selectTaskPrjName(task.get(0).getMainPrjNo());
+			ContractUpdate mcu =new ContractUpdate();			
+			mcu.setPrjNo(mtask.getPrjNo());
+			mcu.setDept(mtask.getMainDepartment());
+			mcu.setTime(year);
+			ContractUpdate m2cu=dao.selectContractUpdateByPrjNoAndDept(task.get(0).getMainPrjNo(), mcu.getDept());
+			mcu.setMoney(mtask.getPrjEstimateMoney()-m2cu.getMoney());	
+			cut.add(mcu);
+			
+			dao.addContractUpdate(cut);
+			i=dao.addContractUpdate(cus);
+			return i; 
+		}
 }

@@ -24,4 +24,6 @@ public interface ContractUpdateService {
 
 	int addContractUpdateMainTask(List<Task> task);
 	
+	int addContractUpdateMainTaskchaifen(List<Task> task);
+	
 }
