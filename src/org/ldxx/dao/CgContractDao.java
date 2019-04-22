@@ -33,6 +33,8 @@ public interface CgContractDao {
 	List<CgContract> getCGNameByNo(@Param("cgNo")String cgNo);
 
 	List<CgContract> getCGNoByName(@Param("contractName")String contractName);
+	
+	List<CgContract> getCGNoByTaskNo(@Param("no")String no);
 
 	List<CgContract> getCGNameAndPrjNameBytaskNo(@Param("no")String no);
 

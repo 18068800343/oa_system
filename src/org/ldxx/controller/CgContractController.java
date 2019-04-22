@@ -630,6 +630,12 @@ public class CgContractController {
 		return cgService.getCGNoByName(contractName);
 	}
 	
+	@RequestMapping("/getCGNoByTaskNo")//通过任务单号获得合同编号
+	@ResponseBody
+	public List<CgContract> getCGNoByTaskNo(String no){
+		return cgService.getCGNoByTaskNo(no);
+	}
+	
 	
 	@RequestMapping("/getCGNameAndPrjNameBytaskNo")//通过任务单获得采购合同和项目名
 	@ResponseBody

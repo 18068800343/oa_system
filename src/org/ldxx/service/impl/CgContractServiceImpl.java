@@ -286,4 +286,10 @@ public class CgContractServiceImpl implements CgContractService {
 		return cgc;
 	}
 
+	@Override
+	public List<CgContract> getCGNoByTaskNo(String no) {
+		List<CgContract> list = cgDao.getCGNoByTaskNo(no);
+		return list;
+	}
+
 }

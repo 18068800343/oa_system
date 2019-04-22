@@ -726,6 +726,11 @@
                         	</thead>
                         	<tbody></tbody>
 	                </table>	
+	                <table class="table table-bordered table-condensed" id="look_cgContract">
+	                    	<thead>
+                        	</thead>
+                        	<tbody></tbody>
+	                </table>	
 					<br/>
 					<h2 style="color:red;">历史信息</h2>
 					<table class="table table-bordered table-condensed" id="history_table" style="width:100%;">
@@ -3821,7 +3826,30 @@
 			        		}
 			        	}
 	    	});
-		 
+		 $.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/cgcontract/getCGNoByTaskNo',
+		        dataType: 'json',
+		        data:{
+		           no:data.prjNo
+		        },
+		        success: function (json) {
+		        	$("#look_cgContract tbody").html('');
+		        	var cgContractahtml="<a href='../chankanxiangqing/cgContractDetails.html?cgNo="+json[0].cgNo+"' target='view_window' style='color:blue;'>"+json[0].cgNo+"</a>";
+		        	for(var i=1;i<json.length;i++){
+		        		cgContractahtml+="，<a href='../chankanxiangqing/cgContractDetails.html?cgNo="+json[i].cgNo+"' target='view_window' style='color:blue;'>"+json[i].cgNo+"</a>";     	  
+		            	   }
+			        	if(cgContractahtml!=""){
+			        	 $("#look_fbcontract tbody").append(
+			            			"<tr>"
+			            			+"<td style='width:20%;'>分包合同单号</td>"
+										+"<td colspan='3'>"
+											+cgContractahtml
+											+"</td>"
+					         	    +"</tr>");
+			        		}
+			        	}
+	    	});
 		 $.ajax({
 	        	type: 'POST',
 	            url: getContextPath()+'/flowHistory/getHistoryNowAndLastByModeId',
