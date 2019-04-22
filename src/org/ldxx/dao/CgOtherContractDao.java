@@ -34,6 +34,8 @@ public interface CgOtherContractDao {
 
 	List<CgOtherContract> getCGoNoByName(@Param("contractName")String contractName);
 
+	List<CgOtherContract> getCGoNoByTaskNo(String no);
+	
 	List<CgOtherContract> getCGoNameAndPrjNameBytaskNo(@Param("no")String no);
 
 	List<CgOtherContract> getCGoNametaskNoAndByPrjName(@Param("name")String name);

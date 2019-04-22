@@ -6,6 +6,7 @@ import java.util.List;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.BorrowContract;
 import org.ldxx.bean.CgCl;
+import org.ldxx.bean.CgContract;
 import org.ldxx.bean.CgOtherContract;
 import org.ldxx.bean.FbContract;
 import org.ldxx.bean.MaterialDemand;
@@ -24,7 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+
 public class CgOtherContractServiceImpl implements CgOtherContractService {
 	
 	@Autowired
@@ -228,6 +229,12 @@ public class CgOtherContractServiceImpl implements CgOtherContractService {
 		}
 		// TODO Auto-generated method stub
 		return cgoc;
+	}
+
+	@Override
+	public List<CgOtherContract> getCGoNoByTaskNo(String cgoNo) {
+		List<CgOtherContract> list = cgoDao.getCGoNoByTaskNo(cgoNo);
+		return list;
 	}
 
 	

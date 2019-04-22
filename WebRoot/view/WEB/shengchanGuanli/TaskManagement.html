@@ -730,7 +730,12 @@
 	                    	<thead>
                         	</thead>
                         	<tbody></tbody>
-	                </table>	
+	                </table>
+	                <table class="table table-bordered table-condensed" id="look_cgoContract">
+	                    	<thead>
+                        	</thead>
+                        	<tbody></tbody>
+	                </table>
 					<br/>
 					<h2 style="color:red;">历史信息</h2>
 					<table class="table table-bordered table-condensed" id="history_table" style="width:100%;">
@@ -3842,9 +3847,33 @@
 			        	if(cgContractahtml!=""){
 			        	 $("#look_fbcontract tbody").append(
 			            			"<tr>"
-			            			+"<td style='width:20%;'>采购合同单号</td>"
+			            			+"<td style='width:20%;'>材料设备采购合同单号</td>"
 										+"<td colspan='3'>"
 											+cgContractahtml
+											+"</td>"
+					         	    +"</tr>");
+			        		}
+			        	}
+	    	});
+		 $.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/cgOtherContract/getCGoNoByTaskNo',
+		        dataType: 'json',
+		        data:{
+		           no:data.prjNo
+		        },
+		        success: function (json) {
+		        	$("#look_cgoContract tbody").html('');
+		        	var cgoContractahtml="<a href='../chankanxiangqing/cgoContractDetails.html?cgoNo="+json[0].cgoNo+"' target='view_window' style='color:blue;'>"+json[0].cgoNo+"</a>";
+		        	for(var i=1;i<json.length;i++){
+		        		cgoContractahtml+="，<a href='../chankanxiangqing/cgoContractDetails.html?cgoNo="+json[i].cgoNo+"' target='view_window' style='color:blue;'>"+json[i].cgoNo+"</a>";     	  
+		            	   }
+			        	if(cgoContractahtml!=""){
+			        	 $("#look_fbcontract tbody").append(
+			            			"<tr>"
+			            			+"<td style='width:20%;'>其他采购合同单号</td>"
+										+"<td colspan='3'>"
+											+cgoContractahtml
 											+"</td>"
 					         	    +"</tr>");
 			        		}

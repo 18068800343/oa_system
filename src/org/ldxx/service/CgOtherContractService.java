@@ -38,6 +38,8 @@ public interface CgOtherContractService {
 
 	List<CgOtherContract> getCGoNameByNo(String cgoNo);
 
+	List<CgOtherContract> getCGoNoByTaskNo(String cgoNo);
+	
 	List<CgOtherContract> getCGoNoByName(String contractName);
 
 	List<CgOtherContract> getCGoNameAndPrjNameBytaskNo(String no);

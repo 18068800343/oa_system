@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.BorrowContract;
 import org.ldxx.bean.CgCl;
+import org.ldxx.bean.CgContract;
 import org.ldxx.bean.CgOtherContract;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ContractReason;
@@ -628,6 +629,12 @@ public class CgOtherContractController {
 	@ResponseBody
 	public List<CgOtherContract> getCGoNoByName(String contractName){
 		return cgoService.getCGoNoByName(contractName);
+	}
+	
+	@RequestMapping("/getCGoNoByTaskNo")//通过任务单号获得合同编号
+	@ResponseBody
+	public List<CgOtherContract> getCGoNoByTaskNo(String no){
+		return cgoService.getCGoNoByTaskNo(no);
 	}
 	
 	
