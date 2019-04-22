@@ -168,10 +168,24 @@ public class Task2Controller {
 		 List<Task2> task2ByNo = tService.selectTask2ByNo(no);
 		 TDepartment td=tDepartmentDao.getDistinctDepartmentIncomeByNo(no);
 		 if(td!=null){
-			 for(int i=0;i<task2ByNo.size();i++){
-				 Double income2 = td.getdIncome2();
-				 Double money2 = task2ByNo.get(i).getdMoney2();
-				 task2ByNo.get(i).setdMoney2(income2+money2);
+			 if(task2ByNo!=null&&task2ByNo.size()!=0){
+				 for(int i=0;i<task2ByNo.size();i++){
+					 Double income2 = td.getdIncome2();
+					 Double money2 = task2ByNo.get(i).getdMoney2();
+					 task2ByNo.get(i).setdMoney2(income2+money2);
+					 task2ByNo.get(i).setOmId(td.getOmId());
+					 task2ByNo.get(i).setdName(td.getdName());
+					 task2ByNo.get(i).settName(td.gettName());
+					 task2ByNo.get(i).settNo(td.gettNo());
+				 }
+			 }else{
+				 Task2 t2=new Task2();
+				 t2.settName(td.gettName());
+				 t2.settNo(td.gettNo());
+				 t2.setdName(td.getdName());
+				 t2.setOmId(td.getOmId());
+				 t2.setdMoney2(td.getdIncome2());
+				 task2ByNo.add(t2);
 			 }
 		 }
 		 return task2ByNo;
