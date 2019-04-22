@@ -615,6 +615,12 @@ public class SubContractController {
 		return scService.getFBNoBycjNo(no);
 	}
 	
+	@RequestMapping("/getFBNoBytaskNo")//通过主合同号获得分包合同编号
+	@ResponseBody
+	public List<FbContract> getFBNoBytaskNo(String no){
+		return scService.getFBNoBytaskNo(no);
+	}
+	
 	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
 	@ResponseBody
 	public int updateHistoryById(String id){

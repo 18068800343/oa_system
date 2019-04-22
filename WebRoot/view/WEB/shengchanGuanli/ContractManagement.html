@@ -664,6 +664,12 @@
                         	<tbody></tbody>
 	                    </table>
 	                    <div id="look_renwudanFenpei"></div>
+	                    <table class="table table-bordered table-condensed" id="look_fbcontract">
+	                    	<thead>
+                        	</thead>
+                        	<tbody></tbody>
+	                    </table>
+
 	                    <!-- <table class="table table-bordered table-condensed" id="look_xieban">
 	                        <thead>
 	                            <tr>
@@ -3244,7 +3250,33 @@ function checkquxiaoSplit(){
 	        	}
 	        }
     	});
+    	
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/subcontract/getFBNoBycjNo',
+	        dataType: 'json',
+	        data:{
+	           no:data.contractNo
+	        },
+	        success: function (json) {
+	        	$("#look_fbcontract tbody").html('');
+	        	var fbcontractahtml="<a href='../chankanxiangqing/fbContractDetails.html?fbNo="+json[0].fbNo+"' target='view_window' style='color:blue;'>"+json[0].fbNo+"</a>";
+	        	for(var i=1;i<json.length;i++){
+	        		fbcontractahtml+="，<a href='../chankanxiangqing/fbContractDetails.html?fbNo="+json[i].fbNo+"' target='view_window' style='color:blue;'>"+json[i].fbNo+"</a>";     	  
+	            	   }
+		        	if(fbcontractahtml!=""){
+		        	 $("#look_fbcontract tbody").append(
+		            			"<tr>"
+		            			+"<td style='width:20%;'>分包合同单号</td>"
+									+"<td colspan='3'>"
+										+fbcontractahtml
+										+"</td>"
+				         	    +"</tr>");
+		        		}
+		        	}
+    	});
   		
+    	
     	$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/cj/selectCjHistory',

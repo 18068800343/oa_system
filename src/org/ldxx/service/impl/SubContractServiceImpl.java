@@ -188,4 +188,10 @@ public class SubContractServiceImpl implements SubContractService {
 		return scDao.getShenpiFbMoneyByCjNo(cjno);
 	}
 
+	@Override
+	public List<FbContract> getFBNoBytaskNo(String no) {
+		List<FbContract> list =scDao.getFBNoBytaskNo(no);
+		return list;
+	}
+
 }

@@ -39,6 +39,8 @@ public interface SubContractDao {
 	List<FbContract> getFbcjNo();
 
 	List<FbContract> getFBNoBycjNo(@Param("no")String no);
+	
+	List<FbContract> getFBNoBytaskNo(String no);
 
 	int updateHistoryById(@Param("id")String id);
 
