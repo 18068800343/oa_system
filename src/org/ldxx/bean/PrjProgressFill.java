@@ -49,7 +49,15 @@ public class PrjProgressFill {
 	
 	private List<Accessory> accessory;
 	private CjContract cj;
+	private double benqishouru;
 	
+	
+	public double getBenqishouru() {
+		return benqishouru;
+	}
+	public void setBenqishouru(double benqishouru) {
+		this.benqishouru = benqishouru;
+	}
 	public double getRate() {
 		return rate;
 	}

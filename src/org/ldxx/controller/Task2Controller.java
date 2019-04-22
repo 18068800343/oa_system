@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.CompanyCost;
+import org.ldxx.bean.CompanyCostCf;
 import org.ldxx.bean.SecondCompanyCost;
 import org.ldxx.bean.TDepartment;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.Task2;
+import org.ldxx.dao.CompanyCostCfDao;
 import org.ldxx.dao.CompanyCostDao;
 import org.ldxx.dao.SecondCompanyCostDao;
 import org.ldxx.dao.TDepartmentDao;
@@ -54,6 +56,8 @@ public class Task2Controller {
 	private CompanyCostDao ccDao;
 	@Autowired
 	private TaskService taskService;
+	@Autowired
+	private CompanyCostCfDao cccdao;
 	
 	@RequestMapping("/importExcel")
 	@ResponseBody
@@ -78,12 +82,16 @@ public class Task2Controller {
 	public int importExcelCompanyCost(@RequestParam("file") MultipartFile file,String time,HttpServletResponse response,HttpSession session) throws IOException{
 		InputStream is=file.getInputStream();
 		ImportData importData=new ImportData();
-		Map<String,Object> map=importData.readExcelCompanyCost(is);
+		Map<String,Object> map=importData.readExcelCompanyCost(is,time);
 		List<CompanyCost> cc=(List<CompanyCost>) map.get("fR2");
 		for(int ii=0;ii<cc.size();ii++){
 			cc.get(ii).setDate(time);
 		}
 		int i=ccDao.addCompanyCost(cc);
+		/*List<CompanyCostCf> ccclist = (List<CompanyCostCf>) map.get("CompanyCostCf");
+		if(i>0){
+			i=cccdao.addCompanyCostCf(ccclist);
+		}*/
 		return i;
 	}
 
@@ -98,6 +106,13 @@ public class Task2Controller {
 	@ResponseBody
 	public List<SecondCompanyCost> selectSecondCompanyCost(){
 		List<SecondCompanyCost> list=sccDao.selectSecondComCost();
+		return list;
+	}
+	
+	@RequestMapping("/selectCompanyCostCf")//获取拆分的间接费用成本
+	@ResponseBody
+	public List<CompanyCostCf> selectCompanyCostCf(){
+		List<CompanyCostCf> list=cccdao.selectCompanyCostCf();
 		return list;
 	}
 	

@@ -26,7 +26,15 @@ public class PrjProgressFillInfo {
 	private String type;//1:收入拆分,2:本期收入,3:本期收款,4:累计收款,5:本期成本,6:累计成本
 	private String main;//是否为主办 1：主办 0：协办
 	
+	private Double SummoneyYuan;
 	
+	
+	public Double getSummoneyYuan() {
+		return SummoneyYuan;
+	}
+	public void setSummoneyYuan(Double summoneyYuan) {
+		SummoneyYuan = summoneyYuan;
+	}
 	public Double getAllMoneyYuan() {
 		return allMoneyYuan;
 	}

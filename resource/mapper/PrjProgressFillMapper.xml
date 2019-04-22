@@ -256,4 +256,18 @@
   	<select id="selectNewFbInfoByFbId" resultType="PrjProgressFillFb">
   		SELECT * FROM prj_progress_fill_fb where fb_id=#{no} ORDER BY bq desc limit 1
   	</select>
+  	
+  	<select id="getmoneyYuanByDepartmentAndDate" resultType="PrjProgressFill">
+  		SELECT  a.prj_name,a.task_no,a.this_time,b.money_yuan as benqishouru FROM prj_progress_fill a 
+  		LEFT JOIN mode_status AS m ON a.ppf_id = m.mode_id
+		LEFT JOIN prj_progress_fill_info b on a.ppf_id=b.ppf_id
+		where a.this_time=#{time} AND b.department=#{nowStr} and m.status=2
+  	</select>
+  	
+  	<select id="getSummoneyYuan" resultType="Double">
+  		SELECT sum(b.money_yuan) FROM prj_progress_fill a 
+			LEFT JOIN prj_progress_fill_info b on a.ppf_id=b.ppf_id
+			LEFT JOIN mode_status AS m ON a.ppf_id = m.mode_id
+		where a.this_time=#{time} AND b.department=#{nowStr} and m.status=2
+  	</select>
 </mapper>

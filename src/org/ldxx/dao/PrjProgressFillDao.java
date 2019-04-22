@@ -94,4 +94,8 @@ public interface PrjProgressFillDao {
 	public PrjProgressFill selectNewPlanByTaskNo(@Param("no")String no);
 	
 	public PrjProgressFillFb selectNewFbInfoByFbId(@Param("no")String no);
+
+	public List<PrjProgressFill> getmoneyYuanByDepartmentAndDate(@Param("nowStr")String nowStr,@Param("time") String time);
+
+	public Double getSummoneyYuan(@Param("nowStr")String nowStr,@Param("time") String time);
 }

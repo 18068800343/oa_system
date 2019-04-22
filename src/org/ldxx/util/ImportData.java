@@ -2,6 +2,7 @@ package org.ldxx.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,12 +26,16 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.ldxx.bean.CompanyCost;
+import org.ldxx.bean.CompanyCostCf;
 import org.ldxx.bean.FinancialTables;
+import org.ldxx.bean.PrjProgressFill;
+import org.ldxx.bean.PrjProgressFillInfo;
 import org.ldxx.bean.ReceiveMoney;
 import org.ldxx.bean.SecondCompanyCost;
 import org.ldxx.bean.TDepartment;
 import org.ldxx.bean.Task2;
 import org.ldxx.bean.WxCost;
+import org.ldxx.dao.PrjProgressFillDao;
 import org.ldxx.dao.ReceiveMoneyDao;
 import org.ldxx.mapper.NodeActorsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +54,9 @@ public class ImportData {
 	
 	@Autowired
 	ReceiveMoneyDao receiveMoneyDao;
+	
+	@Autowired
+	PrjProgressFillDao ppfDao;
 	
 	public Map<String,Object> readXls(InputStream is, String time) throws IOException {  
 		Map<String,Object> map=new HashMap<String, Object>();
@@ -507,7 +515,7 @@ public class ImportData {
 		        map.put("fR2", t);
 		        return map;  
 		    }
-	 public  Map<String,Object> readExcelCompanyCost(InputStream is) throws IOException { 
+	 public  Map<String,Object> readExcelCompanyCost(InputStream is, String time) throws IOException { 
 		 Map<String,Object> map=new HashMap<String, Object>();
 		 Workbook  hssfWorkbook=null;
 		 try {
@@ -516,6 +524,7 @@ public class ImportData {
 			 e.printStackTrace();
 		 }  
 		 List<CompanyCost> t = new ArrayList<CompanyCost>();
+		 List<CompanyCostCf> ccclist=new ArrayList<>();
 		 // 循环工作表Sheet  
 		 for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) { 
 			 Sheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);  
@@ -568,6 +577,7 @@ public class ImportData {
 						 }
 						 ft.setPrjName(getValue(colum4));
 						 String cc6 = getValue(colum6);
+						 String nowStr = "";
 						 if(!"".equals(cc6)){
 							 cc6 = cc6.replace("：", ":");
 							 if(cc6.contains("宿迁分公司")){
@@ -575,7 +585,7 @@ public class ImportData {
 							 }
 							 if(cc6.contains(":")){
 								String[] strings =  cc6.split(":");
-								String nowStr = strings[1];
+								nowStr = strings[1];
 								if(nowStr.endsWith("】")){
 									nowStr = nowStr.substring(0, nowStr.length()-1);
 								}
@@ -595,10 +605,33 @@ public class ImportData {
 							 ft.setMoney2(null);
 						 }
 						 t.add(ft);
+						 
+						 //根据月份和部门拆分间接成本费用（根据月份和部门去进度表查询当前部门和月份的本期收入/当前部门和月份的的所有本期收入和*当前部门和当前任务单名称的间接成本）
+						 /*List<PrjProgressFill> ppf=INSTANCE.ppfDao.getmoneyYuanByDepartmentAndDate(nowStr,time);//根据月份和部门去进度表查询当前部门和月份的本期收入
+						 Double SummoneyYuan=INSTANCE.ppfDao.getSummoneyYuan(nowStr,time);//当前部门和月份的的所有本期收入和
+						 Double money = Double.valueOf((cc9));//间接成本
+						 if(ppf!=null&&ppf.size()!=0){
+							 for(int k=0;k<ppf.size();k++){
+								 Double moneyYuan = ppf.get(k).getBenqishouru();
+								 double cfmoney=moneyYuan/SummoneyYuan*money;
+								 CompanyCostCf ccc=new CompanyCostCf();
+								 String id=new TimeUUID().getTimeUUID();
+								 ccc.setCfjjId(id);
+								 ccc.setDate(time);
+								 ccc.setDepartment(nowStr);
+								 ccc.setPrjName(ppf.get(k).getPrjName());
+								 ccc.setPrjNo(ppf.get(k).getTaskNo());
+								 ccc.setCfMoney(cfmoney);
+								 ccclist.add(ccc);
+							 }
+						 }*/
+						 
+						 
 					 }
 			 }  
 		 } 
 		 map.put("fR2", t);
+		 //map.put("CompanyCostCf", ccclist);
 		 return map;  
 	 }
     public static boolean isNumeric(String str){
