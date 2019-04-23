@@ -1,25 +1,31 @@
-package org.ldxx.controller;
+package org.ldxx.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.annotation.PostConstruct;
+
 import org.ldxx.bean.BackUpDataBase;
 import org.ldxx.dao.AutoBackUpDataBaseDao;
-import org.ldxx.util.CMDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
-@Controller
-public class AutoBackUpDataBaseController {
+@Component
+public class AutoDataBase implements Runnable{
 
+public static AutoDataBase INSTANCE; 
+	
+	@PostConstruct // 第三步  
+    public void init() {  
+        INSTANCE = this;
+        INSTANCE.dao=this.dao;
+    } 
 	
 	@Autowired
 	private AutoBackUpDataBaseDao dao;
 	
-	@Scheduled(cron = "0 0 23 * * ?")
-	private void test(){
+	@Override
+	public void run() {
 		System.out.println("准备运行备份命令");
 		String path = CMDUtil.buildSqlBack();
 		if(path==null){
@@ -30,7 +36,7 @@ public class AutoBackUpDataBaseController {
 			bd.setCreateuser("系统");
 			bd.setMemo("系统自动备份");
 			bd.setPath(path);
-			dao.insertDataBaseBack(bd);
+			INSTANCE.dao.insertDataBaseBack(bd);
  			System.out.println(path);
 		}
 	}
