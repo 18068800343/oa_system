@@ -28,12 +28,11 @@ public class LoopJobListener implements ServletContextListener {
 		String nowDateStr = simpleDateFormat.format(nowDate).substring(0, 10);
 		System.out.println(nowDateStr);
 	      try {
-			Date date = simpleDateFormat.parse(nowDateStr+" 23:00:00");
+			Date date = simpleDateFormat.parse(nowDateStr+" 24:00:00");
 			waitTime = (date.getTime()-nowDate.getTime())/1000;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-	    System.out.println(waitTime);
     	schedule.scheduleWithFixedDelay(new AutoDataBase(), waitTime, 86400, TimeUnit.SECONDS);
     }
 }
