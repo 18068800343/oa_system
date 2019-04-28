@@ -212,7 +212,7 @@ public class CgContractController {
 				Accessory accessory=new Accessory();
 				String fileName=file[i].getOriginalFilename();
 				String filePath=path+File.separator+fileName;
-				File f2=new File(filePath);
+				File f2=new File(filePath);   
 				file[i].transferTo(f2);
 				accessory.setaId(id);
 				accessory.setAcName(fileName);
