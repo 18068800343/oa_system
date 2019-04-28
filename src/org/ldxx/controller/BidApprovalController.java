@@ -51,6 +51,21 @@ public class BidApprovalController {
 		return service.selectBidApproval(status);
 	}
 	
+	/**@param baId,businessPeople,bidPeople,tbUname
+	 * @return int 
+	 * @see 更改投标审批单商务负责人，投标人员以及 投标责任人
+	 * */
+	@RequestMapping("/updatePeopleByBaId")
+	@ResponseBody
+	public int updatePeopleByBaId(BidApproval bidApproval){
+		User user = userDao.getUserByUname(bidApproval.getTbUname());
+		if(null!=user){
+			String tbPeople = user.getUserId();
+			bidApproval.setTbPeople(tbPeople);
+		}
+		return bidApprovalDao.updatePeopleByBaId(bidApproval);
+	}
+	
 	@RequestMapping("/selectBidApproval2")
 	@ResponseBody
 	public List<BidApproval> selectBidApproval2(String status){

@@ -40,4 +40,6 @@ public interface BidApprovalDao {
 	int updateBidNoById(@Param("no")String no,@Param("id")String id);
 	
 	String CreateBidApprovalNumOrder(@Param("year")String year);
+	
+	int updatePeopleByBaId(@Param("ba")BidApproval ba);
 }

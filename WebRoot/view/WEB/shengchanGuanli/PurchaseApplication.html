@@ -227,7 +227,17 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title" id="myModalLabel"></h4>
 	      </div>
-	      <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>部门:</span>
+                            <select style="width:180px;" id="bumen" class="form-control" >
+                                
+                            </select>
+                        </div>
+                    </div>
+                </form>
+	      <div >
 	       			<!-- <select class="form-control" style="width:180px;" id=""></select> -->
 	       			<table class="table table-bordered table-condensed" style="width:100%" id="mingzibiao">
 	       				<thead>
@@ -1092,33 +1102,37 @@
             	toastr.error("请求失败");
             },
             success: function (json) {
+            	$("#bumen").empty();
                 for(var i=0;i<json.length;i++){
                 	$("#department").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+                	$("#bumen").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                 }
                 $("#department").trigger("change");
             }
 		});
     }
 
-  /*   $("#department").on("change",function(){
-    	$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/user/selectUserByomId',
-            dataType: 'json',
-            data: {
-            	omId:$("#department").val()
-            },
-            error: function (msg) {
-            	toastr.error("请求失败");
-            },
-            success: function (json) {
-            	$("#person").html('');
-                for(var i=0;i<json.length;i++){
-                	$("#person").append("<option value="+json[i].userId+">"+json[i].uName+"</option>");
-                }
-            }
-		});
-    }) */
+    $("#department").on("change",function(){
+    	$("#bumen").val($("#department").val());
+    }) 
+    
+    $("#bumen").on("change",function(){
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/user/selectUserByomId',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	omId:$("#bumen").val()
+	            },
+	            success: function (json) {
+	            	//console.log(json)
+	                $('#mingzibiao').dataTable().fnClearTable();
+	                $('#mingzibiao').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+    }) 
+    
     
     //已知部门，获取部门所属人员
 	$("#choseren").click(function(){
@@ -1134,7 +1148,7 @@
 	            dataType: 'json',
 	            async:false,
 	            data: {
-	            	omId:$("#department").val()
+	            	omId:$("#bumen").val()
 	            },
 	            success: function (json) {
 	            	//console.log(json)

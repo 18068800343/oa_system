@@ -59,6 +59,54 @@
                             <div class="UpperPartR">
                                 <button type="button" class="btn btn-primary Pdbaa" data-toggle="modal" data-target="#myModal">新建投标审批单</button>
                             </div>
+                            
+<!-- 修改相关人员Modal -->
+<div class="modal fade bs-example-modal-lg"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="changePeople">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改相关人员</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                            	<td>商务负责人</td>
+                            	<td>
+                            		<input type="text" id="shangwufuzeren" style="width:60%;" class="form-control" disabled="">
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-id="shangwufuzeren" onclick="updateId(this)" data-target="#addGuanliren">选择人员</button>
+                            	</td>
+                            	<td>报价人员</td>
+                            	<td>
+                            		<input type="text" id="baojiarenyuan" style="width:60%;" class="form-control" disabled="">
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-id="baojiarenyuan" onclick="updateId(this)" data-target="#addGuanliren">选择人员</button>
+                            	</td>
+                            </tr>
+                                                        <tr>
+                            	<td>协办责任人</td>
+                            	<td>
+                            		<input type="text" id="xiebanzerenren" style="width:60%;" class="form-control" disabled="">
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-id="xiebanzerenren" onclick="updateId(this)" data-target="#addGuanliren">选择人员</button>
+                            	</td>
+                            	<td></td>
+                            	<td>
+                            	</td>
+                            </tr>
+                        </table> 
+                    </form> 
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="peopleSave()">修改</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 修改相关人员Modal -->
+                            
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
     <div class="modal-dialog modal-lg" role="document" style="width:70%;">
@@ -119,12 +167,12 @@
                             	<td>项目报名人员  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
                             	<td>
                             		<input type="text" id="baomingren" style="width:60%;" class="form-control" disabled>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择报名人员</button>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-id="baomingren" onclick="updateId(this)"  data-target="#addGuanliren" >选择报名人员</button>
                             	</td>
                             	<td>项目购买标书人员</td>
                             	<td>
                             		<input type="text" id="goumairen" style="width:60%;" class="form-control" disabled>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren2">选择购买人员</button>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-id="goumairen" onclick="updateId2(this)" data-target="#addGuanliren2">选择购买人员</button>
                             	</td>
                             </tr>
                             <tr>
@@ -209,7 +257,7 @@
 </div>
 <!-- model项目结束 -->
 <!--选人 modal -->
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
+<div class="modal fade" tabindex="1"   role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -244,14 +292,14 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="saveGuanliren()" data-dismiss="modal">确定</button>
+                <button type="button" class="btn btn-primary" data-id="" id="saveId" onclick="saveModalById(this)" data-dismiss="modal">确定</button>
             </div>
         </div>
     </div>
 </div>
 <!-- 选人 modal结束 -->
 <!--选人 modal -->
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren2">
+<div class="modal fade" tabindex="1"  role="dialog"  aria-labelledby="myLargeModalLabel" id="addGuanliren2">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -286,7 +334,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="saveGuanliren2()" data-dismiss="modal">确定</button>
+                <button type="button" class="btn btn-primary" id="saveId2"  onclick="saveModalById2(this)" data-dismiss="modal">确定</button>
             </div>
         </div>
     </div>
@@ -405,6 +453,7 @@
     </div>
 </div>
 <!-- 修改model结束 -->
+
 
 
 <!-- xg项目 Modalxg -->
@@ -774,7 +823,7 @@
 								    "searchable": true,
 								    "render": function(data, type, full) {
 								    		/* <i class="iconfont icon-shanchu Pdbad" style="font-size:18px;cursor:pointer;display:none;" onclick="deleteBa(this)" title="删除"  id="delOrg"></i> */
-								  	  		return '  <i class="iconfont lookInfo  icon-icon-test Pdbab" style="font-size:18px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookBa(this)"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>   <i class="iconfont icon-xiugai editTime Pdbac" style="font-size:18px;cursor:pointer;display:none;" onclick="checkBa(this)" title="修改"  id="ChangeRisk"></i>'
+								  	  		return '  <i class="iconfont lookInfo  icon-icon-test Pdbab" style="font-size:18px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookBa(this)"  data-toggle="modal" data-target="#allMsg1" id="lookDetall"></i>   <i class="iconfont icon-xiugai editTime Pdbac" style="font-size:18px;cursor:pointer;display:none;" onclick="checkBa(this)" title="修改"  id="ChangeRisk"></i> <i class="glyphicon changePeopleI glyphicon-pencil" style="font-size:16px;cursor:pointer;display:none;" onclick="updatePeople(this)" title="修改"  id="changePeopleI"></i>'
 								        }
 								  }
 						],
@@ -804,6 +853,11 @@
 		                					}
 		                				}
 		                				
+		                				if(json.uName=="严法军"){
+		                					$(".changePeopleI").show();
+		                				}else{
+		                					$(".changePeopleI").hide();
+		                				}
 		                			}
 		                			
 		                		}
@@ -1437,6 +1491,21 @@
 		$("#goumairen").val(a);
 		$("#addGuanliren2").modal("hide");
 	}
+	
+	function saveModalById(dom){
+		var bumen=$("#bumen").val();
+		var a=$("input[name='mingzi']:checked").parent().next().text();
+		var idName = $(dom).attr("data-id");
+		$("#"+idName+"").val(a);
+		$("#addGuanliren").modal("hide");
+	}
+	function saveModalById2(dom){
+		var bumen=$("#bumen2").val();
+		var a=$("input[name='mingzi2']:checked").parent().next().text();
+		var idName = $(dom).attr("data-id");
+		$("#"+idName+"").val(a);
+		$("#addGuanliren2").modal("hide");
+	}
 	function savexgGuanliren(){
 		var bumen=$("#xgbumen").val();
 		var a=$("input[name='mingzi']:checked").parent().next().text();
@@ -1450,7 +1519,45 @@
 		$("#xgaddGuanliren2").modal("hide");
 	}
 
+	function huitianPeople(id){
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/BidApproval/selectBidApprovalById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:id,
+			},
+			success:function(json){
+				$("#shangwufuzeren").val(json.businessPeople);
+				$("#baojiarenyuan").val(json.bidPeople);
+				$("#xiebanzerenren").val(json.tbUname);
+			}
+		})
+	}
 	
+	function peopleSave(){
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/BidApproval/updatePeopleByBaId",
+			dataType:"json",
+			async:false,
+			data:{
+				baId:page_tbId,
+				businessPeople:$("#shangwufuzeren").val(),
+				bidPeople:$("#baojiarenyuan").val(),
+				tbUname:$("#xiebanzerenren").val(),
+			},
+			success:function(json){
+				if(json>0){
+					toastr.success("保存成功");
+					$("#changePeople").modal("hide");
+				}else{
+					toastr.error("保存失败");
+				}
+			}
+		})
+	}
 	
 	//查看详细信息
 	function lookBa(obj){
@@ -1841,6 +1948,28 @@
 			}
 		}) */
 	}
+	
+	function updateId(dom){
+		var dataId = $(dom).attr("data-id");
+		$("#saveId").attr("data-id",dataId);
+	}
+	function updateId2(dom){
+		var dataId = $(dom).attr("data-id");
+		$("#saveId2").attr("data-id",dataId);
+	}
+	
+	//投标审批单uuid全局变量
+	var page_tbId;
+	
+	function updatePeople(obj){
+		var tr=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(tr).data();
+		var id=data.baId;
+		page_tbId=id;
+		huitianPeople(id);
+		$("#changePeople").modal("show");
+	}
+	
 	//修改保存
 	function checkSave(){
 		var change_file_time=$("#change_file_time").val();
@@ -1981,6 +2110,14 @@
             return false;
         }
     })
+    
+    
+/* //使后打开的模态窗优先级高
+$(document).on("show.bs.modal", ".modal", function(event) {
+var zIndex = 1040 + 10 * $(".modal:visible").length;
+$(this).css("z-index", zIndex);
+}); */
+
 
 </script>
 </html>
