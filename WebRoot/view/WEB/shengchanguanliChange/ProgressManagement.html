@@ -314,6 +314,27 @@
                 <h4 class="modal-title" id="gridSystemModalLabel">选择进度</h4>
             </div>
             <div class="modal-body">
+			            	<div id="B1jieduan">
+			            		<form class="form-inline">
+		                        	<table class="table table-bordered table-condensed">
+		                        		<tr>
+		                        			<td><span>施工图设计：</span>&nbsp;&nbsp;<span id="b1_span1"></span></td>
+		                        			<td>
+		                        				<select style="width:180px;" id="b1_shigongsheji" class="form-control" >
+					                            	<option value="0">无</option>
+					                                <option value="55">成果内部审查</option>
+					                                <option value="80">施设文件交付</option>
+					                                <option value="85">外部审查会议纪要</option>
+					                                <option value="100">交工验收报告</option>
+					                            </select>
+		                        			</td>
+		                        			<td style="width:20%;">
+		                        				<input type="text" class="form-control" style="width:80%;" id="b1_span1_1" value="0" onchange="checkZs(this)">%
+		                        			</td>
+		                        		</tr>
+		                        	</table>
+				                </form>
+			            	</div>
 			            	<div id="B2jieduan">
 			            		<form class="form-inline">
 		                        	<table class="table table-bordered table-condensed">
@@ -329,7 +350,7 @@
 					                            </select>
 		                        			</td>
 		                        			<td style="width:20%;">
-		                        				<span id="b2_span1_1">0%</span>
+		                        				<input type="text" class="form-control" style="width:80%;" id="b2_span1_1" value="0" onchange="checkZs(this)">%
 		                        			</td>
 		                        		</tr>
 		                        		<tr>
@@ -344,7 +365,7 @@
 					                            </select>
 		                        			</td>
 		                        			<td style="width:20%;">
-		                        				<span id="b2_span2_1">0%</span>
+		                        				<input type="text" class="form-control" style="width:80%;" id="b2_span2_1" value="0" onchange="checkZs(this)">%
 		                        			</td>
 		                        		</tr>
 		                        	</table>
@@ -366,7 +387,7 @@
 					                            </select>
 		                					</td>
 		                					<td style="width:20%;">
-		                        				<span id="b3_span1_1">0%</span>
+		                						<input type="text" class="form-control" style="width:80%;" id="b3_span1_1" value="0" onchange="checkZs(this)">%
 		                        			</td>
 		                				</tr>
 		                        		<tr>
@@ -381,7 +402,7 @@
 					                            </select>
 		                        			</td>
 		                        			<td style="width:20%;">
-		                        				<span id="b3_span2_1">0%</span>
+		                        				<input type="text" class="form-control" style="width:80%;" id="b3_span2_1" value="0" onchange="checkZs(this)">%
 		                        			</td>
 		                        		</tr>
 		                        		<tr>
@@ -396,7 +417,7 @@
 					                            </select>
 		                        			</td>
 		                        			<td style="width:20%;">
-		                        				<span id="b3_span3_1">0%</span>
+		                        				<input type="text" class="form-control" style="width:80%;" id="b3_span3_1" value="0" onchange="checkZs(this)">%
 		                        			</td>
 		                        		</tr>
 		                        	</table>
@@ -418,7 +439,7 @@
 					                            </select>
 		                					</td>
 		                					<td style="width:20%;">
-		                        				<span id="b4_span1_1">0%</span>
+		                						<input type="text" class="form-control" style="width:80%;" id="b4_span1_1" value="0" onchange="checkZs(this)">%
 		                        			</td>
 		                				</tr>
 		                        		<tr>
@@ -433,7 +454,7 @@
 					                            </select>
 		                        			</td>
 		                        			<td style="width:20%;">
-		                        				<span id="b4_span2_1">0%</span>
+		                        				<input type="text" class="form-control" style="width:80%;" id="b4_span2_1" value="0" onchange="checkZs(this)">%
 		                        			</td>
 		                        		</tr>
 		                        	</table>
@@ -745,6 +766,10 @@
         initTable();
 	});
     
+    var yugong=0;
+	var chushe=0;
+	var shishe=0;
+    
     function GetQueryString(name){
         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
@@ -990,7 +1015,9 @@
 		$("#prjType2").val(data.prjType2);
 		$("#prj_mode").val(data.prjManagementModel);
 		$("#xiangmumd").modal("hide");
-		
+		yugong=data.yugongkebili;
+		chushe=data.chushebili;
+		shishe=data.shishebili;
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/subcontract/selectFbContractByTaskNo',
@@ -1184,7 +1211,7 @@
 				}
 				allPlan=allPlan+parseInt(plan2);
 			})
-			if(allPlan>=100){
+			if(allPlan>100){
 				toastr.error("拆分比例超过100%");
 				return;
 			}
@@ -1391,22 +1418,7 @@
 			toastr.error("请先选择项目");
 			return;
 		}
-		
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/task/selectIdByNo2',
-            dataType: 'json',
-            async:false,
-            data: {
-            	no:$('#task_no').val()
-            },
-            success: function (json) {
-            	yugong=json.yugongkebili;
-            	chushe=json.chushebili;
-            	shishe=json.shishebili;
-            }
-		})
-		
+		$("#B1jieduan").hide();
 		$("#B2jieduan").hide();
 		$("#B3jieduan").hide();
 		$("#B4jieduan").hide();
@@ -1419,6 +1431,9 @@
 			$("#B2jieduan").show();
 			$("#b2_span1").text(chushe+"%");
 			$("#b2_span2").text(shishe+"%");
+		}else if(str.indexOf("B1") != -1){
+			$("#B1jieduan").show();
+			$("#b1_span1").text("100%");
 		}else if(str.indexOf("B3") != -1){
 			$("#B3jieduan").show();
 			$("#b3_span1").text(yugong+"%");
@@ -1469,15 +1484,27 @@
 	var shigongtu="";
 	var reg = new RegExp("^[0-9]*$");
 	$("#quedingjindu").click(function(){
+		if($('#B1jieduan').is(':hidden')){
+		      //如果隐藏时。。。
+
+		}else{
+		      //如果显示时。。。
+		    yugongke="";
+		    chubu="";
+		    shigongtu=$("#shigongsheji option:selected").text()+" "+$("#b1_span1_1").val()+"%";
+		    var sum=1*parseInt($("#b1_span1_1").val());
+			$("#all_money").val(sum.toFixed(2)+"%");
+		}
+		
 		if($('#B2jieduan').is(':hidden')){
 		      //如果隐藏时。。。
 
 		}else{
 		      //如果显示时。。。
 		    yugongke="";
-		    chubu=$("#firstsheji option:selected").text()+" "+$("#firstsheji option:selected").val()+"%";
-		    shigongtu=$("#shigongsheji option:selected").text()+" "+$("#shigongsheji option:selected").val()+"%";
-		    var sum=parseInt($("#firstsheji").val())*parseInt(chushe)/100+parseInt($("#shigongsheji").val())*parseInt(shishe)/100;
+		    chubu=$("#firstsheji option:selected").text()+" "+$("#b2_span1_1").val()+"%";
+		    shigongtu=$("#shigongsheji option:selected").text()+" "+$("#b2_span2_1").val()+"%";
+		    var sum=parseInt($("#b2_span1_1").val())*parseInt(chushe)/100+parseInt($("#b2_span2_1").val())*parseInt(shishe)/100;
 			$("#all_money").val(sum.toFixed(2)+"%");
 		}
 		
@@ -1486,10 +1513,10 @@
 
 		}else{
 		      //如果显示时。。。
-		    yugongke=$("#b3_yugong_sheji option:selected").text()+" "+$("#b3_yugong_sheji option:selected").val()+"%";
-		    chubu=$("#b3_firstsheji option:selected").text()+" "+$("#b3_firstsheji option:selected").val()+"%";
-		    shigongtu=$("#b3_shigongsheji option:selected").text()+" "+$("#b3_shigongsheji option:selected").val()+"%";
-		    var sum=parseInt($("#b3_yugong_sheji").val())*parseInt(yugong)/100+parseInt($("#b3_firstsheji").val())*parseInt(chushe)/100+parseInt($("#b3_shigongsheji").val())*parseInt(shishe)/100;
+		    yugongke=$("#b3_yugong_sheji option:selected").text()+" "+$("#b3_span1_1").val()+"%";
+		    chubu=$("#b3_firstsheji option:selected").text()+" "+$("#b3_span2_1").val()+"%";
+		    shigongtu=$("#b3_shigongsheji option:selected").text()+" "+$("#b3_span3_1").val()+"%";
+		    var sum=parseInt($("#b3_span1_1").val())*parseInt(yugong)/100+parseInt($("#b3_span2_1").val())*parseInt(chushe)/100+parseInt($("#b3_span3_1").val())*parseInt(shishe)/100;
 			$("#all_money").val(sum.toFixed(2)+"%");
 		}
 		
@@ -1498,10 +1525,10 @@
 
 		}else{
 		      //如果显示时。。。
-		    yugongke=$("#b4_yugong_sheji option:selected").text()+" "+$("#b4_yugong_sheji option:selected").val()+"%";
+		    yugongke=$("#b4_yugong_sheji option:selected").text()+" "+$("#b4_span1_1").val()+"%";
 		    chubu="";
-		    shigongtu=$("#b4_shigongsheji option:selected").text()+" "+$("#b4_shigongsheji option:selected").val()+"%";
-		    var sum=parseInt($("#b4_yugong_sheji").val())*parseInt(yugong)/100+parseInt($("#b4_shigongsheji").val())*parseInt(shishe)/100;
+		    shigongtu=$("#b4_shigongsheji option:selected").text()+" "+$("#b4_span2_1").val()+"%";
+		    var sum=parseInt($("#b4_span1_1").val())*parseInt(yugong)/100+parseInt($("#b4_span2_1").val())*parseInt(shishe)/100;
 			$("#all_money").val(sum.toFixed(2)+"%");
 		}
 		
@@ -1544,9 +1571,10 @@
 			    }else{
 			    	toastr.error("数字范围必须在0-100之间！");
 			    }
-		
 			
 		}
+		
+		
 		var fbNum=$("#fb_table tbody").find("tr").length;
 		$.ajax({
             type: 'POST',
@@ -1599,7 +1627,6 @@
 	       			$("#xieban1 tbody").find("tr").eq(2).find("input").eq(0).val(0).trigger("change");
 	       			$("#xieban1 tbody").find("tr").eq(3).find("input").eq(0).val(0).trigger("change");
 	       		}
-               
                
             }
         });
@@ -2054,6 +2081,22 @@
             	var accessory=json.accessory;
             	$("#prjName").val(json.prjName);
             	$("#task_no").val(json.taskNo);
+            	
+            	$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectIdByNo',
+                    dataType: 'json',
+                    data: {
+                    	no:json.taskNo
+                    },
+                    success: function (json) {
+                    	yugong=json.yugongkebili;
+                		chushe=json.chushebili;
+                		shishe=json.shishebili;
+                    }
+        		})
+            	
+            	
             	$("#prjType2").val(json.prjType);
             	$("#contractMoney").val(json.contractMoney);
             	$("#prjMoney").val(json.prjMoney);
@@ -2354,33 +2397,47 @@
 	       });
 	}
 	
-	$("#firstsheji").on("change",function(){
+	function checkZs(obj){
+    	var reg=/^([1-9]\d?|100)$/;
+    	if(!reg.test($(obj).val())){
+    		toastr.error('请填写0-100整数');
+    		$(obj).val('0');
+    		return;
+    	}
+    }
+    
+    $("#b1_shigongsheji").on("change",function(){
     	var aa=$(this).val();
-    	$("#b2_span1_1").text(aa+"%");
+    	$("#b1_span1_1").val(aa);
+    })
+    
+    $("#firstsheji").on("change",function(){
+    	var aa=$(this).val();
+    	$("#b2_span1_1").val(aa);
     })
     $("#shigongsheji").on("change",function(){
     	var aa=$(this).val();
-    	$("#b2_span2_1").text(aa+"%");
+    	$("#b2_span2_1").val(aa);
     })
     $("#b3_yugong_sheji").on("change",function(){
     	var aa=$(this).val();
-    	$("#b3_span1_1").text(aa+"%");
+    	$("#b3_span1_1").val(aa);
     })
     $("#b3_firstsheji").on("change",function(){
     	var aa=$(this).val();
-    	$("#b3_span2_1").text(aa+"%");
+    	$("#b3_span2_1").val(aa);
     })
     $("#b3_shigongsheji").on("change",function(){
     	var aa=$(this).val();
-    	$("#b3_span3_1").text(aa+"%");
+    	$("#b3_span3_1").val(aa);
     })
     $("#b4_yugong_sheji").on("change",function(){
     	var aa=$(this).val();
-    	$("#b4_span1_1").text(aa+"%");
+    	$("#b4_span1_1").val(aa);
     })
     $("#b4_shigongsheji").on("change",function(){
     	var aa=$(this).val();
-    	$("#b4_span2_1").text(aa+"%");
+    	$("#b4_span2_1").val(aa);
     })
     
     function getRateMoney(obj){
