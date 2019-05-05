@@ -356,4 +356,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.selectNewFbInfoByFbId(no);
 	}
 
+	@Override
+	public int updateBackState(String backState, String id) {
+		return dao.updateBackState(backState,id);
+	}
+
 }

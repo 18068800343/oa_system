@@ -74,5 +74,7 @@ public interface PrjProgressFillService {
 	public PrjProgressFill selectNewPlanByTaskNo(String no);
 	
 	public PrjProgressFillFb selectNewFbInfoByFbId(String no);
+
+	public int updateBackState(String backState, String id);
 	
 }

@@ -98,4 +98,6 @@ public interface PrjProgressFillDao {
 	public List<PrjProgressFill> getmoneyYuanByDepartmentAndDate(@Param("nowStr")String nowStr,@Param("time") String time);
 
 	public Double getSummoneyYuan(@Param("nowStr")String nowStr,@Param("time") String time);
+
+	public int updateBackState(@Param("backState")String backState,@Param("id") String id);
 }

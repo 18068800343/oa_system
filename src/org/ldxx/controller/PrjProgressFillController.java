@@ -591,4 +591,11 @@ public class PrjProgressFillController {
 		return map;
 	}
 	
+	
+	@RequestMapping("/updateBackState")//修改回收状态
+	@ResponseBody
+	public int updateBackState(String backState,String id){
+		int i=service.updateBackState(backState,id);
+		return i;
+	}
 }

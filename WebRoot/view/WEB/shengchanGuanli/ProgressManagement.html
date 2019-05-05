@@ -818,17 +818,18 @@
 	            <table class="table table-bordered table-condensed" id="mainContent">
 	                <thead>
 	                    <tr>
-	                        <th style="width:10%;">任务单号</th>
+	                        <th style="width:8%;">任务单号</th>
 	                        <th style="width:17%;">项目名称</th>
-	                        <th style="width:12%;">项目类型</th>
+	                        <th style="width:10%;">项目类型</th>
 	                        <th style="width:9%;">任务金额(元)</th>
 	                        <th style="width:9%;">合同金额(元)</th>
 	                        <th style="width:8%;">项目负责人</th>
-	                        <th style="width:8%;">当期时间</th>
+	                        <th style="width:6%;">当期时间</th>
 	                        <th style="width:8%;">项目开始时间</th>
 	                        <th style="width:8%;">项目结束时间</th>
 	                        <th style="width:6%;">项目进度</th>
-	                        <th style="width:5%;">操作</th>
+	                        <th style="width:6%;">收回状态</th>
+	                        <th style="width:6%;">操作</th>
 	                    </tr>
 	                </thead>
 	                <tbody>
@@ -1133,6 +1134,7 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/myTool.js"></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
 
 <script src="../../js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../js/datatables/dataTables.colVis.min.js"></script>
@@ -1181,6 +1183,7 @@
 		            { "data": "prjStartTime"}, 
 		            { "data": "prjEndTime"},
 		            { "data": "allMoney"},
+		            { "data": null},
 		            { "data": null}
 		        ],
 		        "columnDefs": [
@@ -1196,11 +1199,23 @@
 								 	 }
 								},
 								{	
+									 "class": "tcenter",
+									    "targets": 10,
+									    "searchable": true,
+									    "render": function(data, type, full) {
+										    	if(full.backState=='1'){
+										    		return '<span class="label label-success state">已收回</span>';
+										    	}else{
+										    		return '';
+										    	}
+									        }
+									  },
+								{	
 										 "class": "tcenter",
-										    "targets": 10,
+										    "targets": 11,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test Peeb" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="look(this)"></i>';
+										    	return '<i class="iconfont icon-icon-test Peeb" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="look(this)"></i>  <i class="glyphicon glyphicon-remove Peeb" style="font-size:20px;cursor:pointer;display:none;" title="收回" onclick="shouhui(this)"></i>';
 										        }
 										  }
 								],
@@ -3882,5 +3897,43 @@
        n=(r1>=r2)?r1:r2;
        return (Math.round(num1*m-num2*m)/m).toFixed(n);
     }
+ 
+ 
+ 
+	function shouhui(obj){
+		var tr=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(tr).data();
+		var tr2 = $(obj).closest('tr');
+		$.SmartMessageBox({
+            title: "收回提示",
+            content: "确认收回？",
+            buttons: '[取消][确定]'
+        }, function (ButtonPressed) {
+        	if (ButtonPressed === "确定") {
+        			myTool.mask.show('收回中...');
+	        		$.ajax({
+	            		type:"post",
+	            		url:getContextPath()+"/ppf/updateBackState",
+	            		dataType: 'json',
+	            		data:{
+	            			backState:1,
+    		    			id:data.ppfId,
+	            		},
+	            		success:function(json){
+	            			myTool.mask.hide();
+	            			if(json>0){
+	            				toastr.success("收回成功")
+	            				data.backState=1;
+	            				$('#mainContent').DataTable().row(tr2).data(data);//修改行立即显示
+	            				$(".Peeb").show();
+	            			}else{
+	            				toastr.error("收回失败")
+	            			}
+	            		}
+	            	});
+        }
+    });
+	} 
+ 
 </script>
 </html>

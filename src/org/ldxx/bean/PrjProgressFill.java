@@ -35,6 +35,7 @@ public class PrjProgressFill {
 	private String secondDesign;//施工图设计
 	private double rate;//税率
 	private double rateMoney;//税金
+	private String backState;//收回状态 收回：1
 	
 	private double totalCost;//财务累计成本
 	
@@ -52,6 +53,12 @@ public class PrjProgressFill {
 	private double benqishouru;
 	
 	
+	public String getBackState() {
+		return backState;
+	}
+	public void setBackState(String backState) {
+		this.backState = backState;
+	}
 	public double getBenqishouru() {
 		return benqishouru;
 	}
