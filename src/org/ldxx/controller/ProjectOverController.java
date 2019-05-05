@@ -18,6 +18,7 @@ import org.ldxx.bean.User;
 import org.ldxx.service.BidApprovalService;
 import org.ldxx.service.ManagingDocumentsService;
 import org.ldxx.service.OpeningRecordService;
+import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.ProjectOverService;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
@@ -43,6 +44,8 @@ public class ProjectOverController {
 	private OpeningRecordService oService;
 	@Autowired
 	private BidApprovalService bService;
+	@Autowired
+	private OrganizationManagementService omService;
 	
 	@RequestMapping("/selectPrjOver")
 	@ResponseBody
@@ -157,7 +160,8 @@ public class ProjectOverController {
 		String string=i+"";
 		String id=projectOver.getPoId();
 		if(i>0){
-			String omNo="";
+			OrganizationManagement om=omService.selectOrgById(projectOver.getCjDept());
+			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
@@ -199,7 +203,8 @@ public class ProjectOverController {
 		String string=i+"";
 		String id=projectOver.getPoId();
 		if(i>0){
-			String omNo="";
+			OrganizationManagement om=omService.selectOrgById(projectOver.getCjDept());
+			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
