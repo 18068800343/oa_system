@@ -334,6 +334,38 @@
     </div>
 </div>
 <!-- model项目结束 -->
+
+<!-- Modal废标原因 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="bidRejection3">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>填报流标原因</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                            	<td>流标原因</td>
+                            	<td colspan="3">
+                            		<textarea id="liubiaoyuanyin" rows="4" cols="80" class="form-control" ></textarea>
+                            	</td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success"   onclick="liubiaosave()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+
 <!-- Modal查看废标原因 -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="bidRejection">
     <div class="modal-dialog modal-lg" role="document">
@@ -350,6 +382,36 @@
                             	<td>弃标原因</td>
                             	<td colspan="3" >
                             		<textarea id="look_bidRejection"  rows="4" cols="80" class="form-control" disabled></textarea>
+                            	</td>
+                            </tr>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+
+<!-- Modal查看废标原因 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="liubiao">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>查看流标原因</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                            	<td>流标原因</td>
+                            	<td colspan="3" >
+                            		<textarea id="look_liubiaoyuanyin"  rows="4" cols="80" class="form-control" disabled></textarea>
                             	</td>
                             </tr>
                         </table> 
@@ -1284,7 +1346,7 @@
 								    "targets": 11,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return '  <i class="iconfont icon-xiugai Pdbcc" style="font-size:18px;cursor:pointer;display:none;" onclick="xiugaicPrj(this)" title="填报" id="ChangeRisk"></i>  <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" title="弃标" style="font-size:16px;cursor:pointer;" id="huixianqibiao"></span> '
+								  	  		return '  <i class="iconfont icon-xiugai Pdbcc" style="font-size:18px;cursor:pointer;display:none;" onclick="xiugaicPrj(this)" title="填报" id="ChangeRisk"></i>  <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" title="弃标" style="font-size:16px;cursor:pointer;" id="huixianqibiao"></span> <span class="glyphicon glyphicon-random" aria-hidden="true" title="流标" style="font-size:16px;cursor:pointer;" id="huixianliubiao"></span> '
 								  	  	/* <i class="iconfont icon-icon-test Pdbcb" style="font-size:18px;cursor:pointer;display:none;" title="查看详细信息" onclick="lookRecord(this)"  id="lookDetall"></i>    */
 								    }
 								  },{	
@@ -1294,6 +1356,8 @@
 										    "render": function(data, type, full) {
 									    	if(full.isQibiao!=""&&full.isQibiao!=null){
 										    		return '<button type="button" class="btn btn-warning" onclick="bidRejection(this)">弃标</button>'
+									    	}else if(full.isLiubiao!=""&&full.isLiubiao!=null){
+									    		return '<button type="button" class="btn btn-info" onclick="LiubiaoRejection(this)">弃标</button>'
 									    	}else{
 									    		if(full.winningUnit!=null&&full.winningUnit!=""){
 									    				return '<button type="button" class="btn btn-success" onclick="lookRecord(this)">已填</button>'
@@ -2812,6 +2876,13 @@
 		$("#bidRejection").modal("show");
 	}
 	
+	function LiubiaoRejection(obj){
+		var dom = $(obj).parents('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+		$("#look_liubiaoyuanyin").val(data.isLiubiao);
+		$("#liubiao").modal("show");
+	}
+	
 	function delete_thisFile(obj){
 		var url=$(obj).attr("data1");
 		var id=$(obj).attr("data2");
@@ -3241,6 +3312,17 @@
 		$("#bidRejection2").modal("show");
 	})
 	
+	var liubiaoid;
+	var L_dom;
+	var L_data;
+	$('#mainContent').delegate('#huixianliubiao','click', function () {
+		L_dom = $(this).parents('tr');
+		L_data=$('#mainContent').DataTable().row(L_dom).data();
+		liubiaoid=L_data.orId;
+		$("#liubiaoyuanyin").val(L_data.isLiubiao);
+		$("#bidRejection3").modal("show");
+	})
+	
 	function qibiao(){
 		var isQibiao=$("#qibiaoyuanyin").val();
 		if(isQibiao==''){
@@ -3259,6 +3341,28 @@
             	Q_data.isQibiao=isQibiao;
             	$('#mainContent').DataTable().row(Q_dom).data(Q_data).draw(false);
             	$("#bidRejection2").modal("hide");
+            }
+  		});
+		
+	}
+	function liubiaosave(){
+		var isLiubiao=$("#liubiaoyuanyin").val();
+		if(isLiubiao==''){
+			toastr.error("流标原因为空")
+			return;
+		}
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/OpeningRecord/updateIsLiubiao',
+            dataType: 'json',
+            data: {
+            	orId:liubiaoid,
+            	isLiubiao:$("#liubiaoyuanyin").val()
+            },
+            success: function (json) {
+            	L_data.isLiubiao=isLiubiao;
+            	$('#mainContent').DataTable().row(L_dom).data(L_data).draw(false);
+            	$("#bidRejection3").modal("hide");
             }
   		});
 		

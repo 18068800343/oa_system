@@ -31,8 +31,14 @@ public class OpeningRecord {
 	private String unitReasonBid;//本单位废标原因
 	private String unitReasonBidOther;//其他单位废标原因
 	private String isQibiao;
+	private String isLiubiao;
 	
-	
+	public String getIsLiubiao() {
+		return isLiubiao;
+	}
+	public void setIsLiubiao(String isLiubiao) {
+		this.isLiubiao = isLiubiao;
+	}
 	public String getBdNo() {
 		return bdNo;
 	}

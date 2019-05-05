@@ -19,4 +19,6 @@ public interface OpeningRecordDao {
 	
 	int updateIsQibiao(@Param("isQibiao")String isQibiao,@Param("orId")String orId);
 	
+	int updateIsLiubiao(@Param("isLiubiao")String isLiubiao,@Param("orId")String orId);
+	
 }

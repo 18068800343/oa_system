@@ -72,6 +72,12 @@ public class OpeningRecordController {
 		return openingRecordDao.updateIsQibiao(isQibiao,orId);
 	}
 	
+	@RequestMapping("/updateIsLiubiao")
+	@ResponseBody
+	public int updateIsLiubiao(String isLiubiao,String orId){
+		return openingRecordDao.updateIsLiubiao(isLiubiao,orId);
+	}
+	
 	@Transactional
 	@RequestMapping("/addOpeningRecord")
 	@ResponseBody
