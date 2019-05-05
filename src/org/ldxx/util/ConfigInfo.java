@@ -5,8 +5,8 @@ public class ConfigInfo {
 	/**评定程序路径命令*/
 	public static String autoBuild = "cmd.exe /c D:\\AutoBuild\\";
 	/**备份数据库名称和命令地址*/
-	public static String dataBase = "D:\\mysql\\MySQL Server 5.6\\bin\\mysqldump --no-defaults -h47.92.99.112 -P3306 -uroot -p1234 oa >";
-	//public static String dataBase = "mysqldump --no-defaults -h47.92.99.112 -P3306 -uroot -p1234 oa >";
+	//public static String dataBase = "D:\\mysql\\MySQL Server 5.6\\bin\\mysqldump --no-defaults -h47.92.99.112 -P3306 -uroot -p1234 oa >";
+	public static String dataBase = "mysqldump --no-defaults -h47.92.99.112 -P3306 -uroot -p1234 oa >";
 	/**登陆后跳转路径*/
 	public static String indexPage = "jsp/indexV2.jsp";
 //	public static String indexPage = "jsp/structMgr.jsp";
