@@ -327,8 +327,11 @@ public class PrjProgressFillController {
 					if(list.size()!=0){
 						int end=0;
 						for(int ii=0;ii<list.size();ii++){
+							if(null==list.get(ii)||null==list.get(ii).getContractNo()||null==list.get(ii).getContractSignTime()){
+								continue;
+							}
 							if(list.get(ii).getContractNo().equals(cj.getContractNo())&&list.get(ii).getContractSignTime().equals(thisTime)){
-								 end=1;
+								 end=1   ;
 								 double old_plan=Double.valueOf(list.get(ii).getWorkInfo().replace("%", ""));
 								 if(old_plan<plan){
 									 list.get(ii).setWorkInfo(plan+"%");
