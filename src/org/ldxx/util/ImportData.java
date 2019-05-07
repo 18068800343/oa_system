@@ -358,23 +358,25 @@ public class ImportData {
 		                    }
 		                }*/
 		                String date1;
-	                	if (colum6.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-	                		Date date = new Date();
-	                		date = colum6.getDateCellValue();
-	                		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	                		date1 = simpleDateFormat.format(date);
-	                	}else{
-	                		date1 = getValue(colum6);
-	                	}
-		                if(flag==true&&date1.contains(time)){
-		                	ft.settId(uuid.getTimeUUID());
-		                	ft.settNo(tNo);
-		                	ft.settName(getValue(colum2));
-		                	ft.settDepartment(getValue(colum3));
-		                	ft.settCollectionValue(Double.valueOf(getValue(colum4).isEmpty()?"0":getValue(colum4)));
-		                	ft.settDesc(getValue(colum5));
-		                	ft.settTime(date1);
-		                    t.add(ft);
+		                if(tNo!=null&&tNo!=""){
+		                	if (colum6.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+		                		Date date = new Date();
+		                		date = colum6.getDateCellValue();
+		                		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		                		date1 = simpleDateFormat.format(date);
+		                	}else{
+		                		date1 = getValue(colum6);
+		                	}
+		                	if(flag==true&&date1.contains(time)){
+		                		ft.settId(uuid.getTimeUUID());
+		                		ft.settNo(tNo);
+		                		ft.settName(getValue(colum2));
+		                		ft.settDepartment(getValue(colum3));
+		                		ft.settCollectionValue(Double.valueOf(getValue(colum4).isEmpty()?"0":getValue(colum4)));
+		                		ft.settDesc(getValue(colum5));
+		                		ft.settTime(date1);
+		                		t.add(ft);
+		                	}
 		                }
 		                }  
 		            } 
