@@ -272,14 +272,15 @@ public class SubContractController {
 	
 	@RequestMapping("/submitFbCancel")//合同取消
 	@ResponseBody
-	public String submitCjCancel(ContractReason cr,String fbName,String cjNo,HttpSession session){
-		int count=cService.countId(cr.getId());
+	public String submitCjCancel(String id,String ContractReason,String fbName,String cjNo,HttpSession session){
+		/*int count=cService.countId(cr.getId());
 		int i=0;
 		if(count==0){
 			i=cService.addContractReason(cr);
 		}else{
 			i=cService.updateContractReasonById(cr);
-		}
+		}*/
+		int i=scService.updateContractReasonById(id,ContractReason);
 		String string = i+"";
 		if(i>0){
 			CjContract cj=cjService.getCjContractMainDepartmentLeader(cjNo);
@@ -289,12 +290,12 @@ public class SubContractController {
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
 			CurrentFlow currentFlow = new CurrentFlow();
-			currentFlow.setParams("合同取消原因："+cr.getStopReason());
+			currentFlow.setParams("合同取消原因："+ContractReason);
 			currentFlow.setTitle(fbName+"取消流程发起");
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(fbName+"取消流程发起");
-			currentFlow.setUrl("shengchanguanliLook/SubcontractManagementLook.html-"+cr.getId());
+			currentFlow.setUrl("shengchanguanliLook/SubcontractManagementCancelLook.html-"+id);
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
 			currentFlow.setFkDept(omNo);

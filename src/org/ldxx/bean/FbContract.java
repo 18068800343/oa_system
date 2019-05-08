@@ -48,6 +48,7 @@ public class FbContract {
     private String history;//历史状态
     private String rate;//税率
     private String rateType;//税票类型
+    private String cancelReason;//终止原因
     
     private String omName;//部门名称
     private String ccName;//乙方单位名称
@@ -57,7 +58,16 @@ public class FbContract {
     
     private String sm;
 
-    public String getSm() {
+    
+    public String getCancelReason() {
+		return cancelReason;
+	}
+
+	public void setCancelReason(String cancelReason) {
+		this.cancelReason = cancelReason;
+	}
+
+	public String getSm() {
 		return sm;
 	}
 
