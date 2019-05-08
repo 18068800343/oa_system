@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="../../style/jquery-editable-select.css"> -->
+    <link href="../../select/css/select2.min.css" rel="stylesheet">
+    <style lang="">
+        body{
+            background: #fff;
+        }
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 12px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+            font-size: 14px;
+        }
+       /*  #tijiaoren{
+                display: flex;
+                flex-wrap:wrap;
+        } */
+        .tab-content>div{
+            margin-top:18px;
+        }
+    </style>
+</head>
+<body>
+   
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+			<li>生产管理</li>
+			<li class="active">任务单终止</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        <div>
+            
+            <div>
+
+			<!-- 修改 -->
+                <div>
+                    <table class="table table-bordered table-condensed">
+                    	<thead>
+                    		<tr>
+                    			<th colspan="4">项目基本信息</th>
+                    		</tr>
+                    	</thead>
+                    	<tbody>
+                    		<tr>
+                                <td  style="width:15%;">项目名称 </td>
+                                <td  style="width:35%;" id="taskName">
+                                   <!-- <input type="text" class="form-control" style="width:100%;" id="taskName" disabled> -->
+                                </td>
+                                <td style="width:15%;">任务单号  </td>
+                                <td style="width:35%;"   id="taskbianhao">
+                                	<!-- <input type="text" class="form-control" style="width:100%;" id="taskbianhao" disabled> -->
+                                </td> 
+                            </tr>
+                    	</tbody>
+                 </table>
+                 
+                 <table class="table table-bordered table-condensed">
+                    	<thead>
+                    		<tr>
+                    			<th>终止原因</th>
+                    		</tr>
+                    	</thead>
+                    	<tbody>
+                    		<tr>
+                                <td>
+                                	<textarea class="form-control" rows="3" style="width:100%;" id="stop_reason" disabled></textarea>
+                                </td>
+                            </tr>
+                            
+                    	</tbody>
+                 </table>
+                </div>
+            </div>
+                
+        </div>
+    </div>
+
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                
+                    <!-- <div id="tijiaoren"></div> -->
+                        <table class="table table-bordered table-condensed" id="tijiaoren">
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
+                        </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal"  onclick="tijiaorenwudan2()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
+
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<!-- <script src="../../js/jquery-editable-select.js"></script> -->
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/city-picker.data.js"></script>
+<script src="../../js/city-picker.js"></script>
+<script src="../../js/quanxian.js"></script>
+
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<!-- <script src="../../js/datatables/dataTables.bootstrap.min.js"></script> -->
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
+
+<script src="../../select/js/select2.min.js"></script>
+<script>  
+    $(document).ready( function () {
+        initTable();
+	});
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+
+    
+    //初始化
+    function initTable(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectCcNameByPrjId',
+            dataType: 'json',
+            data:{
+          	  id:id
+            },
+            success: function (json) {
+            	var taskprjNoClick = '<a href="../chankanxiangqing/taskDetails.html?prjNo='
+	    			+json.prjNo
+	    			+'" target="_blank" style="color:blue;">'+json.prjName+'</a>';	
+	    		$("#taskName").append(taskprjNoClick);	
+	    		$("#taskbianhao").append("<p>"+json.prjNo+"</p>")
+	    		$("#stop_reason").val(json.stopReason)
+            }
+        }); 
+    }
+
+    
+    function tijiaorenwudan2(){
+  	  var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+  	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+  	  $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/addTask4',
+            dataType: 'json',
+            data:{
+          	  url:lianjie,
+          	  userId:uid,
+          	  uName:uname,
+          	  omName:bmmc,
+          	  dutyName:zw,
+          	  omId:omid,
+          	  dutyId:dutyid
+            },
+            success: function (json) {
+          	  toastr.success('提交成功');
+            }
+        });  
+  	
+    }
+</script>
+
+</html>

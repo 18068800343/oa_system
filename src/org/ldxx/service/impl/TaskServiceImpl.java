@@ -342,4 +342,9 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.selectIdByTaskNo(prjNo);
 	}
 
+	@Override
+	public int addReason(String id, String reason) {
+		return tdao.addReason(id, reason);
+	}
+
 }

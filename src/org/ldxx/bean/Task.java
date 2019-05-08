@@ -145,7 +145,17 @@ public class Task {
     
     private String lxTime;//立项时间
     
+    private String stopReason;//终于原因
     
+    
+	public String getStopReason() {
+		return stopReason;
+	}
+
+	public void setStopReason(String stopReason) {
+		this.stopReason = stopReason;
+	}
+
 	public Double getGuanliMoney() {
 		return guanliMoney;
 	}

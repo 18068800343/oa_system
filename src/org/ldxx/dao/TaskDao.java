@@ -90,4 +90,6 @@ public interface TaskDao {
 	public String CreateTaskNumOrder(@Param("gs")String gs,@Param("year")String year,@Param("type")String type);
 	
 	public String selectIdByTaskNo(@Param("prjNo")String prjNo);
+	
+	public int addReason(@Param("id")String id,@Param("reason")String reason);
 }

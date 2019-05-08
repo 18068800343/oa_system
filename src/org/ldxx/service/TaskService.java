@@ -78,4 +78,6 @@ public interface TaskService {
 	public String CreateTaskNumOrder(String gs,String year,String type);
 	
 	public String selectIdByTaskNo(String prjNo);
+	
+	public int addReason(String id,String reason);
 }

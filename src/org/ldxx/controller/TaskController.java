@@ -888,12 +888,6 @@ public class TaskController {
 		return map;
 	}
 	
-	@RequestMapping("/taskOff") /*任务单中止*/
-	@ResponseBody
-	public int taskOff(){
-		return 0;
-	}
-	
 	@RequestMapping("/taskOk")/*任务单履约完成*/
 	@ResponseBody
 	public int taskOk(){
@@ -1356,5 +1350,47 @@ public class TaskController {
 		return tService.selectTask(mainDepartment);
 	}
 	
+	
+	@RequestMapping("/addStopReason")
+	@ResponseBody
+	public String addStopReason(Task t,HttpSession session){
+		int i=tService.addReason(t.getPrjId(), t.getStopReason());
+		String string="";
+		if(i>0){
+			String mainDepartMentId = t.getMainDepartment();
+			String omNo = omDao.selectOrgById(mainDepartMentId).getOmNo();
+			User user = (User) session.getAttribute("user");
+			FlowUtill flowUtill = new FlowUtill();
+			CurrentFlow currentFlow = new CurrentFlow();
+			currentFlow.setParams("1");
+			currentFlow.setTitle(t.getPrjName());
+			currentFlow.setActor(user.getUserId());
+			currentFlow.setActorname(user.getuName());
+			currentFlow.setMemo(t.getPrjName()+"任务单终止流程");
+			currentFlow.setUrl("shengchanguanliLook/TaskManagementCancelLook.html-"+t.getPrjId());
+			currentFlow.setParams("{'cs':'1'}");
+			currentFlow.setStarter(user.getUserId());
+			currentFlow.setStartername(user.getuName());
+			currentFlow.setFkDept(omNo);
+			currentFlow.setDeptname(user.getOmName());
+			currentFlow.setNodename("节点名称");
+			currentFlow.setPri(1);
+			currentFlow.setSdtofnode(new Date());
+			currentFlow.setSdtofflow(new Date());
+			currentFlow.setFlowEndState(3);
+			currentFlow.setFlowNopassState(2);
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy.setActor(user.getUserId());
+			flowHistroy.setActorname(user.getOmName());
+			flowHistroy.setActorresult(0);
+			flowHistroy.setView("");
+			try {
+				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return string;
+	}
 }
 
