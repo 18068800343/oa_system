@@ -57,4 +57,6 @@ public interface SubContractDao {
 	public FbContract selectFbContractShowByFbNo(@Param("no") String fbNo);
 
 	Double getShenpiFbMoneyByCjNo(@Param("cjno")String cjno);
+
+	int updateContractReasonById(@Param("id")String id,@Param("contractReason") String contractReason);
 }

@@ -58,4 +58,6 @@ public interface SubContractService {
 	public FbContract selectFbContractShowByFbNo(@Param("no") String fbNo);
 
 	Double getShenpiFbMoneyByCjNo(String cjno);
+
+	int updateContractReasonById(String id, String contractReason);
 }

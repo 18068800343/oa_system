@@ -194,4 +194,9 @@ public class SubContractServiceImpl implements SubContractService {
 		return list;
 	}
 
+	@Override
+	public int updateContractReasonById(String id, String contractReason) {
+		return scDao.updateContractReasonById(id, contractReason);
+	}
+
 }
