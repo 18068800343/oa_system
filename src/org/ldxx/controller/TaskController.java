@@ -338,7 +338,16 @@ public class TaskController {
 			example.createCriteria().andUrlEqualTo(url);
 			List<CurrentFlow> cf =currentFlowMapper.selectByExample(example);
 			User u=userDao.selectUserById(userId);
-			ss.sendMessage(u.getRtx(), "待审批通知", cf.get(0).getTitle(), "0", "0");
+			
+	        new Thread() {  
+	            public void run() {  
+	                while (true) {  
+	                    ss.sendMessage(u.getRtx(), "待审批通知", cf.get(0).getTitle(), "0", "0");  
+	                }  
+	            };  
+	        }.start(); 
+			
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 			return jsonObject;
