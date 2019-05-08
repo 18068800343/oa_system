@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        body{
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+<!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+            <li>生产管理</li>
+            <li>合同履约</li>
+			<li class="active">承接合同</li>
+		</ul>
+    </div>
+    
+    <div> 
+
+				<table class="table table-bordered table-condensed">
+                        <tr>
+                            <td style="width:20%;">承接合同名称</td>
+                            <td id="cancel_cj_name"></td>
+                            <td style="width:20%;">承接合同编号</td>
+                            <td id="cancel_cj_no"></td>
+                        </tr>
+                        <tr>
+                            <td>任务单号</td>
+                            <td id="cancel_prj_no"></td>
+                        </tr>
+                        <tr>
+                        	<td rowspan="2">终止原因</td>
+                            <td colspan="3" id="zhongzhiyuanyin"><textarea style="width:100%;height:100%"></textarea></td>
+                        </tr>
+                </table>
+
+    </div>
+
+    
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script>
+    $(document).ready( function () {
+        initTable();
+        
+	});
+    
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   var id=GetQueryString("prjId");
+   function initTable(){
+ 		
+	 		$.ajax({
+	           type: 'POST',
+	           url: getContextPath()+'/cj/selectCjContractById',
+	           dataType: 'json',
+	           data: {
+	           	id:id
+	           },
+	           success: function (json) {
+	           	var data=json;
+	           	$("#cancel_cj_name").text(data.contractName);
+	           	
+	           	$("#cancel_cj_no").html("");
+					if(data.contractNo==""||data.contractNo==null){
+						$("#cancel_cj_no").text(data.contractNo);
+					}else{
+						var cjContractClick = '<a href="../chankanxiangqing/cjContractDetails.html?cjCNo='
+							+data.contractNo
+							+'" target="_blank" style="color:blue;">'+data.contractNo+'</a>';
+							$("#cancel_cj_no").append(cjContractClick);
+					}
+	           		         		
+  		    		$("#cancel_prj_no").html("");
+  					if(data.taskCode==""||data.taskCode==null){
+  						$("#cancel_prj_no").text(data.taskCode);
+  					}else{
+  						var taskprjNoClick = '<a href="../chankanxiangqing/taskDetails.html?prjNo='
+  			    			+data.taskCode
+  			    			+'" target="_blank" style="color:blue;">'+data.taskCode+'</a>';		
+  						$("#cancel_prj_no").append(taskprjNoClick);
+  					}
+
+	           }
+  		    });
+  			
+  		}
+  		
+	
+</script>
+</html>
