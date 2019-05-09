@@ -283,14 +283,15 @@ public class CgContractController {
 	
 	@RequestMapping("/submitCgCancel")//采购合同取消
 	@ResponseBody
-	public String submitCgCancel(ContractReason cr,String cgName,String cgDepartment,HttpSession session){
-		int count=cService.countId(cr.getId());
+	public String submitCgCancel(String id,String cancelReason,String cgName,String cgDepartment,HttpSession session){
+		/*int count=cService.countId(cr.getId());
 		int i=0;
 		if(count==0){
 			i=cService.addContractReason(cr);
 		}else{
 			i=cService.updateContractReasonById(cr);
-		}
+		}*/
+		int i=cgService.updatecancelReasonById(id,cancelReason);
 		String string = i+"";
 		if(i>0){
 			User user = (User) session.getAttribute("user");
@@ -306,8 +307,8 @@ public class CgContractController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(cgName+"取消流程发起");
-			currentFlow.setUrl("shengchanguanliLook/ProcurementContract.html-"+cr.getId());
-			currentFlow.setParams("采购合同申请取消原因："+cr.getStopReason());
+			currentFlow.setUrl("shengchanguanliLook/ProcurementContractCancellook.html-"+id);
+			currentFlow.setParams("采购合同申请取消原因："+cancelReason);
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
 			currentFlow.setFkDept(omNo);
@@ -332,7 +333,7 @@ public class CgContractController {
 		return string;
 	}
 	
-	@RequestMapping("/submitCgRestart")//采购合同取消
+	@RequestMapping("/submitCgRestart")//采购合同重启
 	@ResponseBody
 	public String submitCgRestart(ContractReason cr,String cgName,String cgDepartment,HttpSession session){
 		int i=cService.updateContractReasonById(cr);

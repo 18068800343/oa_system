@@ -292,4 +292,9 @@ public class CgContractServiceImpl implements CgContractService {
 		return list;
 	}
 
+	@Override
+	public int updatecancelReasonById(String id, String cancelReason) {
+		return cgDao.updatecancelReasonById(id,cancelReason);
+	}
+
 }

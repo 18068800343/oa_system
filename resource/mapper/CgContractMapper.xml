@@ -164,7 +164,7 @@
 	<select id="selectCgContractShowByCgNo" parameterType="String" resultType="CgContract">
 		select * from cg_contract as a 
 		LEFT JOIN mode_status as b on a.cg_id=b.mode_id  
-		where b.status=2 and a.cg_no=#{cgNo} and a.history=1
+		where a.cg_no=#{cgNo} and a.history=1 and (b.status=2  or a.cancel_reason !='') 
 	</select>
 	
 	<select id="getCGNoByTaskNo" parameterType="String" resultType="CgContract">
@@ -172,5 +172,9 @@
 		LEFT JOIN mode_status as b on a.cg_id=b.mode_id  
 		where b.status=2 and a.history=1 and a.work_no=#{no} order by a.work_no asc
 	</select>
+	
+	<update id="updatecancelReasonById">
+		update cg_contract set cancel_reason=#{cancelReason} where cg_id=#{id}
+	</update>
 	
 </mapper>

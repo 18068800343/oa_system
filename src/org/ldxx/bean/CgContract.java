@@ -35,6 +35,7 @@ public class CgContract {
 	
 	private Double shuilv;//税率
 	private Double shuijin;//税金
+	private String cancelReason;//终止原因
 	    
 	private List<Accessory> accessory;
 	private List<Accessory> accessory1;
@@ -46,6 +47,14 @@ public class CgContract {
 	
 	
 	
+	public String getCancelReason() {
+		return cancelReason;
+	}
+
+	public void setCancelReason(String cancelReason) {
+		this.cancelReason = cancelReason;
+	}
+
 	public String getStartername() {
 		return startername;
 	}

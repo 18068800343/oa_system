@@ -69,4 +69,6 @@ public interface CgContractService {
 	
 	CgContract selectCgContractShowByCgNo(String cgNo);
 
+	int updatecancelReasonById(String id, String cancelReason);
+
 }
