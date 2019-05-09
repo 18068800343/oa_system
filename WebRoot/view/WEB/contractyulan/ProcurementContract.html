@@ -584,8 +584,9 @@
 			   //iframe.contentWindow.print(); 
 			    
 			 	// 通过id获取需要打印的页面
-			    
 			    window.document.body.innerHTML = allHtml;
+			    document.getElementsByTagName('body')[0].style.zoom=0.80;
+			    
 			    if (!!window.ActiveXObject || "ActiveXObject" in window) { //是否ie
 			        remove_ie_header_and_footer();
 			     }
@@ -597,12 +598,21 @@
 		  } 
 	//去掉页眉、页脚
 		function remove_ie_header_and_footer() {
-		  var hkey_path;
-		  hkey_path = "HKEY_CURRENT_USER\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
+		  var hkey_path,HKEY_Root;
+		  HKEY_Root="HKEY_CURRENT_USER";
+		  hkey_path = "\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
 		  try {
 		     var RegWsh = new ActiveXObject("WScript.Shell");
-		     RegWsh.RegWrite(hkey_path + "header", "");
-		     RegWsh.RegWrite(hkey_path + "footer", "");
+		     RegWsh.RegWrite(HKEY_Root+hkey_path + "header", "");
+		     RegWsh.RegWrite(HKEY_Root+hkey_path + "footer", "");
+		     //设置左页边距
+             RegWsh.RegWrite(HKEY_Root+hkey_path + "margin_left","0.1");
+             //设置右页边距
+             RegWsh.RegWrite(HKEY_Root+hkey_path + "margin_right","0.25");
+             //设置上页边距
+             RegWsh.RegWrite(HKEY_Root+hkey_path + "margin_top","0.10");
+             //设置下页边距   
+             RegWsh.RegWrite(HKEY_Root+hkey_path + "margin_bottom","0.10");
 		  } catch (e) {
 		  }
 		
