@@ -60,4 +60,6 @@ public interface CjContractService {
 	
 	public String CreateContractNumOrder(String type,String year);
 	
+	public int updateCjContractCancelReason(CjContract cj);
+	
 }

@@ -50,8 +50,15 @@ public class CjContract {
 	private List<Task> chaiFenXinXiArray;
 	private String jyms;//经营模式
 	private Double sm;//根据承接合同查出来的累计分包金额
+	private String cancelReason;//承接合同取消原因
 	
 	
+	public String getCancelReason() {
+		return cancelReason;
+	}
+	public void setCancelReason(String cancelReason) {
+		this.cancelReason = cancelReason;
+	}
 	public Double getSm() {
 		return sm;
 	}

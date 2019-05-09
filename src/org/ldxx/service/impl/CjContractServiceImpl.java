@@ -221,4 +221,10 @@ public class CjContractServiceImpl implements CjContractService{
 		return dao.CreateContractNumOrder(type, year);
 	}
 
+	@Override
+	public int updateCjContractCancelReason(CjContract cj) {
+		// TODO Auto-generated method stub
+		return dao.updateCjContractCancelReason(cj);
+	}
+
 }

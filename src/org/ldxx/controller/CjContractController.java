@@ -257,17 +257,15 @@ public class CjContractController {
 	
 	@RequestMapping("/submitCjCancel")//合同取消
 	@ResponseBody
-	public String submitCjCancel(ContractReason cr,String cjName,String department,HttpSession session){
-		int count=cService.countId(cr.getId());
+	public String submitCjCancel(String id,String stopReason,String cjName,String department,HttpSession session){
+			CjContract cjc = new CjContract();
+			cjc.setCjId(id);
+			cjc.setCancelReason(stopReason);
 		int i=0;
-		if(count==0){
-			i=cService.addContractReason(cr);
-		}else{
-			i=cService.updateContractReasonById(cr);
-		}
+			i=service.updateCjContractCancelReason(cjc);
 		String string = i+"";
 		if(i>0){
-			OrganizationManagement om=oService.selectOrgById(department);
+			OrganizationManagement om=oService.getOrgIdByName(department);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
 			FlowUtill flowUtill = new FlowUtill();
@@ -276,8 +274,8 @@ public class CjContractController {
 			currentFlow.setActor(user.getUserId());
 			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(cjName+"取消流程发起");
-			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+cr.getId());
-			currentFlow.setParams("合同取消原因："+cr.getStopReason());
+			currentFlow.setUrl("shengchanGuanli/ContractManagementLook.html-"+cjc.getCjId());
+			currentFlow.setParams("合同取消原因："+cjc.getCancelReason());
 			currentFlow.setStarter(user.getUserId());
 			currentFlow.setStartername(user.getuName());
 			currentFlow.setFkDept(omNo);
