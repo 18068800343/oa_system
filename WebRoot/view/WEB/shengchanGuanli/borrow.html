@@ -185,7 +185,7 @@
                 </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearB()">取消</button>
             <button type="button" class="btn btn-success" onclick="save()">保存</button>
             <button type="button" class="btn btn-success" onclick="submit()">提交</button>
         </div>
@@ -695,7 +695,7 @@
 <script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
-    	initTable();
+    	/* initTable(); */
     	/* inityifang(); */
     	initzhuhetong();
         laydate.render({
@@ -900,7 +900,7 @@
         
 	});
     
-	function initTable(){
+	/* function initTable(){
         $.ajax({
             type: 'POST',
             url: getContextPath()+'/BorrowContract/selectBorrowContract',
@@ -914,7 +914,7 @@
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
-    }
+    } */
 
 	
 	//初始化
@@ -1054,7 +1054,11 @@
 	        success: function (json) {
 	        	var fb=json.fb;
 	        	var bc=json.bc;
-	        	$("#yifang").val(fb.ccName);
+	        	if(fb!=null){
+	        		$("#yifang").val(fb.ccName);
+	        	}else{
+	        		$("#yifang").val("");
+	        	}
 	        	$("#yifangleijijieMoney").val(bc.accumulatedBorrowingMoney);
 	        }
 	    });
@@ -1092,7 +1096,11 @@
 	        success: function (json) {
 	        	var fb=json.fb;
 	        	var bc=json.bc;
-	        	$("#xgyifang").val(fb.ccName);
+	        	if(fb!=null){
+	        		$("#xgyifang").val(fb.ccName);
+	        	}else{
+	        		$("#xgyifang").val("");
+	        	}
 	        	$("#xgyifangleijijieMoney").val(bc.accumulatedBorrowingMoney);
 	        }
 	    });
@@ -1141,7 +1149,9 @@
     	$(obj).parents("tr").remove();
     }
     
-    
+	function clearB(){
+		$("#myModal input").val("");
+	}    
     
     function save(){
     	
@@ -1201,6 +1211,7 @@
 	            	if(json.result==0){
 						toastr.error("添加失败")
 					}else if(json.result>0){
+						clearB();
 						toastr.success("添加成功")
 						$("#myModal").modal("hide")
 						//$('#mainContent').DataTable().row.add(json.BorrowContract).draw(false);     //新增行立即显示
@@ -1278,6 +1289,7 @@
 	            	if(json=='0'){
 		        		toastr.error("保存失败");
 		        	}else{
+		        		clearB();
 		        		$("#myModal").modal("hide");
 		        		lianjie=json.url;
 		            	if(json.receiver!=null&&json.receiver.length>=1){
