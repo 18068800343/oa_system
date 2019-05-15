@@ -341,6 +341,7 @@
                 </div>
               </div>
               <div id="shanchu" hidden="true" style="text-align:center">
+                <button type="button" class="btn btn-default" onclick="yidu()">已读</button>
                 <button type="button" class="btn btn-default" onclick="shanchu()">删除</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
               </div>
@@ -747,10 +748,12 @@
         		$("#midBox").hide();
         		$("#tjButtons").hide();
         		$("#shanchu").show();
+        		$("#yidu").show();
         	}else{
         		$("#midBox").show();
         		$("#tjButtons").show();
         		$("#shanchu").hide();
+        		$("#yidu").hide();
         	}
         	page_step = step;
         	if(params.indexOf("{'cs':'1'}")!=-1||params==''||params==null){
@@ -1058,7 +1061,7 @@
     function getReceive(){
     	page_save_submit="1";
     	var flag = page_flag;
-    	showMask();
+    	/* showMask(); */
     	if(flag=='4'){
    		    baoCun();
 	 		if(page_result=='0'){
@@ -1132,7 +1135,7 @@
             	if(json.receiver!=null&&json.receiver.length>1){
 	        		  $("#tijiaogei").modal('show'); 
 	        		  $("#tijiaoren tbody").empty("");
-	        		  hidMask();
+	        		  /* hidMask(); */
 	        		  for(var i=0;i<json.receiver.length;i++){
 	        			  $("#tijiaoren tbody").append('<tr><td>'
 	        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
@@ -1178,7 +1181,7 @@
 	        	        	  view:$("#view").val()
 	        	          },
 	        	          success: function (json) {
-	        	        	  hidMask();
+	        	        	  /* hidMask(); */
 	        	        	  console.log(json.end);
 	        	        	  if(json.end=="jieshu"){
 	        	        		  doChangeData(json.modeId);
@@ -1191,6 +1194,7 @@
 	        	          }
 	        	      }); 
 	        	  }else if(json.receiver!=null&&json.receiver.length==0){
+	        		  /* hidMask(); */
 	        		  toastr.error('下一步无操作人');
 	        	  }
             }
@@ -1507,8 +1511,23 @@
 	            },
 	            dataType: 'text',
 	            success: function (json) {
-	            	  $("#myModal").modal("hide");
+	            	  $("#tjModal").modal("hide");
 	            	  toastr.success('删除成功');
+	            	  initTable1();
+	            }
+	        });
+	    }
+	    function yidu(){
+	    	$.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/task/deleteChaoSong',
+	            data:{
+	            	id:page_cNodeId
+	            },
+	            dataType: 'text',
+	            success: function (json) {
+	            	  $("#tjModal").modal("hide");
+	            	  toastr.success('操作成功');
 	            	  initTable1();
 	            }
 	        });

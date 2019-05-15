@@ -1225,6 +1225,30 @@ public class FlowUtill {
 			return "fail";
 		}
 	}
+	public String yiDuChaoSong(String id){
+		CurrentFlow currentFlow = INSTANCE.currentFlowChaoSongMapper.selectByPrimaryKey(id);
+		if(currentFlow!=null){
+			//当前流程步骤
+			//String floNodeId= currentFlow.getFloNodeId();
+			//当前流程上一步
+			String lastFloNodeId = currentFlow.getFlowNodeLast();
+			if(null==lastFloNodeId||"".equals(lastFloNodeId)){
+				return "noLast";
+			}
+			FlowHistroy flowHistroy = new FlowHistroy();
+			flowHistroy = BeanUtil.copyCurrentFlowToHistory(currentFlow, flowHistroy);
+			flowHistroy.setDoDate(new Date());
+			flowHistroy.setId(new TimeUUID().getTimeUUID());
+			flowHistroy.setOperateType(3);
+			flowHistroy.setFlowNodeLast(currentFlow.getFlowNodeLast());
+			INSTANCE.currentFlowChaoSongMapper.deleteByPrimaryKey(currentFlow.getId());
+			
+			INSTANCE.flowHistroyMapper.insert(flowHistroy);
+			return "ok";
+		}else{
+			return "fail";
+		}
+	}
 	public String chaoSongFlow(String id,List<User> users){
 		CurrentFlowExample example = new CurrentFlowExample();
 		example.createCriteria().andUrlLike("%"+id);

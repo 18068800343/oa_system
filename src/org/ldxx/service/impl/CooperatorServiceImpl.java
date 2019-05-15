@@ -96,7 +96,6 @@ public class CooperatorServiceImpl  implements CooperatorService{
 		for(int ii=0;ii<enterprise.size();ii++){
 			enterprise.get(ii).seteId(cooperator.getCcId());
 		}
-		if(i>0){
 			i=cDao.updateCooperator(cooperator);
 			if(i>0){
 				i=eDao.addEnterprise(enterprise);
@@ -117,7 +116,6 @@ public class CooperatorServiceImpl  implements CooperatorService{
 			if(accessory4!=null){
 				i=adao.addAccessory(accessory4);
 			}
-		}
 		return i;
 	}
 

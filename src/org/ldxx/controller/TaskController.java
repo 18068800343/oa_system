@@ -1252,6 +1252,13 @@ public class TaskController {
 		return result;
 	}
 	
+	@RequestMapping("/yiDuChaoSong")
+	@ResponseBody
+	public String yiDuChaoSong(String id){
+		String result = new FlowUtill().yiDuChaoSong(id);
+		return result;
+	}
+	
 	@RequestMapping("/insertChaoSong")
 	@ResponseBody
 	public String insertChaoSong(@RequestBody UserVo userVo){
