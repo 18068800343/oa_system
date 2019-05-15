@@ -2725,7 +2725,11 @@
 	        	/* $("#cjContractName").html('');
 	        	$("#cjContract").html(''); */
 	        	for(var i=0;i<json.length;i++){
-	        		$("#new_cj_name").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
+	        		var newCjName = json[i].contractName;
+	        		if(null!=newCjName){
+   	        		  newCjName = newCjName.replace("-","");
+	        		}
+	        		$("#new_cj_name").append("<option value="+json[i].contractNo+">"+json[i].contractName+"</option>");
 	        		$("#new_cj_no").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>");
 	        		/* $("#cjContractName").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>");
 	        		$("#cjContract").append("<option value="+json[i].contractNo+">"+json[i].contractNo+"</option>"); */
@@ -2736,14 +2740,14 @@
 	                    url: getContextPath()+'/cj/selectCjContractByName',
 	                    dataType: 'json',
 	                    data: {
-	                    	name:$('#new_cj_name').val()
+	                    	name:$('#new_cj_name option:selected').text()
 	                    },
 	                    success: function (json) {
 	                    	$('#new_cj_no').val(json.contractNo);
 	                    	$('#new_prj_no').val(json.taskCode);
 	                    }
-	          		});
-	          	})
+	          		})
+	          	});
 	          	$('#new_cj_no').editableSelect().on('select.editable-select', function (e, dom) {
 	          		$.ajax({
 	                    type: 'POST',
@@ -2753,11 +2757,11 @@
 	                    	no:$('#new_cj_no').val()
 	                    },
 	                    success: function (json) {
-	                    	$('#new_cj_name').val(json.contractName);
+	                    	$('#new_cj_name').val(json.taskCode);
 	                    	$('#new_prj_no').val(json.taskCode);
 	                    }
-	          		});
-			  	})
+	          		})
+			  	});
 			  	
 			  	/* $('#cjContractName').editableSelect().on('select.editable-select', function (e, dom) {
 	        		$.ajax({
