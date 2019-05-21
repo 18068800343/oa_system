@@ -1138,6 +1138,24 @@
 		})
 		
 	}
+	//初始化材料单位
+    function selectMaterialCompany(obj){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/MaterialCompany/getAllMaterialCompany',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	for(var i=0;i<json.length;i++){
+            		$("#cl_dw"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            		$("#edit_cl_dw"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            	}
+	        }
+	    });
+	}
 	
 	function newadd(){
     	var length=$("#cl_table tbody").find("tr").length;
@@ -1151,14 +1169,7 @@
         												'</td>'+
         												'<td><input type="text" class="form-control"></td>'+
         												'<td>'+
-            												'<select class="form-control">'+
-	               												'<option value="个">个</option>'+
-	                											'<option value="只">只</option>'+
-	                											'<option value="套">套</option>'+
-	                											'<option value="副">副</option>'+
-	                											'<option value="双">双</option>'+
-	                											'<option value="元">元</option>'+
-	                											'<option value="桶">桶</option>'+
+            												'<select class="form-control" id="cl_dw'+length+'">'+
             												'</select>'+
         												'</td>'+
 												        '<td><input type="text" class="form-control"></td>'+
@@ -1169,6 +1180,7 @@
     				
     				initClType2(length);
     				initbumen(length)
+    				selectMaterialCompany(length);
     }
 	function xgadd(){
     	var length=$("#xgcl_table tbody").find("tr").length;
@@ -1182,14 +1194,7 @@
         												'</td>'+
         												'<td><input type="text" class="form-control"></td>'+
         												'<td>'+
-            												'<select class="form-control">'+
-	               												'<option value="个">个</option>'+
-	                											'<option value="只">只</option>'+
-	                											'<option value="套">套</option>'+
-	                											'<option value="副">副</option>'+
-	                											'<option value="双">双</option>'+
-	                											'<option value="元">元</option>'+
-	                											'<option value="桶">桶</option>'+
+            												'<select class="form-control" id="edit_cl_dw'+length+'">'+
             												'</select>'+
         												'</td>'+
 												        '<td><input type="text" class="form-control"></td>'+
@@ -1200,6 +1205,7 @@
     				
     				initClType3(length);
     				xginitbumen(length)
+    				selectMaterialCompany(length);
     }
 	function removeThis(obj){
     	var tr=$(obj).parent().parent();
@@ -2388,13 +2394,7 @@
 													'<td><input type="text" class="form-control" value='+json.budgetMainMaterial[i].materMode+'></td>'+
 													'<td>'+
 														'<select class="form-control"  id=xgxinghao'+i+'>'+
-															'<option value="个">个</option>'+
-															'<option value="只">只</option>'+
-															'<option value="套">套</option>'+
-															'<option value="副">副</option>'+
-															'<option value="双">双</option>'+
-															'<option value="元">元</option>'+
-															'<option value="桶">桶</option>'+
+															
 														'</select>'+
 													'</td>'+
 											        '<td><input type="text" class="form-control" value='+json.budgetMainMaterial[i].materNumber+'></td>'+
@@ -2404,7 +2404,8 @@
     								    			+"</tr>")
                 					initbumen2(json.budgetMainMaterial[i].department,i)
                 					initName1(json.budgetMainMaterial[i].materType,i);
-                					$("#xgxinghao"+i).val(json.budgetMainMaterial[i].materUnit)
+                					//$("#xgxinghao"+i).val(json.budgetMainMaterial[i].materUnit)
+                					initMaterialCompany(json.budgetMainMaterial[i].materUnit,i)
                 	}
             	}else{
             		$("#xgcl_table").hide();
@@ -2414,6 +2415,24 @@
 			}
 		})
 		
+	}
+	function initMaterialCompany(obj1,obj2){
+    	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/MaterialCompany/getAllMaterialCompany',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+        		$("#xgxinghao"+obj2).empty();
+	        	for(var i=0;i<json.length;i++){
+            		$("#xgxinghao"+obj2).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+            	}
+        		$("#xgxinghao"+obj2).val(obj1);
+	        }
+	    });
 	}
 	
 	
