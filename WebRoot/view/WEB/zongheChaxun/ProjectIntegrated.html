@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
     <!-- SmartAdmin RTL Support  -->
     <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
+    <link href="../../select/css/select2.min.css" rel="stylesheet">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -162,11 +163,11 @@
 <script src="../../js/datatables/buttons.html5.min.js" ></script>
 <script src="../../js/datatables/buttons.flash.min.js" ></script>
 <script src="../../js/datatables/jszip.min.js"></script>
+<script src="../../select/js/select2.min.js"></script>
 <script>
-    $(document).ready( function () {
-    	
-    	initPrjName();
-    	
+    $(document).ready( function () {   	
+    	initPrjName();  
+    	initSelect2WithSearch();
 	});
     
     $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
@@ -252,7 +253,14 @@
     		        ]
 	});
 
-    
+    function initSelect2WithSearch(){
+
+        $("#prjName").select2({
+            tags: true,
+            placeholder: '请搜索',
+            allowClear: true
+        });
+    }
    
    
     $(".hasinput").on( 'change', function () {
@@ -283,7 +291,7 @@
         $("#CCode").val(Code);
         rowIndex = bb.parentNode.parentNode.rowIndex; 
     }
-    
+
     function initPrjName(){
     	$.ajax({
             type: 'POST',
@@ -294,12 +302,8 @@
             success: function (json) {
                 $("#prjName").html("");
                 for(var i=0;i<json.length;i++){
-                	 $("#prjName").append("<option value="+json[i].prjNo+">"+json[i].prjName+"</option>")
-                }
-                $("#prjName").editableSelect({
-          	 	   effects: 'slide'
-          	 	   
-          	    });
+                	 $("#prjName").append("<option value="+json[i].prjNo+">"+json[i].prjName+"</option>");
+                }                
             }
         });
     }
@@ -308,13 +312,14 @@
     
     function seach(){
     	$('#mainContent').dataTable().fnClearTable();
+    	var prjNo=$("#prjName").val();
     	myTool.mask.show('查询中...');
     	$.ajax({
             type: 'POST',
             url: getContextPath()+'/ProjectIntegrated/selectProjectIntegrated',
             dataType: 'json',
             data: {
-            	no:$("#prjName").val()
+            	no:prjNo
             },
             success: function (json) {
             	var result=json.result;
