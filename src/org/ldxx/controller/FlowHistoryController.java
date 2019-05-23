@@ -153,6 +153,20 @@ public class FlowHistoryController {
 	@ResponseBody
 	public List<FlowHistoryNowAndLast> getHistoryNowAndLastByModeId(String id){
 		List<FlowHistoryNowAndLast> list =flowHistroyMapper.getFlowHistorysLeftJoinByModeId(id);
+		List<CurrentFlow> list2 = currentFlowMapper.selectByModeId(id);
+		FlowHistoryNowAndLast flowHistoryNowAndLast = new FlowHistoryNowAndLast();
+		if(list2.size()==1){
+			CurrentFlow currentFlow = list2.get(0);
+			flowHistoryNowAndLast.setTitle(currentFlow.getTitle());
+			flowHistoryNowAndLast.setActorname(currentFlow.getActorname());
+			flowHistoryNowAndLast.setView("");
+			flowHistoryNowAndLast.setDoDate(null);
+			flowHistoryNowAndLast.setOperateType(8);
+			flowHistoryNowAndLast.setDeptname(currentFlow.getDeptname());
+		}
+		if(flowHistoryNowAndLast.getTitle()!=null){
+			list.add(flowHistoryNowAndLast);
+		}
 		return list;
 	}
 	

@@ -668,6 +668,17 @@
 	WHERE cf.url=#{url}
   </select>
   
+    <select id="selectByModeId" resultMap="BaseResultMap" parameterType="org.ldxx.bean.CurrentFlowExample" >
+    SELECT cf.Flo_Node_ID,cf.Flo_Tmp_ID,cf.ID,cf.Bus_ID,cf.URL,cf.Params,cf.Title,cf.WFState,cf.Starter,cf.StarterName,cf.Actor,cf.ActorName,
+		    cf.RDT,cf.FK_Dept,cf.NodeName,cf.PRI,cf.SDTOfNode,cf.SDTOfFlow,cf.Agent,cf.AgentType,cf.Memo,cf.ReadReceipts,cf.do_date,
+		    cf.mode_id,cf.flow_end_state,cf.Flow_Node_Last,cf.flow_nopass_state,cf.last_operate_type,cf.last_view,cf.last_person
+			,ifnull(om.om_name,'') as DeptName
+    FROM currentflow cf
+    LEFT JOIN user u ON cf.actor =u.user_id
+	LEFT JOIN organization_management om ON u.om_id=om.om_id
+	WHERE cf.mode_id=#{modeId}	
+  </select>
+  
   <select id="isExistByModeId" resultType="int">
   	select COUNT(1) from currentflow WHERE mode_id=#{id}
   </select>
