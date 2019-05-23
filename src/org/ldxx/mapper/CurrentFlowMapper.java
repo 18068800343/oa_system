@@ -40,4 +40,6 @@ public interface CurrentFlowMapper {
     List<CurrentFlowVo> getCurrentFlowVoByStatus(@Param("userId")String userId,@Param("status")String status);
     
     List<CurrentFlow> selectByExampleAndDeptName(String url);
+
+	int isExistByModeId(@Param("id")String id);
 }

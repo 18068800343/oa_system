@@ -20,6 +20,7 @@ import org.ldxx.bean.PrjRecord;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.dao.AccessoryDao;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.PrjRecordService;
 import org.ldxx.service.TaskService;
@@ -46,6 +47,8 @@ public class PrjRecordController {
 	private TaskService tService;
 	@Autowired
 	private OrganizationManagementService oService;
+	@Autowired
+	private CurrentFlowMapper cfMapper;
 	
 	@RequestMapping("/addPrjRecord")
 	@ResponseBody
@@ -303,6 +306,26 @@ public class PrjRecordController {
 	@ResponseBody
 	public int delPrj(String id){
 		int i=pServcie.delPrj(id);
+		return i;
+	}
+	
+	@RequestMapping("/isExist")
+	@ResponseBody
+	public int isExistByModeId(String id){
+		int i=cfMapper.isExistByModeId(id);
+		return i;
+	}
+	@RequestMapping("/updateJYStatus2")
+	@ResponseBody
+	public int updateJYStatus2(String id,int state){
+		int i=pServcie.updateJyStatus(id, state);
+		return i;
+	}
+	
+	@RequestMapping("/updateSCStatus2")
+	@ResponseBody
+	public int updateSCStatus2(String id,int state){
+		int i=pServcie.updateScStatus(id, state);
 		return i;
 	}
 	

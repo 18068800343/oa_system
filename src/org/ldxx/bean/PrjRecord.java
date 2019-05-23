@@ -14,9 +14,9 @@ public class PrjRecord {
 	private String prjNo;
 	private String prjType;
 	private String scDept;
-	private int scStatus;
+	private int scStatus;//生产资料归档状态 0：未归档，1：部分归档，2：已归档；3:只显示部分归档把提交按钮隐藏
 	private String jyDept;
-	private int jyStatus;
+	private int jyStatus;//生产资料归档状态 0：未归档，1：部分归档，2：已归档；3:只显示部分归档把提交按钮隐藏
 	
 	
 	public int getScStatus() {

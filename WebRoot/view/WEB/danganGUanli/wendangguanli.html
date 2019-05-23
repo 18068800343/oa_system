@@ -405,6 +405,7 @@
 <script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/myTool.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
@@ -439,9 +440,11 @@
 										    	if(data==0){
 										    		return '<button type="button" class="btn btn-danger Pjaxb"  onclick="look(this)">未归档</button>'
 										    	}else if(data==1){
-										    		return '<button type="button" class="btn btn-info Pjaxb"  onclick="look(this)">部分归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary"  onclick="submitJY(this)">提交</button>'
+										    		return '<button type="button" class="btn btn-info Pjaxb"  onclick="look(this)">部分归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary"   onclick="submitJY(this)">提交</button>'
 										    	}else if(data==2){
 										    		return '<button type="button" class="btn btn-primary Pjaxb"  onclick="lookJY(this)">已归档</button>'
+										    	}else if(data==3){
+										    		return '<button type="button" class="btn btn-info Pjaxb"  onclick="look(this)">部分归档</button>'
 										    	}
 									        }
 									  },
@@ -456,6 +459,8 @@
 											    		return '<button type="button" class="btn btn-info Pjaxb"  onclick="look2(this)">部分归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary"  onclick="submitSC(this)">提交</button>'
 											    	}else if(data==2){
 											    		return '<button type="button" class="btn btn-primary Pjaxb" onclick="lookQt(this)">已归档</button>'
+											    	}else if(data==3){
+											    		return '<button type="button" class="btn btn-info Pjaxb"  onclick="look2(this)">部分归档</button>'
 											    	}
 											    	
 											     }
@@ -1091,16 +1096,16 @@
 		type=data.prjType;
 		if(data.prjType.indexOf("C")>=0){
 			//施工文档资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/ConstructionDocument.html?prjId='+data.id);
+			$("#lookdangan").attr('src', '../danganGUanliChange/ConstructionDocumentLook.html?prjId='+data.id);
 		}else if(data.prjType.indexOf("A")>=0){
 			//检测评估资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/DetectionEvaluation.html?prjId='+data.id);
+			$("#lookdangan").attr('src', '../danganGUanliChange/DetectionEvaluationLook.html?prjId='+data.id);
 		}else if(data.prjType.indexOf("B")>=0){
 			//设计文件资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/designDocument.html?prjId='+data.id);
+			$("#lookdangan").attr('src', '../danganGUanliChange/designDocumentLook.html?prjId='+data.id);
 		}else if(data.prjType.indexOf("K")>=0){
 			//科技文档资料
-			$("#lookdangan").attr('src', '../danganGuanliChange/ScienceTechnology.html?prjId='+data.id);
+			$("#lookdangan").attr('src', '../danganGUanliChange/ScienceTechnologyLook.html?prjId='+data.id);
 		}
 		
 	}	
@@ -1295,9 +1300,12 @@
 		 
 	 }
 	
+	 var data;
+	 var tr1;
 	 function submitJY(obj){
+		 tr1 = $(obj).closest('tr');
 		 var tr=$(obj).parents("tr");
-		 var data=$("#mainContent").DataTable().row(tr).data();
+		 data=$("#mainContent").DataTable().row(tr).data();
 		 var statu = confirm("确认提交吗?");
 		 if(!statu){
 		   	return false;
@@ -1345,13 +1353,51 @@
 		        	          }
 		        	      }); 
 		        	  }
+	            	sub1(data.id)
 		        }
 		    });
 	 }
 	 
+	 function sub1(obj){
+		 $.ajax({
+	          type: 'POST',
+	          url: getContextPath()+'/PrjRecord/isExist',
+	          dataType: 'json',
+	          data:{
+	        	  id:obj,
+	          },
+	          success: function (json) {
+	        	  console.log(json)
+	        	  var state;
+	        	  if(json>0){
+	        		state=3;  
+	        	  }else{
+	        		  state=1;
+	        	  }
+	        	  $.ajax({
+	       	          type: 'POST',
+	       	          url: getContextPath()+'/PrjRecord/updateJYStatus2',
+	       	          dataType: 'json',
+	       	          data:{
+	       	        	  id:obj,
+	       	        	  state:state,
+	       	          },
+	       	          success: function (json) {
+	       	        	 
+	       	        	data.jyStatus=state;
+	       	        	$('#mainContent').DataTable().row(tr1).data(data);//修改行立即显示
+	       	          }
+       	     	 });
+	          }
+	      });
+	 }
+	 
+	 var data2
+	 var tr2;
 	 function submitSC(obj){
+		 tr2 = $(obj).closest('tr');
 		 var tr=$(obj).parents("tr");
-		 var data=$("#mainContent").DataTable().row(tr).data();
+		  data2=$("#mainContent").DataTable().row(tr).data();
 		 var statu = confirm("确认提交吗?");
 		 if(!statu){
 		   	return false;
@@ -1361,9 +1407,9 @@
 		        url: getContextPath()+'/PrjRecord/submitPrjRecordSc',
 		        dataType: 'json',
 		        data: {
-		        	id:data.id,
-		        	no:data.prjNo,
-		        	type:data.prjType
+		        	id:data2.id,
+		        	no:data2.prjNo,
+		        	type:data2.prjType
 		        },
 		        success: function (json) {
 		        	lianjie=json.url;
@@ -1400,8 +1446,40 @@
 		        	          }
 		        	      }); 
 		        	  }
+	            	sub2(data2.id)
 		        }
 		    });
+	 }
+	 function sub2(obj){
+		 $.ajax({
+	          type: 'POST',
+	          url: getContextPath()+'/PrjRecord/isExist',
+	          dataType: 'json',
+	          data:{
+	        	  id:obj,
+	          },
+	          success: function (json) {
+	        	  var state;
+	        	  if(json>0){
+	        		state=3;  
+	        	  }else{
+	        		  state=1;
+	        	  }
+	        	  $.ajax({
+	      	          type: 'POST',
+	      	          url: getContextPath()+'/PrjRecord/updateSCStatus2',
+	      	          dataType: 'json',
+	      	          data:{
+	      	        	  id:obj,
+	      	        	  state:state,
+	      	          },
+	      	          success: function (json) {
+	      	        	data2.scStatus=state;
+	       	        	$('#mainContent').DataTable().row(tr2).data(data2);//修改行立即显示
+	      	          }
+	      	      });
+	          }
+	      });
 	 }
 	 
 	 function delPrj(obj){
