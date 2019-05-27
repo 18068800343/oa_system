@@ -828,8 +828,8 @@ public class CgContractController {
 				File fOld = new File(webApps+list.get(i).getAcUrl());
 				fOld.delete();
 				adao.deleteAccessoryByIdAndAType(list.get(i));			
-			}					
-		}			
+			}
+		}
 		
 		String fileName =file[0].getOriginalFilename();		
 		if(file.length>0){
