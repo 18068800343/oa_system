@@ -847,11 +847,10 @@ public class CjContractController {
 	
 	@RequestMapping("/addSaoMiaoHeTong")
 	@ResponseBody
-	public Map<String,Object> addOtherFile(@RequestParam(value="file") MultipartFile [] file,String cjId,HttpServletRequest request){
+	public Map<String,Object> addOtherFile(@RequestParam(value="file") MultipartFile [] file,String id,HttpServletRequest request){
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID tu=new TimeUUID();
 		int result;
-		String id=cjId;
 		
 		String webApps=tu.getWebAppFile();
 		String path=webApps+id;
