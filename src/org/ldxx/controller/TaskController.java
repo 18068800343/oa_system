@@ -425,6 +425,7 @@ public class TaskController {
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
 			currentFlow.setFlowNopassState(0);
+			currentFlow.setGaibian("true");
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getuName());
@@ -488,6 +489,7 @@ public class TaskController {
 			currentFlow.setSdtofflow(new Date());
 			currentFlow.setFlowEndState(2);
 			currentFlow.setFlowNopassState(0);
+			currentFlow.setGaibian("true");
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getOmName());

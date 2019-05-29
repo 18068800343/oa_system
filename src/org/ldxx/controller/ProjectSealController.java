@@ -134,7 +134,7 @@ public class ProjectSealController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(signetManage.getPrjId()+"印章刻制申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());
+			currentFlow.setActorname(user.getuName());
 			currentFlow.setMemo(signetManage.getPrjId()+"印章刻制申请流程提交");
 			currentFlow.setUrl("xingzhengshiwuLook/ProjectSealLookKZ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");

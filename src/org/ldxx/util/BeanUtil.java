@@ -28,6 +28,7 @@ public class BeanUtil {
 		flowHistroy.setPri(currentFlow.getPri());
 		flowHistroy.setModeId(currentFlow.getModeId());
 		flowHistroy.setBusId(currentFlow.getBusId());
+		flowHistroy.setGaibian(currentFlow.getGaibian());
 		return flowHistroy;
 	}
 	

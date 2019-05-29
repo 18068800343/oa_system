@@ -57,6 +57,16 @@ public class FlowHistroy {
     
     private String delete;
     
+    private String gaibian;
+
+	public String getGaibian() {
+		return gaibian;
+	}
+
+	public void setGaibian(String gaibian) {
+		this.gaibian = gaibian;
+	}
+
 	public String getDelete() {
 		return delete;
 	}
