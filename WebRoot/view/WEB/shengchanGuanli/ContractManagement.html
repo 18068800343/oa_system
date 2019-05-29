@@ -167,14 +167,14 @@
 		                <thead>
 		                    <tr>
 		                      	<th style="width:8%;">承接合同号</th>
-		                        <th style="width:28%;">承接合同名称</th>
+		                        <th style="width:26%;">承接合同名称</th>
 		                        <th style="width:20%;">甲方</th>
 		                        <th style="width:8%">任务单号</th>
 		                        <th style="width:6%;">乙方</th>
 		                        <th style="width:9%;" class="jinqianyanse">合同金额(元)</th>
 		                        <th style="width:8%;">签订日期</th>
 		                        <th style="width:8%;">合同工期</th>
-		                        <th  style="width:6%;">操作</th>
+		                        <th  style="width:8%;">操作</th>
 
 		                    </tr>
 		                </thead>
@@ -663,6 +663,15 @@
                         	</thead>
                         	<tbody></tbody>
 	                    </table>
+	                <table class="table table-bordered table-condensed" id="look_saomainHT">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:15%;">合同扫描件 </td>
+                                	<td colspan="3"></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
 	                    <div id="look_renwudanFenpei"></div>
 	                    
 
@@ -1211,7 +1220,8 @@
                         </thead>
                         <tbody></tbody>
                     </table>
-
+					
+										
                     <table class="table table-bordered table-condensed" id="look_xieban2">
                         <thead>
                             <tr>
@@ -1346,7 +1356,38 @@
   </div>
 </div>
 <!-- Modal 计算工期结束-->
-
+<!-- Modal合同扫描件开始 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addSaoMiaohtModel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>合同扫描件</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form id="new_form" class="form-inline" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+		                	<tr >
+		                		<td style="width:15%;">合同扫描件文件名</td>
+		                		<td style="width:35%;">
+		                			<input type="file" id="saomiaofileUrl" name="file" class="form-control" style="width:75%;" multiple="multiple">
+		                			<!--<button type="button" style="margin-left: 5px;" class="btn btn-primary" id="chosexm">选择文件</button>-->
+		                		</td>
+		                		
+		                	</tr>
+		            	</table>
+                    </form> 
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick="savesaomiaohetongjian(this)">上传文件</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 合同扫描件 -->
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
@@ -1541,7 +1582,11 @@ function checkquxiaoSplit(){
 										    "targets": 8,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test Pecab" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" id="'+data.cjId+'"  onclick="lookDetall(this)"></i><i class="iconfont icon-xiugai iconxiugai Pecac" style="font-size:20px;cursor:pointer;margin-left:3px;display:none;" title="合同变更" onclick="contractChange(this)"></i><i class="iconfont icon-arrow chongqi Pecaf" style="font-size:20px;cursor:pointer;display:none;margin-left:3px;" title="承接合同启用" onclick="openModal3(this)"></i><i class="iconfont icon-tuichu iconquxiao Pecad" style="font-size:20px;cursor:pointer;margin-left:3px;display:none;" title="承接合同取消"  onclick="openModal2(this)"></i>'
+										    	return '<i class="iconfont icon-icon-test Pecab" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" id="'+data.cjId+'"  onclick="lookDetall(this)"></i>'
+										    	+'<i class="iconfont icon-xiugai iconxiugai Pecac" style="font-size:20px;cursor:pointer;margin-left:3px;display:none;" title="合同变更" onclick="contractChange(this)"></i>'
+										    	+'<i class="iconfont icon-arrow chongqi Pecaf" style="font-size:20px;cursor:pointer;display:none;margin-left:3px;" title="承接合同启用" onclick="openModal3(this)"></i>'
+										    	+'<i class="iconfont icon-tuichu iconquxiao Pecad" style="font-size:20px;cursor:pointer;margin-left:3px;display:none;" title="承接合同取消"  onclick="openModal2(this)"></i>'
+										    	+'<i class="iconfont icon-kaibiao Pecab" style="font-size:18px;cursor:pointer;display:none;" title="补录扫描合同件"  onclick="addsaomiaohetongjian(this)"></i>';
 										    	}
 										  },
 										  {	
@@ -3236,6 +3281,7 @@ function checkquxiaoSplit(){
 	        success: function (json) {
 	        	$("#look_accessory tbody").html('');
 	        	$("#look_accessory2 tbody").html('');
+	        	$("#look_saomainHT tbody").html('');
 	        	for(var i=0;i<json.length;i++){
 	          		if(json[i].aType=="承接合同文本"){
 		            	   $("#look_accessory tbody").append("<tr>"+
@@ -3253,6 +3299,12 @@ function checkquxiaoSplit(){
 				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+ */
 				         	    "</tr>");
 	            	   }
+	          		if(json[i].aType=="合同扫描件"){
+		            	   $("#look_saomainHT tbody").append("<tr>"+
+	      	   										"<td style='width:20%;'>附件</td>"+
+	      	   										"<td colspan='3'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+	            	    	
+							            	    "</tr>");
+		            	   }
 	        	}
 	        }
     	});
@@ -3266,6 +3318,9 @@ function checkquxiaoSplit(){
 	        },
 	        success: function (json) {
 	        	$("#look_fbcontract tbody").html('');
+	        	if(json==""||typeof(json[0].fbNo) == "undefined"||json[0].fbNo==null||json[0].fbNo==""){
+	        		return;
+	        	}
 	        	var fbcontractahtml="<a href='../chankanxiangqing/fbContractDetails.html?fbNo="+json[0].fbNo+"' target='view_window' style='color:blue;'>"+json[0].fbNo+"</a>";
 	        	for(var i=1;i<json.length;i++){
 	        		fbcontractahtml+="，<a href='../chankanxiangqing/fbContractDetails.html?fbNo="+json[i].fbNo+"' target='view_window' style='color:blue;'>"+json[i].fbNo+"</a>";     	  
@@ -3280,6 +3335,7 @@ function checkquxiaoSplit(){
 				         	    +"</tr>");
 		        		}
 		        	}
+	        
     	});
   		
     	
@@ -4047,6 +4103,7 @@ function checkquxiaoSplit(){
 				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
 				         	    "</tr>");
 	            	   }
+	          		
 	        	}
 	        }
     	});
@@ -4685,6 +4742,7 @@ function checkquxiaoSplit(){
         				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+ */
         				         	    "</tr>");
         	            	   }
+        	          		
         	        	}
         	        }
             	});
@@ -4775,5 +4833,51 @@ function checkquxiaoSplit(){
             }
       });
   	 }
+	
+	 //扫描合同件
+    var smht_cjcId;
+	function addsaomiaohetongjian(obj){
+		tr_smht=$(obj).parents("tr");
+		var datasaomiao=$("#mainContent").DataTable().row(tr_smht).data();
+		//console.log(data_bl)
+		smht_cjcId=datasaomiao.cjId;
+    	$("#addSaoMiaohtModel").modal("show");
+    	
+	}
+    
+	 function savesaomiaohetongjian(){
+		 var saomiaoUrl=$("#saomiaofileUrl").val();	 
+		 if(saomiaoUrl==''){
+				toastr.error("请选择上传文件");
+				return;
+			 }
+		 var formData = new FormData();
+		 formData.append("cjId", smht_cjcId);
+		 formData.append("file",$("#saomiaofileUrl")[0].files[0]);
+		 $.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/cj/addSaoMiaoHeTong',
+	            data: formData,  
+	            cache: false,
+	            processData: false,
+	            contentType: false,
+	            async: false,
+		        success: function (json) {
+	        		var result=json.result;
+	        		if(result>0){
+	        			toastr.success('保存成功');
+	        			//$('#mainContent').DataTable().row.add(OtherFile).draw(false);
+	        			$("#addSaoMiaohtModel").modal("hide");
+	        			$("#saomiaofileUrl").val("");
+	        		}else if(result==-2){
+	        			toastr.error('请先刷新页面后登陆');
+	        		}else{
+	        			toastr.error('保存失败');
+	        		}
+		        }
+		    });		
+	 }
+    
+    
 </script>
 </html>

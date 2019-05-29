@@ -42,6 +42,7 @@ public class CgContractServiceImpl implements CgContractService {
 	@Autowired
 	private BorrowContractDao borrowdao;
 
+	
 	@Override
 	public List<CgContract> selectCgContractByStatus(String status) {
 		return cgDao.selectCgContractByStatus(status);
