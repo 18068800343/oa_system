@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.ldxx.bean.Accessory;
@@ -21,6 +22,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.OrganizationManagementDao;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.BorrowContractService;
@@ -62,6 +64,8 @@ public class SubContractController {
 	private OrganizationManagementDao omDao;
 	@Autowired
 	private TaskService tService;
+	@Autowired
+	private AccessoryDao adao;
 	
 	@RequestMapping("/selectSubContract")
 	@ResponseBody
@@ -740,5 +744,60 @@ public class SubContractController {
 		Double fbMoney=scService.getShenpiFbMoneyByCjNo(cjno);
 		return fbMoney;
 	}
-	
+	@RequestMapping("/addSaoMiaoHeTong")
+	@ResponseBody
+	public Map<String,Object> addOtherFile(@RequestParam(value="file") MultipartFile [] file,String id,HttpServletRequest request){
+		Map<String,Object> map=new HashMap<>();
+		TimeUUID tu=new TimeUUID();
+		int result;
+		
+		
+		String webApps=tu.getWebAppFile();
+		String path=webApps+id;
+		//如果存在之前的文件，将其删除
+		List<Accessory> list = adao.selectAccessoryById(id);
+		for(int i=0;i<list.size();i++) {
+			if("合同扫描件".equals(list.get(i).getaType()))
+			{
+				File fOld = new File(webApps+list.get(i).getAcUrl());
+				fOld.delete();
+				adao.deleteAccessoryByIdAndAType(list.get(i));			
+			}
+		}
+		
+		String fileName =file[0].getOriginalFilename();		
+		if(file.length>0){
+			Accessory accessory=new Accessory();
+			
+			String filePath=path+File.separator+fileName;
+			File f2=new File(filePath);
+			
+			if(!f2.getParentFile().exists())
+			{
+				f2.getParentFile().mkdirs();
+			}
+			try {
+				file[0].transferTo(f2);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			accessory.setaId(id);
+			accessory.setAcName(fileName);
+			accessory.setAcUrl(id+File.separator+fileName);
+			accessory.setaType("合同扫描件");
+			List<Accessory> lista=new ArrayList<>();
+			lista.add(accessory);
+			result = adao.addAccessory(lista);
+		}else 
+		{
+			result=-1;
+		}
+
+		map.put("result", result);
+		return map;
+	}
 }
