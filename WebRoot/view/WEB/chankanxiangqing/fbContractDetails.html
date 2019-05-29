@@ -143,9 +143,7 @@
                     <table class="table table-bordered table-condensed"  id="look_all_table">
 				                        		
 				    </table>
-				    <table class="table table-bordered table-condensed"  id="look_all_table2">
-				                        		
-				    </table>
+				    
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" onclick="details_close()">关闭本页</button>
@@ -191,6 +189,7 @@
     } 
     
     var fbNo=getParam("fbNo");
+    var fbId;
     function initTable(){
 		$.ajax({
             type: 'POST',
@@ -203,8 +202,8 @@
             success: function (json) {
             	//console.log(json);
             	var data=json.fbc;
-            	fbId=json.fbId;
-        		fbNo=json.fbNo;
+            	fbId=data.fbId;
+        		fbNo=data.fbNo;
         		
         		$("#lookhetongName").text(data.contractName)
         		$("#lookfbNo").text(data.fbNo);
@@ -239,8 +238,7 @@
         			},
         			success:function(json){
         				//console.log(json);
-        				$("#look_all_table").empty();
-        				$("#look_all_table2").empty();
+        				$("#look_all_table").empty();     		
         	               for(var i=0;i<json.length;i++){
         	            	   if(json[i].aType=="分包合同文本"){
         		            	   $("#look_all_table").append("<tr>"+
@@ -250,12 +248,18 @@
         							            	    "</tr>");
         	            	   }
         	            	   if(json[i].aType=="法律顾问签字"){
-        		            	   $("#look_all_table2").append("<tr>"+
+        		            	   $("#look_all_table").append("<tr>"+
         	      	   										"<td>法律顾问签字</td>"+
         							            	    	"<td colspan='2'><input type='text' class='form-control' style='width:100%;' value='"+json[i].acName+"' disabled></td>"+
         							            	    	"<td><button type='button' class='btn btn-primary' data1='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
         							            	    "</tr>");
         	            	   }
+        	            	   if(json[i].aType=="合同扫描件"){
+        		            	   $("#look_all_table").append("<tr>"+
+        	      	   										"<td style='width:20%;'>合同扫描件</td>"+
+        	      	   										"<td colspan='3'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+							            	    	
+        							            	    "</tr>");
+        		            	   } 
         	               }
         			}
         		});
