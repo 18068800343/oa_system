@@ -663,20 +663,22 @@
             "sPrevious": "上一页",
             "sNext": "下一页",
             "sLast": "最后一页"
-        }},
-        
+        }},        
 	});
+   
 	function initTable(){
+		var base64 = new Base64();
         $.ajax({
             type: 'POST',
-            url: getContextPath()+'/user/selectAllUser',
-            dataType: 'json',
+            url: getContextPath()+'/user/selectAllUser3',
             data: {
             },
             error: function (msg) {
-                errMessage("请求UserController失败");
+            	toastr.error("base64出错");
             },
-            success: function (json) {
+            success: function (data) {
+            	var arr = base64.decode(data);
+            	json = JSON.parse(arr);
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
                 
