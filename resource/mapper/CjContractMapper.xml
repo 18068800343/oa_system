@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.ldxx.dao.CjContractDao" >
+	<resultMap id="cjContractMap" type="CjContract" >
+		<id property="cjId" column="a.cj_id"/>
+		<result property="taskCode" column="a.task_code" />
+		<result property="contractName" column="a.contract_name" />
+		<result property="contractNo" column="a.contract_no" />
+		<result property="prjName" column="a.prj_name" />
+		<result property="prjType" column="a.prj_type" />
+		<result property="contractNameJia" column="a.contract_name_jia" />
+		<result property="ccName" column="a.cc_name" />
+		<result property="contractNameYi" column="a.contract_name_yi" />
+		<result property="contractStartTime" column="a.contract_start_time" />
+		<result property="contractEndTime" column="a.contract_end_time" />
+		<result property="contractLongTime" column="a.contract_long_time" />
+		<result property="receieveMoneyCondition" column="a.receieve_money_condition" />
+		<result property="contractMoney" column="a.contract_money" />
+		<result property="temporaryMoney" column="a.temporary_money" />
+		<result property="contractSignTime" column="a.contract_sign_time" />
+		<result property="workInfo" column="a.work_info" />
+		<result property="mainDepartmentMoney" column="a.main_department_money" />
+		<result property="assistDepartment1Money" column="a.assist_department1_money" />
+		<result property="assistDepartment2Money" column="a.assist_department2_money" />
+		<result property="assistDepartment2Money" column="assist_department3_money" />
+		<result property="splitState" column="a.split_state" />
+		<result property="jyms" column="a.jyms" />
+		<result property="omName" column="d.om_name" />
+		<result property="name" column="name" />
+		<result property="name2" column="name2" />
+		<result property="name3" column="name3" />
+		<result property="name4" column="name4" />		
+		<collection property="cjSplitMoney" javaType="ArrayList" column="cj_id"  ofType="CjSplitMoney" select="selectCjSplitMoneyById2" >
+  	    </collection>
+	</resultMap>
+	
+
+
 	<insert id="addCjContract" parameterType="CjContract">
 		insert into cj_contract(cj_id,task_code,contract_name,contract_no,prj_name,prj_type,contract_name_jia,cc_name,contract_name_yi,
 						contract_start_time,contract_end_time,yi_cj_department,contract_long_time,receieve_money_condition,
@@ -27,8 +62,55 @@
 		assist_department3=#{cj.assistDepartment3},assist_department3_money=#{cj.assistDepartment3Money}
 		where cj_id=#{cj.cjId}
 	</update>
+		
+	<!-- <select id="selectCjContractByStatus" resultType="CjContract"> -->
+	<select id="selectCjContractByStatus" resultMap="cjContractMap">
+		SELECT a.cj_id,a.task_code,a.contract_name,a.contract_no,a.prj_name,
+		a.prj_type,a.contract_name_jia,a.cc_name,a.contract_name_yi,a.contract_start_time,
+		a.contract_end_time,a.contract_long_time,a.receieve_money_condition,a.contract_money,
+		a.temporary_money,a.contract_sign_time,a.work_info,a.main_department_money,
+		a.assist_department1_money,a.assist_department2_money,assist_department3_money,
+		a.split_state,a.jyms,
+		d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4,
+		Num_char_extract(a.contract_no,0) as cno_sort
+		<!-- csm.cj_id as cjSplitMoney_cj_id,csm.year as cjSplitMoney_year,csm.money as cjSplitMoney_money -->
+		FROM cj_contract as a 
+		left join mode_status as b on a.cj_id=b.mode_id
+		left join organization_management as d on a.yi_cj_department=d.om_id 
+		left join organization_management as d2 on a.main_department=d2.om_id
+		left join organization_management as d3 on a.assist_department1=d3.om_id
+		left join organization_management as d4 on a.assist_department2=d4.om_id
+		left join organization_management as d5 on a.assist_department3=d5.om_id
+		<!-- left join cj_split_money as csm on a.cj_id=csm.cj_id -->
+		<where>
+			<if test="startMin!=''">
+				contract_start_time &gt;= #{startMin} and contract_start_time &lt;= #{startMax} and 
+			</if>
+			<if test="endMin!=''">
+				contract_end_time &gt;= #{endMin} and contract_end_time &lt;= #{endMax} and 
+			</if>
+			<if test="mainDp!='%'.toString()">
+				main_department =#{mainDp} and 
+			</if>
+			<if test="xbDp!='%'.toString()">
+				assist_department1 =#{xbDp} or assist_department2 =#{xbDp} or assist_department3 =#{xbDp} and 
+			</if>
+			<if test="contractMoneyMin!=0">
+				contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and
+			</if>
+			<if test="zdMoneyMin!=0">
+				temporary_money &gt;=#{zdMoneyMin} and temporary_money &lt;= #{zdMoneyMax} and 
+			</if>
+			b.status=#{status} and a.history=1 order by cno_sort desc
+			
+		</where>	
+	</select>
 	
-<!-- 	<select id="selectCjContractByStatus" resultType="CjContract">
+	<select id="selectCjSplitMoneyById2" resultType="CjSplitMoney">
+		select * from cj_split_money where cj_id=#{cj_id}
+	</select>
+	
+	<!-- 	<select id="selectCjContractByStatus" resultType="CjContract">
 		select a.*,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4,
 		Num_char_extract(a.contract_no,0) as cno_sort
 		from cj_contract as a left join mode_status as b on a.cj_id=b.mode_id
@@ -59,46 +141,6 @@
 			b.status=#{status} and a.history=1 order by cno_sort desc
 		</where>	
 	</select> -->
-	
-		<select id="selectCjContractByStatus" resultType="CjContract">
-		SELECT a.cj_id,a.task_code,a.contract_name,a.contract_no,a.prj_name,
-		a.prj_type,a.contract_name_jia,a.cc_name,a.contract_name_yi,a.contract_start_time,
-		a.contract_end_time,a.contract_long_time,a.receieve_money_condition,a.contract_money,
-		a.temporary_money,a.contract_sign_time,a.work_info,a.main_department_money,
-		a.assist_department1_money,a.assist_department2_money,assist_department3_money,
-		a.split_state,a.jyms,
-		d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4,
-		Num_char_extract(a.contract_no,0) as cno_sort
-		FROM cj_contract as a 
-		left join mode_status as b on a.cj_id=b.mode_id
-		left join organization_management as d on a.yi_cj_department=d.om_id 
-		left join organization_management as d2 on a.main_department=d2.om_id
-		left join organization_management as d3 on a.assist_department1=d3.om_id
-		left join organization_management as d4 on a.assist_department2=d4.om_id
-		left join organization_management as d5 on a.assist_department3=d5.om_id
-		<where>
-			<if test="startMin!=''">
-				contract_start_time &gt;= #{startMin} and contract_start_time &lt;= #{startMax} and 
-			</if>
-			<if test="endMin!=''">
-				contract_end_time &gt;= #{endMin} and contract_end_time &lt;= #{endMax} and 
-			</if>
-			<if test="mainDp!='%'.toString()">
-				main_department =#{mainDp} and 
-			</if>
-			<if test="xbDp!='%'.toString()">
-				assist_department1 =#{xbDp} or assist_department2 =#{xbDp} or assist_department3 =#{xbDp} and 
-			</if>
-			<if test="contractMoneyMin!=0">
-				contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and
-			</if>
-			<if test="zdMoneyMin!=0">
-				temporary_money &gt;=#{zdMoneyMin} and temporary_money &lt;= #{zdMoneyMax} and 
-			</if>
-			b.status=#{status} and a.history=1 order by cno_sort desc
-			
-		</where>	
-	</select>
 	
 	<select id="selectCjHistory" resultType="CjContract">
 		select a.*,d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4 

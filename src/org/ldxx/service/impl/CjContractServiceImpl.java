@@ -78,11 +78,11 @@ public class CjContractServiceImpl implements CjContractService{
 	@Override
 	public List<CjContract> selectCjContractByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax) {
 		List<CjContract> list = dao.selectCjContractByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
-		for(int i=0;i<list.size();i++){
-			String id = list.get(i).getCjId();
-			List<CjSplitMoney> cjSplitMoney=dao.selectCjSplitMoneyById(id);
-			list.get(i).setCjSplitMoney(cjSplitMoney);
-		}
+//		for(int i=0;i<list.size();i++){
+//			String id = list.get(i).getCjId();
+//			List<CjSplitMoney> cjSplitMoney=dao.selectCjSplitMoneyById(id);
+//			list.get(i).setCjSplitMoney(cjSplitMoney);
+//		}
 		return list;
 	}
 
