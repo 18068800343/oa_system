@@ -22,6 +22,6 @@ public interface ReceiveMoneyDao {
 
 	int countSkNo();
 	
-	
+	String CreateRecieveMoneyNumOrder(@Param("year")String year);
 
 }

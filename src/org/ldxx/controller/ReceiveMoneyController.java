@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.ldxx.bean.ReceiveMoney;
 import org.ldxx.bean.User;
 import org.ldxx.dao.AlreadySkInfoDao;
 import org.ldxx.dao.ReceiveMoneyDao;
+import org.ldxx.util.DateUtil;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,10 +56,10 @@ public class ReceiveMoneyController {
 		receiveMoney.setDoTime(TimeUUID.getTimeByFmt("yyyy-MM-dd hh:mm:ss", new Date()));
 		receiveMoney.setDoPerson(user.getuName());
 		receiveMoney.setStatus("0");
-		TimeUUID uuid=new TimeUUID();
-		String id=uuid.getTimeUUID();
-		int count=receiveMoneyDao.countSkNo();
-		String code="SK"+uuid.getClCode("", count+1);
+		String ymDate = DateUtil.getDateStrByPattern("yyyy", new Date());
+		String count=receiveMoneyDao.CreateRecieveMoneyNumOrder(ymDate);
+		String ymDate1 = DateUtil.getDateStrByPattern("yyyyMM", new Date());
+		String code="SK"+ymDate1+count;
 		receiveMoney.setSkNo(code);
 		receiveMoneyDao.addReceiveMoney(receiveMoney);
 		return receiveMoney;
