@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import sun.misc.BASE64Encoder;
+//import sun.misc.BASE64Encoder;
 
 /**
  * 人员用户管理
@@ -164,8 +164,11 @@ public class UserController {
 		String str = json.toString();
 		
 		byte[] buf=str.getBytes("utf8");		
-		BASE64Encoder base64 = new BASE64Encoder();
-	    String encodeStr3 = base64.encode(buf);	    
+	 
+		String encodeStr3 = org.apache.commons.codec.binary.Base64.encodeBase64String(buf);
+		//下面方法服务器会报错
+		//BASE64Encoder base64 = new BASE64Encoder();
+		//String encodeStr3 = base64.encode(buf);	    
 	    
 	    return encodeStr3;
         
