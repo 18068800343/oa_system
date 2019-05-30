@@ -185,9 +185,13 @@ public class UserController {
 	
 	@RequestMapping("/selectUserByomId")
 	@ResponseBody
-	public List<User> selectUserByomId(String omId){
+	public String selectUserByomId(String omId){
 	 List<User> list = userservice.selectUserByomId(omId);
-	 return list;
+	 net.sf.json.JSONArray json = new net.sf.json.JSONArray();
+	 json.addAll(list);
+	 String str = json.toString();
+	 str = str.replaceAll("password", "mima");
+	 return str;
 	}
 	
 	@RequestMapping("/selectUserByomIdYY")
