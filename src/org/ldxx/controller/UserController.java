@@ -1,17 +1,24 @@
 package org.ldxx.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPOutputStream;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONArray;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.User;
 import org.ldxx.dao.UserDao;
 import org.ldxx.service.UserService;
 import org.ldxx.util.BeanUtil;
+import org.ldxx.util.GZIPUtils;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import sun.misc.BASE64Encoder;
 
 /**
  * 人员用户管理
@@ -140,9 +149,31 @@ public class UserController {
 
 	@RequestMapping("/selectAllUser")
 	@ResponseBody
-	public List<User> selectAllUser(){
-		return userservice.selectAllUser();
+	public List<User> selectAllUser(HttpServletResponse response) throws IOException{
+		List<User> list= userservice.selectAllUser();
+		return list;
 	}
+	//解决网络上传输数据会导致只传输一半，前台接收不完整的问题。后台先base64编码，前台再base64解码，参考前台代码页面personneManagement。html
+	@RequestMapping("/selectAllUser3")
+	@ResponseBody
+	public String selectAllUser3(HttpServletResponse response) throws IOException{
+		
+		List<User> list= userservice.selectAllUser();
+		//JSONArray json= new JSONArray(list);
+		net.sf.json.JSONArray json = new net.sf.json.JSONArray();
+		json.addAll(list);
+		String str = json.toString();
+		
+		byte[] buf=str.getBytes("utf8");		
+		BASE64Encoder base64 = new BASE64Encoder();
+	    String encodeStr3 = base64.encode(buf);	    
+	    
+	    return encodeStr3;
+        
+       			
+	}
+	
+	
 	
 	@RequestMapping("/selectUserById")
 	@ResponseBody

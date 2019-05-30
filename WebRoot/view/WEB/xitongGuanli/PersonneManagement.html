@@ -625,6 +625,7 @@
 	});
     
     $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
+    //$.fn.dataTable.ext.errMode = 'none';       //屏蔽掉报错弹窗
     var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
@@ -647,7 +648,16 @@
 		            { "data": "position"}, 
 		            { "data": null},
 		        ],
-		        "columnDefs": [
+		        "columnDefs": [{	
+								 "class": "tcenter",
+								    "targets": 0,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								    		if(data==''&&data==null)
+								    			return '';
+								  	  		return data;
+								        }
+								  },
 								{	
 										 "class": "tcenter",
 										    "targets": 9,
@@ -740,13 +750,15 @@
    $('.buttons-csv').addClass('btn btn-primary');
     
 	function initTable(){
+		var base64 = new Base64();
         $.ajax({
             type: 'POST',
-            url: getContextPath()+'/user/selectAllUser',
-            dataType: 'json',
+            url: getContextPath()+'/user/selectAllUser3',
             data: {
             },
-            success: function (json) {
+            success: function (data) {           	
+            	var arr = base64.decode(data);
+            	json = JSON.parse(arr);
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
                 
@@ -779,6 +791,9 @@
             		}
             	});
                 
+            },
+            error:function(json){
+            	toastr.error("base64出错");
             }
         });
     }
@@ -1489,7 +1504,7 @@
             		toastr.error("工号已存在");
             		return false;
             	}else if(json.result=="-4"){
-            		toastr.error("档案号已存在");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+            		toastr.error("档案号已存在");
             		return false;
             	}
 	        }
