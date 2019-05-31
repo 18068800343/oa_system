@@ -225,4 +225,23 @@ public class ProjectAccountingController {
 		return i;
 	}
 	
+	@RequestMapping("/selectProjectAccounting2")
+	@ResponseBody
+	public List<ProjectAccounting> selectProjectAccounting2(){
+		List<ProjectAccounting> list= service.selectProjectAccounting2();
+		for(int i=0;i<list.size();i++){
+			String prjNo = list.get(i).getPrjNo();
+			List<FbContract> subcontract=scService.selectFbContractByTaskNo(prjNo);//去查该任务单下有几个分包合同
+			List<FbContractOver> fbJs = fbOverservice.selectFbJsByNo(prjNo);//去查该任务单下已结算的分包合同
+			if(fbJs.size()==0||fbJs==null){
+				list.get(i).setJsState("2");//未结算
+			}else if(subcontract.size()==fbJs.size()){
+				list.get(i).setJsState("0");//全部结算
+			}else{
+				list.get(i).setJsState("1");//部分结算
+			}
+		}
+		return list;
+	}
+	
 }

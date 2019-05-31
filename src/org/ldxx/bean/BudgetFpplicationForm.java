@@ -30,8 +30,79 @@ public class BudgetFpplicationForm {
 	
     private String ccName;//项目负责人
     private Double prjEstimateMoney;//任务单金额
+    
+    private String mainName;//主办部门
+    private Double mainDepartmentMoney;
+    private String name1;//协办部门1
+    private Double assistDepartment1Money;
+    private String name2;//协办部门2
+    private Double assistDepartment2Money;
+    private String name3;//协办部门3
+    private Double assistDepartment3Money;
+    private String starterName;//发起人
+    private String status;//审批状态
 	
     
+	public Double getMainDepartmentMoney() {
+		return mainDepartmentMoney;
+	}
+	public void setMainDepartmentMoney(Double mainDepartmentMoney) {
+		this.mainDepartmentMoney = mainDepartmentMoney;
+	}
+	public Double getAssistDepartment1Money() {
+		return assistDepartment1Money;
+	}
+	public void setAssistDepartment1Money(Double assistDepartment1Money) {
+		this.assistDepartment1Money = assistDepartment1Money;
+	}
+	public Double getAssistDepartment2Money() {
+		return assistDepartment2Money;
+	}
+	public void setAssistDepartment2Money(Double assistDepartment2Money) {
+		this.assistDepartment2Money = assistDepartment2Money;
+	}
+	public Double getAssistDepartment3Money() {
+		return assistDepartment3Money;
+	}
+	public void setAssistDepartment3Money(Double assistDepartment3Money) {
+		this.assistDepartment3Money = assistDepartment3Money;
+	}
+	public String getMainName() {
+		return mainName;
+	}
+	public void setMainName(String mainName) {
+		this.mainName = mainName;
+	}
+	public String getName1() {
+		return name1;
+	}
+	public void setName1(String name1) {
+		this.name1 = name1;
+	}
+	public String getName2() {
+		return name2;
+	}
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
+	public String getName3() {
+		return name3;
+	}
+	public void setName3(String name3) {
+		this.name3 = name3;
+	}
+	public String getStarterName() {
+		return starterName;
+	}
+	public void setStarterName(String starterName) {
+		this.starterName = starterName;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public Double getPrjEstimateMoney() {
 		return prjEstimateMoney;
 	}

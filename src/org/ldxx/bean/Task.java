@@ -144,10 +144,39 @@ public class Task {
     private int fileLengthKJ;//判断科技文档文档是否归档,非数据库对应属性；0：未归档，1：已归档
     
     private String lxTime;//立项时间
+    private String xgDodate;//最新修改立项时间
     
     private String stopReason;//终于原因
+    private String starterName;//发起人
+    private String status;//审批状态
     
     
+	
+
+	public String getXgDodate() {
+		return xgDodate;
+	}
+
+	public void setXgDodate(String xgDodate) {
+		this.xgDodate = xgDodate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getStarterName() {
+		return starterName;
+	}
+
+	public void setStarterName(String starterName) {
+		this.starterName = starterName;
+	}
+
 	public String getStopReason() {
 		return stopReason;
 	}

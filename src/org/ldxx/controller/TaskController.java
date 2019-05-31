@@ -400,6 +400,8 @@ public class TaskController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		t.setPrjId(id);
+		String time = uuid.getTimeByFmt("yyyy-MM-dd HH:mm:ss", new Date());
+		t.setXgDodate(time);
 		int i=tService.addTask(t);
 		if(i>0){
 			String mainDepartMentId = t.getMainDepartment();
@@ -463,6 +465,8 @@ public class TaskController {
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		t.setPrjId(id);
+		String time = uuid.getTimeByFmt("yyyy-MM-dd HH:mm:ss", new Date());
+		t.setXgDodate(time);
 		int i=tService.addTask(t);
 		String string = "";
 		if(i>0){
@@ -1177,6 +1181,10 @@ public class TaskController {
 			String mainDept=t.getMainDepartment();
 			String company=t.getPrjCompany();
 			String oldNo=t.getPrjNo();
+			if(t.getXgDodate()!=""&&t.getXgDodate()!=null){
+				String time = uuid.getTimeByFmt("yyyy-MM-dd HH:mm:ss", new Date());
+				i=tService.updateXgDodateById(id,time);
+			}
 			if(oldNo==null||oldNo.equals("")){
 				String gs="HT";
 				if("华汇".equals(company)){
@@ -1400,6 +1408,19 @@ public class TaskController {
 			}
 		}
 		return string;
+	}
+	
+	
+	@RequestMapping("/selectTask2")
+	@ResponseBody
+	public List<Task> selectTask2(@RequestParam(defaultValue="")String startMin,@RequestParam(defaultValue="")String startMax,@RequestParam(defaultValue="")String endMin,
+		@RequestParam(defaultValue="")String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")Double prjMoneyMin,@RequestParam(defaultValue="0")Double prjMoneyMax,
+		@RequestParam(defaultValue="0")Double contractMoneyMin,@RequestParam(defaultValue="0")Double contractMoneyMax,
+		@RequestParam(defaultValue="0")Double zdMoneyMin,@RequestParam(defaultValue="0")Double zdMoneyMax,
+		@RequestParam(defaultValue="%")String taskNo,@RequestParam(defaultValue="")String lxdateMin,@RequestParam(defaultValue="")String lxdateMax){
+		List<Task> task=taskDao.selectTask2( startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax,
+				contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax,taskNo,lxdateMin,lxdateMax);
+		return task;
 	}
 }
 

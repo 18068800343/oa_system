@@ -347,4 +347,10 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.addReason(id, reason);
 	}
 
+	@Override
+	public int updateXgDodateById(String id, String time) {
+		// TODO Auto-generated method stub
+		return tdao.updateXgDodateById(id,time);
+	}
+
 }

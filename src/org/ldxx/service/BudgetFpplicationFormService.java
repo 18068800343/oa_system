@@ -39,5 +39,8 @@ public interface BudgetFpplicationFormService {
 	int updateBfNoById(String id, String code);
 	
 	String CreateBudgetNumOrder(String year);
+
+	List<BudgetFpplicationForm> selectBudgeByStatus2(String status, String timeMin, String timeMax, Double costMin,
+			Double costMax);
 	
 }

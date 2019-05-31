@@ -74,4 +74,9 @@ public class ProjectAccountingServiceImpl implements ProjectAccountingService {
 		return dao.updateHSNoById(id,code);
 	}
 
+	@Override
+	public List<ProjectAccounting> selectProjectAccounting2() {
+		return dao.selectProjectAccounting2();
+	}
+
 }

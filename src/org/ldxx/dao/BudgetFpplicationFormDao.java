@@ -42,5 +42,7 @@ public interface BudgetFpplicationFormDao {
 	int updateBfNoById(@Param("id")String id,@Param("code") String code);
 	
 	String CreateBudgetNumOrder(@Param("year")String year);
+
+	List<BudgetFpplicationForm> selectBudgeByStatus2(@Param("status")String status,@Param("timeMin")String timeMin,@Param("timeMax")String timeMax,@Param("costMin")Double costMin,@Param("costMax")Double costMax);
 	
 }

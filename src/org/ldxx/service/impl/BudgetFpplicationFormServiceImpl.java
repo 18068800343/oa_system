@@ -207,4 +207,10 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 		return bdao.CreateBudgetNumOrder(year);
 	}
 
+	@Override
+	public List<BudgetFpplicationForm> selectBudgeByStatus2(String status, String timeMin, String timeMax,
+			Double costMin, Double costMax) {
+		return bdao.selectBudgeByStatus2(status,timeMin,timeMax,costMin,costMax);
+	}
+
 }

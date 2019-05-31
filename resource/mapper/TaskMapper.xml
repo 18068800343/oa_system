@@ -74,12 +74,12 @@
   		 insert into task(prj_id,prj_type2,prj_no,main_prj_no,prj_name,prj_area,prj_management_model,prj_company,prj_source,prj_owner_unit,work_content,
   		 							prj_estimate_money,contract_money,provisional_sum,prj_start_time,prj_end_time,main_department,main_department_money,
   		 							assist_department1,assist_department1_money,assist_department2,assist_department2_money,assist_department3,assist_department3_money,make_time,history,importance,
-  		 							main_department_cost,assist_department1_cost,assist_department2_cost,assist_department3_cost,yugongkebili,chushebili,shishebili,guanli_money)
+  		 							main_department_cost,assist_department1_cost,assist_department2_cost,assist_department3_cost,yugongkebili,chushebili,shishebili,guanli_money,xg_dodate)
   		 				   values(#{task.prjId},#{task.prjType2},#{task.prjNo},#{task.mainPrjNo},#{task.prjName},#{task.prjArea},#{task.prjManagementModel},#{task.prjCompany},#{task.prjSource},
   		 				   #{task.prjOwnerUnit},#{task.workContent},#{task.prjEstimateMoney},#{task.contractMoney},#{task.provisionalSum},
   		 				   #{task.prjStartTime},#{task.prjEndTime},#{task.mainDepartment},#{task.mainDepartmentMoney},#{task.assistDepartment1},#{task.assistDepartment1Money},
   		 				   #{task.assistDepartment2},#{task.assistDepartment2Money},#{task.assistDepartment3},#{task.assistDepartment3Money},now(),1,#{task.importance},
-  		 				   #{task.mainDepartmentCost},#{task.assistDepartment1Cost},#{task.assistDepartment2Cost},#{task.assistDepartment3Cost},#{task.yugongkebili},#{task.chushebili},#{task.shishebili},#{task.guanliMoney})		
+  		 				   #{task.mainDepartmentCost},#{task.assistDepartment1Cost},#{task.assistDepartment2Cost},#{task.assistDepartment3Cost},#{task.yugongkebili},#{task.chushebili},#{task.shishebili},#{task.guanliMoney},#{task.xgDodate})		
   	</insert>
   	<insert id="addTaskChaifen" parameterType="task">
   		 insert into task(prj_id,prj_type2,prj_no,main_prj_no,prj_name,prj_area,prj_management_model,prj_company,prj_source,prj_owner_unit,work_content,
@@ -135,15 +135,19 @@
   	
 	
 	<select id="selectTaskByStatus" parameterType="String" resultMap="taskResultMap">
-		select a.*,c.om_name,d.cc_name,u.u_name as mainPrjLeaderName,cja.*,
-		Num_char_extract(a.prj_no,0) as prjno_sort
+		select a.*,c.om_name,c1.om_name name1,c2.om_name name2,c3.om_name name3,d.cc_name,u.u_name as mainPrjLeaderName,cja.*,
+		Num_char_extract(a.prj_no,0) as prjno_sort,f.StarterName,b.status
 		from task a left join mode_status b on a.prj_id=b.mode_id 
 				left join organization_management c on a.main_department=c.om_id
+				left join organization_management c1 on a.assist_department1=c1.om_id 
+				left join organization_management c2 on a.assist_department2=c2.om_id 
+				left join organization_management c3 on a.assist_department3=c3.om_id
 				LEFT JOIN consociation_company as d on a.prj_owner_unit=d.cc_id
 				LEFT JOIN user as u on a.main_prj_leader=u.user_id 
 				LEFT JOIN (select a.task_code,cj_id,contract_name,contract_no,contract_money as contract_money_cj,temporary_money from cj_contract as a
 							left join mode_status as b on a.cj_id=b.mode_id
 							where a.history=1 and b.status=2) cja on cja.task_code = a.prj_no
+				LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f LEFT JOIN task a ON a.prj_id=f.mode_id GROUP BY mode_id )  AS  f on a.prj_id=f.mode_id 
 				<where>
 					<if test="startMin!=''">
 						prj_start_time &gt;= #{startMin} and prj_start_time &lt;= #{startMax} and 
@@ -534,5 +538,58 @@
   	
   	<update id="addReason">
   		update task set stop_reason=#{reason} where prj_id=#{id}
+  	</update>
+  	
+  	<select id="selectTask2" parameterType="String" resultMap="taskResultMap">
+  		select a.*,c.om_name,c1.om_name name1,c2.om_name name2,c3.om_name name3,d.cc_name,u.u_name as mainPrjLeaderName,cja.*,
+		Num_char_extract(a.prj_no,0) as prjno_sort,f.StarterName,b.status,g.do_date as lxTime
+		from task a left join mode_status b on a.prj_id=b.mode_id 
+				left join organization_management c on a.main_department=c.om_id
+				left join organization_management c1 on a.assist_department1=c1.om_id 
+				left join organization_management c2 on a.assist_department2=c2.om_id 
+				left join organization_management c3 on a.assist_department3=c3.om_id
+				LEFT JOIN consociation_company as d on a.prj_owner_unit=d.cc_id
+				LEFT JOIN user as u on a.main_prj_leader=u.user_id 
+				LEFT JOIN (select a.task_code,cj_id,contract_name,contract_no,contract_money as contract_money_cj,temporary_money from cj_contract as a
+							left join mode_status as b on a.cj_id=b.mode_id
+							where a.history=1 and b.status=2) cja on cja.task_code = a.prj_no
+				LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f LEFT JOIN task a ON a.prj_id=f.mode_id  GROUP BY mode_id )  AS  f on a.prj_id=f.mode_id 
+				LEFT JOIN(SELECT a.mode_id, a.do_date from (SELECT a.* from flowhistroy a LEFT JOIN task b ON a.mode_id=b.prj_id left join mode_status as c on a.mode_id=c.mode_id
+								WHERE c.status='2' and a.gaibian IS NULL ORDER BY  a.do_date DESC) as a GROUP BY a.mode_id) as g ON a.prj_id=g.mode_id
+				<where>
+					<if test="startMin!=''">
+						prj_start_time &gt;= #{startMin} and prj_start_time &lt;= #{startMax} and 
+					</if>
+					<if test="endMin!=''">
+						prj_end_time &gt;= #{endMin} and prj_end_time &lt;= #{endMax} and 
+					</if>
+					<if test="mainDp!='%'.toString()">
+						main_department =#{mainDp} and 
+					</if>
+					<if test="xbDp!='%'.toString()">
+						assist_department1 =#{xbDp} or assist_department2 =#{xbDp} or assist_department3 =#{xbDp} and 
+					</if>
+					<if test="contractMoneyMin!=0">
+						contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and
+					</if>
+					<if test="prjMoneyMin!=0"> 
+						prj_estimate_money &gt;=#{prjMoneyMin} and prj_estimate_money &lt;=#{prjMoneyMax} and
+					</if>
+					<if test="zdMoneyMin!=0">
+						provisional_sum &gt;=#{zdMoneyMin} and provisional_sum &lt;= #{zdMoneyMax} and 
+					</if>
+					<if test="taskNo!='%'.toString()">
+						prj_no =#{taskNo} and 
+					</if>
+					<if test="lxdateMin!=''">
+						<!-- make_time &gt;= #{lxdateMin} and make_time &lt;= #{lxdateMax} and  -->
+						g.do_date&gt;=#{lxdateMin} and g.do_date &lt;=#{lxdateMax} and 
+					</if>
+					<!-- b.status=#{status} and a.history=1 order by a.make_time desc,prjno_sort desc -->
+					(b.status=1 or b.status=2 or b.status=3) and  a.history=1 order by prjno_sort desc
+				</where>
+  	</select>
+  	<update id="updateXgDodateById">
+  		update task set xg_dodate=#{time} where prj_id=#{id}
   	</update>
 </mapper>

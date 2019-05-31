@@ -16,4 +16,6 @@ public interface ProjectAccountingService {
 
 	int updateHSNoById(String id, String code);
 
+	List<ProjectAccounting> selectProjectAccounting2();
+
 }

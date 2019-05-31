@@ -376,4 +376,10 @@ public class BudgetFpplicationFormController {
 	public List<CostBudget> selectNwCostByTaskNoAndDept(String no,String type) {
 		return bservice.selectNwCostByTaskNoAndDept(no, type);
 	}
+	
+	@RequestMapping("/selectBudgeByStatus2")//初始化status状态为1,2,3的预算单
+	@ResponseBody
+	public List<BudgetFpplicationForm> selectBudgeByStatus2(String status,String timeMin,String timeMax,@RequestParam(defaultValue="0")Double costMin,@RequestParam(defaultValue="0")Double costMax){
+		return bservice.selectBudgeByStatus2(status,timeMin,timeMax,costMin,costMax);
+	}
 }

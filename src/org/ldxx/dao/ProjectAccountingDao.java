@@ -17,4 +17,6 @@ public interface ProjectAccountingDao {
 
 	int updateHSNoById(@Param("id")String id,@Param("code") String code);
 
+	List<ProjectAccounting> selectProjectAccounting2();
+
 }

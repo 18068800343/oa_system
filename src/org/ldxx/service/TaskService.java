@@ -80,4 +80,6 @@ public interface TaskService {
 	public String selectIdByTaskNo(String prjNo);
 	
 	public int addReason(String id,String reason);
+
+	public int updateXgDodateById(String id, String time);
 }

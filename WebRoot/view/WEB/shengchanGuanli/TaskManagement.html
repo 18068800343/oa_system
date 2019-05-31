@@ -66,15 +66,14 @@
                 <div role="tabpanel" class="tab-pane active" id="home">
                     <div class="UpperPart">
                         <div class="UpperPartL" style="font-size:18px;">
-                            <form class="form-inline">
+                            <!-- <form class="form-inline">
                                 <label>状态筛选:</label>
                                 <select id="zhuangtai" class="zhuangtai form-control">
-                                    
-                                    <option>审批结束</option><!-- 正常进行 -->
+                                    <option>审批结束</option>
                                     <option>审批中</option>
-                                    <option>终止</option><!-- 项目中止 -->
+                                    <option>终止</option>
                                 </select>
-                            </form>
+                            </form> -->
                         </div>
                         <div class="UpperPartR">
                             <form class="yihang">
@@ -157,37 +156,61 @@
 													</form>
                    							</div>
                    							<div style="width:25%;">
-                   									<!-- <form class="form-inline">
+                   									<form class="form-inline">
+														  <div class="form-group" style="display:flex;align-items:center;">
+														    	<label for="exampleInput">任务单号:&nbsp;</label>
+														    	<input class="form-control" id="seach_task_no"  style="width:64%;">
+														  </div>
+													</form>
+                   							</div>
+                   							<div style="width:25%;">
+                   									<form class="form-inline">
+														  <div class="form-group" style="display:flex;align-items:center;">
+														    <label for="exampleInput">立&nbsp;项&nbsp;时&nbsp;间&nbsp;：&nbsp;</label>
+														    	<input type="text" class="form-control" id="seach_lx_date_min" style="width:30%;">
+														    	<label>-</label>
+														    	<input type="text" class="form-control" id="seach_lx_date_max"  style="width:30%;">
+														  </div>
+													</form>
+                   							</div>
+                   							<!--<div style="width:25%;">
+                   									 <form class="form-inline">
 														  <div class="form-group" style="display:flex;align-items:center;">
 														    <label for="exampleInput">暂&nbsp;定&nbsp;金：</label>
 														    	<input type="text" class="form-control" id="seach_zd_money_min" style="width:31%;">
 														    	<label>-</label>
 														    	<input type="text" class="form-control" id="seach_zd_money_max"  style="width:31%;">
 														  </div>
-													</form> -->
-                   							</div>
-                   							<div  style="width:25%;"></div>
+													</form> 
+                   							</div>-->
+                   							
                    					</div>
                     			</div>
                     		</div>
                     	</div>
-                        <table class="table table-bordered table-condensed" id="mainContent" style="width:100%;">
+                        <table class="table table-bordered table-condensed" id="mainContent" >
                             <thead>
                                 
                                 <tr>
-                                    <th>任务单号</th>
-                                    <th style="width:12%;">项目名称</th>
+                                    <th style="width:100px;">任务单号</th>
+                                    <th style="width:200px;">项目名称</th>
                                    <!--  <th>项目来源</th> -->
-                                    <th style="width:7%;">所属公司</th>
-                                    <th>项目类型</th>
-                                    <th style="width:12%;">甲方单位</th>
-                                    <th>任务金额(元)</th>
-                                    <th>合同金额(元)</th>
-                                    <th>合同编号</th>
-                                    <th>立项时间</th>
-                                    <th>主办部门</th>
+                                    <th style="width:100px;">所属公司</th>
+                                    <th style="width:150px;">项目类型</th>
+                                    <th style="width:150px;">甲方单位</th>
+                                    <th style="width:150px;" class="jinqianyanse">任务金额(元)</th>
+                                    <th style="width:150px;" class="jinqianyanse">合同金额(元)</th>
+                                    <th style="width:150px;">合同编号</th>
+                                    <th style="width:150px;">立项时间</th>
+                                    <th style="width:200px;">主办部门</th>
+                                    <th style="width:200px;" class="jinqianyanse">主办部门金额</th>
+                                    <th style="width:200px;">协办部门</th>
+                                    <th style="width:200px;" class="jinqianyanse">协办部门金额</th>
+                                    <th style="width:100px;">发起人</th>
+                                    <th style="width:100px;">最新变更时间</th>
+                                    <th style="width:100px;">审批状态</th>
                                     <th style="width:100px;">操作</th>
-                                    <th >项目负责人</th>
+                                    <th style="width:100px;">项目负责人</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1227,7 +1250,7 @@
 <script src="../../select/js/select2.min.js"></script>
 <script>  
     $(document).ready( function () {
-    	$("#zhuangtai").trigger("change");
+    	//$("#zhuangtai").trigger("change");
     	laydate.render({
             elem: '#year' //指定元素
         });
@@ -1252,16 +1275,25 @@
         laydate.render({
             elem: '#seach_end_time_max' //指定元素
         });
+        laydate.render({
+            elem: '#seach_lx_date_min' //指定元素
+        });
+        laydate.render({
+            elem: '#seach_lx_date_max' //指定元素
+        });
         initSelect2WithSearch();
+        
+        initTable();
         
         initType();
         leixingSelect2();
         initFenGs();
         initbzhiwu();
-       // initbushei();
+        initbushei();
         initbumen();
         $("#sousuodiv").hide();//超级搜索折叠div
         initTabletjje();
+        
 	});
         $("#diyi a").hide();
         $("#dier a").hide();
@@ -1326,6 +1358,8 @@
         "iDisplayLength": 10,
         "searching": true,
         "lengthChange": false,
+        "autoWidth": true,
+        "sScrollX": true,
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
@@ -1339,9 +1373,15 @@
 		            { "data": "prjEstimateMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
 		            { "data": "contractMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
 		            { "data": "cjId"}, 
-		            { "data": "makeTime"}, 
+		            { "data": "lxTime"}, 
 		            { "data": "omName"}, 
-		            { "data": "makeTime"},
+		            { "data": "mainDepartmentMoney"},
+		            { "data": null},
+		            { "data": null},
+		            { "data": "starterName"},
+		            { "data": "xgDodate"},
+		            { "data": "status"},
+		            { "data": null},
 		            { "data": "mainPrjLeaderName",visible:false}
 		        ],
 		        "columnDefs": [
@@ -1362,8 +1402,104 @@
 							            }
 						        },
 						        {	
+									 "class": "tcenter",
+								     "targets": 8,
+								     "searchable": true,
+								     "render": function(data, type, full) {
+								    	 var lxTime;
+								    	 if(data!=''&&data!=null){
+								    		 lxTime=data.split(".")[0];
+								    	 }else{
+								    		 lxTime="";
+								    	 }
+								    	 return lxTime;
+						            }
+					        },
+						        {
+									 "class": "tcenter",
+								     "targets": 11,
+								     "searchable": true,
+								     "render": function(data, type, full) {
+								    	 var xb="";
+								    	 if(full.name1!=""&&full.name1!=null){
+								    		 xb=full.name1;
+								    		 if(full.name2!=""&&full.name2!=null){
+								    			 xb=xb+";"+full.name2;
+								    			 if(full.name3!=""&&full.name3!=null){
+									    			 xb=xb+";"+full.name3;
+									    		 }
+								    		 }else{
+								    			 if(full.name3!=""&&full.name3!=null){
+									    			 xb=xb+";"+full.name3;
+									    		 }
+								    		 }
+								    	 }else{
+								    		 if(full.name2!=""&&full.name2!=null){
+								    			 xb=xb+";"+full.name2;
+								    			 if(full.name3!=""&&full.name3!=null){
+									    			 xb=xb+";"+full.name3;
+									    		 }
+								    		 }else{
+								    			 if(full.name3!=""&&full.name3!=null){
+									    			 xb=xb+";"+full.name3;
+									    		 }
+								    		 }
+								    	 }
+								    	 return xb;
+						            }
+					        },
+					        {	
+								 "class": "tcenter",
+							     "targets": 12,
+							     "searchable": true,
+							     "render": function(data, type, full) {
+							    	 var xbJin="";
+							    	 if(full.assistDepartment1Money!=""&&full.assistDepartment1Money!=null){
+							    		 xbJin=full.assistDepartment1Money;
+							    		 if(full.assistDepartment2Money!=""&&full.assistDepartment2Money!=null){
+							    			 xbJin=xbJin+";"+full.assistDepartment2Money;
+							    			 if(full.assistDepartment3Money!=""&&full.assistDepartment3Money!=null){
+							    				 xbJin=xbJin+";"+full.assistDepartment3Money;
+								    		 }
+							    		 }else{
+							    			 if(full.assistDepartment3Money!=""&&full.assistDepartment3Money!=null){
+							    				 xbJin=xbJin+";"+full.assistDepartment3Money;
+								    		 }
+							    		 }
+							    	 }else{
+							    		 if(full.assistDepartment2Money!=""&&full.assistDepartment2Money!=null){
+							    			 xbJin=xbJin+";"+full.assistDepartment2Money;
+							    			 if(full.assistDepartment3Money!=""&&full.assistDepartment3Money!=null){
+							    				 xbJin=xbJin+";"+full.assistDepartment3Money;
+								    		 }
+							    		 }else{
+							    			 if(full.assistDepartment3Money!=""&&full.assistDepartment3Money!=null){
+							    				 xbJin=xbJin+";"+full.assistDepartment3Money;
+								    		 }
+							    		 }
+							    	 }
+							    	 return xbJin;
+					            }
+					        },
+					        {	
+								 "class": "tcenter",
+							     "targets": 15,
+							     "searchable": true,
+							     "render": function(data, type, full) {
+							    	 if(data=='2'){
+								    		return '<span class="label label-success state">审批结束</span>';
+							    	}else if(data=='1'){
+							    		return '<span class="label label-info state">审批中</span>';
+							    	}else if(data=='3'){
+							    		return '<span class="label label-danger state">终止</span>';
+							    	}else{
+							    		return '';
+							    	}
+					            }
+				        },
+						        {	
 									     "class": "tcenter",
-									     "targets": 10,
+									     "targets": 16,
 									     "searchable": true,
 									     "render": function(data, type, full) {
 									    	 var cj = full.cjId;
@@ -1371,107 +1507,50 @@
 									    	 var codeJson = encodeURIComponent(json);
 									    	 var zt =  $("#zhuangtai").val();
 									    	 var mainPrj = full.mainPrjNo;
-									    	 if(zt=="审批结束"&&(mainPrj==""||mainPrj==null)){
+									    	 if( full.status=="2"&& (mainPrj==""||mainPrj==null)){
 						  	  		         return '<i class="iconfont icon-icon-test Peab" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息"   id="lookDetall"></i><span class="glyphicon glyphicon-resize-full Peag" style="font-size:15px;cursor:pointer;margin-left:5px;display:none;" title="拆分子任务单"   id="chaiFenTask"></span><i class="iconfont icon-xiugai Peac" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="修改"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi Peae" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="重启" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu Pead" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="项目终止"  onclick="task_stop(this)" data-toggle="modal" data-target="#myModal4"></i></i>'
+									    	 }else if( full.status=="1"){
+							    		     return '<i class="iconfont icon-icon-test Peab" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息"   id="lookDetall"></i>'	 
+									    	 }else if( full.status=="3"){
+									    		 return '<i class="iconfont icon-icon-test Peab" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息"   id="lookDetall"></i> <i class="iconfont icon-arrow chongqi Peae" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="重启" data-toggle="modal" data-target="#myModal3"></i></i>'	 
 									    	 }else{
-							    		     return '<i class="iconfont icon-icon-test Peab" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息"   id="lookDetall"></i><i class="iconfont icon-xiugai Peac" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="修改"  id="Changedanwei"></i><i class="iconfont icon-arrow chongqi Peae" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="重启" data-toggle="modal" data-target="#myModal3"></i><i class="iconfont icon-tuichu Pead" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="项目终止" onclick="task_stop(this)" data-toggle="modal" data-target="#myModal4"></i></i>'	 
+									    		 return '<i class="iconfont icon-icon-test Peab" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息"   id="lookDetall"></i><i class="iconfont icon-xiugai Peac" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="修改"  id="Changedanwei"></i><i class="iconfont icon-tuichu Pead" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="项目终止"  onclick="task_stop(this)" data-toggle="modal" data-target="#myModal4"></i></i>'
 									    	 }
 		                                }
 						        }
 								],
 								"fnDrawCallback" : function() {
-									var zt=$("#zhuangtai").val();
-									if(zt=="审批结束"){
-										$.ajax({
-					                		type:"post",
-					                		url:getContextPath()+"/login/getUser",
-					                		async:false,
-					                		data:{
-					                		},
-					                		success:function(json){
-					                			01
-					                			if(json!=null &&json!=""){
-					                				var arr = json.uPermissions.split(',');
-					                				
-					                				for(var i=0;i<arr.length;i++){
-					                					var arr2 = arr[i].replace("+","");
-					                					if(arr[i].indexOf("Peab") >= 0 ){
-					                						$(".Peab").show();
-					                					}
-					                					if(arr[i].indexOf("Peac") >= 0 ){
-					                						$(".Peac").show();
-					                					}
-					                					if(arr[i].indexOf("Pead") >= 0 ){
-					                						$(".Pead").show();
-					                					}
-					                					if(arr[i].indexOf("Peag") >= 0 ){
-					                						$(".Peag").show();
-					                					}
-					                				}
-					                				
-					                			}
-					                			
-					                		}
-					                	});
-									}else if(zt=="终止"){
-										$.ajax({
-					                		type:"post",
-					                		url:getContextPath()+"/login/getUser",
-					                		async:false,
-					                		data:{
-					                		},
-					                		success:function(json){
-					                			
-					                			if(json!=null &&json!=""){
-					                				var arr = json.uPermissions.split(',');
-					                				
-					                				for(var i=0;i<arr.length;i++){
-					                					var arr2 = arr[i].replace("+","");
-					                					if(arr[i].indexOf("Peab") >= 0 ){
-					                						$(".Peab").show();
-					                					}
-					                					if(arr[i].indexOf("Peac") >= 0 ){
-					                						$(".Peac").show();
-					                					}
-					                					if(arr[i].indexOf("Peae") >= 0 ){
-					                						$(".Peae").show();
-					                					}
-					                				}
-					                				
-					                			}
-					                			
-					                		}
-					                	});
-									}else if(zt=="审批中"){
-										$.ajax({
-					                		type:"post",
-					                		url:getContextPath()+"/login/getUser",
-					                		async:false,
-					                		data:{
-					                		},
-					                		success:function(json){
-					                			
-					                			if(json!=null &&json!=""){
-					                				var arr = json.uPermissions.split(',');
-					                				
-					                				for(var i=0;i<arr.length;i++){
-					                					var arr2 = arr[i].replace("+","");
-					                					if(arr[i].indexOf("Peab") >= 0 ){
-					                						$(".Peab").show();
-					                					}
-					                					if(arr[i].indexOf("Peac") >= 0 ){
-					                						$(".Peac").show();
-					                					}
-					                					if(arr[i].indexOf("Pead") >= 0 ){
-					                						$(".Pead").show();
-					                					}
-					                				}
-					                				
-					                			}
-					                			
-					                		}
-					                	});
-									}
+									$.ajax({
+				                		type:"post",
+				                		url:getContextPath()+"/login/getUser",
+				                		async:false,
+				                		data:{
+				                		},
+				                		success:function(json){
+				                			01
+				                			if(json!=null &&json!=""){
+				                				var arr = json.uPermissions.split(',');
+				                				
+				                				for(var i=0;i<arr.length;i++){
+				                					var arr2 = arr[i].replace("+","");
+				                					if(arr[i].indexOf("Peab") >= 0 ){
+				                						$(".Peab").show();
+				                					}
+				                					if(arr[i].indexOf("Peac") >= 0 ){
+				                						$(".Peac").show();
+				                					}
+				                					if(arr[i].indexOf("Pead") >= 0 ){
+				                						$(".Pead").show();
+				                					}
+				                					if(arr[i].indexOf("Peag") >= 0 ){
+				                						$(".Peag").show();
+				                					}
+				                				}
+				                				
+				                			}
+				                			
+				                		}
+				                	});
 									
 									
 								},
@@ -1765,6 +1844,84 @@
             }
         });
 	}
+	
+	function initTable(){
+		var startMin=$("#seach_start_time_min").val();
+        var startMax=$("#seach_start_time_max").val();
+        var endMin=$("#seach_end_time_min").val();
+        var endMax=$("#seach_end_time_max").val();
+        var mainDp=$("#seach_main_department").val();
+        var xbDp=$("#seach_xb_department").val();
+        var prjMoneyMin=$("#seach_prj_money_min").val();
+        var prjMoneyMax=$("#seach_prj_money_max").val();
+        var contractMoneyMin=$("#seach_contract_money_min").val();
+        var contractMoneyMax=$("#seach_contract_money_max").val();
+        var zdMoneyMin=$("#seach_zd_money_min").val();
+        var zdMoneyMax=$("#seach_zd_money_max").val();
+        var taskNo=$("#seach_task_no").val();
+        var lxdateMin=$("#seach_lx_date_min").val();
+        var lxdateMax=$("#seach_lx_date_max").val();
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectTask2',
+            dataType: 'json',
+            data: {
+            	//status:2,
+            	startMin:startMin,
+            	startMax:startMax,
+            	endMin:endMin,
+            	endMax:endMax,
+            	mainDp:mainDp,
+            	xbDp:xbDp,
+            	prjMoneyMin:prjMoneyMin,
+            	prjMoneyMax:prjMoneyMax,
+            	contractMoneyMin:contractMoneyMin,
+            	contractMoneyMax:contractMoneyMax,
+            	zdMoneyMin:zdMoneyMin,
+            	zdMoneyMax:zdMoneyMax,
+            	taskNo:taskNo,
+            	lxdateMin:lxdateMin,
+            	lxdateMax:lxdateMax,
+            },
+            success: function (json) {
+                $('#mainContent').dataTable().fnClearTable();
+                $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                $.ajax({
+            		type:"post",
+            		url:getContextPath()+"/login/getUser",
+            		data:{
+            		},
+            		success:function(json){
+            			
+            			if(json!=null &&json!=""){
+            				var arr = json.uPermissions.split(',');
+            				
+            				for(var i=0;i<arr.length;i++){
+            					var arr2 = arr[i].replace("+","");
+            					if(arr[i].indexOf("Peab") >= 0 ){
+            						$(".Peab").show();
+            					}
+            					if(arr[i].indexOf("Peac") >= 0 ){
+            						$(".Peac").show();
+            					}
+            					
+            					if(arr[i].indexOf("Pead") >= 0 ){
+            						$(".Pead").show();
+            					}
+            					if(arr[i].indexOf("Peag") >= 0 ){
+            						$(".Peag").show();
+            					}
+            				}
+            				
+            			}
+            			
+            		}
+            	});
+                
+            }
+        });
+	}
 
     //初始化
     $("#zhuangtai").change(function(){
@@ -1837,10 +1994,10 @@
                 		}
                 	});
                     
-                    $(".chongqi").hide();
+                   /*  $(".chongqi").hide();
                     $(".Peac").show();//修改
                     $(".Pead").show();//中止
-                    $(".iconlywj").show();
+                    $(".iconlywj").show(); */
                 }
             });
             
@@ -1951,7 +2108,7 @@
                 		}
                 	});
                     
-                    $(".chongqi").hide();
+                    //$(".chongqi").hide();
                     $(".Peac").hide();
                     $(".Pead").hide();
                     $(".iconlywj").show();
@@ -1962,7 +2119,8 @@
     })
     
     function seachAll(){
-    	 $("#zhuangtai").trigger("change");
+    	// $("#zhuangtai").trigger("change");
+    	initTable();
     }
     
 	//超级搜索折叠div
@@ -1979,13 +2137,14 @@
     
      //增加部门
     function addBumen(){
+    	var num=$("#xieban tr").length-1
     	if(($("#xieban tr").length)<=4){
-	    	$("#xieban").append("<tr><td>"+"协办部门"+($("#xieban tr").length-1)+"</td><td>"
+	    	$("#xieban").append("<tr><td>"+"协办部门"+(num)+"</td><td>"
 	                +'<form class="form-inline">'
-	                    +'<select class="form-control" id="xieban'+($("#xieban tr").length-1)+'" style="width:180px;">'
+	                    +'<select class="form-control" id="xieban'+(num)+'" style="width:180px;">'
 	                    +'</select>'
-	                    +'  <input type="text" id="xiebanMoney'+($("#xieban tr").length-1)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="金额">'
-	                    +'  <input type="text" id="chenbenfentanbili'+($("#xieban tr").length-1)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例" onchange="appendBfh(this)">'
+	                    +'  <input type="text" id="xiebanMoney'+(num)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="金额">'
+	                    +'  <input type="text" id="chenbenfentanbili'+(num)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例" onchange="appendBfh(this)">'
 	                    +'<button type="button" style="text-align:right;margin-left:10px;" class="btn btn-primary" onclick="deleteXieBan(this)">移除协办单位</button>'
 	                +'</form>'
 	                +"</td></tr>")
@@ -2000,13 +2159,13 @@
 	                    	toastr.error("请求失败");
 	                    },
 	                    success: function (json) {
-	                    	$("#xieban1").empty();
-	                    	$("#xieban2").empty();
-	                    	$("#xieban3").empty();
+	                    	$("#xieban"+num+"").empty();
+	                    	/* $("#xieban2").empty();
+	                    	$("#xieban3").empty(); */
 	                        for(var i=0;i<json.length;i++){
-	                        	$("#xieban1").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	                        	$("#xieban2").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	                        	$("#xieban3").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        	$("#xieban"+num+"").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        	/* $("#xieban2").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        	$("#xieban3").append("<option value="+json[i].omId+">"+json[i].omName+"</option>"); */
 	                        }
 	                    }
 	        		});
@@ -2015,13 +2174,14 @@
     	}
     }
     function xgaddBumen(){
+    	var xgnum=$("#xgxieban tr").length-1;
     	if(($("#xgxieban tr").length)<=4){
-	    	$("#xgxieban").append("<tr><td>"+"协办部门"+($("#xgxieban tr").length-1)+"</td><td>"
+	    	$("#xgxieban").append("<tr><td>"+"协办部门"+(xgnum)+"</td><td>"
 	                +'<form class="form-inline">'
-	                    +'<select class="form-control" id="xgxieban'+($("#xgxieban tr").length-1)+'" style="width:180px;">'
+	                    +'<select class="form-control" id="xgxieban'+(xgnum)+'" style="width:180px;">'
 	                    +'</select>'
-	                    +'  <input type="text" id="xgxiebanMoney'+($("#xgxieban tr").length-1)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="金额">'
-	                    +'  <input type="text" id="xgchenbenfentanbili'+($("#xieban tr").length-1)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例" onchange="appendBfh(this)">'
+	                    +'  <input type="text" id="xgxiebanMoney'+(xgnum)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="金额">'
+	                    +'  <input type="text" id="xgchenbenfentanbili'+(xgnum)+'" class="form-control" style="width:180px;margin-left:10px;" placeholder="成本分摊比例" onchange="appendBfh(this)">'
 	                    +'<button type="button" style="text-align:right;margin-left:10px;" class="btn btn-primary" onclick="deleteXieBan(this)">移除协办单位</button>'
 	                 +'</form>'
 	                +"</td></tr>");
@@ -2036,13 +2196,13 @@
 	                    	toastr.error("请求失败");
 	                    },
 	                    success: function (json) {
-	                    	$("#xgxieban1").empty();
-	                    	$("#xgxieban2").empty();
-	                    	$("#xgxieban3").empty();
+	                    	$("#xgxieban"+xgnum+"").empty();
+	                    	/* $("#xgxieban2").empty();
+	                    	$("#xgxieban3").empty(); */
 	                        for(var i=0;i<json.length;i++){
-	                        	$("#xgxieban1").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	                        	$("#xgxieban2").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
-	                        	$("#xgxieban3").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        	$("#xgxieban"+xgnum+"").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        	/* $("#xgxieban2").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
+	                        	$("#xgxieban3").append("<option value="+json[i].omId+">"+json[i].omName+"</option>"); */
 	                        }
 	                    }
 	        		});
@@ -2131,8 +2291,8 @@
 		})
 	})
     //初始化提交人员
-/*	function initbushei(){
-		$.ajax({
+	function initbushei(){
+		/* $.ajax({
             type: 'POST',
             url: getContextPath()+'/user/selectAllUser',
             dataType: 'json',
@@ -2143,14 +2303,12 @@
             	toastr.error("请求失败");
             },
             success: function (json) {
-            	
                 for(var i=0;i<json.length;i++){
                 	$("#tijiaoshei").append("<option value="+json[i].uName+">"+json[i].uName+"</option>");
                 }
             }
-		});
+		}); */
 	}
-	*/
 	//初始化职务
 	function initbzhiwu(){
 		$.ajax({
@@ -2696,6 +2854,11 @@
 	    		toastr.error("甲方单位不能为空");
 	    		return;
 	    	}
+        	var d=/[\u4E00-\u9FA5]+/;//判断是否包含有中文
+        	if(d.test(yezhudanwei)){
+        		toastr.error("甲方单位格式错误，请从已有列表中选择");
+	    		return;
+        	}
         	if(jine==''){
 	    		toastr.error("任务金额不能为空");
 	    		return;
@@ -3179,6 +3342,11 @@
 	    		toastr.error("甲方单位不能为空");
 	    		return;
 	    	}
+        	var d=/[\u4E00-\u9FA5]+/;//判断是否包含有中文
+        	if(d.test(yezhudanwei)){
+        		toastr.error("甲方单位格式错误，请从已有列表中选择");
+	    		return;
+        	}
         	if(jine==''){
 	    		toastr.error("任务金额不能为空");
 	    		return;
