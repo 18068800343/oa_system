@@ -30,7 +30,28 @@ public class BidApproval {
 	private String baDesc;//概述
 	private Double yuguPrjScale;//预估项目规模
 	private String biaoxunlaiyuan;
+	private String startername;
+	private String status;
+	private String doDate;
 	
+	public String getStartername() {
+		return startername;
+	}
+	public void setStartername(String startername) {
+		this.startername = startername;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getDoDate() {
+		return doDate;
+	}
+	public void setDoDate(String doDate) {
+		this.doDate = doDate;
+	}
 	public String getBiaoxunlaiyuan() {
 		return biaoxunlaiyuan;
 	}

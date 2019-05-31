@@ -3,12 +3,14 @@
 <mapper namespace="org.ldxx.dao.BidApprovalDao" >
 
 	<select id="selectBidApproval" resultType="BidApproval">
-		select a.*,c.cc_name,<!-- IFNULL(o.zhongbiao,'') zhongbiao, -->om.om_name from bid_approval a
-		left join mode_status b on a.ba_id=b.mode_id
-		left join consociation_company as c on a.owner_unit=c.cc_id
-		left join organization_management om on a.xb_department = om.om_id
-		<!-- left join opening_record as o on o.prj_no = a.prj_no -->
-		where status=#{status}
+		SELECT
+		a.*, c.cc_name ,om.om_name,fhb.startername,fhb.do_date,b.`status` from bid_approval a
+		LEFT JOIN mode_status b ON a.ba_id = b.mode_id
+		LEFT JOIN consociation_company AS c ON a.owner_unit = c.cc_id
+		LEFT JOIN organization_management om ON a.xb_department = om.om_id 
+		LEFT JOIN (select * from (select * from flowhistroy ORDER BY do_date desc) fha GROUP BY fha.mode_id) fhb on fhb.mode_id = a.ba_id
+		WHERE
+		STATUS = "0" or STATUS = "1" or STATUS = "2" order by fhb.do_date desc
 	</select>
 	
 	<select id="selectBidApproval2" resultType="BidApproval2">
