@@ -61,8 +61,36 @@ public class RiskAssessment {
     
     private String view6;
     
+    private String startername;
     
+    private String doDate;
     
+    private String status;
+    
+	public String getStartername() {
+		return startername;
+	}
+
+	public void setStartername(String startername) {
+		this.startername = startername;
+	}
+
+	public String getDoDate() {
+		return doDate;
+	}
+
+	public void setDoDate(String doDate) {
+		this.doDate = doDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getView2() {
 		return view2;
 	}

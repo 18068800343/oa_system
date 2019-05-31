@@ -48,9 +48,11 @@
 	 	select count(ra_id) from risk_assessment where prj_name=#{prjName} and ra_id!=#{raId}
 	 </select>
 	 <select id="selectAllRiskAssessment" resultType="riskassessment">
-	 	select r.* from risk_assessment r
+	  select r.*,fhb.startername,fhb.do_date,m.`status` from risk_assessment r
 	 		left join mode_status m on r.ra_id=m.mode_id
-	 		where m.status=#{status}
+      LEFT JOIN (select * from (select * from flowhistroy ORDER BY do_date desc) fha GROUP BY fha.mode_id) fhb on fhb.mode_id = r.ra_id
+	 		WHERE
+		(m.STATUS = "0" or m.STATUS = "1" or m.STATUS = "2") and r.prj_name is not null  order by fhb.do_date desc
 	 </select>
 	 <select id="selectRiskAssessmentPrjName" resultType="riskassessment">
 	 	select ra_id,prj_name from risk_assessment
