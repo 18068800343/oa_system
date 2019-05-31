@@ -11,6 +11,8 @@ public interface SubContractService {
 
 	List<FbContract> selectSubContract(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String spType,Double fbMoneyMin,Double fbMoneyMax,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax);
 
+	List<FbContract> selectSubContract2(String startMin,String startMax,String endMin,String endMax,String mainDp,String spType,Double fbMoneyMin,Double fbMoneyMax,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax);
+	
 	int saveSubContract(FbContract fbContract);
 
 	int deleteSubContractById(String id);

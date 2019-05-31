@@ -89,6 +89,7 @@ public class SubContractServiceImpl implements SubContractService {
 		return scDao.selectsubcontractHistory(fbNo);
 	}
 
+	
 	@Override
 	public int fbNocount(String year) {
 		year="%"+year+"%";
@@ -141,6 +142,13 @@ public class SubContractServiceImpl implements SubContractService {
 			String endMax, String mainDp, String spType, Double fbMoneyMin, Double fbMoneyMax, Double contractMoneyMin,
 			Double contractMoneyMax, Double zdMoneyMin, Double zdMoneyMax) {
 		return scDao.selectSubContract(status, startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
+	}
+	@Override
+	public List<FbContract> selectSubContract2( String startMin, String startMax, String endMin,
+			String endMax, String mainDp, String spType, Double fbMoneyMin, Double fbMoneyMax, Double contractMoneyMin,
+			Double contractMoneyMax, Double zdMoneyMin, Double zdMoneyMax) {
+		List<FbContract> list = scDao.selectSubContract2(startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);;
+		return list;
 	}
 
 	@Override

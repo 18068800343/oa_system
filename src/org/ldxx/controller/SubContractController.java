@@ -76,6 +76,16 @@ public class SubContractController {
 		return scService.selectSubContract(status, startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 	
+	@RequestMapping("/selectSubContract2")
+	@ResponseBody
+	public List<FbContract> selectSubContract2(String startMin,String startMax,String endMin,
+			String endMax,String mainDp,String spType,@RequestParam(defaultValue="0")Double fbMoneyMin,@RequestParam(defaultValue="0")Double fbMoneyMax,
+			@RequestParam(defaultValue="0")Double contractMoneyMin,@RequestParam(defaultValue="0")Double contractMoneyMax,
+			@RequestParam(defaultValue="0")Double zdMoneyMin,@RequestParam(defaultValue="0")Double zdMoneyMax){
+			List<FbContract>  list = scService.selectSubContract2(startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
+		 return list;
+	}
+	
 	@RequestMapping("/saveSubContract")//保存
 	@ResponseBody
 	public Map<String,Object> saveSubContract(HttpSession session,FbContract fbContract,@RequestParam("file")MultipartFile file[],@RequestParam("file1")MultipartFile file1[]) throws IllegalStateException, IOException{
