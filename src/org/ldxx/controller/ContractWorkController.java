@@ -180,6 +180,13 @@ public class ContractWorkController {
 		return list;
 	}
 	
+	@RequestMapping("/selectContractWork2")
+	@ResponseBody
+	public List<ContractWork> selectContractWork2(String type){
+		List<ContractWork> list=service.selectContractWork2(type);
+		return list;
+	}
+	
 	@RequestMapping("/selectDepartmentAndPerson")
 	@ResponseBody
 	public Map<String,Object> selectDepartmentAndPerson(String id){

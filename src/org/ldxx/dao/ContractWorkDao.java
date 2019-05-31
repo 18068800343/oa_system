@@ -11,6 +11,8 @@ public interface ContractWorkDao {
 	
 	public List<ContractWork> selectContractWork(@Param("type")String type,@Param("status")String status);
 	
+	public List<ContractWork> selectContractWork2(@Param("type")String type);
+	
 	public ContractWork selectContractWorkByNo(@Param("no")String no);
 	
 	public ContractWork getContractMoney(@Param("no")String no);

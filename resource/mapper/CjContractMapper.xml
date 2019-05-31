@@ -29,12 +29,14 @@
 		<result property="name" column="name" />
 		<result property="name2" column="name2" />
 		<result property="name3" column="name3" />
-		<result property="name4" column="name4" />		
+		<result property="name4" column="name4" />
+		<result property="yiCjDepartment" column="yi_cj_department" />
+		<result property="starterName" column="starterName" />
+		<result property="status" column="status" />
 		<collection property="cjSplitMoney" javaType="ArrayList" column="cj_id"  ofType="CjSplitMoney" select="selectCjSplitMoneyById2" >
   	    </collection>
 	</resultMap>
 	
-
 
 	<insert id="addCjContract" parameterType="CjContract">
 		insert into cj_contract(cj_id,task_code,contract_name,contract_no,prj_name,prj_type,contract_name_jia,cc_name,contract_name_yi,
@@ -43,7 +45,7 @@
 						assist_department1,assist_department1_money,assist_department2,assist_department2_money,
 						assist_department3,assist_department3_money,split_state,history,jyms)
 				values(#{cj.cjId},#{cj.taskCode},#{cj.contractName},#{cj.contractNo},#{cj.prjName},#{cj.prjType},#{cj.contractNameJia},#{cj.ccName},
-				#{cj.contractNameYi},#{cj.contractStartTime},#{cj.contractEndTime},#{cj.yiCjDepartment},#{cj.contractLongTime},
+				#{cj.contractNameYi},#{cj.contractStartTime},#{cj.contractEndTime},#{cj.},#{cj.contractLongTime},
 				#{cj.receieveMoneyCondition},#{cj.contractMoney},#{cj.temporaryMoney},#{cj.contractSignTime},#{cj.workInfo},
 				#{cj.mainDepartment},#{cj.mainDepartmentMoney},#{cj.assistDepartment1},#{cj.assistDepartment1Money},
 				#{cj.assistDepartment2},#{cj.assistDepartment2Money},#{cj.assistDepartment3},#{cj.assistDepartment3Money},#{cj.splitState},1,#{cj.jyms})		
@@ -53,7 +55,7 @@
 		update cj_contract set task_code=#{cj.taskCode},contract_name=#{cj.contractName},prj_name=#{cj.prjName},
 		prj_type=#{cj.prjType},contract_name_jia=#{cj.contractNameJia},cc_name=#{cj.ccName},contract_name_yi=#{cj.contractNameYi},
 		contract_start_time=#{cj.contractStartTime},contract_end_time=#{cj.contractEndTime},
-		yi_cj_department=#{cj.yiCjDepartment},contract_long_time=#{cj.contractLongTime},
+		yi_cj_department=#{cj.},contract_long_time=#{cj.contractLongTime},
 		receieve_money_condition=#{cj.receieveMoneyCondition},contract_money=#{cj.contractMoney},
 		temporary_money=#{cj.temporaryMoney},contract_sign_time=#{cj.contractSignTime},work_info=#{cj.workInfo},
 		main_department=#{cj.mainDepartment},main_department_money=#{cj.mainDepartmentMoney},
@@ -63,7 +65,6 @@
 		where cj_id=#{cj.cjId}
 	</update>
 		
-	<!-- <select id="selectCjContractByStatus" resultType="CjContract"> -->
 	<select id="selectCjContractByStatus" resultMap="cjContractMap">
 		SELECT a.cj_id,a.task_code,a.contract_name,a.contract_no,a.prj_name,
 		a.prj_type,a.contract_name_jia,a.cc_name,a.contract_name_yi,a.contract_start_time,
@@ -101,13 +102,54 @@
 			<if test="zdMoneyMin!=0">
 				temporary_money &gt;=#{zdMoneyMin} and temporary_money &lt;= #{zdMoneyMax} and 
 			</if>
-			b.status=#{status} and a.history=1 order by cno_sort desc
-			
+			b.status=#{status} and a.history=1 order by cno_sort desc		
 		</where>	
 	</select>
 	
 	<select id="selectCjSplitMoneyById2" resultType="CjSplitMoney">
 		select * from cj_split_money where cj_id=#{cj_id}
+	</select>
+	
+	<select id="selectCjContractBySome" resultMap="cjContractMap">
+		SELECT a.cj_id,a.task_code,a.contract_name,a.contract_no,a.prj_name,
+		a.prj_type,a.contract_name_jia,a.cc_name,a.contract_name_yi,a.contract_start_time,
+		a.contract_end_time,a.contract_long_time,a.receieve_money_condition,a.contract_money,
+		a.temporary_money,a.contract_sign_time,a.work_info,a.main_department_money,
+		a.assist_department1_money,a.assist_department2_money,assist_department3_money,
+		a.split_state,a.jyms,a.yi_cj_department,
+		d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4,
+		f.StarterName as starterName,b.status as status,
+		Num_char_extract(a.contract_no,0) as cno_sort
+		FROM cj_contract as a 
+		left join mode_status as b on a.cj_id=b.mode_id
+		left join organization_management as d on a.yi_cj_department=d.om_id 
+		left join organization_management as d2 on a.main_department=d2.om_id
+		left join organization_management as d3 on a.assist_department1=d3.om_id
+		left join organization_management as d4 on a.assist_department2=d4.om_id
+		left join organization_management as d5 on a.assist_department3=d5.om_id
+		LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
+					LEFT JOIN cj_contract a ON a.cj_id=f.mode_id  GROUP BY mode_id )  AS  f on a.cj_id=f.mode_id 
+		<where>
+			<if test="startMin!=''">
+				contract_start_time &gt;= #{startMin} and contract_start_time &lt;= #{startMax} and 
+			</if>
+			<if test="endMin!=''">
+				contract_end_time &gt;= #{endMin} and contract_end_time &lt;= #{endMax} and 
+			</if>
+			<if test="mainDp!='%'.toString()">
+				main_department =#{mainDp} and 
+			</if>
+			<if test="xbDp!='%'.toString()">
+				assist_department1 =#{xbDp} or assist_department2 =#{xbDp} or assist_department3 =#{xbDp} and 
+			</if>
+			<if test="contractMoneyMin!=0">
+				contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and
+			</if>
+			<if test="zdMoneyMin!=0">
+				temporary_money &gt;=#{zdMoneyMin} and temporary_money &lt;= #{zdMoneyMax} and 
+			</if>
+			(b.status=1 or b.status=2 or b.status=3) and a.history=1 order by cno_sort desc		
+		</where>	
 	</select>
 	
 	<!-- 	<select id="selectCjContractByStatus" resultType="CjContract">

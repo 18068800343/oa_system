@@ -52,9 +52,25 @@ public class CjContract {
 	private Double sm;//根据承接合同查出来的累计分包金额
 	private String cancelReason;//承接合同取消原因
 	
+	private String starterName;//发起人
+    private String status;//审批状态
+    
+	
 	
 	public String getCancelReason() {
 		return cancelReason;
+	}
+	public String getStarterName() {
+		return starterName;
+	}
+	public void setStarterName(String starterName) {
+		this.starterName = starterName;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public void setCancelReason(String cancelReason) {
 		this.cancelReason = cancelReason;

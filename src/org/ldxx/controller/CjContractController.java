@@ -356,6 +356,18 @@ public class CjContractController {
 		return list;
 	}
 	
+	@RequestMapping("/selectCjContractBySome")
+	@ResponseBody
+	public List<CjContract> selectCjContractBySome(String startMin,String startMax,String endMin,
+			String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")Double contractMoneyMin,
+			@RequestParam(defaultValue="0")Double contractMoneyMax,@RequestParam(defaultValue="0")Double zdMoneyMin,
+			@RequestParam(defaultValue="0")Double zdMoneyMax){
+		List<CjContract> list=service.selectCjContractBySome(startMin, startMax, endMin, endMax, mainDp, xbDp, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
+		return list;
+	}
+	
+	
+	
 	@RequestMapping("/selectIdAndName")
 	@ResponseBody
 	public List<CjContract> selectIdAndName(){

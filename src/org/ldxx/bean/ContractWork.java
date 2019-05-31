@@ -52,6 +52,9 @@ public class ContractWork {
 	private String contractEndTime;//承接合同结束时间
 	private String contractLongTime;//承接合同工期
 	
+	private String starterName;//发起人
+    private String status;//审批状态
+	
 	
 	public String getXmJinduPiancha() {
 		return xmJinduPiancha;
@@ -283,6 +286,22 @@ public class ContractWork {
 
 	public void setAccessory(List<Accessory> accessory) {
 		this.accessory = accessory;
+	}
+
+	public String getStarterName() {
+		return starterName;
+	}
+
+	public void setStarterName(String starterName) {
+		this.starterName = starterName;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

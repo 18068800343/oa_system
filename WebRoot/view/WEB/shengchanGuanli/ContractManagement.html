@@ -67,14 +67,14 @@
 	    <div role="tabpanel" class="tab-pane active" id="home">
 	    	<div class="UpperPart">
 		            <div class="UpperPartL" style="font-size:18px;">
-		                <form class="form-inline">
+		                <!-- <form class="form-inline">
 		                    <label>状态筛选:</label>
 		                    <select id="zhuangtai" class="form-control" style="width:180px;">
 		                        <option>审批结束</option>
 		                        <option>审批中</option>
 		                        <option>合同取消</option>
 		                    </select>
-		                </form>
+		                </form> -->
 		            </div>
 		            <div class="UpperPartR">
 		            	<div class="yihang">
@@ -166,15 +166,17 @@
 		            <table class="table table-bordered table-condensed" id="mainContent">
 		                <thead>
 		                    <tr>
-		                      	<th style="width:8%;">承接合同号</th>
-		                        <th style="width:26%;">承接合同名称</th>
-		                        <th style="width:20%;">甲方</th>
-		                        <th style="width:8%">任务单号</th>
-		                        <th style="width:6%;">乙方</th>
-		                        <th style="width:9%;" class="jinqianyanse">合同金额(元)</th>
-		                        <th style="width:8%;">签订日期</th>
-		                        <th style="width:8%;">合同工期</th>
-		                        <th  style="width:8%;">操作</th>
+		                      	<th style="width:100px;">承接合同号</th>
+		                        <th style="width:220px;">承接合同名称</th>
+		                        <th style="width:160px;">甲方</th>
+		                        <th style="width:160px">任务单号</th>
+		                        <th style="width:70px;">乙方</th>
+		                        <th style="width:120px;" class="jinqianyanse">合同金额(元)</th>
+		                        <th style="width:100px;">签订日期</th>
+		                        <th style="width:70px;">合同工期</th>
+		                        <th style="width:60px;">发起人</th>
+                                <th style="width:70px;">审批状态</th>
+		                        <th style="width:85px;">操作</th>
 
 		                    </tr>
 		                </thead>
@@ -1485,12 +1487,14 @@
         	  elem: 'input[name=split_date]',
         	  type: 'year'
         	}); 
-        $("#zhuangtai").trigger("change");
+        //$("#zhuangtai").trigger("change");
+        initTable()
         initbumen();
         initSelect();
         initCooperator();
         initFenGs();
         //initDetailContract();
+        
         $("#sousuodiv").hide();//超级搜索折叠div
         
         
@@ -1562,6 +1566,8 @@ function checkquxiaoSplit(){
         "iDisplayLength": 10,
         "searching": true,
         "lengthChange": false,
+        "autoWidth": true,
+        "sScrollX": true,
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
@@ -1574,19 +1580,47 @@ function checkquxiaoSplit(){
 		            { "data": "contractMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},
 		            { "data": "contractSignTime"},
 		            { "data": "contractLongTime"}, 
-		            { "data": null},
+		            { "data": "starterName"},
+		            { "data": "status"},
+		            { "data": "status"},
 		        ],
 		        "columnDefs": [
-								{	
-										 "class": "tcenter",
-										    "targets": 8,
+								
+							        	{
+											 "class": "tcenter",
+										     "targets": 9,
+										     "searchable": true,
+										     "render": function(data, type, full) {
+										    	 if(data=='2'){
+											    		return '<span class="label label-success state">审批结束</span>';
+										    	}else if(data=='1'){
+										    		return '<span class="label label-info state">审批中</span>';
+										    	}else if(data=='3'){
+										    		return '<span class="label label-danger state">终止</span>';
+										    	}else{
+										    		return '';
+										    	}
+								            }
+							              },
+							        	 {	
+											"class": "tcenter",
+										    "targets": 10,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test Pecab" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" id="'+data.cjId+'"  onclick="lookDetall(this)"></i>'
-										    	+'<i class="iconfont icon-xiugai iconxiugai Pecac" style="font-size:20px;cursor:pointer;margin-left:3px;display:none;" title="合同变更" onclick="contractChange(this)"></i>'
-										    	+'<i class="iconfont icon-arrow chongqi Pecaf" style="font-size:20px;cursor:pointer;display:none;margin-left:3px;" title="承接合同启用" onclick="openModal3(this)"></i>'
-										    	+'<i class="iconfont icon-tuichu iconquxiao Pecad" style="font-size:20px;cursor:pointer;margin-left:3px;display:none;" title="承接合同取消"  onclick="openModal2(this)"></i>'
-										    	+'<i class="iconfont icon-kaibiao Pecab" style="font-size:18px;cursor:pointer;display:none;" title="补录扫描合同件"  onclick="addsaomiaohetongjian(this)"></i>';
+										    	var xiangqinghtml = '<i class="iconfont icon-icon-test Pecab" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" id="'+data.cjId+'"  onclick="lookDetall(this)"></i>'
+										    	var xiugaihtml='<i class="iconfont icon-xiugai iconxiugai Pecac" style="font-size:20px;cursor:pointer;margin-left:3px;display:none;" title="合同变更" onclick="contractChange(this)"></i>';
+										    	var chongqihtml='<i class="iconfont icon-arrow chongqi Pecaf" style="font-size:20px;cursor:pointer;display:none;margin-left:3px;" title="承接合同启用" onclick="openModal3(this)"></i>';
+										    	var quxiaohtml='<i class="iconfont icon-tuichu iconquxiao Pecad" style="font-size:20px;cursor:pointer;margin-left:3px;display:none;" title="承接合同取消"  onclick="openModal2(this)"></i>';
+										    	var buluhtml ='<i class="iconfont icon-kaibiao Pecab" style="font-size:18px;cursor:pointer;display:none;" title="补录扫描合同件"  onclick="addsaomiaohetongjian(this)"></i>';
+										    	if(data=='2'){
+											    		return xiangqinghtml+xiugaihtml+quxiaohtml+buluhtml;
+										    	}else if(data=='1'){
+										    		return xiangqinghtml;
+										    	}else if(data=='3'){
+										    		return xiangqinghtml+chongqihtml;;
+										    	}else{
+										    		return '';
+										    	}
 										    	}
 										  },
 										  {	
@@ -1739,20 +1773,62 @@ function checkquxiaoSplit(){
         
 	});
     
-	/* function initTable(){
+	 function initTable(){
+		//var zt=$("#zhuangtai").val();
+        var startMin=$("#seach_start_time_min").val();
+        var startMax=$("#seach_start_time_max").val();
+        var endMin=$("#seach_end_time_min").val();
+        var endMax=$("#seach_end_time_max").val();
+        var mainDp=$("#seach_main_department").val();
+        var xbDp=$("#seach_xb_department").val();
+        var contractMoneyMin=$("#seach_contract_money_min").val();
+        var contractMoneyMax=$("#seach_contract_money_max").val();
+        var zdMoneyMin=$("#seach_zd_money_min").val();
+        var zdMoneyMax=$("#seach_zd_money_max").val(); 
         $.ajax({
             type: 'POST',
-            url: getContextPath()+'/cj/selectCjContractByStatus',
+            url: getContextPath()+'/cj/selectCjContractBySome',
             dataType: 'json',
             data: {
-            	status:2
+            	//status:2,
+            	startMin:startMin,
+            	startMax:startMax,
+            	endMin:endMin,
+            	endMax:endMax,
+            	mainDp:mainDp,
+            	xbDp:xbDp,
+            	contractMoneyMin:contractMoneyMin,
+            	contractMoneyMax:contractMoneyMax,
+            	zdMoneyMin:zdMoneyMin,
+            	zdMoneyMax:zdMoneyMax
             },
             success: function (json) {
-                $('#mainContent').dataTable().fnClearTable();
-                $('#mainContent').DataTable().rows.add(json).draw(false);
+            	 $('#mainContent').dataTable().fnClearTable();
+                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                 /* if(json.status==1)
+               	 {
+                	 $(".chongqi").hide();
+                     $(".iconquxiao").hide();
+                     $(".iconxiugai").hide();
+                     $(".iconwanjie").hide();
+               	 }
+                 if(json.status==2)
+            	 {
+                	 $(".chongqi").hide();
+                     $(".iconquxiao").show();
+                     $(".iconxiugai").show();
+                     $(".iconwanjie").show();
+            	 }
+                 if(json.status==3)
+            	 {
+                	 $(".chongqi").show();
+                     $(".iconquxiao").hide();
+                     $(".iconxiugai").hide();
+                     $(".iconwanjie").hide();
+            	 }  */  
             }
         });
-    } */
+    } 
 
     function getCreat(bb){
         var EnterpriseRating= $(bb).parent().prev().text();
@@ -1773,10 +1849,11 @@ function checkquxiaoSplit(){
     }
 	
 	function seachAll(){
-		$("#zhuangtai").trigger("change");
+		//$("#zhuangtai").trigger("change");
+		initTable();
 	}
 
-    $("#zhuangtai").change(function(){
+   /*  $("#zhuangtai").change(function(){
         var zt=$("#zhuangtai").val();
         var startMin=$("#seach_start_time_min").val();
         var startMax=$("#seach_start_time_max").val();
@@ -1791,7 +1868,7 @@ function checkquxiaoSplit(){
         if(zt=="合同取消"){
             $.ajax({
                 type: 'POST',
-                url: getContextPath()+'/cj/selectCjContractByStatus',
+                url: getContextPath()+'/cj/selectCjContractBySome',
                 dataType: 'json',
                 data: {
                 	status:3,
@@ -1873,7 +1950,7 @@ function checkquxiaoSplit(){
                  }
              });
         }
-    })
+    }) */
     
      //增加部门
     function addBumen(){
