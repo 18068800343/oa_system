@@ -148,9 +148,14 @@ public class UserController {
 
 	@RequestMapping("/selectAllUser")
 	@ResponseBody
-	public List<User> selectAllUser(HttpServletResponse response) throws IOException{
+	public String selectAllUser(HttpServletResponse response) throws IOException{
 		List<User> list= userservice.selectAllUser();
-		return list;
+		net.sf.json.JSONArray json = new net.sf.json.JSONArray();
+		 json.addAll(list);
+		 String str = json.toString();
+		 str = str.replaceAll("password", "mima");
+		 return str;
+		
 	}
 	//解决网络上传输数据会导致只传输一半，前台接收不完整的问题。后台先base64编码，前台再base64解码，参考前台代码页面personneManagement。html
 	@RequestMapping("/selectAllUser3")
@@ -190,7 +195,7 @@ public class UserController {
 	 net.sf.json.JSONArray json = new net.sf.json.JSONArray();
 	 json.addAll(list);
 	 String str = json.toString();
-	 str = str.replaceAll("password", "mima");
+	 str = str.replaceAll("password", "mima");	 
 	 return str;
 	}
 	
@@ -214,8 +219,14 @@ public class UserController {
 	
 	@RequestMapping("/selectUserAndRoles")
 	@ResponseBody
-	public List<User> selectUserAndRoles(){
-		return userservice.selectUserAndRoles();
+	public String selectUserAndRoles(){
+		List<User> list =userservice.selectUserAndRoles();
+		net.sf.json.JSONArray json = new net.sf.json.JSONArray();
+		 json.addAll(list);
+		 String str = json.toString();
+		 str = str.replaceAll("password", "mima");
+		 return str;
+		
 	}
 	
 	@RequestMapping("/selectFgldByRoleName")
