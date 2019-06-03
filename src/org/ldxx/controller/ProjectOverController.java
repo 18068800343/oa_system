@@ -195,6 +195,12 @@ public class ProjectOverController {
 		}
 		return i;
 	}
+	@RequestMapping("/updatePrjOverById")/*修改保存*/
+	@ResponseBody
+	public int updatePrjOverById2(ProjectOver projectOver,HttpSession session){
+		int i =prjOverService.updatePrjOverById(projectOver);
+		return i;
+	}
 	
 	@RequestMapping("/updatePrjOverByIdSubmit")/*修改提交*/
 	@ResponseBody
