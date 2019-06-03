@@ -12,6 +12,9 @@ public interface CgOtherContractService {
 
 	List<CgOtherContract> selectCgOtherContractByStatus(String status);
 
+	List<CgOtherContract> selectCgOtherContractByStatus2();
+
+	
 	int addCgOtherContract(CgOtherContract cgo);
 
 	int deleteCgOtherContractById(String id);

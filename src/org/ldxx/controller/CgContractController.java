@@ -77,6 +77,13 @@ public class CgContractController {
 		return list;
 	}
 	
+	@RequestMapping("/selectCgContractByStatus2")
+	@ResponseBody
+	public List<CgContract> selectCgContractByStatus2(){
+		List<CgContract> list = cgService.selectCgContractByStatus2();
+		return list;
+	}
+	
 	@RequestMapping("/addCgContractSave")//保存
 	@ResponseBody
 	public int addCgContractSave(String cgContract,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{

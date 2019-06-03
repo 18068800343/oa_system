@@ -46,6 +46,11 @@ public class CgOtherContractServiceImpl implements CgOtherContractService {
 	}
 
 	@Override
+	public List<CgOtherContract> selectCgOtherContractByStatus2() {
+		return cgoDao.selectCgOtherContractByStatus2();
+	}
+	
+	@Override
 	public int addCgOtherContract(CgOtherContract cgo) {
 		int i=cgoDao.addCgOtherContract(cgo);
 		if(i>0){

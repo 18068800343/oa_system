@@ -76,6 +76,13 @@ public class CgOtherContractController {
 		return list;
 	}
 	
+	@RequestMapping("/selectCgOtherContractByStatus2")
+	@ResponseBody
+	public List<CgOtherContract> selectCgOtherContractByStatus2(){
+		List<CgOtherContract> list = cgoService.selectCgOtherContractByStatus2();
+		return list;
+	}
+	
 	@RequestMapping("/addCgoContractSave")//保存
 	@ResponseBody
 	public int addCgOtherContractSave(String cgOtherContract,@RequestParam("file") MultipartFile [] file,@RequestParam("file1") MultipartFile [] file1,HttpSession session) throws IllegalStateException, IOException{

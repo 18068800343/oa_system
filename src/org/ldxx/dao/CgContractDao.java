@@ -10,6 +10,8 @@ public interface CgContractDao {
 
 	List<CgContract> selectCgContractByStatus(@Param("status")String status);
 
+	List<CgContract> selectCgContractByStatus2();
+	
 	int addCgContract(@Param("cg")CgContract cg);
 
 	int deleteCgContractById(@Param("id")String id);

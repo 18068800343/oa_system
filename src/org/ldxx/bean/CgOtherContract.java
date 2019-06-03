@@ -34,6 +34,8 @@ public class CgOtherContract {
 
 	private String spName;// 乙方单位名称
 
+	private String starterName;//发起人
+    private String status;//审批状态
 	
 	public Double getShuilv() {
 		return shuilv;
@@ -209,6 +211,22 @@ public class CgOtherContract {
 
 	public void setSpName(String spName) {
 		this.spName = spName;
+	}
+
+	public String getStarterName() {
+		return starterName;
+	}
+
+	public void setStarterName(String starterName) {
+		this.starterName = starterName;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 

@@ -13,6 +13,9 @@ public interface CgContractService {
 
 	List<CgContract> selectCgContractByStatus(String status);
 
+	List<CgContract> selectCgContractByStatus2();
+
+	
 	int addCgContract(CgContract cg);
 
 	int deleteCgContractById(String id);

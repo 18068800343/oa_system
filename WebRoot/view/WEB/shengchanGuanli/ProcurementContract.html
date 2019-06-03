@@ -79,14 +79,14 @@ body {
 	<div class="zhuti-content">
 		<div class="UpperPart">
 			<div class="UpperPartL" style="font-size: 18px;">
-				<form class="form-inline">
+				<!-- <form class="form-inline">
 					<label>状态筛选:</label> <select class="zhuangtai form-control"
 						style="width: 160px;">
 						<option>审批结束</option>
 						<option>审批中</option>
 						<option>合同取消</option>
 					</select>
-				</form>
+				</form> -->
 			</div>
 			<div class="UpperPartR">
 				<div class="yihang">
@@ -300,8 +300,10 @@ body {
 														<th>单价</th>
 														<th>金额</th>
 														<!--<th>项目部推荐供应商</th>
-			                             <th>公司确定供应商</th> -->
+			                            				 <th>公司确定供应商</th> -->
 														<th style='width: 10%;'>备注</th>
+														<th style="width:60px;">发起人</th>
+                                						<th style="width:70px;">审批状态</th>
 														<th>操作</th>
 													</tr>
 												</thead>
@@ -941,13 +943,15 @@ body {
 				<thead>
 					<tr>
 						<th style="width: 4%;">序号</th>
-						<th style="width: 10%;">采购合同编号</th>
+						<th style="width: 8%;">采购合同编号</th>
 						<th style="width: 30%;">采购合同名称</th>
-						<th style="width: 10%;">任务单号</th>
+						<th style="width: 8%;">任务单号</th>
 						<th style="width: 10%;">采购合同类型</th>
 						<th style="width: 15%;">合同乙方</th>
 						<th style="width: 10%;" class="jinqianyanse">采购合同金额(元)</th>
-						<th style="width: 10%;">签订时间</th>
+						<th style="width: 8%;">签订时间</th>
+						<th style="width:70px;">发起人</th>
+                        <th style="width:70px;">审批状态</th>
 						<th style="width: 110px;">操作</th>
 					</tr>
 				</thead>
@@ -1706,7 +1710,10 @@ body {
             { "data": "cgcType"}, 
             { "data": "spName"}, 
             { "data": "cgContractMoney",render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
-            { "data": "contractSignTime"}, 
+            { "data": "contractSignTime"},
+            { "data": "starterName"},
+            { "data": "status"},
+            { "data": "status"},
         ],
         "columnDefs": [
 			        	{	
@@ -1717,9 +1724,25 @@ body {
 								  return '<a href="../chankanxiangqing/taskDetails.html?prjNo='+data.workNo+'" style="color:#4876FF;cursor: pointer;" target="_blank" >'+data.workNo+'</a>'
 							  }
 							},
+							{
+								 "class": "tcenter",
+							     "targets": 9,
+							     "searchable": true,
+							     "render": function(data, type, full) {
+							    	 if(data=='2'){
+								    		return '<span class="label label-success state">审批结束</span>';
+							    	}else if(data=='1'){
+							    		return '<span class="label label-info state">审批中</span>';
+							    	}else if(data=='3'){
+							    		return '<span class="label label-danger state">终止</span>';
+							    	}else{
+							    		return '';
+							    	}
+					            }
+				              },
         					{	
 								 "class": "tcenter",
-								    "targets": 8,
+								    "targets": 10,
 								    "searchable": true,
 								    "render": function(data, type, full) {
 								    		var html='<i class="iconfont icon-icon-test Peccb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookCgC(this)" data-toggle="modal" data-target="#allMsg1"   id="lookDetall"></i>'
@@ -2152,10 +2175,10 @@ body {
 	function initTable(){
         $.ajax({
             type: 'POST',
-            url:getContextPath()+'/cgcontract/selectCgContractByStatus',
+            url:getContextPath()+'/cgcontract/selectCgContractByStatus2',
             dataType: 'json',
             data: {
-            	status:2
+            	
             },
             success: function (json) {
             	console.log(json)

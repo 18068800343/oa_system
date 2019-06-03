@@ -45,6 +45,8 @@ public class CgContract {
 	
 	private String startername;
 	
+	private String starterName;//发起人
+    private String status;//审批状态
 	
 	
 	public String getCancelReason() {
@@ -293,6 +295,22 @@ public class CgContract {
 
 	public void setSpName(String spName) {
 		this.spName = spName;
+	}
+
+	public String getStarterName() {
+		return starterName;
+	}
+
+	public void setStarterName(String starterName) {
+		this.starterName = starterName;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	

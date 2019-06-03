@@ -49,6 +49,11 @@ public class CgContractServiceImpl implements CgContractService {
 	}
 
 	@Override
+	public List<CgContract> selectCgContractByStatus2( ) {
+		return cgDao.selectCgContractByStatus2();
+	}
+	
+	@Override
 	public int addCgContract(CgContract cg) {
 		int i=cgDao.addCgContract(cg);
 		if(i>0){

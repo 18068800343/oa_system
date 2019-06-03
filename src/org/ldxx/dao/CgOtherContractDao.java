@@ -10,6 +10,8 @@ public interface CgOtherContractDao {
 
 	List<CgOtherContract> selectCgOtherContractByStatus(@Param("status")String status);
 
+	List<CgOtherContract> selectCgOtherContractByStatus2();
+	
 	int addCgOtherContract(@Param("cgo")CgOtherContract cgo);
 
 	int deleteCgOtherContractById(@Param("id")String id);
