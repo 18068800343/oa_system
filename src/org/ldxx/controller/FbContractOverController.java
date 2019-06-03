@@ -259,6 +259,12 @@ public class FbContractOverController {
 		return service.selectFbContractOver(state);
 	}
 	
+	@RequestMapping("/selectFbContractOver2")
+	@ResponseBody
+	public List<FbContractOver> selectFbContractOver2(){
+		return service.selectFbContractOver2();
+	}
+	
 	@RequestMapping("/selectFbContractOverById")
 	@ResponseBody
 	public FbContractOver selectFbContractOverById(String id){

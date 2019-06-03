@@ -32,6 +32,9 @@ public class FbContractDoAppointScore {
     private String allScore;//综合评价
     
     private String thisYear;//年份
+    
+    private String starterName;//发起人
+    private String status;//审批状态
 
     
     public String getThisYear() {
@@ -153,4 +156,20 @@ public class FbContractDoAppointScore {
     public void setAllScore(String allScore) {
         this.allScore = allScore == null ? null : allScore.trim();
     }
+
+	public String getStarterName() {
+		return starterName;
+	}
+
+	public void setStarterName(String starterName) {
+		this.starterName = starterName;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

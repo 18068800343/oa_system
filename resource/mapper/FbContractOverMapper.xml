@@ -15,6 +15,15 @@
   	where b.status=#{state}
   </select>
   
+   <select id="selectFbContractOver2" resultType="FbContractOver">
+  	select a.*,f.StarterName as starterName,b.status as status
+  	FROM fb_contract_over as a 
+  	left join mode_status as b on a.fco_id=b.mode_id
+  	LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
+					LEFT JOIN fb_contract_over a ON a.fco_id=f.mode_id  GROUP BY mode_id )  AS  f on a.fco_id=f.mode_id
+  	where (b.status=1 or b.status=2 or b.status=3)
+  </select>
+  
   <select id="selectFbContractOverById" resultType="FbContractOver">
   	SELECT * FROM fb_contract_over where fco_id=#{id}
   </select>

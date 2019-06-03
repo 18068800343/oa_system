@@ -23,6 +23,11 @@ public class FbContractDoAppointScoreServiceImpl implements FbContractDoAppointS
 	public List<FbContractDoAppointScore> selectFbContractDoAppointScore(String state,String depart,String thisYear) {
 		return dao.selectFbContractDoAppointScore(state,depart,thisYear);
 	}
+	
+	@Override
+	public List<FbContractDoAppointScore> selectFbContractDoAppointScore2() {
+		return dao.selectFbContractDoAppointScore2();
+	}
 
 	@Override
 	public FbContractDoAppointScore selectFbContractDoAppointScoreById(String id) {
