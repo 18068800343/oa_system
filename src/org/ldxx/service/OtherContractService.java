@@ -33,4 +33,6 @@ public interface OtherContractService {
 	
 	public int updateOnoById(String id,String no);
 
+	public List<OtherContract> selectOtherContract2();
+
 }

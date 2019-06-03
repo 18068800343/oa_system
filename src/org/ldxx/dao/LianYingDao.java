@@ -28,4 +28,6 @@ public interface LianYingDao {
 
 	public LianYing getLianYingBylyNo(@Param("no")String no);
 
+	public List<LianYing> selectLianYing2();
+
 }

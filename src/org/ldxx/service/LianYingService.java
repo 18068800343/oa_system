@@ -27,4 +27,6 @@ public interface LianYingService {
 	public int updateLyNoById(String id,String no);
 
 	public LianYing getLianYingBylyNo(String no);
+
+	public List<LianYing> selectLianYing2();
 }

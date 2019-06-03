@@ -487,4 +487,12 @@ public class LianYingController {
 		map.put("result", result);
 		return map;
 	}
+	
+	
+	@RequestMapping("/selectLianYing2")
+	@ResponseBody
+	public List<LianYing> selectLianYing2(){
+		List<LianYing> list=service.selectLianYing2();
+		return list;
+	}
 }

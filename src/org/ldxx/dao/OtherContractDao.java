@@ -32,4 +32,6 @@ public interface OtherContractDao {
 	public int updateHistoryNow(@Param("id")String id);
 	
 	public int updateOnoById(@Param("id")String id,@Param("no")String no);
+
+	public List<OtherContract> selectOtherContract2();
 }

@@ -137,4 +137,18 @@
 		(select cj.* from cj_contract as cj LEFT JOIN mode_status as mo2 on cj.cj_id=mo2.mode_id where mo2.status=2 and cj.history=1) as e on a.prj_no like concat('%',e.task_code,'%') 
 		where a.ly_no=#{no}
 	</select>
+	
+	<select id="selectLianYing2" resultMap="LianYingResultMap">
+		SELECT a.*,c.prj_name,c.prj_area,c.prj_type2,d.cc_name,e.contract_money,e.contract_no,contract_name_yi,d2.cc_name as lyUnitName,b.`status`,f.StarterName
+		FROM lian_ying_contract as a
+		LEFT JOIN mode_status as b on a.ly_id=b.mode_id
+		LEFT JOIN task as c on a.prj_no=c.prj_no
+		LEFT JOIN mode_status as b2 on c.prj_id=b2.mode_id
+		LEFT JOIN consociation_company as d on c.prj_owner_unit=d.cc_id
+		LEFT JOIN consociation_company as d2 on a.ly_unit=d2.cc_id
+		LEFT JOIN cj_contract as e on a.prj_no like concat('%',e.task_code,'%')
+		LEFT JOIN mode_status as b3 on e.cj_id=b3.mode_id
+		LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f LEFT JOIN lian_ying_contract a ON a.ly_id=f.mode_id  GROUP BY mode_id )  AS  f on a.ly_id=f.mode_id 
+		where (b.status=0 or b.status=1 or b.status=2) and b2.status=2 and b3.status=2 and c.history=1 and e.history=1
+	</select>
 </mapper>
