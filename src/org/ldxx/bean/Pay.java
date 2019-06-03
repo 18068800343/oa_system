@@ -70,6 +70,8 @@ public class Pay {
     private String ccName;//分包合同乙方单位名称(分包单位)
     private String uName;//编制人               
     
+    private String starterName;//发起人
+    private String status;//审批状态
     
     public double getSkMoney() {
 		return skMoney;
@@ -281,6 +283,18 @@ public class Pay {
 	}
 	public void setuName(String uName) {
 		this.uName = uName;
+	}
+	public String getStarterName() {
+		return starterName;
+	}
+	public void setStarterName(String starterName) {
+		this.starterName = starterName;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
     
     

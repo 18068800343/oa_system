@@ -46,14 +46,14 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL">
-                <form class="form-inline" style="font-size:18px;">
+                <!-- <form class="form-inline" style="font-size:18px;">
                     <label>状态筛选:</label>
                     <select class="zhuangtai form-control" style="width:180px;">
                         <option>审批结束</option>
                         <option>审批中</option>
                         <option>审批未通过</option>
                     </select>
-                </form>
+                </form> -->
             </div>
             <div class="UpperPartR">
             	<div class="yihang">
@@ -696,6 +696,8 @@
                         <th class="jinqianyanse">分包合同金额(元)</th>
                         <th class="jinqianyanse">申请金额(元)</th>
                         <th class="jinqianyanse">累计付款(元)</th>
+                        <th style="width:60px;">发起人</th>
+                        <th style="width:70px;">审批状态</th>
                         <th style="width:150px;">操作</th>
                     </tr>
                 </thead>
@@ -1141,6 +1143,8 @@
             { "data": "fbcontractMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
             { "data": "thisTimeAskMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
             { "data": "alreadyAccumulateMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
+            { "data": "starterName"},
+            { "data": "status"},
             { "data": null}
         ],
         "columnDefs": [
@@ -1155,9 +1159,25 @@
 									+'" target="_blank" style="color:blue;">'+data.contractName+'</a>';
 							  }
 						},
+						{
+							 "class": "tcenter",
+						     "targets": 7,
+						     "searchable": true,
+						     "render": function(data, type, full) {
+						    	 if(data=='2'){
+							    		return '<span class="label label-success state">审批结束</span>';
+						    	}else if(data=='1'){
+						    		return '<span class="label label-info state">审批中</span>';
+						    	}else if(data=='0'){
+						    		return '<span class="label label-danger state">审批未通过</span>';
+						    	}else{
+						    		return '';
+						    	}
+				            }
+			              },
 						{	
 								 "class": "tcenter",
-								    "targets": 6,
+								    "targets": 8,
 								    "searchable": true,
 								    "render": function(data, type, full) {
 								  	  		return '<i class="iconfont icon-icon-test Pecfb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookpay(this)" data-toggle="modal" data-target="#allMsg1"   id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai Pecfc" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="填报实际付款" onclick="checkPay(this)" data-toggle="modal" data-target="#change"  id="Changedanwei"></i>'
@@ -1513,10 +1533,10 @@
 	function initTable(){
         $.ajax({
             type: 'POST',
-            url: getContextPath()+'/pay/selectPayByStatus',
+            url: getContextPath()+'/pay/selectPayByStatus2',
             dataType: 'json',
             data: {
-            	status:2,
+            	
             },
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
@@ -1527,7 +1547,7 @@
 	
 	
 	//初始化
-    $(".zhuangtai").change(function(){
+  /*   $(".zhuangtai").change(function(){
         var zt=$(".zhuangtai").val();
         if(zt=="审批中"){
         	$.ajax({
@@ -1583,7 +1603,7 @@
                 }
             });
         }
-    })
+    }) */
 	
 	
 	

@@ -8,6 +8,19 @@
 			left join user b on a.compiler_person=b.user_id
 		where m.status=#{status}
 	</select>
+	
+	<select id="selectPayByStatus2" resultType="org.ldxx.bean.Pay">
+		select a.*,f.contract_money as fbcontractMoney,f.contract_name_yi,b.u_name,
+		f.StarterName as starterName,m.status as status
+		FROM pay a
+			left join mode_status m on m.mode_id=a.pay_id
+			left join fb_contract f on a.contract_no=f.fb_no and f.history=1
+			left join user b on a.compiler_person=b.user_id
+			LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
+					LEFT JOIN pay a ON a.pay_id=f.mode_id  GROUP BY mode_id )  AS  f on a.pay_id=f.mode_id 
+		where (m.status=1 or m.status=2 or m.status=0)
+	</select>
+	
  	<insert id="addPaySave" parameterType="org.ldxx.bean.Pay" >
     insert into pay (pay_id,pay_code, contract_name,sk_money,sk_scale,contract_no, 
       contract_money, already_kp_money, this_time_kp_money, 

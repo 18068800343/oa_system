@@ -66,6 +66,19 @@ public class ContractPaymentController {
 		}
 		return pay;
 	}
+	
+	@RequestMapping("/selectPayByStatus2")
+	@ResponseBody
+	public List<Pay> selectPayByStatus2(){
+		List<Pay> pay=payService.selectPayByStatus2();
+		for(int i=0;i<pay.size();i++){
+			String fbNo=pay.get(i).getContractNo();
+			Pay p=payService.getTotalPayMoney(fbNo);
+			Double alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
+			pay.get(i).setAlreadyAccumulateMoney(alreadyAccumulateMoney);
+		}
+		return pay;
+	}
 
 	@RequestMapping("/selectPayById")
 	@ResponseBody

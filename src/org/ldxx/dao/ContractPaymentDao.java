@@ -8,7 +8,9 @@ import org.ldxx.bean.Pay;
 public interface ContractPaymentDao {
 
 	List<Pay> selectPayByStatus(@Param("status")String status);
-
+	
+	List<Pay> selectPayByStatus2();
+	
 	int addPaySave(@Param("pay")Pay pay);
 
 	Pay selectPayById(@Param("id")String id);

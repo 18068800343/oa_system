@@ -9,6 +9,8 @@ public interface ContractPaymentService {
 
 	List<Pay> selectPayByStatus(String status);
 
+	List<Pay> selectPayByStatus2();
+	
 	int addPaySave(Pay pay);
 
 	Pay selectPayById(String id);

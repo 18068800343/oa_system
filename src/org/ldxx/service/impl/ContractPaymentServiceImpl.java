@@ -28,6 +28,12 @@ public class ContractPaymentServiceImpl implements ContractPaymentService {
 	}
 
 	@Override
+	public List<Pay> selectPayByStatus2() {
+		List<Pay> list = payDao.selectPayByStatus2();
+		return list;
+	}
+	
+	@Override
 	public int addPaySave(Pay pay) {
 		int i=payDao.addPaySave(pay);
 		if(i>0){
