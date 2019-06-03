@@ -125,5 +125,10 @@ public class BorrowContractServiceImpl implements BorrowContractService {
 	public BorrowContract getBorrowContractBybNo(String bno) {
 		return dao.getBorrowContractBybNo(bno);
 	}
+
+	@Override
+	public List<BorrowContract> selectBorrowContract2() {
+		return dao.selectBorrowContract2();
+	}
 	
 }

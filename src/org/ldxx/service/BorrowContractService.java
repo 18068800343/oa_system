@@ -31,4 +31,6 @@ public interface BorrowContractService {
 
 	BorrowContract getBorrowContractBybNo(String bno);
 
+	List<BorrowContract> selectBorrowContract2();
+
 }

@@ -23,8 +23,28 @@ public class BorrowContract {
 
 	private List<Accessory> accessory;
 	private List<Accessory> accessory2;
-
 	
+	private String starterName;//发起人
+    private String status;//审批状态
+    
+    
+	
+	public String getStarterName() {
+		return starterName;
+	}
+
+	public void setStarterName(String starterName) {
+		this.starterName = starterName;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getBorrowEndTime() {
 		return borrowEndTime;
 	}

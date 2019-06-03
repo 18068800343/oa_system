@@ -729,4 +729,10 @@ public class BorrowContractController {
 		map.put("result", result);
 		return map;
 	}
+	
+	@RequestMapping("/selectBorrowContract2")
+	@ResponseBody
+	public List<BorrowContract> selectBorrowContract2(){
+		return service.selectBorrowContract2();
+	}
 }

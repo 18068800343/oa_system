@@ -81,4 +81,13 @@
 	<select id="getBorrowContractBybNo" resultType="BorrowContract">
 		select * from borrow_contract where b_no=#{bno} 
 	</select>
+	
+	<select id="selectBorrowContract2" resultType="BorrowContract">
+		select a.*,c.cc_name,m.`status`,f.StarterName from borrow_contract a 
+		left join mode_status m on m.mode_id=a.b_id
+		left join consociation_company c on c.cc_id=a.unit_yi
+		LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f LEFT JOIN borrow_contract a ON a.b_id=f.mode_id  GROUP BY mode_id )  AS  f on a.b_id=f.mode_id 
+		where (m.status='0' or m.status='1' or m.status='2')
+	</select>
+	
 </mapper>
