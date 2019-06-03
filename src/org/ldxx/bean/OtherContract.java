@@ -36,6 +36,9 @@ public class OtherContract {
     private List<Accessory> accessory;
     private List<Accessory> accessory2;//法律顾问签字
 
+    private String starterName;//发起人
+    private String status;//审批状态
+    
 
    /* public double getRate() {
 		return rate;
@@ -53,8 +56,25 @@ public class OtherContract {
 		this.rateMoney = rateMoney;
 	}*/
 
+    
 	public Double getZandingMoney() {
 		return zandingMoney;
+	}
+
+	public String getStarterName() {
+		return starterName;
+	}
+
+	public void setStarterName(String starterName) {
+		this.starterName = starterName;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public void setZandingMoney(Double zandingMoney) {

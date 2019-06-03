@@ -53,14 +53,14 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL" style="font-size:18px;">
-                <form class="form-inline">
+                <!-- <form class="form-inline">
                     <label>状态筛选:</label>
                     <select class="zhuangtai form-control" style="width:160px;">
                         <option>审批结束</option>
                         <option>审批中</option>
                         <option>合同取消</option>
                     </select>
-                </form>
+                </form> -->
             </div>
             <div class="UpperPartR">
             	<div class="yihang">
@@ -490,16 +490,18 @@
 
         </div>
         <div class="LowerPart" style="margin-top:3px;">
-            <table class="table table-bordered table-condensed" id="mainContent" style="width:100%;">
+            <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>
                     <tr>
-                        <th style="width:10%;">合同编号</th>
-                        <th style="width:20%;">合同名称</th>
-                        <th style="width:10%;" class="jinqianyanse">合同金额(元)</th>
-                        <th style="width:16%;">甲方单位</th>
-                        <th style="width:16%;">乙方单位</th>
-                        <th style="width:10%;">合同签订时间</th>
-                        <th style="width:8%;">操作</th>
+                        <th style="width:100px;">合同编号</th>
+                        <th style="width:300px;">合同名称</th>
+                        <th style="width:150px;" class="jinqianyanse">合同金额(元)</th>
+                        <th style="width:100px;">甲方单位</th>
+                        <th style="width:200px;">乙方单位</th>
+                        <th style="width:100px;">合同签订时间</th>
+                        <th style="width:100px;">发起人</th>
+                        <th style="width:150px;">审批状态</th>
+                        <th style="width:100px;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -816,11 +818,12 @@
         laydate.render({
             elem: '#edit_year3' //指定元素
         });
-        $(".zhuangtai").trigger("change");
+        //$(".zhuangtai").trigger("change");
         initSelect2WithSearch();
         initCooperator();
         initDepartment();
         initFenGs();
+        initTable();
 	});
     
     $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
@@ -831,6 +834,8 @@
         "iDisplayLength": 10,
         "searching": true,
         "lengthChange": false,
+        "autoWidth": true,
+        "sScrollX": true,
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
@@ -841,22 +846,47 @@
 		            { "data": "contractNameJia"}, 
 		            { "data": "ccName"}, 
 		            { "data": "abutmentSignedTime"},
+		            { "data": "starterName"},
+		            { "data": "status"},
 		            { "data": null},
 		        ],
 		        "columnDefs": [
 								{	
 										 "class": "tcenter",
-										    "targets": 6,
+										    "targets": 8,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										    	return '<i class="iconfont icon-icon-test Peceb" style="font-size:18px;cursor:pointer;display:none;" title="查看详细信息"  onclick="lookDetall(this)"></i>'
-										    	+'<i class="iconfont icon-xiugai iconxiugai Pecec" style="font-size:18px;cursor:pointer;margin-left:3px;display:none;" title="合同变更" onclick="contractChange(this)"></i>'
-										    	+'<i class="iconfont icon-arrow chongqi Pecef" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="合同启用" onclick="contractStart(this)" data-toggle="modal" data-target="#"></i>'
-										    	+'<i class="iconfont icon-tuichu iconquxiao Peced" style="font-size:18px;cursor:pointer;margin-left:3px;display:none;" title="合同取消" onclick="contractReason(this)" ></i>'
-										    	+'<i class="iconfont icon-icon-test cancel Pecee" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="查看取消原因"  onclick="lookCancel(this)"></i>'
-										    	+'<i class="iconfont icon-kaibiao Peceb" style="font-size:18px;cursor:pointer;display:none;" title="补录扫描合同件"  onclick="addsaomiaohetongjian(this)"></i>';
+										    	var xiangqing= '<i class="iconfont icon-icon-test Peceb" style="font-size:18px;cursor:pointer;display:none;" title="查看详细信息"  onclick="lookDetall(this)"></i>'
+										    	var xiugai='<i class="iconfont icon-xiugai iconxiugai Pecec" style="font-size:18px;cursor:pointer;margin-left:3px;display:none;" title="合同变更" onclick="contractChange(this)"></i>'
+										    	var qiyong='<i class="iconfont icon-arrow chongqi Pecef" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="合同启用" onclick="contractStart(this)" data-toggle="modal" data-target="#"></i>'
+										    	var quxiao='<i class="iconfont icon-tuichu iconquxiao Peced" style="font-size:18px;cursor:pointer;margin-left:3px;display:none;" title="合同取消" onclick="contractReason(this)" ></i>'
+										    	var quxiaoyuanyin='<i class="iconfont icon-icon-test cancel Pecee" style="font-size:18px;cursor:pointer;display:none;margin-left:3px;" title="查看取消原因"  onclick="lookCancel(this)"></i>'
+										    	var saomiaojian='<i class="iconfont icon-kaibiao Peceb" style="font-size:18px;cursor:pointer;display:none;" title="补录扫描合同件"  onclick="addsaomiaohetongjian(this)"></i>';
+										    	if(full.status=='1'){
+										    		return xiangqing;
+										    	}else if(full.status=='2'){
+										    		return xiangqing+xiugai+quxiao+saomiaojian;
+										    	}else if(full.status=='3'){
+										    		return xiangqing+quxiaoyuanyin;
 										    	}
-										  }
+										    	}
+										  },
+									{	
+										 "class": "tcenter",
+									     "targets": 7,
+									     "searchable": true,
+									     "render": function(data, type, full) {
+									    	 if(data=='2'){
+										    		return '<span class="label label-success state">审批结束</span>';
+									    	}else if(data=='1'){
+									    		return '<span class="label label-info state">审批中</span>';
+									    	}else if(data=='3'){
+									    		return '<span class="label label-danger state">终止</span>';
+									    	}else{
+									    		return '';
+									    	}
+							            }
+						        },
 								],
 								"fnDrawCallback" : function() {
 									$.ajax({
@@ -988,10 +1018,9 @@
 	function initTable(){
         $.ajax({
             type: 'POST',
-            url: getContextPath()+'/other/selectOtherContract',
+            url: getContextPath()+'/other/selectOtherContract2',
             dataType: 'json',
             data: {
-            	status:2
             },
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();

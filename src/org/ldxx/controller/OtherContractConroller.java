@@ -639,4 +639,10 @@ public class OtherContractConroller {
 		map.put("result", result);
 		return map;
 	}
+	
+	@RequestMapping("/selectOtherContract2")
+	@ResponseBody
+	public List<OtherContract> selectOtherContract2(){
+		return service.selectOtherContract2();
+	}
 }

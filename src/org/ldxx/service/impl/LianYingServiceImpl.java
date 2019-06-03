@@ -89,4 +89,9 @@ public class LianYingServiceImpl implements LianYingService{
 		return dao.getLianYingBylyNo(no);
 	}
 
+	@Override
+	public List<LianYing> selectLianYing2() {
+		return dao.selectLianYing2();
+	}
+
 }

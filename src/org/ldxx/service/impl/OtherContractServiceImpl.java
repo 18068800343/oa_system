@@ -138,4 +138,9 @@ public class OtherContractServiceImpl implements OtherContractService{
 		return i;
 	}
 
+	@Override
+	public List<OtherContract> selectOtherContract2() {
+		return dao.selectOtherContract2();
+	}
+
 }
