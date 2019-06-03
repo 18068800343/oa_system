@@ -23,6 +23,8 @@ public interface ProjectOverService {
 	
 	int selectPrjOverCountByNo(String no);
 	
+	int selectPrjOverCountByBdNo(String no);
+	
 	int updateUseStatus(String id);
 	
 	int deleteDataIfExist(String prjNo,String bdNo);

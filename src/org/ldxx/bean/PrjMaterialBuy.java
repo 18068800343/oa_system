@@ -27,8 +27,37 @@ public class PrjMaterialBuy {
     
     private List<MaterialDemand> md;
     
+    private String startername;
     
-    public String getOmName() {
+    private String doDate;
+    
+    private String status;
+    
+    public String getStartername() {
+		return startername;
+	}
+
+	public void setStartername(String startername) {
+		this.startername = startername;
+	}
+
+	public String getDoDate() {
+		return doDate;
+	}
+
+	public void setDoDate(String doDate) {
+		this.doDate = doDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getOmName() {
 		return omName;
 	}
 

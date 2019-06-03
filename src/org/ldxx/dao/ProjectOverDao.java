@@ -22,6 +22,8 @@ public interface ProjectOverDao {
 	ProjectOver selectPrjOverById(@Param("poId")String poId);
 	
 	int selectPrjOverCountByNo(@Param("no")String no);
+	
+	int selectPrjOverCountByBdNo(@Param("no")String no);
 
 	int updateUseStatus(@Param("id")String id);
 	
