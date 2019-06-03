@@ -24,11 +24,13 @@
   </update>
   
   <select id="selectPrjMaterialBuy" resultType="PrjMaterialBuy">
-  	select a.*,c.om_name,d.u_name from prj_material_buy as a 
+  	select a.*,c.om_name,d.u_name,fhb.startername,fhb.do_date,b.`status` from prj_material_buy as a 
   	left join mode_status as b on a.pmb_id=b.mode_id
   	left join organization_management as c on a.apply_department=c.om_id
-  	left join user as d on a.apply_person=d.user_id
-  	where b.status=#{status}
+  	left join user as d on a.apply_person=d.user_id 
+	LEFT JOIN (select * from (select * from flowhistroy ORDER BY do_date desc) fha GROUP BY fha.mode_id) fhb on fhb.mode_id = a.pmb_id
+	WHERE
+	b.STATUS = "0" or b.STATUS = "1" or b.STATUS = "2" order by fhb.do_date desc
   </select>
   
   <select id="selectPrjMaterialBuyCount" resultType="int">

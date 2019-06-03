@@ -248,7 +248,7 @@ public class OpeningRecordController {
 		if(i>0){
 			String zhongbiao=rd.getZhongbiao();
 			if(zhongbiao.equals("是")){
-				int count=pService.selectPrjOverCountByNo(rd.getPrjNo());
+				int count=pService.selectPrjOverCountByNo(rd.getBdNo());
 				if(count==0){
 					BidApproval ba=bService.selectNameByNo(rd.getPrjNo());
 					ProjectOver po=new ProjectOver();
