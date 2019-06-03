@@ -16,4 +16,6 @@ public interface MaterialSubcontractDao {
 
 	int updatemSubcontractById(@Param("c")ClfbContractEvaluate c);
 
+	List<ClfbContractEvaluate> selectmSubcontractByStatus2();
+
 }

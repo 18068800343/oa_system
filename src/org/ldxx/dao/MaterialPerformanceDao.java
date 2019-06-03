@@ -15,4 +15,6 @@ public interface MaterialPerformanceDao {
 	
 	int updateMaterialPerformance(@Param("c")clfbCgcontractPerformance c);
 
+	List<clfbCgcontractPerformance> selectmaterialPerformanceByStatus2();
+
 }

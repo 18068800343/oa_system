@@ -36,4 +36,12 @@
 		left join organization_management b  on a.department=b.om_id
 		where ce_id=#{id}
 	</select>
+	
+	<select id="selectmSubcontractByStatus2" resultType="ClfbContractEvaluate">
+		select *,b.om_name,m.`status`,f.StarterName from clfb_contract_evaluate c
+			left join mode_status m on m.mode_id=c.ce_id
+			left join organization_management b  on c.department=b.om_id
+			LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f LEFT JOIN clfb_contract_evaluate a ON a.ce_id=f.mode_id  GROUP BY mode_id )  AS  f on c.ce_id=f.mode_id 
+		where (m.status='0' or m.status='1' or m.status='2')
+	</select>
 </mapper>

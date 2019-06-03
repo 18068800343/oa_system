@@ -41,4 +41,12 @@
 			make_time=now()
 		where p_id=#{c.pId}
 	</update>
+	
+	<select id="selectmaterialPerformanceByStatus2" resultType="clfbCgcontractPerformance">
+		select a.*,c.sp_name,m.`status`,f.StarterName from clfb_cgcontract_performance  a
+			left join mode_status m on m.mode_id=a.p_id
+			left join sourcing_purchasing c on c.sp_id=a.contract_yi 
+			LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f LEFT JOIN clfb_cgcontract_performance a ON a.p_id=f.mode_id  GROUP BY mode_id )  AS  f on a.p_id=f.mode_id 
+		where (m.status='0' or m.status='1' or m.status='2')
+	</select>
 </mapper>

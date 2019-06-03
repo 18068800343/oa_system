@@ -245,4 +245,10 @@ public class MaterialSubcontractController {
 		return i;
 	}
 	
+	@RequestMapping("/selectmSubcontractByStatus2")//初始化履约评价
+	@ResponseBody
+	public List<ClfbContractEvaluate> selectmSubcontractByStatus2(){
+		return msService.selectmSubcontractByStatus2();
+	}
+	
 }

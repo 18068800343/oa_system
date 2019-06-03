@@ -70,4 +70,9 @@ public class MaterialPerformanceServiceImpl implements MaterialPerformanceServic
 		return i;
 	}
 
+	@Override
+	public List<clfbCgcontractPerformance> selectmaterialPerformanceByStatus2() {
+		return mpDao.selectmaterialPerformanceByStatus2();
+	}
+
 }

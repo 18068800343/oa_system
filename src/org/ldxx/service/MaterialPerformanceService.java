@@ -20,4 +20,6 @@ public interface MaterialPerformanceService {
 	
 	int updateMaterialPerformance(clfbCgcontractPerformance c);
 
+	List<clfbCgcontractPerformance> selectmaterialPerformanceByStatus2();
+
 }

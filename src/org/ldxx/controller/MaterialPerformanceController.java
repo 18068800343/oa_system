@@ -54,6 +54,12 @@ public class MaterialPerformanceController {
 		return mpService.selectmaterialPerformanceByStatus(status);
 	}
 	
+	@RequestMapping("/selectmaterialPerformanceByStatus2")
+	@ResponseBody
+	public List<clfbCgcontractPerformance> selectmaterialPerformanceByStatus2(){
+		return mpService.selectmaterialPerformanceByStatus2();
+	}
+	
 	@RequestMapping("/addmaterialPerformanceSave")//添加保存
 	@ResponseBody
 	public Map<String,Object> addmaterialPerformanceSave(clfbCgcontractPerformance c,@RequestParam("file") MultipartFile [] file,/*@RequestParam("file2") MultipartFile [] file2,*/HttpSession session) throws IllegalStateException, IOException{
