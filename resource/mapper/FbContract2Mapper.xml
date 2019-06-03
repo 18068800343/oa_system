@@ -31,6 +31,41 @@
 				   m.status=#{status} and f.history=1
 			</where>
 	</select>
+	<select id="selectSubContract2" resultType="org.ldxx.bean.FbCgContract">
+		select a.*,o.om_name,c.cc_name,f.StarterName as starterName,m.status as status
+		FROM fb_cg_contract  a
+			left join mode_status m on m.mode_id=a.fb_id
+			left join organization_management o on o.om_id=a.main_manage_department
+			left join consociation_company c on c.cc_id=a.contract_name_yi
+			LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
+					LEFT JOIN fb_cg_contract a ON a.fb_id=f.mode_id  GROUP BY mode_id )  AS  f on a.fb_id=f.mode_id 
+			<where>
+				<if test="startMin!=''">
+					contract_start_time &gt;= #{startMin} and contract_start_time &lt;= #{startMax} and 
+				</if>
+				<if test="endMin!=''">
+					contract_end_time &gt;= #{endMin} and contract_end_time &lt;= #{endMax} and 
+				</if>
+				<if test="mainDp!='%'.toString() and mainDp!=''">
+					main_manage_department =#{mainDp} and 
+				</if>
+				<if test="spType!='%'.toString() and spType!=''">
+					rate_type = #{spType} and 
+				</if>
+				<if test="contractMoneyMin!=0">
+					contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and 
+				</if>
+				<if test="fbMoneyMin!=0">
+					now_fb_all_money &gt;=#{fbMoneyMin} and now_fb_all_money &lt;=#{fbMoneyMax} and 
+				</if>
+				<if test="zdMoneyMin!=0">
+					temporary_money &gt;=#{zdMoneyMin} and temporary_money &lt;= #{zdMoneyMax} and  
+				</if>
+				   (m.status=1 or m.status=2 or m.status=3) and a.history=1
+			</where>
+	</select>
+	
+	
 	<insert id="saveSubContract" parameterType="org.ldxx.bean.FbCgContract">
 		insert into fb_cg_contract(fb_id,contract_name,fb_no,fbc_type,contract_name_jia,contract_name_yi,prj_name,work_no,cj_contract_name,
 			cj_contract_code,main_contract_money,now_fb_all_money,contract_start_time,contract_end_time,main_manage_department,contract_long_time,

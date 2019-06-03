@@ -68,14 +68,14 @@
 	    <div role="tabpanel" class="tab-pane active" id="home">
 	    		<div class="UpperPart">
 			            <div class="UpperPartL" style="font-size:18px;">
-			                <form class="form-inline">
+			                <!-- <form class="form-inline">
 			                    <label>状态筛选:</label>
 			                    <select class="zhuangtai form-control" style="width:160px;">
 			                        <option>审批结束</option>
 			                        <option>审批中</option>
 			                        <option>合同取消</option>
 			                    </select>
-			                </form>
+			                </form> -->
 			            </div>
 			            <div class="UpperPartR">
 			            	<div class="yihang">
@@ -176,17 +176,19 @@
                     			</div>
                     		</div>
                     	</div>
-			            <table class="table table-bordered table-condensed" id="mainContent">
+			            <table class="table table-bordered table-condensed" id="mainContent" style="width:100%">
 			                <thead>
 			                    <tr>
-			                        <th style="width:8%">分包合同编号</th>
-			                        <th style="width:14%">分包合同名称</th>
-			                        <th style="width:12%">甲方</th>
-			                        <th style="width:12%">乙方</th>
+			                        <th style="width:12%">分包合同编号</th>
+			                        <th style="width:24%">分包合同名称</th>
+			                        <th style="width:15%">甲方</th>
+			                        <th style="width:15%">乙方</th>
 			                        <!-- <th style="width:12%">项目名称</th> -->
 			                        <!-- <th style="width:18%">承接合同名称</th> -->
-			                        <th style="width:9%" class="jinqianyanse">分包合同金额(元)</th>
-			                        <th  style="width:5%">操作</th>
+			                        <th style="width:12%" class="jinqianyanse">分包合同金额(元)</th>
+			                        <th style="width:60px;">发起人</th>
+                      				<th style="width:80px;">审批状态</th>
+			                        <th  style="width:10%">操作</th>
 			                    </tr>
 			                </thead>
 			                <tbody>
@@ -666,6 +668,15 @@
 				    <table class="table table-bordered table-condensed"  id="look_all_table2">
 				                        		
 				    </table>
+				     <table class="table table-bordered table-condensed" id="look_saomainHT">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:20%;">合同扫描件 </td>
+                                	<td colspan="3"></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
 				    <!-- 历史信息表格 -->
 				    <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory">
                         <thead>
@@ -1332,6 +1343,40 @@
 </div>
 <!--xg项目  modelxg结束 --> 
 
+
+<!-- Modal合同扫描件开始 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addSaoMiaohtModel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>合同扫描件</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form id="new_form" class="form-inline" method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered table-condensed">
+		                	<tr >
+		                		<td style="width:15%;">合同扫描件文件名</td>
+		                		<td style="width:35%;">
+		                			<input type="file" id="saomiaofileUrl" name="file" class="form-control" style="width:75%;" multiple="multiple">
+		                			<!--<button type="button" style="margin-left: 5px;" class="btn btn-primary" id="chosexm">选择文件</button>-->
+		                		</td>
+		                		
+		                	</tr>
+		            	</table>
+                    </form> 
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick="savesaomiaohetongjian(this)">上传文件</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 合同扫描件 -->
+
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
@@ -1357,7 +1402,7 @@
 <script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
-    	/* initTable(); */
+    	initTable(); 
     	initSelect2WithSearch();
     	inityifang();
     	initSelect2();
@@ -1533,6 +1578,9 @@ function quxiao3(){
             /* { "data": null,"visible": false},  */
             /* { "data": null},  */
             { "data": "contractMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
+            { "data": "starterName"},
+            { "data": "status"},
+            { "data": "status"}
         ],
         "columnDefs": [
 						/* {
@@ -1559,14 +1607,48 @@ function quxiao3(){
 								  return '<a onclick="gotoCj(this)" style="color:#4876FF;cursor: pointer;">'+data.cjContractName+'</a>' 
 						  }
 						}, */
-						{	
+						{
+							 "class": "tcenter",
+						     "targets": 6,
+						     "searchable": true,
+						     "render": function(data, type, full) {
+						    	 if(data=='2'){
+							    		return '<span class="label label-success state">审批结束</span>';
+						    	}else if(data=='1'){
+						    		return '<span class="label label-info state">审批中</span>';
+						    	}else if(data=='3'){
+						    		return '<span class="label label-danger state">终止</span>';
+						    	}else{
+						    		return '';
+						    	}
+				            }
+				          },
+				          {	
 								 "class": "tcenter",
-								    "targets": 5,
+								    "targets": 7,
 								    "searchable": true,
 								    "render": function(data, type, full) {
-								  	  		return '<i class="iconfont icon-icon-test Pfeab" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookSubcontract(this)"   id="lookDetall"></i><i class="iconfont icon-xiugai iconxiugai Pfeac" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="合同变更" onclick="checkSubcontract(this)"   id="Changedanwei"></i><i class="iconfont icon-arrow chongqi Pfeae" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="重启" onclick="openModal3(this)"></i><i class="iconfont icon-tuichu iconzhongzhi Pfead" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="分包合同取消"  onclick="openModal2(this)"></i>'
+								    	var xiangqinghtml = '<i class="iconfont icon-icon-test Pfeab" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookSubcontract(this)"   id="lookDetall"></i>';
+								    	var xiugaihtml='<i class="iconfont icon-xiugai iconxiugai Pfeac" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="合同变更" onclick="checkSubcontract(this)"   id="Changedanwei"></i>';
+								    	var chongqihtml='<i class="iconfont icon-arrow chongqi Pfeae" style="font-size:18px;cursor:pointer;display:none;margin-left:5px;" title="重启" onclick="openModal3(this)"></i>';
+								    	var quxiaohtml='<i class="iconfont icon-tuichu iconzhongzhi Pfead" style="font-size:18px;cursor:pointer;margin-left:5px;display:none;" title="分包合同取消"  onclick="openModal2(this)"></i>';
+								    	var buluhtml ='<i class="iconfont icon-kaibiao Pfeab" style="font-size:18px;cursor:pointer;display:none;" title="补录扫描合同件"  onclick="addsaomiaohetongjian(this)"></i>';
+								  	  	if(data=='2'){
+								    		return xiangqinghtml+xiugaihtml+quxiaohtml+buluhtml;
+								    	}else if(data=='1'){
+								    		return xiangqinghtml;
+								    	}else if(data=='3'){
+								    		return xiangqinghtml+chongqihtml;
+								    	}else{
+								    		return '';
+								    	}
+								  	  		
+								  	  		
+								  	  		
 								        }
-								  }
+								  },
+								  
+								  
 						],
 						 "fnDrawCallback" : function() {
 							$.ajax({
@@ -1890,20 +1972,43 @@ function quxiao3(){
         }},
         
 	});
-	/* function initTable(){
+	 function initTable(){		 
+	        var startTimeMin=$("#seach_start_time_min").val();
+	        var startTimeMax=$("#seach_start_time_max").val();
+	        var endTimeMin=$("#seach_end_time_min").val();
+	        var endTimeMax=$("#seach_end_time_max").val();
+	        var mainDepartment=$("#seach_department").val();
+	        var spType=$("#seach_sp_type").val();
+	        var fbMoneyMin=$("#seach_fb_money_min").val();
+	        var fbMoneyMax=$("#seach_fb_money_max").val();
+	        var contractMoneyMin=$("#seach_contract_money_min").val();
+	        var contractMoneyMax=$("#seach_contract_money_max").val();
+	        var zdMoneyMin=$("#seach_zd_money_min").val();
+	        var zdMoneyMax=$("#seach_zd_money_max").val();
         $.ajax({
             type: 'POST',
-            url: getContextPath()+'/subcontract2/selectSubContract',
+            url: getContextPath()+'/subcontract2/selectSubContract2',
             dataType: 'json',
             data: {
-            	status:2
+            	startMin:startTimeMin,
+            	startMax:startTimeMax,
+            	endMin:endTimeMin,
+            	endMax:endTimeMax,
+            	mainDp:mainDepartment,
+            	spType:spType,
+            	fbMoneyMin:fbMoneyMin,
+            	fbMoneyMax:fbMoneyMax,
+            	contractMoneyMin:contractMoneyMin,
+            	contractMoneyMax:contractMoneyMax,
+            	zdMoneyMin:zdMoneyMin,
+            	zdMoneyMax:zdMoneyMax
             },
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
         });
-    } */
+    } 
     
     function initFenGs(){
   		$.ajax({
@@ -2142,11 +2247,12 @@ function quxiao3(){
 	}
     
     function seachAll(){
-    	$(".zhuangtai").trigger("change");
+    	initTable();
+    	//$(".zhuangtai").trigger("change");
     }
 	
 	//初始化
-    $(".zhuangtai").change(function(){
+   /*  $(".zhuangtai").change(function(){
         var zt=$(".zhuangtai").val();
         var startTimeMin=$("#seach_start_time_min").val();
         var startTimeMax=$("#seach_start_time_max").val();
@@ -2184,9 +2290,9 @@ function quxiao3(){
                     $('#mainContent').dataTable().fnClearTable();
                     $('#mainContent').DataTable().rows.add(json).draw(false);
                     $(".chongqi").hide();
-                    /* $(".iconxiugai").show();
-                    $(".iconzhongzhi").show();
-                    $(".iconlywj").show(); */
+                    // $(".iconxiugai").show();
+                   // $(".iconzhongzhi").show();
+                   // $(".iconlywj").show(); 
                 }
             });
             
@@ -2214,9 +2320,9 @@ function quxiao3(){
                     $('#mainContent').dataTable().fnClearTable();
                     $('#mainContent').DataTable().rows.add(json).draw(false);
                     $(".chongqi").show();
-                    /* $(".iconxiugai").hide();
-                    $(".iconzhongzhi").hide();
-                    $(".iconlywj").hide(); */
+                    // $(".iconxiugai").hide();
+                   // $(".iconzhongzhi").hide();
+                  //  $(".iconlywj").hide(); 
                 }
             });
             
@@ -2252,7 +2358,7 @@ function quxiao3(){
             });
         	
         }
-    })
+    }) */
 	
 	
 	
@@ -3507,6 +3613,7 @@ function quxiao3(){
 				//console.log(json);
 				$("#look_all_table").empty();
 				$("#look_all_table2").empty();
+				$("#look_saomainHT").empty();
 	               for(var i=0;i<json.length;i++){
 	            	   if(json[i].aType=="分包合同文本"){
 		            	   $("#look_all_table").append("<tr>"+
@@ -3520,6 +3627,12 @@ function quxiao3(){
 							            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
 							            	    "</tr>");
 	            	   }
+	            	   if(json[i].aType=="合同扫描件"){
+		            	   $("#look_all_table tbody").append("<tr>"+
+	      	   										"<td style='width:20%;'>合同扫描件</td>"+
+	      	   										"<td colspan='3'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+	            	    	
+							            	    "</tr>");
+		            	   }
 	               }
 			}
 		})
@@ -3539,7 +3652,6 @@ function quxiao3(){
    // 调用方法
    	sid=GetQueryString("prjId");
    	//var title = decodeURI(id)
-   	console.log(sid)
    	if(sid!=null){
    		$("#diyi").removeClass("active");
         $("#disi").addClass("active");
@@ -3976,7 +4088,7 @@ function quxiao3(){
 		
 		$.ajax({
 			type:"POST",
-			url:getContextPath()+"/cj/selectCjByCjNo",
+			url:getContextPath()+"/subcontract2/selectCjByCjNo",
 			dataType:"json",
 			async:false,
 			data:{ 
@@ -3989,6 +4101,50 @@ function quxiao3(){
 		}) 
 		
     }
+    
+    //扫描合同件
+    var smht_id;
+	function addsaomiaohetongjian(obj){
+		tr_smht=$(obj).parents("tr");
+		var datasaomiao=$("#mainContent").DataTable().row(tr_smht).data();
+		//console.log(data_bl)
+		smht_id=datasaomiao.fbId;
+    	$("#addSaoMiaohtModel").modal("show");
+    	
+	}
+    
+	 function savesaomiaohetongjian(){
+		 var saomiaoUrl=$("#saomiaofileUrl").val();	 
+		 if(saomiaoUrl==''){
+				toastr.error("请选择上传文件");
+				return;
+			 }
+		 var formData = new FormData();
+		 formData.append("id", smht_id);
+		 formData.append("file",$("#saomiaofileUrl")[0].files[0]);
+		 $.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/subcontract2/addSaoMiaoHeTong',
+	            data: formData,  
+	            cache: false,
+	            processData: false,
+	            contentType: false,
+	            async: false,
+		        success: function (json) {
+	        		var result=json.result;
+	        		if(result>0){
+	        			toastr.success('保存成功');
+	        			//$('#mainContent').DataTable().row.add(OtherFile).draw(false);
+	        			$("#addSaoMiaohtModel").modal("hide");
+	        			$("#saomiaofileUrl").val("");
+	        		}else if(result==-2){
+	        			toastr.error('请先刷新页面后登陆');
+	        		}else{
+	        			toastr.error('保存失败');
+	        		}
+		        }
+		    });		
+	 }
     
 </script>
 </html>

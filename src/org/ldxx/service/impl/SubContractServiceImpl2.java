@@ -145,6 +145,13 @@ public class SubContractServiceImpl2 implements SubContractService2 {
 			Double contractMoneyMax, Double zdMoneyMin, Double zdMoneyMax) {
 		return scDao.selectSubContract(status, startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
+	
+	@Override
+	public List<FbCgContract> selectSubContract2(String startMin, String startMax, String endMin,
+			String endMax, String mainDp, String spType, Double fbMoneyMin, Double fbMoneyMax, Double contractMoneyMin,
+			Double contractMoneyMax, Double zdMoneyMin, Double zdMoneyMax) {
+		return scDao.selectSubContract2(startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
+	}
 
 	@Override
 	public int updateHistoryById(String id) {

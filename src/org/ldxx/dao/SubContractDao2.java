@@ -11,6 +11,8 @@ public interface SubContractDao2 {
 
 	List<FbCgContract> selectSubContract(@Param("status")String status,@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")Double fbMoneyMin,@Param("fbMoneyMax")Double fbMoneyMax,@Param("contractMoneyMin")Double contractMoneyMin,@Param("contractMoneyMax")Double contractMoneyMax,@Param("zdMoneyMin")Double zdMoneyMin,@Param("zdMoneyMax")Double zdMoneyMax);
 
+	List<FbCgContract> selectSubContract2(@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")Double fbMoneyMin,@Param("fbMoneyMax")Double fbMoneyMax,@Param("contractMoneyMin")Double contractMoneyMin,@Param("contractMoneyMax")Double contractMoneyMax,@Param("zdMoneyMin")Double zdMoneyMin,@Param("zdMoneyMax")Double zdMoneyMax);
+	
 	int saveSubContract(@Param("fbContract")FbCgContract fbContract);
 
 	int deleteSubContractById(@Param("id")String id);
