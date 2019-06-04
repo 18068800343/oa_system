@@ -52,7 +52,29 @@ public class PrjProgressFill {
 	private CjContract cj;
 	private double benqishouru;
 	
+	private double endMoney;//结算金额
+	private double jzqnMoney;//截止上年度的收入金额
+	private double jnMoney;//本年度收入金额
 	
+	
+	public double getEndMoney() {
+		return endMoney;
+	}
+	public void setEndMoney(double endMoney) {
+		this.endMoney = endMoney;
+	}
+	public double getJzqnMoney() {
+		return jzqnMoney;
+	}
+	public void setJzqnMoney(double jzqnMoney) {
+		this.jzqnMoney = jzqnMoney;
+	}
+	public double getJnMoney() {
+		return jnMoney;
+	}
+	public void setJnMoney(double jnMoney) {
+		this.jnMoney = jnMoney;
+	}
 	public String getBackState() {
 		return backState;
 	}

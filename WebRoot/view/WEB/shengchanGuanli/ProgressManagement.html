@@ -824,12 +824,15 @@
 	                        <th style="width:10%;">项目类型</th>
 	                        <th style="width:9%;">任务金额(元)</th>
 	                        <th style="width:9%;">合同金额(元)</th>
+	                        <th style="width:6%;">结算金额</th>
 	                        <th style="width:8%;">项目负责人</th>
 	                        <th style="width:6%;">当期时间</th>
 	                        <th style="width:8%;">项目开始时间</th>
 	                        <th style="width:8%;">项目结束时间</th>
 	                        <th style="width:6%;">项目进度</th>
 	                        <th style="width:6%;">收回状态</th>
+	                        <th style="width:6%;">截止上年度的收入金额</th>
+	                        <th style="width:6%;">本年度收入金额</th>
 	                        <th style="width:6%;">操作</th>
 	                    </tr>
 	                </thead>
@@ -1218,13 +1221,16 @@
 		            { "data": "prjType"}, 
 		            { "data": "prjMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
 		            { "data": "contractMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
+		            { "data": "endMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},
 		            { "data": "prjLeader"}, 
 		            { "data": "thisTime"}, 
 		            { "data": "prjStartTime"}, 
 		            { "data": "prjEndTime"},
 		            { "data": "allMoney"},
 		            { "data": null},
-		            { "data": null}
+		            { "data": "jzqnMoney"},
+		            { "data": "jnMoney"},
+		            { "data": null},
 		        ],
 		        "columnDefs": [
 								{	
@@ -1238,9 +1244,12 @@
 							    			+'" target="_blank" style="color:blue;">'+data.prjName+'</a>';
 								 	 }
 								},
+								{"targets":5,"visible":false},
+								{"targets":12,"visible":false},
+								{"targets":13,"visible":false},
 								{	
 									 "class": "tcenter",
-									    "targets": 10,
+									    "targets": 11,
 									    "searchable": true,
 									    "render": function(data, type, full) {
 										    	if(full.backState=='1'){
@@ -1252,7 +1261,7 @@
 									  },
 								{	
 										 "class": "tcenter",
-										    "targets": 11,
+										    "targets": 14,
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										    	return '<i class="iconfont icon-icon-test Peeb" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="look(this)"></i>  <i class="glyphicon glyphicon-remove Peec" style="font-size:20px;cursor:pointer;display:none;" title="收回" onclick="shouhui(this)"></i>';
@@ -1319,16 +1328,16 @@
 		                        	if(rowIdx==1){
 		                        		data=$(code).find("a").eq(0).text();
 		                        	}
-		                        	if(rowIdx==5){
+		                        	 /* if(rowIdx==5){
 		                        		var time=$(code).text();
 		                        		var year=time.split("-")[0];
 		                        		var month=time.split("-")[1];
 		                        		data=year+"."+month;
-		                        	}
+		                        	}  */
 					                return data;
 					            }
 		                    },
-		                    columns:[0,1,2,3,4,5,6,7,8]
+		                    columns:[0,1,2,3,4,5,6,7,8,9,10,12,13]
 		                }
 		            }
 		        ]
@@ -1599,6 +1608,7 @@
             	status:2
             },
             success: function (json) {
+            	console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
             }
