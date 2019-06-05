@@ -23,6 +23,7 @@ import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.ProjectSealService;
 import org.ldxx.service.TaskService;
+import org.ldxx.util.DateUtil;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,15 @@ public class ProjectSealController {
 		return prjSealService.selectPrjSeal(status);
 	}
 	
+	@RequestMapping("/updatePrjSealSignetNo")
+	@ResponseBody
+	public void updatePrjSealSignetNo(String id){
+		String ymDate = DateUtil.getDateStrByPattern("yyyy", new Date());
+	    String no = projectSealDao.CreatePrjSealNumOrder(ymDate);
+	    no="YZ"+ymDate+no;
+	    projectSealDao.updateSignetNo(no, id);
+	}
+	
 	@RequestMapping("/addPrjSea")/*添加保存印章*/
 	@ResponseBody
 	public Map<String,Object> addPrjSeal(SignetManage signetManage,HttpSession session){
@@ -67,9 +77,10 @@ public class ProjectSealController {
 		
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
-		int count=prjSealService.countSignet(year);
+		/*int count=prjSealService.countSignet(year);
 		String signetNo="YZ"+new TimeUUID().getPrjCode("", count+1);
-		signetManage.setSignetNo(signetNo);
+		signetManage.setSignetNo(signetNo);*/
+		signetManage.setSignetNo("");
 		int i = prjSealService.addPrjSeal(signetManage);
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(signetManage.getOmId());
@@ -81,7 +92,7 @@ public class ProjectSealController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(signetManage.getPrjId()+"印章刻制申请");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(signetManage.getPrjId()+"印章刻制申请保存");
 			currentFlow.setUrl("xingzhengshiwuLook/ProjectSealLookKZ.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -119,10 +130,10 @@ public class ProjectSealController {
 		signetManage.setSmId(id);
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
-		int count=prjSealService.countSignet(year);
+		/*int count=prjSealService.countSignet(year);
 		String signetNo="YZ"+new TimeUUID().getPrjCode("", count+1);
-		signetManage.setSignetNo(signetNo);
-		
+		signetManage.setSignetNo(signetNo);*/
+		signetManage.setSignetNo("");
 		int i = prjSealService.addPrjSeal(signetManage);
 		String string=i+"";
 		if(i>0){

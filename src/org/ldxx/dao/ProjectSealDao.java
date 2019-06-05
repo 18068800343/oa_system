@@ -25,7 +25,11 @@ public interface ProjectSealDao {
 	
 	int updateStatus(@Param("id")String id,@Param("status")String status);
 	
+	int updateSignetNo(@Param("no")String no,@Param("id")String id);
+	
 	int updateStatusByNo(@Param("no")String no,@Param("status")String status);
 	
 	int countSignet(@Param("year")String year);
+	
+	String CreatePrjSealNumOrder(@Param("year")String year);
 }
