@@ -9,6 +9,8 @@
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <link href="../../select/css/select2.min.css" rel="stylesheet">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -36,21 +38,93 @@
     </div>
 
     <div class="zhuti-content">
-        <div class="UpperPart">
+<!--         <div class="UpperPart">
         	 <div class="UpperPartL" style="font-size:18px;">
         	 	 <form class="form-inline">
 					  <div class="form-group">
 					    <label for="exampleInputName2">选择部门</label>
 					    <select  class="form-control" id="zhuban" >
 					    </select>
+					    <button type="button" class="btn btn-primary" id="">统计查询</button>&nbsp;&nbsp;
+					    
 					  </div>
-			  	<!-- <button type="submit" class="btn btn-default" id="queryTable">查询</button> -->
+			  	 <button type="submit" class="btn btn-default" id="queryTable">查询</button> 
 				</form>
         	 </div>
 			 <div class="UpperPartR">
                		<div id="tabBtn"></div>
              </div>
-        </div>
+        </div> -->
+        <div class="chaojisousuo" style="margin-bottom:4px;">        			
+                    		<div class="sousuoClick" style="display:flex;justify-content: space-between;margin-bottom:4px;">
+                    		 <form class="form-inline">
+								  <div class="form-group">
+								   &nbsp;&nbsp; <label for="exampleInputName2">选择部门</label>
+								    <select  class="form-control" id="zhuban" >
+								    </select>
+								    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#allMsg1" id="">合同统计</button>&nbsp;&nbsp;
+								    <button type="button" class="btn btn-primary" id="">统计查询</button>&nbsp;&nbsp;
+								    <button type="button" class="btn btn-primary" style="width:100px;" id="zhedieBtn"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
+								  </div>
+						  	<!-- <button type="submit" class="btn btn-default" id="queryTable">查询</button> -->
+							</form>
+                    			
+                    		</div>
+                    		<div class="sousuoInput" id="sousuodiv">
+                    			<div id="sousuoTable"  style="border:1px solid #eee;padding:5px;">             			
+                    				<div class="yihang2">
+                    					
+                    					<div style="width:50%;">
+                    							<form class="form-inline">
+														  <div class="form-group" style="display:flex;align-items:center;">
+														        <label for="exampleInput">合同金额范围:&nbsp;</label>
+														    	<input type="text" class="form-control" id="seach_cj_money_min"  style="width:30%;">
+														    	<label>-</label>
+														    	<input type="text" class="form-control" id="seach_cj_money_max"  style="width:30%;">
+														  </div>
+													</form>
+                    					</div>
+                    					<div style="width:50%;">
+                    							<form class="form-inline">
+														  <div class="form-group" style="display:flex;align-items:center;">
+														        <label for="exampleInput">立项时间范围:&nbsp;</label>
+														    	<input type="text" class="form-control" id="seach_time_min"  style="width:30%;">
+														    	<label>-</label>
+														    	<input type="text" class="form-control" id="seach_time_max"  style="width:30%;">
+														  </div>
+													</form>
+                    					</div>
+                    				</div>
+                    				<hr/>
+                    				<div class="yihang2">
+                    				<div style="width:50%;">
+                    							<form class="form-inline">
+														  <div class="form-group" style="display:flex;align-items:center;">
+														    	<label for="exampleInput">类&nbsp;&nbsp;型&nbsp;&nbsp;过&nbsp;&nbsp;滤&nbsp;:&nbsp;</label>
+														    	<select class="form-control"  id="serch_type" style="width:30%;">
+		                              								<option value="A1 定期和特殊检查">A1 定期和特殊检查</option>
+		                              								<option value="A2 监控量测">A2 监控量测</option>
+		                              								<option value="A3 其它综合检测">A3 其它综合检测</option>
+		                              								<option value="B1 施设">B1 施设</option>
+		                              								<option value="B2 初设+施设">B2 初设+施设</option>
+		                              								<option value="B3 预工可+初设+施设">B3 预工可+初设+施设</option>
+		                              								<option value="B4 预工可+施设">B4 预工可+施设</option>
+		                              								<option value="C1 维修加固施工">C1 维修加固施工</option>
+		                              								<option value="C2 新建施工">C2 新建施工</option>
+		                              								<option value="E1 BT项目">E1 BT项目</option>
+		                              								<option value="E2 EPC">E2 EPC</option>
+		                              								<option value="K1 科研">K1 科研</option>
+		                              								<option value="Q1 其他">Q1 其他</option>
+		                              								<option value="X1 信息化">X1 信息化</option>
+		                              							</select>
+														  </div>
+													</form>
+                    					</div>
+                    					
+                    				</div>
+                    			</div>
+                    		</div>
+                    	</div>
         <div class="LowerPart" style="margin-top:3px;">
             <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>  
@@ -63,6 +137,8 @@
                         <th style="width:120px;">合同工期</th>
                         <th style="width:120px;">管理部门</th>
                         <th style="width:120px;">项目负责人</th>
+                        
+                        <th style="width:120px;">合同状态</th>
                         <th style="width:120px;">合同金额</th>
                         <th style="width:120px;">暂定金</th>
                         <th style="width:120px;">部门所占金额</th>
@@ -72,7 +148,7 @@
                         <th style="width:120px;">累计成本</th>
                         <th style="width:120px;">已开票金额</th>
                         <th style="width:120px;">累计收款</th>
-                        <th style="width:120px;">合同状态</th>
+                        
                         <th style="width:120px;">合同决算金额</th>
                         <th style="width:120px;">分包合同编号</th>
                         <th style="width:120px;">分包合同名称</th>
@@ -87,6 +163,66 @@
                 </tbody>   
             </table>
         </div>
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+		    <div class="modal-dialog modal-lg" role="document">
+		        <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		            <h4 class="modal-title" id="myModalLabel"><b>分包合同统计</b></h4>
+		        </div>
+		        <div class="modal-body">
+		            <div>     
+		                <form class="form-inline">
+                        <table class="table table-bordered">
+                            <tr>
+                            	<td style="width:25%">数量</td>
+                            	<td style="width:25%" id="lookprjName"></td>
+                            	<td style="width:25%">统计合同金额</td>
+                            	<td style="width:25%" id="lookprjNo"></td>
+                            </tr>
+                            <tr>
+                            	<td>合同进度</td>
+                            	<td id="lookprjNo"></td>
+                            	<td>结算额</td>
+                            	<td id="lookprjNo"></td>
+                            </tr>
+                            <tr>
+                            	<td>付款</td>
+                            	<td id="lookyezhudanwei"></td>
+                            	<td></td>
+                            	<td id="lookprjType"></td>
+                            </tr>
+                            <tr>
+                            	<td>合同结算金额</td>
+                            	<td id="looktoubiaoren"></td>
+                            	<td>分包结算金额</td>
+                            	<td id="lookbaomingren"></td>
+                            </tr>
+                            <tr>
+                            	<td>应收款</td>
+                            	<td id="lookgoumairen"></td>
+                            	<td>分包未付金额</td>
+                            	<td id="lookyear2"></td>
+                            </tr>
+                            <tr>
+                            	<td>累计成本</td>
+                            	<td id="lookyear3"></td>	
+                            </tr>
+                             
+                        </table> 
+                        <br/>
+					
+					
+                    </form>   
+		            </div>
+		        </div>
+		        <div class="modal-footer">
+		        	<a href=""  class="btn btn-success" target="view_window"  id="dyyl">打印预览</a>
+		            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        </div>
+		        </div>
+		    </div>
+		</div>
     </div>
 </body>
 <script src="../../js/jquery.js"></script>
@@ -104,9 +240,15 @@
 <script src="../../js/datatables/buttons.html5.min.js" ></script>
 <script src="../../js/datatables/buttons.flash.min.js" ></script>
 <script src="../../js/datatables/jszip.min.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../select/js/select2.min.js"></script>
 <script>
     $(document).ready( function () {
     	initbumen();
+    	 $("#sousuodiv").hide();//超级搜索折叠div
+    	 $('#serch_type').editableSelect({ 
+             effects: 'slide' 
+         });
 	});
     //初始化提交部门
 	function initbumen(){
@@ -122,6 +264,7 @@
             	toastr.error("请求失败");
             },
             success: function (json) {
+            	$("#zhuban").append("<option value=allDepartmentA>全部</option>");
                 for(var i=0;i<json.length;i++){
                 	$("#zhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                 }
@@ -152,6 +295,7 @@
 		            { "data": "contractLongTime"},
 		            { "data": "omName"}, 
 		            { "data": "mainPrjLeader"},
+		            { "data": "cjStatus"},
 		            { "data": "cjmoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
 		            { "data": "temporaryMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},
 		            { "data": "mainDepartMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},
@@ -160,8 +304,7 @@
 		            { "data": "allCost", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
 		            { "data": null},
 		            { "data": "allKpMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
-		            { "data": "resultMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},
-		            { "data": "cjStatus"}, 
+		            { "data": "resultMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},	            
 		            { "data": "contractJueSuanMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},
 		            { "data": "fbNo"},
 		            { "data": "fbContract"}, 
@@ -174,7 +317,7 @@
 		        "columnDefs": [
 								{
 										 "class": "tcenter",
-										    "targets": 13,
+										    "targets": 14,
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										  	  		return full.leiJiChengBen==null?0.0:full.leiJiChengBen
@@ -282,5 +425,17 @@
 		  }   
 		}   
 	}
+    
+  //超级搜索折叠div
+    var zhediepanduan=true;
+    $("#zhedieBtn").click(function(){
+    	if(zhediepanduan==true){
+    		$("#sousuodiv").show(300);
+    		zhediepanduan=false;
+    	}else{
+    		$("#sousuodiv").hide(300);
+    		zhediepanduan=true;
+    	}
+    })
 </script>
 </html>
