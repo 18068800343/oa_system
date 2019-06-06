@@ -2,8 +2,11 @@ package org.ldxx.service.impl;
 
 import java.util.List;
 
+import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.ProjectOver;
+import org.ldxx.dao.OrganizationManagementDao;
 import org.ldxx.dao.ProjectOverDao;
+import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.ProjectOverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +18,10 @@ public class ProjectOverServiceImpl implements ProjectOverService {
 	
 	@Autowired
 	private ProjectOverDao prjDao;
-
+    @Autowired
+    private OrganizationManagementDao organizationManagementDao;
+    @Autowired
+    private CurrentFlowMapper CurrentFlowMapper;
 	@Override
 	public int addPrjOver(ProjectOver projectOver) {
 		return prjDao.addPrjOver(projectOver);
@@ -28,7 +34,15 @@ public class ProjectOverServiceImpl implements ProjectOverService {
 
 	@Override
 	public int updatePrjOverById(ProjectOver projectOver) {
-		return prjDao.updatePrjOverById(projectOver);
+		int i = prjDao.updatePrjOverById(projectOver);
+		String deptNo = projectOver.getCjDept();
+		OrganizationManagement oManagement = organizationManagementDao.selectOrgById(deptNo);
+		if(i>0){
+			if(null!=oManagement){
+			   CurrentFlowMapper.updateFkDeptByModeId(projectOver.getPoId(), oManagement.getOmNo());
+			}
+		}
+		return i;
 	}
 
 	@Override

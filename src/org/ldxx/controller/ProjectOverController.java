@@ -168,7 +168,7 @@ public class ProjectOverController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(projectOver.getPrjName()+"流程提交");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(projectOver.getPrjName()+"流程提交");
 			currentFlow.setUrl("jingyingguanliLook/TransferBid.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
@@ -217,7 +217,7 @@ public class ProjectOverController {
 			currentFlow.setParams("1");
 			currentFlow.setTitle(projectOver.getPrjName()+"流程提交");
 			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getUsername());;
+			currentFlow.setActorname(user.getuName());;
 			currentFlow.setMemo(projectOver.getPrjName()+"流程提交");
 			currentFlow.setUrl("jingyingguanliLook/TransferBid.html-"+id);
 			currentFlow.setParams("{'cs':'1'}");
