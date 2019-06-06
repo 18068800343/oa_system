@@ -46,11 +46,26 @@ public class CMDUtil {
 		}
 		return path;
 	}
-	
+	public static Map<String, String> getHDSpace(String pan){
+	      File[] files = File. listRoots();
+          Map<String, String> map = new HashMap<>();
+          for(File file:files) {
+               System. out.println(file+"磁盘的空间大小为：" +file.getTotalSpace()/1024/1024/1024+"G");
+               System. out.println(file+"磁盘的可使用空间大小为：" +file.getUsableSpace()/1024/1024/1024+"G");
+               System. out.println(file+"磁盘的空闲空间大小为：" +file.getFreeSpace()/1024/1024/1024+"G");
+               System. out.println("------------------------------------------------------------------" );
+               if(file.toString().contains(pan)){
+            	   map.put("totalSpace",file.getTotalSpace()/1024/1024/1024+"G");
+            	   map.put("usableSpace", file.getUsableSpace()/1024/1024/1024+"G");
+               }
+         }
+          return map;
+          
+	}
 	public static void main(String[] args){
 		//buildSqlBack();
 		//System.out.println(buildCard("G15320981L0080"));
 		//buildCheck(prj_id, id, chk_type, direction, span)
 		//CMDUtil.buildReport("5ae12893ba70494d880f13f8123d2911", "f76580f37a1c47db9443bee730be63e1", "bridge", "regular", "[{'arg':'1+5+2+3+6+4'},{'span':'1-2'}]");
-		
+		getHDSpace("D");
 	}}

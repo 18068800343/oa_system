@@ -18,6 +18,7 @@ import org.ldxx.bean.User;
 import org.ldxx.dao.UserDao;
 import org.ldxx.service.UserService;
 import org.ldxx.util.BeanUtil;
+import org.ldxx.util.CMDUtil;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -186,6 +187,12 @@ public class UserController {
 	@ResponseBody
 	public User selectUserById(String userId){
 		return userservice.selectUserById(userId);
+	}
+	
+	@RequestMapping("/getHDSpace")
+	@ResponseBody
+	public Map<String, String> getHDSpace(String pan){
+		return CMDUtil.getHDSpace(pan);
 	}
 	
 	@RequestMapping("/selectUserByomId")
