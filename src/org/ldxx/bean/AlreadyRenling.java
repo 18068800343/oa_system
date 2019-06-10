@@ -22,6 +22,7 @@ public class AlreadyRenling {
 	private String daozhangDate;//到账时间
 	private double fpMoney;//发票金额
 	private String kpDate;//开票日期
+	private String fpShuoming;//认领但未开票需要填写说明
 	
 	
 	private String status;
@@ -30,6 +31,12 @@ public class AlreadyRenling {
 	
 	
 	
+	public String getFpShuoming() {
+		return fpShuoming;
+	}
+	public void setFpShuoming(String fpShuoming) {
+		this.fpShuoming = fpShuoming;
+	}
 	public double getYirenlingallFpMoney() {
 		return yirenlingallFpMoney;
 	}
