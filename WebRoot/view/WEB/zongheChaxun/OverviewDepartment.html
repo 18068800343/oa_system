@@ -57,18 +57,25 @@
         </div> -->
         <div class="chaojisousuo" style="margin-bottom:4px;">        			
                     		<div class="sousuoClick" style="display:flex;justify-content: space-between;margin-bottom:4px;">
-                    		 <form class="form-inline">
-								  <div class="form-group">
-								   &nbsp;&nbsp; <label for="exampleInputName2">选择部门</label>
-								    <select  class="form-control" id="zhuban" >
-								    </select>
-								    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#allMsg1" id="">合同统计</button>&nbsp;&nbsp;
-								    <button type="button" class="btn btn-primary" id="">统计查询</button>&nbsp;&nbsp;
-								    <button type="button" class="btn btn-primary" style="width:100px;" id="zhedieBtn"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
-								  </div>
-						  	<!-- <button type="submit" class="btn btn-default" id="queryTable">查询</button> -->
-							</form>
-                    			
+                    		 <div class="yihang">
+	                    		 <form class="form-inline">
+									  <div class="form-group ">
+										  
+										   <label style="margin-left: 10px;" for="exampleInputName2">选择部门</label>
+										    <select  class="form-control" id="zhuban" >
+										    </select>
+										    <button type="button" class="btn btn-primary" style="width:100px;margin-left: 10px;" id="zhedieBtn"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
+										    <button type="button" class="btn btn-primary" style="margin-left: 10px;" id="">统计查询</button>
+										  	
+									   </div>
+							  	<!-- <button type="submit" class="btn btn-default" id="queryTable">查询</button> -->
+								</form>
+                    			</div>
+                    			<div class="yihang">
+                    				<button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#allMsg1" style="width:100px;margin-left: 10px;" id="">导出CSV</button>
+                    				<div id="tabBtn" style="margin-left: 10px;"></div>
+                    				<input class="form-control" id="searchData" value="" placeholder="搜索" type="text">
+                    			</div>
                     		</div>
                     		<div class="sousuoInput" id="sousuodiv">
                     			<div id="sousuoTable"  style="border:1px solid #eee;padding:5px;">             			
@@ -250,6 +257,7 @@
              effects: 'slide' 
          });
 	});
+    $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
     //初始化提交部门
 	function initbumen(){
 		$.ajax({
@@ -348,8 +356,38 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
+        "buttons": [
+        	{
+                extend: "csv",
+                text: "导出csv",
+                bom: true,
+                filename: '公司收材料出库信息',
+                fieldSeparator: ',',
+                exportOptions: {
+                	format: {
+                        header: function ( data) {
+                            return data;
+                        },
+                        body: function ( data, columnIdx, rowIdx, code ) {
+                        	if(rowIdx==0){
+                        		data=data.replace("</a>","")
+                        		data=data.replace('<a onclick="gotoPrj(this)" style="color:	#4876FF;cursor: pointer;">',"")
+                        	}
+                        	if(rowIdx==2){
+                        		data=data.replace("</a>","")
+                        		data=data.replace('<a onclick="gotoCg(this)" style="color:	#4876FF;cursor: pointer;">',"")
+                        	}
+			                return data;
+			            }
+                    },
+                    columns:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
+                }
+            }
+        ]
         
 	});
+ 	//table.buttons().container().appendTo( $('#tabBtn') );
+ 	//$('.buttons-csv').addClass('btn btn-primary');
  
  	$("#zhuban").on("change",function(){
  		$('#mainContent').dataTable().fnClearTable();
@@ -436,6 +474,12 @@
     		$("#sousuodiv").hide(300);
     		zhediepanduan=true;
     	}
-    })
+    });
+    
+    $("#searchData").on("input", function(e){
+		var d = $("#searchData").val();
+		$("#mainContent").DataTable().search(d).draw(true);
+	});
+    
 </script>
 </html>
