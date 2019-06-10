@@ -42,10 +42,13 @@
     <div class="zhuti-content">
         <div class="UpperPart">
             <div class="UpperPartL">
+            	<button type="button" class="btn btn-primary Pcab"  data-toggle="modal" data-target="#myModal2">导入到账记录</button>
+                <button type="button" class="btn btn-primary Pcaa" data-toggle="modal" data-target="#myModal">新建到账记录</button>
             </div>
             <div class="UpperPartR">
-                <button type="button" class="btn btn-primary Pcab"  data-toggle="modal" data-target="#myModal2">导入到账记录</button>
-                <button type="button" class="btn btn-primary Pcaa" data-toggle="modal" data-target="#myModal">新建到账记录</button>
+                <div class='yihang'>
+                    <input class="form-control" id="searchData" value="" placeholder="搜索" type="text">
+                </div>
             </div>
 <!-- Modal2 -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
@@ -383,6 +386,12 @@
                          			<td></td>
                          			<td></td>
                          		</tr>
+                         		<tr>
+		                            	<td class="jingyongkk">说明</td>
+		                            	<td colspan="3">
+		                            		<textarea class="form-control" id="fp_shuoming"  cols="80" rows="4"></textarea>
+		                            	</td>
+		                            </tr>
                          	</tfoot>
                          </table>
                          
@@ -590,6 +599,9 @@
         "processing": true,
         "bDestroy": true,
         "iDisplayLength": 10,
+        "sDom": 
+			"t"+
+			"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -1263,18 +1275,26 @@
 			toastr.error("本次确认金额不能为空且只能有两位小数");
 			return;
 		}
-		if($("#fp_shengyu_money").val()=="0"){
-			toastr.error("发票剩余金额不足,请重新申请发票");
-			return;
+		if($("#fapiaoshengqinhao").val()!=""){
+			if($("#fp_shengyu_money").val()=="0"){
+				toastr.error("发票剩余金额不足,请重新申请发票");
+				return;
+			}
+			if($("#bencijine").val()/1>$("#fp_shengyu_money").val()/1){
+				toastr.error("本次确认金额不能大于发票剩余金额");
+				return;
+			}
+			if($("#fp_no").val()==""){
+				toastr.error("发票编号不能为空,请补录发票编号")
+				return;
+			}
+		}else{
+			if($("#fp_shuoming").val()==""){
+				toastr.error("请简要说明没有开票申请却需要认领收款的需求说明")
+				return;
+			}
 		}
-		if($("#bencijine").val()/1>$("#fp_shengyu_money").val()/1){
-			toastr.error("本次确认金额不能大于发票剩余金额");
-			return;
-		}
-		if($("#fp_no").val()==""){
-			toastr.error("发票编号不能为空,请补录发票编号")
-			return;
-		}
+		
 		var jine=0;
     	var bumemArr=new Array();
     	$("#xieban1 tbody").find("tr").each(function(){
@@ -1317,6 +1337,7 @@
     		var fp_money=$("#fp_money").val();
     		var fp_shengyu_money=$("#fp_shengyu_money").val();
     		var queren_person=$("#queren_person").val();
+    		var fp_shuoming=$("#fp_shuoming").val();
     		
     		var AlreadyRenling={
     				rId:undefined,
@@ -1340,6 +1361,7 @@
     				kpDate:undefined,
     				asoList:undefined,
     				status:0,
+    				fpShuoming:undefined,
     		}
     		AlreadyRenling.rId=null;
     		AlreadyRenling.querenNo=null;
@@ -1361,6 +1383,7 @@
     		AlreadyRenling.fpMoney=fp_money;
     		AlreadyRenling.kpDate=kpDate;
    			AlreadyRenling.asoList=bumemArr;
+   			AlreadyRenling.fpShuoming=fp_shuoming;
    			if(querenjine>0){
 	    		AlreadyRenling.status="1";
    			}else{
@@ -1636,6 +1659,11 @@
 		$("#form1").ajaxSubmit(options);
 	}
     
+    
+    $("#searchData").on("input", function(e){
+		var d = $("#searchData").val();
+		$("#mainContent").DataTable().search(d).draw(true);
+	});
     
 </script>
 </html>

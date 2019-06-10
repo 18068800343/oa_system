@@ -55,7 +55,6 @@
             </div>
             <div class="UpperPartR">
                 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新建款项认领</button> -->
-                <div id="tabBtn" style="margin-left: 10px;"></div>
             </div>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -325,10 +324,13 @@
         	
         	<div class="chaojisousuo" style="margin-bottom:4px;">
                     		<div class="sousuoClick" style="display:flex;justify-content: space-between;margin-bottom:4px;">
-                    				<div></div>
-                    				<div>
-                   						<button type="button" class="btn btn-info" onclick="seachAll()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>搜索</button>
+                    				<div class='yihang'>
+                    					<div id="tabBtn" style="margin-left: 10px;"></div>&nbsp;&nbsp;
+                   						<button type="button" class="btn btn-info" onclick="seachAll()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>搜索</button>&nbsp;&nbsp;
                     					<button type="button" class="btn btn-primary" style="width:100px;" id="zhedieBtn"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
+                    				</div>
+                    				<div class='yihang'>
+                    					<input class="form-control" id="searchData" value="" placeholder="搜索" type="text">
                     				</div>
                     		</div>
                     		<div class="sousuoInput" id="sousuodiv">
@@ -370,13 +372,14 @@
                         <th style="width:100px;">发票编号</th>
                         <th style="width:100px;">主办部门</th>
                         <th style="width:150px;">付款单位</th>
-                        <th style="width:100px;"  class="jinqianyanse">到账总金额(元)</th>
-                        <th style="width:100px;" class="jinqianyanse">收款确认金额(元)</th>
+                        <th style="width:150px;"  class="jinqianyanse">到账总金额(元)</th>
+                        <th style="width:150px;" class="jinqianyanse">收款确认金额(元)</th>
                         <th style="width:200px;">发票摘要</th>
                         <th style="width:100px;">确认日期</th>
                         <th style="width:100px;">到账日期</th>
-                        <th style="width:100px;" class="jinqianyanse">发票金额(元)</th>
+                        <th style="width:150px;" class="jinqianyanse">发票金额(元)</th>
                         <!-- <th style="width:100px;">开票日期</th> -->
+                        <th style="width:150px;">备注栏</th>
                         <th style="width:100px;">操作</th>
                     </tr>
                 </thead>
@@ -639,6 +642,9 @@
         "autoWidth": true,
         "sScrollX": true,
         "iDisplayLength": 10,
+        "sDom": 
+			"t"+
+			"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -662,7 +668,8 @@
 		            { "data": "querenDate"}, 
 		            { "data": "daozhangDate"}, 
 		            { "data": "fpMoney",render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
-		            //{ "data": "kpDate"}, 
+		            //{ "data": "kpDate"},
+		            { "data": "fpShuoming"},
 		            { "data": null}
 		        ],
 		         "columnDefs": [
@@ -680,7 +687,7 @@
 										  },
 										  {	
 												 "class": "tcenter",
-												    "targets": 17,
+												    "targets": 18,
 												    "searchable": true,
 												    "render": function(data, type, full) {
 												    	if(full.fpNo==null||full.fpNo==""){
@@ -750,7 +757,7 @@
 				                return data;
 				            }
 	                    },
-	                    columns:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+	                    columns:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]
 	                }
 	            }
 	        ]
@@ -1630,6 +1637,11 @@
 		$(obj).attr("href",'../shengchanGuanli/ContractManagement.html?cjId='+data.htContract+'');
 		
     }
+    
+    $("#searchData").on("input", function(e){
+		var d = $("#searchData").val();
+		$("#mainContentx").DataTable().search(d).draw(true);
+	});
     
 </script>
 </html>
