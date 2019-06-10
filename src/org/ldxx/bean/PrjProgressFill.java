@@ -39,6 +39,9 @@ public class PrjProgressFill {
 	
 	private double totalCost;//财务累计成本
 	
+	private String thismonthCompletecontent;//本月完成主要内容
+	private String nextmoneyPlan;//下月计划
+	
 	private List<PrjProgressFillFb> ppfb;
 	/*private List<PrjProgressFillCj> ppcj;*/
 	private List<PrjProgressFillInfo> ppfi;// 累计收入
@@ -57,6 +60,19 @@ public class PrjProgressFill {
 	private double jnMoney;//本年度收入金额
 	
 	
+	
+	public String getThismonthCompletecontent() {
+		return thismonthCompletecontent;
+	}
+	public void setThismonthCompletecontent(String thismonthCompletecontent) {
+		this.thismonthCompletecontent = thismonthCompletecontent;
+	}
+	public String getNextmoneyPlan() {
+		return nextmoneyPlan;
+	}
+	public void setNextmoneyPlan(String nextmoneyPlan) {
+		this.nextmoneyPlan = nextmoneyPlan;
+	}
 	public double getEndMoney() {
 		return endMoney;
 	}

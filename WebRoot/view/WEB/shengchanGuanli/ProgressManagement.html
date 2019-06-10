@@ -57,13 +57,16 @@
     			<div role="tabpanel" class="tab-pane active" id="home">
     				<div class="UpperPart">
 			            <div class="UpperPartL">
-			                	<button type="button" class="btn btn-primary Peea"  onclick="showNow()">显示最新</button>
-			            </div>
-			            <div class="UpperPartR">
-			            	<div class="yihang">
+			                	<div class="yihang" style='margin:5px;'>
+			                	<button type="button" class="btn btn-primary Peea"  onclick="showNow()">显示最新</button>&nbsp;&nbsp;
 			           			<button type="button" class="btn btn-primary Peea" data-toggle="modal" data-target="#myModal">填报进度</button>
 				                <div id="tabBtn" style="margin-left: 10px;"></div>
 				            </div>
+			            </div>
+			            <div class="UpperPartR">
+			            	<div class='yihang' style='margin:5px;'>
+                				<input class="form-control" id="searchData" value="" placeholder="搜索" type="text">
+                			</div>
 			            </div>
 			         </div>
 			<!-- Modal -->
@@ -139,6 +142,14 @@
 				                                <td><input type="text" class="form-control" id="this_time" style="width:60%;"></td>
 				                                <td class="jingyongkk">项目经营模式</td>
 				                                <td><input type="text" class="form-control" id="prj_mode" style="width:70%;" disabled></td>
+				                            </tr>
+				                            <tr>
+				                            	<td>本月完成主要内容</td>
+                                  				<td colspan="3"><textarea class="form-control" id="thismonth_completecontent"  cols="80" rows="4"></textarea></td>
+				                            </tr>
+				                            <tr>
+				                            	<td>下月计划</td>
+                                  				<td colspan="3"><textarea class="form-control" id="nextmoney_plan"  cols="80" rows="4"></textarea></td>
 				                            </tr>
 				                         </tbody>
 			                        </table>
@@ -871,15 +882,18 @@
     		<br/>
     				<div class="UpperPart">
 			            <div class="UpperPartL" style="font-size:18px;">
-	                       			<form class="form-inline">
-		                                <label>月份筛选:</label>
-		                                <input type="text" class="form-control" id="yuefenshaixuan2">
-	                            	</form>
+	                            	<div class="yihang">
+		                       			<form class="form-inline">
+			                                <label>月份筛选:</label>
+			                                <input type="text" class="form-control" id="yuefenshaixuan2">
+		                            	</form>
+						                <div id="tabBtnyfjd" style="margin-left: 10px;"></div>
+						            </div>
 	                        </div>
 			            <div class="UpperPartR">
-			            	<div class="yihang">
-				                <div id="tabBtnyfjd" style="margin-left: 10px;"></div>
-				            </div>
+			            	<div class='yihang'>
+			                    <input class="form-control" id="searchData3" value="" placeholder="搜索" type="text">
+			                </div>
 			            </div>
 			         </div>
 
@@ -968,6 +982,14 @@
                             <td id="look_this_time"></td>
                             <td>项目经营模式</td>
                             <td id="look_prj_mode"></td>
+                        </tr>
+                        <tr>
+                           	<td>本月完成主要内容</td>
+                            <td colspan="3" id="look_thismonth_completecontent"> </td>
+                        </tr>
+                        <tr>
+                           	<td>下月计划</td>
+                            <td colspan="3" id="look_nextmoney_plan"></td>
                         </tr>
                     	</tbody>
                     </table>
@@ -1210,6 +1232,9 @@
         "processing": true,
         "bDestroy": true,
         "iDisplayLength": 10,
+        "sDom": 
+			"t"+
+			"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -1352,6 +1377,9 @@
         "processing": true,
         "bDestroy": true,
         "iDisplayLength": 10,
+        "sDom": 
+			"t"+
+			"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -1599,6 +1627,17 @@
         }}
         
 	});
+  
+    $("#searchData").on("input", function(e){
+		var d = $("#searchData").val();
+		$("#mainContent").DataTable().search(d).draw(true);
+	});
+    
+    $("#searchData3").on("input", function(e){
+		var d = $("#searchData3").val();
+		$("#mainContentyfjd").DataTable().search(d).draw(true);
+	});
+    
 	function initTable(){
         $.ajax({
             type: 'POST',
@@ -2931,6 +2970,8 @@
     	var this_time_money_yuan=$("#this_time_money_yuan").val();
     	var rate=$("#new_rate").val();
     	var rateMoney=$("#new_rate_money").val();
+    	var thismonthCompletecontent=$("#thismonth_completecontent").val();
+    	var nextmoneyPlan=$("#nextmoney_plan").val();
     	
     	var PrjProgressFill={
     			ppfId:undefined,
@@ -2956,7 +2997,9 @@
     			ppfi:undefined,
     			ppfb:undefined,
     			rate:0,
-    			rateMoney:0
+    			rateMoney:0,
+    			thismonthCompletecontent:undefined,
+    			nextmoneyPlan:undefined,
     	}
     	
     	PrjProgressFill.prjName=prj_name;
@@ -2980,6 +3023,8 @@
     	PrjProgressFill.secondDesign=shigongtu;
     	PrjProgressFill.rate=rate;
     	PrjProgressFill.rateMoney=rateMoney;
+    	PrjProgressFill.thismonthCompletecontent=thismonthCompletecontent;
+    	PrjProgressFill.nextmoneyPlan=nextmoneyPlan;
     	
     	var ppfiArray=new Array();
     	var ppfbArray=new Array();
@@ -3129,6 +3174,8 @@
     	var this_time_money_yuan=$("#this_time_money_yuan").val();
     	var rate=$("#new_rate").val();
     	var rateMoney=$("#new_rate_money").val();
+    	var thismonthCompletecontent=$("#thismonth_completecontent").val();
+    	var nextmoneyPlan=$("#nextmoney_plan").val();
     	
     	var PrjProgressFill={
     			ppfId:undefined,
@@ -3156,7 +3203,9 @@
     			/* ppcj:undefined, */
     			ppfb:undefined,
     			rate:0,
-    			rateMoney:0
+    			rateMoney:0,
+    			thismonthCompletecontent:undefined,
+    			nextmoneyPlan:undefined,
     	}
     	
     	PrjProgressFill.prjName=prj_name;
@@ -3180,6 +3229,8 @@
     	PrjProgressFill.secondDesign=shigongtu;
     	PrjProgressFill.rate=rate;
     	PrjProgressFill.rateMoney=rateMoney;
+    	PrjProgressFill.thismonthCompletecontent=thismonthCompletecontent;
+    	PrjProgressFill.nextmoneyPlan=nextmoneyPlan;
     	
     	var ppfiArray=new Array();
     	/* var ppfiArray2=new Array(); */
@@ -3583,6 +3634,9 @@
             	$("#look_all_money").text(json.allMoney);
             	$("#look_rate").text(json.rate);
             	$("#look_rate_money").text(json.rateMoney);
+            	$("#look_thismonth_completecontent").text(json.thismonthCompletecontent==null?"":json.thismonthCompletecontent);
+            	$("#look_nextmoney_plan").text(json.nextmoneyPlan==null?"":json.nextmoneyPlan)
+            	
             	var type=json.prjType;
             	$("#span_button").html('');
             	if(type.indexOf("B")!=-1){
