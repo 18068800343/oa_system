@@ -11,6 +11,8 @@ public interface PrjRecordDao {
 	
 	public List<PrjRecord> selectPrjRecord();
 	
+	public List<PrjRecord> selectPrjRecordById(@Param("id")String id);
+	
 	public int updateJyStatus(@Param("id")String id,@Param("status")int status);
 	
 	public int updateScStatus(@Param("id")String id,@Param("status")int status);

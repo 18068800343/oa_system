@@ -1335,7 +1335,7 @@
 		        success: function (json) {
 		        	lianjie=json.url;
 	            	if(json.receiver!=null&&json.receiver.length>=1){
-		            	  $("#").modal('show');
+		            	  $("#tijiaogei").modal('show');
 		        		  $("#tijiaoren tbody").empty("");
 		        		  for(var i=0;i<json.receiver.length;i++){
 		        			  $("#tijiaoren tbody").append('<tr><td>'
@@ -1514,44 +1514,15 @@
 	          url: getContextPath()+'/PrjRecord/delPrj',
 	          dataType: 'json',
 	          data:{
-	        	 id:data.id,
-	        	 prName:data.prjName
+	        	 id:data.id
 	          },
 	          success: function (json) {
-		        	lianjie=json.url;
-	            	if(json.receiver!=null&&json.receiver.length>=1){
-		            	  $("#tijiaogei").modal('show');
-		        		  $("#tijiaoren tbody").empty("");
-		        		  for(var i=0;i<json.receiver.length;i++){
-		        			  $("#tijiaoren tbody").append('<tr><td>'
-		        					  +'<input type="radio" style="width:22px;height:22px;" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
-		        					  +'</td><td>'
-		        					  +json.receiver[i].omName
-		        					  +'</td><td>'
-		        					  +json.receiver[i].dutyName
-		        					  +'</td><td>'
-		        					  +json.receiver[i].uName
-		        					  +'</td></tr>');
-		        		  }
-		        	  }else if(json.receiver.length==1){
-		        		  $.ajax({
-		        	          type: 'POST',
-		        	          url: getContextPath()+'/task/addTask4',
-		        	          dataType: 'json',
-		        	          data:{
-		        	        	  url:json.url,
-		        	        	  userId:json.receiver.userId,
-		        	        	  uName:json.receiver.uName,
-		        	        	  omName:json.receiver.omName,
-		        	        	  dutyName:json.receiver.dutyName,
-		        	        	  omId:json.receiver.omId,
-		        	        	  dutyId:json.receiver.dutyId
-		        	          },
-		        	          success: function (json) {
-		        	        	  toastr.success('提交成功');
-		        	          }
-		        	      }); 
-		        	  }
+	        	 if(json>0){
+	        		 $("#mainContent").DataTable().row(tr).remove().draw(false);
+	        		 toastr.success('删除成功');
+	        	 }else{
+	        		 toastr.error('删除失败');
+	        	 }
 	          }
 	      }); 
 	 }

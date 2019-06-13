@@ -222,8 +222,8 @@
                 </div> -->
             </div>
             <div style="display:flex;">
-                    <div id="totalSpace" class="lodingmsg" >磁盘空间：</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <div id="usableSpace" class="lodingmsg" >剩余空间：</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div id="totalSpace" class="lodingmsg" style="display:none;">磁盘空间：</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div id="usableSpace" class="lodingmsg" style="display:none;">剩余空间：</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             		<div id="omName" class="lodingmsg" ></div>&nbsp;&nbsp;&nbsp;
             		<div  id="uName" onclick="tanchulai()" class="lodingmsg"></div>&nbsp;&nbsp;&nbsp;
             		<div onclick="exit()" id="tuichu" class="lodingmsg"></div>&nbsp;&nbsp;
@@ -884,7 +884,7 @@
 	<script type="text/javascript">
 	var user;
 	$(document).ready(function(){
-		getHDSpace();
+		
 		$.ajax({
     		type:"post",
     		url:getContextPath()+"/login/getUser",
@@ -892,6 +892,7 @@
     		},
     		success:function(json){
     			user=json;
+    			getHDSpace();
     			if(json!=null &&json!=""){
     				$("#omName").text(json.omName)
     				$("#uName").text(json.uName)
@@ -915,6 +916,13 @@
     		success:function(json){
                $("#totalSpace").append(json.totalSpace);
                $("#usableSpace").append(json.usableSpace);
+               if(user.uName=='shiro'||user.uName=='王军'){
+            	   $("#totalSpace").show();
+            	   $("#usableSpace").show();
+               }else{
+            	   $("#totalSpace").hide();
+            	   $("#usableSpace").hide();
+               }
     		}
     	})
 	}

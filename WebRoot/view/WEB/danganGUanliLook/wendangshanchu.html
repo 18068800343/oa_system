@@ -45,7 +45,7 @@
     	<ul class="breadcrumb">
     		<li><i class="iconfont icon-knowledgebase"></i></li>
             <li>档案管理</li>
-			<li class="active">项目档案</li>
+			<li class="active">项目档案删除流程</li>
 		</ul>
     </div>
 
@@ -67,14 +67,14 @@
 
         </div> -->
         <div class="LowerPart">
-        	<div style="display:flex;justify-content: space-between;margin-bottom:4px;">
+<!--         	<div style="display:flex;justify-content: space-between;margin-bottom:4px;">
              		<div class="yihang">
              			<button type="button" class="btn btn-primary Pjaxa" data-toggle="modal" data-target="#myModal">新增归档</button>
              		</div>
              		<div class='yihang'>
 		                <input class="form-control" id="searchData" value="" placeholder="搜索" type="text">
 		             </div>
-             </div>
+             </div> -->
             <table class="table table-bordered table-condensed" id="mainContent">
                 <thead>
                     <tr>
@@ -85,7 +85,6 @@
                         <th style="width:15%;">经营资料是否归档</th>
                         <th style="width:10%;">生产责任部门</th>
                         <th style="width:15%;">生产资料是否归档</th>
-                        <th style="width:6%;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -168,7 +167,6 @@
 		                        <th style="width:25%">主要工作内容</th>
 		                        <th style="width:25%">存档形式</th>
 		                        <th style="width:25%">是否强制</th>
-		                        <th style="width:25%">操作</th>
 		                    </tr>
 		                </thead>
 		                <tbody>
@@ -176,37 +174,31 @@
 		                    	<td>招标文件</td>
 		                    	<td>纸质或电子</td>
 		                    	<td>强制</td>
-		                    	<td><button type="button" class="btn btn-primary weui-uploader__input"  id="uploaderBox1">添加附件</button></td>
 		                    </tr>
 		                    <tr id="zb2">
 		                    	<td>招标图纸</td>
 		                    	<td>纸质或电子</td>
 		                    	<td>强制</td>
-		                    	<td><button type="button" class="btn btn-primary weui-uploader__input "  id="uploaderBox2">添加附件</button></td>
 		                    </tr>
 		                    <tr id="zb3">
 		                    	<td>投标文件(技术+商务)</td>
 		                    	<td>纸质或电子</td>
 		                    	<td>强制</td>
-		                    	<td><button type="button" class="btn btn-primary weui-uploader__input "  id="uploaderBox3">添加附件</button></td>
 		                    </tr>
 		                    <tr id="zb4">
 		                    	<td>中标通知书(原件由经营部存档)</td>
 		                    	<td>纸质及电子</td>
 		                    	<td>强制</td>
-		                    	<td><button type="button" class="btn btn-primary weui-uploader__input "  id="uploaderBox4">添加附件</button></td>
 		                    </tr>
 		                    <tr id="zb5">
 		                    	<td>开标记录</td>
 		                    	<td>纸质或电子</td>
 		                    	<td>强制</td>
-		                    	<td><button type="button" class="btn btn-primary weui-uploader__input "  id="uploaderBox5">添加附件</button></td>
 		                    </tr>
 		                    <tr id="zb6">
 		                    	<td>其他</td>
 		                    	<td>纸质或电子</td>
 		                    	<td>不强制</td>
-		                    	<td><button type="button" class="btn btn-primary weui-uploader__input "  id="uploaderBox6">添加附件</button></td>
 		                    </tr>
 		                </tbody>   
 		            </table>
@@ -216,7 +208,6 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" onclick="saveSc()">保存</button>
         </div>
         </div>
     </div>
@@ -303,7 +294,6 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" onclick="baoCun()">保存</button>
         </div>
         </div>
     </div>
@@ -419,6 +409,15 @@
     	initTable();
     	initDept();
 	});
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   	no=GetQueryString("no");
+   	
     var table=$('#mainContent').dataTable({
         "deferRender": true,
         "processing": true,
@@ -440,7 +439,6 @@
 		            { "data": "jyStatus"},
 		            { "data": "scDept"},
 		            { "data": "scStatus"},
-		            { "data": null},
 		        ],
 		        "columnDefs": [
 							  {	
@@ -451,7 +449,7 @@
 										    	if(data==0){
 										    		return '<button type="button" class="btn btn-danger Pjaxb"  onclick="look(this)">未归档</button>'
 										    	}else if(data==1){
-										    		return '<button type="button" class="btn btn-info Pjaxb"  onclick="look(this)">部分归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary"   onclick="submitJY(this)">提交</button>'
+										    		return '<button type="button" class="btn btn-info Pjaxb"  onclick="look(this)">部分归档</button>'
 										    	}else if(data==2){
 										    		return '<button type="button" class="btn btn-primary Pjaxb"  onclick="lookJY(this)">已归档</button>'
 										    	}else if(data==3){
@@ -467,7 +465,7 @@
 											    	if(data==0){
 											    		return '<button type="button" class="btn btn-danger Pjaxb"  onclick="look2(this)">未归档</button>'
 											    	}else if(data==1){
-											    		return '<button type="button" class="btn btn-info Pjaxb"  onclick="look2(this)">部分归档</button>&nbsp&nbsp<button type="button" class="btn btn-primary"  onclick="submitSC(this)">提交</button>'
+											    		return '<button type="button" class="btn btn-info Pjaxb"  onclick="look2(this)">部分归档</button>'
 											    	}else if(data==2){
 											    		return '<button type="button" class="btn btn-primary Pjaxb" onclick="lookQt(this)">已归档</button>'
 											    	}else if(data==3){
@@ -475,14 +473,7 @@
 											    	}
 											    	
 											     }
-											  },{	
-													 "class": "tcenter",
-													    "targets": 7,
-													    "searchable": true,
-													    "render": function(data, type, full) {
-															return '<i class="iconfont icon-shanchu" style="font-size: 18px; cursor: pointer;" title="删除" onclick="delPrj(this)"></i>';													    	
-													     }
-													  }
+											  }
 							],
 							"fnDrawCallback" : function() {
 								$.ajax({
@@ -582,9 +573,10 @@
 	function initTable(){
         $.ajax({
             type: 'POST',
-            url: getContextPath()+'/PrjRecord/selectPrjRecord',
+            url: getContextPath()+'/PrjRecord/selectPrjRecordById',
             dataType: 'json',
             data: {
+            	id:id
             },
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
@@ -671,17 +663,6 @@
 			
 		}else{
 			stateArray.push(panbie);
-			$(obj).parent().parent().after("<tr class='qwe"+panbie+"'><td colspan='4'>"
-					+'<table class="table table-bordered table-condensed" id="all_table'+panbie+'">'
-	                +'<thead>'
-	            	+'<tr>'
-	                +'<td style="width:15%;">附件</td>'
-	                +'<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox'+panbie+'">添加附件</button></td>'
-	                +'</tr>'
-	            	+'</thead>'
-	            	+'<tbody></tbody>'
-            		+'</table>'
-					+"</td></tr>");
 			
 			$(obj).removeClass("glyphicon-chevron-down");
 			$(obj).addClass("glyphicon-chevron-up");
@@ -694,7 +675,6 @@
         $(this).parent().parent().after("<tr class='append_tr'>"+
         											"<td>新附件</td>"+
         											"<td colspan='2'><input type='file' name='file1' /></td>"+
-        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
         								      "</tr>");
         
     });
@@ -702,7 +682,6 @@
         $(this).parent().parent().after("<tr class='append_tr'>"+
         											"<td>新附件</td>"+
         											"<td colspan='2'><input name='file2' type='file'/></td>"+
-        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
         								      "</tr>");
         
     });
@@ -710,7 +689,6 @@
         $(this).parent().parent().after("<tr class='append_tr'>"+
         											"<td>新附件</td>"+
         											"<td colspan='2'><input name='file3' type='file'/></td>"+
-        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
         								      "</tr>");
         
     });
@@ -718,7 +696,6 @@
         $(this).parent().parent().after("<tr class='append_tr'>"+
         											"<td>新附件</td>"+
         											"<td colspan='2'><input name='file4' type='file'/></td>"+
-        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
         								      "</tr>");
         
     });
@@ -726,7 +703,6 @@
         $(this).parent().parent().after("<tr class='append_tr'>"+
         											"<td>新附件</td>"+
         											"<td colspan='2'><input name='file5' type='file'/></td>"+
-        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
         								      "</tr>");
         
     });
@@ -734,7 +710,6 @@
         $(this).parent().parent().after("<tr class='append_tr'>"+
         											"<td>新附件</td>"+
         											"<td colspan='2'><input name='file6' type='file'/></td>"+
-        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
         								      "</tr>");
         
     });
@@ -766,42 +741,36 @@
 	            	   $("#zb1").after("<tr class='append_tr'>"+
 								"<td>附件</td>"+
 		            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
-		            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 		            	    "</tr>");
 	            	}
 	            	if(json[i].aType=="JY招标图纸"){
 		            	   $("#zb2").after("<tr class='append_tr'>"+
 									"<td>附件</td>"+
 			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY投标文件(技术+商务)"){
 		            	   $("#zb3").after("<tr class='append_tr'>"+
 									"<td>附件</td>"+
 			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY中标通知书(原件由经营部存档)"){
 		            	   $("#zb4").after("<tr class='append_tr'>"+
 									"<td>附件</td>"+
 			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY开标记录"){
 		            	   $("#zb5").after("<tr class='append_tr'>"+
 									"<td>附件</td>"+
 			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY其他"){
 		            	   $("#zb6").after("<tr class='append_tr'>"+
 									"<td>附件</td>"+
 			            	    	"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' data3='"+json[i].acName+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+
 			            	    "</tr>");
 		            }
 	            } 
@@ -856,48 +825,36 @@
 	            	   $("#zb1_look").after("<tr class='lookfujian'>"+
 								"<td>附件</td>"+
 								"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
-		            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-		            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+ */
 		            	    "</tr>");
 	            	}
 	            	if(json[i].aType=="JY招标图纸"){
 		            	   $("#zb2_look").after("<tr class='lookfujian'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
-			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+ */
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY投标文件(技术+商务)"){
 		            	   $("#zb3_look").after("<tr class='lookfujian'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
-			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+ */
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY中标通知书(原件由经营部存档)"){
 		            	   $("#zb4_look").after("<tr class='lookfujian'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
-			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+ */
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY开标记录"){
 		            	   $("#zb5_look").after("<tr class='lookfujian'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
-			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+ */
 			            	    "</tr>");
 		            }
 	            	if(json[i].aType=="JY其他"){
 		            	   $("#zb6_look").after("<tr class='lookfujian'>"+
 									"<td>附件</td>"+
 									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
-			            	    	/* "<td colspan='2'><input type='text' style='width:80%;' class='form-control fujian' value='"+json[i].acName+"' disabled></td>"+
-			            	    	"<td style='width:100px;'><button type='button' class='btn btn-danger' data1='"+json[i].acUrl+"' data2='"+json[i].aId+"' onclick='delete_thisFile(this)'>删除附件</button></td>"+ */
 			            	    "</tr>");
 		            }
 	            } 
@@ -941,47 +898,6 @@
             }
         });  
   	}
-	
-	function saveSc(){
-		/* var formData = new FormData();
-		$("#all_table tbody").find("tr").each(function(){
-	  			formData.append("file1", $(this).find("input[name='file1']")[0].files[0]);
-	  			formData.append("file2", $(this).find("input[name='file2']")[0].files[0]);
-	  			formData.append("file3", $(this).find("input[name='file3']")[0].files[0]);
-	  			formData.append("file4", $(this).find("input[name='file4']")[0].files[0]);
-	  			formData.append("file5", $(this).find("input[name='file5']")[0].files[0]);
-  		})
-	  	 formData.append("id",jyId); */
-	  	 var options={
-	  			type: 'POST',
-	            url: getContextPath()+'/PrjRecord/addScRecord',
-	            data: {
-	            	id:jyId
-	            },  
-	            dataType: 'json',
-	            success: function (json) {
-	            	var result=json.result;
-	            	if(result>0){
-	            		var num=json.num;
-	            		if(num>0){
-	            			datas.jyStatus=1;
-	            		}else{
-	            			datas.jyStatus=0;
-	            		}
-	            		$("#myModalss").modal("hide");
-	            		toastr.success("保存成功")
-	            		$("#mainContent").DataTable().row(dom).data(datas).draw(false);
-	            	}else if(result==-1){
-	            		toastr.error("本次未传附件")
-	            	}else{
-	            		toastr.error("保存失败")
-	            	}
-	            }
-	  	 }
-		  $("#jy_form").ajaxSubmit(options);          	
-	}
-	
-	
 	
 	//保存经营资料
 	/* function xxxxxx{
@@ -1110,16 +1026,16 @@
 		type=data.prjType;
 		if(data.prjType.indexOf("C")>=0){
 			//施工文档资料
-			$("#lookdangan").attr('src', '../danganGUanliChange/ConstructionDocumentLook.html?prjId='+data.id);
+			$("#lookdangan").attr('src', '../danganGUanliChange/ConstructionDocumentLook2.html?prjId='+data.id);
 		}else if(data.prjType.indexOf("A")>=0){
 			//检测评估资料
-			$("#lookdangan").attr('src', '../danganGUanliChange/DetectionEvaluationLook.html?prjId='+data.id);
+			$("#lookdangan").attr('src', '../danganGUanliChange/DetectionEvaluationLook2.html?prjId='+data.id);
 		}else if(data.prjType.indexOf("B")>=0){
 			//设计文件资料
-			$("#lookdangan").attr('src', '../danganGUanliChange/designDocumentLook.html?prjId='+data.id);
+			$("#lookdangan").attr('src', '../danganGUanliChange/designDocumentLook2.html?prjId='+data.id);
 		}else if(data.prjType.indexOf("K")>=0){
 			//科技文档资料
-			$("#lookdangan").attr('src', '../danganGUanliChange/ScienceTechnologyLook.html?prjId='+data.id);
+			$("#lookdangan").attr('src', '../danganGUanliChange/ScienceTechnologyLook2.html?prjId='+data.id);
 		}
 		
 	}	
@@ -1143,75 +1059,6 @@
 		}
 		
 	}
-	
-	
-	
-	
-	
-	 function baoCun(){
-	    	var childWindow = $("#lookdangan")[0].contentWindow; //表示获取了嵌入在iframe中的子页面的window对象。  []将JQuery对象转成DOM对象，用DOM对象的contentWindow获取子页面window对象。
-	    	if(type.indexOf("C")>=0){
-				//施工文档资料
-	    		var result = childWindow.baocunSG();
-	    		if(result=='0'||result==undefined){
-	      			toastr.error("保存出错");
-	      			return false;
-	  		    }else if(result=='-1'){
-	  		    	toastr.error("本次未上传附件");
-	      			return false;
-	  		    }else{
-	      			toastr.success("保存成功");
-	      			$("#myModal2").modal("hide")
-	      			data.scStatus=1;
-	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
-	  		    }
-			}else if(type.indexOf("A")>=0){
-				//检测评估资料
-				var result = childWindow.baocunJC();
-	    		if(result=='0'||result==undefined){
-	      			toastr.error("保存出错");
-	      			return false;
-	  		    }else if(result=='-1'){
-	  		    	toastr.error("本次未上传附件");
-	      			return false;
-	  		    }else{
-	      			toastr.success("保存成功");
-	      			$("#myModal2").modal("hide")
-	      			data.scStatus=1;
-	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
-	  		    }
-			}else if(type.indexOf("B")>=0){
-				//设计文件资料
-				var result = childWindow.baocunSJ();
-	    		if(result=='0'||result==undefined){
-	      			toastr.error("保存出错");
-	      			return false;
-	  		    }else if(result=='-1'){
-	  		    	toastr.error("本次未上传附件");
-	      			return false;
-	  		    }else{
-	      			toastr.success("保存成功");
-	      			$("#myModal2").modal("hide")
-	      			data.scStatus=1;
-	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
-	  		    }
-			}else if(type.indexOf("K")>=0){
-				//科技文档资料
-				var result = childWindow.baocunKJ();
-	    		if(result=='0'||result==undefined){
-	      			toastr.error("保存出错");
-	      			return false;
-	  		    }else if(result=='-1'){
-	  		    	toastr.error("本次未上传附件");
-	      			return false;
-	  		    }else{
-	      			toastr.success("保存成功");
-	      			$("#myModal2").modal("hide")
-	      			data.scStatus=1;
-	            	$('#mainContent').DataTable().row(dom).data(data).draw(false);//修改行立即显示
-	  		    }
-			}
-	    }
 	
 	 function showMask() {
 	    	myTool.mask.show('查询中...');
@@ -1335,7 +1182,7 @@
 		        success: function (json) {
 		        	lianjie=json.url;
 	            	if(json.receiver!=null&&json.receiver.length>=1){
-		            	  $("#").modal('show');
+		            	  $("#tijiaogei").modal('show');
 		        		  $("#tijiaoren tbody").empty("");
 		        		  for(var i=0;i<json.receiver.length;i++){
 		        			  $("#tijiaoren tbody").append('<tr><td>'
@@ -1496,64 +1343,18 @@
 	      });
 	 }
 	 
-	 function delPrj(obj){
-		 var statu = confirm("确认删除吗?");
-		 if(!statu){
-		   	return false;
-		 }
-		 var tr=$(obj).parents("tr");
-		 var data=$("#mainContent").DataTable().row(tr).data();
-		 var scStatus=data.scStatus;
-		 var jyStatus=data.jyStatus;
-		 if(scStatus==2||jyStatus==2){
-			 toastr.error('已归档不可删除');
-			 return;
-		 }
-		 $.ajax({
-	          type: 'POST',
-	          url: getContextPath()+'/PrjRecord/delPrj',
-	          dataType: 'json',
-	          data:{
-	        	 id:data.id,
-	        	 prName:data.prjName
-	          },
-	          success: function (json) {
-		        	lianjie=json.url;
-	            	if(json.receiver!=null&&json.receiver.length>=1){
-		            	  $("#tijiaogei").modal('show');
-		        		  $("#tijiaoren tbody").empty("");
-		        		  for(var i=0;i<json.receiver.length;i++){
-		        			  $("#tijiaoren tbody").append('<tr><td>'
-		        					  +'<input type="radio" style="width:22px;height:22px;" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
-		        					  +'</td><td>'
-		        					  +json.receiver[i].omName
-		        					  +'</td><td>'
-		        					  +json.receiver[i].dutyName
-		        					  +'</td><td>'
-		        					  +json.receiver[i].uName
-		        					  +'</td></tr>');
-		        		  }
-		        	  }else if(json.receiver.length==1){
-		        		  $.ajax({
-		        	          type: 'POST',
-		        	          url: getContextPath()+'/task/addTask4',
-		        	          dataType: 'json',
-		        	          data:{
-		        	        	  url:json.url,
-		        	        	  userId:json.receiver.userId,
-		        	        	  uName:json.receiver.uName,
-		        	        	  omName:json.receiver.omName,
-		        	        	  dutyName:json.receiver.dutyName,
-		        	        	  omId:json.receiver.omId,
-		        	        	  dutyId:json.receiver.dutyId
-		        	          },
-		        	          success: function (json) {
-		        	        	  toastr.success('提交成功');
-		        	          }
-		        	      }); 
-		        	  }
-	          }
-	      }); 
-	 }
+	  function changeData(){
+			$.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/PrjRecord/delPrjById',
+		        dataType: 'json',
+		        data:{
+		        	id:id
+		        },
+		        success: function (json) {
+		        	
+		        }
+		    });
+		}
 </script>
 </html>

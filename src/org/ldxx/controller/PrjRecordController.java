@@ -20,6 +20,7 @@ import org.ldxx.bean.PrjRecord;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.dao.AccessoryDao;
+import org.ldxx.dao.PrjRecordDao;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.PrjRecordService;
@@ -41,6 +42,8 @@ public class PrjRecordController {
 	
 	@Autowired
 	private PrjRecordService pServcie;
+	@Autowired
+	private PrjRecordDao prjRecordDao;
 	@Autowired
 	private AccessoryDao aDao;
 	@Autowired
@@ -72,6 +75,13 @@ public class PrjRecordController {
 	@ResponseBody
 	public List<PrjRecord> selectPrjRecord(){
 		List<PrjRecord> pr=pServcie.selectPrjRecord();
+		return pr;		
+	}
+	
+	@RequestMapping("/selectPrjRecordById")
+	@ResponseBody
+	public List<PrjRecord> selectPrjRecordById(String id){
+		List<PrjRecord> pr=prjRecordDao.selectPrjRecordById(id);
 		return pr;		
 	}
 
@@ -304,10 +314,55 @@ public class PrjRecordController {
 	
 	@RequestMapping("/delPrj")
 	@ResponseBody
-	public int delPrj(String id){
+	public String delPrj(String id,HttpSession session,String prName){
+		User user = (User) session.getAttribute("user");
+		
+		String omId=user.getOmId();
+		OrganizationManagement om=oService.selectOrgById(omId);
+		
+		FlowUtill flowUtill = new FlowUtill();
+		CurrentFlow currentFlow = new CurrentFlow();
+		currentFlow.setParams("1");
+		currentFlow.setTitle(prName+"档案删除");
+		currentFlow.setActor(user.getUserId());
+		currentFlow.setActorname(user.getuName());;
+		currentFlow.setMemo(prName+"档案删除");
+		currentFlow.setUrl("danganGUanliLook/wendangshanchu.html-"+id);
+		currentFlow.setParams("{'cs':'1'}");
+		currentFlow.setStarter(user.getUserId());
+		currentFlow.setStartername(user.getuName());
+		currentFlow.setFkDept(om.getOmNo());
+		currentFlow.setDeptname(user.getOmName());
+		currentFlow.setNodename("节点名称");
+		currentFlow.setPri(1);
+		currentFlow.setSdtofnode(new Date());
+		currentFlow.setSdtofflow(new Date());
+		currentFlow.setFlowEndState(2);
+		currentFlow.setFlowNopassState(0);
+		FlowHistroy flowHistroy = new FlowHistroy();
+		flowHistroy.setActor(user.getUserId());
+		flowHistroy.setActorname(user.getuName());
+		flowHistroy.setActorresult(0);
+		flowHistroy.setView("");
+		String string="";
+		try {
+			string = flowUtill.submitGetReceiver(currentFlow,om.getOmNo());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//int i=pServcie.delPrj(id);
+		return string;
+		
+	}
+	
+	@RequestMapping("/delPrjById")
+	@ResponseBody
+	public int delPrjById(String id){
 		int i=pServcie.delPrj(id);
 		return i;
 	}
+	
 	
 	@RequestMapping("/isExist")
 	@ResponseBody
