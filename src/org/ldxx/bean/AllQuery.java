@@ -59,6 +59,15 @@ public class AllQuery {
 	//分包未付金额
 	private String weiPayMoney;
 	
+	private String lxTime;//立项时间
+	
+	
+	public String getLxTime() {
+		return lxTime;
+	}
+	public void setLxTime(String lxTime) {
+		this.lxTime = lxTime;
+	}
 	public String getCjStatus() {
 		return cjStatus;
 	}

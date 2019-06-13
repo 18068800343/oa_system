@@ -15,6 +15,7 @@ import org.ldxx.service.ContractPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping("/allQuery")
@@ -55,4 +56,35 @@ public class AllQueryController {
 		return i;
 	}
 	
+	
+	@RequestMapping("/getQueryTable")
+	@ResponseBody
+	public List<AllQuery> getQueryTable(@RequestParam(defaultValue="")String depart,@RequestParam(defaultValue="")String omName,
+			@RequestParam(defaultValue="0")Double seachCjMoneyMin,@RequestParam(defaultValue="0")Double seachCjMoneyMax,
+			@RequestParam(defaultValue="")String seachTimeMin,@RequestParam(defaultValue="")String seachTimeMax,@RequestParam(defaultValue="%")String serchType){
+		SimpleDateFormat simpleDateFormat =new SimpleDateFormat("YY-MM");
+		String nowDate = simpleDateFormat.format(new Date());
+		String[] timeArr = nowDate.split("-");
+		String year_Time = timeArr[0]+"%";
+		String month_time = nowDate;
+		serchType="%"+serchType+"%";
+		List<AllQuery> i=service.getQueryTable(depart,omName,seachCjMoneyMin,seachCjMoneyMax,seachTimeMin,seachTimeMax,serchType);
+ 		for(AllQuery allQuery:i){
+			String cjNo = allQuery.getContractNo();
+			//累计付款
+			Pay pay = payService.getTotalPayMoney(allQuery.getFbNo());
+			String leijifkMoney = String.valueOf(pay.getAlreadyAccumulateMoney());
+			allQuery.setLeiJiPayMoney(leijifkMoney);
+			//未付金额
+			String fbJueSuanMoney = allQuery.getFbJueSuanMoney();
+			Double weiPayMoney = 0.0;
+			if(fbJueSuanMoney!=null && !fbJueSuanMoney.equals("")){
+				weiPayMoney=Double.parseDouble(fbJueSuanMoney)-Double.parseDouble(leijifkMoney);
+			}else if(allQuery.getNowFbAllMoney()!=null && !allQuery.getNowFbAllMoney().equals("")){
+				weiPayMoney=Double.parseDouble(allQuery.getNowFbAllMoney())-Double.parseDouble(leijifkMoney);
+			}
+			allQuery.setWeiPayMoney(weiPayMoney.toString());
+		}
+		return i;
+	}
 }

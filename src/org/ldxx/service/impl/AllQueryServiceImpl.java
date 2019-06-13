@@ -19,5 +19,10 @@ public class AllQueryServiceImpl implements AllQueryService {
 		// TODO Auto-generated method stub
 		return allQueryDao.selectAllQueryByTime(year_Time,depart,omName);
 	}
+	@Override
+	public List<AllQuery> getQueryTable(String depart, String omName, Double seachCjMoneyMin, Double seachCjMoneyMax,
+			String seachTimeMin, String seachTimeMax, String serchType) {
+		return allQueryDao.getQueryTable(depart,omName,seachCjMoneyMin,seachCjMoneyMax,seachTimeMin,seachTimeMax,serchType);
+	}
 
 }

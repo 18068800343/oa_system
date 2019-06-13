@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <link href="../../select/css/select2.min.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -65,7 +66,8 @@
 										    <select  class="form-control" id="zhuban" >
 										    </select>
 										    <button type="button" class="btn btn-primary" style="width:100px;margin-left: 10px;" id="zhedieBtn"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
-										    <button type="button" class="btn btn-primary" style="margin-left: 10px;" id="">统计查询</button>
+										    <button type="button" class="btn btn-primary" style="margin-left: 10px;" id="chaxun" onclick="chaxunClick()">查询</button>
+										    <button type="button" class="btn btn-primary" style="margin-left: 10px;" id="">统计</button>
 										  	
 									   </div>
 							  	<!-- <button type="submit" class="btn btn-default" id="queryTable">查询</button> -->
@@ -237,6 +239,7 @@
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/myTool.js"></script>
+<script src="../../toastr/toastr.js"></script>
 
 <script src="../../js/datatables/jquery.dataTables.min.js"></script>
 <script src="../../js/datatables/dataTables.colVis.min.js"></script>
@@ -256,6 +259,12 @@
     	 $('#serch_type').editableSelect({ 
              effects: 'slide' 
          });
+    	 laydate.render({
+             elem: '#seach_time_min' //指定元素
+         });
+         laydate.render({
+             elem: '#seach_time_max' //指定元素
+         });
 	});
     $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
     //初始化提交部门
@@ -272,7 +281,7 @@
             	toastr.error("请求失败");
             },
             success: function (json) {
-            	$("#zhuban").append("<option value=allDepartmentA>全部</option>");
+            	$("#zhuban").append("<option value='%'>全部</option>");
                 for(var i=0;i<json.length;i++){
                 	$("#zhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                 }
@@ -388,11 +397,36 @@
 	});
  	//table.buttons().container().appendTo( $('#tabBtn') );
  	//$('.buttons-csv').addClass('btn btn-primary');
- 
+ 	var a=true;
  	$("#zhuban").on("change",function(){
+ 		var seachCjMoneyMin=$("#seach_cj_money_min").val();
+ 		var seachCjMoneyMax=$("#seach_cj_money_max").val();
+ 		var seachTimeMin=$("#seach_time_min").val();
+ 		var seachTimeMax=$("#seach_time_max").val();
+ 		var serchType;
+ 		var omName=$("#zhuban option:selected").text();
+ 		var depart=$("#zhuban").val();
+ 		if(a){
+ 			serchType="";
+ 			a=false;
+ 		}else{
+ 			serchType=$("#serch_type").val();
+	 		if(seachCjMoneyMin!=""){
+	 			hetongjinfanwei(seachCjMoneyMin,seachCjMoneyMax);
+	 		}
+	 		if(seachCjMoneyMax!=""){
+	 			hetongjinfanwei(seachCjMoneyMin,seachCjMoneyMax);
+	 		}
+	 		if(seachTimeMin!=""){
+	 			lxdatefanwei(seachTimeMin,seachTimeMax);
+	 		}
+	 		if(seachTimeMax!=""){
+	 			lxdatefanwei(seachTimeMin,seachTimeMax);
+	 		}
+ 		}
  		$('#mainContent').dataTable().fnClearTable();
     	myTool.mask.show('查询中...');
-        $.ajax({
+       /*  $.ajax({
             type: 'POST',
             url: getContextPath()+'/allQuery/allQueryTable',
             dataType: 'json',
@@ -404,10 +438,47 @@
             	 $('#mainContent').DataTable().rows.add(json).draw(false);
             	 myTool.mask.hide();
             }
+        }); */
+        $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/allQuery/getQueryTable',
+            dataType: 'json',
+            data: {
+            	omName:omName,
+           	 	depart:depart,
+            	seachCjMoneyMin:seachCjMoneyMin,
+            	seachCjMoneyMax:seachCjMoneyMax,
+            	seachTimeMin:seachTimeMin,
+            	seachTimeMax:seachTimeMax,
+            	serchType:serchType,
+            },
+            success: function (json) {
+            	 $('#mainContent').DataTable().rows.add(json).draw(false);
+            	 myTool.mask.hide();
+            }
         });
  	});
 
+ 	
+ 	function chaxunClick(){
+ 		$("#zhuban").trigger("change");
+ 	}
+ 	
+ 	
+ 	function hetongjinfanwei(obj1,obj2){
+ 		if(obj1==""||obj2==""){
+ 			toastr.error("合同金额范围请填写完整")
+ 			return;
+ 		}
+ 	}
+ 	function lxdatefanwei(obj1,obj2){
+ 		if(obj1==""||obj2==""){
+ 			toastr.error("立项时间范围请填写完整")
+ 			return;
+ 		}
+ 	}
 
+ 	
     /* $("#zhuban").on("change",function(){
     	 $.ajax({
              type: 'POST',
