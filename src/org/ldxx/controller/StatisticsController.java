@@ -10,6 +10,7 @@ package org.ldxx.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -321,37 +322,37 @@ public class StatisticsController {
 				inComeMonth1All=inComeMonth1All+inComeMonth1;
 				PrjProgressFill ppf2=pService.selectDeptIncomeByTimeAndType(year+"-02", omName, type);
 				double inComeMonth2=ppf2.getAllMoneyYuan();
-				inComeMonth2All=inComeMonth2All+inComeMonth2;
+				inComeMonth2All=inComeMonth1All+inComeMonth2;
 				PrjProgressFill ppf3=pService.selectDeptIncomeByTimeAndType(year+"-03", omName, type);
 				double inComeMonth3=ppf3.getAllMoneyYuan();
-				inComeMonth3All=inComeMonth3All+inComeMonth3;
+				inComeMonth3All=inComeMonth2All+inComeMonth3;
 				PrjProgressFill ppf4=pService.selectDeptIncomeByTimeAndType(year+"-04", omName, type);
 				double inComeMonth4=ppf4.getAllMoneyYuan();
-				inComeMonth4All=inComeMonth4All+inComeMonth4;
+				inComeMonth4All=inComeMonth3All+inComeMonth4;
 				PrjProgressFill ppf5=pService.selectDeptIncomeByTimeAndType(year+"-05", omName, type);
 				double inComeMonth5=ppf5.getAllMoneyYuan();
-				inComeMonth5All=inComeMonth5All+inComeMonth5;
+				inComeMonth5All=inComeMonth4All+inComeMonth5;
 				PrjProgressFill ppf6=pService.selectDeptIncomeByTimeAndType(year+"-06", omName, type);
 				double inComeMonth6=ppf6.getAllMoneyYuan();
-				inComeMonth6All=inComeMonth6All+inComeMonth6;
+				inComeMonth6All=inComeMonth5All+inComeMonth6;
 				PrjProgressFill ppf7=pService.selectDeptIncomeByTimeAndType(year+"-07", omName, type);
 				double inComeMonth7=ppf7.getAllMoneyYuan();
-				inComeMonth7All=inComeMonth7All+inComeMonth7;
+				inComeMonth7All=inComeMonth6All+inComeMonth7;
 				PrjProgressFill ppf8=pService.selectDeptIncomeByTimeAndType(year+"-08", omName, type);
 				double inComeMonth8=ppf8.getAllMoneyYuan();
-				inComeMonth8All=inComeMonth8All+inComeMonth8;
+				inComeMonth8All=inComeMonth7All+inComeMonth8;
 				PrjProgressFill ppf9=pService.selectDeptIncomeByTimeAndType(year+"-09", omName, type);
 				double inComeMonth9=ppf9.getAllMoneyYuan();
-				inComeMonth9All=inComeMonth9All+inComeMonth9;
+				inComeMonth9All=inComeMonth8All+inComeMonth9;
 				PrjProgressFill ppf10=pService.selectDeptIncomeByTimeAndType(year+"-10", omName, type);
 				double inComeMonth10=ppf10.getAllMoneyYuan();
-				inComeMonth10All=inComeMonth10All+inComeMonth10;
+				inComeMonth10All=inComeMonth9All+inComeMonth10;
 				PrjProgressFill ppf11=pService.selectDeptIncomeByTimeAndType(year+"-11", omName, type);
 				double inComeMonth11=ppf11.getAllMoneyYuan();
-				inComeMonth11All=inComeMonth11All+inComeMonth11;
+				inComeMonth11All=inComeMonth10All+inComeMonth11;
 				PrjProgressFill ppf12=pService.selectDeptIncomeByTimeAndType(year+"-12", omName, type);
 				double inComeMonth12=ppf12.getAllMoneyYuan();
-				inComeMonth12All=inComeMonth12All+inComeMonth12;
+				inComeMonth12All=inComeMonth11All+inComeMonth12;
 				
 				
 				//部门累计收款按项目类型
@@ -360,37 +361,37 @@ public class StatisticsController {
 				receiptMonth1All=receiptMonth1All+receiptMonth1;
 				AlreadyRenling ar2=aService.selectDeptRenlingByTimeAndType(year+"-02", omName, type);
 				double receiptMonth2=ar2.getSkQuerenMoney();
-				receiptMonth2All=receiptMonth2All+receiptMonth2;	
+				receiptMonth2All=receiptMonth1All+receiptMonth2;	
 				AlreadyRenling ar3=aService.selectDeptRenlingByTimeAndType(year+"-03", omName, type);
 				double receiptMonth3=ar3.getSkQuerenMoney();
-				receiptMonth3All=receiptMonth3All+receiptMonth3;
+				receiptMonth3All=receiptMonth2All+receiptMonth3;
 				AlreadyRenling ar4=aService.selectDeptRenlingByTimeAndType(year+"-04", omName, type);
 				double receiptMonth4=ar4.getSkQuerenMoney();
-				receiptMonth4All=receiptMonth4All+receiptMonth4;
+				receiptMonth4All=receiptMonth3All+receiptMonth4;
 				AlreadyRenling ar5=aService.selectDeptRenlingByTimeAndType(year+"-05", omName, type);
 				double receiptMonth5=ar5.getSkQuerenMoney();
-				receiptMonth5All=receiptMonth5All+receiptMonth5;
+				receiptMonth5All=receiptMonth4All+receiptMonth5;
 				AlreadyRenling ar6=aService.selectDeptRenlingByTimeAndType(year+"-06", omName, type);
 				double receiptMonth6=ar6.getSkQuerenMoney();
-				receiptMonth6All=receiptMonth6All+receiptMonth6;
+				receiptMonth6All=receiptMonth5All+receiptMonth6;
 				AlreadyRenling ar7=aService.selectDeptRenlingByTimeAndType(year+"-07", omName, type);
 				double receiptMonth7=ar7.getSkQuerenMoney();
-				receiptMonth7All=receiptMonth7All+receiptMonth7;
+				receiptMonth7All=receiptMonth6All+receiptMonth7;
 				AlreadyRenling ar8=aService.selectDeptRenlingByTimeAndType(year+"-08", omName, type);
 				double receiptMonth8=ar8.getSkQuerenMoney();
-				receiptMonth8All=receiptMonth8All+receiptMonth8;
+				receiptMonth8All=receiptMonth7All+receiptMonth8;
 				AlreadyRenling ar9=aService.selectDeptRenlingByTimeAndType(year+"-09", omName, type);
 				double receiptMonth9=ar9.getSkQuerenMoney();
-				receiptMonth9All=receiptMonth9All+receiptMonth9;
+				receiptMonth9All=receiptMonth8All+receiptMonth9;
 				AlreadyRenling ar10=aService.selectDeptRenlingByTimeAndType(year+"-10", omName, type);
 				double receiptMonth10=ar10.getSkQuerenMoney();
-				receiptMonth10All=receiptMonth10All+receiptMonth10;
+				receiptMonth10All=receiptMonth9All+receiptMonth10;
 				AlreadyRenling ar11=aService.selectDeptRenlingByTimeAndType(year+"-11", omName, type);
 				double receiptMonth11=ar11.getSkQuerenMoney();
-				receiptMonth11All=receiptMonth11All+receiptMonth11;
+				receiptMonth11All=receiptMonth10All+receiptMonth11;
 				AlreadyRenling ar12=aService.selectDeptRenlingByTimeAndType(year+"-12", omName, type);
 				double receiptMonth12=ar12.getSkQuerenMoney();
-				receiptMonth12All=receiptMonth12All+receiptMonth12;
+				receiptMonth12All=receiptMonth11All+receiptMonth12;
 				
 			}
 			//公司所有累加
@@ -672,6 +673,10 @@ public class StatisticsController {
 		List<List<Double>> resultList=new ArrayList<>();
 		List<List<Double>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
+		//获取月份
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH) + 1;
+		
 		omList.add("公司");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
@@ -705,7 +710,6 @@ public class StatisticsController {
 		for(int i=0;i<om.size();i++){
 			List<Double> result=new ArrayList<>();
 			List<Double> mb=new ArrayList<>();
-			
 			String omId=om.get(i).getOmId();//部门编号
 			String omName=om.get(i).getOmName();//部门名称
 			omList.add(omName);
@@ -715,48 +719,48 @@ public class StatisticsController {
 			month1All=month1All+month1;
 			
 			ContractUpdate cu2=cuService.selectDeptContractMoneyByTime(year+"-02", omId);
-			double month2=cu2.getMoney();//部门2份月合同额
-			month2All=month2All+month2;
-			
+			double month2=cu2.getMoney()+month1;//部门2份月合同额
+			month2All=month2All+cu2.getMoney();
+
 			ContractUpdate cu3=cuService.selectDeptContractMoneyByTime(year+"-03", omId);
-			double month3=cu3.getMoney();//部门3份月合同额
-			month3All=month3All+month3;
+			double month3=cu3.getMoney()+month2;//部门3份月合同额
+			month3All=month3All+cu3.getMoney();
 			
 			ContractUpdate cu4=cuService.selectDeptContractMoneyByTime(year+"-04", omId);
-			double month4=cu4.getMoney();//部门4份月合同额
-			month4All=month4All+month4;
+			double month4=cu4.getMoney()+month3;//部门4份月合同额
+			month4All=month4All+cu4.getMoney();
 			
 			ContractUpdate cu5=cuService.selectDeptContractMoneyByTime(year+"-05", omId);
-			double month5=cu5.getMoney();//部门5份月合同额
-			month5All=month5All+month5;
+			double month5=cu5.getMoney()+month4;//部门5份月合同额
+			month5All=month5All+cu5.getMoney();
 			
 			ContractUpdate cu6=cuService.selectDeptContractMoneyByTime(year+"-06", omId);
-			double month6=cu6.getMoney();//部门6份月合同额
-			month6All=month6All+month6;
+			double month6=cu6.getMoney()+month5;//部门6份月合同额
+			month6All=month6All+cu6.getMoney();
 			
 			ContractUpdate cu7=cuService.selectDeptContractMoneyByTime(year+"-07", omId);
-			double month7=cu7.getMoney();//部门7份月合同额
-			month7All=month7All+month7;
+			double month7=cu7.getMoney()+month6;//部门7份月合同额
+			month7All=month7All+cu7.getMoney();
 			
 			ContractUpdate cu8=cuService.selectDeptContractMoneyByTime(year+"-08", omId);
-			double month8=cu8.getMoney();//部门8份月合同额
-			month8All=month8All+month8;
+			double month8=cu8.getMoney()+month7;//部门8份月合同额
+			month8All=month8All+cu8.getMoney();
 			
 			ContractUpdate cu9=cuService.selectDeptContractMoneyByTime(year+"-09", omId);
-			double month9=cu9.getMoney();//部门9份月合同额
-			month9All=month9All+month9;
+			double month9=cu9.getMoney()+month8;//部门9份月合同额
+			month9All=month9All+cu9.getMoney();
 			
 			ContractUpdate cu10=cuService.selectDeptContractMoneyByTime(year+"-10", omId);
-			double month10=cu10.getMoney();//部门10份月合同额
-			month10All=month10All+month10;
+			double month10=cu10.getMoney()+month9;//部门10份月合同额
+			month10All=month10All+cu10.getMoney();
 			
 			ContractUpdate cu11=cuService.selectDeptContractMoneyByTime(year+"-11", omId);
-			double month11=cu11.getMoney();//部门11份月合同额
-			month11All=month11All+month11;
-			
+			double month11=cu11.getMoney()+month10;//部门11份月合同额
+			month11All=month11All+cu11.getMoney();
+	
 			ContractUpdate cu12=cuService.selectDeptContractMoneyByTime(year+"-12", omId);
-			double month12=cu12.getMoney();//部门12份月合同额
-			month12All=month12All+month12;
+			double month12=cu12.getMoney()+month11;//部门12份月合同额
+			month12All=month12All+cu12.getMoney();
 			
 			result.add(month1);
 			result.add(month2);
@@ -770,6 +774,10 @@ public class StatisticsController {
 			result.add(month10);
 			result.add(month11);
 			result.add(month12);
+			for(int m=12;m>=month+1;m--)
+			{
+				result.remove(m-1);
+			}
 			resultList.add(result);
 			
 			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
@@ -778,47 +786,47 @@ public class StatisticsController {
 			
 			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
 			double mbMonth2=getMbContractMoney(mt2);
-			mbMonth2All=mbMonth2All+mbMonth2;
+			mbMonth2All=mbMonth1All+mbMonth2;
 			
 			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
 			double mbMonth3=getMbContractMoney(mt3);
-			mbMonth3All=mbMonth3All+mbMonth3;
+			mbMonth3All=mbMonth2All+mbMonth3;
 			
 			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
 			double mbMonth4=getMbContractMoney(mt4);
-			mbMonth4All=mbMonth4All+mbMonth4;
+			mbMonth4All=mbMonth3All+mbMonth4;
 			
 			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
 			double mbMonth5=getMbContractMoney(mt5);
-			mbMonth5All=mbMonth5All+mbMonth5;
+			mbMonth5All=mbMonth4All+mbMonth5;
 			
 			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
 			double mbMonth6=getMbContractMoney(mt6);
-			mbMonth6All=mbMonth6All+mbMonth6;
+			mbMonth6All=mbMonth5All+mbMonth6;
 			
 			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
 			double mbMonth7=getMbContractMoney(mt7);
-			mbMonth7All=mbMonth7All+mbMonth7;
+			mbMonth7All=mbMonth6All+mbMonth7;
 			
 			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
 			double mbMonth8=getMbContractMoney(mt8);
-			mbMonth8All=mbMonth8All+mbMonth8;
+			mbMonth8All=mbMonth7All+mbMonth8;
 			
 			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
 			double mbMonth9=getMbContractMoney(mt9);
-			mbMonth9All=mbMonth9All+mbMonth9;
+			mbMonth9All=mbMonth8All+mbMonth9;
 			
 			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
 			double mbMonth10=getMbContractMoney(mt10);
-			mbMonth10All=mbMonth10All+mbMonth10;
+			mbMonth10All=mbMonth9All+mbMonth10;
 			
 			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
 			double mbMonth11=getMbContractMoney(mt11);
-			mbMonth11All=mbMonth11All+mbMonth11;
+			mbMonth11All=mbMonth10All+mbMonth11;
 			
 			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
 			double mbMonth12=getMbContractMoney(mt12);
-			mbMonth12All=mbMonth12All+mbMonth12;
+			mbMonth12All=mbMonth11All+mbMonth12;
 			
 			mb.add(mbMonth1);
 			mb.add(mbMonth2);
@@ -834,6 +842,18 @@ public class StatisticsController {
 			mb.add(mbMonth12);
 			mbList.add(mb);
 		}
+		month2All+=month1All;
+		month3All+=month2All;
+		month4All+=month3All;
+		month5All+=month4All;
+		month6All+=month5All;
+		month7All+=month6All;
+		month8All+=month7All;
+		month9All+=month8All;
+		month10All+=month9All;
+		month11All+=month10All;
+		month12All+=month11All;
+		
 		resultAll.add(month1All);
 		resultAll.add(month2All);
 		resultAll.add(month3All);
@@ -846,6 +866,10 @@ public class StatisticsController {
 		resultAll.add(month10All);
 		resultAll.add(month11All);
 		resultAll.add(month12All);
+		for(int m=12;m>=month+1;m--)
+		{
+			resultAll.remove(m-1);
+		}
 		mbAll.add(mbMonth1All);
 		mbAll.add(mbMonth2All);
 		mbAll.add(mbMonth3All);
@@ -874,6 +898,9 @@ public class StatisticsController {
 		List<List<Double>> resultList=new ArrayList<>();
 		List<List<Double>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
+		//获取月份
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH) + 1;
 		omList.add("公司");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
@@ -912,40 +939,68 @@ public class StatisticsController {
 			omList.add(omName);
 			PrjProgressFill ppf=pService.selectGsIncomeByTimeAndDept(year+"-01", omName);
 			month1All=month1All+ppf.getAllMoneyYuan();
+			double ppfmonth1=ppf.getAllMoneyYuan();
+			
 			PrjProgressFill ppf2=pService.selectGsIncomeByTimeAndDept(year+"-02", omName);
 			month2All=month2All+ppf2.getAllMoneyYuan();
+			double ppfmonth2=ppf2.getAllMoneyYuan()+ppfmonth1;
+			
 			PrjProgressFill ppf3=pService.selectGsIncomeByTimeAndDept(year+"-03", omName);
 			month3All=month3All+ppf3.getAllMoneyYuan();
+			double ppfmonth3=ppf3.getAllMoneyYuan()+ppfmonth2;
+			
 			PrjProgressFill ppf4=pService.selectGsIncomeByTimeAndDept(year+"-04", omName);
 			month4All=month4All+ppf4.getAllMoneyYuan();
+			double ppfmonth4=ppf4.getAllMoneyYuan()+ppfmonth3;
+			
 			PrjProgressFill ppf5=pService.selectGsIncomeByTimeAndDept(year+"-05", omName);
 			month5All=month5All+ppf5.getAllMoneyYuan();
+			double ppfmonth5=ppf5.getAllMoneyYuan()+ppfmonth4;
+			
 			PrjProgressFill ppf6=pService.selectGsIncomeByTimeAndDept(year+"-06", omName);
 			month6All=month6All+ppf6.getAllMoneyYuan();
+			double ppfmonth6=ppf6.getAllMoneyYuan()+ppfmonth5;
+			
 			PrjProgressFill ppf7=pService.selectGsIncomeByTimeAndDept(year+"-07", omName);
 			month7All=month7All+ppf7.getAllMoneyYuan();
+			double ppfmonth7=ppf7.getAllMoneyYuan()+ppfmonth6;
+			
 			PrjProgressFill ppf8=pService.selectGsIncomeByTimeAndDept(year+"-08", omName);
 			month8All=month8All+ppf8.getAllMoneyYuan();
+			double ppfmonth8=ppf8.getAllMoneyYuan()+ppfmonth7;
+			
 			PrjProgressFill ppf9=pService.selectGsIncomeByTimeAndDept(year+"-09", omName);
 			month9All=month9All+ppf9.getAllMoneyYuan();
+			double ppfmonth9=ppf9.getAllMoneyYuan()+ppfmonth8;
+			
 			PrjProgressFill ppf10=pService.selectGsIncomeByTimeAndDept(year+"-10", omName);
 			month10All=month10All+ppf10.getAllMoneyYuan();
+			double ppfmonth10=ppf10.getAllMoneyYuan()+ppfmonth9;
+			
 			PrjProgressFill ppf11=pService.selectGsIncomeByTimeAndDept(year+"-11", omName);
 			month11All=month11All+ppf11.getAllMoneyYuan();
+			double ppfmonth11=ppf11.getAllMoneyYuan()+ppfmonth10;
+			
 			PrjProgressFill ppf12=pService.selectGsIncomeByTimeAndDept(year+"-12", omName);
 			month12All=month12All+ppf12.getAllMoneyYuan();
-			result.add((double) ppf.getAllMoneyYuan());
-			result.add((double) ppf2.getAllMoneyYuan());
-			result.add((double) ppf3.getAllMoneyYuan());
-			result.add((double) ppf4.getAllMoneyYuan());
-			result.add((double) ppf5.getAllMoneyYuan());
-			result.add((double) ppf6.getAllMoneyYuan());
-			result.add((double) ppf7.getAllMoneyYuan());
-			result.add((double) ppf8.getAllMoneyYuan());
-			result.add((double) ppf9.getAllMoneyYuan());
-			result.add((double) ppf10.getAllMoneyYuan());
-			result.add((double) ppf11.getAllMoneyYuan());
-			result.add((double) ppf12.getAllMoneyYuan());
+			double ppfmonth12=ppf12.getAllMoneyYuan()+ppfmonth11;
+			
+			result.add(ppfmonth1);
+			result.add(ppfmonth2);
+			result.add(ppfmonth3);
+			result.add(ppfmonth4);
+			result.add(ppfmonth5);
+			result.add(ppfmonth6);
+			result.add(ppfmonth7);
+			result.add(ppfmonth8);
+			result.add(ppfmonth9);
+			result.add(ppfmonth10);
+			result.add(ppfmonth11);
+			result.add(ppfmonth12);
+			for(int m=12;m>=month+1;m--)
+			{
+				result.remove(m-1);
+			}
 			resultList.add(result);
 			
 			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
@@ -1010,6 +1065,18 @@ public class StatisticsController {
 			mb.add(mbMonth12);
 			mbList.add(mb);
 		}
+		month2All+=month1All;
+		month3All+=month2All;
+		month4All+=month3All;
+		month5All+=month4All;
+		month6All+=month5All;
+		month7All+=month6All;
+		month8All+=month7All;
+		month9All+=month8All;
+		month10All+=month9All;
+		month11All+=month10All;
+		month12All+=month11All;
+		
 		resultAll.add(month1All);
 		resultAll.add(month2All);
 		resultAll.add(month3All);
@@ -1022,6 +1089,11 @@ public class StatisticsController {
 		resultAll.add(month10All);
 		resultAll.add(month11All);
 		resultAll.add(month12All);
+		for(int m=12;m>=month+1;m--)
+		{
+			resultAll.remove(m-1);
+		}
+		
 		mbAll.add(mbMonth1All);
 		mbAll.add(mbMonth2All);
 		mbAll.add(mbMonth3All);
@@ -1042,7 +1114,6 @@ public class StatisticsController {
 		return map;
 	}
 	
-	
 	@RequestMapping("/initTab2Receipt")//初始化月份累计收款
 	@ResponseBody
 	public Map<String,Object> initTab2Receipt(){
@@ -1050,6 +1121,9 @@ public class StatisticsController {
 		List<List<Double>> resultList=new ArrayList<>();
 		List<List<Double>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
+		//获取月份
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH) + 1;
 		omList.add("公司");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
@@ -1090,41 +1164,68 @@ public class StatisticsController {
 			
 			AlreadyRenling ar=aService.selectDeptRenlingByTime(year+"-01", omName);
 			month1All=month1All+ar.getSkQuerenMoney();
+			double Month1=ar.getSkQuerenMoney();
+			
 			AlreadyRenling ar2=aService.selectDeptRenlingByTime(year+"-02", omName);
 			month2All=month2All+ar2.getSkQuerenMoney();
+			double Month2=ar2.getSkQuerenMoney()+Month1;
+			
 			AlreadyRenling ar3=aService.selectDeptRenlingByTime(year+"-03", omName);
 			month3All=month3All+ar3.getSkQuerenMoney();
+			double Month3=ar3.getSkQuerenMoney()+Month2;
+			
 			AlreadyRenling ar4=aService.selectDeptRenlingByTime(year+"-04", omName);
 			month4All=month4All+ar4.getSkQuerenMoney();
+			double Month4=ar4.getSkQuerenMoney()+Month3;
+			
 			AlreadyRenling ar5=aService.selectDeptRenlingByTime(year+"-05", omName);
 			month5All=month5All+ar5.getSkQuerenMoney();
+			double Month5=ar5.getSkQuerenMoney()+Month4;
+			
 			AlreadyRenling ar6=aService.selectDeptRenlingByTime(year+"-06", omName);
 			month6All=month6All+ar6.getSkQuerenMoney();
+			double Month6=ar6.getSkQuerenMoney()+Month5;
+			
 			AlreadyRenling ar7=aService.selectDeptRenlingByTime(year+"-07", omName);
 			month7All=month7All+ar7.getSkQuerenMoney();
+			double Month7=ar7.getSkQuerenMoney()+Month6;
+			
 			AlreadyRenling ar8=aService.selectDeptRenlingByTime(year+"-08", omName);
 			month8All=month8All+ar8.getSkQuerenMoney();
+			double Month8=ar8.getSkQuerenMoney()+Month7;
+			
 			AlreadyRenling ar9=aService.selectDeptRenlingByTime(year+"-09", omName);
 			month9All=month9All+ar9.getSkQuerenMoney();
+			double Month9=ar9.getSkQuerenMoney()+Month8;
+			
 			AlreadyRenling ar10=aService.selectDeptRenlingByTime(year+"-10", omName);
 			month10All=month10All+ar10.getSkQuerenMoney();
+			double Month10=ar10.getSkQuerenMoney()+Month9;
+			
 			AlreadyRenling ar11=aService.selectDeptRenlingByTime(year+"-11", omName);
 			month11All=month11All+ar11.getSkQuerenMoney();
+			double Month11=ar11.getSkQuerenMoney()+Month10;
+			
 			AlreadyRenling ar12=aService.selectDeptRenlingByTime(year+"-12", omName);
 			month12All=month12All+ar12.getSkQuerenMoney();
+			double Month12=ar12.getSkQuerenMoney()+Month11;
 			
-			result.add(ar.getSkQuerenMoney());
-			result.add(ar2.getSkQuerenMoney());
-			result.add(ar3.getSkQuerenMoney());
-			result.add(ar4.getSkQuerenMoney());
-			result.add(ar5.getSkQuerenMoney());
-			result.add(ar6.getSkQuerenMoney());
-			result.add(ar7.getSkQuerenMoney());
-			result.add(ar8.getSkQuerenMoney());
-			result.add(ar9.getSkQuerenMoney());
-			result.add(ar10.getSkQuerenMoney());
-			result.add(ar11.getSkQuerenMoney());
-			result.add(ar12.getSkQuerenMoney());
+			result.add(Month1);
+			result.add(Month2);
+			result.add(Month3);
+			result.add(Month4);
+			result.add(Month5);
+			result.add(Month6);
+			result.add(Month7);
+			result.add(Month8);
+			result.add(Month9);
+			result.add(Month10);
+			result.add(Month11);
+			result.add(Month12);
+			for(int m=12;m>=month+1;m--)
+			{
+				result.remove(m-1);
+			}
 			resultList.add(result);
 			
 			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
@@ -1189,6 +1290,18 @@ public class StatisticsController {
 			mb.add(mbMonth12);
 			mbList.add(mb);
 		}
+		month2All+=month1All;
+		month3All+=month2All;
+		month4All+=month3All;
+		month5All+=month4All;
+		month6All+=month5All;
+		month7All+=month6All;
+		month8All+=month7All;
+		month9All+=month8All;
+		month10All+=month9All;
+		month11All+=month10All;
+		month12All+=month11All;
+		
 		resultAll.add(month1All);
 		resultAll.add(month2All);
 		resultAll.add(month3All);
@@ -1201,6 +1314,11 @@ public class StatisticsController {
 		resultAll.add(month10All);
 		resultAll.add(month11All);
 		resultAll.add(month12All);
+		for(int m=12;m>=month+1;m--)
+		{
+			resultAll.remove(m-1);
+		}
+		
 		mbAll.add(mbMonth1All);
 		mbAll.add(mbMonth2All);
 		mbAll.add(mbMonth3All);
