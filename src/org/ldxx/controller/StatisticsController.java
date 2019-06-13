@@ -180,6 +180,9 @@ public class StatisticsController {
 		List<List<Double>> resultIncome=new ArrayList<>();//实际月部门累计收入按项目类型
 		List<List<Double>> resultReceipt=new ArrayList<>();//实际月部门累计收款按项目类型
 		List<String> omList=new ArrayList<>();
+		//获取月份
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH) + 1;
 		omList.add("公司");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
@@ -279,121 +282,213 @@ public class StatisticsController {
 				//部门新签合同额按项目类型
 				String type=prjType.split(",")[i];
 				ContractUpdate cu=cuService.selectDeptContractMoneyByTimeAndType(year+"-01", omId, type);
-				Double contractMonth1=cu.getMoney();
-				contractMonth1All=contractMonth1All+contractMonth1;
+				double contractMonth1=cu.getMoney();
+				contractMonth1All=contractMonth1All+cu.getMoney();
 				ContractUpdate cu2=cuService.selectDeptContractMoneyByTimeAndType(year+"-02", omId, type);
-				Double contractMonth2=cu2.getMoney();
-				contractMonth2All=contractMonth2All+contractMonth2;
+				double contractMonth2=cu2.getMoney()+contractMonth1;
+				contractMonth2All=contractMonth2All+cu2.getMoney();
 				ContractUpdate cu3=cuService.selectDeptContractMoneyByTimeAndType(year+"-03", omId, type);
-				Double contractMonth3=cu3.getMoney();
-				contractMonth3All=contractMonth3All+contractMonth3;
+				double contractMonth3=cu3.getMoney()+contractMonth2;
+				contractMonth3All=contractMonth3All+cu3.getMoney();
 				ContractUpdate cu4=cuService.selectDeptContractMoneyByTimeAndType(year+"-04", omId, type);
-				Double contractMonth4=cu4.getMoney();
-				contractMonth4All=contractMonth4All+contractMonth4;
+				double contractMonth4=cu4.getMoney()+contractMonth3;
+				contractMonth4All=contractMonth4All+cu4.getMoney();
 				ContractUpdate cu5=cuService.selectDeptContractMoneyByTimeAndType(year+"-05", omId, type);
-				Double contractMonth5=cu5.getMoney();
-				contractMonth5All=contractMonth5All+contractMonth5;
+				double contractMonth5=cu5.getMoney()+contractMonth4;
+				contractMonth5All=contractMonth5All+cu5.getMoney();
 				ContractUpdate cu6=cuService.selectDeptContractMoneyByTimeAndType(year+"-06", omId, type);
-				Double contractMonth6=cu6.getMoney();
-				contractMonth6All=contractMonth6All+contractMonth6;
+				double contractMonth6=cu6.getMoney()+contractMonth5;
+				contractMonth6All=contractMonth6All+cu6.getMoney();
 				ContractUpdate cu7=cuService.selectDeptContractMoneyByTimeAndType(year+"-07", omId, type);
-				Double contractMonth7=cu7.getMoney();
-				contractMonth7All=contractMonth7All+contractMonth7;
+				double contractMonth7=cu7.getMoney()+contractMonth6;
+				contractMonth7All=contractMonth7All+cu7.getMoney();
 				ContractUpdate cu8=cuService.selectDeptContractMoneyByTimeAndType(year+"-08", omId, type);
-				Double contractMonth8=cu8.getMoney();
-				contractMonth8All=contractMonth8All+contractMonth8;
+				double contractMonth8=cu8.getMoney()+contractMonth7;
+				contractMonth8All=contractMonth8All+cu8.getMoney();
 				ContractUpdate cu9=cuService.selectDeptContractMoneyByTimeAndType(year+"-09", omId, type);
-				Double contractMonth9=cu9.getMoney();
-				contractMonth9All=contractMonth9All+contractMonth9;
+				double contractMonth9=cu9.getMoney()+contractMonth8;
+				contractMonth9All=contractMonth9All+cu9.getMoney();
 				ContractUpdate cu10=cuService.selectDeptContractMoneyByTimeAndType(year+"-10", omId, type);
-				Double contractMonth10=cu10.getMoney();
-				contractMonth10All=contractMonth10All+contractMonth10;
+				double contractMonth10=cu10.getMoney()+contractMonth9;
+				contractMonth10All=contractMonth10All+cu10.getMoney();
 				ContractUpdate cu11=cuService.selectDeptContractMoneyByTimeAndType(year+"-11", omId, type);
-				Double contractMonth11=cu11.getMoney();
-				contractMonth11All=contractMonth11All+contractMonth11;
+				double contractMonth11=cu11.getMoney()+contractMonth10;
+				contractMonth11All=contractMonth11All+cu11.getMoney();
 				ContractUpdate cu12=cuService.selectDeptContractMoneyByTimeAndType(year+"-12", omId, type);
-				Double contractMonth12=cu12.getMoney();
-				contractMonth12All=contractMonth12All+contractMonth12;
+				double contractMonth12=cu12.getMoney()+contractMonth11;
+				contractMonth12All=contractMonth12All+cu12.getMoney();
 				
 				
 				//部门累计收入按项目类型
 				PrjProgressFill ppf=pService.selectDeptIncomeByTimeAndType(year+"-01", omName, type);
 				double inComeMonth1=ppf.getAllMoneyYuan();
-				inComeMonth1All=inComeMonth1All+inComeMonth1;
+				inComeMonth1All=inComeMonth1All+ppf.getAllMoneyYuan();
 				PrjProgressFill ppf2=pService.selectDeptIncomeByTimeAndType(year+"-02", omName, type);
-				double inComeMonth2=ppf2.getAllMoneyYuan();
-				inComeMonth2All=inComeMonth1All+inComeMonth2;
+				double inComeMonth2=ppf2.getAllMoneyYuan()+inComeMonth1;
+				inComeMonth2All=inComeMonth2All+ppf2.getAllMoneyYuan();
 				PrjProgressFill ppf3=pService.selectDeptIncomeByTimeAndType(year+"-03", omName, type);
-				double inComeMonth3=ppf3.getAllMoneyYuan();
-				inComeMonth3All=inComeMonth2All+inComeMonth3;
+				double inComeMonth3=ppf3.getAllMoneyYuan()+inComeMonth2;
+				inComeMonth3All=inComeMonth3All+ppf3.getAllMoneyYuan();
 				PrjProgressFill ppf4=pService.selectDeptIncomeByTimeAndType(year+"-04", omName, type);
-				double inComeMonth4=ppf4.getAllMoneyYuan();
-				inComeMonth4All=inComeMonth3All+inComeMonth4;
+				double inComeMonth4=ppf4.getAllMoneyYuan()+inComeMonth3;
+				inComeMonth4All=inComeMonth4All+ppf4.getAllMoneyYuan();
 				PrjProgressFill ppf5=pService.selectDeptIncomeByTimeAndType(year+"-05", omName, type);
-				double inComeMonth5=ppf5.getAllMoneyYuan();
-				inComeMonth5All=inComeMonth4All+inComeMonth5;
+				double inComeMonth5=ppf5.getAllMoneyYuan()+inComeMonth4;
+				inComeMonth5All=inComeMonth5All+ppf5.getAllMoneyYuan();
 				PrjProgressFill ppf6=pService.selectDeptIncomeByTimeAndType(year+"-06", omName, type);
-				double inComeMonth6=ppf6.getAllMoneyYuan();
-				inComeMonth6All=inComeMonth5All+inComeMonth6;
+				double inComeMonth6=ppf6.getAllMoneyYuan()+inComeMonth5;
+				inComeMonth6All=inComeMonth6All+ppf6.getAllMoneyYuan();
 				PrjProgressFill ppf7=pService.selectDeptIncomeByTimeAndType(year+"-07", omName, type);
-				double inComeMonth7=ppf7.getAllMoneyYuan();
-				inComeMonth7All=inComeMonth6All+inComeMonth7;
+				double inComeMonth7=ppf7.getAllMoneyYuan()+inComeMonth6;
+				inComeMonth7All=inComeMonth7All+ppf7.getAllMoneyYuan();
 				PrjProgressFill ppf8=pService.selectDeptIncomeByTimeAndType(year+"-08", omName, type);
-				double inComeMonth8=ppf8.getAllMoneyYuan();
-				inComeMonth8All=inComeMonth7All+inComeMonth8;
+				double inComeMonth8=ppf8.getAllMoneyYuan()+inComeMonth7;
+				inComeMonth8All=inComeMonth8All+ppf8.getAllMoneyYuan();
 				PrjProgressFill ppf9=pService.selectDeptIncomeByTimeAndType(year+"-09", omName, type);
-				double inComeMonth9=ppf9.getAllMoneyYuan();
-				inComeMonth9All=inComeMonth8All+inComeMonth9;
+				double inComeMonth9=ppf9.getAllMoneyYuan()+inComeMonth8;
+				inComeMonth9All=inComeMonth9All+ppf9.getAllMoneyYuan();
 				PrjProgressFill ppf10=pService.selectDeptIncomeByTimeAndType(year+"-10", omName, type);
-				double inComeMonth10=ppf10.getAllMoneyYuan();
-				inComeMonth10All=inComeMonth9All+inComeMonth10;
+				double inComeMonth10=ppf10.getAllMoneyYuan()+inComeMonth9;
+				inComeMonth10All=inComeMonth10All+ppf10.getAllMoneyYuan();
 				PrjProgressFill ppf11=pService.selectDeptIncomeByTimeAndType(year+"-11", omName, type);
-				double inComeMonth11=ppf11.getAllMoneyYuan();
-				inComeMonth11All=inComeMonth10All+inComeMonth11;
+				double inComeMonth11=ppf11.getAllMoneyYuan()+inComeMonth10;
+				inComeMonth11All=inComeMonth11All+ppf11.getAllMoneyYuan();
 				PrjProgressFill ppf12=pService.selectDeptIncomeByTimeAndType(year+"-12", omName, type);
-				double inComeMonth12=ppf12.getAllMoneyYuan();
-				inComeMonth12All=inComeMonth11All+inComeMonth12;
+				double inComeMonth12=ppf12.getAllMoneyYuan()+inComeMonth11;
+				inComeMonth12All=inComeMonth12All+ppf12.getAllMoneyYuan();
 				
 				
 				//部门累计收款按项目类型
 				AlreadyRenling ar=aService.selectDeptRenlingByTimeAndType(year+"-01", omName, type);
 				double receiptMonth1=ar.getSkQuerenMoney();
-				receiptMonth1All=receiptMonth1All+receiptMonth1;
+				receiptMonth1All=receiptMonth1All+ar.getSkQuerenMoney();
 				AlreadyRenling ar2=aService.selectDeptRenlingByTimeAndType(year+"-02", omName, type);
-				double receiptMonth2=ar2.getSkQuerenMoney();
-				receiptMonth2All=receiptMonth1All+receiptMonth2;	
+				double receiptMonth2=ar2.getSkQuerenMoney()+receiptMonth1;
+				receiptMonth2All=receiptMonth2All+ar2.getSkQuerenMoney();	
 				AlreadyRenling ar3=aService.selectDeptRenlingByTimeAndType(year+"-03", omName, type);
-				double receiptMonth3=ar3.getSkQuerenMoney();
-				receiptMonth3All=receiptMonth2All+receiptMonth3;
+				double receiptMonth3=ar3.getSkQuerenMoney()+receiptMonth2;
+				receiptMonth3All=receiptMonth3All+ar3.getSkQuerenMoney();
 				AlreadyRenling ar4=aService.selectDeptRenlingByTimeAndType(year+"-04", omName, type);
-				double receiptMonth4=ar4.getSkQuerenMoney();
-				receiptMonth4All=receiptMonth3All+receiptMonth4;
+				double receiptMonth4=ar4.getSkQuerenMoney()+receiptMonth3;
+				receiptMonth4All=receiptMonth4All+ar4.getSkQuerenMoney();
 				AlreadyRenling ar5=aService.selectDeptRenlingByTimeAndType(year+"-05", omName, type);
-				double receiptMonth5=ar5.getSkQuerenMoney();
-				receiptMonth5All=receiptMonth4All+receiptMonth5;
+				double receiptMonth5=ar5.getSkQuerenMoney()+receiptMonth4;
+				receiptMonth5All=receiptMonth5All+ar5.getSkQuerenMoney();
 				AlreadyRenling ar6=aService.selectDeptRenlingByTimeAndType(year+"-06", omName, type);
-				double receiptMonth6=ar6.getSkQuerenMoney();
-				receiptMonth6All=receiptMonth5All+receiptMonth6;
+				double receiptMonth6=ar6.getSkQuerenMoney()+receiptMonth5;
+				receiptMonth6All=receiptMonth6All+ar6.getSkQuerenMoney();
 				AlreadyRenling ar7=aService.selectDeptRenlingByTimeAndType(year+"-07", omName, type);
-				double receiptMonth7=ar7.getSkQuerenMoney();
-				receiptMonth7All=receiptMonth6All+receiptMonth7;
+				double receiptMonth7=ar7.getSkQuerenMoney()+receiptMonth6;
+				receiptMonth7All=receiptMonth7All+ar7.getSkQuerenMoney();
 				AlreadyRenling ar8=aService.selectDeptRenlingByTimeAndType(year+"-08", omName, type);
-				double receiptMonth8=ar8.getSkQuerenMoney();
-				receiptMonth8All=receiptMonth7All+receiptMonth8;
+				double receiptMonth8=ar8.getSkQuerenMoney()+receiptMonth7;
+				receiptMonth8All=receiptMonth8All+ar8.getSkQuerenMoney();
 				AlreadyRenling ar9=aService.selectDeptRenlingByTimeAndType(year+"-09", omName, type);
-				double receiptMonth9=ar9.getSkQuerenMoney();
-				receiptMonth9All=receiptMonth8All+receiptMonth9;
+				double receiptMonth9=ar9.getSkQuerenMoney()+receiptMonth8;
+				receiptMonth9All=receiptMonth9All+ar9.getSkQuerenMoney();
 				AlreadyRenling ar10=aService.selectDeptRenlingByTimeAndType(year+"-10", omName, type);
-				double receiptMonth10=ar10.getSkQuerenMoney();
-				receiptMonth10All=receiptMonth9All+receiptMonth10;
+				double receiptMonth10=ar10.getSkQuerenMoney()+receiptMonth9;
+				receiptMonth10All=receiptMonth10All+ar10.getSkQuerenMoney();
 				AlreadyRenling ar11=aService.selectDeptRenlingByTimeAndType(year+"-11", omName, type);
-				double receiptMonth11=ar11.getSkQuerenMoney();
-				receiptMonth11All=receiptMonth10All+receiptMonth11;
+				double receiptMonth11=ar11.getSkQuerenMoney()+receiptMonth10;
+				receiptMonth11All=receiptMonth11All+ar11.getSkQuerenMoney();
 				AlreadyRenling ar12=aService.selectDeptRenlingByTimeAndType(year+"-12", omName, type);
-				double receiptMonth12=ar12.getSkQuerenMoney();
-				receiptMonth12All=receiptMonth11All+receiptMonth12;
+				double receiptMonth12=ar12.getSkQuerenMoney()+receiptMonth11;
+				receiptMonth12All=receiptMonth12All+ar12.getSkQuerenMoney();
 				
+	
 			}
+			
+			contractMonth2All+=contractMonth1All;
+			contractMonth3All+=contractMonth2All;
+			contractMonth4All+=contractMonth3All;
+			contractMonth5All+=contractMonth4All;
+			contractMonth6All+=contractMonth5All;
+			contractMonth7All+=contractMonth6All;
+			contractMonth8All+=contractMonth7All;
+			contractMonth9All+=contractMonth8All;
+			contractMonth10All+=contractMonth9All;
+			contractMonth11All+=contractMonth10All;
+			contractMonth12All+=contractMonth11All;
+			
+			contractMoneyList.add(contractMonth1All);
+			contractMoneyList.add(contractMonth2All);
+			contractMoneyList.add(contractMonth3All);
+			contractMoneyList.add(contractMonth4All);
+			contractMoneyList.add(contractMonth5All);
+			contractMoneyList.add(contractMonth6All);
+			contractMoneyList.add(contractMonth7All);
+			contractMoneyList.add(contractMonth8All);
+			contractMoneyList.add(contractMonth9All);
+			contractMoneyList.add(contractMonth10All);
+			contractMoneyList.add(contractMonth11All);
+			contractMoneyList.add(contractMonth12All);
+			for(int m=12;m>=month+1;m--)
+			{
+				contractMoneyList.remove(m-1);
+			}
+			resultContract.add(contractMoneyList);
+			
+			inComeMonth2All+=inComeMonth1All;
+			inComeMonth3All+=inComeMonth2All;
+			inComeMonth4All+=inComeMonth3All;
+			inComeMonth5All+=inComeMonth4All;
+			inComeMonth6All+=inComeMonth5All;
+			inComeMonth7All+=inComeMonth6All;
+			inComeMonth8All+=inComeMonth7All;
+			inComeMonth9All+=inComeMonth8All;
+			inComeMonth10All+=inComeMonth9All;
+			inComeMonth11All+=inComeMonth10All;
+			inComeMonth12All+=inComeMonth11All;
+			
+			inComeMoneyList.add(inComeMonth1All);
+			inComeMoneyList.add(inComeMonth2All);
+			inComeMoneyList.add(inComeMonth3All);
+			inComeMoneyList.add(inComeMonth4All);
+			inComeMoneyList.add(inComeMonth5All);
+			inComeMoneyList.add(inComeMonth6All);
+			inComeMoneyList.add(inComeMonth7All);
+			inComeMoneyList.add(inComeMonth8All);
+			inComeMoneyList.add(inComeMonth9All);
+			inComeMoneyList.add(inComeMonth10All);
+			inComeMoneyList.add(inComeMonth11All);
+			inComeMoneyList.add(inComeMonth12All);
+			for(int m=12;m>=month+1;m--)
+			{
+				inComeMoneyList.remove(m-1);
+			}
+			resultIncome.add(inComeMoneyList);
+			
+			receiptMonth2All+=receiptMonth1All;
+			receiptMonth3All+=receiptMonth2All;
+			receiptMonth4All+=receiptMonth3All;
+			receiptMonth5All+=receiptMonth4All;
+			receiptMonth6All+=receiptMonth5All;
+			receiptMonth7All+=receiptMonth6All;
+			receiptMonth8All+=receiptMonth7All;
+			receiptMonth9All+=receiptMonth8All;
+			receiptMonth10All+=receiptMonth9All;
+			receiptMonth11All+=receiptMonth10All;
+			receiptMonth12All+=receiptMonth11All;
+			
+			receiptMoneyList.add(receiptMonth1All);
+			receiptMoneyList.add(receiptMonth2All);
+			receiptMoneyList.add(receiptMonth3All);
+			receiptMoneyList.add(receiptMonth4All);
+			receiptMoneyList.add(receiptMonth5All);
+			receiptMoneyList.add(receiptMonth6All);
+			receiptMoneyList.add(receiptMonth7All);
+			receiptMoneyList.add(receiptMonth8All);
+			receiptMoneyList.add(receiptMonth9All);
+			receiptMoneyList.add(receiptMonth10All);
+			receiptMoneyList.add(receiptMonth11All);
+			receiptMoneyList.add(receiptMonth12All);
+			for(int m=12;m>=month+1;m--)
+			{
+				receiptMoneyList.remove(m-1);
+			}
+			resultReceipt.add(receiptMoneyList);
+			
 			//公司所有累加
 			gsContractMoneyMonth1All=gsContractMoneyMonth1All+contractMonth1All;
 			gsContractMoneyMonth2All=gsContractMoneyMonth2All+contractMonth2All;
@@ -434,47 +529,7 @@ public class StatisticsController {
 			gsReceiptMonth11All=gsReceiptMonth11All+receiptMonth11All;
 			gsReceiptMonth12All=gsReceiptMonth12All+receiptMonth12All;
 			
-			contractMoneyList.add(contractMonth1All);
-			contractMoneyList.add(contractMonth2All);
-			contractMoneyList.add(contractMonth3All);
-			contractMoneyList.add(contractMonth4All);
-			contractMoneyList.add(contractMonth5All);
-			contractMoneyList.add(contractMonth6All);
-			contractMoneyList.add(contractMonth7All);
-			contractMoneyList.add(contractMonth8All);
-			contractMoneyList.add(contractMonth9All);
-			contractMoneyList.add(contractMonth10All);
-			contractMoneyList.add(contractMonth11All);
-			contractMoneyList.add(contractMonth12All);
-			resultContract.add(contractMoneyList);
 			
-			inComeMoneyList.add(inComeMonth1All);
-			inComeMoneyList.add(inComeMonth2All);
-			inComeMoneyList.add(inComeMonth3All);
-			inComeMoneyList.add(inComeMonth4All);
-			inComeMoneyList.add(inComeMonth5All);
-			inComeMoneyList.add(inComeMonth6All);
-			inComeMoneyList.add(inComeMonth7All);
-			inComeMoneyList.add(inComeMonth8All);
-			inComeMoneyList.add(inComeMonth9All);
-			inComeMoneyList.add(inComeMonth10All);
-			inComeMoneyList.add(inComeMonth11All);
-			inComeMoneyList.add(inComeMonth12All);
-			resultIncome.add(inComeMoneyList);
-			
-			receiptMoneyList.add(receiptMonth1All);
-			receiptMoneyList.add(receiptMonth2All);
-			receiptMoneyList.add(receiptMonth3All);
-			receiptMoneyList.add(receiptMonth4All);
-			receiptMoneyList.add(receiptMonth5All);
-			receiptMoneyList.add(receiptMonth6All);
-			receiptMoneyList.add(receiptMonth7All);
-			receiptMoneyList.add(receiptMonth8All);
-			receiptMoneyList.add(receiptMonth9All);
-			receiptMoneyList.add(receiptMonth10All);
-			receiptMoneyList.add(receiptMonth11All);
-			receiptMoneyList.add(receiptMonth12All);
-			resultReceipt.add(receiptMoneyList);
 		}
 		gsContractMoney.add(gsContractMoneyMonth1All);
 		gsContractMoney.add(gsContractMoneyMonth2All);
@@ -488,6 +543,10 @@ public class StatisticsController {
 		gsContractMoney.add(gsContractMoneyMonth10All);
 		gsContractMoney.add(gsContractMoneyMonth11All);
 		gsContractMoney.add(gsContractMoneyMonth12All);
+		for(int m=12;m>=month+1;m--)
+		{
+			gsContractMoney.remove(m-1);
+		}
 		resultContract.add(0,gsContractMoney);
 		
 		gsIncome.add(gsIncomeMonth1All);
@@ -502,6 +561,10 @@ public class StatisticsController {
 		gsIncome.add(gsIncomeMonth10All);
 		gsIncome.add(gsIncomeMonth11All);
 		gsIncome.add(gsIncomeMonth12All);
+		for(int m=12;m>=month+1;m--)
+		{
+			gsIncome.remove(m-1);
+		}
 		resultIncome.add(0,gsIncome);
 		
 		gsReceipt.add(gsReceiptMonth1All);
@@ -516,6 +579,10 @@ public class StatisticsController {
 		gsReceipt.add(gsReceiptMonth10All);
 		gsReceipt.add(gsReceiptMonth11All);
 		gsReceipt.add(gsReceiptMonth12All);
+		for(int m=12;m>=month+1;m--)
+		{
+			gsReceipt.remove(m-1);
+		}
 		resultReceipt.add(0,gsReceipt);
 		map.put("om", omList);
 		map.put("resultContract", resultContract);
