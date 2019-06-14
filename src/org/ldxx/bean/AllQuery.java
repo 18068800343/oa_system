@@ -59,9 +59,45 @@ public class AllQuery {
 	//分包未付金额
 	private String weiPayMoney;
 	
-	private String lxTime;//立项时间
+	private String lxTime;//任务单立项时间
+	private String contractStartTime;//承接合同开始时间
+	private String contractEndTime;//承接合同结束时间
+	private String cjContractEndTime;//履约时间
+	private String prjSource;//项目来源
+	private String importance;//重要程度
 	
 	
+	
+	public String getPrjSource() {
+		return prjSource;
+	}
+	public void setPrjSource(String prjSource) {
+		this.prjSource = prjSource;
+	}
+	public String getImportance() {
+		return importance;
+	}
+	public void setImportance(String importance) {
+		this.importance = importance;
+	}
+	public String getCjContractEndTime() {
+		return cjContractEndTime;
+	}
+	public void setCjContractEndTime(String cjContractEndTime) {
+		this.cjContractEndTime = cjContractEndTime;
+	}
+	public String getContractStartTime() {
+		return contractStartTime;
+	}
+	public void setContractStartTime(String contractStartTime) {
+		this.contractStartTime = contractStartTime;
+	}
+	public String getContractEndTime() {
+		return contractEndTime;
+	}
+	public void setContractEndTime(String contractEndTime) {
+		this.contractEndTime = contractEndTime;
+	}
 	public String getLxTime() {
 		return lxTime;
 	}

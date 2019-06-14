@@ -160,6 +160,11 @@ GROUP BY
 	  u.u_name mainPrjLeader,
 	  cj.contract_money cjmoney,
 	  cj.temporary_money temporaryMoney,
+	  cj.contract_start_time contractStartTime,
+	  cj.contract_end_time contractEndTime,
+	  cww.cj_contract_end_time cjContractEndTime,
+	  tk.prj_source prjSource,
+	  tk.importance,
 	  case when tk.main_department like #{depart} then tk.main_department_money
 			       when tk.assist_department1 like #{depart} then tk.assist_department1_money
 			       when tk.assist_department2 like #{depart} then tk.assist_department2_money
@@ -216,7 +221,8 @@ GROUP BY
 	LEFT JOIN mode_status ms ON cj.cj_id = ms.mode_id
 	LEFT JOIN(SELECT a.mode_id, a.do_date from (SELECT a.* from flowhistroy a LEFT JOIN task b ON a.mode_id=b.prj_id left join mode_status as c on a.mode_id=c.mode_id
 								WHERE c.status='2' and a.gaibian IS NULL ORDER BY  a.do_date DESC) as a GROUP BY a.mode_id) as g ON tk.prj_id=g.mode_id
-	<!-- WHERE -->
+	left join (select * from contract_work where type=2 ) as cww on cj.contract_no=cww.cj_contract_code
+	
 	<where>
 		<if test="seachCjMoneyMin!=0">
 			cj.contract_money&gt;=#{seachCjMoneyMin} and cj.contract_money&lt;=#{seachCjMoneyMax} and

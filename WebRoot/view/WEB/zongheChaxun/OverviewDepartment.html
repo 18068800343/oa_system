@@ -62,9 +62,6 @@
 	                    		 <form class="form-inline">
 									  <div class="form-group ">
 										  
-										   <label style="margin-left: 10px;" for="exampleInputName2">选择部门</label>
-										    <select  class="form-control" id="zhuban" >
-										    </select>
 										    <button type="button" class="btn btn-primary" style="width:100px;margin-left: 10px;" id="zhedieBtn"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
 										    <button type="button" class="btn btn-primary" style="margin-left: 10px;" id="chaxun" onclick="chaxunClick()">查询</button>
 										    <button type="button" class="btn btn-primary" style="margin-left: 10px;" id="">统计</button>
@@ -82,7 +79,15 @@
                     		<div class="sousuoInput" id="sousuodiv">
                     			<div id="sousuoTable"  style="border:1px solid #eee;padding:5px;">             			
                     				<div class="yihang2">
-                    					
+                    					<div style="width:50%;">
+                    							<form class="form-inline">
+														  <div class="form-group" style="display:flex;align-items:center;">
+														    	<label  for="exampleInputName2">&emsp;&emsp;选择部门: </label>&nbsp;
+															    <select style="width:30%;"  class="form-control" id="zhuban" >
+															    </select>
+														  </div>
+													</form>
+                    					</div>
                     					<div style="width:50%;">
                     							<form class="form-inline">
 														  <div class="form-group" style="display:flex;align-items:center;">
@@ -93,7 +98,11 @@
 														  </div>
 													</form>
                     					</div>
-                    					<div style="width:50%;">
+                    					
+                    				</div>
+                    				<hr/>
+                    				<div class="yihang2">
+                    				<div style="width:50%;">
                     							<form class="form-inline">
 														  <div class="form-group" style="display:flex;align-items:center;">
 														        <label for="exampleInput">立项时间范围:&nbsp;</label>
@@ -103,9 +112,6 @@
 														  </div>
 													</form>
                     					</div>
-                    				</div>
-                    				<hr/>
-                    				<div class="yihang2">
                     				<div style="width:50%;">
                     							<form class="form-inline">
 														  <div class="form-group" style="display:flex;align-items:center;">
@@ -130,6 +136,7 @@
 													</form>
                     					</div>
                     					
+                    					
                     				</div>
                     			</div>
                     		</div>
@@ -139,13 +146,17 @@
                 <thead>  
                     <tr>
                        <!--  <th>序号</th> -->
-                        <th style="width:120px;">任务单号</th>
-                        <th style="width:120px;">承接合同编号</th>
-                        <th style="width:120px;">承接合同名称</th>
+                        <th style="width:100px;">任务单号</th>
+                        <th style="width:100px;">承接合同编号</th>
+                        <th style="width:300px;">承接合同名称</th>
                         <th style="width:120px;">业主单位</th>
                         <th style="width:120px;">合同工期</th>
+                        <th style="width:100px;">项目计划工期</th>
+                        <th style="width:100px;">履约时间</th> 
                         <th style="width:120px;">管理部门</th>
                         <th style="width:120px;">项目负责人</th>
+                        <th style="width:100px;">项目来源</th>
+                        <th style="width:100px;">重要程度</th>
                         
                         <th style="width:120px;">合同状态</th>
                         <th style="width:120px;">合同金额</th>
@@ -309,9 +320,13 @@
 		            { "data": "contractNo"}, 
 		            { "data": "contractName"},
 		            { "data": "ccName"}, 
+		            { "data": null},
 		            { "data": "contractLongTime"},
+		            { "data": "cjContractEndTime"},
 		            { "data": "omName"}, 
 		            { "data": "mainPrjLeader"},
+		            { "data": "prjSource"},
+		            { "data": "importance"},
 		            { "data": "cjStatus"},
 		            { "data": "cjmoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
 		            { "data": "temporaryMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},
@@ -334,17 +349,32 @@
 		        "columnDefs": [
 								{
 										 "class": "tcenter",
-										    "targets": 14,
+										    "targets": 16,
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										  	  		return full.leiJiChengBen==null?0.0:full.leiJiChengBen
 										        }
 										  },{
 												 "class": "tcenter",
-												    "targets": 24,
+												    "targets": 26,
 												    "searchable": true,
 												    "render": function(data, type, full) {
 												  	  		return full.weiPayMoney==null?0.0:full.weiPayMoney
+												        }
+												  },
+										  {
+												 "class": "tcenter",
+												    "targets": 4,
+												    "searchable": true,
+												    "render": function(data, type, full) {
+												    	var htgongqi;
+												    	if(full.contractStartTime!=null&&full.contractStartTime!=''&&full.contractEndTime!=null&&full.contractEndTime!=''){
+												    		htgongqi=full.contractStartTime+"~"+full.contractEndTime
+												    		console.log(full.contractStartTime)
+												    	}else{
+												    		htgongqi=""
+												    	}
+												  	  	return htgongqi
 												        }
 												  }
 								],
