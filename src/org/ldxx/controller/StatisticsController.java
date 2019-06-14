@@ -43,6 +43,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 /** 
 * @ClassName: StatisticsController 
 * @Description: 统计分析
@@ -1359,6 +1362,7 @@ public class StatisticsController {
 		List<String> omList=new ArrayList<>();
 		List<String> yearList=new ArrayList<>();
 		omList.add("公司");
+		
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		String year2=((Integer.valueOf(year))-1)+"";
@@ -1366,6 +1370,7 @@ public class StatisticsController {
 		yearList.add(year3);
 		yearList.add(year2);
 		yearList.add(year);
+		
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
 		
 		List<Double> resultAll=new ArrayList<>();
@@ -1378,6 +1383,24 @@ public class StatisticsController {
 		double mbMonth2All=0;
 		double mbMonth3All=0;
 		
+		//获取公司各种金额
+		String resultGs=oservice.selectGsOperationTargetByTime(year3+"");
+		JSONObject jsonObject=JSONObject.fromObject(resultGs);
+		OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		month1All=ot.getXqhte();//部门前年合同额
+		
+		//获取公司各种金额
+		resultGs=oservice.selectGsOperationTargetByTime(year2+"");
+		jsonObject=JSONObject.fromObject(resultGs);
+		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		month2All=ot.getXqhte();//部门去年合同额
+		
+		//获取公司各种金额
+		resultGs=oservice.selectGsOperationTargetByTime(year+"");
+		jsonObject=JSONObject.fromObject(resultGs);
+		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		month3All=ot.getXqhte();//部门今年合同额
+		
 		for(int i=0;i<om.size();i++){
 			List<Double> result=new ArrayList<>();
 			List<Double> mb=new ArrayList<>();
@@ -1386,39 +1409,54 @@ public class StatisticsController {
 			String omName=om.get(i).getOmName();//部门名称
 			omList.add(omName);
 			
-			ContractUpdate cu=cuService.selectDeptContractMoneyByTime(year3,omId);
-			double month1=cu.getMoney();//部门前年合同额
-			month1All=month1All+month1;
+			//获取部门每年的金额
+			String resultBm=oservice.selectBmOperationTargetByTime(year3);
+			List<DepartmentTarget> dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			for(int k=0;k<dtList.size();k++)
+			{
+				if(dtList.get(k).getBmmc().equals(omName)) {
+					result.add(dtList.get(k).getXqhte());
+					break;
+				}
+			}
 			
-			ContractUpdate cu2=cuService.selectDeptContractMoneyByTime(year2,omId);
-			double month2=cu2.getMoney();//部门去年合同额
-			month2All=month2All+month2;
+			resultBm=oservice.selectBmOperationTargetByTime(year2);
+			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			for(int k=0;k<dtList.size();k++)
+			{
+				if(dtList.get(k).getBmmc().equals(omName)) {
+					result.add(dtList.get(k).getXqhte());
+					break;
+				}
+			}
 			
-			ContractUpdate cu3=cuService.selectDeptContractMoneyByTime(year,omId);
-			double month3=cu3.getMoney();//部门去年合同额
-			month3All=month3All+month3;
+			resultBm=oservice.selectBmOperationTargetByTime(year);
+			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			for(int k=0;k<dtList.size();k++)
+			{
+				if(dtList.get(k).getBmmc().equals(omName)) {
+					result.add(dtList.get(k).getXqhte());
+					break;
+				}
+			}
 			
-			
-			result.add(month1);
-			result.add(month2);
-			result.add(month3);
 			resultList.add(result);
 			
-			DepartmentTarget mt=dtService.selectDepartmentTargetByOmIdAndYear(omId, year3);
+			DepartmentTarget mt=dtService.selectDepartmentTargetByYearAndOmId(year3, omId);
 			double mbMonth1=0;
 			if(mt!=null){
 				mbMonth1=mt.getContractAmount();
 			}
 			mbMonth1All=mbMonth1All+mbMonth1;
 			
-			DepartmentTarget mt2=dtService.selectDepartmentTargetByOmIdAndYear(omId, year2);
+			DepartmentTarget mt2=dtService.selectDepartmentTargetByYearAndOmId(year2, omId);
 			double mbMonth2=0;
 			if(mt2!=null){
 				mbMonth2=mt2.getContractAmount();
 			}
 			mbMonth2All=mbMonth2All+mbMonth2;
 			
-			DepartmentTarget mt3=dtService.selectDepartmentTargetByOmIdAndYear(omId, year);
+			DepartmentTarget mt3=dtService.selectDepartmentTargetByYearAndOmId(year, omId);
 			double mbMonth3=0;
 			if(mt3!=null){
 				 mbMonth3=mt3.getContractAmount();
@@ -1434,9 +1472,29 @@ public class StatisticsController {
 		resultAll.add(month1All);
 		resultAll.add(month2All);
 		resultAll.add(month3All);
-		mbAll.add(mbMonth1All);
-		mbAll.add(mbMonth2All);
-		mbAll.add(mbMonth3All);
+		
+		//获取公司各个目标
+		OperationTarget ot3=oservice.selectOperationTargetByYear(year3+"");
+		if(null!=ot3) {
+			mbAll.add(ot3.getContractAmount());
+		}else
+		{
+			mbAll.add(0.0);
+		}
+		OperationTarget ot2=oservice.selectOperationTargetByYear(year2+"");
+		if(null!=ot2) {
+			mbAll.add(ot2.getContractAmount());
+		}else
+		{
+			mbAll.add(0.0);
+		}
+		OperationTarget ot1=oservice.selectOperationTargetByYear(year+"");
+		if(null!=ot1) {
+			mbAll.add(ot1.getContractAmount());
+		}else
+		{
+			mbAll.add(0.0);
+		}
 		resultList.add(0, resultAll);
 		mbList.add(0,mbAll);
 		map.put("result", resultList);
@@ -1469,9 +1527,25 @@ public class StatisticsController {
 		double month2All=0;
 		double month3All=0;
 		
-		double mbMonth1All=0;
-		double mbMonth2All=0;
-		double mbMonth3All=0;
+
+		
+		//获取公司各种金额
+		String resultGs=oservice.selectGsOperationTargetByTime(year3+"");
+		JSONObject jsonObject=JSONObject.fromObject(resultGs);
+		OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		month1All=ot.getSr();//部门前年合同额
+		
+		//获取公司各种金额
+		resultGs=oservice.selectGsOperationTargetByTime(year2+"");
+		jsonObject=JSONObject.fromObject(resultGs);
+		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		month2All=ot.getSr();//部门去年合同额
+		
+		//获取公司各种金额
+		resultGs=oservice.selectGsOperationTargetByTime(year+"");
+		jsonObject=JSONObject.fromObject(resultGs);
+		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		month3All=ot.getSr();//部门今年合同额
 	
 		for(int i=0;i<om.size();i++){
 			List<Double> result=new ArrayList<>();
@@ -1480,39 +1554,59 @@ public class StatisticsController {
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
 			
-			PrjProgressFill ppf=pService.selectGsIncomeByTimeAndDept(year3, omName);
-			month1All=month1All+ppf.getAllMoneyYuan();
-			PrjProgressFill ppf2=pService.selectGsIncomeByTimeAndDept(year2, omName);
-			month2All=month2All+ppf2.getAllMoneyYuan();
-			PrjProgressFill ppf3=pService.selectGsIncomeByTimeAndDept(year, omName);
-			month3All=month3All+ppf3.getAllMoneyYuan();
+			//获取部门每年的金额
+			String resultBm=oservice.selectBmOperationTargetByTime(year3);
+			List<DepartmentTarget> dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			for(int k=0;k<dtList.size();k++)
+			{
+				if(dtList.get(k).getBmmc().equals(omName)) {
+					result.add(dtList.get(k).getSr());
+					break;
+				}
+			}
 			
-			result.add((double) ppf.getAllMoneyYuan());
-			result.add((double) ppf2.getAllMoneyYuan());
-			result.add((double) ppf3.getAllMoneyYuan());
+			//获取部门每年的金额
+			resultBm=oservice.selectBmOperationTargetByTime(year2);
+			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			for(int k=0;k<dtList.size();k++)
+			{
+				if(dtList.get(k).getBmmc().equals(omName)) {
+					result.add(dtList.get(k).getSr());
+					break;
+				}
+			}
+			
+			//获取部门每年的金额
+			resultBm=oservice.selectBmOperationTargetByTime(year);
+			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			for(int k=0;k<dtList.size();k++)
+			{
+				if(dtList.get(k).getBmmc().equals(omName)) {
+					result.add(dtList.get(k).getSr());
+					break;
+				}
+			}
 			
 			resultList.add(result);
 			
-			DepartmentTarget mt=dtService.selectDepartmentTargetByOmIdAndYear(omId, year3);
+			//部门目标
+			DepartmentTarget mt=dtService.selectDepartmentTargetByYearAndOmId(omId, year3);
 			double mbMonth1=0;
 			if(mt!=null){
 				mbMonth1=mt.getRevenueTarget();
 			}
-			mbMonth1All=mbMonth1All+mbMonth1;
 			
-			DepartmentTarget mt2=dtService.selectDepartmentTargetByOmIdAndYear(omId, year2);
+			DepartmentTarget mt2=dtService.selectDepartmentTargetByYearAndOmId(omId, year2);
 			double mbMonth2=0;
 			if(mt2!=null){
 				mbMonth2=mt2.getRevenueTarget();
 			}
-			mbMonth2All=mbMonth2All+mbMonth2;
 			
-			DepartmentTarget mt3=dtService.selectDepartmentTargetByOmIdAndYear(omId, year);
+			DepartmentTarget mt3=dtService.selectDepartmentTargetByYearAndOmId(omId, year);
 			double mbMonth3=0;
 			if(mt3!=null){
 				mbMonth3=mt3.getRevenueTarget();
 			}
-			mbMonth3All=mbMonth3All+mbMonth3;
 			
 			mb.add(mbMonth1);
 			mb.add(mbMonth2);
@@ -1522,9 +1616,30 @@ public class StatisticsController {
 		resultAll.add(month1All);
 		resultAll.add(month2All);
 		resultAll.add(month3All);
-		mbAll.add(mbMonth1All);
-		mbAll.add(mbMonth2All);
-		mbAll.add(mbMonth3All);
+		
+		//获取公司各个目标
+		OperationTarget ot3=oservice.selectOperationTargetByYear(year3+"");
+		if(null!=ot3) {
+			mbAll.add(ot3.getRevenueTarget());
+		}else
+		{
+			mbAll.add(0.0);
+		}
+		OperationTarget ot2=oservice.selectOperationTargetByYear(year2+"");
+		if(null!=ot2) {
+			mbAll.add(ot2.getRevenueTarget());
+		}else
+		{
+			mbAll.add(0.0);
+		}
+		OperationTarget ot1=oservice.selectOperationTargetByYear(year+"");
+		if(null!=ot1) {
+			mbAll.add(ot1.getRevenueTarget());
+		}else
+		{
+			mbAll.add(0.0);
+		}
+		
 		resultList.add(0, resultAll);
 		mbList.add(0,mbAll);
 		map.put("result", resultList);
@@ -1556,10 +1671,25 @@ public class StatisticsController {
 		double month1All=0;
 		double month2All=0;
 		double month3All=0;
+				
 		
-		double mbMonth1All=0;
-		double mbMonth2All=0;
-		double mbMonth3All=0;
+		//获取公司各种金额
+		String resultGs=oservice.selectGsOperationTargetByTime(year3+"");
+		JSONObject jsonObject=JSONObject.fromObject(resultGs);
+		OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		month1All=ot.getSk();//部门前年合同额
+		
+		//获取公司各种金额
+		resultGs=oservice.selectGsOperationTargetByTime(year2+"");
+		jsonObject=JSONObject.fromObject(resultGs);
+		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		month2All=ot.getSk();//部门去年合同额
+		
+		//获取公司各种金额
+		resultGs=oservice.selectGsOperationTargetByTime(year+"");
+		jsonObject=JSONObject.fromObject(resultGs);
+		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		month3All=ot.getSk();//部门今年合同额
 		
 		for(int i=0;i<om.size();i++){
 			List<Double> result=new ArrayList<>();
@@ -1568,38 +1698,58 @@ public class StatisticsController {
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
 			
-			AlreadyRenling ar=aService.selectDeptRenlingByTime(year3, omName);
-			month1All=month1All+ar.getSkQuerenMoney();
-			AlreadyRenling ar2=aService.selectDeptRenlingByTime(year2, omName);
-			month2All=month2All+ar2.getSkQuerenMoney();
-			AlreadyRenling ar3=aService.selectDeptRenlingByTime(year, omName);
-			month3All=month3All+ar3.getSkQuerenMoney();
 			
-			result.add(ar.getSkQuerenMoney());
-			result.add(ar2.getSkQuerenMoney());
-			result.add(ar3.getSkQuerenMoney());
+			//获取部门每年的金额
+			String resultBm=oservice.selectBmOperationTargetByTime(year3);
+			List<DepartmentTarget> dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			for(int k=0;k<dtList.size();k++)
+			{
+				if(dtList.get(k).getBmmc().equals(omName)) {
+					result.add(dtList.get(k).getSk());
+					break;
+				}
+			}
+			
+			//获取部门每年的金额
+			resultBm=oservice.selectBmOperationTargetByTime(year2);
+			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			for(int k=0;k<dtList.size();k++)
+			{
+				if(dtList.get(k).getBmmc().equals(omName)) {
+					result.add(dtList.get(k).getSk());
+					break;
+				}
+			}
+			
+			//获取部门每年的金额
+			resultBm=oservice.selectBmOperationTargetByTime(year);
+			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			for(int k=0;k<dtList.size();k++)
+			{
+				if(dtList.get(k).getBmmc().equals(omName)) {
+					result.add(dtList.get(k).getSk());
+					break;
+				}
+			}
 			resultList.add(result);
 			
-			DepartmentTarget mt=dtService.selectDepartmentTargetByOmIdAndYear(omId, year3);
+			DepartmentTarget mt=dtService.selectDepartmentTargetByYearAndOmId(omId, year3);
 			double mbMonth1=0;
 			if(mt!=null){
 				mbMonth1=mt.getCollectionTarget();
 			}
-			mbMonth1All=mbMonth1All+mbMonth1;
 			
-			DepartmentTarget mt2=dtService.selectDepartmentTargetByOmIdAndYear(omId, year2);
+			DepartmentTarget mt2=dtService.selectDepartmentTargetByYearAndOmId(omId, year2);
 			double mbMonth2=0;
 			if(mt2!=null){
 				mbMonth2=mt2.getCollectionTarget();
 			}
-			mbMonth2All=mbMonth2All+mbMonth2;
 			
-			DepartmentTarget mt3=dtService.selectDepartmentTargetByOmIdAndYear(omId, year);
+			DepartmentTarget mt3=dtService.selectDepartmentTargetByYearAndOmId(omId, year);
 			double mbMonth3=0;
 			if(mt3!=null){
 				mbMonth3=mt3.getCollectionTarget();
 			}
-			mbMonth3All=mbMonth3All+mbMonth3;
 			
 			
 			mb.add(mbMonth1);
@@ -1611,9 +1761,28 @@ public class StatisticsController {
 		resultAll.add(month2All);
 		resultAll.add(month3All);
 		
-		mbAll.add(mbMonth1All);
-		mbAll.add(mbMonth2All);
-		mbAll.add(mbMonth3All);
+		//获取公司各个目标
+		OperationTarget ot3=oservice.selectOperationTargetByYear(year3+"");
+		if(null!=ot3) {
+			mbAll.add(ot3.getCollectionTarget());
+		}else
+		{
+			mbAll.add(0.0);
+		}
+		OperationTarget ot2=oservice.selectOperationTargetByYear(year2+"");
+		if(null!=ot2) {
+			mbAll.add(ot2.getCollectionTarget());
+		}else
+		{
+			mbAll.add(0.0);
+		}
+		OperationTarget ot1=oservice.selectOperationTargetByYear(year+"");
+		if(null!=ot1) {
+			mbAll.add(ot1.getCollectionTarget());
+		}else
+		{
+			mbAll.add(0.0);
+		}
 		
 		resultList.add(0, resultAll);
 		mbList.add(0,mbAll);
