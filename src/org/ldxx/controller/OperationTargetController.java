@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -113,6 +114,35 @@ public class OperationTargetController {
 	public int updateOperationTargetBySubmit(OperationTarget target){
 		int i=oservice.updateOperationTarget(target);
 		return i;
+	}
+	
+	@RequestMapping("/selectOperationTargetByNowYear")
+	@ResponseBody
+	public Map<String,Object> selectOperationTargetByNowYear(String year){
+		Map<String,Object> map=new HashMap<>();
+		//获取公司各种金额
+		String resultGs=oservice.selectGsOperationTargetByTime(year+"");
+		JSONObject jsonObject=JSONObject.fromObject(resultGs);
+		OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		//获取公司各个目标
+		OperationTarget ot2=oservice.selectOperationTargetByYear(year+"");
+		ot.setYear(year+"");
+		if(null!=ot2) {
+			ot.setOtId(ot2.getOtId());
+			ot.setContractAmount(ot2.getContractAmount());
+			ot.setRevenueTarget(ot2.getRevenueTarget());
+			ot.setCollectionTarget(ot2.getCollectionTarget());
+			ot.setProfit(ot2.getProfit());
+		}else {
+			ot.setContractAmount(0);
+			ot.setRevenueTarget(0);
+			ot.setCollectionTarget(0);
+			ot.setProfit(0);
+		}
+		
+		map.put("ot", ot);
+		return map;
+		
 	}
 	
 	@RequestMapping("/selectOperationTarget")
