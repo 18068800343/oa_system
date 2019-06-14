@@ -21,6 +21,7 @@ import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ContractUpdate;
 import org.ldxx.bean.DepartmentTarget;
 import org.ldxx.bean.MonthTarget;
+import org.ldxx.bean.OperationTarget;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.StatisticsVo;
@@ -75,6 +76,10 @@ public class StatisticsController {
 	private AlreadySkInfoService aService;
 	@Autowired
 	private ContractUpdateService cuService;
+	@Autowired
+	private DepartmentTargetService dtservice; 
+	@Autowired
+	private OperationTargetService oservice;
 
 	@RequestMapping("/initGsContract")//初始化本期公司新签合同额。累计收款，累计收入
 	@ResponseBody
@@ -762,18 +767,7 @@ public class StatisticsController {
 		double month10All=0;
 		double month11All=0;
 		double month12All=0;
-		double mbMonth1All=0;
-		double mbMonth2All=0;
-		double mbMonth3All=0;
-		double mbMonth4All=0;
-		double mbMonth5All=0;
-		double mbMonth6All=0;
-		double mbMonth7All=0;
-		double mbMonth8All=0;
-		double mbMonth9All=0;
-		double mbMonth10All=0;
-		double mbMonth11All=0;
-		double mbMonth12All=0;
+
 		for(int i=0;i<om.size();i++){
 			List<Double> result=new ArrayList<>();
 			List<Double> mb=new ArrayList<>();
@@ -847,66 +841,61 @@ public class StatisticsController {
 			}
 			resultList.add(result);
 			
-			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
-			double mbMonth1=getMbContractMoney(mt);
-			mbMonth1All=mbMonth1All+mbMonth1;
+//			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
+//			double mbMonth1=getMbContractMoney(mt);
+//			mbMonth1All=mbMonth1All+mbMonth1;
+//			
+//			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
+//			double mbMonth2=getMbContractMoney(mt2);
+//			mbMonth2All=mbMonth1All+mbMonth2;
+//			
+//			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
+//			double mbMonth3=getMbContractMoney(mt3);
+//			mbMonth3All=mbMonth2All+mbMonth3;
+//			
+//			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
+//			double mbMonth4=getMbContractMoney(mt4);
+//			mbMonth4All=mbMonth3All+mbMonth4;
+//			
+//			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
+//			double mbMonth5=getMbContractMoney(mt5);
+//			mbMonth5All=mbMonth4All+mbMonth5;
+//			
+//			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
+//			double mbMonth6=getMbContractMoney(mt6);
+//			mbMonth6All=mbMonth5All+mbMonth6;
+//			
+//			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
+//			double mbMonth7=getMbContractMoney(mt7);
+//			mbMonth7All=mbMonth6All+mbMonth7;
+//			
+//			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
+//			double mbMonth8=getMbContractMoney(mt8);
+//			mbMonth8All=mbMonth7All+mbMonth8;
+//			
+//			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
+//			double mbMonth9=getMbContractMoney(mt9);
+//			mbMonth9All=mbMonth8All+mbMonth9;
+//			
+//			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
+//			double mbMonth10=getMbContractMoney(mt10);
+//			mbMonth10All=mbMonth9All+mbMonth10;
+//			
+//			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
+//			double mbMonth11=getMbContractMoney(mt11);
+//			mbMonth11All=mbMonth10All+mbMonth11;
+//			
+//			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
+//			double mbMonth12=getMbContractMoney(mt12);
+//			mbMonth12All=mbMonth11All+mbMonth12;
 			
-			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
-			double mbMonth2=getMbContractMoney(mt2);
-			mbMonth2All=mbMonth1All+mbMonth2;
-			
-			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
-			double mbMonth3=getMbContractMoney(mt3);
-			mbMonth3All=mbMonth2All+mbMonth3;
-			
-			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
-			double mbMonth4=getMbContractMoney(mt4);
-			mbMonth4All=mbMonth3All+mbMonth4;
-			
-			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
-			double mbMonth5=getMbContractMoney(mt5);
-			mbMonth5All=mbMonth4All+mbMonth5;
-			
-			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
-			double mbMonth6=getMbContractMoney(mt6);
-			mbMonth6All=mbMonth5All+mbMonth6;
-			
-			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
-			double mbMonth7=getMbContractMoney(mt7);
-			mbMonth7All=mbMonth6All+mbMonth7;
-			
-			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
-			double mbMonth8=getMbContractMoney(mt8);
-			mbMonth8All=mbMonth7All+mbMonth8;
-			
-			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
-			double mbMonth9=getMbContractMoney(mt9);
-			mbMonth9All=mbMonth8All+mbMonth9;
-			
-			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
-			double mbMonth10=getMbContractMoney(mt10);
-			mbMonth10All=mbMonth9All+mbMonth10;
-			
-			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
-			double mbMonth11=getMbContractMoney(mt11);
-			mbMonth11All=mbMonth10All+mbMonth11;
-			
-			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
-			double mbMonth12=getMbContractMoney(mt12);
-			mbMonth12All=mbMonth11All+mbMonth12;
-			
-			mb.add(mbMonth1);
-			mb.add(mbMonth2);
-			mb.add(mbMonth3);
-			mb.add(mbMonth4);
-			mb.add(mbMonth5);
-			mb.add(mbMonth6);
-			mb.add(mbMonth7);
-			mb.add(mbMonth8);
-			mb.add(mbMonth9);
-			mb.add(mbMonth10);
-			mb.add(mbMonth11);
-			mb.add(mbMonth12);
+			DepartmentTarget dt =  dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
+			//部门新签合同额当年目标
+			double mbdouble =dt.getContractAmount();
+			for(int k=0;k<12;k++)
+			{
+				mb.add(mbdouble);
+			}
 			mbList.add(mb);
 		}
 		month2All+=month1All;
@@ -937,18 +926,14 @@ public class StatisticsController {
 		{
 			resultAll.remove(m-1);
 		}
-		mbAll.add(mbMonth1All);
-		mbAll.add(mbMonth2All);
-		mbAll.add(mbMonth3All);
-		mbAll.add(mbMonth4All);
-		mbAll.add(mbMonth5All);
-		mbAll.add(mbMonth6All);
-		mbAll.add(mbMonth7All);
-		mbAll.add(mbMonth8All);
-		mbAll.add(mbMonth9All);
-		mbAll.add(mbMonth10All);
-		mbAll.add(mbMonth11All);
-		mbAll.add(mbMonth12All);
+		
+		OperationTarget ot=oservice.selectOperationTargetByYear(year);
+		double mbdouble = ot.getContractAmount();
+		for(int k=0;k<12;k++)
+		{
+			mbAll.add(mbdouble);
+		}
+		
 		resultList.add(0, resultAll);
 		mbList.add(0,mbAll);
 		map.put("result", resultList);
@@ -986,18 +971,7 @@ public class StatisticsController {
 		double month10All=0;
 		double month11All=0;
 		double month12All=0;
-		double mbMonth1All=0;
-		double mbMonth2All=0;
-		double mbMonth3All=0;
-		double mbMonth4All=0;
-		double mbMonth5All=0;
-		double mbMonth6All=0;
-		double mbMonth7All=0;
-		double mbMonth8All=0;
-		double mbMonth9All=0;
-		double mbMonth10All=0;
-		double mbMonth11All=0;
-		double mbMonth12All=0;
+
 		for(int i=0;i<om.size();i++){
 			List<Double> result=new ArrayList<>();
 			List<Double> mb=new ArrayList<>();
@@ -1070,66 +1044,61 @@ public class StatisticsController {
 			}
 			resultList.add(result);
 			
-			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
-			double mbMonth1=getMbIncome(mt);
-			mbMonth1All=mbMonth1All+mbMonth1;
+//			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
+//			double mbMonth1=getMbIncome(mt);
+//			mbMonth1All=mbMonth1All+mbMonth1;
+//			
+//			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
+//			double mbMonth2=getMbIncome(mt2);
+//			mbMonth2All=mbMonth2All+mbMonth2;
+//			
+//			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
+//			double mbMonth3=getMbIncome(mt3);
+//			mbMonth3All=mbMonth3All+mbMonth3;
+//			
+//			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
+//			double mbMonth4=getMbIncome(mt4);
+//			mbMonth4All=mbMonth4All+mbMonth4;
+//			
+//			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
+//			double mbMonth5=getMbIncome(mt5);
+//			mbMonth5All=mbMonth5All+mbMonth5;
+//			
+//			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
+//			double mbMonth6=getMbIncome(mt6);
+//			mbMonth6All=mbMonth6All+mbMonth6;
+//			
+//			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
+//			double mbMonth7=getMbIncome(mt7);
+//			mbMonth7All=mbMonth7All+mbMonth7;
+//			
+//			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
+//			double mbMonth8=getMbIncome(mt8);
+//			mbMonth8All=mbMonth8All+mbMonth8;
+//			
+//			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
+//			double mbMonth9=getMbIncome(mt9);
+//			mbMonth9All=mbMonth9All+mbMonth9;
+//			
+//			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
+//			double mbMonth10=getMbIncome(mt10);
+//			mbMonth10All=mbMonth10All+mbMonth10;
+//			
+//			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
+//			double mbMonth11=getMbIncome(mt11);
+//			mbMonth11All=mbMonth11All+mbMonth11;
+//			
+//			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
+//			double mbMonth12=getMbIncome(mt12);
+//			mbMonth12All=mbMonth12All+mbMonth12;
 			
-			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
-			double mbMonth2=getMbIncome(mt2);
-			mbMonth2All=mbMonth2All+mbMonth2;
-			
-			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
-			double mbMonth3=getMbIncome(mt3);
-			mbMonth3All=mbMonth3All+mbMonth3;
-			
-			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
-			double mbMonth4=getMbIncome(mt4);
-			mbMonth4All=mbMonth4All+mbMonth4;
-			
-			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
-			double mbMonth5=getMbIncome(mt5);
-			mbMonth5All=mbMonth5All+mbMonth5;
-			
-			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
-			double mbMonth6=getMbIncome(mt6);
-			mbMonth6All=mbMonth6All+mbMonth6;
-			
-			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
-			double mbMonth7=getMbIncome(mt7);
-			mbMonth7All=mbMonth7All+mbMonth7;
-			
-			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
-			double mbMonth8=getMbIncome(mt8);
-			mbMonth8All=mbMonth8All+mbMonth8;
-			
-			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
-			double mbMonth9=getMbIncome(mt9);
-			mbMonth9All=mbMonth9All+mbMonth9;
-			
-			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
-			double mbMonth10=getMbIncome(mt10);
-			mbMonth10All=mbMonth10All+mbMonth10;
-			
-			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
-			double mbMonth11=getMbIncome(mt11);
-			mbMonth11All=mbMonth11All+mbMonth11;
-			
-			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
-			double mbMonth12=getMbIncome(mt12);
-			mbMonth12All=mbMonth12All+mbMonth12;
-			
-			mb.add(mbMonth1);
-			mb.add(mbMonth2);
-			mb.add(mbMonth3);
-			mb.add(mbMonth4);
-			mb.add(mbMonth5);
-			mb.add(mbMonth6);
-			mb.add(mbMonth7);
-			mb.add(mbMonth8);
-			mb.add(mbMonth9);
-			mb.add(mbMonth10);
-			mb.add(mbMonth11);
-			mb.add(mbMonth12);
+			DepartmentTarget dt =  dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
+			//部门新签合同额当年目标
+			double mbdouble =dt.getRevenueTarget();
+			for(int k=0;k<12;k++)
+			{
+				mb.add(mbdouble);
+			}
 			mbList.add(mb);
 		}
 		month2All+=month1All;
@@ -1161,18 +1130,14 @@ public class StatisticsController {
 			resultAll.remove(m-1);
 		}
 		
-		mbAll.add(mbMonth1All);
-		mbAll.add(mbMonth2All);
-		mbAll.add(mbMonth3All);
-		mbAll.add(mbMonth4All);
-		mbAll.add(mbMonth5All);
-		mbAll.add(mbMonth6All);
-		mbAll.add(mbMonth7All);
-		mbAll.add(mbMonth8All);
-		mbAll.add(mbMonth9All);
-		mbAll.add(mbMonth10All);
-		mbAll.add(mbMonth11All);
-		mbAll.add(mbMonth12All);
+		
+		OperationTarget ot=oservice.selectOperationTargetByYear(year);
+		double mbdouble = ot.getRevenueTarget();
+		for(int k=0;k<12;k++)
+		{
+			mbAll.add(mbdouble);
+		}
+		
 		resultList.add(0, resultAll);
 		mbList.add(0,mbAll);
 		map.put("result", resultList);
@@ -1209,18 +1174,7 @@ public class StatisticsController {
 		double month10All=0;
 		double month11All=0;
 		double month12All=0;
-		double mbMonth1All=0;
-		double mbMonth2All=0;
-		double mbMonth3All=0;
-		double mbMonth4All=0;
-		double mbMonth5All=0;
-		double mbMonth6All=0;
-		double mbMonth7All=0;
-		double mbMonth8All=0;
-		double mbMonth9All=0;
-		double mbMonth10All=0;
-		double mbMonth11All=0;
-		double mbMonth12All=0;
+
 		
 		for(int i=0;i<om.size();i++){
 			List<Double> result=new ArrayList<>();
@@ -1295,67 +1249,62 @@ public class StatisticsController {
 			}
 			resultList.add(result);
 			
-			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
-			double mbMonth1=getMbReceipt(mt);
-			mbMonth1All=mbMonth1All+mbMonth1;
+//			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
+//			double mbMonth1=getMbReceipt(mt);
+//			mbMonth1All=mbMonth1All+mbMonth1;
+//			
+//			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
+//			double mbMonth2=getMbReceipt(mt2);
+//			mbMonth2All=mbMonth2All+mbMonth2;
+//			
+//			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
+//			double mbMonth3=getMbReceipt(mt3);
+//			mbMonth3All=mbMonth3All+mbMonth3;
+//			
+//			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
+//			double mbMonth4=getMbReceipt(mt4);
+//			mbMonth4All=mbMonth4All+mbMonth4;
+//			
+//			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
+//			double mbMonth5=getMbReceipt(mt5);
+//			mbMonth5All=mbMonth5All+mbMonth5;
+//			
+//			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
+//			double mbMonth6=getMbReceipt(mt6);
+//			mbMonth6All=mbMonth6All+mbMonth6;
+//			
+//			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
+//			double mbMonth7=getMbReceipt(mt7);
+//			mbMonth7All=mbMonth7All+mbMonth7;
+//			
+//			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
+//			double mbMonth8=getMbReceipt(mt8);
+//			mbMonth8All=mbMonth8All+mbMonth8;
+//			
+//			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
+//			double mbMonth9=getMbReceipt(mt9);
+//			mbMonth9All=mbMonth9All+mbMonth9;
+//			
+//			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
+//			double mbMonth10=getMbReceipt(mt10);
+//			mbMonth10All=mbMonth10All+mbMonth10;
+//			
+//			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
+//			double mbMonth11=getMbReceipt(mt11);
+//			mbMonth11All=mbMonth11All+mbMonth11;
+//			
+//			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
+//			double mbMonth12=getMbReceipt(mt12);
+//			mbMonth12All=mbMonth12All+mbMonth12;
 			
-			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
-			double mbMonth2=getMbReceipt(mt2);
-			mbMonth2All=mbMonth2All+mbMonth2;
-			
-			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
-			double mbMonth3=getMbReceipt(mt3);
-			mbMonth3All=mbMonth3All+mbMonth3;
-			
-			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
-			double mbMonth4=getMbReceipt(mt4);
-			mbMonth4All=mbMonth4All+mbMonth4;
-			
-			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
-			double mbMonth5=getMbReceipt(mt5);
-			mbMonth5All=mbMonth5All+mbMonth5;
-			
-			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
-			double mbMonth6=getMbReceipt(mt6);
-			mbMonth6All=mbMonth6All+mbMonth6;
-			
-			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
-			double mbMonth7=getMbReceipt(mt7);
-			mbMonth7All=mbMonth7All+mbMonth7;
-			
-			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
-			double mbMonth8=getMbReceipt(mt8);
-			mbMonth8All=mbMonth8All+mbMonth8;
-			
-			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
-			double mbMonth9=getMbReceipt(mt9);
-			mbMonth9All=mbMonth9All+mbMonth9;
-			
-			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
-			double mbMonth10=getMbReceipt(mt10);
-			mbMonth10All=mbMonth10All+mbMonth10;
-			
-			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
-			double mbMonth11=getMbReceipt(mt11);
-			mbMonth11All=mbMonth11All+mbMonth11;
-			
-			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
-			double mbMonth12=getMbReceipt(mt12);
-			mbMonth12All=mbMonth12All+mbMonth12;
-			
-			mb.add(mbMonth1);
-			mb.add(mbMonth2);
-			mb.add(mbMonth3);
-			mb.add(mbMonth4);
-			mb.add(mbMonth5);
-			mb.add(mbMonth6);
-			mb.add(mbMonth7);
-			mb.add(mbMonth8);
-			mb.add(mbMonth9);
-			mb.add(mbMonth10);
-			mb.add(mbMonth11);
-			mb.add(mbMonth12);
-			mbList.add(mb);
+			DepartmentTarget dt =  dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
+			//部门新签合同额当年目标
+			double mbdouble =dt.getCollectionTarget();
+			for(int k=0;k<12;k++)
+			{
+				mb.add(mbdouble);
+			}
+			mbList.add(mb);		
 		}
 		month2All+=month1All;
 		month3All+=month2All;
@@ -1386,18 +1335,13 @@ public class StatisticsController {
 			resultAll.remove(m-1);
 		}
 		
-		mbAll.add(mbMonth1All);
-		mbAll.add(mbMonth2All);
-		mbAll.add(mbMonth3All);
-		mbAll.add(mbMonth4All);
-		mbAll.add(mbMonth5All);
-		mbAll.add(mbMonth6All);
-		mbAll.add(mbMonth7All);
-		mbAll.add(mbMonth8All);
-		mbAll.add(mbMonth9All);
-		mbAll.add(mbMonth10All);
-		mbAll.add(mbMonth11All);
-		mbAll.add(mbMonth12All);
+		OperationTarget ot=oservice.selectOperationTargetByYear(year);
+		double mbdouble = ot.getCollectionTarget();
+		for(int k=0;k<12;k++)
+		{
+			mbAll.add(mbdouble);
+		}
+		
 		resultList.add(0, resultAll);
 		mbList.add(0,mbAll);
 		map.put("result", resultList);
