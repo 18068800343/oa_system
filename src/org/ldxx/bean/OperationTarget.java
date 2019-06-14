@@ -4,6 +4,7 @@ public class OperationTarget {
 
 	private String otId;
 	private double contractAmount;//合同额目标
+	private double cjhte;
 	private double xqhte;//实际合同额
 	private double revenueTarget;//收入目标
 	private double sr;//实际收入
@@ -15,6 +16,13 @@ public class OperationTarget {
 	private double lr;//实际利润
 	private String year;
 	
+	
+	public double getCjhte() {
+		return cjhte;
+	}
+	public void setCjhte(double cjhte) {
+		this.cjhte = cjhte;
+	}
 	public String getOtId() {
 		return otId;
 	}
