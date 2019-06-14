@@ -124,7 +124,7 @@ public class OperationTargetController {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 			String nowYear=sdf.format(new Date());
 			int nowY=Integer.valueOf(nowYear);
-			for(int i=2019;i<=nowY;i++){
+			for(int i=2018;i<=nowY;i++){
 				String resultGs=oservice.selectGsOperationTargetByTime(i+"");
 				JSONObject jsonObject=JSONObject.fromObject(resultGs);
 				OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
@@ -138,6 +138,7 @@ public class OperationTargetController {
 					new_ot.setRevenueTarget(ot2.getRevenueTarget());
 					new_ot.setCollectionTarget(ot2.getCollectionTarget());
 					new_ot.setProfit(ot2.getProfit());
+					
 				}else{
 					new_ot.setOtId("");
 					new_ot.setYear(i+"");
@@ -153,6 +154,7 @@ public class OperationTargetController {
 					new_ot.setZjcb(ot.getZjcb());
 					new_ot.setJjcb(ot.getJjcb());
 					new_ot.setLr(ot.getLr());
+					new_ot.setCjhte(ot.getCjhte());
 				}
 				if(new_ot!=null){
 					list.add(new_ot);
