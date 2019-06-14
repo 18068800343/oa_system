@@ -26,7 +26,7 @@ public class AllQuery {
 	private String temporaryMoney;
 	//部门所占金额
 	private String departContractMoney;
-	//累计收入
+	//累计收入比例
 	private String iall;
 	//当月收入
 	private String ibq;
@@ -65,9 +65,37 @@ public class AllQuery {
 	private String cjContractEndTime;//履约时间
 	private String prjSource;//项目来源
 	private String importance;//重要程度
+	private double allMoneyYuan;//累计收入
+	private double prjEstimateMoney;//任务单金额
+	private int cjNum;//承接合同数量
+	private int fbNum;//分包合同数量
 	
 	
 	
+	public int getFbNum() {
+		return fbNum;
+	}
+	public void setFbNum(int fbNum) {
+		this.fbNum = fbNum;
+	}
+	public int getCjNum() {
+		return cjNum;
+	}
+	public void setCjNum(int cjNum) {
+		this.cjNum = cjNum;
+	}
+	public double getPrjEstimateMoney() {
+		return prjEstimateMoney;
+	}
+	public void setPrjEstimateMoney(double prjEstimateMoney) {
+		this.prjEstimateMoney = prjEstimateMoney;
+	}
+	public double getAllMoneyYuan() {
+		return allMoneyYuan;
+	}
+	public void setAllMoneyYuan(double allMoneyYuan) {
+		this.allMoneyYuan = allMoneyYuan;
+	}
 	public String getPrjSource() {
 		return prjSource;
 	}
