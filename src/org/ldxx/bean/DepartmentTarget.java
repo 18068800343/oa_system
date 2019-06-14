@@ -17,8 +17,16 @@ public class DepartmentTarget {
 	private double jjcb;//间接成本
 	private double profit;//利润目标
 	private double lr;//实际利润
+	private double cjhte;
 	
 	
+	
+	public double getCjhte() {
+		return cjhte;
+	}
+	public void setCjhte(double cjhte) {
+		this.cjhte = cjhte;
+	}
 	public String gettId() {
 		return tId;
 	}
