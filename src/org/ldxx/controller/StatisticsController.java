@@ -71,8 +71,8 @@ public class StatisticsController {
 	private MonthTargetService mService;
 	@Autowired
 	private OrganizationManagementService omService;
-	@Autowired
-	private DepartmentTargetService dtService;
+//	@Autowired
+//	private DepartmentTargetService dtService;
 	@Autowired
 	private TaskService tService;
 	@Autowired
@@ -1442,21 +1442,21 @@ public class StatisticsController {
 			
 			resultList.add(result);
 			
-			DepartmentTarget mt=dtService.selectDepartmentTargetByYearAndOmId(year3, omId);
+			DepartmentTarget mt=dtservice.selectDepartmentTargetByYearAndOmId(year3, omId);
 			double mbMonth1=0;
 			if(mt!=null){
 				mbMonth1=mt.getContractAmount();
 			}
 			mbMonth1All=mbMonth1All+mbMonth1;
 			
-			DepartmentTarget mt2=dtService.selectDepartmentTargetByYearAndOmId(year2, omId);
+			DepartmentTarget mt2=dtservice.selectDepartmentTargetByYearAndOmId(year2, omId);
 			double mbMonth2=0;
 			if(mt2!=null){
 				mbMonth2=mt2.getContractAmount();
 			}
 			mbMonth2All=mbMonth2All+mbMonth2;
 			
-			DepartmentTarget mt3=dtService.selectDepartmentTargetByYearAndOmId(year, omId);
+			DepartmentTarget mt3=dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
 			double mbMonth3=0;
 			if(mt3!=null){
 				 mbMonth3=mt3.getContractAmount();
@@ -1590,19 +1590,19 @@ public class StatisticsController {
 			resultList.add(result);
 			
 			//部门目标
-			DepartmentTarget mt=dtService.selectDepartmentTargetByYearAndOmId(omId, year3);
+			DepartmentTarget mt=dtservice.selectDepartmentTargetByYearAndOmId(year3,omId);
 			double mbMonth1=0;
 			if(mt!=null){
 				mbMonth1=mt.getRevenueTarget();
 			}
 			
-			DepartmentTarget mt2=dtService.selectDepartmentTargetByYearAndOmId(omId, year2);
+			DepartmentTarget mt2=dtservice.selectDepartmentTargetByYearAndOmId(year2,omId);
 			double mbMonth2=0;
 			if(mt2!=null){
 				mbMonth2=mt2.getRevenueTarget();
 			}
 			
-			DepartmentTarget mt3=dtService.selectDepartmentTargetByYearAndOmId(omId, year);
+			DepartmentTarget mt3=dtservice.selectDepartmentTargetByYearAndOmId(year,omId);
 			double mbMonth3=0;
 			if(mt3!=null){
 				mbMonth3=mt3.getRevenueTarget();
@@ -1733,19 +1733,19 @@ public class StatisticsController {
 			}
 			resultList.add(result);
 			
-			DepartmentTarget mt=dtService.selectDepartmentTargetByYearAndOmId(omId, year3);
+			DepartmentTarget mt=dtservice.selectDepartmentTargetByYearAndOmId(year3, omId);
 			double mbMonth1=0;
 			if(mt!=null){
 				mbMonth1=mt.getCollectionTarget();
 			}
 			
-			DepartmentTarget mt2=dtService.selectDepartmentTargetByYearAndOmId(omId, year2);
+			DepartmentTarget mt2=dtservice.selectDepartmentTargetByYearAndOmId(year2, omId);
 			double mbMonth2=0;
 			if(mt2!=null){
 				mbMonth2=mt2.getCollectionTarget();
 			}
 			
-			DepartmentTarget mt3=dtService.selectDepartmentTargetByYearAndOmId(omId, year);
+			DepartmentTarget mt3=dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
 			double mbMonth3=0;
 			if(mt3!=null){
 				mbMonth3=mt3.getCollectionTarget();
