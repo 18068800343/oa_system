@@ -136,13 +136,13 @@ public class FlowUtill {
 		
 		ModeStatus modeStatus = INSTANCE.modeStatusMapper.selectByPrimaryKey(mode_id);
 		if(null!=modeStatus){
-			modeStatus.setStatus("1");
+			modeStatus.setStatus("4");
 			modeStatus.setFlowStatus("4");
 			INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus);
 		}else{
 			modeStatus=new ModeStatus();
 			modeStatus.setModeId(mode_id);
-			modeStatus.setStatus("1");
+			modeStatus.setStatus("4");
 			modeStatus.setFlowStatus("4");
 			INSTANCE.modeStatusMapper.insert(modeStatus);
 		}
@@ -382,6 +382,7 @@ public class FlowUtill {
 						
 						ModeStatus modeStatus2 = INSTANCE.modeStatusMapper.selectByPrimaryKey(modeId);
 						if(null!=modeStatus2){
+							modeStatus2.setStatus("1");
 							modeStatus2.setFlowStatus("1");
 							INSTANCE.modeStatusMapper.updateByPrimaryKey(modeStatus2);
 						}else{
