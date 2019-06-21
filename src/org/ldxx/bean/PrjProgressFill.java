@@ -59,8 +59,17 @@ public class PrjProgressFill {
 	private double jzqnMoney;//截止上年度的收入金额
 	private double jnMoney;//本年度收入金额
 	
+	private String modeStatus;
 	
 	
+	
+	
+	public String getModeStatus() {
+		return modeStatus;
+	}
+	public void setModeStatus(String modeStatus) {
+		this.modeStatus = modeStatus;
+	}
 	public String getThismonthCompletecontent() {
 		return thismonthCompletecontent;
 	}

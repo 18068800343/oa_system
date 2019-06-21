@@ -844,6 +844,7 @@
 	                        <th style="width:6%;">收回状态</th>
 	                        <th style="width:6%;">截止上年度的收入金额</th>
 	                        <th style="width:6%;">本年度收入金额</th>
+	                        <th style="width:6%;">状态</th>
 	                        <th style="width:6%;">操作</th>
 	                    </tr>
 	                </thead>
@@ -1255,6 +1256,7 @@
 		            { "data": null},
 		            { "data": "jzqnMoney"},
 		            { "data": "jnMoney"},
+		            { "data": "modeStatus"},
 		            { "data": null},
 		        ],
 		        "columnDefs": [
@@ -1286,10 +1288,27 @@
 									  },
 								{	
 										 "class": "tcenter",
-										    "targets": 14,
+										    "targets": 15,
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										    	return '<i class="iconfont icon-icon-test Peeb" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="look(this)"></i>  <i class="glyphicon glyphicon-remove Peec" style="font-size:20px;cursor:pointer;display:none;" title="收回" onclick="shouhui(this)"></i>';
+										        }
+										  }
+									  ,
+								{	
+										 "class": "tcenter",
+										    "targets": 14,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										    	    if(data=='2'){
+											    		return '<span class="label label-success state">已通过</span>';
+											    	}else if(data=='1'){
+											    		return '<span class="label label-info state">审批中</span>';
+											    	}else if(data=='0'){
+											    		return '<span class="label label-danger state">终止</span>';
+											    	}else{
+											    		return '';
+											    	}
 										        }
 										  }
 								],
@@ -1650,6 +1669,7 @@
             	console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                $("[aria-label*='状态']").trigger("click");
             }
         });
     }
