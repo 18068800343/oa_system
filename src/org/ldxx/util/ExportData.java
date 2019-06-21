@@ -19,7 +19,7 @@ public class ExportData {
 
 	
 	public void ExportWithResponse(String titleName,  
-            String fileName, int columnNumber,
+            String fileName, int columnNumber, 
             String [] array, List<List<String>> dataList,  
             HttpServletResponse response) throws Exception {  
             // 第一步，创建一个webbook，对应一个Excel文件  
