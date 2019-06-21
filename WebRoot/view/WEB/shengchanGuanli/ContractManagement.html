@@ -13,6 +13,8 @@
     <link href="../../font3/bootstrap-select.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <!-- <link rel="stylesheet" href="../../style/jquery-editable-select.css"> -->
+    <!-- 固定表列引入css文件 -->
+    <link href="../../css/fixedColumns.dataTables.css">
     <style lang="">
         
         .UpperPart{
@@ -167,14 +169,14 @@
 		            <table class="table table-bordered table-condensed" id="mainContent">
 		                <thead>
 		                    <tr>
-		                      	<th style="width:90px;">承接合同号</th>
+		                      	<th style="width:90px;background-color: #ffffff">承接合同号</th>
 		                        <th style="width:280px;">承接合同名称</th>
 		                        <th style="width:220px;">甲方</th>
 		                        <th style="width:90px">任务单号</th>
 		                        <th style="width:60px;">乙方</th>
 		                        <th style="width:110px;" class="jinqianyanse">合同金额(元)</th>
 		                        <th style="width:90px;">签订日期</th>
-		                        <th style="width:70px;">合同工期</th>
+		                        <th style="width:150px;">合同工期</th>
 		                        <th style="width:60px;">发起人</th>
                                 <th style="width:70px;">审批状态</th>
 		                        <th style="width:85px;">操作</th>
@@ -1411,6 +1413,8 @@
 <script src="../../js/datatables/buttons.html5.min.js" ></script>
 <script src="../../js/datatables/buttons.flash.min.js" ></script>
 <script src="../../js/datatables/jszip.min.js"></script>
+ <!-- 固定表列引入js文件 -->
+<script src="../../js/dataTables.fixedColumns.js"></script>
 <script>
     $(document).ready( function () {
         laydate.render({
@@ -1572,6 +1576,9 @@ function checkquxiaoSplit(){
         "lengthChange": false,
         "autoWidth": true,
         "sScrollX": true,
+        "fixedColumns": {
+	        "leftColumns": 1,
+	    },
         "oLanguage": {
 		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
 		},
@@ -1583,13 +1590,26 @@ function checkquxiaoSplit(){
 		            { "data": "contractNameYi"}, 
 		            { "data": "contractMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},
 		            { "data": "contractSignTime"},
-		            { "data": "contractLongTime"}, 
+		            { "data": null}, 
 		            { "data": "starterName"},
 		            { "data": "status"},
 		            { "data": "status"},
 		        ],
 		        "columnDefs": [
-								
+						        	{
+										 "class": "tcenter",
+									     "targets": 7,
+									     "searchable": true,
+									     "render": function(data, type, full) {
+									    	 	var htgongqi;
+										    	if(full.contractStartTime!=null&&full.contractStartTime!=''&&full.contractEndTime!=null&&full.contractEndTime!=''){
+										    		htgongqi=full.contractStartTime+"~"+full.contractEndTime
+										    	}else{
+										    		htgongqi=""
+										    	}
+										  	  	return htgongqi
+							            }
+						              },
 							        	{
 											 "class": "tcenter",
 										     "targets": 9,
@@ -1817,6 +1837,7 @@ function checkquxiaoSplit(){
             	zdMoneyMax:zdMoneyMax
             },
             success: function (json) {
+            	console.log(json)
             	 $('#mainContent').dataTable().fnClearTable();
                  $('#mainContent').DataTable().rows.add(json).draw(false);
                  $("[aria-label*='审批状态']").trigger("click");
