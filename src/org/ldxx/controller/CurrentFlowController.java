@@ -165,7 +165,7 @@ public class CurrentFlowController {
 				ModeStatus modeStatus = new ModeStatus();
 				List<ModeStatus> modeStatusDuo = modeStatusMapper.selectByExample(modeStatusExample);
 				modeStatus.setModeId(modeId);
-				modeStatus.setStatus("1");
+				modeStatus.setStatus("4");
 				modeStatus.setFlowStatus("4");
 				if(modeStatusDuo!=null&&modeStatusDuo.size()>0){
 					modeStatusMapper.updateByExample(modeStatus, modeStatusExample);
