@@ -754,7 +754,7 @@ public class FlowUtill {
 						modeStatusExample.createCriteria().andModeIdEqualTo(modeId);
 						List<ModeStatus> modeStatusDuo = INSTANCE.modeStatusMapper.selectByExample(modeStatusExample);
 						modeStatus.setModeId(modeId);
-						modeStatus.setStatus("1");
+						modeStatus.setStatus("4");
 						modeStatus.setFlowStatus("4");
 						if(modeStatusDuo!=null&&modeStatusDuo.size()>0){
 							INSTANCE.modeStatusMapper.updateByExample(modeStatus, modeStatusExample);
