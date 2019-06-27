@@ -440,20 +440,38 @@
   	</update>
   	
   	<select id="selectTaskByCj" resultType="Task">
-  		SELECT tck.*
-		FROM task AS tck
+		SELECT
+			tck.*
+		FROM
+			task AS tck
 		LEFT JOIN mode_status AS ms ON tck.prj_id = ms.mode_id
-		WHERE	ms. STATUS = 2
+		WHERE
+			ms. STATUS = 2
 		AND tck.prj_no NOT IN (
-			SELECT DISTINCT tk.prj_no
-			FROM task tk,
+			SELECT DISTINCT
+				substring_index(
+					substring_index(
+						cj.task_code,
+						',',
+						b.help_topic_id + 1
+					),
+					',' ,- 1
+				) AS task_code
+			FROM
 				(
-					SELECT cc.*
-					FROM cj_contract AS cc
+					SELECT
+						cc.*
+					FROM
+						cj_contract AS cc
 					LEFT JOIN mode_status AS mm ON cc.cj_id = mm.mode_id
-					WHERE	mm. STATUS IN (1, 2)
+					WHERE
+						mm. STATUS IN (1, 2)
 				) AS cj
-			WHERE cj.task_code LIKE CONCAT('%', tk.prj_no, '%')
+			JOIN mysql.help_topic b ON b.help_topic_id &lt; (
+				length(cj.task_code) - length(
+					REPLACE (cj.task_code, ',', '')
+				) + 1
+			)
 		);
   	</select>
   	
