@@ -130,12 +130,12 @@ public class CooperatorServiceImpl  implements CooperatorService{
 		Cooperator cooperator=cDao.selectOneCooperator(id);
 		List<Enterprise> enterprise=eDao.selectEnterpriseById(id);
 		cooperator.setEnterprise(enterprise);
-		List<Eva> eva=new ArrayList<>();
+/*		List<Eva> eva=new ArrayList<>();
 		Eva a=new Eva();
 		a.setEvaName("棱点oA合同");
 		a.setEvaLv("90");
 		eva.add(a);
-		cooperator.setEnterpriseEva(eva);
+		cooperator.setEnterpriseEva(eva);*/
 		return cooperator;
 	}
 

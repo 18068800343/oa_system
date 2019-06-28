@@ -83,12 +83,10 @@ public class SupplierServiceImpl implements SupplierService{
 		List<Enterprise> enterprise=eDao.selectEnterpriseById(id);
 		supplier.setEnterprise(enterprise);
 		
-		List<Eva> eva=new ArrayList<>();
+/*		List<Eva> eva=new ArrayList<>();
 		Eva a=new Eva();
-		a.setEvaName("棱点oA合同");
-		a.setEvaLv("90");
 		eva.add(a);
-		supplier.setEnterpriseEva(eva);
+		supplier.setEnterpriseEva(eva);*/
 		
 		return supplier;
 	}

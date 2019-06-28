@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.User;
+import org.ldxx.bean.outRemain;
 import org.ldxx.dao.UserDao;
 import org.ldxx.service.UserService;
 import org.ldxx.util.BeanUtil;
@@ -78,11 +79,23 @@ public class UserController {
 		if(i>0){/*用户名已存在*/
 			i= -2;
 		}
-		int j = userservice.countOfworkId(user.getWorkId());
+		
+		String workId = user.getWorkId();
+		int j=0;
+		if(null!=workId&&!"".equals(workId.trim())){
+			 j = userservice.countOfworkId(workId);
+		}
 		if(j>0){/*工号已存在*/
 			i= -3;
 		}
-		int k = userservice.countOfrecordNo(user.getRecordNo());
+		
+		String recordNo = user.getRecordNo();
+		int k=0;
+		if(null!=recordNo&&!"".equals(recordNo.trim())){
+			 k= userservice.countOfrecordNo(recordNo);
+		}
+		
+		
 		if(k>0){/*档案号已存在*/
 			i= -4;
 		}
