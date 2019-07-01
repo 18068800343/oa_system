@@ -849,6 +849,7 @@
 	                        <th style="width:80px;">项目开始时间</th>
 	                        <th style="width:80px;">项目结束时间</th>
 	                        <th style="width:80px;">项目进度</th>
+	                        <th style="width:80px;">项目收入</th>
 	                        <th style="width:80px;">收回状态</th>
 	                        <th style="width:80px;">截止上年度的收入金额</th>
 	                        <th style="width:80px;">本年度收入金额</th>
@@ -1272,6 +1273,7 @@
 		            { "data": "prjEndTime"},
 		            { "data": "allMoney"},
 		            { "data": null},
+		            { "data": null},
 		            { "data": "jzqnMoney"},
 		            { "data": "jnMoney"},
 		            { "data": "modeStatus"},
@@ -1290,11 +1292,11 @@
 								 	 }
 								},
 								{"targets":5,"visible":false},
-								{"targets":12,"visible":false},
 								{"targets":13,"visible":false},
+								{"targets":14,"visible":false},
 								{	
 									 "class": "tcenter",
-									    "targets": 11,
+									    "targets": 12,
 									    "searchable": true,
 									    "render": function(data, type, full) {
 										    	if(full.backState=='1'){
@@ -1306,7 +1308,7 @@
 									  },
 								{	
 										 "class": "tcenter",
-										    "targets": 15,
+										    "targets": 16,
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										    	return '<i class="iconfont icon-icon-test Peeb" style="font-size:20px;cursor:pointer;display:none;" title="查看详细信息" onclick="look(this)"></i>  <i class="glyphicon glyphicon-remove Peec" style="font-size:20px;cursor:pointer;display:none;" title="收回" onclick="shouhui(this)"></i>';
@@ -1315,7 +1317,7 @@
 									  ,
 								{	
 										 "class": "tcenter",
-										    "targets": 14,
+										    "targets": 15,
 										    "searchable": true,
 										    "render": function(data, type, full) {
 										    	    if(data=='2'){
@@ -1328,7 +1330,25 @@
 											    		return '';
 											    	}
 										        }
-										  }
+										  },
+									  {	
+											 "class": "tcenter",
+											    "targets": 11,
+											    "searchable": true,
+											    "render": function(data, type, full) {
+												    	var shoru=0;
+												    	var str=full.allMoney.replace("%","");
+									    		        str= str/100;
+												    	if(full.endMoney!=null&&full.endMoney!=''&&full.endMoney!=0){
+												    		shoru=str*full.endMoney;
+												    	}else if(full.contractMoney!=null&&full.contractMoney!=''&&full.contractMoney!=0){
+												    		shoru=str*full.contractMoney;
+												    	}else if(full.prjMoney!=null&&full.prjMoney!=''&&full.prjMoney!=0){
+												    		shoru=str*full.prjMoney;
+												    	}
+												    	return shoru.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+											        }
+											  },
 								],
 								"fnDrawCallback" : function() {
 									$.ajax({
@@ -1387,9 +1407,14 @@
 		                            return data;
 		                        },
 		                        body: function ( data, columnIdx, rowIdx, code ) {
-		                        	if(rowIdx==1){
-		                        		data=$(code).find("a").eq(0).text();
-		                        	}
+		                        	 if(rowIdx==1){
+		                        		//data=$(code).find("a").eq(0).text();
+		                        		 if(data!="无"){
+			                        		var start = data.indexOf(">");
+			                        		var end = data.lastIndexOf("<");
+			                        		data = data.substring(start+1,end);
+			                        	}
+		                        	} 
 		                        	 /* if(rowIdx==5){
 		                        		var time=$(code).text();
 		                        		var year=time.split("-")[0];
