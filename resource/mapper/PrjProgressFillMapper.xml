@@ -167,10 +167,20 @@
 		where b.status=2 and this_time like #{time} and prj_type like #{type}) and c.type=2 and c.department=#{department}
   	</select>
   	
-  	<select id="selectNewest" resultType="PrjProgressFill">
+  	<!-- <select id="selectNewest" resultType="PrjProgressFill">
   		select a.* from (SELECT p.* FROM	prj_progress_fill AS p
 		LEFT JOIN mode_status AS m ON p.ppf_id = m.mode_id
 		WHERE	m. STATUS = 2	ORDER BY	this_time DESC ) a  GROUP BY a.task_no  
+  	</select> -->
+  	<select id="selectNewest" resultType="PrjProgressFill">
+  		select a.*,d.end_money,SUM(e.prj_this_income_yuan) as jzqnMoney,SUM(f.prj_this_income_yuan) as jnMoney from (SELECT p.* FROM	prj_progress_fill AS p
+		LEFT JOIN mode_status AS m ON p.ppf_id = m.mode_id
+		WHERE	m. STATUS = 2	ORDER BY	this_time DESC ) a  
+		LEFT JOIN (select * from cj_contract cc LEFT JOIN mode_status ms on cc.cj_id = ms.mode_id where ms.`status` = '2') as c on a.task_no=c.task_code
+		LEFT JOIN (select * from contract_work where type='2') as d ON c.contract_no=d.cj_contract_code
+		LEFT JOIN(select a.* from prj_progress_fill a left join mode_status as b on a.ppf_id=b.mode_id WHERE b.status=2 AND this_time &lt;(select CONCAT(YEAR(CURDATE()),'-','01'))) as e on a.task_no=e.task_no
+		LEFT JOIN(select a.* from prj_progress_fill a left join mode_status as b on a.ppf_id=b.mode_id WHERE b.status=2 AND this_time like (select CONCAT(YEAR(CURDATE()),'%'))) as f ON a.task_no=f.task_no
+		GROUP BY a.task_no  
   	</select>
   	
   	<delete id="deletePrjProgressFillInfoById" parameterType="String">
