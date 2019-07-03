@@ -298,23 +298,21 @@ public class BudgetFpplicationFormController {
 	@ResponseBody
 	public int updateHistoryById(String id){
 		//更改历史操作
-		int i=bservice.updateHistoryById(id);
+		int i=0;
 		BudgetFpplicationForm bff=bservice.selectBudgeById(id);
-		if(i>0){
-			BudgetFpplicationForm budgetFpplicationForm = bservice.selectBudgeById(id);
-			String bfNo = budgetFpplicationForm.getBfNo();
-			if(bfNo==null||"".equals(bfNo)){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
-				String year=sdf.format(new Date());
-				/*TimeUUID uuid=new TimeUUID();
-				int count=bservice.countNo(year);
-				String code="YS"+uuid.getPrjCode("", count+1);*/
-				String code="YS"+year+bservice.CreateBudgetNumOrder(year);
-				//budge.setBfNo(code);
-				i=bservice.updateBfNoById(id,code);
-			}
+		BudgetFpplicationForm budgetFpplicationForm = bservice.selectBudgeById(id);
+		String bfNo = budgetFpplicationForm.getBfNo();
+		if(bfNo==null||"".equals(bfNo)){
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String year=sdf.format(new Date());
+			/*TimeUUID uuid=new TimeUUID();
+			int count=bservice.countNo(year);
+			String code="YS"+uuid.getPrjCode("", count+1);*/
+			String code="YS"+year+bservice.CreateBudgetNumOrder(year);
+			//budge.setBfNo(code);
+			i=bservice.updateBfNoById(id,code);
 		}
-		
+		i = bservice.updateHistoryById(id);
 		//重新计算项目进度是否预警
 		double ysCost=bff.getAllCost();//预算总费用
 		String taskNo=bff.getTaskNo();

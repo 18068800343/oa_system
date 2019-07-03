@@ -639,8 +639,7 @@ public class SubContractController {
 	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
 	@ResponseBody
 	public int updateHistoryById(String id){
-		int i=scService.updateHistoryById(id);
-		if(i>0){
+		
 			FbContract fb=scService.selectSubContractById(id);
 			String type = fb.getFbcType();
 			String code = type.split(" ")[0];
@@ -652,8 +651,11 @@ public class SubContractController {
 			String fbNo=uuid.getPrjCode(code, count);
 			fbNo="FB"+fbNo;*/
 			String fbNo="FB"+year+cjService.CreateContractNumOrder("FB", year)+code;
-			i=scService.updateFbNoById(id, fbNo);
-		}
+			int i=0;
+			if(null==fb.getFbNo()||fb.getFbNo().trim().equals("")){
+				i=scService.updateFbNoById(id, fbNo);
+			}
+			i=scService.updateHistoryById(id);
 		return i;
 	}
 	

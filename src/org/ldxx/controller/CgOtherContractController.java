@@ -716,23 +716,22 @@ public class CgOtherContractController {
 	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
 	@ResponseBody
 	public int updateHistoryById(String id){
-		int i= cgoService.updateHistoryById(id);
-		if(i>0){
-			CgOtherContract cgo = cgoService.selectCgOtherContractById(id);
-			String cgoNo = cgo.getCgoNo();
-			if(cgoNo==null||cgoNo.equals("")){
-				String type = cgo.getCgocType();
-				String code = type.split(" ")[0];
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
-				String year=sdf.format(new Date());
-				/*TimeUUID uuid=new TimeUUID();
-				int count=cgoService.cgoNocount(year);
-				count=count+1;
-				String cgoNo2="CGO"+uuid.getPrjCode(code, count);*/
-				String cgoNo2="CQ"+year+cjService.CreateContractNumOrder("CQ", year)+code;
-				i=cgoService.updatecgoNoById(id,cgoNo2);
-			}
+		int i= 0;
+		CgOtherContract cgo = cgoService.selectCgOtherContractById(id);
+		String cgoNo = cgo.getCgoNo();
+		if(cgoNo==null||cgoNo.equals("")){
+			String type = cgo.getCgocType();
+			String code = type.split(" ")[0];
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+			String year=sdf.format(new Date());
+			/*TimeUUID uuid=new TimeUUID();
+			int count=cgoService.cgoNocount(year);
+			count=count+1;
+			String cgoNo2="CGO"+uuid.getPrjCode(code, count);*/
+			String cgoNo2="CQ"+year+cjService.CreateContractNumOrder("CQ", year)+code;
+			i=cgoService.updatecgoNoById(id,cgoNo2);
 		}
+		i = cgoService.updateHistoryById(id);
 		return i;
 	}
 	

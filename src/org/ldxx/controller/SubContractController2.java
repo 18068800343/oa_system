@@ -638,21 +638,22 @@ public class SubContractController2 {
 	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
 	@ResponseBody
 	public int updateHistoryById(String id){
-		int i=scService.updateHistoryById(id);
-		if(i>0){
-			FbCgContract fb=scService.selectSubContractById(id);
-			String type = fb.getFbcType();
-			String code = type.split(" ")[0];
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
-			String year=sdf.format(new Date());
-			String fbNo="EBFB"+year+scService.CreateEBContractNumOrder(year)+code;
-			/*TimeUUID uuid=new TimeUUID();
-			int count=scService.fbNocount(year);
-			count=count+1;
-			String fbNo=uuid.getPrjCode(code, count);
-			fbNo="EBHT"+fbNo;*/
-			i=scService.updateFbNoById(id, fbNo);
+		int i=0;
+		FbCgContract fb=scService.selectSubContractById(id);
+		String type = fb.getFbcType();
+		String code = type.split(" ")[0];
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		String fbNo="EBFB"+year+scService.CreateEBContractNumOrder(year)+code;
+		/*TimeUUID uuid=new TimeUUID();
+		int count=scService.fbNocount(year);
+		count=count+1;
+		String fbNo=uuid.getPrjCode(code, count);
+		fbNo="EBHT"+fbNo;*/
+		if(null==fb.getFbNo()||fb.getFbNo().trim().equals("")){
+		   i=scService.updateFbNoById(id, fbNo);
 		}
+	    i=scService.updateHistoryById(id);
 		return i;
 	}
 	

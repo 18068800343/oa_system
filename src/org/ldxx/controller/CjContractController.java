@@ -719,8 +719,7 @@ public class CjContractController {
 	@RequestMapping("/updateHistoryById")
 	@ResponseBody
 	public int updateHistoryById(String id){
-		int i=service.updateHistoryById(id);
-		if(i>0){
+		    int i = 0;
 			CjContract cj=service.selectCjContractById(id);
 			String cjNo=cj.getContractNo();
 			String prjType=cj.getPrjType();
@@ -735,9 +734,10 @@ public class CjContractController {
 				int count=service.countNo(year);
 				String code="CJ"+uuid.getPrjCode("", count+1)+prjType;*/
 				String code="CJ"+year+service.CreateContractNumOrder("CJ", year)+type;
-				i=service.updateCjNoById(code, id);
+			    i=service.updateCjNoById(code, id);
+			    	
 			}
-		}
+			i = service.updateHistoryById(id);
 		return i;
 	}
 	

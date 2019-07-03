@@ -424,17 +424,19 @@ public class OtherContractConroller {
 	@RequestMapping("/updateHistoryById") //通过id修改历史状态，prjno为当前的全部改为0，再把当前这条记录的历史状态改为1
 	@ResponseBody
 	public int updateHistoryById(String id){
-		int i=service.updateHistoryById(id);
-		if(i>0){
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
-			String year=sdf.format(new Date());
-			/*TimeUUID uuid=new TimeUUID();
-			int count=service.countNo(year);
-			String type="";
-			String code="QT"+uuid.getPrjCode(type, count+1);*/
-			String code="QT"+year+cjService.CreateContractNumOrder("QT", year);
+		int i=0;
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+		String year=sdf.format(new Date());
+		/*TimeUUID uuid=new TimeUUID();
+		int count=service.countNo(year);
+		String type="";
+		String code="QT"+uuid.getPrjCode(type, count+1);*/
+		String code="QT"+year+cjService.CreateContractNumOrder("QT", year);
+		OtherContract otherContract = service.selectOtherContractById(id);
+		if(null==otherContract.getContractCode()||otherContract.getContractCode().trim().equals("")){
 			i=service.updateOnoById(id, code);
 		}
+		i=service.updateHistoryById(id);
 		return i;
 	}
 	

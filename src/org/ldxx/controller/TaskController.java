@@ -339,14 +339,14 @@ public class TaskController {
 			List<CurrentFlow> cf =currentFlowMapper.selectByExample(example);
 			User u=userDao.selectUserById(userId);
 			
-	        new Thread() {  
+/*	        new Thread() {  
 	            public void run() {  
 	                while (true) {  
 	                    ss.sendMessage(u.getRtx(), "待审批通知", cf.get(0).getTitle(), "0", "0");  
 	                }  
 	            };  
 	        }.start(); 
-			
+			*/
 		
 		} catch (Exception e) {
 			e.printStackTrace();
