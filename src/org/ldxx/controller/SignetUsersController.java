@@ -13,12 +13,14 @@ import javax.servlet.http.HttpSession;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FlowHistroy;
+import org.ldxx.bean.ModeStatus;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.SignetManage;
 import org.ldxx.bean.SignetUsers;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.mapper.CurrentFlowMapper;
+import org.ldxx.mapper.ModeStatusMapper;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.ProjectSealService;
 import org.ldxx.service.SignetUsersService;
@@ -51,6 +53,8 @@ public class SignetUsersController {
 	private ProjectSealService pService;
 	@Autowired
 	CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	private ModeStatusMapper modeStatusMapper;
 	
 	@RequestMapping("/selectsUser")
 	@ResponseBody
@@ -318,13 +322,35 @@ public class SignetUsersController {
 	
 	@RequestMapping(value="/addHuan",produces= "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String addHuan(SignetUsers sUser,HttpSession session){
+	public String addHuan(@RequestParam(value="file3",required = false)MultipartFile file3[],SignetUsers sUser,HttpSession session) throws IllegalStateException, IOException{
 		User user = (User) session.getAttribute("user");
 		if(user==null){
 			return "0";
 		}
-		int i=suserService.addHuan(sUser);
 		String id=sUser.getSuId();
+		TimeUUID uuid=new TimeUUID();
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		if(file3.length>0){
+			List<Accessory> list2=new ArrayList<>();
+			for(int i=0;i<file3.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file3[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f2=new File(filePath);
+				file3[i].transferTo(f2);
+				accessory.setaId(id);
+				accessory.setAcName(fileName+"-归还");
+				accessory.setAcUrl(id+File.separator+fileName);
+				list2.add(accessory);
+			}
+			sUser.setAccessory(list2);
+		}
+		int i=suserService.addHuan(sUser);
 		String string=i+"";
 		if(i>0){
 			Task task=tService.selectIdByNo2(sUser.getTaskNo());
@@ -371,6 +397,18 @@ public class SignetUsersController {
 		SignetUsers su=suserService.selectUsersById(id);
 		String signetNo=su.getSignetNo();
 		i=pService.updateStatusByNo(signetNo,status2);
+		return i;
+	}
+	@RequestMapping("/updateStatus2")
+	@ResponseBody
+	public int updateStatus2(String id,String status){//status:印章归还的状态，
+		int i=suserService.updateStatus(id,status);
+		if(i>0){
+			ModeStatus modeStatus = modeStatusMapper.selectByPrimaryKey(id);
+			modeStatus.setStatus("2");
+			modeStatus.setFlowStatus("2");
+			modeStatusMapper.updateByPrimaryKey(modeStatus);
+		}
 		return i;
 	}
 	

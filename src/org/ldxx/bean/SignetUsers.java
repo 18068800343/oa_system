@@ -19,7 +19,7 @@ public class SignetUsers {
     
     private String returnPerson;//归还人
 
-    private String status;//归还状态
+    private String status;//归还状态 1已归还 0未归还 2归还中
 
     private List<Accessory> accessory;
     

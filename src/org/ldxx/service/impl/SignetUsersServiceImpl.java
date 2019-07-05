@@ -85,7 +85,15 @@ public class SignetUsersServiceImpl implements SignetUsersService {
 
 	@Override
 	public int addHuan(SignetUsers sUser) {
-		return sUserDao.addHuan(sUser);
+		int i= sUserDao.addHuan(sUser);
+		if(i>0){
+			i=updateStatus(sUser.getSuId(),"2");
+			List<Accessory> accessory = sUser.getAccessory();
+			if(accessory!=null){
+				i = adao.addAccessory(accessory);
+			}
+		}
+		return i;
 	}
 
 	@Override
