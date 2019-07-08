@@ -15,6 +15,7 @@
  	    <result property="prjOwnerUnit" column="prj_owner_unit" />
  	    <result property="workContent" column="work_content" />
  	    <result property="prjEstimateMoney" column="prj_estimate_money" />
+ 	    <result property="prjEstimateMoneyOld" column="prj_estimate_money_old" />
  	    <result property="contractMoney" column="contract_money" />
  	    <result property="provisionalSum" column="provisional_sum" />
  	    <result property="prjStartTime" column="prj_start_time" />
@@ -72,11 +73,11 @@
 
   	<insert id="addTask" parameterType="task">
   		 insert into task(prj_id,prj_type2,prj_no,main_prj_no,prj_name,prj_area,prj_management_model,prj_company,prj_source,prj_owner_unit,work_content,
-  		 							prj_estimate_money,contract_money,provisional_sum,prj_start_time,prj_end_time,main_department,main_department_money,
+  		 							prj_estimate_money,prj_estimate_money_old,contract_money,provisional_sum,prj_start_time,prj_end_time,main_department,main_department_money,
   		 							assist_department1,assist_department1_money,assist_department2,assist_department2_money,assist_department3,assist_department3_money,make_time,history,importance,
   		 							main_department_cost,assist_department1_cost,assist_department2_cost,assist_department3_cost,yugongkebili,chushebili,shishebili,guanli_money,xg_dodate)
   		 				   values(#{task.prjId},#{task.prjType2},#{task.prjNo},#{task.mainPrjNo},#{task.prjName},#{task.prjArea},#{task.prjManagementModel},#{task.prjCompany},#{task.prjSource},
-  		 				   #{task.prjOwnerUnit},#{task.workContent},#{task.prjEstimateMoney},#{task.contractMoney},#{task.provisionalSum},
+  		 				   #{task.prjOwnerUnit},#{task.workContent},#{task.prjEstimateMoney},#{task.prjEstimateMoneyOld},#{task.contractMoney},#{task.provisionalSum},
   		 				   #{task.prjStartTime},#{task.prjEndTime},#{task.mainDepartment},#{task.mainDepartmentMoney},#{task.assistDepartment1},#{task.assistDepartment1Money},
   		 				   #{task.assistDepartment2},#{task.assistDepartment2Money},#{task.assistDepartment3},#{task.assistDepartment3Money},now(),1,#{task.importance},
   		 				   #{task.mainDepartmentCost},#{task.assistDepartment1Cost},#{task.assistDepartment2Cost},#{task.assistDepartment3Cost},#{task.yugongkebili},#{task.chushebili},#{task.shishebili},#{task.guanliMoney},#{task.xgDodate})		
@@ -110,6 +111,7 @@
 	      prj_owner_unit = #{task.prjOwnerUnit},
 	      work_content = #{task.workContent},
 	      prj_estimate_money = #{task.prjEstimateMoney},
+	      prj_estimate_money_old = #{task.prjEstimateMoneyOld},
 	      contract_money = #{task.contractMoney},
 	      provisional_sum = #{task.provisionalSum},
 	      prj_start_time = #{task.prjStartTime},
@@ -165,7 +167,7 @@
 						contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and
 					</if>
 					<if test="prjMoneyMin!=0">
-						prj_estimate_money &gt;=#{prjMoneyMin} and prj_estimate_money &lt;=#{prjMoneyMax} and
+						prj_estimate_money_old &gt;=#{prjMoneyMin} and prj_estimate_money_old &lt;=#{prjMoneyMax} and
 					</if>
 					<if test="zdMoneyMin!=0">
 						provisional_sum &gt;=#{zdMoneyMin} and provisional_sum &lt;= #{zdMoneyMax} and 
@@ -206,7 +208,7 @@
       when COUNT(prj_id)>=2 and sc=1 then cc.contract_name_yi 
       when COUNT(prj_id)>=2 and sc>=2 then '' 
       else '' end as prj_company1,COUNT(prj_id),sc,
-      a.*,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3,b4.cc_name,cc.contract_name_yi,ssw.sc,cc.task_code, 
+      a.*,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3,b4.cc_name,cc.contract_name_yi,ssw.sc,cc.task_code, prj_estimate_money,
       u1.u_name as mainPrjLeaderName,u2.u_name as mainEngineerName,u3.u_name as mainOtherName,
       u4.u_name as assist1PrjLeaderName,u5.u_name as assist1EngineerName,u6.u_name as assist1OtherName,
       u7.u_name as assist2PrjLeaderName,u8.u_name as assist2EngineerName,u9.u_name as assist2OtherName,
@@ -333,13 +335,13 @@
   	</select>
   	
   	<select id="selectIdByName" resultType="task">
-  		select prj_no,prj_estimate_money,contract_money,provisional_sum,c.u_name as mainPrjLeaderName from task as a
+  		select prj_no,prj_estimate_money,prj_estimate_money_old,contract_money,provisional_sum,c.u_name as mainPrjLeaderName from task as a
   		LEFT JOIN user as c on a.main_prj_leader=c.user_id
   		where prj_name=#{name} and history=1
   	</select>
   	
   	<select id="selectNoByName2" resultType="task">
-  		select prj_no,prj_type2,prj_estimate_money,contract_money,provisional_sum,prj_start_time,prj_end_time,prj_management_model,main_department,c.u_name as mainPrjLeaderName,b.om_name,assist_department1,b1.om_name name1,assist_department2,b2.om_name name2,assist_department3,b3.om_name name3 from task  as a
+  		select prj_no,prj_type2,prj_estimate_money,prj_estimate_money_old,contract_money,provisional_sum,prj_start_time,prj_end_time,prj_management_model,main_department,c.u_name as mainPrjLeaderName,b.om_name,assist_department1,b1.om_name name1,assist_department2,b2.om_name name2,assist_department3,b3.om_name name3 from task  as a
   			left join organization_management b  on a.main_department=b.om_id 
 			left join organization_management b1 on a.assist_department1=b1.om_id 
 			left join organization_management b2 on a.assist_department2=b2.om_id 
@@ -361,7 +363,7 @@
   	</select>
   	
   	<select id="selectPrjandNoAndPrjMoney" resultType="task">
-  		select prj_id,prj_name,prj_no,prj_start_time,prj_estimate_money from task where history=1
+  		select prj_id,prj_name,prj_no,prj_start_time,prj_estimate_money,prj_estimate_money_old, from task where history=1
   	</select>
   	
   	<select id="selectPrjByprjlike" resultType="task">
@@ -517,7 +519,7 @@
   	</update>
   	
   	<select id="selectPrjJsMoneyByNo" resultType="Task">
-  		SELECT a.prj_estimate_money,a.main_prj_no,d.cc_name,f.om_name,e.u_name as mainPrjLeaderName from task a
+  		SELECT a.prj_estimate_money,a.prj_estimate_money_old,a.main_prj_no,d.cc_name,f.om_name,e.u_name as mainPrjLeaderName from task a
 			left join mode_status c on a.prj_id=c.mode_id 
 			LEFT JOIN consociation_company as d on a.prj_owner_unit=d.cc_id 
 			left join organization_management b  on a.main_department=b.om_id  
@@ -591,7 +593,7 @@
 						contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and
 					</if>
 					<if test="prjMoneyMin!=0"> 
-						prj_estimate_money &gt;=#{prjMoneyMin} and prj_estimate_money &lt;=#{prjMoneyMax} and
+						prj_estimate_money_old &gt;=#{prjMoneyMin} and prj_estimate_money_old &lt;=#{prjMoneyMax} and
 					</if>
 					<if test="zdMoneyMin!=0">
 						provisional_sum &gt;=#{zdMoneyMin} and provisional_sum &lt;= #{zdMoneyMax} and 

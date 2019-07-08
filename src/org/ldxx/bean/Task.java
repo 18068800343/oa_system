@@ -32,6 +32,9 @@ public class Task {
     private String workContent;
 
     private Double prjEstimateMoney;
+    
+    //第一次新建任务单时候不会随其他改变的任务单金额，
+	private Double prjEstimateMoneyOld;
 
     private Double contractMoney;
 
@@ -860,6 +863,14 @@ public class Task {
 		this.prjCompany1 = prjCompany1;
 	}
 
+	public Double getPrjEstimateMoneyOld() {
+		return prjEstimateMoneyOld;
+	}
+
+	public void setPrjEstimateMoneyOld(Double prjEstimateMoneyOld) {
+		this.prjEstimateMoneyOld = prjEstimateMoneyOld;
+	}
+	
 	@Override
 	public String toString() {
 		return "Task [prjId=" + prjId + ", prjType2=" + prjType2 + ", prjNo=" + prjNo
