@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -239,13 +240,15 @@ public class UserController {
 	
 	@RequestMapping("/selectUserAndRoles")
 	@ResponseBody
-	public String selectUserAndRoles(){
+	public String selectUserAndRoles() throws UnsupportedEncodingException{
 		List<User> list =userservice.selectUserAndRoles();
 		net.sf.json.JSONArray json = new net.sf.json.JSONArray();
 		 json.addAll(list);
 		 String str = json.toString();
-		 str = str.replaceAll("password", "mima");
-		 return str;
+		 
+		 byte[] buf=str.getBytes("utf8");		
+		String encodeStr3 = org.apache.commons.codec.binary.Base64.encodeBase64String(buf);
+		 return encodeStr3;
 		
 	}
 	

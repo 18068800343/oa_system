@@ -220,6 +220,7 @@
 <script type="text/javascript" src="../../js/config.js" ></script>
 <script type="text/javascript" src="../../js/data.js" ></script>
 <script src="../../js/quanxian.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>
     $(document).ready( function () {
     	initRoleList();
@@ -303,18 +304,17 @@
         
 	});
 	function initTable(){
+		var base64 = new Base64();
         $.ajax({
             type: 'POST',
-            url: getContextPath()+'/user/selectAllUser',
-            dataType: 'json',
+            url: getContextPath()+'/user/selectAllUser3',
             data: {
             },
-            success: function (json) {
+            success: function (data) {
+            	var arr = base64.decode(data);
+            	json = JSON.parse(arr);
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
-                
-                
-                
             }
         });
     }
@@ -461,16 +461,18 @@
          });
       })
          function selectUserAndRoles(){
+    	  var base64 = new Base64();
     	  $.ajax({
               type: 'POST',
               url: getContextPath()+'/user/selectUserAndRoles',
-              dataType: 'json',
               data: {
               },
               error: function (msg) {
               	toastr.error("请求失败");
               },
-              success: function (json) {
+              success: function (data) {
+            	  var arr = base64.decode(data);
+              	  json = JSON.parse(arr);
             	  $('#mainContent').dataTable().fnClearTable();
                   $('#mainContent').DataTable().rows.add(json).draw(false);
                   $.ajax({
