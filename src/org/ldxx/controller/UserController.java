@@ -185,6 +185,7 @@ public class UserController {
 		byte[] buf=str.getBytes("utf8");		
 	 
 		String encodeStr3 = org.apache.commons.codec.binary.Base64.encodeBase64String(buf);
+		
 		//下面方法服务器会报错
 		//BASE64Encoder base64 = new BASE64Encoder();
 		//String encodeStr3 = base64.encode(buf);	    
