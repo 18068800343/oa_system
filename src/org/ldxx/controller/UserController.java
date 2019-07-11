@@ -176,7 +176,6 @@ public class UserController {
 	@RequestMapping("/selectAllUser3")
 	@ResponseBody
 	public String selectAllUser3(HttpServletResponse response) throws IOException{
-		
 		List<User> list= userservice.selectAllUser();
 		//JSONArray json= new JSONArray(list);
 		net.sf.json.JSONArray json = new net.sf.json.JSONArray();
