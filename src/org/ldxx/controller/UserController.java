@@ -100,7 +100,7 @@ public class UserController {
 		if(k>0){/*档案号已存在*/
 			i= -4;
 		}
-		if(i<=0&&j<=0&&k<=0){
+		if(i>=0&&j>=0&&k>=0){
 			i = userservice.addUser(user);
 		}
 		map.put("result", i);
@@ -153,7 +153,7 @@ public class UserController {
 		if(k>0){/*档案号已存在*/
 			i= -4;
 		}
-		if(i<=0&&j<=0&&k<=0){
+		if(i>=0&&j>=0&&k>=0){
 			i= userservice.updateUser(user);
 		}
 		map.put("result", i);
