@@ -13,5 +13,7 @@ public interface PermissionsService {
 	List<Permissions> getAllPermissions();
 
 	int updatePermissionsSave(PermissionsUser pUser);
+	
+	String getPermissionsByuId(String uId);
 
 }

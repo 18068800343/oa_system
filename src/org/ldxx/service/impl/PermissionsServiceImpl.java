@@ -38,4 +38,12 @@ public class PermissionsServiceImpl implements PermissionsService {
 			return pUserdao.addPermissionsSave(pUser);
 		}
 	}
+	
+	@Override
+	public String getPermissionsByuId(String uId)
+	{
+ 		PermissionsUser pUser = pUserdao.selectPermissionsUserById(uId);
+		
+		return pUser==null?"":pUser.getuPermissions();
+	}
 }

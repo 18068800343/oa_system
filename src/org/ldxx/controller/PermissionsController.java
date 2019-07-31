@@ -83,5 +83,12 @@ public class PermissionsController {
 		int i=service.updatePermissionsSave(pUser);
 		return i;
 	}
-
+	
+	@RequestMapping("/getPermissionsByuId")
+	@ResponseBody
+	public String getPermissionsByuId(String uId)
+	{
+		String string = service.getPermissionsByuId(uId);
+		return string;
+	}
 }

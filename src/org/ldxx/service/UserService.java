@@ -15,6 +15,7 @@ public interface UserService {
 
 	List<User> selectAllUser();
 
+	List<User> selectAllroleandper();
 	User selectUserById(String userId);
 
 	int countOfusername(String username);

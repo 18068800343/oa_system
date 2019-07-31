@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public List<User> selectAllroleandper()
+	{
+		return userDao.selectAllroleandper();
+	}
+	@Override
 	public User selectUserById(String userId) {
 		return userDao.selectUserById(userId);
 	}

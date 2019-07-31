@@ -14,6 +14,7 @@ public interface UserDao {
 	int updateUser(@Param("user")User user);
 
 	List<User> selectAllUser();
+	List<User> selectAllroleandper();
 
 	User selectUserById(@Param("userId")String userId);
 
