@@ -204,7 +204,7 @@ public class ImportData {
                 	}
                 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 	
-                	if(fill>start&&fill<end){
+                	if(fill>=start&&fill<end){
                 		String date1 = simpleDateFormat.format(date);
                 		td.settNo(getValue(colum1));
                 		td.setdName(getValue(colum4));
