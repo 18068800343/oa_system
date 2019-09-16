@@ -26,4 +26,6 @@ public interface Task2Dao {
 
 	public List<Task2> selectDistinctTask2();
 	
+	public String getBM2ManageTarget(String year);
+	
 }

@@ -83,6 +83,11 @@ public class Task2ServiceImpl implements Task2Service{
 	public List<Task2> selectTask2ByNo(String no) {
 		return dao.selectTask2ByNo(no);
 	}
+
+	@Override
+	public String getBM2ManageTarget(String year) {
+		return dao.getBM2ManageTarget(year);
+	}
 	
 	
 

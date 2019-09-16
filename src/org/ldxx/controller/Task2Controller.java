@@ -3,6 +3,7 @@ package org.ldxx.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -247,5 +248,14 @@ public class Task2Controller {
 			}
 		}
 		return list;
+	}
+	
+	@RequestMapping("/getBM2ManageTarget")
+	@ResponseBody()
+	public String getBM2ManageTarget(String year) {
+		if(null==year||year.equals(""))
+			year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+		String data = tService.getBM2ManageTarget(year);
+		return data;
 	}
 }

@@ -21,4 +21,6 @@ public interface Task2Service {
 	public Task2 selectTask2ById(String id);
 
 	public List<Task2> selectTask2ByNo(String no);
+	
+	public String getBM2ManageTarget(String year);
 }
