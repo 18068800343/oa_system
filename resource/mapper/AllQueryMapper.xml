@@ -149,7 +149,7 @@ GROUP BY
 
 	</select>
 	
-	<select id="getQueryTable" resultType="AllQuery">
+	<!-- <select id="getQueryTable" resultType="AllQuery">
 	SELECT
 		cj.task_code prjNo,
 		cj.contract_no contractNo,
@@ -243,6 +243,137 @@ GROUP BY
 			OR tk.assist_department3 like #{depart})  and tk.history=1 and ms.status in (2,6)
 	GROUP BY
 		cj.cj_id
+		</where>
+	</select> -->
+	
+	<select id="getQueryTable" resultType="AllQuery">
+	SELECT
+		cj.task_code prjNo,
+		cj.contract_no contractNo,
+		cj.contract_name contractName,
+		cj.cc_name AS ccName ,
+	  cj.contract_long_time contractLongTime,
+	  om.om_name omName,
+	  u.u_name mainPrjLeader,
+	  cj.contract_money cjmoney,
+	  cj.temporary_money temporaryMoney,
+	  cj.contract_start_time contractStartTime,
+	  cj.contract_end_time contractEndTime,
+	  cww.cj_contract_end_time cjContractEndTime,
+	  tk.prj_source prjSource,
+	  tk.importance,
+	  case when tk.main_department like #{depart} then tk.main_department_money
+			       when tk.assist_department1 like #{depart} then tk.assist_department1_money
+			       when tk.assist_department2 like #{depart} then tk.assist_department2_money
+			       when tk.assist_department3 like #{depart} then tk.assist_department3_money
+			       else 0
+			       end as mainDepartMoney,
+	  ppf.contract_income iall,
+	  ppf.prj_this_income_yuan ibq,
+	  ppf.all_money_yuan allMoneyYuan,
+	  bff.all_cost allCost,
+	  g.do_date as lxTime,
+	  IFNULL(sum(cc.money2),"") leiJiChengBen,
+	  IFNULL(sum(ar.sk_queren_money),"") allKpMoney,
+	  IFNULL(sum(ar.come_all_money),"")   resultMoney,
+	  CASE ms.status
+		WHEN 1 THEN
+			'审核中'
+		WHEN 2 THEN
+			'正在进行'
+		WHEN 3 THEN
+			'取消'
+		WHEN 6 THEN
+			'已完结'
+		ELSE
+			''
+		END cjStatus,
+	  IFNULL(cw.end_money,'') contractJueSuanMoney,
+	  IFNULL(fb.fb_no,'') fbNo,
+	  IFNULL(fb.contract_name,'') fbContract,
+	  IFNULL(ccfb.cc_name, '') fbYiName,
+	  IFNULL(fb.contract_money,'') nowFbAllMoney,
+	  IFNULL(fco.fb_end_money,'') fbJueSuanMoney,
+	  COUNT(DISTINCT cj.contract_no) cjNum,
+	  tk.prj_estimate_money prjEstimateMoney,
+	  COUNT(DISTINCT fb.fb_no) fbNum
+	  
+	  
+	FROM task tk 
+		LEFT JOIN mode_status b on tk.prj_id=b.mode_id 
+		LEFT JOIN consociation_company as d on tk.prj_owner_unit=d.cc_id
+		LEFT JOIN (select a.task_code,cj_id,contract_name,contract_no,contract_money as contract_money_cj,temporary_money from cj_contract as a
+									left join mode_status as b on a.cj_id=b.mode_id
+									where a.history=1 and b.status=2) cja on cja.task_code = tk.prj_no		
+		LEFT JOIN organization_management om ON tk.main_department = om.om_id
+		LEFT JOIN cj_contract cj on cj.task_code=tk.prj_no
+		LEFT JOIN USER u ON tk.main_engineer = u.user_id
+		LEFT JOIN prj_progress_fill ppf ON tk.prj_no = ppf.task_no
+		LEFT JOIN budget_fpplication_form bff ON bff.task_no = tk.prj_no
+		LEFT JOIN company_cost cc ON cc.task_code = tk.prj_no
+		LEFT JOIN kp_application kpa ON kpa.prj_no = tk.prj_no
+		LEFT JOIN already_renling ar ON ar.t_no = tk.prj_no
+		LEFT JOIN fb_contract fb ON fb.work_no = tk.prj_no
+		LEFT JOIN consociation_company ccfb ON ccfb.cc_id = fb.contract_name_yi
+		LEFT JOIN (
+			SELECT
+				*
+			FROM
+				contract_work
+			WHERE
+				type = '3'
+		) cw ON cw.prj_code = tk.prj_no
+		LEFT JOIN fb_contract_over fco ON fco.prj_code = tk.prj_no
+		LEFT JOIN pay ON pay.contract_no = fb.fb_no
+		LEFT JOIN consociation_company s ON FIND_IN_SET(
+			s.cc_id,
+			cj.contract_name_jia
+		)
+		left join mode_status ms on tk.prj_id=ms.mode_id 
+		LEFT JOIN (
+			SELECT
+				a.mode_id,
+				a.do_date
+			FROM
+				(
+					SELECT
+						a.*
+					FROM
+						flowhistroy a
+					LEFT JOIN task b ON a.mode_id = b.prj_id
+					LEFT JOIN mode_status AS c ON a.mode_id = c.mode_id
+					WHERE
+						c. STATUS = '2'
+					AND a.gaibian IS NULL
+					ORDER BY
+						a.do_date DESC
+				) AS a
+			GROUP BY
+				a.mode_id
+		) AS g ON tk.prj_id = g.mode_id
+		LEFT JOIN (
+			SELECT
+				*
+			FROM
+				contract_work
+			WHERE
+				type = 2
+		) AS cww ON cj.contract_no = cww.cj_contract_code
+		<where>
+			<if test="seachCjMoneyMin!=0">
+				cj.contract_money&gt;=#{seachCjMoneyMin} and cj.contract_money&lt;=#{seachCjMoneyMax} and
+			</if>
+			<if test="seachTimeMin!=''">
+				g.do_date&gt;=#{seachTimeMin} and g.do_date &lt;=#{seachTimeMax} and 
+			</if>
+			<if test="serchType!='%'.toString()">
+				tk.prj_type2 like #{serchType} and
+			</if>
+			(b.status=1 or b.status=2 or b.status=3 or b.status=6) and tk.history=1
+		  and (tk.main_department like #{depart}
+				OR tk.assist_department1 like #{depart}
+				OR tk.assist_department2 like #{depart}
+				OR tk.assist_department3 like #{depart}) group by tk.prj_id 
 		</where>
 	</select>
 </mapper>
