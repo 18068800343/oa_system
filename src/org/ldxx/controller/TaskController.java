@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.ldxx.bean.CjContract;
+import org.ldxx.bean.ContractUpdate;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.CurrentFlowExample;
 import org.ldxx.bean.Enterprise;
@@ -1421,6 +1422,52 @@ public class TaskController {
 		List<Task> task=taskDao.selectTask2( startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax,
 				contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax,taskNo,lxdateMin,lxdateMax);
 		return task;
+	}
+	
+	
+	@RequestMapping("/updateTaskContractUpdateById") //终止任务单后给contractUpdate里增加部门负金额
+	@ResponseBody
+	public int updateTaskContractUpdateById(String id){
+		Task task = tService.selectTaskById(id);
+		List<ContractUpdate> list = new ArrayList<ContractUpdate>();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM");
+		String time=sdf.format(new Date());
+		ContractUpdate cu = new ContractUpdate();
+		cu.setDept(task.getMainDepartment());
+		cu.setMoney(-task.getMainDepartmentMoney());
+		cu.setPrjNo(task.getPrjNo());	
+		cu.setTime(time);
+		list.add(cu);
+		if(null!=task.getAssistDepartment1()&&!task.getAssistDepartment1().equals(""))
+		{
+			ContractUpdate cu1 = new ContractUpdate();
+			cu1.setDept(task.getAssistDepartment1());
+			cu1.setMoney(-task.getAssistDepartment1Money());
+			cu1.setPrjNo(task.getPrjNo());	
+			cu1.setTime(time);
+			list.add(cu1);
+		}
+		if(null!=task.getAssistDepartment2()&&!task.getAssistDepartment2().equals(""))
+		{
+			ContractUpdate cu1 = new ContractUpdate();
+			cu1.setDept(task.getAssistDepartment2());
+			cu1.setMoney(-task.getAssistDepartment2Money());
+			cu1.setPrjNo(task.getPrjNo());	
+			cu1.setTime(time);
+			list.add(cu1);
+		}
+		
+		if(null!=task.getAssistDepartment3()&&!task.getAssistDepartment3().equals(""))
+		{
+			ContractUpdate cu1 = new ContractUpdate();
+			cu1.setDept(task.getAssistDepartment3());
+			cu1.setMoney(-task.getAssistDepartment3Money());
+			cu1.setPrjNo(task.getPrjNo());	
+			cu1.setTime(time);
+			list.add(cu1);
+		}
+		cuService.addContractUpdate1(list);
+		return 1;
 	}
 }
 

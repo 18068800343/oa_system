@@ -164,4 +164,9 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 			i=dao.addContractUpdate(cus);
 			return i; 
 		}
+	public int addContractUpdate1(List<ContractUpdate> cu) {
+		int i=0;
+		i=dao.addContractUpdate(cu);
+		return i; 
+	}
 }
