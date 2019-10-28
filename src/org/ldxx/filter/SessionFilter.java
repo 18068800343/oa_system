@@ -45,7 +45,6 @@ public class SessionFilter implements Filter {
         String includeStrings = config.getInitParameter("includeStrings");    // 过滤资源后缀参数
         String redirectPath = hrequest.getContextPath() + config.getInitParameter("redirectPath");// 没有登陆转向页面
         String disabletestfilter = config.getInitParameter("disabletestfilter");// 过滤器是否有效
-
         if (disabletestfilter.toUpperCase().equals("Y")) {    // 过滤无效
             chain.doFilter(request, response);
             return;

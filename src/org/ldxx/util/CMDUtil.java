@@ -67,5 +67,11 @@ public class CMDUtil {
 		//System.out.println(buildCard("G15320981L0080"));
 		//buildCheck(prj_id, id, chk_type, direction, span)
 		//CMDUtil.buildReport("5ae12893ba70494d880f13f8123d2911", "f76580f37a1c47db9443bee730be63e1", "bridge", "regular", "[{'arg':'1+5+2+3+6+4'},{'span':'1-2'}]");
-		getHDSpace("D");
+		//getHDSpace("D");
+		Integer a1 = 127;
+		Integer b1 = 127;
+		System.out.println(a1==b1);
+		Integer a2 = 128;
+		Integer b2 = 128;
+		System.out.println(a2==b2);
 	}}
