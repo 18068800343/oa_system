@@ -1232,7 +1232,8 @@
     $(document).ready( function () {
         laydate.render({
             elem: '#this_time', //指定元素
-            type:'month'
+            type:'month',
+            value: new Date(), // 指定值
         });
         initSelect();
         initDepartment();
@@ -2031,7 +2032,9 @@
 		
 		var plan=$(obj).val().replace("%","");
 		$(obj).parents("tr").find("input").eq(1).val(plan*this_time_money_yuan/100);//当期累计收入(元)赋值
-		getTotalMoney($(obj).parents("tr"),$("#task_no").val(),$(obj).parents("tr").find("td").eq(1).text(),plan*this_time_money_yuan/100);
+		//getTotalMoney($(obj).parents("tr"),$("#task_no").val(),$(obj).parents("tr").find("td").eq(1).text(),plan*this_time_money_yuan/100);
+		var all_money_yuan=$("#all_money_yuan").val();//累计收入(元)(项目收入信息)
+		getLeijishouru($(obj).parents("tr"),all_money_yuan,plan/100);
 		
 		var length=$(obj).parents("tr").index();
 		var trLength=$("#xieban1 tbody").find("tr").length;
@@ -2052,12 +2055,13 @@
 			var endMoney=endPlan*this_time_money_yuan/100;
 			$(obj).parents("tr").next("tr").find("input").eq(0).val(endPlan+"%")
 			$(obj).parents("tr").next("tr").find("input").eq(1).val(endMoney)
-			getTotalMoney($(obj).parents("tr").next("tr"),$("#task_no").val(),$(obj).parents("tr").next("tr").find("td").eq(1).text(),endMoney);
+			//getTotalMoney($(obj).parents("tr").next("tr"),$("#task_no").val(),$(obj).parents("tr").next("tr").find("td").eq(1).text(),endMoney);
+			getLeijishouru($(obj).parents("tr"),all_money_yuan,plan/100);
 		}
 	}
 	
 	/* obj:操作对象   obj2:任务单号 obj3:部门名称 obj4:本期收入(元) */
-	function getTotalMoney(obj,obj2,obj3,obj4){
+	/* function getTotalMoney(obj,obj2,obj3,obj4){
 		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/ppf/selectPrjProgressFillInfoTotalByTaskAndDept',
@@ -2070,6 +2074,10 @@
 	        	$(obj).find("input").eq(2).val(parseFloat(json)+parseFloat(obj4));
 	        }
 		})
+	} */
+	//obj:操作对象   obj2:累计收入(元)(项目收入信息);obj3:部门本期收入百分比
+	function getLeijishouru(obj,obj2,obj3){
+		$(obj).find("input").eq(2).val(parseFloat(obj2*obj3))
 	}
 	
 	//初始化项目名称
