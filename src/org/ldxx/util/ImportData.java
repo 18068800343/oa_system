@@ -37,7 +37,10 @@ import org.ldxx.bean.Task2;
 import org.ldxx.bean.WxCost;
 import org.ldxx.dao.PrjProgressFillDao;
 import org.ldxx.dao.ReceiveMoneyDao;
+import org.ldxx.dao.TDepartmentDao;
+import org.ldxx.dao.Task2Dao;
 import org.ldxx.mapper.NodeActorsMapper;
+import org.ldxx.service.Task2Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,6 +60,10 @@ public class ImportData {
 	
 	@Autowired
 	PrjProgressFillDao ppfDao;
+	@Autowired
+	private Task2Dao tDao;
+	@Autowired
+	private TDepartmentDao tDdao;
 	
 	public Map<String,Object> readXls(InputStream is, String time) throws IOException {  
 		Map<String,Object> map=new HashMap<String, Object>();
@@ -70,6 +77,7 @@ public class ImportData {
 		}  
         List<Task2> t = new ArrayList<Task2>();
         List<TDepartment> d = new ArrayList<TDepartment>();
+        List<Task2> xgt = new ArrayList<Task2>();
         // 循环工作表Sheet  
         for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) {  
             Sheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);  
@@ -117,23 +125,31 @@ public class ImportData {
 						//String val5 = getValue(colum5);
 						if(date1.contains(time)){
 							if(flag==true){
-								t2.settId(uuid.getTimeUUID());
-								t2.settNo(tNo);
-								t2.settName(getValue(colum2));
-								t2.settType(getValue(colum4));
-								t2.settDate(date1);
-								t2.settDesc(getValue(colum7));
-								
-								//td.settNo(getValue(colum1));
-								t2.setdName(getValue(colum6));
 								String cl3 = getValue(colum3);
 								if(cl3.isEmpty()){
 									cl3="0";
 								}
-								t2.setdMoney(Double.valueOf(cl3));
-								t2.setdIncome(Double.valueOf(0));
-								t.add(t2);
-								d.add(td);
+								int i=INSTANCE.tDao.isCountBytNoAndDate(tNo,date1);
+								if(i>0){
+									t2.settNo(tNo);
+									t2.settDate(date1);
+									t2.setdMoney(Double.valueOf(cl3));
+									xgt.add(t2);
+								}else{
+									t2.settId(uuid.getTimeUUID());
+									t2.settNo(tNo);
+									t2.settName(getValue(colum2));
+									t2.settType(getValue(colum4));
+									t2.settDate(date1);
+									t2.settDesc(getValue(colum7));
+									
+									//td.settNo(getValue(colum1));
+									t2.setdName(getValue(colum6));
+									t2.setdMoney(Double.valueOf(cl3));
+									t2.setdIncome(Double.valueOf(0));
+									t.add(t2);
+									d.add(td);
+								}
 							}
 						}
 					}
@@ -144,11 +160,14 @@ public class ImportData {
             } 
         map.put("t2", t);
         map.put("department", d);
+        map.put("xgt", xgt);
         return map;  
     }  
 	
-	public List<TDepartment> readXls2(InputStream is,String time) throws IOException, ParseException {  
+	public Map<String,Object> readXls2(InputStream is,String time) throws IOException, ParseException { 
+		Map<String,Object> map=new HashMap<String, Object>();
 		 List<TDepartment> list=new ArrayList<>();
+		 List<TDepartment> list2=new ArrayList<>();
 		Workbook  hssfWorkbook=null;
 		try {
 			hssfWorkbook = WorkbookFactory.create(is);  
@@ -206,18 +225,29 @@ public class ImportData {
                 	
                 	if(fill>=start&&fill<end){
                 		String date1 = simpleDateFormat.format(date);
-                		td.settNo(getValue(colum1));
-                		td.setdName(getValue(colum4));
-                		td.settName(getValue(colum2));
-                		td.setdIncome(Double.valueOf(getValue(colum3)));
-                		td.setDate(date1);
-                		td.setId(new TimeUUID().getTimeUUID());
-                		list.add(td);
+                		String tno = getValue(colum1);
+                		int i=INSTANCE.tDdao.isCountBytNoAndDate(tno,date1);
+                		if(i>0){
+                			td.settNo(getValue(colum1));
+                			td.setdIncome(Double.valueOf(getValue(colum3)));
+                			td.setDate(date1);
+                			list2.add(td);
+                		}else{
+                			td.settNo(tno);
+                			td.setdName(getValue(colum4));
+                			td.settName(getValue(colum2));
+                			td.setdIncome(Double.valueOf(getValue(colum3)));
+                			td.setDate(date1);
+                			td.setId(new TimeUUID().getTimeUUID());
+                			list.add(td);
+                		}
                 	}
                 }
             }  
         } 
-        return list;  
+        map.put("TDepartment", list);
+        map.put("xgTDepartment", list2);
+        return map;  
     }  
 	
 	

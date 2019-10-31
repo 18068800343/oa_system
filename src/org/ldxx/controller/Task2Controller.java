@@ -142,9 +142,8 @@ public class Task2Controller {
 	public int importExcel2(@RequestParam("file") MultipartFile file,String time,HttpServletResponse response,HttpSession session) throws IOException, ParseException{
 		InputStream is=file.getInputStream();
 		ImportData importData=new ImportData();
-		List<TDepartment> td=importData.readXls2(is,time);
-		
-		int i=tdService.updateIncome(td);
+		Map<String,Object> map=importData.readXls2(is,time);
+		int i=tdService.updateIncome(map);
 		
 		return i;
 	}
@@ -172,8 +171,8 @@ public class Task2Controller {
 	
 	@RequestMapping("/deleteTask2")
 	@ResponseBody
-	public int deleteTask2(String no){
-		int i=tService.deleteTask2(no);
+	public int deleteTask2(String tId){
+		int i=tService.deleteTask2(tId);
 		return i;
 	}
 	

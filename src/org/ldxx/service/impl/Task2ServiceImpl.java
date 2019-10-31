@@ -26,6 +26,7 @@ public class Task2ServiceImpl implements Task2Service{
 	public int addTask2(Map<String, Object> map) {
 		List<Task2> t2=(List<Task2>) map.get("t2");
 		List<TDepartment> td=(List<TDepartment>) map.get("department");
+		List<Task2> xgt=(List<Task2>) map.get("xgt");
 		int k=0;
 		for(Task2 task:t2){
 			/*int i = dao.selectTask2CountByTaskNo(task.gettNo());
@@ -45,6 +46,9 @@ public class Task2ServiceImpl implements Task2Service{
 				}
 			}
 		}*/
+		for(Task2 xgt2:xgt){
+			k=dao.updateBytNoAndDate(xgt2);
+		}
 		return k;
 	}
 
@@ -55,11 +59,11 @@ public class Task2ServiceImpl implements Task2Service{
 
 	@Transactional
 	@Override
-	public int deleteTask2(String no) {
-		int i=dao.deleteTask2(no);
-		if(i>0){
+	public int deleteTask2(String tId) {
+		int i=dao.deleteTask2(tId);
+		/*if(i>0){
 			i=tDao.deleteDepartmentByNo(no);
-		}
+		}*/
 		return i;
 	}
 	
