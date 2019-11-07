@@ -16,7 +16,7 @@ public interface Task2Dao {
 	
 	public int selectTask2CountByTaskNo(@Param("taskNo")String taskNo);
 	
-	public int deleteTask2(@Param("no")String no);
+	public int deleteTask2(@Param("tId")String tId);
 
 	public List<Task2> selectTask2ByYear(@Param("y")String y);
 
@@ -27,5 +27,9 @@ public interface Task2Dao {
 	public List<Task2> selectDistinctTask2();
 	
 	public String getBM2ManageTarget(String year);
+
+	public int isCountBytNoAndDate(@Param("tNo")String tNo, @Param("date1")String date1);
+
+	public int updateBytNoAndDate(@Param("xgt2") Task2 xgt2);
 	
 }

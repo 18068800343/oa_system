@@ -1,6 +1,7 @@
 package org.ldxx.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.ldxx.bean.TDepartment;
 import org.ldxx.dao.TDepartmentDao;
@@ -20,11 +21,16 @@ public class TDepartmentServiceImpl implements TDepartmentService{
 	}
 
 	@Override
-	public int updateIncome(List<TDepartment> td) {
+	public int updateIncome(Map<String,Object> map) {
+		List<TDepartment> list = (List<TDepartment>) map.get("TDepartment");
+		List<TDepartment> list2 = (List<TDepartment>) map.get("xgTDepartment");
 		int i=0;
-		for(TDepartment tDepartment:td){
+		for(TDepartment tDepartment:list){
 		  i=dao.addTDepartmentIncome(tDepartment);
 		}
+		for(TDepartment tDepartment2:list2){
+			  i=dao.updateTDepartmentIncomeBytNoAndDate(tDepartment2);
+			}
 		return i;
 		
 	}

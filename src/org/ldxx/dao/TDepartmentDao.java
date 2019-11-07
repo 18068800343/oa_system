@@ -30,4 +30,8 @@ public interface TDepartmentDao {
 	public List<TDepartment> getDistinctDepartmentIncome();
 
 	public TDepartment getDistinctDepartmentIncomeByNo(@Param("no")String no);
+
+	public int isCountBytNoAndDate(@Param("no")String no, @Param("date1")String date1);
+
+	public int updateTDepartmentIncomeBytNoAndDate(@Param("t")TDepartment tDepartment2);
 }
