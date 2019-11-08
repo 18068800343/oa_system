@@ -17,6 +17,7 @@ import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.dao.KpApplicationDao;
 import org.ldxx.dao.OrganizationManagementDao;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.CjContractService;
@@ -36,6 +37,9 @@ public class KpApplicationController {
 
 	@Autowired
 	private KpApplicationService service;
+	
+	@Autowired
+	private KpApplicationDao dao;
 	@Autowired
 	private PrjProgressFillService pService;
 	@Autowired
@@ -265,6 +269,14 @@ public class KpApplicationController {
 			String code="KP"+uuid.getClCode("", count+1);
 			i=service.updateKpNoById(id,code);
 		}
+		return i;
+	}
+	
+	
+	@RequestMapping("/deleteKpById")//流程最后一步通过id修改编号
+	@ResponseBody
+	public int deleteKpById(String id){
+		int i= dao.deleteKpById(id);
 		return i;
 	}
 }

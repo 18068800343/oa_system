@@ -118,7 +118,7 @@
 		a.assist_department1_money,a.assist_department2_money,assist_department3_money,
 		a.split_state,a.jyms,a.yi_cj_department,
 		d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4,
-		f.StarterName as starterName,b.status as status,
+		f.StarterName as starterName,b.status as status,g.do_date,
 		Num_char_extract(a.contract_no,0) as cno_sort
 		FROM cj_contract as a 
 		left join mode_status as b on a.cj_id=b.mode_id
@@ -128,7 +128,9 @@
 		left join organization_management as d4 on a.assist_department2=d4.om_id
 		left join organization_management as d5 on a.assist_department3=d5.om_id
 		LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
-					LEFT JOIN cj_contract a ON a.cj_id=f.mode_id  GROUP BY mode_id )  AS  f on a.cj_id=f.mode_id 
+		          LEFT JOIN cj_contract a ON a.cj_id=f.mode_id  GROUP BY mode_id )  AS  f on a.cj_id=f.mode_id 
+		LEFT JOIN (SELECT g.mode_id,do_date from (SELECT * from flowhistroy order by do_date DESC) g 
+				  LEFT JOIN cj_contract a ON a.cj_id=g.mode_id LEFT JOIN mode_status mgs on a.cj_id =mgs.mode_id where mgs.`status`='2'  GROUP BY mode_id )  AS  g on a.cj_id=g.mode_id
 		<where>
 			<if test="startMin!=''">
 				contract_start_time &gt;= #{startMin} and contract_start_time &lt;= #{startMax} and 
