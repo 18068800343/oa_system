@@ -16,12 +16,56 @@
   </select>
   
    <select id="selectFbContractOver2" resultType="FbContractOver">
-  	select a.*,f.StarterName as starterName,b.status as status
-  	FROM fb_contract_over as a 
-  	left join mode_status as b on a.fco_id=b.mode_id
-  	LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
-					LEFT JOIN fb_contract_over a ON a.fco_id=f.mode_id  GROUP BY mode_id )  AS  f on a.fco_id=f.mode_id
-  	where (b.status=1 or b.status=2 or b.status=3)
+				SELECT
+					a.*, f.StarterName AS starterName,
+					b. STATUS AS STATUS,
+					cwo.cj_contract_code,
+					CASE
+				WHEN cwo.cj_contract_code IS NULL THEN
+					0
+				WHEN "" THEN
+					0
+				WHEN "Null" THEN
+					0
+				ELSE
+					1
+				END as cwoState
+				FROM
+					fb_contract_over AS a
+				LEFT JOIN mode_status AS b ON a.fco_id = b.mode_id
+				LEFT JOIN (
+					SELECT
+						mode_id,
+						StarterName
+					FROM
+						(
+							SELECT
+								*
+							FROM
+								flowhistroy
+							ORDER BY
+								do_date ASC
+						) f
+					LEFT JOIN fb_contract_over a ON a.fco_id = f.mode_id
+					GROUP BY
+						mode_id
+				) AS f ON a.fco_id = f.mode_id
+				LEFT JOIN (
+					SELECT
+						cw.*
+					FROM
+						contract_work cw
+					LEFT JOIN mode_status AS b ON cw.cw_id = b.mode_id
+					WHERE
+						b. STATUS = 2
+					AND cw.type = 2
+				) cwo ON cwo.cj_contract_code = a.cj_contract
+				WHERE
+					(
+						b. STATUS = 1
+						OR b. STATUS = 2
+						OR b. STATUS = 3
+					)
   </select>
   
   <select id="selectFbContractOverById" resultType="FbContractOver">

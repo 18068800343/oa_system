@@ -60,9 +60,20 @@ public class FbContract {
     
     private String starterName;//发起人
     private String status;//审批状态
+    
+    private Integer cwoState;//审批状态
 
     
-    public String getCancelReason() {
+    
+    public Integer getCwoState() {
+		return cwoState;
+	}
+
+	public void setCwoState(Integer cwoState) {
+		this.cwoState = cwoState;
+	}
+
+	public String getCancelReason() {
 		return cancelReason;
 	}
 

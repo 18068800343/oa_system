@@ -29,10 +29,20 @@ public class FbContractOver {/*分包结算申请*/
     
     private String starterName;//发起人
     private String status;//审批状态
+    
+    private String cwoState;//审批状态
 
     
     
-    public Double getFbMoney() {
+    public String getCwoState() {
+		return cwoState;
+	}
+
+	public void setCwoState(String cwoState) {
+		this.cwoState = cwoState;
+	}
+
+	public Double getFbMoney() {
 		return fbMoney;
 	}
 

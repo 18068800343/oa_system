@@ -122,11 +122,46 @@
 	</select>
 	
 	<select id="getFBNameAndNo" resultType="fbContract">
-		select f.fb_id,f.contract_name,f.fb_no,f.contract_name_yi,c.cc_name,f.contract_start_time,f.contract_end_time,
-			contract_money,temporary_money,cj_contract_code,cj_contract_name,work_no from fb_contract f
-			left join mode_status m on m.mode_id=f.fb_id
-			left join consociation_company c on c.cc_id=f.contract_name_yi
-		where m.status=2 and f.history=1
+			SELECT
+				f.fb_id,
+				f.contract_name,
+				f.fb_no,
+				f.contract_name_yi,
+				c.cc_name,
+				f.contract_start_time,
+				f.contract_end_time,
+				contract_money,
+				temporary_money,
+				cj_contract_code,
+				cj_contract_name,
+				work_no,
+				CASE
+				WHEN cwo.ccco IS NULL THEN
+					0
+				WHEN "" THEN
+					0
+				WHEN "Null" THEN
+					0
+				ELSE
+					1
+				END as cwoState
+			FROM
+				fb_contract f
+			LEFT JOIN mode_status m ON m.mode_id = f.fb_id
+			LEFT JOIN consociation_company c ON c.cc_id = f.contract_name_yi
+			LEFT JOIN (
+				SELECT
+					cw.cj_contract_code as ccco
+				FROM
+					contract_work cw
+				LEFT JOIN mode_status AS b ON cw.cw_id = b.mode_id
+				WHERE
+					b. STATUS = 2
+				AND cw.type = 2
+			) cwo ON cwo.ccco = f.cj_contract_code
+			WHERE
+				m. STATUS = 2
+			AND f.history = 1
 	</select>
 	<select id="getFBNameAndNo2" resultType="fbContract">
 		select f.fb_id,f.contract_name,f.fb_no,f.contract_money from fb_contract f
