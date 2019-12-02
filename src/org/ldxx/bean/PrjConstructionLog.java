@@ -20,9 +20,17 @@ public class PrjConstructionLog {
 
     private List<PrjConstructionLogInfo> prjLogInfo;
     
-    
+    private List<Accessory> accessory;
     
 	
+
+	public List<Accessory> getAccessory() {
+		return accessory;
+	}
+
+	public void setAccessory(List<Accessory> accessory) {
+		this.accessory = accessory;
+	}
 
 	public List<PrjConstructionLogInfo> getPrjLogInfo() {
 		return prjLogInfo;

@@ -2,8 +2,10 @@ package org.ldxx.service.impl;
 
 import java.util.List;
 
+import org.ldxx.bean.Accessory;
 import org.ldxx.bean.PrjConstructionLog;
 import org.ldxx.bean.PrjConstructionLogInfo;
+import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.PrjConstructionLogDao;
 import org.ldxx.dao.PrjConstructionLogInfoDao;
 import org.ldxx.service.PrjConstructionLogService;
@@ -20,6 +22,8 @@ public class PrjConstructionLogServiceImpl implements PrjConstructionLogService 
 	private PrjConstructionLogDao dao;
 	@Autowired
 	private PrjConstructionLogInfoDao prjLogInfodao;
+	@Autowired
+	private AccessoryDao adao;
 
 	@Override
 	public List<PrjConstructionLog> selectPrjConstructionLog() {
@@ -45,6 +49,10 @@ public class PrjConstructionLogServiceImpl implements PrjConstructionLogService 
 				}
 				i=prjLogInfodao.addrjConstructionLogInfo(prjLogInfo);
 			}
+			List<Accessory> list=prjLog.getAccessory();
+			if(list.size()>0){
+				i=adao.addAccessory(list);
+			}
 		}
 		return i;
 	}
@@ -67,6 +75,10 @@ public class PrjConstructionLogServiceImpl implements PrjConstructionLogService 
 				i=prjLogInfodao.deletePrjConstructionLogInfo(prjLog.getPclId());
 			}
 			i=prjLogInfodao.addrjConstructionLogInfo(prjLog.getPrjLogInfo());
+			List<Accessory> list=prjLog.getAccessory();
+			if(list.size()>0){
+				i=adao.addAccessory(list);
+			}
 		}
 		return i;
 	}

@@ -67,7 +67,7 @@
             </div>
             <div class="modal-body">
                     <div>     
-                        <form class="form-inline" id="myform">
+                        <form class="form-inline" id="myform" method="post" enctype="multipart/form-data">
                             <table class="table table-bordered table-condensed">
                                 <tr>
                                     <td style="width:12%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -100,6 +100,17 @@
                                     <td colspan="4" style="text-align:right;"><button type="button" class="btn btn-primary" id="addrizhi">添加施工日志</button></td>
                                 </tr>
                             </table> 
+                            <table class="table table-bordered table-condensed" id="new_table">
+		                    	<thead>
+		                    		<tr>
+		                            	<td style="width:15%;">附件</td>
+			                            <td colspan="3">
+			                                <button type="button" class="btn btn-primary weui-uploader__input" id="uploaderBox">添加附件</button>
+			                           	</td>
+		                        	</tr>
+		                        </thead>
+		                        <tbody></tbody>
+		                    </table>
                             <div id="rizhijihe">
 		                          	<table class="table table-bordered table-condensed" id="SG_tab">
 		                          		<tr>
@@ -197,7 +208,7 @@
             </div>
             <div class="modal-body">
                     <div>     
-                        <form class="form-inline">
+                        <form class="form-inline" method="post" enctype="multipart/form-data">
                             <table class="table table-bordered table-condensed">
                                 <tr>
                                     <td style="width:12%;">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -262,6 +273,15 @@
                                     <td colspan="4" style="text-align:right;"><button type="button" class="btn btn-primary" id="xgaddrizhi">添加施工日志</button></td>
                                 </tr>
                             </table>
+                            <table class="table table-bordered table-condensed" id="edit_table">
+	                        	<thead>
+					     			<tr><td style="width:15%;">附件</td>
+					     			<td><button type="button" class="btn btn-primary weui-uploader__input" onclick="edit_uploaderBox()">添加附件</button></td>
+					                <td style="width:20%;">&nbsp</td></tr>
+								</thead>
+								<tbody></tbody>
+								<tfoot></tfoot>
+	                    	</table> 
                             <div id="xgrizhijihe">
 		                          	<!-- <table class="table table-bordered table-condensed">
 		                          		<tr>
@@ -431,6 +451,9 @@
                             <td colspan="3" id="lookConstruction_site2"></td>
                         </tr> -->
                     </table> 
+                    <table class="table table-bordered table-condensed" id="looktable">
+                    	
+                    </table> 
                     <div id="lookrizhijihe">
                     </div>
                 </form>  
@@ -452,6 +475,7 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/myTool.js"></script>
@@ -927,17 +951,26 @@
 		rizhi.temperature=temperature;
 		rizhi.fillTime=year;
 		rizhi.prjLogInfo=rizhiArray;
-		 $.ajax({
+		
+		var formData = new FormData();
+  		formData.append("rizhi", JSON.stringify(rizhi));
+  		
+  		$("#new_table tbody").find("tr").each(function(){
+  			formData.append("file", $(this).find("input")[0].files[0]);
+  		})
+		$.ajax({
             type: 'POST',
             url: getContextPath()+'/PrjConstructionLog/addPrjConstructionLogSave',
             dataType: 'json',
-            contentType: "application/json", 
-            data:JSON.stringify(rizhi),
+            data: formData,  
+            processData: false,
+            contentType: false,
             success: function (json) {
             	if(json.result>0){
             		toastr.success("添加成功");
             		$('#mainContent').DataTable().row.add(json.PrjConstructionLog).draw(false);     //新增行立即显示
             		$("#myModal").modal("hide")
+            		$("#new_table tbody").empty('')
             		$(".Pehab").show();
             		$(".Pehac").show();
             		$(".Pehad").show();
@@ -1029,6 +1062,27 @@
 				}
 			}
 		})
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/accessory/selectAccessoryById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:data.pclId,
+			},
+			success:function(json){
+				$("#looktable").empty();
+	               for(var i=0;i<json.length;i++){
+	            	   if(json[i].aType=="项目施工日志"){
+		            	   $("#looktable").append("<tr>"+
+	      	   										"<td style='width:20%;'>采购合同文本</td>"+
+	      	   										"<td colspan='3'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue'>"+json[i].acName+"</a></td>"+
+							            	    "</tr>");
+	            	   }
+	               }
+			}
+		})
 	}
 	
 
@@ -1070,6 +1124,48 @@
 				}
 			}
 		})
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/accessory/selectAccessoryById",
+			dataType:"json",
+			data:{
+				id:data.pclId
+			},
+			success:function(json){
+	 			$("#edit_table tbody").empty();
+	 			$("#edit_table tfoot").empty();
+	            for(var i=0;i<json.length;i++){
+	            	$("#edit_table tbody").append("<tr><td>附件</td><td><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td><td><button type='button' data="+json[i].aId+" data2="+json[i].acUrl+" onclick='deleteFile(this)' class='btn btn-primary'>删除附件</button></td></tr>")	 
+	            }
+			}
+		})
+	}
+	function deleteFile(obj){
+		var aId=$(obj).attr("data");
+		var acUrl=$(obj).attr("data2");
+		var acName=$(obj).parents("tr").find("td").eq(1).text();
+		var statu = confirm("确认删除吗?");
+		  if(!statu){
+		   return false;
+		  }
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
+            dataType: 'json',
+            data: {
+            	aId:aId,
+            	acUrl:acUrl,
+            	acName:acName
+            },
+            success: function (json) {
+                if(json==0){
+                	toastr.error("删除失败");
+                }else{
+                	$(obj).parents("tr").remove();
+                	toastr.success("删除成功");
+                }
+            }
+        });
 	}
 	
 	//修改保存
@@ -1139,12 +1235,20 @@
 		rizhi.temperature=temperature;
 		rizhi.fillTime=year;
 		rizhi.prjLogInfo=rizhiArray;
+		
+		var formData = new FormData();
+  		formData.append("rizhi", JSON.stringify(rizhi));
+  		
+  		$("#edit_table tfoot").find("tr").each(function(){
+  			formData.append("file", $(this).find("input")[0].files[0]);
+  		})
 		$.ajax({
             type: 'POST',
             url: getContextPath()+'/PrjConstructionLog/updatePrjConstructionLogSave',
             dataType: 'json',
-            contentType: "application/json", 
-            data:JSON.stringify(rizhi),
+            data: formData,  
+            processData: false,
+            contentType: false,
             success: function (json) {
             	if(json.result>0){
             		toastr.success("修改成功");
@@ -1207,6 +1311,22 @@
 		var d = $("#searchData").val();
 		$("#mainContent").DataTable().search(d).draw(true);
 	});
+	
+	
+	$("#uploaderBox").on("click", function(e) {
+        var newFileInput = "<tr><td>新附件</td><td><input  type='file' name='file' style='width:80%;' class='form-control' /></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>";
+        $("#new_table tbody").append($(newFileInput));
+    });
+	
+	function edit_uploaderBox(){
+        var newFileInput = "<tr><td>新附件</td><td><input  type='file' name='file' style='width:80%;' class='form-control' /></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>";
+        $("#edit_table tfoot").append($(newFileInput));
+    }
+	
+	function removeFile(obj){
+  		var tr=$(obj).parents("tr");
+  		$(tr).remove();
+  	}
 
 </script>
 </html>
