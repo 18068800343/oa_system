@@ -874,12 +874,11 @@
 									"render" : function(data, type, full) {
 										var delImg = '<i class="iconfont icon-shanchu" style="font-size: 22px; cursor: pointer; margin-left: 5px;" title="删除"  onclick="deleteTicket(this)"></i>'
 										var a = '<i class="iconfont icon-icon-test Pcdb" style="font-size:18px;cursor:pointer;display:none;" title="查看" onclick="look(this)"></i> &nbsp <i class="iconfont icon-icon_edit Pcdc" style="font-size:18px;cursor:pointer;display:none;" title="补录发票编号" onclick="backTracking(this)"></i>';
-										var usr = JSON.parse(getCookie("msg"));
 
 										if ("张瑜" == full.sqMen) {
 											console.log("aa");
 										}
-										if (usr.uName == full.sqMen) {
+										if (page_usr.uName == full.sqMen) {
 											return a + delImg;
 
 										} else {
@@ -1205,6 +1204,19 @@
 
 					});
 
+	var page_usr;
+	function getUsr(){
+		$.ajax({
+			type : "post",
+			url : getContextPath() + "/login/getUser",
+			async:false,
+			data : {},
+			success : function(json) {
+				page_usr = json;
+			}
+		});
+	}
+	
 	function initTable() {
 		$.ajax({
 			type : 'POST',
@@ -1214,6 +1226,7 @@
 				status : 2
 			},
 			success : function(json) {
+				getUsr();
 				$('#mainContent').dataTable().fnClearTable();
 				$('#mainContent').DataTable().rows.add(json).draw(false);
 
@@ -1807,7 +1820,7 @@
 		 toastr.error("统一社会信用代码不能为空");
 		 return;
 		 } */
-
+ 	    showMask();
 		$
 				.ajax({
 					type : "POST",
@@ -1835,6 +1848,7 @@
 						kpDepartment : bumen,
 					},
 					success : function(json) {
+						hidMask();
 						lianjie = json.url;
 						$("#myModal").modal("hide");
 						if (json.receiver != null && json.receiver.length >= 1) {
@@ -1876,6 +1890,7 @@
 				})
 	}
 
+	
 	function look(obj) {
 		var tr = $(obj).parents("tr");
 		var data = $("#mainContent").DataTable().row(tr).data();

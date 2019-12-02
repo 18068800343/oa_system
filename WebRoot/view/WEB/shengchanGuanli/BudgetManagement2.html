@@ -1543,6 +1543,9 @@
 			$("#newfymingxi").append("<option>公司管理摊销</option><option>其他摊销</option>")
 		} */
 	})
+	
+	
+	
 	$("#newaddyusuan").click(function(){
 		var reg=/^(\-|\+)?\d+(\.\d+)?$/;//只能输入数字或含两位小数的正则
 		if(!reg.test($("#newjine").val())||$("#newjine").val()==""){
@@ -1566,7 +1569,7 @@
 	$("#cl_table").hide();
     $("#addzhuchengben").hide();
 	$("#newfymingxi").click(function(){
-		if($("#newfymingxi").find("option:selected").val()!="11"){
+		if($("#newfymingxi").find("option:selected").text()!="主材费用"){
 			if($("#cl_table tbody").find("tr").length!=0){
 				$("#newkemu").removeAttr("disabled");
 				$("#newaddyusuan").removeAttr("disabled");
@@ -1594,7 +1597,7 @@
 		}
 	})
 	$("#newkemu").click(function(){
-		if($("#newkemu").val()!="1"){
+		if($("#newkemu option:selected").text()!="材料费用"){
 			if($("#cl_table tbody").find("tr").length!=0){
 				$("#newkemu").removeAttr("disabled");
 				$("#newaddyusuan").removeAttr("disabled");
@@ -1741,6 +1744,7 @@
             }
   		});
     }
+  
 	function initClType2(obj){
     	$.ajax({
             type: 'POST',
@@ -2431,15 +2435,28 @@
 	        data: {
 	        },
 	        success: function (json) {
+	        	  $("#newkemu").empty();
+	        	  $("#xgkemu").empty();
 	        	 for(var i=0;i<json.length;i++){
 	        		$("#fyfenlei").append( "<option value='" + json[i].idFirst + "'>"
 		                    + json[i].nameFirst + "</option>");
+	        		
+	        		$("#newkemu").append( "<option value='" + json[i].idFirst + "'>"
+		                    + json[i].nameFirst + "</option>");
+	        		
+	        		$("#xgkemu").append( "<option value='" + json[i].idFirst + "'>"
+		                    + json[i].nameFirst + "</option>");
+	        		
 	        		$("#xgfyfenlei").append( "<option value='" + json[i].idFirst + "'>"
 		                    + json[i].nameFirst + "</option>"); 
+	        		
 	        		$("#checkfenlei").append( "<option value='" + json[i].idFirst + "'>"
 		                    + json[i].nameFirst + "</option>");
 	        	} 
+	        	 
 	        	$("#fyfenlei").trigger('change');
+	        	$("#newkemu").trigger('change');
+	        	$("#xgkemu").trigger('change');
 	        	$("#xgfyfenlei").trigger('change');
 	        	$("#checkfenlei").trigger('change');
 	        }
@@ -2465,6 +2482,30 @@
 			}
 		})
 	})
+	
+	$("#newkemu").change(function(){
+		var fyfenleiId=$("#newkemu").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/costSubjects/selectOne_TwocostSubjects",
+			dataType:"json",
+			async:false,
+			data:{ 
+				idFirst:fyfenleiId 
+				},
+			success:function(json){
+				$("#newfymingxi").empty();
+				for(var i=0;i<json.length;i++){
+					$("#newfymingxi").append("<option value='" + json[i].dId + "'>"
+		                    + json[i].nameSecond + "</option>")
+		      if(json[i].nameSecond=="主材费用"){
+		    	  $("#newfymingxi").trigger("click");
+		      }
+				}
+			}
+		})
+	})
+	
 	$("#xgfyfenlei").change(function(){
 		var fyfenleiId=$("#xgfyfenlei").val();
 		$.ajax({
@@ -2484,6 +2525,30 @@
 			}
 		})
 	}) 
+	
+	
+	$("#xgkemu").change(function(){
+		var fyfenleiId=$("#xgkemu").val();
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/costSubjects/selectOne_TwocostSubjects",
+			dataType:"json",
+			async:false,
+			data:{ 
+				idFirst:fyfenleiId  
+				},
+			success:function(json){
+				$("#xgfymingxi").empty();
+				for(var i=0;i<json.length;i++){
+					$("#xgfymingxi").append("<option value='" + json[i].dId + "'>"
+		                    + json[i].nameSecond + "</option>")
+				}
+			}
+		})
+	}) 
+	
+	
+	
 	$("#checkfenlei").change(function(){
 		var checkfenleiId=$("#checkfenlei").val();
 		$.ajax({
