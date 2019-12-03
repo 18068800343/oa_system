@@ -112,7 +112,7 @@ public class PrjProgressFillController {
 			}
 			pf.setAccessory(list);
 		}
-		String taskNo=pf.getTaskNo();
+		/*String taskNo=pf.getTaskNo();
 		double cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
 		double cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
 		double allCost=cost+cost2;//财务累计成本
@@ -123,7 +123,7 @@ public class PrjProgressFillController {
 			fbIncome=fbIncome+ppfb.get(ii).getIncomeBq();
 		}
 		
-		/*累计成本=财务累计成本-财务外协费+分包累计收入（预算分包收入）*/
+		累计成本=财务累计成本-财务外协费+分包累计收入（预算分包收入）
 		double totalCost=allCost-cwwx+fbIncome;
 		double prjIncome=pf.getAllMoneyYuan();//项目累计收入
 		double prjMoney=pf.getPrjMoney();//任务单金额
@@ -132,7 +132,8 @@ public class PrjProgressFillController {
 			pf.setStatus(1);
 		}else{
 			pf.setStatus(3);
-		}
+		}*/
+		pf.setStatus(0);
 		
 		int i=service.addPrjProgressFill(pf);
 		if(i>0){
@@ -599,6 +600,38 @@ public class PrjProgressFillController {
 	@ResponseBody
 	public int updateBackState(String backState,String id){
 		int i=service.updateBackState(backState,id);
+		return i;
+	}
+	
+	
+	@RequestMapping("/changeData")//流程最后一步
+	@ResponseBody
+	public int changeData(String id){
+		PrjProgressFill pf=service.selectPrjProgressFillById(id);
+		String taskNo=pf.getTaskNo();
+		double cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
+		double cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
+		double allCost=cost+cost2;//财务累计成本
+		double cwwx=0;//财务外协费
+		double fbIncome=0;//分包累计收入
+		List<PrjProgressFillFb> ppfb=pf.getPpfb();
+		if(ppfb!=null&&ppfb.size()!=0){
+			for(int ii=0;ii<ppfb.size();ii++){
+				fbIncome=fbIncome+ppfb.get(ii).getIncomeBq();
+			}
+		}
+		
+		//累计成本=财务累计成本-财务外协费+分包累计收入（预算分包收入）
+		double totalCost=allCost-cwwx+fbIncome;
+		double prjIncome=pf.getAllMoneyYuan();//项目累计收入
+		double prjMoney=pf.getPrjMoney();//任务单金额
+		double ysCost=pf.getBudgetMoneyAll();//任务总预算
+		if((totalCost/prjIncome)>(1.1*ysCost/prjMoney)){
+			pf.setStatus(1);
+		}else{
+			pf.setStatus(3);
+		}
+		int i = service.updateStatusById(pf.getStatus(),id);
 		return i;
 	}
 }

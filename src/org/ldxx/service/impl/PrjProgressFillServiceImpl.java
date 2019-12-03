@@ -361,4 +361,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.updateBackState(backState,id);
 	}
 
+	@Override
+	public int updateStatusById(int status, String id) {
+		return dao.updateStatusById(status,id);
+	}
+
 }

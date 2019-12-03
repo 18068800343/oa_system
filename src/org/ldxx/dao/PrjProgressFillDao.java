@@ -100,4 +100,6 @@ public interface PrjProgressFillDao {
 	public Double getSummoneyYuan(@Param("nowStr")String nowStr,@Param("time") String time);
 
 	public int updateBackState(@Param("backState")String backState,@Param("id") String id);
+
+	public int updateStatusById(@Param("status")int status,@Param("id") String id);
 }

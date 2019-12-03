@@ -10,6 +10,7 @@
 	<link href="../../style/bootstrap.min.css" rel="stylesheet">
     <link href="../../style/style.css" rel="stylesheet">
     <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link href="../../select/css/select2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
     <style lang="">
@@ -65,7 +66,7 @@
                 <button type="button" class="btn btn-primary" id="daochu">全部出库</button>
             </div> -->
 <!-- Modal -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+<div class="modal fade bs-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
     <div class="modal-dialog modal-lg" role="document"  style="width:90%;">
         <div class="modal-content">
         <div class="modal-header">
@@ -147,17 +148,23 @@
                         
                         	<table  class='table table-bordered table-condensed' style="width:1580px;border=1" id='cailiaobiao'>
 		                    	<thead>
+		                    		<tr>
+										<td style="font-size: 24px;" colspan="9">添加材料、设备 <i
+											class="iconfont icon-xingxing-copy" style="color: red;"></i></td>
+										<td style="width: 5%;"><button type="button"
+												class="btn btn btn-primary" onclick="add()">添加材料</button></td>
+									</tr>
 		                        	<tr>
 		                            	<th>材料名称</th>
-		                            	<th>材料类型</th>
+		                            	<th style="width:8%;">材料类型</th>
 			                            <th>材料型号</th>
-			                            <th style='width:6%;'>单位</th>
+			                            <th style='width:8%;'>单位</th>
 			                            <th>数量</th>
 			                            <th style='width:8%;'>单价(元)</th>
 			                            <!-- <th>金额</th> -->
 			                             <!--<th>项目部推荐供应商</th>
 			                            <!-- <th>公司确定供应商</th> -->
-			                            <th>来货单位</th>
+			                            <th style="width:10%;">来货单位</th>
 			                            <th>备注</th>
 			                            <!-- <th>来货单位</th> -->
 			                            <th>生产厂家</th>
@@ -300,6 +307,12 @@
                         <div id="xgcailiaobiaoDiv">
                         	<table  class='table table-bordered table-condensed' style="width:1580px;border=1" id='xgcailiaobiao'>
 		                    	<thead>
+		                    		<tr>
+											<td style="font-size: 24px;" colspan="9">添加材料、设备 <i
+											class="iconfont icon-xingxing-copy" style="color: red;"></i></td>
+										<td style="width: 5%;"><button type="button"
+												class="btn btn btn-primary" onclick="xgadd()">添加材料</button></td>
+									</tr>
 		                        	<tr>
 		                            	<th>材料名称</th>
 		                            	<th>材料类型</th>
@@ -750,6 +763,7 @@
 <script src="../../js/laydate/laydate.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
+<script src="../../select/js/select2.min.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/quanxian.js"></script>
 <script>
@@ -1463,20 +1477,20 @@ function xgsaveCgName(){
                    		$("#cailiaobiao tbody").append("<tr><td style='width:7%;'>"
            		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clName+' >'
            		  				+"</td><td style='width:5%;'>"
-           		  				+'<select style="width:100px;" class="form-control" id="cl_type'+k+'"></select>'
+           		  				+'<select style="width:100%;" class="form-control" id="cl_type'+k+'"></select>'
            		  				+"</td><td style='width:7%;'>"
            		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clMode+' >' 
            		  				+"</td><td style='width:7%;'>"
-           		  				+'<select class="form-control"  id=cl_danwei'+k+'>'
+           		  				+'<select class="form-control" style="width:100%;"  id=cl_danwei'+k+'>'
 										+'</select>'
            		  				+"</td><td style='width:7%;'>"
            		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clNumber+' >'
            		  				+"</td><td style='width:7%;'>"
-           		  				+'<input type="text" class="form-control" style="width:80%;" value='+json.cgcl[k].clPrice+'  >'
+           		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clPrice+'  >'
            		  				+"</td><td style='width:7%;' data-id2=''>"
            		  				/* +'<input type="text" class="form-control" value='+json.cgcl[k].clMoney+' style="width:100%;">'
            		  				+"</td><td style='width:7%;'>" */
-	           		  			+'<input type="text" class="form-control" style="width:250px;" value='+json.cgcl[k].clspName1+' disabled >'
+	           		  			+'<input type="text" class="form-control" style="width:100%;" value="'+(json.cgcl[k].clspName1==null?"":json.cgcl[k].clspName1)+'" disabled >'
 	       		  				+"</td><td style='width:7%;'>"
        		  					/*+'<select style="width:150px;"  class="form-control" id=xm'+k+'></select>'
            		  				+"</td><td style='width:7%;' data-id2=''>"
@@ -1500,7 +1514,7 @@ function xgsaveCgName(){
 					$("#ruku").attr("disabled",false);
 				}else{
 					$("#ruku").attr("disabled",true);
-            		$("#cailiaobiao tbody").append("<tr><td colspan='12' style='text-align:center;color:red;font-size:24px'>暂无数据</td></tr>")
+            		//$("#cailiaobiao tbody").append("<tr><td colspan='12' style='text-align:center;color:red;font-size:24px'>暂无数据</td></tr>")
 				}
 				
 			}
@@ -1541,28 +1555,28 @@ function xgsaveCgName(){
 				if(json.cgcl!=null&&json.cgcl.length!=0){
 					for(var k=0;k<json.cgcl.length;k++){
                    		$("#xgcailiaobiao tbody").append("<tr><td>"
-           		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clName+' >'
+           		  				+'<input type="text" class="form-control" style="width:100%;" value='+(json.cgcl[k].clName==null?"":json.cgcl[k].clName)+' >'
            		  				+"</td><td>"
            		  				+'<select style="width:100px;" class="form-control" id="xgcl_type'+k+'"></select>'
            		  				+"</td><td>"
-           		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clMode+' >' 
+           		  				+'<input type="text" class="form-control" style="width:100%;" value='+(json.cgcl[k].clMode==null?"":json.cgcl[k].clMode)+' >' 
            		  				+"</td><td>"
            		  				+'<select class="form-control"  id=xgcl_danwei'+k+'>'
 										+'</select>'
            		  				+"</td><td>"
-           		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clNumber+' >'
+           		  				+'<input type="text" class="form-control" style="width:100%;" value='+(json.cgcl[k].clNumber==null?"":json.cgcl[k].clNumber)+' >'
            		  				+"</td><td>"
-           		  				+'<input type="text" class="form-control" style="width:80%;" value='+json.cgcl[k].clPrice+'  >'
+           		  				+'<input type="text" class="form-control" style="width:80%;" value='+(json.cgcl[k].clPrice==null?"":json.cgcl[k].clPrice)+'  >'
            		  				+"</td><td data-id2=''>"
            		  				/* +'<input type="text" class="form-control" value='+json.cgcl[k].clMoney+' style="width:100%;">'
            		  				+"</td><td style='width:7%;'>" */
-	           		  			+'<input type="text" class="form-control" style="width:250px;" value='+json.cgcl[k].clspName1+' disabled >'
+	           		  			+'<input type="text" class="form-control" style="width:250px;" value='+(json.cgcl[k].clspName1==null?"":json.cgcl[k].clspName1)+' disabled >'
 	       		  				+"</td><td >"
            		  				/* +'<select style="width:150px;" class="form-control" id=xgxm'+k+'></select>'
            		  				+"</td><td style='width:7%;' data-id2=''>"
            		  				+'<select style="width:150px;" class="form-control" id=xggs'+k+'></select>'
            		  				+"</td><td style='width:7%;'>" */
-           		  				+'<input type="text" class="form-control" style="width:100%;" value='+json.cgcl[k].clDesc+' >'
+           		  				+'<input type="text" class="form-control" style="width:100%;" value='+(json.cgcl[k].clDesc==null?"":json.cgcl[k].clDesc)+' >'
            		  				+"</td><td>"
 	           		  			/* +'<input type="text" class="form-control" style="width:100%;">'
 	       		  				+"</td><td style='width:7%;'>" */
@@ -1580,7 +1594,7 @@ function xgsaveCgName(){
 					$("#xgruku").attr("disabled",false);
 				}else{
 					$("#xgruku").attr("disabled",true);
-            		$("#xgcailiaobiao tbody").append("<tr><td colspan='12' style='text-align:center;color:red;font-size:24px'>暂无数据</td></tr>")
+            		//$("#xgcailiaobiao tbody").append("<tr><td colspan='12' style='text-align:center;color:red;font-size:24px'>暂无数据</td></tr>")
 				}
 				
 			}
@@ -1834,7 +1848,7 @@ function xgsaveCgName(){
 	
 	
 	
-	//填报保存
+	//入库
 	function saveMs(){
 		//保存材料来货单位及生产厂家
 		var gsclInArr=new Array();
@@ -1845,7 +1859,12 @@ function xgsaveCgName(){
 			var clunit=$(this).find("td").eq(3).find("option:selected").val();
 			var clnumber=$(this).find("td").eq(4).find("input").val();
 			var clprice=$(this).find("td").eq(5).find("input").val();
-			var laihuodanwei=$(this).find("td").eq(6).find("input").val();
+			var laihuodanwei/*= $(this).find("td").eq(6).find("input").val() */;
+			if($(this).find("td").eq(6).children().is("input")){
+				laihuodanwei=$(this).find("td").eq(6).find("input").val();
+			}else{
+				laihuodanwei=$(this).find("td").eq(6).find("option:selected").val();
+			}
 			/* var clprj=$(this).find("td").eq(6).attr("data-id2");
 			var clgs=$(this).find("td").eq(7).attr("data-id2"); */
 			var cldesc=$(this).find("td").eq(7).find("input").val();
@@ -2149,29 +2168,29 @@ function xgsaveCgName(){
 				if(gsInCl!=null){
 	               for(var i=0;i<gsInCl.length;i++){
 	            	   $("#lookcailiaobiao tbody").append("<tr><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clName+''
+          		  				+''+(gsInCl[i].clName==null?"":gsInCl[i].clName)+''
           		  				+"</td><td style='width:5%;'>"
-          		  				+''+gsInCl[i].clType+''
+          		  				+''+(gsInCl[i].clType==null?"":gsInCl[i].clType)+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clMode+'' 
+          		  				+''+(gsInCl[i].clMode==null?"":gsInCl[i].clMode)+'' 
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clUnit+''
+          		  				+''+(gsInCl[i].clUnit==null?"":gsInCl[i].clUnit)+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clNumber+''
+          		  				+''+(gsInCl[i].clNumber==null?"":gsInCl[i].clNumber)+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clPrice+''
+          		  				+''+(gsInCl[i].clPrice==null?"":gsInCl[i].clPrice)+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clMoney+''
+          		  				+''+(gsInCl[i].clMoney==null?"":gsInCl[i].clMoney)+''
           		  				/* +"</td><td style='width:7%;'>" 
           		  				+''+gsInCl[i].clspNamexm+''
           		  				+"</td><td style='width:7%;'>"
           		  				+''+gsInCl[i].clspNamegs+'' */
           		  				+"</td><td style='width:7%;'>"
-	           		  			+''+gsInCl[i].clComeUnit+''
+	           		  			+''+(gsInCl[i].clComeUnit==null?"":gsInCl[i].clComeUnit)+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clDesc+''
+          		  				+''+(gsInCl[i].clDesc==null?"":gsInCl[i].clDesc)+''
 	       		  				+"</td><td style='width:7%;'>"
-		       		  			+''+gsInCl[i].clManufacturer+''
+		       		  			+''+(gsInCl[i].clManufacturer==null?"":gsInCl[i].clManufacturer)+''
           		  				+"</td></tr>")
 	               }
 				}
@@ -2242,29 +2261,29 @@ function xgsaveCgName(){
 				if(gsInCl!=null){
 	               for(var i=0;i<gsInCl.length;i++){
 	            	   $("#cailiaobiao2 tbody").append("<tr><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clName+''
+          		  				+''+(gsInCl[i].clName==null?"":gsInCl[i].clName)+''
           		  				+"</td><td style='width:5%;'>"
-          		  				+''+gsInCl[i].clType+''
+          		  				+''+(gsInCl[i].clType==null?"":gsInCl[i].clType)+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clMode+'' 
+          		  				+''+(gsInCl[i].clMode==null?"":gsInCl[i].clMode)+'' 
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clUnit+''
+          		  				+''+(gsInCl[i].clUnit==null?"":gsInCl[i].clUnit)+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clNumber+''
+          		  				+''+(gsInCl[i].clNumber==null?"":gsInCl[i].clNumber)+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clPrice+''
+          		  				+''+(gsInCl[i].clPrice==null?"":gsInCl[i].clPrice)+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clMoney+''
+          		  				+''+(gsInCl[i].clMoney==null?"":gsInCl[i].clMoney)+''
           		  				+"</td><td style='width:7%;'>" 
           		  				/* +''+gsInCl[i].clspNamexm+''
           		  				+"</td><td style='width:7%;'>"
           		  				+''+gsInCl[i].clspNamegs+'' 
           		  				+"</td><td style='width:7%;'>"*/
-	           		  			+''+gsInCl[i].clComeUnit+''
+	           		  			+''+(gsInCl[i].clComeUnit==null?"":gsInCl[i].clComeUnit)+''
           		  				+"</td><td style='width:7%;'>"
-          		  				+''+gsInCl[i].clDesc+''
+          		  				+''+(gsInCl[i].clDesc==null?"":gsInCl[i].clDesc)+''
 	       		  				+"</td><td style='width:7%;'>"
-		       		  			+''+gsInCl[i].clManufacturer+''
+		       		  			+''+(gsInCl[i].clManufacturer==null?"":gsInCl[i].clManufacturer)+''
           		  				+"</td></tr>")
 	               }
 				}
@@ -2341,28 +2360,28 @@ function xgsaveCgName(){
 				if(gsInCl!=null&&gsInCl.length!=0){
 	               for(var k=0;k<gsInCl.length;k++){
 	            	   $("#xgcailiaobiao tbody").append("<tr><td>"
-          		  				+'<input type="text" class="form-control" style="width:100%;" value="'+gsInCl[k].clName+'" >'
+          		  				+'<input type="text" class="form-control" style="width:100%;" value="'+(gsInCl[k].clName==null?"":gsInCl[k].clName)+'" >'
           		  				+"</td><td>"
           		  				+'<select style="width:100%;" class="form-control" id="xgcl_type'+k+'"></select>'
           		  				+"</td><td>"
-          		  				+'<input type="text" class="form-control" style="width:100%;" value="'+gsInCl[k].clMode+'" >' 
+          		  				+'<input type="text" class="form-control" style="width:100%;" value="'+(gsInCl[k].clMode==null?"":gsInCl[k].clMode)+'" >' 
           		  				+"</td><td>"
           		  				+'<select class="form-control"  id=xgcl_danwei'+k+'>'
 										+'</select>'
           		  				+"</td><td>"
-          		  				+'<input type="text" class="form-control" style="width:100%;" value="'+gsInCl[k].clNumber+'" >'
+          		  				+'<input type="text" class="form-control" style="width:100%;" value="'+(gsInCl[k].clNumber==null?"":gsInCl[k].clNumber)+'" >'
           		  				+"</td><td>"
-          		  				+'<input type="text" class="form-control" style="width:100%;" value="'+gsInCl[k].clPrice+'"  >'
+          		  				+'<input type="text" class="form-control" style="width:100%;" value="'+(gsInCl[k].clPrice==null?"":gsInCl[k].clPrice)+'"  >'
           		  				/* +"</td><td style='width:7%;' data-id2="+gsInCl[k].clPrjSupplier+">"
           		  				+'<select style="width:150px;" class="form-control" id=xgxm'+k+'></select>'
           		  				+"</td><td style='width:7%;' data-id2="+gsInCl[k].clGsSupplier+">"
           		  				+'<select style="width:150px;" class="form-control" id=xggs'+k+'></select>' */
           		  				+"</td><td>"
-			   		  			+'<input type="text" class="form-control" style="width:100%;" disabled value="'+gsInCl[k].clComeUnit+'">'
+			   		  			+'<input type="text" class="form-control" style="width:100%;" disabled value="'+(gsInCl[k].clComeUnit==null?"":gsInCl[k].clComeUnit)+'">'
 	      		  				+"</td><td>"
-          		  				+'<input type="text" class="form-control"  style="width:100%;" value="'+gsInCl[k].clDesc+'" >'
+          		  				+'<input type="text" class="form-control"  style="width:100%;" value="'+(gsInCl[k].clDesc==null?"":gsInCl[k].clDesc)+'" >'
           		  				+"</td><td>"
-		      		  			+'<input type="text" class="form-control" style="width:100%;" value="'+gsInCl[k].clManufacturer+'">'
+		      		  			+'<input type="text" class="form-control" style="width:100%;" value="'+(gsInCl[k].clManufacturer==null?"":gsInCl[k].clManufacturer)+'">'
 		  		  				+"</td><td>"
           		  				+'<button type="button" class="btn btn-danger" onclick="xgshanchuyihang(this)">删除</button>'
           		  				+"</td></tr>")
@@ -2419,7 +2438,12 @@ function xgsaveCgName(){
 			var clgs=$(this).find("td").eq(7).find("option:selected").val(); 
 			var clprj=$(this).find("td").eq(6).attr("data-id2");
 			var clgs=$(this).find("td").eq(7).attr("data-id2");*/
-			var laihuodanwei=$(this).find("td").eq(6).find("input").val();
+			var laihuodanwei/*= $(this).find("td").eq(6).find("input").val() */;
+			if($(this).find("td").eq(6).children().is("input")){
+				laihuodanwei=$(this).find("td").eq(6).find("input").val();
+			}else{
+				laihuodanwei=$(this).find("td").eq(6).find("option:selected").val();
+			}
 			var cldesc=$(this).find("td").eq(7).find("input").val();
 			//var laihuodanwei=$(this).find("td").eq(9).find("input").val();
 			var changjia=$(this).find("td").eq(8).find("input").val();
@@ -2936,6 +2960,220 @@ function gotoPrj(obj){
 			$(obj).attr('href', '../shengchanGuanli/TaskManagement.html?prjId='+json.prjId+'&prjNo='+no+'');
 		}
 	})  
+}
+
+
+
+
+var len=1;
+function add(){
+	//var length=$("#cl_table tbody").find("tr").length;
+	len+=1;
+	$("#cailiaobiao tbody").append("<tr>"+
+   												'<td><input style="width:100%;" type="text" class="form-control"></td>'+
+   												'<td>'+
+   													'<select style="width:100%;" class="form-control" id="cltype'+len+'"></select>'+
+   												'</td>'+
+   												'<td><input style="width:100%;" type="text" class="form-control"></td>'+
+   												'<td>'+
+       												'<select style="width:100%;" class="form-control" id="cldw'+len+'">'+
+       												'</select>'+
+   												'</td>'+
+										        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
+										        '</td>'+
+										        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
+										        '<td>'+
+											        '<select class="form-control" style="width:100%;" id="companysure'+len+'">'+
+										            '</select>'+
+										        '</td>'+ 
+										        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
+										        /*'<td>'+
+										        	'<select class="form-control" style="width:100%;" id="department_tj'+len+'">'+
+										            '</select>'+
+										        '</td>'+*/
+										         
+										        	
+										        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
+										        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
+												"</tr>")
+												 var xmSupplier;
+											var gsSupplier;
+											var clbiao_length=$("#cl_table tbody").find("tr").length;
+												if(clbiao_length==1){//为添加的第一行
+													xmSupplier=$("#yifang").val();
+							    					gsSupplier=$("#yifang").val();
+												}else{
+							   					xmSupplier=$("#department_tj"+(len-1)).val()
+												gsSupplier=$("#company_sure"+(len-1)).val()
+												if(xmSupplier==undefined&&gsSupplier==undefined){
+													for(var i=1;i<20;i++){
+														xmSupplier=$("#department_tj"+(len-i)).val();
+								    					gsSupplier=$("#company_sure"+(len-i)).val();
+								    					if(xmSupplier!=undefined&&gsSupplier!=undefined){
+								    						break;
+								    					}
+													}
+												}
+													
+												}
+						    				initSupplier2(len,xmSupplier,gsSupplier); 
+						    				initClType2(len);
+						    				selectMaterialCompany(len);
+						    				panduanruku()
+}
+function removeThis(obj){
+	var tr=$(obj).parent().parent();
+	$(tr).remove();
+	panduanruku()
+	toastr.success("移除成功");
+}
+
+function panduanruku(){
+	if($("#cailiaobiao tbody").find("tr:visible").length){
+		$("#ruku").attr("disabled",false);
+	}else{
+		$("#ruku").attr("disabled",true);
+	}
+}
+
+function initClType2(obj){
+	$.ajax({
+        type: 'POST',
+        url: getContextPath()+'/MaterialType/selectMaterialType',
+        dataType: 'json',
+        async:false,
+        data: {
+        },
+        success: function (json) {
+        	for(var i=0;i<json.length;i++){
+        		$("#cltype"+obj).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+        		$("#xgcltype"+obj).append("<option value="+json[i].materialType+">"+json[i].materialType+"</option>");
+        	}
+        }
+		});
+}
+
+function initSupplier2(obj,obj2,obj3){
+	$.ajax({
+        type: 'POST',
+        url: getContextPath()+'/supplier/selectIdAndName',
+        dataType: 'json',
+        async:false,
+        data: {
+        	
+        },
+        success: function (json) {
+        	for(var i=0;i<json.length;i++){
+        		//$("#department_tj"+obj).append("<option value="+json[i].spId+">"+json[i].spName+"</option>");
+        		$("#companysure"+obj).append("<option value="+json[i].spName+">"+json[i].spName+"</option>");
+        		$("#xgcompanysure"+obj).append("<option value="+json[i].spName+">"+json[i].spName+"</option>");
+        	}
+        	 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
+             $("#companysure"+obj).select2({
+                 tags: true,
+                 placeholder: '请搜索或选择语言',
+                 allowClear: true,
+             });
+       	 $.fn.modal.Constructor.prototype.enforceFocus = function () { }
+            $("#xgcompanysure"+obj).select2({
+                tags: true,
+                placeholder: '请搜索或选择语言',
+                allowClear: true,
+            });
+            /* if(obj2!=undefined && obj3!=undefined){
+         	   $("#department_tj"+obj).val(obj2).select2()
+         	   $("#companysure"+obj).val(obj3).select2()
+            } */
+        }
+		});
+}
+
+//初始化材料单位
+function selectMaterialCompany(obj){
+	$.ajax({
+        type: 'POST',
+        url: getContextPath()+'/MaterialCompany/getAllMaterialCompany',
+        dataType: 'json',
+        async:false,
+        data: {
+        },
+        success: function (json) {
+        	//console.log(json)
+        	for(var i=0;i<json.length;i++){
+        		$("#cldw"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+        		$("#xgcldw"+obj).append("<option value="+json[i].mcName+">"+json[i].mcName+"</option>");
+        	}
+        }
+    });
+}
+
+
+
+
+//修改添加材料
+var len=1;
+function xgadd(){
+	//var length=$("#cl_table tbody").find("tr").length;
+	len+=1;
+	$("#xgcailiaobiao tbody").append("<tr>"+
+   												'<td><input style="width:100%;" type="text" class="form-control"></td>'+
+   												'<td>'+
+   													'<select style="width:100%;" class="form-control" id="xgcltype'+len+'"></select>'+
+   												'</td>'+
+   												'<td><input style="width:100%;" type="text" class="form-control"></td>'+
+   												'<td>'+
+       												'<select style="width:100%;" class="form-control" id="xgcldw'+len+'">'+
+       												'</select>'+
+   												'</td>'+
+										        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
+										        '</td>'+
+										        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
+										        '<td>'+
+											        '<select class="form-control" style="width:100%;" id="xgcompanysure'+len+'">'+
+										            '</select>'+
+										        '</td>'+ 
+										        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
+										        /*'<td>'+
+										        	'<select class="form-control" style="width:100%;" id="department_tj'+len+'">'+
+										            '</select>'+
+										        '</td>'+*/
+										         
+										        	
+										        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
+										        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
+												"</tr>")
+												 var xmSupplier;
+											var gsSupplier;
+											var clbiao_length=$("#xgcl_table tbody").find("tr").length;
+												if(clbiao_length==1){//为添加的第一行
+													xmSupplier=$("#yifang").val();
+							    					gsSupplier=$("#yifang").val();
+												}else{
+							   					xmSupplier=$("#department_tj"+(len-1)).val()
+												gsSupplier=$("#company_sure"+(len-1)).val()
+												if(xmSupplier==undefined&&gsSupplier==undefined){
+													for(var i=1;i<20;i++){
+														xmSupplier=$("#department_tj"+(len-i)).val();
+								    					gsSupplier=$("#company_sure"+(len-i)).val();
+								    					if(xmSupplier!=undefined&&gsSupplier!=undefined){
+								    						break;
+								    					}
+													}
+												}
+													
+												}
+						    				xgpanduanruku()
+						    				initSupplier2(len,xmSupplier,gsSupplier); 
+						    				initClType2(len);
+						    				selectMaterialCompany(len);
+}
+
+function xgpanduanruku(){
+	if($("#xgcailiaobiao tbody").find("tr:visible").length){
+		$("#xgruku").attr("disabled",false);
+	}else{
+		$("#xgruku").attr("disabled",true);
+	}
 }
 
 </script>
