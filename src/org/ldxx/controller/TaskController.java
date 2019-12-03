@@ -951,6 +951,17 @@ public class TaskController {
 		return list;
 	}
 	
+	@RequestMapping("/selectTaskByPrjNo")
+	@ResponseBody
+	public List<Task> selectTaskByPrjNo(String prjNo){
+		List<Task> list=new ArrayList<Task>();
+		for(int i=0;i<prjNo.split(",").length;i++){
+			Task task=tService.selectTaskByPrjNo(prjNo.split(",")[i]);
+			list.add(task);
+		}
+		return list;
+	}
+	
 	@RequestMapping("/getReceiver")/*任务单保存*/
 	@ResponseBody
 	public String getReceiver(String url,HttpSession session){

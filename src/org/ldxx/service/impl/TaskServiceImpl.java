@@ -167,6 +167,12 @@ public class TaskServiceImpl implements TaskService{
 	public Task selectTaskPrjNo(String prjName) {
 		return tdao.selectTaskPrjNo(prjName);
 	}
+	
+	@Override
+	public Task selectTaskByPrjNo(String prjNo) {
+		return tdao.selectTaskByPrjNo(prjNo);
+	}
+
 
 	@Override
 	public Task selectNoByName(String name) {
