@@ -149,13 +149,13 @@
                         	<table  class='table table-bordered table-condensed' style="width:1580px;border=1" id='cailiaobiao'>
 		                    	<thead>
 		                    		<tr>
-										<td style="font-size: 24px;" colspan="9">添加材料、设备 <i
+										<td style="font-size: 24px;" colspan="2">添加材料、设备 <i
 											class="iconfont icon-xingxing-copy" style="color: red;"></i></td>
-										<td style="width: 5%;"><button type="button"
+										<td style="" colspan="8"><button type="button"
 												class="btn btn btn-primary" onclick="add()">添加材料</button></td>
 									</tr>
 		                        	<tr>
-		                            	<th>材料名称</th>
+		                            	<th style="width:10%;">材料名称</th>
 		                            	<th style="width:8%;">材料类型</th>
 			                            <th>材料型号</th>
 			                            <th style='width:8%;'>单位</th>
@@ -274,7 +274,7 @@
                             </tr>
                             <tr>
                             	<td>运费(元)</td>
-                            	<td><input type="text" id="xgyunfei" class="form-control"  style="width:70%;"></td>
+                            	<td><input type="text" id="xgyunfei" class="form-control"  style="width:60%;"></td>
                             	<td></td>
                             	<td></td>
                             </tr>
@@ -308,14 +308,14 @@
                         	<table  class='table table-bordered table-condensed' style="width:1580px;border=1" id='xgcailiaobiao'>
 		                    	<thead>
 		                    		<tr>
-											<td style="font-size: 24px;" colspan="9">添加材料、设备 <i
+											<td style="font-size: 24px;" colspan="2">添加材料、设备 <i
 											class="iconfont icon-xingxing-copy" style="color: red;"></i></td>
-										<td style="width: 5%;"><button type="button"
+										<td style="" colspan="8"><button type="button"
 												class="btn btn btn-primary" onclick="xgadd()">添加材料</button></td>
 									</tr>
 		                        	<tr>
-		                            	<th>材料名称</th>
-		                            	<th>材料类型</th>
+		                            	<th style='width:10%;'>材料名称</th>
+		                            	<th style='width:6%;'>材料类型</th>
 			                            <th>材料型号</th>
 			                            <th style='width:6%;'>单位</th>
 			                            <th>数量</th>
@@ -1850,6 +1850,7 @@ function xgsaveCgName(){
 	
 	//入库
 	function saveMs(){
+		var flag=true;
 		//保存材料来货单位及生产厂家
 		var gsclInArr=new Array();
 		$("#cailiaobiao tbody").find("tr").each(function(){
@@ -1871,6 +1872,11 @@ function xgsaveCgName(){
 			//var laihuodanwei=$(this).find("td").eq(9).find("input").val();
 			var changjia=$(this).find("td").eq(8).find("input").val();
 			var clmoney=Number(clnumber)*Number(clprice)
+			if(clnumber==""||clnumber==0){
+    			toastr.error("材料数量不能为空或0")
+    			flag=false;
+    			return;
+    		}
 			var gscl={
 					gsInId:undefined,        
 					clName:undefined,
@@ -1959,23 +1965,25 @@ function xgsaveCgName(){
  		$("#new_accessory tbody").find("tr").each(function(){
  			formData.append("file", $(this).find(":file")[0].files[0]);
  		})
-		
-		$.ajax({
-	            type: 'POST',
-	            url: getContextPath()+'/gsMaterialIn/addGsMaterialInSave',
-	            data: formData,  
-	            processData: false,
-	            contentType: false,
-	            success: function (json) {
-	            	if(json.result>0){
-						$("#myModal").modal("hide")
-						toastr.success("添加成功")
-						$('#mainContent').DataTable().row.add(json.CompanyMateriaIn).draw(false);     //新增行立即显示
-					}else{
-						toastr.error("添加失败")
-					}
-	            }
-	        });  
+		if(flag==true){
+			$.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/gsMaterialIn/addGsMaterialInSave',
+		            data: formData,  
+		            processData: false,
+		            contentType: false,
+		            success: function (json) {
+		            	if(json.result>0){
+							$("#myModal").modal("hide")
+							toastr.success("添加成功")
+							$('#mainContent').DataTable().row.add(json.CompanyMateriaIn).draw(false);     //新增行立即显示
+						}else{
+							toastr.error("添加失败")
+						}
+		            }
+		        });  
+			
+		}
 	}
 	
 	//填报提交
@@ -2425,6 +2433,7 @@ function xgsaveCgName(){
 	
 	//修改保存
 	function checkSave(){
+		var flag=true;
 		//保存材料来货单位及生产厂家
 		var gsclInArr=new Array();
 		$("#xgcailiaobiao tbody").find("tr").each(function(){
@@ -2448,6 +2457,11 @@ function xgsaveCgName(){
 			//var laihuodanwei=$(this).find("td").eq(9).find("input").val();
 			var changjia=$(this).find("td").eq(8).find("input").val();
 			var clmoney=Number(clnumber)*Number(clprice)
+			if(clnumber==""||clnumber==0){
+    			toastr.error("材料数量不能为空或0")
+    			flag=false;
+    			return;
+    		}
 			var gscl={
 					gsInId:undefined,        
 					clName:undefined,
@@ -2533,21 +2547,24 @@ function xgsaveCgName(){
  			formData.append("file", $(this).find(":file")[0].files[0]);
  		})
 		
-		$.ajax({
-	            type: 'POST',
-	            url: getContextPath()+'/gsMaterialIn/updateGsMaterialInSave',
-	            data: formData,  
-	            processData: false,
-	            contentType: false,
-	            success: function (json) {
-	            	if(json.result>0){
-						$("#change").modal("hide")
-						toastr.success("修改成功")
-					}else{
-						toastr.error("修改失败")
-					}
-	            }
-	        });
+ 		if(flag==true){
+			$.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/gsMaterialIn/updateGsMaterialInSave',
+		            data: formData,  
+		            processData: false,
+		            contentType: false,
+		            success: function (json) {
+		            	if(json.result>0){
+							$("#change").modal("hide")
+							toastr.success("修改成功")
+						}else{
+							toastr.error("修改失败")
+						}
+		            }
+		        });
+ 			
+ 		}
 	}
 	 
 	
@@ -2994,9 +3011,9 @@ function add(){
 										         
 										        	
 										        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
-										        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
+										        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">删除</button></td>'+
 												"</tr>")
-												 var xmSupplier;
+												 /* var xmSupplier;
 											var gsSupplier;
 											var clbiao_length=$("#cl_table tbody").find("tr").length;
 												if(clbiao_length==1){//为添加的第一行
@@ -3015,8 +3032,19 @@ function add(){
 													}
 												}
 													
+												} */
+												//var xmSupplier=$("#department_tj"+(length-1)).val()
+												var gsSupplier=$("#companysure"+(len-1)).val()
+												if(/* xmSupplier==undefined&& */gsSupplier==undefined){
+													for(var i=1;i<30;i++){
+														//xmSupplier=$("#department_tj"+(length-i)).val();
+								    					gsSupplier=$("#companysure"+(len-i)).val();
+								    					if(/* xmSupplier!=undefined&& */gsSupplier!=undefined){
+								    						break;
+								    					}
+													}
 												}
-						    				initSupplier2(len,xmSupplier,gsSupplier); 
+						    				initSupplier2(len,/* xmSupplier */'',gsSupplier); 
 						    				initClType2(len);
 						    				selectMaterialCompany(len);
 						    				panduanruku()
@@ -3080,10 +3108,11 @@ function initSupplier2(obj,obj2,obj3){
                 placeholder: '请搜索或选择语言',
                 allowClear: true,
             });
-            /* if(obj2!=undefined && obj3!=undefined){
-         	   $("#department_tj"+obj).val(obj2).select2()
+            if(/* obj2!=undefined && */ obj3!=undefined){
+         	   //$("#department_tj"+obj).val(obj2).select2()
          	   $("#companysure"+obj).val(obj3).select2()
-            } */
+         	   $("#xgcompanysure"+obj).val(obj3).select2()
+            } 
         }
 		});
 }
@@ -3115,6 +3144,7 @@ var len=1;
 function xgadd(){
 	//var length=$("#cl_table tbody").find("tr").length;
 	len+=1;
+	var huixianlastlaihuodanwei=$("#xgcailiaobiao tbody").find('tr:last').find('td').eq(6).find("input").val()
 	$("#xgcailiaobiao tbody").append("<tr>"+
    												'<td><input style="width:100%;" type="text" class="form-control"></td>'+
    												'<td>'+
@@ -3140,9 +3170,9 @@ function xgadd(){
 										         
 										        	
 										        '<td><input style="width:100%;" type="text" class="form-control"></td>'+
-										        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button></td>'+
+										        '<td><button type="button" class="btn btn btn-danger" onclick="removeThis(this)">删除</button></td>'+
 												"</tr>")
-												 var xmSupplier;
+												 /* var xmSupplier;
 											var gsSupplier;
 											var clbiao_length=$("#xgcl_table tbody").find("tr").length;
 												if(clbiao_length==1){//为添加的第一行
@@ -3161,9 +3191,26 @@ function xgadd(){
 													}
 												}
 													
+												} */
+												//var xmSupplier=$("#department_tj"+(length-1)).val()
+												var gsSupplier
+												if(huixianlastlaihuodanwei!=""&&huixianlastlaihuodanwei!=undefined&&huixianlastlaihuodanwei!=null){
+													gsSupplier=huixianlastlaihuodanwei
+												}else{
+													gsSupplier=$("#xgcompanysure"+(len-1)).val()
+													
+												}
+												if(/* xmSupplier==undefined&& */gsSupplier==undefined){
+													for(var i=1;i<30;i++){
+														//xmSupplier=$("#department_tj"+(length-i)).val();
+								    					gsSupplier=$("#xgcompanysure"+(len-i)).val();
+								    					if(/* xmSupplier!=undefined&& */gsSupplier!=undefined){
+								    						break;
+								    					}
+													}
 												}
 						    				xgpanduanruku()
-						    				initSupplier2(len,xmSupplier,gsSupplier); 
+						    				initSupplier2(len,/* xmSupplier */'',gsSupplier); 
 						    				initClType2(len);
 						    				selectMaterialCompany(len);
 }
