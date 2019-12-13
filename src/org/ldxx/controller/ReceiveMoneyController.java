@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,8 @@ public class ReceiveMoneyController {
 			double yirenlingallFpMoney = ar.getYirenlingallFpMoney();//已认领的确认金额总和
 			list.get(i).setLeijiquerenMoney(yirenlingallFpMoney);
 			double receiveMoney = list.get(i).getReceiveMoney();//收款金额
-			double shengyuMoney=receiveMoney-yirenlingallFpMoney;
+			double shengyuMoney = DateUtil.sub(receiveMoney, yirenlingallFpMoney);
+			//shengyuMoney=receiveMoney-yirenlingallFpMoney;
 			list.get(i).setShengyuMoney(shengyuMoney);
 		}
 		return list;

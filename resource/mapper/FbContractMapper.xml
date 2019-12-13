@@ -104,7 +104,7 @@
 		delete from fb_contract where fb_id=#{id}
 	</delete>
 	<select id="selectSubContractById" parameterType="String" resultType="fbContract">
-		select f.*,o.om_name,j.contract_name,c.cc_name,fba.acjc,fba.sm from fb_contract f
+		select DISTINCT f.*,o.om_name,j.contract_name,c.cc_name,fba.acjc,fba.sm from fb_contract f
 			left join organization_management o on o.om_id=f.main_manage_department
 			left join cj_contract j on j.contract_no = f.cj_contract_code
 			left join (select sum(contract_money) sm,cj_contract_code acjc from fb_contract fb LEFT JOIN mode_status ms on fb.fb_id = ms.mode_id where ms.status in("1","2") and   fb.history=1 GROUP BY cj_contract_code) fba on fba.acjc = j.contract_no
