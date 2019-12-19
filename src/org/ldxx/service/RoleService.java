@@ -21,5 +21,9 @@ public interface RoleService {
 	int updatePersonRole(String personId, String personRoles);
 
 	List<Role> selectRolesSort();
+
+	public int delRole(String id);
+
+	public int updRole(String id, String roleName);
 	
 }

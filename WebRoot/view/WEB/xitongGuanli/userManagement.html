@@ -13,6 +13,13 @@
 	<link rel="stylesheet" href="../../font-awesome/4.5.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" href="../../css/css.css" />
 	<link href="../../toastr/toastr.css" rel="stylesheet">
+	<!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
         .UpperPart{
             display: flex;
@@ -83,6 +90,8 @@
 			                
 			            </div>
 			            <div class="UpperPartR">
+			            	<button type="button" class="btn btn-primary Pmeb" data-toggle="modal" data-target="" id="xg2">修改角色</button>
+			            	<button type="button" class="btn btn-primary Pmeb" data-toggle="modal" data-target="" id="sc2">删除角色</button>&nbsp;&nbsp;
 			                <button type="button" class="btn btn-primary Pmeb" data-toggle="modal" data-target="#myModal2">新建角色管理</button>
 			            </div>
 			
@@ -177,32 +186,16 @@
                         <table class="table table-bordered">
                             <tr>
                                 <td>角色名称</td>
-                                <td><input type="text" class="form-control"></td>
-                                <td>上级角色</td>
-                                <td>
-                                	<select class="form-control" style="width:180px;">
-                                		<option>老板</option>
-                                	</select>
-                                </td>
+                                <td><input type="text" id="xg_inputRoleName" class="form-control"></td>
                             </tr>
-                            <tr>
-                                <td>是否抽象</td>
-                                <td>
-                                		<select class="form-control" style="width:180px;">
-	                                		<option>是</option>
-	                                		<option>否</option>
-	                                	</select>
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            
                         </table> 
                     </form>  
                 </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-success">保存</button>
+            <button type="button" class="btn btn-success" id="xg_baocun">保存</button>
         </div>
         </div>
     </div>
@@ -221,6 +214,7 @@
 <script type="text/javascript" src="../../js/data.js" ></script>
 <script src="../../js/quanxian.js"></script>
 <script src="../../js/myTool.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
 <script>
     $(document).ready( function () {
     	initRoleList();
@@ -502,5 +496,88 @@
           });
       }
       
+      $("#sc2").click(function(){
+    	  var id_arr=$('#treeview2').treeview('getSelected', "id");
+    	  var id;
+    	  if(id_arr!=""&&id_arr!=undefined&&id_arr!=null){
+	    	  for(var i in id_arr){
+		    	  id=id_arr[i].id
+	    	  }
+    		  $.SmartMessageBox({
+  	            title: "删除提示",
+  	            content: "确认删除？",
+  	            buttons: '[取消][确定]'
+  	        }, function (ButtonPressed) {
+  	        	if (ButtonPressed === "确定") {
+  	        		myTool.mask.show('删除中...');
+  	        		$.ajax({
+  	                    type: 'POST',
+  	                    url: getContextPath()+'/role/delRole',
+  	                    dataType: 'json',
+  	                    data: {
+  	                    	id:id
+  	                    },
+  	                    success: function (json) {
+  							myTool.mask.hide();
+  	                    	if(json!=0){
+  	                    		//$('#mainContent').DataTable().row(dom).remove().draw(false); //删除行立即显示
+  	                    		initRoleList()
+  	                    		toastr.success('删除成功');
+  	                    	}else{
+  	                    		 toastr.error('删除失败');
+  	                    	}
+  	                    }
+  	                }); 
+  	        	    	
+  	        	}
+  	        });
+    	  }else{
+    		  toastr.error("请选中角色")
+    	  }
+      })
+      
+    var xg_id;
+      $("#xg2").click(function(){
+		  var xg_roleName;
+    	  var id_arr=$('#treeview2').treeview('getSelected', "id");
+    	  if(id_arr!=""&&id_arr!=undefined&&id_arr!=null){
+	    	  for(var i in id_arr){
+	    		  xg_id=id_arr[i].id;
+		    	  xg_roleName=id_arr[i].roleName;
+	    	  }
+	    	  $("#xg_inputRoleName").val(xg_roleName)
+	    	  $("#change2").modal("show");
+    	  }else{
+    		  toastr.error("请选中角色")
+    	  }
+    	  
+      })
+      
+      $("#xg_baocun").click(function(){
+    	  var xg_inputRoleName=$("#xg_inputRoleName").val()
+    	  if(xg_inputRoleName==null||xg_inputRoleName==""||xg_inputRoleName==undefined){
+    		  toatr.error("角色名称不能为空")
+    	  }else{
+    		  $.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/role/updRole',
+                    dataType: 'json',
+                    data: {
+                    	id:xg_id,
+                    	roleName:xg_inputRoleName,
+                    },
+                    success: function (json) {
+                    	if(json!=0){
+                    		initRoleList()
+                    		toastr.success('修改成功');
+                    		$("#change2").modal("hide");
+                    	}else{
+                    		 toastr.error('修改失败');
+                    	}
+                    }
+                }); 
+    	  }
+    	  
+      })
 </script>
 </html>

@@ -64,4 +64,18 @@ public class RoleController {
 		return roles;
 	}
 	
+	@RequestMapping("/delRole")
+	@ResponseBody
+	public int delRole(String id){
+		int i=service.delRole(id);
+		return i;
+	}
+	
+	@RequestMapping("/updRole")
+	@ResponseBody
+	public int updRole(String id,String roleName){
+		int i=service.updRole(id,roleName);
+		return i;
+	}
+	
 }

@@ -116,4 +116,14 @@ public class RoleServiceImpl implements RoleService {
 		}
 		return result+"";
 	}
+	@Override
+	public int delRole(String id) {
+		// TODO Auto-generated method stub
+		return roleDao.delRole(id);
+	}
+	@Override
+	public int updRole(String id, String roleName) {
+		// TODO Auto-generated method stub
+		return roleDao.updRole(id, roleName);
+	}
 }

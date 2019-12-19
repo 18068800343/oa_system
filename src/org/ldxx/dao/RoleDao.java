@@ -26,4 +26,8 @@ public interface RoleDao {
 	public Role selectRoleById(String id);
 	
 	public List<Role> selectRoleByRoleName(@Param("name")String name);
+
+	public int delRole(@Param("id")String id);
+
+	public int updRole(@Param("id")String id,@Param("roleName") String roleName);
 }
