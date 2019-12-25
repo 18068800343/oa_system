@@ -294,9 +294,10 @@ public class PrjProgressFillController {
 		String no=ppf.getTaskNo();
 		CjContract cj=cService.selectCjContractLikeTaskNo(no);
 		ppf.setCj(cj);
-		BudgetFpplicationForm bf=bService.selectBudgeByNo(no);
-		if(bf!=null){
-			ppf.setBudgetMoneyAll(bf.getAllCost());
+		/*BudgetFpplicationForm bf=bService.selectBudgeByNo(no);*/
+		Double allcost=bService.getSumAllCost(no);
+		if(allcost!=null){
+			ppf.setBudgetMoneyAll(allcost);
 		}else{
 			ppf.setBudgetMoneyAll(0);
 		}

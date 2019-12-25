@@ -213,4 +213,10 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 		return bdao.selectBudgeByStatus2(status,timeMin,timeMax,costMin,costMax);
 	}
 
+	@Override
+	public Double getSumAllCost(String no) {
+		// TODO Auto-generated method stub
+		return bdao.getSumAllCost(no);
+	}
+
 }
