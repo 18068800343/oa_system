@@ -225,7 +225,7 @@
 </div>
 <!-- model项目结束 -->
 <!-- 修改Modal -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+<div class="modal fade bs-example-modal-lg"  role="dialog" aria-labelledby="myLargeModalLabel" id="change">
     <div class="modal-dialog modal-lg" role="document"  style="width:90%;">
         <div class="modal-content">
         <div class="modal-header">
@@ -2381,11 +2381,11 @@ function xgsaveCgName(){
           		  				+"</td><td>"
           		  				+'<input type="text" class="form-control" style="width:100%;" value="'+(gsInCl[k].clPrice==null?"":gsInCl[k].clPrice)+'"  >'
           		  				/* +"</td><td style='width:7%;' data-id2="+gsInCl[k].clPrjSupplier+">"
-          		  				+'<select style="width:150px;" class="form-control" id=xgxm'+k+'></select>'
-          		  				+"</td><td style='width:7%;' data-id2="+gsInCl[k].clGsSupplier+">"
-          		  				+'<select style="width:150px;" class="form-control" id=xggs'+k+'></select>' */
-          		  				+"</td><td>"
-			   		  			+'<input type="text" class="form-control" style="width:100%;" disabled value="'+(gsInCl[k].clComeUnit==null?"":gsInCl[k].clComeUnit)+'">'
+          		  				+'<select style="width:150px;" class="form-control" id=xgxm'+k+'></select>'*/
+          		  				+"</td><td style='width:7%;' data-id2="+gsInCl[k].clComeUnit+">"
+          		  				+'<select style="width:100%;" class="form-control" id=xggs'+k+'></select>' 
+          		  				/* +"</td><td>"
+			   		  			+'<input type="text" class="form-control" style="width:100%;" disabled value="'+(gsInCl[k].clComeUnit==null?"":gsInCl[k].clComeUnit)+'">' */
 	      		  				+"</td><td>"
           		  				+'<input type="text" class="form-control"  style="width:100%;" value="'+(gsInCl[k].clDesc==null?"":gsInCl[k].clDesc)+'" >'
           		  				+"</td><td>"
@@ -2396,6 +2396,7 @@ function xgsaveCgName(){
           		  				initClType(gsInCl[k].clType,k);
           		  				//initName1(gsInCl[k].clspNamexm,k);
                   				//initName2(gsInCl[k].clspNamegs,k);
+                  				huixianlaihuodanwei(gsInCl[k].clComeUnit,k);
                   				//$("#xgcl_danwei"+k).val(gsInCl[k].clUnit);
                   				initMaterialCompany(gsInCl[k].clUnit,k)
 	               }
@@ -2428,6 +2429,30 @@ function xgsaveCgName(){
 	        	}
 	        }
 		});
+	}
+	
+	function huixianlaihuodanwei(obj,obj2){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/supplier/selectIdAndName',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	for(var i=0;i<json.length;i++){
+	        		$("#xggs"+obj2).append("<option value="+json[i].spName+">"+json[i].spName+"</option>");
+	        	}
+	       	/*  $.fn.modal.Constructor.prototype.enforceFocus = function () { }
+	            $("#xggs"+obj2).select2({
+	                tags: true,
+	                placeholder: '请搜索或选择语言',
+	                allowClear: true,
+	            }); */
+	            
+	         	$("#xggs"+obj2).val(obj).select2()
+	            
+	        }
+			});
 	}
 	
 	
@@ -3144,7 +3169,7 @@ var len=1;
 function xgadd(){
 	//var length=$("#cl_table tbody").find("tr").length;
 	len+=1;
-	var huixianlastlaihuodanwei=$("#xgcailiaobiao tbody").find('tr:last').find('td').eq(6).find("input").val()
+	var huixianlastlaihuodanwei=$("#xgcailiaobiao tbody").find('tr:last').find('td').eq(6).find("option:selected").val()
 	$("#xgcailiaobiao tbody").append("<tr>"+
    												'<td><input style="width:100%;" type="text" class="form-control"></td>'+
    												'<td>'+
