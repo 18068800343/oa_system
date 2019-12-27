@@ -47,4 +47,8 @@ public interface BudgetFpplicationFormDao {
 
 	Double getSumAllCost(@Param("no")String no);
 	
+	int taskNoisExist(@Param("no")String no);
+
+	int xgtaskNoisExist(@Param("taskNo")String taskNo,@Param("bfId") String bfId);
+	
 }

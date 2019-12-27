@@ -45,4 +45,8 @@ public interface BudgetFpplicationFormService {
 
 	Double getSumAllCost(String no);
 	
+	int taskNoisExist(String no);
+
+	int xgtaskNoisExist(String taskNo, String bfId);
+	
 }

@@ -219,4 +219,16 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 		return bdao.getSumAllCost(no);
 	}
 
+	@Override
+	public int taskNoisExist(String no) {
+		// TODO Auto-generated method stub
+		return bdao.taskNoisExist(no);
+	}
+
+	@Override
+	public int xgtaskNoisExist(String taskNo, String bfId) {
+		// TODO Auto-generated method stub
+		return bdao.xgtaskNoisExist(taskNo,bfId);
+	}
+
 }

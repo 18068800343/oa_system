@@ -66,7 +66,14 @@ public class BudgetFpplicationFormController {
 		int count=bservice.countNo(year);
 		String code="YS"+uuid.getPrjCode("", count+1);
 		budge.setBfNo(code);*/
-		int i=bservice.saveBudge(budge);
+		int i=0;
+		int isExist=bservice.taskNoisExist(budge.getTaskNo());
+		if(isExist>0){
+			i=-1;
+		}else{
+			i=bservice.saveBudge(budge);
+		}
+		
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(budge.getDepartment());
 			String omNo=om.getOmNo();
@@ -117,7 +124,13 @@ public class BudgetFpplicationFormController {
 		int count=bservice.countNo(year);
 		String code="YS"+uuid.getPrjCode("", count+1);
 		budge.setBfNo(code);*/
-		int i=bservice.saveBudge(budge);
+		int i=0;
+		int isExist=bservice.taskNoisExist(budge.getTaskNo());
+		if(isExist>0){
+			i=-1;
+		}else{
+			i=bservice.saveBudge(budge);
+		}
 		String string = i+"";
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(budge.getDepartment());
@@ -164,12 +177,18 @@ public class BudgetFpplicationFormController {
 	
 	@RequestMapping("/updateBudgeSave")
 	@ResponseBody
-	public Map<String,Object> updateBudgeSave(@RequestBody List<BudgetFpplicationForm> budges,HttpSession session){
+	public int updateBudgeSave(@RequestBody List<BudgetFpplicationForm> budges,HttpSession session){
 		Map<String,Object> map = new HashMap<>();
 		BudgetFpplicationForm budge = budges.get(0);
 		String newId=new TimeUUID().getTimeUUID();
-		budge.setBfId(newId);
-		int i=bservice.saveBudge(budge);
+		int i=0;
+		int isExist=bservice.xgtaskNoisExist(budge.getTaskNo(),budge.getBfId());
+		if(isExist>0){
+			i=-1;
+		}else{
+			budge.setBfId(newId);
+			i=bservice.saveBudge(budge);
+		}
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(budge.getDepartment());
 			String omNo=om.getOmNo();
@@ -205,9 +224,7 @@ public class BudgetFpplicationFormController {
 				e.printStackTrace();
 			}
 		}
-		map.put("result", i);
-		map.put("budge", budge);
-		return map;
+		return i;
 	}
 	
 	@RequestMapping("/updateBudgeSubmit")
@@ -216,8 +233,14 @@ public class BudgetFpplicationFormController {
 		Map<String,Object> map = new HashMap<>();
 		BudgetFpplicationForm budge = budges.get(0);
 		String newId=new TimeUUID().getTimeUUID();
-		budge.setBfId(newId);
-		int i=bservice.saveBudge(budge);
+		int i=0;
+		int isExist=bservice.xgtaskNoisExist(budge.getTaskNo(),budge.getBfId());
+		if(isExist>0){
+			i=-1;
+		}else{
+			budge.setBfId(newId);
+			i=bservice.saveBudge(budge);
+		}
 		String string = i+"";
 		if(i>0){
 			OrganizationManagement om=oService.selectOrgById(budge.getDepartment());
