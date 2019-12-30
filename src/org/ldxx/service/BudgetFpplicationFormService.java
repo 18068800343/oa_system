@@ -42,5 +42,11 @@ public interface BudgetFpplicationFormService {
 
 	List<BudgetFpplicationForm> selectBudgeByStatus2(String status, String timeMin, String timeMax, Double costMin,
 			Double costMax);
+
+	Double getSumAllCost(String no);
+	
+	int taskNoisExist(String no);
+
+	int xgtaskNoisExist(String taskNo, String bfId);
 	
 }

@@ -535,7 +535,7 @@
                     <div class="modal-footer">
 			            <button type="button" class="btn btn-default" onclick="quxiao2()">取消</button>
 			           <button type="button" class="btn btn-default" onclick="checkSave()">保存</button>
-			            <button type="button" class="btn btn-success" onclick="checkSubmit()" data-dismiss="modal" data-toggle="modal" data-target="#tijiaogei">提交</button>
+			            <button type="button" class="btn btn-success" onclick="checkSubmit()" data-dismiss="modal" data-toggle="modal" >提交</button>
 			        </div>
 	    </div>
 <!-- xg项目 Modalxg -->
@@ -1487,7 +1487,6 @@
             	costMax:seachCostMax,
             },
             success: function (json) {
-            	console.log(json)
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
                 $("[aria-label*='审批状态']").trigger("click");
@@ -2788,6 +2787,8 @@
 	            	hidMask();
 	            	if(json==0){
 	            		toastr.error("填报失败")
+	            	}else if(json==-1){
+	            		toastr.error("该任务单预算已存在,不可重复")
 	            	}else{
 	            		toastr.success("填报成功")
 	            		//$('#myModal').modal('hide');
@@ -2955,7 +2956,9 @@
 	            success: function (json) {
 	            	if(json=='0'){
 		        		toastr.error("保存失败");
-		        	}else{
+		        	}else if(json==-1){
+	            		toastr.error("该任务单预算已存在,不可重复")
+	            	}else{
 		        		quxiao();
 		        		lianjie=json.url;
 		            	if(json.receiver!=null&&json.receiver.length>=1){
@@ -3552,7 +3555,7 @@
 	
 	//修改保存
 	function checkSave(){
-		showMask();
+		
 		var xgyusuandan= new Array();
     	var xgfyyusuan= new Array();
     	var xgrgyusuan=new Array();
@@ -3680,7 +3683,7 @@
     		xgxinyusuandan.department=edit_department;
     		xgxinyusuandan.allMainMaterialMoney=xgallzhuMoney;
     		xgyusuandan.push(xgxinyusuandan);
-    		
+    		showMask();
     		$.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/budge/updateBudgeSave',
@@ -3691,6 +3694,8 @@
 	            	hidMask();
 	            	if(json==0){
 	            		toastr.error("填报失败")
+	            	}else if(json==-1){
+	            		toastr.error("该任务单预算已存在,不可重复")
 	            	}else{
 	            		toastr.success("填报成功")
 	            		//$('#change').modal('hide');
@@ -3843,9 +3848,13 @@
 	            contentType: "application/json", 
 	            data:JSON.stringify(xgyusuandan),
 	            success: function (json) {
-	            	if(json=='0'){
+	            	if(json==0){
 		        		toastr.error("保存失败");
-		        	}else{
+		        		return;
+		        	}else if(json==-1){
+	            		toastr.error("该任务单预算已存在,不可重复")
+	            		return;
+	            	}else{
 		        		quxiao2();
 		        		lianjie=json.url;
 		            	if(json.receiver!=null&&json.receiver.length>=1){

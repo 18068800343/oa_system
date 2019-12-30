@@ -129,4 +129,22 @@
 				(m.status=1 or m.status=2 or m.status=0) and b.state=1 GROUP BY bf_id
 			</where>
 	</select>
+	
+	<select id="getSumAllCost" resultType="double">
+		select SUM(all_cost) from budget_fpplication_form as a 
+		left join mode_status as b on a.bf_id=b.mode_id
+		where task_no=#{no} and a.state=1 and b.status=2
+	</select>
+	
+	<select id="taskNoisExist" resultType="int">
+		SELECT COUNT(0) from budget_fpplication_form b
+		left join mode_status m on b.bf_id=m.mode_id 
+		where (m.status=1 or m.status=2) AND b.state=1 AND b.task_no=#{no}
+	</select>
+	
+	<select id="xgtaskNoisExist" resultType="int">
+		SELECT COUNT(0) from budget_fpplication_form b
+		left join mode_status m on b.bf_id=m.mode_id 
+		where (m.status=1 or m.status=2) and b.state=1 AND b.task_no=#{taskNo} AND b.bf_id!=#{bfId}
+	</select>
 </mapper>
