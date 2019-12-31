@@ -116,6 +116,13 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            	<tr id="errorPrompt" style="display:none">
+                            		<td colspan="4">
+			                            <div>
+				                    		<label style="color:red;">本次填报进度小于上次填报的进度,所以自动同步为上次的累计效果</label>
+				                    	</div>
+                            		</td>
+                            	</tr>
                                 <tr>
 	                                <td>累计收入（%）  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 	                                <td>
@@ -1495,11 +1502,32 @@
 		});
 	})
 	
+	function getLatelyMonthFirstppf(){
+		var LatelyMonthFirstppf;
+		$.ajax({
+  			type: 'POST',
+            url: getContextPath()+'/ppf/getLatelyMonthFirstppf',
+            dataType: 'json',
+            async:false,
+            data: {
+            	taskNo:$("#task_no").val()
+            },  
+            success: function (json) {
+            	console.log(json)
+            	LatelyMonthFirstppf=json;
+            }
+  		})
+         return LatelyMonthFirstppf;
+	}
+	
 	var yugongke="";
 	var chubu="";
 	var shigongtu="";
 	var reg = new RegExp("^[0-9]*$");
 	$("#quedingjindu").click(function(){
+		var LatelyMonthFirstppf=getLatelyMonthFirstppf();//最近一次月份填的信息
+		var LatelyMonthallMoney=LatelyMonthFirstppf.allMoney.replace("%","");
+		
 		if($('#B1jieduan').is(':hidden')){
 		      //如果隐藏时。。。
 
@@ -1509,7 +1537,14 @@
 		    chubu="";
 		    shigongtu=$("#shigongsheji option:selected").text()+" "+$("#b1_span1_1").val()+"%";
 		    var sum=1*parseInt($("#b1_span1_1").val());
-			$("#all_money").val(sum.toFixed(2)+"%");
+		    if(sum.toFixed(2)<LatelyMonthallMoney){
+  				$("#all_money").val(LatelyMonthallMoney+"%")
+  				$("#errorPrompt").show();
+  			}else{
+				$("#all_money").val(sum.toFixed(2)+"%");
+				$("#errorPrompt").hide();
+  			}
+			
 		}
 		
 		if($('#B2jieduan').is(':hidden')){
@@ -1521,7 +1556,14 @@
 		    chubu=$("#firstsheji option:selected").text()+" "+$("#b2_span1_1").val()+"%";
 		    shigongtu=$("#shigongsheji option:selected").text()+" "+$("#b2_span2_1").val()+"%";
 		    var sum=parseInt($("#b2_span1_1").val())*parseInt(chushe)/100+parseInt($("#b2_span2_1").val())*parseInt(shishe)/100;
-			$("#all_money").val(sum.toFixed(2)+"%");
+			
+			if(sum.toFixed(2)<LatelyMonthallMoney){
+  				$("#all_money").val(LatelyMonthallMoney+"%")
+  				$("#errorPrompt").show();
+  			}else{
+  				$("#all_money").val(sum.toFixed(2)+"%");
+  				$("#errorPrompt").hide();
+  			}
 		}
 		
 		if($('#B3jieduan').is(':hidden')){
@@ -1533,7 +1575,14 @@
 		    chubu=$("#b3_firstsheji option:selected").text()+" "+$("#b3_span2_1").val()+"%";
 		    shigongtu=$("#b3_shigongsheji option:selected").text()+" "+$("#b3_span3_1").val()+"%";
 		    var sum=parseInt($("#b3_span1_1").val())*parseInt(yugong)/100+parseInt($("#b3_span2_1").val())*parseInt(chushe)/100+parseInt($("#b3_span3_1").val())*parseInt(shishe)/100;
-			$("#all_money").val(sum.toFixed(2)+"%");
+			
+			if(sum.toFixed(2)<LatelyMonthallMoney){
+  				$("#all_money").val(LatelyMonthallMoney+"%")
+  				$("#errorPrompt").show();
+  			}else{
+			    $("#all_money").val(sum.toFixed(2)+"%");
+			    $("#errorPrompt").hide();
+  			}
 		}
 		
 		if($('#B4jieduan').is(':hidden')){
@@ -1545,20 +1594,41 @@
 		    chubu="";
 		    shigongtu=$("#b4_shigongsheji option:selected").text()+" "+$("#b4_span2_1").val()+"%";
 		    var sum=parseInt($("#b4_span1_1").val())*parseInt(yugong)/100+parseInt($("#b4_span2_1").val())*parseInt(shishe)/100;
-			$("#all_money").val(sum.toFixed(2)+"%");
+			
+			if(sum.toFixed(2)<LatelyMonthallMoney){
+  				$("#all_money").val(LatelyMonthallMoney+"%")
+  				$("#errorPrompt").show();
+  			}else{
+				$("#all_money").val(sum.toFixed(2)+"%");
+				$("#errorPrompt").hide();
+  			}
 		}
 		
 		if($('#AB1jieduan').is(':hidden')){
 
 		}else{
-			$("#all_money").val($("#AB1jieduanjindu").val()/1+"%")
+			if($("#AB1jieduanjindu").val()/1<LatelyMonthallMoney){
+  				$("#all_money").val(LatelyMonthallMoney+"%")
+  				$("#errorPrompt").show();
+  			}else{
+				$("#all_money").val($("#AB1jieduanjindu").val()/1+"%")
+				$("#errorPrompt").hide();
+  			}
+			
 		}
 		if($('#C1jieduan').is(':hidden')){
 
 		}else{
 			var C1jieduanjindu=$("#C1jieduanjindu").val();
 			 if(reg.test(C1jieduanjindu)&&C1jieduanjindu/1>=5&&C1jieduanjindu<=100){
-				 $("#all_money").val($("#C1jieduanjindu").val()/1+"%")
+				 if($("#C1jieduanjindu").val()/1<LatelyMonthallMoney){
+		  				$("#all_money").val(LatelyMonthallMoney+"%")
+		  				$("#errorPrompt").show();
+		  			}else{
+						$("#all_money").val($("#C1jieduanjindu").val()/1+"%")
+						$("#errorPrompt").hide();
+		  			}
+				 
 			    }else{
 			    	toastr.error("数字范围必须在0-100之间！");
 			    }
@@ -1571,7 +1641,14 @@
 		}else{
 			var C1jieduanjindu=$("#C2jieduanjindu").val();
 			 if(reg.test(C1jieduanjindu)&&C1jieduanjindu/1>=5&&C1jieduanjindu<=100){
-				 $("#all_money").val($("#C2jieduanjindu").val()/1+"%")
+				 if($("#C2jieduanjindu").val()/1<LatelyMonthallMoney){
+		  				$("#all_money").val(LatelyMonthallMoney+"%")
+		  				$("#errorPrompt").show();
+		  			}else{
+		  				$("#all_money").val($("#C2jieduanjindu").val()/1+"%")
+		  				$("#errorPrompt").hide();
+		  			}
+				 
 			    }else{
 			    	toastr.error("数字范围必须在0-100之间！");
 			    }
@@ -1583,7 +1660,14 @@
 		}else{
 			var C1jieduanjindu=$("#qitajindu").val();
 			 if(reg.test(C1jieduanjindu)&&C1jieduanjindu/1>=5&&C1jieduanjindu<=100){
-				 $("#all_money").val($("#qitajindu").val()/1+"%")
+				 if($("#qitajindu").val()/1<LatelyMonthallMoney){
+		  				$("#all_money").val(LatelyMonthallMoney+"%")
+		  				$("#errorPrompt").show();
+		  			}else{
+					 	$("#all_money").val($("#qitajindu").val()/1+"%")
+					 	$("#errorPrompt").hide();
+		  			} 
+				 
 			    }else{
 			    	toastr.error("数字范围必须在0-100之间！");
 			    }
@@ -1618,12 +1702,20 @@
             	   $("#fb_table").show();
             	   $("#fb_ys_table").hide();
                }
+               var leijishourubi=$("#all_money").val().replace("%","");
                var prjMoney=$("#prjMoney").val();
                var income=$("#all_money").val().replace("%","")*prjMoney/100;
-   			   $("#all_money_yuan").val(income);
+   			   //$("#all_money_yuan").val(income);
    			   
    			   var ttmy=accSub(income,present);
-           	   $("#this_time_money_yuan").val(ttmy);
+           	   //$("#this_time_money_yuan").val(ttmy);
+	   			if(leijishourubi==LatelyMonthallMoney){
+	  				$("#this_time_money_yuan").val(0);
+	  				$("#all_money_yuan").val(LatelyMonthFirstppf.allMoneyYuan);
+	  			}else{
+	           	   $("#this_time_money_yuan").val(ttmy);
+	           	   $("#all_money_yuan").val(income);
+	  			}
            	   var contractMoney=$("#contractMoney").val();
                $("#contract_income").val(((allMoney+income-present)*100/contractMoney).toFixed(2)+"%")
                

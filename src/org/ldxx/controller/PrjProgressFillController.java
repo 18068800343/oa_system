@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.BudgetFpplicationForm;
 import org.ldxx.bean.CjContract;
@@ -634,5 +635,12 @@ public class PrjProgressFillController {
 		}
 		int i = service.updateStatusById(pf.getStatus(),id);
 		return i;
+	}
+	
+	@RequestMapping("/getLatelyMonthFirstppf")//根据任务单号查询当期时间最近的一次
+	@ResponseBody
+	public PrjProgressFill getLatelyMonthFirstppf(String taskNo){
+		PrjProgressFill ppf=service.getLatelyMonthFirstppf(taskNo);
+		return ppf;
 	}
 }

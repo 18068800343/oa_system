@@ -78,5 +78,7 @@ public interface PrjProgressFillService {
 	public int updateBackState(String backState, String id);
 
 	public int updateStatusById(int status, String id);
+
+	public PrjProgressFill getLatelyMonthFirstppf(String taskNo);
 	
 }

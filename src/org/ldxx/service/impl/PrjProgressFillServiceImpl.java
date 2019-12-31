@@ -366,4 +366,9 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 		return dao.updateStatusById(status,id);
 	}
 
+	@Override
+	public PrjProgressFill getLatelyMonthFirstppf(String taskNo) {
+		return dao.getLatelyMonthFirstppf(taskNo);
+	}
+
 }

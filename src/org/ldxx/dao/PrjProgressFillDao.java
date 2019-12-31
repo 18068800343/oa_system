@@ -102,4 +102,6 @@ public interface PrjProgressFillDao {
 	public int updateBackState(@Param("backState")String backState,@Param("id") String id);
 
 	public int updateStatusById(@Param("status")int status,@Param("id") String id);
+	
+	public PrjProgressFill getLatelyMonthFirstppf(@Param("taskNo")String taskNo);
 }
