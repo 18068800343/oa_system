@@ -33,10 +33,14 @@ public class Task {
 
     private Double prjEstimateMoney;
     
+    private Double prjEstimateMoneyLast;
+    
     //第一次新建任务单时候不会随其他改变的任务单金额，
 	private Double prjEstimateMoneyOld;
 
     private Double contractMoney;
+    
+    private Double contractMoneyLast;
 
     private Double provisionalSum;
     
@@ -47,10 +51,16 @@ public class Task {
     private String prjEndTime;
 
     private String mainDepartment;
+    
+    private String mainDepartmentLast;
 
     private Double mainDepartmentMoney;
     
+    private Double mainDepartmentMoneyLast;
+    
     private String mainDepartmentCost;
+    
+    private String mainDepartmentCostLast;
     
     private String mainPrjLeader;
     private String mainPrjLeaderName;
@@ -62,10 +72,16 @@ public class Task {
     private String mainOtherName;
 
     private String assistDepartment1;
+    
+    private String assistDepartment1Last;
 
     private Double assistDepartment1Money;
     
+    private Double assistDepartment1MoneyLast;
+    
     private String assistDepartment1Cost;
+    
+    private String assistDepartment1CostLast;
     
     private String assist1PrjLeader;
     private String assist1PrjLeaderName;
@@ -77,10 +93,16 @@ public class Task {
     private String assist1OtherName;
     
     private String assistDepartment2;
+    
+    private String assistDepartment2Last;
 
     private Double assistDepartment2Money;
     
+    private Double assistDepartment2MoneyLast;
+    
     private String assistDepartment2Cost;
+    
+    private String assistDepartment2CostLast;
     
     private String assist2PrjLeader;
     private String assist2PrjLeaderName;
@@ -92,10 +114,16 @@ public class Task {
     private String assist2OtherName;
 
     private String assistDepartment3;
+    
+    private String assistDepartment3Last;
 
     private Double assistDepartment3Money;
     
+    private Double assistDepartment3MoneyLast;
+    
     private String assistDepartment3Cost;
+    
+    private String assistDepartment3CostLast;
     
     private String assist3PrjLeader;
     private String assist3PrjLeaderName;
@@ -153,8 +181,118 @@ public class Task {
     private String starterName;//发起人
     private String status;//审批状态
     
-    
-	
+
+	public Double getPrjEstimateMoneyLast() {
+		return prjEstimateMoneyLast;
+	}
+
+	public void setPrjEstimateMoneyLast(Double prjEstimateMoneyLast) {
+		this.prjEstimateMoneyLast = prjEstimateMoneyLast;
+	}
+
+	public Double getContractMoneyLast() {
+		return contractMoneyLast;
+	}
+
+	public void setContractMoneyLast(Double contractMoneyLast) {
+		this.contractMoneyLast = contractMoneyLast;
+	}
+
+	public String getMainDepartmentLast() {
+		return mainDepartmentLast;
+	}
+
+	public void setMainDepartmentLast(String mainDepartmentLast) {
+		this.mainDepartmentLast = mainDepartmentLast;
+	}
+
+	public Double getMainDepartmentMoneyLast() {
+		return mainDepartmentMoneyLast;
+	}
+
+	public void setMainDepartmentMoneyLast(Double mainDepartmentMoneyLast) {
+		this.mainDepartmentMoneyLast = mainDepartmentMoneyLast;
+	}
+
+	public String getMainDepartmentCostLast() {
+		return mainDepartmentCostLast;
+	}
+
+	public void setMainDepartmentCostLast(String mainDepartmentCostLast) {
+		this.mainDepartmentCostLast = mainDepartmentCostLast;
+	}
+
+	public String getAssistDepartment1Last() {
+		return assistDepartment1Last;
+	}
+
+	public void setAssistDepartment1Last(String assistDepartment1Last) {
+		this.assistDepartment1Last = assistDepartment1Last;
+	}
+
+	public Double getAssistDepartment1MoneyLast() {
+		return assistDepartment1MoneyLast;
+	}
+
+	public void setAssistDepartment1MoneyLast(Double assistDepartment1MoneyLast) {
+		this.assistDepartment1MoneyLast = assistDepartment1MoneyLast;
+	}
+
+	public String getAssistDepartment1CostLast() {
+		return assistDepartment1CostLast;
+	}
+
+	public void setAssistDepartment1CostLast(String assistDepartment1CostLast) {
+		this.assistDepartment1CostLast = assistDepartment1CostLast;
+	}
+
+	public String getAssistDepartment2Last() {
+		return assistDepartment2Last;
+	}
+
+	public void setAssistDepartment2Last(String assistDepartment2Last) {
+		this.assistDepartment2Last = assistDepartment2Last;
+	}
+
+	public Double getAssistDepartment2MoneyLast() {
+		return assistDepartment2MoneyLast;
+	}
+
+	public void setAssistDepartment2MoneyLast(Double assistDepartment2MoneyLast) {
+		this.assistDepartment2MoneyLast = assistDepartment2MoneyLast;
+	}
+
+	public String getAssistDepartment2CostLast() {
+		return assistDepartment2CostLast;
+	}
+
+	public void setAssistDepartment2CostLast(String assistDepartment2CostLast) {
+		this.assistDepartment2CostLast = assistDepartment2CostLast;
+	}
+
+	public String getAssistDepartment3Last() {
+		return assistDepartment3Last;
+	}
+
+	public void setAssistDepartment3Last(String assistDepartment3Last) {
+		this.assistDepartment3Last = assistDepartment3Last;
+	}
+
+	public Double getAssistDepartment3MoneyLast() {
+		return assistDepartment3MoneyLast;
+	}
+
+	public void setAssistDepartment3MoneyLast(Double assistDepartment3MoneyLast) {
+		this.assistDepartment3MoneyLast = assistDepartment3MoneyLast;
+	}
+
+	public String getAssistDepartment3CostLast() {
+		return assistDepartment3CostLast;
+	}
+
+	public void setAssistDepartment3CostLast(String assistDepartment3CostLast) {
+		this.assistDepartment3CostLast = assistDepartment3CostLast;
+	}
 
 	public String getXgDodate() {
 		return xgDodate;

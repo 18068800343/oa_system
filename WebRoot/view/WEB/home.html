@@ -1625,6 +1625,7 @@
 	    function shanChuFlow(){
 			var id=page_cNodeId;
 			var tr=$(page_dom).parents("tr");
+			var id2=page_url.split("-")[1]
 			$.SmartMessageBox({
 	            title: "删除提示",
 	            content: "确认删除？",
@@ -1640,16 +1641,83 @@
 	                    success: function (json) {
 	                    	if(json>0){
 	                    		toastr.success('删除成功');
+	                    		
+	                    		if(page_url.indexOf("danganGUanli")>=0){
+	                    			if(page_url.indexOf("OperatingDocumentLook") >= 0){
+	                        			$.ajax({
+	      	          	       	          type: 'POST',
+	      	          	       	          url: getContextPath()+'/PrjRecord/updateJYStatus2',
+	      	          	       	          dataType: 'json',
+	      	          	       	          data:{
+	      	          	       	        	  id:id2,
+	      	          	       	        	  state:1,
+	      	          	       	          },
+	      	          	       	          success: function (json) {
+	      	          	       	          }
+	                       	     	 });
+	                        		}else{
+	                        			$.ajax({
+	                  	      	          type: 'POST',
+	                  	      	          url: getContextPath()+'/PrjRecord/updateSCStatus2',
+	                  	      	          dataType: 'json',
+	                  	      	          data:{
+	                  	      	        	  id:id2,
+	                  	      	        	  state:1,
+	                  	      	          },
+	                  	      	          success: function (json) {
+	                  	      	          }
+	                  	      	      });
+	                        		}
+	                    		}
+	                    		
+			       					    if(page_url.indexOf("UndertakeContractHTLVSQ") >= 0){
+			    	            			$.ajax({
+			          	       	          type: 'POST',
+			         	       	  				  url: getContextPath()+'/work/selectContractWorkByid',
+			          	       	          dataType: 'json',
+			          	       	          data:{
+			             	       	        	  id:id2
+			          	       	          },
+			          	       	          success: function (json) {
+			          	       	           var data=json;
+			         	       	    				 deleteSetTaskLastInfo(data);
+			          	       	          }
+			    	           	     	 });
+			                		}
+		       					    
 	                    		initTable1();
+	                    		
 	                    		$("#tjModal").modal("hide");
 	                    	}else{
 	                    		toastr.error('删除失败');
 	                    	}
 	                    }
 	                });
+	        		
+
+    				
+    				
 	        	}
 	        })
 	    }
+	    
+	    
+    function deleteSetTaskLastInfo(data){
+    	$.ajax({
+     	          type: 'POST',
+    	  				  url: getContextPath()+'/task/deleteSetTaskLastInfo',
+     	          dataType: 'json',
+     	          data:{
+     	        	 	prjNo:data.prjCode,
+     	        	 	no:data.cjContractCode
+     	          },
+     	          success: function (json) {
+     	           var data=json;
+     	          }
+	     	 });
+    }
+	    
+	    
 	  function getCnByOt(s){
 		  if(s==1){
 			  return "提交";

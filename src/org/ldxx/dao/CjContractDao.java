@@ -76,4 +76,8 @@ public interface CjContractDao {
 	public String CreateContractNumOrder(@Param("type")String type,@Param("year")String year);
 	
 	public int updateCjContractCancelReason(@Param("cj")CjContract cj);
+	
+	public int updateContractMoneyByLast(@Param("contractMoneyLast")Double contractMoneyLast,@Param("id")String id);
+	
+	public int updateContractMoneyLastByContractMoney(@Param("contractMoney")String contractMoney,@Param("id")String id);
 }

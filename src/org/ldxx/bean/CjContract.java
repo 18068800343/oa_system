@@ -27,6 +27,7 @@ public class CjContract {
 	private String contractLongTime;
 	private String receieveMoneyCondition;
 	private Double contractMoney;
+	private Double contractMoneyLast;
 	private Double temporaryMoney;
 	private String contractSignTime;
 	private String workInfo;
@@ -56,6 +57,13 @@ public class CjContract {
     private String status;//审批状态
     private String doDate;//审批状态
     
+    
+	public Double getContractMoneyLast() {
+		return contractMoneyLast;
+	}
+	public void setContractMoneyLast(Double contractMoneyLast) {
+		this.contractMoneyLast = contractMoneyLast;
+	}
 	public String getDoDate() {
 		return doDate;
 	}

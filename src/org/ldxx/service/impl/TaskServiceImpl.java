@@ -359,4 +359,9 @@ public class TaskServiceImpl implements TaskService{
 		return tdao.updateXgDodateById(id,time);
 	}
 
+	@Override
+	public Task selectTaskPrjNameLast(String prjNo) {
+		return tdao.selectTaskPrjNameLast(prjNo);
+	}
+
 }

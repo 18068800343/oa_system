@@ -33,6 +33,8 @@ public interface TaskDao {
 	
 	public Task selectTaskPrjName(@Param("prjNo")String prjNo);
 	
+	public Task selectTaskPrjNameLast(@Param("prjNo")String prjNo);
+	
 	public Task selectTaskPrjNo(@Param("prjName")String prjName);
 	
 	public Task selectTaskByPrjNo(@Param("prjNo")String prjNo);
@@ -74,6 +76,10 @@ public interface TaskDao {
 	public List<Task> selectTaskByCj();//承接合同选择项目列表(除去已选项目)
 	
 	public int updateTasks(@Param("task")List<Task> task);
+	
+	public int updateTaskSetLastInfoByPrjNo(@Param("task")List<Task> task);
+	
+	public int updateTaskSetYuanInfoByLastInfoByPrjNo(@Param("task")List<Task> task);
 	
 	public int updateTasksByHistory(@Param("task")List<Task> task);
 

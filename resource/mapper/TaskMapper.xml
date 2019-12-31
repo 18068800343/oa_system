@@ -313,6 +313,18 @@
   		 where a.prj_no=#{prjNo} and a.history=1 and ms.status=2
   	</select>
   	
+  	<select id="selectTaskPrjNameLast" resultType="task">
+  		select a.*,d.cc_name,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3,e.u_name as mainPrjLeaderName from task a
+  		LEFT JOIN consociation_company as d on a.prj_owner_unit=d.cc_id
+  		left join organization_management b  on a.main_department=b.om_id 
+		left join organization_management b1 on a.assist_department1=b1.om_id 
+		left join organization_management b2 on a.assist_department2=b2.om_id 
+		left join organization_management b3 on a.assist_department3=b3.om_id
+		LEFT JOIN user as e on a.main_prj_leader=e.user_id
+		left join mode_status ms on a.prj_id = ms.mode_id
+  		 where a.prj_no=#{prjNo} and a.history=1 and ms.status=2
+  	</select>
+  	
   	<select id="selectTaskPrjNo" resultType="task">
   		select prj_no,prj_type2,contract_money,prj_start_time,prj_end_time,d.cc_name,main_department,b.om_name,assist_department1,b1.om_name name1,assist_department2,b2.om_name name2,assist_department3,b3.om_name name3 from task a
   		LEFT JOIN consociation_company as d on a.prj_owner_unit=d.cc_id
@@ -555,6 +567,48 @@
   	
   	<update id="updateTaskNoById">
   		update task set prj_no =#{no} where prj_id=#{id}
+  	</update>
+  	
+  	<update id="updateTaskSetLastInfoByPrjNo" parameterType="java.util.List">
+  		<foreach collection="task" item="t" separator=";">
+  				update task set 
+  				prj_estimate_money_last=#{t.prjEstimateMoney},
+  				contract_money_last=#{t.contractMoney},
+  				main_department_last=#{t.mainDepartment},
+  				main_department_money_last=#{t.mainDepartmentMoney},
+  				main_department_cost_last=#{t.mainDepartmentCost},
+  				assist_department1_last=#{t.assistDepartment1},
+  				assist_department1_money_last=#{t.assistDepartment1Money},
+  				assist_department1_cost_last=#{t.assistDepartment1Cost},
+  				assist_department2_last=#{t.assistDepartment2},
+  				assist_department2_money_last=#{t.assistDepartment2Money},
+  				assist_department2_cost_last=#{t.assistDepartment2Cost},
+  				assist_department3_last=#{t.assistDepartment3},
+  				assist_department3_money_last=#{t.assistDepartment3Money},
+  				assist_department3_cost_last=#{t.assistDepartment3Cost}
+       		where prj_no=#{t.prjNo} and history = 1
+   		</foreach>
+  	</update>
+  	
+  	<update id="updateTaskSetYuanInfoByLastInfoByPrjNo" parameterType="java.util.List">
+  		<foreach collection="task" item="t" separator=";">
+  				update task set 
+  				prj_estimate_money=#{t.prjEstimateMoneyLast},
+  				contract_money=#{t.contractMoneyLast},
+  				main_department=#{t.mainDepartmentLast},
+  				main_department_money=#{t.mainDepartmentMoneyLast},
+  				main_department_cost=#{t.mainDepartmentCostLast},
+  				assist_department1=#{t.assistDepartment1Last},
+  				assist_department1_money=#{t.assistDepartment1MoneyLast},
+  				assist_department1_cost=#{t.assistDepartment1CostLast},
+  				assist_department2=#{t.assistDepartment2Last},
+  				assist_department2_money=#{t.assistDepartment2MoneyLast},
+  				assist_department2_cost=#{t.assistDepartment2CostLast},
+  				assist_department3=#{t.assistDepartment3Last},
+  				assist_department3_money=#{t.assistDepartment3MoneyLast},
+  				assist_department3_cost=#{t.assistDepartment3CostLast}
+       		where prj_no=#{t.prjNo} and history = 1
+   		</foreach>
   	</update>
   	
   	<select id="CreateTaskNumOrder" statementType="CALLABLE" resultType="java.lang.String">

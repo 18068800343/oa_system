@@ -31,6 +31,8 @@ public interface TaskService {
 	
 	public Task selectTaskPrjName(String prjNo);
 	
+	public Task selectTaskPrjNameLast(String prjNo);
+	
 	public Task selectTaskPrjNo(String prjName);
 	
 	public Task selectTaskByPrjNo(String prjNo);

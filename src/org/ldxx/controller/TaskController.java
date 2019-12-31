@@ -23,6 +23,7 @@ import org.ldxx.bean.Role;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.bean.UserVo;
+import org.ldxx.dao.CjContractDao;
 import org.ldxx.dao.ConstructionDocumentsDao;
 import org.ldxx.dao.DesignDocumentsDao;
 import org.ldxx.dao.MaintenanceReinforcementDao;
@@ -66,6 +67,8 @@ public class TaskController {
 	private EnterpriseService eService;
 	@Autowired
 	private CjContractService cjservice;
+	@Autowired
+	private CjContractDao cjdao;
 	@Autowired
 	private ConstructionDocumentsDao cDao;
 	@Autowired
@@ -937,6 +940,38 @@ public class TaskController {
 				list.add(task);
 			}
 		}
+		return list;
+	}
+	@RequestMapping("/selectTaskPrjNameLast")
+	@ResponseBody
+	public List<Task> selectTaskPrjNameLast(String prjNo,String contractMoney,String cjId){
+		List<Task> list=new ArrayList<Task>();
+		for(int i=0;i<prjNo.split(",").length;i++){
+			Task task=tService.selectTaskPrjName(prjNo.split(",")[i]);
+			if(null!=task){
+				list.add(task);
+			}
+		}
+		int i = taskDao.updateTaskSetLastInfoByPrjNo(list);
+		int j = cjdao.updateContractMoneyLastByContractMoney(contractMoney, cjId);
+		return list;
+	}
+	
+	
+	@RequestMapping("/deleteSetTaskLastInfo")
+	@ResponseBody
+	public List<Task> deleteSetTaskLastInfo(String prjNo,String no){
+		List<Task> list=new ArrayList<Task>();
+		for(int i=0;i<prjNo.split(",").length;i++){
+			Task task=tService.selectTaskPrjName(prjNo.split(",")[i]);
+			if(null!=task){
+				list.add(task);
+			}
+		}
+		int i = taskDao.updateTaskSetYuanInfoByLastInfoByPrjNo(list);
+		CjContract cjContract = cjdao.selectCjContractByNo(no);
+		int j = cjdao.updateContractMoneyByLast(cjContract.getContractMoneyLast(), cjContract.getCjId());
+		
 		return list;
 	}
 	
