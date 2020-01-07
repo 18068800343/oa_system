@@ -23,7 +23,7 @@ public class AlreadyRenling {
 	private double fpMoney;//发票金额
 	private String kpDate;//开票日期
 	private String fpShuoming;//认领但未开票需要填写说明
-	
+	private String makeTime;//填报时间
 	
 	private String status;
 	private double yirenlingallFpMoney;//已认领的发票金额总和
@@ -31,6 +31,12 @@ public class AlreadyRenling {
 	
 	
 	
+	public String getMakeTime() {
+		return makeTime;
+	}
+	public void setMakeTime(String makeTime) {
+		this.makeTime = makeTime;
+	}
 	public String getFpShuoming() {
 		return fpShuoming;
 	}

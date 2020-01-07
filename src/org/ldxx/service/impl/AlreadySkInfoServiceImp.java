@@ -29,14 +29,16 @@ public class AlreadySkInfoServiceImp implements AlreadySkInfoService {
 			i=dao.addAlreadyRenling(ar);
 			if(i>0){
 				List<AlreadySkOmInfo> asoList = ar.getAsoList();
-				for(int j=0;j<asoList.size();j++){
-					AlreadySkOmInfo skOmInfo = asoList.get(j);
-					TimeUUID uuid=new TimeUUID();
-					String id=uuid.getTimeUUID();
-					skOmInfo.setAoId(id);
-					skOmInfo.setRId(ar.getrId());
-					skOmInfo.setOperatorPerson(ar.getThisPerson());
-					i=dao.addAlreadySkOmInfo(skOmInfo);
+				if(asoList!=null&&asoList.size()!=0){
+					for(int j=0;j<asoList.size();j++){
+						AlreadySkOmInfo skOmInfo = asoList.get(j);
+						TimeUUID uuid=new TimeUUID();
+						String id=uuid.getTimeUUID();
+						skOmInfo.setAoId(id);
+						skOmInfo.setRId(ar.getrId());
+						skOmInfo.setOperatorPerson(ar.getThisPerson());
+						i=dao.addAlreadySkOmInfo(skOmInfo);
+					}
 				}
 			}
 			
