@@ -256,6 +256,7 @@
                               </td>
                           </tr>
                       </tbody>
+                      
                   </table>
                   <table class="table table-bordered table-condensed" id="Newfyyusuan">
                       <thead>
@@ -277,6 +278,14 @@
                           
                           
                       </tbody>
+                      <tfoot>
+                        	<tr>
+                              <td colspan="2" style="text-align:right;"></td>
+                              <td style="color:red;text-align:right;">总费用(元)</td>
+                              <td><input type="text" id="all_money" class="form-control" disabled></td>
+                              <td colspan="2"></td>
+                          	</tr>
+                        </tfoot>
                   </table>
 
                   
@@ -487,6 +496,14 @@
                           
                           
                       </tbody>
+                      <tfoot>
+                        	<tr>
+                              <td colspan="2" style="text-align:right;"></td>
+                              <td style="color:red;text-align:right;">总费用(元)</td>
+                              <td><input type="text" id="xg_all_money" class="form-control" disabled></td>
+                              <td colspan="2"></td>
+                          	</tr>
+                        </tfoot>
                   </table>
 
                   
@@ -619,9 +636,15 @@
                         </thead>
                         	
                         <tbody>
-                             
-                            
                         </tbody>
+                        <tfoot>
+                        	<tr>
+                              <td colspan="2" style="text-align:right;"></td>
+                              <td style="color:red;text-align:right;">总费用(元)</td>
+                              <td id="look_all_money" ></td>
+                              <td colspan="2"></td>
+                          	</tr>
+                        </tfoot>
                     </table>
 
 					<table class="table table-bordered table-condensed"  id="lookrgyusuan">
@@ -908,6 +931,14 @@
                              
                             
                         </tbody>
+                        <tfoot>
+                        	<tr>
+                              <td colspan="2" style="text-align:right;"></td>
+                              <td style="color:red;text-align:right;">总费用(元)</td>
+                              <td id="History_all_money" ></td>
+                              <td colspan="2"></td>
+                          	</tr>
+                        </tfoot>
                     </table>
 
                     <table class="table table-bordered table-condensed" id="Historyrgyusuan">
@@ -1543,7 +1574,15 @@
 		} */
 	})
 	
-	
+	function js_all_money(){
+		var allMoney=0;
+		$("#Newfyyusuan tbody").find("tr").each(function(){
+    		var data2 = $(this).children();
+    	    var jiage = data2.eq(3).text();
+    	    allMoney+=Number(jiage);
+		})
+		$("#all_money").val(allMoney)
+	}
 	
 	$("#newaddyusuan").click(function(){
 		var reg=/^(\-|\+)?\d+(\.\d+)?$/;//只能输入数字或含两位小数的正则
@@ -1564,6 +1603,9 @@
 				+"</td><td>"
 				+'<button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button>'
 				+"</td></tr>")
+			
+		js_all_money()
+		
 	})
 	$("#cl_table").hide();
     $("#addzhuchengben").hide();
@@ -1677,6 +1719,9 @@
 				+"</td><td>"
 				+'<button type="button" class="btn btn btn-danger" onclick="removeThis(this)">移除</button>'
 				+"</td></tr>")
+				
+		xg_js_all_money()
+		
 	})
 	$("#xgcl_table").hide();
     $("#xgzhuchengben").hide();
@@ -1951,6 +1996,8 @@
     	var tr=$(obj).parent().parent();
     	$(tr).remove();
     	toastr.success("移除成功");
+    	js_all_money()
+    	xg_js_all_money()
     	
     	if($("#cl_table tbody").find("tr").length!=0){
 			$("#newkemu").removeAttr("disabled");
@@ -2595,6 +2642,8 @@
 	}
 	
 	
+	
+	
 	function js_all_zhu_money(){
 		var arr=[];
 		var arr2=[];
@@ -2638,6 +2687,8 @@
 		}
 		
 	}
+	
+	
 	
 	function saveEmptyTd(){
 		$("#cl_table tbody").empty();
@@ -3092,8 +3143,10 @@
 				var ysmaolirun=renwujin/1-yusuanjin/1;//预估毛利润=任务金额—预算金额
 				$("#look_ys_maolirun").text(ysmaolirun)
 				//费用预算
+				var look_all_money=0
 				$("#lookfyyusuan tbody").empty("");
             	for(var i=0;i<json.costBudget.length;i++){
+            		look_all_money+=Number(json.costBudget[i].costAmount)
             		$("#lookfyyusuan").append("<tr><td>"
 								    			+json.costBudget[i].classify
 								    			+"</td><td>"
@@ -3106,6 +3159,7 @@
 								    			+json.costBudget[i].cbDesc
 								    			+"</td></tr>")
             	}
+            	$("#look_all_money").text(look_all_money)
             	//人工预算
             	$("#lookrgyusuan tbody").empty("");
             	if(json.budgetMainMaterial!=null){
@@ -3232,8 +3286,10 @@
 				$("#Historyall_zhu_money").text(json.allMainMaterialMoney)
 				
 				//费用预算
+				var History_all_money=0
 				$("#Historyfyyusuan tbody").empty("");
             	for(var i=0;i<json.costBudget.length;i++){
+            		History_all_money+=Number(json.costBudget[i].costAmount)
             		$("#Historyfyyusuan").append("<tr><td>"
 								    			+json.costBudget[i].classify
 								    			+"</td><td>"
@@ -3246,6 +3302,7 @@
 								    			+json.costBudget[i].cbDesc
 								    			+"</td></tr>")
             	}
+				$("#History_all_money").text(History_all_money)
             	//人工预算
             	$("#Historyrgyusuan tbody").empty("");
             	if(json.budgetMainMaterial!=null){
@@ -3400,6 +3457,18 @@
             }
   		}); */
 	}
+	
+	
+	function xg_js_all_money(){
+		var xgallmoney=0;
+		$("#xgfyyusuan tbody").find("tr").each(function(){
+    		var data2 = $(this).children();
+    	    var jiage = data2.eq(3).text();
+    	    xgallmoney+=Number(jiage);
+		})
+		$("#xg_all_money").val(xgallmoney)
+	}
+	
 	//修改回显
 	var xgId;
 	function checkBudge(obj){
@@ -3434,9 +3503,11 @@
 				$("#xgbfNo").val(json.bfNo)
 				$("#xgall_zhu_money").val(json.allMainMaterialMoney)
 				
+				var xgallmoney=0;
 				//费用预算
 				$("#xgfyyusuan tbody").empty("");
             	for(var i=0;i<json.costBudget.length;i++){
+            		xgallmoney+=Number(json.costBudget[i].costAmount)
             		$("#xgfyyusuan").append("<tr><td>"
 								    			+json.costBudget[i].classify
 								    			+"</td><td>"
@@ -3452,6 +3523,7 @@
 								    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' title='删除' onclick='delfyyusuan(this)'></i>"
 								    			+"</td></tr>")
             	}
+            	$("#xg_all_money").val(xgallmoney)
             	//人工预算
             	$("#xgcl_table tbody").empty("");
             	if(json.budgetMainMaterial!=null){
@@ -4076,6 +4148,7 @@
 	//删除费用预算
 	function delfyyusuan(obj){
 		$(obj).parent().parent().remove();//此处$(obj)先获取到<a>对象，.parent()拿到<td>，再.parent()获取到tr
+		xg_js_all_money()
 	}
 	
 	
