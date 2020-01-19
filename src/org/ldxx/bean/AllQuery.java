@@ -70,8 +70,14 @@ public class AllQuery {
 	private int cjNum;//承接合同数量
 	private int fbNum;//分包合同数量
 	
+	private Double liRun;
 	
-	
+	public Double getLiRun() {
+		return liRun;
+	}
+	public void setLiRun(Double liRun) {
+		this.liRun = liRun;
+	}
 	public int getFbNum() {
 		return fbNum;
 	}

@@ -155,18 +155,27 @@ public class OperationTargetController {
 			String nowYear=sdf.format(new Date());
 			int nowY=Integer.valueOf(nowYear);
 			for(int i=2018;i<=nowY;i++){
+				
+				//获取完成收入  直接成本   完成收款等信息 
 				String resultGs=oservice.selectGsOperationTargetByTime(i+"");
+				
 				JSONObject jsonObject=JSONObject.fromObject(resultGs);
+				
 				OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+				
 				OperationTarget ot2=oservice.selectOperationTargetByYear(i+"");
 				OperationTarget new_ot=new OperationTarget();
 				
 				if(ot2!=null){
 					new_ot.setOtId(ot2.getOtId());
 					new_ot.setYear(ot2.getYear());
+					//新签合同额目标
 					new_ot.setContractAmount(ot2.getContractAmount());
+					//收入目标
 					new_ot.setRevenueTarget(ot2.getRevenueTarget());
+					//收款目标
 					new_ot.setCollectionTarget(ot2.getCollectionTarget());
+					//利润目标
 					new_ot.setProfit(ot2.getProfit());
 					
 				}else{
@@ -178,12 +187,19 @@ public class OperationTargetController {
 					new_ot.setProfit(0);
 				}
 				if(ot!=null){
+					//新签合同额
 					new_ot.setXqhte(ot.getXqhte());
+					//完成收入
 					new_ot.setSr(ot.getSr());
+					//完成收款
 					new_ot.setSk(ot.getSk());
+					//直接成本
 					new_ot.setZjcb(ot.getZjcb());
+					//间接成本
 					new_ot.setJjcb(ot.getJjcb());
+					//完成利润
 					new_ot.setLr(ot.getLr());
+					//已签订承接合同额
 					new_ot.setCjhte(ot.getCjhte());
 				}
 				if(new_ot!=null){

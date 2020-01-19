@@ -2410,6 +2410,15 @@ function checkquxiaoSplit(){
   		});
   	}  
 	
+	function refreshSelectEdit(tasks){
+		for(var i in tasks){
+			$("#selectpicker_name").append("<option  value="+tasks[i].prjName+">"+tasks[i].prjName+"</option>");
+			$("#selectpicker_no").append("<option  value="+tasks[i].prjNo+">"+tasks[i].prjNo+"</option>");
+		}
+		$('#selectpicker_no').selectpicker('refresh');
+   	$('#selectpicker_name').selectpicker('refresh');
+	}
+	
 	var noType;
 	function chooseNo(obj){
 		noType=obj;
@@ -3615,7 +3624,8 @@ function checkquxiaoSplit(){
   		var taskCodeArray = data.taskCode.split(",");
   		var tasks = getTaskBytaskCode(data.taskCode);
   		editpinjieRenwudanChaifen(prjNameArray,taskCodeArray,tasks);
-  		
+  		//重新初始化任务单号与任务单名称选择框,加上本次变更已关联任务单
+  		refreshSelectEdit(tasks)
   		$("#edit_prj_type").val(data.prjType);
   		var contractNameJiaArray = data.contractNameJia.split(",");
   		$("#edit_jiafangName").val(contractNameJiaArray);
@@ -4542,13 +4552,20 @@ function checkquxiaoSplit(){
 		var namestr = namelist;
 		pageNameList=namelist;
 		pageTaskNoArray=array;
-		$("#renwudanFenpei").empty();
+	  var selecter;
+	  if(noType==1){
+		  selecter = "#edit_renwudanFenpei";
+	  }else{
+		  selecter = "#renwudanFenpei";
+	  }
+	  
+		$(selecter).empty();
 		if(namelist.length!=array.length){
 			toastr.error("任务单编号信息有误");
 			return false;
 		}
 		for( var i in namestr){
-		$("#renwudanFenpei").append('<table class="table table-bordered table-condensed" id="xieban'+i+'">'
+		$(selecter).append('<table class="table table-bordered table-condensed" id="xieban'+i+'">'
 	               +'<thead>'
 	               +'<tr>'
 	        	   +'<th style="text-align:left;"><div style="width:300px">任务单:'+namestr[i]+'</div><div hidden="hidden">'+array[i]+'</div></th>'
