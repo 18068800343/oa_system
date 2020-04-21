@@ -104,4 +104,6 @@ public interface TaskDao {
 	public List<Task> selectTask2(@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("prjMoneyMin") Double prjMoneyMin,@Param("prjMoneyMax") Double prjMoneyMax,@Param("contractMoneyMin") Double contractMoneyMin,@Param("contractMoneyMax") Double contractMoneyMax,@Param("zdMoneyMin") Double zdMoneyMin,@Param("zdMoneyMax") Double zdMoneyMax,@Param("taskNo") String taskNo,@Param("lxdateMin") String lxdateMin,@Param("lxdateMax") String lxdateMax);
 
 	public int updateXgDodateById(@Param("id")String id,@Param("time") String time);
+	
+	public int updatecontractMoneyOld(@Param("contractMoney")Double contractMoney,@Param("prjNo")String prjNo);
 }

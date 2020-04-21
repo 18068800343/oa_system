@@ -57,7 +57,15 @@ public class CjContract {
     private String status;//审批状态
     private String doDate;//审批状态
     
+    private Double contractMoneyOld;//原合同金额
     
+    
+	public Double getContractMoneyOld() {
+		return contractMoneyOld;
+	}
+	public void setContractMoneyOld(Double contractMoneyOld) {
+		this.contractMoneyOld = contractMoneyOld;
+	}
 	public Double getContractMoneyLast() {
 		return contractMoneyLast;
 	}

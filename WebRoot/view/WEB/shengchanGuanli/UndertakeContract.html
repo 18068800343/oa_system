@@ -4802,7 +4802,7 @@
 									                            +'<thead>'
 									                            +'<tr>'
 									                            	 +'<th style="width:30%;">任务单号：<input type="text" class="form-control" data='+json[i].prjId+' style="width:60%;" value='+json[i].prjNo+' disabled></th>'
-									                                 +'<th style="width:55%;">任务金额：<input type="text" id="taskMoney'+(i+1)+'" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+'></th>'
+									                                 +'<th style="width:55%;">任务金额：<input type="text" id="taskMoney'+(i+1)+'" onchange="taskMoneyChange('+data.contractMoney+','+i+')" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+'></th>'
 									                                 +'<th><button type="button" class="btn btn-primary" data="task_table'+(i+1)+'" onclick="addBumen2(this)">添加协办</button></th>'
 									                            +' </tr>'
 									                      	+' </thead>'
@@ -4873,6 +4873,54 @@
 		            }
 		        });
 	    	$("#choose_cj2").modal("hide");
+	    }
+	    
+	    function taskMoneyChange(obj,obj2){
+	    	var length=$("#abcd>table").length
+	    	if(length==2){
+	    		if(obj2==0){
+	    			var taskMoney1=$("#taskMoney"+(obj2+1)+"").val()
+			    	var taskMoney2=(obj-taskMoney1).toFixed(2);
+			    	$("#taskMoney"+(obj2+2)+"").val(taskMoney2)
+			    	var trlength=$("#task_table"+(obj2+1)+">tbody>tr").length
+			    	if(trlength==1){
+			    		$("#mainDepartMoney"+(obj2+1)+"").val(taskMoney1)
+			    		$("#mainDepartMoney"+(obj2+2)+"").val(taskMoney2)
+			    	}
+	    		}else{
+	    			var taskMoney2=$("#taskMoney"+(obj2+1)+"").val()
+			    	var taskMoney1=(obj-taskMoney2).toFixed(2);
+			    	$("#taskMoney"+(obj2)+"").val(taskMoney1)
+			    	var trlength=$("#task_table"+(obj2)+">tbody>tr").length
+			    	if(trlength==1){
+			    		$("#mainDepartMoney"+(obj2)+"").val(taskMoney1)
+			    		$("#mainDepartMoney"+(obj2+1)+"").val(taskMoney2)
+			    	}
+	    		}
+		    	
+	    	}else if(length==3){
+	    		if(obj2==0){
+	    			var taskMoney1=$("#taskMoney"+(obj2+1)+"").val()
+		    		$("#mainDepartMoney"+(obj2+1)+"").val(taskMoney1)
+		    		var taskMoney2=$("#taskMoney"+(obj2+2)+"").val()
+		    		$("#mainDepartMoney"+(obj2+2)+"").val(taskMoney2)
+		    		var lastmoney=(obj-taskMoney1-taskMoney2).toFixed(2)
+		    		$("#taskMoney"+(obj2+3)+"").val(lastmoney)
+		    		$("#mainDepartMoney"+(obj2+3)+"").val(lastmoney)
+	    		}else if(obj2==1){
+	    			var taskMoney1=$("#taskMoney"+(obj2)+"").val()
+		    		$("#mainDepartMoney"+(obj2)+"").val(taskMoney1)
+		    		var taskMoney2=$("#taskMoney"+(obj2+1)+"").val()
+		    		$("#mainDepartMoney"+(obj2+1)+"").val(taskMoney2)
+		    		var lastmoney=(obj-taskMoney1-taskMoney2).toFixed(2)
+		    		$("#taskMoney"+(obj2+2)+"").val(lastmoney)
+		    		$("#mainDepartMoney"+(obj2+2)+"").val(lastmoney)
+	    		}
+	    		
+	    	}else{
+	    		var taskMoney1=$("#taskMoney"+(obj2+1)+"").val()
+	    		$("#mainDepartMoney"+(obj2+1)+"").val(taskMoney1)
+	    	}
 	    }
 	    
 	    function initDept(obj,obj2){

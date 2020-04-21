@@ -111,16 +111,17 @@
 	</select>
 	
 	<select id="selectCjContractBySome" resultMap="cjContractMap">
-		SELECT a.cj_id,a.task_code,a.contract_name,a.contract_no,a.prj_name,
+		SELECT DISTINCT a.cj_id,a.task_code,a.contract_name,a.contract_no,a.prj_name,
 		a.prj_type,a.contract_name_jia,a.cc_name,a.contract_name_yi,a.contract_start_time,
 		a.contract_end_time,a.contract_long_time,a.receieve_money_condition,a.contract_money,
 		a.temporary_money,a.contract_sign_time,a.work_info,a.main_department_money,
-		a.assist_department1_money,a.assist_department2_money,assist_department3_money,
+		a.assist_department1_money,a.assist_department2_money,a.assist_department3_money,
 		a.split_state,a.jyms,a.yi_cj_department,
 		d.om_name,d2.om_name name, d3.om_name name2,d4.om_name name3,d5.om_name name4,
 		f.StarterName as starterName,b.status as status,g.do_date,
-		Num_char_extract(a.contract_no,0) as cno_sort
+		Num_char_extract(a.contract_no,0) as cno_sort,t.contract_money_old
 		FROM cj_contract as a 
+		LEFT JOIN task t on FIND_IN_SET(t.prj_no,a.task_code)
 		left join mode_status as b on a.cj_id=b.mode_id
 		left join organization_management as d on a.yi_cj_department=d.om_id 
 		left join organization_management as d2 on a.main_department=d2.om_id

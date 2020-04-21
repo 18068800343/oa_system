@@ -27,6 +27,7 @@ import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.OrganizationManagementDao;
+import org.ldxx.dao.TaskDao;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractReasonService;
@@ -65,6 +66,8 @@ public class CjContractController {
 	private TaskService taskService;
 	@Autowired
 	private AccessoryDao adao;
+	@Autowired
+	private TaskDao taskdao;
 	
 	@RequestMapping("/addCjContractBySave")
 	@ResponseBody
@@ -837,6 +840,9 @@ public class CjContractController {
 		for(int i=0;i<prjNo.split(",").length;i++){
 			Task task=taskService.selectTaskPrjName(prjNo.split(",")[i]);
 			list.add(task);
+			if(task.getContractMoneyOld()==0){//保留原合同金额
+				taskdao.updatecontractMoneyOld(cjContract.getContractMoney(), task.getPrjNo());
+			}
 		}
 		int i=cuService.addContractUpdate(list);
 		return i;
