@@ -42,8 +42,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+//import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("operationTarget")
@@ -122,8 +124,10 @@ public class OperationTargetController {
 		Map<String,Object> map=new HashMap<>();
 		//获取公司各种金额
 		String resultGs=oservice.selectGsOperationTargetByTime(year+"");
-		JSONObject jsonObject=JSONObject.fromObject(resultGs);
-		OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		JSON jsonObject= JSON.parseObject(resultGs);
+		OperationTarget ot = jsonObject.toJavaObject(OperationTarget.class);
+		//JSONObject jsonObject=JSONObject.fromObject(resultGs);
+		//OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
 		//获取公司各个目标
 		OperationTarget ot2=oservice.selectOperationTargetByYear(year+"");
 		ot.setYear(year+"");
@@ -159,9 +163,12 @@ public class OperationTargetController {
 				//获取完成收入  直接成本   完成收款等信息 
 				String resultGs=oservice.selectGsOperationTargetByTime(i+"");
 				
-				JSONObject jsonObject=JSONObject.fromObject(resultGs);
 				
-				OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+				JSON jsonObject= JSON.parseObject(resultGs);
+				OperationTarget ot = jsonObject.toJavaObject(OperationTarget.class);
+				
+				//JSONObject jsonObject=JSONObject.fromObject(resultGs);
+				//OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
 				
 				OperationTarget ot2=oservice.selectOperationTargetByYear(i+"");
 				OperationTarget new_ot=new OperationTarget();

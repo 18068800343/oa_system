@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class OperationTarget {
 
 	private String otId;
@@ -15,14 +17,6 @@ public class OperationTarget {
 	private double profit;//利润目标
 	private double lr;//实际利润
 	private String year;
-	
-	
-	public double getCjhte() {
-		return cjhte;
-	}
-	public void setCjhte(double cjhte) {
-		this.cjhte = cjhte;
-	}
 	public String getOtId() {
 		return otId;
 	}
@@ -34,6 +28,12 @@ public class OperationTarget {
 	}
 	public void setContractAmount(double contractAmount) {
 		this.contractAmount = contractAmount;
+	}
+	public double getCjhte() {
+		return cjhte;
+	}
+	public void setCjhte(double cjhte) {
+		this.cjhte = cjhte;
 	}
 	public double getXqhte() {
 		return xqhte;
