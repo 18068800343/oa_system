@@ -96,6 +96,13 @@ public class FlowHistoryController {
 		return i;
 	}
 	
+	@RequestMapping("/deleteByPrimaryKey")
+	@ResponseBody
+	public int deleteByPrimaryKey(String id){
+		int i=flowHistroyMapper.deleteByPrimaryKey(id);
+		return i;
+	}
+	
 	@RequestMapping("/deleteCurrentFlow")
 	@ResponseBody
 	public int deleteCurrentFlow(String id){

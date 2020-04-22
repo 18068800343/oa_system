@@ -260,10 +260,12 @@
 	                              <th>操作人</th>
 	                              <th>意见</th>
 	                              <th>操作类型</th>
+	                              <th>编辑</th>
 	                       		  </tr>
 			                   	</thead>
 		                        <tbody id="tb6T">
 		                       		<tr>
+									  <td>废弃1</td>
 									  <td>废弃1</td>
 									  <td>废弃1</td>
 									  <td>废弃1</td>
@@ -1007,7 +1009,7 @@
             	 for(var i=0;i<k;i++){
             	 	 var op =getCnByOt(json[i].operateType);
              	 	$("#tb5T").append("<tr><td><span data-toggle='modal' data-target='.dadayb' style='cursor:pointer;' class='lianjieColor' data-url='"+json[i].url+"' onclick='initIframeDb(this)'>"+json[i].title+"</span></td></tr>");
-             	 	$("#tb6T").append("<tr><td><span data-toggle='modal' data-target='.dadayb' style='cursor:pointer;' class='lianjieColor' data-url='"+json[i].url+"' onclick='initIframeDb(this)'>"+json[i].title+"</span></td><td>"+json[i].actorname+"</td><td>"+json[i].view+"</td><td>"+op+"</td></tr>");
+             	 	$("#tb6T").append("<tr><td><span data-toggle='modal' data-target='.dadayb' style='cursor:pointer;' class='lianjieColor' data-url='"+json[i].url+"' onclick='initIframeDb(this)'>"+json[i].title+"</span></td><td>"+json[i].actorname+"</td><td>"+json[i].view+"</td><td>"+op+"</td><td><i class='iconfont icon-shanchu Pmdb' style='font-size: 18px; cursor: pointer;' data-id="+json[i].id+" title='删除' id='delOrg'></i></td></tr>");
             	 } 
             	}
             }
@@ -1788,5 +1790,38 @@
 	    }
 
 	}
+
+	$("#tb6T").on('click','#delOrg',function(){
+		let id = $(this).attr("data-id");
+		let tr = $(this).parents("tr");
+  		//console.log(data)
+		$.SmartMessageBox({
+	            title: "删除提示",
+	            content: "确认删除？",
+	            buttons: '[取消][确定]'
+	        }, function (ButtonPressed) {
+	        	if (ButtonPressed === "确定") {
+	        		myTool.mask.show('删除中...');
+	        		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/flowHistory/deleteByPrimaryKey',
+	                    dataType: 'json',
+	                    data: {
+	                    	id:id
+	                    },
+	                    success: function (json) {
+							myTool.mask.hide();
+	                    	if(json!=0){
+	                    		$(tr).remove();
+	                    		toastr.success('删除成功');
+	                    	}else{
+	                    		 toastr.error('删除失败');
+	                    	}
+	                    }
+	                });
+	        	    	
+	        	}
+	        });
+	})
 </script> 
 </html>
