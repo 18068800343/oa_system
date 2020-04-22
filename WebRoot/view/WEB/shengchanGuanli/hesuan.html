@@ -54,7 +54,7 @@
                			<option value="审批中">审批中</option>
                		</select>
                	</div> -->
-               	
+               	<div id="tabBtn" style="margin-left: 10px;"></div>&nbsp;&nbsp;
             </div>
             <div class="UpperPartR">
                 <button type="button" class="btn btn-primary Pebxba" data-toggle="modal" data-target="#myModal">填报项目核算</button>
@@ -815,9 +815,9 @@
                         <th style="width:110px;">合同结算金额(元)</th>
                         <th style="width:100px;">分包结算信息</th>
                         <th style="width:100px;">主办部门</th>
-                        <th style="width:100px;" class="jinqianyanse">主办部门金额</th>
+                        <th style="width:100px;" class="jinqianyanse">主办部门金额(元)</th>
                         <th style="width:150px;">协办部门</th>
-                        <th style="width:150px;" class="jinqianyanse">协办部门金额</th>
+                        <th style="width:150px;" class="jinqianyanse">协办部门金额(元)</th>
                         <th style="width:80px;">发起人</th>
                         <th style="width:80px;">审批状态</th>
                         <th style="width:50px;">操作</th>
@@ -1060,6 +1060,15 @@
 <script src="../../js/quanxian.js"></script>
 <script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/myTool.js"></script>
+
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script> 
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
+
  <!-- 固定表列引入js文件 -->
 <script src="../../js/dataTables.fixedColumns.js"></script>
 <script>
@@ -1075,7 +1084,7 @@
     	//$("#zhuangtai").trigger("change");
 	});
     var user;
-    var table=$('#mainContent').dataTable({
+    var table=$('#mainContent').DataTable({
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
@@ -1276,8 +1285,50 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        
+        "buttons": [
+        	{
+                extend: "excel",
+                text: "导出Excel",
+                filename: '核算管理',
+                exportOptions: {
+                	format: {
+                        header: function ( data) {
+                            return data;
+                        },
+                        body: function ( data, columnIdx, rowIdx, code ) {
+                        	if(rowIdx==0||rowIdx==7){
+                        		//data=data.replace("</a>","")
+                        		if(data!="无"){
+	                        		/* var start = data.indexOf(">");
+	                        		var end = data.lastIndexOf("<");
+	                        		data = data.substring(start+1,end);
+	                        		 */
+                        			if(data.indexOf("<br/>")>=0){
+                        				var a=data.split("<br/>")
+                        				var val="";
+                        				for(var i=0;i<a.length;i++){
+                        					val+=$(a[i]).html()+ ","
+                        				}
+                        				var index=val.lastIndexOf(",")
+                        				data=val.substring(0,index);
+                        			}else{
+                        				var start = data.indexOf(">");
+		                        		var end = data.lastIndexOf("<");
+		                        		data = data.substring(start+1,end);
+                        			}
+                        		}
+                        	}
+			                return data;
+			            }
+                    },
+                    columns:[0,1,2,3,4,5,6,7,8,9,10,11,12]
+                }
+            }
+        ]
 	});
+    table.buttons().container().appendTo( $('#tabBtn') );
+    $('.buttons-excel').addClass('btn btn-primary');
+    
     var table3=$('#xiangmubiao').dataTable({
         "deferRender": true,
         "processing": true,

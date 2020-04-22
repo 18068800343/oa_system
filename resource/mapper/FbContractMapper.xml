@@ -40,13 +40,16 @@
 					from fb_contract f2 left join mode_status m on m.mode_id=f2.fb_id
 					where cj_contract_code=a.cj_contract_code and m.status=2 and f2.history=1) as now_fb_all_money,					
 			a.*,o.om_name,c.cc_name,
-			f.StarterName as starterName,m.status as status
+			f.StarterName as starterName,m.status as status,g.do_date
 			FROM fb_contract a
 			left join mode_status m on m.mode_id=a.fb_id
 			left join organization_management o on o.om_id=a.main_manage_department
 			left join consociation_company c on c.cc_id=a.contract_name_yi
 			LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
 					LEFT JOIN fb_contract a ON a.fb_id=f.mode_id  GROUP BY mode_id )  AS  f on a.fb_id=f.mode_id 
+			LEFT JOIN (SELECT DISTINCT g.mode_id,MAX(do_date) as do_date from (SELECT  * from flowhistroy order by do_date DESC) g 
+				  LEFT JOIN fb_contract a ON a.fb_id=g.mode_id 
+					LEFT JOIN mode_status mgs on a.fb_id =mgs.mode_id where mgs.`status`='2'  GROUP BY g.mode_id)  AS  g on a.fb_id=g.mode_id
 			<where>
 			 	<if test="startMin!=''">
 					contract_start_time &gt;= #{startMin} and contract_start_time &lt;= #{startMax} and 

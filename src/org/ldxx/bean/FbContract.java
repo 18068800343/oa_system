@@ -62,10 +62,18 @@ public class FbContract {
     private String status;//审批状态
     
     private Integer cwoState;//审批状态
+    private String doDate;//审批完成时间
+    
+    
+    public String getDoDate() {
+		return doDate;
+	}
 
-    
-    
-    public Integer getCwoState() {
+	public void setDoDate(String doDate) {
+		this.doDate = doDate;
+	}
+
+	public Integer getCwoState() {
 		return cwoState;
 	}
 

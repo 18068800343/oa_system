@@ -42,6 +42,7 @@
 	            <div class="UpperPartL" style="font-size:18px;">
 	                <div class="yihang">
 	           			<button type="button" class="btn btn-primary Peccxba" style="margin-left: 10px;" data-toggle="modal" data-target="#myModal">填报联营项目核算</button>
+	           			<div id="tabBtn" style="margin-left: 10px;"></div>
 				    </div>
 	            </div>
 	            <div class="UpperPartR">
@@ -212,6 +213,13 @@
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script> 
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	initTable();
@@ -317,7 +325,49 @@
           　　　　cell.innerHTML =  i + 1;
          })
         },
+        "buttons": [
+        	{
+                extend: "excel",
+                text: "导出Excel",
+                filename: '联营核算',
+                exportOptions: {
+                	format: {
+                        header: function ( data) {
+                            return data;
+                        },
+                        body: function ( data, columnIdx, rowIdx, code ) {
+                        	if(rowIdx==0||rowIdx==1||rowIdx==5){
+                        		//data=data.replace("</a>","")
+                        		if(data!="无"){
+	                        		/* var start = data.indexOf(">");
+	                        		var end = data.lastIndexOf("<");
+	                        		data = data.substring(start+1,end);
+	                        		 */
+                        			if(data.indexOf("<br/>")>=0){
+                        				var a=data.split("<br/>")
+                        				var val="";
+                        				for(var i=0;i<a.length;i++){
+                        					val+=$(a[i]).html()+ ","
+                        				}
+                        				var index=val.lastIndexOf(",")
+                        				data=val.substring(0,index);
+                        			}else{
+                        				var start = data.indexOf(">");
+		                        		var end = data.lastIndexOf("<");
+		                        		data = data.substring(start+1,end);
+                        			}
+                        		}
+                        	}
+			                return data;
+			            }
+                    },
+                    columns:[1,2,3,4,5,6,7,8,9,10]
+                }
+            }
+        ]
 	});
+    table.buttons().container().appendTo( $('#tabBtn') );
+    $('.buttons-excel').addClass('btn btn-primary');
     
     var table3=$('#xiangmubiao').dataTable({
         "deferRender": true,

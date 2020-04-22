@@ -101,7 +101,8 @@
 		        			
                     		<div class="sousuoClick" style="display:flex;justify-content: space-between;margin-bottom:4px;">
                     				<div class='yihang'>
-                    					&nbsp;&nbsp;<button type="button" class="btn btn-primary Peba"  id="zenjia" >填报预算单</button>&nbsp;&nbsp;
+                    					&nbsp;&nbsp;<button type="button" class="btn btn-primary Peba"  id="zenjia" >填报预算单</button>
+                    					<div id="tabBtn" style="margin-left: 10px;"></div>&nbsp;&nbsp;
                     					<button type="button" class="btn btn-info" onclick="seachAll()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>搜索</button>&nbsp;&nbsp;
                     					<button type="button" class="btn btn-primary" style="width:100px;" id="zhedieBtn"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>	
                     				</div>
@@ -1019,6 +1020,13 @@
 <script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/myTool.js"></script>
 
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script> 
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 
 <!-- 固定表头引入js文件 -->
 <script src="../../js/datatables/dataTables.fixedHeader.min.js"></script>
@@ -1359,8 +1367,50 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
-        
+        "buttons": [
+        	{
+                extend: "excel",
+                text: "导出Excel",
+                filename: '预算管理',
+                exportOptions: {
+                	format: {
+                        header: function ( data) {
+                            return data;
+                        },
+                        body: function ( data, columnIdx, rowIdx, code ) {
+                        	if(rowIdx==0){
+                        		//data=data.replace("</a>","")
+                        		if(data!="无"){
+	                        		/* var start = data.indexOf(">");
+	                        		var end = data.lastIndexOf("<");
+	                        		data = data.substring(start+1,end);
+	                        		 */
+                        			if(data.indexOf("<br/>")>=0){
+                        				var a=data.split("<br/>")
+                        				var val="";
+                        				for(var i=0;i<a.length;i++){
+                        					val+=$(a[i]).html()+ ","
+                        				}
+                        				var index=val.lastIndexOf(",")
+                        				data=val.substring(0,index);
+                        			}else{
+                        				var start = data.indexOf(">");
+		                        		var end = data.lastIndexOf("<");
+		                        		data = data.substring(start+1,end);
+                        			}
+                        		}
+                        	}
+			                return data;
+			            }
+                    },
+                    columns:[0,1,2,3,4,5,6,8,9,10,11,12]
+                }
+            }
+        ]
 	});
+    table.buttons().container().appendTo( $('#tabBtn') );
+    $('.buttons-excel').addClass('btn btn-primary');
+    
     var table3=$('#xiangmubiao').dataTable({
         "deferRender": true,
         "processing": true,
