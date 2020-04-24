@@ -181,14 +181,14 @@ public class Task {
     private String starterName;//发起人
     private String status;//审批状态
     
-    private Double contractMoneyOld;//原合同金额
+    private double contractMoneyOld;//原合同金额
 
 
-	public Double getContractMoneyOld() {
+	public double getContractMoneyOld() {
 		return contractMoneyOld;
 	}
 
-	public void setContractMoneyOld(Double contractMoneyOld) {
+	public void setContractMoneyOld(double contractMoneyOld) {
 		this.contractMoneyOld = contractMoneyOld;
 	}
 
