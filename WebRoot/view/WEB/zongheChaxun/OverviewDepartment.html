@@ -309,7 +309,7 @@
                 for(var i=0;i<json.length;i++){
                 	$("#zhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                 }
-                $("#zhuban").trigger("change");
+                
             }
 		});
 	}
@@ -322,9 +322,11 @@
     		arr.push(i)
     	}
     	$("#nianfen").empty('');
+    	$("#nianfen").append("<option value=''>全部</option>");
     	for(var i=0;i<arr.length;i++){
         	$("#nianfen").append("<option value="+arr[i]+">"+arr[i]+"</option>");
         }
+    	$("#nianfen").trigger("change");
     }
   
  	var table=$('#mainContent').DataTable({
@@ -514,7 +516,13 @@
  	$('.buttons-csv').addClass('btn btn-primary');
  	var a=true;
  	var Alldata;
- 	$("#zhuban").on("change",function(){
+ 	
+
+ 	
+ 	function chaxunClick(){
+ 		$("#nianfen").trigger("change");
+ 	}
+ 	$("#nianfen").on("change",function(){
  		var seachCjMoneyMin=$("#seach_cj_money_min").val();
  		var seachCjMoneyMax=$("#seach_cj_money_max").val();
  		var seachTimeMin=$("#seach_time_min").val();
@@ -522,6 +530,7 @@
  		var serchType;
  		var omName=$("#zhuban option:selected").text();
  		var depart=$("#zhuban").val();
+ 		var nianfen=$("#nianfen").val();
  		if(a){
  			serchType="";
  			a=false;
@@ -567,6 +576,7 @@
             	seachTimeMin:seachTimeMin,
             	seachTimeMax:seachTimeMax,
             	serchType:serchType,
+            	serchYear:nianfen,
             },
             success: function (json) {
             	Alldata=json;
@@ -574,13 +584,7 @@
             	 myTool.mask.hide();
             }
         });
- 	});
-
- 	
- 	function chaxunClick(){
- 		$("#zhuban").trigger("change");
- 	}
- 	
+ 	})
  	
  	function hetongjinfanwei(obj1,obj2){
  		if(obj1==""||obj2==""){

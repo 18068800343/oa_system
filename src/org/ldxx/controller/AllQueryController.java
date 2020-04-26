@@ -67,14 +67,19 @@ public class AllQueryController {
 	@ResponseBody
 	public List<AllQuery> getQueryTable(@RequestParam(defaultValue="")String depart,@RequestParam(defaultValue="")String omName,
 			@RequestParam(defaultValue="0")Double seachCjMoneyMin,@RequestParam(defaultValue="0")Double seachCjMoneyMax,
-			@RequestParam(defaultValue="")String seachTimeMin,@RequestParam(defaultValue="")String seachTimeMax,@RequestParam(defaultValue="%")String serchType){
+			@RequestParam(defaultValue="")String seachTimeMin,@RequestParam(defaultValue="")String seachTimeMax,
+			@RequestParam(defaultValue="%")String serchType,String serchYear){
 		SimpleDateFormat simpleDateFormat =new SimpleDateFormat("YY-MM");
 		String nowDate = simpleDateFormat.format(new Date());
 		String[] timeArr = nowDate.split("-");
 		String year_Time = timeArr[0]+"%";
 		String month_time = nowDate;
 		serchType="%"+serchType+"%";
-		List<AllQuery> i=service.getQueryTable(depart,omName,seachCjMoneyMin,seachCjMoneyMax,seachTimeMin,seachTimeMax,serchType);
+		if(serchYear!=""&&serchYear!=null){
+			serchYear="%"+serchYear+"%";
+		}
+		
+		List<AllQuery> i=service.getQueryTable(depart,omName,seachCjMoneyMin,seachCjMoneyMax,seachTimeMin,seachTimeMax,serchType,serchYear);
 		
 		/*
 		 * String resultGs=oservice.selectGsOperationTargetByTime(i+"");
@@ -110,14 +115,18 @@ public class AllQueryController {
 	@ResponseBody
 	public List<AllQuery> getQueryTableBySqlThread(@RequestParam(defaultValue="")String depart,@RequestParam(defaultValue="")String omName,
 			@RequestParam(defaultValue="0")Double seachCjMoneyMin,@RequestParam(defaultValue="0")Double seachCjMoneyMax,
-			@RequestParam(defaultValue="")String seachTimeMin,@RequestParam(defaultValue="")String seachTimeMax,@RequestParam(defaultValue="%")String serchType){
+			@RequestParam(defaultValue="")String seachTimeMin,@RequestParam(defaultValue="")String seachTimeMax,
+			@RequestParam(defaultValue="%")String serchType,String serchYear){
 		SimpleDateFormat simpleDateFormat =new SimpleDateFormat("YY-MM");
 		String nowDate = simpleDateFormat.format(new Date());
 		String[] timeArr = nowDate.split("-");
 		String year_Time = timeArr[0]+"%";
 		String month_time = nowDate;
 		serchType="%"+serchType+"%";
-		List<AllQuery> i=service.getQueryTable(depart,omName,seachCjMoneyMin,seachCjMoneyMax,seachTimeMin,seachTimeMax,serchType);
+		if(serchYear!=""&&serchYear!=null){
+			serchYear="%"+serchYear+"%";
+		}
+		List<AllQuery> i=service.getQueryTable(depart,omName,seachCjMoneyMin,seachCjMoneyMax,seachTimeMin,seachTimeMax,serchType,serchYear);
 		
 		int nowY=Integer.valueOf(seachTimeMax.split("-")[0]);
 		

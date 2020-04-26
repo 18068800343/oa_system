@@ -21,8 +21,8 @@ public class AllQueryServiceImpl implements AllQueryService {
 	}
 	@Override
 	public List<AllQuery> getQueryTable(String depart, String omName, Double seachCjMoneyMin, Double seachCjMoneyMax,
-			String seachTimeMin, String seachTimeMax, String serchType) {
-		return allQueryDao.getQueryTable(depart,omName,seachCjMoneyMin,seachCjMoneyMax,seachTimeMin,seachTimeMax,serchType);
+			String seachTimeMin, String seachTimeMax, String serchType,String serchYear) {
+		return allQueryDao.getQueryTable(depart,omName,seachCjMoneyMin,seachCjMoneyMax,seachTimeMin,seachTimeMax,serchType,serchYear);
 	}
 
 }
