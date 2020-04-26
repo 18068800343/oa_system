@@ -280,6 +280,17 @@
 				and a.history=0
 			</where>
 	</select>
+	<select id="selectTaskHistoryById" resultType="task"> 
+		select a.*,b.cc_name from task a 
+			LEFT JOIN consociation_company as b on a.prj_owner_unit=b.cc_id
+			LEFT JOIN mode_status ms on a.prj_id = ms.mode_id
+			<where>
+				<if test="no==null or no==''">
+					and a.prj_no = 1
+				</if>
+				and a.prj_no = #{no} and a.prj_id !=#{no} and ms.flow_status in ('2','3')
+			</where>
+	</select>
 	
 	<select id="selectIdAndNameByStatus" parameterType="String" resultType="task">
 		select prj_id,prj_name from task left join mode_status on prj_id=mode_id where status=#{status}

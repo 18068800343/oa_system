@@ -147,6 +147,10 @@ public class TaskServiceImpl implements TaskService{
 	public List<Task> selectTaskHistory(String no) {
 		return tdao.selectTaskHistory(no);
 	}
+	@Override
+	public List<Task> selectTaskHistoryById(String no,String id) {
+		return tdao.selectTaskHistoryById(no,id);
+	}
 
 	@Override
 	public Task selectCcNameByPrjId(String id) {

@@ -893,7 +893,7 @@ public class TaskController {
 			t.setLxTime(lxTime);
 		}
 		map.put("task", t);
-		List<Task> list=tService.selectTaskHistory(no);
+		List<Task> list=tService.selectTaskHistoryById(no, id);
 		map.put("taskList", list);
 		return map;
 	}

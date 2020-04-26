@@ -25,6 +25,8 @@ public interface TaskService {
 	
 	public List<Task> selectTaskHistory(String no);
 	
+	public List<Task> selectTaskHistoryById(String no,String id);
+	
 	public Task selectCcNameByPrjId(String id);
 	
 	public List<Task> selectPrjNameAndWorkNo();
