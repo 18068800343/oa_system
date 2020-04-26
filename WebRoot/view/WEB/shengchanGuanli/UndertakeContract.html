@@ -539,7 +539,13 @@
 	                                <td class="jinqianyanse">合同金额(元)</td>
 	                                <td><input type="text" style="width:70%;" class="form-control" id="contract_money2" disabled></td>
 	                                <td class="jinqianyanse">结算金额(元)</td>
-	                                <td><input type="text" style="width:70%;" class="form-control" id="end_money2"></td>
+	                                <td><input type="text" style="width:70%;" class="form-control" id="end_money2" onchange="changeendMoney2()"></td>
+	                            </tr>
+	                            <tr>
+	                            	<td>合同工期</td>
+	                                <td><input type="text" style="width:70%;" class="form-control" id="contract_long_time"></td>
+	                                <td></td>
+	                                <td></td>
 	                            </tr>
                     		</tbody>
                     	</table>
@@ -1154,6 +1160,12 @@
 		                            <td id="look_contract_money2"></td>
 		                            <td class="jinqianyanse">结算金额(元)</td>
 		                            <td id="look_end_money2"></td>
+		                        </tr>
+		                        <tr>
+		                        	<td>合同工期</td>
+		                        	<td id="look_cj_contract_long_time"></td>
+		                        	<td></td>
+		                        	<td></td>
 		                        </tr>
 	                    	</tbody>
 	                 </table>
@@ -3020,6 +3032,7 @@
 	                    	$('#prj_no').val(json.taskCode);
 	                    	$("#contract_money2").val(json.contractMoney);
 	                    	$("#jiafang2").val(json.ccName);
+	                    	$("#contract_long_time").val(json.contractLongTime)
 	                    	/* $("#all_money2").val(""); */
 	                    	/* getTotalMoney($('#contract_no2').val()); */
 	                    	getLeader($('#prj_no').val())
@@ -3119,6 +3132,7 @@
   				gqText:undefined,
   				contractMoney:0,
   				endMoney:0,
+  				cjContractLongTime:undefined,
   				prjChargeMan:undefined,
   				rating:undefined,
   				type:undefined,
@@ -3451,20 +3465,21 @@
   			$("#look_contract_money2").text(data.contractMoney);
   			$("#look_end_money2").text(data.endMoney);
   			/* $("#look_all_money2").text(data.allReceieveMoney); */
-  			$("#look_work_info2").text(data.workText);
-  			$("#look_prj_info2").text(data.prjText);
-  			$("#look_gq_info2").text(data.gqText);
-  			$("#look_prj_leader2").text(data.prjChargeMan);
+  			$("#look_cj_contract_long_time").text(data.cjContractLongTime==null?"":data.cjContractLongTime)
+  			$("#look_work_info2").text(data.workText==null?"":data.workText);
+  			$("#look_prj_info2").text(data.prjText==null?"":data.prjText);
+  			$("#look_gq_info2").text(data.gqText==null?"":data.gqText);
+  			$("#look_prj_leader2").text(data.prjChargeMan==null?"":data.prjChargeMan);
   			/* $("#look_rating").text(data.rating); */
-  			$("#look_prj_manager2").text(data.prjManager);//项目经理
-  	  		$("#look_deputy1_prj_manager2").text(data.deputyPrjManager1);//项目副经理1
-  	  		$("#look_deputy2_prj_manager2").text(data.deputyPrjManager2);//项目副经理2
-  	  		$("#look_prj_general2").text(data.prjGeneral);//项目总工
-  	  		$("#look_prj_duration2").text(data.prjDuration);//项目工期开始时间
-  	  		$("#look_prj_duration2_end").text(data.prjDurationEnd);//项目工期结束时间
-  	  		$("#look_prj_grade2").text(data.prjGrade);//公路等级
-  	  		$("#look_cj_contract_end_time").text(data.cjContractEndTime);
-  	  		$("#look_xmJinduPiancha").text(data.xmJinduPiancha)
+  			$("#look_prj_manager2").text(data.prjManager==null?"":data.prjManager);//项目经理
+  	  		$("#look_deputy1_prj_manager2").text(data.deputyPrjManager1==null?"":data.deputyPrjManager1);//项目副经理1
+  	  		$("#look_deputy2_prj_manager2").text(data.deputyPrjManager2==null?"":data.deputyPrjManager2);//项目副经理2
+  	  		$("#look_prj_general2").text(data.prjGeneral==null?"":data.prjGeneral);//项目总工
+  	  		$("#look_prj_duration2").text(data.prjDuration==null?"":data.prjDuration);//项目工期开始时间
+  	  		$("#look_prj_duration2_end").text(data.prjDurationEnd==null?"":data.prjDurationEnd);//项目工期结束时间
+  	  		$("#look_prj_grade2").text(data.prjGrade==null?"":data.prjGrade);//公路等级
+  	  		$("#look_cj_contract_end_time").text(data.cjContractEndTime==null?"":data.cjContractEndTime);
+  	  		$("#look_xmJinduPiancha").text(data.xmJinduPiancha==null?"":data.xmJinduPiancha)
   			
   	  	$.ajax({
             type: 'POST',
@@ -3481,7 +3496,7 @@
 							                            +'<thead>'
 							                            +'<tr>'
 							                            	 +'<th style="width:30%;">任务单号：<input type="text" class="form-control" data='+json[i].prjId+' style="width:60%;" value='+json[i].prjNo+' disabled></th>'
-							                                 +'<th style="width:55%;">任务金额：<input type="text" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+' disabled></th>'
+							                                 +'<th style="width:55%;">结算金额：<input type="text" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+' disabled></th>'
 							                            +' </tr>'
 							                      	+' </thead>'
 							                        +' <tbody>'
@@ -3651,7 +3666,7 @@
   								                            +'<thead>'
   								                            +'<tr>'
   								                            	 +'<th style="width:30%;">任务单号：<input type="text" class="form-control" data='+json[i].prjId+' style="width:60%;" value='+json[i].prjNo+' disabled></th>'
-  								                                 +'<th style="width:55%;">任务金额：<input type="text" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+' disabled></th>'
+  								                                 +'<th style="width:55%;">结算金额：<input type="text" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+' disabled></th>'
   								                            +' </tr>'
   								                      	+' </thead>'
   								                        +' <tbody>'
@@ -3788,15 +3803,21 @@
   			window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+fileName+"&filePath="+filePath);
   		}
   		
-  		function endMoneyBlur(json){
+  		function changeendMoney2(){
+			var end_money2=$("#end_money2").val()
+			var length=$("#abcd>table").length
+			setTaskMoney(length,end_money2);
+		}
+  		
+  		/* function endMoneyBlur(json){
   		$("#end_money2").on('blur',function(){
   			var dom = $(this).val();
   			setTaskMoney(json,dom);
   		});
-  		}
+  		} */
   		
-  		function setTaskMoney(json,dom){
-  			if(json.length==1){
+  		function setTaskMoney(length,dom){
+  			if(length==1){
   				$("#taskMoney1").val(dom);
   				$("#mainDepartMoney1").val(dom);
   			}
@@ -3824,6 +3845,7 @@
   			if(endMoney==null||endMoney==""){
   				endMoney=0;
   			}
+  			var contract_long_time=$("#contract_long_time").val();
   			var prjChargeMan=$("#prj_leader2").val();
   			var rating="";
   			var type='2';
@@ -3981,6 +4003,7 @@
 	  		contractWork.prjGrade=prjGrade;//公路等级
 	  		contractWork.cjContractEndTime=lyEndTime;//履约完结时间
 	  		contractWork.xmJinduPiancha=xmJinduPiancha;
+	  		contractWork.cjContractLongTime=contract_long_time
 	  		
 	  		var formData = new FormData();
 	  		formData.append("work", JSON.stringify(contractWork));
@@ -4019,6 +4042,7 @@
   			var gqText=$("#gq_info2").val();
   			var contractMoney=$("#contract_money2").val();
   			var endMoney=$("#end_money2").val();
+  			var contract_long_time=$("#contract_long_time").val();
   			var prjChargeMan=$("#prj_leader2").val();
   			var rating="";
   			var type='2';
@@ -4171,6 +4195,7 @@
 	  		contractWork.prjGrade=prjGrade;//公路等级
 	  		contractWork.cjContractEndTime=lyEndTime;//履约完结时间
 	  		contractWork.xmJinduPiancha=xmJinduPiancha;
+	  		contractWork.cjContractLongTime=contract_long_time
 	  		
 /* 	  		if($("#rating_file").val()==''){
 	  			toastr.error("客户满意度度为空");
@@ -4781,6 +4806,7 @@
 	    	$("#prj_no").val(data.taskCode);
 	    	$("#contract_money2").val(data.contractMoney);
 	    	$("#jiafang2").val(data.ccName);
+	    	$("#contract_long_time").val(data.contractLongTime)
 	    	getLeader(data.taskCode)
 	    	//console.log(data)
 	    	$(".piancha").val(countTime(data.contractEndTime,data.contractStartTime,data.contractLongTime))
@@ -4795,14 +4821,14 @@
 		            	cjId:data.cjId
 		            },
 		            success: function (json) {
-		            	endMoneyBlur(json);
+		            	//endMoneyBlur(json);
 						$("#abcd").html('');		            	
 		                for(var i=0;i<json.length;i++){
 		                	$("#abcd").append('<table class="table table-bordered table-condensed" id="task_table'+(i+1)+'">'
 									                            +'<thead>'
 									                            +'<tr>'
 									                            	 +'<th style="width:30%;">任务单号：<input type="text" class="form-control" data='+json[i].prjId+' style="width:60%;" value='+json[i].prjNo+' disabled></th>'
-									                                 +'<th style="width:55%;">任务金额：<input type="text" id="taskMoney'+(i+1)+'" onchange="taskMoneyChange('+data.contractMoney+','+i+')" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+'></th>'
+									                                 +'<th style="width:55%;">结算金额：<input type="text" id="taskMoney'+(i+1)+'" onchange="taskMoneyChange('+data.contractMoney+','+i+')" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+'></th>'
 									                                 +'<th><button type="button" class="btn btn-primary" data="task_table'+(i+1)+'" onclick="addBumen2(this)">添加协办</button></th>'
 									                            +' </tr>'
 									                      	+' </thead>'
@@ -4876,6 +4902,7 @@
 	    }
 	    
 	    function taskMoneyChange(obj,obj2){
+	    	var obj=$("#end_money2").val();
 	    	var length=$("#abcd>table").length
 	    	if(length==2){
 	    		if(obj2==0){

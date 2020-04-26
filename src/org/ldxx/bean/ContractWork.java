@@ -24,6 +24,8 @@ public class ContractWork {
     private Double contractMoney;
 
     private Double endMoney;
+    
+    private String cjContractLongTime;//承接合同工期
 
     private Double allReceieveMoney;
 
@@ -56,6 +58,14 @@ public class ContractWork {
     private String status;//审批状态
 	
 	
+	public String getCjContractLongTime() {
+		return cjContractLongTime;
+	}
+
+	public void setCjContractLongTime(String cjContractLongTime) {
+		this.cjContractLongTime = cjContractLongTime;
+	}
+
 	public String getXmJinduPiancha() {
 		return xmJinduPiancha;
 	}
