@@ -9,7 +9,9 @@ import org.ldxx.bean.Accessory;
 import org.ldxx.bean.AllQuery;
 import org.ldxx.bean.OperationTarget;
 import org.ldxx.bean.Pay;
+import org.ldxx.dao.CjContractDao;
 import org.ldxx.dao.PrjProgressFillDao;
+import org.ldxx.dao.SubContractDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.AllQueryService;
 import org.ldxx.service.ContractPaymentService;
@@ -33,6 +35,10 @@ public class AllQueryController {
 	private ContractPaymentService payService;
 	@Autowired
 	private OperationTargetService oservice;
+	@Autowired
+	private CjContractDao cjDao;
+	@Autowired
+	private SubContractDao fbdao;
 	
 	@RequestMapping("/allQueryTable")
 	@ResponseBody
@@ -90,7 +96,10 @@ public class AllQueryController {
 		 * OperationTarget.class);
 		 */
 		
-		
+		//根据年份查询承接合同数量
+		int cjNoNum = cjDao.countNo("%");
+		//查分包合同数量
+		int fbNoNum = fbdao.fbNocount("%");
 		
  		for(AllQuery allQuery:i){
 			String cjNo = allQuery.getContractNo();
@@ -107,6 +116,9 @@ public class AllQueryController {
 				weiPayMoney=Double.parseDouble(allQuery.getNowFbAllMoney())-Double.parseDouble(leijifkMoney);
 			}
 			allQuery.setWeiPayMoney(weiPayMoney.toString());
+			
+			allQuery.setCjNum(cjNoNum);
+			allQuery.setFbNum(fbNoNum);
 		}
 		return i;
 	}
@@ -137,6 +149,11 @@ public class AllQueryController {
 		OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject,
 		OperationTarget.class);
 		
+		//根据年份查询承接合同数量
+		int cjNoNum = cjDao.countNo(serchYear);
+		//查分包合同数量
+		int fbNoNum = fbdao.fbNocount(serchYear);
+		
 		for(AllQuery allQuery:i){
 			String cjNo = allQuery.getContractNo();
 			//累计付款
@@ -163,6 +180,11 @@ public class AllQueryController {
 			allQuery.setCjmoney(ot.getCjhte()+"");
 			
 			allQuery.setWeiPayMoney(weiPayMoney.toString());
+			
+			allQuery.setCjNum(cjNoNum);
+			
+			allQuery.setCjNum(cjNoNum);
+			allQuery.setFbNum(fbNoNum);
 		}
 		return i;
 	}

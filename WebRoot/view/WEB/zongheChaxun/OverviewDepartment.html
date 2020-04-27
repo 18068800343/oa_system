@@ -205,6 +205,10 @@
 		            <div>     
 		                <form class="form-inline">
                         <table class="table table-bordered">
+                        	<tr>
+                            	<td style="width:25%">年份</td>
+                            	<td colspan="3" style="width:25%" id="look_nianfen"></td>
+                            </tr>
                             <tr>
                             	<td style="width:25%">统计承接合同数量</td>
                             	<td style="width:25%" id="look_cj_num"></td>
@@ -309,7 +313,7 @@
                 for(var i=0;i<json.length;i++){
                 	$("#zhuban").append("<option value="+json[i].omId+">"+json[i].omName+"</option>");
                 }
-                
+                $("#zhuban").trigger("change");
             }
 		});
 	}
@@ -326,7 +330,7 @@
     	for(var i=0;i<arr.length;i++){
         	$("#nianfen").append("<option value="+arr[i]+">"+arr[i]+"</option>");
         }
-    	$("#nianfen").trigger("change");
+    	
     }
   
  	var table=$('#mainContent').DataTable({
@@ -520,9 +524,9 @@
 
  	
  	function chaxunClick(){
- 		$("#nianfen").trigger("change");
+ 		$("#zhuban").trigger("change");
  	}
- 	$("#nianfen").on("change",function(){
+ 	$("#zhuban").on("change",function(){
  		var seachCjMoneyMin=$("#seach_cj_money_min").val();
  		var seachCjMoneyMax=$("#seach_cj_money_max").val();
  		var seachTimeMin=$("#seach_time_min").val();
@@ -691,19 +695,22 @@
     	if(Alldata!=null){
     		var zongleijichengben=0;
     		for(var i=0;i<Alldata.length;i++){
-    			cjNum+=Alldata[i].cjNum;
+    			//cjNum+=Alldata[i].cjNum;
+    			cjNum=Alldata[i].cjNum;
     			xinqinahetongMoney+=Alldata[i].prjEstimateMoney;
     			shouruMoney+=Number(Alldata[i].allMoneyYuan);
     			shoukuanMoney+=Number(Alldata[i].resultMoney);
     			zongleijichengben+=Number(Alldata[i].leiJiChengBen);
     			cjhetongMoney+=Number(Alldata[i].cjmoney);
-    			fbNum+=Alldata[i].fbNum;
+    			//fbNum+=Alldata[i].fbNum;
+    			fbNum=Alldata[i].fbNum;
     			fbhetongMoney+=Number(Alldata[i].nowFbAllMoney);
     			fbJueSuanMoney+=Number(Alldata[i].fbJueSuanMoney);
     			leiJiPayMoney+=Number(Alldata[i].leiJiPayMoney);
     		}
     		lirunMoney=Number(shouruMoney/1)-Number(zongleijichengben/1)
     	}
+    	$("#look_nianfen").text("全部")
     	$("#look_cj_num").text(cjNum)
     	$("#look_xinqianhetonge").text(xinqinahetongMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
     	$("#look_shouru").text(shouruMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -719,64 +726,76 @@
     }
     
     function nianfentongji(){
-    	myTool.mask.show('查询中...');
-    	$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/allQuery/getQueryTableBySqlThread',
-            dataType: 'json',
-            data: {
-            	omName:"全部",
-           	 	depart:"%",
-            	seachCjMoneyMin:"",
-            	seachCjMoneyMax:"",
-            	seachTimeMin:$("#nianfen").val()+"-01-01",
-            	seachTimeMax:$("#nianfen").val()+"-12-31",
-            	serchType:"%",
-            },
-            success: function (json) {
-            	myTool.mask.hide();
-            	$("#allMsg1").modal('show');
-            	var cjNum=0;//承接合同数量
-            	var xinqinahetongMoney=0;//新签合同金额
-            	var shouruMoney=0;//收入
-            	var shoukuanMoney=0;//收款
-            	var lirunMoney=0;//利润
-            	var cjhetongMoney=0;//承接合同金额
-            	var fbNum=0;//分包合同数量
-            	var fbhetongMoney=0;//分包合同金额
-            	var fbJueSuanMoney=0;//分包结算金额
-            	var leiJiPayMoney=0;//付款
-            	if(json!=null){
-            		var zongleijichengben=0;
-            		for(var i=0;i<json.length;i++){
-            			cjNum+=json[i].cjNum;
-            			xinqinahetongMoney=json[i].prjEstimateMoney;
-            			shouruMoney=Number(json[i].allMoneyYuan);
-            			shoukuanMoney=Number(json[i].resultMoney);
-            			zongleijichengben+=Number(json[i].leiJiChengBen);
-            			cjhetongMoney=Number(json[i].cjmoney);
-            			fbNum+=json[i].fbNum;
-            			fbhetongMoney+=Number(json[i].nowFbAllMoney);
-            			fbJueSuanMoney+=Number(json[i].fbJueSuanMoney);
-            			leiJiPayMoney+=Number(json[i].leiJiPayMoney);
-            			lirunMoney=Number(json[i].liRun);
-            		}
-            		//lirunMoney=Number(shouruMoney/1)-Number(zongleijichengben/1)
-            	}
-            	$("#look_cj_num").text(cjNum)
-            	$("#look_xinqianhetonge").text(xinqinahetongMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-            	$("#look_shouru").text(shouruMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-            	
-            	 $("#look_shoukuan").text(shoukuanMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-            	 
-            	$("#look_lirun").text(lirunMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-            	$("#look_cjhetonge").text(cjhetongMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")) 
-            	$("#look_fenbaohetong_num").text(fbNum)
-            	$("#look_fbhetongjin").text(fbhetongMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-            	$("#lookjiesuane").text(fbJueSuanMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-            	$("#look_fukuan").text(leiJiPayMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-            }
-        });
+    	
+    	var nianfen=$("#nianfen").val()
+    	if(nianfen==""){
+    		toastr.error("请先选择年份")
+    		return;
+    	}else{
+    		myTool.mask.show('查询中...');
+    		$.ajax({
+                type: 'POST',
+                url: getContextPath()+'/allQuery/getQueryTableBySqlThread',
+                dataType: 'json',
+                data: {
+                	omName:"全部",
+               	 	depart:"%",
+                	seachCjMoneyMin:"",
+                	seachCjMoneyMax:"",
+                	seachTimeMin:nianfen+"-01-01",
+                	seachTimeMax:nianfen+"-12-31",
+                	serchType:"%",
+                	serchYear:$("#nianfen").val()
+                },
+                success: function (json) {
+                	myTool.mask.hide();
+                	$("#allMsg1").modal('show');
+                	var cjNum=0;//承接合同数量
+                	var xinqinahetongMoney=0;//新签合同金额
+                	var shouruMoney=0;//收入
+                	var shoukuanMoney=0;//收款
+                	var lirunMoney=0;//利润
+                	var cjhetongMoney=0;//承接合同金额
+                	var fbNum=0;//分包合同数量
+                	var fbhetongMoney=0;//分包合同金额
+                	var fbJueSuanMoney=0;//分包结算金额
+                	var leiJiPayMoney=0;//付款
+                	if(json!=null){
+                		var zongleijichengben=0;
+                		for(var i=0;i<json.length;i++){
+                			//cjNum+=json[i].cjNum;
+                			cjNum=json[i].cjNum;
+                			xinqinahetongMoney=json[i].prjEstimateMoney;
+                			shouruMoney=Number(json[i].allMoneyYuan);
+                			shoukuanMoney=Number(json[i].resultMoney);
+                			zongleijichengben+=Number(json[i].leiJiChengBen);
+                			cjhetongMoney=Number(json[i].cjmoney);
+                			//fbNum+=json[i].fbNum;
+                			fbNum=json[i].fbNum;
+                			fbhetongMoney+=Number(json[i].nowFbAllMoney);
+                			fbJueSuanMoney+=Number(json[i].fbJueSuanMoney);
+                			leiJiPayMoney+=Number(json[i].leiJiPayMoney);
+                			lirunMoney=Number(json[i].liRun);
+                		}
+                		//lirunMoney=Number(shouruMoney/1)-Number(zongleijichengben/1)
+                	}
+                	$("#look_nianfen").text($("#nianfen").val())
+              		$("#look_cj_num").text(cjNum)
+                	$("#look_xinqianhetonge").text(xinqinahetongMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                	$("#look_shouru").text(shouruMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                	
+                	 $("#look_shoukuan").text(shoukuanMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                	 
+                	$("#look_lirun").text(lirunMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                	$("#look_cjhetonge").text(cjhetongMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")) 
+                	$("#look_fenbaohetong_num").text(fbNum)
+                	$("#look_fbhetongjin").text(fbhetongMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                	$("#lookjiesuane").text(fbJueSuanMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                	$("#look_fukuan").text(leiJiPayMoney.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                }
+            });
+    	}
+    	
     }
     
 </script>
