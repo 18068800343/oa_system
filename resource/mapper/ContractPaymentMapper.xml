@@ -30,7 +30,7 @@
       generation_advances_money,this_time_ask_money, 
       pay_method,
       pay_list_explain, compiler_person, compiler_time, 
-      make_time)
+      make_time,accumulated_financial_recognition_money,other_mats_money)
     values (#{pay.payId,jdbcType=VARCHAR},#{pay.payCode,jdbcType=VARCHAR}, #{pay.contractName,jdbcType=VARCHAR},#{pay.skMoney},#{pay.skScale},
       #{pay.contractNo,jdbcType=VARCHAR},#{pay.contractMoney,jdbcType=VARCHAR}, #{pay.alreadyKpMoney,jdbcType=VARCHAR}, #{pay.thisTimeKpMoney,jdbcType=VARCHAR}, 
       #{pay.mainContractCode,jdbcType=VARCHAR}, #{pay.mainContractName,jdbcType=VARCHAR}, #{pay.mainContractMoney,jdbcType=VARCHAR}, 
@@ -39,7 +39,7 @@
       #{pay.GenerationAdvancesMoney,jdbcType=VARCHAR}, #{pay.thisTimeAskMoney,jdbcType=VARCHAR}, 
       #{pay.payMethod,jdbcType=VARCHAR},
       #{pay.payListExplain,jdbcType=VARCHAR},#{pay.compilerPerson,jdbcType=VARCHAR}, #{pay.compilerTime,jdbcType=VARCHAR}, 
-      now())
+      now(), #{pay.accumulatedFinancialRecognitionMoney}, #{pay.otherMatsMoney})
   	</insert>
   	
   	<update id="updatePayById">
@@ -66,7 +66,9 @@
       	pay_list_explain=#{pay.payListExplain,jdbcType=VARCHAR},
        	compiler_person=#{pay.compilerPerson,jdbcType=VARCHAR}, 
       	compiler_time=#{pay.compilerTime,jdbcType=VARCHAR}, 
-      	make_time=now()
+      	make_time=now(),
+      	accumulated_financial_recognition_money=#{pay.accumulatedFinancialRecognitionMoney},
+      	other_mats_money=#{pay.otherMatsMoney}
       where pay_id=#{pay.payId,jdbcType=VARCHAR}
   	</update>
   	
@@ -137,4 +139,29 @@
   	<update id="updatePayNo">
   		update pay set pay_code=#{no} where pay_id=#{id}
   	</update>
+  	
+  	<!--分包合同付款 通过分包合同号查找是否存在审批中 -->
+  	<select id="getApprovalCountByfbNo" resultType="int">
+	  	SELECT
+			COUNT(*) 
+		FROM
+			mode_status a 
+		WHERE
+			FIND_IN_SET(
+				a.mode_id,(
+				SELECT
+					group_concat( b.pay_id SEPARATOR "," ) AS pay_id 
+				FROM
+					pay b 
+				WHERE
+					b.contract_no = #{fbNo} 
+				)) 
+			AND a.`status` = 1
+  	</select>
+  	<!-- 通过分包合同号查找分包付款最近一条财务确认累计付款金额 -->
+  	<select id="getAccumulatedFinancialRecognitionMoneyByFbNo" resultType="pay">
+  		SELECT IFNULL(accumulated_financial_recognition_money,0) as accumulated_financial_recognition_money,contract_no  FROM pay as a
+		LEFT JOIN mode_status as b on a.pay_id=b.mode_id
+		where b.status=2 and contract_no=#{fbNo}  ORDER BY make_time desc LIMIT  1
+  	</select>
 </mapper>

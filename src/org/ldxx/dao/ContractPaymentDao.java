@@ -42,5 +42,9 @@ public interface ContractPaymentDao {
 	String CreatePayNumOrder(@Param("year")String year);
 	
 	int updatePayNo(@Param("id")String id,@Param("no")String no);
+	
+	public int getApprovalCountByfbNo(@Param("fbNo")String fbNo);
+	
+	public Pay getAccumulatedFinancialRecognitionMoneyByFbNo(@Param("fbNo")String fbNo);
 
 }

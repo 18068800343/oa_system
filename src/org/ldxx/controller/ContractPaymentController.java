@@ -19,6 +19,7 @@ import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.Pay;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.dao.ContractPaymentDao;
 import org.ldxx.dao.TaskDao;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.ContractPaymentService;
@@ -53,6 +54,8 @@ public class ContractPaymentController {
 	private TaskDao taskDao;
 	@Autowired
 	CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	private ContractPaymentDao payDao;
 	
 	@RequestMapping("/selectPayByStatus")
 	@ResponseBody
@@ -266,45 +269,54 @@ public class ContractPaymentController {
 			}
 			pay.setAccessory3(list3);
 		}*/
-		int i=payService.addPaySave(pay);
-		String string = i+"";
+		String string="";
+		//查询改分包合同付款是否有在审批中
+		int i=payDao.getApprovalCountByfbNo(pay.getContractNo());
 		if(i>0){
-			CjContract cj=sService.getCjContractMainPrjLeaderByFbNo(pay.getContractNo());
-			String prjCode = pay.getPrjListCode();
-			Task task = taskDao.selectIdByNo2(prjCode);
-			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
-			String omNo=om.getOmNo();
-			User user = (User) session.getAttribute("user");
-			FlowUtill flowUtill = new FlowUtill();
-			CurrentFlow currentFlow = new CurrentFlow();
-			currentFlow.setParams("1");
-			currentFlow.setTitle(pay.getContractName()+"分包合同付款");
-			currentFlow.setActor(user.getUserId());
-			currentFlow.setActorname(user.getuName());
-			currentFlow.setMemo(pay.getContractName()+"分包合同付款流程发起");
-			currentFlow.setUrl("shengchanguanliLook/ContractPayment.html-"+id);
-			currentFlow.setParams("{'cs':'1'}");
-			currentFlow.setStarter(user.getUserId());
-			currentFlow.setStartername(user.getuName());
-			currentFlow.setFkDept(omNo);
-			currentFlow.setDeptname(user.getOmName());
-			currentFlow.setNodename("节点名称");
-			currentFlow.setPri(1);
-			currentFlow.setSdtofnode(new Date());
-			currentFlow.setSdtofflow(new Date());
-			currentFlow.setFlowEndState(2);
-			currentFlow.setFlowNopassState(0);
-			FlowHistroy flowHistroy = new FlowHistroy();
-			flowHistroy.setActor(user.getUserId());
-			flowHistroy.setActorname(user.getuName());
-			flowHistroy.setActorresult(0);
-			flowHistroy.setView("");
-			try {
-				string = flowUtill.submitGetReceiver(currentFlow,omNo);
-			} catch (Exception e) {
-				e.printStackTrace();
+			string="-1";
+		}else{
+			i=payService.addPaySave(pay);
+			string = i+"";
+			if(i>0){
+				CjContract cj=sService.getCjContractMainPrjLeaderByFbNo(pay.getContractNo());
+				String prjCode = pay.getPrjListCode();
+				Task task = taskDao.selectIdByNo2(prjCode);
+				OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
+				String omNo=om.getOmNo();
+				User user = (User) session.getAttribute("user");
+				FlowUtill flowUtill = new FlowUtill();
+				CurrentFlow currentFlow = new CurrentFlow();
+				currentFlow.setParams("1");
+				currentFlow.setTitle(pay.getContractName()+"分包合同付款");
+				currentFlow.setActor(user.getUserId());
+				currentFlow.setActorname(user.getuName());
+				currentFlow.setMemo(pay.getContractName()+"分包合同付款流程发起");
+				currentFlow.setUrl("shengchanguanliLook/ContractPayment.html-"+id);
+				currentFlow.setParams("{'cs':'1'}");
+				currentFlow.setStarter(user.getUserId());
+				currentFlow.setStartername(user.getuName());
+				currentFlow.setFkDept(omNo);
+				currentFlow.setDeptname(user.getOmName());
+				currentFlow.setNodename("节点名称");
+				currentFlow.setPri(1);
+				currentFlow.setSdtofnode(new Date());
+				currentFlow.setSdtofflow(new Date());
+				currentFlow.setFlowEndState(2);
+				currentFlow.setFlowNopassState(0);
+				FlowHistroy flowHistroy = new FlowHistroy();
+				flowHistroy.setActor(user.getUserId());
+				flowHistroy.setActorname(user.getuName());
+				flowHistroy.setActorresult(0);
+				flowHistroy.setView("");
+				try {
+					string = flowUtill.submitGetReceiver(currentFlow,omNo);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
+		
+		
 		return string;
 	}
 	
@@ -355,11 +367,18 @@ public class ContractPaymentController {
 		}
 		int i=payService.updatePayById(pay);
 		if(i>0){
-			String prjCode = pay.getPrjListCode();
-			Task task = taskDao.selectIdByNo2(prjCode);
-			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
-			String omNo=om.getOmNo();
-			currentFlowMapper.updateFkDeptByModeId(id, omNo);
+			//查询改分包合同付款是否有在审批中
+			int num=payDao.getApprovalCountByfbNo(pay.getContractNo());
+			if(num>0){
+				i=-1;
+			}else{
+				String prjCode = pay.getPrjListCode();
+				Task task = taskDao.selectIdByNo2(prjCode);
+				OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
+				String omNo=om.getOmNo();
+				currentFlowMapper.updateFkDeptByModeId(id, omNo);
+			}
+			
 		}
 		return i;
 	}
@@ -420,6 +439,15 @@ public class ContractPaymentController {
 		Double money1 = Double.valueOf(money);
 		int i=payService.updateAuthorisePayment(id, money1);
 		return i;
+	}
+	
+	//通过分包合同号查找分包付款最近一条财务确认累计付款金额
+	@RequestMapping("/getAccumulatedFinancialRecognitionMoneyByFbNo")
+	@ResponseBody
+	public Pay getAccumulatedFinancialRecognitionMoneyByFbNo(String fbno){
+		Pay pay = payDao.getAccumulatedFinancialRecognitionMoneyByFbNo(fbno);
+		return pay;
+		
 	}
 	
 }

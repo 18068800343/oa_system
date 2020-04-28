@@ -61,6 +61,10 @@ public class Pay {
     
     private String payTime;//支付时间
     
+    private Double accumulatedFinancialRecognitionMoney;//财务确认累计付款金额(元)
+    private Double otherMatsMoney;//其他代垫费用
+    
+    
     private List<Accessory> accessory;
     private List<Accessory> accessory2;
     /*private List<Accessory> accessory3;//法律顾问签字*/    
@@ -73,7 +77,20 @@ public class Pay {
     private String starterName;//发起人
     private String status;//审批状态
     
-    public double getSkMoney() {
+    
+    public Double getAccumulatedFinancialRecognitionMoney() {
+		return accumulatedFinancialRecognitionMoney;
+	}
+	public void setAccumulatedFinancialRecognitionMoney(Double accumulatedFinancialRecognitionMoney) {
+		this.accumulatedFinancialRecognitionMoney = accumulatedFinancialRecognitionMoney;
+	}
+	public Double getOtherMatsMoney() {
+		return otherMatsMoney;
+	}
+	public void setOtherMatsMoney(Double otherMatsMoney) {
+		this.otherMatsMoney = otherMatsMoney;
+	}
+	public double getSkMoney() {
 		return skMoney;
 	}
 	public void setSkMoney(double skMoney) {

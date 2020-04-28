@@ -239,6 +239,10 @@
 		                                <td><input type="text" class="form-control" id="fukuandanshuoming" style="width:60%;"></td>
 		                            </tr>
 		                            <tr>
+		                                <td style="width:15%;" class="jinqianyanse">财务确认累计付款金额(元)  <i class="iconfont icon-xingxing-copy"  style="color:red;"></i></td>
+		                                <td style="width:35%;"><input type="text" class="form-control" id="caiwuquerenLeiJiMoney" style="width:60%;"></td>
+		                                <td style="width:15%;" class="jinqianyanse">其他代垫费用(元)  <i class="iconfont icon-xingxing-copy"  style="color:red;"></i></td>
+		                                <td style="width:35%;"><input type="text" class="form-control" id="qitadaidianMoney"  style="width:60%;"></td>
 		                            </tr>
 		                            <tr>
 		                                <td style="width:15%;">编制人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
@@ -1119,6 +1123,9 @@
 	        				$("#hetongMoney").val(json.contractMoney);
 	        				isjinxinghetongjiesuan($('#hetonghao').val());
 	        				getTotalPayMoney($('#hetonghao').val());
+	        				getRemainPayMoney($('#hetonghao').val());
+	        				getSk(json.workNo);
+	        				getCaiWuQueRenLeiJiMoney($('#hetonghao').val())
 	                    }
 	          		});
 			  	})
@@ -1420,6 +1427,8 @@
 	        	$("#fukuandanshuoming").val(json.payListExplain);
 	        	$("#userSignetMan").val(json.compilerPerson);
 	        	$("#year").val(json.compilerTime);
+	        	$("#caiwuquerenLeiJiMoney").val(json.accumulatedFinancialRecognitionMoney);
+	    		$("#qitadaidianMoney").val(json.otherMatsMoney);
 	    		
 	        	$.ajax({
 	    			type:"post",
@@ -1508,6 +1517,8 @@
 		var fukuandanshuoming=$("#fukuandanshuoming").val();
 		var userSignetMan=$("#userSignetMan").val();
 		var year=$("#year").val();
+		var caiwuquerenleijiMoney=$("#caiwuquerenLeiJiMoney").val();
+		var qitadaidianMoney=$("#qitadaidianMoney").val();
 		
 		if(obj=='1'){
 			if(hetongming==''){
@@ -1548,6 +1559,14 @@
 				toastr.error("编制人为空")
 				return "编制人为空";
 			}
+			if(caiwuquerenleijiMoney==''){
+				toastr.error("财务确认累计付款金额为空")
+				return "财务确认累计付款金额为空";
+			}
+			if(qitadaidianMoney==''){
+				toastr.error("其他代垫费用为空")
+				return "其他代垫费用为空";
+			}
 		}
 		
 		var result;
@@ -1580,6 +1599,8 @@
   					payListExplain:fukuandanshuoming,
   					compilerPerson:userSignetMan,
   					compilerTime:year,
+  					accumulatedFinancialRecognitionMoney:caiwuquerenleijiMoney,
+  					otherMatsMoney:qitadaidianMoney
 	            },
 	            success: function (json) {
 	            	//console.log(json);
@@ -1588,7 +1609,9 @@
 						toastr.error("添加失败")
 					}else if(json>0){
 						toastr.success("添加成功")
-						
+					}else if(json==-1){
+						result="该分包付款单上一次未审批完成";
+						toastr.error("该分包付款单上一次未审批完成");
 					}
 	            }
 	        };
@@ -2087,11 +2110,59 @@
 				$("#hetongMoney").val(json.contractMoney);
 				isjinxinghetongjiesuan(json.fbNo);
 				getTotalPayMoney(json.fbNo);
+				getRemainPayMoney(json.fbNo);
+				getSk(json.workNo);
+				getCaiWuQueRenLeiJiMoney(json.fbNo)
             }
   		});
     	$("#choose_fb").modal("hide");
     }
     
+    function getCaiWuQueRenLeiJiMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/pay/getAccumulatedFinancialRecognitionMoneyByFbNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            	fbno:obj
+            },
+            success: function (json) {
+            	$("#caiwuquerenLeiJiMoney").val(json.accumulatedFinancialRecognitionMoney);
+            }
+    	})
+    }
+    
+    function getSk(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/AlreadySk/getAllSkByTaskNo',
+            dataType: 'json',
+            data: {
+            	no:obj
+            },
+            success: function (json) {
+            	var money=json.money;
+            	var prjMoney=json.prjMoney;
+            	$("#sk_money").val(money);
+            	$("#sk_scale").val((money/prjMoney*100).toFixed(2)+"%")
+            }
+    	})
+    }
+    
+    function getRemainPayMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/BorrowContract/getRemainPayMoney',
+            dataType: 'json',
+            data: {
+            	no:obj
+            },
+            success: function (json) {
+            	$("#daidianMoney").val(json);
+            }
+    	})
+    }
     function isjinxinghetongjiesuan(obj){
     	$.ajax({
             type: 'POST',
