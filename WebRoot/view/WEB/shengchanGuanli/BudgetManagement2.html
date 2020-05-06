@@ -203,6 +203,20 @@
                           	  <input type="text" class="form-control emptyC" id="prj_mode" style="width:70%;" disabled>
                           </td>
                       </tr>
+                      <tr>
+                      	  <td style="width:10%;" class="jinqianyanse">任务金额</td>
+                          <td>
+                              <input type="text" class="form-control emptyC" id="renwuMoney" style="width:70%;" disabled>
+                          </td>
+                      	  <td class="jinqianyanse">合同金额 </td>
+                          <td>
+                              <input type="text" class="form-control emptyC" id="hetongMoney" style="width:70%;" disabled>
+                          </td>
+                          <td class="jinqianyanse">结算金额</td>
+                          <td>
+                          	  <input type="text" class="form-control emptyC" id="jiesuanMoney" style="width:70%;" disabled>
+                          </td>
+                      </tr>
                   </table>
 
                   <table class="table table-bordered table-condensed" id="">
@@ -417,11 +431,25 @@
                         	<td>
                         		<input type="text" class="form-control" id="xg_prj_mode" style="width:70%;" disabled>
                         	</td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
+                        	<td style="width:10%;" class="jinqianyanse">任务金额</td>
+	                        <td>
+	                              <input type="text" class="form-control emptyC" id="xg_renwuMoney" style="width:70%;" disabled>
+	                        </td>
+	                      	<td class="jinqianyanse">合同金额 </td>
+	                        <td>
+	                              <input type="text" class="form-control emptyC" id="xg_hetongMoney" style="width:70%;" disabled>
+	                        </td>
                         </tr>
+                        <tr>
+                          <td class="jinqianyanse">结算金额</td>
+                          <td>
+                          	  <input type="text" class="form-control emptyC" id="xg_jiesuanMoney" style="width:70%;" disabled>
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                      </tr>
                     </table>
 
                     <table class="table table-bordered table-condensed" id="">
@@ -617,9 +645,17 @@
                             <td id="look_prj_mode" ></td>
                             <td>预算毛利润</td>
                             <td id="look_ys_maolirun"></td>
-                            <td></td>
-                            <td></td>
+                            <td class="jinqianyanse"  style="width:10%;">任务金额</td>
+	                        <td id="look_renwuMoney"></td>
                         </tr>
+                        <tr>
+	                      	<td class="jinqianyanse" >合同金额 </td>
+	                        <td id="look_hetongMoney"></td>	
+                          	<td class="jinqianyanse" >结算金额</td>
+                          	<td id="look_jiesuanMoney"></td>
+                          	<td></td>
+                          	<td></td>
+                         </tr>
                     </table>
 
                     <table class="table table-bordered table-condensed" id="lookfyyusuan">
@@ -912,6 +948,24 @@
                         	<td>预算单编号</td>
                             <td id="HistorybfNo"></td>
                         </tr>
+                        <tr>
+                            <td>项目经营模式</td>
+                            <td id="History_prj_mode" ></td>
+                            <td>预算毛利润</td>
+                            <td id="History_ys_maolirun"></td>
+                        </tr>
+                        <tr>
+                        	<td class="jinqianyanse"  style="width:10%;">任务金额</td>
+	                        <td id="History_renwuMoney"></td>
+	                      	<td class="jinqianyanse" >合同金额 </td>
+	                        <td id="History_hetongMoney"></td>	
+	                     </tr>
+	                     <tr>
+                          	<td class="jinqianyanse" >结算金额</td>
+                          	<td id="History_jiesuanMoney"></td>
+                          	<td></td>
+                          	<td></td>
+                         </tr>
                     </table>
 
                     <table class="table table-bordered table-condensed" id="Historyfyyusuan">
@@ -2114,7 +2168,8 @@
 	
 	
 	function seachAll(){
-		$(".zhuangtai").trigger("change");
+		//$(".zhuangtai").trigger("change");
+		initTable()
 	}
 	
 	//初始化
@@ -2267,6 +2322,32 @@
         	
         }
     })
+    
+    function getJieSuanMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/work/selectContractWorkByprjNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            	prjno:obj,
+            	type:2,
+            },
+            success: function (json) {
+            	$("#jiesuanMoney").val("")
+            	$("#xg_jiesuanMoney").val("")
+            	$("#look_jiesuanMoney").val("")
+            	$("#History_jiesuanMoney").val("")
+            	if(json!=null&&json.length!=0){
+            		$("#jiesuanMoney").val(json[0].endMoney)
+                	$("#xg_jiesuanMoney").val(json[0].endMoney)
+                	$("#look_jiesuanMoney").text(json[0].endMoney)
+                	$("#History_jiesuanMoney").text(json[0].endMoney)
+            	}
+            }
+        });
+    	
+	}
 	
 	
 	//选择项目
@@ -2292,6 +2373,9 @@
 		$("#renwudan").val(data.prjNo);
 		$("#jiafangdanwei").val(data.ccName);
 		$("#prj_mode").val(data.prjManagementModel);
+		$("#renwuMoney").val(data.prjEstimateMoneyOld)
+		$("#hetongMoney").val(data.contractMoney)
+		getJieSuanMoney(data.prjNo);
 		$("#xiangmumd").modal("hide");
 		$.ajax({
 			type:"POST",
@@ -2357,6 +2441,9 @@
 		$("#xgrenwudan").val(data.prjNo);
 		$("#xgjiafangdanwei").val(data.ccName);
 		$("#xg_prj_mode").val(data.prjManagementModel);
+		$("#xg_renwuMoney").val(data.prjEstimateMoneyOld)
+		$("#xg_hetongMoney").val(data.contractMoney)
+		getJieSuanMoney(data.prjNo);
 		$("#xgxiangmumd").modal("hide");
 		$.ajax({
 			type:"POST",
@@ -2442,6 +2529,9 @@
 	                    	$("#prj_mode").val(json[i].prjManagementModel);
 	                    	$("#department").empty();
 	                    	$("#department").append("<option value="+json[i].mainDepartment+">"+json[i].omName+"</option>")
+	                    	$("#renwuMoney").val(json[i].prjEstimateMoneyOld)
+							$("#hetongMoney").val(json[i].contractMoney)
+							getJieSuanMoney(json[i].prjNo);
 	                    	if(json[i].omName!=null){
 		                    	array.push(json[i].omName)
 		                    	array2.push(json[i].mainDepartment)
@@ -2487,6 +2577,9 @@
 	                    	$("#xg_prj_mode").val(json[i].prjManagementModel);
 	                    	$("#edit_department").empty();
 	                    	$("#edit_department").append("<option value="+json[i].mainDepartment+">"+json[i].omName+"</option>")
+	                    	$("#xg_renwuMoney").val(json[i].prjEstimateMoneyOld)
+							$("#xg_hetongMoney").val(json[i].contractMoney)
+							getJieSuanMoney(json[i].prjNo);
         		        	if(json[i].omName!=null){
         		            	array.push(json[i].omName)
         		            	array2.push(json[i].mainDepartment)
@@ -3195,20 +3288,23 @@
 				//费用预算
 				var look_all_money=0
 				$("#lookfyyusuan tbody").empty("");
-            	for(var i=0;i<json.costBudget.length;i++){
-            		look_all_money+=Number(json.costBudget[i].costAmount)
-            		$("#lookfyyusuan").append("<tr><td>"
-								    			+json.costBudget[i].classify
-								    			+"</td><td>"
-								    			+json.costBudget[i].prjDetail
-								    			+"</td><td>"
-								    			+json.costBudget[i].name2
-								    			+"</td><td>"
-								    			+json.costBudget[i].costAmount
-								    			+"</td><td>"
-								    			+json.costBudget[i].cbDesc
-								    			+"</td></tr>")
-            	}
+				if(json.costBudget!=null&&json.costBudget.length!=0){
+					for(var i=0;i<json.costBudget.length;i++){
+	            		look_all_money+=Number(json.costBudget[i].costAmount)
+	            		$("#lookfyyusuan").append("<tr><td>"
+									    			+json.costBudget[i].classify
+									    			+"</td><td>"
+									    			+json.costBudget[i].prjDetail
+									    			+"</td><td>"
+									    			+json.costBudget[i].name2
+									    			+"</td><td>"
+									    			+json.costBudget[i].costAmount
+									    			+"</td><td>"
+									    			+json.costBudget[i].cbDesc
+									    			+"</td></tr>")
+	            	}
+				}
+            	
             	$("#look_all_money").text(look_all_money)
             	//人工预算
             	$("#lookrgyusuan tbody").empty("");
@@ -3236,8 +3332,27 @@
             		$("#lookrgyusuan").hide();
             	}
             	
+            	$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    data: {
+                    	prjNo:json.taskNo
+                    },
+                    success: function (json) {
+        		    	for(var i=0;i<json.length;i++){
+                        	$("#look_renwuMoney").text(json[i].prjEstimateMoneyOld)
+        					$("#look_hetongMoney").text(json[i].contractMoney)
+        					getJieSuanMoney(json[i].prjNo);
+        		    	}
+        		    	
+        		    	
+                    }
+          		});
+            	
 			}
 		})
+		
 		
 		
 		 $.ajax({
@@ -3334,24 +3449,32 @@
 				$("#Historyshenbaoren").text(json.declarer)
 				$("#HistorybfNo").text(json.bfNo)
 				$("#Historyall_zhu_money").text(json.allMainMaterialMoney)
+				$("#History_prj_mode").text(json.prjMode)
+				var renwujin=json.prjEstimateMoney;
+				var yusuanjin=json.allCost;
+				var ysmaolirun=renwujin/1-yusuanjin/1;//预估毛利润=任务金额—预算金额
+				$("#History_ys_maolirun").text(ysmaolirun)
 				
 				//费用预算
 				var History_all_money=0
 				$("#Historyfyyusuan tbody").empty("");
-            	for(var i=0;i<json.costBudget.length;i++){
-            		History_all_money+=Number(json.costBudget[i].costAmount)
-            		$("#Historyfyyusuan").append("<tr><td>"
-								    			+json.costBudget[i].classify
-								    			+"</td><td>"
-								    			+json.costBudget[i].prjDetail
-								    			+"</td><td>"
-								    			+json.costBudget[i].name2
-								    			+"</td><td>"
-								    			+json.costBudget[i].costAmount
-								    			+"</td><td>"
-								    			+json.costBudget[i].cbDesc
-								    			+"</td></tr>")
-            	}
+				if(json.costBudget!=null&&json.costBudget.length!=0){
+					for(var i=0;i<json.costBudget.length;i++){
+	            		History_all_money+=Number(json.costBudget[i].costAmount)
+	            		$("#Historyfyyusuan").append("<tr><td>"
+									    			+json.costBudget[i].classify
+									    			+"</td><td>"
+									    			+json.costBudget[i].prjDetail
+									    			+"</td><td>"
+									    			+json.costBudget[i].name2
+									    			+"</td><td>"
+									    			+json.costBudget[i].costAmount
+									    			+"</td><td>"
+									    			+json.costBudget[i].cbDesc
+									    			+"</td></tr>")
+	            	}
+				}
+            	
 				$("#History_all_money").text(History_all_money)
             	//人工预算
             	$("#Historyrgyusuan tbody").empty("");
@@ -3376,6 +3499,23 @@
     								    			+"</td></tr>")
                 	}
             	}
+            	$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    data: {
+                    	prjNo:json.taskNo
+                    },
+                    success: function (json) {
+        		    	for(var i=0;i<json.length;i++){
+                        	$("#History_renwuMoney").text(json[i].prjEstimateMoneyOld)
+        					$("#History_hetongMoney").text(json[i].contractMoney)
+        					getJieSuanMoney(json[i].prjNo);
+        		    	}
+        		    	
+        		    	
+                    }
+          		});
             	
 			}
 		})
@@ -3556,23 +3696,26 @@
 				var xgallmoney=0;
 				//费用预算
 				$("#xgfyyusuan tbody").empty("");
-            	for(var i=0;i<json.costBudget.length;i++){
-            		xgallmoney+=Number(json.costBudget[i].costAmount)
-            		$("#xgfyyusuan").append("<tr><td>"
-								    			+json.costBudget[i].classify
-								    			+"</td><td>"
-								    			+json.costBudget[i].prjDetail
-								    			+"</td><td data-id2="+json.costBudget[i].department+">"
-								    			+json.costBudget[i].name2
-								    			+"</td><td>"
-								    			+json.costBudget[i].costAmount
-								    			+"</td><td>"
-								    			+json.costBudget[i].cbDesc
-								    			+"</td><td>"
-								    			/* +"<i class='iconfont icon-xiugai' style='font-size:18px;cursor:pointer;' title='修改' onclick='checkxgfyyusuan(this)' data-toggle='modal' data-target='#changeysfy'></i>" */
-								    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' title='删除' onclick='delfyyusuan(this)'></i>"
-								    			+"</td></tr>")
-            	}
+				if(json.costBudget!=null&&json.costBudget.length!=0){
+					for(var i=0;i<json.costBudget.length;i++){
+	            		xgallmoney+=Number(json.costBudget[i].costAmount)
+	            		$("#xgfyyusuan").append("<tr><td>"
+									    			+json.costBudget[i].classify
+									    			+"</td><td>"
+									    			+json.costBudget[i].prjDetail
+									    			+"</td><td data-id2="+json.costBudget[i].department+">"
+									    			+json.costBudget[i].name2
+									    			+"</td><td>"
+									    			+json.costBudget[i].costAmount
+									    			+"</td><td>"
+									    			+json.costBudget[i].cbDesc
+									    			+"</td><td>"
+									    			/* +"<i class='iconfont icon-xiugai' style='font-size:18px;cursor:pointer;' title='修改' onclick='checkxgfyyusuan(this)' data-toggle='modal' data-target='#changeysfy'></i>" */
+									    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' title='删除' onclick='delfyyusuan(this)'></i>"
+									    			+"</td></tr>")
+	            	}
+				}
+            	
             	$("#xg_all_money").val(xgallmoney)
             	//人工预算
             	$("#xgcl_table tbody").empty("");
@@ -3609,6 +3752,25 @@
             	
 			}
 		})
+		
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/selectTaskPrjName',
+            dataType: 'json',
+            async:false,
+            data: {
+            	prjNo:data.taskNo
+            },
+            success: function (json) {
+		    	for(var i=0;i<json.length;i++){
+                	$("#xg_renwuMoney").val(json[i].prjEstimateMoneyOld)
+					$("#xg_hetongMoney").val(json[i].contractMoney)
+					getJieSuanMoney(json[i].prjNo);
+		    	}
+		    	
+		    	
+            }
+  		});
 		
 	}
 	function initMaterialCompany(obj1,obj2){

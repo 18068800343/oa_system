@@ -49,9 +49,17 @@
                             <td id="look_prj_mode" ></td>
                             <td>预算毛利润</td>
                             <td id="look_ys_maolirun"></td>
-                            <td></td>
-                            <td></td>
+                            <td class="jinqianyanse"  style="width:10%;">任务金额</td>
+	                        <td id="look_renwuMoney"></td>
                         </tr>
+                        <tr>
+	                      	<td class="jinqianyanse" >合同金额 </td>
+	                        <td id="look_hetongMoney"></td>	
+                          	<td class="jinqianyanse" >结算金额</td>
+                          	<td id="look_jiesuanMoney"></td>
+                          	<td></td>
+                          	<td></td>
+                         </tr>
                     </table>
 
                     <table class="table table-bordered table-condensed" id="lookfyyusuan">
@@ -179,20 +187,23 @@
 				
 				var look_all_money=0
 				$("#lookfyyusuan tbody").empty("");
-            	for(var i=0;i<json.costBudget.length;i++){
-            		look_all_money+=Number(json.costBudget[i].costAmount)
-            		$("#lookfyyusuan").append("<tr><td>"
-								    			+json.costBudget[i].classify
-								    			+"</td><td>"
-								    			+json.costBudget[i].prjDetail
-								    			+"</td><td>"
-								    			+json.costBudget[i].name2
-								    			+"</td><td>"
-								    			+json.costBudget[i].costAmount
-								    			+"</td><td>"
-								    			+json.costBudget[i].cbDesc
-								    			+"</td></tr>")
-            	}
+				if(json.costBudget!=null&&json.costBudget.length!=0){
+					for(var i=0;i<json.costBudget.length;i++){
+	            		look_all_money+=Number(json.costBudget[i].costAmount)
+	            		$("#lookfyyusuan").append("<tr><td>"
+									    			+json.costBudget[i].classify
+									    			+"</td><td>"
+									    			+json.costBudget[i].prjDetail
+									    			+"</td><td>"
+									    			+json.costBudget[i].name2
+									    			+"</td><td>"
+									    			+json.costBudget[i].costAmount
+									    			+"</td><td>"
+									    			+json.costBudget[i].cbDesc
+									    			+"</td></tr>")
+	            	}
+				}
+            	
             	$("#look_all_money").text(look_all_money)
             	//人工预算
             	$("#lookrgyusuan tbody").empty("");
@@ -220,10 +231,48 @@
             		$("#lookrgyusuan").hide();
             	}
             	
+            	$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    data: {
+                    	prjNo:json.taskNo
+                    },
+                    success: function (json) {
+        		    	for(var i=0;i<json.length;i++){
+                        	$("#look_renwuMoney").text(json[i].prjEstimateMoneyOld)
+        					$("#look_hetongMoney").text(json[i].contractMoney)
+        					getJieSuanMoney(json[i].prjNo);
+        		    	}
+        		    	
+        		    	
+                    }
+          		});
+            	
 			}
 		})
 	}
 
+	function getJieSuanMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/work/selectContractWorkByprjNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            	prjno:obj,
+            	type:2,
+            },
+            success: function (json) {
+            	$("#look_jiesuanMoney").val("")
+            	if(json!=null&&json.length!=0){
+                	$("#look_jiesuanMoney").text(json[0].endMoney)
+            	}
+            }
+        });
+    	
+	}
+	
 	function changeData(did){
 		$.ajax({
 	        type: 'POST',

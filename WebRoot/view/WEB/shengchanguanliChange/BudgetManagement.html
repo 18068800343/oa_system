@@ -138,11 +138,25 @@
                         	<td>
                         		<input type="text" class="form-control" id="xg_prj_mode" style="width:70%;" disabled>
                         	</td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
+                        	<td style="width:10%;" class="jinqianyanse">任务金额</td>
+	                        <td>
+	                              <input type="text" class="form-control emptyC" id="xg_renwuMoney" style="width:70%;" disabled>
+	                        </td>
+	                      	<td class="jinqianyanse">合同金额 </td>
+	                        <td>
+	                              <input type="text" class="form-control emptyC" id="xg_hetongMoney" style="width:70%;" disabled>
+	                        </td>
                         </tr>
+                        <tr>
+                          <td class="jinqianyanse">结算金额</td>
+                          <td>
+                          	  <input type="text" class="form-control emptyC" id="xg_jiesuanMoney" style="width:70%;" disabled>
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                      </tr>
                     </table>
 
                     <table class="table table-bordered table-condensed" id="">
@@ -1365,6 +1379,9 @@
 		$("#xgrenwudan").val(data.prjNo);
 		$("#xgjiafangdanwei").val(data.ccName);
 		$("#xg_prj_mode").val(data.prjManagementModel);
+		$("#xg_renwuMoney").val(data.prjEstimateMoneyOld)
+		$("#xg_hetongMoney").val(data.contractMoney)
+		getJieSuanMoney(data.prjNo);
 		$("#xgxiangmumd").modal("hide");
 		$.ajax({
 			type:"POST",
@@ -1496,6 +1513,9 @@
 	                    	$("#xg_prj_mode").val(json[i].prjManagementModel);
 	                    	$("#edit_department").empty();
 	                    	$("#edit_department").append("<option value="+json[i].mainDepartment+">"+json[i].omName+"</option>")
+	                    	$("#xg_renwuMoney").val(json[i].prjEstimateMoneyOld)
+							$("#xg_hetongMoney").val(json[i].contractMoney)
+							getJieSuanMoney(json[i].prjNo);
         		        	if(json[i].omName!=null){
         		            	array.push(json[i].omName)
         		            	array2.push(json[i].mainDepartment)
@@ -2440,23 +2460,26 @@
 				//费用预算
 				var xgallmoney=0;
 				$("#xgfyyusuan tbody").empty("");
-            	for(var i=0;i<json.costBudget.length;i++){
-            		xgallmoney+=Number(json.costBudget[i].costAmount)
-            		$("#xgfyyusuan").append("<tr><td>"
-								    			+json.costBudget[i].classify
-								    			+"</td><td>"
-								    			+json.costBudget[i].prjDetail
-								    			+"</td><td data-id2="+json.costBudget[i].department+">"
-								    			+json.costBudget[i].name2
-								    			+"</td><td>"
-								    			+json.costBudget[i].costAmount
-								    			+"</td><td>"
-								    			+json.costBudget[i].cbDesc
-								    			+"</td><td>"
-								    			/* +"<i class='iconfont icon-xiugai' style='font-size:18px;cursor:pointer;' title='修改' onclick='checkxgfyyusuan(this)' data-toggle='modal' data-target='#changeysfy'></i> "*/
-								    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' title='删除' onclick='delfyyusuan(this)'></i>"
-								    			+"</td></tr>")
-            	}
+				if(json.costBudget!=null&&json.costBudget.length!=0){
+					for(var i=0;i<json.costBudget.length;i++){
+	            		xgallmoney+=Number(json.costBudget[i].costAmount)
+	            		$("#xgfyyusuan").append("<tr><td>"
+									    			+json.costBudget[i].classify
+									    			+"</td><td>"
+									    			+json.costBudget[i].prjDetail
+									    			+"</td><td data-id2="+json.costBudget[i].department+">"
+									    			+json.costBudget[i].name2
+									    			+"</td><td>"
+									    			+json.costBudget[i].costAmount
+									    			+"</td><td>"
+									    			+json.costBudget[i].cbDesc
+									    			+"</td><td>"
+									    			/* +"<i class='iconfont icon-xiugai' style='font-size:18px;cursor:pointer;' title='修改' onclick='checkxgfyyusuan(this)' data-toggle='modal' data-target='#changeysfy'></i> "*/
+									    			+"<i class='iconfont icon-shanchu' style='font-size:18px;cursor:pointer;' title='删除' onclick='delfyyusuan(this)'></i>"
+									    			+"</td></tr>")
+	            	}
+				}
+            	
             	$("#xg_all_money").val(xgallmoney)
             	//人工预算
             	$("#xgcl_table tbody").empty("");
@@ -2491,11 +2514,49 @@
             		$("#xgcl_table").hide();
             	}
             	
-            	
+            	$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/task/selectTaskPrjName',
+                    dataType: 'json',
+                    async:false,
+                    data: {
+                    	prjNo:json.taskNo
+                    },
+                    success: function (json) {
+        		    	for(var i=0;i<json.length;i++){
+                        	$("#xg_renwuMoney").val(json[i].prjEstimateMoneyOld)
+        					$("#xg_hetongMoney").val(json[i].contractMoney)
+        					getJieSuanMoney(json[i].prjNo);
+        		    	}
+        		    	
+        		    	
+                    }
+          		});
 			}
 		})
 		
 	}
+	
+	function getJieSuanMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/work/selectContractWorkByprjNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            	prjno:obj,
+            	type:2,
+            },
+            success: function (json) {
+            	$("#xg_jiesuanMoney").val("")
+            	if(json!=null&&json.length!=0){
+                	$("#xg_jiesuanMoney").val(json[0].endMoney)
+            	}
+            }
+        });
+    	
+	}
+	
 	function initMaterialCompany(obj1,obj2){
     	$.ajax({
 	        type: 'POST',
