@@ -674,6 +674,7 @@ public class TaskController {
 			count=count+1;
 			String prjNo=uuid.getPrjCode(code, count);
 			t.setPrjNo(prjNo);
+			t.setPrjEstimateMoneyOld(t.getPrjEstimateMoney());
 			i=tService.addTask(t);
 			int k = taskDao.updateById(t);
 			ModeStatus modeStatus = new ModeStatus();

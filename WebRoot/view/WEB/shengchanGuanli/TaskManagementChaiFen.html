@@ -684,6 +684,7 @@
 <script src="../../js/datatables/buttons.flash.min.js" ></script>
 <script src="../../js/datatables/jszip.min.js"></script>
 <script src="../../js/jquery.cookie.js"></script>
+<script src="../../js/myTool.js"></script>
 <script>  
     $(document).ready( function () {
     	/* $("#zhuangtai").trigger("change"); */
@@ -724,7 +725,8 @@
 	});
         $("#disan a").hide();
         var page_prjId;
-	    data=getCookie("chaiFenData");
+	    data=localStorage.getItem('chaiFenData')
+	    /* getCookie("chaiFenData"); */
 	    var jsonData = JSON.parse(data);
 	    page_prjId = jsonData.prjId;
 	    chaiFenTask(jsonData);
@@ -2566,15 +2568,17 @@
 	            success: function (json) {
 	            	/* $("#xgyijileixing").val(json.prjType1); */
 	            	/* $("#xgyijileixing").trigger("change"); */
-	            	$("#xgerjileixing").val(json.prjType2);
+	            	
 	            	$("#xgshishe").val(json.shishebili);
 	            	$("#xgchushe").val(json.chushebili);
 	            	$("#xgyugongke").val(json.yugongkebili);
-	            	$("#xgerjileixing").trigger("click");
 	        		$("#xgtaskName").val(json.prjName);
 	            	$("#xgtaskbianhao").val(json.prjNo);
 	            	$("#xgmoshi").val(json.prjManagementModel);
 	            	$("#xggongsi").val(json.prjCompany1);
+	            	$("#xggongsi").trigger("change");
+	            	$("#xgerjileixing").val(json.prjType2);
+	            	$("#xgerjileixing").trigger("click");
 	            	/* 回显城市 */
 	            	var area=json.prjArea;
 	            	if(area!=''&&area!=null){
@@ -2669,7 +2673,28 @@
 	        });	
     	}
     
-   
+  $("#xggongsi").on("change",function(){
+  		 var gongsi=$("#xggongsi").val();
+  		 var type='1';
+  		 if(gongsi=='华汇'){
+  			 type='3';
+  		 }
+  		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/projectType/selectSecondPrjType',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	type:type
+	            },
+	            success: function (json) {
+	            	 $("#xgerjileixing").html("");
+	                 for(var i=0;i<json.length;i++){
+	                 	$("#xgerjileixing").append("<option value='"+json[i].nameSecond+"'>"+json[i].nameSecond+"</option>")
+	                 }
+	            }
+	      });
+  	 })
     
     function xgaddrenwudan(){
     	var danwei= new Array();
@@ -2682,6 +2707,7 @@
     			a=0;
     		}
     	});
+    	
     	
     	//if(a==0){
     		//toastr.error('存在数据未填写');
@@ -2801,7 +2827,7 @@
 				toastr.error("成本分摊比例总和不等于100%");
 	    		return;
 			}
-    		
+			showMask();
     	      $.ajax({
 	            type: 'POST',
 	            url: getContextPath()+'/task/submitTaskChaifen',
@@ -2810,9 +2836,9 @@
 	            	task:JSON.stringify(danwei)
 	            },
 	            success: function (json) {
+	            	hidMask();
 	            	lianjie=json.url;
 	            	if(json.receiver!=null&&json.receiver.length>=1){
-	            		 
 		        		  $("#tijiaogei").modal('show');
 		        		  $("#tijiaoren tbody").empty("");
 		        		  for(var i=0;i<json.receiver.length;i++){
@@ -3384,6 +3410,13 @@
     	});
     	return taskArray;
     }
+    
+	function showMask() {
+	   	myTool.mask.show('拉取审批负责人中...');
+	}
+	function hidMask() {
+		myTool.mask.hide();
+	}
 </script>
 
 </html>
