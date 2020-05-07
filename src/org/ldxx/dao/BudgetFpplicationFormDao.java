@@ -25,6 +25,8 @@ public interface BudgetFpplicationFormDao {
 	
 	BudgetFpplicationForm selectBudgeByNo(@Param("no")String no);
 	
+	BudgetFpplicationForm selectBudgeByNoAllCost(@Param("no")String no);
+	
 	BudgetFpplicationForm selectBudgeByName(@Param("name")String name);
 	
 	Double getBudgeCost(@Param("department")String department,@Param("year")String year);

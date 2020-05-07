@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +26,16 @@ import org.ldxx.util.CMDUtil;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
+import sun.misc.BASE64Decoder;
 
 //import sun.misc.BASE64Encoder;
 
@@ -290,4 +298,40 @@ public class UserController {
 		return list;
 	}
 	
+	@RequestMapping("/testUrl")
+	@ResponseBody
+	public String testUrl(@RequestBody String str){
+		JSONObject json = JSON.parseObject(str);
+		String name = json.getString("str");
+		String strs = URLDecoder.decode(name);
+		String ur = str;
+		return ur;
+	}
+	
+	
+	public static String getFromBASE64(String str) {
+	  if (str == null)
+	   return null;
+	  BASE64Decoder decoder = new BASE64Decoder();
+	  try {
+	   byte[] b = decoder.decodeBuffer(str);
+	   return new String(b);
+	  } catch (Exception e) {
+	   return null;
+	  }
+	  
+	}
+	
+	//BASE64编码
+	public static String getBASE64(String str) {
+	  if (str == null)
+	   return null;
+	  return (new sun.misc.BASE64Encoder()).encode(str.getBytes());
+	}
+	
+	public static void main(String[] args) {
+	  String strs = getBASE64("张三");
+		String str = getFromBASE64(strs);
+		System.out.println(str);
+	}
 }

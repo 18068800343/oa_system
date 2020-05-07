@@ -132,7 +132,13 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 
 	@Override
 	public BudgetFpplicationForm selectBudgeByNo(String no) {
-		BudgetFpplicationForm budge = bdao.selectBudgeByNo(no);
+		BudgetFpplicationForm budge = new BudgetFpplicationForm();
+		try {
+			budge = bdao.selectBudgeByNoAllCost(no);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(budge!=null){
 			List<CostBudget> costBudget=cdao.selectCostBudgetById(budge.getBfId());
 			if(costBudget!=null){
