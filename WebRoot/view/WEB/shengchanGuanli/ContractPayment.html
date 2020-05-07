@@ -145,6 +145,12 @@
 				                                <td class="jinqianyanse">合同履约结算金额(元)</td>
 				                                <td><input type="text" class="form-control" id="hetongjiesuanMoney" style="width:60%;" disabled></td>
 			                            </tr>
+			                            <tr>
+				                                <td>分包单位名称</td>
+				                                <td><input type="text" class="form-control" id="fbdanwei" style="width:60%;" disabled></td>
+				                                <td>管理部门</td>
+				                                <td><input type="text" class="form-control" id="guanlibm" style="width:60%;" disabled></td>
+			                            </tr>
 			                    	</tbody>
 	                    	</table>
                         <table class="table table-bordered table-condensed">
@@ -775,6 +781,12 @@
                             <td id="lookisjinxinghetongjiesuan"></td>
                             <td class="jinqianyanse">合同履约结算金额(元)</td>
                             <td id="lookhetongjiesuanMoney"></td>
+                        </tr>
+                        <tr>
+                             <td>分包单位名称</td>
+                             <td id="look_fbdanwei"></td>
+                             <td>管理部门</td>
+                             <td id="look_guanlibm"></td>
                         </tr>
                         <tr>
                             <td class="jinqianyanse">借款金额(元)</td>
@@ -1699,6 +1711,8 @@
 	        				$("#xiangmuming").val(json.prjName);
 	        				$("#renwudanhao").val(json.workNo);
 	        				$("#hetongMoney").val(json.contractMoney);
+	        				$("#fbdanwei").val(json.ccName)
+	        				$("#guanlibm").val(json.omName)
 	        				isjinxinghetongjiesuan($('#hetonghao').val());
 	        				getTotalPayMoney($('#hetonghao').val());
 	        				getRemainPayMoney($('#hetonghao').val());
@@ -2506,6 +2520,20 @@
 		$("#lookqitadaidianMoney").text(data.otherMatsMoney==null?0:data.otherMatsMoney)
 		
 		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/subcontract/getFBContractByNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	no:data.contractNo
+	                    },
+	                    success: function (json) {
+	        				$("#look_fbdanwei").text(json.ccName)
+	        				$("#look_guanlibm").text(json.omName)
+	        				
+	                    }
+	          		});
+		
+		$.ajax({
 			type:"post",
 			url:getContextPath()+"/pay/selectAccessoryById",
 			dataType:"json",
@@ -2817,6 +2845,8 @@
 				$("#xiangmuming").val(json.prjName);
 				$("#renwudanhao").val(json.workNo);
 				$("#hetongMoney").val(json.contractMoney);
+				$("#fbdanwei").val(json.ccName)
+				$("#guanlibm").val(json.omName)
 				isjinxinghetongjiesuan(json.fbNo);
 				getTotalPayMoney(json.fbNo);
 				getRemainPayMoney(json.fbNo);
