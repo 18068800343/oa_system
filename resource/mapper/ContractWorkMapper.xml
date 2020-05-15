@@ -20,12 +20,17 @@
       </select>
       
       <select id="selectContractWork2" resultType="ContractWork">
-      		select a.*,f.StarterName as starterName,b.status as status
+      		select a.*,f.StarterName as starterName,b.status as status,group_concat(t.om_name SEPARATOR ',') as om_name
       		from contract_work as a 
       		LEFT join mode_status as b on a.cw_id=b.mode_id
       		LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
 					LEFT JOIN contract_work a ON a.cw_id=f.mode_id  GROUP BY mode_id )  AS  f on a.cw_id=f.mode_id 
-      		where (b.status=1 or b.status=2 or b.status=3) and a.type=#{type}
+			LEFT JOIN (select * from task t 
+						left join mode_status b on t.prj_id=b.mode_id 
+						left join organization_management c on t.main_department=c.om_id 
+						WHERE b.status='2' and t.history=1
+					) t ON FIND_IN_SET(t.prj_no,a.prj_code)
+      		where (b.status=1 or b.status=2 or b.status=3) and a.type=#{type} GROUP BY a.cw_id
       </select>
       
       <select id="selectContractWorkByNo" resultType="ContractWork">

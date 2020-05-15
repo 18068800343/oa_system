@@ -56,8 +56,18 @@ public class ContractWork {
 	
 	private String starterName;//发起人
     private String status;//审批状态
+    private String omName;//主办部门
 	
+    
 	
+	public String getOmName() {
+		return omName;
+	}
+
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+
 	public String getCjContractLongTime() {
 		return cjContractLongTime;
 	}
