@@ -87,8 +87,8 @@ public class CjContractServiceImpl implements CjContractService{
 	}
 
 	@Override
-	public List<CjContract> selectCjContractBySome(String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax) {
-		List<CjContract> list = dao.selectCjContractBySome(startMin, startMax, endMin, endMax, mainDp, xbDp, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
+	public List<CjContract> selectCjContractBySome(String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax,String lxdateMin,String lxdateMax) {
+		List<CjContract> list = dao.selectCjContractBySome(startMin, startMax, endMin, endMax, mainDp, xbDp, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax,lxdateMin,lxdateMax);
 		return list;
 	}
 	
