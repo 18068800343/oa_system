@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.ContractPaymentDao2" >
+
+	<select id="selectPayByStatus" resultType="org.ldxx.bean.Pay2">
+		select a.*,f.contract_money as fbcontractMoney,f.contract_name_yi,b.u_name from pay2 a
+			left join mode_status m on m.mode_id=a.pay_id
+			left join fb_contract f on a.contract_no=f.fb_no and f.history=1
+			left join user b on a.compiler_person=b.user_id
+		where m.status=#{status}
+	</select>
+	
+	<select id="selectPayByStatus2" resultType="org.ldxx.bean.Pay2">
+		select a.*,f.contract_money as fbcontractMoney,f.contract_name_yi,b.u_name,
+		f2.StarterName as starterName,m.status as status,c.cc_name,o.om_name as omName
+		FROM pay2 a
+			left join mode_status m on m.mode_id=a.pay_id
+			left join fb_contract f on a.contract_no=f.fb_no and f.history=1
+			left join consociation_company c on c.cc_id=f.contract_name_yi
+			left join organization_management o on o.om_id=f.main_manage_department
+			left join user b on a.compiler_person=b.user_id
+			LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
+					LEFT JOIN pay2 a ON a.pay_id=f.mode_id  GROUP BY mode_id )  AS  f2 on a.pay_id=f2.mode_id 
+		where (m.status=1 or m.status=2 or m.status=0)
+	</select>
+	
+ 	<insert id="addPaySave" parameterType="org.ldxx.bean.Pay2" >
+    insert into pay2 (pay_id,pay_code, contract_name,sk_money,sk_scale,contract_no, 
+      contract_money, already_kp_money, this_time_kp_money, 
+      main_contract_code, main_contract_name, main_contract_money, 
+      prj_list_code, prj_name, fb_contract_schedule, 
+      if_contract_do_cost, contract_do_cost_money, 
+      generation_advances_money,this_time_ask_money, 
+      pay_method,
+      pay_list_explain, compiler_person, compiler_time, 
+      make_time,accumulated_financial_recognition_money,other_mats_money)
+    values (#{pay.payId,jdbcType=VARCHAR},#{pay.payCode,jdbcType=VARCHAR}, #{pay.contractName,jdbcType=VARCHAR},#{pay.skMoney},#{pay.skScale},
+      #{pay.contractNo,jdbcType=VARCHAR},#{pay.contractMoney,jdbcType=VARCHAR}, #{pay.alreadyKpMoney,jdbcType=VARCHAR}, #{pay.thisTimeKpMoney,jdbcType=VARCHAR}, 
+      #{pay.mainContractCode,jdbcType=VARCHAR}, #{pay.mainContractName,jdbcType=VARCHAR}, #{pay.mainContractMoney,jdbcType=VARCHAR}, 
+      #{pay.prjListCode,jdbcType=VARCHAR}, #{pay.prjName,jdbcType=VARCHAR}, #{pay.fbContractSchedule,jdbcType=VARCHAR}, 
+      #{pay.ifContractDoCost,jdbcType=VARCHAR}, #{pay.contractDoCostMoney,jdbcType=VARCHAR}, 
+      #{pay.GenerationAdvancesMoney,jdbcType=VARCHAR}, #{pay.thisTimeAskMoney,jdbcType=VARCHAR}, 
+      #{pay.payMethod,jdbcType=VARCHAR},
+      #{pay.payListExplain,jdbcType=VARCHAR},#{pay.compilerPerson,jdbcType=VARCHAR}, #{pay.compilerTime,jdbcType=VARCHAR}, 
+      now(), #{pay.accumulatedFinancialRecognitionMoney}, #{pay.otherMatsMoney})
+  	</insert>
+  	
+  	<update id="updatePayById">
+  		update pay2 set 
+  		pay_code=#{pay.payCode,jdbcType=VARCHAR}, 
+  		contract_name=#{pay.contractName,jdbcType=VARCHAR},
+  		sk_money=#{pay.skMoney},
+  		sk_scale=#{pay.skScale},
+  		contract_no=#{pay.contractNo,jdbcType=VARCHAR}, 
+      	contract_money=#{pay.contractMoney,jdbcType=VARCHAR}, 
+      	already_kp_money=#{pay.alreadyKpMoney,jdbcType=VARCHAR}, 
+      	this_time_kp_money=#{pay.thisTimeKpMoney,jdbcType=VARCHAR}, 
+      	main_contract_code= #{pay.mainContractCode,jdbcType=VARCHAR}, 
+      	main_contract_name=#{pay.mainContractName,jdbcType=VARCHAR}, 
+      	main_contract_money=#{pay.mainContractMoney,jdbcType=VARCHAR}, 
+      	prj_list_code= #{pay.prjListCode,jdbcType=VARCHAR}, 
+      	prj_name=#{pay.prjName,jdbcType=VARCHAR}, 
+      	fb_contract_schedule=#{pay.fbContractSchedule,jdbcType=VARCHAR}, 
+      	if_contract_do_cost=#{pay.ifContractDoCost,jdbcType=VARCHAR},
+      	contract_do_cost_money=#{pay.contractDoCostMoney,jdbcType=VARCHAR}, 
+      	generation_advances_money=#{pay.GenerationAdvancesMoney,jdbcType=VARCHAR},
+      	this_time_ask_money=#{pay.thisTimeAskMoney,jdbcType=VARCHAR}, 
+      	pay_method=#{pay.payMethod,jdbcType=VARCHAR},
+      	pay_list_explain=#{pay.payListExplain,jdbcType=VARCHAR},
+       	compiler_person=#{pay.compilerPerson,jdbcType=VARCHAR}, 
+      	compiler_time=#{pay.compilerTime,jdbcType=VARCHAR}, 
+      	make_time=now(),
+      	accumulated_financial_recognition_money=#{pay.accumulatedFinancialRecognitionMoney},
+      	other_mats_money=#{pay.otherMatsMoney}
+      where pay_id=#{pay.payId,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<select id="selectPayById" resultType="org.ldxx.bean.Pay2">
+  		select a.*,b.u_name from pay2 a
+  		left join user b on a.compiler_person=b.user_id
+  		 where pay_id=#{id}
+  	</select>
+  	<select id="fkNocount" resultType="int">
+  		select count(1) from (select distinct pay_code from pay2) as a
+  	</select>
+  
+  	<select id="selectHistoryBypayCode" resultType="org.ldxx.bean.Pay2">
+  		SELECT a.pay_code,a.contract_name,a.contract_no,a.this_time_ask_money,c.result_pay,c.pay_time FROM pay_result_info2 as c
+		LEFT JOIN mode_status as b on c.pay_id=b.mode_id
+		LEFT JOIN pay2 as a on a.pay_id=c.pay_id
+		where b.status=2 and a.pay_id=#{id}
+  	</select>
+  	
+  	<select id="selectPayByNo" resultType="org.ldxx.bean.Pay2">
+  		select pay_id from pay2 a left join mode_status m on m.mode_id=a.pay_id where m.status=2 and contract_no=#{fbNo} limit 1
+  	</select>
+  	
+  	<update id="updateGenerationAdvancesMoney">
+  		update pay2 set generation_advances_money=generation_advances_money+#{programMoney}
+  		where pay_id=#{id}
+  	</update>
+  	
+  	<select id="getFbPayPlanAndMoney" resultType="org.ldxx.bean.Pay2">
+  		SELECT MAX(a.fb_contract_schedule) as fb_contract_schedule 
+  		FROM pay2 as a LEFT JOIN mode_status as b on a.pay_id=b.mode_id 
+		where a.contract_no=#{no} and b.status=2
+  	</select>
+  	
+  	<select id="getTotalPayMoney" resultType="org.ldxx.bean.Pay2">
+		SELECT IFNULL(SUM(result_pay),0)as already_accumulate_money FROM pay_result_info2 as c
+		LEFT JOIN mode_status as b on c.pay_id=b.mode_id
+		LEFT JOIN pay2 as a on a.pay_id=c.pay_id
+		where b.status=2 and a.contract_no=#{no}
+  	</select>
+  	
+  	<insert id="addPayResultInfo">
+  		insert into pay_result_info2(pay_id,result_pay,pay_time) values(#{id},#{resultPay},#{payTime})
+  	</insert>
+  	
+  	<update id="updateHistoryById">
+  		UPDATE pay2 SET history=0  where pay_code =(select a.pay_code from (SELECT pay_code from pay2 WHERE pay_id=#{id}) AS a)
+  	</update>
+  	
+  	<update id="updateHistoryNow">
+  		update pay2 set history=1 where pay_id=#{id}
+  	</update>
+  	
+  	<select id="getAllDaiDianByFbNo" resultType="org.ldxx.bean.Pay2">
+  		SELECT IFNULL(SUM(generation_advances_money),0)as generation_advances_money  FROM pay2 as a
+		LEFT JOIN mode_status as b on a.pay_id=b.mode_id
+		where b.status=2 and contract_no=#{no}
+  	</select>
+  	
+  	<update id="updateAuthorisePayment">
+  		update pay2 set authorise_payment=#{money} where pay_id=#{id}
+  	</update>
+  	
+  	<select id="CreatePayNumOrder" statementType="CALLABLE" resultType="java.lang.String">
+  		SELECT CreatePayNumOrder2(#{year})
+  	</select>
+  	
+  	<update id="updatePayNo">
+  		update pay2 set pay_code=#{no} where pay_id=#{id}
+  	</update>
+  	
+  	<!--分包合同付款 通过分包合同号查找是否存在审批中 -->
+  	<select id="getApprovalCountByfbNo" resultType="int">
+	  	SELECT
+			COUNT(*) 
+		FROM
+			mode_status a 
+		WHERE
+			FIND_IN_SET(
+				a.mode_id,(
+				SELECT
+					group_concat( b.pay_id SEPARATOR "," ) AS pay_id 
+				FROM
+					pay2 b 
+				WHERE
+					b.contract_no = #{fbNo} 
+				)) 
+			AND a.`status` = 1
+  	</select>
+  	<!-- 通过分包合同号查找分包付款最近一条财务确认累计付款金额 -->
+  	<select id="getAccumulatedFinancialRecognitionMoneyByFbNo" resultType="org.ldxx.bean.Pay2">
+  		SELECT IFNULL(accumulated_financial_recognition_money,0) as accumulated_financial_recognition_money,contract_no  FROM pay2 as a
+		LEFT JOIN mode_status as b on a.pay_id=b.mode_id
+		where b.status=2 and contract_no=#{fbNo}  ORDER BY make_time desc LIMIT  1
+  	</select>
+</mapper>

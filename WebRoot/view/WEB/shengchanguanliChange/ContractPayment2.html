@@ -1,0 +1,2286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+    <link rel="stylesheet" href="../../font3/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link href="../../font3/bootstrap-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <style lang="">
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+        #mainContent th{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 面包屑 -->
+    <div class="mianbao">
+    	<ul class="breadcrumb">
+    		<li><i class="iconfont icon-knowledgebase"></i></li>
+			<li>生产管理</li>
+			<li class="active">分包合同付款</li>
+		</ul>
+    </div>
+
+    <div class="zhuti-content">
+        <div>
+            
+ 
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>申请填报分包合同付款</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-default" onclick="saveContractPay()">保存</button>
+            <button type="button" class="btn btn-success" onclick="submitContractPay()" data-dismiss="modal" data-toggle="modal">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model结束 -->
+<!--选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择编制人</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>部门:</span>
+                            <select style="width:180px;" id="bumen" class="form-control" >
+                                
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                     <table class="table table-bordered table-condensed"  id="bmmingzibiao" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 选人 modal结束 -->
+
+<!-- 提交 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="tijiaogei">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">提交给</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-condensed" id="tijiaoren">
+                        	<thead>
+                        			<tr>
+		                            	<th></th>
+		                                <th>部门</th>
+		                                <th>职务</th>
+		                                <th>审批人</th>
+		                            </tr>
+                        	</thead>
+                            <tbody>
+                            	
+                            </tbody>
+                        </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitPerson()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 提交 modal结束 -->
+
+<!-- 修改Modal -->
+ <form id="new_form" class="form-inline" method="post" enctype="multipart/form-data">
+                    		<table class="table table-bordered">
+		                           <thead>
+			                    		<tr>
+			                    			<th colspan="10">分包合同信息</th>
+			                    		</tr>
+			                    	</thead>
+			                    	<tbody>
+				                    	 <tr>
+			                                <td style="width:15%;">分包合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+			                                <td style="width:35%;">
+			                                    <input type="text" class="form-control" id="hetongming" disabled style="width:60%;">
+			                                    <button type="button" class="btn btn-primary weui-uploader__input" onclick="chooseFb()">选择分包</button>
+			                                </td>
+			                                <td style="width:15%;">分包合同编号  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+			                                <td style="width:35%;">
+			                                	<select class="form-control" style="width:60%;" id="hetonghao">
+			                                    </select>
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td class="jinqianyanse">分包合同金额(元)</td>
+			                                <td><input type="text" class="form-control" id="hetongMoney" style="width:60%;" disabled></td>
+			                                <td class="shuziyanse">分包合同进度</td>
+			                                <td><input type="text" class="form-control" id="hetongjindu" style="width:60%;"></td>
+			                            </tr>
+			                            <tr>
+			                            	<td class="jinqianyanse">收款金额(元)</td>
+			                                <td><input type="text" class="form-control" id="sk_money" style="width:60%;" disabled></td>
+			                                <td class="shuziyanse">收款比例</td>
+			                                <td><input type="text" class="form-control" id="sk_scale" style="width:60%;" disabled></td>
+			                            </tr>
+			                             <tr>
+			                                <td class="jingyongkk">主合同名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+			                                <td>
+			                                	<input type="text" class="form-control" id="zhuhetongming" disabled style="width:60%;">
+			                                </td>
+			                                <td class="jingyongkk">主合同号</td>
+			                                <td><input type="text" class="form-control" id="zhuhetongNo" disabled style="width:60%;"></td>
+			                            </tr>
+			                            <tr>
+			                                <td class="jinqianyanse">主合同金额(元)</td>
+			                                <td><input type="text" class="form-control" id="zhuhetongMoney" disabled style="width:60%;"></td>
+			                                <td class="jingyongkk">项目名称  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+			                                <td>
+			                                	<input type="text" class="form-control" id="xiangmuming" disabled style="width:60%;">
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td class="jingyongkk">任务单号</td>
+			                                <td><input type="text" class="form-control" id="renwudanhao" disabled style="width:60%;"></td>
+			                                <td class="jinqianyanse">已累计付款金额(元)</td>
+		                                	<td><input type="text" class="form-control" id="yileijinfuMoney" style="width:60%;" disabled></td>
+			                            </tr>
+			                            <tr>
+				                                <td class="jingyongkk">是否进行合同履约结算</td>
+				                                <td>
+				                                    <input type="text" class="form-control" id="isjinxinghetongjiesuan" style="width:60%;" disabled>
+				                                </td>
+				                                <td class="jinqianyanse">合同履约结算金额(元)</td>
+				                                <td><input type="text" class="form-control" id="hetongjiesuanMoney" style="width:60%;" disabled></td>
+			                            </tr>
+			                            <tr>
+				                                <td>分包单位名称</td>
+				                                <td><input type="text" class="form-control" id="fbdanwei" style="width:60%;" disabled></td>
+				                                <td>管理部门</td>
+				                                <td><input type="text" class="form-control" id="guanlibm" style="width:60%;" disabled></td>
+			                            </tr>
+			                    	</tbody>
+	                    	</table>
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+	                    		<tr>
+	                    			<th colspan="10">分包合同付款信息</th>
+	                    		</tr>
+	                    	</thead>
+	                    	<tbody>
+	                    			<tr>
+		                                <td style="width:15%;" class="jinqianyanse">已开票金额(元)  <i class="iconfont icon-xingxing-copy"  style="color:red;"></i></td>
+		                                <td style="width:35%;"><input type="text" class="form-control" id="yikaipiaoMoney" style="width:60%;"></td>
+		                                <td style="width:15%;" class="jinqianyanse">本次开票金额(元)  <i class="iconfont icon-xingxing-copy"  style="color:red;"></i></td>
+		                                <td style="width:35%;"><input type="text" class="form-control" id="thiskaipiaoMoney"  style="width:60%;"></td>
+		                            </tr>
+		                            <tr>
+		                                <td>付款性质</td>
+		                                <td>
+		                                    <select class="form-control" id="fukuantype" style="width:60%;">
+		                                        <option>预付款</option>
+		                                        <option>中间付款</option>
+		                                        <option>交工付款</option>
+		                                        <option>竣工付款</option>
+		                                    </select>
+		                                </td>
+		                                <td class="jinqianyanse">借款金额(元)</td>
+		                                <td><input type="text" class="form-control" id="daidianMoney" style="width:60%;"></td>
+		                            </tr>
+		                            <tr>
+		                                <td class="jinqianyanse">本次申请付款(元)  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+		                                <td><input type="text" class="form-control" id="bencishenqingfukuan" style="width:60%;"></td>
+		                                <td>付款单说明</td>
+		                                <td><input type="text" class="form-control" id="fukuandanshuoming" style="width:60%;"></td>
+		                            </tr>
+		                            <tr>
+		                                <td style="width:15%;" class="jinqianyanse">财务确认累计付款金额(元)  <i class="iconfont icon-xingxing-copy"  style="color:red;"></i></td>
+		                                <td style="width:35%;"><input type="text" class="form-control" id="caiwuquerenLeiJiMoney" style="width:60%;"></td>
+		                                <td style="width:15%;" class="jinqianyanse">其他代垫费用(元)  <i class="iconfont icon-xingxing-copy"  style="color:red;"></i></td>
+		                                <td style="width:35%;"><input type="text" class="form-control" id="qitadaidianMoney"  style="width:60%;"></td>
+		                            </tr>
+		                            <tr>
+		                                <td style="width:15%;">编制人  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+		                                <td style="width:30%;">
+		                                    <input type="text" id="userSignetMan" class="form-control" disabled style="width:60%;">
+		                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addGuanliren">选择编制人</button>
+		                                </td>
+		                                 <td style="width:15%;">编制时间</td>
+		                                <td style="width:30%;"><input type="text" class="form-control" id="year" style="width:60%;"></td>
+		                            </tr>
+	                    	</tbody>
+                        </table> 
+                        <table class="table table-bordered table-condensed" id="new_accessory1">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">开票附件  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile1()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                        <table class="table table-bordered table-condensed" id="new_accessory2">
+                        	<thead>
+                        		<tr>
+                                	<td style="width:15%;">附件上传</td>
+                                	<td colspan="3"><button type="button" class="btn btn-primary weui-uploader__input" onclick="addFile2()">添加附件</button></td>
+                            	</tr>
+                        	</thead>
+                        	<tbody></tbody>
+                        	<tfoot></tfoot>
+                        </table>
+                    </form>  
+<!-- 修改model结束 -->
+
+<!-- 修改历史详细信息 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="History2">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>历史所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            <td>分包合同名称</td>
+                            <td id="Historyhetongming2"></td>
+                            <td>分包合同编号</td>
+                            <td id="Historyhetonghao2"></td>
+                        </tr>
+                        <tr>
+                            <td style="width:100px;">付款单号</td>
+                            <td id="Historyfukuandanhao2"></td>
+                            <td>合同金额(元)</td>
+                            <td id="HistoryhetongMoney2"></td>
+                        </tr>
+                        <tr>
+                            <td>已开票金额(元)</td>
+                            <td id="HistoryyikaipiaoMoney2"></td>
+                            <td>本次开票金额(元)</td>
+                            <td id="HistorythiskaipiaoMoney2"></td>
+                        </tr>
+                        <tr>
+                            <td>主合同名称</td>
+                            <td id="Historyzhuhetongming2"></td>
+                            <td>主合同号</td>
+                            <td id="HistoryzhuhetongNo2"></td>
+                        </tr>
+                        <tr>
+                            <td>主合同金额(元)</td>
+                            <td id="HistoryzhuhetongMoney2"></td>
+                            <td>项目名称</td>
+                            <td id="Historyxiangmuming2"></td>
+                        </tr>
+                        <tr>
+                            <td>任务单号</td>
+                            <td id="Historyrenwudanhao2"></td>
+                            <td>合同进度</td>
+                            <td id="Historyhetongjindu2"></td>
+                        </tr>
+                        <tr>
+                            <td>是否进行合同履约结算</td>
+                            <td id="Historyisjinxinghetongjiesuan2"></td>
+                            <td>合同履约结算金额(元)</td>
+                            <td id="HistoryhetongjiesuanMoney2"></td>
+                        </tr>
+                        <tr>
+                            <td>已累计付款金额(元)</td>
+                            <td id="HistoryyileijinfuMoney2"></td>
+                            <td>付款申请代垫款(元)</td>
+                            <td id="HistorydaidianMoney2"></td>
+                        </tr>
+                        <tr>
+                            <td>本次申请付款(元)</td>
+                            <td id="Historybencishenqingfukuan2"></td>
+                            <td>付款性质</td>
+                            <td id="Historyfukuantype2"></td>
+                        </tr>
+                        <tr>
+                            <td>收款单位</td>
+                            <td id="Historyshoukuandanwei2"></td>
+                            <td>本次实际付款(元)</td>
+                            <td id="Historybencishijifukuan2"></td>
+                        </tr>
+                        <tr>
+                            <td>付款单说明</td>
+                            <td id="Historyfukuandanshuoming2"></td>
+                            <td>编制人</td>
+                            <td id="HistoryuserSignetMan2"></td>
+                        </tr>
+                        <tr>
+                            <td>编制时间</td>
+                            <td id="Historyyear2"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <!-- <tr>
+                            <td>开票附件</td>
+                            <td>gdsaga</td>
+                            <td>附件上传</td>
+                            <td>agdhsds</td>
+                        </tr> -->
+                    </table> 
+                    <table class="table table-bordered table-condensed" id="History2_accessory1">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:15%;">开票附件  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="History2_accessory2">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:15%;">附件上传  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="History2_accessory3">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:15%;">法律顾问签字  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!--修改选人 modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="xgaddGuanliren">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择编制人</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <span>部门:</span>
+                            <select style="width:180px;" id="xgbumen" class="form-control" >
+                                
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                     <table class="table table-bordered table-condensed"  id="xgbmmingzibiao" >
+                     	<thead>
+		   					<tr>
+		   						<th></th>
+		   						<th>姓名</th>
+		   						<th>工号</th>
+		   						<th>出生日期</th>
+		   						<th>性别</th>
+		   						<th>职务</th>
+		   					</tr>
+		   				</thead>
+		   				<tbody></tbody>
+                     </table>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="savexgGuanliren()" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改印章管理人结束 -->
+
+        </div>
+        
+    </div>
+<!-- allMsg -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="allMsg1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            <td>分包合同名称</td>
+                            <td id="lookhetongming"></td>
+                            <td>分包合同编号</td>
+                            <td id="lookhetonghao"></td>
+                        </tr>
+                        <tr>
+                            <td style="width:100px;">付款单号</td>
+                            <td id="lookfukuandanhao"></td>
+                            <td>合同金额(元)</td>
+                            <td id="lookhetongMoney"></td>
+                        </tr>
+                        <tr>
+                            <td>已开票金额(元)</td>
+                            <td id="lookyikaipiaoMoney"></td>
+                            <td>本次开票金额(元)</td>
+                            <td id="lookthiskaipiaoMoney"></td>
+                        </tr>
+                        <tr>
+                            <td>主合同名称</td>
+                            <td id="lookzhuhetongming"></td>
+                            <td>主合同号</td>
+                            <td id="lookzhuhetongNo"></td>
+                        </tr>
+                        <tr>
+                            <td>主合同金额(元)</td>
+                            <td id="lookzhuhetongMoney"></td>
+                            <td>项目名称</td>
+                            <td id="lookxiangmuming"></td>
+                        </tr>
+                        <tr>
+                            <td>任务单号</td>
+                            <td id="lookrenwudanhao"></td>
+                            <td>合同进度</td>
+                            <td id="lookhetongjindu"></td>
+                        </tr>
+                        <tr>
+                            <td>是否进行合同履约结算</td>
+                            <td id="lookisjinxinghetongjiesuan"></td>
+                            <td>合同履约结算金额(元)</td>
+                            <td id="lookhetongjiesuanMoney"></td>
+                        </tr>
+                        <tr>
+                            <td>已累计付款金额(元)</td>
+                            <td id="lookyileijinfuMoney"></td>
+                            <td>付款申请代垫款(元)</td>
+                            <td id="lookdaidianMoney"></td>
+                        </tr>
+                        <tr>
+                            <td>本次申请付款(元)</td>
+                            <td id="lookbencishenqingfukuan"></td>
+                            <td>付款性质</td>
+                            <td id="lookfukuantype"></td>
+                        </tr>
+                        <tr>
+                            <td>付款单说明</td>
+                            <td id="lookfukuandanshuoming"></td>
+                            <td>编制人</td>
+                            <td id="lookuserSignetMan"></td>
+                        </tr>
+                        <tr>
+                            <td>编制时间</td>
+                            <td id="lookyear"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table> 
+                    <table class="table table-bordered table-condensed" id="look_accessory1">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:15%;">开票附件  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="look_accessory2">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:15%;">附件上传  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="look_accessory3">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:15%;">法律顾问签字  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    
+                    <!-- 历史信息表格 -->
+				    <table style="width:100%;" class="table table-bordered table-condensed" id="lookHistory">
+                        <thead>
+                            <tr>
+                                <th colspan="6">实际付款历史信息</th>
+                            </tr>
+                            <tr>
+	                                <td>付款单号</td>
+	                                <td>分包合同号</td>
+	                                <td>分包合同名称</td>
+	                                <td>本次申请付款(元)</td>
+	                                <td>本次实际付款(元)</td>
+	                                <td>付款时间</td>
+	                         </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- allMsg结束 -->
+<!-- 历史详细信息 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="History">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>历史所有信息</b></h4>
+        </div>
+        <div class="modal-body">
+            <div>     
+                <form class="form-inline">
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            <td>分包合同名称</td>
+                            <td id="Historyhetongming"></td>
+                            <td>分包合同编号</td>
+                            <td id="Historyhetonghao"></td>
+                        </tr>
+                        <tr>
+                            <td style="width:100px;">付款单号</td>
+                            <td id="Historyfukuandanhao"></td>
+                            <td>合同金额(元)</td>
+                            <td id="HistoryhetongMoney"></td>
+                        </tr>
+                        <tr>
+                            <td>已开票金额(元)</td>
+                            <td id="HistoryyikaipiaoMoney"></td>
+                            <td>本次开票金额(元)</td>
+                            <td id="HistorythiskaipiaoMoney"></td>
+                        </tr>
+                        <tr>
+                            <td>主合同名称</td>
+                            <td id="Historyzhuhetongming"></td>
+                            <td>主合同号</td>
+                            <td id="HistoryzhuhetongNo"></td>
+                        </tr>
+                        <tr>
+                            <td>主合同金额(元)</td>
+                            <td id="HistoryzhuhetongMoney"></td>
+                            <td>项目名称</td>
+                            <td id="Historyxiangmuming"></td>
+                        </tr>
+                        <tr>
+                            <td>任务单号</td>
+                            <td id="Historyrenwudanhao"></td>
+                            <td>合同进度</td>
+                            <td id="Historyhetongjindu"></td>
+                        </tr>
+                        <tr>
+                            <td>是否进行合同履约结算</td>
+                            <td id="Historyisjinxinghetongjiesuan"></td>
+                            <td>合同履约结算金额(元)</td>
+                            <td id="HistoryhetongjiesuanMoney"></td>
+                        </tr>
+                        <tr>
+                            <td>已累计付款金额(元)</td>
+                            <td id="HistoryyileijinfuMoney"></td>
+                            <td>付款申请代垫款(元)</td>
+                            <td id="HistorydaidianMoney"></td>
+                        </tr>
+                        <tr>
+                            <td>本次申请付款(元)</td>
+                            <td id="Historybencishenqingfukuan"></td>
+                            <td>付款性质</td>
+                            <td id="Historyfukuantype"></td>
+                        </tr>
+                        <tr>
+                            <td>收款单位</td>
+                            <td id="Historyshoukuandanwei"></td>
+                            <td>本次实际付款(元)</td>
+                            <td id="Historybencishijifukuan"></td>
+                        </tr>
+                        <tr>
+                            <td>付款单说明</td>
+                            <td id="Historyfukuandanshuoming"></td>
+                            <td>编制人</td>
+                            <td id="HistoryuserSignetMan"></td>
+                        </tr>
+                        <tr>
+                            <td>编制时间</td>
+                            <td id="Historyyear"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <!-- <tr>
+                            <td>开票附件</td>
+                            <td>gdsaga</td>
+                            <td>附件上传</td>
+                            <td>agdhsds</td>
+                        </tr> -->
+                    </table> 
+                    <table class="table table-bordered table-condensed" id="History_accessory1">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:15%;">开票附件  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="History_accessory2">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:15%;">附件上传  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <table class="table table-bordered table-condensed" id="History_accessory3">
+                    	<thead>
+                        		<tr>
+                                	<td style="width:15%;">法律顾问签字  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                                	<td colspan="3"></td>
+                            	</tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- Modal选择分包合同 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_fb">
+    <div class="modal-dialog modal-lg" role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择分包合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="fb_table">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>分包合同名称</th>
+                                    <th>分包合同编号</th>
+                                    <th>乙方单位</th>
+                                    <th>合同起日期</th>
+                                    <th>合同讫日期</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveFbName()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+<!-- Modal选择分包合同 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="choose_fb2">
+    <div class="modal-dialog modal-lg" role="document" style="width:60%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>选择分包合同</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline">
+                        <table class="table table-bordered table-condensed" id="fb_table2">
+                            <thead>
+                            	<tr>
+                            		<th></th>
+                            		<th>分包合同名称</th>
+                                    <th>分包合同编号</th>
+                                    <th>甲方单位</th>
+                                    <th>合同起日期</th>
+                                    <th>合同讫日期</th>
+                            	</tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table> 
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="saveFbName2()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- model项目结束 -->
+
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/bootstrap-select.js"></script>
+<script src="../../js/quanxian.js"></script>
+<script>
+    $(document).ready( function () {
+    	
+    	//fbhetongSelect();
+    	bumenSelect();
+    	initSelectfb();
+    	laydate.render({
+            elem: '#year' //指定元素
+        });
+        
+       
+        initTable();
+       
+	});
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   
+    var table2=$('#lookHistory').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+		            { "data": "payCode"},
+		            { "data": "contractNo"}, 
+		            { "data": "contractName"}, 
+		            { "data": "thisTimeAskMoney"}, 
+		            { "data": "resultPay"},
+		            { "data": "payTime"}
+        ],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table3=$('#fb_table').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": null}, 
+            { "data": "contractName"},
+            { "data": "fbNo"}, 
+            { "data": "ccName"}, 
+            { "data": "contractStartTime"},
+            { "data": "contractEndTime"}
+        ],
+        "columnDefs": [
+						{
+								 "class": "tcenter",
+								    "targets": 0,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<input type="radio" name="fbName" style="width:16px;height:16px;">'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table4=$('#fb_table2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": null}, 
+            { "data": "contractName"},
+            { "data": "fbNo"}, 
+            { "data": "ccName"}, 
+            { "data": "contractStartTime"},
+            { "data": "contractEndTime"}
+        ],
+        "columnDefs": [
+						{
+								 "class": "tcenter",
+								    "targets": 0,
+								    "searchable": true,
+								    "render": function(data, type, full) {
+								  	  		return '<input type="radio" name="fbName2" style="width:16px;height:16px;">'
+								        }
+								  }
+						],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+  //选部门选人
+    var bmtableren=$('#bmmingzibiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="mingzi2" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var xgbmtableren=$('#xgbmmingzibiao').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 10,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+					{ "data": null}, 
+		            { "data": "uName"}, 
+		            { "data": "workId"},
+		            { "data": "birthday"}, 
+		            { "data": "sex"}, 
+		            { "data": "dutyName"}, 
+		        ],
+		        "columnDefs": [
+								{	
+										 "class": "tcenter",
+										    "targets": 0,
+										    "searchable": true,
+										    "render": function(data, type, full) {
+										  	  		return '<input type="radio" name="xgmingzi2" style="width:16px;height:16px;">'
+										        }
+										  }
+								],
+        "order": [[2, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+    var table2=$('#lookHistory2').dataTable({
+        "deferRender": true,
+        "processing": true,
+        "bDestroy": true,
+        "iDisplayLength": 5,
+        "searching": true,
+        "lengthChange": false,
+        "oLanguage": {
+		    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+		},
+		"columns": [
+            { "data": "payCode"},
+            { "data": "contractNo"}, 
+            { "data": "contractName"}, 
+            { "data": "thisTimeAskMoney"}, 
+            { "data": "resultPay"},
+            { "data": "payTime"}
+        ],
+        "order": [[0, 'asc']],
+        "oLanguage": { //国际化配置
+        "sProcessing": "正在获取数据，请稍后...",
+        "sLengthMenu": "显示 _MENU_ 条",
+        "sZeroRecords": "查询不到相关数据",
+        "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+        "sInfoEmpty": "记录数为0",
+        "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": "第一页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "最后一页"
+        }},
+        
+	});
+
+
+	
+	//初始化分包合同名称和分包合同号
+	 function initSelectfb(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/subcontract/getFBNameAndNo',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        },
+	        success: function (json) {
+	        	/* $("#hetongming").html(''); */
+	        	$("#hetonghao").html('');
+	        	for(var i=0;i<json.length;i++){
+	        		/* $("#hetongming").append("<option value="+json[i].contractName+">"+json[i].contractName+"</option>"); */
+	        		$("#hetonghao").append("<option value="+json[i].fbNo+">"+json[i].fbNo+"</option>");
+	        	}
+	          	$('#hetonghao').editableSelect().on('select.editable-select', function (e, dom) {
+	          		$.ajax({
+	                    type: 'POST',
+	                    url: getContextPath()+'/subcontract/getFBContractByNo',
+	                    dataType: 'json',
+	                    data: {
+	                    	no:$('#hetonghao').val()
+	                    },
+	                    success: function (json) {
+	                    	$('#hetongming').val(json.contractName);
+	                    	$("#zhuhetongming").val(json.cjContractName);
+	        				$("#zhuhetongNo").val(json.cjContractCode);
+	        				$("#zhuhetongMoney").val(json.mainContractMoney);
+	        				$("#xiangmuming").val(json.prjName);
+	        				$("#renwudanhao").val(json.workNo);
+	        				$("#hetongMoney").val(json.contractMoney);
+	        				$("#fbdanwei").val(json.ccName)
+	        				$("#guanlibm").val(json.omName)
+	        				isjinxinghetongjiesuan($('#hetonghao').val());
+	        				getTotalPayMoney($('#hetonghao').val());
+	        				getRemainPayMoney($('#hetonghao').val());
+	        				getSk(json.workNo);
+	        				getCaiWuQueRenLeiJiMoney($('#hetonghao').val())
+	                    }
+	          		});
+			  	})
+			  	
+			  
+	        }
+			});
+		}
+	
+
+	
+	//初始化部门
+	function bumenSelect(){
+	    $.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/organizationManagement/getOrgIdAndName',
+	        dataType: 'json',
+	        data: {
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	 for(var i=0;i<json.length;i++){
+	        		$("#bumen").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>");
+	        		$("#xgbumen").append( "<option value='" + json[i].omId + "'>"
+		                    + json[i].omName + "</option>"); 
+	        	} 
+	        	$("#bumen").trigger('change');
+	        	$("#xgbumen").trigger('change');
+	        }
+	    });
+	}
+	$("#bumen").change(function(){
+		var bumen=$("#bumen").val();
+		$('#addGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataType:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#bmmingzibiao').dataTable().fnClearTable();
+                $('#bmmingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	//保存添加保管人
+	function saveGuanliren(){
+		var tr=$("input[name='mingzi2']:checked").parents("tr");
+		var data=$("#bmmingzibiao").DataTable().row(tr).data();
+		
+		//console.log(data)
+		//var a=$("input[name='mingzi2']:checked").parent().next().text();
+		$("#userSignetMan").val(data.uName);
+		$("#userSignetMan").attr("data1",data.userId);
+		//$("#addGuanliren").modal("hide");
+	}
+	
+	$("#xgbumen").change(function(){
+		var bumen=$("#xgbumen").val();
+		$('#xgaddGuanliren').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/user/selectUserByomId",
+			dataType:"json",
+			async:false,
+			data:{ 
+				omId:bumen 
+				},
+			success:function(json){
+				$('#xgbmmingzibiao').dataTable().fnClearTable();
+                $('#xgbmmingzibiao').DataTable().rows.add(json).draw(false);
+			}
+		})
+	})
+	//修改添加保管人
+	function savexgGuanliren(){
+		var tr=$("input[name='xgmingzi2']:checked").parents("tr");
+		var data=$("#xgbmmingzibiao").DataTable().row(tr).data();
+		//var a=$("input[name='xgmingzi2']:checked").parent().next().text();
+		$("#xguserSignetMan").val(data.uName);
+		$("#xguserSignetMan").attr("data1",data.userId);
+		//$("#xgaddGuanliren").modal("hide");
+	}
+	
+	
+	
+	
+	
+	
+	
+	//添加提交
+	function submitContractPay(){
+		var hetongming=$("#hetongming").val();
+		var hetonghao=$("#hetonghao").val();
+		var fukuandanhao=$("#fukuandanhao").val();
+		var hetongMoney=$("#hetongMoney").val();
+		var yikaipiaoMoney=$("#yikaipiaoMoney").val();
+		var thiskaipiaoMoney=$("#thiskaipiaoMoney").val();
+		var zhuhetongming=$("#zhuhetongming").val();
+		var zhuhetongNo=$("#zhuhetongNo").val();
+		var zhuhetongMoney=$("#zhuhetongMoney").val();
+		var xiangmuming=$("#xiangmuming").val();
+		var renwudanhao=$("#renwudanhao").val();
+		var hetongjindu=$("#hetongjindu").val();
+		var isjinxinghetongjiesuan=$("#isjinxinghetongjiesuan").val();
+		var hetongjiesuanMoney=$("#hetongjiesuanMoney").val();
+		var yileijinfuMoney=$("#yileijinfuMoney").val();
+		var daidianMoney=$("#daidianMoney").val();
+		var bencishenqingfukuan=$("#bencishenqingfukuan").val();
+		var fukuantype=$("#fukuantype").val();
+		var shoukuandanwei=$("#shoukuandanwei").val();
+		var bencishijifukuan=$("#bencishijifukuan").val();
+		var fukuandanshuoming=$("#fukuandanshuoming").val();
+		var userSignetMan=$("#userSignetMan").attr("data1");
+		var year=$("#year").val();
+		
+		if(hetongming==''){
+			toastr.error("分包合同名称为空")
+			return;
+		}
+		if(hetongMoney==''){
+			toastr.error("合同金额为空")
+			return;
+		}
+		if(yikaipiaoMoney==''){
+			toastr.error("已开票金额为空")
+			return;
+		}
+		if(thiskaipiaoMoney==''){
+			toastr.error("本次开票金额为空")
+			return;
+		}
+		if(daidianMoney==''){
+			toastr.error("付款申请代垫款为空")
+			return;
+		}
+		
+		
+		var options={
+	            type: 'POST',
+	            url: getContextPath()+'/pay2/addPaySubmit',
+	            dataType: 'json',
+	            data: { 
+	            	contractName:hetongming,
+	            	contractNo:hetonghao,
+	            	payCode:fukuandanhao,
+            		contractMoney:hetongMoney,
+           			alreadyKpMoney:yikaipiaoMoney,
+        			thisTimeKpMoney:thiskaipiaoMoney,
+       				mainContractName:zhuhetongming,
+     				mainContractCode:zhuhetongNo,
+    				mainContractMoney:zhuhetongMoney,
+    				prjName:xiangmuming,
+    				prjListCode:renwudanhao,
+   					fbContractSchedule:hetongjindu,
+  					ifContractDoCost:isjinxinghetongjiesuan,
+  					contractDoCostMoney:hetongjiesuanMoney,
+  					alreadyAccumulateMoney:yileijinfuMoney,
+  					GenerationAdvancesMoney:daidianMoney,
+  					thisTimeAskMoney:bencishenqingfukuan,
+  					payMethod:fukuantype,
+  					receieveMoneyCompany:shoukuandanwei,
+  					thisTimeActualPayMoney:bencishijifukuan,
+  					payListExplain:fukuandanshuoming,
+  					compilerPerson:userSignetMan,
+  					compilerTime:year,
+  							
+	            },
+	            success: function (json) {
+	            	if(json=='0'){
+		        		toastr.error("保存失败");
+		        	}else{
+		        		$("#myModal").modal("hide");
+		        		lianjie=json.url;
+		            	if(json.receiver!=null&&json.receiver.length>=1){
+			        		  $("#tijiaogei").modal('show');
+			        		  $("#tijiaoren tbody").empty("");
+			        		  for(var i=0;i<json.receiver.length;i++){
+			        			  $("#tijiaoren tbody").append('<tr><td>'
+			        					  +'<input type="radio" name="tijiaorenming" data-id="'+json.receiver[i].userId+'" data-id2="'+json.receiver[i].omId+'" data-id3="'+json.receiver[i].dutyId+'">'
+			        					  +'</td><td>'
+			        					  +json.receiver[i].omName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].dutyName
+			        					  +'</td><td>'
+			        					  +json.receiver[i].uName
+			        					  +'</td></tr>');
+			        		  }
+			        	  }else if(json.receiver.length==1){
+			        		  $.ajax({
+			        	          type: 'POST',
+			        	          url: getContextPath()+'/task/addTask4',
+			        	          dataType: 'json',
+			        	          data:{
+			        	        	  url:json.url,
+			        	        	  userId:json.receiver.userId,
+			        	        	  uName:json.receiver.uName,
+			        	        	  omName:json.receiver.omName,
+			        	        	  dutyName:json.receiver.dutyName,
+			        	        	  omId:json.receiver.omId,
+			        	        	  dutyId:json.receiver.dutyId
+			        	          },
+			        	          success: function (json) {
+			        	        	  toastr.success('提交成功');
+			        	          }
+			        	      }); 
+			        	  }
+		        	}
+	            	
+	            }
+	        };
+			$("#new_form").ajaxSubmit(options);
+	}
+	
+	function submitPerson(){
+  		var uid=$("input[name='tijiaorenming']:checked").attr("data-id");
+  	  var omid=$("input[name='tijiaorenming']:checked").attr("data-id2");
+  	  var dutyid=$("input[name='tijiaorenming']:checked").attr("data-id3");
+  	  var bmmc=$("input[name='tijiaorenming']:checked").parent().next().text();
+  	  var zw=$("input[name='tijiaorenming']:checked").parent().next().next().text();
+  	  var uname=$("input[name='tijiaorenming']:checked").parent().next().next().next().text();
+  	  //var uname=$("input[name='tijiaorenming']:checked").val();
+  	  $.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/addTask4',
+            dataType: 'json',
+            data:{
+          	  url:lianjie,
+          	  userId:uid,
+          	  uName:uname,
+          	  omName:bmmc,
+          	  dutyName:zw,
+          	  omId:omid,
+          	  dutyId:dutyid
+            },
+            success: function (json) {
+          	  toastr.success('提交成功');
+            }
+        });  
+  	}
+	
+	function getTotalPayMoney(obj){
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/pay2/getTotalPayMoney',
+            dataType: 'json',
+            data: {
+            	no:obj,
+            },
+            success: function (json) {
+                $("#yileijinfuMoney").val(json.alreadyAccumulateMoney)
+            }
+        });
+	}
+	
+	
+	//修改回显
+	function initTable(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/pay2/selectPayById2',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	//console.log(json)
+	        	$("#hetongming").val(json.contractName);
+	        	$("#hetonghao").val(json.contractNo);
+	        	$("#hetongMoney").val(json.contractMoney);
+	        	$("#hetongjindu").val(json.fbContractSchedule);
+	        	$("#sk_money").val(json.skMoney);
+	        	$("#sk_scale").val(json.skScale);
+	        	$("#zhuhetongming").val(json.mainContractName);
+	        	$("#zhuhetongNo").val(json.mainContractCode);
+	        	$("#zhuhetongMoney").val(json.mainContractMoney);
+	        	$("#xiangmuming").val(json.prjName);
+	        	$("#renwudanhao").val(json.prjListCode);
+	        	$("#yileijinfuMoney").val(json.alreadyAccumulateMoney);
+	        	$("#isjinxinghetongjiesuan").val(json.ifContractDoCost);
+	        	$("#hetongjiesuanMoney").val(json.contractDoCostMoney);
+	        	$("#yikaipiaoMoney").val(json.alreadyKpMoney);
+	        	$("#thiskaipiaoMoney").val(json.thisTimeKpMoney);
+	        	$("#fukuantype").val(json.payMethod);
+	        	$("#daidianMoney").val(json.generationAdvancesMoney);
+	        	$("#bencishenqingfukuan").val(json.thisTimeAskMoney);
+	        	$("#fukuandanshuoming").val(json.payListExplain);
+	        	$("#userSignetMan").val(json.compilerPerson);
+	        	$("#year").val(json.compilerTime);
+	        	$("#caiwuquerenLeiJiMoney").val(json.accumulatedFinancialRecognitionMoney);
+	    		$("#qitadaidianMoney").val(json.otherMatsMoney);
+	    		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/subcontract/getFBContractByNo',
+                    dataType: 'json',
+                    data: {
+                    	no:json.contractNo
+                    },
+                    success: function (json) {
+        				$("#fbdanwei").val(json.ccName)
+        				$("#guanlibm").val(json.omName)
+        				
+                    }
+          		});
+	        	$.ajax({
+	    			type:"post",
+	    			url:getContextPath()+"/accessory/selectAccessoryById",
+	    			dataType:"json",
+	    			async:false,
+	    			data:{
+	    				id:id,
+	    			},
+	    			success:function(json){
+	    				//console.log(json);
+	    				$("#new_accessory1 tbody").empty();
+	    				$("#new_accessory2 tbody").empty();
+	    	            for(var i=0;i<json.length;i++){
+	    	            	   if(json[i].aType=="开票附件"){
+	    		            	   $("#new_accessory1 tbody").append("<tr>"+
+	    		            			   "<td>附件"+(i+1)+"</td>"+
+	    		            			   "<td colspan='2'><a  href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+		    								"<td style='width:20%;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' data3='"+json[i].acName+"' onclick='deletefile(this)'>删除附件</button></td>"+
+	    				         	    "</tr>");
+	    	            	   }
+	    	            	   if(json[i].aType=="附件上传"){
+	    		            	   $("#new_accessory2 tbody").append("<tr>"+
+	    		            			   "<td>附件"+(i+1)+"</td>"+
+	    		            			   "<td colspan='2'><a  href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+		    								"<td style='width:20%;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' data3='"+json[i].acName+"' onclick='deletefile(this)'>删除附件</button></td>"+
+	    				         	    "</tr>");
+	    	            	   }
+	    	               }
+	    			}
+	    		})
+	    		
+	    		
+	        }
+	    });
+	}
+	function deletefile(obj){
+    	var id=$(obj).attr("data1");
+		var name=$(obj).attr("data3");
+		var url=$(obj).attr("data2");
+		var statu = confirm("确认删除吗?");
+		  if(!statu){
+		   	return false;
+		  }
+       		$.ajax({
+       	        type: 'POST',
+       	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
+       	        dataType: 'json',
+       	        data: {
+       	        	aId:id,
+       	        	acName:name,
+       	        	acUrl:url
+       	        },
+       	        success: function (json) {
+       	        	if(json==0){
+       	        		toastr.error("删除失败");
+       	        	}else{
+       	        		toastr.success("删除成功");
+       	        		$(obj).parent().parent().remove();
+       	        	}
+       	        }
+       		});
+    }
+	
+	
+	function liuchengGaibian(obj){
+		var hetongming=$("#hetongming").val();
+		var hetonghao=$("#hetonghao").val();
+		var hetongMoney=$("#hetongMoney").val();
+		var skMoney=$("#sk_money").val();
+		var skScale=$("#sk_scale").val();
+		var yikaipiaoMoney=$("#yikaipiaoMoney").val();
+		var thiskaipiaoMoney=$("#thiskaipiaoMoney").val();
+		var zhuhetongming=$("#zhuhetongming").val();
+		var zhuhetongNo=$("#zhuhetongNo").val();
+		var zhuhetongMoney=$("#zhuhetongMoney").val();
+		var xiangmuming=$("#xiangmuming").val();
+		var renwudanhao=$("#renwudanhao").val();
+		var hetongjindu=$("#hetongjindu").val();
+		var isjinxinghetongjiesuan=$("#isjinxinghetongjiesuan").val();
+		var hetongjiesuanMoney=$("#hetongjiesuanMoney").val();
+		var yileijinfuMoney=$("#yileijinfuMoney").val();
+		var daidianMoney=$("#daidianMoney").val();
+		var bencishenqingfukuan=$("#bencishenqingfukuan").val();
+		var fukuantype=$("#fukuantype").val();
+		var fukuandanshuoming=$("#fukuandanshuoming").val();
+		var userSignetMan=$("#userSignetMan").val();
+		var year=$("#year").val();
+		var caiwuquerenleijiMoney=$("#caiwuquerenLeiJiMoney").val();
+		var qitadaidianMoney=$("#qitadaidianMoney").val();
+		
+		if(obj=='1'){
+			if(hetongming==''){
+				toastr.error("分包合同名称为空")
+				return "分包合同名称为空";
+			}
+			if(hetonghao==''){
+				toastr.error("分包合同号为空")
+				return "分包合同号为空";
+			}
+			if(hetongMoney==''){
+				toastr.error("合同金额为空")
+				return "合同金额为空";
+			}
+			if(yikaipiaoMoney==''){
+				toastr.error("已开票金额为空")
+				return "已开票金额为空";
+			}
+			if(thiskaipiaoMoney==''){
+				toastr.error("本次开票金额为空")
+				return "本次开票金额为空";
+			}
+			if(daidianMoney==''){
+				toastr.error("付款申请代垫款为空")
+				return "付款申请代垫款为空";
+			}
+			if(bencishenqingfukuan==''){
+				toastr.error("本次申请付款为空")
+				return "本次申请付款为空";
+			}
+			if($("#new_accessory1 tbody").find("tr").length<1){
+				if($("#new_accessory1 tfoot").find("tr").length<1||$("#new_accessory1 tfoot").find("tr").find("input").val()==''){
+					toastr.error("开票附件为空")
+					return "开票附件为空";
+				}
+			}
+			if(userSignetMan==''){
+				toastr.error("编制人为空")
+				return "编制人为空";
+			}
+			if(caiwuquerenleijiMoney==''){
+				toastr.error("财务确认累计付款金额为空")
+				return "财务确认累计付款金额为空";
+			}
+			if(qitadaidianMoney==''){
+				toastr.error("其他代垫费用为空")
+				return "其他代垫费用为空";
+			}
+		}
+		
+		var result;
+		var options={
+	            type: 'POST',
+	            url: getContextPath()+'/pay2/updatePayById',
+	            dataType: 'json',
+	            async:false,
+	            data: {
+	            	payId:id,
+	            	contractName:hetongming,
+	            	contractNo:hetonghao,
+	            	skScale:skScale,
+	            	skMoney:skMoney,
+            		contractMoney:hetongMoney,
+           			alreadyKpMoney:yikaipiaoMoney,
+        			thisTimeKpMoney:thiskaipiaoMoney,
+       				mainContractName:zhuhetongming,
+     				mainContractCode:zhuhetongNo,
+    				mainContractMoney:zhuhetongMoney,
+    				prjName:xiangmuming,
+    				prjListCode:renwudanhao,
+   					fbContractSchedule:hetongjindu,
+  					ifContractDoCost:isjinxinghetongjiesuan,
+  					contractDoCostMoney:hetongjiesuanMoney,
+  					alreadyAccumulateMoney:yileijinfuMoney,
+  					GenerationAdvancesMoney:daidianMoney,
+  					thisTimeAskMoney:bencishenqingfukuan,
+  					payMethod:fukuantype,
+  					payListExplain:fukuandanshuoming,
+  					compilerPerson:userSignetMan,
+  					compilerTime:year,
+  					accumulatedFinancialRecognitionMoney:caiwuquerenleijiMoney,
+  					otherMatsMoney:qitadaidianMoney
+	            },
+	            success: function (json) {
+	            	//console.log(json);
+	            	result=json
+	            	if(json==0){
+						toastr.error("添加失败")
+					}else if(json>0){
+						toastr.success("添加成功")
+					}else if(json==-1){
+						result="该分包付款单上一次未审批完成";
+						toastr.error("该分包付款单上一次未审批完成");
+					}
+	            }
+	        };
+			$("#new_form").ajaxSubmit(options);
+		return result;
+	}
+	
+	
+	
+	
+	//修改初始化历史信息列表
+	function initHistoryPay2(obj){
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/pay2/selectHistoryBypayCode',
+	            dataType: 'json',
+	            data: {
+	            	payId:obj,
+	            },
+	            success: function (json) {
+	                $('#lookHistory2').dataTable().fnClearTable();
+	                $('#lookHistory2').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+	}
+	//修改查看历史的详细信息
+	function lookHistoryPay2(obj){
+		//$("#allMsg1").modal('hide')
+		var dom=$(obj).parents('tr');
+		var data=$('#lookHistory2').DataTable().row(dom).data();
+		console.log(data)
+		$('#History2').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        }) 
+		
+		$("#Historyhetongming2").text(data.contractName);
+		$("#Historyhetonghao2").text(data.contractNo);
+		$("#Historyfukuandanhao2").text(data.payCode);
+		$("#HistoryhetongMoney2").text(data.contractMoney);
+		$("#HistoryyikaipiaoMoney2").text(data.alreadyAccumulateMoney);
+		$("#HistorythiskaipiaoMoney2").text(data.thisTimeKpMoney);
+		$("#Historyzhuhetongming2").text(data.mainContractName);
+		$("#HistoryzhuhetongNo2").text(data.mainContractCode);
+		$("#HistoryzhuhetongMoney2").text(data.mainContractMoney);
+		$("#Historyxiangmuming2").text(data.prjName);
+		$("#Historyrenwudanhao2").text(data.prjListCode);
+		$("#Historyhetongjindu2").text(data.fbContractSchedule);
+		$("#Historyisjinxinghetongjiesuan2").text(data.ifContractDoCost);
+		$("#HistoryhetongjiesuanMoney2").text(data.contractDoCostMoney);
+		$("#HistoryyileijinfuMoney2").text(data.alreadyAccumulateMoney);
+		$("#HistorydaidianMoney2").text(data.generationAdvancesMoney)
+		$("#Historybencishenqingfukuan2").text(data.thisTimeAskMoney);
+		$("#Historyfukuantype2").text(data.payMethod);
+		$("#Historyshoukuandanwei2").text(data.receieveMoneyCompany);
+		$("#Historybencishijifukuan2").text(data.thisTimeActualPayMoney);
+		$("#Historyfukuandanshuoming2").text(data.payListExplain);
+		$("#Historyyear2").text(data.compilerTime);
+		$("#HistoryuserSignetMan2").text(data.uName);
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/subcontract/selectAccessoryById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:data.payId,
+			},
+			success:function(json){
+				//console.log(json);
+				$("#History2_accessory1 tbody").empty();
+				$("#History2_accessory2 tbody").empty();
+				$("#History2_accessory3 tbody").empty();
+	            for(var i=0;i<json.length;i++){
+	            	   if(json[i].aType=="开票附件"){
+		            	   $("#History2_accessory1 tbody").append("<tr>"+
+									"<td>附件</td>"+
+				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+				         	    "</tr>");
+	            	   }
+	            	   if(json[i].aType=="附件上传"){
+		            	   $("#History2_accessory2 tbody").append("<tr>"+
+									"<td>附件</td>"+
+				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+				         	    "</tr>");
+	            	   }
+	            	   if(json[i].aType=="法律顾问签字"){
+		            	   $("#History2_accessory3 tbody").append("<tr>"+
+									"<td>附件</td>"+
+				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+				         	    "</tr>");
+	            	   }
+	               }
+			}
+		})
+		
+	}
+	
+	//修改保存
+	function liuchengGaibiana(){
+		var resultPay=$("#xgbencishijifukuan").val();
+		var payTime=$("#pay_time").val();
+		if(resultPay==""){
+			toastr.error("付款金额不可以为空")
+			return;
+		}
+		if(payTime==""){
+			toastr.error("付款时间不可以为空")
+			return;
+		}
+		var result;
+		var options={
+	            type: 'POST',
+	            url: getContextPath()+'/pay2/updatePaySave',
+	            dataType: 'json',
+	            async:false,
+	            data: { 
+	            	payId:xiugaiId,
+	            	resultPay:resultPay,
+	            	payTime:payTime
+	            },
+	            success: function (json) {
+	            	result=json;
+	            	if(json==0){
+						toastr.error("保存失败")
+					}else if(json>0){
+						toastr.success("保存成功")
+						$("#change").modal("hide")
+					}
+	            }
+	        };
+			$("#edit_form").ajaxSubmit(options);
+			return result;
+		
+	}
+	
+	
+	//修改提交
+	/* function checkSubmitContractPay(){
+		var xghetongming=$("#xghetongming").val();
+		var xghetonghao=$("#xghetonghao").val();
+		var xgfukuandanhao=$("#xgfukuandanhao").val();
+		var xghetongMoney=$("#xghetongMoney").val();
+		var xgyikaipiaoMoney=$("#xgyikaipiaoMoney").val();
+		var xgthiskaipiaoMoney=$("#xgthiskaipiaoMoney").val();
+		var xgzhuhetongming=$("#xgzhuhetongming").val();
+		var xgzhuhetongNo=$("#xgzhuhetongNo").val();
+		var xgzhuhetongMoney=$("#xgzhuhetongMoney").val();
+		var xgxiangmuming=$("#xgxiangmuming").val();
+		var xgrenwudanhao=$("#xgrenwudanhao").val();
+		var xghetongjindu=$("#xghetongjindu").val();
+		var xgisjinxinghetongjiesuan=$("#xgisjinxinghetongjiesuan").val();
+		var xghetongjiesuanMoney=$("#xghetongjiesuanMoney").val();
+		var xgyileijinfuMoney=$("#xgyileijinfuMoney").val();
+		var xgdaidianMoney=$("#xgdaidianMoney").val();
+		var xgbencishenqingfukuan=$("#xgbencishenqingfukuan").val();
+		var xgfukuantype=$("#xgfukuantype").val();
+		var xgshoukuandanwei=$("#xgshoukuandanwei").val();
+		var xgbencishijifukuan=$("#xgbencishijifukuan").val();
+		var xgfukuandanshuoming=$("#xgfukuandanshuoming").val();
+		var xguserSignetMan=$("#xgguanliren").val();
+		var xgyear=$("#xgyear").val();
+		
+		if(xghetongming==''){
+			toastr.error("分包合同名称为空")
+			return;
+		}
+		if(xghetongMoney==''){
+			toastr.error("合同金额为空")
+			return;
+		}
+		if(xgyikaipiaoMoney==''){
+			toastr.error("已开票金额为空")
+			return;
+		}
+		if(xgthiskaipiaoMoney==''){
+			toastr.error("本次开票金额为空")
+			return;
+		}
+		if(xgdaidianMoney==''){
+			toastr.error("付款申请代垫款为空")
+			return;
+		}
+		
+		var options={
+	            type: 'POST',
+	            url: getContextPath()+'/pay/updatePaySubmit',
+	            dataType: 'json',
+	            data: { 
+	            	payId:xiugaiId,
+	            	contractName:xghetongming,
+	            	contractNo:xghetonghao,
+	            	payCode:xgfukuandanhao,
+            		contractMoney:xghetongMoney,
+           			alreadyKpMoney:xgyikaipiaoMoney,
+        			thisTimeKpMoney:xgthiskaipiaoMoney,
+       				mainContractName:xgzhuhetongming,
+     				mainContractCode:xgzhuhetongNo,
+    				mainContractMoney:xgzhuhetongMoney,
+    				prjName:xgxiangmuming,
+    				prjListCode:xgrenwudanhao,
+   					fbContractSchedule:xghetongjindu,
+  					ifContractDoCost:xgisjinxinghetongjiesuan,
+  					contractDoCostMoney:xghetongjiesuanMoney,
+  					alreadyAccumulateMoney:xgyileijinfuMoney,
+  					GenerationAdvancesMoney:xgdaidianMoney,
+  					thisTimeAskMoney:xgbencishenqingfukuan,
+  					payMethod:xgfukuantype,
+  					receieveMoneyCompany:xgshoukuandanwei,
+  					thisTimeActualPayMoney:xgbencishijifukuan,
+  					payListExplain:xgfukuandanshuoming,
+  					compilerPerson:xguserSignetMan,
+  					compilerTime:xgyear,
+  							
+	            },
+	            success: function (json) {
+	            	//console.log(json);
+	            	if(json==0){
+						toastr.error("修改失败")
+					}else if(json>0){
+						//location.reload([true]);
+						toastr.success("修改成功")
+						$("#change").modal("hide")
+						initTable();
+					}
+	            }
+	        };
+			$("#edit_form").ajaxSubmit(options);
+		
+	} */
+	
+	
+	//查看详细信息
+	var payCode;
+	function lookpay(obj){
+		var dom=$(obj).parents('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+		payCode=data.payCode;
+		var payId=data.payId;
+		initHistoryPay(payId);
+		
+		$("#lookhetongming").text(data.contractName);
+		$("#lookhetonghao").text(data.contractNo);
+		$("#lookfukuandanhao").text(data.payCode);
+		$("#lookhetongMoney").text(data.contractMoney);
+		$("#lookyikaipiaoMoney").text(data.alreadyKpMoney);
+		$("#lookthiskaipiaoMoney").text(data.thisTimeKpMoney);
+		$("#lookzhuhetongming").text(data.mainContractName);
+		$("#lookzhuhetongNo").text(data.mainContractCode);
+		$("#lookzhuhetongMoney").text(data.mainContractMoney);
+		$("#lookxiangmuming").text(data.prjName);
+		$("#lookrenwudanhao").text(data.prjListCode);
+		$("#lookhetongjindu").text(data.fbContractSchedule);
+		$("#lookisjinxinghetongjiesuan").text(data.ifContractDoCost);
+		$("#lookhetongjiesuanMoney").text(data.contractDoCostMoney);
+		$("#lookyileijinfuMoney").text(data.alreadyAccumulateMoney);
+		$("#lookdaidianMoney").text(data.generationAdvancesMoney)
+		$("#lookbencishenqingfukuan").text(data.thisTimeAskMoney);
+		$("#lookfukuantype").text(data.payMethod);
+		$("#lookfukuandanshuoming").text(data.payListExplain);
+		$("#lookyear").text(data.compilerTime);
+		$("#lookuserSignetMan").text(data.uName);
+		
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/pay2/selectAccessoryById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:data.payId,
+			},
+			success:function(json){
+				console.log(json);
+				$("#look_accessory1 tbody").empty();
+				$("#look_accessory2 tbody").empty();
+				$("#look_accessory3 tbody").empty();
+	            for(var i=0;i<json.length;i++){
+	            	   if(json[i].aType=="开票附件"){
+		            	   $("#look_accessory1 tbody").append("<tr>"+
+									"<td>附件</td>"+
+				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+				         	    "</tr>");
+	            	   }
+	            	   if(json[i].aType=="附件上传"){
+		            	   $("#look_accessory2 tbody").append("<tr>"+
+									"<td>附件</td>"+
+				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+				         	    "</tr>");
+	            	   }
+	            	   if(json[i].aType=="法律顾问签字"){
+		            	   $("#look_accessory3 tbody").append("<tr>"+
+									"<td>附件</td>"+
+				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+				         	    "</tr>");
+	            	   }
+	               }
+			}
+		})
+	}
+	//下载附件
+	function download_all(obj){
+		var url=$(obj).attr("data2");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+	//初始化历史信息列表
+	function initHistoryPay(obj){
+		 $.ajax({
+	            type: 'POST',
+	            url: getContextPath()+'/pay2/selectHistoryBypayCode',
+	            dataType: 'json',
+	            data: {
+	            	payId:obj,
+	            },
+	            success: function (json) {
+	                $('#lookHistory').dataTable().fnClearTable();
+	                $('#lookHistory').DataTable().rows.add(json).draw(false);
+	            }
+	        });
+	}
+	
+	//查看历史的详细信息
+	function lookHistoryPay(obj){
+		//$("#allMsg1").modal('hide')
+		var dom=$(obj).parents('tr');
+		var data=$('#lookHistory').DataTable().row(dom).data();
+		console.log(data)
+		$('#History').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        }) 
+		
+		$("#Historyhetongming").text(data.contractName);
+		$("#Historyhetonghao").text(data.contractNo);
+		$("#Historyfukuandanhao").text(data.payCode);
+		$("#HistoryhetongMoney").text(data.contractMoney);
+		$("#HistoryyikaipiaoMoney").text(data.alreadyAccumulateMoney);
+		$("#HistorythiskaipiaoMoney").text(data.thisTimeKpMoney);
+		$("#Historyzhuhetongming").text(data.mainContractName);
+		$("#HistoryzhuhetongNo").text(data.mainContractCode);
+		$("#HistoryzhuhetongMoney").text(data.mainContractMoney);
+		$("#Historyxiangmuming").text(data.prjName);
+		$("#Historyrenwudanhao").text(data.prjListCode);
+		$("#Historyhetongjindu").text(data.fbContractSchedule);
+		$("#Historyisjinxinghetongjiesuan").text(data.ifContractDoCost);
+		$("#HistoryhetongjiesuanMoney").text(data.contractDoCostMoney);
+		$("#HistoryyileijinfuMoney").text(data.alreadyAccumulateMoney);
+		$("#HistorydaidianMoney").text(data.generationAdvancesMoney)
+		$("#Historybencishenqingfukuan").text(data.thisTimeAskMoney);
+		$("#Historyfukuantype").text(data.payMethod);
+		$("#Historyshoukuandanwei").text(data.receieveMoneyCompany);
+		$("#Historybencishijifukuan").text(data.thisTimeActualPayMoney);
+		$("#Historyfukuandanshuoming").text(data.payListExplain);
+		$("#Historyyear").text(data.compilerTime);
+		$("#HistoryuserSignetMan").text(data.uName);
+		
+		$.ajax({
+			type:"post",
+			url:getContextPath()+"/subcontract/selectAccessoryById",
+			dataType:"json",
+			async:false,
+			data:{
+				id:data.payId,
+			},
+			success:function(json){
+				//console.log(json);
+				$("#History_accessory1 tbody").empty();
+				$("#History_accessory2 tbody").empty();
+				$("#History_accessory3 tbody").empty();
+	            for(var i=0;i<json.length;i++){
+	            	   if(json[i].aType=="开票附件"){
+		            	   $("#History_accessory1 tbody").append("<tr>"+
+									"<td>附件</td>"+
+				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+				         	    "</tr>");
+	            	   }
+	            	   if(json[i].aType=="附件上传"){
+		            	   $("#History_accessory2 tbody").append("<tr>"+
+									"<td>附件</td>"+
+				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+				         	    "</tr>");
+	            	   }
+	            	   if(json[i].aType=="法律顾问签字"){
+		            	   $("#History_accessory3 tbody").append("<tr>"+
+									"<td>附件</td>"+
+				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data1='"+json[i].aId+"' data2='"+json[i].acUrl+"' onclick='download_all(this)'>下载附件</button></td>"+
+				         	    "</tr>");
+	            	   }
+	               }
+			}
+		})
+		
+	}
+	
+	
+	
+	
+	//添加开票附件
+	function addFile1(){
+		$("#new_accessory1 tfoot").append("<tr><td>新附件</td><td><input type='file' name='file1' id='file1' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+	}
+	
+	//添加附件上传
+	function addFile2(){
+		$("#new_accessory2 tfoot").append("<tr><td>新附件</td><td><input type='file' name='file2' id='file2' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+	}
+	//添加附件上传
+	function addFile3(){
+		$("#new_accessory3 tbody").append("<tr><td>新附件</td><td><input type='file' name='file3' id='file3' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+	}
+	
+	function xgaddFile1(){
+		$("#edit_accessory1 tbody").append("<tr><td>新附件</td><td><input type='file' name='file1' id='xgfile1' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+	}
+	
+	function xgaddFile2(){
+		$("#edit_accessory2 tbody").append("<tr><td>新附件</td><td><input type='file' name='file2' id='xgfile2' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+	}
+	function xgaddFile3(){
+		$("#edit_accessory3 tbody").append("<tr><td>新附件</td><td><input type='file' name='file3' id='xgfile3' style='width:70%;' class='form-control'></td><td style='width:150px;'><button type='button' class='btn btn-primary' onclick='removeFile(this)'>移除附件</button></td></tr>");
+	}
+	
+	function removeFile(obj){
+  		var tr=$(obj).parents("tr");
+  		$(tr).remove();
+  	}
+	
+	
+
+    $(".quxiao").click(function(){
+        if(confirm("确定要撤销吗？")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+    
+    function chooseFb(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBNameAndNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            success: function (json) {
+                $('#fb_table').dataTable().fnClearTable();
+                $('#fb_table').DataTable().rows.add(json).draw(false);
+            }
+        });
+    	$("#choose_fb").modal("show");
+    	$('#choose_fb').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+    }
+
+    function saveFbName(){
+    	var tr=$("input[name='fbName']:checked").parents("tr");
+    	var data=$("#fb_table").DataTable().row(tr).data();
+    	if(data==null){
+    		toastr.error("请选择")
+    		return;
+    	}
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBContractByNo',
+            dataType: 'json',
+            data: {
+            	no:data.fbNo
+            },
+            success: function (json) {
+            	$('#hetongming').val(data.contractName);
+            	$('#hetonghao').val(json.fbNo);
+            	$("#zhuhetongming").val(json.cjContractName);
+				$("#zhuhetongNo").val(json.cjContractCode);
+				$("#zhuhetongMoney").val(json.mainContractMoney);
+				$("#xiangmuming").val(json.prjName);
+				$("#renwudanhao").val(json.workNo);
+				$("#hetongMoney").val(json.contractMoney);
+				$("#fbdanwei").val(json.ccName)
+				$("#guanlibm").val(json.omName)
+				isjinxinghetongjiesuan(json.fbNo);
+				getTotalPayMoney(json.fbNo);
+				getRemainPayMoney(json.fbNo);
+				getSk(json.workNo);
+				getCaiWuQueRenLeiJiMoney(json.fbNo)
+            }
+  		});
+    	$("#choose_fb").modal("hide");
+    }
+    
+    function getCaiWuQueRenLeiJiMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/pay2/getAccumulatedFinancialRecognitionMoneyByFbNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            	fbno:obj
+            },
+            success: function (json) {
+            	$("#caiwuquerenLeiJiMoney").val(json.accumulatedFinancialRecognitionMoney);
+            }
+    	})
+    }
+    
+    function getSk(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/AlreadySk/getAllSkByTaskNo',
+            dataType: 'json',
+            data: {
+            	no:obj
+            },
+            success: function (json) {
+            	var money=json.money;
+            	var prjMoney=json.prjMoney;
+            	$("#sk_money").val(money);
+            	$("#sk_scale").val((money/prjMoney*100).toFixed(2)+"%")
+            }
+    	})
+    }
+    
+    function getRemainPayMoney(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/BorrowContract/getRemainPayMoney',
+            dataType: 'json',
+            data: {
+            	no:obj
+            },
+            success: function (json) {
+            	$("#daidianMoney").val(json);
+            }
+    	})
+    }
+    function isjinxinghetongjiesuan(obj){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/fbOverWj/getAllPayMoneyByFbNo',
+            dataType: 'json',
+            data: {
+            	no:obj
+            },
+            success: function (json) {
+            	if(json.length>0){
+            		$("#isjinxinghetongjiesuan").val("是");
+            		$("#hetongjiesuanMoney").val(json[0].allPayMoney);
+            	}else{
+            		$("#isjinxinghetongjiesuan").val("否");
+            		$("#hetongjiesuanMoney").val("");
+            	}
+            }
+        });
+    }
+    
+    
+    function chooseFb2(){
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBNameAndNo',
+            dataType: 'json',
+            async:false,
+            data: {
+            },
+            success: function (json) {
+                $('#fb_table2').dataTable().fnClearTable();
+                $('#fb_table2').DataTable().rows.add(json).draw(false);
+            }
+        });
+    	$("#choose_fb2").modal("show");
+    	$('#choose_fb2').on('hidden.bs.modal', function () {//解决模态框页面滚动问题
+            if ($('.modal.in').size() >= 1) {
+                $('body').addClass('modal-open')
+            }
+        })
+    }
+
+    function saveFbName2(){
+    	var tr=$("input[name='fbName2']:checked").parents("tr");
+    	var data=$("#fb_table2").DataTable().row(tr).data();
+    	if(data==null){
+    		toastr.error("请选择")
+    		return;
+    	}
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBContractByName',
+            dataType: 'json',
+            data: {
+            	contractName:data.contractName
+            },
+            success: function (json) {
+            	$('#xghetongming').val(data.contractName);
+            	$('#xghetonghao').val(json.fbNo);
+            	$("#xgzhuhetongming").val(json.cjContractName);
+				$("#xgzhuhetongNo").val(json.cjContractCode);
+				$("#xgzhuhetongMoney").val(json.mainContractMoney);
+				$("#xgxiangmuming").val(json.prjName);
+				$("#xgrenwudanhao").val(json.workNo);
+            }
+  		});
+    	$("#choose_fb2").modal("hide");
+    }
+    
+    function gotoFb(obj){
+    	dom=$(obj).parents("tr");
+		var data=$('#mainContent').DataTable().row(dom).data();
+		//console.log(data)
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/subcontract/getFBNameByNo',
+            dataType: 'json',
+            data: {
+            	fbNo:data.contractNo
+            },
+            success: function (json) {
+            	//console.log(json);
+            	$(obj).attr('href', '../shengchanGuanli/SubcontractManagement.html?prjId='+json.fbId+'');
+            }
+  		});
+		//var t = encodeURI(encodeURI(data.prjId));
+    }
+    
+    
+    
+    function getLocalPath(){
+		var pathArray = window.location.pathname.split('/');
+		var secondLevelLocation = pathArray[1];
+		var loginUrl = window.location.protocol + "//"  + window.location.host ;
+		return loginUrl;
+	}
+    
+</script>
+</html>

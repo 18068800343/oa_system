@@ -2447,6 +2447,11 @@ function checkquxiaoSplit(){
 		noType=obj;
 		$('.selectp icker').selectpicker('deselectAll'); 
 		$("#chooseNo").modal("show");
+		if(obj==1){
+			var prjNoArray = $("#edit_work_no").val().split(",");
+	  		$("#selectpicker_no").val(prjNoArray);
+	  		$("#selectpicker_no").selectpicker("refresh");
+		}
 	}
 	
 	var nameType;
@@ -2454,6 +2459,11 @@ function checkquxiaoSplit(){
 		nameType=obj; 
 		$('.selectpicker').selectpicker('deselectAll'); 
 		$("#chooseName").modal("show");
+		if(obj==1){
+			var prjNameArray = $("#edit_prj_name").val().split(",");
+			$("#selectpicker_name").val(prjNameArray);
+	  		$("#selectpicker_name").selectpicker("refresh");
+		}
 	}
 	
 	function quxiao(){
@@ -4593,7 +4603,7 @@ function checkquxiaoSplit(){
 	               +'<tr>'
 	        	   +'<th style="text-align:left;"><div style="width:300px">任务单:'+namestr[i]+'</div><div hidden="hidden">'+array[i]+'</div></th>'
 	        	   +'<th colspan="2" >'
-	        	   +'<div class="yihang2"><div>&nbsp;任务单金额分配:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="renwudanMoney'+i+' form-control" style="width:150px;" placeholder="任务单金额" id=renwudanMoney></input></div>'
+	        	   +'<div class="yihang2"><div>&nbsp;任务单金额分配:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" onchange="renwudanMoneyChange()" class="renwudanMoney'+i+' form-control" style="width:150px;" placeholder="任务单金额" id=renwudanMoney></input></div>'
 	        	   +'<div><button type="button" class="btn btn-primary"  onclick="addBumen()">添加协办部门</button></div></div></th>'
 	        +'</tr>'
 	        +'</thead>'
@@ -4635,6 +4645,21 @@ function checkquxiaoSplit(){
 		
 	}
 	
+	function renwudanMoneyChange(){
+		var len;
+		if(noType==1){
+			len =$("#edit_renwudanFenpei>table").length;
+		  }else{
+			len = $("#renwudanFenpei>table").length;
+		 }
+		for(var i=0;i<len;i++){
+			var trLength=$("#xieban"+i+">tbody>tr").length
+			if(trLength==1){
+				$(".zhubanjine"+i+"").val($(".renwudanMoney"+i+"").val())
+			}
+		}
+	}
+	
 	function editpinjieRenwudanChaifen(namelist,array,tasks){
 		var namestr = namelist;
 		pageNameList=namelist;
@@ -4650,7 +4675,7 @@ function checkquxiaoSplit(){
 	               +'<tr>'
 	        	   +'<th style="text-align:left;"><div style="width:300px">任务单:'+namestr[i]+'</div><div hidden="hidden">'+array[i]+'</div></th>'
 	        	   +'<th colspan="2" >'
-	        	   +'<div class="yihang2"><div>&nbsp;任务单金额分配:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="renwudanMoney'+i+' form-control" style="width:150px;" placeholder="任务单金额" value="" id=renwudanMoney></input></div>'
+	        	   +'<div class="yihang2"><div>&nbsp;任务单金额分配:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" onchange="edit_renwudanMoneyChange()" class="renwudanMoney'+i+' form-control" style="width:150px;" placeholder="任务单金额" value="" id=renwudanMoney></input></div>'
 	        	   +'<div><button type="button" class="btn btn-primary"  onclick="addBumen()">添加协办部门</button></div></div></th>'
 	        +'</tr>'
 	        +'</thead>'
@@ -4689,6 +4714,17 @@ function checkquxiaoSplit(){
 		 }
 		}
 	}
+	
+	function edit_renwudanMoneyChange(){
+		var len=$("#edit_renwudanFenpei>table").length;
+		for(var i=0;i<len;i++){
+			var trLength=$("#xieban"+i+">tbody>tr").length
+			if(trLength==1){
+				$(".zhubanjine"+i+"").val($(".renwudanMoney"+i+"").val())
+			}
+		}
+	}
+	
 	function lookpinjieRenwudanChaifen(namelist,array,tasks){
 		var namestr = namelist;
 		pageNameList=namelist;
