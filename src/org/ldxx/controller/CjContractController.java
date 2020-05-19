@@ -394,6 +394,23 @@ public class CjContractController {
 		return list;
 	}
 	
+	@RequestMapping("/selectCjHistoryById")
+	@ResponseBody
+	public Map<String,Object>  selectCjHistoryById(String id){
+		Map<String, Object> map = new HashMap<String, Object>();
+		CjContract cj = service.selectCjContractById(id);
+		String no = "";
+		if(null!=cj) {
+			no = cj.getContractNo();
+			if(null!=no && !"".equals(no)) {
+				map.put("history",true);
+			}
+		}
+		List<CjContract> list=service.selectCjHistory(no);
+		map.put("list",list);
+		return map;
+	}
+	
 	@RequestMapping("/selectContractByTaskNo")
 	@ResponseBody
 	public List<CjContract> selectContractByTaskNo(String no){
