@@ -898,6 +898,23 @@ public class TaskController {
 		map.put("taskList", list);
 		return map;
 	}
+
+	@RequestMapping("/selectTaskHistory_byId")
+	@ResponseBody
+	public Map<String,Object> selectTaskHistory_byId(String id){
+		Map map = new HashMap<String, Object>();
+		Task task = tService.selectTaskById(id);
+		String no = "";
+		if(null!=task) {
+			no = task.getPrjNo();
+			if(!"".equals(no.trim())) {
+				map.put("history", true);
+			}
+		}
+		List<Task> list=tService.selectTaskHistoryById(no, id);
+		map.put("taskList", list);
+		return map;
+	}
 	
 	@RequestMapping("/taskOk")/*任务单履约完成*/
 	@ResponseBody
