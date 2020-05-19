@@ -58,8 +58,15 @@ public class CjContract {
     private String doDate;//审批状态
     
     private Double contractMoneyOld;//原合同金额
+    private String oldCjId;//上次的ID
     
     
+	public String getOldCjId() {
+		return oldCjId;
+	}
+	public void setOldCjId(String oldCjId) {
+		this.oldCjId = oldCjId;
+	}
 	public Double getContractMoneyOld() {
 		return contractMoneyOld;
 	}

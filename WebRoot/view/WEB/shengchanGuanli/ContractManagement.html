@@ -549,6 +549,7 @@
 					                       	</tr>
 							</thead>
 							<tbody></tbody>
+							<tfoot></tfoot>
 						</table>
 						<table class="table table-bordered table-condensed" id="edit_accessory2">
 							<thead>
@@ -560,6 +561,7 @@
 					                       	</tr>
 							</thead>
 							<tbody></tbody>
+							<tfoot></tfoot>
 						</table>
 						<div id="edit_renwudanFenpei"></div>
 		                  <!-- <table class="table table-bordered table-condensed" id="xgxieban">
@@ -3660,9 +3662,12 @@ function checkquxiaoSplit(){
   		//重新初始化任务单号与任务单名称选择框,加上本次变更已关联任务单
   		refreshSelectEdit(tasks)
   		$("#edit_prj_type").val(data.prjType);
-  		var contractNameJiaArray = data.contractNameJia.split(",");
-  		$("#edit_jiafangName").val(contractNameJiaArray);
-  		$("#edit_jiafangName").selectpicker("refresh");
+  		if(data.contractNameJia!=null){
+  			var contractNameJiaArray = data.contractNameJia.split(",");
+  	  		$("#edit_jiafangName").val(contractNameJiaArray);
+  	  		$("#edit_jiafangName").selectpicker("refresh");
+  		}
+  		
   		$("#edit_yifangName").val(data.contractNameYi);
   		$("#edit_year").val(data.contractStartTime);
   		$("#edit_year2").val(data.contractEndTime);
@@ -3838,7 +3843,7 @@ function checkquxiaoSplit(){
     		xiebanhuixian(data.assistDepartment3,3);
     		$("#xgxiebanMoney3").val(data.assistDepartment3Money);
     	}
-    	/* $.ajax({
+    	 $.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/announcement/selectAccessoryById',
 	        dataType: 'json',
@@ -3846,27 +3851,31 @@ function checkquxiaoSplit(){
 	           id:edit_id
 	        },
 	        success: function (json) {
-	        	console.log(json)
-	        	$("#edit_accessory tbody").html('');
-	        	$("#edit_accessory2 tbody").html('');
+	        	//console.log(json)
+	        	$("#edit_accessory tfoot").html('');
+	        	$("#edit_accessory2 tfoot").html('');
 	        	for(var i=0;i<json.length;i++){
 	          		if(json[i].aType=="承接合同文本"){
-		            	   $("#edit_accessory tbody").append("<tr>"+
+		            	   $("#edit_accessory tfoot").append("<tr>"+
 									"<td>附件</td>"+
-				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+									"<td colspan='1'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+									"<td style='width:150px;'><button type='button' class='btn btn-primary'data-id="+edit_id+" data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='delteFile(this)'>删除附件</button></td>"+
+				         	    	/* "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+ */
 				         	    "</tr>");
 	            	   }
 	          		if(json[i].aType=="法律顾问签字"){
-		            	   $("#edit_accessory2 tbody").append("<tr>"+
+		            	   $("#edit_accessory2 tfoot").append("<tr>"+
 									"<td>附件</td>"+
-				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+									"<td style='width:150px;'><button type='button' class='btn btn-primary'data-id="+edit_id+" data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='delteFile(this)'>删除附件</button></td>"+
+				         	    	/* "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+ */
 				         	    "</tr>");
 	            	   }
 	        	}
 	        }
-    	}); */
+    	}); 
   		//$("#change").modal("show");
     		 $("#diyi").removeClass("active");
 	         $("#disan").addClass("active");
@@ -3877,8 +3886,12 @@ function checkquxiaoSplit(){
   	}
   	
   	function delteFile(obj){
-  		var id=$(obj).attr("data");
+  		var id=$(obj).attr("data-id");
   		var name=$(obj).attr("data2");
+  		 var statu = confirm("确认删除吗?");
+		  if(!statu){
+		   return false;
+		  } 
   		$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/accessory/deleteAccessoryByIdAndName',
@@ -3985,7 +3998,8 @@ function checkquxiaoSplit(){
 	  			assistDepartment3Money:undefined,
 	  			splitState:undefined,
 	  			cjSplitMoney:undefined,
-	  			jyms:undefined
+	  			jyms:undefined,
+	  			oldCjId:null,
 			}
 	  	cjContract.cjId=edit_id;
 	  	cjContract.taskCode=work_no;
@@ -4017,6 +4031,7 @@ function checkquxiaoSplit(){
 	  	cjContract.cjSplitMoney=splitArray;
 	  	cjContract.chaiFenXinXiArray=chaiFenXinXiArray;
 	  	cjContract.jyms=jyms_type;
+	  	cjContract.oldCjId=edit_id;
 	  	
 	  	var formData = new FormData();
 		formData.append("cjContract", JSON.stringify(cjContract));
@@ -4124,7 +4139,8 @@ function checkquxiaoSplit(){
 	  			assistDepartment3Money:undefined,
 	  			splitState:undefined,
 	  			cjSplitMoney:undefined,
-	  			jyms:undefined
+	  			jyms:undefined,
+	  			oldCjId:null,
 			}
 	  	cjContract.cjId=edit_id;
 	  	cjContract.taskCode=work_no;
@@ -4156,6 +4172,7 @@ function checkquxiaoSplit(){
 	  	cjContract.cjSplitMoney=splitArray;
 	  	cjContract.chaiFenXinXiArray=chaiFenXinXiArray;
 	  	cjContract.jyms=edit_prj_jyms;
+	  	cjContract.oldCjId=edit_id;
 	  	
 	  	var formData = new FormData();
 		formData.append("cjContract", JSON.stringify(cjContract));
@@ -4296,8 +4313,9 @@ function checkquxiaoSplit(){
 	          		if(json[i].aType=="法律顾问签字"){
 		            	   $("#look_accessory4 tbody").append("<tr>"+
 									"<td>附件</td>"+
-				         	    	"<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
-				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+
+									"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' style='color:blue;'>"+json[i].acName+"</a></td>"+
+				         	    	/* "<td ><input type='text' class='form-control' style='width:70%;' value='"+json[i].acName+"' disabled></td>"+
+				         	    	"<td style='width:150px;'><button type='button' class='btn btn-primary' data='"+json[i].acUrl+"' data2='"+json[i].acName+"' onclick='downloadFile(this)'>下载附件</button></td>"+ */
 				         	    "</tr>");
 	            	   }
 	          		
