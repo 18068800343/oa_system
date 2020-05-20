@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ldxx.dao.DepartmentTarget2Dao" >
+
+	<select id="getcontractUpdatebyomIdAndyear" resultType="DepartmentTarget2">
+		SELECT
+			a.prj_no,
+			a.dept as omId,
+			a.time as year,
+			a.money,
+			t.prj_name ,c.om_name
+		FROM
+			contract_update a
+			LEFT JOIN task t ON a.prj_no = t.prj_no
+			LEFT JOIN organization_management as c on a.dept=c.om_id
+		where a.time like #{year} and a.dept=#{omId}
+	</select>
+	
+	<select id="getTask2byomNameAndyear" resultType="DepartmentTarget2">
+		SELECT
+			a.t_no as prjNo,
+			a.t_name as prjName,
+			a.d_money as money,
+			a.t_date as year,
+			a.d_name as omName
+		FROM
+			task2 a
+			where a.t_date LIKE #{year} AND a.d_name = #{omName}
+	</select>
+	
+	<select id="getcjcontractUpdatebyomIdAndyear" resultType="DepartmentTarget2">
+		SELECT
+			a.prj_no,
+			a.dept as omId,
+			a.time as year,
+			a.money,
+			t.prj_name ,c.om_name
+		FROM
+			cj_contract_update a
+			LEFT JOIN task t ON a.prj_no = t.prj_no
+			LEFT JOIN organization_management as c on a.dept=c.om_id
+		where a.time like #{year} and a.dept=#{omId}
+	</select>
+	
+	<select id="getprjProgressFillbyomIdAndyear" resultType="DepartmentTarget2">
+		SELECT
+			a.task_no as prjNo,
+			a.prj_name ,
+			a.this_time as year,
+			a.all_money_yuan as money,
+			t.om_id, 
+			t.om_name
+		FROM
+			prj_progress_fill a
+			LEFT JOIN (select t.*,o.om_id,o.om_name from task t left join organization_management as o on t.main_department=o.om_id) t ON a.task_no = t.prj_no
+			LEFT JOIN mode_status m ON a.ppf_id = m.mode_id
+		where a.this_time like #{year} and t.om_id=#{omId} AND m.`status` = '2'
+	</select>
+	
+	<select id="gettDepartmentIncomebyomNameAndyear" resultType="DepartmentTarget2">
+		SELECT
+			a.t_no as prjNo,
+			a.t_name as prjName ,
+			a.date as year,
+			a.d_income as money,
+			a.d_name as omName,
+			b.om_id as omId
+		FROM
+			t_department_income a
+			LEFT JOIN organization_management as b on a.d_name=b.om_name
+		where a.date like #{year} and a.d_name=#{omName}
+	</select>
+	
+	<select id="getcompanyCostbyomNameAndyear" resultType="DepartmentTarget2">
+		SELECT
+			a.task_code as prjNo,
+			a.prj_name ,
+			a.date as year,
+			a.money as money,
+			a.depart_name as omName,
+			b.om_id
+		FROM
+			company_cost a
+			LEFT JOIN organization_management as b on a.depart_name=b.om_name
+		where a.date like #{year} and a.depart_name=#{omName}
+	</select>
+
+</mapper>
