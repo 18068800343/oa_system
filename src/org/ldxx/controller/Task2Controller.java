@@ -62,10 +62,10 @@ public class Task2Controller {
 	
 	@RequestMapping("/importExcel")
 	@ResponseBody
-	public int importExcel(@RequestParam("file") MultipartFile file,String time,HttpServletResponse response,HttpSession session) throws IOException{
+	public int importExcel(@RequestParam("file") MultipartFile file,/*String time,*/HttpServletResponse response,HttpSession session) throws IOException{
 		InputStream is=file.getInputStream();
 		ImportData importData=new ImportData();
-		Map<String,Object> map=importData.readXls(is,time);
+		Map<String,Object> map=importData.readXls(is/*,time*/);
 		int i=tService.addTask2(map);
 		return i;
 	}
@@ -139,10 +139,10 @@ public class Task2Controller {
 	
 	@RequestMapping("/importExcel2")
 	@ResponseBody
-	public int importExcel2(@RequestParam("file") MultipartFile file,String time,HttpServletResponse response,HttpSession session) throws IOException, ParseException{
+	public int importExcel2(@RequestParam("file") MultipartFile file,/*String time,*/HttpServletResponse response,HttpSession session) throws IOException, ParseException{
 		InputStream is=file.getInputStream();
 		ImportData importData=new ImportData();
-		Map<String,Object> map=importData.readXls2(is,time);
+		Map<String,Object> map=importData.readXls2(is/*,time*/);
 		int i=tdService.updateIncome(map);
 		
 		return i;

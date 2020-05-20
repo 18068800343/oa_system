@@ -65,7 +65,7 @@ public class ImportData {
 	@Autowired
 	private TDepartmentDao tDdao;
 	
-	public Map<String,Object> readXls(InputStream is, String time) throws IOException {  
+	public Map<String,Object> readXls(InputStream is/*, String time*/) throws IOException {  
 		Map<String,Object> map=new HashMap<String, Object>();
 		Workbook  hssfWorkbook=null;
 		
@@ -123,7 +123,7 @@ public class ImportData {
 	                		date1 = getValue(colum5);
 	                	}
 						//String val5 = getValue(colum5);
-						if(date1.contains(time)){
+						//if(date1.contains(time)){
 							if(flag==true){
 								String cl3 = getValue(colum3);
 								if(cl3.isEmpty()){
@@ -151,7 +151,7 @@ public class ImportData {
 									d.add(td);
 								}
 							}
-						}
+						//}
 					}
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
@@ -164,7 +164,7 @@ public class ImportData {
         return map;  
     }  
 	
-	public Map<String,Object> readXls2(InputStream is,String time) throws IOException, ParseException { 
+	public Map<String,Object> readXls2(InputStream is/*,String time*/) throws IOException, ParseException { 
 		Map<String,Object> map=new HashMap<String, Object>();
 		 List<TDepartment> list=new ArrayList<>();
 		 List<TDepartment> list2=new ArrayList<>();
@@ -181,7 +181,7 @@ public class ImportData {
                 continue;  
             }  
             SimpleDateFormat sdf2=new SimpleDateFormat("yyyy-MM-dd");
-    		String year=time.split("-")[0];
+    		/*String year=time.split("-")[0];
     		int month=Integer.valueOf(time.split("-")[1]);
     		int yearInt = Integer.valueOf(time.split("-")[0]);
     		String startTime="";
@@ -196,7 +196,7 @@ public class ImportData {
 				endTime=year+"-"+month+"-"+"01";
 			}
     		float start=sdf2.parse(startTime).getTime();
-    		float end=sdf2.parse(endTime).getTime();
+    		float end=sdf2.parse(endTime).getTime();*/
     		
     		Calendar calendar = new GregorianCalendar(1900,0,-1);  
             Date d = calendar.getTime(); 
@@ -223,7 +223,7 @@ public class ImportData {
                 	}
                 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 	
-                	if(fill>=start&&fill<end){
+                	//if(fill>=start&&fill<end){
                 		String date1 = simpleDateFormat.format(date);
                 		String tno = getValue(colum1);
                 		int i=INSTANCE.tDdao.isCountBytNoAndDate(tno,date1);
@@ -241,7 +241,7 @@ public class ImportData {
                 			td.setId(new TimeUUID().getTimeUUID());
                 			list.add(td);
                 		}
-                	}
+                	//}
                 }
             }  
         } 
