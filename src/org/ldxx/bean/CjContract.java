@@ -59,8 +59,14 @@ public class CjContract {
     
     private Double contractMoneyOld;//原合同金额
     private String oldCjId;//上次的ID
+    private String tijiaoViews;//上次的ID
     
-    
+	public String getTijiaoViews() {
+		return tijiaoViews;
+	}
+	public void setTijiaoViews(String tijiaoViews) {
+		this.tijiaoViews = tijiaoViews;
+	}
 	public String getOldCjId() {
 		return oldCjId;
 	}

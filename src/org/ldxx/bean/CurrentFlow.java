@@ -77,7 +77,17 @@ public class CurrentFlow {
     private String businessname;
     
     private String gaibian;
+
+    private String gaibian_views;
     
+	public String getGaibian_views() {
+		return gaibian_views;
+	}
+
+	public void setGaibian_views(String gaibian_views) {
+		this.gaibian_views = gaibian_views;
+	}
+
 	public String getGaibian() {
 		return gaibian;
 	}

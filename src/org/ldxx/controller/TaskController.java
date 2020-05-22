@@ -498,6 +498,7 @@ public class TaskController {
 			currentFlow.setFlowEndState(2);
 			currentFlow.setFlowNopassState(0);
 			currentFlow.setGaibian("true");
+			currentFlow.setGaibian_views(t.getTijiaoViews());
 			FlowHistroy flowHistroy = new FlowHistroy();
 			flowHistroy.setActor(user.getUserId());
 			flowHistroy.setActorname(user.getOmName());
@@ -1482,9 +1483,9 @@ public class TaskController {
 		@RequestParam(defaultValue="")String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")Double prjMoneyMin,@RequestParam(defaultValue="0")Double prjMoneyMax,
 		@RequestParam(defaultValue="0")Double contractMoneyMin,@RequestParam(defaultValue="0")Double contractMoneyMax,
 		@RequestParam(defaultValue="0")Double zdMoneyMin,@RequestParam(defaultValue="0")Double zdMoneyMax,
-		@RequestParam(defaultValue="%")String taskNo,@RequestParam(defaultValue="")String lxdateMin,@RequestParam(defaultValue="")String lxdateMax){
+		@RequestParam(defaultValue="%")String taskNo,@RequestParam(defaultValue="")String lxdateMin,@RequestParam(defaultValue="")String lxdateMax,@RequestParam(defaultValue="%")String erjileixing){
 		List<Task> task=taskDao.selectTask2( startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax,
-				contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax,taskNo,lxdateMin,lxdateMax);
+				contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax,taskNo,lxdateMin,lxdateMax,erjileixing);
 		return task;
 	}
 	

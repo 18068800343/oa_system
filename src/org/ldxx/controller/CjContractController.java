@@ -364,10 +364,10 @@ public class CjContractController {
 	public List<CjContract> selectCjContractBySome(String startMin,String startMax,String endMin,
 			String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")Double contractMoneyMin,
 			@RequestParam(defaultValue="0")Double contractMoneyMax,@RequestParam(defaultValue="0")Double zdMoneyMin,
-			@RequestParam(defaultValue="0")Double zdMoneyMax,String lxdateMin,String lxdateMax){
+			@RequestParam(defaultValue="0")Double zdMoneyMax,String lxdateMin,String lxdateMax,@RequestParam(defaultValue="%")String erjileixing){
 		List<CjContract> list=service.selectCjContractBySome(startMin,startMax,endMin,endMax,
 															 mainDp,xbDp,contractMoneyMin,
-															 contractMoneyMax,zdMoneyMin,zdMoneyMax,lxdateMin,lxdateMax);
+															 contractMoneyMax,zdMoneyMin,zdMoneyMax,lxdateMin,lxdateMax,erjileixing);
 		return list;
 	}
 	

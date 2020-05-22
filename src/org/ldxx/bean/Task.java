@@ -182,7 +182,16 @@ public class Task {
     private String status;//审批状态
     
     private double contractMoneyOld;//原合同金额
+    
+    private String tijiaoViews;//原合同金额
 
+	public String getTijiaoViews() {
+		return tijiaoViews;
+	}
+
+	public void setTijiaoViews(String tijiaoViews) {
+		this.tijiaoViews = tijiaoViews;
+	}
 
 	public double getContractMoneyOld() {
 		return contractMoneyOld;

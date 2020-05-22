@@ -14,7 +14,7 @@ public interface CjContractService {
 	
 	public List<CjContract> selectCjContractByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax);
 	
-	public List<CjContract> selectCjContractBySome (String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax,String lxdateMin,String lxdateMax);
+	public List<CjContract> selectCjContractBySome (String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax,String lxdateMin,String lxdateMax,String erjileixing);
 	
 	public CjContract selectCjContractById(String id);
 	
