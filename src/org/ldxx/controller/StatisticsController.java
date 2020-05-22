@@ -894,7 +894,10 @@ public class StatisticsController {
 			
 			DepartmentTarget dt =  dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
 			//部门新签合同额当年目标
-			double mbdouble =dt.getContractAmount();
+			double mbdouble =0.00;
+			if(dt!=null){
+				mbdouble=dt.getContractAmount();
+			}
 			for(int k=0;k<12;k++)
 			{
 				mb.add(mbdouble);
@@ -931,7 +934,10 @@ public class StatisticsController {
 		}
 		
 		OperationTarget ot=oservice.selectOperationTargetByYear(year);
-		double mbdouble = ot.getContractAmount();
+		double mbdouble = 0.00;
+		if(ot!=null){
+			mbdouble=ot.getContractAmount();
+		}
 		for(int k=0;k<12;k++)
 		{
 			mbAll.add(mbdouble);
@@ -1097,7 +1103,10 @@ public class StatisticsController {
 			
 			DepartmentTarget dt =  dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
 			//部门新签合同额当年目标
-			double mbdouble =dt.getRevenueTarget();
+			double mbdouble =0.00;
+			if(dt!=null){
+				mbdouble=dt.getRevenueTarget();
+			}
 			for(int k=0;k<12;k++)
 			{
 				mb.add(mbdouble);
@@ -1135,7 +1144,10 @@ public class StatisticsController {
 		
 		
 		OperationTarget ot=oservice.selectOperationTargetByYear(year);
-		double mbdouble = ot.getRevenueTarget();
+		double mbdouble =0.00;
+		if(ot!=null){
+			mbdouble=ot.getRevenueTarget();
+		}
 		for(int k=0;k<12;k++)
 		{
 			mbAll.add(mbdouble);
@@ -1302,7 +1314,10 @@ public class StatisticsController {
 			
 			DepartmentTarget dt =  dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
 			//部门新签合同额当年目标
-			double mbdouble =dt.getCollectionTarget();
+			double mbdouble =0.00;
+			if(dt!=null){
+				mbdouble=dt.getCollectionTarget();
+			}
 			for(int k=0;k<12;k++)
 			{
 				mb.add(mbdouble);
@@ -1339,7 +1354,10 @@ public class StatisticsController {
 		}
 		
 		OperationTarget ot=oservice.selectOperationTargetByYear(year);
-		double mbdouble = ot.getCollectionTarget();
+		double mbdouble = 0.00;
+		if(ot!=null){
+			mbdouble=ot.getCollectionTarget();
+		}
 		for(int k=0;k<12;k++)
 		{
 			mbAll.add(mbdouble);
