@@ -10,13 +10,16 @@
 	</select>
 	
 	<select id="selectCgContractByStatus2" resultType="CgContract">
-		select a.*,c.sp_name,f.StarterName as starterName,b.status as status
+		select a.*,c.sp_name,f.StarterName as starterName,b.status as status,g.do_date
 		FROM cg_contract a
 			left join mode_status b on a.cg_id =b.mode_id
 			left join sourcing_purchasing c on c.sp_id=a.contract_name_yi
 			LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
 					LEFT JOIN cg_contract a ON a.cg_id=f.mode_id  GROUP BY mode_id )  AS  f on a.cg_id=f.mode_id 
-		where (b.status=1 or b.status=2 or b.status=3) and a.history=1 order by contract_sign_time desc
+			LEFT JOIN (SELECT g.mode_id,do_date from (SELECT * from flowhistroy order by do_date DESC) g 
+				  LEFT JOIN cg_contract a ON a.cg_id=g.mode_id 
+				  LEFT JOIN mode_status mgs on a.cg_id =mgs.mode_id where mgs.`status`='2'  GROUP BY mode_id )  AS  g on a.cg_id=g.mode_id
+		where (b.status=1 or b.status=2 or b.status=3) and a.history=1 order by g.do_date desc	
 	</select>
 	
 	<insert id="addCgContract" parameterType="CgContract">

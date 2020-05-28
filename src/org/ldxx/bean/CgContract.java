@@ -47,8 +47,18 @@ public class CgContract {
 	
 	private String starterName;//发起人
     private String status;//审批状态
+    private String doDate;//审批状态
 	
-	
+    
+    
+	public String getDoDate() {
+		return doDate;
+	}
+
+	public void setDoDate(String doDate) {
+		this.doDate = doDate;
+	}
+
 	public String getCancelReason() {
 		return cancelReason;
 	}

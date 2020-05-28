@@ -182,7 +182,8 @@
 						<th style="width: 15%;">合同乙方</th>
 						<th style="width: 10%;" class="jinqianyanse">采购合同金额(元)</th>
 						<th style="width: 8%;">签订时间</th>
-						<th style="width:70px;">发起人</th>
+						<th style="width:6%;">发起人</th>
+						<th style="width:8%;">审批完成时间</th>
                         <th style="width:70px;">审批状态</th>
 						<th style="width: 110px;">操作</th>
 					</tr>
@@ -1723,6 +1724,7 @@
             { "data": "cgContractMoney",render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
             { "data": "contractSignTime"},
             { "data": "starterName"},
+            { "data": "doDate"},
             { "data": "status"},
             { "data": "status"},
         ],
@@ -1737,7 +1739,7 @@
 							},
 							{
 								 "class": "tcenter",
-							     "targets": 9,
+							     "targets": 10,
 							     "searchable": true,
 							     "render": function(data, type, full) {
 							    	 if(data=='2'){
@@ -1753,7 +1755,7 @@
 				              },
         					{	
 								 "class": "tcenter",
-								    "targets": 10,
+								    "targets": 11,
 								    "searchable": true,
 								    "render": function(data, type, full) {
 								    		var html='<i class="iconfont icon-icon-test Peccb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="查看详细信息" onclick="lookCgC(this)" data-toggle="modal" data-target="#allMsg1"   id="lookDetall"></i>'
@@ -1835,10 +1837,38 @@
 		                            return data;
 		                        },
 		                        body: function ( data, columnIdx, rowIdx, code ) {
-					                return data;
+		                        	if (rowIdx == 2) {
+										//data=data.replace("</a>","")
+										if (data != "无") {
+											/* var start = data.indexOf(">");
+											var end = data.lastIndexOf("<");
+											data = data.substring(start+1,end);
+											 */
+											if (data.indexOf("<br/>") >= 0) {
+												var a = data.split("<br/>")
+												var val = "";
+												for (var i = 0; i < a.length; i++) {
+													val += $(a[i]).html()
+															+ ","
+												}
+												var index = val
+														.lastIndexOf(",")
+												data = val.substring(0,
+														index);
+											} else {
+												var start = data
+														.indexOf(">");
+												var end = data
+														.lastIndexOf("<");
+												data = data.substring(
+														start + 1, end);
+											}
+										}
+									}
+		                        	return data;
 					            }
 		                    },
-		                    columns:[1,2,3,4,5,6,7]
+		                    columns:[1,2,3,4,5,6,7,8,9]
 		                }
 		            }
 		        ]
