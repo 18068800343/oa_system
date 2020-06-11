@@ -659,7 +659,7 @@
 							where a.history=1 and b.status=2) cja on cja.task_code = a.prj_no
 				LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f LEFT JOIN task a ON a.prj_id=f.mode_id  GROUP BY mode_id )  AS  f on a.prj_id=f.mode_id 
 				LEFT JOIN(SELECT a.mode_id, a.do_date from (SELECT a.* from flowhistroy a LEFT JOIN task b ON a.mode_id=b.prj_id left join mode_status as c on a.mode_id=c.mode_id
-								WHERE c.status='2' and a.gaibian IS NULL ORDER BY  a.do_date DESC) as a GROUP BY a.mode_id) as g ON a.prj_id=g.mode_id
+								WHERE c.status='2'  or c.status=1 and b.prj_no is not null and a.gaibian IS NULL ORDER BY  a.do_date DESC) as a GROUP BY a.mode_id) as g ON a.prj_id=g.mode_id
 				<where>
 					<if test="startMin!=''">
 						prj_start_time &gt;= #{startMin} and prj_start_time &lt;= #{startMax} and 

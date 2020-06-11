@@ -122,7 +122,7 @@
 		f.StarterName as starterName,b.status as status,g.do_date,
 		Num_char_extract(a.contract_no,0) as cno_sort,t.contract_money_old
 		FROM cj_contract as a 
-		LEFT JOIN task t on FIND_IN_SET(t.prj_no,a.task_code)
+		LEFT JOIN task t on FIND_IN_SET(t.prj_no,a.task_code) and t.history = 1
 		left join mode_status as b on a.cj_id=b.mode_id
 		left join organization_management as d on a.yi_cj_department=d.om_id 
 		left join organization_management as d2 on a.main_department=d2.om_id
@@ -141,16 +141,16 @@
 				contract_end_time &gt;= #{endMin} and contract_end_time &lt;= #{endMax} and 
 			</if>
 			<if test="mainDp!='%'.toString()">
-				main_department =#{mainDp} and 
+				a.main_department =#{mainDp} and 
 			</if>
 			<if test="xbDp!='%'.toString()">
-				assist_department1 =#{xbDp} or assist_department2 =#{xbDp} or assist_department3 =#{xbDp} and 
+				t.assist_department1 =#{xbDp} or t.assist_department2 =#{xbDp} or t.assist_department3 =#{xbDp} and 
 			</if>
 			<if test="contractMoneyMin!=0">
-				contract_money &gt;=#{contractMoneyMin} and contract_money &lt;=#{contractMoneyMax} and
+				t.contract_money &gt;=#{contractMoneyMin} and t.contract_money &lt;=#{contractMoneyMax} and
 			</if>
 			<if test="zdMoneyMin!=0">
-				temporary_money &gt;=#{zdMoneyMin} and temporary_money &lt;= #{zdMoneyMax} and 
+				a.temporary_money &gt;=#{zdMoneyMin} and a.temporary_money &lt;= #{zdMoneyMax} and 
 			</if>
 			<if test="lxdateMin!=''">
 				<!-- make_time &gt;= #{lxdateMin} and make_time &lt;= #{lxdateMax} and  -->
@@ -160,7 +160,7 @@
 				<!-- make_time &gt;= #{lxdateMin} and make_time &lt;= #{lxdateMax} and  -->
 				t.prj_type2 like #{erjileixing} and 
 			</if>
-			(b.status=1 or b.status=2 or b.status=3) and a.history=1 order by g.do_date desc		
+			(b.status=1 or b.status=2 or b.status=3) and a.history=1  order by g.do_date desc		
 		</where>	
 	</select>
 	
