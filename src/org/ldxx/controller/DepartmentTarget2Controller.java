@@ -60,7 +60,7 @@ public class DepartmentTarget2Controller {
 	public List<DepartmentTarget2> getbmwcsrList(String year,String omName){
 		year=year+"%";
 		OrganizationManagement om=oService.getOrgIdByName(omName);
-		List<DepartmentTarget2> DepartmentTarget2=dDao.getprjProgressFillbyomIdAndyear(year,om.getOmId());
+		List<DepartmentTarget2> DepartmentTarget2=dDao.getprjProgressFillbyomIdAndyear(year,omName);
 		List<DepartmentTarget2> d2=dDao.gettDepartmentIncomebyomNameAndyear(year,omName);
 		if(d2!=null&&d2.size()>0){
 			for(int i=0;i<d2.size();i++){

@@ -11,9 +11,10 @@
 			t.prj_name ,c.om_name
 		FROM
 			contract_update a
-			LEFT JOIN task t ON a.prj_no = t.prj_no
+			LEFT JOIN (select prj_id,prj_no,prj_name from task t LEFT JOIN mode_status m on t.prj_id=m.mode_id 
+								where t.history=1 and m.`status`=2 ) t ON a.prj_no = t.prj_no
 			LEFT JOIN organization_management as c on a.dept=c.om_id
-		where a.time like #{year} and a.dept=#{omId}
+		where a.time like #{year} and a.dept=#{omId} 
 	</select>
 	
 	<select id="getTask2byomNameAndyear" resultType="DepartmentTarget2">
@@ -37,7 +38,8 @@
 			t.prj_name ,c.om_name
 		FROM
 			cj_contract_update a
-			LEFT JOIN task t ON a.prj_no = t.prj_no
+			LEFT JOIN (select prj_id,prj_no,prj_name from task t LEFT JOIN mode_status m on t.prj_id=m.mode_id 
+								where t.history=1 and m.`status`=2 ) t ON a.prj_no = t.prj_no
 			LEFT JOIN organization_management as c on a.dept=c.om_id
 		where a.time like #{year} and a.dept=#{omId}
 	</select>
@@ -47,14 +49,15 @@
 			a.task_no as prjNo,
 			a.prj_name ,
 			a.this_time as year,
-			a.all_money_yuan as money,
-			t.om_id, 
-			t.om_name
+			pi.money_yuan as money,
+			o.om_id, 
+			o.om_name
 		FROM
 			prj_progress_fill a
-			LEFT JOIN (select t.*,o.om_id,o.om_name from task t left join organization_management as o on t.main_department=o.om_id) t ON a.task_no = t.prj_no
-			LEFT JOIN mode_status m ON a.ppf_id = m.mode_id
-		where a.this_time like #{year} and t.om_id=#{omId} AND m.`status` = '2'
+			LEFT JOIN prj_progress_fill_info pi ON pi.ppf_id = a.ppf_id  
+			left join organization_management as o on pi.department=o.om_name
+		where a.this_time like #{year}   and  pi.department = #{omName}
+		
 	</select>
 	
 	<select id="gettDepartmentIncomebyomNameAndyear" resultType="DepartmentTarget2">
