@@ -555,7 +555,7 @@ public class CjContractController {
 				e.printStackTrace();
 			}
 		}
-		return 1;
+		return i;
 	}
 	
 	@RequestMapping("/updateCjContractBySubmit")
