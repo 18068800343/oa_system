@@ -20,5 +20,7 @@ public interface AccessoryDao {
 	public List<Accessory> selectAccessoryByIdAndType(@Param("id")String id,@Param("type")String type);
 	
 	public int fileCount(@Param("id")String id);
+	
+	public Accessory getAccessByIdAndName(@Param("id")String id,@Param("acName")String acName);
     
 }

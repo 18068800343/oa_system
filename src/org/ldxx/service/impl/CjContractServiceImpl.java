@@ -35,8 +35,12 @@ public class CjContractServiceImpl implements CjContractService{
 			if(accessory2!=null){
 				adao.addAccessory(accessory2);
 			}
+			List<Accessory> accessory3=cj.getAccessory3();
+			if(accessory3!=null&&accessory3.size()!=0){
+				adao.addAccessory(accessory3);
+			}
 			//变更时复制附件
-			String oldCjId = cj.getOldCjId();
+			/*String oldCjId = cj.getOldCjId();
 			if(oldCjId!=null&&oldCjId!=""){
 				List<Accessory> oldAccessoryList = adao.selectAccessoryById(oldCjId);
 				if(oldAccessoryList!=null&& oldAccessoryList.size()>0){
@@ -45,7 +49,7 @@ public class CjContractServiceImpl implements CjContractService{
 					}
 					adao.addAccessory(oldAccessoryList);
 				}
-			}
+			}*/
 			/*List<CjSplitMoney> cjSplitMoney = cj.getCjSplitMoney();
 			for(int j=0;j<cjSplitMoney.size();j++){
 				cjSplitMoney.get(j).setCjId(cj.getCjId());

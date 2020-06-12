@@ -144,7 +144,11 @@ public class ImportData {
 									t2.settDesc(getValue(colum7));
 									
 									//td.settNo(getValue(colum1));
-									t2.setdName(getValue(colum6));
+									String dname=getValue(colum6);
+									if("检测部".equals(dname)){
+										dname="工程检测部";
+									}
+									t2.setdName(dname);
 									t2.setdMoney(Double.valueOf(cl3));
 									t2.setdIncome(Double.valueOf(0));
 									t.add(t2);
@@ -234,7 +238,11 @@ public class ImportData {
                 			list2.add(td);
                 		}else{
                 			td.settNo(tno);
-                			td.setdName(getValue(colum4));
+                			String dname=getValue(colum4);
+							if("检测部".equals(dname)){
+								dname="工程检测部";
+							}
+                			td.setdName(dname);
                 			td.settName(getValue(colum2));
                 			td.setdIncome(Double.valueOf(getValue(colum3)));
                 			td.setDate(date1);

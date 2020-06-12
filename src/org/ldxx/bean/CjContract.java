@@ -60,7 +60,22 @@ public class CjContract {
     private Double contractMoneyOld;//原合同金额
     private String oldCjId;//上次的ID
     private String tijiaoViews;//上次的ID
+    private String oldCjFileName;//上次的ID
+    private List<Accessory> accessory3;//法律顾问签字
     
+    
+	public List<Accessory> getAccessory3() {
+		return accessory3;
+	}
+	public void setAccessory3(List<Accessory> accessory3) {
+		this.accessory3 = accessory3;
+	}
+	public String getOldCjFileName() {
+		return oldCjFileName;
+	}
+	public void setOldCjFileName(String oldCjFileName) {
+		this.oldCjFileName = oldCjFileName;
+	}
 	public String getTijiaoViews() {
 		return tijiaoViews;
 	}

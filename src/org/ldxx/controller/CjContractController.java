@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.CjDeptSplitMoney;
@@ -34,6 +35,7 @@ import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.ContractUpdateService;
 import org.ldxx.service.OrganizationManagementService;
 import org.ldxx.service.TaskService;
+import org.ldxx.util.CopyFile;
 import org.ldxx.util.FlowUtill;
 import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -440,7 +442,7 @@ public class CjContractController {
 		map.put("chaiFenXinXiArray", Task.class);
 		JSONObject jsonObject=JSONObject.fromObject(cjContract);
 		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
-		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
+		//cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cj.setCjId(id);
@@ -450,6 +452,41 @@ public class CjContractController {
 		if(!f.exists()){
 			f.mkdirs();
 		}
+		
+		//变更时复制附件
+		String oldCjId = cj.getOldCjId();
+		String oldCjFileName = cj.getOldCjFileName();
+		List<Accessory> oldAccesslist=new ArrayList<>();
+		if(oldCjFileName.indexOf(",")!= -1){//包含
+			for(int x=0;x<oldCjFileName.split(",").length;x++){
+				String name=oldCjFileName.split(",")[x];
+				String oldpath=webApp+File.separator+oldCjId+File.separator+name;
+				String newpath=webApp+File.separator+id;
+				Accessory oldAccessory = adao.getAccessByIdAndName(oldCjId, name);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(name);
+				accessory.setAcUrl(id+File.separator+name);
+				accessory.setaType(oldAccessory.getaType());
+				oldAccesslist.add(accessory);
+				cj.setAccessory3(oldAccesslist);
+				CopyFile.copyFile(oldpath, newpath);
+			}
+		}else{
+			String oldpath=webApp+File.separator+oldCjId+File.separator+oldCjFileName;
+			String newpath=webApp+File.separator+id;
+			Accessory oldAccessory = adao.getAccessByIdAndName(oldCjId, oldCjFileName);
+			Accessory accessory=new Accessory();
+			accessory.setaId(id);
+			accessory.setAcName(oldCjFileName);
+			accessory.setAcUrl(id+File.separator+oldCjFileName);
+			accessory.setaType(oldAccessory.getaType());
+			oldAccesslist.add(accessory);
+			cj.setAccessory3(oldAccesslist);
+			CopyFile.copyFile(oldpath, newpath);
+		}
+		
+		
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
@@ -518,7 +555,7 @@ public class CjContractController {
 				e.printStackTrace();
 			}
 		}
-		return i;
+		return 1;
 	}
 	
 	@RequestMapping("/updateCjContractBySubmit")
@@ -539,6 +576,40 @@ public class CjContractController {
 		if(!f.exists()){
 			f.mkdirs();
 		}
+		
+		//变更时复制附件
+		String oldCjId = cj.getOldCjId();
+		String oldCjFileName = cj.getOldCjFileName();
+		List<Accessory> oldAccesslist=new ArrayList<>();
+		if(oldCjFileName.indexOf(",")!= -1){//包含
+			for(int x=0;x<oldCjFileName.split(",").length;x++){
+				String name=oldCjFileName.split(",")[x];
+				String oldpath=webApp+File.separator+oldCjId+File.separator+name;
+				String newpath=webApp+File.separator+id;
+				Accessory oldAccessory = adao.getAccessByIdAndName(oldCjId, name);
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(name);
+				accessory.setAcUrl(id+File.separator+name);
+				accessory.setaType(oldAccessory.getaType());
+				oldAccesslist.add(accessory);
+				cj.setAccessory3(oldAccesslist);
+				CopyFile.copyFile(oldpath, newpath);
+			}
+		}else{
+			String oldpath=webApp+File.separator+oldCjId+File.separator+oldCjFileName;
+			String newpath=webApp+File.separator+id;
+			Accessory oldAccessory = adao.getAccessByIdAndName(oldCjId, oldCjFileName);
+			Accessory accessory=new Accessory();
+			accessory.setaId(id);
+			accessory.setAcName(oldCjFileName);
+			accessory.setAcUrl(id+File.separator+oldCjFileName);
+			accessory.setaType(oldAccessory.getaType());
+			oldAccesslist.add(accessory);
+			cj.setAccessory3(oldAccesslist);
+			CopyFile.copyFile(oldpath, newpath);
+		}
+				
 		if(file.length>0){
 			List<Accessory> list=new ArrayList<>();
 			for(int ii=0;ii<file.length;ii++){
