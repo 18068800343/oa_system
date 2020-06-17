@@ -47,4 +47,6 @@ public interface ContractPaymentDao {
 	
 	public Pay getAccumulatedFinancialRecognitionMoneyByFbNo(@Param("fbNo")String fbNo);
 
+	int updatecwqrljMoneyById(@Param("pay")Pay pay);
+
 }

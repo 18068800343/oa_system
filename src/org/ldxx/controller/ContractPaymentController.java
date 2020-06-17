@@ -450,4 +450,13 @@ public class ContractPaymentController {
 		
 	}
 	
+	//通过id修改财务确认累计付款金额和其他代垫费用
+	@RequestMapping("/updatecwqrljMoneyById")
+	@ResponseBody
+	public int updatecwqrljMoneyById(Pay pay){
+		int i = payDao.updatecwqrljMoneyById(pay);
+		return i;
+		
+	}
+	
 }
