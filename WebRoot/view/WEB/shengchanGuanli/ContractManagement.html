@@ -571,6 +571,11 @@
 									<td colspan="3"><textarea class="form-control" rows="4"
 											style="width: 100%;" id="edit_work_info"></textarea></td>
 								</tr>
+								<tr>
+									<td>变更内容:</td>
+									<td colspan="3"><textarea class="form-control" rows="4"
+											style="width: 100%;" id="baocun_views"></textarea></td>
+								</tr>
 							</tbody>
 						</table>
 
@@ -650,9 +655,9 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" onclick="quxiaob()">取消</button>
 						<button type="button" class="btn btn-success"
-							onclick="save_tijiao_view()">保存</button>
+							onclick="edit_save()">保存</button>
 						<button type="button" class="btn btn-success"
-							onclick="xg_tijiao_view()">提交</button>
+							onclick="edit_submit()">提交</button>
 					</div>
 				</div>
 
@@ -1577,7 +1582,7 @@
 	<!-- model结束 合同扫描件 -->
 	
 	<!-- 提交 modal -->
-	<div class="modal fade" tabindex="-1" role="dialog"
+<!-- 	<div class="modal fade" tabindex="-1" role="dialog"
 		aria-labelledby="myLargeModalLabel" id="baocun_view_modal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -1599,11 +1604,11 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!-- 提交 modal结束 -->
 	
 	<!-- 提交 modal -->
-	<div class="modal fade" tabindex="-1" role="dialog"
+<!-- 	<div class="modal fade" tabindex="-1" role="dialog"
 		aria-labelledby="myLargeModalLabel" id="tijiao_view_modal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -1616,7 +1621,7 @@
 				</div>
 				<div class="modal-body">
 					<textarea class="form-control emptyC" rows="3" style="width: 100%;"
-						id="tijiao_views"></textarea>
+						id="baocun_views"></textarea>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -1625,7 +1630,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!-- 提交 modal结束 -->
 </body>
 <script src="../../js/jquery.js"></script>
@@ -3532,7 +3537,7 @@
 		$("#new_accessory2 tbody").find("tr").each(function() {
 			formData.append("file2", $(this).find("input")[0].files[0]);
 		})
-
+		myTool.mask.show('拉取审批负责人中...');
 		$
 				.ajax({
 					type : 'POST',
@@ -3543,7 +3548,12 @@
 					contentType : false,
 					async : false,
 					dataType : 'json',
+					error:function(e){
+						toastr.error("保存失败");
+						myTool.mask.hide();
+					},
 					success : function(json) {
+						myTool.mask.hide();
 						if (json == '0') {
 							toastr.error("保存失败");
 						} else {
@@ -4550,7 +4560,7 @@
 	}
 
 	function edit_submit() {
-		myTool.mask.show('拉取审批负责人中...');
+		
 		var splitArray = new Array();
 		var deptSplitArray = new Array();
 		var chaiFenXinXiArray = new Array();
@@ -4672,7 +4682,7 @@
 		cjContract.chaiFenXinXiArray = chaiFenXinXiArray;
 		cjContract.jyms = edit_prj_jyms;
 		cjContract.oldCjId = edit_id;
-		var baocun_views = $("#tijiao_views").val();
+		var baocun_views = $("#baocun_views").val();
 		
 		cjContract.tijiaoViews = baocun_views;
 		cjContract.oldCjFileName=fileName;
