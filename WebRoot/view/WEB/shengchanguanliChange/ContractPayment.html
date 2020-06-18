@@ -194,7 +194,7 @@
 			                                <td class="jingyongkk">任务单号</td>
 			                                <td><input type="text" class="form-control" id="renwudanhao" disabled style="width:60%;"></td>
 			                                <td class="jinqianyanse">已累计付款金额(元)</td>
-		                                	<td><input type="text" class="form-control" id="yileijinfuMoney" style="width:60%;" disabled></td>
+		                                	<td><input type="text" class="form-control" id="yileijinfuMoney" style="width:60%;"></td>
 			                            </tr>
 			                            <tr>
 				                                <td class="jingyongkk">是否进行合同履约结算</td>
@@ -241,8 +241,8 @@
 		                            <tr>
 		                                <td class="jinqianyanse">本次申请付款(元)  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
 		                                <td><input type="text" class="form-control" id="bencishenqingfukuan" style="width:60%;"></td>
-		                                <td>付款单说明</td>
-		                                <td><input type="text" class="form-control" id="fukuandanshuoming" style="width:60%;"></td>
+		                                <td class="jinqianyanse">已申请未付款金额</td>
+		                                <td><input type="text" class="form-control" id="ysqwfkMoney" style="width:60%;"></td>
 		                            </tr>
 		                            <tr>
 		                                <td style="width:15%;" class="jinqianyanse">财务确认累计付款金额(元)  <i class="iconfont icon-xingxing-copy"  style="color:red;"></i></td>
@@ -258,6 +258,12 @@
 		                                </td>
 		                                 <td style="width:15%;">编制时间</td>
 		                                <td style="width:30%;"><input type="text" class="form-control" id="year" style="width:60%;"></td>
+		                            </tr>
+		                            <tr>
+		                            	<td>付款单说明</td>
+		                                <td colspan="3">
+		                                	<textarea class="form-control" id="fukuandanshuoming" rows="4" style="width:100%;"></textarea>
+		                                </td>
 		                            </tr>
 	                    	</tbody>
                         </table> 
@@ -1130,7 +1136,6 @@
 	        				$("#fbdanwei").val(json.ccName)
 	        				$("#guanlibm").val(json.omName)
 	        				isjinxinghetongjiesuan($('#hetonghao').val());
-	        				getTotalPayMoney($('#hetonghao').val());
 	        				getRemainPayMoney($('#hetonghao').val());
 	        				getSk(json.workNo);
 	        				getCaiWuQueRenLeiJiMoney($('#hetonghao').val())
@@ -1387,19 +1392,7 @@
         });  
   	}
 	
-	function getTotalPayMoney(obj){
-		$.ajax({
-            type: 'POST',
-            url: getContextPath()+'/pay/getTotalPayMoney',
-            dataType: 'json',
-            data: {
-            	no:obj,
-            },
-            success: function (json) {
-                $("#yileijinfuMoney").val(json.alreadyAccumulateMoney)
-            }
-        });
-	}
+	
 	
 	
 	//修改回显
@@ -1424,7 +1417,7 @@
 	        	$("#zhuhetongMoney").val(json.mainContractMoney);
 	        	$("#xiangmuming").val(json.prjName);
 	        	$("#renwudanhao").val(json.prjListCode);
-	        	$("#yileijinfuMoney").val(json.alreadyAccumulateMoney);
+	        	$("#yileijinfuMoney").val(json.yljfkMoney);
 	        	$("#isjinxinghetongjiesuan").val(json.ifContractDoCost);
 	        	$("#hetongjiesuanMoney").val(json.contractDoCostMoney);
 	        	$("#yikaipiaoMoney").val(json.alreadyKpMoney);
@@ -1437,6 +1430,7 @@
 	        	$("#year").val(json.compilerTime);
 	        	$("#caiwuquerenLeiJiMoney").val(json.accumulatedFinancialRecognitionMoney);
 	    		$("#qitadaidianMoney").val(json.otherMatsMoney);
+	    		$("#ysqwfkMoney").val(json.ysqwfkMoney)
 	    		$.ajax({
                     type: 'POST',
                     url: getContextPath()+'/subcontract/getFBContractByNo',
@@ -1539,6 +1533,7 @@
 		var year=$("#year").val();
 		var caiwuquerenleijiMoney=$("#caiwuquerenLeiJiMoney").val();
 		var qitadaidianMoney=$("#qitadaidianMoney").val();
+		var ysqwfkMoney=$("#ysqwfkMoney").val();
 		
 		if(obj=='1'){
 			if(hetongming==''){
@@ -1612,7 +1607,7 @@
    					fbContractSchedule:hetongjindu,
   					ifContractDoCost:isjinxinghetongjiesuan,
   					contractDoCostMoney:hetongjiesuanMoney,
-  					alreadyAccumulateMoney:yileijinfuMoney,
+  					yljfkMoney:yileijinfuMoney,
   					GenerationAdvancesMoney:daidianMoney,
   					thisTimeAskMoney:bencishenqingfukuan,
   					payMethod:fukuantype,
@@ -1620,7 +1615,8 @@
   					compilerPerson:userSignetMan,
   					compilerTime:year,
   					accumulatedFinancialRecognitionMoney:caiwuquerenleijiMoney,
-  					otherMatsMoney:qitadaidianMoney
+  					otherMatsMoney:qitadaidianMoney,
+  					ysqwfkMoney:ysqwfkMoney,
 	            },
 	            success: function (json) {
 	            	//console.log(json);
@@ -2131,7 +2127,6 @@
 				$("#fbdanwei").val(json.ccName)
 				$("#guanlibm").val(json.omName)
 				isjinxinghetongjiesuan(json.fbNo);
-				getTotalPayMoney(json.fbNo);
 				getRemainPayMoney(json.fbNo);
 				getSk(json.workNo);
 				getCaiWuQueRenLeiJiMoney(json.fbNo)

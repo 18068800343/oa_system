@@ -11,14 +11,17 @@
 	
 	<select id="selectPayByStatus2" resultType="org.ldxx.bean.Pay">
 		select a.*,f.contract_money as fbcontractMoney,f.contract_name_yi,b.u_name,
-		f.StarterName as starterName,m.status as status
+		f.StarterName as starterName,m.status as status,g.do_date
 		FROM pay a
 			left join mode_status m on m.mode_id=a.pay_id
 			left join fb_contract f on a.contract_no=f.fb_no and f.history=1
 			left join user b on a.compiler_person=b.user_id
 			LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
 					LEFT JOIN pay a ON a.pay_id=f.mode_id  GROUP BY mode_id )  AS  f on a.pay_id=f.mode_id 
-		where (m.status=1 or m.status=2 or m.status=0)
+			LEFT JOIN (SELECT DISTINCT g.mode_id,MAX(do_date) as do_date from (SELECT  * from flowhistroy order by do_date DESC) g 
+				  LEFT JOIN pay a ON a.pay_id=g.mode_id 
+					LEFT JOIN mode_status mgs on a.pay_id =mgs.mode_id where mgs.`status`='2'  GROUP BY g.mode_id)  AS  g on a.pay_id=g.mode_id
+		where (m.status=1 or m.status=2 or m.status=0) order by g.do_date desc	
 	</select>
 	
  	<insert id="addPaySave" parameterType="org.ldxx.bean.Pay" >
@@ -30,7 +33,7 @@
       generation_advances_money,this_time_ask_money, 
       pay_method,
       pay_list_explain, compiler_person, compiler_time, 
-      make_time,accumulated_financial_recognition_money,other_mats_money)
+      make_time,accumulated_financial_recognition_money,other_mats_money,ysqwfk_money,yljfk_money)
     values (#{pay.payId,jdbcType=VARCHAR},#{pay.payCode,jdbcType=VARCHAR}, #{pay.contractName,jdbcType=VARCHAR},#{pay.skMoney},#{pay.skScale},
       #{pay.contractNo,jdbcType=VARCHAR},#{pay.contractMoney,jdbcType=VARCHAR}, #{pay.alreadyKpMoney,jdbcType=VARCHAR}, #{pay.thisTimeKpMoney,jdbcType=VARCHAR}, 
       #{pay.mainContractCode,jdbcType=VARCHAR}, #{pay.mainContractName,jdbcType=VARCHAR}, #{pay.mainContractMoney,jdbcType=VARCHAR}, 
@@ -39,7 +42,7 @@
       #{pay.GenerationAdvancesMoney,jdbcType=VARCHAR}, #{pay.thisTimeAskMoney,jdbcType=VARCHAR}, 
       #{pay.payMethod,jdbcType=VARCHAR},
       #{pay.payListExplain,jdbcType=VARCHAR},#{pay.compilerPerson,jdbcType=VARCHAR}, #{pay.compilerTime,jdbcType=VARCHAR}, 
-      now(), #{pay.accumulatedFinancialRecognitionMoney}, #{pay.otherMatsMoney})
+      now(), #{pay.accumulatedFinancialRecognitionMoney}, #{pay.otherMatsMoney}, #{pay.ysqwfkMoney},#{pay.yljfkMoney})
   	</insert>
   	
   	<update id="updatePayById">
@@ -68,7 +71,9 @@
       	compiler_time=#{pay.compilerTime,jdbcType=VARCHAR}, 
       	make_time=now(),
       	accumulated_financial_recognition_money=#{pay.accumulatedFinancialRecognitionMoney},
-      	other_mats_money=#{pay.otherMatsMoney}
+      	other_mats_money=#{pay.otherMatsMoney},
+      	ysqwfk_money=#{pay.ysqwfkMoney},
+      	yljfk_money=#{pay.yljfkMoney}
       where pay_id=#{pay.payId,jdbcType=VARCHAR}
   	</update>
   	

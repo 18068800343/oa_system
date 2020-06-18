@@ -37,7 +37,7 @@ public class Pay {
 
     private Double contractDoCostMoney;//合同履约结算金额
 
-    private Double alreadyAccumulateMoney;//已累计进付金额
+    private Double alreadyAccumulateMoney;
 
     private Double GenerationAdvancesMoney; //付款申请代垫款
     
@@ -63,7 +63,8 @@ public class Pay {
     
     private Double accumulatedFinancialRecognitionMoney;//财务确认累计付款金额(元)
     private Double otherMatsMoney;//其他代垫费用
-    
+    private Double ysqwfkMoney;//已申请未付款金额
+    private Double yljfkMoney;////已累计付款金额
     
     private List<Accessory> accessory;
     private List<Accessory> accessory2;
@@ -76,9 +77,28 @@ public class Pay {
     
     private String starterName;//发起人
     private String status;//审批状态
+    private String doDate;
     
     
-    public Double getAccumulatedFinancialRecognitionMoney() {
+    public String getDoDate() {
+		return doDate;
+	}
+	public void setDoDate(String doDate) {
+		this.doDate = doDate;
+	}
+	public Double getYljfkMoney() {
+		return yljfkMoney;
+	}
+	public void setYljfkMoney(Double yljfkMoney) {
+		this.yljfkMoney = yljfkMoney;
+	}
+	public Double getYsqwfkMoney() {
+		return ysqwfkMoney;
+	}
+	public void setYsqwfkMoney(Double ysqwfkMoney) {
+		this.ysqwfkMoney = ysqwfkMoney;
+	}
+	public Double getAccumulatedFinancialRecognitionMoney() {
 		return accumulatedFinancialRecognitionMoney;
 	}
 	public void setAccumulatedFinancialRecognitionMoney(Double accumulatedFinancialRecognitionMoney) {

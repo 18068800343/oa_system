@@ -42,15 +42,15 @@
                             <td id="lookhetongjindu"></td>
                         </tr> 
                         <tr>
-                            <td>收款金额(元)</td>
+                            <td class="jinqianyanse">收款金额(元)</td>
                             <td id="lookSkMoney"></td>
                             <td>收款比例</td>
                             <td id="lookSkScale"></td>
                         </tr>
                         <tr>
-                            <td>已开票金额(元)</td>
+                            <td class="jinqianyanse">已开票金额(元)</td>
                             <td id="lookyikaipiaoMoney"></td>
-                            <td>本次开票金额(元)</td>
+                            <td class="jinqianyanse">本次开票金额(元)</td>
                             <td id="lookthiskaipiaoMoney"></td>
                         </tr>
                         <tr>
@@ -60,7 +60,7 @@
                             <td id="lookzhuhetongNo"></td>
                         </tr>
                         <tr>
-                            <td>主合同金额(元)</td>
+                            <td class="jinqianyanse">主合同金额(元)</td>
                             <td id="lookzhuhetongMoney"></td>
                             <td>项目名称</td>
                             <td id="lookxiangmuming"></td>
@@ -68,13 +68,13 @@
                         <tr>
                             <td>任务单号</td>
                             <td id="lookrenwudanhao"></td>
-                            <td>已累计付款金额(元)</td>
+                            <td class="jinqianyanse">已累计付款金额(元)</td>
                             <td id="lookyileijinfuMoney"></td>
                         </tr>
                         <tr>
                             <td>是否进行合同履约结算</td>
                             <td id="lookisjinxinghetongjiesuan"></td>
-                            <td>合同履约结算金额(元)</td>
+                            <td class="jinqianyanse">合同履约结算金额(元)</td>
                             <td id="lookhetongjiesuanMoney"></td>
                         </tr>
                         <tr>
@@ -84,28 +84,36 @@
                              <td id="look_guanlibm"></td>
                         </tr>
                         <tr>
-                            <td>借款金额(元)</td>
+                            <td class="jinqianyanse">借款金额(元)</td>
                             <td id="lookdaidianMoney"></td>
-                            <td>本次申请付款(元)</td>
+                            <td class="jinqianyanse">本次申请付款(元)</td>
                             <td id="lookbencishenqingfukuan"></td>
                         </tr>
                         <tr>
                             <td>付款性质</td>
                             <td id="lookfukuantype"></td>
-                            <td>付款单说明</td>
-                            <td id="lookfukuandanshuoming"></td>
+                            <td class="jinqianyanse">已申请未付款金额</td>
+		                    <td id="lookysqwfkMoney"></td>
                         </tr>
                         <tr>
-                            <td class="jinqianyanse">财务确认累计付款金额(元)</td>
-                            <td id="lookcaiwuquerenLeiJiMoney"></td>
-                            <td class="jinqianyanse">其他代垫费用(元)</td>
-                            <td id="lookqitadaidianMoney"></td>
+                            <td class="jinqianyanse">财务确认累计付款金额(元)<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                            <td>
+                            	<input type="text" class="form-control" id="lookcaiwuquerenLeiJiMoney" style="width:60%;" disabled>
+                            </td>
+                            <td class="jinqianyanse">其他代垫费用(元)<i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
+                            <td>
+                            	<input type="text" class="form-control" id="lookqitadaidianMoney"  style="width:60%;" disabled>
+                            </td>
                         </tr>
                         <tr>
                             <td>编制人</td>
                             <td id="lookuserSignetMan"></td>
                             <td>编制时间</td>
                             <td id="lookyear"></td>
+                        </tr>
+                        <tr>
+                        	<td>付款单说明</td>
+                            <td colspan="3" id="lookfukuandanshuoming"></td>
                         </tr>
                        <!--  <tr>
                             <td>付款单号</td>
@@ -293,9 +301,20 @@
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/bootstrap-select.js"></script>
 <script>
+	var user;
     $(document).ready( function () {
     	initTable();
-    	
+    	$.ajax({
+    		type:"post",
+    		url:getContextPath()+"/login/getUser",
+    		async:false,
+    		data:{
+    		},
+    		success:function(json){
+    			user=json;
+    			console.log(user)
+    		}
+    	});
 	});
     
     function GetQueryString(name){
@@ -374,7 +393,7 @@
 				}else{
 					$("#lookhetongjiesuanMoney").text(data.contractDoCostMoney);
 				}
-				$("#lookyileijinfuMoney").text(data.alreadyAccumulateMoney);
+				$("#lookyileijinfuMoney").text(data.yljfkMoney==null?"":data.yljfkMoney);
 				$("#lookdaidianMoney").text(data.generationAdvancesMoney)
 				$("#lookbencishenqingfukuan").text(data.thisTimeAskMoney);
 				$("#lookfukuantype").text(data.payMethod);
@@ -382,11 +401,16 @@
 				$("#lookyear").text(data.compilerTime);
 				$("#lookuserSignetMan").text(data.compilerPerson);
 				$("#payMoney").val(data.authorisePayment)
-				$("#lookcaiwuquerenLeiJiMoney").text(data.accumulatedFinancialRecognitionMoney==null?0:data.accumulatedFinancialRecognitionMoney)
-				$("#lookqitadaidianMoney").text(data.otherMatsMoney==null?0:data.otherMatsMoney)
+				$("#lookcaiwuquerenLeiJiMoney").val(data.accumulatedFinancialRecognitionMoney==null?"":data.accumulatedFinancialRecognitionMoney)
+				$("#lookqitadaidianMoney").val(data.otherMatsMoney==null?"":data.otherMatsMoney)
+				$("#lookysqwfkMoney").text(data.ysqwfkMoney==null?"":data.ysqwfkMoney)
 		
 				if(editOrView=='edit'&&(step=='4'||step=='5'||step=='6')){
 					$("#payMoney").removeAttr("disabled");
+				}
+				if(editOrView=='edit'&&user.dutyName2.indexOf("财务负责人")!=-1){
+					$("#lookcaiwuquerenLeiJiMoney").removeAttr("disabled");
+					$("#lookqitadaidianMoney").removeAttr("disabled");
 				}
 				
 				$.ajax({
@@ -397,8 +421,8 @@
                     	no:data.contractNo
                     },
                     success: function (json) {
-        				$("#look_fbdanwei").text(json.ccName)
-        				$("#look_guanlibm").text(json.omName)
+        				$("#look_fbdanwei").text(json.ccName==null?"":json.ccName)
+        				$("#look_guanlibm").text(json.omName==null?"":json.omName)
         				
                     }
           		});
@@ -438,6 +462,51 @@
 	    });
 		
 	}
+	
+	//保存
+	function save() {
+		try {
+			
+			var result = "";
+			if (user.dutyName2.indexOf("财务负责人")!=-1) {
+				var lookcaiwuquerenLeiJiMoney = $("#lookcaiwuquerenLeiJiMoney").val()
+				var lookqitadaidianMoney = $("#lookqitadaidianMoney").val();
+				if (lookcaiwuquerenLeiJiMoney == "" || lookqitadaidianMoney == null || lookqitadaidianMoney == undefined) {
+					return "0";
+				}
+				if (null == lookqitadaidianMoney || "" == lookqitadaidianMoney || lookqitadaidianMoney == undefined) {
+					return "0";
+				} 
+				$.ajax({
+					type : "POST",
+					url : getContextPath() + "/pay2/updatecwqrljMoneyById",
+					dataType : "json",
+					async : false,
+					data : {
+						payId : id,
+						accumulatedFinancialRecognitionMoney : lookcaiwuquerenLeiJiMoney,
+						otherMatsMoney : lookqitadaidianMoney,
+						
+					},
+					success : function(json) {
+						result = json;
+						if (json > 0) {
+							toastr.success("修改成功")
+						} else {
+							toastr.error("修改失败")
+						}
+					}
+				})
+			} else {
+				result = '1';
+			}
+			return result;
+		} catch (e) {
+			return 0;
+		}
+
+	}
+	
 	//下载附件
 	function download_all(obj){
 		var url=$(obj).attr("data2");
@@ -632,6 +701,9 @@
     function saveFlow4(){
     	var result={};
     	var money = $("#payMoney").val();
+    	if (null == money || "" == money || money == undefined) {
+			return "0";
+		} 
     	$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/pay2/updateAuthorisePayment',
@@ -639,7 +711,7 @@
 	        async:false,
 	        data:{
 	        	id:id,
-	        	money:$("#payMoney").val()
+	        	money:money
 	        },
 	        success: function (json) {
 	        	result.rel=json;
@@ -649,6 +721,10 @@
     }
     function saveFlow5(){
        	var result={};
+       	var money = $("#payMoney").val();
+    	if (null == money || "" == money || money == undefined) {
+			return "0";
+		} 
     	$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/pay2/updateAuthorisePayment',
@@ -656,7 +732,7 @@
 	        async:false,
 	        data:{
 	        	id:id,
-	        	money:$("#payMoney").val()
+	        	money:money
 	        },
 	        success: function (json) {
 	        	result.rel=json;
@@ -667,6 +743,10 @@
     }
     function saveFlow6(){
     	var result={};
+    	var money = $("#payMoney").val();
+    	if (null == money || "" == money || money == undefined) {
+			return "0";
+		} 
     	$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/pay2/updateAuthorisePayment',
@@ -674,7 +754,7 @@
 	        async:false,
 	        data:{
 	        	id:id,
-	        	money:$("#payMoney").val()
+	        	money:money
 	        },
 	        success: function (json) {
 	        	

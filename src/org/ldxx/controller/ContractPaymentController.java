@@ -74,12 +74,12 @@ public class ContractPaymentController {
 	@ResponseBody
 	public List<Pay> selectPayByStatus2(){
 		List<Pay> pay=payService.selectPayByStatus2();
-		for(int i=0;i<pay.size();i++){
+		/*for(int i=0;i<pay.size();i++){
 			String fbNo=pay.get(i).getContractNo();
 			Pay p=payService.getTotalPayMoney(fbNo);
 			Double alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
 			pay.get(i).setAlreadyAccumulateMoney(alreadyAccumulateMoney);
-		}
+		}*/
 		return pay;
 	}
 
@@ -456,7 +456,6 @@ public class ContractPaymentController {
 	public int updatecwqrljMoneyById(Pay pay){
 		int i = payDao.updatecwqrljMoneyById(pay);
 		return i;
-		
 	}
 	
 }

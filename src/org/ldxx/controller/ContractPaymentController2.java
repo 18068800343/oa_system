@@ -65,12 +65,12 @@ public class ContractPaymentController2 {
 	@ResponseBody
 	public List<Pay2> selectPayByStatus(String status){
 		List<Pay2> pay=payService.selectPayByStatus(status);
-		for(int i=0;i<pay.size();i++){
+		/*for(int i=0;i<pay.size();i++){
 			String fbNo=pay.get(i).getContractNo();
 			Pay2 p=payService.getTotalPayMoney(fbNo);
 			Double alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
 			pay.get(i).setAlreadyAccumulateMoney(alreadyAccumulateMoney);
-		}
+		}*/
 		return pay;
 	}
 	
@@ -78,12 +78,12 @@ public class ContractPaymentController2 {
 	@ResponseBody
 	public List<Pay2> selectPayByStatus2(){
 		List<Pay2> pay=payService.selectPayByStatus2();
-		for(int i=0;i<pay.size();i++){
+		/*for(int i=0;i<pay.size();i++){
 			String fbNo=pay.get(i).getContractNo();
 			Pay2 p=payService.getTotalPayMoney(fbNo);
 			Double alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
 			pay.get(i).setAlreadyAccumulateMoney(alreadyAccumulateMoney);
-		}
+		}*/
 		return pay;
 	}
 
@@ -452,6 +452,14 @@ public class ContractPaymentController2 {
 		Pay2 pay = payDao.getAccumulatedFinancialRecognitionMoneyByFbNo(fbno);
 		return pay;
 		
+	}
+	
+	//通过id修改财务确认累计付款金额和其他代垫费用
+	@RequestMapping("/updatecwqrljMoneyById")
+	@ResponseBody
+	public int updatecwqrljMoneyById(Pay2 pay){
+		int i = payDao.updatecwqrljMoneyById(pay);
+		return i;
 	}
 	
 }

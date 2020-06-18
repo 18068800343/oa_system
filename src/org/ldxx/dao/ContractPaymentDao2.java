@@ -3,6 +3,7 @@ package org.ldxx.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.ldxx.bean.Pay;
 import org.ldxx.bean.Pay2;
 
 public interface ContractPaymentDao2 {
@@ -46,5 +47,7 @@ public interface ContractPaymentDao2 {
 	public int getApprovalCountByfbNo(@Param("fbNo")String fbNo);
 	
 	public Pay2 getAccumulatedFinancialRecognitionMoneyByFbNo(@Param("fbNo")String fbNo);
+
+	int updatecwqrljMoneyById(@Param("pay")Pay2 pay);
 
 }
