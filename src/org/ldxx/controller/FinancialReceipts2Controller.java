@@ -20,6 +20,7 @@ import org.ldxx.bean.FinancialReceipts;
 import org.ldxx.bean.FinancialTables;
 import org.ldxx.bean.TDepartment;
 import org.ldxx.bean.Task2;
+import org.ldxx.dao.FinancialReceipts2Dao;
 import org.ldxx.service.FinancialReceipts2Service;
 import org.ldxx.util.ImportData;
 import org.ldxx.util.TimeUUID;
@@ -40,6 +41,8 @@ public class FinancialReceipts2Controller {
 
 	@Autowired
 	private FinancialReceipts2Service service;
+	@Autowired
+	private FinancialReceipts2Dao dao;
 	
 	
 	@RequestMapping("/selectfinancialTables")
@@ -83,5 +86,13 @@ public class FinancialReceipts2Controller {
 		return service.updateState(fd);
 	}
 	
+	
+	@RequestMapping("/getSumMoneyByYear")
+	@ResponseBody
+	public List<FinancialTables> getSumMoneyByYear(String year){
+		year="%"+year+"%";
+		List<FinancialTables> f=dao.getSumMoneyByYear(year);
+		return f;
+	}
 	
 }

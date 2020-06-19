@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CompanyCost;
 import org.ldxx.bean.CompanyCostCf;
 import org.ldxx.bean.SecondCompanyCost;
@@ -256,5 +257,33 @@ public class Task2Controller {
 			year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 		String data = tService.getBM2ManageTarget(year);
 		return data;
+	}
+	
+	/**
+	 * 新签合同额部门年度累计统计金额
+	 * @param omName
+	 * @param year
+	 * @return
+	 */
+	@RequestMapping("/getSumMoneyByYear")
+	@ResponseBody()
+	public List<Task2> getSumMoneyByYear(String year){
+		year="%"+year+"%";
+		List<Task2> t=task2Dao.getSumMoneyByYear(year);
+		return t;
+	}
+	
+	/**
+	 * 收入管理部门年度累计统计金额
+	 * @param omName
+	 * @param year
+	 * @return
+	 */
+	@RequestMapping("/getSumMoneyByYear2")
+	@ResponseBody()
+	public List<TDepartment> getSumMoneyByYear2(String year){
+		year="%"+year+"%";
+		List<TDepartment> t=tDepartmentDao.getSumMoneyByYear2(year);
+		return t;
 	}
 }

@@ -7,26 +7,26 @@
 			a.prj_no,
 			a.dept as omId,
 			a.time as year,
-			a.money,
+			sum(a.money) as money,
 			t.prj_name ,c.om_name
 		FROM
 			contract_update a
 			LEFT JOIN (select prj_id,prj_no,prj_name from task t LEFT JOIN mode_status m on t.prj_id=m.mode_id 
 								where t.history=1 and m.`status`=2 ) t ON a.prj_no = t.prj_no
 			LEFT JOIN organization_management as c on a.dept=c.om_id
-		where a.time like #{year} and a.dept=#{omId} 
+		where a.time like #{year} and a.dept=#{omId} AND a.money!=0 GROUP BY a.prj_no,a.time
 	</select>
 	
 	<select id="getTask2byomNameAndyear" resultType="DepartmentTarget2">
 		SELECT
 			a.t_no as prjNo,
 			a.t_name as prjName,
-			a.d_money as money,
+			sum(a.d_money) as money,
 			a.t_date as year,
 			a.d_name as omName
 		FROM
 			task2 a
-			where a.t_date LIKE #{year} AND a.d_name = #{omName}
+			where a.t_date LIKE #{year} AND a.d_name = #{omName} AND a.d_money!=0 GROUP BY a.t_no,a.t_date
 	</select>
 	
 	<select id="getcjcontractUpdatebyomIdAndyear" resultType="DepartmentTarget2">
@@ -34,14 +34,14 @@
 			a.prj_no,
 			a.dept as omId,
 			a.time as year,
-			a.money,
+			sum(a.money) as money,
 			t.prj_name ,c.om_name
 		FROM
 			cj_contract_update a
 			LEFT JOIN (select prj_id,prj_no,prj_name from task t LEFT JOIN mode_status m on t.prj_id=m.mode_id 
 								where t.history=1 and m.`status`=2 ) t ON a.prj_no = t.prj_no
 			LEFT JOIN organization_management as c on a.dept=c.om_id
-		where a.time like #{year} and a.dept=#{omId}
+		where a.time like #{year} and a.dept=#{omId} AND a.money!=0 GROUP BY a.prj_no,a.time
 	</select>
 	
 	<select id="getprjProgressFillbyomIdAndyear" resultType="DepartmentTarget2">
@@ -49,14 +49,14 @@
 			a.task_no as prjNo,
 			a.prj_name ,
 			a.this_time as year,
-			pi.money_yuan as money,
+			sum(pi.money_yuan) as money,
 			o.om_id, 
 			o.om_name
 		FROM
 			prj_progress_fill a
 			LEFT JOIN prj_progress_fill_info pi ON pi.ppf_id = a.ppf_id  
 			left join organization_management as o on pi.department=o.om_name
-		where a.this_time like #{year}   and  pi.department = #{omName}
+		where a.this_time like #{year}   and  pi.department = #{omName} and pi.money_yuan!=0  GROUP BY a.task_no,a.this_time
 		
 	</select>
 	
@@ -65,13 +65,13 @@
 			a.t_no as prjNo,
 			a.t_name as prjName ,
 			a.date as year,
-			a.d_income as money,
+			sum(a.d_income) as money,
 			a.d_name as omName,
 			b.om_id as omId
 		FROM
 			t_department_income a
 			LEFT JOIN organization_management as b on a.d_name=b.om_name
-		where a.date like #{year} and a.d_name=#{omName}
+		where a.date like #{year} and a.d_name=#{omName} AND a.d_income!=0 GROUP BY a.t_no,a.date
 	</select>
 	
 	<select id="getcompanyCostbyomNameAndyear" resultType="DepartmentTarget2">
@@ -79,13 +79,13 @@
 			a.task_code as prjNo,
 			a.prj_name ,
 			a.date as year,
-			a.money as money,
+			sum(a.money) as money,
 			a.depart_name as omName,
 			b.om_id
 		FROM
 			company_cost a
 			LEFT JOIN organization_management as b on a.depart_name=b.om_name
-		where a.date like #{year} and a.depart_name=#{omName}
+		where a.date like #{year} and a.depart_name=#{omName} AND a.money!=0 GROUP BY a.task_code,a.date
 	</select>
 
 </mapper>

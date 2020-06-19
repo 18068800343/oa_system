@@ -3,6 +3,7 @@ package org.ldxx.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.ldxx.bean.TDepartment;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.Task2;
 
@@ -31,5 +32,7 @@ public interface Task2Dao {
 	public int isCountBytNoAndDate(@Param("tNo")String tNo, @Param("date1")String date1);
 
 	public int updateBytNoAndDate(@Param("xgt2") Task2 xgt2);
+	
+	public List<Task2> getSumMoneyByYear(@Param("year")String year);
 	
 }

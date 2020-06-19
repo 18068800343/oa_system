@@ -50,6 +50,8 @@
                         &nbsp;&nbsp;
 			                <button type="button" class="btn btn-primary Pfba"  data-toggle="modal" data-target="#myModal2">导入收款项目</button>
 			                <div id="tabBtn" style="margin-left: 10px;"></div>
+			                &nbsp;&nbsp;
+			                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bmndlj">部门年度统计</button>
 			             </div>
             </div>
             <div class="UpperPartR">
@@ -480,6 +482,37 @@
     </div>
 </div>
 <!-- model结束 -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="bmndlj">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>部门年度统计</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" id="form1" enctype="multipart/form-data" method="post">
+                    	<div class="yihang2">
+	                         <div class="form-group" style="display:flex;align-items:center;">
+							    	<label  for="exampleInputName2">&nbsp;选择年份: </label>&nbsp;
+								    <select style=""  class="form-control" id="nianfen" >
+								    </select>
+							  </div>
+                    	</div>
+                    	&emsp;&emsp;
+                    	<table id="bmljMoney">
+                    		
+                    	</table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="file_submit()">提交</button>
+        </div>
+        </div>
+    </div>
+</div>
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
@@ -519,6 +552,7 @@
         });
     	initTable();
     	initSelect();
+    	initNianFen()
 	});
     $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
     var table=$('#mainContent').DataTable({
@@ -625,7 +659,7 @@
         "deferRender": true,
         "processing": true,
         "bDestroy": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 5,
         "searching": true,
         "lengthChange": false,
         "oLanguage": {
@@ -711,6 +745,49 @@
             }
         });
     }
+	
+	
+	function initNianFen(){
+    	var mydate = new Date();
+    	var now_year=mydate.getFullYear();
+    	var arr=[];
+    	for(var i=now_year;i>=2016;i--){
+    		arr.push(i)
+    	}
+    	$("#nianfen").empty('');
+    	$("#nianfen").append("<option value='%'>全部</option>");
+    	for(var i=0;i<arr.length;i++){
+        	$("#nianfen").append("<option value="+arr[i]+">"+arr[i]+"</option>");
+        }
+    	$("#nianfen").trigger("change");
+    }
+	
+	$("#nianfen").change(function(){
+		var year=$("#nianfen").val()
+		$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/FinancialReceipts2/getSumMoneyByYear',
+            dataType: 'json',
+            data: {
+            	year:year,
+            },
+            success: function (json) {
+            	$("#bmljMoney").empty();
+            	 if(json!=null&&json.length!=0){
+            		 for(var i = 0; i < json.length; i++){
+            			 $("#bmljMoney").append(
+            				"<tr><td>"+json[i].tDepartment+":</td><td cosplan='3' class='jinqianyanse'>"+json[i].tCollectionValue+"</td></tr>"		 
+            			 )
+            		 }
+            	 }else{
+            		 $("#bmljMoney").append(
+             				"<tr><td cosplan='4' class='jinqianyanse'>无</td></tr>"		 
+             			 )
+            	 }
+            }
+        });
+	})
+	
 	
 	
 	function file_submit(){

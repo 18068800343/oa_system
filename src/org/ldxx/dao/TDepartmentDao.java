@@ -34,4 +34,6 @@ public interface TDepartmentDao {
 	public int isCountBytNoAndDate(@Param("no")String no, @Param("date1")String date1);
 
 	public int updateTDepartmentIncomeBytNoAndDate(@Param("t")TDepartment tDepartment2);
+	
+	public List<TDepartment> getSumMoneyByYear2(@Param("year")String year);
 }

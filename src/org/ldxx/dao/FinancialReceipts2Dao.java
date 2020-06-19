@@ -25,4 +25,6 @@ public interface FinancialReceipts2Dao {
 	public int updateValueById(@Param("ftId")String ftId,@Param("ftMoney") Double ftMoney);
 
 	public int updateValueById2(@Param("ftId")String ftId,@Param("ftMoney") Double ftMoney);
+	
+	public List<FinancialTables> getSumMoneyByYear(@Param("year")String year);
 }

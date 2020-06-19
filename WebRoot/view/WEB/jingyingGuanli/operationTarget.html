@@ -453,6 +453,7 @@
         </div>
         <div class="modal-body">
                 <div>     
+                <div id="tabBtn" style="margin-left: 10px;"></div>
                     <form class="form-inline">
                         <table class="table table-bordered table-condensed" id="mainContent2" style="width:100%">
 					        <thead>
@@ -489,6 +490,16 @@
 <script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/myTool.js"></script>
 <script src="../../js/quanxian.js"></script>
+
+<script src="../../js/datatables/jquery.dataTables.min.js"></script>
+<script src="../../js/datatables/dataTables.colVis.min.js"></script>
+<script src="../../js/datatables/dataTables.tableTools.min.js"></script>
+<!-- <script src="../../js/datatables/dataTables.bootstrap.min.js"></script> -->
+<script src="../../js/datatables/datatables.responsive.min.js"></script>
+<script src="../../js/datatables/dataTables.buttons.min.js" ></script>
+<script src="../../js/datatables/buttons.html5.min.js" ></script>
+<script src="../../js/datatables/buttons.flash.min.js" ></script>
+<script src="../../js/datatables/jszip.min.js"></script>
 <script>
     $(document).ready( function () {
     	laydate.render({
@@ -614,11 +625,11 @@
         
 	});
     
-    var table=$('#mainContent2').dataTable({
+    var table=$('#mainContent2').DataTable({
     	 "deferRender": true,
          "processing": true,
          "bDestroy": true,
-         "iDisplayLength": 10,
+         "iDisplayLength": 5,
          "searching": true,
          "lengthChange": false,
          "oLanguage": {
@@ -654,8 +665,35 @@
             "sNext": "下一页",
             "sLast": "最后一页"
         }},
+        "buttons" : [ {
+			extend : "excel",
+			text : "导出Excel",
+			filename : '详细列表',
+			exportOptions : {
+				format : {
+					header : function(data) {
+						return data;
+					},
+					body : function(data, columnIdx, rowIdx,code) {
+						if (rowIdx == 4) {
+							var reg = new RegExp(",","g");//g,表示全部替换。
+							if (data != "无") {
+								if (data.indexOf(",") >= 0) {
+									data = data.replace(reg,"");
+								} 
+							}
+						}
+						return data;
+					}
+				},
+				columns : [ 0, 1, 2, 3, 4]
+			}
+		} ]
         
 	});
+    table.buttons().container().appendTo($('#tabBtn'));
+	$('.buttons-excel').addClass('btn btn-primary');
+    
 	function bumenedu(){
         $.ajax({
             type: 'POST',
