@@ -121,6 +121,11 @@ public class UserController {
 	public int deleteUser(String userId){
 		return userservice.deleteUser(userId);
 	}
+	@RequestMapping("/testHtml")
+	@ResponseBody
+	public int testHtml(String a,String i,String k){
+		return 0;
+	}
 	
 	@RequestMapping("/updateUser")
 	@ResponseBody
