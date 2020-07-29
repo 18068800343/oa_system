@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../font2/iconfont.css">
+	<link href="../../style/bootstrap.min.css" rel="stylesheet">
+    <link href="../../style/style.css" rel="stylesheet">
+    <link href="../../toastr/toastr.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
+    <style lang="">
+        *{
+            font-size: 16px;
+        }
+        .UpperPart{
+            display: flex;
+            justify-content:space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+        }
+        .selected{
+            background: rgba(247, 161, 3,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="zhuti-content">
+        <form class="form-inline" id="edit_form"  method="post" enctype="multipart/form-data">
+                        <table class="table table-bordered" id="all_table">
+                        <thead>
+                        	<tr>
+		                    	<td colspan="4"><b>设计文件资料</b></td>
+		                    </tr>
+		                    <tr>
+		                    	<!-- <th style="width:13%;">设计阶段</th> -->
+		                        <th style="width:25%;">主要工作内容</th>
+		                        <th style="width:24%;">存档形式</th>
+		                        <th style="width:26%;">是否强制</th>
+		                        <th style="width:25%;display: none;" class="lookFile">操作</th> 
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                	<tr id="sj1">
+		                    	<td>项目实际存档目录</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile1(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj2">
+		                    	<td>项目特点介绍、关键词（尤其施工图阶段）</td>
+		                    	<td>电子（word）</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile2(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj3">
+		                    	<td>合同资料（合同原件提交经营部综合部）</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile3(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr>
+		                    	<td colspan="4"><b>工可阶段</b></td>
+		                    </tr>
+		                    <tr id="sj4">
+		                    	<td>设计任务书</td>
+		                    	<td>纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile4(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj5">
+		                    	<td>建设用地批准书、规划要点</td>
+		                    	<td>电子或纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile5(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj6">
+		                    	<td>用地红线图（地形图）</td>
+		                    	<td>电子或纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile6(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj7">
+		                    	<td>用地实测图</td>
+		                    	<td>电子或纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile7(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj8">
+		                    	<td>区域控制性详细规划</td>
+		                    	<td>电子或纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile8(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj9">
+		                    	<td>开发可行性报告与市场调查</td>
+		                    	<td>电子或纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile9(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj10">
+		                    	<td>工程地质勘察报告</td>
+		                    	<td>纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile10(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj11">
+		                    	<td>工程场地地震安评报告</td>
+		                    	<td>电子或纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile11(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj12">
+		                    	<td>用地范围周边市政系统情况</td>
+		                    	<td>电子或纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile12(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj13">
+		                    	<td>工可报告、图纸</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile13(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj14">
+		                    	<td>相关单位往来函、文</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile14(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj15">
+		                    	<td>效果图</td>
+		                    	<td>电子</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile15(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj16">
+		                    	<td>报批文本</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile16(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj17">
+		                    	<td>图纸</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile17(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj18">
+		                    	<td>审查意见</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile18(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj19">
+		                    	<td>校审单</td>
+		                    	<td>纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile19(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr>
+		                    	<td colspan="4"><b>初设阶段</b></td>
+		                    </tr>
+		                    <tr id="sj20">
+		                    	<td>方案批文（规划、环评、安评等）</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile20(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj21">
+		                    	<td>施工图文件</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile21(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj22">
+		                    	<td>概算书</td>
+		                    	<td>电子或纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile22(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj23">
+		                    	<td>地勘报告（初勘或详勘）</td>
+		                    	<td>纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile23(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj24">
+		                    	<td>审查意见</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile24(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj25">
+		                    	<td>校审单</td>
+		                    	<td>纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile25(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj26">
+		                    	<td>相关单位往来函、文</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile26(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr>
+		                    	<td colspan="4"><b>施工图阶段</b></td>
+		                    </tr>
+		                    <tr id="sj27">
+		                    	<td>初设批文</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile27(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj28">
+		                    	<td>施工图文件</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile28(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj29">
+		                    	<td>预算书</td>
+		                    	<td>电子或纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile29(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj30">
+		                    	<td>依据历史图纸和报告</td>
+		                    	<td>电子或纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile30(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj31">
+		                    	<td>结构模型、计算书</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile31(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj32">
+		                    	<td>地勘报告（详勘）</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile32(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj33">
+		                    	<td>工程咨询报告</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile33(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj34">
+		                    	<td>审查意见</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile34(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj35">
+		                    	<td>校审单</td>
+		                    	<td>纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile35(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj36">
+		                    	<td>施工交底记录及回复</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile36(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj37">
+		                    	<td>设计变更资料</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile37(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj38">
+		                    	<td>重点项目项目总结</td>
+		                    	<td>电子</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile38(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj39">
+		                    	<td>交工验收文件（原件提交经营发展部，如施工任务由公司承担则不需要）</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile39(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj40">
+		                    	<td>获奖证书</td>
+		                    	<td>原件</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile40(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj41">
+		                    	<td>相关单位往来函、文</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile41(this)">添加附件</button></td>
+		                    </tr>
+		                    <tr id="sj42">
+		                    	<td>其他</td>
+		                    	<td>电子及纸质</td>
+		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  onclick="addxgFile42(this)">添加附件</button></td>
+		                    </tr>
+		                </tbody>
+                        </table>
+                        
+                    </form>  
+
+        
+    </div>
+</body>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/common-scripts.js"></script>
+<script src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery-form.min.js"></script>
+<script src="../../toastr/toastr.js"></script>
+<script src="../../js/jquery-editable-select.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
+<script src="../../js/myTool.js"></script>
+<script>
+var user;
+    $(document).ready( function () {
+    	$.ajax({
+    		type:"post",
+    		url:getContextPath()+"/login/getUser",
+    		async:false,
+    		data:{
+    		},
+    		success:function(json){
+    			if(json!=null &&json!=""){
+    				user=json;
+    			} 
+    			
+    		}
+    	});
+    	lookDd();
+	});
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }
+   // 调用方法
+   	id=GetQueryString("prjId");
+   	no=GetQueryString("no");
+   	var nameprj;
+   	$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/task/selectTaskPrjName',
+	        dataType: 'json',
+	        async:false,
+	        data: {
+	        	prjNo:no
+	        },
+	        success: function (json) {
+	        	for(var i=0;i<json.length;i++){
+	            	nameprj=json[i].prjName
+	        	}
+	        	
+	        }
+		});
+	
+	function lookDd(){
+		
+		$("#lookprjName").text(nameprj);
+		$("#lookprjNo").text(no);
+		
+		$.ajax({
+        	type: 'POST',
+            url: getContextPath()+'/flowHistory/getHistoryNowAndLastByModeId',
+            data:{
+            	id:id
+            },
+            success: function (json) {
+            	if(json[0].actorname==user.uName){
+            		$(".lookFile").show()
+            	}
+            	
+            }
+        });
+		
+		$.ajax({
+			type:"POST",
+			url:getContextPath()+"/accessory/selectAccessoryById",
+			dataType:"json",
+			data:{ 
+				id:id
+			},
+			success:function(json){
+				//console.log(json)
+				$(".append_tr").remove();
+				$(".look_tr").empty();
+	            for(var i=0;i<json.length;i++){
+	            	if(json[i].aType=="SJ项目实际存档目录"){
+	            	   $("#sj1").after("<tr class='look_tr'>"+
+		       					"<td>附件</td>"+
+		       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+		            	    "</tr>");
+	            	}
+	            	if(json[i].aType=="SJ项目特点介绍、关键词(尤其施工图阶段)"){
+		            	   $("#sj2").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJ合同资料(合同原件提交经营部综合部)"){
+		            	   $("#sj3").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk设计任务书"){
+		            	   $("#sj4").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk建设用地批准书、规划要点"){
+		            	   $("#sj5").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk用地红线图(地形图)"){
+		            	   $("#sj6").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk用地实测图"){
+		            	   $("#sj7").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk区域控制性详细规划"){
+		            	   $("#sj8").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk开发可行性报告与市场调查"){
+		            	   $("#sj9").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk工程地质勘察报告"){
+		            	   $("#sj10").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk工程场地地震安评报告"){
+		            	   $("#sj11").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk用地范围周边市政系统情况"){
+		            	   $("#sj12").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk工可报告、图纸"){
+		            	   $("#sj13").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk相关单位往来函、文"){
+		            	   $("#sj14").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk效果图"){
+		            	   $("#sj15").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk报批文本"){
+		            	   $("#sj16").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk图纸"){
+		            	   $("#sj17").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk审查意见"){
+		            	   $("#sj18").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJgk校审单"){
+		            	   $("#sj19").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJcs方案批文(规划、环评、安评等)"){
+		            	   $("#sj20").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJcs施工图文件"){
+		            	   $("#sj21").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJcs概算书"){
+		            	   $("#sj22").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJcs地勘报告(初勘或详勘)"){
+		            	   $("#sj23").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJcs审查意见"){
+		            	   $("#sj24").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJcs校审单"){
+		            	   $("#sj25").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJcs相关单位往来函、文"){
+		            	   $("#sj26").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt初设批文"){
+		            	   $("#sj27").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt施工图文件"){
+		            	   $("#sj28").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt预算书"){
+		            	   $("#sj29").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt依据历史图纸和报告"){
+		            	   $("#sj30").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt结构模型、计算书"){
+		            	   $("#sj31").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt地勘报告(详勘)"){
+		            	   $("#sj32").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt工程咨询报告"){
+		            	   $("#sj33").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt审查意见"){
+		            	   $("#sj34").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt校审单"){
+		            	   $("#sj35").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt施工交底记录及回复"){
+		            	   $("#sj36").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt设计变更资料"){
+		            	   $("#sj37").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt重点项目项目总结"){
+		            	   $("#sj38").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt交工验收文件(原件提交经营发展部，如施工任务由公司承担则不需要)"){
+		            	   $("#sj39").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt获奖证书"){
+		            	   $("#sj40").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt相关单位往来函、文"){
+		            	   $("#sj41").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            	if(json[i].aType=="SJsgt其他"){
+		            	   $("#sj42").after("<tr class='look_tr'>"+
+			       					"<td>附件</td>"+
+			       					"<td colspan='2'><a href='"+getLocalPath()+"/oa_file/"+json[i].acUrl+"' target='view_window' class='lookfujian' style='color:blue'>"+json[i].acName+"</a></td>"+
+			            	    "</tr>");
+		            }
+	            } 
+			}
+		})
+		
+	}
+	
+	function getLocalPath(){
+		var pathArray = window.location.pathname.split('/');
+		var secondLevelLocation = pathArray[1];
+		var loginUrl = window.location.protocol + "//"  + window.location.host ;
+		return loginUrl;
+	}
+	
+	//下载附件
+	function download_all(obj){
+		var url=$(obj).attr("data1");
+		var name=$(obj).parents("tr").find("td").eq(1).find("input").val();
+		window.location.href=encodeURI(getContextPath()+"/FileDownLoad?fileName="+name+"&filePath="+url);
+	}
+	
+	
+	
+	
+	// 删除
+	function deleteDd(obj){
+		$.SmartMessageBox({
+            title: "删除提示",
+            content: "确认删除？",
+            buttons: '[取消][确定]'
+        }, function (ButtonPressed) {
+        	if (ButtonPressed === "确定") {
+        		myTool.mask.show('删除中...');
+            	var dom=$(obj).parents("tr");
+        		var data=$("#mainContent").DataTable().row(dom).data();
+        		$.ajax({
+        			type:"POST",
+        			url:getContextPath()+"/DesignDocuments/deleteDesignDocuments",
+        			dataType:"json",
+        			data:{ 
+        				id:data.ddId
+        				},
+        			success:function(json){
+        				myTool.mask.hide();
+        				if(json>0){
+        					toastr.success("删除成功")
+        					$('#mainContent').DataTable().row(dom).remove().draw(true); //删除行立即显示
+        				}else{
+        					toastr.error("删除失败")
+        				}
+        			}
+        		})
+        	}
+        });
+	}
+	
+	function showMask() {
+    	myTool.mask.show('查询中...');
+	 }
+	function hidMask() {
+	 	myTool.mask.hide();
+	 }
+	
+	
+	function addxgFile1(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file1' id='file1' class='form-control'></td><td ><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile2(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file2' id='file2' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile3(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file3' id='file3' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile4(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file4' id='file4' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile5(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file5' id='file5' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile6(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file6' id='file6' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile7(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file7' id='file7' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile8(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file8' id='file8' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile9(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file9' id='file9' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile10(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file10' id='file10' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile11(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file11' id='file11' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile12(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file12' id='file12' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile13(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file13' id='file13' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile14(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file14' id='file14' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile15(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file15' id='file15' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile16(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file16' id='file16' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile17(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file17' id='file17' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile18(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file18' id='file18' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile19(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file19' id='file19' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile20(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file20' id='file20' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile21(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file21' id='file21' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile22(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file22' id='file22' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile23(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file23' id='file23' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile24(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file24' id='file24' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile25(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file25' id='file25' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile26(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file26' id='file26' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile27(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file27' id='file27' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile28(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file28' id='file28' class='form-control'></td><td ><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile29(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file29' id='file29' class='form-control'></td><td ><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile30(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file30' id='file30' class='form-control'></td><td ><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile31(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file31' id='file31' class='form-control'></td><td ><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile32(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file32' id='file32' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile33(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file33' id='file33' class='form-control'></td><td ><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile34(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file34' id='file34' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile35(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file35' id='file35' class='form-control'></td><td ><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile36(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file36' id='file36' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile37(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file37' id='file37' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile38(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file38' id='file38' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile39(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file39' id='file39' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile40(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file40' id='file40' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile41(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file41' id='file41' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	function addxgFile42(aa){
+		$(aa).parent().parent().after("<tr><td>新附件</td><td colspan='2'><input style='width:80%;' type='file'  name='file42' id='file42' class='form-control'></td><td><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除</button></td></tr>")
+	}
+	
+	function removeFile(obj){
+		var tr=$(obj).parents("tr");
+		$(tr).remove();
+	}
+	
+	function changeData(){
+		$.ajax({
+	        type: 'POST',
+	        url: getContextPath()+'/PrjRecord/updateSCStatus',
+	        dataType: 'json',
+	        data:{
+	        	id:id
+	        },
+	        success: function (json) {
+	        	
+	        }
+	    });
+	}
+	
+	function lookbaocunSJ(){
+		var result;
+		var options={
+  				type: 'POST',
+	            url: getContextPath()+'/DesignDocuments/updateDesignDocumentsSave2',
+	            data: {
+	            	id:id
+	            }, 
+	            async:false,
+	            dataType: 'json',
+	            success: function (json) {
+	            	result=json;
+	            }
+  		}
+  		$("#edit_form").ajaxSubmit(options);
+  		return result;
+	}
+
+</script>
+</html>

@@ -517,6 +517,197 @@ public class TestingEvaluationController {
 		return i;
 	}
 	
+	@RequestMapping("/updateTestingEvaluationSave2")//修改保存
+	@ResponseBody
+	public int updateTestingEvaluationSave2(String id,@RequestParam(required=false,value="file1") MultipartFile [] file1,@RequestParam(required=false,value="file2") MultipartFile [] file2,@RequestParam(required=false,value="file3") MultipartFile [] file3,
+			@RequestParam(required=false,value="file4") MultipartFile [] file4,@RequestParam(required=false,value="file5") MultipartFile [] file5,@RequestParam(required=false,value="file6") MultipartFile [] file6,@RequestParam(required=false,value="file7") MultipartFile [] file7,@RequestParam(required=false,value="file8") MultipartFile [] file8
+			,@RequestParam(required=false,value="file9") MultipartFile [] file9,@RequestParam(required=false,value="file10") MultipartFile [] file10,@RequestParam(required=false,value="file11") MultipartFile [] file11,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
+		TimeUUID uuid=new TimeUUID();
+		String id2=id+"2";
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id2;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		List<Accessory> list=new ArrayList<>();
+		int num=0;
+		if(file1.length>0){
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file1[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file1[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JC项目实际存档目录");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file2.length>0){
+			for(int i=0;i<file2.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file2[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file2[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JC项目特点介绍、关键词");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file3.length>0){
+			for(int i=0;i<file3.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file3[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file3[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JC合同资料(合同原件提交经营部综合部)");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file4.length>0){
+			for(int i=0;i<file4.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file4[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file4[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JC出版报告");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file5.length>0){
+			for(int i=0;i<file5.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file5[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file5[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JC计算模型、计算书");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file6.length>0){
+			for(int i=0;i<file6.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file6[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file6[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JC外部审查意见");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file7.length>0){
+			for(int i=0;i<file7.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file7[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file7[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JC校审资料");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file8.length>0){
+			for(int i=0;i<file8.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file8[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file8[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JC技术方案");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file9.length>0){
+			for(int i=0;i<file9.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file9[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file9[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JC重点项目的项目总结");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file10.length>0){
+			for(int i=0;i<file10.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file10[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file10[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JC依据历史设计图纸");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file11.length>0){
+			for(int i=0;i<file11.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file11[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file11[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JC其他");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		int i=0;
+		if(list.size()==0||list==null){
+			i=-1;
+		}else{
+			i=aService.addAccessory(list);
+			
+		}
+		
+		return i;
+	}
+	
 	@RequestMapping("/selectTestingEvaluationByno")
 	@ResponseBody
 	public TestingEvaluation selectTestingEvaluationByno(String no){

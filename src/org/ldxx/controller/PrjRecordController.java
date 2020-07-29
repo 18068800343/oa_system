@@ -208,6 +208,123 @@ public class PrjRecordController {
 		map.put("num", num);
 		return map;
 	}
+	@RequestMapping("/updScRecord")
+	@ResponseBody
+	public Map<String,Object> updScRecord(String id,@RequestParam(required=false,value="file1") MultipartFile [] file1,@RequestParam(required=false,value="file2") MultipartFile [] file2,@RequestParam(required=false,value="file3") MultipartFile [] file3,
+			@RequestParam(required=false,value="file4") MultipartFile [] file4,@RequestParam(required=false,value="file5") MultipartFile [] file5,@RequestParam(required=false,value="file6") MultipartFile [] file6,HttpSession session,HttpServletResponse response) throws IllegalStateException, IOException{
+		response.setCharacterEncoding("UTF-8");
+		Map<String,Object> map=new HashMap<>();
+		TimeUUID uuid=new TimeUUID();
+		String id2=id+"1";
+		String webApps=uuid.getWebAppFile();
+		String path=webApps+id2;
+		File f=new File(path);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		List<Accessory> list=new ArrayList<>();
+		int num=0;
+		if(file1.length>0){
+			for(int i=0;i<file1.length;i++){
+				Accessory accessory1=new Accessory();
+				String fileName1=file1[i].getOriginalFilename();
+				String filePath1=path+File.separator+fileName1;
+				File f1=new File(filePath1);
+				file1[i].transferTo(f1);
+				accessory1.setaId(id);
+				accessory1.setAcName(fileName1);
+				accessory1.setAcUrl(id2+File.separator+fileName1);
+				accessory1.setaType("JY招标文件");
+				list.add(accessory1);
+			}
+			num+=1;
+		}
+		if(file2.length>0){
+			for(int i=0;i<file2.length;i++){
+				Accessory accessory2=new Accessory();
+				String fileName1=file2[i].getOriginalFilename();
+				String filePath2=path+File.separator+fileName1;
+				File f2=new File(filePath2);
+				file2[i].transferTo(f2); 
+				accessory2.setaId(id);
+				accessory2.setAcName(fileName1);
+				accessory2.setAcUrl(id2+File.separator+fileName1);
+				accessory2.setaType("JY招标图纸");
+				list.add(accessory2);
+			}
+			num+=1;
+		}
+		if(file3.length>0){
+			for(int i=0;i<file3.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file3[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file3[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JY投标文件(技术+商务)");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file4.length>0){
+			for(int i=0;i<file4.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file4[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file4[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JY中标通知书(原件由经营部存档)");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file5.length>0){
+			for(int i=0;i<file5.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file5[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file5[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JY开标记录");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		if(file6.length>0){
+			for(int i=0;i<file6.length;i++){
+				Accessory accessory=new Accessory();
+				String fileName=file6[i].getOriginalFilename();
+				String filePath=path+File.separator+fileName;
+				File f1=new File(filePath);
+				file6[i].transferTo(f1);
+				accessory.setaId(id);
+				accessory.setAcName(fileName);
+				accessory.setAcUrl(id2+File.separator+fileName);
+				accessory.setaType("JY其他");
+				list.add(accessory);
+			}
+			num+=1;
+		}
+		int i=0;
+		if(list.size()==0||list==null){
+			i=-1;
+		}else{
+			i=aDao.addAccessory(list);
+			
+		}
+		
+		map.put("result", i);
+		return map;
+	}
 	
 	@RequestMapping("/submitPrjRecordJY")
 	@ResponseBody

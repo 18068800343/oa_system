@@ -233,13 +233,14 @@
         </div>
         <div class="modal-body">
                 <div>     
-                    <form class="form-inline" method="post" enctype="multipart/form-data">
+                    <form class="form-inline" id="look_form" method="post" enctype="multipart/form-data">
                         <table class="table table-bordered table-condensed" id="look_table">
 		                <thead>
 		                    <tr>
 		                        <th style="width:25%">主要工作内容</th>
 		                        <th style="width:25%">存档形式</th>
 		                        <th style="width:25%">是否强制</th>
+		                        <th style="width:25%;display: none;" class="lookFile">操作</th>
 		                    </tr>
 		                </thead>
 		                <tbody>
@@ -247,31 +248,37 @@
 		                    	<td>招标文件</td>
 		                    	<td>纸质或电子</td>
 		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input"  id="addFile1">添加附件</button></td>
 		                    </tr>
 		                    <tr id="zb2_look">
 		                    	<td>招标图纸</td>
 		                    	<td>纸质或电子</td>
 		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input "  id="addFile2">添加附件</button></td>
 		                    </tr>
 		                    <tr id="zb3_look">
 		                    	<td>投标文件(技术+商务)</td>
 		                    	<td>纸质或电子</td>
 		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input "  id="addFile3">添加附件</button></td>
 		                    </tr>
 		                    <tr id="zb4_look">
 		                    	<td>中标通知书(原件由经营部存档)</td>
 		                    	<td>纸质及电子</td>
 		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input "  id="addFile4">添加附件</button></td>
 		                    </tr>
 		                    <tr id="zb5_look">
 		                    	<td>开标记录</td>
 		                    	<td>纸质或电子</td>
 		                    	<td>强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input "  id="addFile5">添加附件</button></td>
 		                    </tr>
 		                    <tr id="zb6_look">
 		                    	<td>其他</td>
 		                    	<td>纸质或电子</td>
 		                    	<td>不强制</td>
+		                    	<td class="lookFile" style="display: none;"><button type="button" class="btn btn-primary weui-uploader__input "  id="addFile6">添加附件</button></td>
 		                    </tr>
 		                </tbody>   
 		            </table>
@@ -281,6 +288,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="lookbaocun()" data-dismiss="modal">保存</button>
         </div>
         </div>
     </div>
@@ -325,7 +333,7 @@
                     </form>  
                 </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer" id="lookbutton">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
         </div>
         </div>
@@ -415,6 +423,7 @@
 <script src="../../js/jquery-form.min.js"></script>
 <script src="../../js/jquery.cookie.js"></script>
 <script>
+	
     $(document).ready( function () {
     	initTable();
     	initDept();
@@ -492,8 +501,8 @@
 			                		data:{
 			                		},
 			                		success:function(json){
-			                			
 			                			if(json!=null &&json!=""){
+			                				
 			                				var arr = json.uPermissions.split(',');
 			                				
 			                				for(var i=0;i<arr.length;i++){
@@ -579,6 +588,7 @@
         }},
 	});
     
+    var user;
 	function initTable(){
         $.ajax({
             type: 'POST',
@@ -598,6 +608,7 @@
             		success:function(json){
             			
             			if(json!=null &&json!=""){
+            				user=json;
             				var arr = json.uPermissions.split(',');
             				
             				for(var i=0;i<arr.length;i++){
@@ -738,6 +749,55 @@
         								      "</tr>");
         
     });
+	
+	$("#addFile1").on("click", function(e) {
+        $(this).parent().parent().after("<tr class='append_tr'>"+
+        											"<td>新附件</td>"+
+        											"<td colspan='2'><input type='file' name='file1' /></td>"+
+        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
+        								      "</tr>");
+        
+    });
+	$("#addFile2").on("click", function(e) {
+        $(this).parent().parent().after("<tr class='append_tr'>"+
+        											"<td>新附件</td>"+
+        											"<td colspan='2'><input name='file2' type='file'/></td>"+
+        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
+        								      "</tr>");
+        
+    });
+	$("#addFile3").on("click", function(e) {
+        $(this).parent().parent().after("<tr class='append_tr'>"+
+        											"<td>新附件</td>"+
+        											"<td colspan='2'><input name='file3' type='file'/></td>"+
+        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
+        								      "</tr>");
+        
+    });
+	$("#addFile4").on("click", function(e) {
+        $(this).parent().parent().after("<tr class='append_tr'>"+
+        											"<td>新附件</td>"+
+        											"<td colspan='2'><input name='file4' type='file'/></td>"+
+        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
+        								      "</tr>");
+        
+    });
+	$("#addFile5").on("click", function(e) {
+        $(this).parent().parent().after("<tr class='append_tr'>"+
+        											"<td>新附件</td>"+
+        											"<td colspan='2'><input name='file5' type='file'/></td>"+
+        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
+        								      "</tr>");
+        
+    });
+	$("#addFile6").on("click", function(e) {
+        $(this).parent().parent().after("<tr class='append_tr'>"+
+        											"<td>新附件</td>"+
+        											"<td colspan='2'><input name='file6' type='file'/></td>"+
+        											"<td style='width:150px;'><button type='button' class='btn btn-danger' onclick='removeFile(this)'>移除附件</button></td>"+
+        								      "</tr>");
+        
+    });
 	function removeFile(obj){
   		var tr=$(obj).parents("tr");
   		$(tr).remove();
@@ -836,12 +896,26 @@
 		});
 	}
 	
-	
+	var lookId;
 	function lookJY(obj){
 		$("#mydal2").modal('show');
 		var dom = $(obj).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
 		var id;
+		lookId=data.id;
+		$.ajax({
+        	type: 'POST',
+            url: getContextPath()+'/flowHistory/getHistoryNowAndLastByModeId',
+            data:{
+            	id:data.id
+            },
+            success: function (json) {
+            	if(json[0].actorname==user.uName){
+            		$(".lookFile").show()
+            	}
+            	
+            }
+        });
 		$.ajax({
 			type:"POST",
 			url:getContextPath()+"/accessory/selectAccessoryById",
@@ -850,6 +924,7 @@
 				id:data.id
 			},
 			success:function(json){
+				$(".append_tr").remove();
 				$(".lookfujian").empty();
 	            for(var i=0;i<json.length;i++){
 	            	if(json[i].aType=="JY招标文件"){
@@ -903,6 +978,8 @@
 	            } 
 			}
 		})
+		
+		
 	}
 	
 	function getLocalPath(){
@@ -981,7 +1058,28 @@
 		  $("#jy_form").ajaxSubmit(options);          	
 	}
 	
-	
+	function lookbaocun(){
+	  	 var options={
+	  			type: 'POST',
+	            url: getContextPath()+'/PrjRecord/updScRecord',
+	            data: {
+	            	id:lookId
+	            },  
+	            dataType: 'json',
+	            success: function (json) {
+	            	var result=json.result;
+	            	if(result>0){
+	            		$("#mydal2").modal("hide");
+	            		toastr.success("保存成功")
+	            	}else if(result==-1){
+	            		toastr.error("本次未传附件")
+	            	}else{
+	            		toastr.error("保存失败")
+	            	}
+	            }
+	  	 }
+		  $("#look_form").ajaxSubmit(options);          	
+	}
 	
 	//保存经营资料
 	/* function xxxxxx{
@@ -1128,20 +1226,89 @@
 		$("#myModal4").modal('show');
 		var dom = $(aa).parents('tr');
 		var data=$('#mainContent').DataTable().row(dom).data();
+		$(".bc").remove()
 		if(data.prjType.indexOf("C")>=0){
 			//施工文档资料
-			$("#lookdangan2").attr('src', '../danganGUanliLook/ConstructionDocumentLook.html?prjId='+data.id);
+			$("#lookdangan2").attr('src', '../danganGUanliLook/ConstructionDocumentLook2.html?prjId='+data.id);
+			$("#lookbutton").append('<button type="button" class="btn btn-success bc" onclick="lookbaocun2()" data-dismiss="modal">保存</button>')
 		}else if(data.prjType.indexOf("A")>=0){
 			//检测评估资料
-			$("#lookdangan2").attr('src', '../danganGUanliLook/DetectionEvaluationLook.html?prjId='+data.id);
+			$("#lookdangan2").attr('src', '../danganGUanliLook/DetectionEvaluationLook2.html?prjId='+data.id);
+			$("#lookbutton").append('<button type="button" class="btn btn-success bc" onclick="lookbaocun3()" data-dismiss="modal">保存</button>')
 		}else if(data.prjType.indexOf("B")>=0){
 			//设计文件资料
-			$("#lookdangan2").attr('src', '../danganGUanliLook/designDocumentLook.html?prjId='+data.id);
+			$("#lookdangan2").attr('src', '../danganGUanliLook/designDocumentLook2.html?prjId='+data.id);
+			$("#lookbutton").append('<button type="button" class="btn btn-success bc" onclick="lookbaocun4()" data-dismiss="modal">保存</button>')
 		}else if(data.prjType.indexOf("K")>=0){
 			//科技文档资料
-			$("#lookdangan2").attr('src', '../danganGUanliLook/ScienceTechnologyLook.html?prjId='+data.id);
+			$("#lookdangan2").attr('src', '../danganGUanliLook/ScienceTechnologyLook2.html?prjId='+data.id);
+			$("#lookbutton").append('<button type="button" class="btn btn-success bc" onclick="lookbaocun5()" data-dismiss="modal">保存</button>')
 		}
 		
+	}
+	
+	function lookbaocun2(){
+		var childWindow = $("#lookdangan2")[0].contentWindow;
+		//施工文档资料
+		var result=childWindow.lookbaocunSG();
+		if(result=='0'||result==undefined){
+  			toastr.error("保存出错");
+  			return false;
+	    }else if(result=='-1'){
+	    	toastr.error("本次未上传附件");
+ 			return false;
+	    }else{
+ 			toastr.success("保存成功");
+ 			$("#myModal2").modal("hide")
+	    }
+	}
+	
+	function lookbaocun3(){
+		var childWindow = $("#lookdangan2")[0].contentWindow;
+		//施工文档资料
+		var result=childWindow.lookbaocunJC();
+		if(result=='0'||result==undefined){
+  			toastr.error("保存出错");
+  			return false;
+	    }else if(result=='-1'){
+	    	toastr.error("本次未上传附件");
+ 			return false;
+	    }else{
+ 			toastr.success("保存成功");
+ 			$("#myModal2").modal("hide")
+	    }
+	}
+	
+	function lookbaocun4(){
+		var childWindow = $("#lookdangan2")[0].contentWindow;
+		//施工文档资料
+		var result=childWindow.lookbaocunSJ();
+		if(result=='0'||result==undefined){
+  			toastr.error("保存出错");
+  			return false;
+	    }else if(result=='-1'){
+	    	toastr.error("本次未上传附件");
+ 			return false;
+	    }else{
+ 			toastr.success("保存成功");
+ 			$("#myModal2").modal("hide")
+	    }
+	}
+	
+	function lookbaocun5(){
+		var childWindow = $("#lookdangan2")[0].contentWindow;
+		//施工文档资料
+		var result=childWindow.lookbaocunKJ();
+		if(result=='0'||result==undefined){
+  			toastr.error("保存出错");
+  			return false;
+	    }else if(result=='-1'){
+	    	toastr.error("本次未上传附件");
+ 			return false;
+	    }else{
+ 			toastr.success("保存成功");
+ 			$("#myModal2").modal("hide")
+	    }
 	}
 	
 	
