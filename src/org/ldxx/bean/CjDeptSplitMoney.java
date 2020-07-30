@@ -8,6 +8,8 @@
 
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: CjDeptSplitMoney 
 * @Description: 部门合同金额年度拆分
@@ -19,7 +21,7 @@ public class CjDeptSplitMoney {
 
 	private String id;
 	private String dept;
-	private Double money;
+	private BigDecimal money;
 	private String year;
 	public String getId() {
 		return id;
@@ -33,10 +35,10 @@ public class CjDeptSplitMoney {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public Double getMoney() {
+	public BigDecimal getMoney() {
 		return money;
 	}
-	public void setMoney(Double money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
 	public String getYear() {

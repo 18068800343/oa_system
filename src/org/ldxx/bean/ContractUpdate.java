@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: ContractUpdate 
 * @Description: 承接合同中任务单改变，任务金额操作表
@@ -11,7 +13,7 @@ public class ContractUpdate {
 
 	private String prjNo;
 	private String dept;
-	private Double money;
+	private BigDecimal money;
 	private String time;
 	public String getPrjNo() {
 		return prjNo;
@@ -25,10 +27,10 @@ public class ContractUpdate {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public Double getMoney() {
+	public BigDecimal getMoney() {
 		return money;
 	}
-	public void setMoney(Double money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
 	public String getTime() {

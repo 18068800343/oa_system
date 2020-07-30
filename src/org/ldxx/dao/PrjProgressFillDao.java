@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -39,7 +40,7 @@ public interface PrjProgressFillDao {
 	
 	public PrjProgressFill getCost(@Param("no")String no);
 	
-	public Double getDepartmentCost(@Param("department")String department,@Param("id")String id);
+	public BigDecimal getDepartmentCost(@Param("department")String department,@Param("id")String id);
 	
 	public int countOfDepartmentCost(@Param("department")String department,@Param("id")String id);
 
@@ -97,7 +98,7 @@ public interface PrjProgressFillDao {
 
 	public List<PrjProgressFill> getmoneyYuanByDepartmentAndDate(@Param("nowStr")String nowStr,@Param("time") String time);
 
-	public Double getSummoneyYuan(@Param("nowStr")String nowStr,@Param("time") String time);
+	public BigDecimal getSummoneyYuan(@Param("nowStr")String nowStr,@Param("time") String time);
 
 	public int updateBackState(@Param("backState")String backState,@Param("id") String id);
 

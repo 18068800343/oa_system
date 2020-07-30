@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
@@ -150,7 +151,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 	}
 
 	@Override
-	public Double getDepartmentCost(String department, String id) {
+	public BigDecimal getDepartmentCost(String department, String id) {
 		return dao.getDepartmentCost(department, id);
 	}
 
@@ -187,7 +188,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 			for(int i=0;i<ppi.size();i++){
 				float prjMoney=ppi.get(i).getPrjMoney();
 				String this_income=ppi.get(i).getPrjThisIncome().replace("%", "");
-				float income=Double.valueOf(this_income);
+				float income=BigDecimal.valueOf(this_income);
 				float come=prjMoney*income/100;
 				money=money+come;
 			}
@@ -204,7 +205,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 				float contractMoney=list.get(i).getPrjMoney();
 				String income=list.get(i).getPrjThisIncome();
 				income=income.replace("%", "");
-				float bl=Double.valueOf(income);
+				float bl=BigDecimal.valueOf(income);
 				money=money+(contractMoney*bl/100);
 			}
 		}
@@ -220,7 +221,7 @@ public class PrjProgressFillServiceImpl implements PrjProgressFillService{
 				float contractMoney=list.get(i).getPrjMoney();
 				String income=list.get(i).getPrjThisIncome();
 				income=income.replace("%", "");
-				float bl=Double.valueOf(income);
+				float bl=BigDecimal.valueOf(income);
 				money=money+(contractMoney*bl/100);
 			}
 		}

@@ -1,17 +1,17 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.FbCgContract;
-import org.ldxx.bean.FbContract;
 
 public interface SubContractDao2 {
 
-	List<FbCgContract> selectSubContract(@Param("status")String status,@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")Double fbMoneyMin,@Param("fbMoneyMax")Double fbMoneyMax,@Param("contractMoneyMin")Double contractMoneyMin,@Param("contractMoneyMax")Double contractMoneyMax,@Param("zdMoneyMin")Double zdMoneyMin,@Param("zdMoneyMax")Double zdMoneyMax);
+	List<FbCgContract> selectSubContract(@Param("status")String status,@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")BigDecimal fbMoneyMin,@Param("fbMoneyMax")BigDecimal fbMoneyMax,@Param("contractMoneyMin")BigDecimal contractMoneyMin,@Param("contractMoneyMax")BigDecimal contractMoneyMax,@Param("zdMoneyMin")BigDecimal zdMoneyMin,@Param("zdMoneyMax")BigDecimal zdMoneyMax);
 
-	List<FbCgContract> selectSubContract2(@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")Double fbMoneyMin,@Param("fbMoneyMax")Double fbMoneyMax,@Param("contractMoneyMin")Double contractMoneyMin,@Param("contractMoneyMax")Double contractMoneyMax,@Param("zdMoneyMin")Double zdMoneyMin,@Param("zdMoneyMax")Double zdMoneyMax);
+	List<FbCgContract> selectSubContract2(@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")BigDecimal fbMoneyMin,@Param("fbMoneyMax")BigDecimal fbMoneyMax,@Param("contractMoneyMin")BigDecimal contractMoneyMin,@Param("contractMoneyMax")BigDecimal contractMoneyMax,@Param("zdMoneyMin")BigDecimal zdMoneyMin,@Param("zdMoneyMax")BigDecimal zdMoneyMax);
 	
 	int saveSubContract(@Param("fbContract")FbCgContract fbContract);
 

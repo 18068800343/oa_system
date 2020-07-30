@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
@@ -91,7 +92,7 @@ public class CjContractServiceImpl implements CjContractService{
 	}
 
 	@Override
-	public List<CjContract> selectCjContractByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax) {
+	public List<CjContract> selectCjContractByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,BigDecimal contractMoneyMin,BigDecimal contractMoneyMax,BigDecimal zdMoneyMin,BigDecimal zdMoneyMax) {
 		List<CjContract> list = dao.selectCjContractByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 //		for(int i=0;i<list.size();i++){
 //			String id = list.get(i).getCjId();
@@ -102,7 +103,7 @@ public class CjContractServiceImpl implements CjContractService{
 	}
 
 	@Override
-	public List<CjContract> selectCjContractBySome(String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax,String lxdateMin,String lxdateMax,String erjileixing) {
+	public List<CjContract> selectCjContractBySome(String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,BigDecimal contractMoneyMin,BigDecimal contractMoneyMax,BigDecimal zdMoneyMin,BigDecimal zdMoneyMax,String lxdateMin,String lxdateMax,String erjileixing) {
 		List<CjContract> list = dao.selectCjContractBySome(startMin, startMax, endMin, endMax, mainDp, xbDp, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax,lxdateMin,lxdateMax,erjileixing);
 		return list;
 	}
@@ -190,13 +191,13 @@ public class CjContractServiceImpl implements CjContractService{
 	}
 
 	@Override
-	public Double selectCjContractMoneyBySignTime(String time) {
-		Double money=(double) 0;
+	public BigDecimal selectCjContractMoneyBySignTime(String time) {
+		BigDecimal money=new BigDecimal(0);
 		List<CjContract> cj=dao.selectCjContractMoneyBySignTime(time);
 		if(cj!=null){
 			for(int i=0;i<cj.size();i++){
-				Double contractMoney=cj.get(i).getContractMoney();
-				money=money+contractMoney;
+				BigDecimal contractMoney=cj.get(i).getContractMoney();
+				money=money.add(contractMoney);
 			}
 		}
 		return money;

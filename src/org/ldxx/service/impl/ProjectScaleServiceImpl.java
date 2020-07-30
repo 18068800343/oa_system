@@ -1,6 +1,6 @@
 package org.ldxx.service.impl;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 import org.ldxx.bean.ProjectScale;
 import org.ldxx.bean.Scale;
@@ -86,7 +86,7 @@ public class ProjectScaleServiceImpl implements ProjectScaleService {
 	}
 
 	@Override
-	public ProjectScale selectProjectScale(String type, Double money) {
+	public ProjectScale selectProjectScale(String type, BigDecimal money) {
 		return projectScaleDao.selectProjectScale(type, money);
 	}
 

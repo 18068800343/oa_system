@@ -1,5 +1,6 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -9,9 +10,9 @@ import org.ldxx.bean.FbCgContract;
 
 public interface SubContractService2 {
 
-	List<FbCgContract> selectSubContract(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String spType,Double fbMoneyMin,Double fbMoneyMax,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax);
+	List<FbCgContract> selectSubContract(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String spType,BigDecimal fbMoneyMin,BigDecimal fbMoneyMax,BigDecimal contractMoneyMin,BigDecimal contractMoneyMax,BigDecimal zdMoneyMin,BigDecimal zdMoneyMax);
 
-	List<FbCgContract> selectSubContract2(String startMin,String startMax,String endMin,String endMax,String mainDp,String spType,Double fbMoneyMin,Double fbMoneyMax,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax);
+	List<FbCgContract> selectSubContract2(String startMin,String startMax,String endMin,String endMax,String mainDp,String spType,BigDecimal fbMoneyMin,BigDecimal fbMoneyMax,BigDecimal contractMoneyMin,BigDecimal contractMoneyMax,BigDecimal zdMoneyMin,BigDecimal zdMoneyMax);
 	
 	int saveSubContract(FbCgContract fbContract);
 

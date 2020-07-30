@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,18 +71,18 @@ public class SubContractController {
 	@RequestMapping("/selectSubContract")
 	@ResponseBody
 	public List<FbContract> selectSubContract(String status,String startMin,String startMax,String endMin,
-			String endMax,String mainDp,String spType,@RequestParam(defaultValue="0")Double fbMoneyMin,@RequestParam(defaultValue="0")Double fbMoneyMax,
-			@RequestParam(defaultValue="0")Double contractMoneyMin,@RequestParam(defaultValue="0")Double contractMoneyMax,
-			@RequestParam(defaultValue="0")Double zdMoneyMin,@RequestParam(defaultValue="0")Double zdMoneyMax){
+			String endMax,String mainDp,String spType,@RequestParam(defaultValue="0")BigDecimal fbMoneyMin,@RequestParam(defaultValue="0")BigDecimal fbMoneyMax,
+			@RequestParam(defaultValue="0")BigDecimal contractMoneyMin,@RequestParam(defaultValue="0")BigDecimal contractMoneyMax,
+			@RequestParam(defaultValue="0")BigDecimal zdMoneyMin,@RequestParam(defaultValue="0")BigDecimal zdMoneyMax){
 		return scService.selectSubContract(status, startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 	
 	@RequestMapping("/selectSubContract2")
 	@ResponseBody
 	public List<FbContract> selectSubContract2(String startMin,String startMax,String endMin,
-			String endMax,String mainDp,String spType,@RequestParam(defaultValue="0")Double fbMoneyMin,@RequestParam(defaultValue="0")Double fbMoneyMax,
-			@RequestParam(defaultValue="0")Double contractMoneyMin,@RequestParam(defaultValue="0")Double contractMoneyMax,
-			@RequestParam(defaultValue="0")Double zdMoneyMin,@RequestParam(defaultValue="0")Double zdMoneyMax){
+			String endMax,String mainDp,String spType,@RequestParam(defaultValue="0")BigDecimal fbMoneyMin,@RequestParam(defaultValue="0")BigDecimal fbMoneyMax,
+			@RequestParam(defaultValue="0")BigDecimal contractMoneyMin,@RequestParam(defaultValue="0")BigDecimal contractMoneyMax,
+			@RequestParam(defaultValue="0")BigDecimal zdMoneyMin,@RequestParam(defaultValue="0")BigDecimal zdMoneyMax){
 			List<FbContract>  list = scService.selectSubContract2(startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 		 return list;
 	}
@@ -752,8 +753,8 @@ public class SubContractController {
 	
 	@RequestMapping("/getShenpiFbMoneyByCjNo")//通过承接合同号查询审批中的分包合同金额
 	@ResponseBody
-	public Double getShenpiFbMoneyByCjNo(String cjno){
-		Double fbMoney=scService.getShenpiFbMoneyByCjNo(cjno);
+	public BigDecimal getShenpiFbMoneyByCjNo(String cjno){
+		BigDecimal fbMoney=scService.getShenpiFbMoneyByCjNo(cjno);
 		return fbMoney;
 	}
 	@RequestMapping("/addSaoMiaoHeTong")

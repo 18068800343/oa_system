@@ -1,4 +1,7 @@
 package org.ldxx.bean;
+
+import java.math.BigDecimal;
+
 //投标审批单
 public class BidApproval {
 	private String baId;
@@ -28,7 +31,7 @@ public class BidApproval {
 	private String zhongbiao;
 	private String bdNo;//标段编号
 	private String baDesc;//概述
-	private Double yuguPrjScale;//预估项目规模
+	private BigDecimal yuguPrjScale;//预估项目规模
 	private String biaoxunlaiyuan;
 	private String startername;
 	private String status;
@@ -58,10 +61,10 @@ public class BidApproval {
 	public void setBiaoxunlaiyuan(String biaoxunlaiyuan) {
 		this.biaoxunlaiyuan = biaoxunlaiyuan;
 	}
-	public Double getYuguPrjScale() {
+	public BigDecimal getYuguPrjScale() {
 		return yuguPrjScale;
 	}
-	public void setYuguPrjScale(Double yuguPrjScale) {
+	public void setYuguPrjScale(BigDecimal yuguPrjScale) {
 		this.yuguPrjScale = yuguPrjScale;
 	}
 	public String getBaDesc() {

@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -874,52 +875,52 @@ public class ProjectTraceExample {
             return (Criteria) this;
         }
 
-        public Criteria andPredictPrjScaleEqualTo(Double value) {
+        public Criteria andPredictPrjScaleEqualTo(BigDecimal value) {
             addCriterion("predict_prj_scale =", value, "predictPrjScale");
             return (Criteria) this;
         }
 
-        public Criteria andPredictPrjScaleNotEqualTo(Double value) {
+        public Criteria andPredictPrjScaleNotEqualTo(BigDecimal value) {
             addCriterion("predict_prj_scale <>", value, "predictPrjScale");
             return (Criteria) this;
         }
 
-        public Criteria andPredictPrjScaleGreaterThan(Double value) {
+        public Criteria andPredictPrjScaleGreaterThan(BigDecimal value) {
             addCriterion("predict_prj_scale >", value, "predictPrjScale");
             return (Criteria) this;
         }
 
-        public Criteria andPredictPrjScaleGreaterThanOrEqualTo(Double value) {
+        public Criteria andPredictPrjScaleGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("predict_prj_scale >=", value, "predictPrjScale");
             return (Criteria) this;
         }
 
-        public Criteria andPredictPrjScaleLessThan(Double value) {
+        public Criteria andPredictPrjScaleLessThan(BigDecimal value) {
             addCriterion("predict_prj_scale <", value, "predictPrjScale");
             return (Criteria) this;
         }
 
-        public Criteria andPredictPrjScaleLessThanOrEqualTo(Double value) {
+        public Criteria andPredictPrjScaleLessThanOrEqualTo(BigDecimal value) {
             addCriterion("predict_prj_scale <=", value, "predictPrjScale");
             return (Criteria) this;
         }
 
-        public Criteria andPredictPrjScaleIn(List<Double> values) {
+        public Criteria andPredictPrjScaleIn(List<BigDecimal> values) {
             addCriterion("predict_prj_scale in", values, "predictPrjScale");
             return (Criteria) this;
         }
 
-        public Criteria andPredictPrjScaleNotIn(List<Double> values) {
+        public Criteria andPredictPrjScaleNotIn(List<BigDecimal> values) {
             addCriterion("predict_prj_scale not in", values, "predictPrjScale");
             return (Criteria) this;
         }
 
-        public Criteria andPredictPrjScaleBetween(Double value1, Double value2) {
+        public Criteria andPredictPrjScaleBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("predict_prj_scale between", value1, value2, "predictPrjScale");
             return (Criteria) this;
         }
 
-        public Criteria andPredictPrjScaleNotBetween(Double value1, Double value2) {
+        public Criteria andPredictPrjScaleNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("predict_prj_scale not between", value1, value2, "predictPrjScale");
             return (Criteria) this;
         }

@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class CompanyCost {
 
 	private String id;
@@ -8,15 +10,15 @@ public class CompanyCost {
 	private String taskCode;
 	private String departId;
 	private String departName;
-	private Double money;//间接成本
-	private Double money2;//直接成本
+	private BigDecimal money;//间接成本
+	private BigDecimal money2;//直接成本
 	private String date;
 	private String type;
 	
-	public Double getMoney2() {
+	public BigDecimal getMoney2() {
 		return money2;
 	}
-	public void setMoney2(Double money2) {
+	public void setMoney2(BigDecimal money2) {
 		this.money2 = money2;
 	}
 	public String getType() {
@@ -31,10 +33,10 @@ public class CompanyCost {
 	public void setPrjName(String prjName) {
 		this.prjName = prjName;
 	}
-	public Double getMoney() {
+	public BigDecimal getMoney() {
 		return money;
 	}
-	public void setMoney(Double money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
 	public String getId() {

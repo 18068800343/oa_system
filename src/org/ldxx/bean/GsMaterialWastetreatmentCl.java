@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 //废旧品材料信息
 public class GsMaterialWastetreatmentCl {
 	private String cwmclId;
@@ -8,10 +10,10 @@ public class GsMaterialWastetreatmentCl {
 	private String materialModel;//规格型号
 	private String unit;//单位
 	private int dealNumber;//处理数量
-	private Double price;//采购单价
-	private Double money ;//金额
-	private Double quasiDiscountMoney;//拟折价出售金额
-	private Double actualDiscountMoney;//实际折价出售金额
+	private BigDecimal price;//采购单价
+	private BigDecimal money ;//金额
+	private BigDecimal quasiDiscountMoney;//拟折价出售金额
+	private BigDecimal actualDiscountMoney;//实际折价出售金额
 	
 	
 	public String getCwmclId() {
@@ -50,28 +52,28 @@ public class GsMaterialWastetreatmentCl {
 	public void setDealNumber(int dealNumber) {
 		this.dealNumber = dealNumber;
 	}
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	public Double getMoney() {
+	public BigDecimal getMoney() {
 		return money;
 	}
-	public void setMoney(Double money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
-	public Double getQuasiDiscountMoney() {
+	public BigDecimal getQuasiDiscountMoney() {
 		return quasiDiscountMoney;
 	}
-	public void setQuasiDiscountMoney(Double quasiDiscountMoney) {
+	public void setQuasiDiscountMoney(BigDecimal quasiDiscountMoney) {
 		this.quasiDiscountMoney = quasiDiscountMoney;
 	}
-	public Double getActualDiscountMoney() {
+	public BigDecimal getActualDiscountMoney() {
 		return actualDiscountMoney;
 	}
-	public void setActualDiscountMoney(Double actualDiscountMoney) {
+	public void setActualDiscountMoney(BigDecimal actualDiscountMoney) {
 		this.actualDiscountMoney = actualDiscountMoney;
 	}
 	

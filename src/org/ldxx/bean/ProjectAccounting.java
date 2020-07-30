@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ProjectAccounting {
@@ -11,39 +12,39 @@ public class ProjectAccounting {
 	private String yezhu;//业主单位
 	private String cjDepartment;//承接部门
 	private String prjLeader;//项目负责人
-	private Double  prjJsMoney;//项目结算金额
-	private Double  contractJsMoney;//合同结算金额
-	private Double  zjFbYsMoney;//直接成本的分包预算金额
-	private Double  zjFbJsMoney;//直接成本的分包结算金额
-	private Double  zjZcYsMoney;//直接成本的主材预算金额
-	private Double  zjZcJsMoney;//直接成本的主材结算金额
-	private Double  zjPrjotherYsMoney;//直接成本的项目其他直接成本预算金额
-	private Double  zjPrjotherJsMoney;//直接成本的项目其他直接成本结算金额
-	private Double  jjPersonMoney;//间接成本的项目人员薪酬金额
-	private Double  jjZhejiuMoney;//间接成本的折旧费用金额
-	private Double  qtGsGlMoney;//其他摊销费用的公司管理费用
-	private Double  qtGsXsMoney;//其他摊销费用的公司销售费用
-	private Double  qtTxMoney;//其他摊销费用的其他摊销费用
-	private Double  allSubtotal;//总成本
-	private Double  allJsProfit;//总成本的结算jing利润(结算利润=项目结算金额-总成本)
-	private Double  allYsProfit;//总成本的预算jing利润(预算利润=项目结算金额-预算成本)
+	private BigDecimal  prjJsMoney;//项目结算金额
+	private BigDecimal  contractJsMoney;//合同结算金额
+	private BigDecimal  zjFbYsMoney;//直接成本的分包预算金额
+	private BigDecimal  zjFbJsMoney;//直接成本的分包结算金额
+	private BigDecimal  zjZcYsMoney;//直接成本的主材预算金额
+	private BigDecimal  zjZcJsMoney;//直接成本的主材结算金额
+	private BigDecimal  zjPrjotherYsMoney;//直接成本的项目其他直接成本预算金额
+	private BigDecimal  zjPrjotherJsMoney;//直接成本的项目其他直接成本结算金额
+	private BigDecimal  jjPersonMoney;//间接成本的项目人员薪酬金额
+	private BigDecimal  jjZhejiuMoney;//间接成本的折旧费用金额
+	private BigDecimal  qtGsGlMoney;//其他摊销费用的公司管理费用
+	private BigDecimal  qtGsXsMoney;//其他摊销费用的公司销售费用
+	private BigDecimal  qtTxMoney;//其他摊销费用的其他摊销费用
+	private BigDecimal  allSubtotal;//总成本
+	private BigDecimal  allJsProfit;//总成本的结算jing利润(结算利润=项目结算金额-总成本)
+	private BigDecimal  allYsProfit;//总成本的预算jing利润(预算利润=项目结算金额-预算成本)
 	private String allJsProfitMargin;//总成本的结算jing利润率(结算利润率=结算利润/项目结算金额)
 	private String allYsProfitMargin;//总成本的预算jing利润率(预算利润率=预算利润/项目结算金额)
-	private Double allJsMargin;//结算毛利润（结算毛利润=项目结算金额—直接成本）
+	private BigDecimal allJsMargin;//结算毛利润（结算毛利润=项目结算金额—直接成本）
 	private String allJsMarginLv;//结算毛利润率（结算毛利润率=结算毛利润/项目结算金额 ）
-	private Double jcSjMoney;//检测二部直接成本
+	private BigDecimal jcSjMoney;//检测二部直接成本
 	
 	private List<ProjectAccountingRg> projectAccountingRg;//人员工时
 	private String jsState;//结算状态（0:全部结算，1:部分结算，2:未结算）
 
 	private String mainName;//主办部门
-    private Double mainDepartmentMoney;
+    private BigDecimal mainDepartmentMoney;
     private String name1;//协办部门1
-    private Double assistDepartment1Money;
+    private BigDecimal assistDepartment1Money;
     private String name2;//协办部门2
-    private Double assistDepartment2Money;
+    private BigDecimal assistDepartment2Money;
     private String name3;//协办部门3
-    private Double assistDepartment3Money;
+    private BigDecimal assistDepartment3Money;
     private String starterName;//发起人
     private String status;//审批状态
 	
@@ -56,11 +57,11 @@ public class ProjectAccounting {
 		this.mainName = mainName;
 	}
 
-	public Double getMainDepartmentMoney() {
+	public BigDecimal getMainDepartmentMoney() {
 		return mainDepartmentMoney;
 	}
 
-	public void setMainDepartmentMoney(Double mainDepartmentMoney) {
+	public void setMainDepartmentMoney(BigDecimal mainDepartmentMoney) {
 		this.mainDepartmentMoney = mainDepartmentMoney;
 	}
 
@@ -72,11 +73,11 @@ public class ProjectAccounting {
 		this.name1 = name1;
 	}
 
-	public Double getAssistDepartment1Money() {
+	public BigDecimal getAssistDepartment1Money() {
 		return assistDepartment1Money;
 	}
 
-	public void setAssistDepartment1Money(Double assistDepartment1Money) {
+	public void setAssistDepartment1Money(BigDecimal assistDepartment1Money) {
 		this.assistDepartment1Money = assistDepartment1Money;
 	}
 
@@ -88,11 +89,11 @@ public class ProjectAccounting {
 		this.name2 = name2;
 	}
 
-	public Double getAssistDepartment2Money() {
+	public BigDecimal getAssistDepartment2Money() {
 		return assistDepartment2Money;
 	}
 
-	public void setAssistDepartment2Money(Double assistDepartment2Money) {
+	public void setAssistDepartment2Money(BigDecimal assistDepartment2Money) {
 		this.assistDepartment2Money = assistDepartment2Money;
 	}
 
@@ -104,11 +105,11 @@ public class ProjectAccounting {
 		this.name3 = name3;
 	}
 
-	public Double getAssistDepartment3Money() {
+	public BigDecimal getAssistDepartment3Money() {
 		return assistDepartment3Money;
 	}
 
-	public void setAssistDepartment3Money(Double assistDepartment3Money) {
+	public void setAssistDepartment3Money(BigDecimal assistDepartment3Money) {
 		this.assistDepartment3Money = assistDepartment3Money;
 	}
 
@@ -128,11 +129,11 @@ public class ProjectAccounting {
 		this.status = status;
 	}
 
-	public Double getAllJsMargin() {
+	public BigDecimal getAllJsMargin() {
 		return allJsMargin;
 	}
 
-	public void setAllJsMargin(Double allJsMargin) {
+	public void setAllJsMargin(BigDecimal allJsMargin) {
 		this.allJsMargin = allJsMargin;
 	}
 
@@ -152,11 +153,11 @@ public class ProjectAccounting {
 		this.jsState = jsState;
 	}
 
-	public Double getJcSjMoney() {
+	public BigDecimal getJcSjMoney() {
 		return jcSjMoney;
 	}
 
-	public void setJcSjMoney(Double jcSjMoney) {
+	public void setJcSjMoney(BigDecimal jcSjMoney) {
 		this.jcSjMoney = jcSjMoney;
 	}
 
@@ -172,11 +173,11 @@ public class ProjectAccounting {
 		return paId;
 	}
 
-	public Double getAllSubtotal() {
+	public BigDecimal getAllSubtotal() {
 		return allSubtotal;
 	}
 
-	public void setAllSubtotal(Double allSubtotal) {
+	public void setAllSubtotal(BigDecimal allSubtotal) {
 		this.allSubtotal = allSubtotal;
 	}
 
@@ -224,123 +225,123 @@ public class ProjectAccounting {
 		this.prjLeader = prjLeader;
 	}
 
-	public Double getPrjJsMoney() {
+	public BigDecimal getPrjJsMoney() {
 		return prjJsMoney;
 	}
 
-	public void setPrjJsMoney(Double prjJsMoney) {
+	public void setPrjJsMoney(BigDecimal prjJsMoney) {
 		this.prjJsMoney = prjJsMoney;
 	}
 
-	public Double getContractJsMoney() {
+	public BigDecimal getContractJsMoney() {
 		return contractJsMoney;
 	}
 
-	public void setContractJsMoney(Double contractJsMoney) {
+	public void setContractJsMoney(BigDecimal contractJsMoney) {
 		this.contractJsMoney = contractJsMoney;
 	}
 
-	public Double getZjFbYsMoney() {
+	public BigDecimal getZjFbYsMoney() {
 		return zjFbYsMoney;
 	}
 
-	public void setZjFbYsMoney(Double zjFbYsMoney) {
+	public void setZjFbYsMoney(BigDecimal zjFbYsMoney) {
 		this.zjFbYsMoney = zjFbYsMoney;
 	}
 
-	public Double getZjFbJsMoney() {
+	public BigDecimal getZjFbJsMoney() {
 		return zjFbJsMoney;
 	}
 
-	public void setZjFbJsMoney(Double zjFbJsMoney) {
+	public void setZjFbJsMoney(BigDecimal zjFbJsMoney) {
 		this.zjFbJsMoney = zjFbJsMoney;
 	}
 
-	public Double getZjZcYsMoney() {
+	public BigDecimal getZjZcYsMoney() {
 		return zjZcYsMoney;
 	}
 
-	public void setZjZcYsMoney(Double zjZcYsMoney) {
+	public void setZjZcYsMoney(BigDecimal zjZcYsMoney) {
 		this.zjZcYsMoney = zjZcYsMoney;
 	}
 
-	public Double getZjZcJsMoney() {
+	public BigDecimal getZjZcJsMoney() {
 		return zjZcJsMoney;
 	}
 
-	public void setZjZcJsMoney(Double zjZcJsMoney) {
+	public void setZjZcJsMoney(BigDecimal zjZcJsMoney) {
 		this.zjZcJsMoney = zjZcJsMoney;
 	}
 
-	public Double getZjPrjotherYsMoney() {
+	public BigDecimal getZjPrjotherYsMoney() {
 		return zjPrjotherYsMoney;
 	}
 
-	public void setZjPrjotherYsMoney(Double zjPrjotherYsMoney) {
+	public void setZjPrjotherYsMoney(BigDecimal zjPrjotherYsMoney) {
 		this.zjPrjotherYsMoney = zjPrjotherYsMoney;
 	}
 
-	public Double getZjPrjotherJsMoney() {
+	public BigDecimal getZjPrjotherJsMoney() {
 		return zjPrjotherJsMoney;
 	}
 
-	public void setZjPrjotherJsMoney(Double zjPrjotherJsMoney) {
+	public void setZjPrjotherJsMoney(BigDecimal zjPrjotherJsMoney) {
 		this.zjPrjotherJsMoney = zjPrjotherJsMoney;
 	}
 
-	public Double getJjPersonMoney() {
+	public BigDecimal getJjPersonMoney() {
 		return jjPersonMoney;
 	}
 
-	public void setJjPersonMoney(Double jjPersonMoney) {
+	public void setJjPersonMoney(BigDecimal jjPersonMoney) {
 		this.jjPersonMoney = jjPersonMoney;
 	}
 
-	public Double getJjZhejiuMoney() {
+	public BigDecimal getJjZhejiuMoney() {
 		return jjZhejiuMoney;
 	}
 
-	public void setJjZhejiuMoney(Double jjZhejiuMoney) {
+	public void setJjZhejiuMoney(BigDecimal jjZhejiuMoney) {
 		this.jjZhejiuMoney = jjZhejiuMoney;
 	}
 
-	public Double getQtGsGlMoney() {
+	public BigDecimal getQtGsGlMoney() {
 		return qtGsGlMoney;
 	}
 
-	public void setQtGsGlMoney(Double qtGsGlMoney) {
+	public void setQtGsGlMoney(BigDecimal qtGsGlMoney) {
 		this.qtGsGlMoney = qtGsGlMoney;
 	}
 
-	public Double getQtGsXsMoney() {
+	public BigDecimal getQtGsXsMoney() {
 		return qtGsXsMoney;
 	}
 
-	public void setQtGsXsMoney(Double qtGsXsMoney) {
+	public void setQtGsXsMoney(BigDecimal qtGsXsMoney) {
 		this.qtGsXsMoney = qtGsXsMoney;
 	}
 
-	public Double getQtTxMoney() {
+	public BigDecimal getQtTxMoney() {
 		return qtTxMoney;
 	}
 
-	public void setQtTxMoney(Double qtTxMoney) {
+	public void setQtTxMoney(BigDecimal qtTxMoney) {
 		this.qtTxMoney = qtTxMoney;
 	}
 
-	public Double getAllJsProfit() {
+	public BigDecimal getAllJsProfit() {
 		return allJsProfit;
 	}
 
-	public void setAllJsProfit(Double allJsProfit) {
+	public void setAllJsProfit(BigDecimal allJsProfit) {
 		this.allJsProfit = allJsProfit;
 	}
 
-	public Double getAllYsProfit() {
+	public BigDecimal getAllYsProfit() {
 		return allYsProfit;
 	}
 
-	public void setAllYsProfit(Double allYsProfit) {
+	public void setAllYsProfit(BigDecimal allYsProfit) {
 		this.allYsProfit = allYsProfit;
 	}
 

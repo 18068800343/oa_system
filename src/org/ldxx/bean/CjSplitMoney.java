@@ -1,9 +1,12 @@
 package org.ldxx.bean;
+
+import java.math.BigDecimal;
+
 //承接合同拆分金额表
 public class CjSplitMoney {
 	private String cjId;
 	private String year;//拆分年份
-	private Double money;//拆分金额
+	private BigDecimal money;//拆分金额
 	
 	
 	public String getCjId() {
@@ -18,10 +21,10 @@ public class CjSplitMoney {
 	public void setYear(String year) {
 		this.year = year;
 	}
-	public Double getMoney() {
+	public BigDecimal getMoney() {
 		return money;
 	}
-	public void setMoney(Double money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
 }

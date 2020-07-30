@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -281,7 +282,7 @@ public class BudgetFpplicationFormController {
 	
 	@RequestMapping("/selectBudgeByStatus")
 	@ResponseBody
-	public List<BudgetFpplicationForm> selectBudgeByStatus(String status,String timeMin,String timeMax,@RequestParam(defaultValue="0")Double costMin,@RequestParam(defaultValue="0")Double costMax){
+	public List<BudgetFpplicationForm> selectBudgeByStatus(String status,String timeMin,String timeMax,@RequestParam(defaultValue="0")BigDecimal costMin,@RequestParam(defaultValue="0")BigDecimal costMax){
 		return bservice.selectBudgeByStatus(status,timeMin,timeMax,costMin,costMax);
 	}
 	
@@ -337,28 +338,29 @@ public class BudgetFpplicationFormController {
 		}
 		i = bservice.updateHistoryById(id);
 		//重新计算项目进度是否预警
-		double ysCost=bff.getAllCost();//预算总费用
+		BigDecimal ysCost=bff.getAllCost();//预算总费用
 		String taskNo=bff.getTaskNo();
 		PrjProgressFill ppf=service.selectNewPlanByTaskNo(taskNo);
 		if(ppf!=null){
-			double prjIncome=ppf.getAllMoneyYuan();//项目累计收入
-			double prjMoney=ppf.getPrjMoney();//项目金额
+			BigDecimal prjIncome=ppf.getAllMoneyYuan();//项目累计收入
+			BigDecimal prjMoney=ppf.getPrjMoney();//项目金额
 			
-			double cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
-			double cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
-			double allCost=cost+cost2;//财务累计成本
-			double cwwx=0;//财务外协费
-			double fbIncome=0;//分包累计收入
+			BigDecimal cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
+			BigDecimal cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
+			BigDecimal allCost=cost.add(cost2);//财务累计成本
+			BigDecimal cwwx=new BigDecimal(0);//财务外协费
+			BigDecimal fbIncome=new BigDecimal(0);//分包累计收入
 			List<CostBudget> cb=bservice.selectNwCostByTaskNoAndDept(taskNo, "劳务分包费");
 			/*List<PrjProgressFillFb> fb=service.selectPrjProgressFillFbByPpfId(ppf.getPpfId());*/
 			for(int ii=0;ii<cb.size();ii++){
-				double aa=Double.valueOf(cb.get(ii).getCostAmount());
-				fbIncome=fbIncome+aa;
+				BigDecimal aa=new BigDecimal(cb.get(ii).getCostAmount());
+				fbIncome=fbIncome.add(aa);
 			}
 			/*累计成本=财务累计成本-财务外协费+分包累计收入（预算分包收入）*/
-			double totalCost=allCost-cwwx+fbIncome;
+			BigDecimal totalCost=allCost.subtract(cwwx).add(fbIncome);
 			int status=3;
-			if((totalCost/prjIncome)>(1*ysCost/prjMoney)){
+			if((totalCost.divide(prjIncome)).compareTo((ysCost.multiply(new BigDecimal(1)).divide(prjMoney)))==1){
+			//if((totalCost/prjIncome)>(1*ysCost/prjMoney)){
 				status=1;
 			}
 			String ppfId= ppf.getPpfId();
@@ -400,7 +402,7 @@ public class BudgetFpplicationFormController {
 	
 	@RequestMapping("/selectBudgeByStatus2")//初始化status状态为1,2,3的预算单
 	@ResponseBody
-	public List<BudgetFpplicationForm> selectBudgeByStatus2(String status,String timeMin,String timeMax,@RequestParam(defaultValue="0")Double costMin,@RequestParam(defaultValue="0")Double costMax){
+	public List<BudgetFpplicationForm> selectBudgeByStatus2(String status,String timeMin,String timeMax,@RequestParam(defaultValue="0")BigDecimal costMin,@RequestParam(defaultValue="0")BigDecimal costMax){
 		return bservice.selectBudgeByStatus2(status,timeMin,timeMax,costMin,costMax);
 	}
 }

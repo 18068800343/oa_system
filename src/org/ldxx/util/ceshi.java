@@ -99,12 +99,12 @@ public class ceshi {
 						
 						String man=getValue(colum5);
 						String money=getValue(colum6);
-						Double m=(double) 0;
+						BigDecimal m=new BigDecimal(0);
 						if(money!=""){
 							BigDecimal bigDecimal = new BigDecimal(money);
 							BigDecimal bigDecimal2 = new BigDecimal("10000");
 							BigDecimal bigDecimalMultiply = bigDecimal.multiply(bigDecimal2);
-							m = (Double) bigDecimalMultiply.doubleValue();
+							m = bigDecimalMultiply;
 						}
 						String prjId=uuid.getTimeUUID();
 						
@@ -188,12 +188,12 @@ public class ceshi {
 						String yezhu=getValue(colum6);
 						String info=getValue(colum7);
 						System.out.println(prjNo);
-						Double m=(double) 0;
+						BigDecimal m=new BigDecimal(0);
 						if(money!=""){
 							BigDecimal bigDecimal = new BigDecimal(money);
 							BigDecimal bigDecimal2 = new BigDecimal("10000");
 							BigDecimal bigDecimalMultiply = bigDecimal.multiply(bigDecimal2);
-							m = (Double) bigDecimalMultiply.doubleValue();
+							m = bigDecimalMultiply;
 						}
 						String cjId=uuid.getTimeUUID();
 						cj.setCjId(cjId);

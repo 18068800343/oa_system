@@ -138,10 +138,10 @@ public class OperationTargetController {
 			ot.setCollectionTarget(ot2.getCollectionTarget());
 			ot.setProfit(ot2.getProfit());
 		}else {
-			ot.setContractAmount(0);
-			ot.setRevenueTarget(0);
-			ot.setCollectionTarget(0);
-			ot.setProfit(0);
+			ot.setContractAmount(new BigDecimal(0));
+			ot.setRevenueTarget(new BigDecimal(0));
+			ot.setCollectionTarget(new BigDecimal(0));
+			ot.setProfit(new BigDecimal(0));
 		}
 		
 		map.put("ot", ot);
@@ -188,10 +188,10 @@ public class OperationTargetController {
 				}else{
 					new_ot.setOtId("");
 					new_ot.setYear(i+"");
-					new_ot.setContractAmount(0);
-					new_ot.setRevenueTarget(0);
-					new_ot.setCollectionTarget(0);
-					new_ot.setProfit(0);
+					new_ot.setContractAmount(new BigDecimal(0));
+					new_ot.setRevenueTarget(new BigDecimal(0));
+					new_ot.setCollectionTarget(new BigDecimal(0));
+					new_ot.setProfit(new BigDecimal(0));
 				}
 				if(ot!=null){
 					//新签合同额
@@ -293,7 +293,7 @@ public class OperationTargetController {
 							float f=0;
 							if(mon.contains("%")){
 								mon=mon.replaceAll("%", "");
-								f = (Double.valueOf(mon))/100;//换算成小数
+								f = (BigDecimal.valueOf(mon))/100;//换算成小数
 							}
 							money1=money1+(f*allIncome);
 						}
@@ -349,7 +349,7 @@ public class OperationTargetController {
 					}else{//查其他合同
 						OtherContract otherContract = ocservice.selectOtherContractByNo(contractNo);
 						if(otherContract!=null){
-							Double contractMoney = otherContract.getContractMoney();//合同金额
+							BigDecimal contractMoney = otherContract.getContractMoney();//合同金额
 							String omName2 = otherContract.getOmName();//其他合同的合同部门名称
 							if(omName2!=null){
 								actualMoney=actualMoney+contractMoney;
@@ -428,10 +428,10 @@ public class OperationTargetController {
 			}else{
 				dt.get(i).settId("");
 				dt.get(i).setOtId("");
-				dt.get(i).setContractAmount(0);
-				dt.get(i).setRevenueTarget(0);
-				dt.get(i).setCollectionTarget(0);
-				dt.get(i).setProfit(0);
+				dt.get(i).setContractAmount(new BigDecimal(0));
+				dt.get(i).setRevenueTarget(new BigDecimal(0));
+				dt.get(i).setCollectionTarget(new BigDecimal(0));
+				dt.get(i).setProfit(new BigDecimal(0));
 			}
 			dt.get(i).setXqhte(dt.get(i).getXqhte());
 			dt.get(i).setSr(dt.get(i).getSr());
@@ -455,7 +455,7 @@ public class OperationTargetController {
 				float actualCost=0;//获取部门实际成本
 				PrjProgressFillInfo fillInfo=pService.selectYearCostByDepartment(omName, "%"+year+"%");
 				if(fillInfo!=null){
-					actualCost=Double.valueOf(fillInfo.getMoney());
+					actualCost=BigDecimal.valueOf(fillInfo.getMoney());
 				}
 				list.get(i).setActualCost(actualCost);
 				
@@ -492,7 +492,7 @@ public class OperationTargetController {
 						}else{//查其他合同
 							OtherContract otherContract = ocservice.selectOtherContractByNo(contractNo);
 							if(otherContract!=null){
-								Double contractMoney = otherContract.getContractMoney();//合同金额
+								BigDecimal contractMoney = otherContract.getContractMoney();//合同金额
 								String omName2 = otherContract.getOmName();//其他合同的合同部门名称
 								if(omName2!=null && omName.equals(omName2)){
 									actualMoney=actualMoney+contractMoney;
@@ -583,7 +583,7 @@ public class OperationTargetController {
 									float f=0;
 									if(mon.contains("%")){
 										mon=mon.replaceAll("%", "");
-										f = (Double.valueOf(mon))/100;//换算成小数
+										f = (BigDecimal.valueOf(mon))/100;//换算成小数
 									}
 									money1=money1+(f*allIncome);
 								}
@@ -685,17 +685,17 @@ public class OperationTargetController {
 			
 		}else{
 			MonthTarget monthTarget=new MonthTarget();
-			double targetSumOfList=0;
-			double target2SumOfList=0;
-			double target3SumOfList=0;
+			BigDecimal targetSumOfList=new BigDecimal(0);
+			BigDecimal target2SumOfList=new BigDecimal(0);
+			BigDecimal target3SumOfList=new BigDecimal(0);
 			List<MonthTarget> list=mservice.selectMonthTargetByMonthSum(id, 1);
 			for(int a=0;a<list.size();a++){
-				double target=list.get(a).getContractAmount();
-				targetSumOfList=targetSumOfList+target;
-				double target2=list.get(a).getRevenueTarget();
-				target2SumOfList=target2SumOfList+target2;
-				double target3=list.get(a).getCollectionTarget();
-				target3SumOfList=target3SumOfList+target3;
+				BigDecimal target=list.get(a).getContractAmount();
+				targetSumOfList=targetSumOfList.add(target);
+				BigDecimal target2=list.get(a).getRevenueTarget();
+				target2SumOfList=target2SumOfList.add(target2);
+				BigDecimal target3=list.get(a).getCollectionTarget();
+				target3SumOfList=target3SumOfList.add(target3);
 			}
 			monthTarget.setMonth(1);
 			monthTarget.setContractAmount(targetSumOfList);
@@ -704,17 +704,17 @@ public class OperationTargetController {
 			targetArray.add(monthTarget);
 			
 			MonthTarget monthTarget2=new MonthTarget();
-			double targetSumOfList2=0;
-			double target2SumOfList2=0;
-			double target3SumOfList2=0;
+			BigDecimal targetSumOfList2=new BigDecimal(0);
+			BigDecimal target2SumOfList2=new BigDecimal(0);
+			BigDecimal target3SumOfList2=new BigDecimal(0);
 			List<MonthTarget> list2=mservice.selectMonthTargetByMonthSum(id, 2);
 			for(int a=0;a<list2.size();a++){
-				double target=list2.get(a).getContractAmount();
-				targetSumOfList2=targetSumOfList2+target;
-				double target2=list2.get(a).getRevenueTarget();
-				target2SumOfList2=target2SumOfList2+target2;
-				double target3=list2.get(a).getCollectionTarget();
-				target3SumOfList2=target3SumOfList2+target3;
+				BigDecimal target=list2.get(a).getContractAmount();
+				targetSumOfList2=targetSumOfList2.add(target);
+				BigDecimal target2=list2.get(a).getRevenueTarget();
+				target2SumOfList2=target2SumOfList2.add(target2);
+				BigDecimal target3=list2.get(a).getCollectionTarget();
+				target3SumOfList2=target3SumOfList2.add(target3);
 			}
 			monthTarget2.setMonth(2);
 			monthTarget2.setContractAmount(targetSumOfList2);
@@ -723,17 +723,17 @@ public class OperationTargetController {
 			targetArray.add(monthTarget2);
 			
 			MonthTarget monthTarget3=new MonthTarget();
-			double targetSumOfList3=0;
-			double target2SumOfList3=0;
-			double target3SumOfList3=0;
+			BigDecimal targetSumOfList3=new BigDecimal(0);
+			BigDecimal target2SumOfList3=new BigDecimal(0);
+			BigDecimal target3SumOfList3=new BigDecimal(0);
 			List<MonthTarget> list3=mservice.selectMonthTargetByMonthSum(id, 3);
 			for(int a=0;a<list3.size();a++){
-				double target=list3.get(a).getContractAmount();
-				targetSumOfList3=targetSumOfList3+target;
-				double target2=list3.get(a).getRevenueTarget();
-				target2SumOfList3=target2SumOfList3+target2;
-				double target3=list3.get(a).getCollectionTarget();
-				target3SumOfList3=target3SumOfList3+target3;
+				BigDecimal target=list3.get(a).getContractAmount();
+				targetSumOfList3=targetSumOfList3.add(target);
+				BigDecimal target2=list3.get(a).getRevenueTarget();
+				target2SumOfList3=target2SumOfList3.add(target2);
+				BigDecimal target3=list3.get(a).getCollectionTarget();
+				target3SumOfList3=target3SumOfList3.add(target3);
 			}
 			monthTarget3.setMonth(3);
 			monthTarget3.setContractAmount(targetSumOfList3);
@@ -742,17 +742,17 @@ public class OperationTargetController {
 			targetArray.add(monthTarget3);
 			
 			MonthTarget monthTarget4=new MonthTarget();
-			double targetSumOfList4=0;
-			double target2SumOfList4=0;
-			double target3SumOfList4=0;
+			BigDecimal targetSumOfList4=new BigDecimal(0);
+			BigDecimal target2SumOfList4=new BigDecimal(0);
+			BigDecimal target3SumOfList4=new BigDecimal(0);
 			List<MonthTarget> list4=mservice.selectMonthTargetByMonthSum(id, 4);
 			for(int a=0;a<list4.size();a++){
-				double target=list4.get(a).getContractAmount();
-				targetSumOfList4=targetSumOfList4+target;
-				double target2=list4.get(a).getRevenueTarget();
-				target2SumOfList4=target2SumOfList4+target2;
-				double target3=list4.get(a).getCollectionTarget();
-				target3SumOfList4=target3SumOfList4+target3;
+				BigDecimal target=list4.get(a).getContractAmount();
+				targetSumOfList4=targetSumOfList4.add(target);
+				BigDecimal target2=list4.get(a).getRevenueTarget();
+				target2SumOfList4=target2SumOfList4.add(target2);
+				BigDecimal target3=list4.get(a).getCollectionTarget();
+				target3SumOfList4=target3SumOfList4.add(target3);
 			}
 			monthTarget4.setMonth(4);
 			monthTarget4.setContractAmount(targetSumOfList4);
@@ -761,17 +761,17 @@ public class OperationTargetController {
 			targetArray.add(monthTarget4);
 			
 			MonthTarget monthTarget5=new MonthTarget();
-			double targetSumOfList5=0;
-			double target2SumOfList5=0;
-			double target3SumOfList5=0;
+			BigDecimal targetSumOfList5=new BigDecimal(0);
+			BigDecimal target2SumOfList5=new BigDecimal(0);
+			BigDecimal target3SumOfList5=new BigDecimal(0);
 			List<MonthTarget> list5=mservice.selectMonthTargetByMonthSum(id, 5);
 			for(int a=0;a<list5.size();a++){
-				double target=list5.get(a).getContractAmount();
-				targetSumOfList5=targetSumOfList5+target;
-				double target2=list5.get(a).getRevenueTarget();
-				target2SumOfList5=target2SumOfList5+target2;
-				double target3=list5.get(a).getCollectionTarget();
-				target3SumOfList5=target3SumOfList5+target3;
+				BigDecimal target=list5.get(a).getContractAmount();
+				targetSumOfList5=targetSumOfList5.add(target);
+				BigDecimal target2=list5.get(a).getRevenueTarget();
+				target2SumOfList5=target2SumOfList5.add(target2);
+				BigDecimal target3=list5.get(a).getCollectionTarget();
+				target3SumOfList5=target3SumOfList5.add(target3);
 			}
 			monthTarget5.setMonth(5);
 			monthTarget5.setContractAmount(targetSumOfList5);
@@ -780,17 +780,17 @@ public class OperationTargetController {
 			targetArray.add(monthTarget5);
 			
 			MonthTarget monthTarget6=new MonthTarget();
-			double targetSumOfList6=0;
-			double target2SumOfList6=0;
-			double target3SumOfList6=0;
+			BigDecimal targetSumOfList6=new BigDecimal(0);
+			BigDecimal target2SumOfList6=new BigDecimal(0);
+			BigDecimal target3SumOfList6=new BigDecimal(0);
 			List<MonthTarget> list6=mservice.selectMonthTargetByMonthSum(id, 6);
 			for(int a=0;a<list6.size();a++){
-				double target=list6.get(a).getContractAmount();
-				targetSumOfList6=targetSumOfList6+target;
-				double target2=list6.get(a).getRevenueTarget();
-				target2SumOfList6=target2SumOfList6+target2;
-				double target3=list6.get(a).getCollectionTarget();
-				target3SumOfList6=target3SumOfList6+target3;
+				BigDecimal target=list6.get(a).getContractAmount();
+				targetSumOfList6=targetSumOfList6.add(target);
+				BigDecimal target2=list6.get(a).getRevenueTarget();
+				target2SumOfList6=target2SumOfList6.add(target2);
+				BigDecimal target3=list6.get(a).getCollectionTarget();
+				target3SumOfList6=target3SumOfList6.add(target3);
 			}
 			monthTarget6.setMonth(6);
 			monthTarget6.setContractAmount(targetSumOfList6);
@@ -799,17 +799,17 @@ public class OperationTargetController {
 			targetArray.add(monthTarget6);
 			
 			MonthTarget monthTarget7=new MonthTarget();
-			double targetSumOfList7=0;
-			double target2SumOfList7=0;
-			double target3SumOfList7=0;
+			BigDecimal targetSumOfList7=new BigDecimal(0);
+			BigDecimal target2SumOfList7=new BigDecimal(0);
+			BigDecimal target3SumOfList7=new BigDecimal(0);
 			List<MonthTarget> list7=mservice.selectMonthTargetByMonthSum(id, 7);
 			for(int a=0;a<list7.size();a++){
-				double target=list7.get(a).getContractAmount();
-				targetSumOfList7=targetSumOfList7+target;
-				double target2=list7.get(a).getRevenueTarget();
-				target2SumOfList7=target2SumOfList7+target2;
-				double target3=list7.get(a).getCollectionTarget();
-				target3SumOfList7=target3SumOfList7+target3;
+				BigDecimal target=list7.get(a).getContractAmount();
+				targetSumOfList7=targetSumOfList7.add(target);
+				BigDecimal target2=list7.get(a).getRevenueTarget();
+				target2SumOfList7=target2SumOfList7.add(target2);
+				BigDecimal target3=list7.get(a).getCollectionTarget();
+				target3SumOfList7=target3SumOfList7.add(target3);
 			}
 			monthTarget7.setMonth(7);
 			monthTarget7.setContractAmount(targetSumOfList7);
@@ -818,17 +818,17 @@ public class OperationTargetController {
 			targetArray.add(monthTarget7);
 			
 			MonthTarget monthTarget8=new MonthTarget();
-			double targetSumOfList8=0;
-			double target2SumOfList8=0;
-			double target3SumOfList8=0;
+			BigDecimal targetSumOfList8=new BigDecimal(0);
+			BigDecimal target2SumOfList8=new BigDecimal(0);
+			BigDecimal target3SumOfList8=new BigDecimal(0);
 			List<MonthTarget> list8=mservice.selectMonthTargetByMonthSum(id, 8);
 			for(int a=0;a<list8.size();a++){
-				double target=list8.get(a).getContractAmount();
-				targetSumOfList8=targetSumOfList8+target;
-				double target2=list8.get(a).getRevenueTarget();
-				target2SumOfList8=target2SumOfList8+target2;
-				double target3=list8.get(a).getCollectionTarget();
-				target3SumOfList8=target3SumOfList8+target3;
+				BigDecimal target=list8.get(a).getContractAmount();
+				targetSumOfList8=targetSumOfList8.add(target);
+				BigDecimal target2=list8.get(a).getRevenueTarget();
+				target2SumOfList8=target2SumOfList8.add(target2);
+				BigDecimal target3=list8.get(a).getCollectionTarget();
+				target3SumOfList8=target3SumOfList8.add(target3);
 			}
 			monthTarget8.setMonth(8);
 			monthTarget8.setContractAmount(targetSumOfList8);
@@ -837,17 +837,17 @@ public class OperationTargetController {
 			targetArray.add(monthTarget8);
 			
 			MonthTarget monthTarget9=new MonthTarget();
-			double targetSumOfList9=0;
-			double target2SumOfList9=0;
-			double target3SumOfList9=0;
+			BigDecimal targetSumOfList9=new BigDecimal(0);
+			BigDecimal target2SumOfList9=new BigDecimal(0);
+			BigDecimal target3SumOfList9=new BigDecimal(0);
 			List<MonthTarget> list9=mservice.selectMonthTargetByMonthSum(id, 9);
 			for(int a=0;a<list9.size();a++){
-				double target=list9.get(a).getContractAmount();
-				targetSumOfList9=targetSumOfList9+target;
-				double target2=list9.get(a).getRevenueTarget();
-				target2SumOfList9=target2SumOfList9+target2;
-				double target3=list9.get(a).getCollectionTarget();
-				target3SumOfList9=target3SumOfList9+target3;
+				BigDecimal target=list9.get(a).getContractAmount();
+				targetSumOfList9=targetSumOfList9.add(target);
+				BigDecimal target2=list9.get(a).getRevenueTarget();
+				target2SumOfList9=target2SumOfList9.add(target2);
+				BigDecimal target3=list9.get(a).getCollectionTarget();
+				target3SumOfList9=target3SumOfList9.add(target3);
 			}
 			monthTarget9.setMonth(9);
 			monthTarget9.setContractAmount(targetSumOfList9);
@@ -856,17 +856,17 @@ public class OperationTargetController {
 			targetArray.add(monthTarget9);
 			
 			MonthTarget monthTarget10=new MonthTarget();
-			double targetSumOfList10=0;
-			double target2SumOfList10=0;
-			double target3SumOfList10=0;
+			BigDecimal targetSumOfList10=new BigDecimal(0);
+			BigDecimal target2SumOfList10=new BigDecimal(0);
+			BigDecimal target3SumOfList10=new BigDecimal(0);
 			List<MonthTarget> list10=mservice.selectMonthTargetByMonthSum(id, 10);
 			for(int a=0;a<list10.size();a++){
-				double target=list10.get(a).getContractAmount();
-				targetSumOfList10=targetSumOfList10+target;
-				double target2=list10.get(a).getRevenueTarget();
-				target2SumOfList10=target2SumOfList10+target2;
-				double target3=list10.get(a).getCollectionTarget();
-				target3SumOfList10=target3SumOfList10+target3;
+				BigDecimal target=list10.get(a).getContractAmount();
+				targetSumOfList10=targetSumOfList10.add(target);
+				BigDecimal target2=list10.get(a).getRevenueTarget();
+				target2SumOfList10=target2SumOfList10.add(target2);
+				BigDecimal target3=list10.get(a).getCollectionTarget();
+				target3SumOfList10=target3SumOfList10.add(target3);
 			}
 			monthTarget10.setMonth(10);
 			monthTarget10.setContractAmount(targetSumOfList10);
@@ -875,17 +875,17 @@ public class OperationTargetController {
 			targetArray.add(monthTarget10);
 			
 			MonthTarget monthTarget11=new MonthTarget();
-			double targetSumOfList11=0;
-			double target2SumOfList11=0;
-			double target3SumOfList11=0;
+			BigDecimal targetSumOfList11=new BigDecimal(0);
+			BigDecimal target2SumOfList11=new BigDecimal(0);
+			BigDecimal target3SumOfList11=new BigDecimal(0);
 			List<MonthTarget> list11=mservice.selectMonthTargetByMonthSum(id, 11);
 			for(int a=0;a<list11.size();a++){
-				double target=list11.get(a).getContractAmount();
-				targetSumOfList11=targetSumOfList11+target;
-				double target2=list11.get(a).getRevenueTarget();
-				target2SumOfList11=target2SumOfList11+target2;
-				double target3=list11.get(a).getCollectionTarget();
-				target3SumOfList11=target3SumOfList11+target3;
+				BigDecimal target=list11.get(a).getContractAmount();
+				targetSumOfList11=targetSumOfList11.add(target);
+				BigDecimal target2=list11.get(a).getRevenueTarget();
+				target2SumOfList11=target2SumOfList11.add(target2);
+				BigDecimal target3=list11.get(a).getCollectionTarget();
+				target3SumOfList11=target3SumOfList11.add(target3);
 			}
 			monthTarget11.setMonth(11);
 			monthTarget11.setContractAmount(targetSumOfList11);
@@ -894,17 +894,17 @@ public class OperationTargetController {
 			targetArray.add(monthTarget11);
 			
 			MonthTarget monthTarget12=new MonthTarget();
-			double targetSumOfList12=0;
-			double target2SumOfList12=0;
-			double target3SumOfList12=0;
+			BigDecimal targetSumOfList12=new BigDecimal(0);
+			BigDecimal target2SumOfList12=new BigDecimal(0);
+			BigDecimal target3SumOfList12=new BigDecimal(0);
 			List<MonthTarget> list12=mservice.selectMonthTargetByMonthSum(id, 12);
 			for(int a=0;a<list12.size();a++){
-				double target=list12.get(a).getContractAmount();
-				targetSumOfList12=targetSumOfList12+target;
-				double target2=list12.get(a).getRevenueTarget();
-				target2SumOfList12=target2SumOfList12+target2;
-				double target3=list12.get(a).getCollectionTarget();
-				target3SumOfList12=target3SumOfList12+target3;
+				BigDecimal target=list12.get(a).getContractAmount();
+				targetSumOfList12=targetSumOfList12.add(target);
+				BigDecimal target2=list12.get(a).getRevenueTarget();
+				target2SumOfList12=target2SumOfList12.add(target2);
+				BigDecimal target3=list12.get(a).getCollectionTarget();
+				target3SumOfList12=target3SumOfList12.add(target3);
 			}
 			monthTarget12.setMonth(12);
 			monthTarget12.setContractAmount(targetSumOfList12);

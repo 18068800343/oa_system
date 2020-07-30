@@ -1,13 +1,15 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class MonthTarget {
 
 	private String otId;
 	private int month;
-	private double contractAmount;
-	private double revenueTarget;
-	private double collectionTarget;
-	private double profit;
+	private BigDecimal contractAmount;
+	private BigDecimal revenueTarget;
+	private BigDecimal collectionTarget;
+	private BigDecimal profit;
 	
 	
 	public String getOtId() {
@@ -22,28 +24,28 @@ public class MonthTarget {
 	public void setMonth(int month) {
 		this.month = month;
 	}
-	public double getContractAmount() {
+	public BigDecimal getContractAmount() {
 		return contractAmount;
 	}
-	public void setContractAmount(double contractAmount) {
+	public void setContractAmount(BigDecimal contractAmount) {
 		this.contractAmount = contractAmount;
 	}
-	public double getRevenueTarget() {
+	public BigDecimal getRevenueTarget() {
 		return revenueTarget;
 	}
-	public void setRevenueTarget(double revenueTarget) {
+	public void setRevenueTarget(BigDecimal revenueTarget) {
 		this.revenueTarget = revenueTarget;
 	}
-	public double getCollectionTarget() {
+	public BigDecimal getCollectionTarget() {
 		return collectionTarget;
 	}
-	public void setCollectionTarget(double collectionTarget) {
+	public void setCollectionTarget(BigDecimal collectionTarget) {
 		this.collectionTarget = collectionTarget;
 	}
-	public double getProfit() {
+	public BigDecimal getProfit() {
 		return profit;
 	}
-	public void setProfit(double profit) {
+	public void setProfit(BigDecimal profit) {
 		this.profit = profit;
 	}
 	

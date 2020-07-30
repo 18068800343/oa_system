@@ -1,5 +1,6 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -13,7 +14,7 @@ public interface TaskService {
 	
 	public int updateTask(Task task);
 	
-	public List<Task> selectTaskByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double prjMoneyMin,Double prjMoneyMax,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax);
+	public List<Task> selectTaskByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,BigDecimal prjMoneyMin,BigDecimal prjMoneyMax,BigDecimal contractMoneyMin,BigDecimal contractMoneyMax,BigDecimal zdMoneyMin,BigDecimal zdMoneyMax);
 	
 	public List<Task> selectTaskByStatus2(String status);
 	

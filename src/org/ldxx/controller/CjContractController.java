@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -354,9 +355,9 @@ public class CjContractController {
 	@RequestMapping("/selectCjContractByStatus")
 	@ResponseBody
 	public List<CjContract> selectCjContractByStatus(String status,String startMin,String startMax,String endMin,
-			String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")Double contractMoneyMin,
-			@RequestParam(defaultValue="0")Double contractMoneyMax,@RequestParam(defaultValue="0")Double zdMoneyMin,
-			@RequestParam(defaultValue="0")Double zdMoneyMax){
+			String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")BigDecimal contractMoneyMin,
+			@RequestParam(defaultValue="0")BigDecimal contractMoneyMax,@RequestParam(defaultValue="0")BigDecimal zdMoneyMin,
+			@RequestParam(defaultValue="0")BigDecimal zdMoneyMax){
 		List<CjContract> list=service.selectCjContractByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 		return list;
 	}
@@ -364,9 +365,9 @@ public class CjContractController {
 	@RequestMapping("/selectCjContractBySome")
 	@ResponseBody
 	public List<CjContract> selectCjContractBySome(String startMin,String startMax,String endMin,
-			String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")Double contractMoneyMin,
-			@RequestParam(defaultValue="0")Double contractMoneyMax,@RequestParam(defaultValue="0")Double zdMoneyMin,
-			@RequestParam(defaultValue="0")Double zdMoneyMax,String lxdateMin,String lxdateMax,@RequestParam(defaultValue="%")String erjileixing){
+			String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")BigDecimal contractMoneyMin,
+			@RequestParam(defaultValue="0")BigDecimal contractMoneyMax,@RequestParam(defaultValue="0")BigDecimal zdMoneyMin,
+			@RequestParam(defaultValue="0")BigDecimal zdMoneyMax,String lxdateMin,String lxdateMax,@RequestParam(defaultValue="%")String erjileixing){
 		List<CjContract> list=service.selectCjContractBySome(startMin,startMax,endMin,endMax,
 															 mainDp,xbDp,contractMoneyMin,
 															 contractMoneyMax,zdMoneyMin,zdMoneyMax,lxdateMin,lxdateMax,erjileixing);
@@ -932,7 +933,7 @@ public class CjContractController {
 		for(int i=0;i<prjNo.split(",").length;i++){
 			Task task=taskService.selectTaskPrjName(prjNo.split(",")[i]);
 			list.add(task);
-			if(task.getContractMoneyOld()==0){//保留原合同金额
+			if(null!=task.getContractMoneyOld()&&task.getContractMoneyOld().intValue()==0){//保留原合同金额
 				taskdao.updatecontractMoneyOld(cjContract.getContractMoney(), task.getPrjNo());
 			}
 		}

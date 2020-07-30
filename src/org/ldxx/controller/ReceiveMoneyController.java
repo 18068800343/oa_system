@@ -34,10 +34,11 @@ public class ReceiveMoneyController {
 		for(int i=0;i<list.size();i++){
 			String skNo = list.get(i).getSkNo();
 			AlreadyRenling ar=asDao.getyirenlingfpMoneyByskno(skNo);
-			double yirenlingallFpMoney = ar.getYirenlingallFpMoney();//已认领的确认金额总和
+			BigDecimal yirenlingallFpMoney = ar.getYirenlingallFpMoney();//已认领的确认金额总和
 			list.get(i).setLeijiquerenMoney(yirenlingallFpMoney);
-			double receiveMoney = list.get(i).getReceiveMoney();//收款金额
-			double shengyuMoney = DateUtil.sub(receiveMoney, yirenlingallFpMoney);
+			BigDecimal receiveMoney = list.get(i).getReceiveMoney();//收款金额
+			BigDecimal shengyuMoney = receiveMoney.subtract(yirenlingallFpMoney);
+			//BigDecimal shengyuMoney = DateUtil.sub(receiveMoney, yirenlingallFpMoney);
 			//shengyuMoney=receiveMoney-yirenlingallFpMoney;
 			list.get(i).setShengyuMoney(shengyuMoney);
 		}

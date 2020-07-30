@@ -8,6 +8,8 @@
 
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: GsClOut 
 * @Description: 公司材料出库材料实体
@@ -23,10 +25,10 @@ public class GsClOut {
 	private String materialType;//材料类型
 	private String specificationModel;//规格型号
 	private String cmoUnit;//单位
-	private Double cmoUnitPrice;//单价
+	private BigDecimal cmoUnitPrice;//单价
 	private int cmoNumber;// 出库总数量
 	private int remainNumber;//剩余数量
-	private Double cmoMoney;//出库的金额
+	private BigDecimal cmoMoney;//出库的金额
 	private String pickDate;//领料日期
 	
 	public String getGsId() {
@@ -83,16 +85,16 @@ public class GsClOut {
 	public void setRemainNumber(int remainNumber) {
 		this.remainNumber = remainNumber;
 	}
-	public Double getCmoUnitPrice() {
+	public BigDecimal getCmoUnitPrice() {
 		return cmoUnitPrice;
 	}
-	public void setCmoUnitPrice(Double cmoUnitPrice) {
+	public void setCmoUnitPrice(BigDecimal cmoUnitPrice) {
 		this.cmoUnitPrice = cmoUnitPrice;
 	}
-	public Double getCmoMoney() {
+	public BigDecimal getCmoMoney() {
 		return cmoMoney;
 	}
-	public void setCmoMoney(Double cmoMoney) {
+	public void setCmoMoney(BigDecimal cmoMoney) {
 		this.cmoMoney = cmoMoney;
 	}
 	

@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /** 
@@ -18,7 +19,7 @@ public class LianYing {
 	private String prjArea;
 	private String prjType2;
 	private String ccName;
-	private double contractMoney;
+	private BigDecimal contractMoney;
 	private String contractNo;
 	private String contractNameYi;
 	
@@ -99,10 +100,10 @@ public class LianYing {
 	public void setPrjType2(String prjType2) {
 		this.prjType2 = prjType2;
 	}
-	public double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 	public String getContractNo() {

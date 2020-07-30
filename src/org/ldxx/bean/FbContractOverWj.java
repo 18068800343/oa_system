@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class FbContractOverWj {
@@ -25,15 +26,15 @@ public class FbContractOverWj {
 
     private String prjProbablyText;//项目概况
 
-    private Double contractMoney;//合同金额
+    private BigDecimal contractMoney;//合同金额
 
-    private Double provisionalMoney;//暂定金
+    private BigDecimal provisionalMoney;//暂定金
 
-    private Double overWorkMoney;//结算金额
+    private BigDecimal overWorkMoney;//结算金额
 
     private String overWorkExplain;//结算说明
 
-    private Double allPayMoney;//累计付款
+    private BigDecimal allPayMoney;//累计付款
 
     private String doAppointScore;//履约评级
     
@@ -147,27 +148,27 @@ public class FbContractOverWj {
     }
 
 
-    public Double getContractMoney() {
+    public BigDecimal getContractMoney() {
         return contractMoney;
     }
 
-    public void setContractMoney(Double contractMoney) {
+    public void setContractMoney(BigDecimal contractMoney) {
         this.contractMoney = contractMoney;
     }
 
-    public Double getProvisionalMoney() {
+    public BigDecimal getProvisionalMoney() {
         return provisionalMoney;
     }
 
-    public void setProvisionalMoney(Double provisionalMoney) {
+    public void setProvisionalMoney(BigDecimal provisionalMoney) {
         this.provisionalMoney = provisionalMoney;
     }
 
-    public Double getOverWorkMoney() {
+    public BigDecimal getOverWorkMoney() {
         return overWorkMoney;
     }
 
-    public void setOverWorkMoney(Double overWorkMoney) {
+    public void setOverWorkMoney(BigDecimal overWorkMoney) {
         this.overWorkMoney = overWorkMoney;
     }
 
@@ -179,11 +180,11 @@ public class FbContractOverWj {
         this.overWorkExplain = overWorkExplain == null ? null : overWorkExplain.trim();
     }
 
-    public Double getAllPayMoney() {
+    public BigDecimal getAllPayMoney() {
         return allPayMoney;
     }
 
-    public void setAllPayMoney(Double allPayMoney) {
+    public void setAllPayMoney(BigDecimal allPayMoney) {
         this.allPayMoney = allPayMoney;
     }
 

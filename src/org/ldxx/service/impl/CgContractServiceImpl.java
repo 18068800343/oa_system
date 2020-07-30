@@ -1,16 +1,14 @@
 package org.ldxx.service.impl;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.BorrowContract;
 import org.ldxx.bean.CgCl;
 import org.ldxx.bean.CgContract;
-import org.ldxx.bean.FbContract;
 import org.ldxx.bean.MaterialDemand;
 import org.ldxx.bean.Pay;
-import org.ldxx.bean.PrjMaterialBuy;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.BorrowContractDao;
 import org.ldxx.dao.CgClDao;
@@ -194,7 +192,7 @@ public class CgContractServiceImpl implements CgContractService {
 
 
 	@Override
-	public int updateDepartmentMoney(Double price, String id) {
+	public int updateDepartmentMoney(BigDecimal price, String id) {
 		return pdao.updateSumPrice(price,id);
 	}
 

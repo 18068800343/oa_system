@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ContractWork {
@@ -21,13 +22,13 @@ public class ContractWork {
     
     private String rating;
 
-    private Double contractMoney;
+    private BigDecimal contractMoney;
 
-    private Double endMoney;
+    private BigDecimal endMoney;
     
     private String cjContractLongTime;//承接合同工期
 
-    private Double allReceieveMoney;
+    private BigDecimal allReceieveMoney;
 
     private String prjChargeMan;
 
@@ -260,27 +261,27 @@ public class ContractWork {
 		this.workText = workText;
 	}
 
-	public Double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
 
-	public void setContractMoney(Double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 
-	public Double getEndMoney() {
+	public BigDecimal getEndMoney() {
 		return endMoney;
 	}
 
-	public void setEndMoney(Double endMoney) {
+	public void setEndMoney(BigDecimal endMoney) {
 		this.endMoney = endMoney;
 	}
 
-	public Double getAllReceieveMoney() {
+	public BigDecimal getAllReceieveMoney() {
 		return allReceieveMoney;
 	}
 
-	public void setAllReceieveMoney(Double allReceieveMoney) {
+	public void setAllReceieveMoney(BigDecimal allReceieveMoney) {
 		this.allReceieveMoney = allReceieveMoney;
 	}
 

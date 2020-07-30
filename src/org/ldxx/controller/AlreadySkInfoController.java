@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +78,7 @@ public class AlreadySkInfoController {
 	public Map<String,Object> getAllSkByTaskNo(String no){
 		Map<String,Object> map=new HashMap<String, Object>();
 		Task task=tService.selectIdByNo2(no);
-		double money=service.getAllSkByTaskNo(no);
+		BigDecimal money=service.getAllSkByTaskNo(no);
 		map.put("prjMoney", task.getPrjEstimateMoney());
 		map.put("money", money);
 		return map;

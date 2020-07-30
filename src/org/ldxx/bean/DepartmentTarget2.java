@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 //经营指标双击列表字段
 public class DepartmentTarget2 {
 	private String prjNo;
@@ -7,7 +9,7 @@ public class DepartmentTarget2 {
 	private String omId;
 	private String omName;
 	private String year;
-	private double money;
+	private BigDecimal money;
 	
 	public String getPrjNo() {
 		return prjNo;
@@ -40,10 +42,10 @@ public class DepartmentTarget2 {
 	public void setYear(String year) {
 		this.year = year;
 	}
-	public double getMoney() {
+	public BigDecimal getMoney() {
 		return money;
 	}
-	public void setMoney(double money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
 

@@ -1,11 +1,13 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class InvoiceSign {
     private String isId;
 
     private String invoiceDate;
 
-    private Double invoiceMoney;
+    private BigDecimal invoiceMoney;
 
     private String invoiceType;
 
@@ -45,11 +47,11 @@ public class InvoiceSign {
         this.invoiceDate = invoiceDate == null ? null : invoiceDate.trim();
     }
 
-    public Double getInvoiceMoney() {
+    public BigDecimal getInvoiceMoney() {
         return invoiceMoney;
     }
 
-    public void setInvoiceMoney(Double invoiceMoney) {
+    public void setInvoiceMoney(BigDecimal invoiceMoney) {
         this.invoiceMoney = invoiceMoney;
     }
 

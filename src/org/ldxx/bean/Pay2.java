@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Pay2 {
@@ -12,21 +13,21 @@ public class Pay2 {
     
     private String contractNo;//分包合同编号
 
-    private Double contractMoney;//分包合同金额
+    private BigDecimal contractMoney;//分包合同金额
 
-    private Double alreadyKpMoney;//已经开票金额
+    private BigDecimal alreadyKpMoney;//已经开票金额
     
-    private double skMoney;//收款金额
+    private BigDecimal skMoney;//收款金额
     
     private String skScale;//收款比例
 
-    private Double thisTimeKpMoney;//本次开票金额
+    private BigDecimal thisTimeKpMoney;//本次开票金额
 
     private String mainContractCode;//主合同号
 
     private String mainContractName;//主合同名称
 
-    private Double mainContractMoney;//主合同金额
+    private BigDecimal mainContractMoney;//主合同金额
 
     private String prjListCode;//任务单号
 
@@ -36,13 +37,13 @@ public class Pay2 {
 
     private String ifContractDoCost;//是否进行合同履约结算
 
-    private Double contractDoCostMoney;//合同履约结算金额
+    private BigDecimal contractDoCostMoney;//合同履约结算金额
 
-    private Double alreadyAccumulateMoney;//已累计进付金额
+    private BigDecimal alreadyAccumulateMoney;//已累计进付金额
 
-    private Double GenerationAdvancesMoney; //付款申请代垫款
+    private BigDecimal GenerationAdvancesMoney; //付款申请代垫款
     
-    private Double thisTimeAskMoney;//本次申请付款
+    private BigDecimal thisTimeAskMoney;//本次申请付款
 
     private String payMethod;//付款性质
 
@@ -52,27 +53,27 @@ public class Pay2 {
 
     private String compilerTime;//编制时间
     
-    private Double authorisePayment;//批准付款
+    private BigDecimal authorisePayment;//批准付款
 
     private String makeTime;
 
     private String history;
 
-    private Double resultPay;//实际支付金额
+    private BigDecimal resultPay;//实际支付金额
     
     private String payTime;//支付时间
     
-    private Double accumulatedFinancialRecognitionMoney;//财务确认累计付款金额(元)
-    private Double otherMatsMoney;//其他代垫费用
-    private Double ysqwfkMoney;//已申请未付款金额
-    private Double yljfkMoney;////已累计付款金额
+    private BigDecimal accumulatedFinancialRecognitionMoney;//财务确认累计付款金额(元)
+    private BigDecimal otherMatsMoney;//其他代垫费用
+    private BigDecimal ysqwfkMoney;//已申请未付款金额
+    private BigDecimal yljfkMoney;////已累计付款金额
     
     
     private List<Accessory> accessory;
     private List<Accessory> accessory2;
     /*private List<Accessory> accessory3;//法律顾问签字*/    
     
-    private Double fbcontractMoney;//分包合同金额
+    private BigDecimal fbcontractMoney;//分包合同金额
     private String contractNameYi;//分包合同乙方单位(分包单位)id
     private String ccName;//分包合同乙方单位名称(分包单位)
     private String uName;//编制人               
@@ -89,16 +90,16 @@ public class Pay2 {
 	public void setDoDate(String doDate) {
 		this.doDate = doDate;
 	}
-	public Double getYsqwfkMoney() {
+	public BigDecimal getYsqwfkMoney() {
 		return ysqwfkMoney;
 	}
-	public void setYsqwfkMoney(Double ysqwfkMoney) {
+	public void setYsqwfkMoney(BigDecimal ysqwfkMoney) {
 		this.ysqwfkMoney = ysqwfkMoney;
 	}
-	public Double getYljfkMoney() {
+	public BigDecimal getYljfkMoney() {
 		return yljfkMoney;
 	}
-	public void setYljfkMoney(Double yljfkMoney) {
+	public void setYljfkMoney(BigDecimal yljfkMoney) {
 		this.yljfkMoney = yljfkMoney;
 	}
 	public String getOmName() {
@@ -131,22 +132,22 @@ public class Pay2 {
 	public void setContractNo(String contractNo) {
 		this.contractNo = contractNo;
 	}
-	public Double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(Double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
-	public Double getAlreadyKpMoney() {
+	public BigDecimal getAlreadyKpMoney() {
 		return alreadyKpMoney;
 	}
-	public void setAlreadyKpMoney(Double alreadyKpMoney) {
+	public void setAlreadyKpMoney(BigDecimal alreadyKpMoney) {
 		this.alreadyKpMoney = alreadyKpMoney;
 	}
-	public double getSkMoney() {
+	public BigDecimal getSkMoney() {
 		return skMoney;
 	}
-	public void setSkMoney(double skMoney) {
+	public void setSkMoney(BigDecimal skMoney) {
 		this.skMoney = skMoney;
 	}
 	public String getSkScale() {
@@ -155,10 +156,10 @@ public class Pay2 {
 	public void setSkScale(String skScale) {
 		this.skScale = skScale;
 	}
-	public Double getThisTimeKpMoney() {
+	public BigDecimal getThisTimeKpMoney() {
 		return thisTimeKpMoney;
 	}
-	public void setThisTimeKpMoney(Double thisTimeKpMoney) {
+	public void setThisTimeKpMoney(BigDecimal thisTimeKpMoney) {
 		this.thisTimeKpMoney = thisTimeKpMoney;
 	}
 	public String getMainContractCode() {
@@ -173,10 +174,10 @@ public class Pay2 {
 	public void setMainContractName(String mainContractName) {
 		this.mainContractName = mainContractName;
 	}
-	public Double getMainContractMoney() {
+	public BigDecimal getMainContractMoney() {
 		return mainContractMoney;
 	}
-	public void setMainContractMoney(Double mainContractMoney) {
+	public void setMainContractMoney(BigDecimal mainContractMoney) {
 		this.mainContractMoney = mainContractMoney;
 	}
 	public String getPrjListCode() {
@@ -203,28 +204,28 @@ public class Pay2 {
 	public void setIfContractDoCost(String ifContractDoCost) {
 		this.ifContractDoCost = ifContractDoCost;
 	}
-	public Double getContractDoCostMoney() {
+	public BigDecimal getContractDoCostMoney() {
 		return contractDoCostMoney;
 	}
-	public void setContractDoCostMoney(Double contractDoCostMoney) {
+	public void setContractDoCostMoney(BigDecimal contractDoCostMoney) {
 		this.contractDoCostMoney = contractDoCostMoney;
 	}
-	public Double getAlreadyAccumulateMoney() {
+	public BigDecimal getAlreadyAccumulateMoney() {
 		return alreadyAccumulateMoney;
 	}
-	public void setAlreadyAccumulateMoney(Double alreadyAccumulateMoney) {
+	public void setAlreadyAccumulateMoney(BigDecimal alreadyAccumulateMoney) {
 		this.alreadyAccumulateMoney = alreadyAccumulateMoney;
 	}
-	public Double getGenerationAdvancesMoney() {
+	public BigDecimal getGenerationAdvancesMoney() {
 		return GenerationAdvancesMoney;
 	}
-	public void setGenerationAdvancesMoney(Double generationAdvancesMoney) {
+	public void setGenerationAdvancesMoney(BigDecimal generationAdvancesMoney) {
 		GenerationAdvancesMoney = generationAdvancesMoney;
 	}
-	public Double getThisTimeAskMoney() {
+	public BigDecimal getThisTimeAskMoney() {
 		return thisTimeAskMoney;
 	}
-	public void setThisTimeAskMoney(Double thisTimeAskMoney) {
+	public void setThisTimeAskMoney(BigDecimal thisTimeAskMoney) {
 		this.thisTimeAskMoney = thisTimeAskMoney;
 	}
 	public String getPayMethod() {
@@ -251,10 +252,10 @@ public class Pay2 {
 	public void setCompilerTime(String compilerTime) {
 		this.compilerTime = compilerTime;
 	}
-	public Double getAuthorisePayment() {
+	public BigDecimal getAuthorisePayment() {
 		return authorisePayment;
 	}
-	public void setAuthorisePayment(Double authorisePayment) {
+	public void setAuthorisePayment(BigDecimal authorisePayment) {
 		this.authorisePayment = authorisePayment;
 	}
 	public String getMakeTime() {
@@ -269,10 +270,10 @@ public class Pay2 {
 	public void setHistory(String history) {
 		this.history = history;
 	}
-	public Double getResultPay() {
+	public BigDecimal getResultPay() {
 		return resultPay;
 	}
-	public void setResultPay(Double resultPay) {
+	public void setResultPay(BigDecimal resultPay) {
 		this.resultPay = resultPay;
 	}
 	public String getPayTime() {
@@ -281,16 +282,16 @@ public class Pay2 {
 	public void setPayTime(String payTime) {
 		this.payTime = payTime;
 	}
-	public Double getAccumulatedFinancialRecognitionMoney() {
+	public BigDecimal getAccumulatedFinancialRecognitionMoney() {
 		return accumulatedFinancialRecognitionMoney;
 	}
-	public void setAccumulatedFinancialRecognitionMoney(Double accumulatedFinancialRecognitionMoney) {
+	public void setAccumulatedFinancialRecognitionMoney(BigDecimal accumulatedFinancialRecognitionMoney) {
 		this.accumulatedFinancialRecognitionMoney = accumulatedFinancialRecognitionMoney;
 	}
-	public Double getOtherMatsMoney() {
+	public BigDecimal getOtherMatsMoney() {
 		return otherMatsMoney;
 	}
-	public void setOtherMatsMoney(Double otherMatsMoney) {
+	public void setOtherMatsMoney(BigDecimal otherMatsMoney) {
 		this.otherMatsMoney = otherMatsMoney;
 	}
 	public List<Accessory> getAccessory() {
@@ -305,10 +306,10 @@ public class Pay2 {
 	public void setAccessory2(List<Accessory> accessory2) {
 		this.accessory2 = accessory2;
 	}
-	public Double getFbcontractMoney() {
+	public BigDecimal getFbcontractMoney() {
 		return fbcontractMoney;
 	}
-	public void setFbcontractMoney(Double fbcontractMoney) {
+	public void setFbcontractMoney(BigDecimal fbcontractMoney) {
 		this.fbcontractMoney = fbcontractMoney;
 	}
 	public String getContractNameYi() {

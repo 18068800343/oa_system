@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,7 +93,7 @@ public class ProjectTraceController {
 		}else if(type.equals("QT 其他")){
 			prjType="信息化项目";
 		}
-		ProjectScale ps=pService.selectProjectScale(prjType, pt.getPredictPrjScale()/10000);
+		ProjectScale ps=pService.selectProjectScale(prjType, pt.getPredictPrjScale().divide(new BigDecimal(10000)));
 		String scale=ps.getPrjScale();
 		pt.setPrjLv(scale);
 		String webApps=uuid.getWebAppFile();
@@ -194,7 +195,7 @@ public class ProjectTraceController {
 		}else if(type.equals("QT 其他")){
 			prjType="信息化项目";
 		}
-		ProjectScale ps=pService.selectProjectScale(prjType, pt.getPredictPrjScale()/10000);
+		ProjectScale ps=pService.selectProjectScale(prjType, pt.getPredictPrjScale().divide(new BigDecimal(10000)));
 		String scale=ps.getPrjScale();
 		pt.setPrjLv(scale);
 		String webApps=uuid.getWebAppFile();
@@ -315,7 +316,7 @@ public class ProjectTraceController {
 		}else if(type.equals("QT 其他")){
 			prjType="信息化项目";
 		}
-		ProjectScale ps=pService.selectProjectScale(prjType, pt.getPredictPrjScale()/10000);
+		ProjectScale ps=pService.selectProjectScale(prjType, pt.getPredictPrjScale().divide(new BigDecimal(10000)));
 		String scale=ps.getPrjScale();
 		pt.setPrjLv(scale);
 		List<Accessory> list=new ArrayList<>();

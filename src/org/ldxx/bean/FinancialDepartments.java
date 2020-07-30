@@ -1,10 +1,12 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class FinancialDepartments {
 	private String ftId;
 	private String ftDepartment;//部门
 	private String ftPerson;//人员
-	private Double ftMoney;//认领金额
+	private BigDecimal ftMoney;//认领金额
 	
 	private String state;
 	private String uName;
@@ -47,10 +49,10 @@ public class FinancialDepartments {
 	public void setFtPerson(String ftPerson) {
 		this.ftPerson = ftPerson;
 	}
-	public Double getFtMoney() {
+	public BigDecimal getFtMoney() {
 		return ftMoney;
 	}
-	public void setFtMoney(Double ftMoney) {
+	public void setFtMoney(BigDecimal ftMoney) {
 		this.ftMoney = ftMoney;
 	}
 }

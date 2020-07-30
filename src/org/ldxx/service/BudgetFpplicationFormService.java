@@ -1,5 +1,6 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -14,7 +15,7 @@ public interface BudgetFpplicationFormService {
 
 	int updateBudge(BudgetFpplicationForm budge);
 
-	List<BudgetFpplicationForm> selectBudgeByStatus(String status,String timeMin,String timeMax,Double costMin,Double costMax);
+	List<BudgetFpplicationForm> selectBudgeByStatus(String status,String timeMin,String timeMax,BigDecimal costMin,BigDecimal costMax);
 
 	BudgetFpplicationForm selectBudgeById(String id);
 
@@ -26,7 +27,7 @@ public interface BudgetFpplicationFormService {
 	
 	BudgetFpplicationForm selectBudgeByName(String name);
 	
-	Double getBudgeCost(String department,String year);
+	BigDecimal getBudgeCost(String department,String year);
 	
 	BudgetFpplicationForm getAllCost(String no);
 
@@ -40,10 +41,10 @@ public interface BudgetFpplicationFormService {
 	
 	String CreateBudgetNumOrder(String year);
 
-	List<BudgetFpplicationForm> selectBudgeByStatus2(String status, String timeMin, String timeMax, Double costMin,
-			Double costMax);
+	List<BudgetFpplicationForm> selectBudgeByStatus2(String status, String timeMin, String timeMax, BigDecimal costMin,
+			BigDecimal costMax);
 
-	Double getSumAllCost(String no);
+	BigDecimal getSumAllCost(String no);
 	
 	int taskNoisExist(String no);
 

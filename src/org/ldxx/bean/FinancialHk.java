@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: FinancialHk 
 * @Description: 财务还款
@@ -13,7 +15,7 @@ public class FinancialHk {
 	private String prjName;
 	private String prjNo;
 	private String prjLeader;
-	private Double hkMoney;
+	private BigDecimal hkMoney;
 	private String hkType;
 	private String hkTime;
 	public String getHkId() {
@@ -40,10 +42,10 @@ public class FinancialHk {
 	public void setPrjLeader(String prjLeader) {
 		this.prjLeader = prjLeader;
 	}
-	public Double getHkMoney() {
+	public BigDecimal getHkMoney() {
 		return hkMoney;
 	}
-	public void setHkMoney(Double hkMoney) {
+	public void setHkMoney(BigDecimal hkMoney) {
 		this.hkMoney = hkMoney;
 	}
 	public String getHkType() {

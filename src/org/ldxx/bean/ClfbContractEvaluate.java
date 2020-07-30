@@ -1,4 +1,7 @@
 package org.ldxx.bean;
+
+import java.math.BigDecimal;
+
 /**
  * 材料分包合同下的履约评价表
  * @author hp
@@ -10,8 +13,8 @@ public class ClfbContractEvaluate {
 	private String prjPerson;//项目负责人
 	private String department;//部门
 	private String materialContractCode;//材料采购合同编号
-	private Double contractAllMoney;//合同累计金额
-	private Double contractEndMoney;//合同实际结算金额
+	private BigDecimal contractAllMoney;//合同累计金额
+	private BigDecimal contractEndMoney;//合同实际结算金额
 	private String payMode;//付款方式
 	private String actualChargePerson;//实际负责人
 	private String scoreProductQualityEase;//产品质量及易用情况
@@ -104,16 +107,16 @@ public class ClfbContractEvaluate {
 		this.materialContractCode = materialContractCode;
 	}
 	
-	public Double getContractAllMoney() {
+	public BigDecimal getContractAllMoney() {
 		return contractAllMoney;
 	}
-	public void setContractAllMoney(Double contractAllMoney) {
+	public void setContractAllMoney(BigDecimal contractAllMoney) {
 		this.contractAllMoney = contractAllMoney;
 	}
-	public Double getContractEndMoney() {
+	public BigDecimal getContractEndMoney() {
 		return contractEndMoney;
 	}
-	public void setContractEndMoney(Double contractEndMoney) {
+	public void setContractEndMoney(BigDecimal contractEndMoney) {
 		this.contractEndMoney = contractEndMoney;
 	}
 	public String getPayMode() {

@@ -1,5 +1,6 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
@@ -27,13 +28,13 @@ public interface ContractPaymentService {
 	
 	public Pay getTotalPayMoney(String no);
 	
-	public int addPayResultInfo(String id,Double resultPay,String payTime);
+	public int addPayResultInfo(String id,BigDecimal resultPay,String payTime);
 
 	int updateHistoryById(String id);
 	
 	Pay getAllDaiDianByFbNo(String no);//获取所有代垫款
 	
-	int updateAuthorisePayment(String id,Double money);
+	int updateAuthorisePayment(String id,BigDecimal money);
 
 	int updatePayById(Pay pay);
 	

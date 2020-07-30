@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +58,7 @@ public class FinancialReceiptsController {
 				String rmId=list.get(i).getRmId();
 				String skNo=list.get(i).getSkNo();
 				String ccName = list.get(i).getCcName();
-				double receiveMoney =  list.get(i).getReceiveMoney();
+				BigDecimal receiveMoney =  list.get(i).getReceiveMoney();
 				String rmDesc = list.get(i).getRmDesc();
 				String rmtime = list.get(i).getRmTime();
 				String doPerson = list.get(i).getDoPerson();

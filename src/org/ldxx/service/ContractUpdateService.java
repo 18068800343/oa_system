@@ -1,8 +1,8 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.ContractUpdate;
 import org.ldxx.bean.Task;
 
@@ -10,7 +10,7 @@ public interface ContractUpdateService {
 
 	public int addContractUpdate(List<Task> task);
 	
-	public Double selectContractUpdateByPrjNoAndDept(String no,String dept);
+	public BigDecimal selectContractUpdateByPrjNoAndDept(String no,String dept);
 
 	int addContractAndTaskUpdate(List<Task> task);
 	

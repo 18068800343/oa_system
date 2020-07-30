@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /** 
@@ -15,10 +16,10 @@ public class PrjClosingAudit {
 	private String prjName;
 	private String prjNo;
 	private String department;
-	private Double endMoney;
+	private BigDecimal endMoney;
 	private String evaluate;
 	private String prjType;
-	private Double contractMoney;
+	private BigDecimal contractMoney;
 	private String prjStartTime;
 	private String prjEndTime;
 	
@@ -30,10 +31,10 @@ public class PrjClosingAudit {
 	public void setPrjType(String prjType) {
 		this.prjType = prjType;
 	}
-	public Double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(Double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 	public String getPrjStartTime() {
@@ -79,10 +80,10 @@ public class PrjClosingAudit {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	public Double getEndMoney() {
+	public BigDecimal getEndMoney() {
 		return endMoney;
 	}
-	public void setEndMoney(Double endMoney) {
+	public void setEndMoney(BigDecimal endMoney) {
 		this.endMoney = endMoney;
 	}
 	public String getEvaluate() {

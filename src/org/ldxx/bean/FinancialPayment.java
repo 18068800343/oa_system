@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class FinancialPayment {
     private String fpId;
 
@@ -15,13 +17,13 @@ public class FinancialPayment {
 
     private String administration;
 
-    private Double contractAmount;
+    private BigDecimal contractAmount;
 
-    private Double contractAmount2;
+    private BigDecimal contractAmount2;
 
-    private Double contractPayment;
+    private BigDecimal contractPayment;
 
-    private Double collectionRatio;
+    private BigDecimal collectionRatio;
 
     private String contractNoSplit;
 
@@ -29,19 +31,19 @@ public class FinancialPayment {
 
     private String secondParty;
 
-    private Double contractAmountSplit;
+    private BigDecimal contractAmountSplit;
 
-    private Double contractAmountSplit2;
+    private BigDecimal contractAmountSplit2;
 
-    private Double accumulatedPayment;
+    private BigDecimal accumulatedPayment;
 
-    private Double invoicedAmount;
+    private BigDecimal invoicedAmount;
 
     private String invoiceNumberOther;
 
-    private Double amountReceived;
+    private BigDecimal amountReceived;
 
-    private Double actualPayment;
+    private BigDecimal actualPayment;
 
     public String getFpId() {
         return fpId;
@@ -99,35 +101,35 @@ public class FinancialPayment {
         this.administration = administration == null ? null : administration.trim();
     }
 
-    public Double getContractAmount() {
+    public BigDecimal getContractAmount() {
         return contractAmount;
     }
 
-    public void setContractAmount(Double contractAmount) {
+    public void setContractAmount(BigDecimal contractAmount) {
         this.contractAmount = contractAmount;
     }
 
-    public Double getContractAmount2() {
+    public BigDecimal getContractAmount2() {
         return contractAmount2;
     }
 
-    public void setContractAmount2(Double contractAmount2) {
+    public void setContractAmount2(BigDecimal contractAmount2) {
         this.contractAmount2 = contractAmount2;
     }
 
-    public Double getContractPayment() {
+    public BigDecimal getContractPayment() {
         return contractPayment;
     }
 
-    public void setContractPayment(Double contractPayment) {
+    public void setContractPayment(BigDecimal contractPayment) {
         this.contractPayment = contractPayment;
     }
 
-    public Double getCollectionRatio() {
+    public BigDecimal getCollectionRatio() {
         return collectionRatio;
     }
 
-    public void setCollectionRatio(Double collectionRatio) {
+    public void setCollectionRatio(BigDecimal collectionRatio) {
         this.collectionRatio = collectionRatio;
     }
 
@@ -155,35 +157,35 @@ public class FinancialPayment {
         this.secondParty = secondParty == null ? null : secondParty.trim();
     }
 
-    public Double getContractAmountSplit() {
+    public BigDecimal getContractAmountSplit() {
         return contractAmountSplit;
     }
 
-    public void setContractAmountSplit(Double contractAmountSplit) {
+    public void setContractAmountSplit(BigDecimal contractAmountSplit) {
         this.contractAmountSplit = contractAmountSplit;
     }
 
-    public Double getContractAmountSplit2() {
+    public BigDecimal getContractAmountSplit2() {
         return contractAmountSplit2;
     }
 
-    public void setContractAmountSplit2(Double contractAmountSplit2) {
+    public void setContractAmountSplit2(BigDecimal contractAmountSplit2) {
         this.contractAmountSplit2 = contractAmountSplit2;
     }
 
-    public Double getAccumulatedPayment() {
+    public BigDecimal getAccumulatedPayment() {
         return accumulatedPayment;
     }
 
-    public void setAccumulatedPayment(Double accumulatedPayment) {
+    public void setAccumulatedPayment(BigDecimal accumulatedPayment) {
         this.accumulatedPayment = accumulatedPayment;
     }
 
-    public Double getInvoicedAmount() {
+    public BigDecimal getInvoicedAmount() {
         return invoicedAmount;
     }
 
-    public void setInvoicedAmount(Double invoicedAmount) {
+    public void setInvoicedAmount(BigDecimal invoicedAmount) {
         this.invoicedAmount = invoicedAmount;
     }
 
@@ -195,19 +197,19 @@ public class FinancialPayment {
         this.invoiceNumberOther = invoiceNumberOther == null ? null : invoiceNumberOther.trim();
     }
 
-    public Double getAmountReceived() {
+    public BigDecimal getAmountReceived() {
         return amountReceived;
     }
 
-    public void setAmountReceived(Double amountReceived) {
+    public void setAmountReceived(BigDecimal amountReceived) {
         this.amountReceived = amountReceived;
     }
 
-    public Double getActualPayment() {
+    public BigDecimal getActualPayment() {
         return actualPayment;
     }
 
-    public void setActualPayment(Double actualPayment) {
+    public void setActualPayment(BigDecimal actualPayment) {
         this.actualPayment = actualPayment;
     }
 }

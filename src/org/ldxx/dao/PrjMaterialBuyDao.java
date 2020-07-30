@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -17,7 +18,7 @@ public interface PrjMaterialBuyDao {
 	
 	public PrjMaterialBuy selectBuyById(@Param("id")String id);
 	
-	public int updateSumPrice(@Param("sumPrice")Double sumPrice,@Param("id")String id);
+	public int updateSumPrice(@Param("sumPrice")BigDecimal sumPrice,@Param("id")String id);
 
 	public List<PrjMaterialBuy> selectBuyByname(@Param("name")String name);
 

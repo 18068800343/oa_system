@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -663,7 +664,7 @@ public class CgOtherContractController {
 	
 	@RequestMapping("/updateDepartmentMoney")//修改部门金额
 	@ResponseBody
-	public int updateDepartmentMoney(Double price,String id){
+	public int updateDepartmentMoney(BigDecimal price,String id){
 		return cgoService.updateDepartmentMoney(price,id);
 	}
 	

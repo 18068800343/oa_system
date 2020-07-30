@@ -8,6 +8,8 @@
 
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: StatisticsVo 
 * @Description: 统计分析
@@ -17,46 +19,46 @@ package org.ldxx.bean;
 */
 public class StatisticsVo {
 
-	private double mbContractMoney;//目标合同金额
-	private double mbIncome;//目标收入
-	private double mbReceipt;//目标收款
-	private double contractAll;//实际总合同金额
-	private double allInCome;//实际总收入
-	private double allReceipt;//实际总收款
-	public double getMbContractMoney() {
+	private BigDecimal mbContractMoney;//目标合同金额
+	private BigDecimal mbIncome;//目标收入
+	private BigDecimal mbReceipt;//目标收款
+	private BigDecimal contractAll;//实际总合同金额
+	private BigDecimal allInCome;//实际总收入
+	private BigDecimal allReceipt;//实际总收款
+	public BigDecimal getMbContractMoney() {
 		return mbContractMoney;
 	}
-	public void setMbContractMoney(double mbContractMoney) {
+	public void setMbContractMoney(BigDecimal mbContractMoney) {
 		this.mbContractMoney = mbContractMoney;
 	}
-	public double getMbIncome() {
+	public BigDecimal getMbIncome() {
 		return mbIncome;
 	}
-	public void setMbIncome(double mbIncome) {
+	public void setMbIncome(BigDecimal mbIncome) {
 		this.mbIncome = mbIncome;
 	}
-	public double getMbReceipt() {
+	public BigDecimal getMbReceipt() {
 		return mbReceipt;
 	}
-	public void setMbReceipt(double mbReceipt) {
+	public void setMbReceipt(BigDecimal mbReceipt) {
 		this.mbReceipt = mbReceipt;
 	}
-	public double getContractAll() {
+	public BigDecimal getContractAll() {
 		return contractAll;
 	}
-	public void setContractAll(double contractAll) {
+	public void setContractAll(BigDecimal contractAll) {
 		this.contractAll = contractAll;
 	}
-	public double getAllInCome() {
+	public BigDecimal getAllInCome() {
 		return allInCome;
 	}
-	public void setAllInCome(double allInCome) {
+	public void setAllInCome(BigDecimal allInCome) {
 		this.allInCome = allInCome;
 	}
-	public double getAllReceipt() {
+	public BigDecimal getAllReceipt() {
 		return allReceipt;
 	}
-	public void setAllReceipt(double allReceipt) {
+	public void setAllReceipt(BigDecimal allReceipt) {
 		this.allReceipt = allReceipt;
 	}
 	

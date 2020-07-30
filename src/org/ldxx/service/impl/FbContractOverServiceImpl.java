@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
@@ -62,7 +63,7 @@ public class FbContractOverServiceImpl implements FbContractOverService{
 	}
 
 	@Override
-	public Double selectFbJsMoneyByNo(String no) {
+	public BigDecimal selectFbJsMoneyByNo(String no) {
 		return dao.selectFbJsMoneyByNo(no);
 	}
 

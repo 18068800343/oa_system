@@ -8,6 +8,7 @@
 
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /** 
@@ -28,7 +29,7 @@ public class WasteDispose {
 	private String wasteTime;
 	private String wasteReason;
 	private String wasteType;
-	private Double wasteMoney;
+	private BigDecimal wasteMoney;
 	private String wasteDesc;
 	private List<WasteDisposeCl> wdc;
 	private List<outRemain> oRemain;
@@ -100,10 +101,10 @@ public class WasteDispose {
 	public void setWasteType(String wasteType) {
 		this.wasteType = wasteType;
 	}
-	public Double getWasteMoney() {
+	public BigDecimal getWasteMoney() {
 		return wasteMoney;
 	}
-	public void setWasteMoney(Double wasteMoney) {
+	public void setWasteMoney(BigDecimal wasteMoney) {
 		this.wasteMoney = wasteMoney;
 	}
 	public String getWasteDesc() {

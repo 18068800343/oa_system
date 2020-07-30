@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class MaterialDemand {
     private String mdlId;
     
@@ -13,7 +15,7 @@ public class MaterialDemand {
 
     private String buyCompany;
 
-    private Double price;
+    private BigDecimal price;
     
     private int num;
 
@@ -146,11 +148,11 @@ public class MaterialDemand {
 		this.sureMaterialMode = sureMaterialMode;
 	}
 
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 

@@ -1,4 +1,5 @@
 package org.ldxx.util;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,8 +7,6 @@ import java.util.List;
 import java.util.Stack;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.omg.CORBA.PRIVATE_MEMBER;
-import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.util.StringUtils;
 
 
@@ -124,9 +123,9 @@ public class FormulaUtils {
                 if (this.type != ExpressionNodeType.Numeric) {
                     return 0;
                 }
-                Double num = new Double(this.value);
+                BigDecimal num = new BigDecimal(this.value);
                 if (this.unitaryNode != null && this.unitaryNode.type == ExpressionNodeType.Subtract) {
-                    num = 0 - num;
+                    num = new BigDecimal(0).subtract(num) ;
                 }
                 this.numeric = num;
             }
@@ -769,7 +768,7 @@ public class FormulaUtils {
         
         @SuppressWarnings("incomplete-switch")
         private static  Object calculate(ExpressionNodeType nodeType, Object[] data) throws ParseException {
-            double d1, d2;
+            BigDecimal d1, d2;
             boolean b1, b2;
             Date time1, time2;
             Object obj1 = data[0];
@@ -787,41 +786,41 @@ public class FormulaUtils {
                 if (!strflag) {
                     d1 = ConvertToDecimal(obj1);
                     d2 = ConvertToDecimal(obj2);
-                    return (d1 + d2);
+                    return (d1 .add(d2));
                 }
                 return new StringBuffer(str1 + str2).toString();
             case Subtract:
                 d1 = ConvertToDecimal(obj1);
                 d2 = ConvertToDecimal(obj2);
-                return d1 - d2;
+                return d1 .subtract(d2) ;
             case MultiPly:
                 d1 = ConvertToDecimal(obj1);
                 d2 = ConvertToDecimal(obj2);
-                return d1 * d2;
+                return d1 .multiply(d2) ;
             case Divide:
                 d1 = ConvertToDecimal(obj1);
                 d2 = ConvertToDecimal(obj2);
-                if (d2 == 0)
+                if (d2.intValue() == 0)
                     throw new RuntimeException();
-                return d1 / d2;
+                return d1 .divide(d2) ;
             case Power:
                 d1 = ConvertToDecimal(obj1);
                 d2 = ConvertToDecimal(obj2);
-                return Math.pow((double) d1, (double) d2);
+                return Math.pow(d1.doubleValue(),  d2.doubleValue());
             case Mod:
                 d1 = ConvertToDecimal(obj1);
                 d2 = ConvertToDecimal(obj2);
-                if (d2 == 0)
+                if (d2.doubleValue() == 0)
                     throw new RuntimeException();
-                return d1 % d2;
+                return d1.doubleValue() % d2.doubleValue();
             case BitwiseAnd:
                 d1 = ConvertToDecimal(obj1);
                 d2 = ConvertToDecimal(obj2);
-                return (int) d1 & (int) d2;
+                return d1.intValue() & d2.intValue();
             case BitwiseOr:
                 d1 = ConvertToDecimal(obj1);
                 d2 = ConvertToDecimal(obj2);
-                return (int) d1 | (int) d2;
+                return  d1.intValue() |  d2.intValue();
             case And:
                 b1 = ConvertToBool(obj1);
                 b2 = ConvertToBool(obj2);
@@ -865,7 +864,7 @@ public class FormulaUtils {
                 if (!dateflag) {
                     d1 = ConvertToDecimal(obj1);
                     d2 = ConvertToDecimal(obj2);
-                    return (d1 > d2);
+                    return (d1.doubleValue() > d2.doubleValue());
                 }
                 time1 = DateUtils.parseDate(str1, new String[]{"yyyy-MM","yyyyMM","yyyy/MM","yyyyMMdd","yyyy-MM-dd","yyyy/MM/dd","yyyyMMddHHmmss","yyyy-MM-dd HH:mm:ss","yyyy/MM/dd HH:mm:ss"});
                 time2 = DateUtils.parseDate(str2, new String[]{"yyyy-MM","yyyyMM","yyyy/MM","yyyyMMdd","yyyy-MM-dd","yyyy/MM/dd","yyyyMMddHHmmss","yyyy-MM-dd HH:mm:ss","yyyy/MM/dd HH:mm:ss"});
@@ -876,7 +875,7 @@ public class FormulaUtils {
                 if (!dateflag) {
                     d1 = ConvertToDecimal(obj1);
                     d2 = ConvertToDecimal(obj2);
-                    return (d1 < d2);
+                    return (d1.doubleValue() < d2.doubleValue());
                 }
                 time1 = DateUtils.parseDate(str1, new String[]{"yyyy-MM","yyyyMM","yyyy/MM","yyyyMMdd","yyyy-MM-dd","yyyy/MM/dd","yyyyMMddHHmmss","yyyy-MM-dd HH:mm:ss","yyyy/MM/dd HH:mm:ss"});
                 time2 = DateUtils.parseDate(str2, new String[]{"yyyy-MM","yyyyMM","yyyy/MM","yyyyMMdd","yyyy-MM-dd","yyyy/MM/dd","yyyyMMddHHmmss","yyyy-MM-dd HH:mm:ss","yyyy/MM/dd HH:mm:ss"});
@@ -887,7 +886,7 @@ public class FormulaUtils {
                 if (!dateflag) {
                     d1 = ConvertToDecimal(obj1);
                     d2 = ConvertToDecimal(obj2);
-                    return (d1 >= d2);
+                    return (d1.doubleValue()>= d2.doubleValue());
                 }
                 time1 = DateUtils.parseDate(str1, new String[]{"yyyy-MM","yyyyMM","yyyy/MM","yyyyMMdd","yyyy-MM-dd","yyyy/MM/dd","yyyyMMddHHmmss","yyyy-MM-dd HH:mm:ss","yyyy/MM/dd HH:mm:ss"});
                 time2 = DateUtils.parseDate(str2, new String[]{"yyyy-MM","yyyyMM","yyyy/MM","yyyyMMdd","yyyy-MM-dd","yyyy/MM/dd","yyyyMMddHHmmss","yyyy-MM-dd HH:mm:ss","yyyy/MM/dd HH:mm:ss"});
@@ -897,7 +896,7 @@ public class FormulaUtils {
                 if (!dateflag) {
                     d1 = ConvertToDecimal(obj1);
                     d2 = ConvertToDecimal(obj2);
-                    return (d1 <= d2);
+                    return (d1.doubleValue() <= d2.doubleValue());
                 }
                 time1 = DateUtils.parseDate(str1, new String[]{"yyyy-MM","yyyyMM","yyyy/MM","yyyyMMdd","yyyy-MM-dd","yyyy/MM/dd","yyyyMMddHHmmss","yyyy-MM-dd HH:mm:ss","yyyy/MM/dd HH:mm:ss"});
                 time2 = DateUtils.parseDate(str2, new String[]{"yyyy-MM","yyyyMM","yyyy/MM","yyyyMMdd","yyyy-MM-dd","yyyy/MM/dd","yyyyMMddHHmmss","yyyy-MM-dd HH:mm:ss","yyyy/MM/dd HH:mm:ss"});
@@ -905,12 +904,12 @@ public class FormulaUtils {
             case LShift:
                 d1 = ConvertToDecimal(obj1);
                 d2 = ConvertToDecimal(obj2);
-                return (long) d1 << (int) d2;
+                return  d1.longValue() <<  d2.intValue();
 
             case RShift:
                 d1 = ConvertToDecimal(obj1);
                 d2 = ConvertToDecimal(obj2);
-                return (long) d1 >> (int) d2;
+                return  d1.longValue() >>  d2.intValue();
             case Like:
                 if (!strflag) {
                     return false;
@@ -956,11 +955,12 @@ public class FormulaUtils {
          * @param value
          * @return
          */
-        private static  Double ConvertToDecimal(Object value) {
+        private static  BigDecimal ConvertToDecimal(Object value) {
             if (value instanceof Boolean) {
-                return ((Boolean) value ? 1d : 0d);
+            	double db = ((Boolean) value ? 1d : 0d);
+                return new BigDecimal(db);
             } else {
-                return Double.parseDouble(value.toString());
+                return new BigDecimal(value.toString());
             }
         }
 

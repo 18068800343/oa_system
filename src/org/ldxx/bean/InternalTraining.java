@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class InternalTraining {
@@ -22,7 +23,7 @@ public class InternalTraining {
 
     private String trainingLocation;
 
-    private Double trainingMoney;
+    private BigDecimal trainingMoney;
 
     private List<Accessory> accessory;
 
@@ -124,11 +125,11 @@ public class InternalTraining {
 		this.trainingLocation = trainingLocation;
 	}
 
-	public Double getTrainingMoney() {
+	public BigDecimal getTrainingMoney() {
 		return trainingMoney;
 	}
 
-	public void setTrainingMoney(Double trainingMoney) {
+	public void setTrainingMoney(BigDecimal trainingMoney) {
 		this.trainingMoney = trainingMoney;
 	}
 

@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -13,9 +14,9 @@ public interface CjContractDao {
 	
 	public int updateCjContract(@Param("cj")CjContract cj);
 	
-	public List<CjContract> selectCjContractByStatus(@Param("status")String status,@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("contractMoneyMin") Double contractMoneyMin,@Param("contractMoneyMax") Double contractMoneyMax,@Param("zdMoneyMin") Double zdMoneyMin,@Param("zdMoneyMax") Double zdMoneyMax);
+	public List<CjContract> selectCjContractByStatus(@Param("status")String status,@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("contractMoneyMin") BigDecimal contractMoneyMin,@Param("contractMoneyMax") BigDecimal contractMoneyMax,@Param("zdMoneyMin") BigDecimal zdMoneyMin,@Param("zdMoneyMax") BigDecimal zdMoneyMax);
 	
-	public List<CjContract> selectCjContractBySome(@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("contractMoneyMin") Double contractMoneyMin,@Param("contractMoneyMax") Double contractMoneyMax,@Param("zdMoneyMin") Double zdMoneyMin,@Param("zdMoneyMax") Double zdMoneyMax,@Param("lxdateMin")String lxdateMin,@Param("lxdateMax")String lxdateMax,@Param("erjileixing")String erjileixing);
+	public List<CjContract> selectCjContractBySome(@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("contractMoneyMin") BigDecimal contractMoneyMin,@Param("contractMoneyMax") BigDecimal contractMoneyMax,@Param("zdMoneyMin") BigDecimal zdMoneyMin,@Param("zdMoneyMax") BigDecimal zdMoneyMax,@Param("lxdateMin")String lxdateMin,@Param("lxdateMax")String lxdateMax,@Param("erjileixing")String erjileixing);
 	
 	public CjContract selectCjContractById(@Param("id")String id);
 	
@@ -67,7 +68,7 @@ public interface CjContractDao {
 
 	public CjContract selectCjContractLikeTaskNo(@Param("no")String no);
 	
-	public int updateCjContractMoney(@Param("no")String no,@Param("money")Double money);
+	public int updateCjContractMoney(@Param("no")String no,@Param("money")BigDecimal money);
 	
 	public CjContract selectCjContractLikeTaskCode(@Param("no")String no);
 	
@@ -77,7 +78,7 @@ public interface CjContractDao {
 	
 	public int updateCjContractCancelReason(@Param("cj")CjContract cj);
 	
-	public int updateContractMoneyByLast(@Param("contractMoneyLast")Double contractMoneyLast,@Param("id")String id);
+	public int updateContractMoneyByLast(@Param("contractMoneyLast")BigDecimal contractMoneyLast,@Param("id")String id);
 	
 	public int updateContractMoneyLastByContractMoney(@Param("contractMoney")String contractMoney,@Param("id")String id);
 }

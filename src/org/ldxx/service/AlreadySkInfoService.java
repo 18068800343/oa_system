@@ -1,5 +1,6 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.AlreadyRenling;
@@ -24,7 +25,7 @@ public interface AlreadySkInfoService {
 	
 	public AlreadyRenling selectDeptRenlingByStartAndEndTime(String start,String end,String dept);
 
-	public double getAllSkByTaskNo(String no);
+	public BigDecimal getAllSkByTaskNo(String no);
 
 	int buleFpNo(String id, String fpNo);
 }

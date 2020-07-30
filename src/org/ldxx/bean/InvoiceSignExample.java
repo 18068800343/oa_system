@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -254,52 +255,52 @@ public class InvoiceSignExample {
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyEqualTo(Double value) {
+        public Criteria andInvoiceMoneyEqualTo(BigDecimal value) {
             addCriterion("invoice_money =", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyNotEqualTo(Double value) {
+        public Criteria andInvoiceMoneyNotEqualTo(BigDecimal value) {
             addCriterion("invoice_money <>", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyGreaterThan(Double value) {
+        public Criteria andInvoiceMoneyGreaterThan(BigDecimal value) {
             addCriterion("invoice_money >", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyGreaterThanOrEqualTo(Double value) {
+        public Criteria andInvoiceMoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("invoice_money >=", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyLessThan(Double value) {
+        public Criteria andInvoiceMoneyLessThan(BigDecimal value) {
             addCriterion("invoice_money <", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyLessThanOrEqualTo(Double value) {
+        public Criteria andInvoiceMoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("invoice_money <=", value, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyIn(List<Double> values) {
+        public Criteria andInvoiceMoneyIn(List<BigDecimal> values) {
             addCriterion("invoice_money in", values, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyNotIn(List<Double> values) {
+        public Criteria andInvoiceMoneyNotIn(List<BigDecimal> values) {
             addCriterion("invoice_money not in", values, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyBetween(Double value1, Double value2) {
+        public Criteria andInvoiceMoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("invoice_money between", value1, value2, "invoiceMoney");
             return (Criteria) this;
         }
 
-        public Criteria andInvoiceMoneyNotBetween(Double value1, Double value2) {
+        public Criteria andInvoiceMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("invoice_money not between", value1, value2, "invoiceMoney");
             return (Criteria) this;
         }

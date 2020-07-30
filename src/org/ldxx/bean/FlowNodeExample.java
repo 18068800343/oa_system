@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -584,52 +585,52 @@ public class FlowNodeExample {
             return (Criteria) this;
         }
 
-        public Criteria andTspandayEqualTo(Double value) {
+        public Criteria andTspandayEqualTo(BigDecimal value) {
             addCriterion("TSpanDay =", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayNotEqualTo(Double value) {
+        public Criteria andTspandayNotEqualTo(BigDecimal value) {
             addCriterion("TSpanDay <>", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayGreaterThan(Double value) {
+        public Criteria andTspandayGreaterThan(BigDecimal value) {
             addCriterion("TSpanDay >", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayGreaterThanOrEqualTo(Double value) {
+        public Criteria andTspandayGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("TSpanDay >=", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayLessThan(Double value) {
+        public Criteria andTspandayLessThan(BigDecimal value) {
             addCriterion("TSpanDay <", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayLessThanOrEqualTo(Double value) {
+        public Criteria andTspandayLessThanOrEqualTo(BigDecimal value) {
             addCriterion("TSpanDay <=", value, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayIn(List<Double> values) {
+        public Criteria andTspandayIn(List<BigDecimal> values) {
             addCriterion("TSpanDay in", values, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayNotIn(List<Double> values) {
+        public Criteria andTspandayNotIn(List<BigDecimal> values) {
             addCriterion("TSpanDay not in", values, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayBetween(Double value1, Double value2) {
+        public Criteria andTspandayBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("TSpanDay between", value1, value2, "tspanday");
             return (Criteria) this;
         }
 
-        public Criteria andTspandayNotBetween(Double value1, Double value2) {
+        public Criteria andTspandayNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("TSpanDay not between", value1, value2, "tspanday");
             return (Criteria) this;
         }
@@ -644,52 +645,52 @@ public class FlowNodeExample {
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourEqualTo(Double value) {
+        public Criteria andTspanhourEqualTo(BigDecimal value) {
             addCriterion("TSpanHour =", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourNotEqualTo(Double value) {
+        public Criteria andTspanhourNotEqualTo(BigDecimal value) {
             addCriterion("TSpanHour <>", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourGreaterThan(Double value) {
+        public Criteria andTspanhourGreaterThan(BigDecimal value) {
             addCriterion("TSpanHour >", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourGreaterThanOrEqualTo(Double value) {
+        public Criteria andTspanhourGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("TSpanHour >=", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourLessThan(Double value) {
+        public Criteria andTspanhourLessThan(BigDecimal value) {
             addCriterion("TSpanHour <", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourLessThanOrEqualTo(Double value) {
+        public Criteria andTspanhourLessThanOrEqualTo(BigDecimal value) {
             addCriterion("TSpanHour <=", value, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourIn(List<Double> values) {
+        public Criteria andTspanhourIn(List<BigDecimal> values) {
             addCriterion("TSpanHour in", values, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourNotIn(List<Double> values) {
+        public Criteria andTspanhourNotIn(List<BigDecimal> values) {
             addCriterion("TSpanHour not in", values, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourBetween(Double value1, Double value2) {
+        public Criteria andTspanhourBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("TSpanHour between", value1, value2, "tspanhour");
             return (Criteria) this;
         }
 
-        public Criteria andTspanhourNotBetween(Double value1, Double value2) {
+        public Criteria andTspanhourNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("TSpanHour not between", value1, value2, "tspanhour");
             return (Criteria) this;
         }
@@ -704,52 +705,52 @@ public class FlowNodeExample {
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayEqualTo(Double value) {
+        public Criteria andWarningdayEqualTo(BigDecimal value) {
             addCriterion("WarningDay =", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayNotEqualTo(Double value) {
+        public Criteria andWarningdayNotEqualTo(BigDecimal value) {
             addCriterion("WarningDay <>", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayGreaterThan(Double value) {
+        public Criteria andWarningdayGreaterThan(BigDecimal value) {
             addCriterion("WarningDay >", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayGreaterThanOrEqualTo(Double value) {
+        public Criteria andWarningdayGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("WarningDay >=", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayLessThan(Double value) {
+        public Criteria andWarningdayLessThan(BigDecimal value) {
             addCriterion("WarningDay <", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayLessThanOrEqualTo(Double value) {
+        public Criteria andWarningdayLessThanOrEqualTo(BigDecimal value) {
             addCriterion("WarningDay <=", value, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayIn(List<Double> values) {
+        public Criteria andWarningdayIn(List<BigDecimal> values) {
             addCriterion("WarningDay in", values, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayNotIn(List<Double> values) {
+        public Criteria andWarningdayNotIn(List<BigDecimal> values) {
             addCriterion("WarningDay not in", values, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayBetween(Double value1, Double value2) {
+        public Criteria andWarningdayBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("WarningDay between", value1, value2, "warningday");
             return (Criteria) this;
         }
 
-        public Criteria andWarningdayNotBetween(Double value1, Double value2) {
+        public Criteria andWarningdayNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("WarningDay not between", value1, value2, "warningday");
             return (Criteria) this;
         }
@@ -764,52 +765,52 @@ public class FlowNodeExample {
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourEqualTo(Double value) {
+        public Criteria andWarninghourEqualTo(BigDecimal value) {
             addCriterion("WarningHour =", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourNotEqualTo(Double value) {
+        public Criteria andWarninghourNotEqualTo(BigDecimal value) {
             addCriterion("WarningHour <>", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourGreaterThan(Double value) {
+        public Criteria andWarninghourGreaterThan(BigDecimal value) {
             addCriterion("WarningHour >", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourGreaterThanOrEqualTo(Double value) {
+        public Criteria andWarninghourGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("WarningHour >=", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourLessThan(Double value) {
+        public Criteria andWarninghourLessThan(BigDecimal value) {
             addCriterion("WarningHour <", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourLessThanOrEqualTo(Double value) {
+        public Criteria andWarninghourLessThanOrEqualTo(BigDecimal value) {
             addCriterion("WarningHour <=", value, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourIn(List<Double> values) {
+        public Criteria andWarninghourIn(List<BigDecimal> values) {
             addCriterion("WarningHour in", values, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourNotIn(List<Double> values) {
+        public Criteria andWarninghourNotIn(List<BigDecimal> values) {
             addCriterion("WarningHour not in", values, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourBetween(Double value1, Double value2) {
+        public Criteria andWarninghourBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("WarningHour between", value1, value2, "warninghour");
             return (Criteria) this;
         }
 
-        public Criteria andWarninghourNotBetween(Double value1, Double value2) {
+        public Criteria andWarninghourNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("WarningHour not between", value1, value2, "warninghour");
             return (Criteria) this;
         }

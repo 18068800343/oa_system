@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -811,9 +812,9 @@ public class TaskController {
 	@RequestMapping("/selectTaskByStatus")
 	@ResponseBody
 	public List<Task>selectTaskByStatus(String status,@RequestParam(defaultValue="")String startMin,@RequestParam(defaultValue="")String startMax,@RequestParam(defaultValue="")String endMin,
-		@RequestParam(defaultValue="")String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")Double prjMoneyMin,@RequestParam(defaultValue="0")Double prjMoneyMax,
-		@RequestParam(defaultValue="0")Double contractMoneyMin,@RequestParam(defaultValue="0")Double contractMoneyMax,
-		@RequestParam(defaultValue="0")Double zdMoneyMin,@RequestParam(defaultValue="0")Double zdMoneyMax){
+		@RequestParam(defaultValue="")String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")BigDecimal prjMoneyMin,@RequestParam(defaultValue="0")BigDecimal prjMoneyMax,
+		@RequestParam(defaultValue="0")BigDecimal contractMoneyMin,@RequestParam(defaultValue="0")BigDecimal contractMoneyMax,
+		@RequestParam(defaultValue="0")BigDecimal zdMoneyMin,@RequestParam(defaultValue="0")BigDecimal zdMoneyMax){
 		List<Task> task=tService.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 		/*for(int i=0;i<task.size();i++){
 			String no=task.get(i).getPrjNo();
@@ -864,8 +865,8 @@ public class TaskController {
 		
 		Task task1=taskDao.selectTaskById(id);
 		List<Task> taskChildren = taskDao.selectTaskAndTaskChildrenByMainPrjNo(task1.getPrjNo(),id);
-		Double mainTaskMoney = task1.getPrjEstimateMoney();
-		Double mainTaskContractMoney = task1.getContractMoney();
+		BigDecimal mainTaskMoney = task1.getPrjEstimateMoney();
+		BigDecimal mainTaskContractMoney = task1.getContractMoney();
 		int i=0;
 		for(Task task : taskChildren){
 			String modeId = task.getPrjId();
@@ -876,7 +877,7 @@ public class TaskController {
 			ModeStatusExample example = new ModeStatusExample();
 			example.createCriteria().andModeIdEqualTo(modeId);
 			i= modeStatusMapper.updateByExampleSelective(modeStatus, example);
-			mainTaskMoney = mainTaskMoney-task.getPrjEstimateMoney();
+			mainTaskMoney = mainTaskMoney.subtract(task.getPrjEstimateMoney());
 		}
 		i=taskDao.updateTaskMoneyByIdChaifen(mainTaskMoney, mainTaskContractMoney, id);
 		return i;
@@ -1161,11 +1162,11 @@ public class TaskController {
 	@ResponseBody
 	public Map<String,String> getLeader(String nos){
 		Map<String,String> map=new HashMap<>();
-		Double money=(double) 0;
+		BigDecimal money=new BigDecimal(0);
 		String leader="";
 		for(int i=0;i<nos.split(",").length;i++){
 			Task task=tService.selectIdByNo(nos.split(",")[i]);
-			if(task.getContractMoney()>money){
+			if(task.getContractMoney().doubleValue()>money.doubleValue()){
 				money=task.getContractMoney();
 				leader=task.getMainPrjLeaderName();
 			}
@@ -1480,9 +1481,9 @@ public class TaskController {
 	@RequestMapping("/selectTask2")
 	@ResponseBody
 	public List<Task> selectTask2(@RequestParam(defaultValue="")String startMin,@RequestParam(defaultValue="")String startMax,@RequestParam(defaultValue="")String endMin,
-		@RequestParam(defaultValue="")String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")Double prjMoneyMin,@RequestParam(defaultValue="0")Double prjMoneyMax,
-		@RequestParam(defaultValue="0")Double contractMoneyMin,@RequestParam(defaultValue="0")Double contractMoneyMax,
-		@RequestParam(defaultValue="0")Double zdMoneyMin,@RequestParam(defaultValue="0")Double zdMoneyMax,
+		@RequestParam(defaultValue="")String endMax,@RequestParam(defaultValue="%")String mainDp,@RequestParam(defaultValue="%")String xbDp,@RequestParam(defaultValue="0")BigDecimal prjMoneyMin,@RequestParam(defaultValue="0")BigDecimal prjMoneyMax,
+		@RequestParam(defaultValue="0")BigDecimal contractMoneyMin,@RequestParam(defaultValue="0")BigDecimal contractMoneyMax,
+		@RequestParam(defaultValue="0")BigDecimal zdMoneyMin,@RequestParam(defaultValue="0")BigDecimal zdMoneyMax,
 		@RequestParam(defaultValue="%")String taskNo,@RequestParam(defaultValue="")String lxdateMin,@RequestParam(defaultValue="")String lxdateMax,@RequestParam(defaultValue="%")String erjileixing){
 		List<Task> task=taskDao.selectTask2( startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax,
 				contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax,taskNo,lxdateMin,lxdateMax,erjileixing);
@@ -1499,7 +1500,7 @@ public class TaskController {
 		String time=sdf.format(new Date());
 		ContractUpdate cu = new ContractUpdate();
 		cu.setDept(task.getMainDepartment());
-		cu.setMoney(-task.getMainDepartmentMoney());
+		cu.setMoney(task.getMainDepartmentMoney().multiply(new BigDecimal(-1)));
 		cu.setPrjNo(task.getPrjNo());	
 		cu.setTime(time);
 		list.add(cu);
@@ -1507,7 +1508,8 @@ public class TaskController {
 		{
 			ContractUpdate cu1 = new ContractUpdate();
 			cu1.setDept(task.getAssistDepartment1());
-			cu1.setMoney(-task.getAssistDepartment1Money());
+			cu1.setMoney(task.getAssistDepartment1Money().multiply(new BigDecimal(-1)));
+			//cu1.setMoney(-task.getAssistDepartment1Money());
 			cu1.setPrjNo(task.getPrjNo());	
 			cu1.setTime(time);
 			list.add(cu1);
@@ -1516,7 +1518,7 @@ public class TaskController {
 		{
 			ContractUpdate cu1 = new ContractUpdate();
 			cu1.setDept(task.getAssistDepartment2());
-			cu1.setMoney(-task.getAssistDepartment2Money());
+			cu1.setMoney(task.getAssistDepartment2Money().multiply(new BigDecimal(-1)));
 			cu1.setPrjNo(task.getPrjNo());	
 			cu1.setTime(time);
 			list.add(cu1);
@@ -1526,7 +1528,7 @@ public class TaskController {
 		{
 			ContractUpdate cu1 = new ContractUpdate();
 			cu1.setDept(task.getAssistDepartment3());
-			cu1.setMoney(-task.getAssistDepartment3Money());
+			cu1.setMoney(task.getAssistDepartment3Money().multiply(new BigDecimal(-1)));
 			cu1.setPrjNo(task.getPrjNo());	
 			cu1.setTime(time);
 			list.add(cu1);

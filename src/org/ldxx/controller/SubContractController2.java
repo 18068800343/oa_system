@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,10 +19,8 @@ import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ContractReason;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.FbCgContract;
-import org.ldxx.bean.FbContract;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
-import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.OrganizationManagementDao;
@@ -30,7 +29,6 @@ import org.ldxx.service.BorrowContractService;
 import org.ldxx.service.CjContractService;
 import org.ldxx.service.ContractReasonService;
 import org.ldxx.service.OrganizationManagementService;
-import org.ldxx.service.SubContractService;
 import org.ldxx.service.SubContractService2;
 import org.ldxx.service.TaskService;
 import org.ldxx.util.FlowUtill;
@@ -72,18 +70,18 @@ public class SubContractController2 {
 	@RequestMapping("/selectSubContract")
 	@ResponseBody
 	public List<FbCgContract> selectSubContract(String status,String startMin,String startMax,String endMin,
-			String endMax,String mainDp,String spType,@RequestParam(defaultValue="0")Double fbMoneyMin,@RequestParam(defaultValue="0")Double fbMoneyMax,
-			@RequestParam(defaultValue="0")Double contractMoneyMin,@RequestParam(defaultValue="0")Double contractMoneyMax,
-			@RequestParam(defaultValue="0")Double zdMoneyMin,@RequestParam(defaultValue="0")Double zdMoneyMax){
+			String endMax,String mainDp,String spType,@RequestParam(defaultValue="0")BigDecimal fbMoneyMin,@RequestParam(defaultValue="0")BigDecimal fbMoneyMax,
+			@RequestParam(defaultValue="0")BigDecimal contractMoneyMin,@RequestParam(defaultValue="0")BigDecimal contractMoneyMax,
+			@RequestParam(defaultValue="0")BigDecimal zdMoneyMin,@RequestParam(defaultValue="0")BigDecimal zdMoneyMax){
 		return scService.selectSubContract(status, startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 	
 	@RequestMapping("/selectSubContract2")
 	@ResponseBody
 	public List<FbCgContract> selectSubContract2(String startMin,String startMax,String endMin,
-			String endMax,String mainDp,String spType,@RequestParam(defaultValue="0")Double fbMoneyMin,@RequestParam(defaultValue="0")Double fbMoneyMax,
-			@RequestParam(defaultValue="0")Double contractMoneyMin,@RequestParam(defaultValue="0")Double contractMoneyMax,
-			@RequestParam(defaultValue="0")Double zdMoneyMin,@RequestParam(defaultValue="0")Double zdMoneyMax){
+			String endMax,String mainDp,String spType,@RequestParam(defaultValue="0")BigDecimal fbMoneyMin,@RequestParam(defaultValue="0")BigDecimal fbMoneyMax,
+			@RequestParam(defaultValue="0")BigDecimal contractMoneyMin,@RequestParam(defaultValue="0")BigDecimal contractMoneyMax,
+			@RequestParam(defaultValue="0")BigDecimal zdMoneyMin,@RequestParam(defaultValue="0")BigDecimal zdMoneyMax){
 		List<FbCgContract> list = scService.selectSubContract2( startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 		return list;
 	}

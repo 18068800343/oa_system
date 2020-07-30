@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ProjectTrace {
@@ -23,7 +24,7 @@ public class ProjectTrace {
 
     private String traceDepartment;
     
-    private Double predictPrjScale;
+    private BigDecimal predictPrjScale;
 
     private String prjDesc;
 
@@ -146,11 +147,11 @@ public class ProjectTrace {
 		this.traceDepartment = traceDepartment;
 	}
 
-	public Double getPredictPrjScale() {
+	public BigDecimal getPredictPrjScale() {
 		return predictPrjScale;
 	}
 
-	public void setPredictPrjScale(Double predictPrjScale) {
+	public void setPredictPrjScale(BigDecimal predictPrjScale) {
 		this.predictPrjScale = predictPrjScale;
 	}
 

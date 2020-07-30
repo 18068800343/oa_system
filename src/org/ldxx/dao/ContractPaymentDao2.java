@@ -1,9 +1,9 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.ldxx.bean.Pay;
 import org.ldxx.bean.Pay2;
 
 public interface ContractPaymentDao2 {
@@ -22,13 +22,13 @@ public interface ContractPaymentDao2 {
 	
 	Pay2 selectPayByNo(@Param("fbNo")String fbNo);
 
-	int updateGenerationAdvancesMoney(@Param("programMoney")Double programMoney, @Param("id")String id);
+	int updateGenerationAdvancesMoney(@Param("programMoney")BigDecimal programMoney, @Param("id")String id);
 
 	Pay2 getFbPayPlanAndMoney(@Param("no")String no);
 	
 	public Pay2 getTotalPayMoney(@Param("no")String no);
 	
-	public int addPayResultInfo(@Param("id")String id,@Param("resultPay")Double resultPay,@Param("payTime")String payTime);
+	public int addPayResultInfo(@Param("id")String id,@Param("resultPay")BigDecimal resultPay,@Param("payTime")String payTime);
 
 	int updateHistoryById(@Param("id")String id);
 
@@ -36,7 +36,7 @@ public interface ContractPaymentDao2 {
 
 	Pay2 getAllDaiDianByFbNo(@Param("no")String no);//获取所有代垫款
 	
-	int updateAuthorisePayment(@Param("id")String id,@Param("money")Double money);
+	int updateAuthorisePayment(@Param("id")String id,@Param("money")BigDecimal money);
 
 	int updatePayById(@Param("pay")Pay2 pay);
 	

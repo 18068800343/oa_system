@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -604,52 +605,52 @@ public class FinancialPaymentExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountEqualTo(Double value) {
+        public Criteria andContractAmountEqualTo(BigDecimal value) {
             addCriterion("contract_amount =", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountNotEqualTo(Double value) {
+        public Criteria andContractAmountNotEqualTo(BigDecimal value) {
             addCriterion("contract_amount <>", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountGreaterThan(Double value) {
+        public Criteria andContractAmountGreaterThan(BigDecimal value) {
             addCriterion("contract_amount >", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountGreaterThanOrEqualTo(Double value) {
+        public Criteria andContractAmountGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_amount >=", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountLessThan(Double value) {
+        public Criteria andContractAmountLessThan(BigDecimal value) {
             addCriterion("contract_amount <", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountLessThanOrEqualTo(Double value) {
+        public Criteria andContractAmountLessThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_amount <=", value, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountIn(List<Double> values) {
+        public Criteria andContractAmountIn(List<BigDecimal> values) {
             addCriterion("contract_amount in", values, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountNotIn(List<Double> values) {
+        public Criteria andContractAmountNotIn(List<BigDecimal> values) {
             addCriterion("contract_amount not in", values, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountBetween(Double value1, Double value2) {
+        public Criteria andContractAmountBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_amount between", value1, value2, "contractAmount");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountNotBetween(Double value1, Double value2) {
+        public Criteria andContractAmountNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_amount not between", value1, value2, "contractAmount");
             return (Criteria) this;
         }
@@ -664,52 +665,52 @@ public class FinancialPaymentExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2EqualTo(Double value) {
+        public Criteria andContractAmount2EqualTo(BigDecimal value) {
             addCriterion("contract_amount2 =", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2NotEqualTo(Double value) {
+        public Criteria andContractAmount2NotEqualTo(BigDecimal value) {
             addCriterion("contract_amount2 <>", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2GreaterThan(Double value) {
+        public Criteria andContractAmount2GreaterThan(BigDecimal value) {
             addCriterion("contract_amount2 >", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2GreaterThanOrEqualTo(Double value) {
+        public Criteria andContractAmount2GreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_amount2 >=", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2LessThan(Double value) {
+        public Criteria andContractAmount2LessThan(BigDecimal value) {
             addCriterion("contract_amount2 <", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2LessThanOrEqualTo(Double value) {
+        public Criteria andContractAmount2LessThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_amount2 <=", value, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2In(List<Double> values) {
+        public Criteria andContractAmount2In(List<BigDecimal> values) {
             addCriterion("contract_amount2 in", values, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2NotIn(List<Double> values) {
+        public Criteria andContractAmount2NotIn(List<BigDecimal> values) {
             addCriterion("contract_amount2 not in", values, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2Between(Double value1, Double value2) {
+        public Criteria andContractAmount2Between(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_amount2 between", value1, value2, "contractAmount2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmount2NotBetween(Double value1, Double value2) {
+        public Criteria andContractAmount2NotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_amount2 not between", value1, value2, "contractAmount2");
             return (Criteria) this;
         }
@@ -724,52 +725,52 @@ public class FinancialPaymentExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractPaymentEqualTo(Double value) {
+        public Criteria andContractPaymentEqualTo(BigDecimal value) {
             addCriterion("contract_payment =", value, "contractPayment");
             return (Criteria) this;
         }
 
-        public Criteria andContractPaymentNotEqualTo(Double value) {
+        public Criteria andContractPaymentNotEqualTo(BigDecimal value) {
             addCriterion("contract_payment <>", value, "contractPayment");
             return (Criteria) this;
         }
 
-        public Criteria andContractPaymentGreaterThan(Double value) {
+        public Criteria andContractPaymentGreaterThan(BigDecimal value) {
             addCriterion("contract_payment >", value, "contractPayment");
             return (Criteria) this;
         }
 
-        public Criteria andContractPaymentGreaterThanOrEqualTo(Double value) {
+        public Criteria andContractPaymentGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_payment >=", value, "contractPayment");
             return (Criteria) this;
         }
 
-        public Criteria andContractPaymentLessThan(Double value) {
+        public Criteria andContractPaymentLessThan(BigDecimal value) {
             addCriterion("contract_payment <", value, "contractPayment");
             return (Criteria) this;
         }
 
-        public Criteria andContractPaymentLessThanOrEqualTo(Double value) {
+        public Criteria andContractPaymentLessThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_payment <=", value, "contractPayment");
             return (Criteria) this;
         }
 
-        public Criteria andContractPaymentIn(List<Double> values) {
+        public Criteria andContractPaymentIn(List<BigDecimal> values) {
             addCriterion("contract_payment in", values, "contractPayment");
             return (Criteria) this;
         }
 
-        public Criteria andContractPaymentNotIn(List<Double> values) {
+        public Criteria andContractPaymentNotIn(List<BigDecimal> values) {
             addCriterion("contract_payment not in", values, "contractPayment");
             return (Criteria) this;
         }
 
-        public Criteria andContractPaymentBetween(Double value1, Double value2) {
+        public Criteria andContractPaymentBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_payment between", value1, value2, "contractPayment");
             return (Criteria) this;
         }
 
-        public Criteria andContractPaymentNotBetween(Double value1, Double value2) {
+        public Criteria andContractPaymentNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_payment not between", value1, value2, "contractPayment");
             return (Criteria) this;
         }
@@ -784,52 +785,52 @@ public class FinancialPaymentExample {
             return (Criteria) this;
         }
 
-        public Criteria andCollectionRatioEqualTo(Double value) {
+        public Criteria andCollectionRatioEqualTo(BigDecimal value) {
             addCriterion("collection_ratio =", value, "collectionRatio");
             return (Criteria) this;
         }
 
-        public Criteria andCollectionRatioNotEqualTo(Double value) {
+        public Criteria andCollectionRatioNotEqualTo(BigDecimal value) {
             addCriterion("collection_ratio <>", value, "collectionRatio");
             return (Criteria) this;
         }
 
-        public Criteria andCollectionRatioGreaterThan(Double value) {
+        public Criteria andCollectionRatioGreaterThan(BigDecimal value) {
             addCriterion("collection_ratio >", value, "collectionRatio");
             return (Criteria) this;
         }
 
-        public Criteria andCollectionRatioGreaterThanOrEqualTo(Double value) {
+        public Criteria andCollectionRatioGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("collection_ratio >=", value, "collectionRatio");
             return (Criteria) this;
         }
 
-        public Criteria andCollectionRatioLessThan(Double value) {
+        public Criteria andCollectionRatioLessThan(BigDecimal value) {
             addCriterion("collection_ratio <", value, "collectionRatio");
             return (Criteria) this;
         }
 
-        public Criteria andCollectionRatioLessThanOrEqualTo(Double value) {
+        public Criteria andCollectionRatioLessThanOrEqualTo(BigDecimal value) {
             addCriterion("collection_ratio <=", value, "collectionRatio");
             return (Criteria) this;
         }
 
-        public Criteria andCollectionRatioIn(List<Double> values) {
+        public Criteria andCollectionRatioIn(List<BigDecimal> values) {
             addCriterion("collection_ratio in", values, "collectionRatio");
             return (Criteria) this;
         }
 
-        public Criteria andCollectionRatioNotIn(List<Double> values) {
+        public Criteria andCollectionRatioNotIn(List<BigDecimal> values) {
             addCriterion("collection_ratio not in", values, "collectionRatio");
             return (Criteria) this;
         }
 
-        public Criteria andCollectionRatioBetween(Double value1, Double value2) {
+        public Criteria andCollectionRatioBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("collection_ratio between", value1, value2, "collectionRatio");
             return (Criteria) this;
         }
 
-        public Criteria andCollectionRatioNotBetween(Double value1, Double value2) {
+        public Criteria andCollectionRatioNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("collection_ratio not between", value1, value2, "collectionRatio");
             return (Criteria) this;
         }
@@ -1054,52 +1055,52 @@ public class FinancialPaymentExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplitEqualTo(Double value) {
+        public Criteria andContractAmountSplitEqualTo(BigDecimal value) {
             addCriterion("contract_amount_split =", value, "contractAmountSplit");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplitNotEqualTo(Double value) {
+        public Criteria andContractAmountSplitNotEqualTo(BigDecimal value) {
             addCriterion("contract_amount_split <>", value, "contractAmountSplit");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplitGreaterThan(Double value) {
+        public Criteria andContractAmountSplitGreaterThan(BigDecimal value) {
             addCriterion("contract_amount_split >", value, "contractAmountSplit");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplitGreaterThanOrEqualTo(Double value) {
+        public Criteria andContractAmountSplitGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_amount_split >=", value, "contractAmountSplit");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplitLessThan(Double value) {
+        public Criteria andContractAmountSplitLessThan(BigDecimal value) {
             addCriterion("contract_amount_split <", value, "contractAmountSplit");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplitLessThanOrEqualTo(Double value) {
+        public Criteria andContractAmountSplitLessThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_amount_split <=", value, "contractAmountSplit");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplitIn(List<Double> values) {
+        public Criteria andContractAmountSplitIn(List<BigDecimal> values) {
             addCriterion("contract_amount_split in", values, "contractAmountSplit");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplitNotIn(List<Double> values) {
+        public Criteria andContractAmountSplitNotIn(List<BigDecimal> values) {
             addCriterion("contract_amount_split not in", values, "contractAmountSplit");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplitBetween(Double value1, Double value2) {
+        public Criteria andContractAmountSplitBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_amount_split between", value1, value2, "contractAmountSplit");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplitNotBetween(Double value1, Double value2) {
+        public Criteria andContractAmountSplitNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_amount_split not between", value1, value2, "contractAmountSplit");
             return (Criteria) this;
         }
@@ -1114,52 +1115,52 @@ public class FinancialPaymentExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplit2EqualTo(Double value) {
+        public Criteria andContractAmountSplit2EqualTo(BigDecimal value) {
             addCriterion("contract_amount_split2 =", value, "contractAmountSplit2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplit2NotEqualTo(Double value) {
+        public Criteria andContractAmountSplit2NotEqualTo(BigDecimal value) {
             addCriterion("contract_amount_split2 <>", value, "contractAmountSplit2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplit2GreaterThan(Double value) {
+        public Criteria andContractAmountSplit2GreaterThan(BigDecimal value) {
             addCriterion("contract_amount_split2 >", value, "contractAmountSplit2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplit2GreaterThanOrEqualTo(Double value) {
+        public Criteria andContractAmountSplit2GreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_amount_split2 >=", value, "contractAmountSplit2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplit2LessThan(Double value) {
+        public Criteria andContractAmountSplit2LessThan(BigDecimal value) {
             addCriterion("contract_amount_split2 <", value, "contractAmountSplit2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplit2LessThanOrEqualTo(Double value) {
+        public Criteria andContractAmountSplit2LessThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_amount_split2 <=", value, "contractAmountSplit2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplit2In(List<Double> values) {
+        public Criteria andContractAmountSplit2In(List<BigDecimal> values) {
             addCriterion("contract_amount_split2 in", values, "contractAmountSplit2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplit2NotIn(List<Double> values) {
+        public Criteria andContractAmountSplit2NotIn(List<BigDecimal> values) {
             addCriterion("contract_amount_split2 not in", values, "contractAmountSplit2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplit2Between(Double value1, Double value2) {
+        public Criteria andContractAmountSplit2Between(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_amount_split2 between", value1, value2, "contractAmountSplit2");
             return (Criteria) this;
         }
 
-        public Criteria andContractAmountSplit2NotBetween(Double value1, Double value2) {
+        public Criteria andContractAmountSplit2NotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_amount_split2 not between", value1, value2, "contractAmountSplit2");
             return (Criteria) this;
         }
@@ -1174,52 +1175,52 @@ public class FinancialPaymentExample {
             return (Criteria) this;
         }
 
-        public Criteria andAccumulatedPaymentEqualTo(Double value) {
+        public Criteria andAccumulatedPaymentEqualTo(BigDecimal value) {
             addCriterion("accumulated_payment =", value, "accumulatedPayment");
             return (Criteria) this;
         }
 
-        public Criteria andAccumulatedPaymentNotEqualTo(Double value) {
+        public Criteria andAccumulatedPaymentNotEqualTo(BigDecimal value) {
             addCriterion("accumulated_payment <>", value, "accumulatedPayment");
             return (Criteria) this;
         }
 
-        public Criteria andAccumulatedPaymentGreaterThan(Double value) {
+        public Criteria andAccumulatedPaymentGreaterThan(BigDecimal value) {
             addCriterion("accumulated_payment >", value, "accumulatedPayment");
             return (Criteria) this;
         }
 
-        public Criteria andAccumulatedPaymentGreaterThanOrEqualTo(Double value) {
+        public Criteria andAccumulatedPaymentGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("accumulated_payment >=", value, "accumulatedPayment");
             return (Criteria) this;
         }
 
-        public Criteria andAccumulatedPaymentLessThan(Double value) {
+        public Criteria andAccumulatedPaymentLessThan(BigDecimal value) {
             addCriterion("accumulated_payment <", value, "accumulatedPayment");
             return (Criteria) this;
         }
 
-        public Criteria andAccumulatedPaymentLessThanOrEqualTo(Double value) {
+        public Criteria andAccumulatedPaymentLessThanOrEqualTo(BigDecimal value) {
             addCriterion("accumulated_payment <=", value, "accumulatedPayment");
             return (Criteria) this;
         }
 
-        public Criteria andAccumulatedPaymentIn(List<Double> values) {
+        public Criteria andAccumulatedPaymentIn(List<BigDecimal> values) {
             addCriterion("accumulated_payment in", values, "accumulatedPayment");
             return (Criteria) this;
         }
 
-        public Criteria andAccumulatedPaymentNotIn(List<Double> values) {
+        public Criteria andAccumulatedPaymentNotIn(List<BigDecimal> values) {
             addCriterion("accumulated_payment not in", values, "accumulatedPayment");
             return (Criteria) this;
         }
 
-        public Criteria andAccumulatedPaymentBetween(Double value1, Double value2) {
+        public Criteria andAccumulatedPaymentBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("accumulated_payment between", value1, value2, "accumulatedPayment");
             return (Criteria) this;
         }
 
-        public Criteria andAccumulatedPaymentNotBetween(Double value1, Double value2) {
+        public Criteria andAccumulatedPaymentNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("accumulated_payment not between", value1, value2, "accumulatedPayment");
             return (Criteria) this;
         }
@@ -1234,52 +1235,52 @@ public class FinancialPaymentExample {
             return (Criteria) this;
         }
 
-        public Criteria andInvoicedAmountEqualTo(Double value) {
+        public Criteria andInvoicedAmountEqualTo(BigDecimal value) {
             addCriterion("Invoiced_amount =", value, "invoicedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andInvoicedAmountNotEqualTo(Double value) {
+        public Criteria andInvoicedAmountNotEqualTo(BigDecimal value) {
             addCriterion("Invoiced_amount <>", value, "invoicedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andInvoicedAmountGreaterThan(Double value) {
+        public Criteria andInvoicedAmountGreaterThan(BigDecimal value) {
             addCriterion("Invoiced_amount >", value, "invoicedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andInvoicedAmountGreaterThanOrEqualTo(Double value) {
+        public Criteria andInvoicedAmountGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("Invoiced_amount >=", value, "invoicedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andInvoicedAmountLessThan(Double value) {
+        public Criteria andInvoicedAmountLessThan(BigDecimal value) {
             addCriterion("Invoiced_amount <", value, "invoicedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andInvoicedAmountLessThanOrEqualTo(Double value) {
+        public Criteria andInvoicedAmountLessThanOrEqualTo(BigDecimal value) {
             addCriterion("Invoiced_amount <=", value, "invoicedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andInvoicedAmountIn(List<Double> values) {
+        public Criteria andInvoicedAmountIn(List<BigDecimal> values) {
             addCriterion("Invoiced_amount in", values, "invoicedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andInvoicedAmountNotIn(List<Double> values) {
+        public Criteria andInvoicedAmountNotIn(List<BigDecimal> values) {
             addCriterion("Invoiced_amount not in", values, "invoicedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andInvoicedAmountBetween(Double value1, Double value2) {
+        public Criteria andInvoicedAmountBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("Invoiced_amount between", value1, value2, "invoicedAmount");
             return (Criteria) this;
         }
 
-        public Criteria andInvoicedAmountNotBetween(Double value1, Double value2) {
+        public Criteria andInvoicedAmountNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("Invoiced_amount not between", value1, value2, "invoicedAmount");
             return (Criteria) this;
         }
@@ -1364,52 +1365,52 @@ public class FinancialPaymentExample {
             return (Criteria) this;
         }
 
-        public Criteria andAmountReceivedEqualTo(Double value) {
+        public Criteria andAmountReceivedEqualTo(BigDecimal value) {
             addCriterion("amount_received =", value, "amountReceived");
             return (Criteria) this;
         }
 
-        public Criteria andAmountReceivedNotEqualTo(Double value) {
+        public Criteria andAmountReceivedNotEqualTo(BigDecimal value) {
             addCriterion("amount_received <>", value, "amountReceived");
             return (Criteria) this;
         }
 
-        public Criteria andAmountReceivedGreaterThan(Double value) {
+        public Criteria andAmountReceivedGreaterThan(BigDecimal value) {
             addCriterion("amount_received >", value, "amountReceived");
             return (Criteria) this;
         }
 
-        public Criteria andAmountReceivedGreaterThanOrEqualTo(Double value) {
+        public Criteria andAmountReceivedGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("amount_received >=", value, "amountReceived");
             return (Criteria) this;
         }
 
-        public Criteria andAmountReceivedLessThan(Double value) {
+        public Criteria andAmountReceivedLessThan(BigDecimal value) {
             addCriterion("amount_received <", value, "amountReceived");
             return (Criteria) this;
         }
 
-        public Criteria andAmountReceivedLessThanOrEqualTo(Double value) {
+        public Criteria andAmountReceivedLessThanOrEqualTo(BigDecimal value) {
             addCriterion("amount_received <=", value, "amountReceived");
             return (Criteria) this;
         }
 
-        public Criteria andAmountReceivedIn(List<Double> values) {
+        public Criteria andAmountReceivedIn(List<BigDecimal> values) {
             addCriterion("amount_received in", values, "amountReceived");
             return (Criteria) this;
         }
 
-        public Criteria andAmountReceivedNotIn(List<Double> values) {
+        public Criteria andAmountReceivedNotIn(List<BigDecimal> values) {
             addCriterion("amount_received not in", values, "amountReceived");
             return (Criteria) this;
         }
 
-        public Criteria andAmountReceivedBetween(Double value1, Double value2) {
+        public Criteria andAmountReceivedBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("amount_received between", value1, value2, "amountReceived");
             return (Criteria) this;
         }
 
-        public Criteria andAmountReceivedNotBetween(Double value1, Double value2) {
+        public Criteria andAmountReceivedNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("amount_received not between", value1, value2, "amountReceived");
             return (Criteria) this;
         }
@@ -1424,52 +1425,52 @@ public class FinancialPaymentExample {
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentEqualTo(Double value) {
+        public Criteria andActualPaymentEqualTo(BigDecimal value) {
             addCriterion("actual_payment =", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentNotEqualTo(Double value) {
+        public Criteria andActualPaymentNotEqualTo(BigDecimal value) {
             addCriterion("actual_payment <>", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentGreaterThan(Double value) {
+        public Criteria andActualPaymentGreaterThan(BigDecimal value) {
             addCriterion("actual_payment >", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentGreaterThanOrEqualTo(Double value) {
+        public Criteria andActualPaymentGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("actual_payment >=", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentLessThan(Double value) {
+        public Criteria andActualPaymentLessThan(BigDecimal value) {
             addCriterion("actual_payment <", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentLessThanOrEqualTo(Double value) {
+        public Criteria andActualPaymentLessThanOrEqualTo(BigDecimal value) {
             addCriterion("actual_payment <=", value, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentIn(List<Double> values) {
+        public Criteria andActualPaymentIn(List<BigDecimal> values) {
             addCriterion("actual_payment in", values, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentNotIn(List<Double> values) {
+        public Criteria andActualPaymentNotIn(List<BigDecimal> values) {
             addCriterion("actual_payment not in", values, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentBetween(Double value1, Double value2) {
+        public Criteria andActualPaymentBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("actual_payment between", value1, value2, "actualPayment");
             return (Criteria) this;
         }
 
-        public Criteria andActualPaymentNotBetween(Double value1, Double value2) {
+        public Criteria andActualPaymentNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("actual_payment not between", value1, value2, "actualPayment");
             return (Criteria) this;
         }

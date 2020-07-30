@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class FlowNode {
@@ -17,13 +18,13 @@ public class FlowNode {
 
     private Integer nodeworktype;
 
-    private Double tspanday;
+    private BigDecimal tspanday;
 
-    private Double tspanhour;
+    private BigDecimal tspanhour;
 
-    private Double warningday;
+    private BigDecimal warningday;
 
-    private Double warninghour;
+    private BigDecimal warninghour;
 
     private String fwcnodename;
 
@@ -165,35 +166,35 @@ public class FlowNode {
         this.nodeworktype = nodeworktype;
     }
 
-    public Double getTspanday() {
+    public BigDecimal getTspanday() {
         return tspanday;
     }
 
-    public void setTspanday(Double tspanday) {
+    public void setTspanday(BigDecimal tspanday) {
         this.tspanday = tspanday;
     }
 
-    public Double getTspanhour() {
+    public BigDecimal getTspanhour() {
         return tspanhour;
     }
 
-    public void setTspanhour(Double tspanhour) {
+    public void setTspanhour(BigDecimal tspanhour) {
         this.tspanhour = tspanhour;
     }
 
-    public Double getWarningday() {
+    public BigDecimal getWarningday() {
         return warningday;
     }
 
-    public void setWarningday(Double warningday) {
+    public void setWarningday(BigDecimal warningday) {
         this.warningday = warningday;
     }
 
-    public Double getWarninghour() {
+    public BigDecimal getWarninghour() {
         return warninghour;
     }
 
-    public void setWarninghour(Double warninghour) {
+    public void setWarninghour(BigDecimal warninghour) {
         this.warninghour = warninghour;
     }
 

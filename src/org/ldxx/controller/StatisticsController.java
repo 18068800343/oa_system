@@ -8,6 +8,7 @@
 
 package org.ldxx.controller;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -86,15 +87,15 @@ public class StatisticsController {
 
 	@RequestMapping("/initGsContract")//初始化本期公司新签合同额。累计收款，累计收入
 	@ResponseBody
-	public Map<String,Double> initGsContractMoney(){
-		Map<String,Double> map=new HashMap<String, Double>();
+	public Map<String,BigDecimal> initGsContractMoney(){
+		Map<String,BigDecimal> map=new HashMap<String, BigDecimal>();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM");
 		String time=sdf.format(new Date());
 		String year=time.split("-")[0];
 		int month=Integer.valueOf(time.split("-")[1]);
-		double contractAll=0;//累计合同额
-		double allInCome=0;//累计收入
-		double allReceipt=0;//累计收款
+		BigDecimal contractAll=new BigDecimal(0);//累计合同额
+		BigDecimal allInCome=new BigDecimal(0);//累计收入
+		BigDecimal allReceipt=new BigDecimal(0);//累计收款
 		ContractUpdate cu=cuService.selectGsContractMoneyByTime(time);
 		contractAll=cu.getMoney();
 		PrjProgressFill ppf=pService.selectGsIncomeByTime(time);
@@ -102,18 +103,18 @@ public class StatisticsController {
 		AlreadyRenling ar=aService.selectGsRenlingByTime(time);
 		allReceipt=ar.getSkQuerenMoney();
 				
-		double mbContractMoney=0;//目标合同额
-		double mbIncome=0;//目标收入
-		double mbReceipt=0;//目标收款
+		BigDecimal mbContractMoney=new BigDecimal(0);//目标合同额
+		BigDecimal mbIncome=new BigDecimal(0);//目标收入
+		BigDecimal mbReceipt=new BigDecimal(0);//目标收款
 		List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonth(year, month);
 		if(mt!=null){
 			for(int i=0;i<mt.size();i++){
-				double contractAmount=mt.get(i).getContractAmount();
-				double revenueTarget=mt.get(i).getRevenueTarget();
-				double collectionTarget=mt.get(i).getCollectionTarget();
-				mbContractMoney=mbContractMoney+contractAmount;
-				mbIncome=mbIncome+revenueTarget;
-				mbReceipt=mbReceipt+collectionTarget;
+				BigDecimal contractAmount=mt.get(i).getContractAmount();
+				BigDecimal revenueTarget=mt.get(i).getRevenueTarget();
+				BigDecimal collectionTarget=mt.get(i).getCollectionTarget();
+				mbContractMoney=mbContractMoney.add(contractAmount);
+				mbIncome=mbIncome.add(revenueTarget);
+				mbReceipt=mbReceipt.add(collectionTarget);
 			}
 		}
 		map.put("mbContractMoney", mbContractMoney);
@@ -142,9 +143,9 @@ public class StatisticsController {
 			String omId=om.get(i).getOmId();//部门编号
 			String omName=om.get(i).getOmName();//部门名称
 			omList.add(omName);
-			double contractAll=0;//新签合同额目标
-			double totalIncomeAll=0;//累计收入
-			double receiptAll=0;//累计收款
+			BigDecimal contractAll=new BigDecimal(0);//新签合同额目标
+			BigDecimal totalIncomeAll=new BigDecimal(0);//累计收入
+			BigDecimal receiptAll=new BigDecimal(0);//累计收款
 			ContractUpdate cu=cuService.selectDeptContractMoneyByTime(time, omId);
 			contractAll=cu.getMoney();
 			PrjProgressFill ppf=pService.selectGsIncomeByTimeAndDept(time, omName);
@@ -152,18 +153,18 @@ public class StatisticsController {
 			AlreadyRenling ar=aService.selectDeptRenlingByTime(time, omName);
 			receiptAll=ar.getSkQuerenMoney();
 			
-			double mbContractMoney=0;//目标合同额
-			double mbIncome=0;//目标收入
-			double mbReceipt=0;//目标收款
+			BigDecimal mbContractMoney=new BigDecimal(0);//目标合同额
+			BigDecimal mbIncome=new BigDecimal(0);//目标收入
+			BigDecimal mbReceipt=new BigDecimal(0);//目标收款
 			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, month, omId);
 			if(mt!=null){
 				for(int jj=0;jj<mt.size();jj++){
-					double contractAmount=mt.get(jj).getContractAmount();
-					double revenueTarget=mt.get(jj).getRevenueTarget();
-					double collectionTarget=mt.get(jj).getCollectionTarget();
-					mbContractMoney=mbContractMoney+contractAmount;
-					mbIncome=mbIncome+revenueTarget;
-					mbReceipt=mbReceipt+collectionTarget;
+					BigDecimal contractAmount=mt.get(jj).getContractAmount();
+					BigDecimal revenueTarget=mt.get(jj).getRevenueTarget();
+					BigDecimal collectionTarget=mt.get(jj).getCollectionTarget();
+					mbContractMoney=mbContractMoney.add(contractAmount);
+					mbIncome=mbIncome.add(revenueTarget);
+					mbReceipt=mbReceipt.add(collectionTarget);
 				}
 			}
 			StatisticsVo vo=new StatisticsVo();
@@ -184,9 +185,9 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> seachTab(String prjType){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Double>> resultContract=new ArrayList<>();//实际月部门新签合同额按项目类型
-		List<List<Double>> resultIncome=new ArrayList<>();//实际月部门累计收入按项目类型
-		List<List<Double>> resultReceipt=new ArrayList<>();//实际月部门累计收款按项目类型
+		List<List<BigDecimal>> resultContract=new ArrayList<>();//实际月部门新签合同额按项目类型
+		List<List<BigDecimal>> resultIncome=new ArrayList<>();//实际月部门累计收入按项目类型
+		List<List<BigDecimal>> resultReceipt=new ArrayList<>();//实际月部门累计收款按项目类型
 		List<String> omList=new ArrayList<>();
 		//获取月份
 		Calendar cal = Calendar.getInstance();
@@ -197,227 +198,227 @@ public class StatisticsController {
 		
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
 		//公司月份部门累加
-		List<Double> gsContractMoney=new ArrayList<>();
-		Double gsContractMoneyMonth1All=(double) 0;
-		Double gsContractMoneyMonth2All=(double) 0;
-		Double gsContractMoneyMonth3All=(double) 0;
-		Double gsContractMoneyMonth4All=(double) 0;
-		Double gsContractMoneyMonth5All=(double) 0;
-		Double gsContractMoneyMonth6All=(double) 0;
-		Double gsContractMoneyMonth7All=(double) 0;
-		Double gsContractMoneyMonth8All=(double) 0;
-		Double gsContractMoneyMonth9All=(double) 0;
-		Double gsContractMoneyMonth10All=(double) 0;
-		Double gsContractMoneyMonth11All=(double) 0;
-		Double gsContractMoneyMonth12All=(double) 0;
+		List<BigDecimal> gsContractMoney=new ArrayList<>();
+		BigDecimal gsContractMoneyMonth1All=new BigDecimal(0);
+		BigDecimal gsContractMoneyMonth2All=new BigDecimal(0);
+		BigDecimal gsContractMoneyMonth3All=new BigDecimal(0);
+		BigDecimal gsContractMoneyMonth4All=new BigDecimal(0);
+		BigDecimal gsContractMoneyMonth5All=new BigDecimal(0);
+		BigDecimal gsContractMoneyMonth6All=new BigDecimal(0);
+		BigDecimal gsContractMoneyMonth7All=new BigDecimal(0);
+		BigDecimal gsContractMoneyMonth8All=new BigDecimal(0);
+		BigDecimal gsContractMoneyMonth9All=new BigDecimal(0);
+		BigDecimal gsContractMoneyMonth10All=new BigDecimal(0);
+		BigDecimal gsContractMoneyMonth11All=new BigDecimal(0);
+		BigDecimal gsContractMoneyMonth12All=new BigDecimal(0);
 		
-		List<Double> gsIncome=new ArrayList<>();
-		Double gsIncomeMonth1All=(double) 0;
-		Double gsIncomeMonth2All=(double) 0;
-		Double gsIncomeMonth3All=(double) 0;
-		Double gsIncomeMonth4All=(double) 0;
-		Double gsIncomeMonth5All=(double) 0;
-		Double gsIncomeMonth6All=(double) 0;
-		Double gsIncomeMonth7All=(double) 0;
-		Double gsIncomeMonth8All=(double) 0;
-		Double gsIncomeMonth9All=(double) 0;
-		Double gsIncomeMonth10All=(double) 0;
-		Double gsIncomeMonth11All=(double) 0;
-		Double gsIncomeMonth12All=(double) 0;
+		List<BigDecimal> gsIncome=new ArrayList<>();
+		BigDecimal gsIncomeMonth1All=new BigDecimal(0);
+		BigDecimal gsIncomeMonth2All=new BigDecimal(0);
+		BigDecimal gsIncomeMonth3All=new BigDecimal(0);
+		BigDecimal gsIncomeMonth4All=new BigDecimal(0);
+		BigDecimal gsIncomeMonth5All=new BigDecimal(0);
+		BigDecimal gsIncomeMonth6All=new BigDecimal(0);
+		BigDecimal gsIncomeMonth7All=new BigDecimal(0);
+		BigDecimal gsIncomeMonth8All=new BigDecimal(0);
+		BigDecimal gsIncomeMonth9All=new BigDecimal(0);
+		BigDecimal gsIncomeMonth10All=new BigDecimal(0);
+		BigDecimal gsIncomeMonth11All=new BigDecimal(0);
+		BigDecimal gsIncomeMonth12All=new BigDecimal(0);
 		
-		List<Double> gsReceipt=new ArrayList<>();
-		double gsReceiptMonth1All=0;
-		double gsReceiptMonth2All=0;
-		double gsReceiptMonth3All=0;
-		double gsReceiptMonth4All=0;
-		double gsReceiptMonth5All=0;
-		double gsReceiptMonth6All=0;
-		double gsReceiptMonth7All=0;
-		double gsReceiptMonth8All=0;
-		double gsReceiptMonth9All=0;
-		double gsReceiptMonth10All=0;
-		double gsReceiptMonth11All=0;
-		double gsReceiptMonth12All=0;
+		List<BigDecimal> gsReceipt=new ArrayList<>();
+		BigDecimal gsReceiptMonth1All=new BigDecimal(0);
+		BigDecimal gsReceiptMonth2All=new BigDecimal(0);
+		BigDecimal gsReceiptMonth3All=new BigDecimal(0);
+		BigDecimal gsReceiptMonth4All=new BigDecimal(0);
+		BigDecimal gsReceiptMonth5All=new BigDecimal(0);
+		BigDecimal gsReceiptMonth6All=new BigDecimal(0);
+		BigDecimal gsReceiptMonth7All=new BigDecimal(0);
+		BigDecimal gsReceiptMonth8All=new BigDecimal(0);
+		BigDecimal gsReceiptMonth9All=new BigDecimal(0);
+		BigDecimal gsReceiptMonth10All=new BigDecimal(0);
+		BigDecimal gsReceiptMonth11All=new BigDecimal(0);
+		BigDecimal gsReceiptMonth12All=new BigDecimal(0);
 		for(int o=0;o<om.size();o++){
 			String omId=om.get(o).getOmId();
 			String omName=om.get(o).getOmName();
 			omList.add(omName);
 			
 			//部门新签合同额按项目类型
-			List<Double> contractMoneyList=new ArrayList<>();
-			Double contractMonth1All=(double) 0;
-			Double contractMonth2All=(double) 0;
-			Double contractMonth3All=(double) 0;
-			Double contractMonth4All=(double) 0;
-			Double contractMonth5All=(double) 0;
-			Double contractMonth6All=(double) 0;
-			Double contractMonth7All=(double) 0;
-			Double contractMonth8All=(double) 0;
-			Double contractMonth9All=(double) 0;
-			Double contractMonth10All=(double) 0;
-			Double contractMonth11All=(double) 0;
-			Double contractMonth12All=(double) 0;
+			List<BigDecimal> contractMoneyList=new ArrayList<>();
+			BigDecimal contractMonth1All=new BigDecimal(0);
+			BigDecimal contractMonth2All=new BigDecimal(0);
+			BigDecimal contractMonth3All=new BigDecimal(0);
+			BigDecimal contractMonth4All=new BigDecimal(0);
+			BigDecimal contractMonth5All=new BigDecimal(0);
+			BigDecimal contractMonth6All=new BigDecimal(0);
+			BigDecimal contractMonth7All=new BigDecimal(0);
+			BigDecimal contractMonth8All=new BigDecimal(0);
+			BigDecimal contractMonth9All=new BigDecimal(0);
+			BigDecimal contractMonth10All=new BigDecimal(0);
+			BigDecimal contractMonth11All=new BigDecimal(0);
+			BigDecimal contractMonth12All=new BigDecimal(0);
 			//部门累计收入按项目类型
-			List<Double> inComeMoneyList=new ArrayList<>();
-			Double inComeMonth1All=(double) 0;
-			Double inComeMonth2All=(double) 0;
-			Double inComeMonth3All=(double) 0;
-			Double inComeMonth4All=(double) 0;
-			Double inComeMonth5All=(double) 0;
-			Double inComeMonth6All=(double) 0;
-			Double inComeMonth7All=(double) 0;
-			Double inComeMonth8All=(double) 0;
-			Double inComeMonth9All=(double) 0;
-			Double inComeMonth10All=(double) 0;
-			Double inComeMonth11All=(double) 0;
-			Double inComeMonth12All=(double) 0;
+			List<BigDecimal> inComeMoneyList=new ArrayList<>();
+			BigDecimal inComeMonth1All=new BigDecimal(0);
+			BigDecimal inComeMonth2All=new BigDecimal(0);
+			BigDecimal inComeMonth3All=new BigDecimal(0);
+			BigDecimal inComeMonth4All=new BigDecimal(0);
+			BigDecimal inComeMonth5All=new BigDecimal(0);
+			BigDecimal inComeMonth6All=new BigDecimal(0);
+			BigDecimal inComeMonth7All=new BigDecimal(0);
+			BigDecimal inComeMonth8All=new BigDecimal(0);
+			BigDecimal inComeMonth9All=new BigDecimal(0);
+			BigDecimal inComeMonth10All=new BigDecimal(0);
+			BigDecimal inComeMonth11All=new BigDecimal(0);
+			BigDecimal inComeMonth12All=new BigDecimal(0);
 			//部门累计收款按项目类型
-			List<Double> receiptMoneyList=new ArrayList<>();
-			double receiptMonth1All=0;
-			double receiptMonth2All=0;
-			double receiptMonth3All=0;
-			double receiptMonth4All=0;
-			double receiptMonth5All=0;
-			double receiptMonth6All=0;
-			double receiptMonth7All=0;
-			double receiptMonth8All=0;
-			double receiptMonth9All=0;
-			double receiptMonth10All=0;
-			double receiptMonth11All=0;
-			double receiptMonth12All=0;
+			List<BigDecimal> receiptMoneyList=new ArrayList<>();
+			BigDecimal receiptMonth1All=new BigDecimal(0);
+			BigDecimal receiptMonth2All=new BigDecimal(0);
+			BigDecimal receiptMonth3All=new BigDecimal(0);
+			BigDecimal receiptMonth4All=new BigDecimal(0);
+			BigDecimal receiptMonth5All=new BigDecimal(0);
+			BigDecimal receiptMonth6All=new BigDecimal(0);
+			BigDecimal receiptMonth7All=new BigDecimal(0);
+			BigDecimal receiptMonth8All=new BigDecimal(0);
+			BigDecimal receiptMonth9All=new BigDecimal(0);
+			BigDecimal receiptMonth10All=new BigDecimal(0);
+			BigDecimal receiptMonth11All=new BigDecimal(0);
+			BigDecimal receiptMonth12All=new BigDecimal(0);
 			
 			for(int i=0;i<prjType.split(",").length;i++){
 				//部门新签合同额按项目类型
 				String type=prjType.split(",")[i];
 				ContractUpdate cu=cuService.selectDeptContractMoneyByTimeAndType(year+"-01", omId, type);
-				double contractMonth1=cu.getMoney();
-				contractMonth1All=contractMonth1All+cu.getMoney();
+				BigDecimal contractMonth1=cu.getMoney();
+				contractMonth1All=contractMonth1All.add(cu.getMoney());
 				ContractUpdate cu2=cuService.selectDeptContractMoneyByTimeAndType(year+"-02", omId, type);
-				double contractMonth2=cu2.getMoney()+contractMonth1;
-				contractMonth2All=contractMonth2All+cu2.getMoney();
+				BigDecimal contractMonth2=cu2.getMoney().add(contractMonth1);
+				contractMonth2All=contractMonth2All.add(cu2.getMoney());
 				ContractUpdate cu3=cuService.selectDeptContractMoneyByTimeAndType(year+"-03", omId, type);
-				double contractMonth3=cu3.getMoney()+contractMonth2;
-				contractMonth3All=contractMonth3All+cu3.getMoney();
+				BigDecimal contractMonth3=cu3.getMoney().add(contractMonth2);
+				contractMonth3All=contractMonth3All.add(cu3.getMoney());
 				ContractUpdate cu4=cuService.selectDeptContractMoneyByTimeAndType(year+"-04", omId, type);
-				double contractMonth4=cu4.getMoney()+contractMonth3;
-				contractMonth4All=contractMonth4All+cu4.getMoney();
+				BigDecimal contractMonth4=cu4.getMoney().add(contractMonth3);
+				contractMonth4All=contractMonth4All.add(cu4.getMoney());
 				ContractUpdate cu5=cuService.selectDeptContractMoneyByTimeAndType(year+"-05", omId, type);
-				double contractMonth5=cu5.getMoney()+contractMonth4;
-				contractMonth5All=contractMonth5All+cu5.getMoney();
+				BigDecimal contractMonth5=cu5.getMoney().add(contractMonth4);
+				contractMonth5All=contractMonth5All.add(cu5.getMoney());
 				ContractUpdate cu6=cuService.selectDeptContractMoneyByTimeAndType(year+"-06", omId, type);
-				double contractMonth6=cu6.getMoney()+contractMonth5;
-				contractMonth6All=contractMonth6All+cu6.getMoney();
+				BigDecimal contractMonth6=cu6.getMoney().add(contractMonth5);
+				contractMonth6All=contractMonth6All.add(cu6.getMoney());
 				ContractUpdate cu7=cuService.selectDeptContractMoneyByTimeAndType(year+"-07", omId, type);
-				double contractMonth7=cu7.getMoney()+contractMonth6;
-				contractMonth7All=contractMonth7All+cu7.getMoney();
+				BigDecimal contractMonth7=cu7.getMoney().add(contractMonth6);
+				contractMonth7All=contractMonth7All.add(cu7.getMoney());
 				ContractUpdate cu8=cuService.selectDeptContractMoneyByTimeAndType(year+"-08", omId, type);
-				double contractMonth8=cu8.getMoney()+contractMonth7;
-				contractMonth8All=contractMonth8All+cu8.getMoney();
+				BigDecimal contractMonth8=cu8.getMoney().add(contractMonth7);
+				contractMonth8All=contractMonth8All.add(cu8.getMoney());
 				ContractUpdate cu9=cuService.selectDeptContractMoneyByTimeAndType(year+"-09", omId, type);
-				double contractMonth9=cu9.getMoney()+contractMonth8;
-				contractMonth9All=contractMonth9All+cu9.getMoney();
+				BigDecimal contractMonth9=cu9.getMoney().add(contractMonth8);
+				contractMonth9All=contractMonth9All.add(cu9.getMoney());
 				ContractUpdate cu10=cuService.selectDeptContractMoneyByTimeAndType(year+"-10", omId, type);
-				double contractMonth10=cu10.getMoney()+contractMonth9;
-				contractMonth10All=contractMonth10All+cu10.getMoney();
+				BigDecimal contractMonth10=cu10.getMoney().add(contractMonth9);
+				contractMonth10All=contractMonth10All.add(cu10.getMoney());
 				ContractUpdate cu11=cuService.selectDeptContractMoneyByTimeAndType(year+"-11", omId, type);
-				double contractMonth11=cu11.getMoney()+contractMonth10;
-				contractMonth11All=contractMonth11All+cu11.getMoney();
+				BigDecimal contractMonth11=cu11.getMoney().add(contractMonth10);
+				contractMonth11All=contractMonth11All.add(cu11.getMoney());
 				ContractUpdate cu12=cuService.selectDeptContractMoneyByTimeAndType(year+"-12", omId, type);
-				double contractMonth12=cu12.getMoney()+contractMonth11;
-				contractMonth12All=contractMonth12All+cu12.getMoney();
+				BigDecimal contractMonth12=cu12.getMoney().add(contractMonth11);
+				contractMonth12All=contractMonth12All.add(cu12.getMoney());
 				
 				
 				//部门累计收入按项目类型
 				PrjProgressFill ppf=pService.selectDeptIncomeByTimeAndType(year+"-01", omName, type);
-				double inComeMonth1=ppf.getAllMoneyYuan();
-				inComeMonth1All=inComeMonth1All+ppf.getAllMoneyYuan();
+				BigDecimal inComeMonth1=ppf.getAllMoneyYuan();
+				inComeMonth1All=inComeMonth1All.add(ppf.getAllMoneyYuan());
 				PrjProgressFill ppf2=pService.selectDeptIncomeByTimeAndType(year+"-02", omName, type);
-				double inComeMonth2=ppf2.getAllMoneyYuan()+inComeMonth1;
-				inComeMonth2All=inComeMonth2All+ppf2.getAllMoneyYuan();
+				BigDecimal inComeMonth2=ppf2.getAllMoneyYuan().add(inComeMonth1);
+				inComeMonth2All=inComeMonth2All.add(ppf2.getAllMoneyYuan());
 				PrjProgressFill ppf3=pService.selectDeptIncomeByTimeAndType(year+"-03", omName, type);
-				double inComeMonth3=ppf3.getAllMoneyYuan()+inComeMonth2;
-				inComeMonth3All=inComeMonth3All+ppf3.getAllMoneyYuan();
+				BigDecimal inComeMonth3=ppf3.getAllMoneyYuan().add(inComeMonth2);
+				inComeMonth3All=inComeMonth3All.add(ppf3.getAllMoneyYuan());
 				PrjProgressFill ppf4=pService.selectDeptIncomeByTimeAndType(year+"-04", omName, type);
-				double inComeMonth4=ppf4.getAllMoneyYuan()+inComeMonth3;
-				inComeMonth4All=inComeMonth4All+ppf4.getAllMoneyYuan();
+				BigDecimal inComeMonth4=ppf4.getAllMoneyYuan().add(inComeMonth3);
+				inComeMonth4All=inComeMonth4All.add(ppf4.getAllMoneyYuan());
 				PrjProgressFill ppf5=pService.selectDeptIncomeByTimeAndType(year+"-05", omName, type);
-				double inComeMonth5=ppf5.getAllMoneyYuan()+inComeMonth4;
-				inComeMonth5All=inComeMonth5All+ppf5.getAllMoneyYuan();
+				BigDecimal inComeMonth5=ppf5.getAllMoneyYuan().add(inComeMonth4);
+				inComeMonth5All=inComeMonth5All.add(ppf5.getAllMoneyYuan());
 				PrjProgressFill ppf6=pService.selectDeptIncomeByTimeAndType(year+"-06", omName, type);
-				double inComeMonth6=ppf6.getAllMoneyYuan()+inComeMonth5;
-				inComeMonth6All=inComeMonth6All+ppf6.getAllMoneyYuan();
+				BigDecimal inComeMonth6=ppf6.getAllMoneyYuan().add(inComeMonth5);
+				inComeMonth6All=inComeMonth6All.add(ppf6.getAllMoneyYuan());
 				PrjProgressFill ppf7=pService.selectDeptIncomeByTimeAndType(year+"-07", omName, type);
-				double inComeMonth7=ppf7.getAllMoneyYuan()+inComeMonth6;
-				inComeMonth7All=inComeMonth7All+ppf7.getAllMoneyYuan();
+				BigDecimal inComeMonth7=ppf7.getAllMoneyYuan().add(inComeMonth6);
+				inComeMonth7All=inComeMonth7All.add(ppf7.getAllMoneyYuan());
 				PrjProgressFill ppf8=pService.selectDeptIncomeByTimeAndType(year+"-08", omName, type);
-				double inComeMonth8=ppf8.getAllMoneyYuan()+inComeMonth7;
-				inComeMonth8All=inComeMonth8All+ppf8.getAllMoneyYuan();
+				BigDecimal inComeMonth8=ppf8.getAllMoneyYuan().add(inComeMonth7);
+				inComeMonth8All=inComeMonth8All.add(ppf8.getAllMoneyYuan());
 				PrjProgressFill ppf9=pService.selectDeptIncomeByTimeAndType(year+"-09", omName, type);
-				double inComeMonth9=ppf9.getAllMoneyYuan()+inComeMonth8;
-				inComeMonth9All=inComeMonth9All+ppf9.getAllMoneyYuan();
+				BigDecimal inComeMonth9=ppf9.getAllMoneyYuan().add(inComeMonth8);
+				inComeMonth9All=inComeMonth9All.add(ppf9.getAllMoneyYuan());
 				PrjProgressFill ppf10=pService.selectDeptIncomeByTimeAndType(year+"-10", omName, type);
-				double inComeMonth10=ppf10.getAllMoneyYuan()+inComeMonth9;
-				inComeMonth10All=inComeMonth10All+ppf10.getAllMoneyYuan();
+				BigDecimal inComeMonth10=ppf10.getAllMoneyYuan().add(inComeMonth9);
+				inComeMonth10All=inComeMonth10All.add(ppf10.getAllMoneyYuan());
 				PrjProgressFill ppf11=pService.selectDeptIncomeByTimeAndType(year+"-11", omName, type);
-				double inComeMonth11=ppf11.getAllMoneyYuan()+inComeMonth10;
-				inComeMonth11All=inComeMonth11All+ppf11.getAllMoneyYuan();
+				BigDecimal inComeMonth11=ppf11.getAllMoneyYuan().add(inComeMonth10);
+				inComeMonth11All=inComeMonth11All.add(ppf11.getAllMoneyYuan());
 				PrjProgressFill ppf12=pService.selectDeptIncomeByTimeAndType(year+"-12", omName, type);
-				double inComeMonth12=ppf12.getAllMoneyYuan()+inComeMonth11;
-				inComeMonth12All=inComeMonth12All+ppf12.getAllMoneyYuan();
+				BigDecimal inComeMonth12=ppf12.getAllMoneyYuan().add(inComeMonth11);
+				inComeMonth12All=inComeMonth12All.add(ppf12.getAllMoneyYuan());
 				
 				
 				//部门累计收款按项目类型
 				AlreadyRenling ar=aService.selectDeptRenlingByTimeAndType(year+"-01", omName, type);
-				double receiptMonth1=ar.getSkQuerenMoney();
-				receiptMonth1All=receiptMonth1All+ar.getSkQuerenMoney();
+				BigDecimal receiptMonth1=ar.getSkQuerenMoney();
+				receiptMonth1All=receiptMonth1All.add(ar.getSkQuerenMoney());
 				AlreadyRenling ar2=aService.selectDeptRenlingByTimeAndType(year+"-02", omName, type);
-				double receiptMonth2=ar2.getSkQuerenMoney()+receiptMonth1;
-				receiptMonth2All=receiptMonth2All+ar2.getSkQuerenMoney();	
+				BigDecimal receiptMonth2=ar2.getSkQuerenMoney().add(receiptMonth1);
+				receiptMonth2All=receiptMonth2All.add(ar2.getSkQuerenMoney());	
 				AlreadyRenling ar3=aService.selectDeptRenlingByTimeAndType(year+"-03", omName, type);
-				double receiptMonth3=ar3.getSkQuerenMoney()+receiptMonth2;
-				receiptMonth3All=receiptMonth3All+ar3.getSkQuerenMoney();
+				BigDecimal receiptMonth3=ar3.getSkQuerenMoney().add(receiptMonth2);
+				receiptMonth3All=receiptMonth3All.add(ar3.getSkQuerenMoney());
 				AlreadyRenling ar4=aService.selectDeptRenlingByTimeAndType(year+"-04", omName, type);
-				double receiptMonth4=ar4.getSkQuerenMoney()+receiptMonth3;
-				receiptMonth4All=receiptMonth4All+ar4.getSkQuerenMoney();
+				BigDecimal receiptMonth4=ar4.getSkQuerenMoney().add(receiptMonth3);
+				receiptMonth4All=receiptMonth4All.add(ar4.getSkQuerenMoney());
 				AlreadyRenling ar5=aService.selectDeptRenlingByTimeAndType(year+"-05", omName, type);
-				double receiptMonth5=ar5.getSkQuerenMoney()+receiptMonth4;
-				receiptMonth5All=receiptMonth5All+ar5.getSkQuerenMoney();
+				BigDecimal receiptMonth5=ar5.getSkQuerenMoney().add(receiptMonth4);
+				receiptMonth5All=receiptMonth5All.add(ar5.getSkQuerenMoney());
 				AlreadyRenling ar6=aService.selectDeptRenlingByTimeAndType(year+"-06", omName, type);
-				double receiptMonth6=ar6.getSkQuerenMoney()+receiptMonth5;
-				receiptMonth6All=receiptMonth6All+ar6.getSkQuerenMoney();
+				BigDecimal receiptMonth6=ar6.getSkQuerenMoney().add(receiptMonth5);
+				receiptMonth6All=receiptMonth6All.add(ar6.getSkQuerenMoney());
 				AlreadyRenling ar7=aService.selectDeptRenlingByTimeAndType(year+"-07", omName, type);
-				double receiptMonth7=ar7.getSkQuerenMoney()+receiptMonth6;
-				receiptMonth7All=receiptMonth7All+ar7.getSkQuerenMoney();
+				BigDecimal receiptMonth7=ar7.getSkQuerenMoney().add(receiptMonth6);
+				receiptMonth7All=receiptMonth7All.add(ar7.getSkQuerenMoney());
 				AlreadyRenling ar8=aService.selectDeptRenlingByTimeAndType(year+"-08", omName, type);
-				double receiptMonth8=ar8.getSkQuerenMoney()+receiptMonth7;
-				receiptMonth8All=receiptMonth8All+ar8.getSkQuerenMoney();
+				BigDecimal receiptMonth8=ar8.getSkQuerenMoney().add(receiptMonth7);
+				receiptMonth8All=receiptMonth8All.add(ar8.getSkQuerenMoney());
 				AlreadyRenling ar9=aService.selectDeptRenlingByTimeAndType(year+"-09", omName, type);
-				double receiptMonth9=ar9.getSkQuerenMoney()+receiptMonth8;
-				receiptMonth9All=receiptMonth9All+ar9.getSkQuerenMoney();
+				BigDecimal receiptMonth9=ar9.getSkQuerenMoney().add(receiptMonth8);
+				receiptMonth9All=receiptMonth9All.add(ar9.getSkQuerenMoney());
 				AlreadyRenling ar10=aService.selectDeptRenlingByTimeAndType(year+"-10", omName, type);
-				double receiptMonth10=ar10.getSkQuerenMoney()+receiptMonth9;
-				receiptMonth10All=receiptMonth10All+ar10.getSkQuerenMoney();
+				BigDecimal receiptMonth10=ar10.getSkQuerenMoney().add(receiptMonth9);
+				receiptMonth10All=receiptMonth10All.add(ar10.getSkQuerenMoney());
 				AlreadyRenling ar11=aService.selectDeptRenlingByTimeAndType(year+"-11", omName, type);
-				double receiptMonth11=ar11.getSkQuerenMoney()+receiptMonth10;
-				receiptMonth11All=receiptMonth11All+ar11.getSkQuerenMoney();
+				BigDecimal receiptMonth11=ar11.getSkQuerenMoney().add(receiptMonth10);
+				receiptMonth11All=receiptMonth11All.add(ar11.getSkQuerenMoney());
 				AlreadyRenling ar12=aService.selectDeptRenlingByTimeAndType(year+"-12", omName, type);
-				double receiptMonth12=ar12.getSkQuerenMoney()+receiptMonth11;
-				receiptMonth12All=receiptMonth12All+ar12.getSkQuerenMoney();
+				BigDecimal receiptMonth12=ar12.getSkQuerenMoney().add(receiptMonth11);
+				receiptMonth12All=receiptMonth12All.add(ar12.getSkQuerenMoney());
 				
 	
 			}
 			
-			contractMonth2All+=contractMonth1All;
-			contractMonth3All+=contractMonth2All;
-			contractMonth4All+=contractMonth3All;
-			contractMonth5All+=contractMonth4All;
-			contractMonth6All+=contractMonth5All;
-			contractMonth7All+=contractMonth6All;
-			contractMonth8All+=contractMonth7All;
-			contractMonth9All+=contractMonth8All;
-			contractMonth10All+=contractMonth9All;
-			contractMonth11All+=contractMonth10All;
-			contractMonth12All+=contractMonth11All;
+			contractMonth2All=contractMonth2All.add(contractMonth1All);
+			contractMonth3All=contractMonth3All.add(contractMonth2All);
+			contractMonth4All=contractMonth4All.add(contractMonth3All);
+			contractMonth5All=contractMonth5All.add(contractMonth4All);
+			contractMonth6All=contractMonth6All.add(contractMonth5All);
+			contractMonth7All=contractMonth7All.add(contractMonth6All);
+			contractMonth8All=contractMonth8All.add(contractMonth7All);
+			contractMonth9All=contractMonth9All.add(contractMonth8All);
+			contractMonth10All=contractMonth10All.add(contractMonth9All);
+			contractMonth11All=contractMonth11All.add(contractMonth10All);
+			contractMonth12All=contractMonth12All.add(contractMonth11All);
 			
 			contractMoneyList.add(contractMonth1All);
 			contractMoneyList.add(contractMonth2All);
@@ -437,17 +438,17 @@ public class StatisticsController {
 			}
 			resultContract.add(contractMoneyList);
 			
-			inComeMonth2All+=inComeMonth1All;
-			inComeMonth3All+=inComeMonth2All;
-			inComeMonth4All+=inComeMonth3All;
-			inComeMonth5All+=inComeMonth4All;
-			inComeMonth6All+=inComeMonth5All;
-			inComeMonth7All+=inComeMonth6All;
-			inComeMonth8All+=inComeMonth7All;
-			inComeMonth9All+=inComeMonth8All;
-			inComeMonth10All+=inComeMonth9All;
-			inComeMonth11All+=inComeMonth10All;
-			inComeMonth12All+=inComeMonth11All;
+			inComeMonth2All=inComeMonth2All.add(inComeMonth1All);
+			inComeMonth3All=inComeMonth3All.add(inComeMonth2All);
+			inComeMonth4All=inComeMonth4All.add(inComeMonth3All);
+			inComeMonth5All=inComeMonth5All.add(inComeMonth4All);
+			inComeMonth6All=inComeMonth6All.add(inComeMonth5All);
+			inComeMonth7All=inComeMonth7All.add(inComeMonth6All);
+			inComeMonth8All=inComeMonth8All.add(inComeMonth7All);
+			inComeMonth9All=inComeMonth9All.add(inComeMonth8All);
+			inComeMonth10All=inComeMonth10All.add(inComeMonth9All);
+			inComeMonth11All=inComeMonth11All.add(inComeMonth10All);
+			inComeMonth12All=inComeMonth12All.add(inComeMonth11All);
 			
 			inComeMoneyList.add(inComeMonth1All);
 			inComeMoneyList.add(inComeMonth2All);
@@ -467,17 +468,17 @@ public class StatisticsController {
 			}
 			resultIncome.add(inComeMoneyList);
 			
-			receiptMonth2All+=receiptMonth1All;
-			receiptMonth3All+=receiptMonth2All;
-			receiptMonth4All+=receiptMonth3All;
-			receiptMonth5All+=receiptMonth4All;
-			receiptMonth6All+=receiptMonth5All;
-			receiptMonth7All+=receiptMonth6All;
-			receiptMonth8All+=receiptMonth7All;
-			receiptMonth9All+=receiptMonth8All;
-			receiptMonth10All+=receiptMonth9All;
-			receiptMonth11All+=receiptMonth10All;
-			receiptMonth12All+=receiptMonth11All;
+			receiptMonth2All=receiptMonth2All.add(receiptMonth1All);
+			receiptMonth3All=receiptMonth3All.add(receiptMonth2All);
+			receiptMonth4All=receiptMonth4All.add(receiptMonth3All);
+			receiptMonth5All=receiptMonth5All.add(receiptMonth4All);
+			receiptMonth6All=receiptMonth6All.add(receiptMonth5All);
+			receiptMonth7All=receiptMonth7All.add(receiptMonth6All);
+			receiptMonth8All=receiptMonth8All.add(receiptMonth7All);
+			receiptMonth9All=receiptMonth9All.add(receiptMonth8All);
+			receiptMonth10All=receiptMonth10All.add(receiptMonth9All);
+			receiptMonth11All=receiptMonth11All.add(receiptMonth10All);
+			receiptMonth12All=receiptMonth12All.add(receiptMonth11All);
 			
 			receiptMoneyList.add(receiptMonth1All);
 			receiptMoneyList.add(receiptMonth2All);
@@ -498,45 +499,44 @@ public class StatisticsController {
 			resultReceipt.add(receiptMoneyList);
 			
 			//公司所有累加
-			gsContractMoneyMonth1All=gsContractMoneyMonth1All+contractMonth1All;
-			gsContractMoneyMonth2All=gsContractMoneyMonth2All+contractMonth2All;
-			gsContractMoneyMonth3All=gsContractMoneyMonth3All+contractMonth3All;
-			gsContractMoneyMonth4All=gsContractMoneyMonth4All+contractMonth4All;
-			gsContractMoneyMonth5All=gsContractMoneyMonth5All+contractMonth5All;
-			gsContractMoneyMonth6All=gsContractMoneyMonth6All+contractMonth6All;
-			gsContractMoneyMonth7All=gsContractMoneyMonth7All+contractMonth7All;
-			gsContractMoneyMonth8All=gsContractMoneyMonth8All+contractMonth8All;
-			gsContractMoneyMonth9All=gsContractMoneyMonth9All+contractMonth9All;
-			gsContractMoneyMonth10All=gsContractMoneyMonth10All+contractMonth10All;
-			gsContractMoneyMonth11All=gsContractMoneyMonth11All+contractMonth11All;
-			gsContractMoneyMonth12All=gsContractMoneyMonth12All+contractMonth12All;
+			gsContractMoneyMonth1All=gsContractMoneyMonth1All.add(contractMonth1All);
+			gsContractMoneyMonth2All=gsContractMoneyMonth2All.add(contractMonth2All);
+			gsContractMoneyMonth3All=gsContractMoneyMonth3All.add(contractMonth3All);
+			gsContractMoneyMonth4All=gsContractMoneyMonth4All.add(contractMonth4All);
+			gsContractMoneyMonth5All=gsContractMoneyMonth5All.add(contractMonth5All);
+			gsContractMoneyMonth6All=gsContractMoneyMonth6All.add(contractMonth6All);
+			gsContractMoneyMonth7All=gsContractMoneyMonth7All.add(contractMonth7All);
+			gsContractMoneyMonth8All=gsContractMoneyMonth8All.add(contractMonth8All);
+			gsContractMoneyMonth9All=gsContractMoneyMonth9All.add(contractMonth9All);
+			gsContractMoneyMonth10All=gsContractMoneyMonth10All.add(contractMonth10All);
+			gsContractMoneyMonth11All=gsContractMoneyMonth11All.add(contractMonth11All);
+			gsContractMoneyMonth12All=gsContractMoneyMonth12All.add(contractMonth12All);
 			
-			gsIncomeMonth1All=gsIncomeMonth1All+inComeMonth1All;
-			gsIncomeMonth2All=gsIncomeMonth2All+inComeMonth2All;
-			gsIncomeMonth3All=gsIncomeMonth3All+inComeMonth3All;
-			gsIncomeMonth4All=gsIncomeMonth4All+inComeMonth4All;
-			gsIncomeMonth5All=gsIncomeMonth5All+inComeMonth5All;
-			gsIncomeMonth6All=gsIncomeMonth6All+inComeMonth6All;
-			gsIncomeMonth7All=gsIncomeMonth7All+inComeMonth7All;
-			gsIncomeMonth8All=gsIncomeMonth8All+inComeMonth8All;
-			gsIncomeMonth9All=gsIncomeMonth9All+inComeMonth9All;
-			gsIncomeMonth10All=gsIncomeMonth10All+inComeMonth10All;
-			gsIncomeMonth11All=gsIncomeMonth11All+inComeMonth11All;
-			gsIncomeMonth12All=gsIncomeMonth12All+inComeMonth12All;
+			gsIncomeMonth1All=gsIncomeMonth1All.add(inComeMonth1All);
+			gsIncomeMonth2All=gsIncomeMonth2All.add(inComeMonth2All);
+			gsIncomeMonth3All=gsIncomeMonth3All.add(inComeMonth3All);
+			gsIncomeMonth4All=gsIncomeMonth4All.add(inComeMonth4All);
+			gsIncomeMonth5All=gsIncomeMonth5All.add(inComeMonth5All);
+			gsIncomeMonth6All=gsIncomeMonth6All.add(inComeMonth6All);
+			gsIncomeMonth7All=gsIncomeMonth7All.add(inComeMonth7All);
+			gsIncomeMonth8All=gsIncomeMonth8All.add(inComeMonth8All);
+			gsIncomeMonth9All=gsIncomeMonth9All.add(inComeMonth9All);
+			gsIncomeMonth10All=gsIncomeMonth10All.add(inComeMonth10All);
+			gsIncomeMonth11All=gsIncomeMonth11All.add(inComeMonth11All);
+			gsIncomeMonth12All=gsIncomeMonth12All.add(inComeMonth12All);
 			
-			gsReceiptMonth1All=gsReceiptMonth1All+receiptMonth1All;
-			gsReceiptMonth2All=gsReceiptMonth2All+receiptMonth2All;
-			gsReceiptMonth3All=gsReceiptMonth3All+receiptMonth3All;
-			gsReceiptMonth4All=gsReceiptMonth4All+receiptMonth4All;
-			gsReceiptMonth5All=gsReceiptMonth5All+receiptMonth5All;
-			gsReceiptMonth6All=gsReceiptMonth6All+receiptMonth6All;
-			gsReceiptMonth7All=gsReceiptMonth7All+receiptMonth7All;
-			gsReceiptMonth8All=gsReceiptMonth8All+receiptMonth8All;
-			gsReceiptMonth9All=gsReceiptMonth9All+receiptMonth9All;
-			gsReceiptMonth10All=gsReceiptMonth10All+receiptMonth10All;
-			gsReceiptMonth11All=gsReceiptMonth11All+receiptMonth11All;
-			gsReceiptMonth12All=gsReceiptMonth12All+receiptMonth12All;
-			
+			gsReceiptMonth1All=gsReceiptMonth1All.add(receiptMonth1All);
+			gsReceiptMonth2All=gsReceiptMonth2All.add(receiptMonth2All);
+			gsReceiptMonth3All=gsReceiptMonth3All.add(receiptMonth3All);
+			gsReceiptMonth4All=gsReceiptMonth4All.add(receiptMonth4All);
+			gsReceiptMonth5All=gsReceiptMonth5All.add(receiptMonth5All);
+			gsReceiptMonth6All=gsReceiptMonth6All.add(receiptMonth6All);
+			gsReceiptMonth7All=gsReceiptMonth7All.add(receiptMonth7All);
+			gsReceiptMonth8All=gsReceiptMonth8All.add(receiptMonth8All);
+			gsReceiptMonth9All=gsReceiptMonth9All.add(receiptMonth9All);
+			gsReceiptMonth10All=gsReceiptMonth10All.add(receiptMonth10All);
+			gsReceiptMonth11All=gsReceiptMonth11All.add(receiptMonth11All);
+			gsReceiptMonth12All=gsReceiptMonth12All.add(receiptMonth12All);
 			
 		}
 		gsContractMoney.add(gsContractMoneyMonth1All);
@@ -603,9 +603,9 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> seachTab3(String prjType){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Double>> resultContract=new ArrayList<>();//实际年部门新签合同额按项目类型
-		List<List<Double>> resultIncome=new ArrayList<>();//实际年部门累计收入按项目类型
-		List<List<Double>> resultReceipt=new ArrayList<>();//实际年部门累计收款按项目类型
+		List<List<BigDecimal>> resultContract=new ArrayList<>();//实际年部门新签合同额按项目类型
+		List<List<BigDecimal>> resultIncome=new ArrayList<>();//实际年部门累计收入按项目类型
+		List<List<BigDecimal>> resultReceipt=new ArrayList<>();//实际年部门累计收款按项目类型
 		List<String> omList=new ArrayList<>();
 		List<String> yearList=new ArrayList<>();
 		omList.add("公司");
@@ -619,89 +619,89 @@ public class StatisticsController {
 		year="%"+year+"%";
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
 		//公司月份部门累加
-		List<Double> gsContractMoney=new ArrayList<>();
-		Double gsContractYear1All=(double) 0;
-		Double gsContractYear2All=(double) 0;
-		Double gsContractYear3All=(double) 0;
+		List<BigDecimal> gsContractMoney=new ArrayList<>();
+		BigDecimal gsContractYear1All=new BigDecimal(0);
+		BigDecimal gsContractYear2All=new BigDecimal(0);
+		BigDecimal gsContractYear3All=new BigDecimal(0);
 		
-		List<Double> gsIncome=new ArrayList<>();
-		Double gsIncomeYear1All=(double) 0;
-		Double gsIncomeYear2All=(double) 0;
-		Double gsIncomeYear3All=(double) 0;
+		List<BigDecimal> gsIncome=new ArrayList<>();
+		BigDecimal gsIncomeYear1All=new BigDecimal(0);
+		BigDecimal gsIncomeYear2All=new BigDecimal(0);
+		BigDecimal gsIncomeYear3All=new BigDecimal(0);
 		
-		List<Double> gsReceipt=new ArrayList<>();
-		Double gsReceiptYear1All=(double) 0;
-		Double gsReceiptYear2All=(double) 0;
-		Double gsReceiptYear3All=(double) 0;
+		List<BigDecimal> gsReceipt=new ArrayList<>();
+		BigDecimal gsReceiptYear1All=new BigDecimal(0);
+		BigDecimal gsReceiptYear2All=new BigDecimal(0);
+		BigDecimal gsReceiptYear3All=new BigDecimal(0);
 		for(int o=0;o<om.size();o++){
 			String omId=om.get(o).getOmId();
 			String omName=om.get(o).getOmName();
 			omList.add(omName);
 			
 			//部门新签合同额按项目类型
-			List<Double> contractMoneyList=new ArrayList<>();
-			Double contractYear1All=(double) 0;
-			Double contractYear2All=(double) 0;
-			Double contractYear3All=(double) 0;
+			List<BigDecimal> contractMoneyList=new ArrayList<>();
+			BigDecimal contractYear1All=new BigDecimal(0);
+			BigDecimal contractYear2All=new BigDecimal(0);
+			BigDecimal contractYear3All=new BigDecimal(0);
 			//部门累计收入按项目类型
-			List<Double> inComeMoneyList=new ArrayList<>();
-			Double inComeYear1All=(double) 0;
-			Double inComeYear2All=(double) 0;
-			Double inComeYear3All=(double) 0;
+			List<BigDecimal> inComeMoneyList=new ArrayList<>();
+			BigDecimal inComeYear1All=new BigDecimal(0);
+			BigDecimal inComeYear2All=new BigDecimal(0);
+			BigDecimal inComeYear3All=new BigDecimal(0);
 			//部门累计收款按项目类型
-			List<Double> receiptMoneyList=new ArrayList<>();
-			Double receiptYear1All=(double) 0;
-			Double receiptYear2All=(double) 0;
-			Double receiptYear3All=(double) 0;
+			List<BigDecimal> receiptMoneyList=new ArrayList<>();
+			BigDecimal receiptYear1All=new BigDecimal(0);
+			BigDecimal receiptYear2All=new BigDecimal(0);
+			BigDecimal receiptYear3All=new BigDecimal(0);
 			for(int i=0;i<prjType.split(",").length;i++){
 				String type=prjType.split(",")[i];
 				//部门新签合同额按项目类型
 				ContractUpdate cu=cuService.selectDeptContractMoneyByTimeAndType(year3, omId, type);
-				Double contractMonth1=cu.getMoney();
-				contractYear1All=contractYear1All+contractMonth1;
+				BigDecimal contractMonth1=cu.getMoney();
+				contractYear1All=contractYear1All.add(contractMonth1);
 				ContractUpdate cu2=cuService.selectDeptContractMoneyByTimeAndType(year2, omId, type);
-				Double contractMonth2=cu2.getMoney();
-				contractYear2All=contractYear2All+contractMonth2;
+				BigDecimal contractMonth2=cu2.getMoney();
+				contractYear2All=contractYear2All.add(contractMonth2);
 				ContractUpdate cu3=cuService.selectDeptContractMoneyByTimeAndType(year, omId, type);
-				Double contractMonth3=cu3.getMoney();
-				contractYear3All=contractYear3All+contractMonth3;
+				BigDecimal contractMonth3=cu3.getMoney();
+				contractYear3All=contractYear3All.add(contractMonth3);
 				
 				
 				//部门累计收入按项目类型
 				PrjProgressFill ppf=pService.selectDeptIncomeByTimeAndType(year3, omName, type);
-				double inComeMonth1=ppf.getAllMoneyYuan();
-				inComeYear1All=inComeYear1All+inComeMonth1;
+				BigDecimal inComeMonth1=ppf.getAllMoneyYuan();
+				inComeYear1All=inComeYear1All.add(inComeMonth1);
 				PrjProgressFill ppf2=pService.selectDeptIncomeByTimeAndType(year2, omName, type);
-				double inComeMonth2=ppf2.getAllMoneyYuan();
-				inComeYear2All=inComeYear2All+inComeMonth2;
+				BigDecimal inComeMonth2=ppf2.getAllMoneyYuan();
+				inComeYear2All=inComeYear2All.add(inComeMonth2);
 				PrjProgressFill ppf3=pService.selectDeptIncomeByTimeAndType(year, omName, type);
-				double inComeMonth3=ppf3.getAllMoneyYuan();
-				inComeYear3All=inComeYear3All+inComeMonth3;
+				BigDecimal inComeMonth3=ppf3.getAllMoneyYuan();
+				inComeYear3All=inComeYear3All.add(inComeMonth3);
 				
 				//部门累计收款按项目类型
 				AlreadyRenling ar=aService.selectDeptRenlingByTimeAndType(year3, omName, type);
-				double receiptMonth1=ar.getSkQuerenMoney();
-				receiptYear1All=receiptYear1All+receiptMonth1;
+				BigDecimal receiptMonth1=ar.getSkQuerenMoney();
+				receiptYear1All=receiptYear1All.add(receiptMonth1);
 				AlreadyRenling ar2=aService.selectDeptRenlingByTimeAndType(year2, omName, type);
-				double receiptMonth2=ar2.getSkQuerenMoney();
-				receiptYear2All=receiptYear2All+receiptMonth2;
+				BigDecimal receiptMonth2=ar2.getSkQuerenMoney();
+				receiptYear2All=receiptYear2All.add(receiptMonth2);
 				AlreadyRenling ar3=aService.selectDeptRenlingByTimeAndType(year, omName, type);
-				double receiptMonth3=ar3.getSkQuerenMoney();
-				receiptYear3All=receiptYear3All+receiptMonth3;
+				BigDecimal receiptMonth3=ar3.getSkQuerenMoney();
+				receiptYear3All=receiptYear3All.add(receiptMonth3);
 				
 			}
 			//公司所有累加
-			gsContractYear1All=gsContractYear1All+contractYear1All;
-			gsContractYear2All=gsContractYear2All+contractYear2All;
-			gsContractYear3All=gsContractYear3All+contractYear3All;
+			gsContractYear1All=gsContractYear1All.add(contractYear1All);
+			gsContractYear2All=gsContractYear2All.add(contractYear2All);
+			gsContractYear3All=gsContractYear3All.add(contractYear3All);
 			
-			gsIncomeYear1All=gsIncomeYear1All+inComeYear1All;
-			gsIncomeYear2All=gsIncomeYear2All+inComeYear2All;
-			gsIncomeYear3All=gsIncomeYear3All+inComeYear3All;
+			gsIncomeYear1All=gsIncomeYear1All.add(inComeYear1All);
+			gsIncomeYear2All=gsIncomeYear2All.add(inComeYear2All);
+			gsIncomeYear3All=gsIncomeYear3All.add(inComeYear3All);
 			
-			gsReceiptYear1All=gsReceiptYear1All+receiptYear1All;
-			gsReceiptYear2All=gsReceiptYear2All+receiptYear2All;
-			gsReceiptYear3All=gsReceiptYear3All+receiptYear3All;
+			gsReceiptYear1All=gsReceiptYear1All.add(receiptYear1All);
+			gsReceiptYear2All=gsReceiptYear2All.add(receiptYear2All);
+			gsReceiptYear3All=gsReceiptYear3All.add(receiptYear3All);
 			
 			contractMoneyList.add(contractYear1All);
 			contractMoneyList.add(contractYear2All);
@@ -745,8 +745,8 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab2ContractMoney(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Double>> resultList=new ArrayList<>();
-		List<List<Double>> mbList=new ArrayList<>();
+		List<List<BigDecimal>> resultList=new ArrayList<>();
+		List<List<BigDecimal>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		//获取月份
 		Calendar cal = Calendar.getInstance();
@@ -756,75 +756,75 @@ public class StatisticsController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<Double> resultAll=new ArrayList<>();
-		List<Double> mbAll=new ArrayList<>();
-		double month1All=0;
-		double month2All=0;
-		double month3All=0;
-		double month4All=0;
-		double month5All=0;
-		double month6All=0;
-		double month7All=0;
-		double month8All=0;
-		double month9All=0;
-		double month10All=0;
-		double month11All=0;
-		double month12All=0;
+		List<BigDecimal> resultAll=new ArrayList<>();
+		List<BigDecimal> mbAll=new ArrayList<>();
+		BigDecimal month1All=new BigDecimal(0);
+		BigDecimal month2All=new BigDecimal(0);
+		BigDecimal month3All=new BigDecimal(0);
+		BigDecimal month4All=new BigDecimal(0);
+		BigDecimal month5All=new BigDecimal(0);
+		BigDecimal month6All=new BigDecimal(0);
+		BigDecimal month7All=new BigDecimal(0);
+		BigDecimal month8All=new BigDecimal(0);
+		BigDecimal month9All=new BigDecimal(0);
+		BigDecimal month10All=new BigDecimal(0);
+		BigDecimal month11All=new BigDecimal(0);
+		BigDecimal month12All=new BigDecimal(0);
 
 		for(int i=0;i<om.size();i++){
-			List<Double> result=new ArrayList<>();
-			List<Double> mb=new ArrayList<>();
+			List<BigDecimal> result=new ArrayList<>();
+			List<BigDecimal> mb=new ArrayList<>();
 			String omId=om.get(i).getOmId();//部门编号
 			String omName=om.get(i).getOmName();//部门名称
 			omList.add(omName);
 			
 			ContractUpdate cu=cuService.selectDeptContractMoneyByTime(year+"-01", omId);
-			double month1=cu.getMoney();//部门1份月合同额
-			month1All=month1All+month1;
+			BigDecimal month1=cu.getMoney();//部门1份月合同额
+			month1All=month1All.add(month1);
 			
 			ContractUpdate cu2=cuService.selectDeptContractMoneyByTime(year+"-02", omId);
-			double month2=cu2.getMoney()+month1;//部门2份月合同额
-			month2All=month2All+cu2.getMoney();
+			BigDecimal month2=cu2.getMoney().add(month1);//部门2份月合同额
+			month2All=month2All.add(cu2.getMoney());
 
 			ContractUpdate cu3=cuService.selectDeptContractMoneyByTime(year+"-03", omId);
-			double month3=cu3.getMoney()+month2;//部门3份月合同额
-			month3All=month3All+cu3.getMoney();
+			BigDecimal month3=cu3.getMoney().add(month2);//部门3份月合同额
+			month3All=month3All.add(cu3.getMoney());
 			
 			ContractUpdate cu4=cuService.selectDeptContractMoneyByTime(year+"-04", omId);
-			double month4=cu4.getMoney()+month3;//部门4份月合同额
-			month4All=month4All+cu4.getMoney();
+			BigDecimal month4=cu4.getMoney().add(month3);//部门4份月合同额
+			month4All=month4All.add(cu4.getMoney());
 			
 			ContractUpdate cu5=cuService.selectDeptContractMoneyByTime(year+"-05", omId);
-			double month5=cu5.getMoney()+month4;//部门5份月合同额
-			month5All=month5All+cu5.getMoney();
+			BigDecimal month5=cu5.getMoney().add(month4);//部门5份月合同额
+			month5All=month5All.add(cu5.getMoney());
 			
 			ContractUpdate cu6=cuService.selectDeptContractMoneyByTime(year+"-06", omId);
-			double month6=cu6.getMoney()+month5;//部门6份月合同额
-			month6All=month6All+cu6.getMoney();
+			BigDecimal month6=cu6.getMoney().add(month5);//部门6份月合同额
+			month6All=month6All.add(cu6.getMoney());
 			
 			ContractUpdate cu7=cuService.selectDeptContractMoneyByTime(year+"-07", omId);
-			double month7=cu7.getMoney()+month6;//部门7份月合同额
-			month7All=month7All+cu7.getMoney();
+			BigDecimal month7=cu7.getMoney().add(month6);//部门7份月合同额
+			month7All=month7All.add(cu7.getMoney());
 			
 			ContractUpdate cu8=cuService.selectDeptContractMoneyByTime(year+"-08", omId);
-			double month8=cu8.getMoney()+month7;//部门8份月合同额
-			month8All=month8All+cu8.getMoney();
+			BigDecimal month8=cu8.getMoney().add(month7);//部门8份月合同额
+			month8All=month8All.add(cu8.getMoney());
 			
 			ContractUpdate cu9=cuService.selectDeptContractMoneyByTime(year+"-09", omId);
-			double month9=cu9.getMoney()+month8;//部门9份月合同额
-			month9All=month9All+cu9.getMoney();
+			BigDecimal month9=cu9.getMoney().add(month8);//部门9份月合同额
+			month9All=month9All.add(cu9.getMoney());
 			
 			ContractUpdate cu10=cuService.selectDeptContractMoneyByTime(year+"-10", omId);
-			double month10=cu10.getMoney()+month9;//部门10份月合同额
-			month10All=month10All+cu10.getMoney();
+			BigDecimal month10=cu10.getMoney().add(month9);//部门10份月合同额
+			month10All=month10All.add(cu10.getMoney());
 			
 			ContractUpdate cu11=cuService.selectDeptContractMoneyByTime(year+"-11", omId);
-			double month11=cu11.getMoney()+month10;//部门11份月合同额
-			month11All=month11All+cu11.getMoney();
+			BigDecimal month11=cu11.getMoney().add(month10);//部门11份月合同额
+			month11All=month11All.add(cu11.getMoney());
 	
 			ContractUpdate cu12=cuService.selectDeptContractMoneyByTime(year+"-12", omId);
-			double month12=cu12.getMoney()+month11;//部门12份月合同额
-			month12All=month12All+cu12.getMoney();
+			BigDecimal month12=cu12.getMoney().add(month11);//部门12份月合同额
+			month12All=month12All.add(cu12.getMoney());
 			
 			result.add(month1);
 			result.add(month2);
@@ -845,56 +845,56 @@ public class StatisticsController {
 			resultList.add(result);
 			
 //			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
-//			double mbMonth1=getMbContractMoney(mt);
+//			BigDecimal mbMonth1=getMbContractMoney(mt);
 //			mbMonth1All=mbMonth1All+mbMonth1;
 //			
 //			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
-//			double mbMonth2=getMbContractMoney(mt2);
+//			BigDecimal mbMonth2=getMbContractMoney(mt2);
 //			mbMonth2All=mbMonth1All+mbMonth2;
 //			
 //			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
-//			double mbMonth3=getMbContractMoney(mt3);
+//			BigDecimal mbMonth3=getMbContractMoney(mt3);
 //			mbMonth3All=mbMonth2All+mbMonth3;
 //			
 //			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
-//			double mbMonth4=getMbContractMoney(mt4);
+//			BigDecimal mbMonth4=getMbContractMoney(mt4);
 //			mbMonth4All=mbMonth3All+mbMonth4;
 //			
 //			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
-//			double mbMonth5=getMbContractMoney(mt5);
+//			BigDecimal mbMonth5=getMbContractMoney(mt5);
 //			mbMonth5All=mbMonth4All+mbMonth5;
 //			
 //			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
-//			double mbMonth6=getMbContractMoney(mt6);
+//			BigDecimal mbMonth6=getMbContractMoney(mt6);
 //			mbMonth6All=mbMonth5All+mbMonth6;
 //			
 //			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
-//			double mbMonth7=getMbContractMoney(mt7);
+//			BigDecimal mbMonth7=getMbContractMoney(mt7);
 //			mbMonth7All=mbMonth6All+mbMonth7;
 //			
 //			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
-//			double mbMonth8=getMbContractMoney(mt8);
+//			BigDecimal mbMonth8=getMbContractMoney(mt8);
 //			mbMonth8All=mbMonth7All+mbMonth8;
 //			
 //			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
-//			double mbMonth9=getMbContractMoney(mt9);
+//			BigDecimal mbMonth9=getMbContractMoney(mt9);
 //			mbMonth9All=mbMonth8All+mbMonth9;
 //			
 //			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
-//			double mbMonth10=getMbContractMoney(mt10);
+//			BigDecimal mbMonth10=getMbContractMoney(mt10);
 //			mbMonth10All=mbMonth9All+mbMonth10;
 //			
 //			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
-//			double mbMonth11=getMbContractMoney(mt11);
+//			BigDecimal mbMonth11=getMbContractMoney(mt11);
 //			mbMonth11All=mbMonth10All+mbMonth11;
 //			
 //			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
-//			double mbMonth12=getMbContractMoney(mt12);
+//			BigDecimal mbMonth12=getMbContractMoney(mt12);
 //			mbMonth12All=mbMonth11All+mbMonth12;
 			
 			DepartmentTarget dt =  dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
 			//部门新签合同额当年目标
-			double mbdouble =0.00;
+			BigDecimal mbdouble =new BigDecimal(0.00);
 			if(dt!=null){
 				mbdouble=dt.getContractAmount();
 			}
@@ -904,17 +904,17 @@ public class StatisticsController {
 			}
 			mbList.add(mb);
 		}
-		month2All+=month1All;
-		month3All+=month2All;
-		month4All+=month3All;
-		month5All+=month4All;
-		month6All+=month5All;
-		month7All+=month6All;
-		month8All+=month7All;
-		month9All+=month8All;
-		month10All+=month9All;
-		month11All+=month10All;
-		month12All+=month11All;
+		month2All=month2All.add(month1All);
+		month3All=month3All.add(month2All);
+		month4All=month4All.add(month3All);
+		month5All=month5All.add(month4All);
+		month6All=month6All.add(month5All);
+		month7All=month7All.add(month6All);
+		month8All=month8All.add(month7All);
+		month9All=month9All.add(month8All);
+		month10All=month10All.add(month9All);
+		month11All=month11All.add(month10All);
+		month12All=month12All.add(month11All);
 		
 		resultAll.add(month1All);
 		resultAll.add(month2All);
@@ -934,8 +934,10 @@ public class StatisticsController {
 		}
 		
 		OperationTarget ot=oservice.selectOperationTargetByYear(year);
-		double mbdouble = 0.00;
+		BigDecimal mbdouble = new BigDecimal(0.00);
+		//BigDecimal mbdouble = 0.00;
 		if(ot!=null){
+			
 			mbdouble=ot.getContractAmount();
 		}
 		for(int k=0;k<12;k++)
@@ -956,8 +958,8 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab2Income(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Double>> resultList=new ArrayList<>();
-		List<List<Double>> mbList=new ArrayList<>();
+		List<List<BigDecimal>> resultList=new ArrayList<>();
+		List<List<BigDecimal>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		//获取月份
 		Calendar cal = Calendar.getInstance();
@@ -966,74 +968,74 @@ public class StatisticsController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<Double> resultAll=new ArrayList<>();
-		List<Double> mbAll=new ArrayList<>();
-		double month1All=0;
-		double month2All=0;
-		double month3All=0;
-		double month4All=0;
-		double month5All=0;
-		double month6All=0;
-		double month7All=0;
-		double month8All=0;
-		double month9All=0;
-		double month10All=0;
-		double month11All=0;
-		double month12All=0;
+		List<BigDecimal> resultAll=new ArrayList<>();
+		List<BigDecimal> mbAll=new ArrayList<>();
+		BigDecimal month1All=new BigDecimal(0);
+		BigDecimal month2All=new BigDecimal(0);
+		BigDecimal month3All=new BigDecimal(0);
+		BigDecimal month4All=new BigDecimal(0);
+		BigDecimal month5All=new BigDecimal(0);
+		BigDecimal month6All=new BigDecimal(0);
+		BigDecimal month7All=new BigDecimal(0);
+		BigDecimal month8All=new BigDecimal(0);
+		BigDecimal month9All=new BigDecimal(0);
+		BigDecimal month10All=new BigDecimal(0);
+		BigDecimal month11All=new BigDecimal(0);
+		BigDecimal month12All=new BigDecimal(0);
 
 		for(int i=0;i<om.size();i++){
-			List<Double> result=new ArrayList<>();
-			List<Double> mb=new ArrayList<>();
+			List<BigDecimal> result=new ArrayList<>();
+			List<BigDecimal> mb=new ArrayList<>();
 			String omName=om.get(i).getOmName();
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
 			PrjProgressFill ppf=pService.selectGsIncomeByTimeAndDept(year+"-01", omName);
-			month1All=month1All+ppf.getAllMoneyYuan();
-			double ppfmonth1=ppf.getAllMoneyYuan();
+			month1All=month1All.add(ppf.getAllMoneyYuan());
+			BigDecimal ppfmonth1=ppf.getAllMoneyYuan();
 			
 			PrjProgressFill ppf2=pService.selectGsIncomeByTimeAndDept(year+"-02", omName);
-			month2All=month2All+ppf2.getAllMoneyYuan();
-			double ppfmonth2=ppf2.getAllMoneyYuan()+ppfmonth1;
+			month2All=month2All.add(ppf2.getAllMoneyYuan());
+			BigDecimal ppfmonth2=ppf2.getAllMoneyYuan().add(ppfmonth1);
 			
 			PrjProgressFill ppf3=pService.selectGsIncomeByTimeAndDept(year+"-03", omName);
-			month3All=month3All+ppf3.getAllMoneyYuan();
-			double ppfmonth3=ppf3.getAllMoneyYuan()+ppfmonth2;
+			month3All=month3All.add(ppf3.getAllMoneyYuan());
+			BigDecimal ppfmonth3=ppf3.getAllMoneyYuan().add(ppfmonth2);
 			
 			PrjProgressFill ppf4=pService.selectGsIncomeByTimeAndDept(year+"-04", omName);
-			month4All=month4All+ppf4.getAllMoneyYuan();
-			double ppfmonth4=ppf4.getAllMoneyYuan()+ppfmonth3;
+			month4All=month4All.add(ppf4.getAllMoneyYuan());
+			BigDecimal ppfmonth4=ppf4.getAllMoneyYuan().add(ppfmonth3);
 			
 			PrjProgressFill ppf5=pService.selectGsIncomeByTimeAndDept(year+"-05", omName);
-			month5All=month5All+ppf5.getAllMoneyYuan();
-			double ppfmonth5=ppf5.getAllMoneyYuan()+ppfmonth4;
+			month5All=month5All.add(ppf5.getAllMoneyYuan());
+			BigDecimal ppfmonth5=ppf5.getAllMoneyYuan().add(ppfmonth4);
 			
 			PrjProgressFill ppf6=pService.selectGsIncomeByTimeAndDept(year+"-06", omName);
-			month6All=month6All+ppf6.getAllMoneyYuan();
-			double ppfmonth6=ppf6.getAllMoneyYuan()+ppfmonth5;
+			month6All=month6All.add(ppf6.getAllMoneyYuan());
+			BigDecimal ppfmonth6=ppf6.getAllMoneyYuan().add(ppfmonth5);
 			
 			PrjProgressFill ppf7=pService.selectGsIncomeByTimeAndDept(year+"-07", omName);
-			month7All=month7All+ppf7.getAllMoneyYuan();
-			double ppfmonth7=ppf7.getAllMoneyYuan()+ppfmonth6;
+			month7All=month7All.add(ppf7.getAllMoneyYuan());
+			BigDecimal ppfmonth7=ppf7.getAllMoneyYuan().add(ppfmonth6);
 			
 			PrjProgressFill ppf8=pService.selectGsIncomeByTimeAndDept(year+"-08", omName);
-			month8All=month8All+ppf8.getAllMoneyYuan();
-			double ppfmonth8=ppf8.getAllMoneyYuan()+ppfmonth7;
+			month8All=month8All.add(ppf8.getAllMoneyYuan());
+			BigDecimal ppfmonth8=ppf8.getAllMoneyYuan().add(ppfmonth7);
 			
 			PrjProgressFill ppf9=pService.selectGsIncomeByTimeAndDept(year+"-09", omName);
-			month9All=month9All+ppf9.getAllMoneyYuan();
-			double ppfmonth9=ppf9.getAllMoneyYuan()+ppfmonth8;
+			month9All=month9All.add(ppf9.getAllMoneyYuan());
+			BigDecimal ppfmonth9=ppf9.getAllMoneyYuan().add(ppfmonth8);
 			
 			PrjProgressFill ppf10=pService.selectGsIncomeByTimeAndDept(year+"-10", omName);
-			month10All=month10All+ppf10.getAllMoneyYuan();
-			double ppfmonth10=ppf10.getAllMoneyYuan()+ppfmonth9;
+			month10All=month10All.add(ppf10.getAllMoneyYuan());
+			BigDecimal ppfmonth10=ppf10.getAllMoneyYuan().add(ppfmonth9);
 			
 			PrjProgressFill ppf11=pService.selectGsIncomeByTimeAndDept(year+"-11", omName);
-			month11All=month11All+ppf11.getAllMoneyYuan();
-			double ppfmonth11=ppf11.getAllMoneyYuan()+ppfmonth10;
+			month11All=month11All.add(ppf11.getAllMoneyYuan());
+			BigDecimal ppfmonth11=ppf11.getAllMoneyYuan().add(ppfmonth10);
 			
 			PrjProgressFill ppf12=pService.selectGsIncomeByTimeAndDept(year+"-12", omName);
-			month12All=month12All+ppf12.getAllMoneyYuan();
-			double ppfmonth12=ppf12.getAllMoneyYuan()+ppfmonth11;
+			month12All=month12All.add(ppf12.getAllMoneyYuan());
+			BigDecimal ppfmonth12=ppf12.getAllMoneyYuan().add(ppfmonth11);
 			
 			result.add(ppfmonth1);
 			result.add(ppfmonth2);
@@ -1054,56 +1056,56 @@ public class StatisticsController {
 			resultList.add(result);
 			
 //			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
-//			double mbMonth1=getMbIncome(mt);
+//			BigDecimal mbMonth1=getMbIncome(mt);
 //			mbMonth1All=mbMonth1All+mbMonth1;
 //			
 //			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
-//			double mbMonth2=getMbIncome(mt2);
+//			BigDecimal mbMonth2=getMbIncome(mt2);
 //			mbMonth2All=mbMonth2All+mbMonth2;
 //			
 //			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
-//			double mbMonth3=getMbIncome(mt3);
+//			BigDecimal mbMonth3=getMbIncome(mt3);
 //			mbMonth3All=mbMonth3All+mbMonth3;
 //			
 //			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
-//			double mbMonth4=getMbIncome(mt4);
+//			BigDecimal mbMonth4=getMbIncome(mt4);
 //			mbMonth4All=mbMonth4All+mbMonth4;
 //			
 //			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
-//			double mbMonth5=getMbIncome(mt5);
+//			BigDecimal mbMonth5=getMbIncome(mt5);
 //			mbMonth5All=mbMonth5All+mbMonth5;
 //			
 //			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
-//			double mbMonth6=getMbIncome(mt6);
+//			BigDecimal mbMonth6=getMbIncome(mt6);
 //			mbMonth6All=mbMonth6All+mbMonth6;
 //			
 //			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
-//			double mbMonth7=getMbIncome(mt7);
+//			BigDecimal mbMonth7=getMbIncome(mt7);
 //			mbMonth7All=mbMonth7All+mbMonth7;
 //			
 //			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
-//			double mbMonth8=getMbIncome(mt8);
+//			BigDecimal mbMonth8=getMbIncome(mt8);
 //			mbMonth8All=mbMonth8All+mbMonth8;
 //			
 //			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
-//			double mbMonth9=getMbIncome(mt9);
+//			BigDecimal mbMonth9=getMbIncome(mt9);
 //			mbMonth9All=mbMonth9All+mbMonth9;
 //			
 //			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
-//			double mbMonth10=getMbIncome(mt10);
+//			BigDecimal mbMonth10=getMbIncome(mt10);
 //			mbMonth10All=mbMonth10All+mbMonth10;
 //			
 //			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
-//			double mbMonth11=getMbIncome(mt11);
+//			BigDecimal mbMonth11=getMbIncome(mt11);
 //			mbMonth11All=mbMonth11All+mbMonth11;
 //			
 //			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
-//			double mbMonth12=getMbIncome(mt12);
+//			BigDecimal mbMonth12=getMbIncome(mt12);
 //			mbMonth12All=mbMonth12All+mbMonth12;
 			
 			DepartmentTarget dt =  dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
 			//部门新签合同额当年目标
-			double mbdouble =0.00;
+			BigDecimal mbdouble =new BigDecimal(0.00);
 			if(dt!=null){
 				mbdouble=dt.getRevenueTarget();
 			}
@@ -1113,17 +1115,17 @@ public class StatisticsController {
 			}
 			mbList.add(mb);
 		}
-		month2All+=month1All;
-		month3All+=month2All;
-		month4All+=month3All;
-		month5All+=month4All;
-		month6All+=month5All;
-		month7All+=month6All;
-		month8All+=month7All;
-		month9All+=month8All;
-		month10All+=month9All;
-		month11All+=month10All;
-		month12All+=month11All;
+		month2All=month2All.add(month1All);
+		month3All=month3All.add(month2All);
+		month4All=month4All.add(month3All);
+		month5All=month5All.add(month4All);
+		month6All=month6All.add(month5All);
+		month7All=month7All.add(month6All);
+		month8All=month8All.add(month7All);
+		month9All=month9All.add(month8All);
+		month10All=month10All.add(month9All);
+		month11All=month11All.add(month10All);
+		month12All=month12All.add(month11All);
 		
 		resultAll.add(month1All);
 		resultAll.add(month2All);
@@ -1144,7 +1146,7 @@ public class StatisticsController {
 		
 		
 		OperationTarget ot=oservice.selectOperationTargetByYear(year);
-		double mbdouble =0.00;
+		BigDecimal mbdouble =new BigDecimal(0.00);
 		if(ot!=null){
 			mbdouble=ot.getRevenueTarget();
 		}
@@ -1165,8 +1167,8 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab2Receipt(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Double>> resultList=new ArrayList<>();
-		List<List<Double>> mbList=new ArrayList<>();
+		List<List<BigDecimal>> resultList=new ArrayList<>();
+		List<List<BigDecimal>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		//获取月份
 		Calendar cal = Calendar.getInstance();
@@ -1175,76 +1177,76 @@ public class StatisticsController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
 		String year=sdf.format(new Date());
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<Double> resultAll=new ArrayList<>();
-		List<Double> mbAll=new ArrayList<>();
-		double month1All=0;
-		double month2All=0;
-		double month3All=0;
-		double month4All=0;
-		double month5All=0;
-		double month6All=0;
-		double month7All=0;
-		double month8All=0;
-		double month9All=0;
-		double month10All=0;
-		double month11All=0;
-		double month12All=0;
+		List<BigDecimal> resultAll=new ArrayList<>();
+		List<BigDecimal> mbAll=new ArrayList<>();
+		BigDecimal month1All=new BigDecimal(0);
+		BigDecimal month2All=new BigDecimal(0);
+		BigDecimal month3All=new BigDecimal(0);
+		BigDecimal month4All=new BigDecimal(0);
+		BigDecimal month5All=new BigDecimal(0);
+		BigDecimal month6All=new BigDecimal(0);
+		BigDecimal month7All=new BigDecimal(0);
+		BigDecimal month8All=new BigDecimal(0);
+		BigDecimal month9All=new BigDecimal(0);
+		BigDecimal month10All=new BigDecimal(0);
+		BigDecimal month11All=new BigDecimal(0);
+		BigDecimal month12All=new BigDecimal(0);
 
 		
 		for(int i=0;i<om.size();i++){
-			List<Double> result=new ArrayList<>();
-			List<Double> mb=new ArrayList<>();
+			List<BigDecimal> result=new ArrayList<>();
+			List<BigDecimal> mb=new ArrayList<>();
 			String omName=om.get(i).getOmName();
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
 			
 			AlreadyRenling ar=aService.selectDeptRenlingByTime(year+"-01", omName);
-			month1All=month1All+ar.getSkQuerenMoney();
-			double Month1=ar.getSkQuerenMoney();
+			month1All=month1All.add(ar.getSkQuerenMoney());
+			BigDecimal Month1=ar.getSkQuerenMoney();
 			
 			AlreadyRenling ar2=aService.selectDeptRenlingByTime(year+"-02", omName);
-			month2All=month2All+ar2.getSkQuerenMoney();
-			double Month2=ar2.getSkQuerenMoney()+Month1;
+			month2All=month2All.add(ar2.getSkQuerenMoney());
+			BigDecimal Month2=ar2.getSkQuerenMoney().add(Month1);
 			
 			AlreadyRenling ar3=aService.selectDeptRenlingByTime(year+"-03", omName);
-			month3All=month3All+ar3.getSkQuerenMoney();
-			double Month3=ar3.getSkQuerenMoney()+Month2;
+			month3All=month3All.add(ar3.getSkQuerenMoney());
+			BigDecimal Month3=ar3.getSkQuerenMoney().add(Month2);
 			
 			AlreadyRenling ar4=aService.selectDeptRenlingByTime(year+"-04", omName);
-			month4All=month4All+ar4.getSkQuerenMoney();
-			double Month4=ar4.getSkQuerenMoney()+Month3;
+			month4All=month4All.add(ar4.getSkQuerenMoney());
+			BigDecimal Month4=ar4.getSkQuerenMoney().add(Month3);
 			
 			AlreadyRenling ar5=aService.selectDeptRenlingByTime(year+"-05", omName);
-			month5All=month5All+ar5.getSkQuerenMoney();
-			double Month5=ar5.getSkQuerenMoney()+Month4;
+			month5All=month5All.add(ar5.getSkQuerenMoney());
+			BigDecimal Month5=ar5.getSkQuerenMoney().add(Month4);
 			
 			AlreadyRenling ar6=aService.selectDeptRenlingByTime(year+"-06", omName);
-			month6All=month6All+ar6.getSkQuerenMoney();
-			double Month6=ar6.getSkQuerenMoney()+Month5;
+			month6All=month6All.add(ar6.getSkQuerenMoney());
+			BigDecimal Month6=ar6.getSkQuerenMoney().add(Month5);
 			
 			AlreadyRenling ar7=aService.selectDeptRenlingByTime(year+"-07", omName);
-			month7All=month7All+ar7.getSkQuerenMoney();
-			double Month7=ar7.getSkQuerenMoney()+Month6;
+			month7All=month7All.add(ar7.getSkQuerenMoney());
+			BigDecimal Month7=ar7.getSkQuerenMoney().add(Month6);
 			
 			AlreadyRenling ar8=aService.selectDeptRenlingByTime(year+"-08", omName);
-			month8All=month8All+ar8.getSkQuerenMoney();
-			double Month8=ar8.getSkQuerenMoney()+Month7;
+			month8All=month8All.add(ar8.getSkQuerenMoney());
+			BigDecimal Month8=ar8.getSkQuerenMoney().add(Month7);
 			
 			AlreadyRenling ar9=aService.selectDeptRenlingByTime(year+"-09", omName);
-			month9All=month9All+ar9.getSkQuerenMoney();
-			double Month9=ar9.getSkQuerenMoney()+Month8;
+			month9All=month9All.add(ar9.getSkQuerenMoney());
+			BigDecimal Month9=ar9.getSkQuerenMoney().add(Month8);
 			
 			AlreadyRenling ar10=aService.selectDeptRenlingByTime(year+"-10", omName);
-			month10All=month10All+ar10.getSkQuerenMoney();
-			double Month10=ar10.getSkQuerenMoney()+Month9;
+			month10All=month10All.add(ar10.getSkQuerenMoney());
+			BigDecimal Month10=ar10.getSkQuerenMoney().add(Month9);
 			
 			AlreadyRenling ar11=aService.selectDeptRenlingByTime(year+"-11", omName);
-			month11All=month11All+ar11.getSkQuerenMoney();
-			double Month11=ar11.getSkQuerenMoney()+Month10;
+			month11All=month11All.add(ar11.getSkQuerenMoney());
+			BigDecimal Month11=ar11.getSkQuerenMoney().add(Month10);
 			
 			AlreadyRenling ar12=aService.selectDeptRenlingByTime(year+"-12", omName);
-			month12All=month12All+ar12.getSkQuerenMoney();
-			double Month12=ar12.getSkQuerenMoney()+Month11;
+			month12All=month12All.add(ar12.getSkQuerenMoney());
+			BigDecimal Month12=ar12.getSkQuerenMoney().add(Month11);
 			
 			result.add(Month1);
 			result.add(Month2);
@@ -1265,56 +1267,56 @@ public class StatisticsController {
 			resultList.add(result);
 			
 //			List<MonthTarget> mt=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 1, omId);
-//			double mbMonth1=getMbReceipt(mt);
+//			BigDecimal mbMonth1=getMbReceipt(mt);
 //			mbMonth1All=mbMonth1All+mbMonth1;
 //			
 //			List<MonthTarget> mt2=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 2, omId);
-//			double mbMonth2=getMbReceipt(mt2);
+//			BigDecimal mbMonth2=getMbReceipt(mt2);
 //			mbMonth2All=mbMonth2All+mbMonth2;
 //			
 //			List<MonthTarget> mt3=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 3, omId);
-//			double mbMonth3=getMbReceipt(mt3);
+//			BigDecimal mbMonth3=getMbReceipt(mt3);
 //			mbMonth3All=mbMonth3All+mbMonth3;
 //			
 //			List<MonthTarget> mt4=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 4, omId);
-//			double mbMonth4=getMbReceipt(mt4);
+//			BigDecimal mbMonth4=getMbReceipt(mt4);
 //			mbMonth4All=mbMonth4All+mbMonth4;
 //			
 //			List<MonthTarget> mt5=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 5, omId);
-//			double mbMonth5=getMbReceipt(mt5);
+//			BigDecimal mbMonth5=getMbReceipt(mt5);
 //			mbMonth5All=mbMonth5All+mbMonth5;
 //			
 //			List<MonthTarget> mt6=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 6, omId);
-//			double mbMonth6=getMbReceipt(mt6);
+//			BigDecimal mbMonth6=getMbReceipt(mt6);
 //			mbMonth6All=mbMonth6All+mbMonth6;
 //			
 //			List<MonthTarget> mt7=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 7, omId);
-//			double mbMonth7=getMbReceipt(mt7);
+//			BigDecimal mbMonth7=getMbReceipt(mt7);
 //			mbMonth7All=mbMonth7All+mbMonth7;
 //			
 //			List<MonthTarget> mt8=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 8, omId);
-//			double mbMonth8=getMbReceipt(mt8);
+//			BigDecimal mbMonth8=getMbReceipt(mt8);
 //			mbMonth8All=mbMonth8All+mbMonth8;
 //			
 //			List<MonthTarget> mt9=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 9, omId);
-//			double mbMonth9=getMbReceipt(mt9);
+//			BigDecimal mbMonth9=getMbReceipt(mt9);
 //			mbMonth9All=mbMonth9All+mbMonth9;
 //			
 //			List<MonthTarget> mt10=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 10, omId);
-//			double mbMonth10=getMbReceipt(mt10);
+//			BigDecimal mbMonth10=getMbReceipt(mt10);
 //			mbMonth10All=mbMonth10All+mbMonth10;
 //			
 //			List<MonthTarget> mt11=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 11, omId);
-//			double mbMonth11=getMbReceipt(mt11);
+//			BigDecimal mbMonth11=getMbReceipt(mt11);
 //			mbMonth11All=mbMonth11All+mbMonth11;
 //			
 //			List<MonthTarget> mt12=mService.selectMonthTargetByYearAndMonthAndDepartment(year, 12, omId);
-//			double mbMonth12=getMbReceipt(mt12);
+//			BigDecimal mbMonth12=getMbReceipt(mt12);
 //			mbMonth12All=mbMonth12All+mbMonth12;
 			
 			DepartmentTarget dt =  dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
 			//部门新签合同额当年目标
-			double mbdouble =0.00;
+			BigDecimal mbdouble =new BigDecimal(0.00);
 			if(dt!=null){
 				mbdouble=dt.getCollectionTarget();
 			}
@@ -1324,17 +1326,17 @@ public class StatisticsController {
 			}
 			mbList.add(mb);		
 		}
-		month2All+=month1All;
-		month3All+=month2All;
-		month4All+=month3All;
-		month5All+=month4All;
-		month6All+=month5All;
-		month7All+=month6All;
-		month8All+=month7All;
-		month9All+=month8All;
-		month10All+=month9All;
-		month11All+=month10All;
-		month12All+=month11All;
+		month2All=month2All.add(month1All);
+		month3All=month3All.add(month2All);
+		month4All=month4All.add(month3All);
+		month5All=month5All.add(month4All);
+		month6All=month6All.add(month5All);
+		month7All=month7All.add(month6All);
+		month8All=month8All.add(month7All);
+		month9All=month9All.add(month8All);
+		month10All=month10All.add(month9All);
+		month11All=month11All.add(month10All);
+		month12All=month12All.add(month11All);
 		
 		resultAll.add(month1All);
 		resultAll.add(month2All);
@@ -1354,7 +1356,7 @@ public class StatisticsController {
 		}
 		
 		OperationTarget ot=oservice.selectOperationTargetByYear(year);
-		double mbdouble = 0.00;
+		BigDecimal mbdouble = new BigDecimal(0.00);
 		if(ot!=null){
 			mbdouble=ot.getCollectionTarget();
 		}
@@ -1375,8 +1377,8 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab3ContractMoney(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Double>> resultList=new ArrayList<>();
-		List<List<Double>> mbList=new ArrayList<>();
+		List<List<BigDecimal>> resultList=new ArrayList<>();
+		List<List<BigDecimal>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		List<String> yearList=new ArrayList<>();
 		omList.add("公司");
@@ -1391,15 +1393,15 @@ public class StatisticsController {
 		
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
 		
-		List<Double> resultAll=new ArrayList<>();
-		List<Double> mbAll=new ArrayList<>();
-		double month1All=0;
-		double month2All=0;
-		double month3All=0;
+		List<BigDecimal> resultAll=new ArrayList<>();
+		List<BigDecimal> mbAll=new ArrayList<>();
+		BigDecimal month1All=new BigDecimal(0);
+		BigDecimal month2All=new BigDecimal(0);
+		BigDecimal month3All=new BigDecimal(0);
 		
-		double mbMonth1All=0;
-		double mbMonth2All=0;
-		double mbMonth3All=0;
+		BigDecimal mbMonth1All=new BigDecimal(0);
+		BigDecimal mbMonth2All=new BigDecimal(0);
+		BigDecimal mbMonth3All=new BigDecimal(0);
 		
 		//获取公司各种金额
 		String resultGs=oservice.selectGsOperationTargetByTime(year3+"");
@@ -1420,8 +1422,8 @@ public class StatisticsController {
 		month3All=ot.getXqhte();//部门今年合同额
 		
 		for(int i=0;i<om.size();i++){
-			List<Double> result=new ArrayList<>();
-			List<Double> mb=new ArrayList<>();
+			List<BigDecimal> result=new ArrayList<>();
+			List<BigDecimal> mb=new ArrayList<>();
 			
 			String omId=om.get(i).getOmId();//部门编号
 			String omName=om.get(i).getOmName();//部门名称
@@ -1461,25 +1463,25 @@ public class StatisticsController {
 			resultList.add(result);
 			
 			DepartmentTarget mt=dtservice.selectDepartmentTargetByYearAndOmId(year3, omId);
-			double mbMonth1=0;
+			BigDecimal mbMonth1=new BigDecimal(0);
 			if(mt!=null){
 				mbMonth1=mt.getContractAmount();
 			}
-			mbMonth1All=mbMonth1All+mbMonth1;
+			mbMonth1All=mbMonth1All.add(mbMonth1);
 			
 			DepartmentTarget mt2=dtservice.selectDepartmentTargetByYearAndOmId(year2, omId);
-			double mbMonth2=0;
+			BigDecimal mbMonth2=new BigDecimal(0);
 			if(mt2!=null){
 				mbMonth2=mt2.getContractAmount();
 			}
-			mbMonth2All=mbMonth2All+mbMonth2;
+			mbMonth2All=mbMonth2All.add(mbMonth2);
 			
 			DepartmentTarget mt3=dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
-			double mbMonth3=0;
+			BigDecimal mbMonth3=new BigDecimal(0);
 			if(mt3!=null){
 				 mbMonth3=mt3.getContractAmount();
 			}
-			mbMonth3All=mbMonth3All+mbMonth3;
+			mbMonth3All=mbMonth3All.add(mbMonth3);
 			
 			
 			mb.add(mbMonth1);
@@ -1497,21 +1499,21 @@ public class StatisticsController {
 			mbAll.add(ot3.getContractAmount());
 		}else
 		{
-			mbAll.add(0.0);
+			mbAll.add(new BigDecimal(0.0));
 		}
 		OperationTarget ot2=oservice.selectOperationTargetByYear(year2+"");
 		if(null!=ot2) {
 			mbAll.add(ot2.getContractAmount());
 		}else
 		{
-			mbAll.add(0.0);
+			mbAll.add(new BigDecimal(0.0));
 		}
 		OperationTarget ot1=oservice.selectOperationTargetByYear(year+"");
 		if(null!=ot1) {
 			mbAll.add(ot1.getContractAmount());
 		}else
 		{
-			mbAll.add(0.0);
+			mbAll.add(new BigDecimal(0.0));
 		}
 		resultList.add(0, resultAll);
 		mbList.add(0,mbAll);
@@ -1526,8 +1528,8 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab3Income(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Double>> resultList=new ArrayList<>();
-		List<List<Double>> mbList=new ArrayList<>();
+		List<List<BigDecimal>> resultList=new ArrayList<>();
+		List<List<BigDecimal>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		List<String> yearList=new ArrayList<>();
 		omList.add("公司");
@@ -1539,11 +1541,11 @@ public class StatisticsController {
 		yearList.add(year2);
 		yearList.add(year);
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<Double> resultAll=new ArrayList<>();
-		List<Double> mbAll=new ArrayList<>();
-		double month1All=0;
-		double month2All=0;
-		double month3All=0;
+		List<BigDecimal> resultAll=new ArrayList<>();
+		List<BigDecimal> mbAll=new ArrayList<>();
+		BigDecimal month1All=new BigDecimal(0);
+		BigDecimal month2All=new BigDecimal(0);
+		BigDecimal month3All=new BigDecimal(0);
 		
 
 		
@@ -1566,8 +1568,8 @@ public class StatisticsController {
 		month3All=ot.getSr();//部门今年合同额
 	
 		for(int i=0;i<om.size();i++){
-			List<Double> result=new ArrayList<>();
-			List<Double> mb=new ArrayList<>();
+			List<BigDecimal> result=new ArrayList<>();
+			List<BigDecimal> mb=new ArrayList<>();
 			String omName=om.get(i).getOmName();
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
@@ -1609,19 +1611,19 @@ public class StatisticsController {
 			
 			//部门目标
 			DepartmentTarget mt=dtservice.selectDepartmentTargetByYearAndOmId(year3,omId);
-			double mbMonth1=0;
+			BigDecimal mbMonth1=new BigDecimal(0);
 			if(mt!=null){
 				mbMonth1=mt.getRevenueTarget();
 			}
 			
 			DepartmentTarget mt2=dtservice.selectDepartmentTargetByYearAndOmId(year2,omId);
-			double mbMonth2=0;
+			BigDecimal mbMonth2=new BigDecimal(0);
 			if(mt2!=null){
 				mbMonth2=mt2.getRevenueTarget();
 			}
 			
 			DepartmentTarget mt3=dtservice.selectDepartmentTargetByYearAndOmId(year,omId);
-			double mbMonth3=0;
+			BigDecimal mbMonth3=new BigDecimal(0);
 			if(mt3!=null){
 				mbMonth3=mt3.getRevenueTarget();
 			}
@@ -1641,21 +1643,21 @@ public class StatisticsController {
 			mbAll.add(ot3.getRevenueTarget());
 		}else
 		{
-			mbAll.add(0.0);
+			mbAll.add(new BigDecimal(0.0));
 		}
 		OperationTarget ot2=oservice.selectOperationTargetByYear(year2+"");
 		if(null!=ot2) {
 			mbAll.add(ot2.getRevenueTarget());
 		}else
 		{
-			mbAll.add(0.0);
+			mbAll.add(new BigDecimal(0.0));
 		}
 		OperationTarget ot1=oservice.selectOperationTargetByYear(year+"");
 		if(null!=ot1) {
 			mbAll.add(ot1.getRevenueTarget());
 		}else
 		{
-			mbAll.add(0.0);
+			mbAll.add(new BigDecimal(0.0));
 		}
 		
 		resultList.add(0, resultAll);
@@ -1671,8 +1673,8 @@ public class StatisticsController {
 	@ResponseBody
 	public Map<String,Object> initTab3Receipt(){
 		Map<String,Object> map=new HashMap<>();
-		List<List<Double>> resultList=new ArrayList<>();
-		List<List<Double>> mbList=new ArrayList<>();
+		List<List<BigDecimal>> resultList=new ArrayList<>();
+		List<List<BigDecimal>> mbList=new ArrayList<>();
 		List<String> omList=new ArrayList<>();
 		List<String> yearList=new ArrayList<>();
 		omList.add("公司");
@@ -1684,11 +1686,11 @@ public class StatisticsController {
 		yearList.add(year2);
 		yearList.add(year);
 		List<OrganizationManagement> om=omService.selectProductionDepartment();//生产部门列表
-		List<Double> resultAll=new ArrayList<>();
-		List<Double> mbAll=new ArrayList<>();
-		double month1All=0;
-		double month2All=0;
-		double month3All=0;
+		List<BigDecimal> resultAll=new ArrayList<>();
+		List<BigDecimal> mbAll=new ArrayList<>();
+		BigDecimal month1All=new BigDecimal(0);
+		BigDecimal month2All=new BigDecimal(0);
+		BigDecimal month3All=new BigDecimal(0);
 				
 		
 		//获取公司各种金额
@@ -1710,8 +1712,8 @@ public class StatisticsController {
 		month3All=ot.getSk();//部门今年合同额
 		
 		for(int i=0;i<om.size();i++){
-			List<Double> result=new ArrayList<>();
-			List<Double> mb=new ArrayList<>();
+			List<BigDecimal> result=new ArrayList<>();
+			List<BigDecimal> mb=new ArrayList<>();
 			String omName=om.get(i).getOmName();
 			String omId=om.get(i).getOmId();
 			omList.add(omName);
@@ -1752,19 +1754,19 @@ public class StatisticsController {
 			resultList.add(result);
 			
 			DepartmentTarget mt=dtservice.selectDepartmentTargetByYearAndOmId(year3, omId);
-			double mbMonth1=0;
+			BigDecimal mbMonth1=new BigDecimal(0);
 			if(mt!=null){
 				mbMonth1=mt.getCollectionTarget();
 			}
 			
 			DepartmentTarget mt2=dtservice.selectDepartmentTargetByYearAndOmId(year2, omId);
-			double mbMonth2=0;
+			BigDecimal mbMonth2=new BigDecimal(0);
 			if(mt2!=null){
 				mbMonth2=mt2.getCollectionTarget();
 			}
 			
 			DepartmentTarget mt3=dtservice.selectDepartmentTargetByYearAndOmId(year, omId);
-			double mbMonth3=0;
+			BigDecimal mbMonth3=new BigDecimal(0);
 			if(mt3!=null){
 				mbMonth3=mt3.getCollectionTarget();
 			}
@@ -1785,21 +1787,21 @@ public class StatisticsController {
 			mbAll.add(ot3.getCollectionTarget());
 		}else
 		{
-			mbAll.add(0.0);
+			mbAll.add(new BigDecimal(0.0));
 		}
 		OperationTarget ot2=oservice.selectOperationTargetByYear(year2+"");
 		if(null!=ot2) {
 			mbAll.add(ot2.getCollectionTarget());
 		}else
 		{
-			mbAll.add(0.0);
+			mbAll.add(new BigDecimal(0.0));
 		}
 		OperationTarget ot1=oservice.selectOperationTargetByYear(year+"");
 		if(null!=ot1) {
 			mbAll.add(ot1.getCollectionTarget());
 		}else
 		{
-			mbAll.add(0.0);
+			mbAll.add(new BigDecimal(0.0));
 		}
 		
 		resultList.add(0, resultAll);
@@ -1812,8 +1814,8 @@ public class StatisticsController {
 	}
 	
 	
-	public Double getDepartmentMoney(List<CjContract> cj,String omId){
-		Double contractMoney=(double) 0;
+	public BigDecimal getDepartmentMoney(List<CjContract> cj,String omId){
+		BigDecimal contractMoney=new BigDecimal(0);
 		for(int i=0;i<cj.size();i++){
 			if(omId.equals(cj.get(i).getMainDepartment())){
 				contractMoney=cj.get(i).getMainDepartmentMoney();
@@ -1831,8 +1833,8 @@ public class StatisticsController {
 		return contractMoney;
 	}
 	
-	public Double getDepartmentMoneyByTask(List<Task> task,String omId){
-		Double contractMoney=(double) 0;
+	public BigDecimal getDepartmentMoneyByTask(List<Task> task,String omId){
+		BigDecimal contractMoney=new BigDecimal(0);
 		for(int i=0;i<task.size();i++){
 			if(omId.equals(task.get(i).getMainDepartment())){
 				contractMoney=task.get(i).getMainDepartmentMoney();
@@ -1850,75 +1852,81 @@ public class StatisticsController {
 		return contractMoney;
 	}
 	
-	public Double getDepartmentReceipt(List<CjContract> cj,String omId){
-		Double receiptAll=(double) 0;
+	public BigDecimal getDepartmentReceipt(List<CjContract> cj,String omId){
+		BigDecimal receiptAll=new BigDecimal(0);
 		if(cj!=null){
 			for(int j=0;j<cj.size();j++){
-				Double contractMoney=cj.get(j).getContractMoney();//承接合同金额
-				Double resultMoney=cj.get(j).getTemporaryMoney();//承接合同收款金额
+				BigDecimal contractMoney=cj.get(j).getContractMoney();//承接合同金额
+				BigDecimal resultMoney=cj.get(j).getTemporaryMoney();//承接合同收款金额
 				if(omId.equals(cj.get(j).getMainDepartment())){
-					receiptAll=receiptAll+(cj.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
+					
+					receiptAll=receiptAll.add((cj.get(j).getMainDepartmentMoney().divide(contractMoney)).multiply(resultMoney));
+					//receiptAll=receiptAll+(cj.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
 				}
 				if(omId.equals(cj.get(j).getAssistDepartment1())){
-					receiptAll=receiptAll+(cj.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
+					receiptAll=receiptAll.add((cj.get(j).getMainDepartmentMoney().divide(contractMoney)).multiply(resultMoney));
+					//receiptAll=receiptAll+(cj.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
 				}
 				if(omId.equals(cj.get(j).getAssistDepartment2())){
-					receiptAll=receiptAll+(cj.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
+					receiptAll=receiptAll.add((cj.get(j).getMainDepartmentMoney().divide(contractMoney)).multiply(resultMoney));
+					//receiptAll=receiptAll+(cj.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
 				}
 				if(omId.equals(cj.get(j).getAssistDepartment3())){
-					receiptAll=receiptAll+(cj.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
+					receiptAll=receiptAll.add((cj.get(j).getMainDepartmentMoney().divide(contractMoney)).multiply(resultMoney));
+					//receiptAll=receiptAll+(cj.get(j).getMainDepartmentMoney()/contractMoney)*resultMoney;
 				}
 			}
 		}
 		return receiptAll;
 	}
 	
-	public double getMbContractMoney(List<MonthTarget> mt){
-		double money=0;
+	public BigDecimal getMbContractMoney(List<MonthTarget> mt){
+		BigDecimal money=new BigDecimal(0);
 		if(mt!=null){
 			for(int jj=0;jj<mt.size();jj++){
-				double contractAmount=mt.get(jj).getContractAmount();
-				money=money+contractAmount;
+				BigDecimal contractAmount=mt.get(jj).getContractAmount();
+				money=money.add(contractAmount);
 			}
 		}
 		return money;
 	}
 	
-	public double getMbIncome(List<MonthTarget> mt){
-		double money=0;
+	public BigDecimal getMbIncome(List<MonthTarget> mt){
+		BigDecimal money=new BigDecimal(0);
 		if(mt!=null){
 			for(int jj=0;jj<mt.size();jj++){
-				double income=mt.get(jj).getRevenueTarget();
-				money=money+income;
+				BigDecimal income=mt.get(jj).getRevenueTarget();
+				money=money.add(income);
 			}
 		}
 		return money;
 	}
 	
-	public double getMbReceipt(List<MonthTarget> mt){
-		double money=0;
+	public BigDecimal getMbReceipt(List<MonthTarget> mt){
+		BigDecimal money=new BigDecimal(0);
 		if(mt!=null){
 			for(int jj=0;jj<mt.size();jj++){
-				double receipt=mt.get(jj).getCollectionTarget();
-				money=money+receipt;
+				BigDecimal receipt=mt.get(jj).getCollectionTarget();
+				money=money.add(receipt);
 			}
 		}
 		return money;
 	}
 	
-	public Double getReceiptByPrjType(String type,List<CjContract> cj){
-		Double money=(double) 0;
+	public BigDecimal getReceiptByPrjType(String type,List<CjContract> cj){
+		BigDecimal money=new BigDecimal(0);
 		if(cj!=null){
 			for(int i=0;i<cj.size();i++){
-				Double resultReceipt=cj.get(i).getTemporaryMoney();//实际收款
-				Double cjContractMoney=cj.get(i).getContractMoney();//承接合同金额
+				BigDecimal resultReceipt=cj.get(i).getTemporaryMoney();//实际收款
+				BigDecimal cjContractMoney=cj.get(i).getContractMoney();//承接合同金额
 				String prjNo=cj.get(i).getTaskCode();
 				for(int ii=0;ii<prjNo.split(",").length;ii++){
 					String no=prjNo.split(",")[ii];
 					Task t=tService.selectTaskByNoAndType(type, no);
 					if(t!=null){
-						Double contractMoney=t.getContractMoney();//任务单合同金额
-						money=money+(cjContractMoney/contractMoney)*resultReceipt;
+						BigDecimal contractMoney=t.getContractMoney();//任务单合同金额
+						money=money.add((cjContractMoney.divide(contractMoney)).multiply(resultReceipt));
+						//money=money+(cjContractMoney/contractMoney)*resultReceipt;
 					}
 				}
 			}

@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class FbContractOver {/*分包结算申请*/
@@ -13,15 +14,15 @@ public class FbContractOver {/*分包结算申请*/
     private String fbContract;//分包单号
     private String fbName;//分包名称
 
-    private Double fbMoney;//分包合同金额
+    private BigDecimal fbMoney;//分包合同金额
     
-    private Double fbEndMoney;//分包结算金额
+    private BigDecimal fbEndMoney;//分包结算金额
    /* private String settlementType;//结算类型*/
     
     private String settlementTime;//时间
     
     private String workInfo;
-    private Double qianqijyMoney;//前期经营费用
+    private BigDecimal qianqijyMoney;//前期经营费用
     private String isKouchu;//是否扣除
     
     private List<Accessory> accessory;
@@ -42,15 +43,15 @@ public class FbContractOver {/*分包结算申请*/
 		this.cwoState = cwoState;
 	}
 
-	public Double getFbMoney() {
+	public BigDecimal getFbMoney() {
 		return fbMoney;
 	}
 
-	public Double getQianqijyMoney() {
+	public BigDecimal getQianqijyMoney() {
 		return qianqijyMoney;
 	}
 
-	public void setQianqijyMoney(Double qianqijyMoney) {
+	public void setQianqijyMoney(BigDecimal qianqijyMoney) {
 		this.qianqijyMoney = qianqijyMoney;
 	}
 
@@ -62,15 +63,15 @@ public class FbContractOver {/*分包结算申请*/
 		this.isKouchu = isKouchu;
 	}
 
-	public void setFbMoney(Double fbMoney) {
+	public void setFbMoney(BigDecimal fbMoney) {
 		this.fbMoney = fbMoney;
 	}
 
-	public Double getFbEndMoney() {
+	public BigDecimal getFbEndMoney() {
 		return fbEndMoney;
 	}
 
-	public void setFbEndMoney(Double fbEndMoney) {
+	public void setFbEndMoney(BigDecimal fbEndMoney) {
 		this.fbEndMoney = fbEndMoney;
 	}
 

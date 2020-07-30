@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.CjContract;
@@ -56,13 +57,13 @@ public class FinancialReceiptsServiceImpl implements FinancialReceiptsService{
 	}
 
 	@Override
-	public Double selectResultMoneyBySignTime(String time) {
-		Double money=(double) 0;
+	public BigDecimal selectResultMoneyBySignTime(String time) {
+		BigDecimal money=new BigDecimal(0.0);
 		List<FinancialReceipts> fr=dao.selectResultMoneyBySignTime(time);
 		if(fr!=null){
 			for(int i=0;i<fr.size();i++){
-				Double resultMoney=fr.get(i).getResultMoney();
-				money=money+resultMoney;
+				BigDecimal resultMoney=fr.get(i).getResultMoney();
+				money=money.add(resultMoney);
 			}
 		}
 		return money;

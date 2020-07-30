@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -744,52 +745,52 @@ public class FbContractExample {
             return (Criteria) this;
         }
 
-        public Criteria andMainContractMoneyEqualTo(Double value) {
+        public Criteria andMainContractMoneyEqualTo(BigDecimal value) {
             addCriterion("main_contract_money =", value, "mainContractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainContractMoneyNotEqualTo(Double value) {
+        public Criteria andMainContractMoneyNotEqualTo(BigDecimal value) {
             addCriterion("main_contract_money <>", value, "mainContractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainContractMoneyGreaterThan(Double value) {
+        public Criteria andMainContractMoneyGreaterThan(BigDecimal value) {
             addCriterion("main_contract_money >", value, "mainContractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainContractMoneyGreaterThanOrEqualTo(Double value) {
+        public Criteria andMainContractMoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("main_contract_money >=", value, "mainContractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainContractMoneyLessThan(Double value) {
+        public Criteria andMainContractMoneyLessThan(BigDecimal value) {
             addCriterion("main_contract_money <", value, "mainContractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainContractMoneyLessThanOrEqualTo(Double value) {
+        public Criteria andMainContractMoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("main_contract_money <=", value, "mainContractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainContractMoneyIn(List<Double> values) {
+        public Criteria andMainContractMoneyIn(List<BigDecimal> values) {
             addCriterion("main_contract_money in", values, "mainContractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainContractMoneyNotIn(List<Double> values) {
+        public Criteria andMainContractMoneyNotIn(List<BigDecimal> values) {
             addCriterion("main_contract_money not in", values, "mainContractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainContractMoneyBetween(Double value1, Double value2) {
+        public Criteria andMainContractMoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("main_contract_money between", value1, value2, "mainContractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainContractMoneyNotBetween(Double value1, Double value2) {
+        public Criteria andMainContractMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("main_contract_money not between", value1, value2, "mainContractMoney");
             return (Criteria) this;
         }
@@ -804,52 +805,52 @@ public class FbContractExample {
             return (Criteria) this;
         }
 
-        public Criteria andNowFbAllMoneyEqualTo(Double value) {
+        public Criteria andNowFbAllMoneyEqualTo(BigDecimal value) {
             addCriterion("now_fb_all_money =", value, "nowFbAllMoney");
             return (Criteria) this;
         }
 
-        public Criteria andNowFbAllMoneyNotEqualTo(Double value) {
+        public Criteria andNowFbAllMoneyNotEqualTo(BigDecimal value) {
             addCriterion("now_fb_all_money <>", value, "nowFbAllMoney");
             return (Criteria) this;
         }
 
-        public Criteria andNowFbAllMoneyGreaterThan(Double value) {
+        public Criteria andNowFbAllMoneyGreaterThan(BigDecimal value) {
             addCriterion("now_fb_all_money >", value, "nowFbAllMoney");
             return (Criteria) this;
         }
 
-        public Criteria andNowFbAllMoneyGreaterThanOrEqualTo(Double value) {
+        public Criteria andNowFbAllMoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("now_fb_all_money >=", value, "nowFbAllMoney");
             return (Criteria) this;
         }
 
-        public Criteria andNowFbAllMoneyLessThan(Double value) {
+        public Criteria andNowFbAllMoneyLessThan(BigDecimal value) {
             addCriterion("now_fb_all_money <", value, "nowFbAllMoney");
             return (Criteria) this;
         }
 
-        public Criteria andNowFbAllMoneyLessThanOrEqualTo(Double value) {
+        public Criteria andNowFbAllMoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("now_fb_all_money <=", value, "nowFbAllMoney");
             return (Criteria) this;
         }
 
-        public Criteria andNowFbAllMoneyIn(List<Double> values) {
+        public Criteria andNowFbAllMoneyIn(List<BigDecimal> values) {
             addCriterion("now_fb_all_money in", values, "nowFbAllMoney");
             return (Criteria) this;
         }
 
-        public Criteria andNowFbAllMoneyNotIn(List<Double> values) {
+        public Criteria andNowFbAllMoneyNotIn(List<BigDecimal> values) {
             addCriterion("now_fb_all_money not in", values, "nowFbAllMoney");
             return (Criteria) this;
         }
 
-        public Criteria andNowFbAllMoneyBetween(Double value1, Double value2) {
+        public Criteria andNowFbAllMoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("now_fb_all_money between", value1, value2, "nowFbAllMoney");
             return (Criteria) this;
         }
 
-        public Criteria andNowFbAllMoneyNotBetween(Double value1, Double value2) {
+        public Criteria andNowFbAllMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("now_fb_all_money not between", value1, value2, "nowFbAllMoney");
             return (Criteria) this;
         }
@@ -1214,52 +1215,52 @@ public class FbContractExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyEqualTo(Double value) {
+        public Criteria andContractMoneyEqualTo(BigDecimal value) {
             addCriterion("contract_money =", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotEqualTo(Double value) {
+        public Criteria andContractMoneyNotEqualTo(BigDecimal value) {
             addCriterion("contract_money <>", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyGreaterThan(Double value) {
+        public Criteria andContractMoneyGreaterThan(BigDecimal value) {
             addCriterion("contract_money >", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyGreaterThanOrEqualTo(Double value) {
+        public Criteria andContractMoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_money >=", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyLessThan(Double value) {
+        public Criteria andContractMoneyLessThan(BigDecimal value) {
             addCriterion("contract_money <", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyLessThanOrEqualTo(Double value) {
+        public Criteria andContractMoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("contract_money <=", value, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyIn(List<Double> values) {
+        public Criteria andContractMoneyIn(List<BigDecimal> values) {
             addCriterion("contract_money in", values, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotIn(List<Double> values) {
+        public Criteria andContractMoneyNotIn(List<BigDecimal> values) {
             addCriterion("contract_money not in", values, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyBetween(Double value1, Double value2) {
+        public Criteria andContractMoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_money between", value1, value2, "contractMoney");
             return (Criteria) this;
         }
 
-        public Criteria andContractMoneyNotBetween(Double value1, Double value2) {
+        public Criteria andContractMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("contract_money not between", value1, value2, "contractMoney");
             return (Criteria) this;
         }
@@ -1274,52 +1275,52 @@ public class FbContractExample {
             return (Criteria) this;
         }
 
-        public Criteria andTemporaryMoneyEqualTo(Double value) {
+        public Criteria andTemporaryMoneyEqualTo(BigDecimal value) {
             addCriterion("temporary_money =", value, "temporaryMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTemporaryMoneyNotEqualTo(Double value) {
+        public Criteria andTemporaryMoneyNotEqualTo(BigDecimal value) {
             addCriterion("temporary_money <>", value, "temporaryMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTemporaryMoneyGreaterThan(Double value) {
+        public Criteria andTemporaryMoneyGreaterThan(BigDecimal value) {
             addCriterion("temporary_money >", value, "temporaryMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTemporaryMoneyGreaterThanOrEqualTo(Double value) {
+        public Criteria andTemporaryMoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("temporary_money >=", value, "temporaryMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTemporaryMoneyLessThan(Double value) {
+        public Criteria andTemporaryMoneyLessThan(BigDecimal value) {
             addCriterion("temporary_money <", value, "temporaryMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTemporaryMoneyLessThanOrEqualTo(Double value) {
+        public Criteria andTemporaryMoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("temporary_money <=", value, "temporaryMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTemporaryMoneyIn(List<Double> values) {
+        public Criteria andTemporaryMoneyIn(List<BigDecimal> values) {
             addCriterion("temporary_money in", values, "temporaryMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTemporaryMoneyNotIn(List<Double> values) {
+        public Criteria andTemporaryMoneyNotIn(List<BigDecimal> values) {
             addCriterion("temporary_money not in", values, "temporaryMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTemporaryMoneyBetween(Double value1, Double value2) {
+        public Criteria andTemporaryMoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("temporary_money between", value1, value2, "temporaryMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTemporaryMoneyNotBetween(Double value1, Double value2) {
+        public Criteria andTemporaryMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("temporary_money not between", value1, value2, "temporaryMoney");
             return (Criteria) this;
         }

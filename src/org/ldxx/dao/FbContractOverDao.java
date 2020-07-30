@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -17,7 +18,7 @@ public interface FbContractOverDao {
 	
 	public int updateFbContractOver(@Param("fb")FbContractOver fbContractOver);
 
-	public Double selectFbJsMoneyByNo(@Param("no")String no);
+	public BigDecimal selectFbJsMoneyByNo(@Param("no")String no);
 
 	public List<FbContractOver> selectFbJsByNo(@Param("no")String no);
 }

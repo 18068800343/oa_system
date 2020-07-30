@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,7 +65,7 @@ public class ContractPaymentController {
 		for(int i=0;i<pay.size();i++){
 			String fbNo=pay.get(i).getContractNo();
 			Pay p=payService.getTotalPayMoney(fbNo);
-			Double alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
+			BigDecimal alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
 			pay.get(i).setAlreadyAccumulateMoney(alreadyAccumulateMoney);
 		}
 		return pay;
@@ -77,7 +78,7 @@ public class ContractPaymentController {
 		/*for(int i=0;i<pay.size();i++){
 			String fbNo=pay.get(i).getContractNo();
 			Pay p=payService.getTotalPayMoney(fbNo);
-			Double alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
+			BigDecimal alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
 			pay.get(i).setAlreadyAccumulateMoney(alreadyAccumulateMoney);
 		}*/
 		return pay;
@@ -95,7 +96,7 @@ public class ContractPaymentController {
 		Pay pay=payService.selectPayById(id);
 		String fbNo=pay.getContractNo();
 		Pay p=payService.getTotalPayMoney(fbNo);
-		Double alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
+		BigDecimal alreadyAccumulateMoney=p.getAlreadyAccumulateMoney();
 		pay.setAlreadyAccumulateMoney(alreadyAccumulateMoney);
 		return pay;
 	}
@@ -386,7 +387,7 @@ public class ContractPaymentController {
 	
 	@RequestMapping("/updatePaySave")//修改保存
 	@ResponseBody
-	public int updatePaySave(String payId,Double resultPay,String payTime) throws IllegalStateException, IOException{
+	public int updatePaySave(String payId,BigDecimal resultPay,String payTime) throws IllegalStateException, IOException{
 		int i=payService.addPayResultInfo(payId, resultPay, payTime);
 		return i;
 	}
@@ -436,7 +437,7 @@ public class ContractPaymentController {
 	@RequestMapping("/updateAuthorisePayment")
 	@ResponseBody
 	public int updateAuthorisePayment(String id,String money){
-		Double money1 = Double.valueOf(money);
+		BigDecimal money1 = new BigDecimal(money);
 		int i=payService.updateAuthorisePayment(id, money1);
 		return i;
 	}

@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.ArtificialBudget;
@@ -169,7 +170,7 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	}
 
 	@Override
-	public Double getBudgeCost(String department,String year) {
+	public BigDecimal getBudgeCost(String department,String year) {
 		return bdao.getBudgeCost(department,year);
 	}
 
@@ -179,8 +180,8 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 	}
 
 	@Override
-	public List<BudgetFpplicationForm> selectBudgeByStatus(String status, String timeMin, String timeMax, Double costMin,
-			Double costMax) {
+	public List<BudgetFpplicationForm> selectBudgeByStatus(String status, String timeMin, String timeMax, BigDecimal costMin,
+			BigDecimal costMax) {
 		return bdao.selectBudgeByStatus(status, timeMin, timeMax, costMin, costMax);
 	}
 
@@ -215,12 +216,12 @@ public class BudgetFpplicationFormServiceImpl implements BudgetFpplicationFormSe
 
 	@Override
 	public List<BudgetFpplicationForm> selectBudgeByStatus2(String status, String timeMin, String timeMax,
-			Double costMin, Double costMax) {
+			BigDecimal costMin, BigDecimal costMax) {
 		return bdao.selectBudgeByStatus2(status,timeMin,timeMax,costMin,costMax);
 	}
 
 	@Override
-	public Double getSumAllCost(String no) {
+	public BigDecimal getSumAllCost(String no) {
 		// TODO Auto-generated method stub
 		return bdao.getSumAllCost(no);
 	}

@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class OtherContract {
@@ -16,7 +17,7 @@ public class OtherContract {
     private String contractNameYi;
     private String ccName;
 
-    private Double contractMoney;
+    private BigDecimal contractMoney;
 
     private String abutmentDepartment;
     private String omName;
@@ -28,10 +29,10 @@ public class OtherContract {
     private String contractProbablyText;
 
     private String abutmentSignedTime;
-    private Double zandingMoney;//暂定金
+    private BigDecimal zandingMoney;//暂定金
     
-    /*private double rate;
-    private double rateMoney;*/
+    /*private BigDecimal rate;
+    private BigDecimal rateMoney;*/
 
     private List<Accessory> accessory;
     private List<Accessory> accessory2;//法律顾问签字
@@ -40,24 +41,24 @@ public class OtherContract {
     private String status;//审批状态
     
 
-   /* public double getRate() {
+   /* public BigDecimal getRate() {
 		return rate;
 	}
 
-	public void setRate(double rate) {
+	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
 
-	public double getRateMoney() {
+	public BigDecimal getRateMoney() {
 		return rateMoney;
 	}
 
-	public void setRateMoney(double rateMoney) {
+	public void setRateMoney(BigDecimal rateMoney) {
 		this.rateMoney = rateMoney;
 	}*/
 
     
-	public Double getZandingMoney() {
+	public BigDecimal getZandingMoney() {
 		return zandingMoney;
 	}
 
@@ -77,7 +78,7 @@ public class OtherContract {
 		this.status = status;
 	}
 
-	public void setZandingMoney(Double zandingMoney) {
+	public void setZandingMoney(BigDecimal zandingMoney) {
 		this.zandingMoney = zandingMoney;
 	}
 
@@ -154,11 +155,11 @@ public class OtherContract {
         this.contractNameYi = contractNameYi == null ? null : contractNameYi.trim();
     }
 
-    public Double getContractMoney() {
+    public BigDecimal getContractMoney() {
         return contractMoney;
     }
 
-    public void setContractMoney(Double contractMoney) {
+    public void setContractMoney(BigDecimal contractMoney) {
         this.contractMoney = contractMoney;
     }
 

@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class PrjMaterialBuy {
@@ -23,7 +24,7 @@ public class PrjMaterialBuy {
 
     private String applyReason;//申请原因
     
-    private Double sumPrice;//总价格
+    private BigDecimal sumPrice;//总价格
     
     private List<MaterialDemand> md;
     
@@ -97,11 +98,11 @@ public class PrjMaterialBuy {
 		this.taskCode = taskCode;
 	}
 
-	public Double getSumPrice() {
+	public BigDecimal getSumPrice() {
 		return sumPrice;
 	}
 
-	public void setSumPrice(Double sumPrice) {
+	public void setSumPrice(BigDecimal sumPrice) {
 		this.sumPrice = sumPrice;
 	}
 

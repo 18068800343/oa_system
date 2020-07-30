@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: FinancialReceipts 
 * @Description: 财务收款
@@ -19,14 +21,14 @@ public class FinancialReceipts {
 	private String prjLeader;
 	private String htContract;
 	private String contractNo;
-	private Double contractMoney;
-	private Double contractMoneyEnd;
-	private Double totalMoney;
-	private Double kpMoney;
+	private BigDecimal contractMoney;
+	private BigDecimal contractMoneyEnd;
+	private BigDecimal totalMoney;
+	private BigDecimal kpMoney;
 	private String fpNo;
 	private String collectionTerms;
 	private String prjPlan;
-	private Double resultMoney;
+	private BigDecimal resultMoney;
 	private String departmentInfo;
 	private String financeInfo;
 	private String status;
@@ -105,28 +107,28 @@ public class FinancialReceipts {
 	public void setHtContract(String htContract) {
 		this.htContract = htContract;
 	}
-	public Double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(Double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
-	public Double getContractMoneyEnd() {
+	public BigDecimal getContractMoneyEnd() {
 		return contractMoneyEnd;
 	}
-	public void setContractMoneyEnd(Double contractMoneyEnd) {
+	public void setContractMoneyEnd(BigDecimal contractMoneyEnd) {
 		this.contractMoneyEnd = contractMoneyEnd;
 	}
-	public Double getTotalMoney() {
+	public BigDecimal getTotalMoney() {
 		return totalMoney;
 	}
-	public void setTotalMoney(Double totalMoney) {
+	public void setTotalMoney(BigDecimal totalMoney) {
 		this.totalMoney = totalMoney;
 	}
-	public Double getKpMoney() {
+	public BigDecimal getKpMoney() {
 		return kpMoney;
 	}
-	public void setKpMoney(Double kpMoney) {
+	public void setKpMoney(BigDecimal kpMoney) {
 		this.kpMoney = kpMoney;
 	}
 	public String getFpNo() {
@@ -147,10 +149,10 @@ public class FinancialReceipts {
 	public void setPrjPlan(String prjPlan) {
 		this.prjPlan = prjPlan;
 	}
-	public Double getResultMoney() {
+	public BigDecimal getResultMoney() {
 		return resultMoney;
 	}
-	public void setResultMoney(Double resultMoney) {
+	public void setResultMoney(BigDecimal resultMoney) {
 		this.resultMoney = resultMoney;
 	}
 	public String getDepartmentInfo() {

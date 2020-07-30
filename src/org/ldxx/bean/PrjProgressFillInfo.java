@@ -8,6 +8,8 @@
 
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: PrjProgressFillInfo 
 * @Description: 进度管理详情
@@ -21,24 +23,24 @@ public class PrjProgressFillInfo {
 	private String taskNo;
 	private String department;
 	private String money;//本期收入(%)
-	private Double moneyYuan;//本期收入(元)
-	private Double allMoneyYuan;//累计收入(元)
+	private BigDecimal moneyYuan;//本期收入(元)
+	private BigDecimal allMoneyYuan;//累计收入(元)
 	private String type;//1:收入拆分,2:本期收入,3:本期收款,4:累计收款,5:本期成本,6:累计成本
 	private String main;//是否为主办 1：主办 0：协办
 	
-	private Double SummoneyYuan;
+	private BigDecimal SummoneyYuan;
 	
 	
-	public Double getSummoneyYuan() {
+	public BigDecimal getSummoneyYuan() {
 		return SummoneyYuan;
 	}
-	public void setSummoneyYuan(Double summoneyYuan) {
+	public void setSummoneyYuan(BigDecimal summoneyYuan) {
 		SummoneyYuan = summoneyYuan;
 	}
-	public Double getAllMoneyYuan() {
+	public BigDecimal getAllMoneyYuan() {
 		return allMoneyYuan;
 	}
-	public void setAllMoneyYuan(Double allMoneyYuan) {
+	public void setAllMoneyYuan(BigDecimal allMoneyYuan) {
 		this.allMoneyYuan = allMoneyYuan;
 	}
 	public String getTaskNo() {
@@ -47,10 +49,10 @@ public class PrjProgressFillInfo {
 	public void setTaskNo(String taskNo) {
 		this.taskNo = taskNo;
 	}
-	public Double getMoneyYuan() {
+	public BigDecimal getMoneyYuan() {
 		return moneyYuan;
 	}
-	public void setMoneyYuan(Double moneyYuan) {
+	public void setMoneyYuan(BigDecimal moneyYuan) {
 		this.moneyYuan = moneyYuan;
 	}
 	public String getMain() {

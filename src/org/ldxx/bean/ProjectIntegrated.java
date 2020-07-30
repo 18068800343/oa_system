@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: ProjectIntegrated 
 * @Description: 项目综合查询
@@ -14,22 +16,22 @@ public class ProjectIntegrated {
 	private String contractNo;//合同编号
 	private String contractName;//合同名称
 	private String prjType2;//项目类型
-	private Double prjYs;//项目预算
+	private BigDecimal prjYs;//项目预算
 	private String cjDepartment;//承接部门
 	private String prjLeader;//项目负责人
-	private Double workMoney;//任务单金额
-	private Double contractMoney;//合同金额
-	private Double zdMoney;//暂定金
-	private Double contractEndMoney;//合同结算金额
-	private Double totalKpMoney;//累积开票金额
-	private double totalMoney;//累计收款
-	private double prjCost;//项目成本
+	private BigDecimal workMoney;//任务单金额
+	private BigDecimal contractMoney;//合同金额
+	private BigDecimal zdMoney;//暂定金
+	private BigDecimal contractEndMoney;//合同结算金额
+	private BigDecimal totalKpMoney;//累积开票金额
+	private BigDecimal totalMoney;//累计收款
+	private BigDecimal prjCost;//项目成本
 	private String prjPlan;//项目进度
 	private String fbName;//分包项目名称
-	private Double fbContractMoney;//分包合同金额
-	private Double fbEndMoney;//分包结算金额
+	private BigDecimal fbContractMoney;//分包合同金额
+	private BigDecimal fbEndMoney;//分包结算金额
 	private String fbPlan;//分包进度
-	private Double practicalFbPayMoney;//实际分包付款金额
+	private BigDecimal practicalFbPayMoney;//实际分包付款金额
 	
 	
 	public String getFbName() {
@@ -68,10 +70,10 @@ public class ProjectIntegrated {
 	public void setPrjType2(String prjType2) {
 		this.prjType2 = prjType2;
 	}
-	public Double getPrjYs() {
+	public BigDecimal getPrjYs() {
 		return prjYs;
 	}
-	public void setPrjYs(Double prjYs) {
+	public void setPrjYs(BigDecimal prjYs) {
 		this.prjYs = prjYs;
 	}
 	public String getCjDepartment() {
@@ -86,46 +88,46 @@ public class ProjectIntegrated {
 	public void setPrjLeader(String prjLeader) {
 		this.prjLeader = prjLeader;
 	}
-	public Double getWorkMoney() {
+	public BigDecimal getWorkMoney() {
 		return workMoney;
 	}
-	public void setWorkMoney(Double workMoney) {
+	public void setWorkMoney(BigDecimal workMoney) {
 		this.workMoney = workMoney;
 	}
-	public Double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(Double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
-	public Double getZdMoney() {
+	public BigDecimal getZdMoney() {
 		return zdMoney;
 	}
-	public void setZdMoney(Double zdMoney) {
+	public void setZdMoney(BigDecimal zdMoney) {
 		this.zdMoney = zdMoney;
 	}
-	public Double getContractEndMoney() {
+	public BigDecimal getContractEndMoney() {
 		return contractEndMoney;
 	}
-	public void setContractEndMoney(Double contractEndMoney) {
+	public void setContractEndMoney(BigDecimal contractEndMoney) {
 		this.contractEndMoney = contractEndMoney;
 	}
-	public Double getTotalKpMoney() {
+	public BigDecimal getTotalKpMoney() {
 		return totalKpMoney;
 	}
-	public void setTotalKpMoney(Double totalKpMoney) {
+	public void setTotalKpMoney(BigDecimal totalKpMoney) {
 		this.totalKpMoney = totalKpMoney;
 	}
-	public double getTotalMoney() {
+	public BigDecimal getTotalMoney() {
 		return totalMoney;
 	}
-	public void setTotalMoney(double totalMoney) {
+	public void setTotalMoney(BigDecimal totalMoney) {
 		this.totalMoney = totalMoney;
 	}
-	public double getPrjCost() {
+	public BigDecimal getPrjCost() {
 		return prjCost;
 	}
-	public void setPrjCost(double prjCost) {
+	public void setPrjCost(BigDecimal prjCost) {
 		this.prjCost = prjCost;
 	}
 	public String getPrjPlan() {
@@ -134,16 +136,16 @@ public class ProjectIntegrated {
 	public void setPrjPlan(String prjPlan) {
 		this.prjPlan = prjPlan;
 	}
-	public Double getFbContractMoney() {
+	public BigDecimal getFbContractMoney() {
 		return fbContractMoney;
 	}
-	public void setFbContractMoney(Double fbContractMoney) {
+	public void setFbContractMoney(BigDecimal fbContractMoney) {
 		this.fbContractMoney = fbContractMoney;
 	}
-	public Double getFbEndMoney() {
+	public BigDecimal getFbEndMoney() {
 		return fbEndMoney;
 	}
-	public void setFbEndMoney(Double fbEndMoney) {
+	public void setFbEndMoney(BigDecimal fbEndMoney) {
 		this.fbEndMoney = fbEndMoney;
 	}
 	public String getFbPlan() {
@@ -152,10 +154,10 @@ public class ProjectIntegrated {
 	public void setFbPlan(String fbPlan) {
 		this.fbPlan = fbPlan;
 	}
-	public Double getPracticalFbPayMoney() {
+	public BigDecimal getPracticalFbPayMoney() {
 		return practicalFbPayMoney;
 	}
-	public void setPracticalFbPayMoney(Double practicalFbPayMoney) {
+	public void setPracticalFbPayMoney(BigDecimal practicalFbPayMoney) {
 		this.practicalFbPayMoney = practicalFbPayMoney;
 	}
 	

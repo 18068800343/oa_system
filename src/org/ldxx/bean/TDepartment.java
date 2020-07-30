@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: TDepartment 
 * @Description: 检测2部项目部门表
@@ -11,14 +13,14 @@ public class TDepartment {
 
 	private String tNo;
 	private String dName;
-	private Double dMoney;
-	private Double dIncome;
+	private BigDecimal dMoney;
+	private BigDecimal dIncome;
 	private String date;
 	private String tName;
 	private String id;
 	
 	private String omId;
-	private Double dIncome2;
+	private BigDecimal dIncome2;
 	
 	
 	
@@ -28,10 +30,10 @@ public class TDepartment {
 	public void setOmId(String omId) {
 		this.omId = omId;
 	}
-	public Double getdIncome2() {
+	public BigDecimal getdIncome2() {
 		return dIncome2;
 	}
-	public void setdIncome2(Double dIncome2) {
+	public void setdIncome2(BigDecimal dIncome2) {
 		this.dIncome2 = dIncome2;
 	}
 	public String getId() {
@@ -64,16 +66,16 @@ public class TDepartment {
 	public void setdName(String dName) {
 		this.dName = dName;
 	}
-	public Double getdMoney() {
+	public BigDecimal getdMoney() {
 		return dMoney;
 	}
-	public void setdMoney(Double dMoney) {
+	public void setdMoney(BigDecimal dMoney) {
 		this.dMoney = dMoney;
 	}
-	public Double getdIncome() {
+	public BigDecimal getdIncome() {
 		return dIncome;
 	}
-	public void setdIncome(Double dIncome) {
+	public void setdIncome(BigDecimal dIncome) {
 		this.dIncome = dIncome;
 	}
 	

@@ -1,8 +1,8 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-import org.ldxx.bean.Accessory;
 import org.ldxx.bean.AllQuery;
 import org.ldxx.dao.AllQueryDao;
 import org.ldxx.service.AllQueryService;
@@ -20,7 +20,7 @@ public class AllQueryServiceImpl implements AllQueryService {
 		return allQueryDao.selectAllQueryByTime(year_Time,depart,omName);
 	}
 	@Override
-	public List<AllQuery> getQueryTable(String depart, String omName, Double seachCjMoneyMin, Double seachCjMoneyMax,
+	public List<AllQuery> getQueryTable(String depart, String omName, BigDecimal seachCjMoneyMin, BigDecimal seachCjMoneyMax,
 			String seachTimeMin, String seachTimeMax, String serchType,String serchYear) {
 		return allQueryDao.getQueryTable(depart,omName,seachCjMoneyMin,seachCjMoneyMax,seachTimeMin,seachTimeMax,serchType,serchYear);
 	}

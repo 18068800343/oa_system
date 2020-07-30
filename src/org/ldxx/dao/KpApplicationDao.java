@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +12,7 @@ public interface KpApplicationDao {
 	
 	public List<KpApplication> selectKpApplication(@Param("status")String status);
 	
-	public Double getAllMoney(@Param("contractNo")String contractNo,@Param("prjNo")String prjNo);
+	public BigDecimal getAllMoney(@Param("contractNo")String contractNo,@Param("prjNo")String prjNo);
 	
 	public int buleFpNo(@Param("no")String no,@Param("id")String id);
 	

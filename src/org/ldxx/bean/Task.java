@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Task {
@@ -31,20 +32,20 @@ public class Task {
 
     private String workContent;
 
-    private Double prjEstimateMoney;
+    private BigDecimal prjEstimateMoney;
     
-    private Double prjEstimateMoneyLast;
+    private BigDecimal prjEstimateMoneyLast;
     
     //第一次新建任务单时候不会随其他改变的任务单金额，
-	private Double prjEstimateMoneyOld;
+	private BigDecimal prjEstimateMoneyOld;
 
-    private Double contractMoney;
+    private BigDecimal contractMoney;
     
-    private Double contractMoneyLast;
+    private BigDecimal contractMoneyLast;
 
-    private Double provisionalSum;
+    private BigDecimal provisionalSum;
     
-    private Double guanliMoney;//管理费
+    private BigDecimal guanliMoney;//管理费
 
     private String prjStartTime;
 
@@ -54,9 +55,9 @@ public class Task {
     
     private String mainDepartmentLast;
 
-    private Double mainDepartmentMoney;
+    private BigDecimal mainDepartmentMoney;
     
-    private Double mainDepartmentMoneyLast;
+    private BigDecimal mainDepartmentMoneyLast;
     
     private String mainDepartmentCost;
     
@@ -75,9 +76,9 @@ public class Task {
     
     private String assistDepartment1Last;
 
-    private Double assistDepartment1Money;
+    private BigDecimal assistDepartment1Money;
     
-    private Double assistDepartment1MoneyLast;
+    private BigDecimal assistDepartment1MoneyLast;
     
     private String assistDepartment1Cost;
     
@@ -96,9 +97,9 @@ public class Task {
     
     private String assistDepartment2Last;
 
-    private Double assistDepartment2Money;
+    private BigDecimal assistDepartment2Money;
     
-    private Double assistDepartment2MoneyLast;
+    private BigDecimal assistDepartment2MoneyLast;
     
     private String assistDepartment2Cost;
     
@@ -117,9 +118,9 @@ public class Task {
     
     private String assistDepartment3Last;
 
-    private Double assistDepartment3Money;
+    private BigDecimal assistDepartment3Money;
     
-    private Double assistDepartment3MoneyLast;
+    private BigDecimal assistDepartment3MoneyLast;
     
     private String assistDepartment3Cost;
     
@@ -157,11 +158,11 @@ public class Task {
     
     private PrjCompanyVo prjCompanyVo;
     
-    private Double yugongkebili;
+    private BigDecimal yugongkebili;
     
-    private Double chushebili;
+    private BigDecimal chushebili;
     
-    private Double shishebili;
+    private BigDecimal shishebili;
     
     private List<Task> taskChildren;
     
@@ -181,7 +182,7 @@ public class Task {
     private String starterName;//发起人
     private String status;//审批状态
     
-    private double contractMoneyOld;//原合同金额
+    private BigDecimal contractMoneyOld;//原合同金额
     
     private String tijiaoViews;//原合同金额
 
@@ -193,27 +194,27 @@ public class Task {
 		this.tijiaoViews = tijiaoViews;
 	}
 
-	public double getContractMoneyOld() {
+	public BigDecimal getContractMoneyOld() {
 		return contractMoneyOld;
 	}
 
-	public void setContractMoneyOld(double contractMoneyOld) {
+	public void setContractMoneyOld(BigDecimal contractMoneyOld) {
 		this.contractMoneyOld = contractMoneyOld;
 	}
 
-	public Double getPrjEstimateMoneyLast() {
+	public BigDecimal getPrjEstimateMoneyLast() {
 		return prjEstimateMoneyLast;
 	}
 
-	public void setPrjEstimateMoneyLast(Double prjEstimateMoneyLast) {
+	public void setPrjEstimateMoneyLast(BigDecimal prjEstimateMoneyLast) {
 		this.prjEstimateMoneyLast = prjEstimateMoneyLast;
 	}
 
-	public Double getContractMoneyLast() {
+	public BigDecimal getContractMoneyLast() {
 		return contractMoneyLast;
 	}
 
-	public void setContractMoneyLast(Double contractMoneyLast) {
+	public void setContractMoneyLast(BigDecimal contractMoneyLast) {
 		this.contractMoneyLast = contractMoneyLast;
 	}
 
@@ -225,11 +226,11 @@ public class Task {
 		this.mainDepartmentLast = mainDepartmentLast;
 	}
 
-	public Double getMainDepartmentMoneyLast() {
+	public BigDecimal getMainDepartmentMoneyLast() {
 		return mainDepartmentMoneyLast;
 	}
 
-	public void setMainDepartmentMoneyLast(Double mainDepartmentMoneyLast) {
+	public void setMainDepartmentMoneyLast(BigDecimal mainDepartmentMoneyLast) {
 		this.mainDepartmentMoneyLast = mainDepartmentMoneyLast;
 	}
 
@@ -249,11 +250,11 @@ public class Task {
 		this.assistDepartment1Last = assistDepartment1Last;
 	}
 
-	public Double getAssistDepartment1MoneyLast() {
+	public BigDecimal getAssistDepartment1MoneyLast() {
 		return assistDepartment1MoneyLast;
 	}
 
-	public void setAssistDepartment1MoneyLast(Double assistDepartment1MoneyLast) {
+	public void setAssistDepartment1MoneyLast(BigDecimal assistDepartment1MoneyLast) {
 		this.assistDepartment1MoneyLast = assistDepartment1MoneyLast;
 	}
 
@@ -273,11 +274,11 @@ public class Task {
 		this.assistDepartment2Last = assistDepartment2Last;
 	}
 
-	public Double getAssistDepartment2MoneyLast() {
+	public BigDecimal getAssistDepartment2MoneyLast() {
 		return assistDepartment2MoneyLast;
 	}
 
-	public void setAssistDepartment2MoneyLast(Double assistDepartment2MoneyLast) {
+	public void setAssistDepartment2MoneyLast(BigDecimal assistDepartment2MoneyLast) {
 		this.assistDepartment2MoneyLast = assistDepartment2MoneyLast;
 	}
 
@@ -297,11 +298,11 @@ public class Task {
 		this.assistDepartment3Last = assistDepartment3Last;
 	}
 
-	public Double getAssistDepartment3MoneyLast() {
+	public BigDecimal getAssistDepartment3MoneyLast() {
 		return assistDepartment3MoneyLast;
 	}
 
-	public void setAssistDepartment3MoneyLast(Double assistDepartment3MoneyLast) {
+	public void setAssistDepartment3MoneyLast(BigDecimal assistDepartment3MoneyLast) {
 		this.assistDepartment3MoneyLast = assistDepartment3MoneyLast;
 	}
 
@@ -345,11 +346,11 @@ public class Task {
 		this.stopReason = stopReason;
 	}
 
-	public Double getGuanliMoney() {
+	public BigDecimal getGuanliMoney() {
 		return guanliMoney;
 	}
 
-	public void setGuanliMoney(Double guanliMoney) {
+	public void setGuanliMoney(BigDecimal guanliMoney) {
 		this.guanliMoney = guanliMoney;
 	}
 
@@ -577,27 +578,27 @@ public class Task {
 		this.chaifenOmno = chaifenOmno;
 	}
 
-	public Double getYugongkebili() {
+	public BigDecimal getYugongkebili() {
 		return yugongkebili;
 	}
 
-	public void setYugongkebili(Double yugongkebili) {
+	public void setYugongkebili(BigDecimal yugongkebili) {
 		this.yugongkebili = yugongkebili;
 	}
 
-	public Double getChushebili() {
+	public BigDecimal getChushebili() {
 		return chushebili;
 	}
 
-	public void setChushebili(Double chushebili) {
+	public void setChushebili(BigDecimal chushebili) {
 		this.chushebili = chushebili;
 	}
 
-	public Double getShishebili() {
+	public BigDecimal getShishebili() {
 		return shishebili;
 	}
 
-	public void setShishebili(Double shishebili) {
+	public void setShishebili(BigDecimal shishebili) {
 		this.shishebili = shishebili;
 	}
 
@@ -907,27 +908,27 @@ public class Task {
 		this.workContent = workContent;
 	}
 
-	public Double getPrjEstimateMoney() {
+	public BigDecimal getPrjEstimateMoney() {
 		return prjEstimateMoney;
 	}
 
-	public void setPrjEstimateMoney(Double prjEstimateMoney) {
+	public void setPrjEstimateMoney(BigDecimal prjEstimateMoney) {
 		this.prjEstimateMoney = prjEstimateMoney;
 	}
 
-	public Double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
 
-	public void setContractMoney(Double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 
-	public Double getProvisionalSum() {
+	public BigDecimal getProvisionalSum() {
 		return provisionalSum;
 	}
 
-	public void setProvisionalSum(Double provisionalSum) {
+	public void setProvisionalSum(BigDecimal provisionalSum) {
 		this.provisionalSum = provisionalSum;
 	}
 
@@ -955,11 +956,11 @@ public class Task {
 		this.mainDepartment = mainDepartment;
 	}
 
-	public Double getMainDepartmentMoney() {
+	public BigDecimal getMainDepartmentMoney() {
 		return mainDepartmentMoney;
 	}
 
-	public void setMainDepartmentMoney(Double mainDepartmentMoney) {
+	public void setMainDepartmentMoney(BigDecimal mainDepartmentMoney) {
 		this.mainDepartmentMoney = mainDepartmentMoney;
 	}
 
@@ -971,11 +972,11 @@ public class Task {
 		this.assistDepartment1 = assistDepartment1;
 	}
 
-	public Double getAssistDepartment1Money() {
+	public BigDecimal getAssistDepartment1Money() {
 		return assistDepartment1Money;
 	}
 
-	public void setAssistDepartment1Money(Double assistDepartment1Money) {
+	public void setAssistDepartment1Money(BigDecimal assistDepartment1Money) {
 		this.assistDepartment1Money = assistDepartment1Money;
 	}
 
@@ -987,11 +988,11 @@ public class Task {
 		this.assistDepartment2 = assistDepartment2;
 	}
 
-	public Double getAssistDepartment2Money() {
+	public BigDecimal getAssistDepartment2Money() {
 		return assistDepartment2Money;
 	}
 
-	public void setAssistDepartment2Money(Double assistDepartment2Money) {
+	public void setAssistDepartment2Money(BigDecimal assistDepartment2Money) {
 		this.assistDepartment2Money = assistDepartment2Money;
 	}
 
@@ -1003,11 +1004,11 @@ public class Task {
 		this.assistDepartment3 = assistDepartment3;
 	}
 
-	public Double getAssistDepartment3Money() {
+	public BigDecimal getAssistDepartment3Money() {
 		return assistDepartment3Money;
 	}
 
-	public void setAssistDepartment3Money(Double assistDepartment3Money) {
+	public void setAssistDepartment3Money(BigDecimal assistDepartment3Money) {
 		this.assistDepartment3Money = assistDepartment3Money;
 	}
 
@@ -1020,11 +1021,11 @@ public class Task {
 		this.prjCompany1 = prjCompany1;
 	}
 
-	public Double getPrjEstimateMoneyOld() {
+	public BigDecimal getPrjEstimateMoneyOld() {
 		return prjEstimateMoneyOld;
 	}
 
-	public void setPrjEstimateMoneyOld(Double prjEstimateMoneyOld) {
+	public void setPrjEstimateMoneyOld(BigDecimal prjEstimateMoneyOld) {
 		this.prjEstimateMoneyOld = prjEstimateMoneyOld;
 	}
 	

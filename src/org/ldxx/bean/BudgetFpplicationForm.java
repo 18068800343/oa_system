@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -19,52 +20,52 @@ public class BudgetFpplicationForm {
 	private String declarer;//申报人
 	private String makeTime;//填报时间
 	private String state;//数据状态：0 历史数据 ； 1 最新数据
-	private Double allCost;//总预算金额
+	private BigDecimal allCost;//总预算金额
 	private String department;//负责部门id
 	private String omName;//部门名称
-	private Double allMainMaterialMoney;//主材料总费用
+	private BigDecimal allMainMaterialMoney;//主材料总费用
 	
 	private List<CostBudget> costBudget;//材料费用
 	private List<ArtificialBudget> artificialBudget;//人工费用
 	private List<BudgetMainMaterial> budgetMainMaterial;//主材料费
 	
     private String ccName;//项目负责人
-    private Double prjEstimateMoney;//任务单金额
+    private BigDecimal prjEstimateMoney;//任务单金额
     
     private String mainName;//主办部门
-    private Double mainDepartmentMoney;
+    private BigDecimal mainDepartmentMoney;
     private String name1;//协办部门1
-    private Double assistDepartment1Money;
+    private BigDecimal assistDepartment1Money;
     private String name2;//协办部门2
-    private Double assistDepartment2Money;
+    private BigDecimal assistDepartment2Money;
     private String name3;//协办部门3
-    private Double assistDepartment3Money;
+    private BigDecimal assistDepartment3Money;
     private String starterName;//发起人
     private String status;//审批状态
 	
     
-	public Double getMainDepartmentMoney() {
+	public BigDecimal getMainDepartmentMoney() {
 		return mainDepartmentMoney;
 	}
-	public void setMainDepartmentMoney(Double mainDepartmentMoney) {
+	public void setMainDepartmentMoney(BigDecimal mainDepartmentMoney) {
 		this.mainDepartmentMoney = mainDepartmentMoney;
 	}
-	public Double getAssistDepartment1Money() {
+	public BigDecimal getAssistDepartment1Money() {
 		return assistDepartment1Money;
 	}
-	public void setAssistDepartment1Money(Double assistDepartment1Money) {
+	public void setAssistDepartment1Money(BigDecimal assistDepartment1Money) {
 		this.assistDepartment1Money = assistDepartment1Money;
 	}
-	public Double getAssistDepartment2Money() {
+	public BigDecimal getAssistDepartment2Money() {
 		return assistDepartment2Money;
 	}
-	public void setAssistDepartment2Money(Double assistDepartment2Money) {
+	public void setAssistDepartment2Money(BigDecimal assistDepartment2Money) {
 		this.assistDepartment2Money = assistDepartment2Money;
 	}
-	public Double getAssistDepartment3Money() {
+	public BigDecimal getAssistDepartment3Money() {
 		return assistDepartment3Money;
 	}
-	public void setAssistDepartment3Money(Double assistDepartment3Money) {
+	public void setAssistDepartment3Money(BigDecimal assistDepartment3Money) {
 		this.assistDepartment3Money = assistDepartment3Money;
 	}
 	public String getMainName() {
@@ -103,10 +104,10 @@ public class BudgetFpplicationForm {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Double getPrjEstimateMoney() {
+	public BigDecimal getPrjEstimateMoney() {
 		return prjEstimateMoney;
 	}
-	public void setPrjEstimateMoney(Double prjEstimateMoney) {
+	public void setPrjEstimateMoney(BigDecimal prjEstimateMoney) {
 		this.prjEstimateMoney = prjEstimateMoney;
 	}
 	public String getPrjMode() {
@@ -115,10 +116,10 @@ public class BudgetFpplicationForm {
 	public void setPrjMode(String prjMode) {
 		this.prjMode = prjMode;
 	}
-	public Double getAllMainMaterialMoney() {
+	public BigDecimal getAllMainMaterialMoney() {
 		return allMainMaterialMoney;
 	}
-	public void setAllMainMaterialMoney(Double allMainMaterialMoney) {
+	public void setAllMainMaterialMoney(BigDecimal allMainMaterialMoney) {
 		this.allMainMaterialMoney = allMainMaterialMoney;
 	}
 	public List<BudgetMainMaterial> getBudgetMainMaterial() {
@@ -139,10 +140,10 @@ public class BudgetFpplicationForm {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	public Double getAllCost() {
+	public BigDecimal getAllCost() {
 		return allCost;
 	}
-	public void setAllCost(Double allCost) {
+	public void setAllCost(BigDecimal allCost) {
 		this.allCost = allCost;
 	}
 	public String getBfNo() {

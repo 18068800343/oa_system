@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class AlreadyRenling {
@@ -16,17 +17,17 @@ public class AlreadyRenling {
 	private String fpDesc;//发票摘要
 	private String mainDepartment;//主部门
 	private String fkDanwei;//付款单位
-	private double comeAllMoney;//到账总金额
-	private double skQuerenMoney;//本次确认金额
+	private BigDecimal comeAllMoney;//到账总金额
+	private BigDecimal skQuerenMoney;//本次确认金额
 	private String querenDate;//确认时间
 	private String daozhangDate;//到账时间
-	private double fpMoney;//发票金额
+	private BigDecimal fpMoney;//发票金额
 	private String kpDate;//开票日期
 	private String fpShuoming;//认领但未开票需要填写说明
 	private String makeTime;//填报时间
 	
 	private String status;
-	private double yirenlingallFpMoney;//已认领的发票金额总和
+	private BigDecimal yirenlingallFpMoney;//已认领的发票金额总和
 	private List<AlreadySkOmInfo> asoList;
 	
 	
@@ -43,10 +44,10 @@ public class AlreadyRenling {
 	public void setFpShuoming(String fpShuoming) {
 		this.fpShuoming = fpShuoming;
 	}
-	public double getYirenlingallFpMoney() {
+	public BigDecimal getYirenlingallFpMoney() {
 		return yirenlingallFpMoney;
 	}
-	public void setYirenlingallFpMoney(double yirenlingallFpMoney) {
+	public void setYirenlingallFpMoney(BigDecimal yirenlingallFpMoney) {
 		this.yirenlingallFpMoney = yirenlingallFpMoney;
 	}
 	public List<AlreadySkOmInfo> getAsoList() {
@@ -128,16 +129,16 @@ public class AlreadyRenling {
 	public void setFkDanwei(String fkDanwei) {
 		this.fkDanwei = fkDanwei;
 	}
-	public double getComeAllMoney() {
+	public BigDecimal getComeAllMoney() {
 		return comeAllMoney;
 	}
-	public void setComeAllMoney(double comeAllMoney) {
+	public void setComeAllMoney(BigDecimal comeAllMoney) {
 		this.comeAllMoney = comeAllMoney;
 	}
-	public double getSkQuerenMoney() {
+	public BigDecimal getSkQuerenMoney() {
 		return skQuerenMoney;
 	}
-	public void setSkQuerenMoney(double skQuerenMoney) {
+	public void setSkQuerenMoney(BigDecimal skQuerenMoney) {
 		this.skQuerenMoney = skQuerenMoney;
 	}
 	public String getFpDesc() {
@@ -158,10 +159,10 @@ public class AlreadyRenling {
 	public void setDaozhangDate(String daozhangDate) {
 		this.daozhangDate = daozhangDate;
 	}
-	public double getFpMoney() {
+	public BigDecimal getFpMoney() {
 		return fpMoney;
 	}
-	public void setFpMoney(double fpMoney) {
+	public void setFpMoney(BigDecimal fpMoney) {
 		this.fpMoney = fpMoney;
 	}
 	public String getKpDate() {

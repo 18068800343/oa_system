@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class FbContract {
@@ -23,9 +24,9 @@ public class FbContract {
 
     private String cjContractName;//承接合同名称
 
-    private Double mainContractMoney;//主合同金额
+    private BigDecimal mainContractMoney;//主合同金额
 
-    private Double nowFbAllMoney;//已经累计分包金额
+    private BigDecimal nowFbAllMoney;//已经累计分包金额
 
     private String contractStartTime;//合同开始时间
 
@@ -37,11 +38,11 @@ public class FbContract {
 
     private String payMode;//付款方式
 
-    private Double contractMoney;//合同金额
+    private BigDecimal contractMoney;//合同金额
 
-    private Double temporaryMoney;//暂定金
+    private BigDecimal temporaryMoney;//暂定金
 
-    private Double performanceBond;//已收履约保证金
+    private BigDecimal performanceBond;//已收履约保证金
     
     private String workContent;//工作内容
     private String makeTime; //当前时间
@@ -163,11 +164,11 @@ public class FbContract {
 	}
 
 
-	public Double getPerformanceBond() {
+	public BigDecimal getPerformanceBond() {
 		return performanceBond;
 	}
 
-	public void setPerformanceBond(Double performanceBond) {
+	public void setPerformanceBond(BigDecimal performanceBond) {
 		this.performanceBond = performanceBond;
 	}
 
@@ -261,19 +262,19 @@ public class FbContract {
         this.cjContractName = cjContractName == null ? null : cjContractName.trim();
     }
 
-    public Double getMainContractMoney() {
+    public BigDecimal getMainContractMoney() {
         return mainContractMoney;
     }
 
-    public void setMainContractMoney(Double mainContractMoney) {
+    public void setMainContractMoney(BigDecimal mainContractMoney) {
         this.mainContractMoney = mainContractMoney;
     }
 
-    public Double getNowFbAllMoney() {
+    public BigDecimal getNowFbAllMoney() {
         return nowFbAllMoney;
     }
 
-    public void setNowFbAllMoney(Double nowFbAllMoney) {
+    public void setNowFbAllMoney(BigDecimal nowFbAllMoney) {
         this.nowFbAllMoney = nowFbAllMoney;
     }
 
@@ -317,19 +318,19 @@ public class FbContract {
         this.payMode = payMode == null ? null : payMode.trim();
     }
 
-    public Double getContractMoney() {
+    public BigDecimal getContractMoney() {
         return contractMoney;
     }
 
-    public void setContractMoney(Double contractMoney) {
+    public void setContractMoney(BigDecimal contractMoney) {
         this.contractMoney = contractMoney;
     }
 
-    public Double getTemporaryMoney() {
+    public BigDecimal getTemporaryMoney() {
         return temporaryMoney;
     }
 
-    public void setTemporaryMoney(Double temporaryMoney) {
+    public void setTemporaryMoney(BigDecimal temporaryMoney) {
         this.temporaryMoney = temporaryMoney;
     }
 

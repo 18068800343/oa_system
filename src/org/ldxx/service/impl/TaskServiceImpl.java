@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
@@ -19,7 +20,6 @@ import org.ldxx.dao.TaskDao;
 import org.ldxx.dao.TechnicalDocumentationDao;
 import org.ldxx.dao.TestingEvaluationDao;
 import org.ldxx.service.TaskService;
-import org.ldxx.util.TimeUUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -231,8 +231,8 @@ public class TaskServiceImpl implements TaskService{
 
 	@Override
 	public List<Task> selectTaskByStatus(String status, String startMin, String startMax, String endMin, String endMax,
-			String mainDp, String xbDp, Double prjMoneyMin, Double prjMoneyMax, Double contractMoneyMin,
-			Double contractMoneyMax, Double zdMoneyMin, Double zdMoneyMax) {
+			String mainDp, String xbDp, BigDecimal prjMoneyMin, BigDecimal prjMoneyMax, BigDecimal contractMoneyMin,
+			BigDecimal contractMoneyMax, BigDecimal zdMoneyMin, BigDecimal zdMoneyMax) {
 		return tdao.selectTaskByStatus(status, startMin, startMax, endMin, endMax, mainDp, xbDp, prjMoneyMin, prjMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 
@@ -284,8 +284,8 @@ public class TaskServiceImpl implements TaskService{
 	public Task selectPrjJsMoneyByNo(String no) {
 		Task task=tdao.selectPrjJsMoneyByNo(no);
 		if(task.getMainPrjNo()!=null){
-			Double prjEstimateMoney=tdao.getPrjEstimateMoneyByNo(task.getMainPrjNo());
-			task.setPrjEstimateMoney(task.getPrjEstimateMoney()+prjEstimateMoney);
+			BigDecimal prjEstimateMoney=tdao.getPrjEstimateMoneyByNo(task.getMainPrjNo());
+			task.setPrjEstimateMoney(task.getPrjEstimateMoney().add(prjEstimateMoney));
 		}
 		return task;
 	}

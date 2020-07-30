@@ -1,5 +1,6 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -12,9 +13,9 @@ public interface CjContractService {
 	
 	public int updateCjContract(CjContract cj);
 	
-	public List<CjContract> selectCjContractByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax);
+	public List<CjContract> selectCjContractByStatus(String status,String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,BigDecimal contractMoneyMin,BigDecimal contractMoneyMax,BigDecimal zdMoneyMin,BigDecimal zdMoneyMax);
 	
-	public List<CjContract> selectCjContractBySome (String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,Double contractMoneyMin,Double contractMoneyMax,Double zdMoneyMin,Double zdMoneyMax,String lxdateMin,String lxdateMax,String erjileixing);
+	public List<CjContract> selectCjContractBySome (String startMin,String startMax,String endMin,String endMax,String mainDp,String xbDp,BigDecimal contractMoneyMin,BigDecimal contractMoneyMax,BigDecimal zdMoneyMin,BigDecimal zdMoneyMax,String lxdateMin,String lxdateMax,String erjileixing);
 	
 	public CjContract selectCjContractById(String id);
 	
@@ -46,7 +47,7 @@ public interface CjContractService {
 	
 	public List<CjContract> selectNoAndMoneyByDepartment(String department,String year);
 	
-	public Double selectCjContractMoneyBySignTime(String time);
+	public BigDecimal selectCjContractMoneyBySignTime(String time);
 	
 	public CjContract getCjContractMainDepartmentLeader(String no);
 

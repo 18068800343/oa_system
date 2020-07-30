@@ -1,7 +1,7 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.OperationTarget;
@@ -18,7 +18,7 @@ public interface OperationTargetDao {
 	
 	public int countByYear(@Param("year")String year,@Param("id")String id);
 	
-	public Double getSumCostByYear(@Param("year")String year);
+	public BigDecimal getSumCostByYear(@Param("year")String year);
 	
 	public OperationTarget selectOperationTargetByYear(@Param("year")String year);
 	

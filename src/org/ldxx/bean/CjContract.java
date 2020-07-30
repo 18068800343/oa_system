@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /** 
@@ -26,23 +27,23 @@ public class CjContract {
 	private String omName;//乙方承接部门名称
 	private String contractLongTime;
 	private String receieveMoneyCondition;
-	private Double contractMoney;
-	private Double contractMoneyLast;
-	private Double temporaryMoney;
+	private BigDecimal contractMoney;
+	private BigDecimal contractMoneyLast;
+	private BigDecimal temporaryMoney;
 	private String contractSignTime;
 	private String workInfo;
 	private String mainDepartment;
 	private String name;
-	private Double mainDepartmentMoney;
+	private BigDecimal mainDepartmentMoney;
 	private String assistDepartment1;
 	private String name2;
-	private Double assistDepartment1Money;
+	private BigDecimal assistDepartment1Money;
 	private String assistDepartment2;
 	private String name3;
-	private Double assistDepartment2Money;
+	private BigDecimal assistDepartment2Money;
 	private String assistDepartment3;
 	private String name4;
-	private Double assistDepartment3Money;
+	private BigDecimal assistDepartment3Money;
 	private List<Accessory> accessory;
 	private List<Accessory> accessory2;//法律顾问签字
 	private List<CjSplitMoney> cjSplitMoney;//承接合同拆分金额
@@ -50,14 +51,14 @@ public class CjContract {
 	private List<CjDeptSplitMoney> cjDeptSplitMoney;//承接合同部门拆分金额
 	private List<Task> chaiFenXinXiArray;
 	private String jyms;//经营模式
-	private Double sm;//根据承接合同查出来的累计分包金额
+	private BigDecimal sm;//根据承接合同查出来的累计分包金额
 	private String cancelReason;//承接合同取消原因
 	
 	private String starterName;//发起人
     private String status;//审批状态
     private String doDate;//审批状态
     
-    private Double contractMoneyOld;//原合同金额
+    private BigDecimal contractMoneyOld;//原合同金额
     private String oldCjId;//上次的ID
     private String tijiaoViews;//上次的ID
     private String oldCjFileName;//上次的ID
@@ -88,16 +89,16 @@ public class CjContract {
 	public void setOldCjId(String oldCjId) {
 		this.oldCjId = oldCjId;
 	}
-	public Double getContractMoneyOld() {
+	public BigDecimal getContractMoneyOld() {
 		return contractMoneyOld;
 	}
-	public void setContractMoneyOld(Double contractMoneyOld) {
+	public void setContractMoneyOld(BigDecimal contractMoneyOld) {
 		this.contractMoneyOld = contractMoneyOld;
 	}
-	public Double getContractMoneyLast() {
+	public BigDecimal getContractMoneyLast() {
 		return contractMoneyLast;
 	}
-	public void setContractMoneyLast(Double contractMoneyLast) {
+	public void setContractMoneyLast(BigDecimal contractMoneyLast) {
 		this.contractMoneyLast = contractMoneyLast;
 	}
 	public String getDoDate() {
@@ -124,10 +125,10 @@ public class CjContract {
 	public void setCancelReason(String cancelReason) {
 		this.cancelReason = cancelReason;
 	}
-	public Double getSm() {
+	public BigDecimal getSm() {
 		return sm;
 	}
-	public void setSm(Double sm) {
+	public void setSm(BigDecimal sm) {
 		this.sm = sm;
 	}
 	public String getJyms() {
@@ -286,16 +287,16 @@ public class CjContract {
 	public void setReceieveMoneyCondition(String receieveMoneyCondition) {
 		this.receieveMoneyCondition = receieveMoneyCondition;
 	}
-	public Double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(Double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
-	public Double getTemporaryMoney() {
+	public BigDecimal getTemporaryMoney() {
 		return temporaryMoney;
 	}
-	public void setTemporaryMoney(Double temporaryMoney) {
+	public void setTemporaryMoney(BigDecimal temporaryMoney) {
 		this.temporaryMoney = temporaryMoney;
 	}
 	public String getContractSignTime() {
@@ -316,10 +317,10 @@ public class CjContract {
 	public void setMainDepartment(String mainDepartment) {
 		this.mainDepartment = mainDepartment;
 	}
-	public Double getMainDepartmentMoney() {
+	public BigDecimal getMainDepartmentMoney() {
 		return mainDepartmentMoney;
 	}
-	public void setMainDepartmentMoney(Double mainDepartmentMoney) {
+	public void setMainDepartmentMoney(BigDecimal mainDepartmentMoney) {
 		this.mainDepartmentMoney = mainDepartmentMoney;
 	}
 	public String getAssistDepartment1() {
@@ -328,10 +329,10 @@ public class CjContract {
 	public void setAssistDepartment1(String assistDepartment1) {
 		this.assistDepartment1 = assistDepartment1;
 	}
-	public Double getAssistDepartment1Money() {
+	public BigDecimal getAssistDepartment1Money() {
 		return assistDepartment1Money;
 	}
-	public void setAssistDepartment1Money(Double assistDepartment1Money) {
+	public void setAssistDepartment1Money(BigDecimal assistDepartment1Money) {
 		this.assistDepartment1Money = assistDepartment1Money;
 	}
 	public String getAssistDepartment2() {
@@ -340,10 +341,10 @@ public class CjContract {
 	public void setAssistDepartment2(String assistDepartment2) {
 		this.assistDepartment2 = assistDepartment2;
 	}
-	public Double getAssistDepartment2Money() {
+	public BigDecimal getAssistDepartment2Money() {
 		return assistDepartment2Money;
 	}
-	public void setAssistDepartment2Money(Double assistDepartment2Money) {
+	public void setAssistDepartment2Money(BigDecimal assistDepartment2Money) {
 		this.assistDepartment2Money = assistDepartment2Money;
 	}
 	public String getAssistDepartment3() {
@@ -352,10 +353,10 @@ public class CjContract {
 	public void setAssistDepartment3(String assistDepartment3) {
 		this.assistDepartment3 = assistDepartment3;
 	}
-	public Double getAssistDepartment3Money() {
+	public BigDecimal getAssistDepartment3Money() {
 		return assistDepartment3Money;
 	}
-	public void setAssistDepartment3Money(Double assistDepartment3Money) {
+	public void setAssistDepartment3Money(BigDecimal assistDepartment3Money) {
 		this.assistDepartment3Money = assistDepartment3Money;
 	}
 	@Override

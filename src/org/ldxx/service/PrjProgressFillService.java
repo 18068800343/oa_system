@@ -1,8 +1,8 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.PrjProgressFill;
 import org.ldxx.bean.PrjProgressFillCj;
@@ -35,7 +35,7 @@ public interface PrjProgressFillService {
 	
 	public PrjProgressFill getCost(String no);
 	
-	public Double getDepartmentCost(String department,String id);
+	public BigDecimal getDepartmentCost(String department,String id);
 	
 	public int countOfDepartmentCost(String department,String id);
 

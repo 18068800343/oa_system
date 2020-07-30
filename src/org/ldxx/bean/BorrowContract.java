@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 //借款合同金额
@@ -11,12 +12,12 @@ public class BorrowContract {
 	private String ccName;// 乙方单位名称
 	private String cjNo;// 主合同号
 	private String fbNo;// 分包合同号
-	private Double thisBorrowMoney;// 本次借款金额
+	private BigDecimal thisBorrowMoney;// 本次借款金额
 	private String interestPaymentMethod;// 利息支付方式
 	private String rate;//利率
 	private String borrowTime;// 借款开始时间
 	private String borrowEndTime;// 借款结束时间
-	private Double accumulatedBorrowingMoney;// 乙方累计借款额
+	private BigDecimal accumulatedBorrowingMoney;// 乙方累计借款额
 	private String borrowingPurposes;// 借款用途
 	private String makeTime; // 当前时间
 	private String history;// 历史状态
@@ -141,11 +142,11 @@ public class BorrowContract {
 		this.fbNo = fbNo;
 	}
 
-	public Double getThisBorrowMoney() {
+	public BigDecimal getThisBorrowMoney() {
 		return thisBorrowMoney;
 	}
 
-	public void setThisBorrowMoney(Double thisBorrowMoney) {
+	public void setThisBorrowMoney(BigDecimal thisBorrowMoney) {
 		this.thisBorrowMoney = thisBorrowMoney;
 	}
 
@@ -165,11 +166,11 @@ public class BorrowContract {
 		this.borrowTime = borrowTime;
 	}
 
-	public Double getAccumulatedBorrowingMoney() {
+	public BigDecimal getAccumulatedBorrowingMoney() {
 		return accumulatedBorrowingMoney;
 	}
 
-	public void setAccumulatedBorrowingMoney(Double accumulatedBorrowingMoney) {
+	public void setAccumulatedBorrowingMoney(BigDecimal accumulatedBorrowingMoney) {
 		this.accumulatedBorrowingMoney = accumulatedBorrowingMoney;
 	}
 

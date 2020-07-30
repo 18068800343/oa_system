@@ -1,11 +1,13 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class PrjProgressFillCj {
 
 	private String cjId;
 	private String cjName;
-	private Double incomeBq;
-	private Double incomeAll;
+	private BigDecimal incomeBq;
+	private BigDecimal incomeAll;
 	private String bq;
 	
 	public String getCjId() {
@@ -20,16 +22,16 @@ public class PrjProgressFillCj {
 	public void setCjName(String cjName) {
 		this.cjName = cjName;
 	}
-	public Double getIncomeBq() {
+	public BigDecimal getIncomeBq() {
 		return incomeBq;
 	}
-	public void setIncomeBq(Double incomeBq) {
+	public void setIncomeBq(BigDecimal incomeBq) {
 		this.incomeBq = incomeBq;
 	}
-	public Double getIncomeAll() {
+	public BigDecimal getIncomeAll() {
 		return incomeAll;
 	}
-	public void setIncomeAll(Double incomeAll) {
+	public void setIncomeAll(BigDecimal incomeAll) {
 		this.incomeAll = incomeAll;
 	}
 	public String getBq() {

@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class CompanyMaterialInCl {
 	private String clId;
 	private String gsInId;
@@ -8,8 +10,8 @@ public class CompanyMaterialInCl {
 	private String clMode;
 	private String clUnit;
 	private String clNumber;
-	private Double  clPrice;
-	private Double  clMoney;			//金额=数量*单价
+	private BigDecimal  clPrice;
+	private BigDecimal  clMoney;			//金额=数量*单价
 	private String clPrjSupplier;
 	private String clGsSupplier;
 	private String clDesc;
@@ -92,16 +94,16 @@ public class CompanyMaterialInCl {
 	public void setClNumber(String clNumber) {
 		this.clNumber = clNumber;
 	}
-	public Double getClPrice() {
+	public BigDecimal getClPrice() {
 		return clPrice;
 	}
-	public void setClPrice(Double clPrice) {
+	public void setClPrice(BigDecimal clPrice) {
 		this.clPrice = clPrice;
 	}
-	public Double getClMoney() {
+	public BigDecimal getClMoney() {
 		return clMoney;
 	}
-	public void setClMoney(Double clMoney) {
+	public void setClMoney(BigDecimal clMoney) {
 		this.clMoney = clMoney;
 	}
 	public String getClPrjSupplier() {

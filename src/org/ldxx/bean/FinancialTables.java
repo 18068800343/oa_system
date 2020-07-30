@@ -1,4 +1,7 @@
 package org.ldxx.bean;
+
+import java.math.BigDecimal;
+
 //检测二部的财务收款
 public class FinancialTables {
 	
@@ -6,7 +9,7 @@ public class FinancialTables {
 	private String tNo;//项目编号
 	private String tName;//项目名称
 	private String tDepartment;//核算部门
-	private Double tCollectionValue;//收款值
+	private BigDecimal tCollectionValue;//收款值
 	private String tDesc;//备注
 	private String tTime;//到账时间
 	private String state;//状态：1：未认领，0：已认领
@@ -36,10 +39,10 @@ public class FinancialTables {
 	public void settDepartment(String tDepartment) {
 		this.tDepartment = tDepartment;
 	}
-	public Double gettCollectionValue() {
+	public BigDecimal gettCollectionValue() {
 		return tCollectionValue;
 	}
-	public void settCollectionValue(Double tCollectionValue) {
+	public void settCollectionValue(BigDecimal tCollectionValue) {
 		this.tCollectionValue = tCollectionValue;
 	}
 	public String gettDesc() {

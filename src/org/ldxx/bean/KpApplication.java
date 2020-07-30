@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: KpApplication 
 * @Description: 开票申请
@@ -15,9 +17,9 @@ public class KpApplication {
 	private String contractNo;
 	private String prjName;
 	private String prjNo;
-	private Double kpMoney;
+	private BigDecimal kpMoney;
 	private String time;
-	private Double allKpMoney;
+	private BigDecimal allKpMoney;
 	private String fpType;
 	private String dutyNo;
 	private String sqMen;
@@ -28,7 +30,7 @@ public class KpApplication {
 	private String bank;
 	private String bankNo;
 	
-	private Double contractMoney;
+	private BigDecimal contractMoney;
 	private String kpDepartment;
 	private String omName;//部门名
 	private String kpDesc;
@@ -53,10 +55,10 @@ public class KpApplication {
 	public void setKpDepartment(String kpDepartment) {
 		this.kpDepartment = kpDepartment;
 	}
-	public Double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(Double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 	public String getKpDesc() {
@@ -101,10 +103,10 @@ public class KpApplication {
 	public void setPrjNo(String prjNo) {
 		this.prjNo = prjNo;
 	}
-	public Double getKpMoney() {
+	public BigDecimal getKpMoney() {
 		return kpMoney;
 	}
-	public void setKpMoney(Double kpMoney) {
+	public void setKpMoney(BigDecimal kpMoney) {
 		this.kpMoney = kpMoney;
 	}
 	public String getTime() {
@@ -113,10 +115,10 @@ public class KpApplication {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	public Double getAllKpMoney() {
+	public BigDecimal getAllKpMoney() {
 		return allKpMoney;
 	}
-	public void setAllKpMoney(Double allKpMoney) {
+	public void setAllKpMoney(BigDecimal allKpMoney) {
 		this.allKpMoney = allKpMoney;
 	}
 	public String getFpType() {

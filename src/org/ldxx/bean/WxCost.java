@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: WxCost 
 * @Description: 外协费用
@@ -13,7 +15,7 @@ public class WxCost {
 	private String prjName;
 	private String prjNo;
 	private String wxName;
-	private double wxCost;
+	private BigDecimal wxCost;
 	private String time;
 	private String dept;
 	
@@ -54,10 +56,10 @@ public class WxCost {
 	public void setWxName(String wxName) {
 		this.wxName = wxName;
 	}
-	public double getWxCost() {
+	public BigDecimal getWxCost() {
 		return wxCost;
 	}
-	public void setWxCost(double wxCost) {
+	public void setWxCost(BigDecimal wxCost) {
 		this.wxCost = wxCost;
 	}
 	

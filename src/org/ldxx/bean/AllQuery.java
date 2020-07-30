@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.security.KeyStore.PrivateKeyEntry;
 
 public class AllQuery {
@@ -65,17 +66,17 @@ public class AllQuery {
 	private String cjContractEndTime;//履约时间
 	private String prjSource;//项目来源
 	private String importance;//重要程度
-	private double allMoneyYuan;//累计收入
-	private double prjEstimateMoney;//任务单金额
+	private BigDecimal allMoneyYuan;//累计收入
+	private BigDecimal prjEstimateMoney;//任务单金额
 	private int cjNum;//承接合同数量
 	private int fbNum;//分包合同数量
 	
-	private Double liRun;
+	private BigDecimal liRun;
 	
-	public Double getLiRun() {
+	public BigDecimal getLiRun() {
 		return liRun;
 	}
-	public void setLiRun(Double liRun) {
+	public void setLiRun(BigDecimal liRun) {
 		this.liRun = liRun;
 	}
 	public int getFbNum() {
@@ -90,16 +91,16 @@ public class AllQuery {
 	public void setCjNum(int cjNum) {
 		this.cjNum = cjNum;
 	}
-	public double getPrjEstimateMoney() {
+	public BigDecimal getPrjEstimateMoney() {
 		return prjEstimateMoney;
 	}
-	public void setPrjEstimateMoney(double prjEstimateMoney) {
+	public void setPrjEstimateMoney(BigDecimal prjEstimateMoney) {
 		this.prjEstimateMoney = prjEstimateMoney;
 	}
-	public double getAllMoneyYuan() {
+	public BigDecimal getAllMoneyYuan() {
 		return allMoneyYuan;
 	}
-	public void setAllMoneyYuan(double allMoneyYuan) {
+	public void setAllMoneyYuan(BigDecimal allMoneyYuan) {
 		this.allMoneyYuan = allMoneyYuan;
 	}
 	public String getPrjSource() {

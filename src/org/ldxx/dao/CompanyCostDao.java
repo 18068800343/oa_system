@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -15,6 +16,6 @@ public interface CompanyCostDao {
 	
 	public CompanyCost selectDeptCostByStartAndEndTime(@Param("start")String start,@Param("end")String end,@Param("dept")String dept);//通过开始时间结束时间查询部门成本
 
-	public Double selectSumMoneyByNo(@Param("no")String no);
+	public BigDecimal selectSumMoneyByNo(@Param("no")String no);
 	
 }

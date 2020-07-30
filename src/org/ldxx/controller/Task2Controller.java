@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
@@ -127,8 +128,8 @@ public class Task2Controller {
 	
 	@RequestMapping("/selectSumMoneyByNo")//通过任务单号查直接成本总额
 	@ResponseBody
-	public Double selectSumMoneyByNo(String no){
-		Double cc=ccDao.selectSumMoneyByNo(no);
+	public BigDecimal selectSumMoneyByNo(String no){
+		BigDecimal cc=ccDao.selectSumMoneyByNo(no);
 		return cc;
 	}
 	
@@ -186,9 +187,9 @@ public class Task2Controller {
 		 if(td!=null){
 			 if(task2ByNo!=null&&task2ByNo.size()!=0){
 				 for(int i=0;i<task2ByNo.size();i++){
-					 Double income2 = td.getdIncome2();
-					 Double money2 = task2ByNo.get(i).getdMoney2();
-					 task2ByNo.get(i).setdMoney2(income2+money2);
+					 BigDecimal income2 = td.getdIncome2();
+					 BigDecimal money2 = task2ByNo.get(i).getdMoney2();
+					 task2ByNo.get(i).setdMoney2(income2.add(money2));
 					 task2ByNo.get(i).setOmId(td.getOmId());
 					 task2ByNo.get(i).setdName(td.getdName());
 					 task2ByNo.get(i).settName(td.gettName());
@@ -221,7 +222,7 @@ public class Task2Controller {
 					String no1 = list2.get(i).gettNo();
 					String no2 = list3.get(a).gettNo();
 					if(no1.equals(no2)){
-						list2.get(i).setdMoney2(list2.get(i).getdMoney2()+list3.get(a).getdIncome2());
+						list2.get(i).setdMoney2(list2.get(i).getdMoney2().add(list3.get(a).getdIncome2()));
 						TDepartment tDepartment = list3.get(a);
 						list3.remove(tDepartment);
 					}

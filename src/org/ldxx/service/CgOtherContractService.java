@@ -1,5 +1,6 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -49,7 +50,7 @@ public interface CgOtherContractService {
 
 	List<CgOtherContract> getCGoNametaskNoAndByPrjName(String name);
 
-	int updateDepartmentMoney(Double price, String id);
+	int updateDepartmentMoney(BigDecimal price, String id);
 
 	int updateMaterial(MaterialDemand md);
 

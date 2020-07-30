@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 //经营文档资料
@@ -22,8 +23,8 @@ public class ManagingDocuments {
 	private String prjEndTime;//项目工止期
 	private String biddingPrice;//中标价
 	private String biddingUnit;//中标单位
-	private Double bidPriceLimit;//投标限价
-	private Double prjBudgetPrice;//项目预算价
+	private BigDecimal bidPriceLimit;//投标限价
+	private BigDecimal prjBudgetPrice;//项目预算价
 	private String bidEvaluationMethod;//评标办法
 	private List<ManagingDocumentsTenderer> managingDocumentsTenderer;//招标人
 	
@@ -186,16 +187,16 @@ public class ManagingDocuments {
 	public void setBiddingUnit(String biddingUnit) {
 		this.biddingUnit = biddingUnit;
 	}
-	public Double getBidPriceLimit() {
+	public BigDecimal getBidPriceLimit() {
 		return bidPriceLimit;
 	}
-	public void setBidPriceLimit(Double bidPriceLimit) {
+	public void setBidPriceLimit(BigDecimal bidPriceLimit) {
 		this.bidPriceLimit = bidPriceLimit;
 	}
-	public Double getPrjBudgetPrice() {
+	public BigDecimal getPrjBudgetPrice() {
 		return prjBudgetPrice;
 	}
-	public void setPrjBudgetPrice(Double prjBudgetPrice) {
+	public void setPrjBudgetPrice(BigDecimal prjBudgetPrice) {
 		this.prjBudgetPrice = prjBudgetPrice;
 	}
 	public String getBidEvaluationMethod() {

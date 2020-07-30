@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -149,8 +150,8 @@ public class KpApplicationController {
 	
 	@RequestMapping("/getAllMoney")
 	@ResponseBody
-	public Double getAllMoney(String contractNo,String prjNo){
-		Double all=service.getAllMoney(contractNo, prjNo);
+	public BigDecimal getAllMoney(String contractNo,String prjNo){
+		BigDecimal all=service.getAllMoney(contractNo, prjNo);
 		return all;
 	}
 	
@@ -180,20 +181,22 @@ public class KpApplicationController {
 	public Map<String,Object> getPrjPlan(String nos,String contractNo){
 		Map<String,Object> map=new HashMap<String, Object>();
 		String jindu="";
-		Double jd=(double) 0; 
+		BigDecimal jd=new BigDecimal(0); 
 		if(nos.indexOf(",")>0){
-			Double sumMoney=(double) 0;
+			BigDecimal sumMoney=new BigDecimal(0); 
 			CjContract cj=cService.selectCjContractByNo(contractNo);
-			Double contractMoney=cj.getContractMoney();
+			BigDecimal contractMoney=cj.getContractMoney();
 			for(int i=0;i<nos.split(",").length;i++){
 				PrjProgressFill pf=pService.selectLastPrjProgressFill(nos.split(",")[i]);
 				Task t=tService.selectIdByNo(nos.split(",")[i]);
-				Double prjMoney=t.getPrjEstimateMoney();
+				BigDecimal prjMoney=t.getPrjEstimateMoney();
 				String allMoney=pf.getAllMoney().replace("%", "");
-				Double am=Double.valueOf(allMoney);
-				sumMoney=(Double) (sumMoney+(prjMoney*am)/100);
+				BigDecimal am=new BigDecimal(allMoney);
+				sumMoney=(BigDecimal) (sumMoney.add((prjMoney.multiply(am)).divide(new BigDecimal(100))));
+				//sumMoney=(BigDecimal) (sumMoney+(prjMoney*am)/100);
 			}
-			Double jd2=(sumMoney/contractMoney)*100;
+			BigDecimal jd2=(sumMoney.divide(contractMoney)).multiply(new BigDecimal(100));
+			//BigDecimal jd2=(sumMoney/contractMoney)*100;
 			jindu=jd2+"%";
 		}else{
 			PrjProgressFill pf=pService.selectLastPrjProgressFill(nos);

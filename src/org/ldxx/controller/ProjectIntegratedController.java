@@ -1,5 +1,6 @@
 package org.ldxx.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,11 +72,11 @@ public class ProjectIntegratedController {
 			String prjType=t.getPrjType2();
 			String cjDepartment=t.getOmName();//承接主办部门
 			String prjLeader=t.getMainPrjLeaderName();//项目负责人
-			Double prjMoney=(Double) ((t.getPrjEstimateMoney()==null||"".equals(t.getPrjEstimateMoney()))?0:t.getPrjEstimateMoney());//项目金额
-			Double contractMoney=(t.getContractMoney()==null||"".equals(t.getContractMoney()))?0:t.getContractMoney();//合同金额
-			Double zdMoney=(t.getProvisionalSum()==null||"".equals(t.getProvisionalSum()))?0:t.getProvisionalSum();//暂定金
+			BigDecimal prjMoney= ((t.getPrjEstimateMoney()==null||"".equals(t.getPrjEstimateMoney()))?new BigDecimal(0):t.getPrjEstimateMoney());//项目金额
+			BigDecimal contractMoney=(t.getContractMoney()==null||"".equals(t.getContractMoney()))?new BigDecimal(0):t.getContractMoney();//合同金额
+			BigDecimal zdMoney=(t.getProvisionalSum()==null||"".equals(t.getProvisionalSum()))?new BigDecimal(0):t.getProvisionalSum();//暂定金
 			BudgetFpplicationForm bff=bservice.getAllCost(no);
-			Double ysCost=(double) 0;//项目预算
+			BigDecimal ysCost=new BigDecimal(0);//项目预算
 			if(bff!=null){
 				 ysCost=bff.getAllCost();
 			}
@@ -89,26 +90,26 @@ public class ProjectIntegratedController {
 			List<CjContract> cj=cService.selectCjContractByTaskNo(no);
 			String contractName="";//承接合同名称
 			String contractNo="";//承接合同编号
-			Double htMoney=(double) 0;//承接合同金额
-			Double cjZdMoney=(double) 0;//承接合同暂定金
-			Double contractEndMoney=(double) 0;//结算金额
-			Double allKp=(double) 0;//累计开票金额
+			BigDecimal htMoney=new BigDecimal(0);//承接合同金额
+			BigDecimal cjZdMoney=new BigDecimal(0);//承接合同暂定金
+			BigDecimal contractEndMoney=new BigDecimal(0);//结算金额
+			BigDecimal allKp=new BigDecimal(0);//累计开票金额
 			if(cj!=null&&cj.size()>0){
 				contractName=cj.get(0).getContractName();
 				contractNo=cj.get(0).getContractNo();
-				htMoney=(cj.get(0).getContractMoney()==null||"".equals(cj.get(0).getContractMoney()))?0:cj.get(0).getContractMoney();
-				cjZdMoney=(cj.get(0).getTemporaryMoney()==null||"".equals(cj.get(0).getTemporaryMoney()))?0:cj.get(0).getTemporaryMoney();
+				htMoney=(cj.get(0).getContractMoney()==null||"".equals(cj.get(0).getContractMoney()))?new BigDecimal(0):cj.get(0).getContractMoney();
+				cjZdMoney=(cj.get(0).getTemporaryMoney()==null||"".equals(cj.get(0).getTemporaryMoney()))?new BigDecimal(0):cj.get(0).getTemporaryMoney();
 				ContractWork cw=service.getContractMoney(contractNo);
 				if(cw!=null){
-					contractEndMoney=(cw.getEndMoney()==null||"".equals(cw.getEndMoney()))?0:cw.getEndMoney();
+					contractEndMoney=(cw.getEndMoney()==null||"".equals(cw.getEndMoney()))?new BigDecimal(0):cw.getEndMoney();
 				}
 				allKp=kService.getAllMoney(contractNo, no);
 			}
 			
-			double allReceieveMoney=asService.getAllSkByTaskNo(no);	//累计收款
-			double cost1=ccDao.selectSumMoneyByNo(no);
-			double cost2=sccDao.selectSumMoneyByNo(no);
-			double prjCost=cost1+cost2;//项目成本
+			BigDecimal allReceieveMoney=asService.getAllSkByTaskNo(no);	//累计收款
+			BigDecimal cost1=ccDao.selectSumMoneyByNo(no);
+			BigDecimal cost2=sccDao.selectSumMoneyByNo(no);
+			BigDecimal prjCost=cost1.add(cost2);//项目成本
 			
 			ProjectIntegrated pi=new ProjectIntegrated();
 			pi.setPrjNo(no);
@@ -135,15 +136,15 @@ public class ProjectIntegratedController {
 				for(int ii=0;ii<fb.size();ii++){
 					String fbName=fb.get(ii).getContractName();//分包合同名称
 					String fbNo=fb.get(ii).getFbNo();//分包合同编号
-					Double fbMoney=fb.get(ii).getContractMoney();//分包合同金额
+					BigDecimal fbMoney=fb.get(ii).getContractMoney();//分包合同金额
 					FbContractOverWj fw=fService.getFbOverMoney(fbNo);
-					Double fbOverMoney=(double) 0;
+					BigDecimal fbOverMoney=new BigDecimal(0);
 					if(fw!=null){
 						fbOverMoney=fw.getOverWorkMoney();//分包结算金额
 					}
 					Pay cp=cpService.getFbPayPlanAndMoney(fbNo);
 					String fbPlan="0%";
-					Double fbActualPay=(double) 0;
+					BigDecimal fbActualPay=new BigDecimal(0);
 					if(cp!=null){
 						fbPlan=cp.getFbContractSchedule();//分包进度
 					}

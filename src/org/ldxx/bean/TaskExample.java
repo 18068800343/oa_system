@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1164,52 +1165,52 @@ public class TaskExample {
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyEqualTo(Double value) {
+        public Criteria andMainDepartmentMoneyEqualTo(BigDecimal value) {
             addCriterion("main_department_money =", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyNotEqualTo(Double value) {
+        public Criteria andMainDepartmentMoneyNotEqualTo(BigDecimal value) {
             addCriterion("main_department_money <>", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyGreaterThan(Double value) {
+        public Criteria andMainDepartmentMoneyGreaterThan(BigDecimal value) {
             addCriterion("main_department_money >", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyGreaterThanOrEqualTo(Double value) {
+        public Criteria andMainDepartmentMoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("main_department_money >=", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyLessThan(Double value) {
+        public Criteria andMainDepartmentMoneyLessThan(BigDecimal value) {
             addCriterion("main_department_money <", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyLessThanOrEqualTo(Double value) {
+        public Criteria andMainDepartmentMoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("main_department_money <=", value, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyIn(List<Double> values) {
+        public Criteria andMainDepartmentMoneyIn(List<BigDecimal> values) {
             addCriterion("main_department_money in", values, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyNotIn(List<Double> values) {
+        public Criteria andMainDepartmentMoneyNotIn(List<BigDecimal> values) {
             addCriterion("main_department_money not in", values, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyBetween(Double value1, Double value2) {
+        public Criteria andMainDepartmentMoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("main_department_money between", value1, value2, "mainDepartmentMoney");
             return (Criteria) this;
         }
 
-        public Criteria andMainDepartmentMoneyNotBetween(Double value1, Double value2) {
+        public Criteria andMainDepartmentMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("main_department_money not between", value1, value2, "mainDepartmentMoney");
             return (Criteria) this;
         }
@@ -1294,52 +1295,52 @@ public class TaskExample {
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyEqualTo(Double value) {
+        public Criteria andAssistDepartment1MoneyEqualTo(BigDecimal value) {
             addCriterion("assist_department1_money =", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyNotEqualTo(Double value) {
+        public Criteria andAssistDepartment1MoneyNotEqualTo(BigDecimal value) {
             addCriterion("assist_department1_money <>", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyGreaterThan(Double value) {
+        public Criteria andAssistDepartment1MoneyGreaterThan(BigDecimal value) {
             addCriterion("assist_department1_money >", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyGreaterThanOrEqualTo(Double value) {
+        public Criteria andAssistDepartment1MoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("assist_department1_money >=", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyLessThan(Double value) {
+        public Criteria andAssistDepartment1MoneyLessThan(BigDecimal value) {
             addCriterion("assist_department1_money <", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyLessThanOrEqualTo(Double value) {
+        public Criteria andAssistDepartment1MoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("assist_department1_money <=", value, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyIn(List<Double> values) {
+        public Criteria andAssistDepartment1MoneyIn(List<BigDecimal> values) {
             addCriterion("assist_department1_money in", values, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyNotIn(List<Double> values) {
+        public Criteria andAssistDepartment1MoneyNotIn(List<BigDecimal> values) {
             addCriterion("assist_department1_money not in", values, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyBetween(Double value1, Double value2) {
+        public Criteria andAssistDepartment1MoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("assist_department1_money between", value1, value2, "assistDepartment1Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment1MoneyNotBetween(Double value1, Double value2) {
+        public Criteria andAssistDepartment1MoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("assist_department1_money not between", value1, value2, "assistDepartment1Money");
             return (Criteria) this;
         }
@@ -1424,52 +1425,52 @@ public class TaskExample {
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyEqualTo(Double value) {
+        public Criteria andAssistDepartment2MoneyEqualTo(BigDecimal value) {
             addCriterion("assist_department2_money =", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyNotEqualTo(Double value) {
+        public Criteria andAssistDepartment2MoneyNotEqualTo(BigDecimal value) {
             addCriterion("assist_department2_money <>", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyGreaterThan(Double value) {
+        public Criteria andAssistDepartment2MoneyGreaterThan(BigDecimal value) {
             addCriterion("assist_department2_money >", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyGreaterThanOrEqualTo(Double value) {
+        public Criteria andAssistDepartment2MoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("assist_department2_money >=", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyLessThan(Double value) {
+        public Criteria andAssistDepartment2MoneyLessThan(BigDecimal value) {
             addCriterion("assist_department2_money <", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyLessThanOrEqualTo(Double value) {
+        public Criteria andAssistDepartment2MoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("assist_department2_money <=", value, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyIn(List<Double> values) {
+        public Criteria andAssistDepartment2MoneyIn(List<BigDecimal> values) {
             addCriterion("assist_department2_money in", values, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyNotIn(List<Double> values) {
+        public Criteria andAssistDepartment2MoneyNotIn(List<BigDecimal> values) {
             addCriterion("assist_department2_money not in", values, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyBetween(Double value1, Double value2) {
+        public Criteria andAssistDepartment2MoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("assist_department2_money between", value1, value2, "assistDepartment2Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment2MoneyNotBetween(Double value1, Double value2) {
+        public Criteria andAssistDepartment2MoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("assist_department2_money not between", value1, value2, "assistDepartment2Money");
             return (Criteria) this;
         }
@@ -1554,52 +1555,52 @@ public class TaskExample {
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyEqualTo(Double value) {
+        public Criteria andAssistDepartment3MoneyEqualTo(BigDecimal value) {
             addCriterion("assist_department3_money =", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyNotEqualTo(Double value) {
+        public Criteria andAssistDepartment3MoneyNotEqualTo(BigDecimal value) {
             addCriterion("assist_department3_money <>", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyGreaterThan(Double value) {
+        public Criteria andAssistDepartment3MoneyGreaterThan(BigDecimal value) {
             addCriterion("assist_department3_money >", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyGreaterThanOrEqualTo(Double value) {
+        public Criteria andAssistDepartment3MoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("assist_department3_money >=", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyLessThan(Double value) {
+        public Criteria andAssistDepartment3MoneyLessThan(BigDecimal value) {
             addCriterion("assist_department3_money <", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyLessThanOrEqualTo(Double value) {
+        public Criteria andAssistDepartment3MoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("assist_department3_money <=", value, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyIn(List<Double> values) {
+        public Criteria andAssistDepartment3MoneyIn(List<BigDecimal> values) {
             addCriterion("assist_department3_money in", values, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyNotIn(List<Double> values) {
+        public Criteria andAssistDepartment3MoneyNotIn(List<BigDecimal> values) {
             addCriterion("assist_department3_money not in", values, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyBetween(Double value1, Double value2) {
+        public Criteria andAssistDepartment3MoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("assist_department3_money between", value1, value2, "assistDepartment3Money");
             return (Criteria) this;
         }
 
-        public Criteria andAssistDepartment3MoneyNotBetween(Double value1, Double value2) {
+        public Criteria andAssistDepartment3MoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("assist_department3_money not between", value1, value2, "assistDepartment3Money");
             return (Criteria) this;
         }

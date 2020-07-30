@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.MaterialDemand;
@@ -36,12 +37,12 @@ public class MaterialDemandServiceImpl implements MaterialDemandService{
 		if(i>0){
 			i=dao.addMaterialDemand(md);
 			if(i>0){
-				Double sumPrice=(double) 0;
+				BigDecimal sumPrice=new BigDecimal(0);
 				for(int a=0;a<md.size();a++){
 					int num=md.get(a).getNum();
-					Double price=md.get(a).getPrice();
-					Double sum=num*price;
-					sumPrice=sumPrice+sum;
+					BigDecimal price=md.get(a).getPrice();
+					BigDecimal sum=price.multiply(new BigDecimal(num));
+					sumPrice=sumPrice.add(sum);
 				}
 				i=pdao.updateSumPrice(sumPrice, id);
 			}

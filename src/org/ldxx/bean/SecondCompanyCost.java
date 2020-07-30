@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class SecondCompanyCost {
 
 	private String id;
@@ -9,12 +11,12 @@ public class SecondCompanyCost {
 	private String departId;
 	private String departName;
 	private String date;
-	private Double money;
+	private BigDecimal money;
 	
-	public Double getMoney() {
+	public BigDecimal getMoney() {
 		return money;
 	}
-	public void setMoney(Double money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
 	public String getId() {

@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class PrjEndWorkApply {
     private String peId;
 
@@ -19,9 +21,9 @@ public class PrjEndWorkApply {
 
     private String workText;
 
-    private Double contractMoney;
+    private BigDecimal contractMoney;
 
-    private Double endMoney;
+    private BigDecimal endMoney;
 
     private String otherFilePath;
 
@@ -97,19 +99,19 @@ public class PrjEndWorkApply {
         this.workText = workText == null ? null : workText.trim();
     }
 
-    public Double getContractMoney() {
+    public BigDecimal getContractMoney() {
         return contractMoney;
     }
 
-    public void setContractMoney(Double contractMoney) {
+    public void setContractMoney(BigDecimal contractMoney) {
         this.contractMoney = contractMoney;
     }
 
-    public Double getEndMoney() {
+    public BigDecimal getEndMoney() {
         return endMoney;
     }
 
-    public void setEndMoney(Double endMoney) {
+    public void setEndMoney(BigDecimal endMoney) {
         this.endMoney = endMoney;
     }
 

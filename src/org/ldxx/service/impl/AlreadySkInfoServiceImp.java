@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +96,7 @@ public class AlreadySkInfoServiceImp implements AlreadySkInfoService {
 	}
 
 	@Override
-	public double getAllSkByTaskNo(String no) {
+	public BigDecimal getAllSkByTaskNo(String no) {
 		return dao.getAllSkByTaskNo(no);
 	}
 

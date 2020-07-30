@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -273,7 +274,7 @@ public class FbContractOverController {
 	
 	@RequestMapping("/selectFbJsMoneyByNo")//通过任务单号查找结算金额
 	@ResponseBody
-	public Double selectFbJsMoneyByNo(String no){
+	public BigDecimal selectFbJsMoneyByNo(String no){
 		return service.selectFbJsMoneyByNo(no);
 	}
 	

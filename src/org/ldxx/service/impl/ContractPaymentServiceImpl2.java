@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
@@ -8,7 +9,6 @@ import org.ldxx.dao.AccessoryDao;
 import org.ldxx.dao.ContractPaymentDao2;
 import org.ldxx.service.ContractPaymentService2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,7 +92,7 @@ public class ContractPaymentServiceImpl2 implements ContractPaymentService2 {
 	}
 
 	@Override
-	public int addPayResultInfo(String id, Double resultPay, String payTime) {
+	public int addPayResultInfo(String id, BigDecimal resultPay, String payTime) {
 		return contractPaymentDao2.addPayResultInfo(id, resultPay, payTime);
 	}
 
@@ -111,7 +111,7 @@ public class ContractPaymentServiceImpl2 implements ContractPaymentService2 {
 	}
 
 	@Override
-	public int updateAuthorisePayment(String id, Double money) {
+	public int updateAuthorisePayment(String id, BigDecimal money) {
 		return contractPaymentDao2.updateAuthorisePayment(id, money);
 	}
 

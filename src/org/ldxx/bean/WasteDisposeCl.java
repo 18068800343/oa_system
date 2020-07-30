@@ -8,6 +8,8 @@
 
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: wasteDisposeCl 
 * @Description: 废旧品材料表
@@ -23,10 +25,10 @@ public class WasteDisposeCl {
 	private String specificationModel;
 	private String cmoUnit;
 	private int cmoNumber;
-	private Double cmoUnitPrice;
-	private Double cmoMoney;
-	private Double wasteWantMoney;
-	private Double wasteActualMoney;
+	private BigDecimal cmoUnitPrice;
+	private BigDecimal cmoMoney;
+	private BigDecimal wasteWantMoney;
+	private BigDecimal wasteActualMoney;
 	public String getWpId() {
 		return wpId;
 	}
@@ -63,28 +65,28 @@ public class WasteDisposeCl {
 	public void setCmoNumber(int cmoNumber) {
 		this.cmoNumber = cmoNumber;
 	}
-	public Double getCmoUnitPrice() {
+	public BigDecimal getCmoUnitPrice() {
 		return cmoUnitPrice;
 	}
-	public void setCmoUnitPrice(Double cmoUnitPrice) {
+	public void setCmoUnitPrice(BigDecimal cmoUnitPrice) {
 		this.cmoUnitPrice = cmoUnitPrice;
 	}
-	public Double getCmoMoney() {
+	public BigDecimal getCmoMoney() {
 		return cmoMoney;
 	}
-	public void setCmoMoney(Double cmoMoney) {
+	public void setCmoMoney(BigDecimal cmoMoney) {
 		this.cmoMoney = cmoMoney;
 	}
-	public Double getWasteWantMoney() {
+	public BigDecimal getWasteWantMoney() {
 		return wasteWantMoney;
 	}
-	public void setWasteWantMoney(Double wasteWantMoney) {
+	public void setWasteWantMoney(BigDecimal wasteWantMoney) {
 		this.wasteWantMoney = wasteWantMoney;
 	}
-	public Double getWasteActualMoney() {
+	public BigDecimal getWasteActualMoney() {
 		return wasteActualMoney;
 	}
-	public void setWasteActualMoney(Double wasteActualMoney) {
+	public void setWasteActualMoney(BigDecimal wasteActualMoney) {
 		this.wasteActualMoney = wasteActualMoney;
 	}
 	

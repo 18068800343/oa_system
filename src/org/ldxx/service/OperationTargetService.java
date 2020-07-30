@@ -1,7 +1,7 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import org.ldxx.bean.OperationTarget;
 
@@ -15,7 +15,7 @@ public interface OperationTargetService {
 	
 	public List<OperationTarget> selectOperationTarget();
 	
-	public Double getSumCostByYear(String year);
+	public BigDecimal getSumCostByYear(String year);
 	
 	public OperationTarget selectOperationTargetByYear(String year);
 	

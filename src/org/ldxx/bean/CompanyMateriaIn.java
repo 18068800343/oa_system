@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class CompanyMateriaIn {
 	private List<ClRemain> clremain;//公司结余材料信息
 	
 	private String isProgram;// 是否代购
-	private Double programMoney;// 代购金额
+	private BigDecimal programMoney;// 代购金额
 
 
 	public String getIsProgram() {
@@ -43,11 +44,11 @@ public class CompanyMateriaIn {
 		this.isProgram = isProgram;
 	}
 
-	public Double getProgramMoney() {
+	public BigDecimal getProgramMoney() {
 		return programMoney;
 	}
 
-	public void setProgramMoney(Double programMoney) {
+	public void setProgramMoney(BigDecimal programMoney) {
 		this.programMoney = programMoney;
 	}
 

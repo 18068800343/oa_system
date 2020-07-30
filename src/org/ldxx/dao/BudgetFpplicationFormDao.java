@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -14,7 +15,7 @@ public interface BudgetFpplicationFormDao {
 
 	int updateBudge(@Param("budge")BudgetFpplicationForm budge);
 
-	List<BudgetFpplicationForm> selectBudgeByStatus(@Param("status")String status,@Param("timeMin")String timeMin,@Param("timeMax")String timeMax,@Param("costMin")Double costMin,@Param("costMax")Double costMax);
+	List<BudgetFpplicationForm> selectBudgeByStatus(@Param("status")String status,@Param("timeMin")String timeMin,@Param("timeMax")String timeMax,@Param("costMin")BigDecimal costMin,@Param("costMax")BigDecimal costMax);
 
 	BudgetFpplicationForm selectBudgeById(@Param("id")String id);
 
@@ -29,7 +30,7 @@ public interface BudgetFpplicationFormDao {
 	
 	BudgetFpplicationForm selectBudgeByName(@Param("name")String name);
 	
-	Double getBudgeCost(@Param("department")String department,@Param("year")String year);
+	BigDecimal getBudgeCost(@Param("department")String department,@Param("year")String year);
 	
 	BudgetFpplicationForm getAllCost(@Param("no")String no);
 
@@ -45,9 +46,9 @@ public interface BudgetFpplicationFormDao {
 	
 	String CreateBudgetNumOrder(@Param("year")String year);
 
-	List<BudgetFpplicationForm> selectBudgeByStatus2(@Param("status")String status,@Param("timeMin")String timeMin,@Param("timeMax")String timeMax,@Param("costMin")Double costMin,@Param("costMax")Double costMax);
+	List<BudgetFpplicationForm> selectBudgeByStatus2(@Param("status")String status,@Param("timeMin")String timeMin,@Param("timeMax")String timeMax,@Param("costMin")BigDecimal costMin,@Param("costMax")BigDecimal costMax);
 
-	Double getSumAllCost(@Param("no")String no);
+	BigDecimal getSumAllCost(@Param("no")String no);
 	
 	int taskNoisExist(@Param("no")String no);
 

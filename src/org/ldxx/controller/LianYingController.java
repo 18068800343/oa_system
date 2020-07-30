@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -389,11 +390,11 @@ public class LianYingController {
 		Map<String,Object> map=new HashMap<>();
 		LianYing ly=service.selectLianYingByNo(no);
 		map.put("ly", ly);
-		double cost=ccDao.selectSumMoneyByNo(no);//项目累计成本
-		double cost2=sccDao.selectSumMoneyByNo(no);//检测二部项目累计成本
-		double allCost=cost+cost2;//财务成本结算
+		BigDecimal cost=ccDao.selectSumMoneyByNo(no);//项目累计成本
+		BigDecimal cost2=sccDao.selectSumMoneyByNo(no);//检测二部项目累计成本
+		BigDecimal allCost=cost.add(cost2);//财务成本结算
 		map.put("allCost", allCost);
-		double fbEndMoney=fbService.selectFbJsMoneyByNo(no);//任务单下所有分包结算金额总和
+		BigDecimal fbEndMoney=fbService.selectFbJsMoneyByNo(no);//任务单下所有分包结算金额总和
 		map.put("fbEndMoney", fbEndMoney);
 		return map;
 	}

@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class PrjProgressFillFb {
 
 	private String ppfId;
@@ -7,31 +9,31 @@ public class PrjProgressFillFb {
 	private String fbName;
 	private String department;
 	private String fbUnit;
-	private double fbMoney;
-	private double incomeAllBili;//比例
-	private double incomeAll;
-	private double incomeBq;
+	private BigDecimal fbMoney;
+	private BigDecimal incomeAllBili;//比例
+	private BigDecimal incomeAll;
+	private BigDecimal incomeBq;
 	private String bq;
-	private double rate;
-	private double rateMoney;
+	private BigDecimal rate;
+	private BigDecimal rateMoney;
 	
 	
-	public double getIncomeAllBili() {
+	public BigDecimal getIncomeAllBili() {
 		return incomeAllBili;
 	}
-	public void setIncomeAllBili(double incomeAllBili) {
+	public void setIncomeAllBili(BigDecimal incomeAllBili) {
 		this.incomeAllBili = incomeAllBili;
 	}
-	public double getRate() {
+	public BigDecimal getRate() {
 		return rate;
 	}
-	public void setRate(double rate) {
+	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
-	public double getRateMoney() {
+	public BigDecimal getRateMoney() {
 		return rateMoney;
 	}
-	public void setRateMoney(double rateMoney) {
+	public void setRateMoney(BigDecimal rateMoney) {
 		this.rateMoney = rateMoney;
 	}
 	public String getDepartment() {
@@ -52,10 +54,10 @@ public class PrjProgressFillFb {
 	public void setFbUnit(String fbUnit) {
 		this.fbUnit = fbUnit;
 	}
-	public double getFbMoney() {
+	public BigDecimal getFbMoney() {
 		return fbMoney;
 	}
-	public void setFbMoney(double fbMoney) {
+	public void setFbMoney(BigDecimal fbMoney) {
 		this.fbMoney = fbMoney;
 	}
 	public String getFbId() {
@@ -70,16 +72,16 @@ public class PrjProgressFillFb {
 	public void setFbName(String fbName) {
 		this.fbName = fbName;
 	}
-	public double getIncomeAll() {
+	public BigDecimal getIncomeAll() {
 		return incomeAll;
 	}
-	public void setIncomeAll(double incomeAll) {
+	public void setIncomeAll(BigDecimal incomeAll) {
 		this.incomeAll = incomeAll;
 	}
-	public double getIncomeBq() {
+	public BigDecimal getIncomeBq() {
 		return incomeBq;
 	}
-	public void setIncomeBq(double incomeBq) {
+	public void setIncomeBq(BigDecimal incomeBq) {
 		this.incomeBq = incomeBq;
 	}
 	public String getBq() {

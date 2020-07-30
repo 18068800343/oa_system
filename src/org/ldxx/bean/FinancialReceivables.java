@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class FinancialReceivables {
     private String frId;
 
@@ -17,15 +19,15 @@ public class FinancialReceivables {
 
     private String contractNo;
 
-    private Double contractAmount;
+    private BigDecimal contractAmount;
 
-    private Double contractAmount2;
+    private BigDecimal contractAmount2;
 
-    private Double cumulativeCollection;
+    private BigDecimal cumulativeCollection;
 
-    private Double extendedAmount;
+    private BigDecimal extendedAmount;
 
-    private Double extendedAmount2;
+    private BigDecimal extendedAmount2;
 
     private String invoiceNo;
 
@@ -35,9 +37,9 @@ public class FinancialReceivables {
 
     private String receivingNode;
 
-    private Double receivingNodeMoney;
+    private BigDecimal receivingNodeMoney;
 
-    private Double actualPayment;
+    private BigDecimal actualPayment;
 
     private String departmentFeedback;
 
@@ -107,43 +109,43 @@ public class FinancialReceivables {
         this.contractNo = contractNo == null ? null : contractNo.trim();
     }
 
-    public Double getContractAmount() {
+    public BigDecimal getContractAmount() {
         return contractAmount;
     }
 
-    public void setContractAmount(Double contractAmount) {
+    public void setContractAmount(BigDecimal contractAmount) {
         this.contractAmount = contractAmount;
     }
 
-    public Double getContractAmount2() {
+    public BigDecimal getContractAmount2() {
         return contractAmount2;
     }
 
-    public void setContractAmount2(Double contractAmount2) {
+    public void setContractAmount2(BigDecimal contractAmount2) {
         this.contractAmount2 = contractAmount2;
     }
 
-    public Double getCumulativeCollection() {
+    public BigDecimal getCumulativeCollection() {
         return cumulativeCollection;
     }
 
-    public void setCumulativeCollection(Double cumulativeCollection) {
+    public void setCumulativeCollection(BigDecimal cumulativeCollection) {
         this.cumulativeCollection = cumulativeCollection;
     }
 
-    public Double getExtendedAmount() {
+    public BigDecimal getExtendedAmount() {
         return extendedAmount;
     }
 
-    public void setExtendedAmount(Double extendedAmount) {
+    public void setExtendedAmount(BigDecimal extendedAmount) {
         this.extendedAmount = extendedAmount;
     }
 
-    public Double getExtendedAmount2() {
+    public BigDecimal getExtendedAmount2() {
         return extendedAmount2;
     }
 
-    public void setExtendedAmount2(Double extendedAmount2) {
+    public void setExtendedAmount2(BigDecimal extendedAmount2) {
         this.extendedAmount2 = extendedAmount2;
     }
 
@@ -179,19 +181,19 @@ public class FinancialReceivables {
         this.receivingNode = receivingNode == null ? null : receivingNode.trim();
     }
 
-    public Double getReceivingNodeMoney() {
+    public BigDecimal getReceivingNodeMoney() {
         return receivingNodeMoney;
     }
 
-    public void setReceivingNodeMoney(Double receivingNodeMoney) {
+    public void setReceivingNodeMoney(BigDecimal receivingNodeMoney) {
         this.receivingNodeMoney = receivingNodeMoney;
     }
 
-    public Double getActualPayment() {
+    public BigDecimal getActualPayment() {
         return actualPayment;
     }
 
-    public void setActualPayment(Double actualPayment) {
+    public void setActualPayment(BigDecimal actualPayment) {
         this.actualPayment = actualPayment;
     }
 

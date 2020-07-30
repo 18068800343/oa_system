@@ -1,15 +1,13 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.FbCgContract;
-import org.ldxx.bean.FbContract;
 import org.ldxx.dao.AccessoryDao;
-import org.ldxx.dao.SubContractDao;
 import org.ldxx.dao.SubContractDao2;
-import org.ldxx.service.SubContractService;
 import org.ldxx.service.SubContractService2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -141,15 +139,15 @@ public class SubContractServiceImpl2 implements SubContractService2 {
 
 	@Override
 	public List<FbCgContract> selectSubContract(String status, String startMin, String startMax, String endMin,
-			String endMax, String mainDp, String spType, Double fbMoneyMin, Double fbMoneyMax, Double contractMoneyMin,
-			Double contractMoneyMax, Double zdMoneyMin, Double zdMoneyMax) {
+			String endMax, String mainDp, String spType, BigDecimal fbMoneyMin, BigDecimal fbMoneyMax, BigDecimal contractMoneyMin,
+			BigDecimal contractMoneyMax, BigDecimal zdMoneyMin, BigDecimal zdMoneyMax) {
 		return scDao.selectSubContract(status, startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 	
 	@Override
 	public List<FbCgContract> selectSubContract2(String startMin, String startMax, String endMin,
-			String endMax, String mainDp, String spType, Double fbMoneyMin, Double fbMoneyMax, Double contractMoneyMin,
-			Double contractMoneyMax, Double zdMoneyMin, Double zdMoneyMax) {
+			String endMax, String mainDp, String spType, BigDecimal fbMoneyMin, BigDecimal fbMoneyMax, BigDecimal contractMoneyMin,
+			BigDecimal contractMoneyMax, BigDecimal zdMoneyMin, BigDecimal zdMoneyMax) {
 		return scDao.selectSubContract2(startMin, startMax, endMin, endMax, mainDp, spType, fbMoneyMin, fbMoneyMax, contractMoneyMin, contractMoneyMax, zdMoneyMin, zdMoneyMax);
 	}
 

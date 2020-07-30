@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -22,9 +23,9 @@ public interface FinancialReceipts2Dao {
 
 	public FinancialTables selectValueByno(@Param("no")String no);
 
-	public int updateValueById(@Param("ftId")String ftId,@Param("ftMoney") Double ftMoney);
+	public int updateValueById(@Param("ftId")String ftId,@Param("ftMoney") BigDecimal ftMoney);
 
-	public int updateValueById2(@Param("ftId")String ftId,@Param("ftMoney") Double ftMoney);
+	public int updateValueById2(@Param("ftId")String ftId,@Param("ftMoney") BigDecimal ftMoney);
 	
 	public List<FinancialTables> getSumMoneyByYear(@Param("year")String year);
 }

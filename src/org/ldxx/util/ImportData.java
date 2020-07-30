@@ -2,6 +2,7 @@ package org.ldxx.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -133,7 +134,7 @@ public class ImportData {
 								if(i>0){
 									t2.settNo(tNo);
 									t2.settDate(date1);
-									t2.setdMoney(Double.valueOf(cl3));
+									t2.setdMoney(new BigDecimal(cl3));
 									xgt.add(t2);
 								}else{
 									t2.settId(uuid.getTimeUUID());
@@ -149,8 +150,8 @@ public class ImportData {
 										dname="工程检测部";
 									}
 									t2.setdName(dname);
-									t2.setdMoney(Double.valueOf(cl3));
-									t2.setdIncome(Double.valueOf(0));
+									t2.setdMoney(new BigDecimal(cl3));
+									t2.setdIncome(new BigDecimal(0));
 									t.add(t2);
 									d.add(td);
 								}
@@ -233,7 +234,7 @@ public class ImportData {
                 		int i=INSTANCE.tDdao.isCountBytNoAndDate(tno,date1);
                 		if(i>0){
                 			td.settNo(getValue(colum1));
-                			td.setdIncome(Double.valueOf(getValue(colum3)));
+                			td.setdIncome(new BigDecimal(getValue(colum3)));
                 			td.setDate(date1);
                 			list2.add(td);
                 		}else{
@@ -244,7 +245,7 @@ public class ImportData {
 							}
                 			td.setdName(dname);
                 			td.settName(getValue(colum2));
-                			td.setdIncome(Double.valueOf(getValue(colum3)));
+                			td.setdIncome(new BigDecimal(getValue(colum3)));
                 			td.setDate(date1);
                 			td.setId(new TimeUUID().getTimeUUID());
                 			list.add(td);
@@ -310,7 +311,7 @@ public class ImportData {
 								wx.setWxId(id);
 								wx.setPrjNo(no);
 								wx.setPrjName(name);
-								wx.setWxCost(Double.valueOf(wxCost));
+								wx.setWxCost(new BigDecimal(wxCost));
 								wx.setWxName(wxName);
 								wx.setDept(dept);
 								list.add(wx);
@@ -410,7 +411,7 @@ public class ImportData {
 		                		ft.settNo(tNo);
 		                		ft.settName(getValue(colum2));
 		                		ft.settDepartment(getValue(colum3));
-		                		ft.settCollectionValue(Double.valueOf(getValue(colum4).isEmpty()?"0":getValue(colum4)));
+		                		ft.settCollectionValue(new BigDecimal(getValue(colum4).isEmpty()?"0":getValue(colum4)));
 		                		ft.settDesc(getValue(colum5));
 		                		ft.settTime(date1);
 		                		t.add(ft);
@@ -468,7 +469,7 @@ public class ImportData {
 	                	//付款单位
 	                	ft.setCcName(getValue(colum1));
 	                	//到账金额
-	                	ft.setReceiveMoney(Double.valueOf(getValue(colum2)));
+	                	ft.setReceiveMoney(new BigDecimal(getValue(colum2)));
 	                	//备注
 	                	
 	                	ft.setRmDesc(getValue(colum3));
@@ -546,7 +547,7 @@ public class ImportData {
 		                	ft.setCompanyName(getValue(colum2));
 		                	ft.setTaskCode(getValue(colum3));
 		                	ft.setDepartName(getValue(colum4));
-		                	ft.setMoney(Double.valueOf((getValue(colum5).isEmpty()?"0":getValue(colum5))));
+		                	ft.setMoney(new BigDecimal((getValue(colum5).isEmpty()?"0":getValue(colum5))));
 		                	ft.setDate(date1);
 		                    t.add(ft);
 		                }
@@ -636,9 +637,9 @@ public class ImportData {
 						 if(!"".equals(cc9)){
 							 cc9 = cc9.replace(" ", "").replace("，", "").replace(",","");
 							 if(cc3.startsWith("0")){
-								 ft.setMoney(Double.valueOf((cc9)));
+								 ft.setMoney(new BigDecimal((cc9)));
 							 }else{
-								 ft.setMoney2(Double.valueOf((cc9)));
+								 ft.setMoney2(new BigDecimal((cc9)));
 							 }
 						 }else{
 							 ft.setMoney(null);
@@ -648,12 +649,12 @@ public class ImportData {
 						 
 						 //根据月份和部门拆分间接成本费用（根据月份和部门去进度表查询当前部门和月份的本期收入/当前部门和月份的的所有本期收入和*当前部门和当前任务单名称的间接成本）
 						 /*List<PrjProgressFill> ppf=INSTANCE.ppfDao.getmoneyYuanByDepartmentAndDate(nowStr,time);//根据月份和部门去进度表查询当前部门和月份的本期收入
-						 Double SummoneyYuan=INSTANCE.ppfDao.getSummoneyYuan(nowStr,time);//当前部门和月份的的所有本期收入和
-						 Double money = Double.valueOf((cc9));//间接成本
+						 BigDecimal SummoneyYuan=INSTANCE.ppfDao.getSummoneyYuan(nowStr,time);//当前部门和月份的的所有本期收入和
+						 BigDecimal money = new BigDecimal((cc9));//间接成本
 						 if(ppf!=null&&ppf.size()!=0){
 							 for(int k=0;k<ppf.size();k++){
-								 Double moneyYuan = ppf.get(k).getBenqishouru();
-								 double cfmoney=moneyYuan/SummoneyYuan*money;
+								 BigDecimal moneyYuan = ppf.get(k).getBenqishouru();
+								 BigDecimal cfmoney=moneyYuan/SummoneyYuan*money;
 								 CompanyCostCf ccc=new CompanyCostCf();
 								 String id=new TimeUUID().getTimeUUID();
 								 ccc.setCfjjId(id);

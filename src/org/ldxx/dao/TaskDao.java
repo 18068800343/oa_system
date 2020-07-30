@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -13,7 +14,7 @@ public interface TaskDao {
 	
 	public int updateTask(@Param("task")Task task);
 	
-	public List<Task> selectTaskByStatus(@Param("status") String status,@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("prjMoneyMin") Double prjMoneyMin,@Param("prjMoneyMax") Double prjMoneyMax,@Param("contractMoneyMin") Double contractMoneyMin,@Param("contractMoneyMax") Double contractMoneyMax,@Param("zdMoneyMin") Double zdMoneyMin,@Param("zdMoneyMax") Double zdMoneyMax);
+	public List<Task> selectTaskByStatus(@Param("status") String status,@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("prjMoneyMin") BigDecimal prjMoneyMin,@Param("prjMoneyMax") BigDecimal prjMoneyMax,@Param("contractMoneyMin") BigDecimal contractMoneyMin,@Param("contractMoneyMax") BigDecimal contractMoneyMax,@Param("zdMoneyMin") BigDecimal zdMoneyMin,@Param("zdMoneyMax") BigDecimal zdMoneyMax);
 	
 	public List<Task> selectTaskByStatus2(@Param("status") String status);
 	
@@ -87,9 +88,9 @@ public interface TaskDao {
 
 	public Task selectPrjJsMoneyByNo(@Param("no")String no);
 	
-	public int updateTaskMoneyByIdChaifen(@Param("prjMoney")Double prjMoney,@Param("contractMoney")Double contractMoney,@Param("id")String id);
+	public int updateTaskMoneyByIdChaifen(@Param("prjMoney")BigDecimal prjMoney,@Param("contractMoney")BigDecimal contractMoney,@Param("id")String id);
 
-	public Double getPrjEstimateMoneyByNo(@Param("mainPrjNo")String mainPrjNo);
+	public BigDecimal getPrjEstimateMoneyByNo(@Param("mainPrjNo")String mainPrjNo);
 
 	public List<Task> selectTaskAndTaskChildrenByMainPrjNo(@Param("mainPrjNo")String mainPrjNo, @Param("id")String id);
 
@@ -103,9 +104,9 @@ public interface TaskDao {
 	
 	public int addReason(@Param("id")String id,@Param("reason")String reason);
 
-	public List<Task> selectTask2(@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("prjMoneyMin") Double prjMoneyMin,@Param("prjMoneyMax") Double prjMoneyMax,@Param("contractMoneyMin") Double contractMoneyMin,@Param("contractMoneyMax") Double contractMoneyMax,@Param("zdMoneyMin") Double zdMoneyMin,@Param("zdMoneyMax") Double zdMoneyMax,@Param("taskNo") String taskNo,@Param("lxdateMin") String lxdateMin,@Param("lxdateMax") String lxdateMax,@Param("erjileixing") String erjileixing);
+	public List<Task> selectTask2(@Param("startMin") String startMin,@Param("startMax") String startMax,@Param("endMin") String endMin,@Param("endMax") String endMax,@Param("mainDp") String mainDp,@Param("xbDp") String xbDp,@Param("prjMoneyMin") BigDecimal prjMoneyMin,@Param("prjMoneyMax") BigDecimal prjMoneyMax,@Param("contractMoneyMin") BigDecimal contractMoneyMin,@Param("contractMoneyMax") BigDecimal contractMoneyMax,@Param("zdMoneyMin") BigDecimal zdMoneyMin,@Param("zdMoneyMax") BigDecimal zdMoneyMax,@Param("taskNo") String taskNo,@Param("lxdateMin") String lxdateMin,@Param("lxdateMax") String lxdateMax,@Param("erjileixing") String erjileixing);
 
 	public int updateXgDodateById(@Param("id")String id,@Param("time") String time);
 	
-	public int updatecontractMoneyOld(@Param("contractMoney")Double contractMoney,@Param("prjNo")String prjNo);
+	public int updatecontractMoneyOld(@Param("contractMoney")BigDecimal contractMoney,@Param("prjNo")String prjNo);
 }

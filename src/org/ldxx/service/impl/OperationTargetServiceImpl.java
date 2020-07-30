@@ -1,7 +1,7 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import org.ldxx.bean.OperationTarget;
 import org.ldxx.dao.OperationTargetDao;
@@ -48,7 +48,7 @@ public class OperationTargetServiceImpl implements OperationTargetService{
 	}
 
 	@Override
-	public Double getSumCostByYear(String year) {
+	public BigDecimal getSumCostByYear(String year) {
 		String y="%"+year+"%";
 		return odao.getSumCostByYear(y);
 	}

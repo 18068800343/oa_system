@@ -8,6 +8,8 @@
 
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: ClRemain 
 * @Description: 材料结余表
@@ -25,8 +27,8 @@ public class ClRemain {
 	private String cmoUnit;
 	private int cmoNumber;
 	private int remainNumber;
-	private Double cmoUnitPrice;
-	private Double cmoMoney;
+	private BigDecimal cmoUnitPrice;
+	private BigDecimal cmoMoney;
 	private String pickDate;
 	private outRemain outRemain;
 	private String oldClId;//入库的材料id
@@ -93,16 +95,16 @@ public class ClRemain {
 	public void setRemainNumber(int remainNumber) {
 		this.remainNumber = remainNumber;
 	}
-	public Double getCmoUnitPrice() {
+	public BigDecimal getCmoUnitPrice() {
 		return cmoUnitPrice;
 	}
-	public void setCmoUnitPrice(Double cmoUnitPrice) {
+	public void setCmoUnitPrice(BigDecimal cmoUnitPrice) {
 		this.cmoUnitPrice = cmoUnitPrice;
 	}
-	public Double getCmoMoney() {
+	public BigDecimal getCmoMoney() {
 		return cmoMoney;
 	}
-	public void setCmoMoney(Double cmoMoney) {
+	public void setCmoMoney(BigDecimal cmoMoney) {
 		this.cmoMoney = cmoMoney;
 	}
 	public String getPickDate() {

@@ -1,6 +1,8 @@
 package org.ldxx.bean;
 //公司材料退货
 
+import java.math.BigDecimal;
+
 public class CompanyMaterialReturn {
 
 	private String cmrId;
@@ -9,14 +11,14 @@ public class CompanyMaterialReturn {
 	private String materialModel;//规格型号
 	private String cmrUnit;//单位
 	private int dealNumber;//处理数量
-	private Double cmrPrice;//采购价格
-	private Double cmrMoney ;//金额
+	private BigDecimal cmrPrice;//采购价格
+	private BigDecimal cmrMoney ;//金额
 	private String applyPerson;//申请人
 	private String dealReason;//处理原因
 	private String dealMode;//处理方式
-	private Double quasiDiscountMoney;//退货出售金额
-	private Double actualDiscountMoney;//实际退货出售金额
-	private Double costMoney;//成本费用
+	private BigDecimal quasiDiscountMoney;//退货出售金额
+	private BigDecimal actualDiscountMoney;//实际退货出售金额
+	private BigDecimal costMoney;//成本费用
 	private String cmrDesc;
 	
 	
@@ -57,16 +59,16 @@ public class CompanyMaterialReturn {
 	public void setDealNumber(int dealNumber) {
 		this.dealNumber = dealNumber;
 	}
-	public Double getCmrPrice() {
+	public BigDecimal getCmrPrice() {
 		return cmrPrice;
 	}
-	public void setCmrPrice(Double cmrPrice) {
+	public void setCmrPrice(BigDecimal cmrPrice) {
 		this.cmrPrice = cmrPrice;
 	}
-	public Double getCmrMoney() {
+	public BigDecimal getCmrMoney() {
 		return cmrMoney;
 	}
-	public void setCmrMoney(Double cmrMoney) {
+	public void setCmrMoney(BigDecimal cmrMoney) {
 		this.cmrMoney = cmrMoney;
 	}
 	public String getApplyPerson() {
@@ -87,22 +89,22 @@ public class CompanyMaterialReturn {
 	public void setDealMode(String dealMode) {
 		this.dealMode = dealMode;
 	}
-	public Double getQuasiDiscountMoney() {
+	public BigDecimal getQuasiDiscountMoney() {
 		return quasiDiscountMoney;
 	}
-	public void setQuasiDiscountMoney(Double quasiDiscountMoney) {
+	public void setQuasiDiscountMoney(BigDecimal quasiDiscountMoney) {
 		this.quasiDiscountMoney = quasiDiscountMoney;
 	}
-	public Double getActualDiscountMoney() {
+	public BigDecimal getActualDiscountMoney() {
 		return actualDiscountMoney;
 	}
-	public void setActualDiscountMoney(Double actualDiscountMoney) {
+	public void setActualDiscountMoney(BigDecimal actualDiscountMoney) {
 		this.actualDiscountMoney = actualDiscountMoney;
 	}
-	public Double getCostMoney() {
+	public BigDecimal getCostMoney() {
 		return costMoney;
 	}
-	public void setCostMoney(Double costMoney) {
+	public void setCostMoney(BigDecimal costMoney) {
 		this.costMoney = costMoney;
 	}
 	public String getCmrDesc() {

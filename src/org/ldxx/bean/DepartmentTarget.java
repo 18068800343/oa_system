@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class DepartmentTarget {
 
 	private String tId;//部门指标id
@@ -7,24 +9,24 @@ public class DepartmentTarget {
 	private String omId;//部门id
 	private String bmmc;//部门名称
 	private String year;//年份
-	private double contractAmount;//合同额目标
-	private double xqhte;//实际合同额
-	private double revenueTarget;//收入目标
-	private double sr;//实际收入
-	private double collectionTarget;//收款目标
-	private double sk;//实际收款
-	private double zjcb;//直接成本
-	private double jjcb;//间接成本
-	private double profit;//利润目标
-	private double lr;//实际利润
-	private double cjhte;
+	private BigDecimal contractAmount;//合同额目标
+	private BigDecimal xqhte;//实际合同额
+	private BigDecimal revenueTarget;//收入目标
+	private BigDecimal sr;//实际收入
+	private BigDecimal collectionTarget;//收款目标
+	private BigDecimal sk;//实际收款
+	private BigDecimal zjcb;//直接成本
+	private BigDecimal jjcb;//间接成本
+	private BigDecimal profit;//利润目标
+	private BigDecimal lr;//实际利润
+	private BigDecimal cjhte;
 	
 	
 	
-	public double getCjhte() {
+	public BigDecimal getCjhte() {
 		return cjhte;
 	}
-	public void setCjhte(double cjhte) {
+	public void setCjhte(BigDecimal cjhte) {
 		this.cjhte = cjhte;
 	}
 	public String gettId() {
@@ -57,64 +59,64 @@ public class DepartmentTarget {
 	public void setYear(String year) {
 		this.year = year;
 	}
-	public double getContractAmount() {
+	public BigDecimal getContractAmount() {
 		return contractAmount;
 	}
-	public void setContractAmount(double contractAmount) {
+	public void setContractAmount(BigDecimal contractAmount) {
 		this.contractAmount = contractAmount;
 	}
-	public double getXqhte() {
+	public BigDecimal getXqhte() {
 		return xqhte;
 	}
-	public void setXqhte(double xqhte) {
+	public void setXqhte(BigDecimal xqhte) {
 		this.xqhte = xqhte;
 	}
-	public double getRevenueTarget() {
+	public BigDecimal getRevenueTarget() {
 		return revenueTarget;
 	}
-	public void setRevenueTarget(double revenueTarget) {
+	public void setRevenueTarget(BigDecimal revenueTarget) {
 		this.revenueTarget = revenueTarget;
 	}
-	public double getSr() {
+	public BigDecimal getSr() {
 		return sr;
 	}
-	public void setSr(double sr) {
+	public void setSr(BigDecimal sr) {
 		this.sr = sr;
 	}
-	public double getCollectionTarget() {
+	public BigDecimal getCollectionTarget() {
 		return collectionTarget;
 	}
-	public void setCollectionTarget(double collectionTarget) {
+	public void setCollectionTarget(BigDecimal collectionTarget) {
 		this.collectionTarget = collectionTarget;
 	}
-	public double getSk() {
+	public BigDecimal getSk() {
 		return sk;
 	}
-	public void setSk(double sk) {
+	public void setSk(BigDecimal sk) {
 		this.sk = sk;
 	}
-	public double getZjcb() {
+	public BigDecimal getZjcb() {
 		return zjcb;
 	}
-	public void setZjcb(double zjcb) {
+	public void setZjcb(BigDecimal zjcb) {
 		this.zjcb = zjcb;
 	}
-	public double getJjcb() {
+	public BigDecimal getJjcb() {
 		return jjcb;
 	}
-	public void setJjcb(double jjcb) {
+	public void setJjcb(BigDecimal jjcb) {
 		this.jjcb = jjcb;
 	}
-	public double getProfit() {
+	public BigDecimal getProfit() {
 		return profit;
 	}
-	public void setProfit(double profit) {
+	public void setProfit(BigDecimal profit) {
 		this.profit = profit;
 	}
-	public double getLr() {
+	public BigDecimal getLr() {
 		return lr;
 	}
-	public void setLr(double lr) {
+	public void setLr(BigDecimal lr) {
 		this.lr = lr;
 	}
 	

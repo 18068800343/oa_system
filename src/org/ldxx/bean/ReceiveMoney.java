@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class ReceiveMoney {
 
 	//收款主键id
@@ -9,7 +11,7 @@ public class ReceiveMoney {
 	//甲方单位名称
 	private String ccName;
 	//收款金额
-	private double receiveMoney;
+	private BigDecimal receiveMoney;
 	//收款时间
 	private String rmTime;
 	//操作人
@@ -19,21 +21,21 @@ public class ReceiveMoney {
 	private String status;//0：尚未确认，1：部分确认，2：正常确认
 	private String skNo;//收款编号
 	private String rmDesc;//收款摘要
-	private double leijiquerenMoney;//累计确认金额
-	private double shengyuMoney;//剩余金额
+	private BigDecimal leijiquerenMoney;//累计确认金额
+	private BigDecimal shengyuMoney;//剩余金额
 	
 	
 	
-	public double getShengyuMoney() {
+	public BigDecimal getShengyuMoney() {
 		return shengyuMoney;
 	}
-	public void setShengyuMoney(double shengyuMoney) {
+	public void setShengyuMoney(BigDecimal shengyuMoney) {
 		this.shengyuMoney = shengyuMoney;
 	}
-	public double getLeijiquerenMoney() {
+	public BigDecimal getLeijiquerenMoney() {
 		return leijiquerenMoney;
 	}
-	public void setLeijiquerenMoney(double leijiquerenMoney) {
+	public void setLeijiquerenMoney(BigDecimal leijiquerenMoney) {
 		this.leijiquerenMoney = leijiquerenMoney;
 	}
 	public String getSkNo() {
@@ -78,10 +80,10 @@ public class ReceiveMoney {
 	public void setCcName(String ccName) {
 		this.ccName = ccName;
 	}
-	public double getReceiveMoney() {
+	public BigDecimal getReceiveMoney() {
 		return receiveMoney;
 	}
-	public void setReceiveMoney(double receiveMoney) {
+	public void setReceiveMoney(BigDecimal receiveMoney) {
 		this.receiveMoney = receiveMoney;
 	}
 	public String getDoPerson() {

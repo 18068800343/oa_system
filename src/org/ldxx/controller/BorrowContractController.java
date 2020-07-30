@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -611,41 +612,42 @@ public class BorrowContractController {
 	
 	@RequestMapping("/getRemainPayMoney")
 	@ResponseBody
-	public double getRemainPayMoney(String no) throws ParseException{
+	public BigDecimal getRemainPayMoney(String no) throws ParseException{
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		double RemainPayMoney=0;//剩余支付金额
+		BigDecimal RemainPayMoney=new BigDecimal(0);//剩余支付金额
 		/*float contractMoney=0;
 		FbContract fb=sService.getFBContractByNo(no);
 		if(fb!=null){
 		contractMoney=fb.getContractMoney();*/
-		double rateMoney=0;//借款金额及利息总和
+		BigDecimal rateMoney=new BigDecimal(0);//借款金额及利息总和
 		List<BorrowContract> list=service.getRateAndMoney(no);
 		if(list!=null){
 			for(int i=0;i<list.size();i++){
-				double thisAllMoney=0;//单次借款利息
-				double thisMoney=list.get(i).getThisBorrowMoney();
+				BigDecimal thisAllMoney=new BigDecimal(0);//单次借款利息
+				BigDecimal thisMoney=list.get(i).getThisBorrowMoney();
 				String rateString=list.get(i).getRate();
 				
-				Double rateDouble=Double.valueOf((rateString.replace("%", "")));
+				BigDecimal rateDouble=new BigDecimal((rateString.replace("%", "")));
 				DecimalFormat decimalFormat=new DecimalFormat(".0000");
-				String string=decimalFormat.format(rateDouble/100);
-				Double rate=Double.valueOf(string);
+				String string=decimalFormat.format(rateDouble.divide(new BigDecimal(100)));
+				BigDecimal rate=new BigDecimal(string);
 				
 				String startTime=list.get(i).getBorrowTime();
 				String endTime=list.get(i).getBorrowEndTime();
 				long yearM=3153600;
 				long time=(sdf.parse(endTime).getTime()-sdf.parse(startTime).getTime())/10000;
-				double aa=time/yearM;
-				thisAllMoney=thisMoney*(1+rate*aa);
-				rateMoney=rateMoney+thisAllMoney;
+				long aa=time/yearM;
+				thisAllMoney=thisMoney.multiply((rate.multiply(new BigDecimal(aa)).add(new BigDecimal(1))));
+				//thisAllMoney=thisMoney*(1+rate*aa);
+				rateMoney=rateMoney.add(thisAllMoney);
 			}
 			DecimalFormat decimalFormat2=new DecimalFormat(".00");
 			String rateMoneyString=decimalFormat2.format(rateMoney);
-			rateMoney=Double.valueOf(rateMoneyString);
+			rateMoney=new BigDecimal(rateMoneyString);
 		}
 		Pay pay=cpService.getAllDaiDianByFbNo(no);
-		Double daiDian=pay.getGenerationAdvancesMoney();//已还借款金额
-		RemainPayMoney=rateMoney-daiDian;
+		BigDecimal daiDian=pay.getGenerationAdvancesMoney();//已还借款金额
+		RemainPayMoney=rateMoney.subtract(daiDian);
 		return RemainPayMoney;
 	}
 	

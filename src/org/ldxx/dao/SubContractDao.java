@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -8,9 +9,9 @@ import org.ldxx.bean.FbContract;
 
 public interface SubContractDao {
 
-	List<FbContract> selectSubContract(@Param("status")String status,@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")Double fbMoneyMin,@Param("fbMoneyMax")Double fbMoneyMax,@Param("contractMoneyMin")Double contractMoneyMin,@Param("contractMoneyMax")Double contractMoneyMax,@Param("zdMoneyMin")Double zdMoneyMin,@Param("zdMoneyMax")Double zdMoneyMax);
+	List<FbContract> selectSubContract(@Param("status")String status,@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")BigDecimal fbMoneyMin,@Param("fbMoneyMax")BigDecimal fbMoneyMax,@Param("contractMoneyMin")BigDecimal contractMoneyMin,@Param("contractMoneyMax")BigDecimal contractMoneyMax,@Param("zdMoneyMin")BigDecimal zdMoneyMin,@Param("zdMoneyMax")BigDecimal zdMoneyMax);
 
-	List<FbContract> selectSubContract2(@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")Double fbMoneyMin,@Param("fbMoneyMax")Double fbMoneyMax,@Param("contractMoneyMin")Double contractMoneyMin,@Param("contractMoneyMax")Double contractMoneyMax,@Param("zdMoneyMin")Double zdMoneyMin,@Param("zdMoneyMax")Double zdMoneyMax);
+	List<FbContract> selectSubContract2(@Param("startMin")String startMin,@Param("startMax")String startMax,@Param("endMin")String endMin,@Param("endMax")String endMax,@Param("mainDp")String mainDp,@Param("spType")String spType,@Param("fbMoneyMin")BigDecimal fbMoneyMin,@Param("fbMoneyMax")BigDecimal fbMoneyMax,@Param("contractMoneyMin")BigDecimal contractMoneyMin,@Param("contractMoneyMax")BigDecimal contractMoneyMax,@Param("zdMoneyMin")BigDecimal zdMoneyMin,@Param("zdMoneyMax")BigDecimal zdMoneyMax);
 	
 	int saveSubContract(@Param("fbContract")FbContract fbContract);
 
@@ -58,7 +59,7 @@ public interface SubContractDao {
 	
 	public FbContract selectFbContractShowByFbNo(@Param("no") String fbNo);
 
-	Double getShenpiFbMoneyByCjNo(@Param("cjno")String cjno);
+	BigDecimal getShenpiFbMoneyByCjNo(@Param("cjno")String cjno);
 
 	int updateContractReasonById(@Param("id")String id,@Param("contractReason") String contractReason);
 }

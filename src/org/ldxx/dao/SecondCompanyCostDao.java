@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -12,6 +13,6 @@ public interface SecondCompanyCostDao {
 	
 	public int deleteSecondComCost(@Param("id")String id);
 	
-	public double selectSumMoneyByNo(@Param("no")String no);
+	public BigDecimal selectSumMoneyByNo(@Param("no")String no);
 
 }

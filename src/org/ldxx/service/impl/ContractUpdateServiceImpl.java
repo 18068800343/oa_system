@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,9 +23,9 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 	@Autowired
 	private TaskDao taskDao;
 	@Override
-	public Double selectContractUpdateByPrjNoAndDept(String no, String dept) {
+	public BigDecimal selectContractUpdateByPrjNoAndDept(String no, String dept) {
 		ContractUpdate cu=dao.selectContractUpdateByPrjNoAndDept(no, dept);
-		Double money=cu.getMoney();
+		BigDecimal money=cu.getMoney();
 		return money;
 	}
 
@@ -35,8 +36,8 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 		List<ContractUpdate> cus=splitTask(task);
 		for(int ii=0;ii<cus.size();ii++){
 			ContractUpdate cu=dao.selectContractUpdateByPrjNoAndDept(cus.get(ii).getPrjNo(), cus.get(ii).getDept());
-			Double sumMoney=cu.getMoney();
-			Double resultMoney= (cus.get(ii).getMoney()-sumMoney);
+			BigDecimal sumMoney=cu.getMoney();
+			BigDecimal resultMoney= (cus.get(ii).getMoney().subtract(sumMoney));
 			cus.get(ii).setMoney(resultMoney);
 		}
 		i=dao.addContractUpdate(cus);
@@ -50,8 +51,8 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 		List<ContractUpdate> cus=splitTask(task);
 		for(int ii=0;ii<cus.size();ii++){
 			ContractUpdate cu=dao.selectContractUpdateByPrjNoAndDept(task.get(0).getMainPrjNo(), cus.get(ii).getDept());
-			Double sumMoney=cu.getMoney();
-			Double resultMoney=cus.get(ii).getMoney()-sumMoney;
+			BigDecimal sumMoney=cu.getMoney();
+			BigDecimal resultMoney=cus.get(ii).getMoney().subtract(sumMoney);
 			cus.get(ii).setMoney(resultMoney);
 		}
 		i=dao.addContractUpdate(cus);
@@ -157,7 +158,7 @@ public class ContractUpdateServiceImpl implements ContractUpdateService{
 			mcu.setDept(mtask.getMainDepartment());
 			mcu.setTime(year);
 			ContractUpdate m2cu=dao.selectContractUpdateByPrjNoAndDept(task.get(0).getMainPrjNo(), mcu.getDept());
-			mcu.setMoney(mtask.getPrjEstimateMoney()-m2cu.getMoney());	
+			mcu.setMoney(mtask.getPrjEstimateMoney().subtract(m2cu.getMoney()));	
 			cut.add(mcu);
 			
 			dao.addContractUpdate(cut);

@@ -1,8 +1,8 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.OtherContract;
 
 public interface OtherContractService {
@@ -23,9 +23,9 @@ public interface OtherContractService {
 
 	public OtherContract selectOtherContractByNo(String no);
 	
-	public Double selectOtherContractMoneyBySignTime(String time);
+	public BigDecimal selectOtherContractMoneyBySignTime(String time);
 	
-	public Double selectOtherContractMoneyBySignTimeAndDepartment(String time,String department);
+	public BigDecimal selectOtherContractMoneyBySignTimeAndDepartment(String time,String department);
 
 	public int updateHistoryById(String id);
 

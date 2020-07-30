@@ -2,6 +2,7 @@ package org.ldxx.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -114,21 +115,21 @@ public class PrjProgressFillController {
 			pf.setAccessory(list);
 		}
 		/*String taskNo=pf.getTaskNo();
-		double cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
-		double cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
-		double allCost=cost+cost2;//财务累计成本
-		double cwwx=0;//财务外协费
-		double fbIncome=0;//分包累计收入
+		BigDecimal cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
+		BigDecimal cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
+		BigDecimal allCost=cost+cost2;//财务累计成本
+		BigDecimal cwwx=0;//财务外协费
+		BigDecimal fbIncome=0;//分包累计收入
 		List<PrjProgressFillFb> ppfb=pf.getPpfb();
 		for(int ii=0;ii<ppfb.size();ii++){
 			fbIncome=fbIncome+ppfb.get(ii).getIncomeBq();
 		}
 		
 		累计成本=财务累计成本-财务外协费+分包累计收入（预算分包收入）
-		double totalCost=allCost-cwwx+fbIncome;
-		double prjIncome=pf.getAllMoneyYuan();//项目累计收入
-		double prjMoney=pf.getPrjMoney();//任务单金额
-		double ysCost=pf.getBudgetMoneyAll();//任务总预算
+		BigDecimal totalCost=allCost-cwwx+fbIncome;
+		BigDecimal prjIncome=pf.getAllMoneyYuan();//项目累计收入
+		BigDecimal prjMoney=pf.getPrjMoney();//任务单金额
+		BigDecimal ysCost=pf.getBudgetMoneyAll();//任务总预算
 		if((totalCost/prjIncome)>(1*ysCost/prjMoney)){
 			pf.setStatus(1);
 		}else{
@@ -223,7 +224,7 @@ public class PrjProgressFillController {
 		float contractMoney=t.getContractMoney();//合同金额
 		float allCost=pf.getAllCost();//总累计成本
 		float budgetMoney=pf.getBudgetMoneyAll();//总费用预算
-		float allMoney=Double.valueOf(pf.getAllMoney().replace("%", ""));
+		float allMoney=BigDecimal.valueOf(pf.getAllMoney().replace("%", ""));
 		float am=allMoney/100;//总累计收入
 		float allValue=am*prjMoney;//累计产值
 		if((allCost/allValue)>(budgetMoney/contractMoney)){
@@ -296,11 +297,11 @@ public class PrjProgressFillController {
 		CjContract cj=cService.selectCjContractLikeTaskNo(no);
 		ppf.setCj(cj);
 		/*BudgetFpplicationForm bf=bService.selectBudgeByNo(no);*/
-		Double allcost=bService.getSumAllCost(no);
+		BigDecimal allcost=bService.getSumAllCost(no);
 		if(allcost!=null){
 			ppf.setBudgetMoneyAll(allcost);
 		}else{
-			ppf.setBudgetMoneyAll(0);
+			ppf.setBudgetMoneyAll(new BigDecimal(0));
 		}
 		ppf.setPpfi(ppfi);
 		/*ppf.setPpfi2(ppfi2);*/
@@ -324,7 +325,7 @@ public class PrjProgressFillController {
 				String taskNo=ppf.get(i).getTaskNo();
 				String thisTime=ppf.get(i).getThisTime();
 				String aas=ppf.get(i).getContractIncome().equals("")?"0":ppf.get(i).getContractIncome();
-				double plan=Double.valueOf(aas.replace("%", ""));
+				BigDecimal plan=new BigDecimal(aas.replace("%", ""));
 				CjContract cj=cService.selectCjContractLikeTaskCode("%"+taskNo+"%");
 				if(cj!=null){
 					if(list.size()!=0){
@@ -335,8 +336,8 @@ public class PrjProgressFillController {
 							}
 							if(list.get(ii).getContractNo().equals(cj.getContractNo())&&list.get(ii).getContractSignTime().equals(thisTime)){
 								 end=1   ;
-								 double old_plan=Double.valueOf(list.get(ii).getWorkInfo().replace("%", ""));
-								 if(old_plan<plan){
+								 BigDecimal old_plan=new BigDecimal(list.get(ii).getWorkInfo().replace("%", ""));
+								 if(old_plan.doubleValue()<plan.doubleValue()){
 									 list.get(ii).setWorkInfo(plan+"%");
 								 }
 							}
@@ -392,13 +393,13 @@ public class PrjProgressFillController {
 	public Map<String,String> getPresent(String all,String no){
 		Map<String,String> map=new HashMap<>();
 		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
-		Double a=Double.valueOf(all.replace("%",""));
-		Double l=(double) 0;
+		BigDecimal a=new BigDecimal(all.replace("%",""));
+		BigDecimal l=new BigDecimal(0);
 		if(pf!=null){
 			String last=pf.getAllMoney();
-			l=Double.valueOf(last.replace("%",""));
+			l=new BigDecimal(last.replace("%",""));
 		}
-		Double p=a-l;
+		BigDecimal p=a.subtract(l);
 		String present=p+"%";
 		map.put("present", present);
 		return map;
@@ -409,17 +410,17 @@ public class PrjProgressFillController {
 	public Map<String,String> getBq(String all,String no,String department){
 		Map<String,String> map=new HashMap<>();
 		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
-		Double a=Double.valueOf(all.replace("%",""));
-		Double m=(double) 0;
+		BigDecimal a=new BigDecimal(all.replace("%",""));
+		BigDecimal m=new BigDecimal(0);
 		if(pf!=null){
 			String ppfId=pf.getPpfId();
 			PrjProgressFillInfo ppfi=service.getLastByDepartmentAndId(ppfId, department);
 			if(ppfi!=null){
 				String money=ppfi.getMoney();
-				m=Double.valueOf(money.replace("%",""));
+				m=new BigDecimal(money.replace("%",""));
 			}
 		}
-		Double p=a-m;
+		BigDecimal p=a.subtract(m);
 		String bq=p+"%";
 		map.put("bq", bq);
 		return map;
@@ -430,14 +431,14 @@ public class PrjProgressFillController {
 	public Map<String,String> cjBq(String all,String no,String id){
 		Map<String,String> map=new HashMap<>();
 		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
-		float a=Double.valueOf(all.replace("%",""));
+		float a=BigDecimal.valueOf(all.replace("%",""));
 		float m=0;
 		if(pf!=null){
 			String ppfId=pf.getPpfId();
 			PrjProgressFillCj cj=service.cjBq(ppfId, id);
 			if(cj!=null){
 				String incomeAll=cj.getIncomeAll();
-				m=Double.valueOf(incomeAll.replace("%",""));
+				m=BigDecimal.valueOf(incomeAll.replace("%",""));
 			}
 		}
 		float p=a-m;
@@ -452,15 +453,15 @@ public class PrjProgressFillController {
 		 List<PrjProgressFill> list=service.selectPrjProgressFillByStatus(status);
 		 for(int i=0;i<list.size();i++){
 			 String taskNo=list.get(i).getTaskNo();
-			 double cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
-			 double cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
-			 double allCost=cost+cost2;//财务累计成本
+			 BigDecimal cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
+			 BigDecimal cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
+			 BigDecimal allCost=cost.add(cost2);//财务累计成本
 			 list.get(i).setTotalCost(allCost);
 			 BudgetFpplicationForm bf=bService.selectBudgeByNo(taskNo);
 			 if(bf!=null){
 				 list.get(i).setBudgetMoneyAll(bf.getAllCost());
 			 }else{
-				 list.get(i).setBudgetMoneyAll(0);
+				 list.get(i).setBudgetMoneyAll(new BigDecimal(0));
 			 }
 		 }
 		 return list;
@@ -531,7 +532,7 @@ public class PrjProgressFillController {
 	public Map<String,Object> getPrjAllMoney(String no,int fbNum){
 		Map<String,Object> map=new HashMap<>();
 		PrjProgressFill pf=service.selectLastPrjProgressFill(no);
-		double last=0;
+		BigDecimal last=new BigDecimal(0);
 		if(pf!=null){
 			last=pf.getAllMoneyYuan();
 		}
@@ -540,14 +541,14 @@ public class PrjProgressFillController {
 			cb=bService.selectNwCostByTaskNoAndDept(no, "劳务分包费");
 		}
 		CjContract cj=cService.selectCjContractLikeTaskNo(no);
-		double allMoney=0;
+		BigDecimal allMoney=new BigDecimal(0);
 		if(cj!=null){
 			String prjNo=cj.getTaskCode();
 			for(int i=0;i<prjNo.split(",").length;i++){
 				PrjProgressFill pf2=service.selectLastPrjProgressFill(prjNo.split(",")[i]);
 				if(pf2!=null){
-					double allMoneyYuan=pf2.getAllMoneyYuan();
-					allMoney=allMoney+allMoneyYuan;
+					BigDecimal allMoneyYuan=pf2.getAllMoneyYuan();
+					allMoney=allMoney.add(allMoneyYuan);
 				}
 			}
 		}
@@ -560,31 +561,31 @@ public class PrjProgressFillController {
 	
 	@RequestMapping("/selectPrjProgressFillFbByFbId")
 	@ResponseBody
-	public double selectPrjProgressFillFbByFbId(String id){
+	public BigDecimal selectPrjProgressFillFbByFbId(String id){
 		PrjProgressFillFb fb=service.selectPrjProgressFillFbByFbId(id);
 		if(fb!=null){
 			return fb.getIncomeAll();
 		}else{
-			return 0;
+			return new BigDecimal(0);
 		}
 	}
 	
 	@RequestMapping("/selectPrjProgressFillCjIncomeBq")
 	@ResponseBody
-	public Double selectPrjProgressFillCjIncomeBq(String id,String bq){
+	public BigDecimal selectPrjProgressFillCjIncomeBq(String id,String bq){
 		PrjProgressFillCj cj=service.selectPrjProgressFillCjIncomeBq(id, bq);
 		if(cj!=null){
 			return cj.getIncomeBq();
 		}else{
-			return (double) 0;
+			return new BigDecimal(0);
 		}
 	}
 	
 	@RequestMapping("/selectPrjProgressFillInfoTotalByTaskAndDept")
 	@ResponseBody
-	public Double selectPrjProgressFillInfoTotalByTaskAndDept(String no,String dept){
+	public BigDecimal selectPrjProgressFillInfoTotalByTaskAndDept(String no,String dept){
 		PrjProgressFillInfo info=service.selectPrjProgressFillInfoTotalByTaskAndDept(no, dept);
-		Double money=info.getAllMoneyYuan();
+		BigDecimal money=info.getAllMoneyYuan();
 		return money;
 	}
 	
@@ -611,24 +612,25 @@ public class PrjProgressFillController {
 	public int changeData(String id){
 		PrjProgressFill pf=service.selectPrjProgressFillById(id);
 		String taskNo=pf.getTaskNo();
-		double cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
-		double cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
-		double allCost=cost+cost2;//财务累计成本
-		double cwwx=0;//财务外协费
-		double fbIncome=0;//分包累计收入
+		BigDecimal cost=ccDao.selectSumMoneyByNo(taskNo);//项目累计成本
+		BigDecimal cost2=sccDao.selectSumMoneyByNo(taskNo);//检测二部项目累计成本
+		BigDecimal allCost=cost.add(cost2);//财务累计成本
+		BigDecimal cwwx=new BigDecimal(0);//财务外协费
+		BigDecimal fbIncome=new BigDecimal(0);//分包累计收入
 		List<PrjProgressFillFb> ppfb=pf.getPpfb();
 		if(ppfb!=null&&ppfb.size()!=0){
 			for(int ii=0;ii<ppfb.size();ii++){
-				fbIncome=fbIncome+ppfb.get(ii).getIncomeBq();
+				fbIncome=fbIncome.add(ppfb.get(ii).getIncomeBq());
 			}
 		}
 		
 		//累计成本=财务累计成本-财务外协费+分包累计收入（预算分包收入）
-		double totalCost=allCost-cwwx+fbIncome;
-		double prjIncome=pf.getAllMoneyYuan();//项目累计收入
-		double prjMoney=pf.getPrjMoney();//任务单金额
-		double ysCost=pf.getBudgetMoneyAll();//任务总预算
-		if((totalCost/prjIncome)>(1.1*ysCost/prjMoney)){
+		BigDecimal totalCost=allCost.subtract(cwwx).add(fbIncome);
+		BigDecimal prjIncome=pf.getAllMoneyYuan();//项目累计收入
+		BigDecimal prjMoney=pf.getPrjMoney();//任务单金额
+		BigDecimal ysCost=pf.getBudgetMoneyAll();//任务总预算
+		if((totalCost.divide(prjIncome)).doubleValue()>(ysCost.multiply(new BigDecimal(1.1)).divide(prjMoney)).doubleValue()){
+		//if((totalCost/prjIncome)>(1.1*ysCost/prjMoney)){
 			pf.setStatus(1);
 		}else{
 			pf.setStatus(3);

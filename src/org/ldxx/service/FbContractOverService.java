@@ -1,5 +1,6 @@
 package org.ldxx.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.FbContractOver;
@@ -16,7 +17,7 @@ public interface FbContractOverService {
 	
 	public int updateFbContractOver(FbContractOver fbContractOver);
 
-	public Double selectFbJsMoneyByNo(String no);
+	public BigDecimal selectFbJsMoneyByNo(String no);
 
 	public List<FbContractOver> selectFbJsByNo(String no);
 }

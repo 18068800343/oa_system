@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -534,52 +535,52 @@ public class OutTrainAllExample {
             return (Criteria) this;
         }
 
-        public Criteria andTrainingMoneyEqualTo(Double value) {
+        public Criteria andTrainingMoneyEqualTo(BigDecimal value) {
             addCriterion("training_money =", value, "trainingMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTrainingMoneyNotEqualTo(Double value) {
+        public Criteria andTrainingMoneyNotEqualTo(BigDecimal value) {
             addCriterion("training_money <>", value, "trainingMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTrainingMoneyGreaterThan(Double value) {
+        public Criteria andTrainingMoneyGreaterThan(BigDecimal value) {
             addCriterion("training_money >", value, "trainingMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTrainingMoneyGreaterThanOrEqualTo(Double value) {
+        public Criteria andTrainingMoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("training_money >=", value, "trainingMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTrainingMoneyLessThan(Double value) {
+        public Criteria andTrainingMoneyLessThan(BigDecimal value) {
             addCriterion("training_money <", value, "trainingMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTrainingMoneyLessThanOrEqualTo(Double value) {
+        public Criteria andTrainingMoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("training_money <=", value, "trainingMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTrainingMoneyIn(List<Double> values) {
+        public Criteria andTrainingMoneyIn(List<BigDecimal> values) {
             addCriterion("training_money in", values, "trainingMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTrainingMoneyNotIn(List<Double> values) {
+        public Criteria andTrainingMoneyNotIn(List<BigDecimal> values) {
             addCriterion("training_money not in", values, "trainingMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTrainingMoneyBetween(Double value1, Double value2) {
+        public Criteria andTrainingMoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("training_money between", value1, value2, "trainingMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTrainingMoneyNotBetween(Double value1, Double value2) {
+        public Criteria andTrainingMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("training_money not between", value1, value2, "trainingMoney");
             return (Criteria) this;
         }

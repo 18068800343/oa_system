@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class PrjWorkingHours {
 	private String prjName;//项目名
 	private String prjNo;//任务单号
 	private String prjLeader;//项目负责人
-	private Double contractMoney;//合同额
+	private BigDecimal contractMoney;//合同额
 	private String designInput;//设计院手动输入
 	private String prjUnit;//项目管理单位
 	private String attendanceTime;//考勤时间
@@ -65,11 +66,11 @@ public class PrjWorkingHours {
 		this.prjNo = prjNo;
 	}
 
-	public Double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
 
-	public void setContractMoney(Double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 

@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 public class CompanyCostCf {
 	
 	private String cfjjId;;
@@ -7,7 +9,7 @@ public class CompanyCostCf {
 	private String  prjNo;
 	private String  department;
 	private String  date;
-	private double  cfMoney;
+	private BigDecimal  cfMoney;
 	
 	
 	
@@ -41,10 +43,10 @@ public class CompanyCostCf {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public double getCfMoney() {
+	public BigDecimal getCfMoney() {
 		return cfMoney;
 	}
-	public void setCfMoney(double cfMoney) {
+	public void setCfMoney(BigDecimal cfMoney) {
 		this.cfMoney = cfMoney;
 	}
 	

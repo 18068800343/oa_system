@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: Task2 
 * @Description: 检测2部
@@ -17,16 +19,16 @@ public class Task2 {
 	private String tDesc;//备注
 	private String dName;//部门
 	private String omId;//部门id
-	private Double dMoney;//金额
-	private Double dIncome;//部门总收入
+	private BigDecimal dMoney;//金额
+	private BigDecimal dIncome;//部门总收入
 	
-	private Double dMoney2;//
+	private BigDecimal dMoney2;//
 	
 	
-	public Double getdMoney2() {
+	public BigDecimal getdMoney2() {
 		return dMoney2;
 	}
-	public void setdMoney2(Double dMoney2) {
+	public void setdMoney2(BigDecimal dMoney2) {
 		this.dMoney2 = dMoney2;
 	}
 	public String getOmId() {
@@ -35,10 +37,10 @@ public class Task2 {
 	public void setOmId(String omId) {
 		this.omId = omId;
 	}
-	public Double getdIncome() {
+	public BigDecimal getdIncome() {
 		return dIncome;
 	}
-	public void setdIncome(Double dIncome) {
+	public void setdIncome(BigDecimal dIncome) {
 		this.dIncome = dIncome;
 	}
 	public String getdName() {
@@ -47,10 +49,10 @@ public class Task2 {
 	public void setdName(String dName) {
 		this.dName = dName;
 	}
-	public Double getdMoney() {
+	public BigDecimal getdMoney() {
 		return dMoney;
 	}
-	public void setdMoney(Double dMoney) {
+	public void setdMoney(BigDecimal dMoney) {
 		this.dMoney = dMoney;
 	}
 	public String gettDesc() {

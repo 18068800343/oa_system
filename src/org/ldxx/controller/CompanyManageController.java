@@ -8,6 +8,7 @@
 
 package org.ldxx.controller;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -86,38 +87,38 @@ public class CompanyManageController {
 				 String omId=om.get(i).getOmId();
 				 
 				 PrjProgressFill ppf=pService.selectTotalIncome(omName, startTime, endTime);
-				 double totalAccomplish=0;
+				 BigDecimal totalAccomplish=new BigDecimal(0);
 				 if(ppf!=null){
 					 totalAccomplish=ppf.getAllMoneyYuan();//累计完成收入
 				 }
 				 
 				 DepartmentTarget dt=dService.selectDepartmentTargetByOmIdAndYear(omId, year);
-				 Double revenueTarget=(double) 0;//收入目标
-				 Double contractAmount=(double) 0;//合同额目标
+				 BigDecimal revenueTarget=new BigDecimal(0);;//收入目标
+				 BigDecimal contractAmount=new BigDecimal(0);;//合同额目标
 				 if(dt!=null){
-					 revenueTarget=(Double) dt.getRevenueTarget();//收入目标
-					 contractAmount=(Double) dt.getContractAmount();//合同额目标
+					 revenueTarget= dt.getRevenueTarget();//收入目标
+					 contractAmount= dt.getContractAmount();//合同额目标
 				 }
-				 double finish=(totalAccomplish/revenueTarget)*100;
-				 String finishStr=Math.round(finish)+"%";//完成百分比
+				 BigDecimal finish=(totalAccomplish.divide(revenueTarget)).multiply(new BigDecimal(100));
+				 String finishStr=Math.round(finish.doubleValue())+"%";//完成百分比
 				 
 				 ContractUpdate cu=cuService.selectDeptContractMoneyByStartAndEndTime(startTime, endTime, omId);
-				 Double allContractMoney=cu.getMoney();//新签合同金额
+				 BigDecimal allContractMoney=cu.getMoney();//新签合同金额
 				 
 				 List<CjContract> cj=cService.selectNoAndMoneyByDepartment(omId,y);
-				 Double temporaryMoney=(double) 0;//暂定金
+				 BigDecimal temporaryMoney=new BigDecimal(0);//暂定金
 				 for(int ii=0;ii<cj.size();ii++){
-					 Double zdMoney=cj.get(ii).getTemporaryMoney();
-					 temporaryMoney=temporaryMoney+zdMoney;
+					 BigDecimal zdMoney=cj.get(ii).getTemporaryMoney();
+					 temporaryMoney=temporaryMoney.add(zdMoney);
 				 }
 				 AlreadyRenling ar=aService.selectDeptRenlingByStartAndEndTime(startTime, endTime, omName);
-				 double moneyReceipt=ar.getSkQuerenMoney();//已收款
-				 double accruedAssets=allContractMoney-moneyReceipt;//未收款
+				 BigDecimal moneyReceipt=ar.getSkQuerenMoney();//已收款
+				 BigDecimal accruedAssets=allContractMoney.subtract(moneyReceipt);//未收款
 				 
 				 CompanyCost cc=cDao.selectDeptCostByStartAndEndTime(startTime, endTime, omName);
-				 double cost=0;
+				 BigDecimal cost=new BigDecimal(0);
 				 if(cc!=null){
-					 cost=cc.getMoney()+cc.getMoney2();//部门成本
+					 cost=cc.getMoney().add(cc.getMoney2());//部门成本
 				 }
 				 
 				 CompanyManage cm=new CompanyManage();

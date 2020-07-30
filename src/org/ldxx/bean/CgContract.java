@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -18,8 +19,8 @@ public class CgContract {
 	private String isProgram;// 是否代购
 	private String programType;// 代购类型
 	private String cgcType;// 采购合同类型
-	private Double programMoney;// 代购金额
-	private Double cgContractMoney;// 采购合同金额
+	private BigDecimal programMoney;// 代购金额
+	private BigDecimal cgContractMoney;// 采购合同金额
 	private String contractNameJia;// 合同甲方名称
 	private String contractNameYi;// 乙方
 	private String payMode;// 付款方式
@@ -30,11 +31,11 @@ public class CgContract {
 	private String history;//历史状态
 	private String fbNo;//关联的分保合同编号
 	private String cgDepartment;//采购部门
-	private Double freight;//运费
+	private BigDecimal freight;//运费
 	private String borrowNo;//借款合同号
 	
-	private Double shuilv;//税率
-	private Double shuijin;//税金
+	private BigDecimal shuilv;//税率
+	private BigDecimal shuijin;//税金
 	private String cancelReason;//终止原因
 	    
 	private List<Accessory> accessory;
@@ -75,19 +76,19 @@ public class CgContract {
 		this.startername = startername;
 	}
 
-	public Double getShuilv() {
+	public BigDecimal getShuilv() {
 		return shuilv;
 	}
 
-	public void setShuilv(Double shuilv) {
+	public void setShuilv(BigDecimal shuilv) {
 		this.shuilv = shuilv;
 	}
 
-	public Double getShuijin() {
+	public BigDecimal getShuijin() {
 		return shuijin;
 	}
 
-	public void setShuijin(Double shuijin) {
+	public void setShuijin(BigDecimal shuijin) {
 		this.shuijin = shuijin;
 	}
 
@@ -99,11 +100,11 @@ public class CgContract {
 		this.borrowNo = borrowNo;
 	}
 
-	public Double getFreight() {
+	public BigDecimal getFreight() {
 		return freight;
 	}
 
-	public void setFreight(Double freight) {
+	public void setFreight(BigDecimal freight) {
 		this.freight = freight;
 	}
 
@@ -227,19 +228,19 @@ public class CgContract {
 		this.cgcType = cgcType;
 	}
 
-	public Double getProgramMoney() {
+	public BigDecimal getProgramMoney() {
 		return programMoney;
 	}
 
-	public void setProgramMoney(Double programMoney) {
+	public void setProgramMoney(BigDecimal programMoney) {
 		this.programMoney = programMoney;
 	}
 
-	public Double getCgContractMoney() {
+	public BigDecimal getCgContractMoney() {
 		return cgContractMoney;
 	}
 
-	public void setCgContractMoney(Double cgContractMoney) {
+	public void setCgContractMoney(BigDecimal cgContractMoney) {
 		this.cgContractMoney = cgContractMoney;
 	}
 

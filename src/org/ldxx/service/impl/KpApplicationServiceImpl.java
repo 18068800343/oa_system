@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.ldxx.bean.KpApplication;
@@ -25,7 +26,7 @@ public class KpApplicationServiceImpl implements KpApplicationService{
 	}
 
 	@Override
-	public Double getAllMoney(String contractNo, String prjNo) {
+	public BigDecimal getAllMoney(String contractNo, String prjNo) {
 		return dao.getAllMoney(contractNo, prjNo);
 	}
 

@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /** 
@@ -15,29 +16,29 @@ public class PrjProgressFill {
 	private String prjName;
 	private String taskNo;
 	private String prjType;
-	private double contractMoney;
-	private double prjMoney;
+	private BigDecimal contractMoney;
+	private BigDecimal prjMoney;
 	private String prjLeader;
-	private double provisionalSum;
+	private BigDecimal provisionalSum;
 	private String prjStartTime;
 	private String prjEndTime;
-	private double budgetMoneyAll;
+	private BigDecimal budgetMoneyAll;
 	private String thisTime;
 	private String prjMode;
 	private String allMoney;
 	private String contractIncome;//合同收入比例
-	private double allMoneyYuan;
-	private double prjThisIncomeYuan;
+	private BigDecimal allMoneyYuan;
+	private BigDecimal prjThisIncomeYuan;
 	private int status;
 	private String infos;
 	private String ygDesign;//预工可设计
 	private String fristDesign;//初步设计
 	private String secondDesign;//施工图设计
-	private double rate;//税率
-	private double rateMoney;//税金
+	private BigDecimal rate;//税率
+	private BigDecimal rateMoney;//税金
 	private String backState;//收回状态 收回：1
 	
-	private double totalCost;//财务累计成本
+	private BigDecimal totalCost;//财务累计成本
 	
 	private String thismonthCompletecontent;//本月完成主要内容
 	private String nextmoneyPlan;//下月计划
@@ -53,20 +54,20 @@ public class PrjProgressFill {
 	
 	private List<Accessory> accessory;
 	private CjContract cj;
-	private double benqishouru;
+	private BigDecimal benqishouru;
 	
-	private double endMoney;//结算金额
-	private double jzqnMoney;//截止上年度的收入金额
-	private double jnMoney;//本年度收入金额
+	private BigDecimal endMoney;//结算金额
+	private BigDecimal jzqnMoney;//截止上年度的收入金额
+	private BigDecimal jnMoney;//本年度收入金额
 	
-	private double prjEstimateMoney;//本年度收入金额
+	private BigDecimal prjEstimateMoney;//本年度收入金额
 	
 	private String modeStatus;
 	
-	public double getPrjEstimateMoney() {
+	public BigDecimal getPrjEstimateMoney() {
 		return prjEstimateMoney;
 	}
-	public void setPrjEstimateMoney(double prjEstimateMoney) {
+	public void setPrjEstimateMoney(BigDecimal prjEstimateMoney) {
 		this.prjEstimateMoney = prjEstimateMoney;
 	}
 	public String getModeStatus() {
@@ -87,22 +88,22 @@ public class PrjProgressFill {
 	public void setNextmoneyPlan(String nextmoneyPlan) {
 		this.nextmoneyPlan = nextmoneyPlan;
 	}
-	public double getEndMoney() {
+	public BigDecimal getEndMoney() {
 		return endMoney;
 	}
-	public void setEndMoney(double endMoney) {
+	public void setEndMoney(BigDecimal endMoney) {
 		this.endMoney = endMoney;
 	}
-	public double getJzqnMoney() {
+	public BigDecimal getJzqnMoney() {
 		return jzqnMoney;
 	}
-	public void setJzqnMoney(double jzqnMoney) {
+	public void setJzqnMoney(BigDecimal jzqnMoney) {
 		this.jzqnMoney = jzqnMoney;
 	}
-	public double getJnMoney() {
+	public BigDecimal getJnMoney() {
 		return jnMoney;
 	}
-	public void setJnMoney(double jnMoney) {
+	public void setJnMoney(BigDecimal jnMoney) {
 		this.jnMoney = jnMoney;
 	}
 	public String getBackState() {
@@ -111,22 +112,22 @@ public class PrjProgressFill {
 	public void setBackState(String backState) {
 		this.backState = backState;
 	}
-	public double getBenqishouru() {
+	public BigDecimal getBenqishouru() {
 		return benqishouru;
 	}
-	public void setBenqishouru(double benqishouru) {
+	public void setBenqishouru(BigDecimal benqishouru) {
 		this.benqishouru = benqishouru;
 	}
-	public double getRate() {
+	public BigDecimal getRate() {
 		return rate;
 	}
-	public void setRate(double rate) {
+	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
-	public double getRateMoney() {
+	public BigDecimal getRateMoney() {
 		return rateMoney;
 	}
-	public void setRateMoney(double rateMoney) {
+	public void setRateMoney(BigDecimal rateMoney) {
 		this.rateMoney = rateMoney;
 	}
 	public CjContract getCj() {
@@ -135,10 +136,10 @@ public class PrjProgressFill {
 	public void setCj(CjContract cj) {
 		this.cj = cj;
 	}
-	public double getTotalCost() {
+	public BigDecimal getTotalCost() {
 		return totalCost;
 	}
-	public void setTotalCost(double totalCost) {
+	public void setTotalCost(BigDecimal totalCost) {
 		this.totalCost = totalCost;
 	}
 	public String getYgDesign() {
@@ -171,10 +172,10 @@ public class PrjProgressFill {
 	public void setSecondDesign(String secondDesign) {
 		this.secondDesign = secondDesign;
 	}
-	public double getPrjMoney() {
+	public BigDecimal getPrjMoney() {
 		return prjMoney;
 	}
-	public void setPrjMoney(double prjMoney) {
+	public void setPrjMoney(BigDecimal prjMoney) {
 		this.prjMoney = prjMoney;
 	}
 	public int getStatus() {
@@ -231,10 +232,10 @@ public class PrjProgressFill {
 	public void setPrjType(String prjType) {
 		this.prjType = prjType;
 	}
-	public double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
-	public void setContractMoney(double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 	public String getPrjLeader() {
@@ -243,10 +244,10 @@ public class PrjProgressFill {
 	public void setPrjLeader(String prjLeader) {
 		this.prjLeader = prjLeader;
 	}
-	public double getProvisionalSum() {
+	public BigDecimal getProvisionalSum() {
 		return provisionalSum;
 	}
-	public void setProvisionalSum(double provisionalSum) {
+	public void setProvisionalSum(BigDecimal provisionalSum) {
 		this.provisionalSum = provisionalSum;
 	}
 	public String getPrjStartTime() {
@@ -261,10 +262,10 @@ public class PrjProgressFill {
 	public void setPrjEndTime(String prjEndTime) {
 		this.prjEndTime = prjEndTime;
 	}
-	public double getBudgetMoneyAll() {
+	public BigDecimal getBudgetMoneyAll() {
 		return budgetMoneyAll;
 	}
-	public void setBudgetMoneyAll(double budgetMoneyAll) {
+	public void setBudgetMoneyAll(BigDecimal budgetMoneyAll) {
 		this.budgetMoneyAll = budgetMoneyAll;
 	}
 	public String getThisTime() {
@@ -279,16 +280,16 @@ public class PrjProgressFill {
 	public void setAllMoney(String allMoney) {
 		this.allMoney = allMoney;
 	}
-	public double getAllMoneyYuan() {
+	public BigDecimal getAllMoneyYuan() {
 		return allMoneyYuan;
 	}
-	public void setAllMoneyYuan(double allMoneyYuan) {
+	public void setAllMoneyYuan(BigDecimal allMoneyYuan) {
 		this.allMoneyYuan = allMoneyYuan;
 	}
-	public double getPrjThisIncomeYuan() {
+	public BigDecimal getPrjThisIncomeYuan() {
 		return prjThisIncomeYuan;
 	}
-	public void setPrjThisIncomeYuan(double prjThisIncomeYuan) {
+	public void setPrjThisIncomeYuan(BigDecimal prjThisIncomeYuan) {
 		this.prjThisIncomeYuan = prjThisIncomeYuan;
 	}
 	

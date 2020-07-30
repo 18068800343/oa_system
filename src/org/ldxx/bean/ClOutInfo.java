@@ -8,6 +8,8 @@
 
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: ClOutInfo 
 * @Description:  项目材料信息
@@ -22,9 +24,9 @@ public class ClOutInfo {
 	private String modeType;
 	private String unit;
 	private String num;//库存数量
-	private Double price;//单价
+	private BigDecimal price;//单价
 	private String lingNum;//认领数量
-	private Double sumPrice;//认领金额
+	private BigDecimal sumPrice;//认领金额
 	private String clPrjSupplier;
 	private String clGsSupplier;
 	private String clDesc;
@@ -85,10 +87,10 @@ public class ClOutInfo {
 	public void setClspNamegs(String clspNamegs) {
 		this.clspNamegs = clspNamegs;
 	}
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	public void setSumPrice(Double sumPrice) {
+	public void setSumPrice(BigDecimal sumPrice) {
 		this.sumPrice = sumPrice;
 	}
 	public outRemain getOutRemain() {
@@ -133,17 +135,17 @@ public class ClOutInfo {
 	public void setNum(String num) {
 		this.num = num;
 	}
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	public double getSumPrice() {
-		return sumPrice;
-	}
-	public void setSumPrice(double sumPrice) {
-		this.sumPrice = sumPrice;
-	}
+//	public void setPrice(BigDecimal price) {
+//		this.price = price;
+//	}
+//	public BigDecimal getSumPrice() {
+//		return sumPrice;
+//	}
+//	public void setSumPrice(BigDecimal sumPrice) {
+//		this.sumPrice = sumPrice;
+//	}
 	
 }

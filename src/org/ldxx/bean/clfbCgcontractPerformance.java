@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -18,11 +19,11 @@ public class clfbCgcontractPerformance {
 	private String prjPerson;//项目负责人
 	private String contractYi;//合同乙方
 	private String fbPerson;//分包负责人
-	private Double contractMoney;//合同金额
-	private Double provisionalMoney;//暂定金
-	private Double settlementMoney;//结算金额
+	private BigDecimal contractMoney;//合同金额
+	private BigDecimal provisionalMoney;//暂定金
+	private BigDecimal settlementMoney;//结算金额
 	private String settlementDesc;//结算说明
-	private Double accumulativePaymentMoney;//累计付款
+	private BigDecimal accumulativePaymentMoney;//累计付款
 	private String performanceGrade;//履约评级
 	private String performanceDesc;//项目概况及工作内容
 	private String makeTime;
@@ -127,27 +128,27 @@ public class clfbCgcontractPerformance {
 		this.fbPerson = fbPerson;
 	}
 
-	public Double getContractMoney() {
+	public BigDecimal getContractMoney() {
 		return contractMoney;
 	}
 
-	public void setContractMoney(Double contractMoney) {
+	public void setContractMoney(BigDecimal contractMoney) {
 		this.contractMoney = contractMoney;
 	}
 
-	public Double getProvisionalMoney() {
+	public BigDecimal getProvisionalMoney() {
 		return provisionalMoney;
 	}
 
-	public void setProvisionalMoney(Double provisionalMoney) {
+	public void setProvisionalMoney(BigDecimal provisionalMoney) {
 		this.provisionalMoney = provisionalMoney;
 	}
 
-	public Double getSettlementMoney() {
+	public BigDecimal getSettlementMoney() {
 		return settlementMoney;
 	}
 
-	public void setSettlementMoney(Double settlementMoney) {
+	public void setSettlementMoney(BigDecimal settlementMoney) {
 		this.settlementMoney = settlementMoney;
 	}
 
@@ -159,11 +160,11 @@ public class clfbCgcontractPerformance {
 		this.settlementDesc = settlementDesc;
 	}
 
-	public Double getAccumulativePaymentMoney() {
+	public BigDecimal getAccumulativePaymentMoney() {
 		return accumulativePaymentMoney;
 	}
 
-	public void setAccumulativePaymentMoney(Double accumulativePaymentMoney) {
+	public void setAccumulativePaymentMoney(BigDecimal accumulativePaymentMoney) {
 		this.accumulativePaymentMoney = accumulativePaymentMoney;
 	}
 

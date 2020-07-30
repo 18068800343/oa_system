@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class OutTrain {
@@ -27,7 +28,7 @@ public class OutTrain {
 
     private String trainingLocation;
 
-    private Double trainingMoney;
+    private BigDecimal trainingMoney;
     
     private String courseDesc;
     
@@ -168,11 +169,11 @@ public class OutTrain {
 		this.trainingLocation = trainingLocation;
 	}
 
-	public Double getTrainingMoney() {
+	public BigDecimal getTrainingMoney() {
 		return trainingMoney;
 	}
 
-	public void setTrainingMoney(Double trainingMoney) {
+	public void setTrainingMoney(BigDecimal trainingMoney) {
 		this.trainingMoney = trainingMoney;
 	}
 

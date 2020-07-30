@@ -1,5 +1,6 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public class CgOtherContract {
 	private String workNo;// 任务单号
 	private String prjName;//项目名称
 	private String cgocType;// 采购合同类型
-	private Double CgoContractMoney;// 采购合同金额
+	private BigDecimal CgoContractMoney;// 采购合同金额
 	private String contractNameJia;// 合同甲方名称
 	private String contractNameYi;// 乙方
 	private String payMode;// 付款方式
@@ -25,9 +26,9 @@ public class CgOtherContract {
 	private String makeTime; //当前时间
 	private String history;//历史状态
 	private String cgoDepartment;//采购部门
-	private Double freight;//运费
-	private Double shuilv;//税率
-	private Double shuijin;//税金
+	private BigDecimal freight;//运费
+	private BigDecimal shuilv;//税率
+	private BigDecimal shuijin;//税金
 	    
 	private List<Accessory> accessory;
 	private List<Accessory> accessory1;
@@ -47,19 +48,19 @@ public class CgOtherContract {
 	public void setDoDate(String doDate) {
 		this.doDate = doDate;
 	}
-	public Double getShuilv() {
+	public BigDecimal getShuilv() {
 		return shuilv;
 	}
 
-	public void setShuilv(Double shuilv) {
+	public void setShuilv(BigDecimal shuilv) {
 		this.shuilv = shuilv;
 	}
 
-	public Double getShuijin() {
+	public BigDecimal getShuijin() {
 		return shuijin;
 	}
 
-	public void setShuijin(Double shuijin) {
+	public void setShuijin(BigDecimal shuijin) {
 		this.shuijin = shuijin;
 	}
 
@@ -111,11 +112,11 @@ public class CgOtherContract {
 		this.cgocType = cgocType;
 	}
 
-	public Double getCgoContractMoney() {
+	public BigDecimal getCgoContractMoney() {
 		return CgoContractMoney;
 	}
 
-	public void setCgoContractMoney(Double cgoContractMoney) {
+	public void setCgoContractMoney(BigDecimal cgoContractMoney) {
 		CgoContractMoney = cgoContractMoney;
 	}
 
@@ -191,11 +192,11 @@ public class CgOtherContract {
 		this.cgoDepartment = cgoDepartment;
 	}
 
-	public Double getFreight() {
+	public BigDecimal getFreight() {
 		return freight;
 	}
 
-	public void setFreight(Double freight) {
+	public void setFreight(BigDecimal freight) {
 		this.freight = freight;
 	}
 

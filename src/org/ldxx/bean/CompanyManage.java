@@ -1,5 +1,7 @@
 package org.ldxx.bean;
 
+import java.math.BigDecimal;
+
 /** 
 * @ClassName: CompanyManage 
 * @Description: 公司经营情况
@@ -10,33 +12,33 @@ package org.ldxx.bean;
 public class CompanyManage {
 
 	private String departmentName;
-	private double totalAccomplish;//累计完成收入
-	private double targetRevenues;//目标收入
+	private BigDecimal totalAccomplish;//累计完成收入
+	private BigDecimal targetRevenues;//目标收入
 	private String percentage;//完成百分比
-	private double moneyReceipt;//已收款
-	private double accruedAssets;//未收款
-	private double cost;//成本
-	private Double newContractAmount;//新签合同额
-	private double contractZdMoney;//合同暂定金
-	private double contractTargetMoney;//合同目标额
+	private BigDecimal moneyReceipt;//已收款
+	private BigDecimal accruedAssets;//未收款
+	private BigDecimal cost;//成本
+	private BigDecimal newContractAmount;//新签合同额
+	private BigDecimal contractZdMoney;//合同暂定金
+	private BigDecimal contractTargetMoney;//合同目标额
 	
 	
-	public double getMoneyReceipt() {
+	public BigDecimal getMoneyReceipt() {
 		return moneyReceipt;
 	}
-	public void setMoneyReceipt(double moneyReceipt) {
+	public void setMoneyReceipt(BigDecimal moneyReceipt) {
 		this.moneyReceipt = moneyReceipt;
 	}
-	public double getAccruedAssets() {
+	public BigDecimal getAccruedAssets() {
 		return accruedAssets;
 	}
-	public void setAccruedAssets(double accruedAssets) {
+	public void setAccruedAssets(BigDecimal accruedAssets) {
 		this.accruedAssets = accruedAssets;
 	}
-	public double getCost() {
+	public BigDecimal getCost() {
 		return cost;
 	}
-	public void setCost(double cost) {
+	public void setCost(BigDecimal cost) {
 		this.cost = cost;
 	}
 	public String getDepartmentName() {
@@ -45,16 +47,16 @@ public class CompanyManage {
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
 	}
-	public double getTotalAccomplish() {
+	public BigDecimal getTotalAccomplish() {
 		return totalAccomplish;
 	}
-	public void setTotalAccomplish(double totalAccomplish) {
+	public void setTotalAccomplish(BigDecimal totalAccomplish) {
 		this.totalAccomplish = totalAccomplish;
 	}
-	public double getTargetRevenues() {
+	public BigDecimal getTargetRevenues() {
 		return targetRevenues;
 	}
-	public void setTargetRevenues(double targetRevenues) {
+	public void setTargetRevenues(BigDecimal targetRevenues) {
 		this.targetRevenues = targetRevenues;
 	}
 	public String getPercentage() {
@@ -63,22 +65,22 @@ public class CompanyManage {
 	public void setPercentage(String percentage) {
 		this.percentage = percentage;
 	}
-	public Double getNewContractAmount() {
+	public BigDecimal getNewContractAmount() {
 		return newContractAmount;
 	}
-	public void setNewContractAmount(Double newContractAmount) {
+	public void setNewContractAmount(BigDecimal newContractAmount) {
 		this.newContractAmount = newContractAmount;
 	}
-	public double getContractZdMoney() {
+	public BigDecimal getContractZdMoney() {
 		return contractZdMoney;
 	}
-	public void setContractZdMoney(double contractZdMoney) {
+	public void setContractZdMoney(BigDecimal contractZdMoney) {
 		this.contractZdMoney = contractZdMoney;
 	}
-	public double getContractTargetMoney() {
+	public BigDecimal getContractTargetMoney() {
 		return contractTargetMoney;
 	}
-	public void setContractTargetMoney(double contractTargetMoney) {
+	public void setContractTargetMoney(BigDecimal contractTargetMoney) {
 		this.contractTargetMoney = contractTargetMoney;
 	}
 	

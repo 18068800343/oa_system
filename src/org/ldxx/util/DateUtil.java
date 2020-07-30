@@ -18,68 +18,68 @@ public class DateUtil {
     /**
      * 精确加法
      */
-    public static double add(double value1, double value2) {
-        BigDecimal b1 = BigDecimal.valueOf(value1);
-        BigDecimal b2 = BigDecimal.valueOf(value2);
-        return b1.add(b2).doubleValue();
+    public static BigDecimal add(BigDecimal value1, BigDecimal value2) {
+        BigDecimal b1 = value1;
+        BigDecimal b2 = value2;
+        return b1.add(b2);
     }
 
     /**
      * 精确加法
      */
-    public static double add(String value1, String value2) {
+    public static BigDecimal add(String value1, String value2) {
         BigDecimal b1 = new BigDecimal(value1);
         BigDecimal b2 = new BigDecimal(value2);
-        return b1.add(b2).doubleValue();
+        return b1.add(b2);
     }
 
     /**
      * 精确减法
      */
-    public static double sub(double value1, double value2) {
-        BigDecimal b1 = BigDecimal.valueOf(value1);
-        BigDecimal b2 = BigDecimal.valueOf(value2);
-        return b1.subtract(b2).doubleValue();
+    public static BigDecimal sub(BigDecimal value1, BigDecimal value2) {
+        BigDecimal b1 = value1;
+        BigDecimal b2 =value2;
+        return b1.subtract(b2);
     }
 
     /**
      * 精确减法
      */
-    public static double sub(String value1, String value2) {
+    public static BigDecimal sub(String value1, String value2) {
         BigDecimal b1 = new BigDecimal(value1);
         BigDecimal b2 = new BigDecimal(value2);
-        return b1.subtract(b2).doubleValue();
+        return b1.subtract(b2);
     }
 
     /**
      * 精确乘法
      */
-    public static double mul(double value1, double value2) {
-        BigDecimal b1 = BigDecimal.valueOf(value1);
-        BigDecimal b2 = BigDecimal.valueOf(value2);
-        return b1.multiply(b2).doubleValue();
+    public static BigDecimal mul(BigDecimal value1, BigDecimal value2) {
+        BigDecimal b1 = value1;
+        BigDecimal b2 = value2;
+        return b1.multiply(b2);
     }
 
     /**
      * 精确乘法
      */
-    public static double mul(String value1, String value2) {
+    public static BigDecimal mul(String value1, String value2) {
         BigDecimal b1 = new BigDecimal(value1);
         BigDecimal b2 = new BigDecimal(value2);
-        return b1.multiply(b2).doubleValue();
+        return b1.multiply(b2);
     }
 
     /**
      * 精确除法 使用默认精度
      */
-    public static double div(double value1, double value2) throws IllegalAccessException {
+    public static BigDecimal div(BigDecimal value1, BigDecimal value2) throws IllegalAccessException {
         return div(value1, value2, DEF_DIV_SCALE);
     }
 
     /**
      * 精确除法 使用默认精度
      */
-    public static double div(String value1, String value2) throws IllegalAccessException {
+    public static BigDecimal div(String value1, String value2) throws IllegalAccessException {
         return div(value1, value2, DEF_DIV_SCALE);
     }
 
@@ -89,14 +89,14 @@ public class DateUtil {
      * @param scale
      *            精度
      */
-    public static double div(double value1, double value2, int scale) throws IllegalAccessException {
+    public static BigDecimal div(BigDecimal value1, BigDecimal value2, int scale) throws IllegalAccessException {
         if (scale < 0) {
             throw new IllegalAccessException("精确度不能小于0");
         }
-        BigDecimal b1 = BigDecimal.valueOf(value1);
-        BigDecimal b2 = BigDecimal.valueOf(value2);
+        BigDecimal b1 = value1;
+        BigDecimal b2 = value2;
         // return b1.divide(b2, scale).doubleValue();
-        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP);
     }
 
     /**
@@ -105,14 +105,14 @@ public class DateUtil {
      * @param scale
      *            精度
      */
-    public static double div(String value1, String value2, int scale) throws IllegalAccessException {
+    public static BigDecimal div(String value1, String value2, int scale) throws IllegalAccessException {
         if (scale < 0) {
             throw new IllegalAccessException("精确度不能小于0");
         }
         BigDecimal b1 = new BigDecimal(value1);
         BigDecimal b2 = new BigDecimal(value2);
         // return b1.divide(b2, scale).doubleValue();
-        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP);
     }
 
     /**
@@ -121,8 +121,8 @@ public class DateUtil {
      * @param scale
      *            小数点后保留几位
      */
-    public static double round(double v, int scale) throws IllegalAccessException {
-        return div(v, 1, scale);
+    public static BigDecimal round(BigDecimal v, int scale) throws IllegalAccessException {
+        return div(v, new BigDecimal(1), scale);
     }
 
     /**
@@ -131,7 +131,7 @@ public class DateUtil {
      * @param scale
      *            小数点后保留几位
      */
-    public static double round(String v, int scale) throws IllegalAccessException {
+    public static BigDecimal round(String v, int scale) throws IllegalAccessException {
         return div(v, "1", scale);
     }
 

@@ -1,5 +1,6 @@
 package org.ldxx.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -96,7 +97,7 @@ public class FinancialReceipts2ServiceImpl implements FinancialReceipts2Service{
 				String no=list.get(i).gettNo();
 				String name = list.get(i).gettName();
 				String department = list.get(i).gettDepartment();
-				Double collectionValue = list.get(i).gettCollectionValue();
+				BigDecimal collectionValue = list.get(i).gettCollectionValue();
 				String desc = list.get(i).gettDesc();
 				String time = list.get(i).gettTime();
 				FinancialTables CollectionValue2=dao.selectValueByno(no);
@@ -104,7 +105,7 @@ public class FinancialReceipts2ServiceImpl implements FinancialReceipts2Service{
 				f.settNo(no);
 				f.settName(name);
 				f.settDepartment(department);
-				f.settCollectionValue(collectionValue+CollectionValue2.gettCollectionValue());
+				f.settCollectionValue(collectionValue.add(CollectionValue2.gettCollectionValue()));
 				f.settDesc(desc);
 				f.settTime(time);
 				num=dao.updateValueByNo(f);
