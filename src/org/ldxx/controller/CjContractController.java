@@ -600,14 +600,16 @@ public class CjContractController {
 			String oldpath=webApp+File.separator+oldCjId+File.separator+oldCjFileName;
 			String newpath=webApp+File.separator+id;
 			Accessory oldAccessory = adao.getAccessByIdAndName(oldCjId, oldCjFileName);
-			Accessory accessory=new Accessory();
-			accessory.setaId(id);
-			accessory.setAcName(oldCjFileName);
-			accessory.setAcUrl(id+File.separator+oldCjFileName);
-			accessory.setaType(oldAccessory.getaType());
-			oldAccesslist.add(accessory);
-			cj.setAccessory3(oldAccesslist);
-			CopyFile.copyFile(oldpath, newpath);
+			if(null!=oldAccessory) {
+				Accessory accessory=new Accessory();
+				accessory.setaId(id);
+				accessory.setAcName(oldCjFileName);
+				accessory.setAcUrl(id+File.separator+oldCjFileName);
+				accessory.setaType(oldAccessory.getaType());
+				oldAccesslist.add(accessory);
+				cj.setAccessory3(oldAccesslist);
+				CopyFile.copyFile(oldpath, newpath);
+			}
 		}
 				
 		if(file.length>0){
