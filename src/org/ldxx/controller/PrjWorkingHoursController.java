@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  *项目工时管理
@@ -51,8 +51,8 @@ public class PrjWorkingHoursController {
 		Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("prjWorkingHoursP", PrjWorkingHoursP.class);
-		JSONObject jsonObject=JSONObject.fromObject(prjGs);
-		PrjWorkingHours pwh=(PrjWorkingHours)JSONObject.toBean(jsonObject, PrjWorkingHours.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(prjGs);
+		PrjWorkingHours pwh=(PrjWorkingHours)JSONObject.toJavaObject(jsonObject, PrjWorkingHours.class);
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -92,8 +92,8 @@ public class PrjWorkingHoursController {
 		Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("prjWorkingHoursP", PrjWorkingHoursP.class);
-		JSONObject jsonObject=JSONObject.fromObject(prjGs);
-		PrjWorkingHours pwh=(PrjWorkingHours)JSONObject.toBean(jsonObject, PrjWorkingHours.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(prjGs);
+		PrjWorkingHours pwh=(PrjWorkingHours)JSONObject.toJavaObject(jsonObject, PrjWorkingHours.class);
 		
 		String id=pwh.getPwhId();
 		TimeUUID uuid=new TimeUUID();
@@ -162,8 +162,8 @@ public class PrjWorkingHoursController {
 		Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("prjWorkingHoursP", PrjWorkingHoursP.class);
-		JSONObject jsonObject=JSONObject.fromObject(prjGsAddInfo);
-		PrjWorkingHours pwh=(PrjWorkingHours)JSONObject.toBean(jsonObject, PrjWorkingHours.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(prjGsAddInfo);
+		PrjWorkingHours pwh=(PrjWorkingHours)JSONObject.toJavaObject(jsonObject, PrjWorkingHours.class);
 		
 		int i=service.updatePrjWorkingHoursAddInfo(pwh);
 		map.put("result", i);

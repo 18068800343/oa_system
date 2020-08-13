@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 开标记录
@@ -138,8 +138,8 @@ public class OpeningRecordController {
 		Map<String,Object> map = new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("openingInformation", OpeningInformation.class);
-		JSONObject jsonObject=JSONObject.fromObject(record);
-		OpeningRecord rd=(OpeningRecord)JSONObject.toBean(jsonObject, OpeningRecord.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(record);
+		OpeningRecord rd=(OpeningRecord)JSONObject.toJavaObject(jsonObject, OpeningRecord.class);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		rd.setOrId(id);
@@ -176,8 +176,8 @@ public class OpeningRecordController {
 		Map<String,Object> map = new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("openingInformation", OpeningInformation.class);
-		JSONObject jsonObject=JSONObject.fromObject(record);
-		OpeningRecord rd=(OpeningRecord)JSONObject.toBean(jsonObject, OpeningRecord.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(record);
+		OpeningRecord rd=(OpeningRecord)JSONObject.toJavaObject(jsonObject, OpeningRecord.class);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		rd.setOrId(id);
@@ -215,8 +215,8 @@ public class OpeningRecordController {
 		Map<String,Object> map = new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("openingInformation", OpeningInformation.class);
-		JSONObject jsonObject=JSONObject.fromObject(record);
-		OpeningRecord rd=(OpeningRecord)JSONObject.toBean(jsonObject, OpeningRecord.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(record);
+		OpeningRecord rd=(OpeningRecord)JSONObject.toJavaObject(jsonObject, OpeningRecord.class);
 		User user=(User) request.getSession().getAttribute("user");
 		String uName=user.getuName();
 		rd.setPreparer(uName);
@@ -286,8 +286,8 @@ public class OpeningRecordController {
 		Map<String,Object> map = new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("openingInformation", OpeningInformation.class);
-		JSONObject jsonObject=JSONObject.fromObject(record);
-		OpeningRecord rd=(OpeningRecord)JSONObject.toBean(jsonObject, OpeningRecord.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(record);
+		OpeningRecord rd=(OpeningRecord)JSONObject.toJavaObject(jsonObject, OpeningRecord.class);
 		String id=rd.getOrId();
 		TimeUUID uuid=new TimeUUID();
 		String webApps=uuid.getWebAppFile();

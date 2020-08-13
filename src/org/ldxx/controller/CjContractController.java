@@ -47,7 +47,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
+
 
 @Controller
 @RequestMapping("cj")
@@ -79,8 +80,8 @@ public class CjContractController {
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		map.put("chaiFenXinXiArray", Task.class);
 		map.put("cjDeptSplitMoney", CjDeptSplitMoney.class);
-		JSONObject jsonObject=JSONObject.fromObject(cjContract);
-		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
+		JSONObject jsonObject=JSONObject.parseObject(cjContract);
+		CjContract cj=(CjContract)JSONObject.toJavaObject(jsonObject, CjContract.class);
 		
 		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		TimeUUID uuid=new TimeUUID();
@@ -179,8 +180,8 @@ public class CjContractController {
 		if(user==null){
 			return null;
 		}
-		JSONObject jsonObject=JSONObject.fromObject(cjContract);
-		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
+		JSONObject jsonObject=JSONObject.parseObject(cjContract);
+		CjContract cj=(CjContract)JSONObject.toJavaObject(jsonObject, CjContract.class);
 		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -441,8 +442,8 @@ public class CjContractController {
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		map.put("chaiFenXinXiArray", Task.class);
-		JSONObject jsonObject=JSONObject.fromObject(cjContract);
-		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
+		JSONObject jsonObject=JSONObject.parseObject(cjContract);
+		CjContract cj=(CjContract)JSONObject.toJavaObject(jsonObject, CjContract.class);
 		//cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -565,8 +566,8 @@ public class CjContractController {
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		map.put("chaiFenXinXiArray", Task.class);
-		JSONObject jsonObject=JSONObject.fromObject(cjContract);
-		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
+		JSONObject jsonObject=JSONObject.parseObject(cjContract);
+		CjContract cj=(CjContract)JSONObject.toJavaObject(jsonObject, CjContract.class);
 		int l = cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -690,8 +691,8 @@ public class CjContractController {
 		Map<String,Class> map=new HashMap<>();
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		map.put("chaiFenXinXiArray", Task.class);
-		JSONObject jsonObject=JSONObject.fromObject(cjContract);
-		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
+		JSONObject jsonObject=JSONObject.parseObject(cjContract);
+		CjContract cj=(CjContract)JSONObject.toJavaObject(jsonObject, CjContract.class);
 		cuService.addContractAndTaskUpdate(cj.getChaiFenXinXiArray());
 		TimeUUID uuid=new TimeUUID();
 		/*String id=uuid.getTimeUUID();
@@ -809,7 +810,8 @@ public class CjContractController {
 	@RequestMapping("/selectCjContractById")//通过承接id查询承接合同详细信息
 	@ResponseBody
 	public CjContract selectCjContractById(String id){
-		return service.selectCjContractById(id);
+		CjContract cjContract = service.selectCjContractById(id);
+		return cjContract;
 	}
 	
 	@RequestMapping("/updateHistoryById")
@@ -848,11 +850,11 @@ public class CjContractController {
 	@ResponseBody
 	public int updateCjContractById(String cjContract,@RequestParam MultipartFile [] file,@RequestParam MultipartFile [] file2){
 		Map<String,Class> map=new HashMap<>();
-		JSONObject jsonObject=JSONObject.fromObject(cjContract);
+		JSONObject jsonObject=JSONObject.parseObject(cjContract);
 		map.put("cjSplitMoney", CjSplitMoney.class);
 		map.put("chaiFenXinXiArray", Task.class);
 		map.put("cjDeptSplitMoney", CjDeptSplitMoney.class);
-		CjContract cj=(CjContract)JSONObject.toBean(jsonObject, CjContract.class,map);
+		CjContract cj=(CjContract)JSONObject.toJavaObject(jsonObject, CjContract.class);
 		String id=cj.getCjId();
 		TimeUUID uuid=new TimeUUID();
 		String webApp=uuid.getWebAppFile();

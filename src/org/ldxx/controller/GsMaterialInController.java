@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 公司材料入库
@@ -67,8 +67,8 @@ public class GsMaterialInController {
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("gsInCl", CompanyMaterialInCl.class);
 		map2.put("accessory", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(gsclIn);
-		CompanyMateriaIn cm=(CompanyMateriaIn) JSONObject.toBean(jsonObject, CompanyMateriaIn.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(gsclIn);
+		CompanyMateriaIn cm=(CompanyMateriaIn) JSONObject.toJavaObject(jsonObject, CompanyMateriaIn.class);
 		
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID uuid=new TimeUUID();
@@ -113,8 +113,8 @@ public class GsMaterialInController {
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("gsInCl", CompanyMaterialInCl.class);
 		map2.put("accessory", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(gsclIn);
-		CompanyMateriaIn cm=(CompanyMateriaIn)JSONObject.toBean(jsonObject, CompanyMateriaIn.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(gsclIn);
+		CompanyMateriaIn cm=(CompanyMateriaIn)JSONObject.toJavaObject(jsonObject, CompanyMateriaIn.class);
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -155,8 +155,8 @@ public class GsMaterialInController {
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("gsInCl", CompanyMaterialInCl.class);
 		map2.put("accessory", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(gsclIn);
-		CompanyMateriaIn cm=(CompanyMateriaIn)JSONObject.toBean(jsonObject, CompanyMateriaIn.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(gsclIn);
+		CompanyMateriaIn cm=(CompanyMateriaIn)JSONObject.toJavaObject(jsonObject, CompanyMateriaIn.class);
 		
 		Map<String,Object> map=new HashMap<>();
 		String id = cm.getCmId();

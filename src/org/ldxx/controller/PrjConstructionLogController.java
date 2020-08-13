@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 项目施工日志
@@ -54,8 +54,8 @@ public class PrjConstructionLogController {
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory", Accessory.class);
 		map2.put("prjLogInfo", PrjConstructionLogInfo.class);
-		JSONObject jsonObject=JSONObject.fromObject(rizhi);
-		PrjConstructionLog prjLog=(PrjConstructionLog)JSONObject.toBean(jsonObject, PrjConstructionLog.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(rizhi);
+		PrjConstructionLog prjLog=(PrjConstructionLog)JSONObject.toJavaObject(jsonObject, PrjConstructionLog.class);
 		
 		String webApp=uuid.getWebAppFile();
 		String path=webApp+id;
@@ -101,8 +101,8 @@ public class PrjConstructionLogController {
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory", Accessory.class);
 		map2.put("prjLogInfo", PrjConstructionLogInfo.class);
-		JSONObject jsonObject=JSONObject.fromObject(rizhi);
-		PrjConstructionLog prjLog=(PrjConstructionLog)JSONObject.toBean(jsonObject, PrjConstructionLog.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(rizhi);
+		PrjConstructionLog prjLog=(PrjConstructionLog)JSONObject.toJavaObject(jsonObject, PrjConstructionLog.class);
 		String id=prjLog.getPclId();
 		TimeUUID uuid=new TimeUUID();
 		String webApp=uuid.getWebAppFile();

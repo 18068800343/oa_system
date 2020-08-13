@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /** 
 * @ClassName: MaintenanceReinforcementController 
@@ -74,8 +74,8 @@ public class MaintenanceReinforcementController {
 		map2.put("accessory18", Accessory.class);
 		map2.put("accessory19", Accessory.class);
 		map2.put("accessory20", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(tes);
-		MaintenanceReinforcement mr=(MaintenanceReinforcement)JSONObject.toBean(jsonObject, MaintenanceReinforcement.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(tes);
+		MaintenanceReinforcement mr=(MaintenanceReinforcement)JSONObject.toJavaObject(jsonObject, MaintenanceReinforcement.class);
 		/*TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		mr.setMrId(id);*/

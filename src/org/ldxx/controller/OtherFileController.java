@@ -17,7 +17,7 @@ import org.ldxx.bean.OtherFile;
 import org.ldxx.bean.User;
 import org.ldxx.service.OtherFileService;
 import org.ldxx.util.TimeUUID;
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 @Controller
 @RequestMapping("otherFile")
 public class OtherFileController {
@@ -31,8 +31,8 @@ public class OtherFileController {
 		Map<String,Object> map=new HashMap<>();
 		TimeUUID tu=new TimeUUID();
 		int result;
-		JSONObject jsonObject=JSONObject.fromObject(fileJson);
-		OtherFile oFile=(OtherFile)JSONObject.toBean(jsonObject, OtherFile.class);
+		JSONObject jsonObject=JSONObject.parseObject(fileJson);
+		OtherFile oFile=(OtherFile)JSONObject.toJavaObject(jsonObject, OtherFile.class);
 		
 		//获取tomcat项目路径
 //		String path = request.getSession().getServletContext().getRealPath("/")+"otherfile";

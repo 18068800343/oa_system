@@ -46,7 +46,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 采购合同管理
@@ -92,8 +92,8 @@ public class CgContractController {
 		map2.put("cgcl", CgCl.class);
 		map2.put("accessory", Accessory.class);
 		map2.put("accessory1", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cgContract);
-		CgContract cg=(CgContract)JSONObject.toBean(jsonObject, CgContract.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(cgContract);
+		CgContract cg=(CgContract)JSONObject.toJavaObject(jsonObject, CgContract.class);
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -198,8 +198,8 @@ public class CgContractController {
 		map2.put("cgcl", CgCl.class);
 		map2.put("accessory", Accessory.class);
 		map2.put("accessory1", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cgContract);
-		CgContract cg=(CgContract)JSONObject.toBean(jsonObject, CgContract.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(cgContract);
+		CgContract cg=(CgContract)JSONObject.toJavaObject(jsonObject, CgContract.class);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cg.setCgId(id);
@@ -405,8 +405,8 @@ public class CgContractController {
 		map2.put("cgcl", CgCl.class);
 		map2.put("accessory", Accessory.class);
 		map2.put("accessory1", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cgContract);
-		CgContract cg=(CgContract)JSONObject.toBean(jsonObject, CgContract.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(cgContract);
+		CgContract cg=(CgContract)JSONObject.toJavaObject(jsonObject, CgContract.class);
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -498,8 +498,8 @@ public class CgContractController {
 		map2.put("cgcl", CgCl.class);
 		map2.put("accessory", Accessory.class);
 		map2.put("accessory1", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cgContract);
-		CgContract cg=(CgContract)JSONObject.toBean(jsonObject, CgContract.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(cgContract);
+		CgContract cg=(CgContract)JSONObject.toJavaObject(jsonObject, CgContract.class);
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -751,8 +751,8 @@ public class CgContractController {
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("cgcl", CgCl.class);
 		map2.put("accessory", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cgContract);
-		CgContract cg=(CgContract)JSONObject.toBean(jsonObject, CgContract.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(cgContract);
+		CgContract cg=(CgContract)JSONObject.toJavaObject(jsonObject, CgContract.class);
 		String id=cg.getCgId();
 		
 		TimeUUID uuid=new TimeUUID();

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 //项目材料出库
 @RequestMapping("clout")
@@ -38,8 +38,8 @@ public class ClOutController {
 		Map<String,Object> map=new HashMap<>();
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("cInfo", ClOutInfo.class);
-		JSONObject jsonObject=JSONObject.fromObject(clOut);
-		ClOut out=(ClOut)JSONObject.toBean(jsonObject, ClOut.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(clOut);
+		ClOut out=(ClOut)JSONObject.toJavaObject(jsonObject, ClOut.class);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		out.setOutId(id);

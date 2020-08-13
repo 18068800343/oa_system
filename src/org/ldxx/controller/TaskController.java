@@ -52,8 +52,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;;
 
 
 @Controller
@@ -520,12 +520,12 @@ public class TaskController {
 	public int saveTaskChaifen(String task,HttpSession session){
 		Map<String,Class> map=new HashMap<>();
 		
-		JSONArray jsonArray=JSONArray.fromObject(task);
+		JSONArray jsonArray=JSONArray.parseArray(task);
 		List<Task> list=new ArrayList<>();
 		for(int i=0;i<jsonArray.size();i++){
 			JSONObject job = jsonArray.getJSONObject(i); 
 			map.put("enterprise", Enterprise.class);
-			Task task2 = (Task) JSONObject.toBean(job,Task.class,map);
+			Task task2 = (Task) JSONObject.toJavaObject(job,Task.class);
 			list.add(task2);
 		}
 		int i = 0;
@@ -597,12 +597,12 @@ public class TaskController {
 	public int saveTaskChaifenChange(String task,HttpSession session){
 		Map<String,Class> map=new HashMap<>();
 		
-		JSONArray jsonArray=JSONArray.fromObject(task);
+		JSONArray jsonArray=JSONArray.parseArray(task);
 		List<Task> list=new ArrayList<>();
 		for(int i=0;i<jsonArray.size();i++){
 			JSONObject job = jsonArray.getJSONObject(i); 
 			map.put("enterprise", Enterprise.class);
-			Task task2 = (Task) JSONObject.toBean(job,Task.class,map);
+			Task task2 = (Task) JSONObject.toJavaObject(job,Task.class);
 			list.add(task2);
 		}
 		int i = 0;
@@ -652,12 +652,12 @@ public class TaskController {
 	public String submitTaskChaifen(String task,HttpSession session){
 		Map<String,Class> map=new HashMap<>();
 		
-		JSONArray jsonArray=JSONArray.fromObject(task);
+		JSONArray jsonArray=JSONArray.parseArray(task);
 		List<Task> list=new ArrayList<>();
 		for(int i=0;i<jsonArray.size();i++){
 			JSONObject job = jsonArray.getJSONObject(i); 
 			map.put("enterprise", Enterprise.class);
-			Task task2 = (Task) JSONObject.toBean(job,Task.class,map);
+			Task task2 = (Task) JSONObject.toJavaObject(job,Task.class);
 			list.add(task2);
 		}
 		int i = 0;
@@ -730,12 +730,12 @@ public class TaskController {
 	public String submitTaskChaifenChange(String task,HttpSession session){
 		Map<String,Class> map=new HashMap<>();
 		
-		JSONArray jsonArray=JSONArray.fromObject(task);
+		JSONArray jsonArray=JSONArray.parseArray(task);
 		List<Task> list=new ArrayList<>();
 		for(int i=0;i<jsonArray.size();i++){
 			JSONObject job = jsonArray.getJSONObject(i); 
 			map.put("enterprise", Enterprise.class);
-			Task task2 = (Task) JSONObject.toBean(job,Task.class,map);
+			Task task2 = (Task) JSONObject.toJavaObject(job,Task.class);
 			list.add(task2);
 		}
 		int i = 0;

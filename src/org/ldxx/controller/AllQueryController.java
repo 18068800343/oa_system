@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 @RequestMapping("/allQuery")
 @Controller
@@ -145,9 +145,9 @@ public class AllQueryController {
 		
 		String resultGs=oservice.selectGsOperationTargetByTime(nowY+"");
 	  
-		JSONObject jsonObject=JSONObject.fromObject(resultGs);
+		JSONObject jsonObject=JSONObject.parseObject(resultGs);
 	  
-		OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject,
+		OperationTarget ot=(OperationTarget)JSONObject.toJavaObject(jsonObject,
 		OperationTarget.class);
 		
 		//根据年份查询承接合同数量

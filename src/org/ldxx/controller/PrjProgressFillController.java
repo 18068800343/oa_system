@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 /**
  * 进度管理
  * @author hp
@@ -88,8 +88,8 @@ public class PrjProgressFillController {
 		classMap.put("ppfi6", PrjProgressFillInfo.class);*/
 		classMap.put("ppfb", PrjProgressFillFb.class);
 		/*classMap.put("ppcj", PrjProgressFillCj.class);*/
-		JSONObject jsonObject=JSONObject.fromObject(ppf);
-		PrjProgressFill pf=(PrjProgressFill)JSONObject.toBean(jsonObject, PrjProgressFill.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(ppf);
+		PrjProgressFill pf=(PrjProgressFill)JSONObject.toJavaObject(jsonObject, PrjProgressFill.class);
 		pf.setPpfId(id);
 		
 		if(file!=null){
@@ -193,8 +193,8 @@ public class PrjProgressFillController {
 		classMap.put("ppfi6", PrjProgressFillInfo.class);*/
 		classMap.put("ppfb", PrjProgressFillFb.class);
 		/*classMap.put("ppcj", PrjProgressFillCj.class);*/
-		JSONObject jsonObject=JSONObject.fromObject(ppf);
-		PrjProgressFill pf=(PrjProgressFill)JSONObject.toBean(jsonObject, PrjProgressFill.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(ppf);
+		PrjProgressFill pf=(PrjProgressFill)JSONObject.toJavaObject(jsonObject, PrjProgressFill.class);
 		pf.setPpfId(id);
 		
 		if(file!=null){
@@ -494,8 +494,8 @@ public class PrjProgressFillController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("ppfi", PrjProgressFillInfo.class);
 		classMap.put("ppfb", PrjProgressFillFb.class);
-		JSONObject jsonObject=JSONObject.fromObject(ppf);
-		PrjProgressFill pf=(PrjProgressFill)JSONObject.toBean(jsonObject, PrjProgressFill.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(ppf);
+		PrjProgressFill pf=(PrjProgressFill)JSONObject.toJavaObject(jsonObject, PrjProgressFill.class);
 		String id=pf.getPpfId();
 		if(file!=null){
 			TimeUUID uuid=new TimeUUID();

@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 项目跟踪单
@@ -64,8 +64,8 @@ public class ProjectTraceController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
-		JSONObject jsonObject=JSONObject.fromObject(trace);
-		ProjectTrace pt=(ProjectTrace)JSONObject.toBean(jsonObject, ProjectTrace.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(trace);
+		ProjectTrace pt=(ProjectTrace)JSONObject.toJavaObject(jsonObject, ProjectTrace.class);
 		
 		List<Accessory> list=new ArrayList<>();
 		TimeUUID uuid=new TimeUUID();
@@ -165,8 +165,8 @@ public class ProjectTraceController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
-		JSONObject jsonObject=JSONObject.fromObject(trace);
-		ProjectTrace pt=(ProjectTrace)JSONObject.toBean(jsonObject, ProjectTrace.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(trace);
+		ProjectTrace pt=(ProjectTrace)JSONObject.toJavaObject(jsonObject, ProjectTrace.class);
 		
 		List<Accessory> list=new ArrayList<>();
 		Map<String,Object> map=new HashMap<>();
@@ -298,8 +298,8 @@ public class ProjectTraceController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
-		JSONObject jsonObject=JSONObject.fromObject(trace);
-		ProjectTrace pt=(ProjectTrace)JSONObject.toBean(jsonObject, ProjectTrace.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(trace);
+		ProjectTrace pt=(ProjectTrace)JSONObject.toJavaObject(jsonObject, ProjectTrace.class);
 		
 		String type=pt.getBusinessType();
 		String prjType="";

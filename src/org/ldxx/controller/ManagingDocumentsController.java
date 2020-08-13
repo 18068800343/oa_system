@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 经营文档资料
@@ -87,8 +87,8 @@ public class ManagingDocumentsController {
 		map2.put("accessory3", Accessory.class);
 		map2.put("accessory4", Accessory.class);
 		map2.put("accessory5", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(managingDocuments);
-		ManagingDocuments md=(ManagingDocuments)JSONObject.toBean(jsonObject, ManagingDocuments.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(managingDocuments);
+		ManagingDocuments md=(ManagingDocuments)JSONObject.toJavaObject(jsonObject, ManagingDocuments.class);
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -199,8 +199,8 @@ public class ManagingDocumentsController {
 		map2.put("accessory3", Accessory.class);
 		map2.put("accessory4", Accessory.class);
 		map2.put("accessory5", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(managingDocuments);
-		ManagingDocuments md=(ManagingDocuments)JSONObject.toBean(jsonObject, ManagingDocuments.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(managingDocuments);
+		ManagingDocuments md=(ManagingDocuments)JSONObject.toJavaObject(jsonObject, ManagingDocuments.class);
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=md.getMdId();

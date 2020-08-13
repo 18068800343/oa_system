@@ -44,8 +44,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 /** 
 * @ClassName: StatisticsController 
@@ -1405,20 +1405,20 @@ public class StatisticsController {
 		
 		//获取公司各种金额
 		String resultGs=oservice.selectGsOperationTargetByTime(year3+"");
-		JSONObject jsonObject=JSONObject.fromObject(resultGs);
-		OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		JSONObject jsonObject=JSONObject.parseObject(resultGs);
+		OperationTarget ot=(OperationTarget)JSONObject.toJavaObject(jsonObject, OperationTarget.class);
 		month1All=ot.getXqhte();//部门前年合同额
 		
 		//获取公司各种金额
 		resultGs=oservice.selectGsOperationTargetByTime(year2+"");
-		jsonObject=JSONObject.fromObject(resultGs);
-		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		jsonObject=JSONObject.parseObject(resultGs);
+		ot=(OperationTarget)JSONObject.toJavaObject(jsonObject, OperationTarget.class);
 		month2All=ot.getXqhte();//部门去年合同额
 		
 		//获取公司各种金额
 		resultGs=oservice.selectGsOperationTargetByTime(year+"");
-		jsonObject=JSONObject.fromObject(resultGs);
-		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		jsonObject=JSONObject.parseObject(resultGs);
+		ot=(OperationTarget)JSONObject.toJavaObject(jsonObject, OperationTarget.class);
 		month3All=ot.getXqhte();//部门今年合同额
 		
 		for(int i=0;i<om.size();i++){
@@ -1431,7 +1431,7 @@ public class StatisticsController {
 			
 			//获取部门每年的金额
 			String resultBm=oservice.selectBmOperationTargetByTime(year3);
-			List<DepartmentTarget> dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			List<DepartmentTarget> dtList=(List<DepartmentTarget>)JSONArray.toJavaObject(JSONArray.parseObject(resultBm), DepartmentTarget.class);
 			for(int k=0;k<dtList.size();k++)
 			{
 				if(dtList.get(k).getBmmc().equals(omName)) {
@@ -1441,7 +1441,7 @@ public class StatisticsController {
 			}
 			
 			resultBm=oservice.selectBmOperationTargetByTime(year2);
-			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			dtList=(List<DepartmentTarget>)JSONArray.toJavaObject(JSONArray.parseObject(resultBm), DepartmentTarget.class);
 			for(int k=0;k<dtList.size();k++)
 			{
 				if(dtList.get(k).getBmmc().equals(omName)) {
@@ -1451,7 +1451,7 @@ public class StatisticsController {
 			}
 			
 			resultBm=oservice.selectBmOperationTargetByTime(year);
-			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			dtList=(List<DepartmentTarget>)JSONArray.toJavaObject(JSONArray.parseObject(resultBm), DepartmentTarget.class);
 			for(int k=0;k<dtList.size();k++)
 			{
 				if(dtList.get(k).getBmmc().equals(omName)) {
@@ -1551,20 +1551,20 @@ public class StatisticsController {
 		
 		//获取公司各种金额
 		String resultGs=oservice.selectGsOperationTargetByTime(year3+"");
-		JSONObject jsonObject=JSONObject.fromObject(resultGs);
-		OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		JSONObject jsonObject=JSONObject.parseObject(resultGs);
+		OperationTarget ot=(OperationTarget)JSONObject.toJavaObject(jsonObject, OperationTarget.class);
 		month1All=ot.getSr();//部门前年合同额
 		
 		//获取公司各种金额
 		resultGs=oservice.selectGsOperationTargetByTime(year2+"");
-		jsonObject=JSONObject.fromObject(resultGs);
-		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		jsonObject=JSONObject.parseObject(resultGs);
+		ot=(OperationTarget)JSONObject.toJavaObject(jsonObject, OperationTarget.class);
 		month2All=ot.getSr();//部门去年合同额
 		
 		//获取公司各种金额
 		resultGs=oservice.selectGsOperationTargetByTime(year+"");
-		jsonObject=JSONObject.fromObject(resultGs);
-		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		jsonObject=JSONObject.parseObject(resultGs);
+		ot=(OperationTarget)JSONObject.toJavaObject(jsonObject, OperationTarget.class);
 		month3All=ot.getSr();//部门今年合同额
 	
 		for(int i=0;i<om.size();i++){
@@ -1576,7 +1576,7 @@ public class StatisticsController {
 			
 			//获取部门每年的金额
 			String resultBm=oservice.selectBmOperationTargetByTime(year3);
-			List<DepartmentTarget> dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			List<DepartmentTarget> dtList=(List<DepartmentTarget>)JSONArray.toJavaObject(JSONArray.parseObject(resultBm), DepartmentTarget.class);
 			for(int k=0;k<dtList.size();k++)
 			{
 				if(dtList.get(k).getBmmc().equals(omName)) {
@@ -1587,7 +1587,7 @@ public class StatisticsController {
 			
 			//获取部门每年的金额
 			resultBm=oservice.selectBmOperationTargetByTime(year2);
-			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			dtList=(List<DepartmentTarget>)JSONArray.toJavaObject(JSONArray.parseObject(resultBm), DepartmentTarget.class);
 			for(int k=0;k<dtList.size();k++)
 			{
 				if(dtList.get(k).getBmmc().equals(omName)) {
@@ -1598,7 +1598,7 @@ public class StatisticsController {
 			
 			//获取部门每年的金额
 			resultBm=oservice.selectBmOperationTargetByTime(year);
-			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			dtList=(List<DepartmentTarget>)JSONArray.toJavaObject(JSONArray.parseObject(resultBm), DepartmentTarget.class);
 			for(int k=0;k<dtList.size();k++)
 			{
 				if(dtList.get(k).getBmmc().equals(omName)) {
@@ -1695,20 +1695,20 @@ public class StatisticsController {
 		
 		//获取公司各种金额
 		String resultGs=oservice.selectGsOperationTargetByTime(year3+"");
-		JSONObject jsonObject=JSONObject.fromObject(resultGs);
-		OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		JSONObject jsonObject=JSONObject.parseObject(resultGs);
+		OperationTarget ot=(OperationTarget)JSONObject.toJavaObject(jsonObject, OperationTarget.class);
 		month1All=ot.getSk();//部门前年合同额
 		
 		//获取公司各种金额
 		resultGs=oservice.selectGsOperationTargetByTime(year2+"");
-		jsonObject=JSONObject.fromObject(resultGs);
-		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		jsonObject=JSONObject.parseObject(resultGs);
+		ot=(OperationTarget)JSONObject.toJavaObject(jsonObject, OperationTarget.class);
 		month2All=ot.getSk();//部门去年合同额
 		
 		//获取公司各种金额
 		resultGs=oservice.selectGsOperationTargetByTime(year+"");
-		jsonObject=JSONObject.fromObject(resultGs);
-		ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
+		jsonObject=JSONObject.parseObject(resultGs);
+		ot=(OperationTarget)JSONObject.toJavaObject(jsonObject, OperationTarget.class);
 		month3All=ot.getSk();//部门今年合同额
 		
 		for(int i=0;i<om.size();i++){
@@ -1721,7 +1721,7 @@ public class StatisticsController {
 			
 			//获取部门每年的金额
 			String resultBm=oservice.selectBmOperationTargetByTime(year3);
-			List<DepartmentTarget> dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			List<DepartmentTarget> dtList=(List<DepartmentTarget>)JSONArray.toJavaObject(JSONArray.parseObject(resultBm), DepartmentTarget.class);
 			for(int k=0;k<dtList.size();k++)
 			{
 				if(dtList.get(k).getBmmc().equals(omName)) {
@@ -1732,7 +1732,7 @@ public class StatisticsController {
 			
 			//获取部门每年的金额
 			resultBm=oservice.selectBmOperationTargetByTime(year2);
-			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			dtList=(List<DepartmentTarget>)JSONArray.toJavaObject(JSONArray.parseObject(resultBm), DepartmentTarget.class);
 			for(int k=0;k<dtList.size();k++)
 			{
 				if(dtList.get(k).getBmmc().equals(omName)) {
@@ -1743,7 +1743,7 @@ public class StatisticsController {
 			
 			//获取部门每年的金额
 			resultBm=oservice.selectBmOperationTargetByTime(year);
-			dtList=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+			dtList=(List<DepartmentTarget>)JSONArray.toJavaObject(JSONArray.parseObject(resultBm), DepartmentTarget.class);
 			for(int k=0;k<dtList.size();k++)
 			{
 				if(dtList.get(k).getBmmc().equals(omName)) {

@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 采购合同管理
@@ -90,8 +90,8 @@ public class CgOtherContractController {
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory", Accessory.class);
 		map2.put("accessory1", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cgOtherContract);
-		CgOtherContract cgo=(CgOtherContract)JSONObject.toBean(jsonObject, CgOtherContract.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(cgOtherContract);
+		CgOtherContract cgo=(CgOtherContract)JSONObject.toJavaObject(jsonObject, CgOtherContract.class);
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -200,8 +200,8 @@ public class CgOtherContractController {
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory", Accessory.class);
 		map2.put("accessory1", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cgOtherContract);
-		CgOtherContract cgo=(CgOtherContract)JSONObject.toBean(jsonObject, CgOtherContract.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(cgOtherContract);
+		CgOtherContract cgo=(CgOtherContract)JSONObject.toJavaObject(jsonObject, CgOtherContract.class);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cgo.setCgoId(id);
@@ -404,8 +404,8 @@ public class CgOtherContractController {
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory", Accessory.class);
 		map2.put("accessory1", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cgOtherContract);
-		CgOtherContract cgo=(CgOtherContract)JSONObject.toBean(jsonObject, CgOtherContract.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(cgOtherContract);
+		CgOtherContract cgo=(CgOtherContract)JSONObject.toJavaObject(jsonObject, CgOtherContract.class);
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -496,8 +496,8 @@ public class CgOtherContractController {
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory", Accessory.class);
 		map2.put("accessory1", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cgOtherContract);
-		CgOtherContract cgo=(CgOtherContract)JSONObject.toBean(jsonObject, CgOtherContract.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(cgOtherContract);
+		CgOtherContract cgo=(CgOtherContract)JSONObject.toJavaObject(jsonObject, CgOtherContract.class);
 		
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -741,8 +741,8 @@ public class CgOtherContractController {
 	public int updateCgoContractById(String cgOtherContract,@RequestParam("file") MultipartFile [] file,/*@RequestParam("file1") MultipartFile [] file1,*/HttpSession session) throws IllegalStateException, IOException{
 		Map<String,Class> map2=new HashMap<>();
 		map2.put("accessory", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(cgOtherContract);
-		CgOtherContract cgo=(CgOtherContract)JSONObject.toBean(jsonObject, CgOtherContract.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(cgOtherContract);
+		CgOtherContract cgo=(CgOtherContract)JSONObject.toJavaObject(jsonObject, CgOtherContract.class);
 		String id=cgo.getCgoId();
 		
 		TimeUUID uuid=new TimeUUID();

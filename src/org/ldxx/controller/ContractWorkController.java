@@ -40,7 +40,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 /**
  * 合同履约下的承接合同
  * @author hp
@@ -73,8 +73,8 @@ public class ContractWorkController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
-		JSONObject jsonObject=JSONObject.fromObject(work);
-		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toJavaObject(jsonObject, ContractWork.class);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
@@ -126,8 +126,8 @@ public class ContractWorkController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		
-		JSONObject jsonObject=JSONObject.fromObject(work);
-		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toJavaObject(jsonObject, ContractWork.class);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
@@ -204,8 +204,8 @@ public class ContractWorkController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		classMap.put("taskArray", Task.class);
-		JSONObject jsonObject=JSONObject.fromObject(work);
-		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toJavaObject(jsonObject, ContractWork.class);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
@@ -305,8 +305,8 @@ public class ContractWorkController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		classMap.put("taskArray", Task.class);
-		JSONObject jsonObject=JSONObject.fromObject(work);
-		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toJavaObject(jsonObject, ContractWork.class);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
@@ -390,8 +390,8 @@ public class ContractWorkController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		classMap.put("taskArray", Task.class);
-		JSONObject jsonObject=JSONObject.fromObject(work);
-		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toJavaObject(jsonObject, ContractWork.class);
 		String id=cwork.getCwId();
 		TimeUUID uuid=new TimeUUID();
 		String webApp=uuid.getWebAppFile();
@@ -444,8 +444,8 @@ public class ContractWorkController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		classMap.put("taskArray", Task.class);
-		JSONObject jsonObject=JSONObject.fromObject(work);
-		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toJavaObject(jsonObject, ContractWork.class);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
@@ -533,8 +533,8 @@ public class ContractWorkController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		classMap.put("taskArray", Task.class);
-		JSONObject jsonObject=JSONObject.fromObject(work);
-		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toJavaObject(jsonObject, ContractWork.class);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
 		cwork.setCwId(id);
@@ -622,8 +622,8 @@ public class ContractWorkController {
 		Map<String, Class> classMap = new HashMap<String, Class>();
 		classMap.put("enterprise", Enterprise.class);
 		classMap.put("taskArray", Task.class);
-		JSONObject jsonObject=JSONObject.fromObject(work);
-		ContractWork cwork=(ContractWork)JSONObject.toBean(jsonObject, ContractWork.class,classMap);
+		JSONObject jsonObject=JSONObject.parseObject(work);
+		ContractWork cwork=(ContractWork)JSONObject.toJavaObject(jsonObject, ContractWork.class);
 		String id=cwork.getCwId();
 		TimeUUID uuid=new TimeUUID();
 		String webApp=uuid.getWebAppFile();

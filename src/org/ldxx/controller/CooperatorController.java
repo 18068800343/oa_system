@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /** 
 * @ClassName: CooperatorController 
@@ -60,8 +60,8 @@ public class CooperatorController {
 		map2.put("accessory2", Accessory.class);
 		map2.put("accessory3", Accessory.class);
 		map2.put("accessory4", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(xindanwei);
-		Cooperator Co=(Cooperator)JSONObject.toBean(jsonObject, Cooperator.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(xindanwei);
+		Cooperator Co=(Cooperator)JSONObject.toJavaObject(jsonObject, Cooperator.class);
 		//Cooperator Co=cooperator.get(0);
 		TimeUUID uuid=new TimeUUID();
 		String id=uuid.getTimeUUID();
@@ -161,8 +161,8 @@ public class CooperatorController {
 		map2.put("accessory2", Accessory.class);
 		map2.put("accessory3", Accessory.class);
 		map2.put("accessory4", Accessory.class);
-		JSONObject jsonObject=JSONObject.fromObject(xiugaixindanwei);
-		Cooperator Co=(Cooperator)JSONObject.toBean(jsonObject, Cooperator.class,map2);
+		JSONObject jsonObject=JSONObject.parseObject(xiugaixindanwei);
+		Cooperator Co=(Cooperator)JSONObject.toJavaObject(jsonObject, Cooperator.class);
 		String id = Co.getCcId();
 		//Cooperator Co=cooperator.get(0);
 		String path="D:"+File.separator+"oa"+File.separator+"cooperator"+File.separator+id;;
