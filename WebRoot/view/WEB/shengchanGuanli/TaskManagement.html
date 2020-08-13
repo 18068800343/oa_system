@@ -1648,13 +1648,13 @@ body {
 								},
 								{
 									"data" : "prjEstimateMoney",
-									render : $.fn.dataTable.render.number(',',
-											'.', 2, '')
+/* 									render : $.fn.dataTable.render.number(',',
+											'.', 2, '') */
 								},
 								{
 									"data" : "contractMoney",
-									render : $.fn.dataTable.render.number(',',
-											'.', 2, '')
+/* 									render : $.fn.dataTable.render.number(',',
+											'.', 2, '') */
 								},
 								{
 									"data" : "cjId"
@@ -1708,16 +1708,100 @@ body {
 								},
 								{
 									"class" : "tcenter",
-									"targets" : 9,
+									"targets" : 6,
 									"searchable" : true,
 									"render" : function(data, type, full) {
-										var lxTime;
+										data =  data.numberFormat(2,'.',',')
+										/* var lxTime;
 										if (data != '' && data != null) {
 											lxTime = data.split(".")[0];
 										} else {
 											lxTime = "";
 										}
-										return lxTime;
+										return lxTime; */
+										if(null!=data){
+											var myDate = new Date();
+											
+											var date1 = myDate.toLocaleDateString().replace(/\//g, '-');
+											var date2 = full.cuTime;
+											if(null!=date1&&null!=date2){
+												// 拆分年月日
+												date1 = date1.split('-');
+												// 得到月数
+												date1 = parseInt(date1[0]) * 12 + parseInt(date1[1]);
+												// 拆分年月日
+												date2 = date2.split('-');
+												// 得到月数
+												date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
+												var m = Math.abs(date1 - date2);
+											
+		                                        if(m<=1){
+		                                            return "<lable class='jinqianyanse'>"+data+"</lable>";
+		                                        }else{
+													return data;
+		                                        }
+											}else{
+												return data;
+											}	
+										}else{
+											return '';
+										}
+									}
+								},
+								{
+									"class" : "tcenter",
+									"targets" : 7,
+									"searchable" : true,
+									"render" : function(data, type, full) {
+										data =  data.numberFormat(2,'.',',')
+										/* var lxTime;
+										if (data != '' && data != null) {
+											lxTime = data.split(".")[0];
+										} else {
+											lxTime = "";
+										}
+										return lxTime; */
+										if(null!=data){
+											var myDate = new Date();
+											
+											var date1 = myDate.toLocaleDateString().replace(/\//g, '-');
+											var date2 = full.cuTime;
+											if(null!=date1&&null!=date2){
+												// 拆分年月日
+												date1 = date1.split('-');
+												// 得到月数
+												date1 = parseInt(date1[0]) * 12 + parseInt(date1[1]);
+												// 拆分年月日
+												date2 = date2.split('-');
+												// 得到月数
+												date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
+												var m = Math.abs(date1 - date2);
+											
+		                                        if(m<=1){
+		                                            return "<lable class='jinqianyanse'>"+data+"</lable>";
+		                                        }else{
+													return data;
+		                                        }
+											}else{
+												return data;
+											}	
+										}else{
+											return '';
+										}
+									}
+								},
+								{
+									"class" : "tcenter",
+									"targets" : 9,
+									"searchable" : true,
+									"render" : function(data, type, full) {
+										 var lxTime;
+										if (data != '' && data != null) {
+											lxTime = data.split(".")[0];
+										} else {
+											lxTime = "";
+										}
+										return lxTime; 
 									}
 								},
 								{
@@ -5237,6 +5321,17 @@ body {
 		    }
 
 		}
+		
+		Number.prototype.numberFormat = function(c, d, t){
+			var n = this, 
+			    c = isNaN(c = Math.abs(c)) ? 2 : c, 
+			    d = d == undefined ? "." : d, 
+			    t = t == undefined ? "," : t, 
+			    s = n < 0 ? "-" : "", 
+			    i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))), 
+			    j = (j = i.length) > 3 ? j % 3 : 0;
+			   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+			 };
 </script>
 
 </html>

@@ -176,6 +176,7 @@ public class Task {
     private int fileLengthKJ;//判断科技文档文档是否归档,非数据库对应属性；0：未归档，1：已归档
     
     private String lxTime;//立项时间
+    private String cuTime;//立项时间
     private String xgDodate;//最新修改立项时间
     
     private String stopReason;//终于原因
@@ -185,6 +186,15 @@ public class Task {
     private BigDecimal contractMoneyOld;//原合同金额
     
     private String tijiaoViews;//原合同金额
+
+    
+	public String getCuTime() {
+		return cuTime;
+	}
+
+	public void setCuTime(String cuTime) {
+		this.cuTime = cuTime;
+	}
 
 	public String getTijiaoViews() {
 		return tijiaoViews;
