@@ -47,7 +47,7 @@ public class Task2ServiceImpl implements Task2Service{
 			}
 		}*/
 		for(Task2 xgt2:xgt){
-			k=dao.updateBytNoAndDate(xgt2);
+			dao.updateBytNoAndDate(xgt2);
 		}
 		return k;
 	}

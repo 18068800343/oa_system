@@ -1,5 +1,6 @@
 package org.ldxx.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -29,7 +30,7 @@ public interface Task2Dao {
 	
 	public String getBM2ManageTarget(String year);
 
-	public int isCountBytNoAndDate(@Param("tNo")String tNo, @Param("date1")String date1);
+	public int isCountBytNoAndDate(@Param("tNo")String tNo, @Param("date1")String date1,@Param("money")BigDecimal money);
 
 	public int updateBytNoAndDate(@Param("xgt2") Task2 xgt2);
 	

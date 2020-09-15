@@ -103,6 +103,9 @@ public class ImportData {
 						Cell colum7 = hssfRow.getCell(6);
 						String tNo=getValue(colum1);
 						boolean flag=true;
+						if(colum1==null&&colum2==null){
+							flag=false;
+						}
 						if(t.size()>0){
 							/*for(int i=0;i<t.size();i++){
 								String no=t.get(i).gettNo();
@@ -114,15 +117,17 @@ public class ImportData {
 								}
 							}*/
 						}
-						 String date1;
-	                	if (colum5.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-	                		Date date = new Date();
-	                		date = colum5.getDateCellValue();
-	                		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	                		date1 = simpleDateFormat.format(date);
-	                	}else{
-	                		date1 = getValue(colum5);
-	                	}
+						 String date1="";
+						 if(colum5!=null){
+							 if (colum5.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+								 Date date = new Date();
+								 date = colum5.getDateCellValue();
+								 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+								 date1 = simpleDateFormat.format(date);
+							 }else{
+								 date1 = getValue(colum5);
+							 }
+						 }
 						//String val5 = getValue(colum5);
 						//if(date1.contains(time)){
 							if(flag==true){
@@ -130,12 +135,12 @@ public class ImportData {
 								if(cl3.isEmpty()){
 									cl3="0";
 								}
-								int i=INSTANCE.tDao.isCountBytNoAndDate(tNo,date1);
+								int i=INSTANCE.tDao.isCountBytNoAndDate(tNo,date1,new BigDecimal(cl3));
 								if(i>0){
-									t2.settNo(tNo);
+									/*t2.settNo(tNo);
 									t2.settDate(date1);
 									t2.setdMoney(new BigDecimal(cl3));
-									xgt.add(t2);
+									xgt.add(t2);*/
 								}else{
 									t2.settId(uuid.getTimeUUID());
 									t2.settNo(tNo);
