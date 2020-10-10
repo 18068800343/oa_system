@@ -147,7 +147,7 @@
 				                            </tr>
 				                            <tr>
 				                            	<td>当期时间  <i class="iconfont icon-xingxing-copy" style="color:red;"></i></td>
-				                                <td><input type="text" class="form-control" id="this_time" style="width:60%;" disabled></td>
+				                                <td><input type="text" class="form-control" id="this_time" style="width:60%;"></td>
 				                                <td class="jingyongkk">项目经营模式</td>
 				                                <td><input type="text" class="form-control" id="prj_mode" style="width:70%;" disabled></td>
 				                            </tr>
@@ -1284,7 +1284,7 @@
 		            { "data": "taskNo"}, 
 		            { "data": null}, 
 		            { "data": "prjType"}, 
-		            { "data": "prjMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
+		            { "data": "prjMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' ),visible : false}, 
 		            { "data": "prjEstimateMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
 		            { "data": "contractMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )}, 
 		            { "data": "endMoney", render: $.fn.dataTable.render.number( ',', '.', 2, '' )},
@@ -1360,7 +1360,7 @@
 												    	var shoru=0;
 												    	var str=full.allMoney.replace("%","");
 									    		        str= str/100;
-											    		shoru=str*full.prjMoney;
+											    		shoru=str*full.prjEstimateMoney;
 												    	shoru=Math.round(shoru*100)/100
 												    	return shoru.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 											        }
@@ -1440,7 +1440,7 @@
 					                return data;
 					            }
 		                    },
-		                    columns:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+		                    columns:[0,1,2,4,5,6,7,8,9,10,11,12,13,14,15]
 		                }
 		            }
 		        ]
@@ -3654,6 +3654,10 @@
     		toastr.error("税金为空");
   			return;
     	}
+    	if(this_time==''){
+    		toastr.error("当期时间为空");
+  			return;
+    	}
     	
     	var formData = new FormData();
   		formData.append("ppf", JSON.stringify(PrjProgressFill));
@@ -3791,9 +3795,9 @@
             	$("#look_prj_type").text(json.prjType);
             	
             	if(cj!=null){
+           			$("#look_contract_name").text("");
+               		$("#look_contract_no").text("")
             		if(cj.contractNo==""||cj.contractNo==null){
-            			$("#look_contract_name").text("");
-                		$("#look_contract_no").text("")
     				}else{
     					var cjContractClick = '<a href="../chankanxiangqing/cjContractDetails.html?cjCNo='
     						+cj.contractNo
