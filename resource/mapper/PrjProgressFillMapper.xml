@@ -76,7 +76,9 @@ LEFT JOIN(select a.* from prj_progress_fill a left join mode_status as b on a.pp
   	</select>
   	
   	<select id="selectPrjProgressFillById" resultType="PrjProgressFill">
-  		select * from prj_progress_fill where ppf_id=#{id}
+  		select a.*,dd.prj_estimate_money from prj_progress_fill a 
+  		LEFT JOIN (select * from task tt LEFT JOIN mode_status ms on tt.prj_id = ms.mode_id where ms.`status` = '2' and tt.history = 1) as dd on a.task_no=dd.prj_no
+  		where ppf_id=#{id}
   	</select>
   	
   	<select id="selectLastPrjProgressFill" resultType="PrjProgressFill">
