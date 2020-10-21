@@ -28,6 +28,7 @@ import org.ldxx.bean.PrjProgressFillInfo;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
 import org.ldxx.dao.CompanyCostDao;
+import org.ldxx.dao.PrjProgressFillDao;
 import org.ldxx.dao.SecondCompanyCostDao;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.BudgetFpplicationFormService;
@@ -73,6 +74,8 @@ public class PrjProgressFillController {
 	private SecondCompanyCostDao sccDao;
 	@Autowired
 	private CompanyCostDao ccDao;
+	@Autowired
+	private PrjProgressFillDao ppfDao;
 	
 	@RequestMapping("/addPrjProgressFillBySave")
 	@ResponseBody
@@ -641,8 +644,17 @@ public class PrjProgressFillController {
 	
 	@RequestMapping("/getLatelyMonthFirstppf")//根据任务单号查询当期时间最近的一次
 	@ResponseBody
-	public PrjProgressFill getLatelyMonthFirstppf(String taskNo){
-		PrjProgressFill ppf=service.getLatelyMonthFirstppf(taskNo);
-		return ppf;
+	public Map<String,Object> getLatelyMonthFirstppf(String taskNo,String thisTime){
+		Map<String,Object> map=new HashMap<>();
+		int i=ppfDao.getCountLatelyMonthFirstppf(taskNo,thisTime);
+		if(i>0){
+			PrjProgressFill ppf=service.getLatelyMonthFirstppf(taskNo);
+			map.put("ppf",ppf);
+			map.put("flag",i);
+		}else{
+			map.put("flag",i);
+		}
+		
+		return map;
 	}
 }

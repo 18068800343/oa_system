@@ -315,10 +315,17 @@ LEFT JOIN(select a.* from prj_progress_fill a left join mode_status as b on a.pp
   		update prj_progress_fill set status=#{status} where ppf_id=#{id}
   	</update>
   	
-  	<select id="getLatelyMonthFirstppf" resultType="PrjProgressFill">
+  	<select id="getCountLatelyMonthFirstppf" resultType="int">
+  		SELECT count(0) from prj_progress_fill  as a 
+		left join mode_status as b on a.ppf_id=b.mode_id
+  		where (b.status=2 or b.status=1) and  a.task_no=#{taskNo} and a.this_time!=#{thisTime}
+  	</select>
+  	
+  	  	<select id="getLatelyMonthFirstppf" resultType="PrjProgressFill">
   		SELECT * from prj_progress_fill  as a 
 		left join mode_status as b on a.ppf_id=b.mode_id
   		where (b.status=2 or b.status=1) and  a.task_no=#{taskNo} ORDER BY a.this_time desc LIMIT 1
   	</select>
+  	
   	
 </mapper>
