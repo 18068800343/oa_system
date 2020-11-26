@@ -58,9 +58,17 @@ public class ContractWork {
 	private String starterName;//发起人
     private String status;//审批状态
     private String omName;//主办部门
-	
+    private String doDate;//审批时间
     
 	
+	public String getDoDate() {
+		return doDate;
+	}
+
+	public void setDoDate(String doDate) {
+		this.doDate = doDate;
+	}
+
 	public String getOmName() {
 		return omName;
 	}

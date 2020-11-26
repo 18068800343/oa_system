@@ -20,7 +20,7 @@
       </select>
       
       <select id="selectContractWork2" resultType="ContractWork">
-      		select a.*,f.StarterName as starterName,b.status as status,group_concat(t.om_name SEPARATOR ',') as om_name
+      		select a.*,f.StarterName as starterName,b.status as status,group_concat(t.om_name SEPARATOR ',') as om_name,g.do_date
       		from contract_work as a 
       		LEFT join mode_status as b on a.cw_id=b.mode_id
       		LEFT JOIN (SELECT mode_id,StarterName from (SELECT * from flowhistroy order by do_date ASC) f 
@@ -30,7 +30,9 @@
 						left join organization_management c on t.main_department=c.om_id 
 						WHERE b.status='2' and t.history=1
 					) t ON FIND_IN_SET(t.prj_no,a.prj_code)
-      		where (b.status=1 or b.status=2 or b.status=3) and a.type=#{type} GROUP BY a.cw_id
+					LEFT JOIN (SELECT g.mode_id,do_date from (SELECT * from flowhistroy order by do_date DESC) g 
+		  	LEFT JOIN contract_work a ON a.cw_id=g.mode_id LEFT JOIN mode_status mgs on a.cw_id =mgs.mode_id where mgs.`status`='2'  GROUP BY mode_id )  AS  g on a.cw_id=g.mode_id
+      		where (b.status=1 or b.status=2 or b.status=3) and a.type=#{type} GROUP BY a.cw_id order BY g.do_date desc
       </select>
       
       <select id="selectContractWorkByNo" resultType="ContractWork">
