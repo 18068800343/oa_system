@@ -224,7 +224,7 @@ public class CjContractServiceImpl implements CjContractService{
 
 	@Override
 	public CjContract selectCjContractLikeTaskNo(String no) {
-		no="%"+no+"%";
+		no=no+"%";
 		return dao.selectCjContractLikeTaskNo(no);
 	}
 
