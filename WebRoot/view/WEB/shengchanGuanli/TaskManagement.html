@@ -819,6 +819,11 @@ body {
 								<td>项目概况及工作内容</td>
 								<td colspan="8" id="lookgaikuang"></td>
 							</tr>
+							<tr>
+								<td>变更意见</td>
+								<td colspan="7"><textarea class="form-control" rows="3" 
+										style="width: 90%;" id="look_baocun_views"></textarea></td>
+							</tr>
 						</tbody>
 					</table>
 
@@ -1286,6 +1291,11 @@ body {
 									<td>项目概况及工作内容</td>
 									<td colspan="8" id="historygaikuang"></td>
 								</tr>
+								<tr>
+								<td>变更意见</td>
+								<td colspan="7"><textarea class="form-control" rows="3"
+										style="width: 90%;" id="history_baocun_views"></textarea></td>
+							</tr>
 							</tbody>
 						</table>
 
@@ -3679,6 +3689,7 @@ body {
 			toastr.error("请选择审批人!")
 			return;
 		}
+		var reason = $("#add_reason").val();
 		$.ajax({
 			type : 'POST',
 			url : getContextPath() + '/task/addTask4',
@@ -3690,11 +3701,13 @@ body {
 				omName : bmmc,
 				dutyName : zw,
 				omId : omid,
-				dutyId : dutyid
+				dutyId : dutyid,
+				view:reason,
 			},
 			success : function(json) {
 				$("#tijiaogei").modal("hide");
 				toastr.success('提交成功');
+				 $("#add_reason").val('');
 			}
 		});
 
@@ -4510,6 +4523,7 @@ body {
 				$("#lookstartTime").text(task.prjStartTime);
 				$("#lookendTime").text(task.prjEndTime);
 				$("#lookgaikuang").text(task.workContent);
+				$("#look_baocun_views").text(task.tijiaoViews);				
 				$("#look_guanliMoney").text(task.guanliMoney)
 
 				$("#look_xieban_table tbody").html('');
@@ -4635,6 +4649,12 @@ body {
 										$("#lookendTime").text(task.prjEndTime);
 										$("#lookgaikuang").text(
 												task.workContent);
+										if(null!=task.tijiaoViews&&''!=task.tijiaoViews){
+											$("#look_baocun_views").parents("tr").show();
+											$("#look_baocun_views").text(task.tijiaoViews);			
+										}else{
+											$("#look_baocun_views").parents("tr").hide();
+										}
 										$("#look_guanliMoney").text(
 												task.guanliMoney == null ? ""
 														: task.guanliMoney)
@@ -4851,6 +4871,7 @@ body {
 											var date = json[i].doDate;
 											var title = json[i].title;
 											var name = json[i].actorname;
+											var view = json[i].view;
 											if (json[i].view == ""
 													|| json[i].view == null) {
 												view = "无";
@@ -4967,7 +4988,8 @@ body {
 									omName : json.receiver.omName,
 									dutyName : json.receiver.dutyName,
 									omId : json.receiver.omId,
-									dutyId : json.receiver.dutyId
+									dutyId : json.receiver.dutyId,
+									view:reason
 								},
 								success : function(json) {
 									toastr.success('提交成功');
@@ -5020,6 +5042,12 @@ body {
 				$("#historystartTime").text(json.prjStartTime);
 				$("#historyendTime").text(json.prjEndTime);
 				$("#historygaikuang").text(json.workContent);
+				if(null!=json.tijiaoViews&&''!=json.tijiaoViews){
+					$("#history_baocun_views").parents("tr").show();
+					$("#history_baocun_views").text(task.tijiaoViews);			
+				}else{
+					$("#history_baocun_views").parents("tr").hide();
+				}
 				$("#history_guanliMoney").text(json.guanliMoney)
 
 				$("#history_xieban_table tbody").html('');
