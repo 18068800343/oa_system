@@ -738,6 +738,11 @@
 								<td>主要概况及工作内容:</td>
 								<td colspan="3" id="look_work_info"></td>
 							</tr>
+							<tr>
+								<td>变更内容:</td>
+								<td colspan="3"><textarea class="form-control" rows="4"
+										style="width: 100%;" id="look_baocun_views"></textarea></td>
+							</tr>
 						</tbody>
 
 					</table>
@@ -1342,6 +1347,11 @@
 								<tr>
 									<td>主要概况及工作内容:</td>
 									<td colspan="3" id="look_work_info2"></td>
+								</tr>
+								<tr>
+									<td>变更内容:</td>
+									<td colspan="3"><textarea class="form-control" rows="4"
+											style="width: 100%;" id="look_baocun_views2"></textarea></td>
 								</tr>
 							</table>
 							<table class="table table-bordered table-condensed"
@@ -3774,6 +3784,7 @@
 		var uname = $("input[name='tijiaorenming']:checked").parent().next()
 				.next().next().text();
 		//var uname=$("input[name='tijiaorenming']:checked").val();
+		var stopReason = $("#cancel_reason").val();
 		$.ajax({
 			type : 'POST',
 			url : getContextPath() + '/task/addTask4',
@@ -3785,10 +3796,12 @@
 				omName : bmmc,
 				dutyName : zw,
 				omId : omid,
-				dutyId : dutyid
+				dutyId : dutyid,
+				view:stopReason
 			},
 			success : function(json) {
 				toastr.success('提交成功');
+				$("#cancel_reason").val("");
 			}
 		});
 	}
@@ -3834,6 +3847,14 @@
 		$("#look_temporary_money").text(data.temporaryMoney);
 		$("#look_year3").text(data.contractSignTime);
 		$("#look_work_info").text(data.workInfo);
+		
+		if(null!=data.tijiaoViews&&''!=data.tijiaoViews){
+			$("#look_baocun_views").parents("tr").show();
+			$("#look_baocun_views").text(data.tijiaoViews);			
+		}else{
+			$("#look_baocun_views").parents("tr").hide();
+		}
+		
 		var cs = data.cjSplitMoney;
 		$("#look_split_table tbody").empty();
 		for (var i = 0; i < cs.length; i++) {
@@ -4787,6 +4808,14 @@
 		$("#look_temporary_money2").text(data.temporaryMoney);
 		$("#look_year3_2").text(data.contractSignTime);
 		$("#look_work_info2").text(data.workInfo);
+		
+		if(null!=data.tijiaoViews&&''!=data.tijiaoViews){
+			$("#look_baocun_views2").parents("tr").show();
+			$("#look_baocun_views2").text(data.tijiaoViews);			
+		}else{
+			$("#look_baocun_views2").parents("tr").hide();
+		}
+		
 		var cs = data.cjSplitMoney;
 		$("#look_split_table2 tbody").empty();
 		for (var i = 0; i < cs.length; i++) {
