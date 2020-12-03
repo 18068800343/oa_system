@@ -1272,10 +1272,10 @@ public class TaskController {
 				String prjNo=gs+year+count+code2;
 				i=tService.updateTaskNoById(prjNo, id);
 				t.setPrjNo(prjNo);
-				List<Task> taskList=new ArrayList<>();
-				taskList.add(t);
-				cuService.addContractUpdate(taskList);
 			}
+			List<Task> taskList=new ArrayList<>();
+			taskList.add(t);
+			cuService.addContractUpdate(taskList);
 		}
 		return i;
 	}
