@@ -27,10 +27,17 @@ public class PrjProgressFillInfo {
 	private BigDecimal allMoneyYuan;//累计收入(元)
 	private String type;//1:收入拆分,2:本期收入,3:本期收款,4:累计收款,5:本期成本,6:累计成本
 	private String main;//是否为主办 1：主办 0：协办
+	private String makeTime;//时间
 	
 	private BigDecimal SummoneyYuan;
 	
 	
+	public String getMakeTime() {
+		return makeTime;
+	}
+	public void setMakeTime(String makeTime) {
+		this.makeTime = makeTime;
+	}
 	public BigDecimal getSummoneyYuan() {
 		return SummoneyYuan;
 	}
