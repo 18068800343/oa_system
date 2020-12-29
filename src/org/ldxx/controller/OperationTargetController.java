@@ -43,8 +43,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 
-import net.sf.json.JSONArray;
 //import com.alibaba.fastjson.JSONObject;
 
 @Controller
@@ -413,7 +413,7 @@ public class OperationTargetController {
 	@ResponseBody
 	public List<DepartmentTarget> selectDepartmentTarget(String id,String year){
 		String resultBm=oservice.selectBmOperationTargetByTime(year);
-		List<DepartmentTarget> dt=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+		List<DepartmentTarget> dt=(List<DepartmentTarget>)JSONArray.parseArray(resultBm, DepartmentTarget.class);
 		for(int i=0;i<dt.size();i++){
 			String bmmc=dt.get(i).getBmmc();
 			OrganizationManagement om=oService.getOrgIdByName(bmmc);
@@ -635,7 +635,7 @@ public class OperationTargetController {
 			int nowY=Integer.valueOf(nowYear);
 			for(int i=2019;i<=nowY;i++){
 				String resultBm=oservice.selectBmOperationTargetByTime(i+"");
-				List<DepartmentTarget> dt=(List<DepartmentTarget>)JSONArray.toList(JSONArray.fromObject(resultBm), DepartmentTarget.class);
+				List<DepartmentTarget> dt=(List<DepartmentTarget>)JSONArray.parseArray(resultBm, DepartmentTarget.class);
 				String omName=user.getOmName();
 				for(int j=0;j<dt.size();j++){
 					if(dt.get(j).getBmmc().equals(omName)){

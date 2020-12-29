@@ -64,7 +64,14 @@ public class CjContract {
     private String oldCjFileName;//上次的ID
     private List<Accessory> accessory3;//法律顾问签字
     
+    private BigDecimal cjContractMoney;//承接合同金额
     
+	public BigDecimal getCjContractMoney() {
+		return cjContractMoney;
+	}
+	public void setCjContractMoney(BigDecimal cjContractMoney) {
+		this.cjContractMoney = cjContractMoney;
+	}
 	public List<Accessory> getAccessory3() {
 		return accessory3;
 	}
