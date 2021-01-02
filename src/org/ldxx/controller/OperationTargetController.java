@@ -125,7 +125,15 @@ public class OperationTargetController {
 		//获取公司各种金额
 		String resultGs=oservice.selectGsOperationTargetByTime(year+"");
 		JSON jsonObject= JSON.parseObject(resultGs);
-		OperationTarget ot = jsonObject.toJavaObject(OperationTarget.class);
+		OperationTarget ot = new OperationTarget();
+		if(jsonObject!=null){
+			ot=jsonObject.toJavaObject(OperationTarget.class);
+		}else{
+			ot.setXqhte(new BigDecimal(0));
+			ot.setSr(new BigDecimal(0));
+			ot.setSk(new BigDecimal(0));
+			ot.setLr(new BigDecimal(0));
+		}
 		//JSONObject jsonObject=JSONObject.fromObject(resultGs);
 		//OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
 		//获取公司各个目标
@@ -165,7 +173,11 @@ public class OperationTargetController {
 				
 				
 				JSON jsonObject= JSON.parseObject(resultGs);
-				OperationTarget ot = jsonObject.toJavaObject(OperationTarget.class);
+				OperationTarget ot=null;
+				if(jsonObject!=null){
+					ot = jsonObject.toJavaObject(OperationTarget.class);
+					
+				}
 				
 				//JSONObject jsonObject=JSONObject.fromObject(resultGs);
 				//OperationTarget ot=(OperationTarget)JSONObject.toBean(jsonObject, OperationTarget.class);
@@ -208,6 +220,21 @@ public class OperationTargetController {
 					new_ot.setLr(ot.getLr());
 					//已签订承接合同额
 					new_ot.setCjhte(ot.getCjhte());
+				}else{
+					//新签合同额
+					new_ot.setXqhte(new BigDecimal(0));
+					//完成收入
+					new_ot.setSr(new BigDecimal(0));
+					//完成收款
+					new_ot.setSk(new BigDecimal(0));
+					//直接成本
+					new_ot.setZjcb(new BigDecimal(0));
+					//间接成本
+					new_ot.setJjcb(new BigDecimal(0));
+					//完成利润
+					new_ot.setLr(new BigDecimal(0));
+					//已签订承接合同额
+					new_ot.setCjhte(new BigDecimal(0));
 				}
 				if(new_ot!=null){
 					list.add(new_ot);
