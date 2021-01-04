@@ -315,6 +315,11 @@ public class FlowUtill {
 		return jsonObject.toString();
 	}
 	
+	
+	
+	
+	public static String next_user_id;
+	public static String next_name;
 	/**
 	 * 新流程发起，初始提交
 	 * @param currentFlow url,Title,Starter,StartName,Sender,SenderName,FK_Dept,DeptName,NodeName,PRI,SDTOfNode,SDTOfFlow,Actor,ActorType,Memo
@@ -324,6 +329,8 @@ public class FlowUtill {
 	
 	@Transactional
 	public JSONObject submitFlow(CurrentFlow currentFlowOld,FlowHistroy flowHistroy,String next_user_id,String next_name) throws Exception{
+			FlowUtill.next_user_id="";
+			FlowUtill.next_name="";
 		    currentFlowOld.setRdt(new Date());
 			ModeStatus modeStatus = new ModeStatus(); 	
 			String end = "kaishi";
@@ -367,8 +374,9 @@ public class FlowUtill {
 					flowHistroy.setLastOperateType(historyLastOperateType);
 					currentFlow.setFlowNodeLast(oldFloNodeId);
 					if(!"end".equals(nextFloNodeId)){
-						currentFlow.setActor(next_user_id);
-						currentFlow.setActorname(next_name);
+						
+						currentFlow.setActor(FlowUtill.next_user_id.equals("")?next_user_id:FlowUtill.next_user_id);
+						currentFlow.setActorname(FlowUtill.next_name.equals("")?next_name:FlowUtill.next_name);
 						currentFlow.setFloNodeId(nextFloNodeId);
 						currentFlow.setDeptname(currentFlowOld.getDeptname());
 						currentFlow.setReadreceipts(0);
@@ -1021,7 +1029,12 @@ public class FlowUtill {
 				boolean flag = true;
 				String deptNo = currentFlow.getFkDept();//部门编号
 				String agentType = currentFlow.getAgenttype();
+				
 				List<User> nodeActorUsers = getNodeActorUsers(floNodeId,deptNo);//下一步所有操作人;
+				if(nodeActorUsers!=null&&nodeActorUsers.size()==1) {
+					FlowUtill.next_user_id=nodeActorUsers.get(0).getUserId();
+					FlowUtill.next_name=nodeActorUsers.get(0).getuName();
+				}
 				String userId = currentFlow.getNowDeqPersonId();
 				if(nodeActorUsers.size()==1){
 					String nauUserId = nodeActorUsers.get(0).getUserId();
