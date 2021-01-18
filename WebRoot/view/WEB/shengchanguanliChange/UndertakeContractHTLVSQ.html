@@ -155,9 +155,11 @@
 	                                <td>公路等级</td>
 	                                <td>
 	                                	<select class="form-control" style="width:70%;"  id="prj_grade2">
+	                                        <option>高速</option>
 	                                        <option>一级</option>
 	                                        <option>二级</option>
 	                                        <option>三级</option>
+	                                        <option>其他</option>
 	                                    </select>
 	                                </td>
 	                            </tr>
@@ -888,6 +890,7 @@
   	        type: 'POST',
   	        url: getContextPath()+'/cj/selectNameAndNo',
   	        dataType: 'json',
+  	      	async:false,
   	        data: {
   	        },
   	        error: function (msg) {
@@ -937,9 +940,99 @@
   	                    	$('#prj_no').val(json.taskCode);
   	                    	$("#contract_money2").val(json.contractMoney);
   	                    	$("#jiafang2").val(json.ccName);
+  	                    	$("#contract_long_time").val(json.contractLongTime)
   	                    	/* $("#all_money2").val(""); */
   	                    	/* getTotalMoney($('#contract_no2').val()); */
   	                    	getLeader($('#prj_no').val())
+  	                    
+  	                    	$(".piancha").val(countTime(json.contractEndTime,json.contractStartTime,json.contractLongTime))
+	                    	$.ajax({
+	        		            type: 'POST',
+	        		            url: getContextPath()+'/task/selectTaskPrjNameLast',
+	        		            dataType: 'json',
+	        		            data: {
+	        		            	prjNo:json.taskCode,
+	        		            	contractMoney:json.contractMoney,
+	        		            	cjId:json.cjId
+	        		            },
+	        		            success: function (json) {
+	        		            	//endMoneyBlur(json);
+	        						$("#abcd").html('');		            	
+	        		                for(var i=0;i<json.length;i++){
+	        		                	$("#abcd").append('<table class="table table-bordered table-condensed" id="task_table'+(i+1)+'">'
+	        									                            +'<thead>'
+	        									                            +'<tr>'
+	        									                            	 +'<th style="width:30%;">任务单号：<input type="text" class="form-control" data='+json[i].prjId+' style="width:60%;" value='+json[i].prjNo+' disabled></th>'
+	        									                                 +'<th style="width:55%;">结算金额：<input type="text" id="taskMoney'+(i+1)+'" onchange="taskMoneyChange('+json.contractMoney+','+i+')" class="form-control" style="width:50%;" value='+json[i].prjEstimateMoney+'></th>'
+	        									                                 +'<th><button type="button" class="btn btn-primary" data="task_table'+(i+1)+'" onclick="addBumen2(this)">添加协办</button></th>'
+	        									                            +' </tr>'
+	        									                      	+' </thead>'
+	        									                        +' <tbody>'
+	        									                       +'  </tbody>'
+	        									                   +'  </table>')
+	        		                     	if(json[i].mainDepartment!=''&&json[i].mainDepartment!=null){
+	        		                     		$("#task_table"+(i+1)+" tbody").append('  <tr>'
+	        				                              +'   <td>主办部门</td>'
+	        				                              +'   <td>'
+	        				                                +'     <form class="form-inline">'
+	        				                                   +'      <select class="form-control" style="width:180px;" id="task_main'+(i+1)+'">'
+	        				                                   +'      </select>'
+	        				                                   +'      <input type="text" class="form-control" style="width:150px;" id="mainDepartMoney'+(i+1)+'" placeholder="金额" value='+json[i].mainDepartmentMoney+'>'
+	        				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例" onchange="appendBfh(this)"  value='+json[i].mainDepartmentCost+'>'
+	        				                                   +'  </form>'
+	        				                               +'  </td>'
+	        				                               +'<td></td>'
+	        				                           +'  </tr>')
+	        				                           initDept("task_main"+(i+1)+"",json[i].mainDepartment)
+	        		                     	}
+	        			                	if(json[i].assistDepartment1!=''&&json[i].assistDepartment1!=null){
+	        		                     		$("#task_table"+(i+1)+" tbody").append('  <tr>'
+	        				                              +'   <td>协办部门</td>'
+	        				                              +'   <td>'
+	        				                                +'     <form class="form-inline">'
+	        				                                   +'      <select class="form-control" style="width:180px;" id="task_xb'+(i+1)+'">'
+	        				                                   +'      </select>'
+	        				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment1Money+'>'
+	        				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例" onchange="appendBfh(this)"  value='+json[i].assistDepartment1Cost+'>'
+	        				                                   +'  </form>'
+	        				                               +'  </td>'
+	        				                               +'<td><button type="button" class="btn btn-primary" onclick="remove_xb(this)">移除协办</button></td>'
+	        				                           +'  </tr>')
+	        				                     initDept("task_xb"+(i+1)+"",json[i].assistDepartment1)      
+	        		                     	}	  
+	        			                	if(json[i].assistDepartment2!=''&&json[i].assistDepartment2!=null){
+	        		                     		$("#task_table"+(i+1)+" tbody").append('  <tr>'
+	        				                              +'   <td>协办部门</td>'
+	        				                              +'   <td>'
+	        				                                +'     <form class="form-inline">'
+	        				                                   +'      <select class="form-control" style="width:180px;" id="task_xb2'+(i+1)+'">'
+	        				                                   +'      </select>'
+	        				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment2Money+'>'
+	        				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例"  onchange="appendBfh(this)" value='+json[i].assistDepartment2Cost+'>'
+	        				                                   +'  </form>'
+	        				                               +'  </td>'
+	        				                               +'<td><button type="button" class="btn btn-primary" onclick="remove_xb(this)">移除协办</button></td>'
+	        				                           +'  </tr>')
+	        				                           initDept("task_xb2"+(i+1)+"",json[i].assistDepartment2)           
+	        		                     	}	
+	        			                	if(json[i].assistDepartment3!=''&&json[i].assistDepartment3!=null){
+	        		                     		$("#task_table"+(i+1)+" tbody").append('  <tr>'
+	        				                              +'   <td>协办部门</td>'
+	        				                              +'   <td>'
+	        				                                +'     <form class="form-inline">'
+	        				                                   +'      <select class="form-control" style="width:180px;" id="task_xb3'+(i+1)+'">'
+	        				                                   +'      </select>'
+	        				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="金额"  value='+json[i].assistDepartment3Money+'>'
+	        				                                   +'      <input type="text" class="form-control" style="width:150px;" placeholder="成本分摊比例" onchange="appendBfh(this)"  value='+json[i].assistDepartment3Cost+'>'
+	        				                                   +'  </form>'
+	        				                               +'  </td>'
+	        				                               +'<td><button type="button" class="btn btn-primary" onclick="remove_xb(this)">移除协办</button></td>'
+	        				                           +'  </tr>')
+	        				                           initDept("task_xb3"+(i+1)+"",json[i].assistDepartment3)      
+	        		                     	}	
+	        		                }
+	        		            }
+	        		        });
   	                    }
   	          		});
   			  	})
@@ -1189,7 +1282,21 @@
     	$("#state").trigger("change");
 	}
 
-
+	//获取项目负责人
+    function  getLeader(nos){
+	console.log(nos)
+    	$.ajax({
+            type: 'POST',
+            url: getContextPath()+'/task/getLeader',
+            dataType: 'json',
+            data: {
+            	nos:nos
+            },
+            success: function (json) {
+            	$("#prj_leader2").val(json.leader);
+            }
+    	})
+    }
     
     //初始化提交部门
 	function initbumen(){
@@ -1542,7 +1649,7 @@
 	}
   
   //初始化承接合同名称和承接合同号
-	 function initSelect(){
+	 /* function initSelect(){
 			$.ajax({
 	        type: 'POST',
 	        url: getContextPath()+'/cj/selectNameAndNo',
@@ -1615,7 +1722,7 @@
 			  	
 	        }
 			});
-		}
+		} */
   
 		var contractWork={
   				cwId:undefined,
