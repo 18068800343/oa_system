@@ -93,7 +93,7 @@ public class FbContractOverController {
 		int i=service.addFbContractOver(fbContractOver);
 		if(i>0){
 			CjContract cj=cService.getCjContractMainDepartmentLeader(fbContractOver.getCjContract());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			String string="";
@@ -179,7 +179,7 @@ public class FbContractOverController {
 		String string=i+"";
 		if(i>0){
 			CjContract cj=cService.getCjContractMainDepartmentLeader(fbContractOver.getCjContract());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			User user = (User) session.getAttribute("user");
@@ -246,7 +246,7 @@ public class FbContractOverController {
 		int i=service.updateFbContractOver(fbContractOver);
 		if(i>0){
 			CjContract cj=cService.getCjContractMainDepartmentLeader(fbContractOver.getCjContract());
-			String mainDepartment=cj.getMainDepartment();
+			String mainDepartment=cj.getYiCjDepartment();
 			OrganizationManagement om=oService.selectOrgById(mainDepartment);
 			String omNo=om.getOmNo();
 			currentFlowMapper.updateFkDeptByModeId(fbContractOver.getFcoId(), omNo);

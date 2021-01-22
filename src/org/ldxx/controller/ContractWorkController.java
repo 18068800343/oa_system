@@ -19,6 +19,7 @@ import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.dao.ContractWorkDao;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.CjContractService;
@@ -52,6 +53,8 @@ public class ContractWorkController {
 
 	@Autowired
 	private ContractWorkService service;
+	@Autowired
+	private ContractWorkDao dao;
 	@Autowired
 	private EnterpriseService eservice;
 	@Autowired
@@ -694,7 +697,17 @@ public class ContractWorkController {
 		List<ContractWork> list=service.selectContractWorkByprjNo(pNo,type);
 		return list;
 	}
-	
+	/**
+	 *  根据承接合同编号查询是否有审批完成的承接合同交工申请信息
+	 * @param cjNo 承接合同编号
+	 * @return
+	 */
+	@RequestMapping("/selectContractWorkByCjNo")
+	@ResponseBody
+	public Integer selectContractWorkByCjNo(String cjNo){
+		Integer i=dao.selectContractWorkByCjNo(cjNo);
+		return i;
+	}
 	
 	@RequestMapping("/addContractUpdate")
 	@ResponseBody
