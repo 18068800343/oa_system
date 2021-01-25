@@ -704,8 +704,8 @@ public class ContractWorkController {
 	 */
 	@RequestMapping("/selectContractWorkByCjNo")
 	@ResponseBody
-	public Integer selectContractWorkByCjNo(String cjNo){
-		Integer i=dao.selectContractWorkByCjNo(cjNo);
+	public List<ContractWork> selectContractWorkByCjNo(String cjNo){
+		List<ContractWork> i=dao.selectContractWorkByCjNo(cjNo);
 		return i;
 	}
 	

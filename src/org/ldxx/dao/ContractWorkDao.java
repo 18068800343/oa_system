@@ -28,5 +28,5 @@ public interface ContractWorkDao {
 	public List<ContractWork> selectContractWorkByprjNo(@Param("pNo")String pNo,@Param("type")String type);
 	
 	
-	public int selectContractWorkByCjNo(String cjNo);
+	public List<ContractWork> selectContractWorkByCjNo(String cjNo);
 }
