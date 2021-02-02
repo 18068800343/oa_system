@@ -709,6 +709,18 @@ public class ContractWorkController {
 		return i;
 	}
 	
+	/**
+	 *  根据承接合同编号查询是否有审批完成的承接合同交工申请信息
+	 * @param cjNo 承接合同编号
+	 * @return
+	 */
+	@RequestMapping("/selectContractWorkByCjNoStatusIn12")
+	@ResponseBody
+	public List<ContractWork> selectContractWorkByCjNoStatusIn12(String cjNo,String type){
+		List<ContractWork> i=dao.selectContractWorkByCjNoStatusIn12(cjNo,type);
+		return i;
+	}
+	
 	@RequestMapping("/addContractUpdate")
 	@ResponseBody
 	public int addContractUpdate(String id){

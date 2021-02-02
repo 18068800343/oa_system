@@ -4916,6 +4916,27 @@
 		        });
 	    	$("#choose_cj2").modal("show");
 	    }
+  	  
+  	  
+  	    function authPrjNoExist(cjNo){
+  	    	var flag = false;
+	    	 $.ajax({
+		            type: 'POST',
+		            url: getContextPath()+'/work/selectContractWorkByCjNoStatusIn12',
+		            dataType: 'json',
+		            async:false,
+		            data: {
+		            	type:2,
+		            	cjNo:cjNo
+		            },
+		            success: function (json) {
+		            	if(json.length>0){		            		
+			            	flag =  true;
+		            	}
+		            }
+		        });
+	    	 return flag;
+  	    }
 		
 	    function saveCjName2(){
 	    	var tr=$("input[name='cjName2']:checked").parents("tr");
@@ -4927,6 +4948,13 @@
 	    	$("#contract_name2").val(data.contractName);
 	    	$("#contract_no2").val(data.contractNo);
 	    	$("#prj_no").val(data.taskCode);
+	    	
+	    	if(authPrjNoExist(data.contractNo)){
+	    		toastr.error("该合同已履约，无需重复履约！")
+	    		return;
+	    	}
+	    	
+	    	
 	    	$("#contract_money2").val(data.contractMoney);
 	    	$("#jiafang2").val(data.ccName);
 	    	$("#contract_long_time").val(data.contractLongTime)
