@@ -87,15 +87,21 @@
                                 <tr>
                                     <th style="width:15%;">项目编号</th>
                                     <th style="width:40%;">项目名称</th>
-                                    <th style="width:15%;">部门名称</th>
+                                    <th style="width:12%;">部门名称</th>
                                     <th style="width:15%;" class="jinqianyanse">部门收入(元)</th>
-                                    <th style="width:15%;">日期</th>
-                                    <th style="width:10%;">操作</th>
+                                    <th style="width:10%;">日期</th>
+                                    <th style="width:18%;">操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 
                             </tbody>   
+                            <tfoot>
+			                	<tr>
+			                		<td colspan='3' style="text-align:right;color:red" class="jinqianyanse">总金额(元)</td>
+			                		<td colspan='3'id="allMoney"></td>
+			                	</tr>
+			                </tfoot>
                         </table>
                     </div>
  <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
@@ -227,6 +233,49 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="change">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><b>修改</b></h4>
+        </div>
+        <div class="modal-body">
+                <div>     
+                    <form class="form-inline" >
+                    	<table class="table table-bordered table-condensed" >
+                    	<tr>
+                    		<td>项目编号</td>
+                    		<td><input type="text" class="form-control" id="xmbh" style="width:70%;"></td>
+                    		<td>项目名称</td>
+                    		<td><input type="text" class="form-control" id="xmmc" style="width:70%;"></td>
+                    	</tr>
+                    	<tr>
+                    		<td>部门名称</td>
+                    		<td>
+			                    <input type="text" class="form-control" id="bmmc" style="width:70%;">
+                    		</td>
+                    		<td>部门收入</td>
+                    		<td><input type="text" class="form-control" id="bmsr" style="width:70%;"></td>
+                    	</tr>
+                    	<tr>
+                    		<td>日期</td>
+                    		<td><input type="text" class="form-control" id="rq" style="width:70%;"></td>
+                    		<td></td>
+                    		<td></td>
+                    	</tr>
+                    	</table>
+                    </form>  
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" onclick="baocun()">保存</button>
+        </div>
+        </div>
+    </div>
+</div>
 </body>
 <script src="../../js/jquery.js"></script>
 <script src="../../js/common-scripts.js"></script>
@@ -254,6 +303,7 @@
     $(document).ready( function () {
     	initNianFen()
     	initTable();
+    	
     	laydate.render({
             elem: '#time' //指定元素
            ,type: 'month'
@@ -264,7 +314,26 @@
        	   ,done: function(value, date, endDate){
 	       		 var d = value;
 	     		$("#mainContent").DataTable().search(d).draw(true);
+	     		$.ajax({
+	                type: 'POST',
+	                url: getContextPath()+'/task2/getSumMoneyByYear2',
+	                dataType: 'json',
+	                data: {
+	                	year:d,
+	                },
+	                success: function (json) {
+	                	var zongjine=0;
+	                    for(var i=0;i<json.length;i++){
+	                    	zongjine+=Number(json[i].dIncome)
+	                    }
+	                    $("#allMoney").text(zongjine.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+	                	 
+	                }
+	            });
        		  }
+        });
+    	laydate.render({
+            elem: '#rq', //指定元素
         });
 	});
     
@@ -296,7 +365,7 @@
 										    "targets": 5,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-shanchu Pfbxb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="删除" onclick="deleteCd(this)"></i>'
+										  	  		return ' <i class="iconfont icon-shanchu Pfbxb" style="font-size:20px;cursor:pointer;margin-left:5px;display:none;" title="删除" onclick="deleteCd(this)"></i> <i class="iconfont icon-xiugai iconxiugai Pfbxb" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="xiugai(this)"></i> '
 										        }
 										  }
 								],
@@ -376,6 +445,12 @@
             success: function (json) {
                 $('#mainContent').dataTable().fnClearTable();
                 $('#mainContent').DataTable().rows.add(json).draw(false);
+                
+                var zongjine=0;
+                for(var i=0;i<json.length;i++){
+                	zongjine+=Number(json[i].dIncome)
+                }
+                $("#allMoney").text(zongjine.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
                 
                 $.ajax({
             		type:"post",
@@ -553,6 +628,61 @@
 		var d = $("#searchData").val();
 		$("#mainContent").DataTable().search(d).draw(true);
 	});
+	
+	
+	
+	
+	var xgId;
+	var tr;
+	function xiugai(obj){
+		dom=$(obj).parents("tr");
+		tr = $(obj).closest('tr');
+		var data=$('#mainContent').DataTable().row(dom).data();
+		xgId=data.id
+		
+		$("#xmbh").val(data.tNo)
+		$("#xmmc").val(data.tName)
+		
+		$("#rq").val(data.date)
+		$("#bmmc").val(data.dName)
+		$("#bmsr").val(data.dMoney)
+		$("#bmsr").val(data.dIncome)
+		
+		$("#change").modal("show")
+	}
+	
+	function baocun(){
+		var tNo=$("#xmbh").val()
+		var tName=$("#xmmc").val()
+		var dName=$("#bmmc").val()
+		var date=$("#rq").val()
+		var dIncome=$("#bmsr").val()
+	
+		 $.ajax({
+		        type: 'POST',
+		        url: getContextPath()+'/task2/updatetDepartmentInComeById',
+		        dataType: 'json',
+		        data: {
+		        	id:xgId,
+		        	tNo:tNo,
+		        	tName:tName,
+		        	date:date,
+		        	dName:dName,
+		        	dIncome:dIncome,
+		        },
+		        success: function (json) {
+		        	if(json.result>0){
+		        		$("#change").modal("hide")
+		        		toastr.success("修改成功");
+		        		$('#mainContent').DataTable().row(tr).data(json.obj);
+		        		initTable();
+		        	}else{
+		        		toastr.error("修改失败")
+		        	}
+		        	 
+		        }
+		    });
+	}
 	
 </script>
 

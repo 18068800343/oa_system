@@ -36,4 +36,6 @@ public interface TDepartmentDao {
 	public int updateTDepartmentIncomeBytNoAndDate(@Param("t")TDepartment tDepartment2);
 	
 	public List<TDepartment> getSumMoneyByYear2(@Param("year")String year);
+
+	public int updatetDepartmentInComeById(TDepartment t);
 }

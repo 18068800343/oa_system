@@ -11,6 +11,8 @@ public interface FinancialReceipts2Dao {
 
 	public List<FinancialTables> selectfinancialTables();
 	
+	public int updatefinancialTables2Byid(FinancialTables f);
+	
 	public List<FinancialTables> selectfinancialTablesByState(@Param("state")String state);
 	
 	public int updateState(@Param("state")String state,@Param("id")String id);

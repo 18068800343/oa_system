@@ -14,6 +14,8 @@ public interface Task2Dao {
 	
 	public int addTask2One(@Param("t")Task2 t);
 	
+	public int updateTask2ById(Task2 t);
+	
 	public List<Task2> selectTask2();
 	
 	public int selectTask2CountByTaskNo(@Param("taskNo")String taskNo);

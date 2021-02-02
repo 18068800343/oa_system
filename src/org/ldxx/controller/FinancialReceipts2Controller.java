@@ -95,4 +95,14 @@ public class FinancialReceipts2Controller {
 		return f;
 	}
 	
+	
+	@RequestMapping("/updatefinancialTables2Byid")
+	@ResponseBody()
+	public Map<String,Object> updatefinancialTables2Byid(FinancialTables f){
+		Map<String,Object> map=new HashMap<>();
+		int i = dao.updatefinancialTables2Byid(f);
+		map.put("result", i);
+		map.put("obj", f);
+		return map;
+	}
 }

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -286,5 +287,25 @@ public class Task2Controller {
 		year="%"+year+"%";
 		List<TDepartment> t=tDepartmentDao.getSumMoneyByYear2(year);
 		return t;
+	}
+	
+	@RequestMapping("/updateTask2ById")
+	@ResponseBody()
+	public Map<String,Object> updateTask2ById(Task2 t){
+		Map<String,Object> map=new HashMap<>();
+		int i = task2Dao.updateTask2ById(t);
+		map.put("result", i);
+		map.put("obj", t);
+		return map;
+	}
+	
+	@RequestMapping("/updatetDepartmentInComeById")
+	@ResponseBody()
+	public Map<String,Object> updatetDepartmentInComeById(TDepartment t){
+		Map<String,Object> map=new HashMap<>();
+		int i = tDepartmentDao.updatetDepartmentInComeById(t);
+		map.put("result", i);
+		map.put("obj", t);
+		return map;
 	}
 }
