@@ -282,6 +282,8 @@
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/layui/extends/laydateTab.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
@@ -308,30 +310,39 @@
             elem: '#time' //指定元素
            ,type: 'month'
         });
-    	laydate.render({
-            elem: '#yuefenshaixuan' //指定元素
-           ,type: 'month'
-       	   ,done: function(value, date, endDate){
-	       		 var d = value;
-	     		$("#mainContent").DataTable().search(d).draw(true);
-	     		$.ajax({
-	                type: 'POST',
-	                url: getContextPath()+'/task2/getSumMoneyByYear2',
-	                dataType: 'json',
-	                data: {
-	                	year:d,
-	                },
-	                success: function (json) {
-	                	var zongjine=0;
-	                    for(var i=0;i<json.length;i++){
-	                    	zongjine+=Number(json[i].dIncome)
-	                    }
-	                    $("#allMoney").text(zongjine.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-	                	 
-	                }
-	            });
-       		  }
-        });
+    	
+    	layui.config({
+    	    base: '../../js/layui/extends/' // laydateTab所在的文件夹路径，建议放在layui下的extends文件夹下
+    	}).extend({ 
+    	    laydateTab: 'laydateTab' 
+    	}).use(['laydateTab'], function(){
+    		var laydateTab = layui.laydateTab;
+    		laydateTab.render({
+                elem: '#yuefenshaixuan' //指定元素
+               ,type: 'ym'
+           	   ,done: function(value, date, endDate){
+    	       		 var d = value;
+    	     		$("#mainContent").DataTable().columns(4).search(d).draw(true);
+    	     		$.ajax({
+    	                type: 'POST',
+    	                url: getContextPath()+'/task2/getSumMoneyByYear2',
+    	                dataType: 'json',
+    	                data: {
+    	                	year:d,
+    	                },
+    	                success: function (json) {
+    	                	var zongjine=0;
+    	                    for(var i=0;i<json.length;i++){
+    	                    	zongjine+=Number(json[i].dIncome)
+    	                    }
+    	                    $("#allMoney").text(zongjine.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+    	                	 
+    	                }
+    	            });
+           		  }
+            });
+    	});
+    	
     	laydate.render({
             elem: '#rq', //指定元素
         });
@@ -507,11 +518,16 @@
             success: function (json) {
            		 $("#bmljMoney").empty();
             	 if(json!=null&&json.length!=0){
+            		 var zongjine=0
             		 for(var i = 0; i < json.length; i++){
             			 $("#bmljMoney").append(
             				"<tr><td>"+json[i].dName+":</td><td cosplan='3' class='jinqianyanse'>"+json[i].dIncome+"</td></tr>"		 
             			 )
+            			 zongjine+=json[i].dIncome;
             		 }
+            		 $("#bmljMoney").append(
+              				"<tr><td>总金额:</td><td cosplan='3' class='jinqianyanse'>"+zongjine.toFixed(2)+"</td></tr>"		 
+              			 )
             	 }else{
             		 $("#bmljMoney").append(
               				"<tr><td cosplan='4' class='jinqianyanse'>无</td></tr>"		 

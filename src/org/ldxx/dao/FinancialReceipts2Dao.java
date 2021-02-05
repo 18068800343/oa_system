@@ -30,4 +30,6 @@ public interface FinancialReceipts2Dao {
 	public int updateValueById2(@Param("ftId")String ftId,@Param("ftMoney") BigDecimal ftMoney);
 	
 	public List<FinancialTables> getSumMoneyByYear(@Param("year")String year);
+
+	public int deletefinancialTables2Byid(@Param("id")String id);
 }

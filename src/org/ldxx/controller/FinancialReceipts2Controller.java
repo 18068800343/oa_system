@@ -105,4 +105,10 @@ public class FinancialReceipts2Controller {
 		map.put("obj", f);
 		return map;
 	}
+	
+	@RequestMapping("/deletefinancialTables2Byid")
+	@ResponseBody
+	public int deletefinancialTables2Byid(String id){
+		return dao.deletefinancialTables2Byid(id);
+	}
 }

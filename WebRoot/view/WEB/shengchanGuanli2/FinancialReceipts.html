@@ -12,7 +12,17 @@
     <link href="../../toastr/toastr.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../../style/jquery-editable-select.css">
+     <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/font.css">
+    <!-- SmartAdmin RTL Support  -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/smartadmin-rtl.min.css">
     <style lang="">
+    body{
+            background: #fff;
+        }
         .UpperPart{
             display: flex;
             justify-content:space-between;
@@ -25,6 +35,10 @@
         #mainContent th{
             cursor: pointer;
         }
+        .tab-content>div{
+            margin-top:6px;
+        }
+        .details-control::before{display:none}
     </style>
 </head>
 <body>
@@ -384,7 +398,7 @@
                         <th style="width:15%;">核算部门</th>
                         <th style="width:12%;" class="jinqianyanse">收款值(元)</th>
                         <th style="width:12%;">到账时间</th>
-                        <th style="width:5%;">操作</th>
+                        <th style="width:10%;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -572,9 +586,12 @@
 <script src="../../js/jquery.dataTables.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/layui/extends/laydateTab.js"></script>
 <script src="../../js/jquery-editable-select.js"></script>
 <script src="../../toastr/toastr.js"></script>
 <script src="../../js/jquery-form.min.js"></script>
+<script src="../../js/SmartNotification.min.js"></script>
 <script src="../../js/quanxian.js"></script>
 
 <script src="../../js/datatables/jquery.dataTables.min.js"></script>
@@ -598,32 +615,40 @@
             elem: '#this_time', //指定元素
             type:'month'
         });
-        laydate.render({
-            elem: '#yuefenshaixuan' //指定元素
-           ,type: 'month'
-       	   ,done: function(value, date, endDate){
-	       		 var d = value;
-	     		$("#mainContent").DataTable().search(d).draw(true);
-	     		$.ajax({
-	                type: 'POST',
-	                url: getContextPath()+'/FinancialReceipts2/getSumMoneyByYear',
-	                dataType: 'json',
-	                data: {
-	                	year:d,
-	                },
-	                success: function (json) {
-	                	var zongjine=0;
-	                    for(var i=0;i<json.length;i++){
-	                    	zongjine+=Number(json[i].tCollectionValue)
-	                    }
-	                    $("#allMoney").text(zongjine.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-	                	 
-	                }
-	            });
-       		  }
-        });
+        
+        layui.config({
+    	    base: '../../js/layui/extends/' // laydateTab所在的文件夹路径，建议放在layui下的extends文件夹下
+    	}).extend({ 
+    	    laydateTab: 'laydateTab' 
+    	}).use(['laydateTab'], function(){
+    		var laydateTab = layui.laydateTab;
+    		laydateTab.render({
+                elem: '#yuefenshaixuan' //指定元素
+               ,type: 'ym'
+           	   ,done: function(value, date, endDate){
+    	       		 var d = value;
+    	     		$("#mainContent").DataTable().columns(4).search(d).draw(true);
+    	     		$.ajax({
+    	                type: 'POST',
+    	                url: getContextPath()+'/FinancialReceipts2/getSumMoneyByYear',
+    	                dataType: 'json',
+    	                data: {
+    	                	year:d,
+    	                },
+    	                success: function (json) {
+    	                	var zongjine=0;
+    	                    for(var i=0;i<json.length;i++){
+    	                    	zongjine+=Number(json[i].tCollectionValue)
+    	                    }
+    	                    $("#allMoney").text(zongjine.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+    	                	 
+    	                }
+    	            });
+           		  }
+            });
+    	});
     	initTable();
-    	initSelect();
+    	//initSelect();
     	initNianFen()
 	});
     $.fn.dataTable.Buttons.swfPath = '../../js/datatables/swf/flashExport.swf';
@@ -654,7 +679,7 @@
 										    "targets": 5,
 										    "searchable": true,
 										    "render": function(data, type, full) {
-										  	  		return '<i class="iconfont icon-icon-test Pfbb" style="font-size:18px;cursor:pointer;display:none;" title="查看" onclick="look(this)"></i>  <i class="iconfont icon-xiugai iconxiugai Pfbb" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="xiugai(this)"></i> ';
+										  	  		return '<i class="iconfont icon-shanchu Pfbb" style="font-size:18px;cursor:pointer;display:none;" title="删除" onclick="deleteCd(this)"></i> <i class="iconfont icon-icon-test Pfbb" style="font-size:18px;cursor:pointer;display:none;" title="查看" onclick="look(this)"></i>  <i class="iconfont icon-xiugai iconxiugai Pfbb" style="font-size:18px;cursor:pointer;display:none;" title="修改" onclick="xiugai(this)"></i> ';
 										        }
 										  }
 								],
@@ -852,11 +877,16 @@
             success: function (json) {
             	$("#bmljMoney").empty();
             	 if(json!=null&&json.length!=0){
+            		 var zongjine=0
             		 for(var i = 0; i < json.length; i++){
             			 $("#bmljMoney").append(
             				"<tr><td>"+json[i].tDepartment+":</td><td cosplan='3' class='jinqianyanse'>"+json[i].tCollectionValue+"</td></tr>"		 
             			 )
+            			 zongjine+=json[i].tCollectionValue;
             		 }
+            		 $("#bmljMoney").append(
+               				"<tr><td>总金额:</td><td cosplan='3' class='jinqianyanse'>"+zongjine.toFixed(2)+"</td></tr>"		 
+               			 )
             	 }else{
             		 $("#bmljMoney").append(
              				"<tr><td cosplan='4' class='jinqianyanse'>无</td></tr>"		 
@@ -894,6 +924,36 @@
 				}
 		}
 		$("#form1").ajaxSubmit(options);
+	}
+	
+	
+	function deleteCd(obj){
+		var tr=$(obj).parents("tr");
+		var data=$("#mainContent").DataTable().row(tr).data();
+		$.SmartMessageBox({
+            title: "删除提示",
+            content: "确认删除？",
+            buttons: '[取消][确定]'
+        }, function (ButtonPressed) {
+        	if (ButtonPressed === "确定") {
+        		$.ajax({
+                    type: 'POST',
+                    url: getContextPath()+'/FinancialReceipts2/deletefinancialTables2Byid',
+                    dataType: 'json',
+                    data: {
+                    	id:data.tId
+                    },
+                    success: function (json) {
+                        if(json>0){
+                        	toastr.success('删除成功');
+                        	$("#mainContent").DataTable().row(tr).remove().draw(false);
+                        }else{
+                        	toastr.error('删除失败');
+                        }
+                    }
+                });
+        	}
+        });
 	}
 	
 
