@@ -17,8 +17,14 @@ public class PrjRecord {
 	private int scStatus;//生产资料归档状态 0：未归档，1：部分归档，2：已归档；3:只显示部分归档把提交按钮隐藏
 	private String jyDept;
 	private int jyStatus;//生产资料归档状态 0：未归档，1：部分归档，2：已归档；3:只显示部分归档把提交按钮隐藏
+	private String flowStatus;
 	
-	
+	public String getFlowStatus() {
+		return flowStatus;
+	}
+	public void setFlowStatus(String flowStatus) {
+		this.flowStatus = flowStatus;
+	}
 	public int getScStatus() {
 		return scStatus;
 	}
