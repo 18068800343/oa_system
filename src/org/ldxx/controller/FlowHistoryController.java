@@ -120,15 +120,14 @@ public class FlowHistoryController {
 			 String modeId = currentFlow.getModeId();
 			 ModeStatus modeStatus = modeStatusMapper.selectByPrimaryKey(modeId);
 				if(null!=modeStatus){
-					modeStatus.setStatus("7");
 					modeStatus.setFlowStatus("7");
-					modeStatusMapper.updateByPrimaryKey(modeStatus);
+					modeStatusMapper.updateByPrimaryKeySelective(modeStatus);
 				}else{
 					modeStatus=new ModeStatus();
 					modeStatus.setModeId(modeId);
 					modeStatus.setStatus("7");
 					modeStatus.setFlowStatus("7");
-					modeStatusMapper.insert(modeStatus);
+					modeStatusMapper.insertSelective(modeStatus);
 				}
 		}
 		return i;

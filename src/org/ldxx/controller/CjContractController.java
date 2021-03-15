@@ -482,7 +482,9 @@ public class CjContractController {
 			accessory.setaId(id);
 			accessory.setAcName(oldCjFileName);
 			accessory.setAcUrl(id+File.separator+oldCjFileName);
-			accessory.setaType(oldAccessory.getaType());
+			if(null!=oldAccessory) {
+				accessory.setaType(oldAccessory.getaType());
+			}
 			oldAccesslist.add(accessory);
 			cj.setAccessory3(oldAccesslist);
 			CopyFile.copyFile(oldpath, newpath);

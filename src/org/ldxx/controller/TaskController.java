@@ -1469,7 +1469,7 @@ public class TaskController {
 			flowHistroy.setActorresult(0);
 			flowHistroy.setView("");
 			try {
-				string = flowUtill.submitGetReceiver(currentFlow,omNo);
+				string = flowUtill.cancelSubmitGetReceiver(currentFlow,omNo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
