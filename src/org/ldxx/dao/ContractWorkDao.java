@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.ldxx.bean.ContractWork;
+import org.ldxx.bean.ContractWorkTask;
+import org.ldxx.bean.Task;
 
 public interface ContractWorkDao {
 
@@ -30,4 +32,7 @@ public interface ContractWorkDao {
 	public List<ContractWork> selectContractWorkByCjNo(String cjNo);
 	
 	public List<ContractWork> selectContractWorkByCjNoStatusIn12(@Param("cjNo")String cjNo,@Param("type")String type);
+
+	public int addContractWorkTask(@Param("task")List<Task> task,@Param("id")String id);
+	public List<ContractWorkTask> selectContractWorkTaskBycwid(@Param("id")String id);
 }

@@ -13,13 +13,16 @@ import javax.servlet.http.HttpSession;
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.CjContract;
 import org.ldxx.bean.ContractWork;
+import org.ldxx.bean.ContractWorkTask;
 import org.ldxx.bean.CurrentFlow;
 import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.FlowHistroy;
 import org.ldxx.bean.OrganizationManagement;
 import org.ldxx.bean.Task;
 import org.ldxx.bean.User;
+import org.ldxx.dao.CjContractDao;
 import org.ldxx.dao.ContractWorkDao;
+import org.ldxx.dao.TaskDao;
 import org.ldxx.mapper.CurrentFlowMapper;
 import org.ldxx.service.AccessoryService;
 import org.ldxx.service.CjContractService;
@@ -69,6 +72,10 @@ public class ContractWorkController {
 	private ContractUpdateService cuService;
 	@Autowired
 	CurrentFlowMapper currentFlowMapper;
+	@Autowired
+	private TaskDao tdao;
+	@Autowired
+	private CjContractDao cDao;
 	
 	@RequestMapping("/addContractWorkBySave")
 	@ResponseBody
@@ -732,6 +739,9 @@ public class ContractWorkController {
 			list.add(task);
 		}
 		int i=cuService.addContractUpdate(list);
+		
+		i=tdao.updateTasks(cw.getTaskArray());
+		i=cDao.updateCjContractMoney(cw.getCjContractCode(), cw.getEndMoney());
 		return i;
 	}
 	

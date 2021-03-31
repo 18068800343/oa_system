@@ -60,7 +60,7 @@ public class ContractWork {
     private String omName;//主办部门
     private String doDate;//审批时间
     
-	
+
 	public String getDoDate() {
 		return doDate;
 	}

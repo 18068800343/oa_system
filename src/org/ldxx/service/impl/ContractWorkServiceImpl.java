@@ -1,9 +1,11 @@
 package org.ldxx.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.ldxx.bean.Accessory;
 import org.ldxx.bean.ContractWork;
+import org.ldxx.bean.ContractWorkTask;
 import org.ldxx.bean.Enterprise;
 import org.ldxx.bean.Task;
 import org.ldxx.dao.AccessoryDao;
@@ -52,8 +54,11 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 				i=edao.addEnterprise(enterprise);
 			}
 			List<Task> task=work.getTaskArray();
-			i=tdao.updateTasks(task);
-			i=cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
+			if(task!=null&&task.size()!=0){
+				i=dao.addContractWorkTask(task,id);
+			}
+			/*i=tdao.updateTasks(task);
+			i=cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());*/
 		}
 		return i;
 	}
@@ -79,7 +84,35 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 
 	@Override
 	public ContractWork selectContractWorkByid(String id) {
-		return dao.selectContractWorkByid(id);
+		ContractWork c= dao.selectContractWorkByid(id);
+		List<ContractWorkTask> contractWorkTasks = dao.selectContractWorkTaskBycwid(id);
+		if(contractWorkTasks!=null&&contractWorkTasks.size()!=0){
+			List<Task> taskArray = new ArrayList<>();
+			for(int j=0;j<contractWorkTasks.size();j++){
+				Task t=new Task();
+				t.setPrjId(contractWorkTasks.get(j).getPrjId());
+				t.setPrjEstimateMoney(contractWorkTasks.get(j).getPrjEstimateMoney());
+				t.setContractMoney(contractWorkTasks.get(j).getEndMoney());
+				t.setMainDepartment(contractWorkTasks.get(j).getMainDepartment());
+				t.setMainDepartmentMoney(contractWorkTasks.get(j).getMainDepartmentMoney());
+				t.setMainDepartmentCost(contractWorkTasks.get(j).getMainDepartmentCost());
+				t.setAssistDepartment1(contractWorkTasks.get(j).getAssistDepartment1());
+				t.setAssistDepartment1Money(contractWorkTasks.get(j).getAssistDepartment1Money());
+				t.setAssistDepartment1Cost(contractWorkTasks.get(j).getAssistDepartment1Cost());
+				t.setAssistDepartment2(contractWorkTasks.get(j).getAssistDepartment2());
+				t.setAssistDepartment2Money(contractWorkTasks.get(j).getAssistDepartment2Money());
+				t.setAssistDepartment2Cost(contractWorkTasks.get(j).getAssistDepartment2Cost());
+				t.setAssistDepartment3(contractWorkTasks.get(j).getAssistDepartment3());
+				t.setAssistDepartment3Money(contractWorkTasks.get(j).getAssistDepartment3Money());
+				t.setAssistDepartment3Cost(contractWorkTasks.get(j).getAssistDepartment3Cost());
+				if(t!=null){
+					taskArray.add(t);					
+				}
+				
+			}
+			c.setTaskArray(taskArray);
+		}
+		return c;
 	}
 
 	@Override
@@ -106,8 +139,12 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 				edao.addEnterprise(enterprise);
 			}
 			List<Task> task=work.getTaskArray();
+			if(task!=null&&task.size()!=0){
+				i=dao.addContractWorkTask(task,id);
+			}
+			/*
 			tdao.updateTasks(task);
-			cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
+			cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());*/
 		}
 		return i;
 	}
@@ -131,8 +168,12 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 				edao.addEnterprise(enterprise);
 			}
 			List<Task> task=work.getTaskArray();
+			if(task!=null&&task.size()!=0){
+				i=dao.addContractWorkTask(task,id);
+			}
+			/*
 			tdao.updateTasks(task);
-			cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());
+			cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());*/
 		}
 		return i;
 	}

@@ -3,14 +3,16 @@
 <mapper namespace="org.ldxx.dao.ContractWorkDao" >
       <insert id="addContractWork" parameterType="ContractWork">
      insert into contract_work (cw_id,cj_contract_code,cj_contract_name,prj_code,
-									      contract_name_jia,contract_money, end_money,prj_text,gq_text,
-									      prj_charge_man,work_text, rating,type,
-									      prj_manager,deputy_prj_manager1,deputy_prj_manager2,prj_general,prj_duration,prj_duration_end,prj_grade,cj_contract_end_time,xm_jindu_piancha,cj_contract_long_time)
+      contract_name_jia,contract_money, end_money,prj_text,gq_text,prj_charge_man,work_text, rating,type,
+      prj_manager,deputy_prj_manager1,deputy_prj_manager2,prj_general,prj_duration,prj_duration_end,prj_grade,
+      cj_contract_end_time,xm_jindu_piancha,cj_contract_long_time)
 	values (#{work.cwId},#{work.cjContractCode},#{work.cjContractName}, #{work.prjCode},
       #{work.contractNameJia},#{work.contractMoney},#{work.endMoney},#{work.prjText},#{work.gqText},
       #{work.prjChargeMan},#{work.workText},#{work.rating},
        #{work.type},#{work.prjManager},#{work.deputyPrjManager1},#{work.deputyPrjManager2},
-       #{work.prjGeneral},#{work.prjDuration},#{work.prjDurationEnd},#{work.prjGrade},#{work.cjContractEndTime},#{work.xmJinduPiancha},#{work.cjContractLongTime})
+       #{work.prjGeneral},#{work.prjDuration},#{work.prjDurationEnd},#{work.prjGrade},
+       #{work.cjContractEndTime},#{work.xmJinduPiancha},#{work.cjContractLongTime}
+       )
       </insert>
       
       <select id="selectContractWork" resultType="ContractWork">
@@ -48,6 +50,11 @@
       <select id="selectContractWorkByid" resultType="ContractWork">
       	select a.*,c.contract_end_time,c.contract_long_time,c.contract_start_time  from contract_work a
       	LEFT JOIN cj_contract c ON a.cj_contract_code=c.contract_no
+      	LEFT JOIN (select * from task t 
+						left join mode_status b on t.prj_id=b.mode_id 
+						left join organization_management c on t.main_department=c.om_id 
+						WHERE b.status='2' and t.history=1
+					) t ON FIND_IN_SET(t.prj_no,a.prj_code)
       	where a.cw_id=#{id} limit 1
       </select>
       
@@ -113,7 +120,39 @@
       <select id="selectContractWorkByCjNo" resultType="ContractWork">
       		select * from contract_work as a 
       		left join mode_status as b on a.cw_id=b.mode_id
+      		LEFT JOIN (select * from task t 
+						left join mode_status b on t.prj_id=b.mode_id 
+						left join organization_management c on t.main_department=c.om_id 
+						WHERE b.status='2' and t.history=1
+					) t ON FIND_IN_SET(t.prj_no,a.prj_code)
       		where b.status=2 and a.cj_contract_code = #{cjNo}
       </select> 
+      
+      
+      
+     <insert id="addContractWorkTask" parameterType="java.util.List">
+      insert into contract_work_task (cw_id,prj_id,prj_estimate_money,
+	      main_department,main_department_money,main_department_cost,
+	      assist_department1,assist_department1_money,assist_department1_cost,
+	      assist_department2,assist_department2_money,assist_department2_cost,
+	      assist_department3,assist_department3_money,assist_department3_cost)
+		values 
+	       <foreach collection="task" item="item" index="index" separator=",">
+	  				(#{id},#{item.prjId},#{item.prjEstimateMoney}, 
+	       #{item.mainDepartment},#{item.mainDepartmentMoney},#{item.mainDepartmentCost},
+	       #{item.assistDepartment1},#{item.assistDepartment1Money},#{item.assistDepartment1Cost},
+	       #{item.assistDepartment2},#{item.assistDepartment2Money},#{item.assistDepartment2Cost},
+	       #{item.assistDepartment3},#{item.assistDepartment3Money},#{item.assistDepartment3Cost}
+	       )
+  			</foreach>
+      </insert>
+      
+      <select id="selectContractWorkTaskBycwid" resultType="ContractWorkTask">
+      	select * from contract_work_task a
+      	left join contract_work b on a.cw_id=b.cw_id
+      	 where a.cw_id=#{id}
+      </select>
+      
+      
       
 </mapper>
