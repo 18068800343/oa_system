@@ -8,6 +8,7 @@ public class ContractWorkTask {
     private BigDecimal endMoney;
     private BigDecimal prjEstimateMoney;
     private String prjId;
+    private String prjNO;
     private String mainDepartment;
     private BigDecimal mainDepartmentMoney;
     private String mainDepartmentCost;
@@ -24,9 +25,55 @@ public class ContractWorkTask {
     private BigDecimal assistDepartment3Money;
     private String assistDepartment3Cost;
     
+    private String omName;//主办部门
+    private String name1;//协办部门1
+    private String name2;//协办部门2
+    private String name3;//协办部门3
     
+    
+    
+	public String getOmName() {
+		return omName;
+	}
+
+	public void setOmName(String omName) {
+		this.omName = omName;
+	}
+
+	public String getName1() {
+		return name1;
+	}
+
+	public void setName1(String name1) {
+		this.name1 = name1;
+	}
+
+	public String getName2() {
+		return name2;
+	}
+
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
+
+	public String getName3() {
+		return name3;
+	}
+
+	public void setName3(String name3) {
+		this.name3 = name3;
+	}
+
 	public BigDecimal getPrjEstimateMoney() {
 		return prjEstimateMoney;
+	}
+
+	public String getPrjNO() {
+		return prjNO;
+	}
+
+	public void setPrjNO(String prjNO) {
+		this.prjNO = prjNO;
 	}
 
 	public void setPrjEstimateMoney(BigDecimal prjEstimateMoney) {

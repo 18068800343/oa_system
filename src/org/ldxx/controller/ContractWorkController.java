@@ -733,16 +733,16 @@ public class ContractWorkController {
 	public int addContractUpdate(String id){
 		ContractWork cw=service.selectContractWorkByid(id);
 		String prjNo=cw.getPrjCode();
+		int j=tdao.updateTasks(cw.getTaskArray());
+		j=cDao.updateCjContractMoney(cw.getCjContractCode(), cw.getEndMoney());
 		List<Task> list=new ArrayList<Task>();
 		for(int i=0;i<prjNo.split(",").length;i++){
 			Task task=tService.selectTaskPrjName(prjNo.split(",")[i]);
 			list.add(task);
 		}
-		int i=cuService.addContractUpdate(list);
+		j=cuService.addContractUpdate(list);
 		
-		i=tdao.updateTasks(cw.getTaskArray());
-		i=cDao.updateCjContractMoney(cw.getCjContractCode(), cw.getEndMoney());
-		return i;
+		return j;
 	}
 	
 }

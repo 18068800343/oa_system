@@ -33,6 +33,10 @@ public interface ContractWorkDao {
 	
 	public List<ContractWork> selectContractWorkByCjNoStatusIn12(@Param("cjNo")String cjNo,@Param("type")String type);
 
-	public int addContractWorkTask(@Param("task")List<Task> task,@Param("id")String id);
+	public int addContractWorkTask(@Param("task")Task task,@Param("id")String id);
 	public List<ContractWorkTask> selectContractWorkTaskBycwid(@Param("id")String id);
+
+	public int getCount(@Param("id")String id, @Param("prjId")String prjId);
+
+	public int updateContractWorkTask(@Param("task")Task task,@Param("id")String id);
 }

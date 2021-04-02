@@ -130,26 +130,51 @@
       
       
       
-     <insert id="addContractWorkTask" parameterType="java.util.List">
+     <insert id="addContractWorkTask">
       insert into contract_work_task (cw_id,prj_id,prj_estimate_money,
 	      main_department,main_department_money,main_department_cost,
 	      assist_department1,assist_department1_money,assist_department1_cost,
 	      assist_department2,assist_department2_money,assist_department2_cost,
 	      assist_department3,assist_department3_money,assist_department3_cost)
 		values 
-	       <foreach collection="task" item="item" index="index" separator=",">
-	  				(#{id},#{item.prjId},#{item.prjEstimateMoney}, 
-	       #{item.mainDepartment},#{item.mainDepartmentMoney},#{item.mainDepartmentCost},
-	       #{item.assistDepartment1},#{item.assistDepartment1Money},#{item.assistDepartment1Cost},
-	       #{item.assistDepartment2},#{item.assistDepartment2Money},#{item.assistDepartment2Cost},
-	       #{item.assistDepartment3},#{item.assistDepartment3Money},#{item.assistDepartment3Cost}
+	       (#{id},#{task.prjId},#{task.prjEstimateMoney}, 
+	       #{task.mainDepartment},#{task.mainDepartmentMoney},#{task.mainDepartmentCost},
+	       #{task.assistDepartment1},#{task.assistDepartment1Money},#{task.assistDepartment1Cost},
+	       #{task.assistDepartment2},#{task.assistDepartment2Money},#{task.assistDepartment2Cost},
+	       #{task.assistDepartment3},#{task.assistDepartment3Money},#{task.assistDepartment3Cost}
 	       )
-  			</foreach>
+  			
       </insert>
+      <update id="updateContractWorkTask">
+      	update contract_work_task set
+      		prj_estimate_money=#{task.prjEstimateMoney},
+	     	main_department=#{task.mainDepartment},
+	     	main_department_money=#{task.mainDepartmentMoney},
+	     	main_department_cost=#{task.mainDepartmentCost},
+	     	assist_department1=#{task.assistDepartment1},
+	     	assist_department1_money=#{task.assistDepartment1Money},
+	     	assist_department1_cost=#{task.assistDepartment1Cost},
+	     	assist_department2=#{task.assistDepartment2},
+	     	assist_department2_money=#{task.assistDepartment2Money},
+	     	assist_department2_cost=#{task.assistDepartment2Cost},
+	     	assist_department3=#{task.assistDepartment3},
+	     	assist_department3_money=#{task.assistDepartment3Money},
+	     	assist_department3_cost=#{task.assistDepartment3Cost}
+	     where cw_id=#{id} and prj_id=#{task.prjId}
+      </update>
+      
+      <select id="getCount" resultType="int">
+      	select count(0) from contract_work_task where cw_id=#{id} and prj_id=#{prjId}
+      </select>
       
       <select id="selectContractWorkTaskBycwid" resultType="ContractWorkTask">
-      	select * from contract_work_task a
-      	left join contract_work b on a.cw_id=b.cw_id
+      	select *,cw.prj_code as prjNo,b.om_name,b1.om_name name1,b2.om_name name2,b3.om_name name3 
+      	from contract_work_task a
+      	left join contract_work cw on a.cw_id=cw.cw_id
+      	left join organization_management b  on a.main_department=b.om_id 
+		left join organization_management b1 on a.assist_department1=b1.om_id 
+		left join organization_management b2 on a.assist_department2=b2.om_id 
+		left join organization_management b3 on a.assist_department3=b3.om_id
       	 where a.cw_id=#{id}
       </select>
       

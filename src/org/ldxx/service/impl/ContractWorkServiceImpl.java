@@ -55,7 +55,15 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 			}
 			List<Task> task=work.getTaskArray();
 			if(task!=null&&task.size()!=0){
-				i=dao.addContractWorkTask(task,id);
+				for(int j=0;j<task.size();j++){
+					int count=dao.getCount(id,task.get(j).getPrjId());
+					if(count<=0){
+						i=dao.addContractWorkTask(task.get(j),id);
+					}else{
+						i=dao.updateContractWorkTask(task.get(j),id);
+					}
+				}
+				
 			}
 			/*i=tdao.updateTasks(task);
 			i=cDao.updateCjContractMoney(work.getCjContractCode(), work.getEndMoney());*/
@@ -91,6 +99,7 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 			for(int j=0;j<contractWorkTasks.size();j++){
 				Task t=new Task();
 				t.setPrjId(contractWorkTasks.get(j).getPrjId());
+				t.setPrjNo(contractWorkTasks.get(j).getPrjNO());
 				t.setPrjEstimateMoney(contractWorkTasks.get(j).getPrjEstimateMoney());
 				t.setContractMoney(contractWorkTasks.get(j).getEndMoney());
 				t.setMainDepartment(contractWorkTasks.get(j).getMainDepartment());
@@ -105,6 +114,10 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 				t.setAssistDepartment3(contractWorkTasks.get(j).getAssistDepartment3());
 				t.setAssistDepartment3Money(contractWorkTasks.get(j).getAssistDepartment3Money());
 				t.setAssistDepartment3Cost(contractWorkTasks.get(j).getAssistDepartment3Cost());
+				t.setOmName(contractWorkTasks.get(j).getOmName());
+				t.setName1(contractWorkTasks.get(j).getName1());
+				t.setName2(contractWorkTasks.get(j).getName2());
+				t.setName3(contractWorkTasks.get(j).getName3());
 				if(t!=null){
 					taskArray.add(t);					
 				}
@@ -140,7 +153,14 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 			}
 			List<Task> task=work.getTaskArray();
 			if(task!=null&&task.size()!=0){
-				i=dao.addContractWorkTask(task,id);
+				for(int j=0;j<task.size();j++){
+					int count=dao.getCount(id,task.get(j).getPrjId());
+					if(count<=0){
+						i=dao.addContractWorkTask(task.get(j),id);
+					}else{
+						i=dao.updateContractWorkTask(task.get(j),id);
+					}
+				}
 			}
 			/*
 			tdao.updateTasks(task);
@@ -169,7 +189,14 @@ public class ContractWorkServiceImpl implements ContractWorkService{
 			}
 			List<Task> task=work.getTaskArray();
 			if(task!=null&&task.size()!=0){
-				i=dao.addContractWorkTask(task,id);
+				for(int j=0;j<task.size();j++){
+					int count=dao.getCount(id,task.get(j).getPrjId());
+					if(count<=0){
+						i=dao.addContractWorkTask(task.get(j),id);
+					}else{
+						i=dao.updateContractWorkTask(task.get(j),id);
+					}
+				}
 			}
 			/*
 			tdao.updateTasks(task);
