@@ -1793,6 +1793,18 @@
     	$(tr).remove();
     }
     
+    function current() {
+		var d = new Date(),
+			str = '';
+		str += d.getFullYear() + '-'; //获取当前年份 
+		let monStr = d.getMonth() + 1;
+		if(monStr.toString().length==1){
+			monStr="0"+monStr;
+		}
+		str += monStr //获取当前月份（0——11） 
+		return str;
+	}
+    
     function liuchengGaibian(obj){
     	var prj_name=$("#prjName").val();
     	var task_no=$("#task_no").val();
@@ -1961,6 +1973,14 @@
         		toastr.error("本月完成主要内容为空");
       			return "本月完成主要内容为空";
         	}
+        	
+        	let now_time=current();
+        	if(now_time!=this_time){
+        		toastr.error("提交时间与当期时间不一致，已自动同步当期时间为本次提交时间!");
+        		$("#this_time").val(now_time);
+        		PrjProgressFill.thisTime=now_time;
+        	}
+        	
     		var  tbody_length=$("#new_accessory tbody").find("tr").length;
       		if(tbody_length==0){
       			if($("#new_accessory tfoot").find("tr").length<1||$("#new_accessory tfoot").find("tr").eq(0).find("input").val()==''){
