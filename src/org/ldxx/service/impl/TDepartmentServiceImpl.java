@@ -25,12 +25,13 @@ public class TDepartmentServiceImpl implements TDepartmentService{
 		List<TDepartment> list = (List<TDepartment>) map.get("TDepartment");
 		List<TDepartment> list2 = (List<TDepartment>) map.get("xgTDepartment");
 		int i=0;
+		i = dao.deleteIncome();
 		for(TDepartment tDepartment:list){
 		  i=dao.addTDepartmentIncome(tDepartment);
 		}
-		for(TDepartment tDepartment2:list2){
-			  i=dao.updateTDepartmentIncomeBytNoAndDate(tDepartment2);
-			}
+//		for(TDepartment tDepartment2:list2){
+//			  i=dao.updateTDepartmentIncomeBytNoAndDate(tDepartment2);
+//			}
 		return i;
 		
 	}

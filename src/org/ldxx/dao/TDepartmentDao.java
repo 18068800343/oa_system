@@ -15,6 +15,8 @@ public interface TDepartmentDao {
 	
 	public int updateIncome(@Param("td")List<TDepartment> td);
 	
+	public int deleteIncome();
+	
 	public int updateIncomeOne(@Param("t")TDepartment t);
 	
 	public List<TDepartment> selectDepartment(@Param("no")String no);

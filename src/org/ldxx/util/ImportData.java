@@ -135,13 +135,13 @@ public class ImportData {
 								if(cl3.isEmpty()){
 									cl3="0";
 								}
-								int i=INSTANCE.tDao.isCountBytNoAndDate(tNo,date1,new BigDecimal(cl3));
-								if(i>0){
-									/*t2.settNo(tNo);
-									t2.settDate(date1);
-									t2.setdMoney(new BigDecimal(cl3));
-									xgt.add(t2);*/
-								}else{
+//								int i=INSTANCE.tDao.isCountBytNoAndDate(tNo,date1,new BigDecimal(cl3));
+//								if(i>0){
+//									/*t2.settNo(tNo);
+//									t2.settDate(date1);
+//									t2.setdMoney(new BigDecimal(cl3));
+//									xgt.add(t2);*/
+//								}else{
 									t2.settId(uuid.getTimeUUID());
 									t2.settNo(tNo);
 									t2.settName(getValue(colum2));
@@ -159,7 +159,7 @@ public class ImportData {
 									t2.setdIncome(new BigDecimal(0));
 									t.add(t2);
 									d.add(td);
-								}
+//								}
 							}
 						//}
 					}
@@ -236,13 +236,13 @@ public class ImportData {
                 	//if(fill>=start&&fill<end){
                 		String date1 = simpleDateFormat.format(date);
                 		String tno = getValue(colum1);
-                		int i=INSTANCE.tDdao.isCountBytNoAndDate(tno,date1);
-                		if(i>0){
-                			td.settNo(getValue(colum1));
-                			td.setdIncome(new BigDecimal(getValue(colum3)));
-                			td.setDate(date1);
-                			list2.add(td);
-                		}else{
+//                		int i=INSTANCE.tDdao.isCountBytNoAndDate(tno,date1);
+//                		if(i>0){
+//                			td.settNo(getValue(colum1));
+//                			td.setdIncome(new BigDecimal(getValue(colum3)));
+//                			td.setDate(date1);
+//                			list2.add(td);
+//                		}else{
                 			td.settNo(tno);
                 			String dname=getValue(colum4);
 							if("检测部".equals(dname)){
@@ -254,7 +254,7 @@ public class ImportData {
                 			td.setDate(date1);
                 			td.setId(new TimeUUID().getTimeUUID());
                 			list.add(td);
-                		}
+//                		}
                 	//}
                 }
             }  

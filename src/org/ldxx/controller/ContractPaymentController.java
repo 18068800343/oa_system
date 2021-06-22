@@ -168,7 +168,9 @@ public class ContractPaymentController {
 		int i=payService.addPaySave(pay);
 		if(i>0){
 			CjContract cj=sService.getCjContractMainPrjLeaderByFbNo(pay.getContractNo());
-			OrganizationManagement om=oService.selectOrgById(cj.getMainDepartment());
+			String prjCode = pay.getPrjListCode();
+			Task task = taskDao.selectIdByNo2(prjCode);
+			OrganizationManagement om=oService.selectOrgById(task.getMainDepartment());
 			String omNo=om.getOmNo();
 			String string="";
 			User user = (User) session.getAttribute("user");
