@@ -120,7 +120,13 @@ public class FlowHistoryController {
 			 String modeId = currentFlow.getModeId();
 			 ModeStatus modeStatus = modeStatusMapper.selectByPrimaryKey(modeId);
 				if(null!=modeStatus){
-					modeStatus.setFlowStatus("7");
+					Integer flowNopassState = currentFlow.getFlowNopassState();
+					if(flowNopassState!=0) {
+						modeStatus.setStatus(flowNopassState.toString());
+						modeStatus.setFlowStatus(flowNopassState.toString());
+					}else {
+						modeStatus.setFlowStatus("7");
+					}
 					modeStatusMapper.updateByPrimaryKeySelective(modeStatus);
 				}else{
 					modeStatus=new ModeStatus();
